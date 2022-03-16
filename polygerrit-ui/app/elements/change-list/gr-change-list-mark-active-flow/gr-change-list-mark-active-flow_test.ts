@@ -12,15 +12,44 @@ import {wrapInProvider} from '../../../models/di-provider-element';
 import {getAppContext} from '../../../services/app-context';
 import '../../../test/common-test-setup-karma';
 import {createChange} from '../../../test/test-data-generators';
-import {queryAndAssert, waitUntilObserved} from '../../../test/test-utils';
+import {
+  MockPromise,
+  mockPromise,
+  queryAll,
+  queryAndAssert,
+  stubRestApi,
+  waitUntilObserved,
+} from '../../../test/test-utils';
 import {ChangeInfo, NumericChangeId} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import './gr-change-list-mark-active-flow';
 import type {GrChangeListMarkActiveFlow} from './gr-change-list-mark-active-flow';
 
-const change1 = {...createChange(), _number: 1 as NumericChangeId};
-const change2 = {...createChange(), _number: 2 as NumericChangeId};
+const changes: ChangeInfo[] = [
+  {
+    ...createChange(),
+    _number: 1 as NumericChangeId,
+    subject: 'Subject 1',
+    work_in_progress: true,
+    actions: {ready: {}},
+  },
+  {
+    ...createChange(),
+    _number: 2 as NumericChangeId,
+    subject: 'Subject 2',
+    work_in_progress: true,
+    actions: {ready: {}},
+  },
+  {
+    ...createChange(),
+    _number: 3 as NumericChangeId,
+    subject: 'Not ready change',
+    work_in_progress: true,
+    actions: {},
+  },
+];
 
 suite('gr-change-list-mark-active-flow tests', () => {
   let element: GrChangeListMarkActiveFlow;
@@ -35,8 +64,9 @@ suite('gr-change-list-mark-active-flow tests', () => {
   }
 
   setup(async () => {
+    stubRestApi('getDetailedChangesWithActions').resolves(changes);
     model = new BulkActionsModel(getAppContext().restApiService);
-    model.sync([change1, change2]);
+    model.sync(changes);
 
     element = (
       await fixture(
@@ -47,8 +77,8 @@ suite('gr-change-list-mark-active-flow tests', () => {
         )
       )
     ).querySelector('gr-change-list-mark-active-flow')!;
-    await selectChange(change1);
-    await selectChange(change2);
+    await selectChange(changes[0]);
+    await selectChange(changes[1]);
     await element.updateComplete;
   });
 
@@ -59,21 +89,45 @@ suite('gr-change-list-mark-active-flow tests', () => {
       >
       <gr-overlay aria-hidden="true" style="outline: none; display: none;">
         <gr-dialog role="dialog">
-          <div slot="header">Mark Changes as Active</div>
+          <div slot="header">Mark 2 changes as active</div>
           <div slot="main">
-            <div>Selected changes: 1, 2</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Subject 1</td>
+                  <td>NOT STARTED</td>
+                </tr>
+                <tr>
+                  <td>Subject 2</td>
+                  <td>NOT STARTED</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </gr-dialog>
       </gr-overlay>
     `);
   });
 
-  test('button enabled when changes selected', async () => {
+  test('flow button enabled only when activatable changes selected', async () => {
     const button = queryAndAssert<GrButton>(element, 'gr-button');
     assert.isFalse(button.disabled);
+
+    // select an un-activatable change
+    model.addSelectedChangeNum(changes[2]._number);
+    await waitUntilObserved(model.selectedChangeNums$, s => s.length === 3);
+    await element.updateComplete;
+
+    assert.isTrue(button.disabled);
   });
 
-  test('button disabled when no changes selected', async () => {
+  test('flow button disabled when no changes selected', async () => {
     model.clearSelectedChangeNums();
     await waitUntilObserved(model.selectedChangeNums$, s => s.length === 0);
     await element.updateComplete;
@@ -82,12 +136,12 @@ suite('gr-change-list-mark-active-flow tests', () => {
     assert.isTrue(button.disabled);
   });
 
-  test('overlay hidden before button clicked', async () => {
+  test('overlay hidden before flow button clicked', async () => {
     const overlay = queryAndAssert<GrOverlay>(element, 'gr-overlay');
     assert.isFalse(overlay.opened);
   });
 
-  test('button click shows overlay', async () => {
+  test('flow button click shows overlay', async () => {
     const button = queryAndAssert<GrButton>(element, 'gr-button');
 
     button.click();
@@ -95,5 +149,71 @@ suite('gr-change-list-mark-active-flow tests', () => {
 
     const overlay = queryAndAssert<GrOverlay>(element, 'gr-overlay');
     assert.isTrue(overlay.opened);
+  });
+
+  suite('dialog', () => {
+    let markActivePromises: MockPromise<Response>[];
+    let changeActionStub: sinon.SinonStub;
+    let dialog: GrDialog;
+
+    async function resolvePromises() {
+      markActivePromises[0].resolve(new Response());
+      markActivePromises[1].reject('not allowed');
+      await element.updateComplete;
+    }
+
+    function getStatusLabels() {
+      return Array.from(
+        queryAll<HTMLTableCellElement>(element, 'tbody td:last-child')
+      ).map(td => td.innerText);
+    }
+
+    setup(async () => {
+      markActivePromises = [];
+      changeActionStub = stubRestApi('executeChangeAction');
+      for (let i = 0; i < changes.length; i++) {
+        const promise = mockPromise<Response>();
+        markActivePromises.push(promise);
+        changeActionStub
+          .withArgs(changes[i]._number, sinon.match.any, sinon.match.any)
+          .returns(promise);
+      }
+
+      queryAndAssert<GrButton>(element, 'gr-button').click();
+      await element.updateComplete;
+      dialog = queryAndAssert<GrDialog>(element, 'gr-dialog');
+      await dialog.updateComplete;
+    });
+
+    test('confirm button text updates', async () => {
+      assert.equal(dialog.confirmLabel, 'Apply');
+
+      dialog.confirmButton!.click();
+      await element.updateComplete;
+
+      assert.equal(dialog.confirmLabel, 'Running');
+
+      await resolvePromises();
+      await element.updateComplete;
+
+      assert.equal(dialog.confirmLabel, 'Close');
+    });
+
+    test('status column updates', async () => {
+      assert.sameOrderedMembers(getStatusLabels(), [
+        'NOT STARTED',
+        'NOT STARTED',
+      ]);
+
+      dialog.confirmButton!.click();
+      await element.updateComplete;
+
+      assert.sameOrderedMembers(getStatusLabels(), ['RUNNING', 'RUNNING']);
+
+      await resolvePromises();
+      await element.updateComplete;
+
+      assert.sameOrderedMembers(getStatusLabels(), ['SUCCESSFUL', 'FAILED']);
+    });
   });
 });

@@ -8,6 +8,8 @@ GUAVA_TESTLIB_BIN_SHA1 = "798c3827308605cd69697d8f1596a1735d3ef6e2"
 
 GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"
 
+SLF3J_VERS = "1.7.33"
+
 def declare_nongoogle_deps():
     """loads dependencies that are not used at Google.
 
@@ -20,6 +22,24 @@ def declare_nongoogle_deps():
         name = "log4j",
         artifact = "ch.qos.reload4j:reload4j:1.2.18.1",
         sha1 = "7075022a11e18c1ad230de5be074e0c691fed17b",
+    )
+
+    maven_jar(
+        name = "log-api",
+        artifact = "org.slf4j:slf4j-api:" + SLF4J_VERS,
+        sha1 = "d375aa1b98d34d5ddf73a3f19eaad66e98975b12",
+    )
+
+    maven_jar(
+        name = "log-ext",
+        artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
+        sha1 = "00da03640ae1ad57f964dcaa542fb5d804dce8a6",
+    )
+
+    maven_jar(
+        name = "jcl-over-slf4j",
+        artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
+        sha1 = "28c441128bc81b6d95cc2857ae5bb46ae5bf658b",
     )
 
     maven_jar(

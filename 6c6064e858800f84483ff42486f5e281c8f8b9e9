@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a151482_976be746",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-03-16T21:18:30Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be before `this.syntaxLayer.process(diff);`",
+      "range": {
+        "startLine": 437,
+        "startChar": 6,
+        "endLine": 437,
+        "endChar": 46
+      },
+      "revId": "6c6064e858800f84483ff42486f5e281c8f8b9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f7783b9_633cd82f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-03-16T21:18:30Z",
+      "side": 1,
+      "message": "Why do we need this when we have in gr-diff-host \n// Disable syntax highlighting if the overall diff is too large.\nconst SYNTAX_MAX_DIFF_LENGTH \u003d 20000;\n\nMaybe this can reference to that const.",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 35
+      },
+      "revId": "6c6064e858800f84483ff42486f5e281c8f8b9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

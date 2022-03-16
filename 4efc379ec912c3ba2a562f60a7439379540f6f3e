@@ -16,6 +16,24 @@
       "message": "I would pass this in as a parameter. It doesn\u0027t make sense to call getAppContext() from a utility function.\n\nMight be worthwhile to ask what this reporting is for and whether it makes sense to have it in a utility library in the first place.\n\nOtherwise you might want to keep it in the component.\n\n@brohfls - Do you know what this reporting is for?",
       "revId": "4efc379ec912c3ba2a562f60a7439379540f6f3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc86ac6c_99b977d0",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-16T15:49:50Z",
+      "side": 1,
+      "message": "Added as a parameter.",
+      "parentUuid": "a6bfe392_d447c7bb",
+      "revId": "4efc379ec912c3ba2a562f60a7439379540f6f3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
@@ -502,7 +503,7 @@ public class CommitValidators {
             for (ValidationError err : cfg.getValidationErrors()) {
               addError("  " + err.getMessage(), messages);
             }
-            throw new ConfigInvalidException("invalid project configuration");
+            throw new CommitValidationException("invalid project configuration", messages);
           }
           if (allUsers.equals(receiveEvent.project.getNameKey())
               && !allProjects.equals(cfg.getProject().getParent(allProjects))) {
@@ -510,9 +511,12 @@ public class CommitValidators {
             addError(
                 String.format("  %s must inherit from %s", allUsers.get(), allProjects.get()),
                 messages);
-            throw new ConfigInvalidException("invalid project configuration");
+            throw new CommitValidationException("invalid project configuration", messages);
           }
         } catch (ConfigInvalidException | IOException e) {
+          if (e instanceof ConfigInvalidException && !Strings.isNullOrEmpty(e.getMessage())) {
+            addError(e.getMessage(), messages);
+          }
           logger.atSevere().withCause(e).log(
               "User %s tried to push an invalid project configuration %s for project %s",
               user.getLoggableName(),

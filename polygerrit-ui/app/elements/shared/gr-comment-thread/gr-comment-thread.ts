@@ -56,7 +56,7 @@ import {GrButton} from '../gr-button/gr-button';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffLayer, RenderPreferences} from '../../../api/diff';
 import {assertIsDefined} from '../../../utils/common-util';
-import {fire, fireAlert, waitForEventOnce} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
 import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
@@ -679,9 +679,7 @@ export class GrCommentThread extends LitElement {
     }
 
     if (!anyLineTooLong(diff)) {
-      waitForEventOnce(this, 'render').then(() => {
-        this.syntaxLayer.process(diff);
-      });
+      this.syntaxLayer.process(diff);
     }
     return diff;
   }

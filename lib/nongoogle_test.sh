@@ -27,12 +27,16 @@ guice-library-no-aop
 guice-servlet
 httpasyncclient
 httpcore-nio
+impl-log4j
 j2objc
 jackson-annotations
 jackson-core
+jcl-over-slf4j
 jna
 jruby
 log4j
+log-api
+log-ext
 mina-core
 nekohtml
 objenesis

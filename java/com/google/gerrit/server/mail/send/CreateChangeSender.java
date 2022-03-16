@@ -60,7 +60,7 @@ public class CreateChangeSender extends NewChangeSender {
       // TODO(hiesel): Remove special handling for owners
       StreamSupport.stream(matching.all().accounts.spliterator(), false)
           .filter(this::isOwnerOfProjectOrBranch)
-          .forEach(acc -> add(RecipientType.TO, acc));
+          .forEach(acc -> addWatcher(RecipientType.TO, acc));
       // Add everyone else. Owners added above will not be duplicated.
       add(RecipientType.TO, matching.to);
       add(RecipientType.CC, matching.cc);

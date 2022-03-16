@@ -70,7 +70,6 @@ import {
   CreateCommentEventDetail,
   GrDiff,
 } from '../../../embed/diff/gr-diff/gr-diff';
-import {GrSyntaxLayer} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
@@ -294,7 +293,7 @@ export class GrDiffHost extends DIPolymerElement {
 
   private readonly jsAPI = getAppContext().jsApiService;
 
-  private readonly syntaxLayer: GrSyntaxLayer | GrSyntaxLayerWorker;
+  private readonly syntaxLayer: GrSyntaxLayerWorker;
 
   private checksSubscription?: Subscription;
 
@@ -302,12 +301,7 @@ export class GrDiffHost extends DIPolymerElement {
 
   constructor() {
     super();
-    const useWorker = this.flags.isEnabled(
-      KnownExperimentId.SYNTAX_LAYER_WORKER
-    );
-    this.syntaxLayer = useWorker
-      ? new GrSyntaxLayerWorker()
-      : new GrSyntaxLayer();
+    this.syntaxLayer = new GrSyntaxLayerWorker();
     this._renderPrefs = {
       ...this._renderPrefs,
       use_lit_components: this.flags.isEnabled(
@@ -717,12 +711,6 @@ export class GrDiffHost extends DIPolymerElement {
   /** Cancel any remaining diff builder rendering work. */
   cancel() {
     this.$.diff.cancel();
-    // TODO: Remove calling cancel() when switching to GrSyntaxLayerWorker.
-    // The plan is to only start syntax highlighting when a diff is visible on
-    // screen, and HighlightJS itself does not allow cancelling. So there is
-    // unclear benefit from the ability to cancel, which would be non-trivial
-    // to implement correctly and efficiently.
-    if (this.syntaxLayer instanceof GrSyntaxLayer) this.syntaxLayer.cancel();
   }
 
   getCursorStops() {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe6afcb0_e3d7a621",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-16T15:57:58Z",
+      "side": 1,
+      "message": "Put constant-like variables first, that way they\u0027re easier to bind.",
+      "revId": "d3eb040854beb2fecbb9d1d231d265226878952f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "824af394_75291175",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-16T15:57:58Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "revId": "d3eb040854beb2fecbb9d1d231d265226878952f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

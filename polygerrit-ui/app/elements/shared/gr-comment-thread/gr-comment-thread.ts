@@ -679,9 +679,8 @@ export class GrCommentThread extends LitElement {
     }
 
     if (!anyLineTooLong(diff)) {
-      this.syntaxLayer.init(diff);
       waitForEventOnce(this, 'render').then(() => {
-        this.syntaxLayer.process();
+        this.syntaxLayer.process(diff);
       });
     }
     return diff;

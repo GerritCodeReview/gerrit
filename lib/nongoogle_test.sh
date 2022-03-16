@@ -27,12 +27,16 @@ guice-library
 guice-servlet
 httpasyncclient
 httpcore-nio
+impl-log4j
 j2objc
 jackson-annotations
 jackson-core
+jcl-over-slf4j
 jimfs
 jna
 jruby
+log-api
+log-ext
 log4j
 mina-core
 nekohtml

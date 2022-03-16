@@ -122,6 +122,26 @@ export class BulkActionsModel
     });
   }
 
+  markChangesActive(): Promise<Response | undefined>[] {
+    const current = this.subject$.getValue();
+    return current.selectedChangeNums.map(changeNum => {
+      if (!current.allChanges.get(changeNum))
+        throw new Error('invalid change id');
+      const change = current.allChanges.get(changeNum)!;
+      // errFn is needed to avoid showing an error dialog
+      return this.restApiService.executeChangeAction(
+        change._number,
+        change.actions!.ready!.method,
+        '/ready',
+        undefined,
+        undefined,
+        () => {
+          throw new Error(`request for ${change._number} failed`);
+        }
+      );
+    });
+  }
+
   async sync(changes: ChangeInfo[]) {
     const newChanges = new Map(changes.map(c => [c._number, c]));
     const current = this.subject$.getValue();

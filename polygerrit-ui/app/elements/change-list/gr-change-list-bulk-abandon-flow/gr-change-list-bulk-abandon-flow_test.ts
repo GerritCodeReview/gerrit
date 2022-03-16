@@ -116,7 +116,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
 
     await waitUntil(
       () =>
-        queryAndAssert<HTMLTableDataCellElement>(
+        queryAndAssert<HTMLTableCellElement>(
           element,
           '#status'
         ).innerText.trim() === `Status: ${ProgressStatus.SUCCESSFUL}`
@@ -135,10 +135,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     await element.updateComplete;
 
     assert.equal(
-      queryAndAssert<HTMLTableDataCellElement>(
-        element,
-        '#status'
-      ).innerText.trim(),
+      queryAndAssert<HTMLTableCellElement>(element, '#status').innerText.trim(),
       `Status: ${ProgressStatus.NOT_STARTED}`
     );
 
@@ -163,10 +160,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     );
 
     assert.equal(
-      queryAndAssert<HTMLTableDataCellElement>(
-        element,
-        '#status'
-      ).innerText.trim(),
+      queryAndAssert<HTMLTableCellElement>(element, '#status').innerText.trim(),
       `Status: ${ProgressStatus.RUNNING}`
     );
 
@@ -184,10 +178,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     );
 
     assert.equal(
-      queryAndAssert<HTMLTableDataCellElement>(
-        element,
-        '#status'
-      ).innerText.trim(),
+      queryAndAssert<HTMLTableCellElement>(element, '#status').innerText.trim(),
       `Status: ${ProgressStatus.SUCCESSFUL}`
     );
   });
@@ -204,10 +195,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     await element.updateComplete;
 
     assert.equal(
-      queryAndAssert<HTMLTableDataCellElement>(
-        element,
-        '#status'
-      ).innerText.trim(),
+      queryAndAssert<HTMLTableCellElement>(element, '#status').innerText.trim(),
       `Status: ${ProgressStatus.NOT_STARTED}`
     );
 
@@ -230,10 +218,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     await element.updateComplete;
 
     assert.equal(
-      queryAndAssert<HTMLTableDataCellElement>(
-        element,
-        '#status'
-      ).innerText.trim(),
+      queryAndAssert<HTMLTableCellElement>(element, '#status').innerText.trim(),
       `Status: ${ProgressStatus.RUNNING}`
     );
 
@@ -242,10 +227,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     );
 
     assert.equal(
-      queryAndAssert<HTMLTableDataCellElement>(
-        element,
-        '#status'
-      ).innerText.trim(),
+      queryAndAssert<HTMLTableCellElement>(element, '#status').innerText.trim(),
       `Status: ${ProgressStatus.FAILED}`
     );
   });

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e824b289_2895dab7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-16T10:47:47Z",
+      "side": 1,
+      "message": "Wrong link. The correct link is:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/333162",
+      "revId": "bbe861873e3e2bbc55d7027af935692e6ed881ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

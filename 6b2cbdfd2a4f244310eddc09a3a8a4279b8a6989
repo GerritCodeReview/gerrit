@@ -34,6 +34,24 @@
       "parentUuid": "5a0bf311_f6c379a3",
       "revId": "6b2cbdfd2a4f244310eddc09a3a8a4279b8a6989",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7aa3bb3_61d58a5d",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-16T08:46:14Z",
+      "side": 1,
+      "message": "I don\u0027t see how this could leak.\n\neventListeners are tied to the element.",
+      "parentUuid": "521009bc_c9e89367",
+      "revId": "6b2cbdfd2a4f244310eddc09a3a8a4279b8a6989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

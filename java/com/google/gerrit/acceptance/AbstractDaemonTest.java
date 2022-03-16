@@ -463,7 +463,6 @@ public abstract class AbstractDaemonTest {
 
     baseConfig.setInt("index", null, "batchThreads", -1);
 
-    baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     Module module = createModule();
     Module auditModule = createAuditModule();
     Module sshModule = createSshModule();

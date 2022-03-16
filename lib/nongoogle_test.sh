@@ -26,9 +26,12 @@ guice-assistedinject
 guice-library
 guice-servlet
 j2objc
+jcl-over-slf4j
 jimfs
 jruby
 log4j
+log-api
+log-ext
 lucene-analyzers-common
 lucene-core
 lucene-misc

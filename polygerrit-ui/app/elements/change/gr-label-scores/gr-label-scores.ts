@@ -38,7 +38,6 @@ import {
   labelCompare,
   showNewSubmitRequirements,
 } from '../../../utils/label-util';
-import {Execution} from '../../../constants/reporting';
 import {ChangeStatus} from '../../../constants/constants';
 import {fontStyles} from '../../../styles/gr-font-styles';
 
@@ -52,8 +51,6 @@ export class GrLabelScores extends LitElement {
 
   @property({type: Object})
   account?: AccountInfo;
-
-  private readonly reporting = getAppContext().reportingService;
 
   private readonly flagsService = getAppContext().flagsService;
 
@@ -220,7 +217,7 @@ export class GrLabelScores extends LitElement {
   private getStringLabelValue(
     labels: LabelNameToInfoMap,
     labelName: string,
-    numberValue?: number
+    numberValue: number
   ): string {
     const detailedInfo = labels[labelName] as DetailedLabelInfo;
     if (detailedInfo.values) {
@@ -230,12 +227,7 @@ export class GrLabelScores extends LitElement {
         }
       }
     }
-    const stringVal = `${numberValue}`;
-    this.reporting.reportExecution(Execution.REACHABLE_CODE, {
-      value: stringVal,
-      id: 'label-value-not-found',
-    });
-    return stringVal;
+    throw new Error('Label not found');
   }
 
   private getDefaultValue(labelName?: string) {
@@ -257,11 +249,11 @@ export class GrLabelScores extends LitElement {
           // eslint-disable-next-line eqeqeq
           votes.all[i]._account_id == this.account._account_id
         ) {
-          return this.getStringLabelValue(
-            labels,
-            labelName,
-            votes.all[i].value
-          );
+          const value = votes.all[i].value;
+          if (!value) {
+            throw new Error('User does not have permission to vote');
+          }
+          return this.getStringLabelValue(labels, labelName, value);
         }
       }
     }

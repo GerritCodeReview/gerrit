@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c52ef117_a890f622",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-16T14:31:11Z",
+      "side": 1,
+      "message": "you can remove comment and make it private",
+      "parentUuid": "822b30fb_860c5e08",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 0
+      },
+      "revId": "5cc685d33226747f7be2b9339685f225c1ba339a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "55dffcf4_66736bf0",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.ts",
         "patchSetId": 2

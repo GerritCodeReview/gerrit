@@ -170,6 +170,30 @@
       },
       "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "354c9389_c09d5fd1",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-16T22:49:43Z",
+      "side": 1,
+      "message": "I am still puzzled to why we need to include JGit\u0027s hamcrest in our dependencies. We don\u0027t need JGit tests in Gerrit\u0027s build isn\u0027t it?",
+      "parentUuid": "4346285e_e8672e66",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 0
+      },
+      "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

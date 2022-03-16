@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4e9cb04_dc5735e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-03-16T14:46:32Z",
+      "side": 1,
+      "message": "Don\u0027t know how release notes are handled for merges, but potentially.\nRelease-Notes: Fixed lost watch notifications when attention-set-only is configured",
+      "revId": "76d8c3ae0406a54ce92dfcc8021e6d483045c638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -125,6 +125,12 @@ const CLASS_SAFELIST = new Set<string>([
   'variable',
 ]);
 
+/**
+ * Safe guard for not killing the browser. If each has line has 20 chars on
+ * average, then this allows for highlighting 25,000 lines.
+ */
+const CODE_MAX_LENGTH = 500 * 1000;
+
 export class GrSyntaxLayerWorker implements DiffLayer {
   diff?: DiffInfo;
 
@@ -244,6 +250,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
 
   async highlight(language?: string, code?: string) {
     if (!language || !code) return [];
+    if (code.length > CODE_MAX_LENGTH) return [];
     return this.highlightService.highlight(language, code);
   }
 

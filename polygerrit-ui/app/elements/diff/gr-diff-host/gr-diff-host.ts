@@ -422,23 +422,21 @@ export class GrDiffHost extends DIPolymerElement {
       this.filesWeblinks = this._getFilesWeblinks(diff);
       this.diff = diff;
       this.reporting.timeEnd(Timing.DIFF_LOAD, this.timingDetails());
+
       this.reporting.time(Timing.DIFF_CONTENT);
-      const event = await waitForEventOnce(this, 'render');
+      const syntaxLayerPromise = this.syntaxLayer.process(diff);
+      await waitForEventOnce(this, 'render');
       this.reporting.timeEnd(Timing.DIFF_CONTENT, this.timingDetails());
+
       if (shouldReportMetric) {
         // We report diffViewContentDisplayed only on reload caused
         // by params changed - expected only on Diff Page.
         this.reporting.diffViewContentDisplayed();
       }
-      const needsSyntaxHighlighting = !!event.detail?.contentRendered;
-      if (needsSyntaxHighlighting) {
-        this.reporting.time(Timing.DIFF_SYNTAX);
-        try {
-          await this.syntaxLayer.process(diff);
-        } finally {
-          this.reporting.timeEnd(Timing.DIFF_SYNTAX, this.timingDetails());
-        }
-      }
+
+      this.reporting.time(Timing.DIFF_SYNTAX);
+      await syntaxLayerPromise;
+      this.reporting.timeEnd(Timing.DIFF_SYNTAX, this.timingDetails());
     } catch (e: unknown) {
       if (e instanceof Response) {
         this._handleGetDiffError(e);

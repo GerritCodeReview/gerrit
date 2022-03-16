@@ -18,8 +18,34 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "log4j",
-        artifact = "ch.qos.reload4j:reload4j:1.2.18.1",
-        sha1 = "7075022a11e18c1ad230de5be074e0c691fed17b",
+        artifact = "ch.qos.reload4j:reload4j:1.2.19",
+        sha1 = "4eae9978468c5e885a6fb44df7e2bbc07a20e6ce",
+    )
+
+    SLF4J_VERS = "1.7.36"
+
+    maven_jar(
+        name = "log-api",
+        artifact = "org.slf4j:slf4j-api:" + SLF4J_VERS,
+        sha1 = "6c62681a2f655b49963a5983b8b0950a6120ae14",
+    )
+
+    maven_jar(
+        name = "log-ext",
+        artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
+        sha1 = "99f282aea4b6dbca04d00f0ade6e5ed61ee7091a",
+    )
+
+    maven_jar(
+        name = "impl-log4j",
+        artifact = "org.slf4j:slf4j-reload4j:" + SLF4J_VERS,
+        sha1 = "db708f7d959dee1857ac524636e85ecf2e1781c1",
+    )
+
+    maven_jar(
+        name = "jcl-over-slf4j",
+        artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
+        sha1 = "d877e195a05aca4a2f1ad2ff14bfec1393af4b5e",
     )
 
     maven_jar(

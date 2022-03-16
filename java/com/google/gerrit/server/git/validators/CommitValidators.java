@@ -266,6 +266,12 @@ public class CommitValidators {
         "multiple Change-Id lines in message footer";
     private static final String INVALID_CHANGE_ID_MSG =
         "invalid Change-Id line format in message footer";
+    private static final String HTTP_INSTALL_HOOK =
+        "f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\""
+            + " %stools/hooks/commit-msg ; chmod +x \"$f\"";
+    private static final String SSH_INSTALL_HOOK =
+        "gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/";
+    private static final String CHANGE_ID_MISSING_INSTALL_HOOKS = "  %s\nor, for http(s):\n  %s";
 
     @VisibleForTesting
     public static final String CHANGE_ID_MISMATCH_MSG =
@@ -372,14 +378,15 @@ public class CommitValidators {
       // If there are no SSH keys, the commit-msg hook must be installed via
       // HTTP(S)
       Optional<String> webUrl = urlFormatter.getWebUrl();
+
+      String httpHook = String.format(HTTP_INSTALL_HOOK, webUrl.get());
+
       if (hostKeys.isEmpty()) {
         checkState(webUrl.isPresent());
-        return String.format(
-            "  f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\" %stools/hooks/commit-msg ; chmod +x \"$f\"",
-            webUrl.get());
+        return httpHook;
       }
 
-      // SSH keys exist, so the hook can be installed with scp.
+      // SSH keys exist, so the hook might be able to be installed with scp.
       String sshHost;
       int sshPort;
       String host = hostKeys.get(0).getHost();
@@ -397,9 +404,10 @@ public class CommitValidators {
         sshPort = 22;
       }
 
-      return String.format(
-          "  gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/",
-          sshPort, user.getUserName().orElse("<USERNAME>"), sshHost);
+      String sshHook =
+          String.format(
+              SSH_INSTALL_HOOK, sshPort, user.getUserName().orElse("<USERNAME>"), sshHost);
+      return String.format(CHANGE_ID_MISSING_INSTALL_HOOKS, sshHook, httpHook);
     }
   }
 

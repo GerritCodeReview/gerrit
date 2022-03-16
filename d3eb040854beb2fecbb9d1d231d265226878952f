@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bb328ae9_26ddb513",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-16T16:14:31Z",
+      "side": 1,
+      "message": "Easier to bind? Not sure I follow.\nUpdated the code.",
+      "parentUuid": "fe6afcb0_e3d7a621",
+      "revId": "d3eb040854beb2fecbb9d1d231d265226878952f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "824af394_75291175",
         "filename": "polygerrit-ui/app/utils/label-util.ts",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-16T15:57:58Z",
       "side": 1,
       "message": "Same comment as above.",
+      "revId": "d3eb040854beb2fecbb9d1d231d265226878952f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebcedc13_962192d9",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-16T16:14:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "824af394_75291175",
       "revId": "d3eb040854beb2fecbb9d1d231d265226878952f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

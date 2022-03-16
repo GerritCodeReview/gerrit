@@ -125,7 +125,7 @@ const CLASS_SAFELIST = new Set<string>([
   'variable',
 ]);
 
-export class GrSyntaxLayerWorker implements DiffLayer {
+export class GrSyntaxLayer implements DiffLayer {
   diff?: DiffInfo;
 
   enabled = true;

@@ -7,7 +7,7 @@ import {DiffInfo, GrDiffLineType, Side} from '../../../api/diff';
 import '../../../test/common-test-setup-karma';
 import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
-import {GrSyntaxLayerWorker} from './gr-syntax-layer-worker';
+import {GrSyntaxLayer} from './gr-syntax-layer';
 
 const diff: DiffInfo = {
   meta_a: {
@@ -57,8 +57,8 @@ const rightRanges: SyntaxLayerLine[] = [
   {ranges: []},
 ];
 
-suite('gr-syntax-layer-worker tests', () => {
-  let layer: GrSyntaxLayerWorker;
+suite('gr-syntax-layer tests', () => {
+  let layer: GrSyntaxLayer;
   let listener: sinon.SinonStub;
 
   const annotate = (side: Side, lineNumber: number, text: string) => {
@@ -74,7 +74,7 @@ suite('gr-syntax-layer-worker tests', () => {
   };
 
   setup(() => {
-    layer = new GrSyntaxLayerWorker();
+    layer = new GrSyntaxLayer();
     listener = sinon.stub();
     layer.addListener(listener);
     sinon.stub(layer, 'highlight').callsFake((lang?: string) => {

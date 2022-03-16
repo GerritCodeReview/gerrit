@@ -99,7 +99,7 @@ import {GrDiffCheckResult} from '../../checks/gr-diff-check-result';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {deepEqual} from '../../../utils/deep-util';
 import {Category} from '../../../api/checks';
-import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
+import {GrSyntaxLayer} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -293,7 +293,7 @@ export class GrDiffHost extends DIPolymerElement {
 
   private readonly jsAPI = getAppContext().jsApiService;
 
-  private readonly syntaxLayer: GrSyntaxLayerWorker;
+  private readonly syntaxLayer: GrSyntaxLayer;
 
   private checksSubscription?: Subscription;
 
@@ -301,7 +301,7 @@ export class GrDiffHost extends DIPolymerElement {
 
   constructor() {
     super();
-    this.syntaxLayer = new GrSyntaxLayerWorker();
+    this.syntaxLayer = new GrSyntaxLayer();
     this._renderPrefs = {
       ...this._renderPrefs,
       use_lit_components: this.flags.isEnabled(

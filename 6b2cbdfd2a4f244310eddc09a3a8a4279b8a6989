@@ -52,6 +52,24 @@
       "parentUuid": "521009bc_c9e89367",
       "revId": "6b2cbdfd2a4f244310eddc09a3a8a4279b8a6989",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ba92a00_84216a06",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-03-16T08:52:44Z",
+      "side": 1,
+      "message": "You are right, that currently addShortcut is adding eventlistener so it\u0027s safe. But still since this is pattern in rest of app, I would like to follow it.",
+      "parentUuid": "c7aa3bb3_61d58a5d",
+      "revId": "6b2cbdfd2a4f244310eddc09a3a8a4279b8a6989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

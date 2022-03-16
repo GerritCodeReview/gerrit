@@ -125,6 +125,16 @@ const CLASS_SAFELIST = new Set<string>([
   'variable',
 ]);
 
+/**
+ * Safe guard for not killing the browser.
+ */
+export const CODE_MAX_LINES = 20 * 1000;
+
+/**
+ * Safe guard for not killing the browser. Maximum in number of chars.
+ */
+const CODE_MAX_LENGTH = 25 * CODE_MAX_LINES;
+
 export class GrSyntaxLayerWorker implements DiffLayer {
   diff?: DiffInfo;
 
@@ -244,6 +254,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
 
   async highlight(language?: string, code?: string) {
     if (!language || !code) return [];
+    if (code.length > CODE_MAX_LENGTH) return [];
     return this.highlightService.highlight(language, code);
   }
 

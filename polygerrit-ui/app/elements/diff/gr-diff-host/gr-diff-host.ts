@@ -98,10 +98,8 @@ import {GrDiffCheckResult} from '../../checks/gr-diff-check-result';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {deepEqual} from '../../../utils/deep-util';
 import {Category} from '../../../api/checks';
-import {
-  GrSyntaxLayerWorker,
-  CODE_MAX_LINES,
-} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
+import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
+import {CODE_MAX_LINES} from '../../../services/highlight/highlight-service';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 

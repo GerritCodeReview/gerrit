@@ -5,6 +5,7 @@
  */
 import {DiffInfo, GrDiffLineType, Side} from '../../../api/diff';
 import '../../../test/common-test-setup-karma';
+import {mockPromise, stubHighlightService} from '../../../test/test-utils';
 import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrSyntaxLayerWorker} from './gr-syntax-layer-worker';
@@ -75,40 +76,78 @@ suite('gr-syntax-layer-worker tests', () => {
 
   setup(() => {
     layer = new GrSyntaxLayerWorker();
-    listener = sinon.stub();
-    layer.addListener(listener);
-    sinon.stub(layer, 'highlight').callsFake((lang?: string) => {
-      if (lang === 'lang-left') return Promise.resolve(leftRanges);
-      if (lang === 'lang-right') return Promise.resolve(rightRanges);
-      return Promise.resolve([]);
+  });
+
+  test('cancel processing', async () => {
+    const mockPromise1 = mockPromise<SyntaxLayerLine[]>();
+    const mockPromise2 = mockPromise<SyntaxLayerLine[]>();
+    const mockPromise3 = mockPromise<SyntaxLayerLine[]>();
+    const mockPromise4 = mockPromise<SyntaxLayerLine[]>();
+    const stub = stubHighlightService('highlight');
+    stub.onCall(0).returns(mockPromise1);
+    stub.onCall(1).returns(mockPromise2);
+    stub.onCall(2).returns(mockPromise3);
+    stub.onCall(3).returns(mockPromise4);
+
+    const processPromise1 = layer.process(diff);
+    // Calling the process() a second time means that the promises created
+    // during the first call are cancelled.
+    const processPromise2 = layer.process(diff);
+    // We can await the outer promise even before the inner promises resolve,
+    // because cancelling rejects the inner promises.
+    await processPromise1;
+    // It does not matter actually, whether these two inner promises are
+    // resolved or not.
+    mockPromise1.resolve(leftRanges);
+    mockPromise2.resolve(rightRanges);
+    // Both ranges must still be empty, because the promise of the first call
+    // must have been cancelled and the returned ranges ignored.
+    assert.isEmpty(layer.leftRanges);
+    assert.isEmpty(layer.rightRanges);
+    // Lets' resolve and await the promises of the second as normal.
+    mockPromise3.resolve(leftRanges);
+    mockPromise4.resolve(rightRanges);
+    await processPromise2;
+    assert.equal(layer.leftRanges, leftRanges);
+  });
+
+  suite('annotate and listen', () => {
+    setup(() => {
+      listener = sinon.stub();
+      layer.addListener(listener);
+      stubHighlightService('highlight').callsFake((lang?: string) => {
+        if (lang === 'lang-left') return Promise.resolve(leftRanges);
+        if (lang === 'lang-right') return Promise.resolve(rightRanges);
+        return Promise.resolve([]);
+      });
     });
-  });
 
-  test('process and annotate line 2 LEFT', async () => {
-    await layer.process(diff);
-    const el = annotate(Side.LEFT, 1, 'import it;');
-    assert.equal(
-      el.innerHTML,
-      '<hl class="gr-diff gr-syntax gr-syntax-literal">import</hl> it;'
-    );
-    assert.equal(listener.callCount, 2);
-    assert.equal(listener.getCall(0).args[0], 1);
-    assert.equal(listener.getCall(0).args[1], 1);
-    assert.equal(listener.getCall(0).args[2], Side.LEFT);
-    assert.equal(listener.getCall(1).args[0], 3);
-    assert.equal(listener.getCall(1).args[1], 3);
-    assert.equal(listener.getCall(1).args[2], Side.RIGHT);
-  });
+    test('process and annotate line 2 LEFT', async () => {
+      await layer.process(diff);
+      const el = annotate(Side.LEFT, 1, 'import it;');
+      assert.equal(
+        el.innerHTML,
+        '<hl class="gr-diff gr-syntax gr-syntax-literal">import</hl> it;'
+      );
+      assert.equal(listener.callCount, 2);
+      assert.equal(listener.getCall(0).args[0], 1);
+      assert.equal(listener.getCall(0).args[1], 1);
+      assert.equal(listener.getCall(0).args[2], Side.LEFT);
+      assert.equal(listener.getCall(1).args[0], 3);
+      assert.equal(listener.getCall(1).args[1], 3);
+      assert.equal(listener.getCall(1).args[2], Side.RIGHT);
+    });
 
-  test('process and annotate line 3 RIGHT', async () => {
-    await layer.process(diff);
-    const el = annotate(Side.RIGHT, 3, '  public static final {');
-    assert.equal(
-      el.innerHTML,
-      '  <hl class="gr-diff gr-syntax gr-syntax-literal">public</hl> ' +
-        '<hl class="gr-diff gr-syntax gr-syntax-keyword">static</hl> ' +
-        '<hl class="gr-diff gr-syntax gr-syntax-name">final</hl> {'
-    );
-    assert.equal(listener.callCount, 2);
+    test('process and annotate line 3 RIGHT', async () => {
+      await layer.process(diff);
+      const el = annotate(Side.RIGHT, 3, '  public static final {');
+      assert.equal(
+        el.innerHTML,
+        '  <hl class="gr-diff gr-syntax gr-syntax-literal">public</hl> ' +
+          '<hl class="gr-diff gr-syntax gr-syntax-keyword">static</hl> ' +
+          '<hl class="gr-diff gr-syntax gr-syntax-name">final</hl> {'
+      );
+      assert.equal(listener.callCount, 2);
+    });
   });
 });

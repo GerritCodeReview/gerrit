@@ -22,6 +22,26 @@ def declare_nongoogle_deps():
         sha1 = "7075022a11e18c1ad230de5be074e0c691fed17b",
     )
 
+    SLF4J_VERS = "1.7.33"
+
+    maven_jar(
+        name = "log-api",
+        artifact = "org.slf4j:slf4j-api:" + SLF4J_VERS,
+        sha1 = "d375aa1b98d34d5ddf73a3f19eaad66e98975b12",
+    )
+
+    maven_jar(
+        name = "log-ext",
+        artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
+        sha1 = "00da03640ae1ad57f964dcaa542fb5d804dce8a6",
+    )
+
+    maven_jar(
+        name = "jcl-over-slf4j",
+        artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
+        sha1 = "28c441128bc81b6d95cc2857ae5bb46ae5bf658b",
+    )
+
     maven_jar(
         name = "j2objc",
         artifact = "com.google.j2objc:j2objc-annotations:1.1",

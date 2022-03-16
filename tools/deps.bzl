@@ -3,7 +3,6 @@ load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
 CAFFEINE_VERS = "2.9.2"
 ANTLR_VERS = "3.5.2"
-SLF4J_VERS = "1.7.33"
 COMMONMARK_VERS = "0.10.0"
 FLEXMARK_VERS = "0.50.50"
 GREENMAIL_VERS = "1.5.5"
@@ -109,24 +108,6 @@ def java_dependencies():
         name = "juniversalchardet",
         artifact = "com.github.albfernandez:juniversalchardet:2.0.0",
         sha1 = "28c59f58f5adcc307604602e2aa89e2aca14c554",
-    )
-
-    maven_jar(
-        name = "log-api",
-        artifact = "org.slf4j:slf4j-api:" + SLF4J_VERS,
-        sha1 = "d375aa1b98d34d5ddf73a3f19eaad66e98975b12",
-    )
-
-    maven_jar(
-        name = "log-ext",
-        artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
-        sha1 = "00da03640ae1ad57f964dcaa542fb5d804dce8a6",
-    )
-
-    maven_jar(
-        name = "jcl-over-slf4j",
-        artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
-        sha1 = "28c441128bc81b6d95cc2857ae5bb46ae5bf658b",
     )
 
     maven_jar(

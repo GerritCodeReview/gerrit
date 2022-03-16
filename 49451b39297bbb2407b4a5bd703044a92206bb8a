@@ -16,6 +16,24 @@
       "message": "You\u0027re only deleting files, not adding new ones.\n\nI\u0027d keep the current nomenclature in case we want to rollback the old code.",
       "revId": "49451b39297bbb2407b4a5bd703044a92206bb8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7528184_50177f78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-16T10:05:18Z",
+      "side": 1,
+      "message": "ok, let\u0027s keep the \"worker\" name then\n\nabandoning",
+      "parentUuid": "53eb371a_255cec9f",
+      "revId": "49451b39297bbb2407b4a5bd703044a92206bb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

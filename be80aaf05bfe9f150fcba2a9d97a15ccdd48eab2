@@ -16,6 +16,24 @@
       "message": "Hi Edwin, can we move this change to stable-3.3? It would simplify the process of upgrading the libraries on stable and supported branches also.",
       "revId": "be80aaf05bfe9f150fcba2a9d97a15ccdd48eab2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0744098c_75ec53b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-16T10:45:23Z",
+      "side": 1,
+      "message": "Sure, done in https://gerrit-review.googlesource.com/c/gerrit/+/333160",
+      "parentUuid": "1b3bdf21_1a99b7d4",
+      "revId": "be80aaf05bfe9f150fcba2a9d97a15ccdd48eab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

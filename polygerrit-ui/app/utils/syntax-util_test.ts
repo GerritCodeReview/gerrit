@@ -67,6 +67,19 @@ suite('file syntax-util', () => {
       );
     });
 
+    test('removal of empty spans', async () => {
+      assert.deepEqual(
+        highlightedStringToRanges('asdf<span class="c"></span>asdf'),
+        [{ranges: []}]
+      );
+      assert.deepEqual(
+        highlightedStringToRanges(
+          '<span class="d"></span>\n<span class="d"></span>'
+        ),
+        [{ranges: []}, {ranges: []}]
+      );
+    });
+
     test('one line, two spans one after another', async () => {
       assert.deepEqual(
         highlightedStringToRanges(

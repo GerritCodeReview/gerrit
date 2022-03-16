@@ -177,6 +177,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
 
     for (const range of ranges) {
       if (!CLASS_SAFELIST.has(range.className)) continue;
+      if (range.length === 0) continue;
       GrAnnotation.annotateElement(
         el,
         range.start,
@@ -218,14 +219,21 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     let rightContent = '';
     for (const chunk of this.diff.content) {
       const a = [...(chunk.a ?? []), ...(chunk.ab ?? [])];
-      const b = [...(chunk.b ?? []), ...(chunk.ab ?? [])];
       for (const line of a) {
         leftContent += line + '\n';
       }
+      const b = [...(chunk.b ?? []), ...(chunk.ab ?? [])];
       for (const line of b) {
         rightContent += line + '\n';
       }
+      const skip = chunk.skip ?? 0;
+      if (skip > 0) {
+        leftContent += '\n'.repeat(skip);
+        rightContent += '\n'.repeat(skip);
+      }
     }
+    leftContent = leftContent.trimEnd();
+    rightContent = rightContent.trimEnd();
 
     const leftPromise = this.highlight(leftLanguage, leftContent);
     const rightPromise = this.highlight(rightLanguage, rightContent);

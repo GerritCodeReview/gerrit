@@ -10,6 +10,7 @@ import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {Side} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
+import {CancelablePromise, util} from '../../../scripts/util';
 
 const LANGUAGE_MAP = new Map<string, string>([
   ['application/dart', 'dart'],
@@ -125,28 +126,34 @@ const CLASS_SAFELIST = new Set<string>([
   'variable',
 ]);
 
-/**
- * Safe guard for not killing the browser.
- */
-export const CODE_MAX_LINES = 20 * 1000;
-
-/**
- * Safe guard for not killing the browser. Maximum in number of chars.
- */
-const CODE_MAX_LENGTH = 25 * CODE_MAX_LINES;
-
 export class GrSyntaxLayerWorker implements DiffLayer {
   diff?: DiffInfo;
 
   enabled = true;
 
-  private leftRanges: SyntaxLayerLine[] = [];
+  // private, but visible for testing
+  leftRanges: SyntaxLayerLine[] = [];
 
-  private rightRanges: SyntaxLayerLine[] = [];
+  // private, but visible for testing
+  rightRanges: SyntaxLayerLine[] = [];
+
+  /**
+   * We are keeping a reference around to the async computation, such that we
+   * can cancel it, if needed.
+   */
+  private leftPromise?: CancelablePromise<SyntaxLayerLine[]>;
+
+  /**
+   * We are keeping a reference around to the async computation, such that we
+   * can cancel it, if needed.
+   */
+  private rightPromise?: CancelablePromise<SyntaxLayerLine[]>;
 
   private listeners: DiffLayerListener[] = [];
 
   private readonly highlightService = getAppContext().highlightService;
+
+  private readonly reportingService = getAppContext().reportingService;
 
   setEnabled(enabled: boolean) {
     this.enabled = enabled;
@@ -220,6 +227,10 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     this.diff = diff;
     this.leftRanges = [];
     this.rightRanges = [];
+    if (this.leftPromise) this.leftPromise.cancel();
+    if (this.rightPromise) this.rightPromise.cancel();
+    this.leftPromise = undefined;
+    this.rightPromise = undefined;
     if (!this.enabled || !this.diff) return;
 
     const leftLanguage = this._getLanguage(this.diff.meta_a);
@@ -245,17 +256,26 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     leftContent = leftContent.trimEnd();
     rightContent = rightContent.trimEnd();
 
-    const leftPromise = this.highlight(leftLanguage, leftContent);
-    const rightPromise = this.highlight(rightLanguage, rightContent);
-    this.leftRanges = await leftPromise;
-    this.rightRanges = await rightPromise;
-    this.notify();
+    try {
+      this.leftPromise = this.highlight(leftLanguage, leftContent);
+      this.rightPromise = this.highlight(rightLanguage, rightContent);
+      this.leftRanges = await this.leftPromise;
+      this.rightRanges = await this.rightPromise;
+      this.notify();
+    } catch (err) {
+      if (!err.isCanceled) this.reportingService.error(err);
+      // One source of "error" can promise cancelation.
+      this.leftRanges = [];
+      this.rightRanges = [];
+    }
   }
 
-  async highlight(language?: string, code?: string) {
-    if (!language || !code) return [];
-    if (code.length > CODE_MAX_LENGTH) return [];
-    return this.highlightService.highlight(language, code);
+  highlight(
+    language?: string,
+    code?: string
+  ): CancelablePromise<SyntaxLayerLine[]> {
+    const hlPromise = this.highlightService.highlight(language, code);
+    return util.makeCancelable(hlPromise);
   }
 
   notify() {

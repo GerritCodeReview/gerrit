@@ -928,6 +928,21 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void invalidJgitConfigFile_canNotPushToProjectConfig() throws Exception {
+    TestRepository<InMemoryRepository> repo = cloneProject(allProjects);
+    GitUtil.fetch(repo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
+    repo.reset(RefNames.REFS_CONFIG);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), repo, "Subject", "project.config", "jgit config")
+            .to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus("invalid project configuration");
+    r.assertMessage(
+        "Invalid config file project.config in project All-Projects in branch refs/meta/config");
+    r.assertMessage("Invalid line in config file");
+  }
+
+  @Test
   public void getProjectThatHasLabelDefinitionWithDuplicateValues() throws Exception {
     // Update the definition of the Code-Review label so that it has the value "+1 LGTM" twice.
     // This update bypasses all validation checks so that the duplicate label value doesn't get

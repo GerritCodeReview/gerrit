@@ -30,6 +30,7 @@ import {FlagsService} from '../services/flags/flags';
 import {Key, Modifier} from '../utils/dom-util';
 import {Observable} from 'rxjs';
 import {filter, take, timeout} from 'rxjs/operators';
+import {HighlightService} from '../services/highlight/highlight-service';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise<T> extends Promise<T> {
@@ -119,6 +120,12 @@ export function stubUsers<K extends keyof UserModel>(method: K) {
 
 export function stubShortcuts<K extends keyof ShortcutsService>(method: K) {
   return sinon.stub(getAppContext().shortcutsService, method);
+}
+
+export function stubHighlightService<K extends keyof HighlightService>(
+  method: K
+) {
+  return sinon.stub(getAppContext().highlightService, method);
 }
 
 export function stubStorage<K extends keyof StorageService>(method: K) {

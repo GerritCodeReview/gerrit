@@ -236,6 +236,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a5cdf99e_80fd801c",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-03-16T11:08:02Z",
+      "side": 1,
+      "message": "IIUC, you want to send out an RPC for each user only if they are added to the attentionset for a change. That requires you to know the diff in A/S. HEnce, my suggestion to add this data to the event.",
+      "parentUuid": "59cdbef3_bc093cc2",
+      "range": {
+        "startLine": 109,
+        "startChar": 24,
+        "endLine": 109,
+        "endChar": 28
+      },
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4b75b5fc_08a147e2",
         "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetChanged.java",
         "patchSetId": 10

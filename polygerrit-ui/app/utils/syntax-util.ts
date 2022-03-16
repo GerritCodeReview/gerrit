@@ -58,7 +58,6 @@ export function highlightedStringToRanges(
   for (let line of highlightedCode.split('\n')) {
     const ranges: SyntaxLayerRange[] = [...carryOverRanges];
     carryOverRanges = [];
-    rangesPerLine.push({ranges});
 
     // Remove all span tags one after another from left to right.
     // For each opening <span ...> push a new (unclosed) range.
@@ -95,6 +94,7 @@ export function highlightedStringToRanges(
         range.length = lineLength - range.start;
       }
     }
+    rangesPerLine.push({ranges: ranges.filter(r => r.length > 0)});
   }
   if (carryOverRanges.length > 0) {
     throw new Error('unclosed <span>s in highlighted code');

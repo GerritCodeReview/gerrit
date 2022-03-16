@@ -90,21 +90,6 @@ suite('gr-diff-host tests', () => {
       assert.isTrue(element.reporting.diffViewContentDisplayed.called);
     });
 
-    test('ends total timer w/ no syntax layer processing', async () => {
-      stubRestApi('getDiff').returns(Promise.resolve({content: []}));
-      element.patchRange = {};
-      element.change = createChange();
-      element.reload();
-      // Multiple cascading microtasks are scheduled.
-      await flush();
-      await flush();
-      const calls = element.reporting.timeEnd.getCalls();
-      assert.equal(calls.length, 3);
-      assert.equal(calls[0].args[0], 'Diff Load Render');
-      assert.equal(calls[1].args[0], 'Diff Content Render');
-      assert.equal(calls[2].args[0], 'Diff Total Render');
-    });
-
     test('completes reload promise after syntax layer processing', async () => {
       let notifySyntaxProcessed;
       sinon.stub(element.syntaxLayer, 'process').returns(new Promise(

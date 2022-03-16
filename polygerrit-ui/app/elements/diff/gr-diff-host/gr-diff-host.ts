@@ -98,16 +98,16 @@ import {GrDiffCheckResult} from '../../checks/gr-diff-check-result';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {deepEqual} from '../../../utils/deep-util';
 import {Category} from '../../../api/checks';
-import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
+import {
+  GrSyntaxLayerWorker,
+  CODE_MAX_LINES,
+} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
 const EVENT_AGAINST_PARENT = 'diff-against-parent';
 const EVENT_ZERO_REBASE = 'rebase-percent-zero';
 const EVENT_NONZERO_REBASE = 'rebase-percent-nonzero';
-
-// Disable syntax highlighting if the overall diff is too large.
-const SYNTAX_MAX_DIFF_LENGTH = 20000;
 
 function isImageDiff(diff?: DiffInfo) {
   if (!diff) return false;
@@ -413,23 +413,21 @@ export class GrDiffHost extends DIPolymerElement {
       this.filesWeblinks = this._getFilesWeblinks(diff);
       this.diff = diff;
       this.reporting.timeEnd(Timing.DIFF_LOAD, this.timingDetails());
+
       this.reporting.time(Timing.DIFF_CONTENT);
-      const event = await waitForEventOnce(this, 'render');
+      const syntaxLayerPromise = this.syntaxLayer.process(diff);
+      await waitForEventOnce(this, 'render');
       this.reporting.timeEnd(Timing.DIFF_CONTENT, this.timingDetails());
+
       if (shouldReportMetric) {
         // We report diffViewContentDisplayed only on reload caused
         // by params changed - expected only on Diff Page.
         this.reporting.diffViewContentDisplayed();
       }
-      const needsSyntaxHighlighting = !!event.detail?.contentRendered;
-      if (needsSyntaxHighlighting) {
-        this.reporting.time(Timing.DIFF_SYNTAX);
-        try {
-          await this.syntaxLayer.process(diff);
-        } finally {
-          this.reporting.timeEnd(Timing.DIFF_SYNTAX, this.timingDetails());
-        }
-      }
+
+      this.reporting.time(Timing.DIFF_SYNTAX);
+      await syntaxLayerPromise;
+      this.reporting.timeEnd(Timing.DIFF_SYNTAX, this.timingDetails());
     } catch (e: unknown) {
       if (e instanceof Response) {
         this._handleGetDiffError(e);
@@ -1208,10 +1206,10 @@ export class GrDiffHost extends DIPolymerElement {
       );
       return false;
     }
-    if (this.$.diff.getDiffLength(diff) > SYNTAX_MAX_DIFF_LENGTH) {
+    if (this.$.diff.getDiffLength(diff) > CODE_MAX_LINES) {
       fireAlert(
         this,
-        `Files with more than ${SYNTAX_MAX_DIFF_LENGTH} lines` +
+        `Files with more than ${CODE_MAX_LINES} lines` +
           '  will not be syntax highlighted.'
       );
       return false;

@@ -33,6 +33,23 @@
       "message": "Would this be easier if rebased on top of Change-Id: I40ff875a33a ?",
       "revId": "d931e74715e1cec3b17592bb8649d208bc86ec83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc9f0b3d_37af0a7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-16T11:30:15Z",
+      "side": 1,
+      "message": "Please rebase this change onto https://gerrit-review.googlesource.com/c/gerrit/+/333162 once that change got merged, so that this change no longer requires a Library-Compliance approval.",
+      "revId": "d931e74715e1cec3b17592bb8649d208bc86ec83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

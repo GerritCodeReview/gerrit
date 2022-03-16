@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8289081f_5f1799ac",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-03-16T20:11:16Z",
+      "side": 1,
+      "message": "Just question: Since now `process` set Left and Right Ranges to [] and not `init`.\n\ninit was called everytime `this.diff` was changed.\nnow process is called only when needsSyntaxHighlighting. \n\nCould it be possible we will miss this reset function of init?\n\nI tested turning off highlighting and it worked well.",
+      "range": {
+        "startLine": 437,
+        "startChar": 16,
+        "endLine": 437,
+        "endChar": 47
+      },
+      "revId": "adf4273cb5340f5092e5b7049bc659b15d753e4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

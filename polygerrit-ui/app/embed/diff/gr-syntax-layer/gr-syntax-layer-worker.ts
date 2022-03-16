@@ -138,12 +138,6 @@ export class GrSyntaxLayerWorker implements DiffLayer {
 
   private readonly highlightService = getAppContext().highlightService;
 
-  init(diff?: DiffInfo) {
-    this.leftRanges = [];
-    this.rightRanges = [];
-    this.diff = diff;
-  }
-
   setEnabled(enabled: boolean) {
     this.enabled = enabled;
   }
@@ -206,18 +200,13 @@ export class GrSyntaxLayerWorker implements DiffLayer {
    * For larger files this is an expensive operation, but is offloaded to a web
    * worker. We are using the HighlightJS lib for doing the actual highlighting.
    *
-   * `init()` must have been called before. There is actually no good reason for
-   * init() and process() to be separated. The diff host typically allows the
-   * diff builder to render first and only then calls process(), but as soon as
-   * the diff is known the highlighting process can be kicked off.
-   * TODO(brohlfs): Call process() directly after init().
-   *
    * annotate() will only be able to apply highlighting after process() has
    * completed, but that will likely happen later. That is why layer can have
    * listeners. When process() completes, the listeners will be notified, which
    * tells the diff renderer that another call to annotate() is needed.
    */
-  async process() {
+  async process(diff: DiffInfo) {
+    this.diff = diff;
     this.leftRanges = [];
     this.rightRanges = [];
     if (!this.enabled || !this.diff) return;

@@ -82,11 +82,10 @@ suite('gr-syntax-layer-worker tests', () => {
       if (lang === 'lang-right') return Promise.resolve(rightRanges);
       return Promise.resolve([]);
     });
-    layer.init(diff);
   });
 
   test('process and annotate line 2 LEFT', async () => {
-    await layer.process();
+    await layer.process(diff);
     const el = annotate(Side.LEFT, 1, 'import it;');
     assert.equal(
       el.innerHTML,
@@ -102,7 +101,7 @@ suite('gr-syntax-layer-worker tests', () => {
   });
 
   test('process and annotate line 3 RIGHT', async () => {
-    await layer.process();
+    await layer.process(diff);
     const el = annotate(Side.RIGHT, 3, '  public static final {');
     assert.equal(
       el.innerHTML,

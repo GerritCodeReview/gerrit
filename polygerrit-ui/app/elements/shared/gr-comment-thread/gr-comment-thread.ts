@@ -57,7 +57,7 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffLayer, RenderPreferences} from '../../../api/diff';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fire, fireAlert, waitForEventOnce} from '../../../utils/event-util';
-import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
+import {GrSyntaxLayer} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
 import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {getUserName} from '../../../utils/display-name-util';
@@ -258,7 +258,7 @@ export class GrCommentThread extends LitElement {
 
   private readonly shortcuts = new ShortcutController(this);
 
-  private readonly syntaxLayer = new GrSyntaxLayerWorker();
+  private readonly syntaxLayer = new GrSyntaxLayer();
 
   constructor() {
     super();

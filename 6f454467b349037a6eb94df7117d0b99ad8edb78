@@ -93,6 +93,30 @@
       },
       "revId": "6f454467b349037a6eb94df7117d0b99ad8edb78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3c848bb_d99ea5be",
+        "filename": "polygerrit-ui/app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-03-17T19:54:30Z",
+      "side": 1,
+      "message": "Oh, I didn\u0027t know",
+      "parentUuid": "8c29ba54_1ff06f94",
+      "range": {
+        "startLine": 235,
+        "startChar": 4,
+        "endLine": 236,
+        "endChar": 42
+      },
+      "revId": "6f454467b349037a6eb94df7117d0b99ad8edb78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

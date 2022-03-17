@@ -186,6 +186,24 @@
       "parentUuid": "364a331b_2b1afa25",
       "revId": "b7617ee514df33d1eb28d523ff22de3423aa5dec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92b3df7e_a21ed08e",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-17T11:09:31Z",
+      "side": 1,
+      "message": "You could have a function passed in that decides whether to skip a change.\n\n`(change: ChangeInfo) \u003d\u003e boolean`\n\nBut I\u0027m fine leaving this for a follow-up.",
+      "parentUuid": "e45d2f32_a273c042",
+      "revId": "b7617ee514df33d1eb28d523ff22de3423aa5dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

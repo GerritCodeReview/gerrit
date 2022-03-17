@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47ac62fb_2223c05d",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 10
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-17T18:15:32Z",
+      "side": 1,
+      "message": "This need to be added also to lib/nongoogle_test.sh",
+      "range": {
+        "startLine": 277,
+        "startChar": 8,
+        "endLine": 277,
+        "endChar": 26
+      },
+      "revId": "5ce6bdb33bbdda948e88db9f89c64174a35a7e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

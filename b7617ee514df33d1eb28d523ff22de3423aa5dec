@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b762931_5792c4b7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-17T10:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bc99852_3f84198f",
+      "revId": "b7617ee514df33d1eb28d523ff22de3423aa5dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15d6788d_01566332",
@@ -70,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4acbd4af_09543b7c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-17T10:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3803016_d3c4668e",
+      "revId": "b7617ee514df33d1eb28d523ff22de3423aa5dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0babf66_a4027eaa",
@@ -93,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "733287b2_6105a20c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-17T10:28:07Z",
+      "side": 1,
+      "message": "sure, markChangesActive()",
+      "parentUuid": "b0babf66_a4027eaa",
+      "range": {
+        "startLine": 97,
+        "startChar": 11,
+        "endLine": 97,
+        "endChar": 19
+      },
+      "revId": "b7617ee514df33d1eb28d523ff22de3423aa5dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "364a331b_2b1afa25",
@@ -106,6 +166,24 @@
       "writtenOn": "2022-03-16T18:30:07Z",
       "side": 1,
       "message": "Could you factor out a common private method that takes as arguments the method and the extra parameter that for abandon has `{message: reason ?? \u0027\u0027}`",
+      "revId": "b7617ee514df33d1eb28d523ff22de3423aa5dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e45d2f32_a273c042",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-17T10:28:07Z",
+      "side": 1,
+      "message": "I did start with this strategy, but the line 111 above was an issue (skip requests for already abandoned changes). If we remove that behavior then a common method would be a lot easier, otherwise I will leave them separate.",
+      "parentUuid": "364a331b_2b1afa25",
       "revId": "b7617ee514df33d1eb28d523ff22de3423aa5dec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

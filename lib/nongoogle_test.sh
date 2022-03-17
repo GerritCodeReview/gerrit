@@ -26,6 +26,8 @@ guice-servlet
 j2objc
 jimfs
 jruby
+log-api
+log-ext
 log4j
 lucene-analyzers-common
 lucene-core

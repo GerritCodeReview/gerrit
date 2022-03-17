@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c0586ff_92be08da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-03-17T23:24:28Z",
+      "side": 1,
+      "message": "Ran formatter on StarredChanges, AccountDeactivator, and CmdLineParser. Builds with bazel build gerrit.",
+      "revId": "2e6ae84d1e60c69a2485f9c284b2c5f2d7a04257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

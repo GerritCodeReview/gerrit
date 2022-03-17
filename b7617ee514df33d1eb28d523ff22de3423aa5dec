@@ -54,6 +54,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3803016_d3c4668e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-17T08:13:57Z",
+      "side": 1,
+      "message": "Then perhaps move the assignment all the way to the end(in #35). We want progressByChange updated before the update is triggered.",
+      "parentUuid": "15d6788d_01566332",
+      "revId": "b7617ee514df33d1eb28d523ff22de3423aa5dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0babf66_a4027eaa",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-17T08:13:57Z",
+      "side": 1,
+      "message": "performAction?\nalso if the component is mark-active-flow not sure why the naming is being generalised here. Reading the name implies multiple actions can be done.",
+      "range": {
+        "startLine": 97,
+        "startChar": 11,
+        "endLine": 97,
+        "endChar": 19
+      },
+      "revId": "b7617ee514df33d1eb28d523ff22de3423aa5dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "364a331b_2b1afa25",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 2

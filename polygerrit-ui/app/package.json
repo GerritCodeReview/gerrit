@@ -45,7 +45,7 @@
     "polymer-bridges": "file:../../polymer-bridges/",
     "polymer-resin": "^2.0.1",
     "resemblejs": "^4.0.0",
-    "rxjs": "^6.6.7"
+    "rxjs": "^7.5.5"
   },
   "license": "Apache-2.0",
   "private": true

@@ -638,7 +638,7 @@ export class GrComment extends LitElement {
           // debounce it. Most of the code can just inspect the current value
           // of the textare instead of needing a dedicated property.
           this.messageText = e.detail.value;
-          this.autoSaveTrigger$.next();
+          this.autoSaveTrigger$.next(undefined);
         }}"
       ></gr-textarea>
     `;

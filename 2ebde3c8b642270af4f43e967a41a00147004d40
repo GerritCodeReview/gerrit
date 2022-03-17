@@ -16,6 +16,24 @@
       "message": "I am ok with solution, but when I try this with dev helper I get error on syntax-util.ts:\n\nsyntax worker failed: no unclosed range found\n\n",
       "revId": "2ebde3c8b642270af4f43e967a41a00147004d40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cad60022_b62ffa0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-17T18:42:45Z",
+      "side": 1,
+      "message": "That is because dev helper does not pick up changes that are done to the worker. :-/",
+      "parentUuid": "fa6979fa_e4e383a3",
+      "revId": "2ebde3c8b642270af4f43e967a41a00147004d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

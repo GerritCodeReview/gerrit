@@ -237,7 +237,7 @@ export class GrDiffHost extends DIPolymerElement {
   @property({type: Object})
   _revisionImage: Base64ImageFile | null = null;
 
-  @property({type: Object, notify: true, observer: 'diffChanged'})
+  @property({type: Object, notify: true})
   diff?: DiffInfo;
 
   @property({type: Object})
@@ -375,10 +375,6 @@ export class GrDiffHost extends DIPolymerElement {
     this._getCoverageData();
   }
 
-  diffChanged(diff?: DiffInfo) {
-    this.syntaxLayer.init(diff);
-  }
-
   /**
    * @param shouldReportMetric indicate a new Diff Page. This is a
    * signal to report metrics event that started on location change.
@@ -429,7 +425,7 @@ export class GrDiffHost extends DIPolymerElement {
       if (needsSyntaxHighlighting) {
         this.reporting.time(Timing.DIFF_SYNTAX);
         try {
-          await this.syntaxLayer.process();
+          await this.syntaxLayer.process(diff);
         } finally {
           this.reporting.timeEnd(Timing.DIFF_SYNTAX, this.timingDetails());
         }

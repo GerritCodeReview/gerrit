@@ -37,7 +37,7 @@
     "ba-linkify": "^1.0.1",
     "codemirror-minified": "^5.62.2",
     "immer": "^9.0.5",
-    "highlight.js": "^10.7.2",
+    "highlight.js": "^11.5.0",
     "highlightjs-closure-templates": "https://github.com/highlightjs/highlightjs-closure-templates",
     "highlightjs-structured-text": "https://github.com/highlightjs/highlightjs-structured-text",
     "lit": "^2.1.1",

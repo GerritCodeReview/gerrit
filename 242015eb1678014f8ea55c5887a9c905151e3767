@@ -290,6 +290,30 @@
       },
       "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72e03ed7_51841cca",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-03-17T14:49:13Z",
+      "side": 1,
+      "message": "I think we want to be able to run jgit tests in this setup where jgit is a submodule at modules/jgit and there is a joint classpath used for both gerrit core and jgit.\n\nBut you are right we can simply not update the hamcrest dependency in gerrit\u0027s WORKSPACE to 2.2 but stick to 1.3 since jgit tests also work with that version.\nWhen running jgit tests in context of a gerrit workspace jgit\u0027s WORKSPACE file isn\u0027t used but gerrit\u0027s.",
+      "parentUuid": "439820f3_56854a0b",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 0
+      },
+      "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

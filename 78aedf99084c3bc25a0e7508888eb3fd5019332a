@@ -16,6 +16,24 @@
       "message": "Google is migrating internal rxjs users to v7 but is not there yet. Upgrading to v7 in gerrit now would prevent us from importing gerrit into google for our deployments if any v7-specific operators/feature are used.",
       "revId": "78aedf99084c3bc25a0e7508888eb3fd5019332a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ca9e5c5_9eeb84ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-03-17T19:56:34Z",
+      "side": 1,
+      "message": "Yes, we need to wait with this update.",
+      "parentUuid": "5bca9cc4_51b2060c",
+      "revId": "78aedf99084c3bc25a0e7508888eb3fd5019332a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

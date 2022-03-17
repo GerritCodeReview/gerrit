@@ -242,6 +242,30 @@
       },
       "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "588f6598_c949ff30",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-17T13:57:51Z",
+      "side": 1,
+      "message": "I believe I did not express myself clearly enough: let me rephrase :-)\n\nBecause we *do use* hamcrest in Gerrit (see GroupConfigTest) and we do not build or run JGit tests, why do we have to align the hamcrest version of JGit with the one in Gerrit?\n\nhamcrest is declared in JGit\u0027s WORKSPACE which isn\u0027t used by Gerrit at all.\n\nWhat I\u0027d do is simply keep the hamcrest version we have in Gerrit, that should work nicely.",
+      "parentUuid": "aef2f21e_7195e436",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 0
+      },
+      "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -123,6 +123,7 @@ suite('bulk actions model test', () => {
       const actions: ActionNameToActionInfoMap = {
         abandon: {method: HttpMethod.POST},
         ready: {method: HttpMethod.POST},
+        submit: {method: HttpMethod.POST},
       };
       detailedActionsStub.returns(
         Promise.resolve([
@@ -179,6 +180,26 @@ suite('bulk actions model test', () => {
           2 as NumericChangeId,
           HttpMethod.POST,
           '/ready'
+        )
+      );
+    });
+
+    test('submit changes', () => {
+      const actionStub = stubRestApi('executeChangeAction');
+      bulkActionsModel.submitChanges();
+      assert.isTrue(actionStub.calledTwice);
+      assert.isTrue(
+        actionStub.firstCall.calledWith(
+          1 as NumericChangeId,
+          HttpMethod.POST,
+          '/submit'
+        )
+      );
+      assert.isTrue(
+        actionStub.secondCall.calledWith(
+          2 as NumericChangeId,
+          HttpMethod.POST,
+          '/submit'
         )
       );
     });

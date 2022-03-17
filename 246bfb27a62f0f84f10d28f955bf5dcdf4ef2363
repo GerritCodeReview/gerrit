@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3797f16_e8bf381b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-03-17T04:23:58Z",
+      "side": 1,
+      "message": "You need to add a release notes footer (probably \u0027skip\u0027 for this trivial of a change):\n\n Change-Id: Iaf9d23b9eb88e085389356b0d1b015ae0f084e05\n Release-Notes: skip",
+      "revId": "246bfb27a62f0f84f10d28f955bf5dcdf4ef2363",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f64ac59c_f1f357a2",

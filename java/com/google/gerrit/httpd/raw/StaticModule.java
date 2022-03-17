@@ -94,7 +94,8 @@ public class StaticModule extends ServletModule {
           "/elements/*",
           "/fonts/*",
           "/scripts/*",
-          "/styles/*");
+          "/styles/*",
+          "/workers/*");
 
   private static final String DOC_SERVLET = "DocServlet";
   private static final String FAVICON_SERVLET = "FaviconServlet";

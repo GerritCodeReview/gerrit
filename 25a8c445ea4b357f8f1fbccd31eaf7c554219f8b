@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07c20806_e4ec07f7",
+        "filename": "plugins/delete-project",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-03-17T21:56:24Z",
+      "side": 1,
+      "message": "Looks like this went backwards by accident: https://gerrit.googlesource.com/plugins/delete-project/+/refs/heads/stable-3.2",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "25a8c445ea4b357f8f1fbccd31eaf7c554219f8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

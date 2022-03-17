@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c211844_39db1350",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-mark-active-flow/gr-change-list-mark-active-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-17T11:44:25Z",
+      "side": 1,
+      "message": "The TODO is directly above",
+      "parentUuid": "ddefee05_c23640f8",
+      "revId": "93d241af8d53633e93d1372c06def951583d1e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "115bfe00_57982401",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-17T11:09:31Z",
       "side": 1,
       "message": "What if the method doesn\u0027t exist? You don\u0027t check if the changes can be marked as active in the component.",
+      "revId": "93d241af8d53633e93d1372c06def951583d1e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0669464a_28ee8463",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-17T11:44:25Z",
+      "side": 1,
+      "message": "Enable button controls will ensure this. Is it important to allow already-active changes to be selected and marked active similar to abandoned?",
+      "parentUuid": "115bfe00_57982401",
       "revId": "93d241af8d53633e93d1372c06def951583d1e1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

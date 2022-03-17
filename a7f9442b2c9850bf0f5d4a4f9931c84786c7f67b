@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fb5cce7_477e3896",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-17T13:04:58Z",
+      "side": 1,
+      "message": "Don\u0027t add it yet until it\u0027s at least functional. (aka, right now you can click submit and it will try to submit things that are not submittable which will cause errors).",
+      "revId": "a7f9442b2c9850bf0f5d4a4f9931c84786c7f67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1106002b_29288f7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-17T18:42:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1930497e_a0b9d461",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "92ac8274dfcaaedd4649fd2736b9a161483c859d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c4e0e8c_86b462d0",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-16T21:31:08Z",
       "side": 1,
       "message": "maybe we can call reporting.error(error) if e is instanceOf Error and !err.isCanceled",
+      "range": {
+        "startLine": 264,
+        "startChar": 27,
+        "endLine": 264,
+        "endChar": 46
+      },
+      "revId": "92ac8274dfcaaedd4649fd2736b9a161483c859d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8102ee7f_65f2a33e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-17T18:42:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c4e0e8c_86b462d0",
       "range": {
         "startLine": 264,
         "startChar": 27,

@@ -218,6 +218,30 @@
       },
       "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aef2f21e_7195e436",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-03-17T13:51:52Z",
+      "side": 1,
+      "message": "One important reason why jgit is pulled into the gerrit build via a git submodule is that this heavily reduces turn around times to fix bugs/develop new features in jgit which are used in gerrit and test them in gerrit since their source code is built in the same build and accessible from the same IDE workspace. I think if jgit test dependencies wouldn\u0027t be included anymore this would prevent that we can run jgit unit tests from the same workspace which would be a productivity killer.\n\nI think I would prefer to do such a revert on jgit master to minimize the maintenance overhead. If there is a strong reason why this needs to be done on stable-5.13 you can try to convince me :-)",
+      "parentUuid": "771b8ca8_2bbf8b42",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 0
+      },
+      "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

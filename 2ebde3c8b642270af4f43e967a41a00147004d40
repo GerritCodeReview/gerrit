@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa6979fa_e4e383a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-03-17T15:10:10Z",
+      "side": 1,
+      "message": "I am ok with solution, but when I try this with dev helper I get error on syntax-util.ts:\n\nsyntax worker failed: no unclosed range found\n\n",
+      "revId": "2ebde3c8b642270af4f43e967a41a00147004d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

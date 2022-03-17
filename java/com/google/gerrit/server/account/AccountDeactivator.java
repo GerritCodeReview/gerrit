@@ -117,7 +117,7 @@ public class AccountDeactivator implements Runnable {
         return true;
       }
     } catch (ResourceConflictException e) {
-      logger.atInfo().log("Account %s already deactivated, continuing...", userName);
+      logger.atInfo().withCause(e).log("Account %s already deactivated, continuing...", userName);
     } catch (Exception e) {
       logger.atSevere().withCause(e).log(
           "Error deactivating account: %s (%s) %s",

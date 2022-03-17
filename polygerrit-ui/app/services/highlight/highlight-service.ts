@@ -10,6 +10,7 @@ import {
   SyntaxWorkerMessageType,
   SyntaxLayerLine,
 } from '../../types/syntax-worker-api';
+import {prependOrigin} from '../../utils/url-util';
 import {createWorker} from '../../utils/worker-util';
 import {Finalizable} from '../registry';
 
@@ -56,7 +57,7 @@ export class HighlightService implements Finalizable {
 
   /** Allows tests to produce fake workers. */
   protected createWorker() {
-    return createWorker(syntaxWorkerUrl);
+    return createWorker(prependOrigin(syntaxWorkerUrl));
   }
 
   /** Creates, initializes and then moves a worker to the idle pool. */
@@ -69,7 +70,7 @@ export class HighlightService implements Finalizable {
     };
     const initMsg: SyntaxWorkerInit = {
       type: SyntaxWorkerMessageType.INIT,
-      url: hljsLibUrl,
+      url: prependOrigin(hljsLibUrl),
     };
     worker.postMessage(initMsg);
   }

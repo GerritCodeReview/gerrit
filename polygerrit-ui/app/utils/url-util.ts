@@ -24,6 +24,12 @@ export function getBaseUrl(): string {
   return window.CANONICAL_PATH || '';
 }
 
+export function prependOrigin(path: string): string {
+  if (path.startsWith('http')) return path;
+  if (path.startsWith('/')) return window.location.origin + path;
+  throw new Error(`Cannot prepend origin to relative path '${path}'.`);
+}
+
 let getDocsBaseUrlCachedPromise: Promise<string | null> | undefined;
 
 /**

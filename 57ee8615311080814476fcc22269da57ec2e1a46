@@ -16,6 +16,23 @@
       "message": "bazel build gerrit works fine.",
       "revId": "57ee8615311080814476fcc22269da57ec2e1a46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9389c8ab_fa10764b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-03-17T20:27:47Z",
+      "side": 1,
+      "message": "Ran format on the cli dir",
+      "revId": "57ee8615311080814476fcc22269da57ec2e1a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

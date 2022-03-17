@@ -150,10 +150,11 @@ export interface HighlightJS {
   configure(options: {classPrefix: string}): void;
   getLanguage(languageName: string): unknown | undefined;
   highlight(
-    languageName: string,
     code: string,
-    ignore_illegals: boolean,
-    continuation?: unknown
+    options: {
+      language: string;
+      ignoreIllegals: boolean;
+    }
   ): HighlightJSResult;
 }
 

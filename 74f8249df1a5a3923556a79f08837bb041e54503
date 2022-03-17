@@ -34,6 +34,24 @@
       "parentUuid": "f1bed286_57565650",
       "revId": "74f8249df1a5a3923556a79f08837bb041e54503",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b172ef0d_4bddaa16",
+        "filename": "polygerrit-ui/app/workers/syntax-worker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-17T18:16:34Z",
+      "side": 1,
+      "message": "Thanks, done https://gerrit-review.googlesource.com/c/gerrit/+/333419",
+      "parentUuid": "59ab3952_7828770f",
+      "revId": "74f8249df1a5a3923556a79f08837bb041e54503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

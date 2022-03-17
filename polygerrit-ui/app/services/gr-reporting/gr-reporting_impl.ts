@@ -99,7 +99,11 @@ const STARTUP_TIMERS: {[name: string]: number} = {
 
 const SLOW_RPC_THRESHOLD = 500;
 
-export function initErrorReporter(reportingService: ReportingService) {
+export function initErrorReporter(
+  reportingService: ReportingService,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  opt_context?: any
+) {
   const normalizeError = (err: Error | unknown) => {
     if (err instanceof Error) {
       return err;
@@ -140,8 +144,7 @@ export function initErrorReporter(reportingService: ReportingService) {
   };
   // TODO(dmfilippov): TS-fix-any unclear what is context
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const catchErrors = function (opt_context?: any) {
-    const context = opt_context || window;
+  const catchErrors = function (context?: any) {
     const oldOnError = context.onerror;
     context.onerror = (
       event: Event | string,
@@ -158,7 +161,7 @@ export function initErrorReporter(reportingService: ReportingService) {
     );
   };
 
-  catchErrors();
+  catchErrors(opt_context || window);
 
   // for testing
   return {catchErrors};

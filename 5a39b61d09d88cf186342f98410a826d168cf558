@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b25194e_82bfbbc8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-03-17T19:52:39Z",
+      "side": 1,
+      "message": "Priority 4: Maybe there should be also alert when code_length \u003e code_max_length. I can imagine code has less than 20000 lines and each line \u003c 500 characters and still no highlighting.",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 21
+      },
+      "revId": "5a39b61d09d88cf186342f98410a826d168cf558",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

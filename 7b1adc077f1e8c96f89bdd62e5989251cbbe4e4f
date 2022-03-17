@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d36a2968_cb0cb4f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-17T09:50:18Z",
+      "side": 1,
+      "message": "Google-Bug-Id: b/...",
+      "revId": "7b1adc077f1e8c96f89bdd62e5989251cbbe4e4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

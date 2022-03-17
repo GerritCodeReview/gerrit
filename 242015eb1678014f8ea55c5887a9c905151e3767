@@ -314,6 +314,30 @@
       },
       "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4f04782_8c3db2e9",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-17T14:50:59Z",
+      "side": 1,
+      "message": "We could also make a small change as a follow-up in GroupConfigTest so that we make sure 100% that Gerrit doesn\u0027t use hamcrest anymore for any test, so that we can easily just refer to the JGit\u0027s one in nongoogle.bzl without further issues.",
+      "parentUuid": "72e03ed7_51841cca",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 0
+      },
+      "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

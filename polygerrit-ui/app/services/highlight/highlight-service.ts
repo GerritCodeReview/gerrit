@@ -14,9 +14,9 @@ import {createWorker} from '../../utils/worker-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
 import {Finalizable} from '../registry';
 
-const hljsLibUrl = `${window.STATIC_RESOURCE_PATH}/bower_components/highlightjs/highlight.min.js`;
+const hljsLibUrl = `${window.location.origin}${window.STATIC_RESOURCE_PATH}/bower_components/highlightjs/highlight.min.js`;
 
-const syntaxWorkerUrl = `${window.STATIC_RESOURCE_PATH}/workers/syntax-worker.js`;
+const syntaxWorkerUrl = `${window.location.origin}${window.STATIC_RESOURCE_PATH}/workers/syntax-worker.js`;
 
 /**
  * It is unlikely that a pool size greater than 3 will gain anything, because

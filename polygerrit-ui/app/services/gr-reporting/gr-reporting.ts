@@ -51,7 +51,6 @@ export interface ReportingService extends Finalizable {
   changeDisplayed(eventDetails?: EventDetails): void;
   changeFullyLoaded(): void;
   diffViewDisplayed(): void;
-  diffViewFullyLoaded(): void;
   diffViewContentDisplayed(): void;
   fileListDisplayed(): void;
   reportExtension(name: string): void;

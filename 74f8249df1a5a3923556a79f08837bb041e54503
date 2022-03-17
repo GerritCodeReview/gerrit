@@ -16,6 +16,24 @@
       "message": "Does this work with HLJS 10.6 (which is what Google uses internally atm)? If yes, maybe submit this first. And then the version upgrade after?",
       "revId": "74f8249df1a5a3923556a79f08837bb041e54503",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59ab3952_7828770f",
+        "filename": "polygerrit-ui/app/workers/syntax-worker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-17T18:12:46Z",
+      "side": 1,
+      "message": "It exists under 10.7 https://github.com/highlightjs/highlight.js/blob/10.7.2/src/highlight.js#L99, i\u0027ll move this to a separate commit.",
+      "parentUuid": "f1bed286_57565650",
+      "revId": "74f8249df1a5a3923556a79f08837bb041e54503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

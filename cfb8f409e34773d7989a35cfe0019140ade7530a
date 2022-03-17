@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c45af8d_f87d45b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-03-17T10:46:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4b4ea29_58ae2add",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 11,
+        "endChar": 68
+      },
+      "revId": "cfb8f409e34773d7989a35cfe0019140ade7530a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "359ccef3_7b54a404",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-17T07:15:10Z",
       "side": 1,
       "message": "I think for IOException we do not want to expose the message to users since they may leak internal details or may not be useful for users?",
+      "range": {
+        "startLine": 516,
+        "startChar": 10,
+        "endLine": 519,
+        "endChar": 11
+      },
+      "revId": "cfb8f409e34773d7989a35cfe0019140ade7530a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f89248ff_3ad7338b",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-03-17T10:46:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "359ccef3_7b54a404",
       "range": {
         "startLine": 516,
         "startChar": 10,

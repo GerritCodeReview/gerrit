@@ -5,13 +5,14 @@
  */
 import '../../test/common-test-setup-karma';
 import {waitUntil} from '../../test/test-utils';
+import {grReportingMock} from '../gr-reporting/gr-reporting_mock';
 import {MockHighlightServiceManual} from './highlight-service-mock';
 
 suite('highlight-service tests', () => {
   let service: MockHighlightServiceManual;
 
   setup(() => {
-    service = new MockHighlightServiceManual();
+    service = new MockHighlightServiceManual(grReportingMock);
   });
 
   test('initial state', () => {

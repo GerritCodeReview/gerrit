@@ -11,6 +11,7 @@ import {
   SyntaxLayerLine,
 } from '../../types/syntax-worker-api';
 import {createWorker} from '../../utils/worker-util';
+import {ReportingService} from '../gr-reporting/gr-reporting';
 import {Finalizable} from '../registry';
 
 const hljsLibUrl = `${window.STATIC_RESOURCE_PATH}/bower_components/highlightjs/highlight.min.js`;
@@ -42,7 +43,7 @@ export class HighlightService implements Finalizable {
   /** Queue for waiting on the results of a worker. */
   queueForResult: Map<Worker, (r: SyntaxLayerLine[]) => void> = new Map();
 
-  constructor() {
+  constructor(readonly reporting: ReportingService) {
     for (let i = 0; i < WORKER_POOL_SIZE; i++) {
       this.addWorker();
     }
@@ -101,7 +102,9 @@ export class HighlightService implements Finalizable {
    */
   private handleResult(worker: Worker, result: SyntaxWorkerResult) {
     this.moveBusyToIdle(worker);
-    if (result.error) console.error(`syntax worker failed: ${result.error}`);
+    if (result.error) {
+      this.reporting.error(new Error(`syntax worker failed: ${result.error}`));
+    }
     const resolver = this.queueForResult.get(worker);
     this.queueForResult.delete(worker);
     if (resolver) resolver(result.ranges ?? []);

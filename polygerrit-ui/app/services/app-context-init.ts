@@ -76,7 +76,10 @@ export function createAppContext(): AppContext & Finalizable {
       return new ShortcutsService(ctx.userModel, ctx.reportingService);
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
-    highlightService: (_ctx: Partial<AppContext>) => new HighlightService(),
+    highlightService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.reportingService, 'reportingService');
+      return new HighlightService(ctx.reportingService);
+    },
   };
   return create<AppContext>(appRegistry);
 }

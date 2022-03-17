@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5397a8d8_c46147eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-03-17T19:22:00Z",
+      "side": 1,
+      "message": "Ran formatter and bazel build gerrit",
+      "revId": "37f56cc4c9220af4f6084ec9d4c6ed5be3921cf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

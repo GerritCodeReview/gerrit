@@ -31,10 +31,7 @@ const initialState: BulkActionsState = {
   allChanges: new Map(),
 };
 
-export class BulkActionsModel
-  extends Model<BulkActionsState>
-  implements Finalizable
-{
+export class BulkActionsModel extends Model<BulkActionsState> implements Finalizable {
   constructor(private readonly restApiService: RestApiService) {
     super(initialState);
   }
@@ -118,6 +115,26 @@ export class BulkActionsModel
         undefined,
         {message: reason ?? ''},
         () => errFn && errFn(change._number)
+      );
+    });
+  }
+
+  submitChanges(): Promise<Response | undefined>[] {
+    const current = this.subject$.getValue();
+    return current.selectedChangeNums.map(changeNum => {
+      if (!current.allChanges.get(changeNum))
+        throw new Error('invalid change id');
+      const change = current.allChanges.get(changeNum)!;
+      // errFn is needed to avoid showing an error dialog
+      return this.restApiService.executeChangeAction(
+        change._number,
+        change.actions!.submit!.method,
+        '/submit',
+        undefined,
+        undefined,
+        () => {
+          throw new Error(`request for ${change._number} failed`);
+        }
       );
     });
   }

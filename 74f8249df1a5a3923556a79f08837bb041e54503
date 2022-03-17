@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1bed286_57565650",
+        "filename": "polygerrit-ui/app/workers/syntax-worker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-17T18:06:27Z",
+      "side": 1,
+      "message": "Does this work with HLJS 10.6 (which is what Google uses internally atm)? If yes, maybe submit this first. And then the version upgrade after?",
+      "revId": "74f8249df1a5a3923556a79f08837bb041e54503",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

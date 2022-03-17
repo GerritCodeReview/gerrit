@@ -16,6 +16,24 @@
       "message": "are you aware of https://gerrit-review.googlesource.com/c/gerrit/+/250256? quite interesting discussion there ...",
       "revId": "34a2d6b3da5f2dc60e0c84541800bb8c1f7588c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b82c2d7_aecf78fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-17T16:26:05Z",
+      "side": 1,
+      "message": "Yes, the Change 250256 is more about removing the \u0027no-limit\u0027 feature altogether, whilst this is to disallow large overloads on non-authenticated requests. The \u0027no-limit\u0027 feature continues to work as-is for all authenticated users after this change.",
+      "parentUuid": "17c251e9_94aaf46c",
+      "revId": "34a2d6b3da5f2dc60e0c84541800bb8c1f7588c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

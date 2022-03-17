@@ -194,6 +194,30 @@
       },
       "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "771b8ca8_2bbf8b42",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-17T11:58:17Z",
+      "side": 1,
+      "message": "\u003e I tried and found we could revert to hamcrest 1.3 in jgit\u0027s bazel build if this helps\n\nYou mean `hamcrest-library`, not `hamcrest` right?\n`hamcrest` doesn\u0027t exist for 1.3 [1]\n\nChanging that would allow not to change any google dependency and gerrit would still work, so I think it would help, if that was merged in jgit 5.13.\n\nHowever, I share luca\u0027s point that gerrit should not depend on this at all, so that probably would be even a better solution?\n\nWDYT?\n\n[1]https://mvnrepository.com/artifact/org.hamcrest/hamcrest",
+      "parentUuid": "354c9389_c09d5fd1",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 0
+      },
+      "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

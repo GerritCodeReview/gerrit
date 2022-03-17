@@ -24,35 +24,32 @@ import {ChangeInfo, NumericChangeId} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import './gr-change-list-mark-active-flow';
-import type {GrChangeListMarkActiveFlow} from './gr-change-list-mark-active-flow';
+import './gr-change-list-submit-flow';
+import type {GrChangeListSubmitFlow} from './gr-change-list-submit-flow';
 
 const changes: ChangeInfo[] = [
   {
     ...createChange(),
     _number: 1 as NumericChangeId,
-    subject: 'Subject 1',
-    work_in_progress: true,
-    actions: {ready: {}},
+    subject: 'Submittable Change 1',
+    actions: {submit: {}},
   },
   {
     ...createChange(),
     _number: 2 as NumericChangeId,
-    subject: 'Subject 2',
-    work_in_progress: true,
-    actions: {ready: {}},
+    subject: 'Submittable Change 2',
+    actions: {submit: {}},
   },
   {
     ...createChange(),
     _number: 3 as NumericChangeId,
-    subject: 'Not ready change',
-    work_in_progress: true,
+    subject: 'Unsubmittable Change 1',
     actions: {},
   },
 ];
 
-suite('gr-change-list-mark-active-flow tests', () => {
-  let element: GrChangeListMarkActiveFlow;
+suite('gr-change-list-submit-flow tests', () => {
+  let element: GrChangeListSubmitFlow;
   let model: BulkActionsModel;
 
   async function selectChange(change: ChangeInfo) {
@@ -71,12 +68,12 @@ suite('gr-change-list-mark-active-flow tests', () => {
     element = (
       await fixture(
         wrapInProvider(
-          html`<gr-change-list-mark-active-flow></gr-change-list-mark-active-flow>`,
+          html`<gr-change-list-submit-flow></gr-change-list-submit-flow>`,
           bulkActionsModelToken,
           model
         )
       )
-    ).querySelector('gr-change-list-mark-active-flow')!;
+    ).querySelector('gr-change-list-submit-flow')!;
     await selectChange(changes[0]);
     await selectChange(changes[1]);
     await element.updateComplete;
@@ -85,11 +82,16 @@ suite('gr-change-list-mark-active-flow tests', () => {
   test('renders flow', async () => {
     expect(element).shadowDom.to.equal(/* HTML */ `
       <gr-button flatten="" aria-disabled="false" role="button" tabindex="0"
-        >mark as active</gr-button
+        >submit</gr-button
       >
-      <gr-overlay aria-hidden="true" style="outline: none; display: none;">
+      <gr-overlay
+        with-backdrop=""
+        tabindex="-1"
+        aria-hidden="true"
+        style="outline: none; display: none;"
+      >
         <gr-dialog role="dialog">
-          <div slot="header">Mark 2 changes as active</div>
+          <div slot="header">Submit 2 changes</div>
           <div slot="main">
             <table>
               <thead>
@@ -100,11 +102,11 @@ suite('gr-change-list-mark-active-flow tests', () => {
               </thead>
               <tbody>
                 <tr>
-                  <td>Subject 1</td>
+                  <td>Submittable Change 1</td>
                   <td>NOT STARTED</td>
                 </tr>
                 <tr>
-                  <td>Subject 2</td>
+                  <td>Submittable Change 2</td>
                   <td>NOT STARTED</td>
                 </tr>
               </tbody>
@@ -115,11 +117,11 @@ suite('gr-change-list-mark-active-flow tests', () => {
     `);
   });
 
-  test('flow button enabled only when activatable changes selected', async () => {
+  test('flow button enabled only when submittable changes are selected', async () => {
     const button = queryAndAssert<GrButton>(element, 'gr-button');
     assert.isFalse(button.disabled);
 
-    // select an un-activatable change
+    // select an un-submittable change
     model.addSelectedChangeNum(changes[2]._number);
     await waitUntilObserved(model.selectedChangeNums$, s => s.length === 3);
     await element.updateComplete;
@@ -152,13 +154,13 @@ suite('gr-change-list-mark-active-flow tests', () => {
   });
 
   suite('dialog', () => {
-    let markActivePromises: MockPromise<Response>[];
+    let submitPromises: MockPromise<Response>[];
     let changeActionStub: sinon.SinonStub;
     let dialog: GrDialog;
 
     async function resolvePromises() {
-      markActivePromises[0].resolve(new Response());
-      markActivePromises[1].reject('not allowed');
+      submitPromises[0].resolve(new Response());
+      submitPromises[1].reject('not allowed');
       await element.updateComplete;
     }
 
@@ -169,11 +171,11 @@ suite('gr-change-list-mark-active-flow tests', () => {
     }
 
     setup(async () => {
-      markActivePromises = [];
+      submitPromises = [];
       changeActionStub = stubRestApi('executeChangeAction');
       for (let i = 0; i < changes.length; i++) {
         const promise = mockPromise<Response>();
-        markActivePromises.push(promise);
+        submitPromises.push(promise);
         changeActionStub
           .withArgs(changes[i]._number, sinon.match.any, sinon.match.any)
           .returns(promise);

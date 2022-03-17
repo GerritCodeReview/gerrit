@@ -10,6 +10,7 @@ import {
   NumericChangeId,
   ChangeStatus,
   HttpMethod,
+  ActionNameToActionInfoMap,
 } from '../../api/rest-api';
 import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
@@ -109,7 +110,7 @@ suite('bulk actions model test', () => {
     assert.equal(totalChangeCount, 2);
   });
 
-  suite('abandon changes', () => {
+  suite('bulk actions on changes', () => {
     let detailedActionsStub: SinonStubbedMember<
       RestApiService['getDetailedChangesWithActions']
     >;
@@ -119,31 +120,68 @@ suite('bulk actions model test', () => {
       c1._number = 1 as NumericChangeId;
       const c2 = createChange();
       c2._number = 2 as NumericChangeId;
-
+      const actions: ActionNameToActionInfoMap = {
+        abandon: {method: HttpMethod.POST},
+        ready: {method: HttpMethod.POST},
+        submit: {method: HttpMethod.POST},
+      };
       detailedActionsStub.returns(
         Promise.resolve([
-          {...c1, actions: {abandon: {method: HttpMethod.POST}}},
-          {...c2, status: ChangeStatus.ABANDONED},
+          {
+            ...c1,
+            actions,
+          },
+          {
+            ...c2,
+            actions,
+            status: ChangeStatus.ABANDONED,
+          },
         ])
       );
 
       bulkActionsModel.sync([c1, c2]);
-
       bulkActionsModel.addSelectedChangeNum(c1._number);
       bulkActionsModel.addSelectedChangeNum(c2._number);
+      await waitUntilObserved(
+        bulkActionsModel.selectedChangeNums$,
+        s => s.length === 2
+      );
     });
 
     test('already abandoned change does not call executeChangeAction', () => {
       const actionStub = stubRestApi('executeChangeAction');
       bulkActionsModel.abandonChanges();
-      assert.equal(actionStub.callCount, 1);
-      assert.deepEqual(actionStub.lastCall.args.slice(0, 5), [
-        1 as NumericChangeId,
-        HttpMethod.POST,
-        '/abandon',
-        undefined,
-        {message: ''},
-      ]);
+      assert.isTrue(
+        actionStub.calledOnceWith(
+          1 as NumericChangeId,
+          HttpMethod.POST,
+          '/abandon',
+          undefined,
+          {
+            message: '',
+          }
+        )
+      );
+    });
+
+    test('submit changes', () => {
+      const actionStub = stubRestApi('executeChangeAction');
+      bulkActionsModel.submitChanges();
+      assert.isTrue(actionStub.calledTwice);
+      assert.isTrue(
+        actionStub.firstCall.calledWith(
+          1 as NumericChangeId,
+          HttpMethod.POST,
+          '/submit'
+        )
+      );
+      assert.isTrue(
+        actionStub.secondCall.calledWith(
+          2 as NumericChangeId,
+          HttpMethod.POST,
+          '/submit'
+        )
+      );
     });
   });
 

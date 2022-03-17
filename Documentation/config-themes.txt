@@ -8,7 +8,7 @@ feel of the application to fit with their general scheme.
 
 The HTML header, footer, and CSS may be customized for login screens (LDAP,
 OAuth, OpenId) and the internally managed Gitweb servlet. See
-link:pg-plugin-dev.txt[JavaScript Plugin Development and API] for documentation
+link:pg-plugin-dev.html[JavaScript Plugin Development and API] for documentation
 on modifying styles for the rest of Gerrit (not login screens).
 
 At startup Gerrit reads the following files (if they exist) and

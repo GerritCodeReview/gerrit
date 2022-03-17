@@ -46,10 +46,8 @@ export enum Timing {
   DASHBOARD_DISPLAYED = 'DashboardDisplayed',
   // Time from navigation to showing full content of diff without highlighting layer
   DIFF_VIEW_CONTENT_DISPLAYED = 'DiffViewOnlyContent',
-  // Time from navigation to showing viewport (> 120 lines) of diff with highlighting layer.
-  DIFF_VIEW_DISPLAYED = 'DiffViewDisplayed',
   // Time from navigation to showing full content of diff
-  DIFF_VIEW_LOAD_FULL = 'DiffViewFullyLoaded',
+  DIFF_VIEW_DISPLAYED = 'DiffViewDisplayed',
   // Time from navigation to showing initial content of the file list.
   FILE_LIST_DISPLAYED = 'FileListDisplayed',
   // Time from startup to having loaded all plugins.
@@ -64,10 +62,8 @@ export enum Timing {
   STARTUP_DASHBOARD_DISPLAYED = 'StartupDashboardDisplayed',
   // Time from startup to showing full content of diff without highlighting layer
   STARTUP_DIFF_VIEW_CONTENT_DISPLAYED = 'StartupDiffViewOnlyContent',
-  // Time from startup to showing viewport (> 120 lines) of diff with highlighting layer.
-  STARTUP_DIFF_VIEW_DISPLAYED = 'StartupDiffViewDisplayed',
   // Time from startup to showing full content of diff view.
-  STARTUP_DIFF_VIEW_LOAD_FULL = 'StartupDiffViewFullyLoaded',
+  STARTUP_DIFF_VIEW_DISPLAYED = 'StartupDiffViewDisplayed',
   // Time from startup to showing initial content of the file list.
   STARTUP_FILE_LIST_DISPLAYED = 'StartupFileListDisplayed',
   // Time from startup to when the webcomponentsready event is fired. If the event is fired from the webcomponents-lite polyfill, this may be arbitrarily long after the app has started.

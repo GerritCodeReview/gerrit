@@ -46,7 +46,6 @@ import {
   CommitRange,
   CoverageRange,
   DiffLayer,
-  DiffLayerListener,
   PatchSetFile,
 } from '../../../types/types';
 import {
@@ -109,9 +108,6 @@ const EVENT_NONZERO_REBASE = 'rebase-percent-nonzero';
 
 // Disable syntax highlighting if the overall diff is too large.
 const SYNTAX_MAX_DIFF_LENGTH = 20000;
-
-// 120 lines is good enough threshold for full-sized window viewport
-const NUM_OF_LINES_THRESHOLD_FOR_VIEWPORT = 120;
 
 function isImageDiff(diff?: DiffInfo) {
   if (!diff) return false;
@@ -396,11 +392,6 @@ export class GrDiffHost extends DIPolymerElement {
     this.diff = undefined;
     this._errorMessage = null;
     const whitespaceLevel = this._getIgnoreWhitespace();
-
-    if (shouldReportMetric) {
-      // We listen on render viewport only on DiffPage (on paramsChanged)
-      this._listenToViewportRender();
-    }
 
     try {
       // We are carefully orchestrating operations that have to wait for another
@@ -1230,17 +1221,6 @@ export class GrDiffHost extends DIPolymerElement {
       return false;
     }
     return true;
-  }
-
-  _listenToViewportRender() {
-    const renderUpdateListener: DiffLayerListener = start => {
-      if (start > NUM_OF_LINES_THRESHOLD_FOR_VIEWPORT) {
-        this.reporting.diffViewDisplayed();
-        this.syntaxLayer.removeListener(renderUpdateListener);
-      }
-    };
-
-    this.syntaxLayer.addListener(renderUpdateListener);
   }
 
   _handleNormalizeRange(event: CustomEvent) {

@@ -46,7 +46,6 @@ export const grReportingMock: ReportingService & Finalizable = {
   dashboardDisplayed: () => {},
   diffViewContentDisplayed: () => {},
   diffViewDisplayed: () => {},
-  diffViewFullyLoaded: () => {},
   fileListDisplayed: () => {},
   finalize: () => {},
   getTimer: () => new MockTimer(),

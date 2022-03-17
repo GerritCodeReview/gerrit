@@ -1170,8 +1170,6 @@ export class GrDiffView extends base {
         return this.$.diffHost.reload(true);
       })
       .then(() => {
-        this.reporting.diffViewFullyLoaded();
-        // If diff view displayed has not ended yet, it ends here.
         this.reporting.diffViewDisplayed();
       })
       .then(() => {

@@ -91,7 +91,6 @@ const STARTUP_TIMERS: {[name: string]: number} = {
   [Timing.STARTUP_DASHBOARD_DISPLAYED]: 0,
   [Timing.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED]: 0,
   [Timing.STARTUP_DIFF_VIEW_DISPLAYED]: 0,
-  [Timing.STARTUP_DIFF_VIEW_LOAD_FULL]: 0,
   [Timing.STARTUP_FILE_LIST_DISPLAYED]: 0,
   [Timing.APP_STARTED]: 0,
   // WebComponentsReady timer is triggered from gr-router.
@@ -490,7 +489,6 @@ export class GrReporting implements ReportingService, Finalizable {
     this.time(Timing.DASHBOARD_DISPLAYED);
     this.time(Timing.DIFF_VIEW_CONTENT_DISPLAYED);
     this.time(Timing.DIFF_VIEW_DISPLAYED);
-    this.time(Timing.DIFF_VIEW_LOAD_FULL);
     this.time(Timing.FILE_LIST_DISPLAYED);
     this.reportRepoName = undefined;
     this.reportChangeId = undefined;
@@ -538,14 +536,6 @@ export class GrReporting implements ReportingService, Finalizable {
       this.timeEnd(Timing.STARTUP_DIFF_VIEW_DISPLAYED, this._pageLoadDetails());
     } else {
       this.timeEnd(Timing.DIFF_VIEW_DISPLAYED, this._pageLoadDetails());
-    }
-  }
-
-  diffViewFullyLoaded() {
-    if (hasOwnProperty(this._baselines, Timing.STARTUP_DIFF_VIEW_LOAD_FULL)) {
-      this.timeEnd(Timing.STARTUP_DIFF_VIEW_LOAD_FULL);
-    } else {
-      this.timeEnd(Timing.DIFF_VIEW_LOAD_FULL);
     }
   }
 

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13de1ab0_5c78386a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-17T18:42:33Z",
+      "side": 1,
+      "message": "Yes, but that would need `process` to be restructured. I would then prefer to extract a method and test that. Maybe in a follow-up.",
+      "parentUuid": "7bf2976c_385b206f",
+      "range": {
+        "startLine": 231,
+        "startChar": 8,
+        "endLine": 232,
+        "endChar": 42
+      },
+      "revId": "6f454467b349037a6eb94df7117d0b99ad8edb78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f154f13_2ae9c581",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-16T20:43:01Z",
       "side": 1,
       "message": "Can this ever happen? \n\nI think each line ends with \u0027\\n\u0027 so trimEnd() will theoretically return same file every time.",
+      "range": {
+        "startLine": 235,
+        "startChar": 4,
+        "endLine": 236,
+        "endChar": 42
+      },
+      "revId": "6f454467b349037a6eb94df7117d0b99ad8edb78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c29ba54_1ff06f94",
+        "filename": "polygerrit-ui/app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-17T18:42:33Z",
+      "side": 1,
+      "message": "`trimEnd()` also removes `\\n`. :-D\n\nThat is actually the intent. We want to remove empty trailing lines.",
+      "parentUuid": "4f154f13_2ae9c581",
       "range": {
         "startLine": 235,
         "startChar": 4,

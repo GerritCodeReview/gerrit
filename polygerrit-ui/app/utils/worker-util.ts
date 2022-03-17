@@ -16,6 +16,8 @@ function wrapUrl(url: string) {
 }
 
 export function createWorker(workerUrl: string): Worker {
+  if (!workerUrl.startsWith('http'))
+    throw new Error(`Worker URL '${workerUrl}' does not start with 'http'.`);
   return new Worker(wrapUrl(workerUrl));
 }
 

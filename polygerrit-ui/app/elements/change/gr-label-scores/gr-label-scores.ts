@@ -38,7 +38,6 @@ import {
   labelCompare,
   showNewSubmitRequirements,
 } from '../../../utils/label-util';
-import {Execution} from '../../../constants/reporting';
 import {ChangeStatus} from '../../../constants/constants';
 import {fontStyles} from '../../../styles/gr-font-styles';
 
@@ -52,8 +51,6 @@ export class GrLabelScores extends LitElement {
 
   @property({type: Object})
   account?: AccountInfo;
-
-  private readonly reporting = getAppContext().reportingService;
 
   private readonly flagsService = getAppContext().flagsService;
 
@@ -230,11 +227,11 @@ export class GrLabelScores extends LitElement {
         }
       }
     }
+    // TODO: This code is sometimes executed with numberValue taking the
+    // values 0 and undefined.
+    // For now it is unclear how this is happening, ideally this code should
+    // never be executed.
     const stringVal = `${numberValue}`;
-    this.reporting.reportExecution(Execution.REACHABLE_CODE, {
-      value: stringVal,
-      id: 'label-value-not-found',
-    });
     return stringVal;
   }
 

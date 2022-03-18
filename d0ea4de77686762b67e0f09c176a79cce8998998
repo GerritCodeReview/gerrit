@@ -22,6 +22,30 @@
       },
       "revId": "d0ea4de77686762b67e0f09c176a79cce8998998",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1e4b103_573aca9f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-18T10:46:07Z",
+      "side": 1,
+      "message": "Good point, renamed `isReady` to `isNotStarted`. `${!this.hasStarted()}` would imply that it should be disabled when done, which I don\u0027t want.",
+      "parentUuid": "9b3d59fe_8e7518f9",
+      "range": {
+        "startLine": 68,
+        "startChar": 22,
+        "endLine": 68,
+        "endChar": 55
+      },
+      "revId": "d0ea4de77686762b67e0f09c176a79cce8998998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -70,6 +70,30 @@
       },
       "revId": "d0ea4de77686762b67e0f09c176a79cce8998998",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4060977d_ffbce2e4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-18T11:43:38Z",
+      "side": 1,
+      "message": "I flipped it but then figured an overall status enum would be better than multiple booleans",
+      "parentUuid": "75ba706c_4b8d0965",
+      "range": {
+        "startLine": 68,
+        "startChar": 22,
+        "endLine": 68,
+        "endChar": 55
+      },
+      "revId": "d0ea4de77686762b67e0f09c176a79cce8998998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

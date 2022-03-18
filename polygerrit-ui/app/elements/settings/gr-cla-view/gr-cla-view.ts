@@ -16,14 +16,8 @@
  */
 
 import '@polymer/iron-input/iron-input';
-import '../../../styles/gr-font-styles';
-import '../../../styles/gr-form-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-cla-view_html';
 import {getBaseUrl} from '../../../utils/url-util';
-import {customElement, property} from '@polymer/decorators';
 import {
   ServerInfo,
   GroupInfo,
@@ -31,6 +25,12 @@ import {
 } from '../../../types/common';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, html, css} from 'lit';
+import {customElement, state} from 'lit/decorators';
+import {BindValueChangeEvent} from '../../../types/events';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -39,31 +39,24 @@ declare global {
 }
 
 @customElement('gr-cla-view')
-export class GrClaView extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrClaView extends LitElement {
+  // private but used in test
+  @state() groups?: GroupInfo[];
 
-  @property({type: Object})
-  _groups?: GroupInfo[];
+  // private but used in test
+  @state() serverConfig?: ServerInfo;
 
-  @property({type: Object})
-  _serverConfig?: ServerInfo;
+  @state() private agreementsText?: string;
 
-  @property({type: String})
-  _agreementsText?: string;
+  // private but used in test
+  @state() agreementName?: string;
 
-  @property({type: String})
-  _agreementName?: string;
+  // private but used in test
+  @state() signedAgreements?: ContributorAgreementInfo[];
 
-  @property({type: Array})
-  _signedAgreements?: ContributorAgreementInfo[];
+  @state() private showAgreements = false;
 
-  @property({type: Boolean})
-  _showAgreements = false;
-
-  @property({type: String})
-  _agreementsUrl?: string;
+  @state() private agreementsUrl?: string;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -74,18 +67,140 @@ export class GrClaView extends PolymerElement {
     fireTitleChange(this, 'New Contributor Agreement');
   }
 
+  static override get styles() {
+    return [
+      fontStyles,
+      formStyles,
+      sharedStyles,
+      css`
+        h1 {
+          margin-bottom: var(--spacing-m);
+        }
+        h3 {
+          margin-bottom: var(--spacing-m);
+        }
+        .agreementsUrl {
+          border: 1px solid var(--border-color);
+          margin-bottom: var(--spacing-xl);
+          margin-left: var(--spacing-xl);
+          margin-right: var(--spacing-xl);
+          padding: var(--spacing-s);
+        }
+        #claNewAgreementsLabel {
+          font-weight: var(--font-weight-bold);
+        }
+        #claNewAgreement {
+          display: none;
+        }
+        #claNewAgreement.show {
+          display: block;
+        }
+        .contributorAgreementButton {
+          font-weight: var(--font-weight-bold);
+        }
+        .alreadySubmittedText {
+          color: var(--error-text-color);
+          margin: 0 var(--spacing-xxl);
+          padding: var(--spacing-m);
+        }
+        main {
+          margin: var(--spacing-xxl) auto;
+          max-width: 50em;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <main>
+        <h1 class="heading-1">New Contributor Agreement</h1>
+        <h3 class="heading-3">Select an agreement type:</h3>
+        ${(this.serverConfig?.auth.contributor_agreements ?? [])
+          .filter(agreement => agreement.url)
+          .map(item => this.renderAgreementsButton(item))}
+        ${this.renderNewAgreement()}
+      </main>
+    `;
+  }
+
+  private renderAgreementsButton(item: ContributorAgreementInfo) {
+    return html`
+      <span class="contributorAgreementButton">
+        <input
+          id="claNewAgreementsInput${item.name}"
+          name="claNewAgreementsRadio"
+          type="radio"
+          data-name="${item.name}"
+          data-url="${item.url}"
+          @click=${this.handleShowAgreement}
+          ?disabled=${this.disableAgreements(item)}
+        />
+        <label id="claNewAgreementsLabel">${item.name}</label>
+      </span>
+      ${this.renderAlreadySubmittedText(item)}
+      <div class="agreementsUrl">${item.description}</div>
+    `;
+  }
+
+  private renderAlreadySubmittedText(item: ContributorAgreementInfo) {
+    if (!this.disableAgreements(item)) return;
+
+    return html`
+      <div class="alreadySubmittedText">Agreement already submitted.</div>
+    `;
+  }
+
+  private renderNewAgreement() {
+    if (!this.showAgreements) return;
+    return html`
+      <div id="claNewAgreement">
+        <h3 class="heading-3">Review the agreement:</h3>
+        <div id="agreementsUrl" class="agreementsUrl">
+          <a href="${this.agreementsUrl}" target="blank" rel="noopener">
+            Please review the agreement.</a
+          >
+        </div>
+        ${this.renderAgreementsTextBox()} ${this.computeHideAgreementTextbox()}
+      </div>
+    `;
+  }
+
+  private renderAgreementsTextBox() {
+    if (this.computeHideAgreementTextbox()) return;
+    return html`
+      <div class="agreementsTextBox">
+        <h3 class="heading-3">Complete the agreement:</h3>
+        <iron-input
+          .bindValue=${this.agreementsText}
+          @bind-value-changed=${this.handleBindValueChanged}
+        >
+          <input id="input-agreements" placeholder="Enter 'I agree' here" />
+        </iron-input>
+        <gr-button
+          @click=${this.handleSaveAgreements}
+          ?disabled=${this.agreementsText?.toLowerCase() === 'i agree'
+            ? false
+            : true}
+        >
+          Submit
+        </gr-button>
+      </div>
+    `;
+  }
+
   loadData() {
     const promises = [];
     promises.push(
       this.restApiService.getConfig(true).then(config => {
-        this._serverConfig = config;
+        this.serverConfig = config;
       })
     );
 
     promises.push(
       this.restApiService.getAccountGroups().then(groups => {
         if (!groups) return;
-        this._groups = groups.sort((a, b) =>
+        this.groups = groups.sort((a, b) =>
           (a.name || '').localeCompare(b.name || '')
         );
       })
@@ -95,18 +210,17 @@ export class GrClaView extends PolymerElement {
       this.restApiService
         .getAccountAgreements()
         .then((agreements: ContributorAgreementInfo[] | undefined) => {
-          this._signedAgreements = agreements || [];
+          this.signedAgreements = agreements || [];
         })
     );
 
     return Promise.all(promises);
   }
 
-  _getAgreementsUrl(configUrl: string) {
+  // private but used in test
+  getAgreementsUrl(configUrl: string) {
+    if (!configUrl) return '';
     let url;
-    if (!configUrl) {
-      return '';
-    }
     if (configUrl.startsWith('http:') || configUrl.startsWith('https:')) {
       url = configUrl;
     } else {
@@ -116,49 +230,41 @@ export class GrClaView extends PolymerElement {
     return url;
   }
 
-  _handleShowAgreement(e: Event) {
-    this._agreementName = (e.target as HTMLInputElement).getAttribute(
+  private handleShowAgreement = (e: Event) => {
+    this.agreementName = (e.target as HTMLInputElement).getAttribute(
       'data-name'
     )!;
     const url = (e.target as HTMLInputElement).getAttribute('data-url')!;
-    this._agreementsUrl = this._getAgreementsUrl(url);
-    this._showAgreements = true;
-  }
+    this.agreementsUrl = this.getAgreementsUrl(url);
+    this.showAgreements = true;
+  };
 
-  _handleSaveAgreements() {
-    this._createToast('Agreement saving...');
+  private handleSaveAgreements = () => {
+    this.createToast('Agreement saving...');
 
-    const name = this._agreementName;
+    const name = this.agreementName;
     return this.restApiService.saveAccountAgreement({name}).then(res => {
       let message = 'Agreement failed to be submitted, please try again';
       if (res.status === 200) {
         message = 'Agreement has been successfully submitted.';
       }
-      this._createToast(message);
+      this.createToast(message);
       this.loadData();
-      this._agreementsText = '';
-      this._showAgreements = false;
+      this.agreementsText = '';
+      this.showAgreements = false;
     });
-  }
+  };
 
-  _createToast(message: string) {
+  private createToast(message: string) {
     fireAlert(this, message);
   }
 
-  _computeShowAgreementsClass(showAgreements: boolean) {
-    return showAgreements ? 'show' : '';
-  }
-
-  _disableAgreements(
-    item: ContributorAgreementInfo,
-    groups?: GroupInfo[],
-    signedAgreements?: ContributorAgreementInfo[]
-  ) {
-    if (!groups) return false;
-    for (const group of groups) {
+  // private but used in test
+  disableAgreements(item: ContributorAgreementInfo) {
+    for (const group of this.groups ?? []) {
       if (
         item?.auto_verify_group?.id === group.id ||
-        signedAgreements?.find(i => i.name === item.name)
+        this.signedAgreements?.find(i => i.name === item.name)
       ) {
         return true;
       }
@@ -166,40 +272,22 @@ export class GrClaView extends PolymerElement {
     return false;
   }
 
-  _hideAgreements(
-    item: ContributorAgreementInfo,
-    groups?: GroupInfo[],
-    signedAgreements?: ContributorAgreementInfo[]
-  ) {
-    return this._disableAgreements(item, groups, signedAgreements)
-      ? ''
-      : 'hide';
-  }
-
-  _disableAgreementsText(text?: string) {
-    return text?.toLowerCase() === 'i agree' ? false : true;
-  }
-
   // This checks for auto_verify_group,
-  // if specified it returns 'hideAgreementsTextBox' which
+  // if specified it returns 'true' which
   // then hides the text box and submit button.
-  _computeHideAgreementClass(
-    name?: string,
-    contributorAgreements?: ContributorAgreementInfo[]
-  ) {
-    if (!name || !contributorAgreements) return '';
+  // private but used in test
+  computeHideAgreementTextbox() {
+    const contributorAgreements =
+      this.serverConfig?.auth.contributor_agreements;
+    if (!this.agreementName || !contributorAgreements) return false;
     return contributorAgreements.some(
       (contributorAgreement: ContributorAgreementInfo) =>
-        name === contributorAgreement.name &&
+        this.agreementName === contributorAgreement.name &&
         !contributorAgreement.auto_verify_group
-    )
-      ? 'hideAgreementsTextBox'
-      : '';
-  }
-
-  _computeAgreements(serverConfig?: ServerInfo) {
-    return (serverConfig?.auth.contributor_agreements ?? []).filter(
-      agreement => agreement.url
     );
   }
+
+  private handleBindValueChanged = (e: BindValueChangeEvent) => {
+    this.agreementsText = e.detail.value;
+  };
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.api.plugin;
 
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.config.GerritConfig;
@@ -34,9 +36,9 @@ public class PluginLoaderIT extends AbstractDaemonTest {
   @Override
   protected void afterTest() throws Exception {}
 
-  @Test(expected = MissingMandatoryPluginsException.class)
+  @Test
   @GerritConfig(name = "plugins.mandatory", value = "my-mandatory-plugin")
   public void shouldFailToStartGerritWhenMandatoryPluginsAreMissing() throws Exception {
-    super.beforeTest(testDescription);
+    assertThrows(MissingMandatoryPluginsException.class, () -> super.beforeTest(testDescription));
   }
 }

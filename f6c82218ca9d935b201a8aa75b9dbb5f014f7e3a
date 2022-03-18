@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cf50ffc_6d09f7e2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-18T13:21:56Z",
+      "side": 1,
+      "message": "can you filter `labels` in line 100 to skip unrendered rows instead of rendering and hiding? Hard to tell since this class is not used, but I\u0027d guess the label access level would never change during the dialog",
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8566ecaa_2928dcef",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-18T13:21:56Z",
+      "side": 1,
+      "message": "consider just selecting h3 by tag directly if you don\u0027t want/need to use a semantic class name.\n\nexamples: https://css-tricks.com/semantic-class-names/",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 18
+      },
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7756d3e_b31ffe17",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-18T13:21:56Z",
+      "side": 1,
+      "message": "not used",
+      "range": {
+        "startLine": 89,
+        "startChar": 21,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a34bb3ad_ead457c6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-18T13:21:56Z",
+      "side": 1,
+      "message": "you can query the score rows and assert these properties instead of exposing your private methods to tests",
+      "range": {
+        "startLine": 103,
+        "startChar": 18,
+        "endLine": 107,
+        "endChar": 47
+      },
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c77060a_f4dfd345",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-18T13:21:56Z",
+      "side": 1,
+      "message": "why does this small method need to be exposed and mocked instead of running its real code? Can the test data be improved so that we can run the utils directly without a stub?",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 76
+      },
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

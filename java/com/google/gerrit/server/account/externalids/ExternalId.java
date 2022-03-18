@@ -106,8 +106,10 @@ public abstract class ExternalId implements Serializable {
   static final String PASSWORD_KEY = "password";
 
   /**
-   * Scheme used for {@link AuthType#LDAP}, {@link AuthType#CLIENT_SSL_CERT_LDAP}, {@link
-   * AuthType#HTTP_LDAP}, and {@link AuthType#LDAP_BIND} usernames.
+   * Scheme used to label accounts created, when using the LDAP-based authentication types {@link
+   * AuthType#LDAP}, {@link AuthType#CLIENT_SSL_CERT_LDAP}, {@link AuthType#HTTP_LDAP}, and {@link
+   * AuthType#LDAP_BIND}. The external ID stores the username. Accounts with such an external ID
+   * will be authenticated against the configured LDAP identity provider.
    *
    * <p>The name {@code gerrit:} was a very poor choice.
    *

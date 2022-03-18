@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8251fc1_07663a95",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-18T06:56:41Z",
+      "side": 1,
+      "message": "Obsolete. Parameter removed in Change 333379",
+      "parentUuid": "bb328ae9_26ddb513",
+      "revId": "d3eb040854beb2fecbb9d1d231d265226878952f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "824af394_75291175",

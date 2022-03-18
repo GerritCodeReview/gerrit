@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e6cd3de_3dd35a36",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-18T06:56:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa07a9ff_11f0b7c6",
+      "revId": "6d2c91f86dd50e6fe5cc3f17b2ddbfe196f2fa45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c4fbcff_be65b03d",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-17T09:13:03Z",
       "side": 1,
       "message": "Invert condition and return null early.",
+      "revId": "6d2c91f86dd50e6fe5cc3f17b2ddbfe196f2fa45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67ff216e_bc663c4f",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-18T06:56:41Z",
+      "side": 1,
+      "message": "We are not returning null, the return value can be 0|undefined later.\nI\u0027ll keep it as is for now. When the TODO is resolved we can refactor this.",
+      "parentUuid": "4c4fbcff_be65b03d",
       "revId": "6d2c91f86dd50e6fe5cc3f17b2ddbfe196f2fa45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3548258b_271f915b",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-18T06:56:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "252e48d9_721dcfcb",
+      "revId": "6d2c91f86dd50e6fe5cc3f17b2ddbfe196f2fa45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7948bf70_4c5be61f",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-03-17T09:13:03Z",
       "side": 1,
       "message": "Either return null or throw an error.",
+      "revId": "6d2c91f86dd50e6fe5cc3f17b2ddbfe196f2fa45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4642aae4_20c7ea5d",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-18T06:56:41Z",
+      "side": 1,
+      "message": "Keeping it as is now. I\u0027m not sure if throwing an error won\u0027t break further things.\nAdded a TODO.",
+      "parentUuid": "7948bf70_4c5be61f",
       "revId": "6d2c91f86dd50e6fe5cc3f17b2ddbfe196f2fa45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10152cdc_035fcf76",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-18T06:56:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8b09f21a_7422788c",
+      "revId": "6d2c91f86dd50e6fe5cc3f17b2ddbfe196f2fa45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e54e13b6_4c6047af",
@@ -99,6 +189,24 @@
       "writtenOn": "2022-03-17T09:13:03Z",
       "side": 1,
       "message": "Invert this condition and return null early, so we have less identation for the for-loop",
+      "revId": "6d2c91f86dd50e6fe5cc3f17b2ddbfe196f2fa45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57c27f88_f9cf53aa",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-18T06:56:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e54e13b6_4c6047af",
       "revId": "6d2c91f86dd50e6fe5cc3f17b2ddbfe196f2fa45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ca8791e_ce7d86c1",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-18T06:56:41Z",
+      "side": 1,
+      "message": "Moved to the top as a check but keeping optional for now.",
+      "parentUuid": "4dfaa926_cb706cec",
+      "revId": "6d2c91f86dd50e6fe5cc3f17b2ddbfe196f2fa45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e7b47e9_499ea502",
@@ -137,6 +263,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6f66385_8f30bbed",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-18T06:56:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e7b47e9_499ea502",
+      "revId": "6d2c91f86dd50e6fe5cc3f17b2ddbfe196f2fa45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fd2c096_adf368df",
@@ -150,6 +294,24 @@
       "writtenOn": "2022-03-17T09:13:03Z",
       "side": 1,
       "message": "Add a check for votes.all[i].value",
+      "revId": "6d2c91f86dd50e6fe5cc3f17b2ddbfe196f2fa45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81a7b382_93678444",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-18T06:56:41Z",
+      "side": 1,
+      "message": "Code is running for now with undefined so I don\u0027t know if the check can be added as easily.\nI want this refactor to be a no-op.\nOnce the TODO is resolved then this check can be added.",
+      "parentUuid": "8fd2c096_adf368df",
       "revId": "6d2c91f86dd50e6fe5cc3f17b2ddbfe196f2fa45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

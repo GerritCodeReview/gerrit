@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b3d59fe_8e7518f9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-18T09:37:34Z",
+      "side": 1,
+      "message": "this reads as \"not ready and not done\". \n\nIf it\u0027s not ready I would assume the notDone part is implied? this condition feels a bit off(when reading, not saying there\u0027s a logical error).\n\n.disabled\u003d${!this.hasStarted()} something like that is more accurate of the disabled state.",
+      "range": {
+        "startLine": 68,
+        "startChar": 22,
+        "endLine": 68,
+        "endChar": 55
+      },
+      "revId": "d0ea4de77686762b67e0f09c176a79cce8998998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

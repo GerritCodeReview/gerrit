@@ -1198,20 +1198,6 @@ suite('gr-diff tests', () => {
     assert.equal(element.getDiffLength(diff), 52);
   });
 
-  test('`render` event has contentRendered field in detail', async () => {
-    element = basicFixture.instantiate();
-    element.prefs = {};
-    sinon.stub(element.$.diffBuilder, 'render')
-        .returns(Promise.resolve());
-    const promise = mockPromise();
-    element.addEventListener('render', event => {
-      assert.isTrue(event.detail.contentRendered);
-      promise.resolve();
-    });
-    element._renderDiffTable();
-    await promise;
-  });
-
   test('_prefsEqual', () => {
     element = basicFixture.instantiate();
     assert.isTrue(element._prefsEqual(null, null));

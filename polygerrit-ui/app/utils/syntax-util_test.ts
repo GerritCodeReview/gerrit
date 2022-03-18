@@ -112,6 +112,28 @@ suite('file syntax-util', () => {
       );
     });
 
+    test('<span> quoted in a string', async () => {
+      const s = `
+<span class="keyword">const</span> x = <span class="string">&#x27;&lt;span class=&quot;c&quot;&gt;&#x27;</span>;
+<span class="keyword">const</span> y = <span class="string">&#x27;&lt;/span&gt;&#x27;</span>;`;
+
+      assert.deepEqual(highlightedStringToRanges(s), [
+        {ranges: []},
+        {
+          ranges: [
+            {start: 0, length: 5, className: 'keyword'},
+            {start: 10, length: 18, className: 'string'},
+          ],
+        },
+        {
+          ranges: [
+            {start: 0, length: 5, className: 'keyword'},
+            {start: 10, length: 9, className: 'string'},
+          ],
+        },
+      ]);
+    });
+
     test('one complex line with escaped HTML', async () => {
       assert.deepEqual(
         highlightedStringToRanges(

@@ -78,7 +78,7 @@ export enum Timing {
   DIFF_TOTAL = 'Diff Total Render',
   // The time to render the content off a diff (excluding loading of data or syntax highlighting).
   DIFF_CONTENT = 'Diff Content Render',
-  // Time to compute and render the syntax highlighting of a diff.
+  // Time to compute syntax highlighting of a diff  minus diff rendering time (DIFF_CONTENT).
   DIFF_SYNTAX = 'Diff Syntax Render',
   // Time to load diff and prepare before gr-diff rendering begins.
   DIFF_LOAD = 'Diff Load Render',

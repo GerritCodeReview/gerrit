@@ -30,6 +30,16 @@ const syntaxWorkerUrl = `${
 const WORKER_POOL_SIZE = 3;
 
 /**
+ * Safe guard for not killing the browser.
+ */
+export const CODE_MAX_LINES = 20 * 1000;
+
+/**
+ * Safe guard for not killing the browser. Maximum in number of chars.
+ */
+const CODE_MAX_LENGTH = 25 * CODE_MAX_LINES;
+
+/**
  * Service for syntax highlighting. Maintains some HighlightJS workers doing
  * their job in the background.
  */
@@ -115,7 +125,12 @@ export class HighlightService implements Finalizable {
     if (resolver) resolver(result.ranges ?? []);
   }
 
-  async highlight(language: string, code: string): Promise<SyntaxLayerLine[]> {
+  async highlight(
+    language?: string,
+    code?: string
+  ): Promise<SyntaxLayerLine[]> {
+    if (!language || !code) return [];
+    if (code.length > CODE_MAX_LENGTH) return [];
     const worker = await this.requestWorker();
     const message: SyntaxWorkerRequest = {
       type: SyntaxWorkerMessageType.REQUEST,

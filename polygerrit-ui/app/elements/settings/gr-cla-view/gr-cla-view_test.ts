@@ -27,8 +27,7 @@ import {
 } from '../../../types/common';
 import {AuthType} from '../../../constants/constants';
 import {createServerInfo} from '../../../test/test-data-generators';
-
-const basicFixture = fixtureFromElement('gr-cla-view');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-cla-view tests', () => {
   let element: GrClaView;
@@ -131,9 +130,9 @@ suite('gr-cla-view tests', () => {
     stubRestApi('getAccountAgreements').returns(
       Promise.resolve(signedAgreements)
     );
-    element = basicFixture.instantiate();
+    element = await fixture<GrClaView>(html` <gr-cla-view></gr-cla-view> `);
     await element.loadData();
-    await flush();
+    await element.updateComplete;
   });
 
   test('renders as expected with signed agreement', () => {
@@ -143,67 +142,40 @@ suite('gr-cla-view tests', () => {
     assert.isFalse(
       queryAndAssert<HTMLInputElement>(agreementSections[0], 'input').disabled
     );
-    assert.equal(getComputedStyle(agreementSubmittedTexts[0]).display, 'none');
+    assert.isOk(agreementSubmittedTexts[0]);
     assert.isTrue(
       queryAndAssert<HTMLInputElement>(agreementSections[1], 'input').disabled
     );
-    assert.notEqual(
-      getComputedStyle(agreementSubmittedTexts[1]).display,
-      'none'
-    );
+    assert.isNotOk(agreementSubmittedTexts[1]);
   });
 
-  test('_disableAgreements', () => {
+  test('disableAgreements', () => {
+    element.groups = groups;
+    element.signedAgreements = signedAgreements;
     // In the auto verify group and have not yet signed agreement
-    assert.isTrue(element._disableAgreements(auth, groups, signedAgreements));
+    assert.isTrue(element.disableAgreements(auth));
     // Not in the auto verify group and have not yet signed agreement
-    assert.isFalse(element._disableAgreements(auth2, groups, signedAgreements));
+    assert.isFalse(element.disableAgreements(auth2));
     // Not in the auto verify group, have signed agreement
-    assert.isTrue(element._disableAgreements(auth3, groups, signedAgreements));
+    assert.isTrue(element.disableAgreements(auth3));
+    element.groups = undefined;
     // Make sure the undefined check works
-    assert.isFalse(
-      element._disableAgreements(auth, undefined, signedAgreements)
-    );
+    assert.isFalse(element.disableAgreements(auth));
   });
 
-  test('_hideAgreements', () => {
-    // Not in the auto verify group and have not yet signed agreement
-    assert.equal(element._hideAgreements(auth, groups, signedAgreements), '');
-    // In the auto verify group
+  test('computeHideAgreementTextbox', () => {
+    element.agreementName = auth.name;
+    element.serverConfig = config;
+    assert.isTrue(element.computeHideAgreementTextbox());
+    element.serverConfig = config2;
+    assert.isFalse(element.computeHideAgreementTextbox());
+  });
+
+  test('getAgreementsUrl', () => {
     assert.equal(
-      element._hideAgreements(auth2, groups, signedAgreements),
-      'hide'
-    );
-    // Not in the auto verify group, have signed agreement
-    assert.equal(element._hideAgreements(auth3, groups, signedAgreements), '');
-  });
-
-  test('_disableAgreementsText', () => {
-    assert.isFalse(element._disableAgreementsText('I AGREE'));
-    assert.isTrue(element._disableAgreementsText('I DO NOT AGREE'));
-  });
-
-  test('_computeHideAgreementClass', () => {
-    assert.equal(
-      element._computeHideAgreementClass(
-        auth.name,
-        config.auth.contributor_agreements
-      ),
-      'hideAgreementsTextBox'
-    );
-    assert.isNotOk(
-      element._computeHideAgreementClass(
-        auth.name,
-        config2.auth.contributor_agreements
-      )
-    );
-  });
-
-  test('_getAgreementsUrl', () => {
-    assert.equal(
-      element._getAgreementsUrl('http://test.org/test.html'),
+      element.getAgreementsUrl('http://test.org/test.html'),
       'http://test.org/test.html'
     );
-    assert.equal(element._getAgreementsUrl('test_cla.html'), '/test_cla.html');
+    assert.equal(element.getAgreementsUrl('test_cla.html'), '/test_cla.html');
   });
 });

@@ -16,6 +16,24 @@
       "message": "Split this function up into smaller helper functions.",
       "revId": "771bc8c081901e984e318058cbcef80ded980d64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ca0c4ef_ca1f5831",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-18T16:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb7bb20b_e02757c9",
+      "revId": "771bc8c081901e984e318058cbcef80ded980d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

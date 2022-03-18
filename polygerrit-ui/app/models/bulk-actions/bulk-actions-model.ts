@@ -144,7 +144,8 @@ export class BulkActionsModel
     if (newChanges !== newCurrent.allChanges) return;
     const allDetailedChanges = new Map(newChanges);
     for (const change of changeDetails ?? []) {
-      allDetailedChanges.set(change._number, change);
+      const originalChange = changes.find(c => c._number === change._number);
+      allDetailedChanges.set(change._number, {...originalChange, ...change});
     }
     this.setState({
       ...newCurrent,

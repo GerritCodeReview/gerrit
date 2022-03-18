@@ -10,6 +10,7 @@ import {
   NumericChangeId,
   ChangeStatus,
   HttpMethod,
+  SubmitRequirementStatus,
 } from '../../api/rest-api';
 import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
@@ -214,6 +215,46 @@ suite('bulk actions model test', () => {
       model.allChanges.get(2 as NumericChangeId)?.subject,
       'Subject 2'
     );
+  });
+
+  test('sync retains keys from original change', async () => {
+    const c1 = createChange();
+    c1._number = 1 as NumericChangeId;
+    c1.submit_requirements = [
+      {
+        name: 'a',
+        status: SubmitRequirementStatus.FORCED,
+        submittability_expression_result: {
+          expression: 'b',
+        },
+      },
+    ];
+
+    stubRestApi('getDetailedChangesWithActions').callsFake(() => {
+      const change = createChange();
+      assert.isNotOk(change.submit_requirements);
+      return Promise.resolve([change]);
+    });
+
+    bulkActionsModel.sync([c1]);
+
+    await waitUntilObserved(
+      bulkActionsModel.loadingState$,
+      s => s === LoadingState.LOADED
+    );
+
+    const changeAfterSync = bulkActionsModel
+      .getState()
+      .allChanges.get(1 as NumericChangeId);
+    assert.deepEqual(changeAfterSync!.submit_requirements, [
+      {
+        name: 'a',
+        status: SubmitRequirementStatus.FORCED,
+        submittability_expression_result: {
+          expression: 'b',
+        },
+      },
+    ]);
   });
 
   test('sync ignores outdated fetch responses', async () => {

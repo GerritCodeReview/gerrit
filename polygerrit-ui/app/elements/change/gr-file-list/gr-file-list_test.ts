@@ -15,39 +15,57 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import '../../shared/gr-date-formatter/gr-date-formatter.js';
-import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
-import './gr-file-list.js';
-import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {FilesExpandedState} from '../gr-file-list-constants.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {runA11yAudit} from '../../../test/a11y-test-utils.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import '../../../test/common-test-setup-karma';
+import '../../shared/gr-date-formatter/gr-date-formatter';
+import {getMockDiffResponse} from '../../../test/mocks/diff-response';
+import './gr-file-list';
+import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api';
+import {FilesExpandedState} from '../gr-file-list-constants';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {runA11yAudit} from '../../../test/a11y-test-utils';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {
   listenOnce,
   mockPromise,
   query,
   spyRestApi,
   stubRestApi,
-} from '../../../test/test-utils.js';
-import {EditPatchSetNum} from '../../../types/common.js';
-import {createCommentThreads} from '../../../utils/comment-util.js';
+} from '../../../test/test-utils';
 import {
-  createChange,
+  BasePatchSetNum,
+  CommitId,
+  EditPatchSetNum,
+  NumericChangeId,
+  PatchRange,
+  PatchSetNum,
+  RepoName,
+  RevisionPatchSetNum,
+  Timestamp,
+  UrlEncodedCommentId,
+} from '../../../types/common';
+import {createCommentThreads} from '../../../utils/comment-util';
+import {
   createChangeComments,
   createCommit,
   createParsedChange,
   createRevision,
-} from '../../../test/test-data-generators.js';
-import {createDefaultDiffPrefs} from '../../../constants/constants.js';
-import {queryAndAssert} from '../../../utils/common-util.js';
+} from '../../../test/test-data-generators';
+import {createDefaultDiffPrefs} from '../../../constants/constants';
+import {queryAll, queryAndAssert} from '../../../utils/common-util';
+import {GrFileList, NormalizedFileInfo} from './gr-file-list';
+import {DiffPreferencesInfo} from '../../../types/diff';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {ParsedChangeInfo} from '../../../types/types';
+import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
+import {IronIconElement} from '@polymer/iron-icon';
+import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+import {GrEditFileControls} from '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 
 const commentApiMock = createCommentApiMockWithTemplateElement(
-    'gr-file-list-comment-api-mock', html`
-    <gr-file-list id="fileList"></gr-file-list>
-`);
+  'gr-file-list-comment-api-mock',
+  html` <gr-file-list id="fileList"></gr-file-list> `
+);
 
 const basicFixture = fixtureFromElement(commentApiMock.is);
 
@@ -58,10 +76,10 @@ suite('gr-diff a11y test', () => {
 });
 
 suite('gr-file-list tests', () => {
-  let element;
-  let commentApiWrapper;
+  let element: GrFileList;
+  let commentApiWrapper: any;
 
-  let saveStub;
+  let saveStub: sinon.SinonStub;
 
   suite('basic tests', () => {
     setup(async () => {
@@ -70,7 +88,7 @@ suite('gr-file-list tests', () => {
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
       stub('gr-date-formatter', '_loadTimeFormat').callsFake(() =>
-        Promise.resolve('')
+        Promise.resolve()
       );
       stub('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
       stub('gr-diff-host', 'prefetchDiff').callsFake(() => {});
@@ -81,37 +99,46 @@ suite('gr-file-list tests', () => {
       element = commentApiWrapper.$.fileList;
 
       element._loading = false;
-      element.diffPrefs = {};
+      element.diffPrefs = {} as DiffPreferencesInfo;
       element.numFilesShown = 200;
       element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
+        basePatchNum: 'PARENT' as BasePatchSetNum,
+        patchNum: 2 as RevisionPatchSetNum,
       };
-      saveStub = sinon.stub(element, '_saveReviewedState').callsFake(
-          () => Promise.resolve());
+      saveStub = sinon
+        .stub(element, '_saveReviewedState')
+        .callsFake(() => Promise.resolve());
     });
 
     test('correct number of files are shown', () => {
       element.fileListIncrement = 300;
-      element._filesByPath = Array(500).fill(0)
-          .reduce((_filesByPath, _, idx) => {
-            _filesByPath['/file' + idx] = {lines_inserted: 9};
-            return _filesByPath;
-          }, {});
+      element._filesByPath = Array(500)
+        .fill(0)
+        .reduce((_filesByPath, _, idx) => {
+          _filesByPath[`'/file${idx}`] = {lines_inserted: 9};
+          return _filesByPath;
+        }, {});
 
       flush();
       assert.equal(
-          element.root.querySelectorAll('.file-row').length,
-          element.numFilesShown);
-      const controlRow = element.shadowRoot
-          .querySelector('.controlRow');
+        queryAll<HTMLDivElement>(element, '.file-row').length,
+        element.numFilesShown
+      );
+      const controlRow = queryAndAssert<HTMLDivElement>(element, '.controlRow');
       assert.isFalse(controlRow.classList.contains('invisible'));
-      assert.equal(element.$.incrementButton.textContent.trim(),
-          'Show 300 more');
-      assert.equal(element.$.showAllButton.textContent.trim(),
-          'Show all 500 files');
+      assert.equal(
+        queryAndAssert<GrButton>(
+          element,
+          '#incrementButton'
+        ).textContent!.trim(),
+        'Show 300 more'
+      );
+      assert.equal(
+        queryAndAssert<GrButton>(element, '#showAllButton').textContent!.trim(),
+        'Show all 500 files'
+      );
 
-      MockInteractions.tap(element.$.showAllButton);
+      MockInteractions.tap(queryAndAssert<GrButton>(element, '#showAllButton'));
       flush();
 
       assert.equal(element.numFilesShown, 500);
@@ -121,14 +148,14 @@ suite('gr-file-list tests', () => {
 
     test('rendering each row calls the _reportRenderedRow method', () => {
       const renderedStub = sinon.stub(element, '_reportRenderedRow');
-      element._filesByPath = Array(10).fill(0)
-          .reduce((_filesByPath, _, idx) => {
-            _filesByPath['/file' + idx] = {lines_inserted: 9};
-            return _filesByPath;
-          }, {});
+      element._filesByPath = Array(10)
+        .fill(0)
+        .reduce((_filesByPath, _, idx) => {
+          _filesByPath[`/file${idx}`] = {lines_inserted: 9};
+          return _filesByPath;
+        }, {});
       flush();
-      assert.equal(
-          element.root.querySelectorAll('.file-row').length, 10);
+      assert.equal(queryAll<HTMLDivElement>(element, '.file-row').length, 10);
       assert.equal(renderedStub.callCount, 10);
     });
 
@@ -136,9 +163,13 @@ suite('gr-file-list tests', () => {
       element._filesByPath = {
         '/COMMIT_MSG': {
           lines_inserted: 9,
+          size: 0,
+          size_delta: 0,
         },
         '/MERGE_LIST': {
           lines_inserted: 9,
+          size: 0,
+          size_delta: 0,
         },
         'file_added_in_rev2.txt': {
           lines_inserted: 1,
@@ -169,16 +200,24 @@ suite('gr-file-list tests', () => {
         'file_added_in_rev2.txt': {
           lines_inserted: 1,
           lines_deleted: 1,
+          size: 0,
+          size_delta: 0,
         },
         '/COMMIT_MSG': {
           lines_inserted: 9,
+          size: 0,
+          size_delta: 0,
         },
         '/MERGE_LIST': {
           lines_inserted: 9,
+          size: 0,
+          size_delta: 0,
         },
         'myfile.txt': {
           lines_inserted: 1,
           lines_deleted: 1,
+          size: 0,
+          size_delta: 0,
         },
       };
 
@@ -197,10 +236,14 @@ suite('gr-file-list tests', () => {
         'file_added_in_rev2.txt': {
           lines_inserted: 1,
           lines_deleted: 1,
+          size: 0,
+          size_delta: 0,
         },
         'myfile.txt': {
           lines_inserted: 1,
           lines_deleted: 1,
+          size: 0,
+          size_delta: 0,
         },
       };
 
@@ -216,8 +259,16 @@ suite('gr-file-list tests', () => {
 
       // Test with files missing either lines_inserted or lines_deleted.
       element._filesByPath = {
-        'file_added_in_rev2.txt': {lines_inserted: 1},
-        'myfile.txt': {lines_deleted: 1},
+        'file_added_in_rev2.txt': {
+          lines_inserted: 1,
+          size: 0,
+          size_delta: 0,
+        },
+        'myfile.txt': {
+          lines_deleted: 1,
+          size: 0,
+          size_delta: 0,
+        },
       };
       assert.deepEqual(element._patchChange, {
         inserted: 1,
@@ -232,9 +283,13 @@ suite('gr-file-list tests', () => {
 
     test('binary only files', () => {
       element._filesByPath = {
-        '/COMMIT_MSG': {lines_inserted: 9},
-        'file_binary_1': {binary: true, size_delta: 10, size: 100},
-        'file_binary_2': {binary: true, size_delta: -5, size: 120},
+        '/COMMIT_MSG': {
+          lines_inserted: 9,
+          size: 0,
+          size_delta: 0,
+        },
+        file_binary_1: {binary: true, size_delta: 10, size: 100},
+        file_binary_2: {binary: true, size_delta: -5, size: 120},
       };
       assert.deepEqual(element._patchChange, {
         inserted: 0,
@@ -249,11 +304,19 @@ suite('gr-file-list tests', () => {
 
     test('binary and regular files', () => {
       element._filesByPath = {
-        '/COMMIT_MSG': {lines_inserted: 9},
-        'file_binary_1': {binary: true, size_delta: 10, size: 100},
-        'file_binary_2': {binary: true, size_delta: -5, size: 120},
+        '/COMMIT_MSG': {
+          lines_inserted: 9,
+          size: 0,
+          size_delta: 0,
+        },
+        file_binary_1: {binary: true, size_delta: 10, size: 100},
+        file_binary_2: {binary: true, size_delta: -5, size: 120},
         'myfile.txt': {lines_deleted: 5, size_delta: -10, size: 100},
-        'myfile2.txt': {lines_inserted: 10},
+        'myfile2.txt': {
+          lines_inserted: 10,
+          size: 0,
+          size_delta: 0,
+        },
       };
       assert.deepEqual(element._patchChange, {
         inserted: 10,
@@ -287,177 +350,290 @@ suite('gr-file-list tests', () => {
 
     test('_formatPercentage function', () => {
       const table = [
-        {size: 100,
-          delta: 100,
-          display: '',
-        },
-        {size: 195060,
-          delta: 64,
-          display: '(+0%)',
-        },
-        {size: 195060,
-          delta: -64,
-          display: '(-0%)',
-        },
-        {size: 394892,
-          delta: -7128,
-          display: '(-2%)',
-        },
-        {size: 90,
-          delta: -10,
-          display: '(-10%)',
-        },
-        {size: 110,
-          delta: 10,
-          display: '(+10%)',
-        },
+        {size: 100, delta: 100, display: ''},
+        {size: 195060, delta: 64, display: '(+0%)'},
+        {size: 195060, delta: -64, display: '(-0%)'},
+        {size: 394892, delta: -7128, display: '(-2%)'},
+        {size: 90, delta: -10, display: '(-10%)'},
+        {size: 110, delta: 10, display: '(+10%)'},
       ];
 
       for (const item of table) {
-        assert.equal(element._formatPercentage(
-            item.size, item.delta), item.display);
+        assert.equal(
+          element._formatPercentage(item.size, item.delta),
+          item.display
+        );
       }
     });
 
     test('comment filtering', () => {
       element.changeComments = createChangeComments();
       const parentTo1 = {
-        basePatchNum: 'PARENT',
-        patchNum: 1,
+        basePatchNum: 'PARENT' as BasePatchSetNum,
+        patchNum: 1 as RevisionPatchSetNum,
       };
 
       const parentTo2 = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
+        basePatchNum: 'PARENT' as BasePatchSetNum,
+        patchNum: 2 as RevisionPatchSetNum,
       };
 
       const _1To2 = {
-        basePatchNum: 1,
-        patchNum: 2,
+        basePatchNum: 1 as BasePatchSetNum,
+        patchNum: 2 as RevisionPatchSetNum,
       };
 
       assert.equal(
-          element._computeCommentsStringMobile(element.changeComments, parentTo1
-              , {__path: '/COMMIT_MSG'}), '2c');
+        element._computeCommentsStringMobile(
+          element.changeComments,
+          parentTo1,
+          {__path: '/COMMIT_MSG', size: 0, size_delta: 0}
+        ),
+        '2c'
+      );
       assert.equal(
-          element._computeCommentsStringMobile(element.changeComments, _1To2
-              , {__path: '/COMMIT_MSG'}), '3c');
+        element._computeCommentsStringMobile(element.changeComments, _1To2, {
+          __path: '/COMMIT_MSG',
+          size: 0,
+          size_delta: 0,
+        }),
+        '3c'
+      );
       assert.equal(
-          element._computeDraftsString(element.changeComments, parentTo1,
-              {__path: 'unresolved.file'}), '1 draft');
+        element._computeDraftsString(element.changeComments, parentTo1, {
+          __path: 'unresolved.file',
+          size: 0,
+          size_delta: 0,
+        }),
+        '1 draft'
+      );
       assert.equal(
-          element._computeDraftsString(element.changeComments, _1To2,
-              {__path: 'unresolved.file'}), '1 draft');
+        element._computeDraftsString(element.changeComments, _1To2, {
+          __path: 'unresolved.file',
+          size: 0,
+          size_delta: 0,
+        }),
+        '1 draft'
+      );
       assert.equal(
-          element._computeDraftsStringMobile(element.changeComments, parentTo1,
-              {__path: 'unresolved.file'}), '1d');
+        element._computeDraftsStringMobile(element.changeComments, parentTo1, {
+          __path: 'unresolved.file',
+          size: 0,
+          size_delta: 0,
+        }),
+        '1d'
+      );
       assert.equal(
-          element._computeDraftsStringMobile(element.changeComments, _1To2,
-              {__path: 'unresolved.file'}), '1d');
+        element._computeDraftsStringMobile(element.changeComments, _1To2, {
+          __path: 'unresolved.file',
+          size: 0,
+          size_delta: 0,
+        }),
+        '1d'
+      );
       assert.equal(
-          element._computeCommentsStringMobile(
-              element.changeComments,
-              parentTo1,
-              {__path: 'myfile.txt'}
-          ), '1c');
+        element._computeCommentsStringMobile(
+          element.changeComments,
+          parentTo1,
+          {__path: 'myfile.txt', size: 0, size_delta: 0}
+        ),
+        '1c'
+      );
       assert.equal(
-          element._computeCommentsStringMobile(element.changeComments, _1To2,
-              {__path: 'myfile.txt'}), '3c');
+        element._computeCommentsStringMobile(element.changeComments, _1To2, {
+          __path: 'myfile.txt',
+          size: 0,
+          size_delta: 0,
+        }),
+        '3c'
+      );
       assert.equal(
-          element._computeDraftsString(element.changeComments, parentTo1,
-              {__path: 'myfile.txt'}), '');
+        element._computeDraftsString(element.changeComments, parentTo1, {
+          __path: 'myfile.txt',
+          size: 0,
+          size_delta: 0,
+        }),
+        ''
+      );
       assert.equal(
-          element._computeDraftsString(element.changeComments, _1To2,
-              {__path: 'myfile.txt'}), '');
+        element._computeDraftsString(element.changeComments, _1To2, {
+          __path: 'myfile.txt',
+          size: 0,
+          size_delta: 0,
+        }),
+        ''
+      );
       assert.equal(
-          element._computeDraftsStringMobile(element.changeComments, parentTo1,
-              {__path: 'myfile.txt'}), '');
+        element._computeDraftsStringMobile(element.changeComments, parentTo1, {
+          __path: 'myfile.txt',
+          size: 0,
+          size_delta: 0,
+        }),
+        ''
+      );
       assert.equal(
-          element._computeDraftsStringMobile(element.changeComments, _1To2,
-              {__path: 'myfile.txt'}), '');
+        element._computeDraftsStringMobile(element.changeComments, _1To2, {
+          __path: 'myfile.txt',
+          size: 0,
+          size_delta: 0,
+        }),
+        ''
+      );
       assert.equal(
-          element._computeCommentsStringMobile(
-              element.changeComments,
-              parentTo1,
-              {__path: 'file_added_in_rev2.txt'}
-          ), '');
+        element._computeCommentsStringMobile(
+          element.changeComments,
+          parentTo1,
+          {__path: 'file_added_in_rev2.txt', size: 0, size_delta: 0}
+        ),
+        ''
+      );
       assert.equal(
-          element._computeCommentsStringMobile(element.changeComments, _1To2,
-              {__path: 'file_added_in_rev2.txt'}), '');
+        element._computeCommentsStringMobile(element.changeComments, _1To2, {
+          __path: 'file_added_in_rev2.txt',
+          size: 0,
+          size_delta: 0,
+        }),
+        ''
+      );
       assert.equal(
-          element._computeDraftsString(element.changeComments, parentTo1,
-              {__path: 'file_added_in_rev2.txt'}), '');
+        element._computeDraftsString(element.changeComments, parentTo1, {
+          __path: 'file_added_in_rev2.txt',
+          size: 0,
+          size_delta: 0,
+        }),
+        ''
+      );
       assert.equal(
-          element._computeDraftsString(element.changeComments, _1To2,
-              {__path: 'file_added_in_rev2.txt'}), '');
+        element._computeDraftsString(element.changeComments, _1To2, {
+          __path: 'file_added_in_rev2.txt',
+          size: 0,
+          size_delta: 0,
+        }),
+        ''
+      );
       assert.equal(
-          element._computeDraftsStringMobile(element.changeComments, parentTo1,
-              {__path: 'file_added_in_rev2.txt'}), '');
+        element._computeDraftsStringMobile(element.changeComments, parentTo1, {
+          __path: 'file_added_in_rev2.txt',
+          size: 0,
+          size_delta: 0,
+        }),
+        ''
+      );
       assert.equal(
-          element._computeDraftsStringMobile(element.changeComments, _1To2,
-              {__path: 'file_added_in_rev2.txt'}), '');
+        element._computeDraftsStringMobile(element.changeComments, _1To2, {
+          __path: 'file_added_in_rev2.txt',
+          size: 0,
+          size_delta: 0,
+        }),
+        ''
+      );
       assert.equal(
-          element._computeCommentsStringMobile(
-              element.changeComments,
-              parentTo2,
-              {__path: '/COMMIT_MSG'}
-          ), '1c');
+        element._computeCommentsStringMobile(
+          element.changeComments,
+          parentTo2,
+          {__path: '/COMMIT_MSG', size: 0, size_delta: 0}
+        ),
+        '1c'
+      );
       assert.equal(
-          element._computeCommentsStringMobile(element.changeComments, _1To2,
-              {__path: '/COMMIT_MSG'}), '3c');
+        element._computeCommentsStringMobile(element.changeComments, _1To2, {
+          __path: '/COMMIT_MSG',
+          size: 0,
+          size_delta: 0,
+        }),
+        '3c'
+      );
       assert.equal(
-          element._computeDraftsString(element.changeComments, parentTo1,
-              {__path: '/COMMIT_MSG'}), '2 drafts');
+        element._computeDraftsString(element.changeComments, parentTo1, {
+          __path: '/COMMIT_MSG',
+          size: 0,
+          size_delta: 0,
+        }),
+        '2 drafts'
+      );
       assert.equal(
-          element._computeDraftsString(element.changeComments, _1To2,
-              {__path: '/COMMIT_MSG'}), '2 drafts');
+        element._computeDraftsString(element.changeComments, _1To2, {
+          __path: '/COMMIT_MSG',
+          size: 0,
+          size_delta: 0,
+        }),
+        '2 drafts'
+      );
       assert.equal(
-          element._computeDraftsStringMobile(
-              element.changeComments,
-              parentTo1,
-              {__path: '/COMMIT_MSG'}
-          ), '2d');
+        element._computeDraftsStringMobile(element.changeComments, parentTo1, {
+          __path: '/COMMIT_MSG',
+          size: 0,
+          size_delta: 0,
+        }),
+        '2d'
+      );
       assert.equal(
-          element._computeDraftsStringMobile(element.changeComments, _1To2,
-              {__path: '/COMMIT_MSG'}), '2d');
+        element._computeDraftsStringMobile(element.changeComments, _1To2, {
+          __path: '/COMMIT_MSG',
+          size: 0,
+          size_delta: 0,
+        }),
+        '2d'
+      );
       assert.equal(
-          element._computeCommentsStringMobile(
-              element.changeComments,
-              parentTo2,
-              {__path: 'myfile.txt'}
-          ), '2c');
+        element._computeCommentsStringMobile(
+          element.changeComments,
+          parentTo2,
+          {__path: 'myfile.txt', size: 0, size_delta: 0}
+        ),
+        '2c'
+      );
       assert.equal(
-          element._computeCommentsStringMobile(element.changeComments, _1To2,
-              {__path: 'myfile.txt'}), '3c');
+        element._computeCommentsStringMobile(element.changeComments, _1To2, {
+          __path: 'myfile.txt',
+          size: 0,
+          size_delta: 0,
+        }),
+        '3c'
+      );
       assert.equal(
-          element._computeDraftsStringMobile(element.changeComments, parentTo2,
-              {__path: 'myfile.txt'}), '');
+        element._computeDraftsStringMobile(element.changeComments, parentTo2, {
+          __path: 'myfile.txt',
+          size: 0,
+          size_delta: 0,
+        }),
+        ''
+      );
       assert.equal(
-          element._computeDraftsStringMobile(element.changeComments, _1To2,
-              {__path: 'myfile.txt'}), '');
+        element._computeDraftsStringMobile(element.changeComments, _1To2, {
+          __path: 'myfile.txt',
+          size: 0,
+          size_delta: 0,
+        }),
+        ''
+      );
     });
 
     test('_reviewedTitle', () => {
       assert.equal(
-          element._reviewedTitle(true), 'Mark as not reviewed (shortcut: r)');
+        element._reviewedTitle(true),
+        'Mark as not reviewed (shortcut: r)'
+      );
 
       assert.equal(
-          element._reviewedTitle(false), 'Mark as reviewed (shortcut: r)');
+        element._reviewedTitle(false),
+        'Mark as reviewed (shortcut: r)'
+      );
     });
 
     suite('keyboard shortcuts', () => {
       setup(() => {
         element._filesByPath = {
-          '/COMMIT_MSG': {},
-          'file_added_in_rev2.txt': {},
-          'myfile.txt': {},
+          '/COMMIT_MSG': {size: 0, size_delta: 0},
+          'file_added_in_rev2.txt': {size: 0, size_delta: 0},
+          'myfile.txt': {size: 0, size_delta: 0},
         };
-        element.changeNum = '42';
+        element.changeNum = 42 as NumericChangeId;
         element.patchRange = {
-          basePatchNum: 'PARENT',
-          patchNum: 2,
+          basePatchNum: 'PARENT' as BasePatchSetNum,
+          patchNum: 2 as RevisionPatchSetNum,
         };
-        element.change = {_number: 42};
+        element.change = {_number: 42 as NumericChangeId} as ParsedChangeInfo;
         element.fileCursor.setCursorAtIndex(0);
       });
 
@@ -465,8 +641,9 @@ suite('gr-file-list tests', () => {
         const toggleLeftDiffStub = sinon.stub();
         // Property getter cannot be stubbed w/ sandbox due to a bug in Sinon.
         // https://github.com/sinonjs/sinon/issues/781
-        const diffsStub = sinon.stub(element, 'diffs')
-            .get(() => [{toggleLeftDiff: toggleLeftDiffStub}]);
+        const diffsStub = sinon
+          .stub(element, 'diffs')
+          .get(() => [{toggleLeftDiff: toggleLeftDiffStub}]);
         MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'A');
         assert.isTrue(toggleLeftDiffStub.calledOnce);
         diffsStub.restore();
@@ -475,7 +652,7 @@ suite('gr-file-list tests', () => {
       test('keyboard shortcuts', () => {
         flush();
 
-        const items = [...element.root.querySelectorAll('.file-row')];
+        const items = [...queryAll<HTMLDivElement>(element, '.file-row')];
         element.fileCursor.stops = items;
         element.fileCursor.setCursorAtIndex(0);
         assert.equal(items.length, 3);
@@ -511,9 +688,14 @@ suite('gr-file-list tests', () => {
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 79, null, 'o');
 
-        assert(navStub.lastCall.calledWith(element.change,
-            'file_added_in_rev2.txt', 2),
-        'Should navigate to /c/42/2/file_added_in_rev2.txt');
+        assert(
+          navStub.lastCall.calledWith(
+            element.change,
+            'file_added_in_rev2.txt',
+            2 as PatchSetNum
+          ),
+          'Should navigate to /c/42/2/file_added_in_rev2.txt'
+        );
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
@@ -521,17 +703,19 @@ suite('gr-file-list tests', () => {
         assert.equal(element.fileCursor.index, 1);
         assert.equal(element.selectedIndex, 1);
 
-        const createCommentInPlaceStub = sinon.stub(element.diffCursor,
-            'createCommentInPlace');
+        const createCommentInPlaceStub = sinon.stub(
+          element.diffCursor,
+          'createCommentInPlace'
+        );
         MockInteractions.pressAndReleaseKeyOn(element, 67, null, 'c');
         assert.isTrue(createCommentInPlaceStub.called);
       });
 
       test('i key shows/hides selected inline diff', () => {
-        const paths = Object.keys(element._filesByPath);
+        const paths = Object.keys(element._filesByPath!);
         sinon.stub(element, '_expandedFilesChanged');
         flush();
-        const files = [...element.root.querySelectorAll('.file-row')];
+        const files = [...queryAll<HTMLDivElement>(element, '.file-row')];
         element.fileCursor.stops = files;
         element.fileCursor.setCursorAtIndex(0);
         assert.equal(element.diffs.length, 0);
@@ -573,7 +757,8 @@ suite('gr-file-list tests', () => {
       });
 
       test('r key toggles reviewed flag', () => {
-        const reducer = (accum, file) => (file.isReviewed ? ++accum : accum);
+        const reducer = (accum: number, file: NormalizedFileInfo) =>
+          file.isReviewed ? ++accum : accum;
         const getNumReviewed = () => element._files.reduce(reducer, 0);
         flush();
 
@@ -591,19 +776,19 @@ suite('gr-file-list tests', () => {
       });
 
       suite('handleOpenFile', () => {
-        let interact;
+        let interact: Function;
 
         setup(() => {
           const openCursorStub = sinon.stub(element, '_openCursorFile');
           const openSelectedStub = sinon.stub(element, '_openSelectedFile');
           const expandStub = sinon.stub(element, '_toggleFileExpanded');
 
-          interact = function() {
+          interact = function () {
             openCursorStub.reset();
             openSelectedStub.reset();
             expandStub.reset();
             element.handleOpenFile();
-            const result = {};
+            const result = {} as any;
             if (openCursorStub.called) {
               result.opened_cursor = true;
             }
@@ -630,8 +815,6 @@ suite('gr-file-list tests', () => {
         test('expand when user prefers', () => {
           element.filesExpanded = FilesExpandedState.NONE;
           assert.deepEqual(interact(), {opened_selected: true});
-          element._userPrefs = {};
-          assert.deepEqual(interact(), {opened_selected: true});
         });
       });
 
@@ -640,23 +823,40 @@ suite('gr-file-list tests', () => {
         const moveRightStub = sinon.stub(element.diffCursor, 'moveRight');
 
         let noDiffsExpanded = true;
-        sinon.stub(element, '_noDiffsExpanded')
-            .callsFake(() => noDiffsExpanded);
+        sinon
+          .stub(element, '_noDiffsExpanded')
+          .callsFake(() => noDiffsExpanded);
 
         MockInteractions.pressAndReleaseKeyOn(
-            element, 73, 'shift', 'ArrowLeft');
+          element,
+          73,
+          'shift',
+          'ArrowLeft'
+        );
         assert.isFalse(moveLeftStub.called);
         MockInteractions.pressAndReleaseKeyOn(
-            element, 73, 'shift', 'ArrowRight');
+          element,
+          73,
+          'shift',
+          'ArrowRight'
+        );
         assert.isFalse(moveRightStub.called);
 
         noDiffsExpanded = false;
 
         MockInteractions.pressAndReleaseKeyOn(
-            element, 73, 'shift', 'ArrowLeft');
+          element,
+          73,
+          'shift',
+          'ArrowLeft'
+        );
         assert.isTrue(moveLeftStub.called);
         MockInteractions.pressAndReleaseKeyOn(
-            element, 73, 'shift', 'ArrowRight');
+          element,
+          73,
+          'shift',
+          'ArrowRight'
+        );
         assert.isTrue(moveRightStub.called);
       });
     });
@@ -664,49 +864,49 @@ suite('gr-file-list tests', () => {
     test('file review status', () => {
       element.reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element._filesByPath = {
-        '/COMMIT_MSG': {},
-        'file_added_in_rev2.txt': {},
-        'myfile.txt': {},
+        '/COMMIT_MSG': {size: 0, size_delta: 0},
+        'file_added_in_rev2.txt': {size: 0, size_delta: 0},
+        'myfile.txt': {size: 0, size_delta: 0},
       };
       element._loggedIn = true;
-      element.changeNum = '42';
+      element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
+        basePatchNum: 'PARENT' as BasePatchSetNum,
+        patchNum: 2 as RevisionPatchSetNum,
       };
       element.fileCursor.setCursorAtIndex(0);
       const reviewSpy = sinon.spy(element, '_reviewFile');
       const toggleExpandSpy = sinon.spy(element, '_toggleFileExpanded');
 
       flush();
-      const fileRows =
-          element.root.querySelectorAll('.row:not(.header-row)');
+      queryAll(element, '.row:not(.header-row)');
+      const fileRows = queryAll(element, '.row:not(.header-row)');
       const checkSelector = 'span.reviewedSwitch[role="switch"]';
       const commitMsg = fileRows[0].querySelector(checkSelector);
       const fileAdded = fileRows[1].querySelector(checkSelector);
       const myFile = fileRows[2].querySelector(checkSelector);
 
-      assert.equal(commitMsg.getAttribute('aria-checked'), 'true');
-      assert.equal(fileAdded.getAttribute('aria-checked'), 'false');
-      assert.equal(myFile.getAttribute('aria-checked'), 'true');
+      assert.equal(commitMsg!.getAttribute('aria-checked'), 'true');
+      assert.equal(fileAdded!.getAttribute('aria-checked'), 'false');
+      assert.equal(myFile!.getAttribute('aria-checked'), 'true');
 
       const commitReviewLabel = fileRows[0].querySelector('.reviewedLabel');
       const markReviewLabel = fileRows[0].querySelector('.markReviewed');
-      assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
-      assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
+      assert.isTrue(commitReviewLabel!.classList.contains('isReviewed'));
+      assert.equal(markReviewLabel!.textContent, 'MARK UNREVIEWED');
 
       const clickSpy = sinon.spy(element, '_reviewedClick');
-      MockInteractions.tap(markReviewLabel);
+      MockInteractions.tap(markReviewLabel!);
       // assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
       // assert.isFalse(commitReviewLabel.classList.contains('isReviewed'));
-      assert.equal(markReviewLabel.textContent, 'MARK REVIEWED');
+      assert.equal(markReviewLabel!.textContent, 'MARK REVIEWED');
       assert.isTrue(clickSpy.lastCall.args[0].defaultPrevented);
       assert.isTrue(reviewSpy.calledOnce);
 
-      MockInteractions.tap(markReviewLabel);
+      MockInteractions.tap(markReviewLabel!);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', true));
-      assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
-      assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
+      assert.isTrue(commitReviewLabel!.classList.contains('isReviewed'));
+      assert.equal(markReviewLabel!.textContent, 'MARK UNREVIEWED');
       assert.isTrue(clickSpy.lastCall.args[0].defaultPrevented);
       assert.isTrue(reviewSpy.calledTwice);
 
@@ -715,34 +915,35 @@ suite('gr-file-list tests', () => {
 
     test('_handleFileListClick', () => {
       element._filesByPath = {
-        '/COMMIT_MSG': {},
-        'f1.txt': {},
-        'f2.txt': {},
+        '/COMMIT_MSG': {size: 0, size_delta: 0},
+        'f1.txt': {size: 0, size_delta: 0},
+        'f2.txt': {size: 0, size_delta: 0},
       };
-      element.changeNum = '42';
+      element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
+        basePatchNum: 'PARENT' as BasePatchSetNum,
+        patchNum: 2 as RevisionPatchSetNum,
       };
 
       const clickSpy = sinon.spy(element, '_handleFileListClick');
       const reviewStub = sinon.stub(element, '_reviewFile');
       const toggleExpandSpy = sinon.spy(element, '_toggleFileExpanded');
 
-      const row = dom(element.root)
-          .querySelector(`.row[data-file='{"path":"f1.txt"}']`);
+      const row = queryAndAssert(
+        element,
+        '.row[data-file=\'{"path":"f1.txt"}\']'
+      );
 
       // Click on the expand button, resulting in _toggleFileExpanded being
       // called and not resulting in a call to _reviewFile.
-      row.querySelector('div.show-hide').click();
+      queryAndAssert<HTMLDivElement>(row, 'div.show-hide').click();
       assert.isTrue(clickSpy.calledOnce);
       assert.isTrue(toggleExpandSpy.calledOnce);
       assert.isFalse(reviewStub.called);
 
       // Click inside the diff. This should result in no additional calls to
       // _toggleFileExpanded or _reviewFile.
-      element.root.querySelector('gr-diff-host')
-          .click();
+      queryAndAssert<GrDiffHost>(element, 'gr-diff-host').click();
       assert.isTrue(clickSpy.calledTwice);
       assert.isTrue(toggleExpandSpy.calledOnce);
       assert.isFalse(reviewStub.called);
@@ -750,14 +951,14 @@ suite('gr-file-list tests', () => {
 
     test('_handleFileListClick editMode', () => {
       element._filesByPath = {
-        '/COMMIT_MSG': {},
-        'f1.txt': {},
-        'f2.txt': {},
+        '/COMMIT_MSG': {size: 0, size_delta: 0},
+        'f1.txt': {size: 0, size_delta: 0},
+        'f2.txt': {size: 0, size_delta: 0},
       };
-      element.changeNum = '42';
+      element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
+        basePatchNum: 'PARENT' as BasePatchSetNum,
+        patchNum: 2 as RevisionPatchSetNum,
       };
       element.editMode = true;
       flush();
@@ -765,84 +966,83 @@ suite('gr-file-list tests', () => {
       const toggleExpandSpy = sinon.spy(element, '_toggleFileExpanded');
 
       // Tap the edit controls. Should be ignored by _handleFileListClick.
-      MockInteractions.tap(element.shadowRoot
-          .querySelector('.editFileControls'));
+      MockInteractions.tap(queryAndAssert(element, '.editFileControls'));
       assert.isTrue(clickSpy.calledOnce);
       assert.isFalse(toggleExpandSpy.called);
     });
 
     test('checkbox shows/hides diff inline', () => {
       element._filesByPath = {
-        'myfile.txt': {},
+        'myfile.txt': {size: 0, size_delta: 0},
       };
-      element.changeNum = '42';
+      element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
+        basePatchNum: 'PARENT' as BasePatchSetNum,
+        patchNum: 2 as RevisionPatchSetNum,
       };
       element.fileCursor.setCursorAtIndex(0);
       sinon.stub(element, '_expandedFilesChanged');
       flush();
-      const fileRows =
-          element.root.querySelectorAll('.row:not(.header-row)');
+      const fileRows = queryAll(element, '.row:not(.header-row)');
       // Because the label surrounds the input, the tap event is triggered
       // there first.
       const showHideCheck = fileRows[0].querySelector(
-          'span.show-hide[role="switch"]');
-      const showHideLabel = showHideCheck.querySelector('.show-hide-icon');
-      assert.equal(showHideCheck.getAttribute('aria-checked'), 'false');
-      MockInteractions.tap(showHideLabel);
-      assert.equal(showHideCheck.getAttribute('aria-checked'), 'true');
+        'span.show-hide[role="switch"]'
+      );
+      const showHideLabel = showHideCheck!.querySelector('.show-hide-icon');
+      assert.equal(showHideCheck!.getAttribute('aria-checked'), 'false');
+      MockInteractions.tap(showHideLabel!);
+      assert.equal(showHideCheck!.getAttribute('aria-checked'), 'true');
       assert.notEqual(
-          element._expandedFiles.findIndex(f => f.path === 'myfile.txt'),
-          -1);
+        element._expandedFiles.findIndex(f => f.path === 'myfile.txt'),
+        -1
+      );
     });
 
     test('diff mode correctly toggles the diffs', () => {
       element._filesByPath = {
-        'myfile.txt': {},
+        'myfile.txt': {size: 0, size_delta: 0},
       };
-      element.changeNum = '42';
+      element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
+        basePatchNum: 'PARENT' as BasePatchSetNum,
+        patchNum: 2 as RevisionPatchSetNum,
       };
-      sinon.spy(element, '_updateDiffPreferences');
+      const updateDiffPrefSpy = sinon.spy(element, '_updateDiffPreferences');
       element.fileCursor.setCursorAtIndex(0);
       flush();
 
       // Tap on a file to generate the diff.
-      const row = dom(element.root)
-          .querySelectorAll('.row:not(.header-row) span.show-hide')[0];
+      const row = queryAll(element, '.row:not(.header-row) span.show-hide')[0];
 
       MockInteractions.tap(row);
       flush();
-      element._userPrefs = {diff_view: 'SIDE_BY_SIDE'};
       element.set('diffViewMode', 'UNIFIED_DIFF');
-      assert.isTrue(element._updateDiffPreferences.called);
+      assert.isTrue(updateDiffPrefSpy.called);
     });
 
     test('expanded attribute not set on path when not expanded', () => {
       element._filesByPath = {
-        '/COMMIT_MSG': {},
+        '/COMMIT_MSG': {size: 0, size_delta: 0},
       };
-      assert.isNotOk(element.shadowRoot
-          .querySelector('.expanded'));
+      assert.isNotOk(query(element, 'expanded'));
     });
 
     test('tapping row ignores links', () => {
       element._filesByPath = {
-        '/COMMIT_MSG': {},
+        '/COMMIT_MSG': {size: 0, size_delta: 0},
       };
-      element.changeNum = '42';
+      element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
+        basePatchNum: 'PARENT' as BasePatchSetNum,
+        patchNum: 2 as RevisionPatchSetNum,
       };
       sinon.stub(element, '_expandedFilesChanged');
       flush();
-      const commitMsgFile = dom(element.root)
-          .querySelectorAll('.row:not(.header-row) a.pathLink')[0];
+      const commitMsgFile = queryAll(
+        element,
+        '.row:not(.header-row) a.pathLink'
+      )[0];
 
       // Remove href attribute so the app doesn't route to a diff view
       commitMsgFile.removeAttribute('href');
@@ -851,35 +1051,41 @@ suite('gr-file-list tests', () => {
       MockInteractions.tap(commitMsgFile);
       flush();
       assert(togglePathSpy.notCalled, 'file is opened as diff view');
-      assert.isNotOk(element.shadowRoot
-          .querySelector('.expanded'));
-      assert.notEqual(getComputedStyle(element.shadowRoot
-          .querySelector('.show-hide')).display,
-      'none');
+      assert.isNotOk(query(element, '.expanded'));
+      assert.notEqual(
+        getComputedStyle(queryAndAssert(element, '.show-hide')).display,
+        'none'
+      );
     });
 
     test('_toggleFileExpanded', () => {
       const path = 'path/to/my/file.txt';
-      element._filesByPath = {[path]: {}};
+      element._filesByPath = {[path]: {size: 0, size_delta: 0}};
       const renderSpy = sinon.spy(element, '_renderInOrder');
       const collapseStub = sinon.stub(element, '_clearCollapsedDiffs');
 
-      assert.equal(element.shadowRoot
-          .querySelector('iron-icon').icon, 'gr-icons:expand-more');
+      assert.equal(
+        queryAndAssert<IronIconElement>(element, 'iron-icon').icon,
+        'gr-icons:expand-more'
+      );
       assert.equal(element._expandedFiles.length, 0);
       element._toggleFileExpanded({path});
       flush();
       assert.equal(collapseStub.lastCall.args[0].length, 0);
-      assert.equal(element.shadowRoot
-          .querySelector('iron-icon').icon, 'gr-icons:expand-less');
+      assert.equal(
+        queryAndAssert<IronIconElement>(element, 'iron-icon').icon,
+        'gr-icons:expand-less'
+      );
 
       assert.equal(renderSpy.callCount, 1);
       assert.isTrue(element._expandedFiles.some(f => f.path === path));
       element._toggleFileExpanded({path});
       flush();
 
-      assert.equal(element.shadowRoot
-          .querySelector('iron-icon').icon, 'gr-icons:expand-more');
+      assert.equal(
+        queryAndAssert<IronIconElement>(element, 'iron-icon').icon,
+        'gr-icons:expand-more'
+      );
       assert.equal(renderSpy.callCount, 1);
       assert.isFalse(element._expandedFiles.some(f => f.path === path));
       assert.equal(collapseStub.lastCall.args[0].length, 1);
@@ -887,13 +1093,14 @@ suite('gr-file-list tests', () => {
 
     test('expandAllDiffs and collapseAllDiffs', () => {
       const collapseStub = sinon.stub(element, '_clearCollapsedDiffs');
-      const cursorUpdateStub = sinon.stub(element.diffCursor,
-          'handleDiffUpdate');
-      const reInitStub = sinon.stub(element.diffCursor,
-          'reInitAndUpdateStops');
+      const cursorUpdateStub = sinon.stub(
+        element.diffCursor,
+        'handleDiffUpdate'
+      );
+      const reInitStub = sinon.stub(element.diffCursor, 'reInitAndUpdateStops');
 
       const path = 'path/to/my/file.txt';
-      element._filesByPath = {[path]: {}};
+      element._filesByPath = {[path]: {size: 0, size_delta: 0}};
       element.expandAllDiffs();
       flush();
       assert.equal(element.filesExpanded, FilesExpandedState.ALL);
@@ -912,32 +1119,41 @@ suite('gr-file-list tests', () => {
       sinon.stub(element, '_reviewFile');
       const path = 'path/to/my/file.txt';
       const promise = mockPromise();
-      const diffs = [{
-        path,
-        style: {},
-        reload() {
-          promise.resolve();
+      const diffs = [
+        {
+          path,
+          style: {},
+          reload() {
+            promise.resolve();
+          },
+          prefetchDiff() {},
+          cancel() {},
+          getCursorStops() {
+            return [];
+          },
+          addEventListener(eventName: string, callback: Function) {
+            if (
+              ['render-start', 'render-content', 'scroll'].indexOf(eventName) >=
+              0
+            ) {
+              callback(new Event(eventName));
+            }
+          },
         },
-        prefetchDiff() {},
-        cancel() {},
-        getCursorStops() { return []; },
-        addEventListener(eventName, callback) {
-          if (['render-start', 'render-content', 'scroll']
-              .indexOf(eventName) >= 0) {
-            callback(new Event(eventName));
-          }
-        },
-      }];
+      ];
       sinon.stub(element, 'diffs').get(() => diffs);
       element.push('_expandedFiles', {path});
       await promise;
     });
 
     test('_clearCollapsedDiffs', () => {
+      // Have to type as any because the type is 'GrDiffHost'
+      // which would require stubbing so many different
+      // methods / properties that it isn't worth it.
       const diff = {
         cancel: sinon.stub(),
         clearDiffContent: sinon.stub(),
-      };
+      } as any;
       element._clearCollapsedDiffs([diff]);
       assert.isTrue(diff.cancel.calledOnce);
       assert.isTrue(diff.clearDiffContent.calledOnce);
@@ -945,61 +1161,65 @@ suite('gr-file-list tests', () => {
 
     test('filesExpanded value updates to correct enum', () => {
       element._filesByPath = {
-        'foo.bar': {},
-        'baz.bar': {},
+        'foo.bar': {size: 0, size_delta: 0},
+        'baz.bar': {size: 0, size_delta: 0},
       };
       flush();
-      assert.equal(element.filesExpanded,
-          FilesExpandedState.NONE);
+      assert.equal(element.filesExpanded, FilesExpandedState.NONE);
       element.push('_expandedFiles', {path: 'baz.bar'});
       flush();
-      assert.equal(element.filesExpanded,
-          FilesExpandedState.SOME);
+      assert.equal(element.filesExpanded, FilesExpandedState.SOME);
       element.push('_expandedFiles', {path: 'foo.bar'});
       flush();
-      assert.equal(element.filesExpanded,
-          FilesExpandedState.ALL);
+      assert.equal(element.filesExpanded, FilesExpandedState.ALL);
       element.collapseAllDiffs();
       flush();
-      assert.equal(element.filesExpanded,
-          FilesExpandedState.NONE);
+      assert.equal(element.filesExpanded, FilesExpandedState.NONE);
       element.expandAllDiffs();
       flush();
-      assert.equal(element.filesExpanded,
-          FilesExpandedState.ALL);
+      assert.equal(element.filesExpanded, FilesExpandedState.ALL);
     });
 
     test('_renderInOrder', async () => {
       const reviewStub = sinon.stub(element, '_reviewFile');
       let callCount = 0;
-      const diffs = [{
-        path: 'p0',
-        style: {},
-        prefetchDiff() {},
-        reload() {
-          assert.equal(callCount++, 2);
-          return Promise.resolve();
+      // Have to type as any because the type is 'GrDiffHost'
+      // which would require stubbing so many different
+      // methods / properties that it isn't worth it.
+      const diffs = [
+        {
+          path: 'p0',
+          style: {},
+          prefetchDiff() {},
+          reload() {
+            assert.equal(callCount++, 2);
+            return Promise.resolve();
+          },
         },
-      }, {
-        path: 'p1',
-        style: {},
-        prefetchDiff() {},
-        reload() {
-          assert.equal(callCount++, 1);
-          return Promise.resolve();
+        {
+          path: 'p1',
+          style: {},
+          prefetchDiff() {},
+          reload() {
+            assert.equal(callCount++, 1);
+            return Promise.resolve();
+          },
         },
-      }, {
-        path: 'p2',
-        style: {},
-        prefetchDiff() {},
-        reload() {
-          assert.equal(callCount++, 0);
-          return Promise.resolve();
+        {
+          path: 'p2',
+          style: {},
+          prefetchDiff() {},
+          reload() {
+            assert.equal(callCount++, 0);
+            return Promise.resolve();
+          },
         },
-      }];
-      element._renderInOrder([
-        {path: 'p2'}, {path: 'p1'}, {path: 'p0'},
-      ], diffs, 3);
+      ] as any;
+      element._renderInOrder(
+        [{path: 'p2'}, {path: 'p1'}, {path: 'p0'}],
+        diffs,
+        3
+      );
       await flush();
       assert.isFalse(reviewStub.called);
     });
@@ -1008,16 +1228,21 @@ suite('gr-file-list tests', () => {
       element._loggedIn = true;
       const reviewStub = sinon.stub(element, '_reviewFile');
       let callCount = 0;
-      const diffs = [{
-        path: 'p2',
-        style: {},
-        prefetchDiff() {},
-        reload() {
-          assert.equal(reviewStub.callCount, 0);
-          assert.equal(callCount++, 0);
-          return Promise.resolve();
+      // Have to type as any because the type is 'GrDiffHost'
+      // which would require stubbing so many different
+      // methods / properties that it isn't worth it.
+      const diffs = [
+        {
+          path: 'p2',
+          style: {},
+          prefetchDiff() {},
+          reload() {
+            assert.equal(reviewStub.callCount, 0);
+            assert.equal(callCount++, 0);
+            return Promise.resolve();
+          },
         },
-      }];
+      ] as any;
       element._renderInOrder([{path: 'p2'}], diffs, 1);
       await flush();
       assert.equal(reviewStub.callCount, 1);
@@ -1025,14 +1250,21 @@ suite('gr-file-list tests', () => {
 
     test('_renderInOrder respects diffPrefs.manual_review', async () => {
       element._loggedIn = true;
-      element.diffPrefs = {manual_review: true};
+      element.diffPrefs = {manual_review: true} as DiffPreferencesInfo;
       const reviewStub = sinon.stub(element, '_reviewFile');
-      const diffs = [{
-        path: 'p',
-        style: {},
-        prefetchDiff() {},
-        reload() { return Promise.resolve(); },
-      }];
+      // Have to type as any because the type is 'GrDiffHost'
+      // which would require stubbing so many different
+      // methods / properties that it isn't worth it.
+      const diffs = [
+        {
+          path: 'p',
+          style: {},
+          prefetchDiff() {},
+          reload() {
+            return Promise.resolve();
+          },
+        },
+      ] as any;
 
       element._renderInOrder([{path: 'p'}], diffs, 1);
       await flush();
@@ -1046,27 +1278,32 @@ suite('gr-file-list tests', () => {
 
     test('_loadingChanged fired from reload in debouncer', async () => {
       const reloadBlocker = mockPromise();
-      stubRestApi('getChangeOrEditFiles').resolves({'foo.bar': {}});
-      stubRestApi('getReviewedFiles').resolves(null);
+      stubRestApi('getChangeOrEditFiles').resolves({
+        'foo.bar': {size: 0, size_delta: 0},
+      });
+      stubRestApi('getReviewedFiles').resolves(undefined);
       stubRestApi('getDiffPreferences').resolves(createDefaultDiffPrefs());
       stubRestApi('getLoggedIn').returns(reloadBlocker.then(() => false));
 
-      element.changeNum = 123;
-      element.patchRange = {patchNum: 12};
-      element._filesByPath = {'foo.bar': {}};
-      element.change = {...createParsedChange(), _number: 123};
+      element.changeNum = 123 as NumericChangeId;
+      element.patchRange = {patchNum: 12 as RevisionPatchSetNum} as PatchRange;
+      element._filesByPath = {'foo.bar': {size: 0, size_delta: 0}};
+      element.change = {
+        ...createParsedChange(),
+        _number: 123 as NumericChangeId,
+      };
 
       const reloaded = element.reload();
       assert.isTrue(element._loading);
       assert.isFalse(element.classList.contains('loading'));
-      element.loadingTask.flush();
+      element.loadingTask!.flush();
       assert.isTrue(element.classList.contains('loading'));
 
       reloadBlocker.resolve();
       await reloaded;
 
       assert.isFalse(element._loading);
-      element.loadingTask.flush();
+      element.loadingTask!.flush();
       assert.isFalse(element.classList.contains('loading'));
     });
 
@@ -1074,39 +1311,45 @@ suite('gr-file-list tests', () => {
       const reloadBlocker = mockPromise();
       stubRestApi('getLoggedIn').returns(reloadBlocker.then(() => false));
       sinon.stub(element, '_getReviewedFiles').resolves([]);
-      element.changeNum = 123;
-      element.patchRange = {patchNum: 12};
-      element.change = {...createParsedChange(), _number: 123};
+      element.changeNum = 123 as NumericChangeId;
+      element.patchRange = {patchNum: 12 as RevisionPatchSetNum} as PatchRange;
+      element.change = {
+        ...createParsedChange(),
+        _number: 123 as NumericChangeId,
+      };
       element.reload();
 
       assert.isTrue(element._loading);
 
-      element.loadingTask.flush();
+      element.loadingTask!.flush();
 
       assert.isFalse(element.classList.contains('loading'));
     });
 
     suite('for merge commits', () => {
-      let filesStub;
+      let filesStub: sinon.SinonStub;
 
       setup(async () => {
         filesStub = stubRestApi('getChangeOrEditFiles')
-            .onFirstCall()
-            .resolves({'conflictingFile.js': {}})
-            .onSecondCall()
-            .resolves({'conflictingFile.js': {}, 'cleanlyMergedFile.js': {}});
+          .onFirstCall()
+          .resolves({'conflictingFile.js': {size: 0, size_delta: 0}})
+          .onSecondCall()
+          .resolves({
+            'conflictingFile.js': {size: 0, size_delta: 0},
+            'cleanlyMergedFile.js': {size: 0, size_delta: 0},
+          });
         stubRestApi('getReviewedFiles').resolves([]);
         stubRestApi('getDiffPreferences').resolves(createDefaultDiffPrefs());
         const changeWithMultipleParents = {
-          ...createChange(),
+          ...createParsedChange(),
           revisions: {
             r1: {
               ...createRevision(),
               commit: {
                 ...createCommit(),
                 parents: [
-                  {commit: 'p1', subject: 'subject1'},
-                  {commit: 'p2', subject: 'subject2'},
+                  {commit: 'p1' as CommitId, subject: 'subject1'},
+                  {commit: 'p2' as CommitId, subject: 'subject2'},
                 ],
               },
             },
@@ -1114,7 +1357,10 @@ suite('gr-file-list tests', () => {
         };
         element.changeNum = changeWithMultipleParents._number;
         element.change = changeWithMultipleParents;
-        element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
+        element.patchRange = {
+          basePatchNum: 'PARENT' as BasePatchSetNum,
+          patchNum: 1 as RevisionPatchSetNum,
+        };
         await flush();
       });
 
@@ -1122,29 +1368,31 @@ suite('gr-file-list tests', () => {
         await element.reload();
         await flush();
 
-        const message = queryAndAssert(element, '.cleanlyMergedText')
-            .textContent.trim();
+        const message = queryAndAssert<HTMLSpanElement>(
+          element,
+          '.cleanlyMergedText'
+        ).textContent!.trim();
         assert.equal(message, '1 file merged cleanly in Parent 1');
       });
 
       test('displays plural cleanly merged file count', async () => {
         filesStub.restore();
         stubRestApi('getChangeOrEditFiles')
-            .onFirstCall()
-            .resolves({'conflictingFile.js': {}})
-            .onSecondCall()
-            .resolves({
-              'conflictingFile.js': {},
-              'cleanlyMergedFile.js': {},
-              'anotherCleanlyMergedFile.js': {},
-            });
+          .onFirstCall()
+          .resolves({'conflictingFile.js': {size: 0, size_delta: 0}})
+          .onSecondCall()
+          .resolves({
+            'conflictingFile.js': {size: 0, size_delta: 0},
+            'cleanlyMergedFile.js': {size: 0, size_delta: 0},
+            'anotherCleanlyMergedFile.js': {size: 0, size_delta: 0},
+          });
         await element.reload();
         await flush();
 
         const message = queryAndAssert(
-            element,
-            '.cleanlyMergedText'
-        ).textContent.trim();
+          element,
+          '.cleanlyMergedText'
+        ).textContent!.trim();
         assert.equal(message, '2 files merged cleanly in Parent 1');
       });
 
@@ -1158,13 +1406,17 @@ suite('gr-file-list tests', () => {
       test('computes old paths for cleanly merged files', async () => {
         filesStub.restore();
         stubRestApi('getChangeOrEditFiles')
-            .onFirstCall()
-            .resolves({'conflictingFile.js': {}})
-            .onSecondCall()
-            .resolves({
-              'conflictingFile.js': {},
-              'cleanlyMergedFile.js': {old_path: 'cleanlyMergedFileOldName.js'},
-            });
+          .onFirstCall()
+          .resolves({'conflictingFile.js': {size: 0, size_delta: 0}})
+          .onSecondCall()
+          .resolves({
+            'conflictingFile.js': {size: 0, size_delta: 0},
+            'cleanlyMergedFile.js': {
+              old_path: 'cleanlyMergedFileOldName.js',
+              size: 0,
+              size_delta: 0,
+            },
+          });
         await element.reload();
         await flush();
 
@@ -1174,7 +1426,10 @@ suite('gr-file-list tests', () => {
       });
 
       test('not shown for non-Auto Merge base parents', async () => {
-        element.patchRange = {basePatchNum: 1, patchNum: 2};
+        element.patchRange = {
+          basePatchNum: 1 as BasePatchSetNum,
+          patchNum: 2 as RevisionPatchSetNum,
+        };
         await element.reload();
         await flush();
 
@@ -1183,7 +1438,10 @@ suite('gr-file-list tests', () => {
       });
 
       test('not shown in edit mode', async () => {
-        element.patchRange = {basePatchNum: 1, patchNum: EditPatchSetNum};
+        element.patchRange = {
+          basePatchNum: 1 as BasePatchSetNum,
+          patchNum: EditPatchSetNum,
+        };
         await element.reload();
         await flush();
 
@@ -1195,58 +1453,94 @@ suite('gr-file-list tests', () => {
 
   suite('diff url file list', () => {
     test('diff url', () => {
-      const diffStub = sinon.stub(GerritNav, 'getUrlForDiff')
-          .returns('/c/gerrit/+/1/1/index.php');
+      const diffStub = sinon
+        .stub(GerritNav, 'getUrlForDiff')
+        .returns('/c/gerrit/+/1/1/index.php');
       const change = {
-        _number: 1,
-        project: 'gerrit',
+        ...createParsedChange(),
+        _number: 1 as NumericChangeId,
+        project: 'gerrit' as RepoName,
       };
       const path = 'index.php';
       assert.equal(
-          element._computeDiffURL(change, undefined, 1, path, false),
-          '/c/gerrit/+/1/1/index.php');
+        element._computeDiffURL(
+          change,
+          undefined,
+          1 as RevisionPatchSetNum,
+          path,
+          false
+        ),
+        '/c/gerrit/+/1/1/index.php'
+      );
       diffStub.restore();
     });
 
     test('diff url commit msg', () => {
-      const diffStub = sinon.stub(GerritNav, 'getUrlForDiff')
-          .returns('/c/gerrit/+/1/1//COMMIT_MSG');
+      const diffStub = sinon
+        .stub(GerritNav, 'getUrlForDiff')
+        .returns('/c/gerrit/+/1/1//COMMIT_MSG');
       const change = {
-        _number: 1,
-        project: 'gerrit',
+        ...createParsedChange(),
+        _number: 1 as NumericChangeId,
+        project: 'gerrit' as RepoName,
       };
       const path = '/COMMIT_MSG';
       assert.equal(
-          element._computeDiffURL(change, undefined, 1, path, false),
-          '/c/gerrit/+/1/1//COMMIT_MSG');
+        element._computeDiffURL(
+          change,
+          undefined,
+          1 as RevisionPatchSetNum,
+          path,
+          false
+        ),
+        '/c/gerrit/+/1/1//COMMIT_MSG'
+      );
       diffStub.restore();
     });
 
     test('edit url', () => {
-      const editStub = sinon.stub(GerritNav, 'getEditUrlForDiff')
-          .returns('/c/gerrit/+/1/edit/index.php,edit');
+      const editStub = sinon
+        .stub(GerritNav, 'getEditUrlForDiff')
+        .returns('/c/gerrit/+/1/edit/index.php,edit');
       const change = {
-        _number: 1,
-        project: 'gerrit',
+        ...createParsedChange(),
+        _number: 1 as NumericChangeId,
+        project: 'gerrit' as RepoName,
       };
       const path = 'index.php';
       assert.equal(
-          element._computeDiffURL(change, undefined, 1, path, true),
-          '/c/gerrit/+/1/edit/index.php,edit');
+        element._computeDiffURL(
+          change,
+          undefined,
+          1 as RevisionPatchSetNum,
+          path,
+          true
+        ),
+        '/c/gerrit/+/1/edit/index.php,edit'
+      );
       editStub.restore();
     });
 
     test('edit url commit msg', () => {
-      const editStub = sinon.stub(GerritNav, 'getEditUrlForDiff')
-          .returns('/c/gerrit/+/1/edit//COMMIT_MSG,edit');
+      const editStub = sinon
+        .stub(GerritNav, 'getEditUrlForDiff')
+        .returns('/c/gerrit/+/1/edit//COMMIT_MSG,edit');
       const change = {
-        _number: 1,
-        project: 'gerrit',
+        ...createParsedChange(),
+        _number: 1 as NumericChangeId,
+        project: 'gerrit' as RepoName,
       };
       const path = '/COMMIT_MSG';
       assert.equal(
-          element._computeDiffURL(change, undefined, 1, path, true),
-          '/c/gerrit/+/1/edit//COMMIT_MSG,edit');
+        element._computeDiffURL(
+          change,
+          undefined,
+          1 as RevisionPatchSetNum,
+          path,
+          true
+        ),
+        '/c/gerrit/+/1/edit//COMMIT_MSG,edit'
+      );
       editStub.restore();
     });
   });
@@ -1262,21 +1556,31 @@ suite('gr-file-list tests', () => {
       };
 
       assert.deepEqual(
-          element._computeSizeBarLayout(null),
-          defaultSizeBarLayout);
+        element._computeSizeBarLayout(undefined),
+        defaultSizeBarLayout
+      );
       assert.deepEqual(
-          element._computeSizeBarLayout({}),
-          defaultSizeBarLayout);
+        element._computeSizeBarLayout(
+          {} as PolymerDeepPropertyChange<
+            NormalizedFileInfo[],
+            NormalizedFileInfo[]
+          >
+        ),
+        defaultSizeBarLayout
+      );
       assert.deepEqual(
-          element._computeSizeBarLayout({base: []}),
-          defaultSizeBarLayout);
+        element._computeSizeBarLayout({base: []} as any),
+        defaultSizeBarLayout
+      );
 
       const files = [
         {__path: '/COMMIT_MSG', lines_inserted: 10000},
         {__path: 'foo', lines_inserted: 4, lines_deleted: 10},
         {__path: 'bar', lines_inserted: 5, lines_deleted: 8},
       ];
-      const layout = element._computeSizeBarLayout({base: files});
+      const layout = element._computeSizeBarLayout({
+        base: files,
+      } as PolymerDeepPropertyChange<NormalizedFileInfo[], NormalizedFileInfo[]>);
       assert.equal(layout.maxInserted, 5);
       assert.equal(layout.maxDeleted, 10);
     });
@@ -1286,6 +1590,8 @@ suite('gr-file-list tests', () => {
         __path: 'foo/bar.baz',
         lines_inserted: 5,
         lines_deleted: 0,
+        size: 0,
+        size_delta: 0,
       };
       const stats = {
         maxInserted: 10,
@@ -1305,7 +1611,7 @@ suite('gr-file-list tests', () => {
 
       // If the insertions is not present on the file, there is no width.
       stats.maxInserted = 10;
-      file.lines_inserted = undefined;
+      file.lines_inserted = 0;
       assert.equal(element._computeBarAdditionWidth(file, stats), 0);
 
       // If the file is a commit message, returns zero.
@@ -1325,6 +1631,8 @@ suite('gr-file-list tests', () => {
         __path: 'foo/bar.baz',
         lines_inserted: 5,
         lines_deleted: 0,
+        size: 0,
+        size_delta: 0,
       };
       const stats = {
         maxInserted: 10,
@@ -1341,6 +1649,8 @@ suite('gr-file-list tests', () => {
         __path: 'foo/bar.baz',
         lines_inserted: 0,
         lines_deleted: 5,
+        size: 0,
+        size_delta: 0,
       };
       const stats = {
         maxInserted: 10,
@@ -1360,7 +1670,7 @@ suite('gr-file-list tests', () => {
 
       // If the deletions is not present on the file, there is no width.
       stats.maxDeleted = 10;
-      file.lines_deleted = undefined;
+      file.lines_deleted = 0;
       assert.equal(element._computeBarDeletionWidth(file, stats), 0);
 
       // If the file is a commit message, returns zero.
@@ -1376,52 +1686,61 @@ suite('gr-file-list tests', () => {
     });
 
     test('_computeSizeBarsClass', () => {
-      assert.equal(element._computeSizeBarsClass(false, 'foo/bar.baz'),
-          'sizeBars hide');
-      assert.equal(element._computeSizeBarsClass(true, '/COMMIT_MSG'),
-          'sizeBars invisible');
-      assert.equal(element._computeSizeBarsClass(true, 'foo/bar.baz'),
-          'sizeBars ');
+      assert.equal(
+        element._computeSizeBarsClass(false, 'foo/bar.baz'),
+        'sizeBars hide'
+      );
+      assert.equal(
+        element._computeSizeBarsClass(true, '/COMMIT_MSG'),
+        'sizeBars invisible'
+      );
+      assert.equal(
+        element._computeSizeBarsClass(true, 'foo/bar.baz'),
+        'sizeBars '
+      );
     });
   });
 
   suite('gr-file-list inline diff tests', () => {
-    let element;
+    let element: GrFileList;
+    let reviewFileStub: sinon.SinonStub;
 
     const commitMsgComments = [
       {
-        patch_set: 2,
+        patch_set: 2 as PatchSetNum,
         path: '/p',
-        id: 'ecf0b9fa_fe1a5f62',
+        id: 'ecf0b9fa_fe1a5f62' as UrlEncodedCommentId,
         line: 20,
-        updated: '2018-02-08 18:49:18.000000000',
+        updated: '2018-02-08 18:49:18.000000000' as Timestamp,
         message: 'another comment',
         unresolved: true,
       },
       {
-        patch_set: 2,
+        patch_set: 2 as PatchSetNum,
         path: '/p',
-        id: '503008e2_0ab203ee',
+        id: '503008e2_0ab203ee' as UrlEncodedCommentId,
         line: 10,
-        updated: '2018-02-14 22:07:43.000000000',
+        updated: '2018-02-14 22:07:43.000000000' as Timestamp,
         message: 'a comment',
         unresolved: true,
       },
       {
-        patch_set: 2,
+        patch_set: 2 as PatchSetNum,
         path: '/p',
-        id: 'cc788d2c_cb1d728c',
+        id: 'cc788d2c_cb1d728c' as UrlEncodedCommentId,
         line: 20,
-        in_reply_to: 'ecf0b9fa_fe1a5f62',
-        updated: '2018-02-13 22:07:43.000000000',
+        in_reply_to: 'ecf0b9fa_fe1a5f62' as UrlEncodedCommentId,
+        updated: '2018-02-13 22:07:43.000000000' as Timestamp,
         message: 'response',
         unresolved: true,
       },
     ];
 
-    async function setupDiff(diff) {
-      diff.threads = diff.path === '/COMMIT_MSG' ?
-        createCommentThreads(commitMsgComments) : [];
+    async function setupDiff(diff: GrDiffHost) {
+      diff.threads =
+        diff.path === '/COMMIT_MSG'
+          ? createCommentThreads(commitMsgComments)
+          : [];
       diff.prefs = {
         context: 10,
         tab_size: 8,
@@ -1433,15 +1752,14 @@ suite('gr-file-list tests', () => {
         show_tabs: true,
         show_whitespace_errors: true,
         syntax_highlighting: true,
-        theme: 'DEFAULT',
         ignore_whitespace: 'IGNORE_NONE',
       };
       diff.diff = getMockDiffResponse();
       await listenOnce(diff, 'render');
     }
 
-    async function renderAndGetNewDiffs(index) {
-      const diffs = element.root.querySelectorAll('gr-diff-host');
+    async function renderAndGetNewDiffs(index: number) {
+      const diffs = queryAll<GrDiffHost>(element, 'gr-diff-host');
 
       for (let i = index; i < diffs.length; i++) {
         await setupDiff(diffs[i]);
@@ -1453,12 +1771,12 @@ suite('gr-file-list tests', () => {
     }
 
     setup(async () => {
-      stubRestApi('getPreferences').returns(Promise.resolve({}));
+      stubRestApi('getPreferences').returns(Promise.resolve(undefined));
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
       stub('gr-date-formatter', '_loadTimeFormat').callsFake(() =>
-        Promise.resolve('')
+        Promise.resolve()
       );
       stub('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
       stub('gr-diff-host', 'prefetchDiff').callsFake(() => {});
@@ -1467,15 +1785,19 @@ suite('gr-file-list tests', () => {
       // comment API.
       commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.fileList;
-      element.diffPrefs = {};
-      element.change = {_number: 42, project: 'testRepo'};
-      sinon.stub(element, '_reviewFile');
+      element.diffPrefs = {} as DiffPreferencesInfo;
+      element.change = {
+        ...createParsedChange(),
+        _number: 42 as NumericChangeId,
+        project: 'testRepo' as RepoName,
+      };
+      reviewFileStub = sinon.stub(element, '_reviewFile');
 
       element._loading = false;
       element.numFilesShown = 75;
       element.selectedIndex = 0;
       element._filesByPath = {
-        '/COMMIT_MSG': {lines_inserted: 9},
+        '/COMMIT_MSG': {lines_inserted: 9, size: 0, size_delta: 0},
         'file_added_in_rev2.txt': {
           lines_inserted: 1,
           lines_deleted: 1,
@@ -1491,12 +1813,14 @@ suite('gr-file-list tests', () => {
       };
       element.reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element._loggedIn = true;
-      element.changeNum = '42';
+      element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
+        basePatchNum: 'PARENT' as BasePatchSetNum,
+        patchNum: 2 as RevisionPatchSetNum,
       };
-      sinon.stub(window, 'fetch').callsFake(() => Promise.resolve());
+      sinon
+        .stub(window, 'fetch')
+        .callsFake(() => Promise.resolve(new Response()));
       await flush();
     });
 
@@ -1510,20 +1834,29 @@ suite('gr-file-list tests', () => {
       assert.equal(diffs.length, 1);
 
       // No line number is selected.
-      assert.isFalse(diffStops[10].classList.contains('target-row'));
+      assert.isFalse(
+        (diffStops[10] as HTMLElement).classList.contains('target-row')
+      );
 
       // Tapping content on a line selects the line number.
-      MockInteractions.tap(dom(
-          diffStops[10]).querySelectorAll('.contentText')[0]);
+      MockInteractions.tap(
+        queryAll(diffStops[10] as HTMLElement, '.contentText')[0]
+      );
       await flush();
-      assert.isTrue(diffStops[10].classList.contains('target-row'));
+      assert.isTrue(
+        (diffStops[10] as HTMLElement).classList.contains('target-row')
+      );
 
       // Keyboard shortcuts are still moving the file cursor, not the diff
       // cursor.
       MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
       await flush();
-      assert.isTrue(diffStops[10].classList.contains('target-row'));
-      assert.isFalse(diffStops[11].classList.contains('target-row'));
+      assert.isTrue(
+        (diffStops[10] as HTMLElement).classList.contains('target-row')
+      );
+      assert.isFalse(
+        (diffStops[11] as HTMLElement).classList.contains('target-row')
+      );
 
       // The file cursor is now at 1.
       assert.equal(element.fileCursor.index, 1);
@@ -1538,8 +1871,12 @@ suite('gr-file-list tests', () => {
       const diffStopsSecond = diffs[1].getCursorStops();
 
       // The line on the first diff is still selected
-      assert.isTrue(diffStopsFirst[10].classList.contains('target-row'));
-      assert.isFalse(diffStopsSecond[10].classList.contains('target-row'));
+      assert.isTrue(
+        (diffStopsFirst[10] as HTMLElement).classList.contains('target-row')
+      );
+      assert.isFalse(
+        (diffStopsSecond[10] as HTMLElement).classList.contains('target-row')
+      );
     });
 
     test('cursor with toggle all files', async () => {
@@ -1553,38 +1890,47 @@ suite('gr-file-list tests', () => {
       assert.equal(diffs.length, 3);
 
       // No line number is selected.
-      assert.isFalse(diffStops[10].classList.contains('target-row'));
+      assert.isFalse(
+        (diffStops[10] as HTMLElement).classList.contains('target-row')
+      );
 
       // Tapping content on a line selects the line number.
-      MockInteractions.tap(dom(
-          diffStops[10]).querySelectorAll('.contentText')[0]);
+      MockInteractions.tap(
+        queryAll(diffStops[10] as HTMLElement, '.contentText')[0]
+      );
       await flush();
-      assert.isTrue(diffStops[10].classList.contains('target-row'));
+      assert.isTrue(
+        (diffStops[10] as HTMLElement).classList.contains('target-row')
+      );
 
       // Keyboard shortcuts are still moving the file cursor, not the diff
       // cursor.
       MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
       await flush();
-      assert.isFalse(diffStops[10].classList.contains('target-row'));
-      assert.isTrue(diffStops[11].classList.contains('target-row'));
+      assert.isFalse(
+        (diffStops[10] as HTMLElement).classList.contains('target-row')
+      );
+      assert.isTrue(
+        (diffStops[11] as HTMLElement).classList.contains('target-row')
+      );
 
       // The file cursor is still at 0.
       assert.equal(element.fileCursor.index, 0);
     });
 
     suite('n key presses', () => {
-      let nextCommentStub;
-      let nextChunkStub;
-      let fileRows;
+      let nextCommentStub: sinon.SinonStub;
+      let nextChunkStub: sinon.SinonStub;
+      let fileRows: NodeListOf<HTMLDivElement>;
 
       setup(() => {
         sinon.stub(element, '_renderInOrder').returns(Promise.resolve());
-        nextCommentStub = sinon.stub(element.diffCursor,
-            'moveToNextCommentThread');
-        nextChunkStub = sinon.stub(element.diffCursor,
-            'moveToNextChunk');
-        fileRows =
-            element.root.querySelectorAll('.row:not(.header-row)');
+        nextCommentStub = sinon.stub(
+          element.diffCursor,
+          'moveToNextCommentThread'
+        );
+        nextChunkStub = sinon.stub(element.diffCursor, 'moveToNextChunk');
+        fileRows = queryAll<HTMLDivElement>(element, '.row:not(.header-row)');
       });
 
       test('n key with some files expanded', async () => {
@@ -1657,7 +2003,7 @@ suite('gr-file-list tests', () => {
 
     suite('editMode behavior', () => {
       test('reviewed checkbox', async () => {
-        element._reviewFile.restore();
+        reviewFileStub.restore();
         const saveReviewStub = sinon.stub(element, '_saveReviewedState');
 
         element.editMode = false;
@@ -1674,29 +2020,29 @@ suite('gr-file-list tests', () => {
       test('_getReviewedFiles does not call API', () => {
         const apiSpy = spyRestApi('getReviewedFiles');
         element.editMode = true;
-        return element._getReviewedFiles().then(files => {
-          assert.equal(files.length, 0);
-          assert.isFalse(apiSpy.called);
-        });
+        return element
+          ._getReviewedFiles(0 as NumericChangeId, {patchNum: 0} as PatchRange)
+          .then(files => {
+            assert.equal(files!.length, 0);
+            assert.isFalse(apiSpy.called);
+          });
       });
     });
 
     test('editing actions', async () => {
       // Edit controls are guarded behind a dom-if initially and not rendered.
-      assert.isNotOk(dom(element.root)
-          .querySelector('gr-edit-file-controls'));
+      assert.isNotOk(
+        query<GrEditFileControls>(element, 'gr-edit-file-controls')
+      );
 
       element.editMode = true;
       await flush();
 
       // Commit message should not have edit controls.
-      const editControls =
-          Array.from(
-              dom(element.root)
-                  .querySelectorAll('.row:not(.header-row)'))
-              .map(row => row.querySelector('gr-edit-file-controls'));
-      assert.isTrue(editControls[0].classList.contains('invisible'));
+      const editControls = Array.from(
+        queryAll(element, '.row:not(.header-row)')
+      ).map(row => row.querySelector('gr-edit-file-controls'));
+      assert.isTrue(editControls[0]!.classList.contains('invisible'));
     });
   });
 });
-

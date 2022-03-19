@@ -110,6 +110,7 @@ export interface GrFileList {
 interface ReviewedFileInfo extends FileInfo {
   isReviewed?: boolean;
 }
+
 export interface NormalizedFileInfo extends ReviewedFileInfo {
   __path: string;
 }
@@ -368,9 +369,11 @@ export class GrFileList extends base {
     ];
   }
 
-  private fileCursor = new GrCursorManager();
+  // private but used in test
+  fileCursor = new GrCursorManager();
 
-  private diffCursor = new GrDiffCursor();
+  // private but used in test
+  diffCursor = new GrDiffCursor();
 
   constructor() {
     super();
@@ -586,7 +589,8 @@ export class GrFileList extends base {
     return this.restApiService.getPreferences();
   }
 
-  private _toggleFileExpanded(file: PatchSetFile) {
+  // private but used in test
+  _toggleFileExpanded(file: PatchSetFile) {
     // Is the path in the list of expanded diffs? If so, remove it, otherwise
     // add it to the list.
     const indexInExpanded = this._expandedFiles.findIndex(
@@ -728,7 +732,8 @@ export class GrFileList extends base {
     return commentThreadCount === 0 ? '' : `${commentThreadCount}c`;
   }
 
-  private _reviewFile(path: string, reviewed?: boolean) {
+  // private but used in test
+  _reviewFile(path: string, reviewed?: boolean) {
     if (this.editMode) {
       return Promise.resolve();
     }
@@ -1331,7 +1336,8 @@ export class GrFileList extends base {
     this.diffCursor.reInitAndUpdateStops();
   }
 
-  private _clearCollapsedDiffs(collapsedDiffs: GrDiffHost[]) {
+  // private but used in test
+  _clearCollapsedDiffs(collapsedDiffs: GrDiffHost[]) {
     for (const diff of collapsedDiffs) {
       diff.cancel();
       diff.clearDiffContent();
@@ -1343,9 +1349,11 @@ export class GrFileList extends base {
    * for each path in order, awaiting the previous render to complete before
    * continuing.
    *
+   * private but used in test
+   *
    * @param initialCount The total number of paths in the pass.
    */
-  private async _renderInOrder(
+  async _renderInOrder(
     files: PatchSetFile[],
     diffElements: GrDiffHost[],
     initialCount: number

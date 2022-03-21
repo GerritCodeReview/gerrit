@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d746d3fa_a323cb8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-21T16:14:58Z",
+      "side": 1,
+      "message": "Can you rebase this such this is not dependent on the API change?",
+      "revId": "cdc3fc9de5b49f963f090363cc9a582bbfbf2bc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

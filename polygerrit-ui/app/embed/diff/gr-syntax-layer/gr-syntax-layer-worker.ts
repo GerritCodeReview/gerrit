@@ -95,37 +95,6 @@ const LANGUAGE_MAP = new Map<string, string>([
 
 const CLASS_PREFIX = 'gr-diff gr-syntax gr-syntax-';
 
-const CLASS_SAFELIST = new Set<string>([
-  'attr',
-  'attribute',
-  'built_in',
-  'comment',
-  'doctag',
-  'function',
-  'keyword',
-  'link',
-  'literal',
-  'meta',
-  'meta-keyword',
-  'name',
-  'number',
-  'params',
-  'property',
-  'regexp',
-  'selector-attr',
-  'selector-class',
-  'selector-id',
-  'selector-pseudo',
-  'selector-tag',
-  'string',
-  'tag',
-  'template-tag',
-  'template-variable',
-  'title',
-  'type',
-  'variable',
-]);
-
 export class GrSyntaxLayerWorker implements DiffLayer {
   diff?: DiffInfo;
 
@@ -193,7 +162,6 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     const ranges = rangesPerLine[lineNumber - 1]?.ranges ?? [];
 
     for (const range of ranges) {
-      if (!CLASS_SAFELIST.has(range.className)) continue;
       if (range.length === 0) continue;
       GrAnnotation.annotateElement(
         el,

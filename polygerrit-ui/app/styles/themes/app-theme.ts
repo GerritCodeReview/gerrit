@@ -413,7 +413,7 @@ const appThemeCss = safeStyleSheet`
     --syntax-selector-attr-color: #fa8602;
     --syntax-selector-class-color: #164;
     --syntax-selector-id-color: #2a00ff;
-    --syntax-property-color: #fa8602;
+    --syntax-property-color: #444;
     --syntax-selector-pseudo-color: #fa8602;
     --syntax-string-color: #2a00ff;
     --syntax-tag-color: #170;
@@ -421,7 +421,7 @@ const appThemeCss = safeStyleSheet`
     --syntax-template-variable-color: #0000c0;
     --syntax-title-color: #0000c0;
     --syntax-type-color: var(--blue-700);
-    --syntax-variable-color: var(--primary-text-color);
+    --syntax-variable-color: #ab5656;
 
     /* elevation */
     --elevation-level-1: 0px 1px 2px 0px rgba(60, 64, 67, 0.3),

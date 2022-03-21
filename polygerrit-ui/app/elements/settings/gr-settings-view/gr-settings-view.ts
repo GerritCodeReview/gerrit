@@ -184,9 +184,6 @@ export class GrSettingsView extends PolymerElement {
   _diffPrefsChanged = false;
 
   @property({type: Boolean})
-  _editPrefsChanged = false;
-
-  @property({type: Boolean})
   _menuChanged = false;
 
   @property({type: Boolean})
@@ -453,10 +450,6 @@ export class GrSettingsView extends PolymerElement {
 
   _handleSaveDiffPreferences() {
     this.$.diffPrefs.save();
-  }
-
-  _handleSaveEditPreferences() {
-    this.$.editPrefs.save();
   }
 
   _handleSaveMenu() {

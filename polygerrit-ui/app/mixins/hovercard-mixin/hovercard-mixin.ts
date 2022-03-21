@@ -26,6 +26,7 @@ import {DependencyRequestEvent} from '../../models/dependency';
 import {
   addShortcut,
   findActiveElement,
+  isElementTarget,
   Key,
   Modifier,
 } from '../../utils/dom-util';
@@ -355,6 +356,12 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       return target as HTMLElement;
     }
 
+    private readonly documentClickListener = (e: MouseEvent) => {
+      if (!e.target || !isElementTarget(e.target)) return;
+      if (this.contains(e.target)) return;
+      this.forceHide();
+    };
+
     /**
      * Hovercards aren't children of <gr-app>. Dependencies must be resolved via
      * their targets, so re-route 'request-dependency' events.
@@ -418,6 +425,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       if (this.container?.contains(this)) {
         this.container.removeChild(this);
       }
+      document.removeEventListener('click', this.documentClickListener);
     };
 
     /**
@@ -511,6 +519,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       if (props?.keyboardEvent) {
         this.focus();
       }
+      document.addEventListener('click', this.documentClickListener);
     };
 
     updatePosition() {

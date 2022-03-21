@@ -138,7 +138,6 @@ export class GrChangeListView extends LitElement {
       'visibilitychange',
       this.visibilityChangeListener
     );
-    this.loadPreferences();
     super.disconnectedCallback();
   }
 

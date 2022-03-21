@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17b103ee_20e23bcd",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-21T15:48:33Z",
+      "side": 1,
+      "message": "I have tried that, but it did not work for me. Did it work for you?",
+      "parentUuid": "f472202b_7e88c8eb",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0127e211_ebe198f9",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
         "patchSetId": 29

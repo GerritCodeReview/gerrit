@@ -32,6 +32,7 @@ import {customElement, property, state} from 'lit/decorators';
 import {classMap} from 'lit/directives/class-map';
 import {getRemovedByIconClickReason} from '../../../utils/attention-set-util';
 import {ifDefined} from 'lit/directives/if-defined';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 
 @customElement('gr-account-label')
 export class GrAccountLabel extends LitElement {
@@ -174,7 +175,6 @@ export class GrAccountLabel extends LitElement {
         }
         .name {
           display: inline-block;
-          text-decoration: inherit;
           vertical-align: top;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -182,6 +182,13 @@ export class GrAccountLabel extends LitElement {
         }
         .hasAttention .name {
           font-weight: var(--font-weight-bold);
+        }
+        a {
+          color: var(--primary-text-color);
+          text-decoration: none;
+        }
+        a:hover {
+          text-decoration: underline;
         }
       `,
     ];
@@ -196,6 +203,7 @@ export class GrAccountLabel extends LitElement {
     this.deselected = !this.selected;
     const hasAvatars = !!_config?.plugin?.has_avatars;
     this.avatarShown = !this.hideAvatar && hasAvatars;
+
 
     return html`
       <div class="container">
@@ -254,15 +262,15 @@ export class GrAccountLabel extends LitElement {
           ${this.avatarShown
             ? html`<gr-avatar .account="${account}" imageSize="32"></gr-avatar>`
             : ''}
-          <span
-            tabindex=${this.hideHovercard ? '-1' : '0'}
+          <a href="${ifDefined(this._computeOwnerLink())}"
+            tabindex="0"
             role=${ifDefined(this.hideHovercard ? undefined : 'button')}
             id="hovercardTarget"
             class="name"
             part="gr-account-label-text"
           >
             ${this._computeName(account, this.firstName, this._config)}
-          </span>
+          </a>
           ${this.renderAccountStatusPlugins()}
         </span>
       </div>
@@ -281,6 +289,18 @@ export class GrAccountLabel extends LitElement {
       // For re-evaluation of everything that depends on 'change'.
       if (this.change) this.change = {...this.change};
     });
+  }
+
+  _computeOwnerLink() {
+    if (!this.account) {
+      return;
+    }
+    return GerritNav.getUrlForOwner(
+      this.account.email ||
+      this.account.username ||
+      this.account.name ||
+        `${this.account._account_id}`
+    );
   }
 
   private renderAccountStatusPlugins() {

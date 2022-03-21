@@ -97,6 +97,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5af07a66_6e6743c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-03-21T15:12:50Z",
+      "side": 1,
+      "message": "I wasn\u0027t aware of this being a style of yours, since I\u0027ve never before heard about lower-case being a \"personal style\" I honestly thought it was a mistake.\n\nIf you look through the commit-messages of Gerrit, you\u0027d be hard pressed to find a commit message subject that starts with a lower-case letter, with the obvious exception when the first word is a label that starts with a lower-case which suggests to me that it\u0027s a de-facto standard to start the commit message subject with a capital letter.\nApart from the commit message subject we strive for having correct written English in the commit messages which includes starting sentences with a capital letter.\nSo it\u0027s not a question of whether or not the community has strong feelings about keeping commit messages up-to-par with the current de-facto standard it\u0027s more a question of whether you have strong feelings against conforming to it.\nI don\u0027t have the bandwidth to continue this discussion ATM (hence me moving myself to CC, I\u0027m sure you can sort it out with the active reviewers.",
+      "parentUuid": "0489b56d_6e38945c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 5
+      },
+      "revId": "52cb2b63a0c7346ca03877c78f6503ef73ff31c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "60051e42_16b69ca4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

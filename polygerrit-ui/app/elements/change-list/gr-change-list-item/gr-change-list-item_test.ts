@@ -588,7 +588,11 @@ suite('gr-change-list-item tests', () => {
         </div>
       </a>
       <span class="placeholder"> -- </span>
-      <gr-account-label deselected="" highlightattention=""></gr-account-label>
+      <gr-account-label
+        deselected=""
+        clickable=""
+        highlightattention=""
+      ></gr-account-label>
       <div></div>
       <span></span>
       <a class="fullRepo" href=""> test-project </a>

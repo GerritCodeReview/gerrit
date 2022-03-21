@@ -33,6 +33,24 @@
       "message": "Edwin, do you mind taking a look?",
       "revId": "190bed3ed74d74f86097ea75b853a9834e1c7464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "203aac8a_87990687",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-21T14:50:38Z",
+      "side": 1,
+      "message": "The diff of this change LGTM.\n\n\u003e if so, i\u0027m not quite sure what to do about it - we could promote the Bcc to To,\n\u003e but that isn\u0027t acceptable if the message has multiple bccs, as they are not \n\u003e supposed to see each other.\n\nYeah, that\u0027s something we shouldn\u0027t do.\n\n\u003e i suppose one could add a fake To containing the sender.\n\nThis would be fine with me, but we should be careful that these emails do not trigger email-ingestion [1] when receiving emails is configured [2].\n\n\u003e but there is a wider issue that bccs are generally a bit of spam filter trigger,\n\u003e so the real fix would be atomizing the bcc list and sending everyone their own\n\u003e mail with To. this would be a bit tougher on gerrit\u0027s smtp workers and the \n\u003e relaying mta\u0027s incoming queue.\n\nI think another issue with this would be that html emails would need to be rendered/generated per user, rather than once, and rendering/generation html emails is expensive?\n\nI don\u0027t know if the additional work for SMTP workers would be an issue. I would think not, but I have data to judge, so this is just a gut feeling.\n\n[1] https://gerrit-review.googlesource.com/q/topic:email-ingestion\n[2] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#receiveemail",
+      "parentUuid": "664a90ff_49ae9fb1",
+      "revId": "190bed3ed74d74f86097ea75b853a9834e1c7464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

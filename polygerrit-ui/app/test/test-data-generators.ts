@@ -201,6 +201,17 @@ export function createAccountWithIdNameAndEmail(id = 5): AccountInfo {
   };
 }
 
+export function createAccountDetailWithIdNameAndEmail(
+  id = 5
+): AccountDetailInfo {
+  return {
+    _account_id: id as AccountId,
+    email: `user-${id}@` as EmailAddress,
+    name: `User-${id}`,
+    registered_on: dateToTimestamp(new Date(2020, 10, 15, 14, 5, 8)),
+  };
+}
+
 export function createReviewers(): Reviewers {
   return {};
 }

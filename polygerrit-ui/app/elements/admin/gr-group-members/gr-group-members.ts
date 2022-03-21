@@ -269,7 +269,7 @@ export class GrGroupMembers extends LitElement {
     return html`
       <tr>
         <td class="nameColumn">
-          <gr-account-label .account=${member}></gr-account-label>
+          <gr-account-label .account=${member} clickable></gr-account-label>
         </td>
         <td>${member.email}</td>
         <td class="deleteColumn">

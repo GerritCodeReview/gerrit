@@ -342,7 +342,7 @@ export class GrRepoDetailList extends LitElement {
 
     return html`
       <div class="tagger">
-        <gr-account-label .account=${tagger}> </gr-account-label>
+        <gr-account-label .account=${tagger} clickable> </gr-account-label>
         (<gr-date-formatter withTooltip .dateStr=${tagger.date}>
         </gr-date-formatter
         >)

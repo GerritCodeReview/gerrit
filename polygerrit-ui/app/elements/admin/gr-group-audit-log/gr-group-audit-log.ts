@@ -119,11 +119,14 @@ export class GrGroupAuditLog extends LitElement {
             ? html`<a href=${this.computeGroupUrl(audit.member)}
                 >${this.getNameForGroup(audit.member)}</a
               >`
-            : html`<gr-account-label .account=${audit.member}></gr-account-label
+            : html`<gr-account-label
+                  .account=${audit.member}
+                  clickable
+                ></gr-account-label
                 >${this.getIdForUser(audit.member)}`}
         </td>
         <td class="by-user">
-          <gr-account-label .account=${audit.user}></gr-account-label>
+          <gr-account-label clickable .account=${audit.user}></gr-account-label>
           ${this.getIdForUser(audit.user)}
         </td>
       </tr>

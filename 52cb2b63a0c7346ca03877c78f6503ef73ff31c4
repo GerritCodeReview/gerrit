@@ -62,6 +62,30 @@
       },
       "revId": "52cb2b63a0c7346ca03877c78f6503ef73ff31c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da5674da_ad770f58",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-03-21T14:26:07Z",
+      "side": 1,
+      "message": "i thought it is, but line 506 actually already covers the case, so i\u0027ll drop that.",
+      "parentUuid": "0df645f9_5721bea8",
+      "range": {
+        "startLine": 215,
+        "startChar": 8,
+        "endLine": 222,
+        "endChar": 7
+      },
+      "revId": "52cb2b63a0c7346ca03877c78f6503ef73ff31c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

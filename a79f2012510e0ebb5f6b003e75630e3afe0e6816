@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56fb33cb_8d580e94",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-21T09:23:18Z",
+      "side": 1,
+      "message": "cast as GrDiffHost and remove the comment",
+      "range": {
+        "startLine": 1150,
+        "startChar": 0,
+        "endLine": 1152,
+        "endChar": 0
+      },
+      "revId": "a79f2012510e0ebb5f6b003e75630e3afe0e6816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "226eec12_3a7e42fa",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-21T09:23:18Z",
+      "side": 1,
+      "message": "comment line too long",
+      "range": {
+        "startLine": 1252,
+        "startChar": 80,
+        "endLine": 1252,
+        "endChar": 81
+      },
+      "revId": "a79f2012510e0ebb5f6b003e75630e3afe0e6816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

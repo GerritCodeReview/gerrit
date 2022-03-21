@@ -120,24 +120,35 @@ export class GrDashboardView extends LitElement {
   constructor() {
     super();
     this.addEventListener('reload', () => this.reload(this.params));
-    // We are not currently verifying if the view is actually visible. We rely
-    // on gr-app-element to restamp the component if view changes
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        if (
-          Date.now() - this.lastVisibleTimestampMs >
-          RELOAD_DASHBOARD_INTERVAL_MS
-        )
-          this.reload(this.params);
-      } else {
-        this.lastVisibleTimestampMs = Date.now();
-      }
-    });
   }
+
+  private readonly visibilityChangeListener = () => {
+    if (document.visibilityState === 'visible') {
+      if (
+        Date.now() - this.lastVisibleTimestampMs >
+        RELOAD_DASHBOARD_INTERVAL_MS
+      )
+        this.reload();
+    } else {
+      this.lastVisibleTimestampMs = Date.now();
+    }
+  };
 
   override connectedCallback() {
     super.connectedCallback();
     this.loadPreferences();
+    document.addEventListener(
+      'visibilitychange',
+      this.visibilityChangeListener
+    );
+  }
+
+  override disconnectedCallback() {
+    document.removeEventListener(
+      'visibilitychange',
+      this.visibilityChangeListener
+    );
+    super.disconnectedCallback();
   }
 
   static override get styles() {

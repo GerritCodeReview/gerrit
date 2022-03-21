@@ -356,6 +356,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1dcae781_5d851b33",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-21T13:54:22Z",
+      "side": 1,
+      "message": "We should test the util functions inside of the util test file. As for testing things in components, we should create the desired input data that will get us the right result. Stubbing this feels very brittle\n\nI think this entire test can probably be removed.",
+      "parentUuid": "065f8bd9_5ed96ad8",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 76
+      },
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0517a5f4_b406b899",
         "filename": "polygerrit-ui/app/utils/label-util.ts",
         "patchSetId": 23

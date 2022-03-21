@@ -52,6 +52,9 @@ export const grSyntaxTheme = css`
   .gr-syntax-variable {
     color: var(--syntax-variable-color);
   }
+  .gr-syntax-variable.language_ {
+    color: var(--syntax-variable-language-color);
+  }
   .gr-syntax-template-variable {
     color: var(--syntax-template-variable-color);
   }

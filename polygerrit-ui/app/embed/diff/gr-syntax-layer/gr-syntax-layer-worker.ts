@@ -124,6 +124,7 @@ const CLASS_SAFELIST = new Set<string>([
   'title',
   'type',
   'variable',
+  'variable language_'
 ]);
 
 export class GrSyntaxLayerWorker implements DiffLayer {

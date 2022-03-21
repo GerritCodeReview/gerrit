@@ -388,7 +388,7 @@ suite('gr-editor-view tests', () => {
   test('showAlert', async () => {
     const promise = mockPromise();
     element.addEventListener('show-alert', e => {
-      assert.deepEqual(e.detail, {message: 'test message'});
+      assert.deepEqual(e.detail, {message: 'test message', showDismiss: true});
       assert.isTrue(e.bubbles);
       promise.resolve();
     });

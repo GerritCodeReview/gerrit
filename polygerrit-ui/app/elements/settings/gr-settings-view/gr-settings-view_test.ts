@@ -584,7 +584,7 @@ suite('gr-settings-view tests', () => {
       );
       assert.deepEqual(
         (dispatchEventSpy.lastCall.args[0] as CustomEvent).detail,
-        {message: 'bar'}
+        {message: 'bar', showDismiss: true}
       );
     });
   });

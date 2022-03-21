@@ -16,6 +16,29 @@
       "message": "Edwin, do you mind taking a look?",
       "revId": "5912dc4ca6da62a8159b5c60b7b29922609064c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95810595_b09daca3",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-21T14:29:57Z",
+      "side": 1,
+      "message": "nit: We use \"TODO\" rather than \"FIXME\". Do you mind changing this?",
+      "range": {
+        "startLine": 277,
+        "startChar": 11,
+        "endLine": 277,
+        "endChar": 16
+      },
+      "revId": "5912dc4ca6da62a8159b5c60b7b29922609064c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

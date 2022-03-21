@@ -24,9 +24,10 @@ import {
   stubRestApi,
 } from '../../../test/test-utils';
 import {GrAccountLabel} from './gr-account-label';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {
-  createAccountDetailWithId,
+  createAccountDetailWithIdNameAndEmail,
   createChange,
   createPluginConfig,
   createServerInfo,
@@ -38,11 +39,12 @@ const basicFixture = fixtureFromElement('gr-account-label');
 suite('gr-account-label tests', () => {
   let element: GrAccountLabel;
   const kermit: AccountDetailInfo = {
-    ...createAccountDetailWithId(31),
+    ...createAccountDetailWithIdNameAndEmail(31),
     name: 'kermit',
   };
 
   setup(async () => {
+    sinon.stub(GerritNav, 'getUrlForOwner').callsFake(() => 'test');
     stubRestApi('getAccount').resolves(kermit);
     stubRestApi('getLoggedIn').resolves(false);
     stubRestApi('getConfig').resolves({
@@ -84,6 +86,38 @@ suite('gr-account-label tests', () => {
             <span class="rightSidePadding"></span>
           </gr-endpoint-decorator>
         </span>
+      </div>
+    `);
+  });
+
+  test('renders clickable', async () => {
+    element.account = kermit;
+    element.clickable = true;
+    await element.updateComplete;
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="container">
+        <gr-hovercard-account for="hovercardTarget"></gr-hovercard-account>
+        <a class="ownerLink" href="test" tabindex="-1">
+          <span class="hovercardTargetWrapper">
+            <gr-avatar hidden="" imagesize="32"> </gr-avatar>
+            <span
+              class="name"
+              id="hovercardTarget"
+              part="gr-account-label-text"
+              role="button"
+              tabindex="0"
+            >
+              kermit
+            </span>
+            <gr-endpoint-decorator
+              class="accountStatusDecorator"
+              name="account-status-icon"
+            >
+              <gr-endpoint-param name="accountId"></gr-endpoint-param>
+              <span class="rightSidePadding"></span>
+            </gr-endpoint-decorator>
+          </span>
+        </a>
       </div>
     `);
   });
@@ -137,14 +171,14 @@ suite('gr-account-label tests', () => {
       };
       element._selfAccount = kermit;
       element.account = {
-        ...createAccountDetailWithId(42),
+        ...createAccountDetailWithIdNameAndEmail(42),
         name: 'ernie',
       };
       element.change = {
         ...createChange(),
         attention_set: {
           42: {
-            account: createAccountDetailWithId(42),
+            account: createAccountDetailWithIdNameAndEmail(42),
           },
         },
         owner: kermit,

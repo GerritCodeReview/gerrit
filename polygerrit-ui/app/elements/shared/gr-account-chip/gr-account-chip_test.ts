@@ -40,7 +40,7 @@ suite('gr-account-chip tests', () => {
     expect(element).shadowDom.to.equal(/* HTML */ `
       <div class="container">
         <div>
-          <gr-account-label deselected=""></gr-account-label>
+          <gr-account-label clickable="" deselected=""></gr-account-label>
         </div>
         <slot name="vote-chip"></slot>
         <gr-button

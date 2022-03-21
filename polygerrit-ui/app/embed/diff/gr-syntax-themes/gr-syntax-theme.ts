@@ -85,6 +85,9 @@ export const grSyntaxTheme = css`
   .gr-syntax-title {
     color: var(--syntax-title-color);
   }
+  .gr-syntax-title.function_ {
+    color: var(--syntax-title-function-color);
+  }
   .gr-syntax-attr {
     color: var(--syntax-attr-color);
   }

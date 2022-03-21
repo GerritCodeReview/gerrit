@@ -1,6 +1,6 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary")
 load("//tools/bzl:genrule2.bzl", "genrule2")
-load("//tools/bzl:js.bzl", "karma_test")
+load("//tools/bzl:js.bzl", "shard")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -48,8 +48,50 @@ sh_binary(
     ],
 )
 
-karma_test(
+shard(dir = "elements/admin")
+
+shard(dir = "elements/change-list")
+
+shard(dir = "elements/change")
+
+shard(dir = "elements/checks")
+
+shard(dir = "elements/core")
+
+shard(dir = "elements/diff")
+
+shard(dir = "elements/edit")
+
+shard(dir = "elements/plugins")
+
+shard(dir = "elements/settings")
+
+shard(dir = "elements/shared")
+
+shard(dir = "embed")
+
+shard(dir = "models")
+
+shard(dir = "services")
+
+shard(dir = "utils")
+
+test_suite(
     name = "karma_test",
-    srcs = ["karma_test.sh"],
-    data = ["//polygerrit-ui/app:test-srcs-fg"],
+    tests = [
+        "elements/admin",
+        "elements/change",
+        "elements/change-list",
+        "elements/checks",
+        "elements/core",
+        "elements/diff",
+        "elements/edit",
+        "elements/plugins",
+        "elements/settings",
+        "elements/shared",
+        "embed",
+        "models",
+        "services",
+        "utils",
+    ],
 )

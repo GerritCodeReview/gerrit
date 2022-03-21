@@ -112,6 +112,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c316849d_3ba2597a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-21T09:15:31Z",
+      "side": 1,
+      "message": "If you write this as a for-loop instead of a reduce, you could just keep your set and wouldn\u0027t constantly have to parse out \u0027previous\u0027 from the map into the set and then back.\n\n```\nconst allLabels \u003d this.selectedChanges.filter(changes \u003d\u003e !!changes.permitted_labels).map(changes \u003d\u003e changes.permitted_labels)\n\nif (allLabels.length \u003d\u003d\u003d 0) return {};\nlet labelSet \u003d labelsToSets(allLabels[0]);\n\nfor (let i \u003d 1; i \u003c allLabels.length; ++i) {\n  const currentLabelSet \u003d labelsToSets(allLabels[i]);\n  labelSet \u003d mergeLabelSets(labelSet, currentLabels);\n}\n\nreturn setsToLabels(labelSet);\n}\n```\n\nOr if you really want to map-reduce:\n\n```\n    return setsToLabels(\n      this.selectedChanges\n        .filter(changes \u003d\u003e !!changes.permitted_labels)\n        .map(changes \u003d\u003e changes.permitted_labels)\n        .map(labelsToSets)\n        .reduce(mergeLabelSets));\n```\n\nAnd then make some nice helper functions that convert labelsToSets in a way that\u0027s easily usable for mergeLabelSets.\n\nThat way you can test those functions individually.\n\nOne potential easy format is `Map\u003cstring, Set\u003cnumber\u003e\u003e`\n\nI would move those helper functions to label-util.ts and test them there.",
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c77060a_f4dfd345",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
         "patchSetId": 23
@@ -129,6 +146,40 @@
         "endLine": 115,
         "endChar": 76
       },
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0517a5f4_b406b899",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-21T09:15:31Z",
+      "side": 1,
+      "message": "Don\u0027t import code from elements into util libraries. Elements code should depend on utils, not the other way around.",
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2f9d2f0_352e13ad",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-21T09:15:31Z",
+      "side": 1,
+      "message": "Please add tests for this in label-util_test.ts",
       "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

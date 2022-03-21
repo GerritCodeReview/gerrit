@@ -262,8 +262,9 @@ export class GrSyntaxLayerWorker implements DiffLayer {
       this.leftRanges = await this.leftPromise;
       this.rightRanges = await this.rightPromise;
       this.notify();
-    } catch (err) {
-      if (!err.isCanceled) this.reportingService.error(err);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      if (!err.isCanceled) this.reportingService.error(err as Error);
       // One source of "error" can promise cancelation.
       this.leftRanges = [];
       this.rightRanges = [];

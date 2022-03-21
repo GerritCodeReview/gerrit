@@ -16,6 +16,24 @@
       "message": "Can you rebase this such this is not dependent on the API change?",
       "revId": "cdc3fc9de5b49f963f090363cc9a582bbfbf2bc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a4bbcb4_c14fdc15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-21T16:16:59Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d746d3fa_a323cb8e",
+      "revId": "cdc3fc9de5b49f963f090363cc9a582bbfbf2bc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

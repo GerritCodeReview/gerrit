@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bb33911_f736c48d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-21T13:06:32Z",
+      "side": 1,
+      "message": "I get:\n\nType \u0027{ cancel: SinonStub\u003c[], void\u003e; clearDiffContent: SinonStub\u003c[], void\u003e; }\u0027 is missing the following properties from type \u0027GrDiffHost\u0027: $, noAutoRender, displayLine, filesWeblinks, and 438 more.ts(2740)\n\nwhen i do that.\n\nI\u0027ll leave as is.",
+      "parentUuid": "56fb33cb_8d580e94",
+      "range": {
+        "startLine": 1150,
+        "startChar": 0,
+        "endLine": 1152,
+        "endChar": 0
+      },
+      "revId": "a79f2012510e0ebb5f6b003e75630e3afe0e6816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "226eec12_3a7e42fa",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-21T09:23:18Z",
       "side": 1,
       "message": "comment line too long",
+      "range": {
+        "startLine": 1252,
+        "startChar": 80,
+        "endLine": 1252,
+        "endChar": 81
+      },
+      "revId": "a79f2012510e0ebb5f6b003e75630e3afe0e6816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f69a5494_4ee88492",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-21T13:06:32Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "226eec12_3a7e42fa",
       "range": {
         "startLine": 1252,
         "startChar": 80,

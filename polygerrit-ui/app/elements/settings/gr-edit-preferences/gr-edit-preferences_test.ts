@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-edit-preferences';
-import {stubRestApi} from '../../../test/test-utils';
+import {queryAll, stubRestApi} from '../../../test/test-utils';
 import {GrEditPreferences} from './gr-edit-preferences';
 import {EditPreferencesInfo} from '../../../types/common';
 import {IronInputElement} from '@polymer/iron-input';
@@ -30,7 +30,7 @@ suite('gr-edit-preferences tests', () => {
   let editPreferences: EditPreferencesInfo;
 
   function valueOf(title: string, id: string): Element {
-    const sections = element.root?.querySelectorAll(`#${id} section`) ?? [];
+    const sections = queryAll(element, `#${id} section`) ?? [];
     let titleEl;
     for (let i = 0; i < sections.length; i++) {
       titleEl = sections[i].querySelector('.title');
@@ -108,18 +108,18 @@ suite('gr-edit-preferences tests', () => {
       .firstElementChild as HTMLInputElement;
     assert.equal(autoCloseInput.checked, editPreferences.auto_close_brackets);
 
-    assert.isFalse(element.hasUnsavedChanges);
+    assert.isFalse(element.hasUnsavedChanges());
   });
 
   test('save changes', async () => {
     const showTabsCheckbox = valueOf('Show tabs', 'editPreferences')
       .firstElementChild as HTMLInputElement;
     showTabsCheckbox.checked = false;
-    element._handleEditShowTabsChanged();
+    element.handleEditShowTabsChanged();
 
-    assert.isTrue(element.hasUnsavedChanges);
+    assert.isTrue(element.hasUnsavedChanges());
 
     await element.save();
-    assert.isFalse(element.hasUnsavedChanges);
+    assert.isFalse(element.hasUnsavedChanges());
   });
 });

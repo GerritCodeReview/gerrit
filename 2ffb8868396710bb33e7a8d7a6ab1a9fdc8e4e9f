@@ -70,6 +70,30 @@
       },
       "revId": "2ffb8868396710bb33e7a8d7a6ab1a9fdc8e4e9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f89436de_61d087d6",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckNewProjectReplica1.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-03-21T14:37:20Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "d8721148_1304a1fb",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 37
+      },
+      "revId": "2ffb8868396710bb33e7a8d7a6ab1a9fdc8e4e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

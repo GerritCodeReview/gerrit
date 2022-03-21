@@ -619,6 +619,10 @@ export class GrSettingsView extends PolymerElement {
   ) {
     return key !== undefined ? String(key) : '';
   }
+
+  _handlehasUnsavedChangesChanged() {
+    this._editPrefsChanged = !!this.$.editPrefs.hasUnsavedChanges;
+  }
 }
 
 declare global {

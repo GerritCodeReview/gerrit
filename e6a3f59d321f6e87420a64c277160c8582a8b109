@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bd29efb_23eb8f88",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetObserver.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-03-21T10:48:12Z",
+      "side": 1,
+      "message": "WDYT about having a Map\u003cAttentionSetUpdate.Operation, Set\u003cAccountInfo\u003e\u003e instead of two sets?\n\nAlso, do you need the entire AccountInfo? It includes things like avatars, secondary emails etc. that I imagine might not be relevant.",
+      "revId": "e6a3f59d321f6e87420a64c277160c8582a8b109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de0d2b2f_01d3f04e",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetObserver.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-03-21T10:48:12Z",
+      "side": 1,
+      "message": "What is the benefit of inserting this interface in the hierarchy?",
+      "range": {
+        "startLine": 87,
+        "startChar": 68,
+        "endLine": 87,
+        "endChar": 95
+      },
+      "revId": "e6a3f59d321f6e87420a64c277160c8582a8b109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -284,6 +284,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2ee9c18b_0928e6ea",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-03-21T10:48:12Z",
+      "side": 1,
+      "message": "LGTM on our side, but I\u0027m still wondering how you would handle out-of-order events. Will you just accept that this sometimes happens? I believe it should be rare, but I could be wrong.\n\nSo just to confirm, the way forward is that we are optimistic this doesn\u0027t pose a problem, and if it does we\u0027ll have to redesign the integration.\n\nThat being said, personally as a user/consumer of this notification I think I\u0027d be OK with, say, a 0.1% chance that two notifications arrive within seconds and are out of order.",
+      "parentUuid": "3b39ee01_b3565e27",
+      "range": {
+        "startLine": 109,
+        "startChar": 24,
+        "endLine": 109,
+        "endChar": 28
+      },
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4b75b5fc_08a147e2",
         "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetChanged.java",
         "patchSetId": 10
@@ -313,6 +337,24 @@
       "side": 1,
       "message": "Sure, but then this class doesn\u0027t follow the pattern of the similar classes around it. What do you think of this?",
       "parentUuid": "4b75b5fc_08a147e2",
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71d0adae_0aee7383",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetChanged.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-03-21T10:48:12Z",
+      "side": 1,
+      "message": "LGTM",
+      "parentUuid": "bc202440_13abef25",
       "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -144,7 +144,7 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
         ]),
     )
 
-def karma_test(name, srcs, data):
+def karma_test(name, srcs, data, tests = "*_test.js"):
     """Creates a Karma test target.
 
     It can be used both for the main Gerrit js bundle, but also for plugins. So
@@ -159,6 +159,7 @@ def karma_test(name, srcs, data):
       srcs: The shell script to invoke, where you can set command line
         arguments for Karma and its config.
       data: The bundle of JavaScript files with the tests included.
+      tests: Pattern for test files to run.
     """
 
     native.sh_test(
@@ -168,11 +169,20 @@ def karma_test(name, srcs, data):
         args = [
             "$(location //polygerrit-ui:karma_bin)",
             "$(location //polygerrit-ui:karma.conf.js)",
+            tests,
         ],
         data = data + [
             "//polygerrit-ui:karma_bin",
             "//polygerrit-ui:karma.conf.js",
         ],
         # Should not run sandboxed.
-        tags = ["karma", "local", "manual"],
+        tags = ["karma", "local"],
+    )
+
+def shard(dir):
+    karma_test(
+        name = dir,
+        srcs = ["karma_test.sh"],
+        data = ["//polygerrit-ui/app:test-srcs-fg"],
+        tests = dir + "/**/*_test.js",
     )

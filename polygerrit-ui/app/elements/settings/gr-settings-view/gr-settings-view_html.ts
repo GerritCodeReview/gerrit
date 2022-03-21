@@ -369,7 +369,8 @@ export const htmlTemplate = html`
       <fieldset id="editPreferences">
         <gr-edit-preferences
           id="editPrefs"
-          has-unsaved-changes="{{_editPrefsChanged}}"
+          has-unsaved-changes="[[_editPrefsChanged]]"
+          on-has-unsaved-changes-changed="_handlehasUnsavedChangesChanged"
         ></gr-edit-preferences>
         <gr-button
           id="saveEditPrefs"

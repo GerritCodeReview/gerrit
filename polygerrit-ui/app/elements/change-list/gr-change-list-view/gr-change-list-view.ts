@@ -105,29 +105,43 @@ export class GrChangeListView extends LitElement {
 
   private lastVisibleTimestampMs = 0;
 
+  private visibilityChangeListener = () => this.onVisibilityChange();
+
   constructor() {
     super();
     this.addEventListener('next-page', () => this.handleNextPage());
     this.addEventListener('previous-page', () => this.handlePreviousPage());
     this.addEventListener('reload', () => this.reload());
-    // We are not currently verifying if the view is actually visible. We rely
-    // on gr-app-element to restamp the component if view changes
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        if (
-          Date.now() - this.lastVisibleTimestampMs >
-          RELOAD_DASHBOARD_INTERVAL_MS
-        )
-          this.reload();
-      } else {
-        this.lastVisibleTimestampMs = Date.now();
-      }
-    });
+  }
+
+  private onVisibilityChange() {
+    if (document.visibilityState === 'visible') {
+      if (
+        Date.now() - this.lastVisibleTimestampMs >
+        RELOAD_DASHBOARD_INTERVAL_MS
+      )
+        this.reload();
+    } else {
+      this.lastVisibleTimestampMs = Date.now();
+    }
   }
 
   override connectedCallback() {
     super.connectedCallback();
     this.loadPreferences();
+    document.addEventListener(
+      'visibilitychange',
+      this.visibilityChangeListener
+    );
+  }
+
+  override disconnectedCallback() {
+    document.removeEventListener(
+      'visibilitychange',
+      this.visibilityChangeListener
+    );
+    this.loadPreferences();
+    super.disconnectedCallback();
   }
 
   static override get styles() {

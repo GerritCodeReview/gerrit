@@ -26,7 +26,6 @@ import {getBaseUrl} from '../../../utils/url-util';
 import {getPluginEndpoints} from './gr-plugin-endpoints';
 import {PluginApi} from '../../../api/plugin';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
-import {ShowAlertEventDetail} from '../../../types/events';
 import {fireAlert} from '../../../utils/event-util';
 
 enum PluginState {
@@ -235,13 +234,7 @@ export class PluginLoader {
 
   _failToLoad(message: string, pluginUrl?: string) {
     // Show an alert with the error
-    document.dispatchEvent(
-      new CustomEvent<ShowAlertEventDetail>('show-alert', {
-        detail: {
-          message: `Plugin install error: ${message} from ${pluginUrl}`,
-        },
-      })
-    );
+    fireAlert(document, `Plugin install error: ${message} from ${pluginUrl}`);
     if (pluginUrl) this._updatePluginState(pluginUrl, PluginState.LOAD_FAILED);
     this._checkIfCompleted();
   }

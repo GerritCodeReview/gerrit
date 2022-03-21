@@ -257,6 +257,7 @@ const darkThemeCss = safeStyleSheet`
     --syntax-template-tag-color: #c792ea;
     --syntax-template-variable-color: #f77669;
     --syntax-title-color: #75a5ff;
+    --syntax-title-function-color: var(--syntax-function-color);
     --syntax-type-color: #dd5f5f;
     --syntax-variable-color: #f77669;
     --syntax-variable-language-color: var(--syntax-built_in-color);

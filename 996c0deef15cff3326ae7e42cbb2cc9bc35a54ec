@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2973556b_ed46cc71",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-21T11:06:41Z",
+      "side": 1,
+      "message": "Move this into a method.",
+      "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3406a1d_f1c32404",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-21T11:06:41Z",
+      "side": 1,
+      "message": "Move this into a method that takes the status.",
+      "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89fb1394_a8c966c4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-21T11:06:41Z",
+      "side": 1,
+      "message": "Invert this to not be a negative query.",
+      "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "121497cf_0f4fe6e1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-21T11:06:41Z",
+      "side": 1,
+      "message": "pass in the status instead of recomputing it in the method.",
+      "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7fa6381_418a6479",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-21T11:06:41Z",
+      "side": 1,
+      "message": "Make this a switch statement.",
+      "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "217d4e72_c653512f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-21T11:06:41Z",
+      "side": 1,
+      "message": "Should this be a utility function used by multiple flows?",
+      "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -380,6 +380,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c28c678_049b7334",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-21T14:16:22Z",
+      "side": 1,
+      "message": "The component is doing the merging which is what I really want to test.\n\nThe labels that are returned are part of the util function which is why it\u0027s fine to stub it.\n\nThe main logic that I want to test here is how the common labels are computed which is what I\u0027m testing here.",
+      "parentUuid": "1dcae781_5d851b33",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 76
+      },
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0517a5f4_b406b899",
         "filename": "polygerrit-ui/app/utils/label-util.ts",
         "patchSetId": 23

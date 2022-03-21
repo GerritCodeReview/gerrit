@@ -69,7 +69,7 @@ export function fire<T>(target: EventTarget, type: string, detail: T) {
 }
 
 export function fireAlert(target: EventTarget, message: string) {
-  fire(target, EventType.SHOW_ALERT, {message});
+  fire(target, EventType.SHOW_ALERT, {message, showDismiss: true});
 }
 
 export function firePageError(response?: Response | null) {

@@ -35,6 +35,29 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc9ba22e_9a350586",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-03-21T11:16:04Z",
+      "side": 1,
+      "message": "remove (there is no type information for @return)",
+      "range": {
+        "startLine": 961,
+        "startChar": 13,
+        "endLine": 961,
+        "endChar": 22
+      },
+      "revId": "11993065dd9b0962241bce53035fc04fc4f9c810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "01f7175e_1f71dffd",
@@ -48,6 +71,29 @@
       "writtenOn": "2022-03-15T09:11:51Z",
       "side": 1,
       "message": "This check was failing before this change.",
+      "revId": "11993065dd9b0962241bce53035fc04fc4f9c810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b698d219_25920f14",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2079,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-03-21T11:16:04Z",
+      "side": 1,
+      "message": "Comment is out of date.",
+      "range": {
+        "startLine": 2078,
+        "startChar": 4,
+        "endLine": 2079,
+        "endChar": 79
+      },
       "revId": "11993065dd9b0962241bce53035fc04fc4f9c810",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

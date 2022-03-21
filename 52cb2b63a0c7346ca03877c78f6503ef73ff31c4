@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0cc7d2e_b67003b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-21T14:06:31Z",
+      "side": 1,
+      "message": "I agree with this behaviour change. FWIW I never liked that the mail was dropped in this case, so I\u0027m happy if this is getting fixed.\n\nPlease adapt the tests and then it should be fine to submit.",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "52cb2b63a0c7346ca03877c78f6503ef73ff31c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "60051e42_16b69ca4",
@@ -14,6 +37,29 @@
       "writtenOn": "2022-03-21T08:36:06Z",
       "side": 1,
       "message": "Edwin, do you mind taking a look?",
+      "revId": "52cb2b63a0c7346ca03877c78f6503ef73ff31c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0df645f9_5721bea8",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-21T14:06:31Z",
+      "side": 1,
+      "message": "Is changing this related? \n\nI agree that this improve the readability of the code, but maybe this should be a separate change?",
+      "range": {
+        "startLine": 215,
+        "startChar": 8,
+        "endLine": 222,
+        "endChar": 7
+      },
       "revId": "52cb2b63a0c7346ca03877c78f6503ef73ff31c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

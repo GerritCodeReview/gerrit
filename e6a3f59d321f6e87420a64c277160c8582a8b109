@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e26a2d8b_f240121e",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetObserver.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-03-21T17:10:43Z",
+      "side": 1,
+      "message": "I can\u0027t depend on AttentionSetUpdate without rethinking the whole dependency tree. I could define my own enum that contains \"ADD\" and \"REMOVE\", but I don\u0027t think that\u0027s different from what I\u0027m doing here.\n\nI don\u0027t need the entire AccountInfo; I\u0027m really looking for a primary email address. Not sure what others who might use the API might be looking for, though, and just a set of email addresses seems tough to extend.\n\nIs there a good intermediate class that represents a subset of AccountInfo\u0027s information? Should I write one?",
+      "parentUuid": "5bd29efb_23eb8f88",
+      "revId": "e6a3f59d321f6e87420a64c277160c8582a8b109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de0d2b2f_01d3f04e",
         "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetObserver.java",
         "patchSetId": 12

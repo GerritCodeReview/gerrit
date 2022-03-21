@@ -306,6 +306,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de69b85f_1c5081ee",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-03-21T17:10:43Z",
+      "side": 1,
+      "message": "I think that\u0027s fine too. If an application *must* have the most recent state of the AttentionSet, I think they\u0027ll want to call back to a more authoritative source regardless of if we tell them what triggered the update.",
+      "parentUuid": "2ee9c18b_0928e6ea",
+      "range": {
+        "startLine": 109,
+        "startChar": 24,
+        "endLine": 109,
+        "endChar": 28
+      },
+      "revId": "e5eba5ee614de2b05b1b5040f012398026e22bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b75b5fc_08a147e2",

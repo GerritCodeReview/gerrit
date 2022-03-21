@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f836a25f_829d8ea1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-21T09:22:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca130e60_d13dc64c",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "21f63dfda66017c623f17c549410d281ecde1354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9447783_e1c9b116",
@@ -78,6 +102,24 @@
       "writtenOn": "2022-03-21T09:21:18Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "b9447783_e1c9b116",
+      "revId": "21f63dfda66017c623f17c549410d281ecde1354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "137bf3ec_e92db578",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-21T09:22:07Z",
+      "side": 1,
+      "message": "I was aware of that, but was not sure whether I like the mix of fields and methods.\n\nBut thinking about it, yes, it is probably still nicer to combine.\n\nDone.",
       "parentUuid": "b9447783_e1c9b116",
       "revId": "21f63dfda66017c623f17c549410d281ecde1354",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

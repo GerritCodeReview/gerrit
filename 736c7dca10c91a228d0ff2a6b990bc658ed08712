@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2557880_8bbf273d",
+        "filename": "polygerrit-ui/app/workers/syntax-worker.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-21T16:08:42Z",
+      "side": 1,
+      "message": "10.6 does not support this I think: https://github.com/highlightjs/highlight.js/blob/10.6.0/src/highlight.js#L109\n\nOnly in 10.7 this is possible:\nhttps://github.com/highlightjs/highlight.js/blob/10.7.0/src/highlight.js#L115\n\nAt Google internally we are still at 10.6, so this requires more upfront work.",
+      "revId": "736c7dca10c91a228d0ff2a6b990bc658ed08712",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

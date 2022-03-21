@@ -296,3 +296,10 @@ def declare_nongoogle_deps():
         artifact = "com.google.truth.extensions:truth-proto-extension:" + TRUTH_VERS,
         sha1 = "64cba89cf87c1d84cb8c81d06f0b9c482f10b4dc",
     )
+
+    # JGit's transitive dependencies
+    maven_jar(
+        name = "hamcrest-library",
+        artifact = "org.hamcrest:hamcrest-library:1.3",
+        sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
+    )

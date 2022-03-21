@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "055a91e7_dd63ad55",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-21T11:38:29Z",
+      "side": 1,
+      "message": "Existing code. I got the styles from gr-reply-dialog.\nI would prefer to update in a follow up change.",
+      "parentUuid": "6cf50ffc_6d09f7e2",
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8566ecaa_2928dcef",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-03-18T13:21:56Z",
       "side": 1,
       "message": "consider just selecting h3 by tag directly if you don\u0027t want/need to use a semantic class name.\n\nexamples: https://css-tricks.com/semantic-class-names/",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 18
+      },
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c33287ad_a32d55bc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-21T11:38:29Z",
+      "side": 1,
+      "message": "Existing code. I got the styles from gr-reply-dialog.\nI would prefer to update in a follow up change.",
+      "parentUuid": "8566ecaa_2928dcef",
       "range": {
         "startLine": 57,
         "startChar": 8,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a846054_1f7b24e8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-21T11:38:29Z",
+      "side": 1,
+      "message": "I will add one for Trigger votes later. There is a TODO already.",
+      "parentUuid": "eb4e9674_695e304d",
+      "range": {
+        "startLine": 63,
+        "startChar": 19,
+        "endLine": 63,
+        "endChar": 32
+      },
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7756d3e_b31ffe17",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-03-18T13:21:56Z",
       "side": 1,
       "message": "not used",
+      "range": {
+        "startLine": 89,
+        "startChar": 21,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86ec529c_bd9174d4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-21T11:38:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7756d3e_b31ffe17",
       "range": {
         "startLine": 89,
         "startChar": 21,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0296f381_ff40b0f1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-21T11:38:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a34bb3ad_ead457c6",
+      "range": {
+        "startLine": 103,
+        "startChar": 18,
+        "endLine": 107,
+        "endChar": 47
+      },
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c316849d_3ba2597a",
@@ -123,6 +237,24 @@
       "writtenOn": "2022-03-21T09:15:31Z",
       "side": 1,
       "message": "If you write this as a for-loop instead of a reduce, you could just keep your set and wouldn\u0027t constantly have to parse out \u0027previous\u0027 from the map into the set and then back.\n\n```\nconst allLabels \u003d this.selectedChanges.filter(changes \u003d\u003e !!changes.permitted_labels).map(changes \u003d\u003e changes.permitted_labels)\n\nif (allLabels.length \u003d\u003d\u003d 0) return {};\nlet labelSet \u003d labelsToSets(allLabels[0]);\n\nfor (let i \u003d 1; i \u003c allLabels.length; ++i) {\n  const currentLabelSet \u003d labelsToSets(allLabels[i]);\n  labelSet \u003d mergeLabelSets(labelSet, currentLabels);\n}\n\nreturn setsToLabels(labelSet);\n}\n```\n\nOr if you really want to map-reduce:\n\n```\n    return setsToLabels(\n      this.selectedChanges\n        .filter(changes \u003d\u003e !!changes.permitted_labels)\n        .map(changes \u003d\u003e changes.permitted_labels)\n        .map(labelsToSets)\n        .reduce(mergeLabelSets));\n```\n\nAnd then make some nice helper functions that convert labelsToSets in a way that\u0027s easily usable for mergeLabelSets.\n\nThat way you can test those functions individually.\n\nOne potential easy format is `Map\u003cstring, Set\u003cnumber\u003e\u003e`\n\nI would move those helper functions to label-util.ts and test them there.",
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ebf44e0_d4c59d94",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-21T11:38:29Z",
+      "side": 1,
+      "message": "I extracted a method for merging the labels.\nThe rest seems overkill.\nIt\u0027s only used in one place so not sure if it makes sense to move to util. If it\u0027s used in other places then I\u0027ll move it to util.",
+      "parentUuid": "c316849d_3ba2597a",
       "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -152,6 +284,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f3032df_bcff6e29",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-21T11:38:29Z",
+      "side": 1,
+      "message": "If the purpose it to test the util method, then the test should be added to the util method test file.\nI stubbed the method so that the component can verify it\u0027s own merging logic and not worry about the util testing.",
+      "parentUuid": "7c77060a_f4dfd345",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 76
+      },
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0517a5f4_b406b899",
         "filename": "polygerrit-ui/app/utils/label-util.ts",
         "patchSetId": 23
@@ -163,6 +319,24 @@
       "writtenOn": "2022-03-21T09:15:31Z",
       "side": 1,
       "message": "Don\u0027t import code from elements into util libraries. Elements code should depend on utils, not the other way around.",
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3058f558_fecc1573",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-21T11:38:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0517a5f4_b406b899",
       "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -180,6 +354,24 @@
       "writtenOn": "2022-03-21T09:15:31Z",
       "side": 1,
       "message": "Please add tests for this in label-util_test.ts",
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23106bb5_a9e13d67",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-21T11:38:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2f9d2f0_352e13ad",
       "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

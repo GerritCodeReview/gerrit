@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39b8b1ef_625e94d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-21T17:58:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1dcd010_32af4ff9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "84e2cdbe02e8ec700dbf42d4d06d63ff00753759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3078c2c_3f2d6207",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "345953f1_7d10d13f",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-21T17:58:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3078c2c_3f2d6207",
+      "revId": "84e2cdbe02e8ec700dbf42d4d06d63ff00753759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "558e8932_6cf1addb",
@@ -54,6 +96,24 @@
       "writtenOn": "2022-03-21T15:45:40Z",
       "side": 1,
       "message": "Maybe redundant, because `hide()` will also do this?",
+      "revId": "84e2cdbe02e8ec700dbf42d4d06d63ff00753759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bdd63aa_c2dcaa8f",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-21T17:58:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "558e8932_6cf1addb",
       "revId": "84e2cdbe02e8ec700dbf42d4d06d63ff00753759",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

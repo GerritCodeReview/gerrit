@@ -22,6 +22,40 @@
       },
       "revId": "84e2cdbe02e8ec700dbf42d4d06d63ff00753759",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3078c2c_3f2d6207",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-21T15:45:40Z",
+      "side": 1,
+      "message": "We have a `isElementTarget()` utility in `dom-util.ts`, which might be slightly nicer to use than casting like this. But up to you. 😊",
+      "revId": "84e2cdbe02e8ec700dbf42d4d06d63ff00753759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "558e8932_6cf1addb",
+        "filename": "polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-21T15:45:40Z",
+      "side": 1,
+      "message": "Maybe redundant, because `hide()` will also do this?",
+      "revId": "84e2cdbe02e8ec700dbf42d4d06d63ff00753759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

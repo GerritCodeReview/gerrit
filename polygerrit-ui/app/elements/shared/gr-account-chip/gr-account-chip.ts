@@ -203,6 +203,7 @@ export class GrAccountChip extends LitElement {
           ?forceAttention=${this.forceAttention}
           ?highlightAttention=${this.highlightAttention}
           .voteableText=${this.voteableText}
+          clickable
         >
         </gr-account-label>
         <slot name="vote-chip"></slot>

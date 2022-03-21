@@ -32,6 +32,7 @@ import {customElement, property, state} from 'lit/decorators';
 import {classMap} from 'lit/directives/class-map';
 import {getRemovedByIconClickReason} from '../../../utils/attention-set-util';
 import {ifDefined} from 'lit/directives/if-defined';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 
 @customElement('gr-account-label')
 export class GrAccountLabel extends LitElement {
@@ -96,6 +97,9 @@ export class GrAccountLabel extends LitElement {
 
   @property({type: Boolean, reflect: true})
   deselected = false;
+
+  @property({type: Boolean, reflect: true})
+  clickable = false;
 
   @property({type: Boolean, reflect: true})
   attentionIconShown = false;
@@ -174,7 +178,6 @@ export class GrAccountLabel extends LitElement {
         }
         .name {
           display: inline-block;
-          text-decoration: inherit;
           vertical-align: top;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -182,6 +185,9 @@ export class GrAccountLabel extends LitElement {
         }
         .hasAttention .name {
           font-weight: var(--font-weight-bold);
+        }
+        :host([clickable]) .hovercardTargetWrapper:hover .name{
+          text-decoration: underline;
         }
       `,
     ];
@@ -196,6 +202,7 @@ export class GrAccountLabel extends LitElement {
     this.deselected = !this.selected;
     const hasAvatars = !!_config?.plugin?.has_avatars;
     this.avatarShown = !this.hideAvatar && hasAvatars;
+
 
     return html`
       <div class="container">
@@ -250,12 +257,13 @@ export class GrAccountLabel extends LitElement {
             hovercardTargetWrapper: true,
             hasAttention: this.attentionIconShown,
           })}"
+          @click=${this.onClick}
         >
           ${this.avatarShown
             ? html`<gr-avatar .account="${account}" imageSize="32"></gr-avatar>`
             : ''}
           <span
-            tabindex=${this.hideHovercard ? '-1' : '0'}
+            tabindex=${(this.hideHovercard) ? '-1' : '0' }
             role=${ifDefined(this.hideHovercard ? undefined : 'button')}
             id="hovercardTarget"
             class="name"
@@ -281,6 +289,27 @@ export class GrAccountLabel extends LitElement {
       // For re-evaluation of everything that depends on 'change'.
       if (this.change) this.change = {...this.change};
     });
+  }
+
+  private onClick(e: MouseEvent) {
+    if (!this.clickable) return;
+    const url = this._computeOwnerLink();
+    if (!url) return;
+    window.location.href = url;
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  _computeOwnerLink() {
+    if (!this.account) {
+      return;
+    }
+    return GerritNav.getUrlForOwner(
+      this.account.email ||
+      this.account.username ||
+      this.account.name ||
+        `${this.account._account_id}`
+    );
   }
 
   private renderAccountStatusPlugins() {

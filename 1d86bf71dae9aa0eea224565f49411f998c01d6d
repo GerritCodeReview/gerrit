@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d751e937_ddc9cd7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-21T15:57:30Z",
+      "side": 1,
+      "message": "Nice, thanks!",
+      "revId": "1d86bf71dae9aa0eea224565f49411f998c01d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ec56698_3b4bde7a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-21T15:57:30Z",
+      "side": 1,
+      "message": "A ternary statement like `x ? false : true` can be simplified to just `!x`. Or in this case replace `\u003d\u003d\u003d` by `!\u003d\u003d`.",
+      "range": {
+        "startLine": 188,
+        "startChar": 12,
+        "endLine": 189,
+        "endChar": 18
+      },
+      "revId": "1d86bf71dae9aa0eea224565f49411f998c01d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

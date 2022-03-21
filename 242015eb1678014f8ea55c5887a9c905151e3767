@@ -362,6 +362,30 @@
       },
       "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44c5b643_5f7696a9",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2022-03-21T11:00:27Z",
+      "side": 1,
+      "message": "@nasser I think you\u0027re right - this should make the issue moot. We\u0027ve bumped hamcrest back to 2.2, as Google has bumped the hamcrest version to 2.2 on master.\n\n@edwin given Nasser\u0027s comment, can you approve LC?",
+      "parentUuid": "320d68a2_52c1a21e",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 0
+      },
+      "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

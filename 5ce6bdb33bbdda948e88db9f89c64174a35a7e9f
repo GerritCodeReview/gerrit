@@ -22,6 +22,30 @@
       },
       "revId": "5ce6bdb33bbdda948e88db9f89c64174a35a7e9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "900f5194_2fe7400d",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 10
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2022-03-21T11:00:27Z",
+      "side": 1,
+      "message": "We shouldn\u0027t need to do this anymore, as we\u0027re waiting for confirmation to upgrade to hamcrest 2.2.",
+      "parentUuid": "47ac62fb_2223c05d",
+      "range": {
+        "startLine": 277,
+        "startChar": 8,
+        "endLine": 277,
+        "endChar": 26
+      },
+      "revId": "5ce6bdb33bbdda948e88db9f89c64174a35a7e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

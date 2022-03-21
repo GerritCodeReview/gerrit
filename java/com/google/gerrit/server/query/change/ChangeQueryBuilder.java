@@ -227,6 +227,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String OPERATOR_MERGED_BEFORE = "mergedbefore";
   public static final String OPERATOR_MERGED_AFTER = "mergedafter";
 
+  public static final String OPERATOR_RELATIONCHAIN = "relationchain";
+
   // Operators to match on the last time the change was updated. Naming for legacy reasons.
   public static final String OPERATOR_BEFORE = "before";
   public static final String OPERATOR_AFTER = "after";
@@ -910,6 +912,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
     return ChangePredicates.ref(ref);
   }
+
+  @Operator
+  public Predicate<ChangeData> relationchain(String value) throws QueryParseException {
+    List<ChangeData> changes = parseChangeData(value);
+    List<Predicate<ChangeData>> or = new ArrayList<>(changes.size());
+    for (ChangeData c : changes) {
+      or.add(new RelationChainPredicate(value, c, args.repoManager));
+    }
+    return Predicate.or(or);
+  }
+}
 
   @Operator
   public Predicate<ChangeData> f(String file) throws QueryParseException {

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edda1256_9a3c539b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-21T12:02:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2973556b_ed46cc71",
+      "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3406a1d_f1c32404",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-21T11:06:41Z",
       "side": 1,
       "message": "Move this into a method that takes the status.",
+      "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2e609ea_bb129f0f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-21T12:02:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3406a1d_f1c32404",
       "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdc4a1f2_776b7940",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-21T12:02:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89fb1394_a8c966c4",
+      "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "121497cf_0f4fe6e1",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-03-21T11:06:41Z",
       "side": 1,
       "message": "pass in the status instead of recomputing it in the method.",
+      "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a4533ff_0d74c7b9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-21T12:02:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "121497cf_0f4fe6e1",
       "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0b13dae_bcf8e463",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-21T12:02:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7fa6381_418a6479",
+      "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "217d4e72_c653512f",
@@ -99,6 +189,24 @@
       "writtenOn": "2022-03-21T11:06:41Z",
       "side": 1,
       "message": "Should this be a utility function used by multiple flows?",
+      "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77ca4aab_4963c23d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-submit-flow/gr-change-list-submit-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-21T12:02:35Z",
+      "side": 1,
+      "message": "Everything about progress can be moved to a shared place like the model. For now I will avoid generalizing and we can copy as we want.",
+      "parentUuid": "217d4e72_c653512f",
       "revId": "996c0deef15cff3326ae7e42cbb2cc9bc35a54ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

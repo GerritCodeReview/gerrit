@@ -420,6 +420,7 @@ const appThemeCss = safeStyleSheet`
     --syntax-template-tag-color: #fa8602;
     --syntax-template-variable-color: #0000c0;
     --syntax-title-color: #0000c0;
+    --syntax-title-function-color: var(--syntax-function-color);
     --syntax-type-color: var(--blue-700);
     --syntax-variable-color: var(--primary-text-color);
     --syntax-variable-language-color: var(--syntax-built_in-color);

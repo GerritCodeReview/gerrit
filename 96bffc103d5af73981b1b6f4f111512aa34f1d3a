@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f472202b_7e88c8eb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-21T10:39:51Z",
+      "side": 1,
+      "message": "Is there a way to do this inside the tests?\n\nChris [1] mentioned a way here.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/329967/12/polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts#27",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0127e211_ebe198f9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-21T10:39:51Z",
+      "side": 1,
+      "message": "return `row?.findContentCell(side) ?? null;` perhaps?",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 45
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55e27c8f_585557c7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-21T10:39:51Z",
+      "side": 1,
+      "message": "merge?",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 38
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "151a3754_aaefce9c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-21T10:39:51Z",
+      "side": 1,
+      "message": "extract to a constant instead?\nvalues seem all magical",
+      "range": {
+        "startLine": 131,
+        "startChar": 11,
+        "endLine": 136,
+        "endChar": 6
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

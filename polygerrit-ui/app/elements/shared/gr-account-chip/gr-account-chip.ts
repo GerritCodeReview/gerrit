@@ -197,28 +197,30 @@ export class GrAccountChip extends LitElement {
           closeShown: this.removable,
         })}"
       >
-        <gr-account-label
-          .account="${this.account}"
-          .change="${this.change}"
-          ?forceAttention=${this.forceAttention}
-          ?highlightAttention=${this.highlightAttention}
-          .voteableText=${this.voteableText}
-        >
-        </gr-account-label>
-        <slot name="vote-chip"></slot>
-        <gr-button
-          id="remove"
-          link=""
-          ?hidden=${!this.removable}
-          aria-label="Remove"
-          class="${classMap({
-            remove: true,
-            transparentBackground: this.transparentBackground,
-          })}"
-          @click=${this._handleRemoveTap}
-        >
-          <iron-icon icon="gr-icons:close"></iron-icon>
-        </gr-button>
+        <div>
+          <gr-account-label
+            .account="${this.account}"
+            .change="${this.change}"
+            ?forceAttention=${this.forceAttention}
+            ?highlightAttention=${this.highlightAttention}
+            .voteableText=${this.voteableText}
+          >
+          </gr-account-label>
+          <slot name="vote-chip"></slot>
+          <gr-button
+            id="remove"
+            link=""
+            ?hidden=${!this.removable}
+            aria-label="Remove"
+            class="${classMap({
+              remove: true,
+              transparentBackground: this.transparentBackground,
+            })}"
+            @click=${this._handleRemoveTap}
+          >
+            <iron-icon icon="gr-icons:close"></iron-icon>
+          </gr-button>
+        </div>
       </div>`;
   }
 

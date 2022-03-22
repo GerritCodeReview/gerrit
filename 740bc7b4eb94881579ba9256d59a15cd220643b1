@@ -16,6 +16,29 @@
       "message": "Nice",
       "revId": "740bc7b4eb94881579ba9256d59a15cd220643b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "933ae65f_22acdf06",
+        "filename": "javatests/com/google/gerrit/acceptance/server/query/ApprovalQueryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-03-22T14:19:23Z",
+      "side": 1,
+      "message": "nit: I think loops in tests are discouraged. You\u0027d get the same coverage at a better readability if you just test 2-3 cases by hand.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 8
+      },
+      "revId": "740bc7b4eb94881579ba9256d59a15cd220643b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "178ad3e2_9f34decc",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-22T11:55:42Z",
+      "side": 1,
+      "message": "Generally we prefer `undefined` over `null`, so if at all, then I would return `undefined`. I guess it depends on the callers whether they can deal better with `undefined` or with the string `\u0027undefined\u0027`. I don\u0027t feel strongly and don\u0027t think returning `undefined` is necessarily simpler.",
+      "parentUuid": "c3baf5d1_ce929a1c",
+      "revId": "4be195658adcbf38da9495955d493c354a4344aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82f1903e_f80a3873",
         "filename": "polygerrit-ui/app/utils/label-util_test.ts",
         "patchSetId": 8

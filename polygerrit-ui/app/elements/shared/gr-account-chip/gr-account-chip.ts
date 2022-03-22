@@ -197,13 +197,15 @@ export class GrAccountChip extends LitElement {
           closeShown: this.removable,
         })}"
       >
-        <gr-account-label
-          .account="${this.account}"
-          .change="${this.change}"
-          ?forceAttention=${this.forceAttention}
-          ?highlightAttention=${this.highlightAttention}
-          .voteableText=${this.voteableText}
-        >
+        <span> <!-- Used for proper alignment -->
+          <gr-account-label
+            .account="${this.account}"
+            .change="${this.change}"
+            ?forceAttention=${this.forceAttention}
+            ?highlightAttention=${this.highlightAttention}
+            .voteableText=${this.voteableText}
+          >
+        </span>
         </gr-account-label>
         <slot name="vote-chip"></slot>
         <gr-button

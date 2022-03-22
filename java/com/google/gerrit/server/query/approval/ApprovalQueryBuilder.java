@@ -56,12 +56,13 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
 
   @Operator
   public Predicate<ApprovalContext> changekind(String value) throws QueryParseException {
-    return new ChangeKindPredicate(toEnumValue(ChangeKind.class, value));
+    return new ChangeKindPredicate(toEnumValue("changekind", ChangeKind.class, value));
   }
 
   @Operator
   public Predicate<ApprovalContext> is(String value) throws QueryParseException {
-    return magicValuePredicate.create(toEnumValue(MagicValuePredicate.MagicValue.class, value));
+    return magicValuePredicate.create(
+        toEnumValue("is", MagicValuePredicate.MagicValue.class, value));
   }
 
   @Operator
@@ -85,14 +86,15 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
             value));
   }
 
-  private static <T extends Enum<T>> T toEnumValue(Class<T> clazz, String value)
+  private static <T extends Enum<T>> T toEnumValue(String operator, Class<T> clazz, String value)
       throws QueryParseException {
     Optional<T> maybeEnum = Enums.getIfPresent(clazz, value.toUpperCase().replace('-', '_'));
     if (!maybeEnum.isPresent()) {
       throw new QueryParseException(
           String.format(
-              "%s is not a valid value. Valid values: %s",
+              "%s is not a valid value for operator '%s'. Valid values: %s",
               value,
+              operator,
               Arrays.stream(clazz.getEnumConstants())
                   .map(Object::toString)
                   .sorted()

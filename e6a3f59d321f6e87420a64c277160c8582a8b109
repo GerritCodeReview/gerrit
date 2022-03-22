@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0953b444_fd184205",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetObserver.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-03-22T11:17:32Z",
+      "side": 1,
+      "message": "my $0.02 \n\nI think it\u0027s better to have Account.Id instead. The receiver of the update can use the AccountCache to lookup whatever info they need.",
+      "parentUuid": "e26a2d8b_f240121e",
+      "revId": "e6a3f59d321f6e87420a64c277160c8582a8b109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de0d2b2f_01d3f04e",
         "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetObserver.java",
         "patchSetId": 12

@@ -214,7 +214,9 @@ export interface RestApiService extends Finalizable {
 
   getEditPreferences(): Promise<EditPreferencesInfo | undefined>;
 
-  saveEditPreferences(prefs: EditPreferencesInfo): Promise<Response>;
+  saveEditPreferences(
+    prefs: EditPreferencesInfo
+  ): Promise<EditPreferencesInfo | undefined>;
 
   getAccountEmails(): Promise<EmailInfo[] | undefined>;
   deleteAccountEmail(email: string): Promise<Response>;

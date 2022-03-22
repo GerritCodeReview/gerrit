@@ -26,6 +26,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css} from 'lit';
 import {customElement, query, state} from 'lit/decorators';
 import {convertToString} from '../../../utils/string-util';
+import {subscribe} from '../../lit/subscription-controller';
 
 @customElement('gr-edit-preferences')
 export class GrEditPreferences extends LitElement {
@@ -57,7 +58,15 @@ export class GrEditPreferences extends LitElement {
 
   @state() private originalEditPrefs?: EditPreferencesInfo;
 
-  private readonly restApiService = getAppContext().restApiService;
+  private readonly userModel = getAppContext().userModel;
+
+  override connectedCallback() {
+    super.connectedCallback();
+    subscribe(this, this.userModel.editPreferences$, editPreferences => {
+      this.originalEditPrefs = editPreferences;
+      this.editPrefs = {...editPreferences};
+    });
+  }
 
   static override get styles() {
     return [
@@ -223,14 +232,6 @@ export class GrEditPreferences extends LitElement {
     `;
   }
 
-  loadData() {
-    return this.restApiService.getEditPreferences().then(prefs => {
-      if (!prefs) return;
-      this.originalEditPrefs = prefs;
-      this.editPrefs = {...prefs};
-    });
-  }
-
   private readonly handleEditTabWidthChanged = () => {
     this.editPrefs!.tab_size = Number(this.editTabWidth!.value);
     this.requestUpdate();
@@ -312,16 +313,9 @@ export class GrEditPreferences extends LitElement {
     );
   }
 
-  save() {
-    if (!this.editPrefs)
-      return Promise.reject(new Error('Missing edit preferences'));
-    return this.restApiService.saveEditPreferences(this.editPrefs).then(() => {
-      // This is to make sure that hasUnsavedChanges() is triggered within
-      // the html template.
-      // Once this is moved to model the below will no longer be needed.
-      this.loadData();
-      this.requestUpdate();
-    });
+  async save() {
+    if (!this.editPrefs) return;
+    await this.userModel.updateEditPreference(this.editPrefs);
   }
 }
 

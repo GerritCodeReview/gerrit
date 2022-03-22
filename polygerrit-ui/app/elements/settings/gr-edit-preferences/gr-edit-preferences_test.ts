@@ -17,16 +17,16 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-edit-preferences';
-import {queryAll, stubRestApi} from '../../../test/test-utils';
+import {queryAll} from '../../../test/test-utils';
 import {GrEditPreferences} from './gr-edit-preferences';
 import {EditPreferencesInfo} from '../../../types/common';
 import {IronInputElement} from '@polymer/iron-input';
+import {createDefaultEditPrefs} from '../../../constants/constants';
 
 const basicFixture = fixtureFromElement('gr-edit-preferences');
 
 suite('gr-edit-preferences tests', () => {
   let element: GrEditPreferences;
-
   let editPreferences: EditPreferencesInfo;
 
   function valueOf(title: string, id: string): Element {
@@ -43,31 +43,12 @@ suite('gr-edit-preferences tests', () => {
   }
 
   setup(async () => {
-    editPreferences = {
-      auto_close_brackets: false,
-      cursor_blink_rate: 0,
-      hide_line_numbers: false,
-      hide_top_menu: false,
-      indent_unit: 2,
-      indent_with_tabs: false,
-      key_map_type: 'DEFAULT',
-      line_length: 100,
-      line_wrapping: false,
-      match_brackets: true,
-      show_base: false,
-      show_tabs: true,
-      show_whitespace_errors: true,
-      syntax_highlighting: true,
-      tab_size: 8,
-      theme: 'DEFAULT',
-    };
-
-    stubRestApi('getEditPreferences').returns(Promise.resolve(editPreferences));
+    editPreferences = createDefaultEditPrefs();
 
     element = basicFixture.instantiate();
+    element.userModel.setEditPreferences(editPreferences);
 
-    await element.loadData();
-    await flush();
+    await element.updateComplete;
   });
 
   test('renders', () => {
@@ -112,6 +93,8 @@ suite('gr-edit-preferences tests', () => {
   });
 
   test('save changes', async () => {
+    assert.isTrue(element.editPrefs?.show_tabs);
+
     const showTabsCheckbox = valueOf('Show tabs', 'editPreferences')
       .firstElementChild as HTMLInputElement;
     showTabsCheckbox.checked = false;
@@ -119,7 +102,15 @@ suite('gr-edit-preferences tests', () => {
 
     assert.isTrue(element.hasUnsavedChanges());
 
+    // We have to call this because otherwise calling updateEditPreference()
+    // will continue to use the old value thus test will fail.
+    // This will trigger an update so originalEditPrefs is updated.
+    element.userModel.setEditPreferences(element.editPrefs!);
+
     await element.save();
+
+    assert.isFalse(element.editPrefs?.show_tabs);
+
     assert.isFalse(element.hasUnsavedChanges());
   });
 });

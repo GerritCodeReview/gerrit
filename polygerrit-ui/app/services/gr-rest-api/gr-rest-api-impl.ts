@@ -732,15 +732,23 @@ export class GrRestApiServiceImpl
     });
   }
 
-  saveEditPreferences(prefs: EditPreferencesInfo): Promise<Response> {
+  saveEditPreferences(
+    prefs: EditPreferencesInfo
+  ): Promise<EditPreferencesInfo> {
     // Invalidate the cache.
     this._cache.delete('/accounts/self/preferences.edit');
-    return this._restApiHelper.send({
-      method: HttpMethod.PUT,
-      url: '/accounts/self/preferences.edit',
-      body: prefs,
-      reportUrlAsIs: true,
-    });
+    return this._restApiHelper
+      .send({
+        method: HttpMethod.PUT,
+        url: '/accounts/self/preferences.edit',
+        body: prefs,
+        reportUrlAsIs: true,
+      })
+      .then((response: Response) =>
+        this.getResponseObject(response).then(
+          obj => obj as unknown as EditPreferencesInfo
+        )
+      );
   }
 
   getAccount(): Promise<AccountDetailInfo | undefined> {

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.query;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -64,12 +65,36 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
     assertTrue(queryBuilder.parse("is:ANY").asMatchable().match(contextForCodeReviewLabel(-2)));
     assertTrue(queryBuilder.parse("is:ANY").asMatchable().match(contextForCodeReviewLabel(2)));
     assertTrue(queryBuilder.parse("is:aNy").asMatchable().match(contextForCodeReviewLabel(2)));
+  }
 
+  @Test
+  public void exactValuePredicate() throws Exception {
+    for (int votingValue = -2; votingValue <= 2; votingValue++) {
+      for (int queryValue = -2; queryValue <= 2; queryValue++) {
+        assertWithMessage(
+                "querying by is:"
+                    + quoteIfNegative(queryValue)
+                    + " matches approval with value "
+                    + votingValue)
+            .that(
+                queryBuilder
+                    .parse("is:" + quoteIfNegative(queryValue))
+                    .asMatchable()
+                    .match(contextForCodeReviewLabel(votingValue)))
+            .isEqualTo(votingValue == queryValue);
+      }
+    }
+  }
+
+  @Test
+  public void isPredicate_invalidValue() throws Exception {
     QueryParseException thrown =
         assertThrows(QueryParseException.class, () -> queryBuilder.parse("is:INVALID"));
     assertThat(thrown)
         .hasMessageThat()
-        .contains("INVALID is not a valid value for operator 'is'. Valid values: ANY, MAX, MIN");
+        .contains(
+            "INVALID is not a valid value for operator 'is'. Valid values: ANY, MAX, MIN"
+                + " or integer");
   }
 
   @Test
@@ -292,5 +317,12 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
           rw,
           repo.getConfig());
     }
+  }
+
+  private String quoteIfNegative(int value) {
+    if (value < 0) {
+      return "\"" + value + "\"";
+    }
+    return Integer.toString(value);
   }
 }

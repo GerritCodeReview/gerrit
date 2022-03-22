@@ -26,6 +26,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {convertToString} from '../../../utils/string-util';
+import {Subscription} from 'rxjs';
 
 @customElement('gr-edit-preferences')
 export class GrEditPreferences extends LitElement {
@@ -53,30 +54,40 @@ export class GrEditPreferences extends LitElement {
   @query('#editShowTrailingWhitespaceInput')
   private editShowTrailingWhitespaceInput?: HTMLInputElement;
 
-  @state() private originalTabSize?: Number;
-
-  @state() private originalLineLength?: Number;
-
-  @state() private originalIndentUnit?: Number;
-
-  @state() private originalSyntaxHighlighting?: Boolean;
-
-  @state() private originalShowTabs?: Boolean;
-
-  @state() private originalShowWhitespaceErrors?: Boolean;
-
-  @state() private originalMatchBrackets?: Boolean;
-
-  @state() private originalLineWrapping?: Boolean;
-
-  @state() private originalIndentWithTabs?: Boolean;
-
-  @state() private originalAutoCloseBrackets?: Boolean;
+  @state() originalEditPrefs?: EditPreferencesInfo;
 
   @property({type: Object})
   editPrefs?: EditPreferencesInfo;
 
-  private readonly restApiService = getAppContext().restApiService;
+  private readonly userModel = getAppContext().userModel;
+
+  private subscriptions: Subscription[] = [];
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.subscriptions.push(
+      this.userModel.editPreferences$.subscribe(editPreferences => {
+        // We have to use object spreads in order to copy
+        // edit preferences. This has to be done in order
+        // for this to work (as in using originalEditPrefs.x
+        // without anychanges to editPrefs affecting this).
+        // When editPreferences was used directly there were
+        // some issues where coparing originalEditPrefs
+        // against editPrefs using .show_tabs for example
+        // wouldn't work.
+        this.originalEditPrefs = {...editPreferences};
+        this.editPrefs = editPreferences;
+      })
+    );
+  }
+
+  override disconnectedCallback() {
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
+    super.disconnectedCallback();
+  }
 
   static override get styles() {
     return [
@@ -240,22 +251,6 @@ export class GrEditPreferences extends LitElement {
     `;
   }
 
-  loadData() {
-    return this.restApiService.getEditPreferences().then(prefs => {
-      this.originalTabSize = prefs?.tab_size;
-      this.originalLineLength = prefs?.line_length;
-      this.originalIndentUnit = prefs?.indent_unit;
-      this.originalSyntaxHighlighting = prefs?.syntax_highlighting;
-      this.originalShowTabs = prefs?.show_tabs;
-      this.originalShowWhitespaceErrors = prefs?.show_whitespace_errors;
-      this.originalMatchBrackets = prefs?.match_brackets;
-      this.originalLineWrapping = prefs?.line_wrapping;
-      this.originalIndentWithTabs = prefs?.indent_with_tabs;
-      this.originalAutoCloseBrackets = prefs?.auto_close_brackets;
-      this.editPrefs = prefs;
-    });
-  }
-
   private readonly handleEditTabWidthChanged = () => {
     this.editPrefs!.tab_size = Number(this.editTabWidth!.value);
     this.requestUpdate();
@@ -317,34 +312,31 @@ export class GrEditPreferences extends LitElement {
     // We have to wrap boolean values in Boolean() to ensure undefined values
     // use false rather than undefined.
     return (
-      this.originalTabSize !== this.editPrefs?.tab_size ||
-      this.originalLineLength !== this.editPrefs?.line_length ||
-      this.originalIndentUnit !== this.editPrefs?.indent_unit ||
-      Boolean(this.originalSyntaxHighlighting) !==
+      this.originalEditPrefs?.tab_size !== this.editPrefs?.tab_size ||
+      this.originalEditPrefs?.line_length !== this.editPrefs?.line_length ||
+      this.originalEditPrefs?.indent_unit !== this.editPrefs?.indent_unit ||
+      Boolean(this.originalEditPrefs?.syntax_highlighting) !==
         Boolean(this.editPrefs?.syntax_highlighting) ||
-      Boolean(this.originalShowTabs) !== Boolean(this.editPrefs?.show_tabs) ||
-      Boolean(this.originalShowWhitespaceErrors) !==
+      Boolean(this.originalEditPrefs?.show_tabs) !==
+        Boolean(this.editPrefs?.show_tabs) ||
+      Boolean(this.originalEditPrefs?.show_whitespace_errors) !==
         Boolean(this.editPrefs?.show_whitespace_errors) ||
-      Boolean(this.originalMatchBrackets) !==
+      Boolean(this.originalEditPrefs?.match_brackets) !==
         Boolean(this.editPrefs?.match_brackets) ||
-      Boolean(this.originalLineWrapping) !==
+      Boolean(this.originalEditPrefs?.line_wrapping) !==
         Boolean(this.editPrefs?.line_wrapping) ||
-      Boolean(this.originalIndentWithTabs) !==
+      Boolean(this.originalEditPrefs?.indent_with_tabs) !==
         Boolean(this.editPrefs?.indent_with_tabs) ||
-      Boolean(this.originalAutoCloseBrackets) !==
+      Boolean(this.originalEditPrefs?.auto_close_brackets) !==
         Boolean(this.editPrefs?.auto_close_brackets)
     );
   }
 
-  save() {
-    if (!this.editPrefs)
-      return Promise.reject(new Error('Missing edit preferences'));
-    return this.restApiService.saveEditPreferences(this.editPrefs).then(() => {
-      // This is to make sure that hasUnsavedChanges is triggered within
-      // the html template.
-      this.loadData();
-      this.requestUpdate();
-    });
+  async save() {
+    if (!this.editPrefs) return;
+    await this.userModel.updateEditPreference(this.editPrefs);
+    this.originalEditPrefs = {...this.editPrefs};
+    this.requestUpdate();
   }
 }
 

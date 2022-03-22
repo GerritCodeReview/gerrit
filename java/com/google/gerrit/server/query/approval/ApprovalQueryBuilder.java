@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.query.approval;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static java.util.Comparator.comparing;
+
 import com.google.common.base.Enums;
 import com.google.common.base.Optional;
 import com.google.gerrit.entities.AccountGroup;
@@ -90,7 +93,10 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
       throw new QueryParseException(
           String.format(
               "%s is not a valid term. valid options: %s",
-              term, Arrays.asList(clazz.getEnumConstants())));
+              term,
+              Arrays.stream(clazz.getEnumConstants())
+                  .sorted(comparing(Object::toString))
+                  .collect(toImmutableList())));
     }
     return maybeEnum.get();
   }

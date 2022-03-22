@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3f7984e_68d38084",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-22T11:52:36Z",
+      "side": 1,
+      "message": "@Han-Wen can this get LC+1? We won\u0027t use hamcrest anymore in Gerrit after this change, even for tests.",
+      "revId": "4d8d0afe4f94e293ce0317a6e10ea5f9899e609f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

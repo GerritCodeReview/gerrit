@@ -92,7 +92,7 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
     if (!maybeEnum.isPresent()) {
       throw new QueryParseException(
           String.format(
-              "%s is not a valid term. valid options: %s",
+              "%s is not a valid term. Valid options: %s",
               term,
               Arrays.stream(clazz.getEnumConstants())
                   .sorted(comparing(Object::toString))

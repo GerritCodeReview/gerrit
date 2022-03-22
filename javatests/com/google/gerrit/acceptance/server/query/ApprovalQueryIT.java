@@ -69,7 +69,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
         assertThrows(QueryParseException.class, () -> queryBuilder.parse("is:INVALID"));
     assertThat(thrown)
         .hasMessageThat()
-        .contains("INVALID is not a valid term. valid options: [MIN, MAX, ANY]");
+        .contains("INVALID is not a valid term. valid options: [ANY, MAX, MIN]");
   }
 
   @Test
@@ -140,7 +140,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
         .hasMessageThat()
         .contains(
             "INVALID is not a valid term. valid options:"
-                + " [REWORK, TRIVIAL_REBASE, MERGE_FIRST_PARENT_UPDATE, NO_CODE_CHANGE, NO_CHANGE]");
+                + " [MERGE_FIRST_PARENT_UPDATE, NO_CHANGE, NO_CODE_CHANGE, REWORK, TRIVIAL_REBASE]");
   }
 
   @Test

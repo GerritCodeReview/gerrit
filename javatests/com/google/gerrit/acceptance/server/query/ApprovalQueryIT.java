@@ -275,7 +275,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains(
-            "'invalid' is not a supported argument for has. only 'unchanged-files' is supported");
+            "'invalid' is not a valid value for operator 'has'."
+                + " The only valid value is 'unchanged-files'.");
   }
 
   @Test

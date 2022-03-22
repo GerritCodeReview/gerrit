@@ -106,7 +106,8 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
     }
     throw error(
         String.format(
-            "'%s' is not a supported argument for has. only 'unchanged-files' is supported",
+            "'%s' is not a valid value for operator 'has'."
+                + " The only valid value is 'unchanged-files'.",
             value));
   }
 

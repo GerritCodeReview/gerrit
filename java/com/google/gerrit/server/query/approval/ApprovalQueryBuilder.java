@@ -56,13 +56,13 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
   }
 
   @Operator
-  public Predicate<ApprovalContext> changekind(String term) throws QueryParseException {
-    return new ChangeKindPredicate(toEnumValue(ChangeKind.class, term));
+  public Predicate<ApprovalContext> changekind(String value) throws QueryParseException {
+    return new ChangeKindPredicate(toEnumValue(ChangeKind.class, value));
   }
 
   @Operator
-  public Predicate<ApprovalContext> is(String term) throws QueryParseException {
-    return magicValuePredicate.create(toEnumValue(MagicValuePredicate.MagicValue.class, term));
+  public Predicate<ApprovalContext> is(String value) throws QueryParseException {
+    return magicValuePredicate.create(toEnumValue(MagicValuePredicate.MagicValue.class, value));
   }
 
   @Operator
@@ -86,14 +86,14 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
             value));
   }
 
-  private static <T extends Enum<T>> T toEnumValue(Class<T> clazz, String term)
+  private static <T extends Enum<T>> T toEnumValue(Class<T> clazz, String value)
       throws QueryParseException {
-    Optional<T> maybeEnum = Enums.getIfPresent(clazz, term.toUpperCase().replace('-', '_'));
+    Optional<T> maybeEnum = Enums.getIfPresent(clazz, value.toUpperCase().replace('-', '_'));
     if (!maybeEnum.isPresent()) {
       throw new QueryParseException(
           String.format(
-              "%s is not a valid term. Valid options: %s",
-              term,
+              "%s is not a valid value. Valid values: %s",
+              value,
               Arrays.stream(clazz.getEnumConstants())
                   .sorted(comparing(Object::toString))
                   .collect(toImmutableList())));

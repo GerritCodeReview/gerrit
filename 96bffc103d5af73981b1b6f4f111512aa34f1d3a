@@ -115,6 +115,121 @@
       },
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f69b67c_4d812bd9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-22T08:19:22Z",
+      "side": 1,
+      "message": "ultra nitty: given base line implies a parameter is provided.\nRemove the word given?",
+      "range": {
+        "startLine": 175,
+        "startChar": 29,
+        "endLine": 175,
+        "endChar": 48
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b26a3f46_0fadb2c8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-22T08:19:22Z",
+      "side": 1,
+      "message": "move before render() method?",
+      "range": {
+        "startLine": 340,
+        "startChar": 2,
+        "endLine": 340,
+        "endChar": 22
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28791a52_6dc493a9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-22T08:19:22Z",
+      "side": 1,
+      "message": "is it possible to debounce this annotate method?",
+      "range": {
+        "startLine": 348,
+        "startChar": 5,
+        "endLine": 348,
+        "endChar": 42
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd00fbf9_071294a2",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-22T08:19:22Z",
+      "side": 1,
+      "message": "why is it re-rendered here?\nhow does it lose it highlighting? I don\u0027t follow.\n\nOnce an element gets highlighted because it\u0027s visible, it\u0027s this.isVisible is set to true so further renders shouldn\u0027t cause it to lose its highlighting?",
+      "range": {
+        "startLine": 78,
+        "startChar": 47,
+        "endLine": 78,
+        "endChar": 69
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae6bb3ae_7c8622d1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-22T08:19:22Z",
+      "side": 1,
+      "message": "why is this needed?",
+      "range": {
+        "startLine": 231,
+        "startChar": 4,
+        "endLine": 231,
+        "endChar": 24
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

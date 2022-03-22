@@ -119,6 +119,35 @@
     },
     {
       "submitRequirement": {
+        "name": "Review-Enforcement",
+        "description": {
+          "value": "Two googlers using a trusted device must approve the change, see http://go/change-management-policy"
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "is:review-enforced_gerrit"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "is:review-enforcement-satisfied_gerrit"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"is:review-enforced_gerrit"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["is:review-enforced_gerrit"]}
+      },
+      "submittabilityExpressionResult": {},
+      "overrideExpressionResult": {},
+      "patchSetCommitId": "14f9c8af9ca211345f0aae23ba31091ceb5210af",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
+    },
+    {
+      "submitRequirement": {
         "name": "Verified",
         "description": {
           "value": "CI result status for build and tests is passing"

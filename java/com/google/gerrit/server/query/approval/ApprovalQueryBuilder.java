@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.approval;
 
+import com.google.common.base.Enums;
+import com.google.common.base.Optional;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.extensions.client.ChangeKind;
@@ -83,15 +85,14 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
 
   private static <T extends Enum<T>> T toEnumValue(Class<T> clazz, String term)
       throws QueryParseException {
-    try {
-      return Enum.valueOf(clazz, term.toUpperCase().replace('-', '_'));
-    } catch (IllegalArgumentException e) {
+    Optional<T> maybeEnum = Enums.getIfPresent(clazz, term.toUpperCase().replace('-', '_'));
+    if (!maybeEnum.isPresent()) {
       throw new QueryParseException(
           String.format(
               "%s is not a valid term. valid options: %s",
-              term, Arrays.asList(clazz.getEnumConstants())),
-          e);
+              term, Arrays.asList(clazz.getEnumConstants())));
     }
+    return maybeEnum.get();
   }
 
   private AccountGroup.UUID parseGroupOrThrow(String maybeUUID) throws QueryParseException {

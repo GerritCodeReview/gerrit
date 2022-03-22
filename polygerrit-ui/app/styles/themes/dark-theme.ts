@@ -246,19 +246,21 @@ const darkThemeCss = safeStyleSheet`
     --syntax-meta-keyword-color: #eefff7;
     --syntax-number-color: #00998a;
     --syntax-params-color: var(--primary-text-color);
+    --syntax-property-color: #c792ea;
     --syntax-regexp-color: #f77669;
     --syntax-selector-attr-color: #80cbbf;
     --syntax-selector-class-color: #ffcb68;
     --syntax-selector-id-color: #f77669;
     --syntax-selector-pseudo-color: #c792ea;
-    --syntax-property-color: #c792ea;
     --syntax-string-color: #c3e88d;
     --syntax-tag-color: #f77669;
     --syntax-template-tag-color: #c792ea;
     --syntax-template-variable-color: #f77669;
     --syntax-title-color: #75a5ff;
+    --syntax-title-function-color: var(--syntax-title-color);
     --syntax-type-color: #dd5f5f;
     --syntax-variable-color: #f77669;
+    --syntax-variable-language-color: var(--syntax-built_in-color);
 
     /* misc */
     --line-length-indicator-color: #d7aefb;

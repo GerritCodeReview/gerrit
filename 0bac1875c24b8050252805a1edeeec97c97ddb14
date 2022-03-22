@@ -22,6 +22,30 @@
       },
       "revId": "0bac1875c24b8050252805a1edeeec97c97ddb14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fcab32a_9f7ea830",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-22T15:56:15Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nAlso fixed an issue we can now fix. E.g. if you change something and change it back it\u0027ll now show correctly in the heading.",
+      "parentUuid": "f287da29_505ba897",
+      "range": {
+        "startLine": 201,
+        "startChar": 4,
+        "endLine": 201,
+        "endChar": 51
+      },
+      "revId": "0bac1875c24b8050252805a1edeeec97c97ddb14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

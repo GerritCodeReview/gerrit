@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41380d69_2bc26ab6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-22T14:46:33Z",
+      "side": 1,
+      "message": "@Han-Wen can you provide LC+1? (hamcrest use in Gerrit has been removed in the previous change)",
+      "revId": "6ba6dbb45bbb0485f45b43995c5f009af2430ca3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

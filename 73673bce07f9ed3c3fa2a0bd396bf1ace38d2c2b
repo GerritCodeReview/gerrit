@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe9af286_6b932bed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-22T18:54:38Z",
+      "side": 1,
+      "message": "What I meant is wrapping *each* child in its own \u003cdiv\u003e. If they are all in one \u003cdiv\u003e, then as Frank has pointed out there is `flex` does not do anything anymore.",
+      "parentUuid": "5013884a_08e33bc4",
+      "revId": "73673bce07f9ed3c3fa2a0bd396bf1ace38d2c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dad5a1ca_bde13a5d",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.ts",
         "patchSetId": 4

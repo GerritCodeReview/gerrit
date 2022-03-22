@@ -121,6 +121,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "67623281_f6fde0f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-22T08:21:44Z",
+      "side": 1,
+      "message": "FWIW, I would also prefer if you could adapt your style of writing commit messages so that they look more consistent with the rest of the commit messages in the project. But me too, I don\u0027t want spend time on such a discussion.",
+      "parentUuid": "5af07a66_6e6743c1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 5
+      },
+      "revId": "52cb2b63a0c7346ca03877c78f6503ef73ff31c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "60051e42_16b69ca4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

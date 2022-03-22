@@ -475,8 +475,8 @@ export const grRestApiMock: RestApiService = {
   saveDiffPreferences(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  saveEditPreferences(): Promise<Response> {
-    return Promise.resolve(new Response());
+  saveEditPreferences(): Promise<EditPreferencesInfo | undefined> {
+    return Promise.resolve(createDefaultEditPrefs());
   },
   saveFileReviewed(): Promise<Response> {
     return Promise.resolve(new Response());

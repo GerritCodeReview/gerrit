@@ -386,6 +386,30 @@
       },
       "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbb0ac1c_507463fe",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-22T11:51:54Z",
+      "side": 1,
+      "message": "Just rebase it on top of Change-Id: I888c1a7b48a and we will have a non-problem.\nGerrit won\u0027t use hamcrest anymore from the above change, so that we are free to update it to the JGit version.",
+      "parentUuid": "44c5b643_5f7696a9",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 0
+      },
+      "revId": "242015eb1678014f8ea55c5887a9c905151e3767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -14,8 +14,7 @@
 
 package com.google.gerrit.server.query.approval;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Optional;
@@ -95,8 +94,9 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
               "%s is not a valid value. Valid values: %s",
               value,
               Arrays.stream(clazz.getEnumConstants())
-                  .sorted(comparing(Object::toString))
-                  .collect(toImmutableList())));
+                  .map(Object::toString)
+                  .sorted()
+                  .collect(joining(", "))));
     }
     return maybeEnum.get();
   }

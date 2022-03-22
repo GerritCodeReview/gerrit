@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3baf5d1_ce929a1c",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-22T09:34:08Z",
+      "side": 1,
+      "message": "What is the benefit of returning null here?\nI would keep it as is and fix it properly.",
+      "parentUuid": "2c741d73_6e7a2343",
+      "revId": "4be195658adcbf38da9495955d493c354a4344aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82f1903e_f80a3873",
         "filename": "polygerrit-ui/app/utils/label-util_test.ts",
         "patchSetId": 8
@@ -65,6 +83,24 @@
       "writtenOn": "2022-03-22T09:15:21Z",
       "side": 1,
       "message": "You don\u0027t need flush.",
+      "revId": "4be195658adcbf38da9495955d493c354a4344aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dfc242a_f25c6f8c",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-22T09:34:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82f1903e_f80a3873",
       "revId": "4be195658adcbf38da9495955d493c354a4344aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -82,6 +118,24 @@
       "writtenOn": "2022-03-22T09:15:21Z",
       "side": 1,
       "message": "You don\u0027t need flush.",
+      "revId": "4be195658adcbf38da9495955d493c354a4344aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3517fe2_c1d5ff80",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-22T09:34:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f90d6cf_eb6499dd",
       "revId": "4be195658adcbf38da9495955d493c354a4344aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

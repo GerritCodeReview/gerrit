@@ -64,6 +64,12 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
     assertTrue(queryBuilder.parse("is:ANY").asMatchable().match(contextForCodeReviewLabel(-2)));
     assertTrue(queryBuilder.parse("is:ANY").asMatchable().match(contextForCodeReviewLabel(2)));
     assertTrue(queryBuilder.parse("is:aNy").asMatchable().match(contextForCodeReviewLabel(2)));
+
+    QueryParseException thrown =
+        assertThrows(QueryParseException.class, () -> queryBuilder.parse("is:INVALID"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("INVALID is not a valid term. valid options: [MIN, MAX, ANY]");
   }
 
   @Test
@@ -124,6 +130,17 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .parse("-changekind:rework")
             .asMatchable()
             .match(contextForCodeReviewLabel(/* value= */ -2, ps2, admin.id())));
+  }
+
+  @Test
+  public void changeKindPredicate_invalidValue() throws Exception {
+    QueryParseException thrown =
+        assertThrows(QueryParseException.class, () -> queryBuilder.parse("changekind:INVALID"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "INVALID is not a valid term. valid options:"
+                + " [REWORK, TRIVIAL_REBASE, MERGE_FIRST_PARENT_UPDATE, NO_CODE_CHANGE, NO_CHANGE]");
   }
 
   @Test

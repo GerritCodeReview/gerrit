@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16d6356a_de2f3a88",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-22T14:00:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc500a43_dc1d9c2c",
+      "revId": "4be195658adcbf38da9495955d493c354a4344aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c741d73_6e7a2343",

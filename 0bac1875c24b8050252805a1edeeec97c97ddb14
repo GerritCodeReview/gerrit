@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f287da29_505ba897",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-22T08:51:44Z",
+      "side": 1,
+      "message": "I\u0027m a bit unhappy with this event.\n\nThe only reason why we are sending this event is so that the parent can manipulate the class being attached to\n\n```\n\u003ch2\n        id\u003d\"EditPreferences\"\n```\n\nI would propose moving the heading and the button to \u003cgr-edit-preference\u003e component then the state remains encapsulated in the component.\n\n```\n_handleSaveEditPreferences() {\n    this.$.editPrefs.save();\n  }\n```\nthe save in GrSettingsView method is just calling the save method in GrEditPreferences so we don\u0027t need to send a `save` event as well.\n\nBefore \n```\n      \u003ch2\n        id\u003d\"EditPreferences\"\n        class$\u003d\"[[_computeHeaderClass(_editPrefsChanged)]]\"\n      \u003e\n        Edit Preferences\n      \u003c/h2\u003e\n      \u003cfieldset id\u003d\"editPreferences\"\u003e\n        \u003cgr-edit-preferences\n          id\u003d\"editPrefs\"\n          has-unsaved-changes\u003d\"{{_editPrefsChanged}}\"\n        \u003e\u003c/gr-edit-preferences\u003e\n        \u003cgr-button\n          id\u003d\"saveEditPrefs\"\n          on-click\u003d\"_handleSaveEditPreferences\"\n          disabled$\u003d\"[[!_editPrefsChanged]]\"\n          \u003eSave changes\u003c/gr-button\n        \u003e\n      \u003c/fieldset\u003e\n```\n\nAfter\n```\n        \u003cgr-edit-preferences\n          id\u003d\"editPrefs\"\n          has-unsaved-changes\u003d\"{{_editPrefsChanged}}\"\n        \u003e\u003c/gr-edit-preferences\u003e\n```\n\ngr-edit-preferences renders the button and heading as well.",
+      "range": {
+        "startLine": 201,
+        "startChar": 4,
+        "endLine": 201,
+        "endChar": 51
+      },
+      "revId": "0bac1875c24b8050252805a1edeeec97c97ddb14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -23,6 +23,7 @@ guava
 guice-assistedinject
 guice-library
 guice-servlet
+hamcrest
 impl-log4j
 j2objc
 jcl-over-slf4j

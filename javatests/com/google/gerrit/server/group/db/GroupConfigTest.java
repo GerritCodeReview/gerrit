@@ -19,8 +19,6 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.server.group.testing.InternalGroupSubject.internalGroups;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -114,8 +112,9 @@ public class GroupConfigTest {
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
-      Throwable thrown = assertThrows(Throwable.class, () -> groupConfig.commit(metaDataUpdate));
-      assertThat(thrown.getCause(), instanceOf(ConfigInvalidException.class));
+      IOException thrown =
+          assertThrows(IOException.class, () -> groupConfig.commit(metaDataUpdate));
+      assertThat(thrown.getCause()).isInstanceOf(ConfigInvalidException.class);
       assertThat(thrown).hasMessageThat().contains("Name of the group " + groupUuid);
     }
   }
@@ -136,8 +135,9 @@ public class GroupConfigTest {
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
-      Throwable thrown = assertThrows(Throwable.class, () -> groupConfig.commit(metaDataUpdate));
-      assertThat(thrown.getCause(), instanceOf(ConfigInvalidException.class));
+      IOException thrown =
+          assertThrows(IOException.class, () -> groupConfig.commit(metaDataUpdate));
+      assertThat(thrown.getCause()).isInstanceOf(ConfigInvalidException.class);
       assertThat(thrown).hasMessageThat().contains("ID of the group " + groupUuid);
     }
   }
@@ -212,8 +212,9 @@ public class GroupConfigTest {
     groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
-      Throwable thrown = assertThrows(Throwable.class, () -> groupConfig.commit(metaDataUpdate));
-      assertThat(thrown.getCause(), instanceOf(ConfigInvalidException.class));
+      IOException thrown =
+          assertThrows(IOException.class, () -> groupConfig.commit(metaDataUpdate));
+      assertThat(thrown.getCause()).isInstanceOf(ConfigInvalidException.class);
       assertThat(thrown).hasMessageThat().contains("Owner UUID of the group " + groupUuid);
     }
   }
@@ -520,8 +521,9 @@ public class GroupConfigTest {
     groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
-      Throwable thrown = assertThrows(Throwable.class, () -> groupConfig.commit(metaDataUpdate));
-      assertThat(thrown.getCause(), instanceOf(ConfigInvalidException.class));
+      IOException thrown =
+          assertThrows(IOException.class, () -> groupConfig.commit(metaDataUpdate));
+      assertThat(thrown.getCause()).isInstanceOf(ConfigInvalidException.class);
       assertThat(thrown).hasMessageThat().contains("Name of the group " + groupUuid);
     }
   }
@@ -584,8 +586,9 @@ public class GroupConfigTest {
     groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
-      Throwable thrown = assertThrows(Throwable.class, () -> groupConfig.commit(metaDataUpdate));
-      assertThat(thrown.getCause(), instanceOf(ConfigInvalidException.class));
+      IOException thrown =
+          assertThrows(IOException.class, () -> groupConfig.commit(metaDataUpdate));
+      assertThat(thrown.getCause()).isInstanceOf(ConfigInvalidException.class);
       assertThat(thrown).hasMessageThat().contains("Owner UUID of the group " + groupUuid);
     }
   }

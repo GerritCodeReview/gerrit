@@ -304,6 +304,10 @@ Matches if the diff between two patch sets was of a certain change kind.
 
 Matches votes that are equal to the minimal or maximal voting range. Or any votes.
 
+==== is:'VALUE'
+
+Matches approvals that have a voting value that is equal to 'VALUE'.
+
 [[approverin]]
 ==== approverin:link:#group-id[\{group-id\}]
 
@@ -466,6 +470,9 @@ Defaults to true.
 
 [[label_copyValue]]
 === `label.Label-Name.copyValue`
+
+*DEPRECATED: use `is:<value>` predicate in
+link:config-labels.html#label_copyCondition[copyCondition] instead*
 
 Value that should be copied forward when a new patch set is uploaded.
 This can be used to enable sticky votes. Can be specified multiple

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.approval;
 
+import static java.util.stream.Collectors.joining;
+
 import com.google.common.base.Enums;
 import com.google.common.base.Optional;
 import com.google.gerrit.entities.AccountGroup;
@@ -53,13 +55,14 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
   }
 
   @Operator
-  public Predicate<ApprovalContext> changekind(String term) throws QueryParseException {
-    return new ChangeKindPredicate(toEnumValue(ChangeKind.class, term));
+  public Predicate<ApprovalContext> changekind(String value) throws QueryParseException {
+    return new ChangeKindPredicate(toEnumValue("changekind", ChangeKind.class, value));
   }
 
   @Operator
-  public Predicate<ApprovalContext> is(String term) throws QueryParseException {
-    return magicValuePredicate.create(toEnumValue(MagicValuePredicate.MagicValue.class, term));
+  public Predicate<ApprovalContext> is(String value) throws QueryParseException {
+    return magicValuePredicate.create(
+        toEnumValue("is", MagicValuePredicate.MagicValue.class, value));
   }
 
   @Operator
@@ -83,14 +86,19 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
             value));
   }
 
-  private static <T extends Enum<T>> T toEnumValue(Class<T> clazz, String term)
+  private static <T extends Enum<T>> T toEnumValue(String operator, Class<T> clazz, String value)
       throws QueryParseException {
-    Optional<T> maybeEnum = Enums.getIfPresent(clazz, term.toUpperCase().replace('-', '_'));
+    Optional<T> maybeEnum = Enums.getIfPresent(clazz, value.toUpperCase().replace('-', '_'));
     if (!maybeEnum.isPresent()) {
       throw new QueryParseException(
           String.format(
-              "%s is not a valid term. valid options: %s",
-              term, Arrays.asList(clazz.getEnumConstants())));
+              "%s is not a valid value for operator '%s'. Valid values: %s",
+              value,
+              operator,
+              Arrays.stream(clazz.getEnumConstants())
+                  .map(Object::toString)
+                  .sorted()
+                  .collect(joining(", "))));
     }
     return maybeEnum.get();
   }

@@ -286,6 +286,13 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             "'invalid' is not a supported argument for has. only 'unchanged-files' is supported");
   }
 
+  @Test
+  public void invalidQuery() throws Exception {
+    QueryParseException thrown =
+        assertThrows(QueryParseException.class, () -> queryBuilder.parse("INVALID"));
+    assertThat(thrown).hasMessageThat().contains("Unsupported query: INVALID");
+  }
+
   private ApprovalContext contextForCodeReviewLabel(int value) throws Exception {
     PushOneCommit.Result result = createChange();
     amendChange(result.getChangeId());

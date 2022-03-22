@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b9fd484_5c59286b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-22T11:31:54Z",
+      "side": 1,
+      "message": "Maybe it is the better change this to `inline-block`, but I am not sure how this affects all the usages of `gr-account-chip`.\n\nIf we keep `inline-flex`, then I think it would be best to also wrap the \u003cslot\u003e and the \u003cgr-button\u003e with a (display:block) \u003cdiv\u003e.",
+      "revId": "73673bce07f9ed3c3fa2a0bd396bf1ace38d2c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dad5a1ca_bde13a5d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-22T11:31:54Z",
+      "side": 1,
+      "message": "The only difference between `\u003cdiv\u003e` and `\u003cspan\u003e` is that the latter gets `display:inline`. Here that does not make sense, because .container has `display:inline-flex` and flex containers cannot have direct inline children, so the browser will apply `display:block` anyway to the span. So better use `div` here.",
+      "revId": "73673bce07f9ed3c3fa2a0bd396bf1ace38d2c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

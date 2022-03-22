@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e8a6d91_aeae0b6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-22T16:12:30Z",
+      "side": 1,
+      "message": "can you add a before/after screenshot pair that includes vote/close icons?",
+      "range": {
+        "startLine": 11,
+        "startChar": 44,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "530da52995436e71e6c5150c7c3cd9ca3ca9ff7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27929bf2_286af2fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-22T16:12:30Z",
+      "side": 1,
+      "message": "I think your fix works because you are breaking these positioning styles of .container (display, align-items) by hiding it\u0027s children from it. It would be better to adjust these styles and not add the div.\n\nMy main goal with flex+center was to vertically-center the label \u0026 vote/close icons without adding the assumption that the chip will always be used inline and have `--line-height-normal` height.\n\nIs it possible that the users of chip can control the chip height/max-height themselves? That way the current inline usage doesn\u0027t need to be baked into the chip.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 0
+      },
+      "revId": "530da52995436e71e6c5150c7c3cd9ca3ca9ff7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

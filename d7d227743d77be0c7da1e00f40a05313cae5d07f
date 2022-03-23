@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdea7f8e_03a929ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T09:44:39Z",
+      "side": 0,
+      "message": "leaked from your other change? Should be unrelated to this change.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 31
+      },
+      "revId": "d7d227743d77be0c7da1e00f40a05313cae5d07f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

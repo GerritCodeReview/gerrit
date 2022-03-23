@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "299f8589_13677cc5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T09:44:39Z",
+      "side": 1,
+      "message": "I think this is a weird class name, and you could just use `a`, but if you like it then it\u0027s ok.",
+      "range": {
+        "startLine": 189,
+        "startChar": 9,
+        "endLine": 189,
+        "endChar": 18
+      },
+      "revId": "0a7946840c571a1d5d7b43f9939288e826bbea4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44d552f8_c045d055",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T09:44:39Z",
+      "side": 1,
+      "message": "`maybeRenderLink`? or something with `wrap`?",
+      "range": {
+        "startLine": 301,
+        "startChar": 10,
+        "endLine": 301,
+        "endChar": 20
+      },
+      "revId": "0a7946840c571a1d5d7b43f9939288e826bbea4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb822f75_6d8ce351",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T09:44:39Z",
+      "side": 1,
+      "message": "delete",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 9
+      },
+      "revId": "0a7946840c571a1d5d7b43f9939288e826bbea4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

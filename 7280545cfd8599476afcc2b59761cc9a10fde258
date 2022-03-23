@@ -22,6 +22,30 @@
       },
       "revId": "7280545cfd8599476afcc2b59761cc9a10fde258",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd47f47b_69d11c45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-23T15:14:00Z",
+      "side": 1,
+      "message": "No, I think we use assertFoo only for methods that do a custom assertion or a set of assertions on one object, but not if a method tests a whole workflow.",
+      "parentUuid": "e78da5b8_347080af",
+      "range": {
+        "startLine": 7,
+        "startChar": 57,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "7280545cfd8599476afcc2b59761cc9a10fde258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

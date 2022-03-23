@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "369d12fa_c81cab38",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-23T08:07:05Z",
+      "side": 1,
+      "message": "We prefer using the `subscribe` controller from Lit instead of managing the subscriptions array.\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts;l\u003d137?q\u003dpolygerrit-ui%2Fapp%2Felements%2Fchange-list%2Fgr-change-list-item%2Fgr-change-list-item.ts",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 6
+      },
+      "revId": "d86a73641942ae23aee33db01c842b39d1c34af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4643e4c9_a457e230",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-23T08:07:05Z",
+      "side": 1,
+      "message": "If they are both referencing the same object then updating one will cause an update to the other.\nSpreading the object initially ensures they are not referencing the same object.\nUpdate the comment to reflect this and fix indentation in the comment.",
+      "range": {
+        "startLine": 75,
+        "startChar": 11,
+        "endLine": 75,
+        "endChar": 22
+      },
+      "revId": "d86a73641942ae23aee33db01c842b39d1c34af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82949774_b42341c6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-23T08:07:05Z",
+      "side": 1,
+      "message": "typo: comparing",
+      "range": {
+        "startLine": 75,
+        "startChar": 29,
+        "endLine": 75,
+        "endChar": 37
+      },
+      "revId": "d86a73641942ae23aee33db01c842b39d1c34af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce6a29a0_ad0599a4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-23T08:07:05Z",
+      "side": 1,
+      "message": "why are we spreading above and not spreading here?",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 40
+      },
+      "revId": "d86a73641942ae23aee33db01c842b39d1c34af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a5b2693_b9c6376a",
+        "filename": "polygerrit-ui/app/models/user/user-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-23T08:07:05Z",
+      "side": 1,
+      "message": "is this method used?",
+      "range": {
+        "startLine": 195,
+        "startChar": 2,
+        "endLine": 195,
+        "endChar": 20
+      },
+      "revId": "d86a73641942ae23aee33db01c842b39d1c34af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

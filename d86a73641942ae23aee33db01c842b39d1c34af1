@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2699ab7e_e8bdd781",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-23T17:27:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c815f781_5abb9e3f",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 6
+      },
+      "revId": "d86a73641942ae23aee33db01c842b39d1c34af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95f4b133_1c1dfecc",
@@ -61,6 +85,30 @@
       "writtenOn": "2022-03-23T09:40:19Z",
       "side": 1,
       "message": "Not needed when using the controller.",
+      "range": {
+        "startLine": 149,
+        "startChar": 3,
+        "endLine": 152,
+        "endChar": 28
+      },
+      "revId": "d86a73641942ae23aee33db01c842b39d1c34af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ad2e114_fc3ff370",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-23T17:27:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "95f4b133_1c1dfecc",
       "range": {
         "startLine": 149,
         "startChar": 3,
@@ -117,6 +165,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50918c7f_c7221075",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-23T17:27:58Z",
+      "side": 1,
+      "message": "Removed the comment per bens comment.",
+      "parentUuid": "4643e4c9_a457e230",
+      "range": {
+        "startLine": 75,
+        "startChar": 11,
+        "endLine": 75,
+        "endChar": 22
+      },
+      "revId": "d86a73641942ae23aee33db01c842b39d1c34af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "239f3391_f29fa90a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-23T17:27:58Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "82949774_b42341c6",
+      "range": {
+        "startLine": 75,
+        "startChar": 29,
+        "endLine": 75,
+        "endChar": 37
+      },
+      "revId": "d86a73641942ae23aee33db01c842b39d1c34af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce6a29a0_ad0599a4",
@@ -163,6 +259,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea07aa64_f2058872",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-23T17:27:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e43316d7_e6efb47c",
+      "range": {
+        "startLine": 78,
+        "startChar": 7,
+        "endLine": 79,
+        "endChar": 41
+      },
+      "revId": "d86a73641942ae23aee33db01c842b39d1c34af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "125798a3_993a885b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-23T17:27:58Z",
+      "side": 1,
+      "message": "See bens comment, resolving, thanks.",
+      "parentUuid": "ce6a29a0_ad0599a4",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 40
+      },
+      "revId": "d86a73641942ae23aee33db01c842b39d1c34af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fe648ef_0b8d1d6f",
@@ -176,6 +320,30 @@
       "writtenOn": "2022-03-23T09:40:19Z",
       "side": 1,
       "message": "These two lines should not be required. Since you are subscribing to model updates, you will get them automatically. And assigning a new value to a @property or a @state will cause an update, no need to trigger it directly.",
+      "range": {
+        "startLine": 338,
+        "startChar": 4,
+        "endLine": 339,
+        "endChar": 25
+      },
+      "revId": "d86a73641942ae23aee33db01c842b39d1c34af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b244ce0_0bc9be5e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-23T17:27:58Z",
+      "side": 1,
+      "message": "Seems like i need to do:\n\nthis.originalEditPrefs \u003d this.editPrefs.\n\nbecause originalEditPrefs is just a copy (it doesn\u0027t get touched).\n\nAs in it\u0027s only set when the element is first loaded so when you save the pref you want originalEditPrefs to be updated.",
+      "parentUuid": "6fe648ef_0b8d1d6f",
       "range": {
         "startLine": 338,
         "startChar": 4,
@@ -223,6 +391,30 @@
       "side": 1,
       "message": "If it is not used, then remove it.\n\nIdeally UI components just subscribe to and observe `editPreferences$`. `get...` methods should typically not be needed.",
       "parentUuid": "2a5b2693_b9c6376a",
+      "range": {
+        "startLine": 195,
+        "startChar": 2,
+        "endLine": 195,
+        "endChar": 20
+      },
+      "revId": "d86a73641942ae23aee33db01c842b39d1c34af1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be2a6a7c_6a2fc68e",
+        "filename": "polygerrit-ui/app/models/user/user-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-23T17:27:58Z",
+      "side": 1,
+      "message": "I don\u0027t believe it\u0027s used. Removed, thanks.",
+      "parentUuid": "105836ff_ad7942ff",
       "range": {
         "startLine": 195,
         "startChar": 2,

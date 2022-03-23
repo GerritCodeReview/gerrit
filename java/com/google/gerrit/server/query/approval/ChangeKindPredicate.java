@@ -32,7 +32,11 @@ public class ChangeKindPredicate extends ApprovalPredicate {
 
   @Override
   public boolean match(ApprovalContext ctx) {
-    return ctx.changeKind().equals(changeKind);
+    return ctx.changeKind().equals(changeKind)
+        // NO_CHANGE is a special kind of a trivial rebase, hence if votes are configured to be
+        // copied on TRIVIAL_REBASE copying should be done if NO_CHANGE was detected as actual
+        // change kind.
+        || changeKind == ChangeKind.TRIVIAL_REBASE && ctx.changeKind() == ChangeKind.NO_CHANGE;
   }
 
   @Override

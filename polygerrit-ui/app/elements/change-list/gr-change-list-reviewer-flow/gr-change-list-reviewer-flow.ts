@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, query, state} from 'lit/decorators';
 import {ProgressStatus, ReviewerState} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
@@ -47,6 +47,8 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   @state() private progressByChange = new Map<ChangeInfo, ProgressStatus>();
 
+  @state() private isOverlayOpen = false;
+
   @query('gr-overlay') private overlay!: GrOverlay;
 
   private getBulkActionsModel = resolve(this, bulkActionsModelToken);
@@ -77,42 +79,47 @@ export class GrChangeListReviewerFlow extends LitElement {
       this.getBulkActionsModel().selectedChanges$,
       selectedChanges => {
         this.selectedChanges = selectedChanges;
-        this.resetFlow();
       }
     );
   }
 
   override render() {
-    const overallStatus = this.getOverallStatus();
     // TODO: factor out button+dialog component with promise-progress tracking
     return html`
       <gr-button
         id="start-flow"
         .disabled=${this.isFlowDisabled()}
         flatten
-        @click=${() => this.overlay.open()}
+        @click=${() => this.openOverlay()}
         >add reviewer/cc</gr-button
       >
       <gr-overlay with-backdrop>
-        <gr-dialog
-          @cancel=${() => this.overlay.close()}
-          @confirm=${() => this.onConfirm(overallStatus)}
-          .confirmLabel=${this.getConfirmLabel(overallStatus)}
-          .disabled=${overallStatus === ProgressStatus.RUNNING}
-        >
-          <div slot="header">Add Reviewer / CC</div>
-          <div slot="main" class="grid">
-            <span>Reviewers</span>
-            ${this.renderAccountList(
-              ReviewerState.REVIEWER,
-              'reviewer-list',
-              'Add reviewer'
-            )}
-            <span>CC</span>
-            ${this.renderAccountList(ReviewerState.CC, 'cc-list', 'Add CC')}
-          </div>
-        </gr-dialog>
+        ${this.isOverlayOpen ? this.renderDialog() : nothing}
       </gr-overlay>
+    `;
+  }
+
+  private renderDialog() {
+    const overallStatus = this.getOverallStatus();
+    return html`
+      <gr-dialog
+        @cancel=${() => this.closeOverlay()}
+        @confirm=${() => this.onConfirm(overallStatus)}
+        .confirmLabel=${this.getConfirmLabel(overallStatus)}
+        .disabled=${overallStatus === ProgressStatus.RUNNING}
+      >
+        <div slot="header">Add Reviewer / CC</div>
+        <div slot="main" class="grid">
+          <span>Reviewers</span>
+          ${this.renderAccountList(
+            ReviewerState.REVIEWER,
+            'reviewer-list',
+            'Add reviewer'
+          )}
+          <span>CC</span>
+          ${this.renderAccountList(ReviewerState.CC, 'cc-list', 'Add CC')}
+        </div>
+      </gr-dialog>
     `;
   }
 
@@ -138,6 +145,17 @@ export class GrChangeListReviewerFlow extends LitElement {
       >
       </gr-account-list>
     `;
+  }
+
+  private openOverlay() {
+    this.resetFlow();
+    this.isOverlayOpen = true;
+    this.overlay.open();
+  }
+
+  private closeOverlay() {
+    this.isOverlayOpen = false;
+    this.overlay.close();
   }
 
   private resetFlow() {

@@ -16,7 +16,7 @@ import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {define} from '../dependency';
 import {select} from '../../utils/observable-util';
-import {ReviewInput} from '../../types/common';
+import {ReviewInput, ReviewerInput} from '../../types/common';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -129,25 +129,25 @@ export class BulkActionsModel
     });
   }
 
-  addReviewers(addedReviewers: AccountInfo[]): Promise<Response>[] {
+  addReviewers(
+    changedReviewers: Map<ReviewerState, AccountInfo[]>
+  ): Promise<Response>[] {
     const current = this.subject$.getValue();
     const changes = current.selectedChangeNums.map(
       changeNum => current.allChanges.get(changeNum)!
     );
     return changes.map(change => {
-      const reviewersNewToChange = addedReviewers.filter(
-        account => !change.reviewers[ReviewerState.REVIEWER]?.includes(account)
+      const reviewersNewToChange = [
+        ReviewerState.REVIEWER,
+        ReviewerState.CC,
+      ].flatMap(state =>
+        this.getNewReviewersToChange(change, state, changedReviewers)
       );
       if (reviewersNewToChange.length === 0) {
         return Promise.resolve(new Response());
       }
       const reviewInput: ReviewInput = {
-        reviewers: reviewersNewToChange.map(account => {
-          return {
-            state: ReviewerState.REVIEWER,
-            reviewer: account._account_id!,
-          };
-        }),
+        reviewers: reviewersNewToChange,
       };
       return this.restApiService.saveChangeReview(
         change._number,
@@ -210,6 +210,21 @@ export class BulkActionsModel
       ...newData,
       reviewers: originalChange.reviewers,
     };
+  }
+
+  private getNewReviewersToChange(
+    change: ChangeInfo,
+    state: ReviewerState,
+    changedReviewers: Map<ReviewerState, AccountInfo[]>
+  ): ReviewerInput[] {
+    return (
+      changedReviewers
+        .get(state)
+        ?.filter(account => !change.reviewers[state]?.includes(account))
+        .map(account => {
+          return {state, reviewer: account._account_id!};
+        }) ?? []
+    );
   }
 
   finalize() {}

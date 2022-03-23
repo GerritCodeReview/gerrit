@@ -158,22 +158,21 @@ suite('bulk actions model test', () => {
     const accounts: AccountInfo[] = [
       createAccountWithIdNameAndEmail(0),
       createAccountWithIdNameAndEmail(1),
-      createAccountWithIdNameAndEmail(2),
     ];
     const changes: ChangeInfo[] = [
       {
         ...createChange(),
         _number: 1 as NumericChangeId,
         subject: 'Subject 1',
-        reviewers: {REVIEWER: [accounts[0], accounts[1]]},
-        removable_reviewers: [accounts[0]],
+        reviewers: {
+          REVIEWER: [accounts[0]],
+          CC: [accounts[1]],
+        },
       },
       {
         ...createChange(),
         _number: 2 as NumericChangeId,
         subject: 'Subject 2',
-        reviewers: {REVIEWER: [accounts[0]]},
-        removable_reviewers: [accounts[0]],
       },
     ];
     let saveChangeReviewStub: sinon.SinonStub;
@@ -191,18 +190,23 @@ suite('bulk actions model test', () => {
       bulkActionsModel.addSelectedChangeNum(changes[1]._number);
     });
 
-    test('adds reviewers only to changes that need it', async () => {
-      bulkActionsModel.addReviewers([accounts[1]]);
+    test('adds reviewers/cc only to changes that need it', async () => {
+      bulkActionsModel.addReviewers(
+        new Map([
+          [ReviewerState.REVIEWER, [accounts[0]]],
+          [ReviewerState.CC, [accounts[1]]],
+        ])
+      );
 
-      // changes[0] is not updated since it already has accounts[1]
-      // as a reviewer
+      // changes[0] is not updated since it already has the reviewer & CC
       assert.isTrue(saveChangeReviewStub.calledOnce);
       assert.sameDeepOrderedMembers(saveChangeReviewStub.firstCall.args, [
         changes[1]._number,
         'current',
         {
           reviewers: [
-            {reviewer: accounts[1]._account_id, state: ReviewerState.REVIEWER},
+            {reviewer: accounts[0]._account_id, state: ReviewerState.REVIEWER},
+            {reviewer: accounts[1]._account_id, state: ReviewerState.CC},
           ],
         },
       ]);

@@ -36,6 +36,12 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 
 const basicFixture = fixtureFromElement('gr-account-list');
 
+export function handleAdd(element: GrAccountList, value: RawAccountInput) {
+  element._handleAdd(
+    new CustomEvent<{value: RawAccountInput}>('add', {detail: {value}})
+  );
+}
+
 class MockSuggestionsProvider implements ReviewerSuggestionsProvider {
   init() {}
 
@@ -82,12 +88,6 @@ suite('gr-account-list tests', () => {
     return queryAll(element, 'gr-account-chip');
   }
 
-  function handleAdd(value: RawAccountInput) {
-    element._handleAdd(
-      new CustomEvent<{value: RawAccountInput}>('add', {detail: {value}})
-    );
-  }
-
   setup(() => {
     existingAccount1 = makeAccount();
     existingAccount2 = makeAccount();
@@ -116,7 +116,7 @@ suite('gr-account-list tests', () => {
 
     // New accounts are added to end with pendingAdd class.
     const newAccount = makeAccount();
-    handleAdd({account: newAccount});
+    handleAdd(element, {account: newAccount});
     flush();
     chips = getChips();
     assert.equal(chips.length, 3);
@@ -160,7 +160,7 @@ suite('gr-account-list tests', () => {
 
     // New groups are added to end with pendingAdd and group classes.
     const newGroup = makeGroup();
-    handleAdd({group: newGroup, confirm: false});
+    handleAdd(element, {group: newGroup, confirm: false});
     flush();
     chips = getChips();
     assert.equal(chips.length, 2);
@@ -301,9 +301,9 @@ suite('gr-account-list tests', () => {
     assert.equal(element.additions().length, 0);
 
     const newAccount = makeAccount();
-    handleAdd({account: newAccount});
+    handleAdd(element, {account: newAccount});
     const newGroup = makeGroup();
-    handleAdd({group: newGroup, confirm: false});
+    handleAdd(element, {group: newGroup, confirm: false});
 
     assert.deepEqual(element.additions(), [
       {
@@ -332,7 +332,7 @@ suite('gr-account-list tests', () => {
       count: 10,
       confirm: true,
     };
-    handleAdd(reviewer);
+    handleAdd(element, reviewer);
 
     assert.deepEqual(element.pendingConfirmation, reviewer);
     assert.deepEqual(element.additions(), []);
@@ -362,7 +362,7 @@ suite('gr-account-list tests', () => {
   test('max-count', () => {
     element.maxCount = 1;
     const acct = makeAccount();
-    handleAdd({account: acct});
+    handleAdd(element, {account: acct});
     flush();
     assert.isTrue(element.$.entry.hasAttribute('hidden'));
   });
@@ -405,7 +405,7 @@ suite('gr-account-list tests', () => {
 
     test('adds emails', () => {
       const accountLen = element.accounts.length;
-      handleAdd('test@test');
+      handleAdd(element, 'test@test');
       assert.equal(element.accounts.length, accountLen + 1);
       assert.equal(
         (element.accounts[accountLen] as AccountInfoInput).email,
@@ -416,7 +416,7 @@ suite('gr-account-list tests', () => {
     test('toasts on invalid email', () => {
       const toastHandler = sinon.stub();
       element.addEventListener('show-alert', toastHandler);
-      handleAdd('test');
+      handleAdd(element, 'test');
       assert.isTrue(toastHandler.called);
     });
   });

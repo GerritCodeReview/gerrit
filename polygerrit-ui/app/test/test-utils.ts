@@ -35,14 +35,20 @@ export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise<T> extends Promise<T> {
   resolve: (value?: T) => void;
+  reject: (reason?: any) => void;
 }
 
 export function mockPromise<T = unknown>(): MockPromise<T> {
   let res: (value?: T) => void;
-  const promise: MockPromise<T> = new Promise<T | undefined>(resolve => {
-    res = resolve;
-  }) as MockPromise<T>;
+  let rej: (reason?: any) => void;
+  const promise: MockPromise<T> = new Promise<T | undefined>(
+    (resolve, reject) => {
+      res = resolve;
+      rej = reject;
+    }
+  ) as MockPromise<T>;
   promise.resolve = res!;
+  promise.reject = rej!;
   return promise;
 }
 

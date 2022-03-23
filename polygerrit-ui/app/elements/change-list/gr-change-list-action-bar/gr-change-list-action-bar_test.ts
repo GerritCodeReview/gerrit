@@ -64,6 +64,7 @@ suite('gr-change-list-action-bar tests', () => {
             <span>1 change selected</span>
           </div>
           <div class="actionButtons">
+            <gr-change-list-reviewer-flow></gr-change-list-reviewer-flow>
             <gr-change-list-bulk-abandon-flow>
             </gr-change-list-bulk-abandon-flow>
           </div>

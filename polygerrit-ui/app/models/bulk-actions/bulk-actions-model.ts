@@ -4,12 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {ChangeInfo, NumericChangeId, ChangeStatus} from '../../api/rest-api';
+import {
+  ChangeInfo,
+  NumericChangeId,
+  ChangeStatus,
+  ReviewerState,
+  AccountInfo,
+} from '../../api/rest-api';
 import {Model} from '../model';
 import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {define} from '../dependency';
 import {select} from '../../utils/observable-util';
+import {ReviewInput} from '../../types/common';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -122,33 +129,64 @@ export class BulkActionsModel
     });
   }
 
-  async sync(changes: ChangeInfo[]) {
-    const newChanges = new Map(changes.map(c => [c._number, c]));
+  addReviewers(addedReviewers: AccountInfo[]): Promise<Response>[] {
     const current = this.subject$.getValue();
-    const selectedChangeNums = current.selectedChangeNums.filter(changeNum =>
-      newChanges.has(changeNum)
+    const changes = current.selectedChangeNums.map(
+      changeNum => current.allChanges.get(changeNum)!
+    );
+    return changes.map(change => {
+      const reviewersNewToChange = addedReviewers.filter(
+        account => !change.reviewers[ReviewerState.REVIEWER]?.includes(account)
+      );
+      if (reviewersNewToChange.length === 0) {
+        return Promise.resolve(new Response());
+      }
+      const reviewInput: ReviewInput = {
+        reviewers: reviewersNewToChange.map(account => {
+          return {
+            state: ReviewerState.REVIEWER,
+            reviewer: account._account_id!,
+          };
+        }),
+      };
+      return this.restApiService.saveChangeReview(
+        change._number,
+        'current',
+        reviewInput
+      );
+    });
+  }
+
+  async sync(changes: ChangeInfo[]) {
+    const basicChanges = new Map(changes.map(c => [c._number, c]));
+    let currentState = this.subject$.getValue();
+    const selectedChangeNums = currentState.selectedChangeNums.filter(
+      changeNum => basicChanges.has(changeNum)
     );
     this.setState({
-      ...current,
+      ...currentState,
       loadingState: LoadingState.LOADING,
       selectedChangeNums,
-      allChanges: newChanges,
+      allChanges: basicChanges,
     });
 
     const changeDetails =
       await this.restApiService.getDetailedChangesWithActions(
         changes.map(c => c._number)
       );
-    const newCurrent = this.subject$.getValue();
+    currentState = this.subject$.getValue();
     // Return early if sync has been called again since starting the load.
-    if (newChanges !== newCurrent.allChanges) return;
-    const allDetailedChanges = new Map(newChanges);
-    for (const change of changeDetails ?? []) {
-      const originalChange = changes.find(c => c._number === change._number);
-      allDetailedChanges.set(change._number, {...originalChange, ...change});
+    if (basicChanges !== currentState.allChanges) return;
+    const allDetailedChanges = new Map();
+    for (const detailedChange of changeDetails ?? []) {
+      const basicChange = basicChanges.get(detailedChange._number)!;
+      allDetailedChanges.set(
+        detailedChange._number,
+        this.mergeOldAndDetailedChangeInfos(basicChange, detailedChange)
+      );
     }
     this.setState({
-      ...newCurrent,
+      ...currentState,
       loadingState: LoadingState.LOADED,
       allChanges: allDetailedChanges,
     });
@@ -161,6 +199,17 @@ export class BulkActionsModel
 
   setState(state: BulkActionsState) {
     this.subject$.next(state);
+  }
+
+  private mergeOldAndDetailedChangeInfos(
+    originalChange: ChangeInfo,
+    newData: ChangeInfo
+  ) {
+    return {
+      ...originalChange,
+      ...newData,
+      reviewers: originalChange.reviewers,
+    };
   }
 
   finalize() {}

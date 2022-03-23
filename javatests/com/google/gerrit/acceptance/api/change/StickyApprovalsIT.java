@@ -39,6 +39,7 @@ import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -79,6 +80,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -726,10 +729,11 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyEvenWhenUserCantSeeUploaderInGroup() throws Exception {
+  public void approvalsThatMatchApproverinConditionAreStickyEvenIfUserCantSeeTheGroup()
+      throws Exception {
     String administratorsUUID = gApi.groups().query("name:Administrators").get().get(0).id;
 
-    // verify that user can't see the admin group
+    // Verify that user can't see the admin group.
     requestScopeOperations.setApiUser(user.id());
     ResourceNotFoundException notFound =
         assertThrows(
@@ -739,14 +743,23 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
     updateCodeReviewLabel(b -> b.setCopyCondition("approverin:" + administratorsUUID));
 
-    String changeId = createChange().getChangeId();
-    approve(changeId);
-    amendChange(changeId);
-    vote(user, changeId, 1, -1); // Invalidate cache
-    requestScopeOperations.setApiUser(user.id());
-    ChangeInfo c = detailedChange(changeId);
+    PushOneCommit.Result r = createChange();
+
+    // Add Code-Review+2 by the admin user.
+    approve(r.getChangeId());
+
+    // Create a new patch set by user.
+    // Approvals are copied on creation of the new patch set. The approval of the admin user is
+    // expected to be sticky although the group that is configured for the 'approverin' predicate is
+    // not visible to the user.
+    TestRepository<InMemoryRepository> userTestRepo = cloneProject(project, user);
+    GitUtil.fetch(userTestRepo, r.getPatchSet().refName() + ":ps");
+    userTestRepo.reset("ps");
+    amendChange(r.getChangeId(), "refs/for/master", user, testRepo);
+
+    // Assert that the approval of the admin user was copied to the new patch set.
+    ChangeInfo c = detailedChange(r.getChangeId());
     assertVotes(c, admin, 2, 0);
-    assertVotes(c, user, 1, -1);
   }
 
   @Test

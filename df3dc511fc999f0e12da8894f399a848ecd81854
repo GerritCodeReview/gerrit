@@ -16,6 +16,24 @@
       "message": "This is not needed or there is a bug. It should happen in line 66 anyway, because updating the model will fire an update.",
       "revId": "df3dc511fc999f0e12da8894f399a848ecd81854",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b5e977d_f1583c9d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-23T23:35:42Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e8e280fc_fbd99ca9",
+      "revId": "df3dc511fc999f0e12da8894f399a848ecd81854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

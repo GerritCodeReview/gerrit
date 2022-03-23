@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44b64e06_e2f66863",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T16:51:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "655bd9ef_f505f155",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1641a48_d48066db",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0bd0583_545b483f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T16:51:19Z",
+      "side": 1,
+      "message": "removed remove",
+      "parentUuid": "94cd0a98_bd58c02e",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d4edcb1_3b5c679b",
@@ -65,6 +101,24 @@
       "writtenOn": "2022-03-23T14:44:52Z",
       "side": 1,
       "message": "Why would you want to filter? Isn\u0027t it better if we allow selection and then the actual logic that sends the RPC is smart enough to know when to add/remove?",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "584fac8f_d5a9e292",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T16:51:19Z",
+      "side": 1,
+      "message": "removed for now. Depends on how we want to filter out forbidden reviewers from suggestion list (ex: when a reviewer can\u0027t see one of the selected changes)",
+      "parentUuid": "5d4edcb1_3b5c679b",
       "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -88,6 +142,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4d14f1c0_592a01bb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T16:51:19Z",
+      "side": 1,
+      "message": "will depend on other shared component as in your other comment",
+      "parentUuid": "88841c77_e5e5f45a",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1cc50ccc_78ae30ca",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
         "patchSetId": 4
@@ -99,6 +171,24 @@
       "writtenOn": "2022-03-23T14:44:52Z",
       "side": 1,
       "message": "Don\u0027t import _test files into other _test files, it makes run test:single test more than you want it to.",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6910a96_c338e84b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T16:51:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cc50ccc_78ae30ca",
       "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -116,6 +206,24 @@
       "writtenOn": "2022-03-23T14:44:52Z",
       "side": 1,
       "message": "Don\u0027t export functions from _test.ts files, we shouldn\u0027t be importing tests into other tests.",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a967888_286ac71d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T16:51:19Z",
+      "side": 1,
+      "message": "done. forgot about that",
+      "parentUuid": "e1cf6561_1c33ed1d",
       "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

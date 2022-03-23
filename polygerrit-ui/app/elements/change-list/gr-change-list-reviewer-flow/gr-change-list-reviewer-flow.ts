@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {html, LitElement} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, query, state} from 'lit/decorators';
 import {ProgressStatus, ReviewerState} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
@@ -53,6 +53,23 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   private restApiService = getAppContext().restApiService;
 
+  static override get styles() {
+    return css`
+      gr-dialog {
+        width: 60em;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: min-content 1fr;
+        column-gap: var(--spacing-l);
+      }
+      gr-account-list {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    `;
+  }
+
   override connectedCallback(): void {
     super.connectedCallback();
     subscribe(
@@ -84,19 +101,15 @@ export class GrChangeListReviewerFlow extends LitElement {
           .disabled=${overallStatus === ProgressStatus.RUNNING}
         >
           <div slot="header">Add Reviewer / CC</div>
-          <div slot="main">
-            <div>
-              <span>Reviewers</span>
-              ${this.renderAccountList(
-                ReviewerState.REVIEWER,
-                'reviewer-list',
-                'Add reviewer'
-              )}
-            </div>
-            <div>
-              <span>CC</span>
-              ${this.renderAccountList(ReviewerState.CC, 'cc-list', 'Add CC')}
-            </div>
+          <div slot="main" class="grid">
+            <span>Reviewers</span>
+            ${this.renderAccountList(
+              ReviewerState.REVIEWER,
+              'reviewer-list',
+              'Add reviewer'
+            )}
+            <span>CC</span>
+            ${this.renderAccountList(ReviewerState.CC, 'cc-list', 'Add CC')}
           </div>
         </gr-dialog>
       </gr-overlay>
@@ -186,7 +199,7 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   private getConfirmLabel(overallStatus: ProgressStatus) {
     return overallStatus === ProgressStatus.NOT_STARTED
-      ? 'Apply'
+      ? 'Add'
       : overallStatus === ProgressStatus.RUNNING
       ? 'Running'
       : 'Close';

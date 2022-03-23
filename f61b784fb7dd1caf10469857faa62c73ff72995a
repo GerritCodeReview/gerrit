@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "929e0738_0b7e9fd1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T09:35:25Z",
+      "side": 1,
+      "message": "No, I looked for this.  Anyways, this comment is now obsolete given the new approach.",
+      "parentUuid": "bb1f6de1_9992adc1",
+      "range": {
+        "startLine": 297,
+        "startChar": 4,
+        "endLine": 297,
+        "endChar": 31
+      },
+      "revId": "f61b784fb7dd1caf10469857faa62c73ff72995a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4194eb2b_b604d738",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-03-23T08:35:07Z",
       "side": 1,
       "message": "remove this method and just compute url from GerritNav directly?",
+      "range": {
+        "startLine": 302,
+        "startChar": 2,
+        "endLine": 302,
+        "endChar": 19
+      },
+      "revId": "f61b784fb7dd1caf10469857faa62c73ff72995a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "080c2b31_1001b604",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T09:35:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4194eb2b_b604d738",
       "range": {
         "startLine": 302,
         "startChar": 2,

@@ -731,6 +731,58 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void approvalsAreStickyIfUploaderMatchesUploaderinCondition() throws Exception {
+    TestAccount userForWhomApprovalsAreSticky =
+        accountCreator.create(
+            /* username= */ null,
+            /* email= */ "userForWhomApprovalsAreSticky@example.com",
+            /* fullName= */ "User For Whom Approvals Are Sticky",
+            /* displayName= */ null);
+    String usersForWhomApprovalsAreStickyUuid =
+        groupOperations
+            .newGroup()
+            .name("Users-for-whom-approvals-are-sticky")
+            .addMember(userForWhomApprovalsAreSticky.id())
+            .create()
+            .get();
+
+    updateCodeReviewLabel(
+        b -> b.setCopyCondition("uploaderin:" + usersForWhomApprovalsAreStickyUuid));
+
+    PushOneCommit.Result r = createChange();
+
+    // Add Code-Review+2 by the admin user.
+    approve(r.getChangeId());
+
+    // Add Code-Review+1 by user.
+    requestScopeOperations.setApiUser(user.id());
+    recommend(r.getChangeId());
+
+    // Create a new patch set by userForWhomApprovalsAreSticky (approavls are sticky).
+    TestRepository<InMemoryRepository> userTestRepo =
+        cloneProject(project, userForWhomApprovalsAreSticky);
+    GitUtil.fetch(userTestRepo, r.getPatchSet().refName() + ":ps");
+    userTestRepo.reset("ps");
+    amendChange(r.getChangeId(), "refs/for/master", userForWhomApprovalsAreSticky, userTestRepo)
+        .assertOkStatus();
+    ChangeInfo c = detailedChange(r.getChangeId());
+    assertThat(c.revisions.get(c.currentRevision).uploader._accountId)
+        .isEqualTo(userForWhomApprovalsAreSticky.id().get());
+
+    // Approvals are sticky.
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, 1, 0);
+
+    // Create a new patch set by admin user (approvals are not sticky).
+    amendChange(r.getChangeId()).assertOkStatus();
+
+    // Approvals are not sticky.
+    c = detailedChange(r.getChangeId());
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
   public void approvalsThatMatchApproverinConditionAreSticky() throws Exception {
     TestAccount userWhoseApprovalsAreSticky = accountCreator.create();
     String usersWhoseApprovalsAreStickyUuid =

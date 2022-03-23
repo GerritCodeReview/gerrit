@@ -25,8 +25,11 @@ import '../../shared/gr-account-list/gr-account-list';
 export class GrChangeListReviewerFlow extends LitElement {
   @state() private selectedChanges: ChangeInfo[] = [];
 
-  // given to gr-account-list to mutate
+  // given to reviewer gr-account-list to mutate
   @state() private updatedReviewers: AccountInfo[] = [];
+
+  // given to cc gr-account-list to mutate
+  @state() private updatedCcs: AccountInfo[] = [];
 
   @state() private progressByChange = new Map<ChangeInfo, ProgressStatus>();
 
@@ -36,7 +39,8 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   private restApiService = getAppContext().restApiService;
 
-  private suggestionsProvider?: ReviewerSuggestionsProvider;
+  private reviewerSuggestionsProvider?: ReviewerSuggestionsProvider;
+  private ccSuggestionsProvider?: ReviewerSuggestionsProvider;
 
   override connectedCallback(): void {
     super.connectedCallback();
@@ -70,12 +74,24 @@ export class GrChangeListReviewerFlow extends LitElement {
           <div slot="header">Add Reviewer / CC</div>
           <div slot="main">
             <div>
-              <span>Reviewers:</span>
+              <span>Reviewers</span>
               <gr-account-list
+                id="reviewer-list"
                 .accounts=${this.updatedReviewers}
                 .removableValues=${[]}
-                .suggestionsProvider=${this.suggestionsProvider}
-                .placeholder=${'Add reviewer...'}
+                .suggestionsProvider=${this.reviewerSuggestionsProvider}
+                .placeholder=${'Add reviewer'}
+              >
+              </gr-account-list>
+            </div>
+            <div>
+              <span>CC</span>
+              <gr-account-list
+                id="cc-list"
+                .accounts=${this.updatedCcs}
+                .removableValues=${[]}
+                .suggestionsProvider=${this.ccSuggestionsProvider}
+                .placeholder=${'Add CC'}
               >
               </gr-account-list>
             </div>
@@ -90,22 +106,30 @@ export class GrChangeListReviewerFlow extends LitElement {
       this.selectedChanges.map(change => [change, ProgressStatus.NOT_STARTED])
     );
     this.updatedReviewers = this.getCurrentReviewers();
+    this.updatedCcs = this.getCurrentCcs();
     if (this.selectedChanges.length === 0) {
       return;
     }
-    this.suggestionsProvider = GrReviewerSuggestionsProvider.create(
+    this.reviewerSuggestionsProvider = GrReviewerSuggestionsProvider.create(
       this.restApiService,
       // TODO: fan out and get suggestions allowed by all changes
       this.selectedChanges[0]._number,
       SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER
     );
-    this.suggestionsProvider.init();
+    this.reviewerSuggestionsProvider.init();
+    this.ccSuggestionsProvider = GrReviewerSuggestionsProvider.create(
+      this.restApiService,
+      // TODO: fan out and get suggestions allowed by all changes
+      this.selectedChanges[0]._number,
+      SUGGESTIONS_PROVIDERS_USERS_TYPES.CC
+    );
+    this.ccSuggestionsProvider.init();
   }
 
   private onConfirm(overallStatus: ProgressStatus) {
     switch (overallStatus) {
       case ProgressStatus.NOT_STARTED:
-        this.saveReviewers();
+        this.saveReviewersAndCCs();
         break;
       case ProgressStatus.SUCCESSFUL:
         this.overlay.close();
@@ -113,13 +137,13 @@ export class GrChangeListReviewerFlow extends LitElement {
     }
   }
 
-  private saveReviewers() {
+  private saveReviewersAndCCs() {
     this.progressByChange = new Map(
       this.selectedChanges.map(change => [change, ProgressStatus.RUNNING])
     );
-    const addedReviewerInputs = this.getAddedReviewerInputs();
+    const addedInputs = this.getAddedInputs();
     const inFlightActions =
-      this.getBulkActionsModel().addReviewers(addedReviewerInputs);
+      this.getBulkActionsModel().addReviewers(addedInputs);
     for (let index = 0; index < this.selectedChanges.length; index++) {
       const change = this.selectedChanges[index];
       inFlightActions[index]
@@ -149,8 +173,8 @@ export class GrChangeListReviewerFlow extends LitElement {
   }
 
   private getCurrentReviewers() {
-    const reviewersPerChange = this.selectedChanges.map(change =>
-      Object.values(change.reviewers).flat()
+    const reviewersPerChange = this.selectedChanges.map(
+      change => change.reviewers[ReviewerState.REVIEWER] ?? []
     );
     if (reviewersPerChange.length === 0) {
       return [];
@@ -158,6 +182,23 @@ export class GrChangeListReviewerFlow extends LitElement {
     // Gets reviewers present in all changes
     return reviewersPerChange[0].filter(reviewer =>
       reviewersPerChange.every(reviewersInChange =>
+        reviewersInChange.some(
+          other => other._account_id === reviewer._account_id
+        )
+      )
+    );
+  }
+
+  private getCurrentCcs() {
+    const ccsPerChange = this.selectedChanges.map(
+      change => change.reviewers[ReviewerState.CC] ?? []
+    );
+    if (ccsPerChange.length === 0) {
+      return [];
+    }
+    // Gets CCs present in all changes
+    return ccsPerChange[0].filter(reviewer =>
+      ccsPerChange.every(reviewersInChange =>
         reviewersInChange.some(
           other => other._account_id === reviewer._account_id
         )
@@ -176,21 +217,34 @@ export class GrChangeListReviewerFlow extends LitElement {
     return ProgressStatus.SUCCESSFUL;
   }
 
-  private getAddedReviewerInputs(): ReviewerInput[] {
+  private getAddedInputs(): ReviewerInput[] {
     const oldReviewerIds = this.getCurrentReviewers().map(
       account => account._account_id!
     );
     const newReviewerIds = this.updatedReviewers.map(
       account => account._account_id!
     );
-    return newReviewerIds
-      .filter(id => !oldReviewerIds.includes(id))
+    const addedReviewerIds = newReviewerIds.filter(
+      id => !oldReviewerIds.includes(id)
+    );
+    const oldCcIds = this.getCurrentCcs().map(account => account._account_id!);
+    const newCcIds = this.updatedCcs.map(account => account._account_id!);
+    const addedCcIds = newCcIds.filter(id => !oldCcIds.includes(id));
+    return addedReviewerIds
       .map(id => {
         return {
           reviewer: id,
           state: ReviewerState.REVIEWER,
         };
-      });
+      })
+      .concat(
+        addedCcIds.map(id => {
+          return {
+            reviewer: id,
+            state: ReviewerState.CC,
+          };
+        })
+      );
   }
 }
 

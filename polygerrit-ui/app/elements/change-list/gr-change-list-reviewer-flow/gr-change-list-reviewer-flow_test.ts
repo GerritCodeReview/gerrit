@@ -35,19 +35,21 @@ const accounts: AccountInfo[] = [
   createAccountWithIdNameAndEmail(0),
   createAccountWithIdNameAndEmail(1),
   createAccountWithIdNameAndEmail(2),
+  createAccountWithIdNameAndEmail(3),
+  createAccountWithIdNameAndEmail(4),
 ];
 const changes: ChangeInfo[] = [
   {
     ...createChange(),
     _number: 1 as NumericChangeId,
     subject: 'Subject 1',
-    reviewers: {REVIEWER: [accounts[0], accounts[1]]},
+    reviewers: {REVIEWER: [accounts[0], accounts[1]], CC: [accounts[3]]},
   },
   {
     ...createChange(),
     _number: 2 as NumericChangeId,
     subject: 'Subject 2',
-    reviewers: {REVIEWER: [accounts[0]]},
+    reviewers: {REVIEWER: [accounts[0]], CC: [accounts[1], accounts[3]]},
   },
 ];
 
@@ -103,8 +105,12 @@ suite('gr-change-list-reviewer-flow tests', () => {
           <div slot="header">Add Reviewer / CC</div>
           <div slot="main">
             <div>
-              <span>Reviewers:</span>
-              <gr-account-list></gr-account-list>
+              <span>Reviewers</span>
+              <gr-account-list id="reviewer-list"></gr-account-list>
+            </div>
+            <div>
+              <span>CC</span>
+              <gr-account-list id="cc-list"></gr-account-list>
             </div>
           </div>
         </gr-dialog>
@@ -169,21 +175,32 @@ suite('gr-change-list-reviewer-flow tests', () => {
       await dialog.updateComplete;
     });
 
-    test('only lists reviewers shared by all changes', async () => {
-      const accountList = queryAndAssert<GrAccountList>(
+    test('only lists reviewers/cc shared by all changes', async () => {
+      const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list'
+        'gr-account-list#reviewer-list'
+      );
+      const ccList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#cc-list'
       );
       // does not include account 1
-      assert.sameMembers(accountList.accounts, [accounts[0]]);
+      assert.sameMembers(reviewerList.accounts, [accounts[0]]);
+      // does not include account 1
+      assert.sameMembers(ccList.accounts, [accounts[3]]);
     });
 
-    test('adds reviewer', async () => {
-      const accountList = queryAndAssert<GrAccountList>(
+    test('adds reviewer and CC', async () => {
+      const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list'
+        'gr-account-list#reviewer-list'
       );
-      accountList.accounts.push(accounts[2]);
+      reviewerList.accounts.push(accounts[2]);
+      const ccList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#cc-list'
+      );
+      ccList.accounts.push(accounts[4]);
       await flush();
       dialog.confirmButton!.click();
       await element.updateComplete;
@@ -195,6 +212,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
         {
           reviewers: [
             {reviewer: accounts[2]._account_id, state: ReviewerState.REVIEWER},
+            {reviewer: accounts[4]._account_id, state: ReviewerState.CC},
           ],
         },
       ]);
@@ -204,6 +222,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
         {
           reviewers: [
             {reviewer: accounts[2]._account_id, state: ReviewerState.REVIEWER},
+            {reviewer: accounts[4]._account_id, state: ReviewerState.CC},
           ],
         },
       ]);

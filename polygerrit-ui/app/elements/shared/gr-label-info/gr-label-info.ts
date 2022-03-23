@@ -300,6 +300,7 @@ export class GrLabelInfo extends LitElement {
       </td>
       <td>
         <gr-account-label
+          clickable
           .account="${mappedLabel.account}"
           .change="${change}"
         ></gr-account-label>

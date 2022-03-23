@@ -27,10 +27,10 @@ import {JSON_PREFIX} from '../../elements/shared/gr-rest-api-interface/gr-rest-a
 import {GrRestApiServiceImpl} from './gr-rest-api-impl.js';
 
 const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
-    ListChangesOption.CHANGE_ACTIONS,
-    ListChangesOption.CURRENT_ACTIONS,
-    ListChangesOption.CURRENT_REVISION,
-    ListChangesOption.DETAILED_LABELS
+  ListChangesOption.CHANGE_ACTIONS,
+  ListChangesOption.CURRENT_ACTIONS,
+  ListChangesOption.CURRENT_REVISION,
+  ListChangesOption.DETAILED_LABELS
 );
 
 suite('gr-rest-api-service-impl tests', () => {

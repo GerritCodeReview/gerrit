@@ -688,7 +688,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void copyWithListOfFilesUnchangedButAddedMergeList() throws Exception {
+  public void stickyIfFilesUnchanged_magicFilesAreIgnored() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
     Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
@@ -704,14 +704,16 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
             .change(parent2ChangeId)
             .create();
 
+    // The change is for a merge commit. It doesn't touch any files, but contains /COMMIT_MSG and
+    // /MERGE_LIST as magic files.
     Map<String, FileInfo> changedFilesFirstPatchset =
         gApi.changes().id(changeId.get()).current().files();
-
     assertThat(changedFilesFirstPatchset.keySet()).containsExactly("/COMMIT_MSG", "/MERGE_LIST");
 
-    // Make a Code-Review vote that should be sticky.
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+    // Add a Code-Review+2 vote.
+    approve(changeId.toString());
 
+    // Create a new patch set with a non-merge commit.
     changeOperations
         .change(changeId)
         .newPatchset()
@@ -719,16 +721,18 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         .patchset(PatchSet.id(dummyParentChangeId, 1))
         .create();
 
+    // Since the new patch set is not a merge commit, it no longer contains the magic /MERGE_LIST
+    // file.
     Map<String, FileInfo> changedFilesSecondPatchset =
         gApi.changes().id(changeId.get()).current().files();
+    assertThat(changedFilesSecondPatchset.keySet())
+        .containsExactly("/COMMIT_MSG"); // /MERGE_LIST is no longer present
 
-    // Only "/MERGE_LIST" was removed.
-    assertThat(changedFilesSecondPatchset.keySet()).containsExactly("/COMMIT_MSG");
-    ApprovalInfo approvalInfo =
-        Iterables.getOnlyElement(
-            gApi.changes().id(changeId.get()).current().votes().get(LabelId.CODE_REVIEW));
-    assertThat(approvalInfo._accountId).isEqualTo(admin.id().get());
-    assertThat(approvalInfo.value).isEqualTo(2);
+    // The only file difference between the 2 patch sets is the magic /MERGE_LIST file.
+    // Since magic files are ignored when checking whether the files between the patch sets differ,
+    // has:unchanged-file should evaluate to true and we expect that the vote was copied.
+    ChangeInfo c = detailedChange(changeId.toString());
+    assertVotes(c, admin, 2, 0);
   }
 
   @Test

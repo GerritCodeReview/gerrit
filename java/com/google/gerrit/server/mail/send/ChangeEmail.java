@@ -26,11 +26,12 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.NotifyConfig.NotifyType;
+import com.google.gerrit.entities.ChangeSizeBucket;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -52,6 +53,7 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.Instant;
@@ -64,6 +66,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.internal.JGitText;
@@ -72,8 +75,11 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
-/** Sends an email to one or more interested parties. */
+/**
+ * Sends an email to one or more interested parties.
+ */
 public abstract class ChangeEmail extends NotificationEmail {
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected static ChangeData newChangeData(
@@ -130,7 +136,9 @@ public abstract class ChangeEmail extends NotificationEmail {
     timestamp = t;
   }
 
-  /** Format the message body by calling {@link #appendText(String)}. */
+  /**
+   * Format the message body by calling {@link #appendText(String)}.
+   */
   @Override
   protected void format() throws EmailException {
     if (useHtml()) {
@@ -145,7 +153,9 @@ public abstract class ChangeEmail extends NotificationEmail {
     formatFooter();
   }
 
-  /** Format the message body by calling {@link #appendText(String)}. */
+  /**
+   * Format the message body by calling {@link #appendText(String)}.
+   */
   protected abstract void formatChange() throws EmailException;
 
   /**
@@ -153,9 +163,12 @@ public abstract class ChangeEmail extends NotificationEmail {
    *
    * @throws EmailException if an error occurred.
    */
-  protected void formatFooter() throws EmailException {}
+  protected void formatFooter() throws EmailException {
+  }
 
-  /** Setup the message headers and envelope (TO, CC, BCC). */
+  /**
+   * Setup the message headers and envelope (TO, CC, BCC).
+   */
   @Override
   protected void init() throws EmailException {
     if (args.projectCache != null) {
@@ -231,7 +244,28 @@ public abstract class ChangeEmail extends NotificationEmail {
     setHeader(FieldName.SUBJECT, textTemplate("ChangeSubject"));
   }
 
-  /** Get a link to the change; null if the server doesn't know its own address. */
+  private TreeMap<String, FileDiffOutput> getModifiedFilesTreeMap() {
+    try {
+      return new TreeMap<>(listModifiedFiles());
+    } catch (DiffNotAvailableException err) {
+      logger.atWarning().withCause(err).log("Cannot get modified files list");
+    }
+    return new TreeMap<>();
+  }
+
+  private int getInsertionsCount() {
+    return getModifiedFilesTreeMap().values().stream().map(FileDiffOutput::insertions)
+        .reduce(0, Integer::sum);
+  }
+
+  private int getDeletionsCount() {
+    return getModifiedFilesTreeMap().values().stream().map(FileDiffOutput::deletions)
+        .reduce(0, Integer::sum);
+  }
+
+  /**
+   * Get a link to the change; null if the server doesn't know its own address.
+   */
   @Nullable
   public String getChangeUrl() {
     return args.urlFormatter
@@ -250,7 +284,9 @@ public abstract class ChangeEmail extends NotificationEmail {
         + ">";
   }
 
-  /** Get the text of the "cover letter". */
+  /**
+   * Get the text of the "cover letter".
+   */
   public String getCoverLetter() {
     if (changeMessage != null) {
       return changeMessage.trim();
@@ -258,7 +294,9 @@ public abstract class ChangeEmail extends NotificationEmail {
     return "";
   }
 
-  /** Create the change message and the affected file list. */
+  /**
+   * Create the change message and the affected file list.
+   */
   public String getChangeDetail() {
     try {
       StringBuilder detail = new StringBuilder();
@@ -272,7 +310,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       if (patchSet != null) {
         detail.append("---\n");
         // Sort files by name.
-        TreeMap<String, FileDiffOutput> modifiedFiles = new TreeMap<>(listModifiedFiles());
+        TreeMap<String, FileDiffOutput> modifiedFiles = getModifiedFilesTreeMap();
         for (FileDiffOutput fileDiff : modifiedFiles.values()) {
           if (fileDiff.newPath().isPresent() && Patch.isMagic(fileDiff.newPath().get())) {
             continue;
@@ -285,10 +323,6 @@ public abstract class ChangeEmail extends NotificationEmail {
                       fileDiff.oldPath(), fileDiff.newPath(), fileDiff.changeType()))
               .append("\n");
         }
-        Integer insertions =
-            modifiedFiles.values().stream().map(FileDiffOutput::insertions).reduce(0, Integer::sum);
-        Integer deletions =
-            modifiedFiles.values().stream().map(FileDiffOutput::deletions).reduce(0, Integer::sum);
         detail.append(
             MessageFormat.format(
                 "" //
@@ -297,8 +331,8 @@ public abstract class ChangeEmail extends NotificationEmail {
                     + "{2,choice,0#0 deletions|1#1 deletion|1<{2} deletions}(-)" //
                     + "\n",
                 modifiedFiles.size() - 1, //
-                insertions, //
-                deletions));
+                getInsertionsCount(), //
+                getDeletionsCount()));
         detail.append("\n");
       }
       return detail.toString();
@@ -308,7 +342,9 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  /** Get the patch list corresponding to patch set patchSetId of this change. */
+  /**
+   * Get the patch list corresponding to patch set patchSetId of this change.
+   */
   protected Map<String, FileDiffOutput> listModifiedFiles(int patchSetId)
       throws DiffNotAvailableException {
     PatchSet ps;
@@ -325,7 +361,9 @@ public abstract class ChangeEmail extends NotificationEmail {
         change.getProject(), ps.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
   }
 
-  /** Get the patch list corresponding to this patch set. */
+  /**
+   * Get the patch list corresponding to this patch set.
+   */
   protected Map<String, FileDiffOutput> listModifiedFiles() throws DiffNotAvailableException {
     if (patchSet != null) {
       return args.diffOperations.listModifiedFilesAgainstParent(
@@ -334,19 +372,25 @@ public abstract class ChangeEmail extends NotificationEmail {
     throw new DiffNotAvailableException("no patchSet specified");
   }
 
-  /** Get the project entity the change is in; null if its been deleted. */
+  /**
+   * Get the project entity the change is in; null if its been deleted.
+   */
   protected ProjectState getProjectState() {
     return projectState;
   }
 
-  /** TO or CC all vested parties (change owner, patch set uploader, author). */
+  /**
+   * TO or CC all vested parties (change owner, patch set uploader, author).
+   */
   protected void rcptToAuthors(RecipientType rt) {
     for (Account.Id id : authors) {
       add(rt, id);
     }
   }
 
-  /** BCC any user who has starred this change. */
+  /**
+   * BCC any user who has starred this change.
+   */
   protected void bccStarredBy() {
     if (!NotifyHandling.ALL.equals(notify.handling())) {
       return;
@@ -377,7 +421,9 @@ public abstract class ChangeEmail extends NotificationEmail {
     return watch.getWatchers(type, includeWatchersFromNotifyConfig);
   }
 
-  /** Any user who has published comments on this change. */
+  /**
+   * Any user who has published comments on this change.
+   */
   protected void ccAllApprovals() {
     if (!NotifyHandling.ALL.equals(notify.handling())
         && !NotifyHandling.OWNER_REVIEWERS.equals(notify.handling())) {
@@ -393,7 +439,9 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  /** Users who were added as reviewers to this change. */
+  /**
+   * Users who were added as reviewers to this change.
+   */
   protected void ccExistingReviewers() {
     if (!NotifyHandling.ALL.equals(notify.handling())
         && !NotifyHandling.OWNER_REVIEWERS.equals(notify.handling())) {
@@ -417,7 +465,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
     if (emailOnlyAttentionSetIfEnabled
         && accountState.get().generalPreferences().getEmailStrategy()
-            == EmailStrategy.ATTENTION_SET_ONLY
+        == EmailStrategy.ATTENTION_SET_ONLY
         && !currentAttentionSet.contains(to)) {
       return;
     }
@@ -440,7 +488,9 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  /** Find all users who are authors of any part of this change. */
+  /**
+   * Find all users who are authors of any part of this change.
+   */
   protected Set<Account.Id> getAuthors() {
     Set<Account.Id> authors = new HashSet<>();
 
@@ -497,6 +547,8 @@ public abstract class ChangeEmail extends NotificationEmail {
     changeData.put("ownerName", getNameFor(change.getOwner()));
     changeData.put("ownerEmail", getNameEmailFor(change.getOwner()));
     changeData.put("changeNumber", Integer.toString(change.getChangeId()));
+    changeData.put("sizeBucket",
+        ChangeSizeBucket.getChangeSizeBucket(getInsertionsCount() + getDeletionsCount()));
     soyContext.put("change", changeData);
 
     Map<String, Object> patchSetData = new HashMap<>();
@@ -576,7 +628,9 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   private static final int HEAP_EST_SIZE = 32 * 1024;
 
-  /** Show patch set as unified difference. */
+  /**
+   * Show patch set as unified difference.
+   */
   public String getUnifiedDiff() {
     Map<String, FileDiffOutput> modifiedFiles;
     try {

@@ -326,6 +326,15 @@ function getStringLabelValue(
   return `${numberValue}`;
 }
 
+export function getDefaultValue(
+  labels?: LabelNameToInfoMap,
+  labelName?: string
+) {
+  if (!labelName || !labels?.[labelName]) return undefined;
+  const labelInfo = labels[labelName] as DetailedLabelInfo;
+  return labelInfo.default_value;
+}
+
 export function getVoteForAccount(
   labelName: string,
   account?: AccountInfo,

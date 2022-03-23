@@ -140,25 +140,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyOnAnyScore() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
-
-    for (ChangeKind changeKind :
-        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
-      testRepo.reset(projectOperations.project(project).getHead("master"));
-
-      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
-      vote(admin, changeId, 2, 1);
-      vote(user, changeId, 1, -1);
-
-      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
-      ChangeInfo c = detailedChange(changeId);
-      assertVotes(c, admin, 2, 0, changeKind);
-      assertVotes(c, user, 1, 0, changeKind);
-    }
-  }
-
-  @Test
   public void stickyWhenCopyConditionIsTrue() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
 
@@ -178,19 +159,22 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyEvenWhenUserCantSeeUploaderInGroup() throws Exception {
-    // user can't see admin group
-    String administratorsUUID = gApi.groups().query("name:Administrators").get().get(0).id;
-    updateCodeReviewLabel(b -> b.setCopyCondition("approverin:" + administratorsUUID));
+  public void stickyOnAnyScore() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
 
-    String changeId = createChange().getChangeId();
-    approve(changeId);
-    amendChange(changeId);
-    vote(user, changeId, 1, -1); // Invalidate cache
-    requestScopeOperations.setApiUser(user.id());
-    ChangeInfo c = detailedChange(changeId);
-    assertVotes(c, admin, 2, 0);
-    assertVotes(c, user, 1, -1);
+    for (ChangeKind changeKind :
+        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
+      testRepo.reset(projectOperations.project(project).getHead("master"));
+
+      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, 1, -1);
+
+      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, 2, 0, changeKind);
+      assertVotes(c, user, 1, 0, changeKind);
+    }
   }
 
   @Test
@@ -213,25 +197,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyWhenEitherBooleanConfigsOrCopyConditionAreTrue() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("is:MAX").setCopyMinScore(true));
-
-    for (ChangeKind changeKind :
-        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
-      testRepo.reset(projectOperations.project(project).getHead("master"));
-
-      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
-      vote(admin, changeId, 2, 1);
-      vote(user, changeId, -2, -1);
-
-      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
-      ChangeInfo c = detailedChange(changeId);
-      assertVotes(c, admin, 2, 0, changeKind);
-      assertVotes(c, user, -2, 0, changeKind);
-    }
-  }
-
-  @Test
   public void stickyOnMaxScore() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyMaxScore(true));
 
@@ -247,110 +212,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       ChangeInfo c = detailedChange(changeId);
       assertVotes(c, admin, 2, 0, changeKind);
       assertVotes(c, user, 0, 0, changeKind);
-    }
-  }
-
-  @Test
-  public void sticky_copiedToLatestPatchSetFromSubmitRecords() throws Exception {
-    updateVerifiedLabel(b -> b.setFunction(LabelFunction.NO_BLOCK));
-
-    // This test is covering the backfilling logic for changes which have been submitted, based on
-    // copied approvals, before Gerrit persisted copied votes as Copied-Label footers in NoteDb. It
-    // verifies that for such changes copied approvals are returned from the API even if the copied
-    // votes were not persisted as Copied-Label footers.
-    //
-    // In other words, this test verifies that given a change that was approved by a copied vote and
-    // then submitted and for which the copied approval is not persisted as a Copied-Label footer in
-    // NoteDb the copied approval is backfilled from the corresponding Submitted-With footer that
-    // got written to NoteDb on submit.
-    //
-    // Creating such a change would be possible by running the old Gerrit code from before Gerrit
-    // persisted copied labels as Copied-Label footers. However since this old Gerrit code is no
-    // longer available, the test needs to apply a trick to create a change in this state. It
-    // configures a fake submit rule, that pretends that an approval for a non-sticky label from an
-    // old patch set is still present on the current patch set and allows to submit the change.
-    // Since the label is non-sticky no Copied-Label footer is written for it. On submit the fake
-    // submit rule results in a Submitted-With footer that records the label as approved (although
-    // the label is actually not present on the current patch set). This is exactly the change state
-    // that we would have had by running the old code if submit was based on a copied label. As
-    // result of the backfilling logic we expect that this "copied" label (the label that is
-    // mentioned in the Submitted-With footer) is returned from the API.
-    try (Registration registration =
-        extensionRegistry.newRegistration().add(new TestSubmitRule(user.id()))) {
-      // We want to add a vote on PS1, then not copy it to PS2, but include it in submit records
-      PushOneCommit.Result r = createChange();
-      String changeId = r.getChangeId();
-
-      // Vote on patch-set 1
-      vote(admin, changeId, 2, 1);
-      vote(user, changeId, 1, -1);
-
-      // Upload patch-set 2. Change user's "Verified" vote on PS2.
-      changeOperations
-          .change(Change.id(r.getChange().getId().get()))
-          .newPatchset()
-          .file("new_file")
-          .content("content")
-          .commitMessage("Upload PS2")
-          .create();
-      vote(admin, changeId, 2, 1);
-      vote(user, changeId, 1, 1);
-
-      // Upload patch-set 3
-      changeOperations
-          .change(Change.id(r.getChange().getId().get()))
-          .newPatchset()
-          .file("another_file")
-          .content("content")
-          .commitMessage("Upload PS3")
-          .create();
-      vote(admin, changeId, 2, 1);
-
-      List<PatchSetApproval> patchSetApprovals =
-          notesFactory.create(project, r.getChange().getId()).getApprovalsWithCopied().values()
-              .stream()
-              .sorted(comparing(a -> a.patchSetId().get()))
-              .collect(toImmutableList());
-
-      // There's no verified approval on PS#3.
-      assertThat(
-              patchSetApprovals.stream()
-                  .filter(
-                      a ->
-                          a.accountId().equals(user.id())
-                              && a.label().equals(TestLabels.verified().getName())
-                              && a.patchSetId().get() == 3)
-                  .collect(Collectors.toList()))
-          .isEmpty();
-
-      // Submit the change. The TestSubmitRule will store a "submit record" containing a label
-      // voted by user, but the latest patch-set does not have an approval for this user, hence
-      // it will be copied if we request approvals after the change is merged.
-      requestScopeOperations.setApiUser(admin.id());
-      gApi.changes().id(changeId).current().submit();
-
-      patchSetApprovals =
-          notesFactory.create(project, r.getChange().getId()).getApprovalsWithCopied().values()
-              .stream()
-              .sorted(comparing(a -> a.patchSetId().get()))
-              .collect(toImmutableList());
-
-      // Get the copied approval for user on PS3 for the "Verified" label.
-      PatchSetApproval verifiedApproval =
-          patchSetApprovals.stream()
-              .filter(
-                  a ->
-                      a.accountId().equals(user.id())
-                          && a.label().equals(TestLabels.verified().getName())
-                          && a.patchSetId().get() == 3)
-              .collect(MoreCollectors.onlyElement());
-
-      assertCopied(
-          verifiedApproval,
-          /* psId= */ 3,
-          TestLabels.verified().getName(),
-          (short) 1,
-          /* copied= */ true);
     }
   }
 
@@ -759,6 +620,124 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void copyWithListOfFilesUnchanged_withoutCopyCondition() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+    copyWithListOfFilesUnchanged();
+  }
+
+  @Test
+  public void copyWithListOfFilesUnchanged_withCopyCondition() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+    copyWithListOfFilesUnchanged();
+  }
+
+  private void copyWithListOfFilesUnchanged() throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // Code-Review votes are copied over from ps1-> ps2 since the list of files were unchanged.
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("file")
+        .content("very new content")
+        .create();
+    c = detailedChange(changeId.toString());
+
+    // Code-Review votes are copied over from ps1-> ps3 since the list of files were unchanged.
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("new file")
+        .content("new content")
+        .create();
+
+    c = detailedChange(changeId.toString());
+    // Code-Review votes are not copied over from ps1-> ps4 since a file was added.
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+
+    changeOperations.change(changeId).newPatchset().file("file").content("content").create();
+
+    c = detailedChange(changeId.toString());
+    // Code-Review votes are not copied over from ps1 -> ps5 since a file was added on ps4.
+    // Although the list of files is the same between ps4->ps5, we don't copy votes from before
+    // ps4.
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
+  public void copyWithListOfFilesUnchangedButAddedMergeList() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+
+    Change.Id parent1ChangeId = changeOperations.newChange().create();
+    Change.Id parent2ChangeId = changeOperations.newChange().create();
+    Change.Id dummyParentChangeId = changeOperations.newChange().create();
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
+
+    Map<String, FileInfo> changedFilesFirstPatchset =
+        gApi.changes().id(changeId.get()).current().files();
+
+    assertThat(changedFilesFirstPatchset.keySet()).containsExactly("/COMMIT_MSG", "/MERGE_LIST");
+
+    // Make a Code-Review vote that should be sticky.
+    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .parent()
+        .patchset(PatchSet.id(dummyParentChangeId, 1))
+        .create();
+
+    Map<String, FileInfo> changedFilesSecondPatchset =
+        gApi.changes().id(changeId.get()).current().files();
+
+    // Only "/MERGE_LIST" was removed.
+    assertThat(changedFilesSecondPatchset.keySet()).containsExactly("/COMMIT_MSG");
+    ApprovalInfo approvalInfo =
+        Iterables.getOnlyElement(
+            gApi.changes().id(changeId.get()).current().votes().get(LabelId.CODE_REVIEW));
+    assertThat(approvalInfo._accountId).isEqualTo(admin.id().get());
+    assertThat(approvalInfo.value).isEqualTo(2);
+  }
+
+  @Test
+  public void stickyEvenWhenUserCantSeeUploaderInGroup() throws Exception {
+    // user can't see admin group
+    String administratorsUUID = gApi.groups().query("name:Administrators").get().get(0).id;
+    updateCodeReviewLabel(b -> b.setCopyCondition("approverin:" + administratorsUUID));
+
+    String changeId = createChange().getChangeId();
+    approve(changeId);
+    amendChange(changeId);
+    vote(user, changeId, 1, -1); // Invalidate cache
+    requestScopeOperations.setApiUser(user.id());
+    ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, 1, -1);
+  }
+
+  @Test
   public void removedVotesNotSticky() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyAllScoresOnTrivialRebase(true));
     updateVerifiedLabel(b -> b.setCopyAllScoresIfNoCodeChange(true));
@@ -871,108 +850,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     c = detailedChange(changeId);
     assertVotes(c, admin, 0, 0, REWORK);
     assertVotes(c, user, 0, 0, REWORK);
-  }
-
-  @Test
-  public void copyWithListOfFilesUnchanged_withoutCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    copyWithListOfFilesUnchanged();
-  }
-
-  @Test
-  public void copyWithListOfFilesUnchanged_withCopyCondition() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    copyWithListOfFilesUnchanged();
-  }
-
-  private void copyWithListOfFilesUnchanged() throws Exception {
-    Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
-    vote(admin, changeId.toString(), 2, 1);
-    vote(user, changeId.toString(), -2, -1);
-
-    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
-    ChangeInfo c = detailedChange(changeId.toString());
-
-    // Code-Review votes are copied over from ps1-> ps2 since the list of files were unchanged.
-    assertVotes(c, admin, 2, 0);
-    assertVotes(c, user, -2, 0);
-
-    changeOperations
-        .change(changeId)
-        .newPatchset()
-        .file("file")
-        .content("very new content")
-        .create();
-    c = detailedChange(changeId.toString());
-
-    // Code-Review votes are copied over from ps1-> ps3 since the list of files were unchanged.
-    assertVotes(c, admin, 2, 0);
-    assertVotes(c, user, -2, 0);
-
-    changeOperations
-        .change(changeId)
-        .newPatchset()
-        .file("new file")
-        .content("new content")
-        .create();
-
-    c = detailedChange(changeId.toString());
-    // Code-Review votes are not copied over from ps1-> ps4 since a file was added.
-    assertVotes(c, admin, 0, 0);
-    assertVotes(c, user, 0, 0);
-
-    changeOperations.change(changeId).newPatchset().file("file").content("content").create();
-
-    c = detailedChange(changeId.toString());
-    // Code-Review votes are not copied over from ps1 -> ps5 since a file was added on ps4.
-    // Although the list of files is the same between ps4->ps5, we don't copy votes from before
-    // ps4.
-    assertVotes(c, admin, 0, 0);
-    assertVotes(c, user, 0, 0);
-  }
-
-  @Test
-  public void copyWithListOfFilesUnchangedButAddedMergeList() throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-
-    Change.Id parent1ChangeId = changeOperations.newChange().create();
-    Change.Id parent2ChangeId = changeOperations.newChange().create();
-    Change.Id dummyParentChangeId = changeOperations.newChange().create();
-    Change.Id changeId =
-        changeOperations
-            .newChange()
-            .mergeOf()
-            .change(parent1ChangeId)
-            .and()
-            .change(parent2ChangeId)
-            .create();
-
-    Map<String, FileInfo> changedFilesFirstPatchset =
-        gApi.changes().id(changeId.get()).current().files();
-
-    assertThat(changedFilesFirstPatchset.keySet()).containsExactly("/COMMIT_MSG", "/MERGE_LIST");
-
-    // Make a Code-Review vote that should be sticky.
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
-
-    changeOperations
-        .change(changeId)
-        .newPatchset()
-        .parent()
-        .patchset(PatchSet.id(dummyParentChangeId, 1))
-        .create();
-
-    Map<String, FileInfo> changedFilesSecondPatchset =
-        gApi.changes().id(changeId.get()).current().files();
-
-    // Only "/MERGE_LIST" was removed.
-    assertThat(changedFilesSecondPatchset.keySet()).containsExactly("/COMMIT_MSG");
-    ApprovalInfo approvalInfo =
-        Iterables.getOnlyElement(
-            gApi.changes().id(changeId.get()).current().votes().get(LabelId.CODE_REVIEW));
-    assertThat(approvalInfo._accountId).isEqualTo(admin.id().get());
-    assertThat(approvalInfo.value).isEqualTo(2);
   }
 
   @Test
@@ -1242,6 +1119,129 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     // Changes message has info about vote removed.
     assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).messages()).message)
         .contains("Code-Review+1 by User");
+  }
+
+  @Test
+  public void stickyWhenEitherBooleanConfigsOrCopyConditionAreTrue() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:MAX").setCopyMinScore(true));
+
+    for (ChangeKind changeKind :
+        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
+      testRepo.reset(projectOperations.project(project).getHead("master"));
+
+      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, -2, -1);
+
+      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, 2, 0, changeKind);
+      assertVotes(c, user, -2, 0, changeKind);
+    }
+  }
+
+  @Test
+  public void sticky_copiedToLatestPatchSetFromSubmitRecords() throws Exception {
+    updateVerifiedLabel(b -> b.setFunction(LabelFunction.NO_BLOCK));
+
+    // This test is covering the backfilling logic for changes which have been submitted, based on
+    // copied approvals, before Gerrit persisted copied votes as Copied-Label footers in NoteDb. It
+    // verifies that for such changes copied approvals are returned from the API even if the copied
+    // votes were not persisted as Copied-Label footers.
+    //
+    // In other words, this test verifies that given a change that was approved by a copied vote and
+    // then submitted and for which the copied approval is not persisted as a Copied-Label footer in
+    // NoteDb the copied approval is backfilled from the corresponding Submitted-With footer that
+    // got written to NoteDb on submit.
+    //
+    // Creating such a change would be possible by running the old Gerrit code from before Gerrit
+    // persisted copied labels as Copied-Label footers. However since this old Gerrit code is no
+    // longer available, the test needs to apply a trick to create a change in this state. It
+    // configures a fake submit rule, that pretends that an approval for a non-sticky label from an
+    // old patch set is still present on the current patch set and allows to submit the change.
+    // Since the label is non-sticky no Copied-Label footer is written for it. On submit the fake
+    // submit rule results in a Submitted-With footer that records the label as approved (although
+    // the label is actually not present on the current patch set). This is exactly the change state
+    // that we would have had by running the old code if submit was based on a copied label. As
+    // result of the backfilling logic we expect that this "copied" label (the label that is
+    // mentioned in the Submitted-With footer) is returned from the API.
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(new TestSubmitRule(user.id()))) {
+      // We want to add a vote on PS1, then not copy it to PS2, but include it in submit records
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+
+      // Vote on patch-set 1
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, 1, -1);
+
+      // Upload patch-set 2. Change user's "Verified" vote on PS2.
+      changeOperations
+          .change(Change.id(r.getChange().getId().get()))
+          .newPatchset()
+          .file("new_file")
+          .content("content")
+          .commitMessage("Upload PS2")
+          .create();
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, 1, 1);
+
+      // Upload patch-set 3
+      changeOperations
+          .change(Change.id(r.getChange().getId().get()))
+          .newPatchset()
+          .file("another_file")
+          .content("content")
+          .commitMessage("Upload PS3")
+          .create();
+      vote(admin, changeId, 2, 1);
+
+      List<PatchSetApproval> patchSetApprovals =
+          notesFactory.create(project, r.getChange().getId()).getApprovalsWithCopied().values()
+              .stream()
+              .sorted(comparing(a -> a.patchSetId().get()))
+              .collect(toImmutableList());
+
+      // There's no verified approval on PS#3.
+      assertThat(
+              patchSetApprovals.stream()
+                  .filter(
+                      a ->
+                          a.accountId().equals(user.id())
+                              && a.label().equals(TestLabels.verified().getName())
+                              && a.patchSetId().get() == 3)
+                  .collect(Collectors.toList()))
+          .isEmpty();
+
+      // Submit the change. The TestSubmitRule will store a "submit record" containing a label
+      // voted by user, but the latest patch-set does not have an approval for this user, hence
+      // it will be copied if we request approvals after the change is merged.
+      requestScopeOperations.setApiUser(admin.id());
+      gApi.changes().id(changeId).current().submit();
+
+      patchSetApprovals =
+          notesFactory.create(project, r.getChange().getId()).getApprovalsWithCopied().values()
+              .stream()
+              .sorted(comparing(a -> a.patchSetId().get()))
+              .collect(toImmutableList());
+
+      // Get the copied approval for user on PS3 for the "Verified" label.
+      PatchSetApproval verifiedApproval =
+          patchSetApprovals.stream()
+              .filter(
+                  a ->
+                      a.accountId().equals(user.id())
+                          && a.label().equals(TestLabels.verified().getName())
+                          && a.patchSetId().get() == 3)
+              .collect(MoreCollectors.onlyElement());
+
+      assertCopied(
+          verifiedApproval,
+          /* psId= */ 3,
+          TestLabels.verified().getName(),
+          (short) 1,
+          /* copied= */ true);
+    }
   }
 
   private void assertChangeKindCacheContains(ObjectId prior, ObjectId next) {

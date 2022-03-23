@@ -141,6 +141,30 @@
       },
       "revId": "530da52995436e71e6c5150c7c3cd9ca3ca9ff7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "037b8614_7c42313a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T08:45:16Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "76fcc1aa_3c42a1d4",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 0
+      },
+      "revId": "530da52995436e71e6c5150c7c3cd9ca3ca9ff7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

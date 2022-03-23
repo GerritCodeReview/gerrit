@@ -26,6 +26,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ChangeSizeBucket;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
@@ -74,6 +75,7 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 
 /** Sends an email to one or more interested parties. */
 public abstract class ChangeEmail extends NotificationEmail {
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected static ChangeData newChangeData(
@@ -231,6 +233,27 @@ public abstract class ChangeEmail extends NotificationEmail {
     setHeader(FieldName.SUBJECT, textTemplate("ChangeSubject"));
   }
 
+  private TreeMap<String, FileDiffOutput> getModifiedFilesTreeMap() {
+    try {
+      return new TreeMap<>(listModifiedFiles());
+    } catch (DiffNotAvailableException err) {
+      logger.atWarning().withCause(err).log("Cannot get modified files list");
+    }
+    return new TreeMap<>();
+  }
+
+  private int getInsertionsCount() {
+    return getModifiedFilesTreeMap().values().stream()
+        .map(FileDiffOutput::insertions)
+        .reduce(0, Integer::sum);
+  }
+
+  private int getDeletionsCount() {
+    return getModifiedFilesTreeMap().values().stream()
+        .map(FileDiffOutput::deletions)
+        .reduce(0, Integer::sum);
+  }
+
   /** Get a link to the change; null if the server doesn't know its own address. */
   @Nullable
   public String getChangeUrl() {
@@ -272,7 +295,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       if (patchSet != null) {
         detail.append("---\n");
         // Sort files by name.
-        TreeMap<String, FileDiffOutput> modifiedFiles = new TreeMap<>(listModifiedFiles());
+        TreeMap<String, FileDiffOutput> modifiedFiles = getModifiedFilesTreeMap();
         for (FileDiffOutput fileDiff : modifiedFiles.values()) {
           if (fileDiff.newPath().isPresent() && Patch.isMagic(fileDiff.newPath().get())) {
             continue;
@@ -285,10 +308,6 @@ public abstract class ChangeEmail extends NotificationEmail {
                       fileDiff.oldPath(), fileDiff.newPath(), fileDiff.changeType()))
               .append("\n");
         }
-        Integer insertions =
-            modifiedFiles.values().stream().map(FileDiffOutput::insertions).reduce(0, Integer::sum);
-        Integer deletions =
-            modifiedFiles.values().stream().map(FileDiffOutput::deletions).reduce(0, Integer::sum);
         detail.append(
             MessageFormat.format(
                 "" //
@@ -297,8 +316,8 @@ public abstract class ChangeEmail extends NotificationEmail {
                     + "{2,choice,0#0 deletions|1#1 deletion|1<{2} deletions}(-)" //
                     + "\n",
                 modifiedFiles.size() - 1, //
-                insertions, //
-                deletions));
+                getInsertionsCount(), //
+                getDeletionsCount()));
         detail.append("\n");
       }
       return detail.toString();
@@ -497,6 +516,9 @@ public abstract class ChangeEmail extends NotificationEmail {
     changeData.put("ownerName", getNameFor(change.getOwner()));
     changeData.put("ownerEmail", getNameEmailFor(change.getOwner()));
     changeData.put("changeNumber", Integer.toString(change.getChangeId()));
+    changeData.put(
+        "sizeBucket",
+        ChangeSizeBucket.getChangeSizeBucket(getInsertionsCount() + getDeletionsCount()));
     soyContext.put("change", changeData);
 
     Map<String, Object> patchSetData = new HashMap<>();
@@ -599,7 +621,8 @@ public abstract class ChangeEmail extends NotificationEmail {
           ObjectId oldId = modifiedFiles.values().iterator().next().oldCommitId();
           ObjectId newId = modifiedFiles.values().iterator().next().newCommitId();
           if (oldId.equals(ObjectId.zeroId())) {
-            // DiffOperations returns ObjectId.zeroId if newCommit is a root commit, i.e. has no
+            // DiffOperations returns ObjectId.zeroId if newCommit is a root commit,
+            // i.e. has no
             // parents.
             oldId = null;
           }

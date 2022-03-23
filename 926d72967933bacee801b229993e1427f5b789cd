@@ -22,6 +22,30 @@
       },
       "revId": "926d72967933bacee801b229993e1427f5b789cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f342735f_b492f59c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-23T07:59:42Z",
+      "side": 1,
+      "message": "I see in Change https://gerrit-review.googlesource.com/c/gerrit/+/333710, these have been removed.\nCan you update this change as well and remove all the state, keep just the original prefs object?\n\nAlso check if that prefs object needs to be state().",
+      "parentUuid": "a8eb626e_6e341a6b",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 0
+      },
+      "revId": "926d72967933bacee801b229993e1427f5b789cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

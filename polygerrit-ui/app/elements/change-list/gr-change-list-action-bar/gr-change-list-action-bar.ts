@@ -11,7 +11,6 @@ import {resolve} from '../../../models/dependency';
 import {pluralize} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
-import '../gr-change-list-mark-active-flow/gr-change-list-mark-active-flow';
 import '../gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow';
 
 /**
@@ -108,7 +107,6 @@ export class GrChangeListActionBar extends LitElement {
               : nothing}
           </div>
           <div class="actionButtons">
-            <gr-change-list-mark-active-flow></gr-change-list-mark-active-flow>
             <gr-change-list-bulk-abandon-flow>
             </gr-change-list-bulk-abandon-flow>
           </div>

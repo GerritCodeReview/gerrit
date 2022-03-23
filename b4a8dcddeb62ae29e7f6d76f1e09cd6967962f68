@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac2d29fc_6c4d71a9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T13:27:34Z",
+      "side": 1,
+      "message": "describe a bit what kind of work needs to happen",
+      "range": {
+        "startLine": 119,
+        "startChar": 17,
+        "endLine": 119,
+        "endChar": 22
+      },
+      "revId": "b4a8dcddeb62ae29e7f6d76f1e09cd6967962f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c03d253c_8f0f3816",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T13:27:34Z",
+      "side": 1,
+      "message": "computeNonTriggerLabels",
+      "range": {
+        "startLine": 151,
+        "startChar": 2,
+        "endLine": 151,
+        "endChar": 15
+      },
+      "revId": "b4a8dcddeb62ae29e7f6d76f1e09cd6967962f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7b99e010_37ae3df7",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
         "patchSetId": 27

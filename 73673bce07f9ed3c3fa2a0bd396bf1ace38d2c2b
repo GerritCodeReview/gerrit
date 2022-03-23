@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73efcf35_471d76b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T08:26:50Z",
+      "side": 1,
+      "message": "I would like to stick to the simplest solution of just wrapping a span arround gr-account-label. This mirrors how it used to work before when gr-account-label was wrapped inside of an `\u003ca href\u003e` inside of gr-account-link.",
+      "parentUuid": "fe9af286_6b932bed",
+      "revId": "73673bce07f9ed3c3fa2a0bd396bf1ace38d2c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dad5a1ca_bde13a5d",

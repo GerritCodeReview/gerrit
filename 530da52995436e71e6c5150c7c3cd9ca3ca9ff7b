@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "986252ed_6a5d75a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T08:26:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e8a6d91_aeae0b6e",
+      "range": {
+        "startLine": 11,
+        "startChar": 44,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "530da52995436e71e6c5150c7c3cd9ca3ca9ff7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27929bf2_286af2fc",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "Just wrapping all children in one \u003cdiv\u003e does indeed work against the idea of the flex layout, see my other comment.\n\nBut all direct children (flex-items) in a flex layout are forced to be display:block. If not, then the browser will force it upon the element, which is extremely confusing while debugging. That is why I think all three current flex-items should get a wrapper diff, because they are all supposed to be inline-something.\n\nI think it is easier for the \u003cgr-account-chip\u003e to assume exactly 22px height. The positioning within the chip is so tricky and fragile that I think we have to work with precise pixel height, if we want to keep this maintainable. Of course, if the need arises we could offer a `large` attribute or something, which would then force the chip to be exactly 28px height or something. But at the moment I think all usages are fine with strict 22px height of the chip.\n\nI think both `inline-flex` and `inline-block` can work for the `.container`.\n\nBut thinking about it the `inline-...` prefix does not make any sense to me. It should either be `flex` or `block`. There is no point opening an inline flow. Changing that reveals a problem in gr-message\u0027s css: It tells gr-account-chip to render display:inline, which is a bug: gr-account-chip must be either block or inline-block, but never inline.\n\nThe 22px height of the chip bothers me a lot btw, because it breaks the fundamental invariant of all lines being 20px high in Gerrit. But that is a different matter and has certainly nothing to do with this change. :-)",
       "parentUuid": "27929bf2_286af2fc",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 0
+      },
+      "revId": "530da52995436e71e6c5150c7c3cd9ca3ca9ff7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dae55c6_f29efa0a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T08:26:50Z",
+      "side": 1,
+      "message": "The cheapest fix still seems to be wrapping gr-account-label inside of a span. This mirrors what we had before where we had gr-account-chip -\u003e gr-account-link -\u003e gr-account-label where gr-account-link was an `\u003ca\u003e`",
+      "parentUuid": "89d6e615_406a0941",
       "range": {
         "startLine": 107,
         "startChar": 0,

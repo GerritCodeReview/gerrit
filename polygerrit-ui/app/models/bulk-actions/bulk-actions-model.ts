@@ -129,7 +129,10 @@ export class BulkActionsModel
     });
   }
 
-  addReviewers(addedReviewers: AccountInfo[]): Promise<Response>[] {
+  addReviewers(
+    addedReviewers: AccountInfo[],
+    addedCcs: AccountInfo[]
+  ): Promise<Response>[] {
     const current = this.subject$.getValue();
     const changes = current.selectedChangeNums.map(
       changeNum => current.allChanges.get(changeNum)!
@@ -138,16 +141,26 @@ export class BulkActionsModel
       const reviewersNewToChange = addedReviewers.filter(
         account => !change.reviewers[ReviewerState.REVIEWER]?.includes(account)
       );
-      if (reviewersNewToChange.length === 0) {
+      const ccsNewToChange = addedCcs.filter(
+        account => !change.reviewers[ReviewerState.CC]?.includes(account)
+      );
+      if (reviewersNewToChange.length === 0 && ccsNewToChange.length === 0) {
         return Promise.resolve(new Response());
       }
       const reviewInput: ReviewInput = {
-        reviewers: reviewersNewToChange.map(account => {
-          return {
-            state: ReviewerState.REVIEWER,
-            reviewer: account._account_id!,
-          };
-        }),
+        reviewers: reviewersNewToChange
+          .map(account => {
+            return {
+              state: ReviewerState.REVIEWER,
+              reviewer: account._account_id!,
+            };
+          })
+          .concat(
+            ccsNewToChange.map(cc => ({
+              state: ReviewerState.CC,
+              reviewer: cc._account_id!,
+            }))
+          ),
       };
       return this.restApiService.saveChangeReview(
         change._number,

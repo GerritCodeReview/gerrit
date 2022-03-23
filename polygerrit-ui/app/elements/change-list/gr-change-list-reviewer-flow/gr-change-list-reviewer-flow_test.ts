@@ -35,19 +35,36 @@ const accounts: AccountInfo[] = [
   createAccountWithIdNameAndEmail(0),
   createAccountWithIdNameAndEmail(1),
   createAccountWithIdNameAndEmail(2),
+  createAccountWithIdNameAndEmail(3),
+  createAccountWithIdNameAndEmail(4),
+<<<<<<< HEAD
+  createAccountWithIdNameAndEmail(5),
+=======
+>>>>>>> bb2645e6e7 (Add CC with bulk action)
 ];
 const changes: ChangeInfo[] = [
   {
     ...createChange(),
     _number: 1 as NumericChangeId,
     subject: 'Subject 1',
-    reviewers: {REVIEWER: [accounts[0], accounts[1]]},
+<<<<<<< HEAD
+    reviewers: {
+      REVIEWER: [accounts[0], accounts[1]],
+      CC: [accounts[3], accounts[4]],
+    },
+=======
+    reviewers: {REVIEWER: [accounts[0], accounts[1]], CC: [accounts[3]]},
+>>>>>>> bb2645e6e7 (Add CC with bulk action)
   },
   {
     ...createChange(),
     _number: 2 as NumericChangeId,
     subject: 'Subject 2',
-    reviewers: {REVIEWER: [accounts[0]]},
+<<<<<<< HEAD
+    reviewers: {REVIEWER: [accounts[0]], CC: [accounts[3]]},
+=======
+    reviewers: {REVIEWER: [accounts[0]], CC: [accounts[1], accounts[3]]},
+>>>>>>> bb2645e6e7 (Add CC with bulk action)
   },
 ];
 
@@ -103,8 +120,12 @@ suite('gr-change-list-reviewer-flow tests', () => {
           <div slot="header">Add Reviewer / CC</div>
           <div slot="main">
             <div>
-              <span>Reviewers:</span>
-              <gr-account-list></gr-account-list>
+              <span>Reviewers</span>
+              <gr-account-list id="reviewer-list"></gr-account-list>
+            </div>
+            <div>
+              <span>CC</span>
+              <gr-account-list id="cc-list"></gr-account-list>
             </div>
           </div>
         </gr-dialog>
@@ -141,23 +162,23 @@ suite('gr-change-list-reviewer-flow tests', () => {
     assert.isTrue(overlay.opened);
   });
 
-  suite('dialog', () => {
-    let markActivePromises: MockPromise<Response>[];
+  suite('dialog flow', () => {
+    let saveChangesPromises: MockPromise<Response>[];
     let saveChangeReviewStub: sinon.SinonStub;
     let dialog: GrDialog;
 
     async function resolvePromises() {
-      markActivePromises[0].resolve(new Response());
-      markActivePromises[1].resolve(new Response());
+      saveChangesPromises[0].resolve(new Response());
+      saveChangesPromises[1].resolve(new Response());
       await element.updateComplete;
     }
 
     setup(async () => {
-      markActivePromises = [];
+      saveChangesPromises = [];
       saveChangeReviewStub = stubRestApi('saveChangeReview');
       for (let i = 0; i < changes.length; i++) {
         const promise = mockPromise<Response>();
-        markActivePromises.push(promise);
+        saveChangesPromises.push(promise);
         saveChangeReviewStub
           .withArgs(changes[i]._number, sinon.match.any, sinon.match.any)
           .returns(promise);
@@ -169,21 +190,52 @@ suite('gr-change-list-reviewer-flow tests', () => {
       await dialog.updateComplete;
     });
 
-    test('only lists reviewers shared by all changes', async () => {
-      const accountList = queryAndAssert<GrAccountList>(
+<<<<<<< HEAD
+    test('only lists reviewers/CCs shared by all changes', async () => {
+=======
+    test('only lists reviewers/cc shared by all changes', async () => {
+>>>>>>> bb2645e6e7 (Add CC with bulk action)
+      const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list'
+        'gr-account-list#reviewer-list'
+      );
+      const ccList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#cc-list'
       );
       // does not include account 1
-      assert.sameMembers(accountList.accounts, [accounts[0]]);
+      assert.sameMembers(reviewerList.accounts, [accounts[0]]);
+<<<<<<< HEAD
+      // does not include account 4
+      assert.sameMembers(ccList.accounts, [accounts[3]]);
     });
 
-    test('adds reviewer', async () => {
-      const accountList = queryAndAssert<GrAccountList>(
+    test('adds reviewer & cc', async () => {
+=======
+      // does not include account 1
+      assert.sameMembers(ccList.accounts, [accounts[3]]);
+    });
+
+    test('adds reviewer and CC', async () => {
+>>>>>>> bb2645e6e7 (Add CC with bulk action)
+      const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
-        'gr-account-list'
+        'gr-account-list#reviewer-list'
       );
-      accountList.accounts.push(accounts[2]);
+<<<<<<< HEAD
+=======
+      reviewerList.accounts.push(accounts[2]);
+>>>>>>> bb2645e6e7 (Add CC with bulk action)
+      const ccList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#cc-list'
+      );
+<<<<<<< HEAD
+      reviewerList.accounts.push(accounts[2]);
+      ccList.accounts.push(accounts[5]);
+=======
+      ccList.accounts.push(accounts[4]);
+>>>>>>> bb2645e6e7 (Add CC with bulk action)
       await flush();
       dialog.confirmButton!.click();
       await element.updateComplete;
@@ -195,6 +247,11 @@ suite('gr-change-list-reviewer-flow tests', () => {
         {
           reviewers: [
             {reviewer: accounts[2]._account_id, state: ReviewerState.REVIEWER},
+<<<<<<< HEAD
+            {reviewer: accounts[5]._account_id, state: ReviewerState.CC},
+=======
+            {reviewer: accounts[4]._account_id, state: ReviewerState.CC},
+>>>>>>> bb2645e6e7 (Add CC with bulk action)
           ],
         },
       ]);
@@ -204,6 +261,11 @@ suite('gr-change-list-reviewer-flow tests', () => {
         {
           reviewers: [
             {reviewer: accounts[2]._account_id, state: ReviewerState.REVIEWER},
+<<<<<<< HEAD
+            {reviewer: accounts[5]._account_id, state: ReviewerState.CC},
+=======
+            {reviewer: accounts[4]._account_id, state: ReviewerState.CC},
+>>>>>>> bb2645e6e7 (Add CC with bulk action)
           ],
         },
       ]);

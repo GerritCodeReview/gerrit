@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "655bd9ef_f505f155",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T14:44:52Z",
+      "side": 1,
+      "message": "This is long enough that it deserves to be a method.",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1641a48_d48066db",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T14:44:52Z",
+      "side": 1,
+      "message": "While I dislike subclassing, I\u0027m starting to think that the following\ncould be generalized into a parent gr-change-list-flow abstract component with the right hooks.\n\nSame with progressStatusMap.\n\n```\n \u003cgr-button\n        .disabled\u003d${this.isFlowDisabled()}\n        flatten\n        @click\u003d${() \u003d\u003e this.overlay.open()}\n        \u003eset reviewers\u003c/gr-button\n      \u003e\n      \u003cgr-overlay with-backdrop\u003e\n        \u003cgr-dialog\n          @cancel\u003d${() \u003d\u003e this.overlay.close()}\n          @confirm\u003d${() \u003d\u003e this.onConfirm(overallStatus)}\n          .confirmLabel\u003d${this.getConfirmLabel(overallStatus)}\n          .disabled\u003d${overallStatus \u003d\u003d\u003d ProgressStatus.RUNNING}\n        \u003e\n        ${this.renderDialog()}\n            \u003c/gr-overlay\u003e\n    `;\n```\n\nYou\u0027d have to have an abstract method for:\n  - computing what needs to be computed when selectedChanges changes\n  - Either have a constructor argument, or a method for the name of the button\n  - A renderDialog() method for the rendering the internals of the dialog.\n  \nDoesn\u0027t need to be part of this change.",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94cd0a98_bd58c02e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T14:44:52Z",
+      "side": 1,
+      "message": "I thought we\u0027d only be doing \u0027add cc/reviewers\u0027 not remove?\n\nIf you go with remove, a better semantic would be to list reviewers in any change.",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d4edcb1_3b5c679b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T14:44:52Z",
+      "side": 1,
+      "message": "Why would you want to filter? Isn\u0027t it better if we allow selection and then the actual logic that sends the RPC is smart enough to know when to add/remove?",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88841c77_e5e5f45a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T14:44:52Z",
+      "side": 1,
+      "message": "Should this be a helper function that can be used across components?\n\ngetOverallStatus(this.progressByChange.values());",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cc50ccc_78ae30ca",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T14:44:52Z",
+      "side": 1,
+      "message": "Don\u0027t import _test files into other _test files, it makes run test:single test more than you want it to.",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1cf6561_1c33ed1d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T14:44:52Z",
+      "side": 1,
+      "message": "Don\u0027t export functions from _test.ts files, we shouldn\u0027t be importing tests into other tests.",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

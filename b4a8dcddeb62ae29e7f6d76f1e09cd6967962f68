@@ -49,6 +49,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0621ea89_941bfa1d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T13:34:01Z",
+      "side": 1,
+      "message": "bulk-vote-flow",
+      "range": {
+        "startLine": 48,
+        "startChar": 22,
+        "endLine": 48,
+        "endChar": 31
+      },
+      "revId": "b4a8dcddeb62ae29e7f6d76f1e09cd6967962f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b768df6_9f627dc2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T13:34:01Z",
+      "side": 1,
+      "message": "add render test",
+      "range": {
+        "startLine": 63,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 7
+      },
+      "revId": "b4a8dcddeb62ae29e7f6d76f1e09cd6967962f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e87c624_fac805e5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-23T13:34:01Z",
+      "side": 1,
+      "message": "can you comment the asserts what kinds of cases are being tested by each one",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 56
+      },
+      "revId": "b4a8dcddeb62ae29e7f6d76f1e09cd6967962f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7b99e010_37ae3df7",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
         "patchSetId": 27

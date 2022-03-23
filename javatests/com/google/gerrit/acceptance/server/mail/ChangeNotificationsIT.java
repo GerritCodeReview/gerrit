@@ -64,6 +64,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeNotificationsIT extends AbstractNotificationTest {
+
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
@@ -996,6 +997,16 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .bcc(spc.watchingProjectOwner)
         .bcc(NEW_CHANGES, NEW_PATCHSETS)
         .noOneElse();
+    assertThat(sender).didNotSend();
+  }
+
+  @Test
+  public void verifyTitle() throws Exception {
+    StagedPreChange spc = stagePreChange("refs/for/master");
+    assertThat(sender)
+        .sent("newchange", spc)
+        .title(
+            "[S] Change in com.google.gerrit.acceptance.server.mail.ChangeNotificationsIT_verifyTitle_project[master]: test commit");
     assertThat(sender).didNotSend();
   }
 

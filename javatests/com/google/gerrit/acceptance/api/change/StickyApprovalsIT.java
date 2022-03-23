@@ -46,6 +46,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.change.ChangeKindCreator;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
@@ -89,6 +90,7 @@ import org.junit.Test;
 @NoHttpd
 public class StickyApprovalsIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
+  @Inject private GroupOperations groupOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ChangeOperations changeOperations;
   @Inject private ChangeKindCreator changeKindCreator;
@@ -726,6 +728,37 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
             gApi.changes().id(changeId.get()).current().votes().get(LabelId.CODE_REVIEW));
     assertThat(approvalInfo._accountId).isEqualTo(admin.id().get());
     assertThat(approvalInfo.value).isEqualTo(2);
+  }
+
+  @Test
+  public void approvalsThatMatchApproverinConditionAreSticky() throws Exception {
+    TestAccount userWhoseApprovalsAreSticky = accountCreator.create();
+    String usersWhoseApprovalsAreStickyUuid =
+        groupOperations
+            .newGroup()
+            .name("Users-whose-approvals-are-sticky")
+            .addMember(userWhoseApprovalsAreSticky.id())
+            .create()
+            .get();
+
+    updateCodeReviewLabel(
+        b -> b.setCopyCondition("approverin:" + usersWhoseApprovalsAreStickyUuid));
+
+    PushOneCommit.Result r = createChange();
+
+    // Add Code-Review+2 by the admin user (not sticky).
+    approve(r.getChangeId());
+
+    // Add Code-Review+1 by userWhoseApprovalsAreSticky (sticky).
+    requestScopeOperations.setApiUser(userWhoseApprovalsAreSticky.id());
+    recommend(r.getChangeId());
+
+    requestScopeOperations.setApiUser(admin.id());
+    amendChange(r.getChangeId()).assertOkStatus();
+
+    ChangeInfo c = detailedChange(r.getChangeId());
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, userWhoseApprovalsAreSticky, 1, 0);
   }
 
   @Test

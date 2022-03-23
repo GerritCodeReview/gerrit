@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d2ea493_b3cb27ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T12:40:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ddc2f76_21211c00",
+      "range": {
+        "startLine": 189,
+        "startChar": 9,
+        "endLine": 189,
+        "endChar": 18
+      },
+      "revId": "0a7946840c571a1d5d7b43f9939288e826bbea4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44d552f8_c045d055",
@@ -71,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6252331b_c3bfaf1e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T12:40:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44d552f8_c045d055",
+      "range": {
+        "startLine": 301,
+        "startChar": 10,
+        "endLine": 301,
+        "endChar": 20
+      },
+      "revId": "0a7946840c571a1d5d7b43f9939288e826bbea4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb822f75_6d8ce351",
@@ -84,6 +132,30 @@
       "writtenOn": "2022-03-23T09:44:39Z",
       "side": 1,
       "message": "delete",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 9
+      },
+      "revId": "0a7946840c571a1d5d7b43f9939288e826bbea4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48ec511f_0f14f0db",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T12:40:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb822f75_6d8ce351",
       "range": {
         "startLine": 96,
         "startChar": 0,

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "222155e5_fed6d166",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-23T18:57:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1291ad0a_cfb9a4ab",
+      "revId": "19f52f321f080e823c3b1868a8492e09321a2395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c11f5a44_519064eb",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-03-23T18:44:02Z",
       "side": 1,
       "message": "Nit: For consistency with the unified rule below: Use `.side-by-side` (class on \u003ctr\u003e) instead of `.sideBySide` (class on `div.diffContainer`) and remove the space before `.target-row`.",
+      "range": {
+        "startLine": 205,
+        "startChar": 4,
+        "endLine": 205,
+        "endChar": 16
+      },
+      "revId": "19f52f321f080e823c3b1868a8492e09321a2395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e023dab_e2000408",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-23T18:57:16Z",
+      "side": 1,
+      "message": "I actually did not notice the tr.side-by-side class like I noticed the .unified. It\u0027s a good point and I agree quite valuable for consistency. done.",
+      "parentUuid": "c11f5a44_519064eb",
       "range": {
         "startLine": 205,
         "startChar": 4,

@@ -37,7 +37,6 @@ import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.receive.Protocol;
-import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.util.LabelVote;
@@ -60,13 +59,16 @@ import org.eclipse.jgit.lib.Repository;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
 public class CommentSender extends ReplyToChangeSender {
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
+
     CommentSender create(Project.NameKey project, Change.Id changeId);
   }
 
   private class FileCommentGroup {
+
     public String filename;
     public int patchSetId;
     public PatchFile fileData;
@@ -200,11 +202,7 @@ public class CommentSender extends ReplyToChangeSender {
         currentGroup.patchSetId = c.key.patchSetId;
         // Get the modified files:
         Map<String, FileDiffOutput> modifiedFiles = null;
-        try {
-          modifiedFiles = listModifiedFiles(c.key.patchSetId);
-        } catch (DiffNotAvailableException e) {
-          logger.atSevere().withCause(e).log("Failed to get modified files");
-        }
+        modifiedFiles = listModifiedFiles(c.key.patchSetId);
 
         groups.add(currentGroup);
         if (modifiedFiles != null && !modifiedFiles.isEmpty()) {

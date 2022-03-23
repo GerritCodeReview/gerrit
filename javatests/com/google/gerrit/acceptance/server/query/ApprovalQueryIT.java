@@ -64,12 +64,29 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
     assertTrue(queryBuilder.parse("is:ANY").asMatchable().match(contextForCodeReviewLabel(-2)));
     assertTrue(queryBuilder.parse("is:ANY").asMatchable().match(contextForCodeReviewLabel(2)));
     assertTrue(queryBuilder.parse("is:aNy").asMatchable().match(contextForCodeReviewLabel(2)));
+  }
 
+  @Test
+  public void exactValuePredicate() throws Exception {
+    ApprovalContext approvalContextCodeReviewPlusOne = contextForCodeReviewLabel(1);
+    assertFalse(
+        queryBuilder.parse("is:\"-2\"").asMatchable().match(approvalContextCodeReviewPlusOne));
+    assertFalse(
+        queryBuilder.parse("is:\"-1\"").asMatchable().match(approvalContextCodeReviewPlusOne));
+    assertFalse(queryBuilder.parse("is:0").asMatchable().match(approvalContextCodeReviewPlusOne));
+    assertTrue(queryBuilder.parse("is:1").asMatchable().match(approvalContextCodeReviewPlusOne));
+    assertFalse(queryBuilder.parse("is:2").asMatchable().match(approvalContextCodeReviewPlusOne));
+  }
+
+  @Test
+  public void isPredicate_invalidValue() throws Exception {
     QueryParseException thrown =
         assertThrows(QueryParseException.class, () -> queryBuilder.parse("is:INVALID"));
     assertThat(thrown)
         .hasMessageThat()
-        .contains("INVALID is not a valid value for operator 'is'. Valid values: ANY, MAX, MIN");
+        .contains(
+            "INVALID is not a valid value for operator 'is'. Valid values: ANY, MAX, MIN"
+                + " or integer");
   }
 
   @Test
@@ -258,7 +275,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains(
-            "'invalid' is not a supported argument for has. only 'unchanged-files' is supported");
+            "'invalid' is not a valid value for operator 'has'."
+                + " The only valid value is 'unchanged-files'.");
   }
 
   @Test

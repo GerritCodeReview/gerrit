@@ -36,7 +36,11 @@ public class ChangeKindPredicate extends ApprovalPredicate {
         // NO_CHANGE is a special kind of a trivial rebase, hence if votes are configured to be
         // copied on TRIVIAL_REBASE copying should be done if NO_CHANGE was detected as actual
         // change kind.
-        || (changeKind == ChangeKind.TRIVIAL_REBASE && ctx.changeKind() == ChangeKind.NO_CHANGE);
+        || (changeKind == ChangeKind.TRIVIAL_REBASE && ctx.changeKind() == ChangeKind.NO_CHANGE)
+        // NO_CHANGE is a special kind of a no code, hence if votes are configured to be
+        // copied on NO_CODE_CHANGE copying should be done if NO_CHANGE was detected as actual
+        // change kind.
+        || (changeKind == ChangeKind.NO_CODE_CHANGE && ctx.changeKind() == ChangeKind.NO_CHANGE);
   }
 
   @Override

@@ -298,9 +298,18 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyOnNoCodeChange() throws Exception {
+  public void stickyOnNoCodeChange_withoutCopyCondition() throws Exception {
     updateVerifiedLabel(b -> b.setCopyAllScoresIfNoCodeChange(true));
+    testStickyOnNoCodeChange();
+  }
 
+  @Test
+  public void stickyOnNoCodeChange_withCopyCondition() throws Exception {
+    updateVerifiedLabel(b -> b.setCopyCondition("changekind:" + NO_CODE_CHANGE.name()));
+    testStickyOnNoCodeChange();
+  }
+
+  private void testStickyOnNoCodeChange() throws Exception {
     String changeId = changeKindCreator.createChange(NO_CODE_CHANGE, testRepo, admin);
     vote(admin, changeId, 2, 1);
     vote(user, changeId, -2, -1);

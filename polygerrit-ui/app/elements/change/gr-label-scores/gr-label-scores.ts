@@ -22,7 +22,6 @@ import {
   LabelNameToValueMap,
   ChangeInfo,
   AccountInfo,
-  DetailedLabelInfo,
   LabelNameToValuesMap,
 } from '../../../types/common';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
@@ -33,6 +32,7 @@ import {
   computeLabels,
   Label,
   computeOrderedLabelValues,
+  getDefaultValue,
 } from '../../../utils/label-util';
 import {ChangeStatus} from '../../../constants/constants';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -203,7 +203,7 @@ export class GrLabelScores extends LitElement {
 
       if (selectedVal === undefined) continue;
 
-      const defValNum = this.getDefaultValue(label);
+      const defValNum = getDefaultValue(this.change?.labels, label);
       if (includeDefaults || selectedVal !== defValNum) {
         labels[label] = selectedVal;
       }
@@ -211,11 +211,18 @@ export class GrLabelScores extends LitElement {
     return labels;
   }
 
-  private getDefaultValue(labelName?: string) {
-    const labels = this.change?.labels;
-    if (!labelName || !labels?.[labelName]) return undefined;
-    const labelInfo = labels[labelName] as DetailedLabelInfo;
-    return labelInfo.default_value;
+  computeOrderedLabelValues() {
+    if (!this.permittedLabels) return;
+    const labels = Object.keys(this.permittedLabels);
+    const values: Set<number> = new Set();
+    for (const label of labels) {
+      for (const value of this.permittedLabels[label]) {
+        values.add(Number(value));
+      }
+    }
+
+    const orderedValues = Array.from(values.values()).sort((a, b) => a - b);
+    return orderedValues;
   }
 }
 

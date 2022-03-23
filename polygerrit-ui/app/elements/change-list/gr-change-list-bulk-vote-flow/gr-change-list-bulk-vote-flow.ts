@@ -10,15 +10,27 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {resolve} from '../../../models/dependency';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {ChangeInfo, AccountInfo} from '../../../api/rest-api';
+import {
+  ChangeInfo,
+  AccountInfo,
+  NumericChangeId,
+} from '../../../api/rest-api';
 import {
   getTriggerVotes,
   computeLabels,
   mergeLabelMaps,
   computeOrderedLabelValues,
+  computeColumns,
+  getDefaultValue,
+  mergeLabelMaps
 } from '../../../utils/label-util';
 import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {queryAndAssert} from '../../../utils/common-util';
+import {LabelNameToValuesMap, ReviewInput} from '../../../types/common';
+import {GrLabelScoreRow} from '../../change/gr-label-score-row/gr-label-score-row';
+import {ProgressStatus} from '../../../constants/constants';
+import {fireAlert, fireReload} from '../../../utils/event-util';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../change/gr-label-score-row/gr-label-score-row';
 
@@ -29,6 +41,8 @@ export class GrChangeListBulkVoteFlow extends LitElement {
   private readonly userModel = getAppContext().userModel;
 
   @state() selectedChanges: ChangeInfo[] = [];
+
+  @state() progress: Map<NumericChangeId, ProgressStatus> = new Map();
 
   @query('#actionOverlay') actionOverlay!: GrOverlay;
 
@@ -86,12 +100,19 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     );
     // TODO: disable button if no label can be voted upon
     return html`
-      <gr-button flatten @click=${() => this.actionOverlay.open()}
+      <gr-button
+        .disabled=${!this.isEnabled()}
+        id="vote"
+        flatten
+        @click=${() => this.actionOverlay.open()}
         >Vote</gr-button
       >
       <gr-overlay id="actionOverlay" with-backdrop="">
         <gr-dialog
-          @cancel=${() => this.actionOverlay.close()}
+          .disableCancel=${!this.isCancelEnabled()}
+          .disabled=${!this.isConfirmEnabled()}
+          @confirm=${() => this.handleConfirm()}
+          @cancel=${() => this.handleClose()}
           .cancelLabel=${'Close'}
         >
           <div slot="main">
@@ -108,12 +129,119 @@ export class GrChangeListBulkVoteFlow extends LitElement {
                   )}"
                 ></gr-label-score-row>`
               )}
+              <!-- TODO: Add section for trigger votes -->
             </div>
-            <!-- TODO: Add section for trigger votes -->
+            <table>
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${this.selectedChanges.map(
+                  change => html`
+                    <tr>
+                      <td>Change: ${change.subject}</td>
+                      <td id="status">
+                        Status: ${this.getStatus(change._number)}
+                      </td>
+                    </tr>
+                  `
+                )}
+              </tbody>
+            </table>
           </div>
         </gr-dialog>
       </gr-overlay>
     `;
+  }
+
+  private isConfirmEnabled() {
+    // Action is allowed if none of the changes have any bulk action performed
+    // on them. In case an error happens then we keep the button disabled.
+    for (const status of this.progress.values()) {
+      if (status !== ProgressStatus.NOT_STARTED) return false;
+    }
+    return true;
+  }
+
+  private isEnabled() {
+    return this.computeCommonLabels().length > 0;
+  }
+
+  private isCancelEnabled() {
+    for (const status of this.progress.values()) {
+      if (status === ProgressStatus.RUNNING) return false;
+    }
+    return true;
+  }
+
+  private handleClose() {
+    this.actionOverlay.close();
+    fireAlert(this, 'Reloading page..');
+    fireReload(this, true);
+  }
+
+  private getStatus(changeNum: NumericChangeId) {
+    return this.progress.has(changeNum)
+      ? this.progress.get(changeNum)
+      : ProgressStatus.NOT_STARTED;
+  }
+
+  private handleConfirm() {
+    this.progress.clear();
+    const reviewInput: ReviewInput = {
+      labels: this.getLabelValues(),
+    };
+    for (const change of this.selectedChanges) {
+      this.progress.set(change._number, ProgressStatus.RUNNING);
+    }
+    this.requestUpdate();
+    const errFn = (changeNum: NumericChangeId) => {
+      throw new Error(`request for ${changeNum} failed`);
+    };
+    const promises = this.getBulkActionsModel().voteChanges(reviewInput, errFn);
+    for (let index = 0; index < promises.length; index++) {
+      const changeNum = this.selectedChanges[index]._number;
+      promises[index]
+        .then(() => {
+          this.progress.set(changeNum, ProgressStatus.SUCCESSFUL);
+          this.requestUpdate();
+        })
+        .catch(() => {
+          this.progress.set(changeNum, ProgressStatus.FAILED);
+          this.requestUpdate();
+        });
+    }
+  }
+
+  getLabelValues(): LabelNameToValuesMap {
+    const labels: LabelNameToValuesMap = {};
+
+    for (const label of this.computeCommonLabels()) {
+      const selectorEl = queryAndAssert<GrLabelScoreRow>(
+        this,
+        `gr-label-score-row[name="${label.name}"]`
+      );
+      if (!selectorEl?.selectedItem) continue;
+
+      const selectedVal =
+        typeof selectorEl.selectedValue === 'string'
+          ? Number(selectorEl.selectedValue)
+          : selectorEl.selectedValue;
+
+      if (selectedVal === undefined) continue;
+
+      const defValNum = getDefaultValue(
+        this.selectedChanges[0].labels,
+        label.name
+      );
+      if (selectedVal !== defValNum) {
+        labels[label.name] = selectedVal;
+      }
+    }
+    return labels;
   }
 
   // private but used in tests

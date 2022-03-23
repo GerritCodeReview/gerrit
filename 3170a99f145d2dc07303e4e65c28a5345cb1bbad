@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8724305_6199eb81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T08:29:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0c5fc9b_32289213",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "3170a99f145d2dc07303e4e65c28a5345cb1bbad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0dd5b408_6114d2cd",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-23T08:22:35Z",
       "side": 1,
       "message": "is this the default now?\nIf it\u0027s being set for all usages then why does it need to be passed as a property?\n\nIf there are a few usages that don\u0027t want this behaviour then they should specify `disableClick` instead of sending a property to activate default behaviour.",
+      "range": {
+        "startLine": 124,
+        "startChar": 18,
+        "endLine": 124,
+        "endChar": 27
+      },
+      "revId": "3170a99f145d2dc07303e4e65c28a5345cb1bbad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb80333b_c576dcf6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T08:29:53Z",
+      "side": 1,
+      "message": "Clickable is not the default behavior. I found it easier to match all the sites that matched gr-account-link before by looking at that change.",
+      "parentUuid": "0dd5b408_6114d2cd",
       "range": {
         "startLine": 124,
         "startChar": 18,

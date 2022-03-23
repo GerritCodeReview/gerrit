@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b0c30f8_922dfe31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T08:29:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ec0cb18_4120a3f9",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "21aec2df5d5eda3084f89235c196cd4f7e8613e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "def18589_b67514c2",
@@ -61,6 +85,30 @@
       "writtenOn": "2022-03-22T10:02:28Z",
       "side": 1,
       "message": "this may make linkable in places that weren\u0027t linkable before. Some places used account-label directly without the account-chip/account-link wrappers.",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 58
+      },
+      "revId": "21aec2df5d5eda3084f89235c196cd4f7e8613e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa1219e0_0befbd98",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T08:29:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "def18589_b67514c2",
       "range": {
         "startLine": 265,
         "startChar": 0,

@@ -300,6 +300,9 @@ Gerrit currently supports the following predicates:
 
 Matches if the diff between two patch sets was of a certain change kind.
 
+`NO_CHANGE` is a special kind of a trivial rebase and hence this change
+kind is also matched by `changekind:TRIVIAL_REBASE`.
+
 ==== is:{MIN,MAX,ANY}
 
 Matches votes that are equal to the minimal or maximal voting range. Or any votes.

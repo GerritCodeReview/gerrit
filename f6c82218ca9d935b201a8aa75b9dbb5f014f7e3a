@@ -261,6 +261,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cec0654b_042f90d6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T09:20:55Z",
+      "side": 1,
+      "message": "I still feel like the code is not great in going back and forth between Set and Array computation.\n\nAlso, I don\u0027t understand why you\u0027re checking for the absence of current. If that scenario can exist your code is incorrect because you will effectively reset all the labels back to none.\n\nI still feel strongly that these should be separate helper functions in util that can be tested individually and then one test for them together.",
+      "parentUuid": "4ebf44e0_d4c59d94",
+      "revId": "f6c82218ca9d935b201a8aa75b9dbb5f014f7e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c77060a_f4dfd345",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
         "patchSetId": 23

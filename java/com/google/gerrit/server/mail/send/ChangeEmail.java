@@ -26,6 +26,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ChangeSizeBucket;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
@@ -74,6 +75,7 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 
 /** Sends an email to one or more interested parties. */
 public abstract class ChangeEmail extends NotificationEmail {
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected static ChangeData newChangeData(
@@ -231,6 +233,18 @@ public abstract class ChangeEmail extends NotificationEmail {
     setHeader(FieldName.SUBJECT, textTemplate("ChangeSubject"));
   }
 
+  private int getInsertionsCount() {
+    return listModifiedFiles().values().stream()
+        .map(FileDiffOutput::insertions)
+        .reduce(0, Integer::sum);
+  }
+
+  private int getDeletionsCount() {
+    return listModifiedFiles().values().stream()
+        .map(FileDiffOutput::deletions)
+        .reduce(0, Integer::sum);
+  }
+
   /** Get a link to the change; null if the server doesn't know its own address. */
   @Nullable
   public String getChangeUrl() {
@@ -285,10 +299,6 @@ public abstract class ChangeEmail extends NotificationEmail {
                       fileDiff.oldPath(), fileDiff.newPath(), fileDiff.changeType()))
               .append("\n");
         }
-        Integer insertions =
-            modifiedFiles.values().stream().map(FileDiffOutput::insertions).reduce(0, Integer::sum);
-        Integer deletions =
-            modifiedFiles.values().stream().map(FileDiffOutput::deletions).reduce(0, Integer::sum);
         detail.append(
             MessageFormat.format(
                 "" //
@@ -297,8 +307,8 @@ public abstract class ChangeEmail extends NotificationEmail {
                     + "{2,choice,0#0 deletions|1#1 deletion|1<{2} deletions}(-)" //
                     + "\n",
                 modifiedFiles.size() - 1, //
-                insertions, //
-                deletions));
+                getInsertionsCount(), //
+                getDeletionsCount()));
         detail.append("\n");
       }
       return detail.toString();
@@ -309,29 +319,33 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   /** Get the patch list corresponding to patch set patchSetId of this change. */
-  protected Map<String, FileDiffOutput> listModifiedFiles(int patchSetId)
-      throws DiffNotAvailableException {
-    PatchSet ps;
-    if (patchSetId == patchSet.number()) {
-      ps = patchSet;
-    } else {
-      try {
+  protected Map<String, FileDiffOutput> listModifiedFiles(int patchSetId) {
+    try {
+      PatchSet ps;
+      if (patchSetId == patchSet.number()) {
+        ps = patchSet;
+      } else {
         ps = args.patchSetUtil.get(changeData.notes(), PatchSet.id(change.getId(), patchSetId));
-      } catch (StorageException e) {
-        throw new DiffNotAvailableException("Failed to get patchSet", e);
       }
+      return args.diffOperations.listModifiedFilesAgainstParent(
+          change.getProject(), ps.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
+    } catch (StorageException | DiffNotAvailableException e) {
+      logger.atSevere().withCause(e).log("Failed to get modified files");
+      return new HashMap<>();
     }
-    return args.diffOperations.listModifiedFilesAgainstParent(
-        change.getProject(), ps.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
   }
 
   /** Get the patch list corresponding to this patch set. */
-  protected Map<String, FileDiffOutput> listModifiedFiles() throws DiffNotAvailableException {
+  protected Map<String, FileDiffOutput> listModifiedFiles() {
     if (patchSet != null) {
-      return args.diffOperations.listModifiedFilesAgainstParent(
-          change.getProject(), patchSet.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
+      try {
+        return args.diffOperations.listModifiedFilesAgainstParent(
+            change.getProject(), patchSet.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
+      } catch (DiffNotAvailableException e) {
+        logger.atSevere().withCause(e).log("Failed to get modified files");
+      }
     }
-    throw new DiffNotAvailableException("no patchSet specified");
+    return new HashMap<>();
   }
 
   /** Get the project entity the change is in; null if its been deleted. */
@@ -497,6 +511,9 @@ public abstract class ChangeEmail extends NotificationEmail {
     changeData.put("ownerName", getNameFor(change.getOwner()));
     changeData.put("ownerEmail", getNameEmailFor(change.getOwner()));
     changeData.put("changeNumber", Integer.toString(change.getChangeId()));
+    changeData.put(
+        "sizeBucket",
+        ChangeSizeBucket.getChangeSizeBucket(getInsertionsCount() + getDeletionsCount()));
     soyContext.put("change", changeData);
 
     Map<String, Object> patchSetData = new HashMap<>();
@@ -579,16 +596,11 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Show patch set as unified difference. */
   public String getUnifiedDiff() {
     Map<String, FileDiffOutput> modifiedFiles;
-    try {
-      modifiedFiles = listModifiedFiles();
-      if (modifiedFiles.isEmpty()) {
-        // Octopus merges are not well supported for diff output by Gerrit.
-        // Currently these always have a null oldId in the PatchList.
-        return "[Octopus merge; cannot be formatted as a diff.]\n";
-      }
-    } catch (DiffNotAvailableException e) {
-      logger.atSevere().withCause(e).log("Cannot format patch");
-      return "";
+    modifiedFiles = listModifiedFiles();
+    if (modifiedFiles.isEmpty()) {
+      // Octopus merges are not well supported for diff output by Gerrit.
+      // Currently these always have a null oldId in the PatchList.
+      return "[Empty change (potentially Octopus merge); cannot be formatted as a diff.]\n";
     }
 
     int maxSize = args.settings.maximumDiffSize;

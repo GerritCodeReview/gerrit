@@ -221,6 +221,10 @@ $change.shortOriginalSubject::
 The original subject limited to 72 characters, with an ellipsis if it exceeds
 that.
 
+$change.sizeBucket::
++
+Human-readable size bucket of the current change.
+
 $change.ownerEmail::
 +
 The email address of the owner of the change.

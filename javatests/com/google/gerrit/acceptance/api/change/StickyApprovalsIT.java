@@ -518,6 +518,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     assertVotes(c, user, -2, 0);
   }
 
+  @Test
   @TestProjectInput(createEmptyCommit = false)
   public void
       stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit_withoutCopyCondition()
@@ -526,6 +527,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit();
   }
 
+  @Test
   @TestProjectInput(createEmptyCommit = false)
   public void
       stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit_withCopyCondition()

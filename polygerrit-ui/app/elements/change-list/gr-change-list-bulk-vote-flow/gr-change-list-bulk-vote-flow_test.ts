@@ -11,10 +11,16 @@ import {
   bulkActionsModelToken,
   LoadingState,
 } from '../../../models/bulk-actions/bulk-actions-model';
-import {waitUntilObserved, stubRestApi} from '../../../test/test-utils';
+import {
+  waitUntilObserved,
+  stubRestApi,
+  queryAndAssert,
+  query,
+  mockPromise,
+} from '../../../test/test-utils';
 import {ChangeInfo, NumericChangeId, LabelInfo} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
-import {fixture} from '@open-wc/testing-helpers';
+import {fixture, waitUntil} from '@open-wc/testing-helpers';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {html} from 'lit';
 import {SinonStubbedMember} from 'sinon';
@@ -23,6 +29,10 @@ import {
   createChange,
   createSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
+import './gr-change-list-bulk-vote-flow';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {tap} from '@polymer/iron-test-helpers/mock-interactions';
+import {ProgressStatus} from '../../../constants/constants';
 import './gr-change-list-bulk-vote-flow';
 
 const change1: ChangeInfo = {
@@ -34,6 +44,18 @@ const change1: ChangeInfo = {
     C: ['-1', '0'],
     D: ['0'], // Does not exist on change2
   },
+  labels: {
+    A: {value: null} as LabelInfo,
+    B: {value: null} as LabelInfo,
+    C: {value: null} as LabelInfo,
+    D: {value: null} as LabelInfo,
+  },
+  submit_requirements: [
+    createSubmitRequirementExpressionInfoWith('label:A=MAX'),
+    createSubmitRequirementExpressionInfoWith('label:B=MAX'),
+    createSubmitRequirementExpressionInfoWith('label:C=MAX'),
+    createSubmitRequirementExpressionInfoWith('label:D=MAX'),
+  ],
 };
 const change2: ChangeInfo = {
   ...createChange(),
@@ -43,6 +65,16 @@ const change2: ChangeInfo = {
     B: ['0', ' +1'], // Intersects with change1 on 0
     C: ['+1', '+2'], // Does not intersect with change1 at all
   },
+  labels: {
+    A: {value: null} as LabelInfo,
+    B: {value: null} as LabelInfo,
+    C: {value: null} as LabelInfo,
+  },
+  submit_requirements: [
+    createSubmitRequirementExpressionInfoWith('label:A=MAX'),
+    createSubmitRequirementExpressionInfoWith('label:B=MAX'),
+    createSubmitRequirementExpressionInfoWith('label:C=MAX'),
+  ],
 };
 
 suite('gr-change-list-bulk-vote-flow tests', () => {
@@ -76,17 +108,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     await element.updateComplete;
   });
 
-  test('renders', async () => {
-    change1.labels = {
-      a: {value: null} as LabelInfo,
-      b: {value: null} as LabelInfo,
-      c: {value: null} as LabelInfo,
-    };
-    change1.submit_requirements = [
-      createSubmitRequirementResultInfo('label:a=MAX'),
-      createSubmitRequirementResultInfo('label:b=MAX'),
-      createSubmitRequirementResultInfo('label:c=MAX'),
-    ];
+  test('button state updates as changes are updated', async () => {
     const changes: ChangeInfo[] = [change1];
     getChangesStub.returns(Promise.resolve(changes));
     model.sync(changes);
@@ -96,29 +118,190 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     );
     await selectChange(change1);
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(/* HTML */ `<gr-button
-        aria-disabled="false"
-        flatten=""
-        role="button"
-        tabindex="0"
-      >
-        Vote
-      </gr-button>
-      <gr-overlay
-        aria-hidden="true"
-        id="actionOverlay"
-        style="outline: none; display: none;"
-        tabindex="-1"
-        with-backdrop=""
-      >
-        <gr-dialog role="dialog">
-          <div slot="main">
-            <div class="newSubmitRequirements scoresTable">
-              <h3 class="heading-3">Submit requirements votes</h3>
-            </div>
-          </div>
-        </gr-dialog>
-      </gr-overlay> `);
+    await flush();
+
+    assert.isFalse(queryAndAssert<GrButton>(element, '#vote').disabled);
+
+    // No common label with change1 so button is disabled
+    change2.labels = {
+      x: {value: null} as LabelInfo,
+      y: {value: null} as LabelInfo,
+      z: {value: null} as LabelInfo,
+    };
+    change2.submit_requirements = [
+      createSubmitRequirementExpressionInfoWith('label:x=MAX'),
+      createSubmitRequirementExpressionInfoWith('label:y=MAX'),
+      createSubmitRequirementExpressionInfoWith('label:z=MAX'),
+    ];
+    changes.push({...change2});
+    getChangesStub.restore();
+    getChangesStub.returns(Promise.resolve(changes));
+    model.sync(changes);
+    await waitUntilObserved(
+      model.loadingState$,
+      state => state === LoadingState.LOADED
+    );
+    await selectChange(change2);
+    await element.updateComplete;
+
+    assert.isTrue(queryAndAssert<GrButton>(element, '#vote').disabled);
+  });
+
+  test('progress updates as request is resolved', async () => {
+    const changes: ChangeInfo[] = [{...change1}];
+    getChangesStub.returns(Promise.resolve(changes));
+    model.sync(changes);
+    await waitUntilObserved(
+      model.loadingState$,
+      state => state === LoadingState.LOADED
+    );
+    await selectChange(change1);
+    await element.updateComplete;
+
+    assert.equal(
+      queryAndAssert<HTMLTableDataCellElement>(
+        element,
+        '#status'
+      ).innerText.trim(),
+      `Status: ${ProgressStatus.NOT_STARTED}`
+    );
+
+    const saveChangeReview = mockPromise<Response>();
+    stubRestApi('saveChangeReview').returns(saveChangeReview);
+
+    assert.isNotOk(
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').disabled
+    );
+    assert.isNotOk(
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled
+    );
+
+    tap(queryAndAssert(query(element, 'gr-dialog'), '#confirm'));
+    await element.updateComplete;
+
+    assert.isTrue(
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').disabled
+    );
+    assert.isTrue(
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled
+    );
+
+    assert.equal(
+      queryAndAssert<HTMLTableDataCellElement>(
+        element,
+        '#status'
+      ).innerText.trim(),
+      `Status: ${ProgressStatus.RUNNING}`
+    );
+
+    saveChangeReview.resolve({...new Response(), status: 200});
+    await waitUntil(
+      () =>
+        element.progress.get(1 as NumericChangeId) === ProgressStatus.SUCCESSFUL
+    );
+
+    assert.isTrue(
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').disabled
+    );
+    assert.isNotOk(
+      queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled
+    );
+
+    assert.equal(
+      queryAndAssert<HTMLTableDataCellElement>(
+        element,
+        '#status'
+      ).innerText.trim(),
+      `Status: ${ProgressStatus.SUCCESSFUL}`
+    );
+  });
+
+  test('failures are reflected to the progress dialog', async () => {
+    const changes: ChangeInfo[] = [{...change1}];
+    getChangesStub.returns(Promise.resolve(changes));
+    model.sync(changes);
+    await waitUntilObserved(
+      model.loadingState$,
+      state => state === LoadingState.LOADED
+    );
+    await selectChange(change1);
+    await element.updateComplete;
+
+    assert.equal(
+      queryAndAssert<HTMLTableDataCellElement>(
+        element,
+        '#status'
+      ).innerText.trim(),
+      `Status: ${ProgressStatus.NOT_STARTED}`
+    );
+
+    stubRestApi('saveChangeReview').callsFake(
+      (_changeNum, _patchNum, _review, errFn) =>
+        Promise.resolve(new Response()).then(res => {
+          errFn && errFn();
+          return res;
+        })
+    );
+
+    tap(queryAndAssert(query(element, 'gr-dialog'), '#confirm'));
+    await element.updateComplete;
+
+    assert.equal(
+      queryAndAssert<HTMLTableDataCellElement>(
+        element,
+        '#status'
+      ).innerText.trim(),
+      `Status: ${ProgressStatus.RUNNING}`
+    );
+
+    await waitUntil(
+      () => element.progress.get(1 as NumericChangeId) === ProgressStatus.FAILED
+    );
+
+    assert.equal(
+      queryAndAssert<HTMLTableDataCellElement>(
+        element,
+        '#status'
+      ).innerText.trim(),
+      `Status: ${ProgressStatus.FAILED}`
+    );
+  });
+
+  test('closing dialog triggers a reload', async () => {
+    const changes: ChangeInfo[] = [{...change1}, {...change2}];
+    getChangesStub.returns(Promise.resolve(changes));
+
+    const fireStub = sinon.stub(element, 'dispatchEvent');
+
+    stubRestApi('saveChangeReview').callsFake(
+      (_changeNum, _patchNum, _review, errFn) =>
+        Promise.resolve(new Response()).then(res => {
+          errFn && errFn();
+          return res;
+        })
+    );
+
+    model.sync(changes);
+    await waitUntilObserved(
+      model.loadingState$,
+      state => state === LoadingState.LOADED
+    );
+    await selectChange(change1);
+    await selectChange(change2);
+    await element.updateComplete;
+
+    tap(queryAndAssert(query(element, 'gr-dialog'), '#confirm'));
+
+    await waitUntil(
+      () => element.progress.get(2 as NumericChangeId) === ProgressStatus.FAILED
+    );
+
+    assert.isFalse(fireStub.called);
+
+    tap(queryAndAssert(query(element, 'gr-dialog'), '#cancel'));
+
+    await waitUntil(() => fireStub.called);
+    assert.equal(fireStub.lastCall.args[0].type, 'reload');
   });
 
   test('computePermittedLabels', async () => {

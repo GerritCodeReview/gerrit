@@ -7,6 +7,7 @@
 import {
   createAccountWithIdNameAndEmail,
   createChange,
+  createRevisions
 } from '../../test/test-data-generators';
 import {
   ChangeInfo,
@@ -17,6 +18,7 @@ import {
   AccountInfo,
   ReviewerState,
   AccountId,
+  PatchSetNum,
 } from '../../api/rest-api';
 import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
@@ -25,6 +27,7 @@ import {stubRestApi, waitUntilObserved} from '../../test/test-utils';
 import {mockPromise} from '../../test/test-utils';
 import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
+import {ReviewInput} from '../../types/common';
 
 suite('bulk actions model test', () => {
   let bulkActionsModel: BulkActionsModel;
@@ -154,56 +157,56 @@ suite('bulk actions model test', () => {
     });
   });
 
-  suite('add reviewers', () => {
-    const accounts: AccountInfo[] = [
-      createAccountWithIdNameAndEmail(0),
-      createAccountWithIdNameAndEmail(1),
-      createAccountWithIdNameAndEmail(2),
-    ];
-    const changes: ChangeInfo[] = [
-      {
-        ...createChange(),
-        _number: 1 as NumericChangeId,
-        subject: 'Subject 1',
-        reviewers: {REVIEWER: [accounts[0], accounts[1]]},
-        removable_reviewers: [accounts[0]],
-      },
-      {
-        ...createChange(),
-        _number: 2 as NumericChangeId,
-        subject: 'Subject 2',
-        reviewers: {REVIEWER: [accounts[0]]},
-        removable_reviewers: [accounts[0]],
-      },
-    ];
-    let saveChangeReviewStub: sinon.SinonStub;
-
+  suite('voteChanges', () => {
+    let detailedActionsStub: SinonStubbedMember<
+      RestApiService['getDetailedChangesWithActions']
+    >;
     setup(async () => {
-      saveChangeReviewStub = stubRestApi('saveChangeReview').resolves(
-        new Response()
+      const c1 = {...createChange(), revisions: createRevisions(10)};
+      c1._number = 1 as NumericChangeId;
+      const c2 = {...createChange(), revisions: createRevisions(4)};
+      c2._number = 2 as NumericChangeId;
+
+      detailedActionsStub = stubRestApi('getDetailedChangesWithActions');
+      detailedActionsStub.returns(
+        Promise.resolve([
+          {...c1, actions: {abandon: {method: HttpMethod.POST}}},
+          {...c2, status: ChangeStatus.ABANDONED},
+        ])
       );
-      stubRestApi('getDetailedChangesWithActions').resolves([
-        {...changes[0], actions: {abandon: {method: HttpMethod.POST}}},
-        {...changes[1], status: ChangeStatus.ABANDONED},
-      ]);
-      bulkActionsModel.sync(changes);
-      bulkActionsModel.addSelectedChangeNum(changes[0]._number);
-      bulkActionsModel.addSelectedChangeNum(changes[1]._number);
+
+      await bulkActionsModel.sync([c1, c2]);
+
+      bulkActionsModel.addSelectedChangeNum(c1._number);
+      bulkActionsModel.addSelectedChangeNum(c2._number);
     });
 
-    test('adds reviewers only to changes that need it', async () => {
-      bulkActionsModel.addReviewers([accounts[1]]);
-
-      // changes[0] is not updated since it already has accounts[1]
-      // as a reviewer
-      assert.isTrue(saveChangeReviewStub.calledOnce);
-      assert.sameDeepOrderedMembers(saveChangeReviewStub.firstCall.args, [
-        changes[1]._number,
-        'current',
+    test('vote changes', () => {
+      const reviewStub = stubRestApi('saveChangeReview');
+      const reviewInput: ReviewInput = {
+        labels: {
+          a: 1,
+        },
+      };
+      bulkActionsModel.voteChanges(reviewInput);
+      assert.equal(reviewStub.callCount, 2);
+      assert.deepEqual(reviewStub.firstCall.args.slice(0, 3), [
+        1 as NumericChangeId,
+        10 as PatchSetNum,
         {
-          reviewers: [
-            {reviewer: accounts[1]._account_id, state: ReviewerState.REVIEWER},
-          ],
+          labels: {
+            a: 1,
+          },
+        },
+      ]);
+
+      assert.deepEqual(reviewStub.secondCall.args.slice(0, 3), [
+        2 as NumericChangeId,
+        4 as PatchSetNum,
+        {
+          labels: {
+            a: 1,
+          },
         },
       ]);
     });

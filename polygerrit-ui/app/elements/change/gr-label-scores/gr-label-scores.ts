@@ -21,7 +21,6 @@ import {customElement, property} from 'lit/decorators';
 import {
   ChangeInfo,
   AccountInfo,
-  DetailedLabelInfo,
   LabelNameToValueMap,
 } from '../../../types/common';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
@@ -32,6 +31,7 @@ import {
   computeLabels,
   Label,
   computeOrderedLabelValues,
+  getDefaultValue,
 } from '../../../utils/label-util';
 import {ChangeStatus} from '../../../constants/constants';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -205,19 +205,12 @@ export class GrLabelScores extends LitElement {
 
       if (selectedVal === undefined) continue;
 
-      const defValNum = this.getDefaultValue(label);
+      const defValNum = getDefaultValue(this.change?.labels, label);
       if (includeDefaults || selectedVal !== defValNum) {
         labels[label] = selectedVal;
       }
     }
     return labels;
-  }
-
-  private getDefaultValue(labelName?: string) {
-    const labels = this.change?.labels;
-    if (!labelName || !labels?.[labelName]) return undefined;
-    const labelInfo = labels[labelName] as DetailedLabelInfo;
-    return labelInfo.default_value;
   }
 }
 

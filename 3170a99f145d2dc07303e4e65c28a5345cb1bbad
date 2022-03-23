@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0c5fc9b_32289213",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-23T08:22:35Z",
+      "side": 1,
+      "message": "Add that Change 332780 removed all usages of gr-account-link.",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "3170a99f145d2dc07303e4e65c28a5345cb1bbad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dd5b408_6114d2cd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-23T08:22:35Z",
+      "side": 1,
+      "message": "is this the default now?\nIf it\u0027s being set for all usages then why does it need to be passed as a property?\n\nIf there are a few usages that don\u0027t want this behaviour then they should specify `disableClick` instead of sending a property to activate default behaviour.",
+      "range": {
+        "startLine": 124,
+        "startChar": 18,
+        "endLine": 124,
+        "endChar": 27
+      },
+      "revId": "3170a99f145d2dc07303e4e65c28a5345cb1bbad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

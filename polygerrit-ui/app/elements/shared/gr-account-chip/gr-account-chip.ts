@@ -109,6 +109,7 @@ export class GrAccountChip extends LitElement {
           /** round */
           border-radius: var(--account-chip-border-radius, 20px);
           border: 1px solid var(--border-color);
+          display: inline-flex;
           padding: 0 1px;
           /* Any outermost circular icon would fit neatly in the border-radius
              and won't need padding, but the exact outermost elements will

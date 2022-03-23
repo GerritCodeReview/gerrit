@@ -29,6 +29,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.Comparator.comparing;
 
 import com.google.common.cache.Cache;
@@ -62,6 +63,7 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -725,8 +727,16 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   @Test
   public void stickyEvenWhenUserCantSeeUploaderInGroup() throws Exception {
-    // user can't see admin group
     String administratorsUUID = gApi.groups().query("name:Administrators").get().get(0).id;
+
+    // verify that user can't see the admin group
+    requestScopeOperations.setApiUser(user.id());
+    ResourceNotFoundException notFound =
+        assertThrows(
+            ResourceNotFoundException.class, () -> gApi.groups().id(administratorsUUID).get());
+    assertThat(notFound).hasMessageThat().isEqualTo("Not found: " + administratorsUUID);
+
+    requestScopeOperations.setApiUser(admin.id());
     updateCodeReviewLabel(b -> b.setCopyCondition("approverin:" + administratorsUUID));
 
     String changeId = createChange().getChangeId();

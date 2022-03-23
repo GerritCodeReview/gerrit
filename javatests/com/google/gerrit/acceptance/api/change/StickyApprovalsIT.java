@@ -349,17 +349,17 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded_withoutCopyCondition()
           throws Exception {
     updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded();
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded();
   }
 
   @Test
   public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded_withCopyCondition()
       throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded();
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded();
   }
 
-  private void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded()
+  private void testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded()
       throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
@@ -384,7 +384,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists_withoutCopyCondition()
           throws Exception {
     updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists();
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists();
   }
 
   @Test
@@ -392,10 +392,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists_withCopyCondition()
           throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists();
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists();
   }
 
-  private void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists()
+  private void testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists()
       throws Exception {
     // create "existing file" and submit it.
     String existingFile = "existing file";
@@ -432,7 +432,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted_withoutCopyCondition()
           throws Exception {
     updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted();
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted();
   }
 
   @Test
@@ -440,10 +440,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted_withCopyCondition()
           throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted();
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted();
   }
 
-  private void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted()
+  private void testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted()
       throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
@@ -463,7 +463,30 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified_withoutCopyCondition()
           throws Exception {
     updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified();
+    testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified();
+  }
+
+  @Test
+  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified_withCopyCondition()
+      throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+    testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified();
+  }
+
+  private void testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified()
+      throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // only code review votes are copied since copyAllScoresIfListOfFilesDidNotChange is
+    // configured for that label, and list of files didn't change.
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
   }
 
   @Test
@@ -503,35 +526,12 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified_withCopyCondition()
-      throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified();
-  }
-
-  private void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified()
-      throws Exception {
-    Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
-    vote(admin, changeId.toString(), 2, 1);
-    vote(user, changeId.toString(), -2, -1);
-
-    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
-    ChangeInfo c = detailedChange(changeId.toString());
-
-    // only code review votes are copied since copyAllScoresIfListOfFilesDidNotChange is
-    // configured for that label, and list of files didn't change.
-    assertVotes(c, admin, 2, 0);
-    assertVotes(c, user, -2, 0);
-  }
-
-  @Test
   @TestProjectInput(createEmptyCommit = false)
   public void
       stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit_withoutCopyCondition()
           throws Exception {
     updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit();
+    testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit();
   }
 
   @Test
@@ -540,11 +540,12 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit_withCopyCondition()
           throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit();
+    testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit();
   }
 
-  private void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit()
-      throws Exception {
+  private void
+      testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit()
+          throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
     vote(admin, changeId.toString(), 2, 1);
@@ -564,7 +565,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset_withoutCopyCondition()
           throws Exception {
     updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset();
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset();
   }
 
   @Test
@@ -572,11 +573,11 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset_withCopyCondition()
           throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset();
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset();
   }
 
   private void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset()
+      testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset()
           throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
@@ -602,7 +603,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed_withoutCopyCondition()
           throws Exception {
     updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed();
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed();
   }
 
   @Test
@@ -610,10 +611,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed_withCopyCondition()
           throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed();
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed();
   }
 
-  private void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed()
+  private void testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed()
       throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
@@ -631,16 +632,16 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void copyWithListOfFilesUnchanged_withoutCopyCondition() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-    copyWithListOfFilesUnchanged();
+    testCopyWithListOfFilesUnchanged();
   }
 
   @Test
   public void copyWithListOfFilesUnchanged_withCopyCondition() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-    copyWithListOfFilesUnchanged();
+    testCopyWithListOfFilesUnchanged();
   }
 
-  private void copyWithListOfFilesUnchanged() throws Exception {
+  private void testCopyWithListOfFilesUnchanged() throws Exception {
     Change.Id changeId =
         changeOperations.newChange().project(project).file("file").content("content").create();
     vote(admin, changeId.toString(), 2, 1);

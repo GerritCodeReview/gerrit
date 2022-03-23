@@ -245,9 +245,18 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyOnTrivialRebase() throws Exception {
+  public void stickyOnTrivialRebase_withoutCopyCondition() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyAllScoresOnTrivialRebase(true));
+    testStickyOnTrivialRebase();
+  }
 
+  @Test
+  public void stickyOnTrivialRebase_withCopyCondition() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("changekind:" + TRIVIAL_REBASE.name()));
+    testStickyOnTrivialRebase();
+  }
+
+  private void testStickyOnTrivialRebase() throws Exception {
     String changeId = changeKindCreator.createChange(TRIVIAL_REBASE, testRepo, admin);
     vote(admin, changeId, 2, 1);
     vote(user, changeId, -2, -1);

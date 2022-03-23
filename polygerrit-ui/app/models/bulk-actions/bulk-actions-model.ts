@@ -17,6 +17,10 @@ import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {define} from '../dependency';
 import {select} from '../../utils/observable-util';
 import {ReviewInput} from '../../types/common';
+import {
+  computeLatestPatchNum,
+  computeAllPatchSets,
+} from '../../utils/patch-set-util';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -124,6 +128,25 @@ export class BulkActionsModel
         '/abandon',
         undefined,
         {message: reason ?? ''},
+        () => errFn && errFn(change._number)
+      );
+    });
+  }
+
+  voteChanges(
+    reviewInput: ReviewInput,
+    // errorFn is needed to avoid showing an error dialog
+    errFn?: (changeNum: NumericChangeId) => void
+  ) {
+    const current = this.subject$.getValue();
+    return current.selectedChangeNums.map(changeNum => {
+      if (!current.allChanges.get(changeNum))
+        throw new Error('invalid change id');
+      const change = current.allChanges.get(changeNum)!;
+      return this.restApiService.saveChangeReview(
+        change._number,
+        computeLatestPatchNum(computeAllPatchSets(change))!,
+        reviewInput,
         () => errFn && errFn(change._number)
       );
     });

@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "12b27274_bdff6907",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-23T12:01:57Z",
+      "side": 0,
+      "message": "good catch! I didn\u0027t even know it was possible to access it via a shortcut 😄\n\nNow this should be fixed.",
+      "parentUuid": "94063dc3_c90c0e4d",
+      "revId": "c4165a96856dea97e5a09ef356a818d7f019c553",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9a8e9551_d21a5080",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
         "patchSetId": 7
@@ -78,6 +96,30 @@
       "side": 0,
       "message": "I am not sure. Maybe this is for lines that are deleted (on the left side). This rule probably makes sure that the placeholder is not rendered (which does not have a line number, but is rendered on the right side).",
       "parentUuid": "1d1ecf57_9c9cdda1",
+      "range": {
+        "startLine": 23,
+        "startChar": 32,
+        "endLine": 23,
+        "endChar": 56
+      },
+      "revId": "c4165a96856dea97e5a09ef356a818d7f019c553",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47a40fc8_7a8900df",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-23T12:01:57Z",
+      "side": 0,
+      "message": "I just checked this particular behavior (not rendering deleted lines for the no-left mode) seems to work for me in this change.\n\nAssuming this as resolved.",
+      "parentUuid": "800110a3_cd989fbd",
       "range": {
         "startLine": 23,
         "startChar": 32,

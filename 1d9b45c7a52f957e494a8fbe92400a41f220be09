@@ -33,6 +33,24 @@
       "message": "For deleted lines in unified diff we need some additional rule:\nhttps://imgur.com/a/Hinj1ta",
       "revId": "1d9b45c7a52f957e494a8fbe92400a41f220be09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e489a342_986f46e5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2022-03-23T12:01:57Z",
+      "side": 1,
+      "message": "apparently this also happens for added chunks in unified mode for some other cases (when the left side is selected instead of the right). I changed the approach for unified mode to show the outline for both sides always (similar to what happens now on live). It was easier to implement in the end : https://i.imgur.com/fGOyBEA.png\n\nI hope this is ok.",
+      "parentUuid": "4ef694a7_dd86a0b6",
+      "revId": "1d9b45c7a52f957e494a8fbe92400a41f220be09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

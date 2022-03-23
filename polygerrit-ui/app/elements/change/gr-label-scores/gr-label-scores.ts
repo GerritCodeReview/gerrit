@@ -26,11 +26,7 @@ import {
   DetailedLabelInfo,
   LabelNameToValuesMap,
 } from '../../../types/common';
-import {
-  GrLabelScoreRow,
-  Label,
-  LabelValuesMap,
-} from '../gr-label-score-row/gr-label-score-row';
+import {GrLabelScoreRow, Label} from '../gr-label-score-row/gr-label-score-row';
 import {getAppContext} from '../../../services/app-context';
 import {
   getTriggerVotes,
@@ -155,7 +151,7 @@ export class GrLabelScores extends LitElement {
       this.flagsService,
       this.change
     );
-    const labelValues = this._computeColumns();
+    const labelValues = this.computeOrderedLabelValues();
     return html`<div
       class="scoresTable ${newSubReqs ? 'newSubmitRequirements' : ''}"
     >
@@ -220,7 +216,7 @@ export class GrLabelScores extends LitElement {
     return labelInfo.default_value;
   }
 
-  _computeColumns() {
+  computeOrderedLabelValues() {
     if (!this.permittedLabels) return;
     const labels = Object.keys(this.permittedLabels);
     const values: Set<number> = new Set();
@@ -231,12 +227,7 @@ export class GrLabelScores extends LitElement {
     }
 
     const orderedValues = Array.from(values.values()).sort((a, b) => a - b);
-
-    const labelValues: LabelValuesMap = {};
-    for (let i = 0; i < orderedValues.length; i++) {
-      labelValues[orderedValues[i]] = i;
-    }
-    return labelValues;
+    return orderedValues;
   }
 
   private computeLabelAccessClass(label?: string) {

@@ -25,10 +25,12 @@
   {@param change: ?}
   {@param shortProjectName: ?}
   {@param instanceAndProjectName: ?}
-  {@param addInstanceNameInSubject: ?}  /** boolean */
+  {@param addInstanceNameInSubject: ?}    /** boolean */
+
   {if not $addInstanceNameInSubject}
-    Change in {$shortProjectName}[{$branch.shortName}]: {$change.shortSubject}
+    [change.sizeBucket] Change in {$shortProjectName}[{$branch.shortName}]: {$change.shortSubject}
   {else}
-    Change in {$instanceAndProjectName}[{$branch.shortName}]: {$change.shortSubject}
+    [change.sizeBucket] Change in {$instanceAndProjectName}[{$branch.shortName}]: {$change
+    .shortSubject}
   {/if}
 {/template}

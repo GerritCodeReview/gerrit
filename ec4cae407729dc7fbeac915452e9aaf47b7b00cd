@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17133d88_27873c34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T12:55:29Z",
+      "side": 1,
+      "message": "+2ing so we can merge and start a release, please address comment in follow-up.",
+      "revId": "ec4cae407729dc7fbeac915452e9aaf47b7b00cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "438d52b8_2903af8b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-23T12:55:29Z",
+      "side": 1,
+      "message": "This comment threw me off, \u0027rendered\u0027 and \u0027render\u0027 feel like different verbs. Please fix in a follow-up.",
+      "revId": "ec4cae407729dc7fbeac915452e9aaf47b7b00cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

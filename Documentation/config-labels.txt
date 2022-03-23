@@ -319,7 +319,7 @@ link:#group-id[\{group-id\}].
 [[uploaderin]]
 ==== uploaderin:link:#group-id[\{group-id\}]
 
-Matches votes where the new patch set was uploaded by a member of
+Matches all votes if the new patch set was uploaded by a member of
 link:#group-id[\{group-id\}].
 
 ==== has:unchanged-files

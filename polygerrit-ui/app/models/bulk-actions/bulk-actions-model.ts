@@ -10,6 +10,7 @@ import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {define} from '../dependency';
 import {select} from '../../utils/observable-util';
+import {ReviewerInput, ReviewInput} from '../../types/common';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -122,6 +123,21 @@ export class BulkActionsModel
     });
   }
 
+  addReviewers(addedReviewerInputs: ReviewerInput[]) {
+    const current = this.subject$.getValue();
+    const changes = current.selectedChangeNums.map(
+      changeNum => current.allChanges.get(changeNum)!
+    );
+    const reviewInput: ReviewInput = {reviewers: addedReviewerInputs};
+    return changes.map(change =>
+      this.restApiService.saveChangeReview(
+        change._number,
+        'current',
+        reviewInput
+      )
+    );
+  }
+
   async sync(changes: ChangeInfo[]) {
     const newChanges = new Map(changes.map(c => [c._number, c]));
     const current = this.subject$.getValue();
@@ -145,7 +161,11 @@ export class BulkActionsModel
     const allDetailedChanges = new Map(newChanges);
     for (const change of changeDetails ?? []) {
       const originalChange = changes.find(c => c._number === change._number);
-      allDetailedChanges.set(change._number, {...originalChange, ...change});
+      allDetailedChanges.set(change._number, {
+        ...originalChange,
+        ...change,
+        reviewers: originalChange!.reviewers,
+      });
     }
     this.setState({
       ...newCurrent,

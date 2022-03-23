@@ -4,13 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {createChange} from '../../test/test-data-generators';
+import {
+  createAccountWithIdNameAndEmail,
+  createChange,
+} from '../../test/test-data-generators';
 import {
   ChangeInfo,
   NumericChangeId,
   ChangeStatus,
   HttpMethod,
   SubmitRequirementStatus,
+  AccountInfo,
+  ReviewerState,
+  AccountId,
 } from '../../api/rest-api';
 import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
@@ -148,6 +154,69 @@ suite('bulk actions model test', () => {
     });
   });
 
+  suite('add reviewers', () => {
+    const accounts: AccountInfo[] = [
+      createAccountWithIdNameAndEmail(0),
+      createAccountWithIdNameAndEmail(1),
+      createAccountWithIdNameAndEmail(2),
+    ];
+    const changes: ChangeInfo[] = [
+      {
+        ...createChange(),
+        _number: 1 as NumericChangeId,
+        subject: 'Subject 1',
+        reviewers: {REVIEWER: [accounts[0]]},
+        removable_reviewers: [accounts[0]],
+      },
+      {
+        ...createChange(),
+        _number: 2 as NumericChangeId,
+        subject: 'Subject 2',
+        reviewers: {REVIEWER: [accounts[0]]},
+        removable_reviewers: [accounts[0]],
+      },
+    ];
+    let saveChangeReviewStub: sinon.SinonStub;
+
+    setup(async () => {
+      saveChangeReviewStub = stubRestApi('saveChangeReview').resolves(
+        new Response()
+      );
+      stubRestApi('getDetailedChangesWithActions').resolves([
+        {...changes[0], actions: {abandon: {method: HttpMethod.POST}}},
+        {...changes[1], status: ChangeStatus.ABANDONED},
+      ]);
+      bulkActionsModel.sync(changes);
+      bulkActionsModel.addSelectedChangeNum(changes[0]._number);
+      bulkActionsModel.addSelectedChangeNum(changes[1]._number);
+    });
+
+    test('adds reviewers', async () => {
+      bulkActionsModel.addReviewers([
+        {reviewer: accounts[1]._account_id!, state: ReviewerState.REVIEWER},
+      ]);
+      assert.isTrue(saveChangeReviewStub.calledTwice);
+      assert.sameDeepOrderedMembers(saveChangeReviewStub.firstCall.args, [
+        changes[0]._number,
+        'current',
+        {
+          reviewers: [
+            {reviewer: accounts[1]._account_id, state: ReviewerState.REVIEWER},
+          ],
+        },
+      ]);
+      assert.sameDeepOrderedMembers(saveChangeReviewStub.secondCall.args, [
+        changes[1]._number,
+        'current',
+        {
+          reviewers: [
+            {reviewer: accounts[1]._account_id, state: ReviewerState.REVIEWER},
+          ],
+        },
+      ]);
+    });
+  });
+
   test('stale changes are removed from the model', async () => {
     const c1 = createChange();
     c1._number = 1 as NumericChangeId;
@@ -217,23 +286,32 @@ suite('bulk actions model test', () => {
     );
   });
 
-  test('sync retains keys from original change', async () => {
-    const c1 = createChange();
-    c1._number = 1 as NumericChangeId;
-    c1.submit_requirements = [
-      {
-        name: 'a',
-        status: SubmitRequirementStatus.FORCED,
-        submittability_expression_result: {
-          expression: 'b',
+  test('sync retains keys from original change including reviewers', async () => {
+    const c1: ChangeInfo = {
+      ...createChange(),
+      _number: 1 as NumericChangeId,
+      submit_requirements: [
+        {
+          name: 'a',
+          status: SubmitRequirementStatus.FORCED,
+          submittability_expression_result: {
+            expression: 'b',
+          },
         },
+      ],
+      reviewers: {
+        REVIEWER: [{_account_id: 1 as AccountId, display_name: 'MyName'}],
       },
-    ];
+    };
 
     stubRestApi('getDetailedChangesWithActions').callsFake(() => {
-      const change = createChange();
-      change._number = 1 as NumericChangeId;
-      change.actions = {abandon: {}};
+      const change: ChangeInfo = {
+        ...createChange(),
+        _number: 1 as NumericChangeId,
+        actions: {abandon: {}},
+        // detailed data will be missing names
+        reviewers: {REVIEWER: [createAccountWithIdNameAndEmail()]},
+      };
       assert.isNotOk(change.submit_requirements);
       return Promise.resolve([change]);
     });
@@ -258,6 +336,8 @@ suite('bulk actions model test', () => {
       },
     ]);
     assert.deepEqual(changeAfterSync!.actions, {abandon: {}});
+    // original reviewers are kept, which includes more details than loaded ones
+    assert.deepEqual(changeAfterSync!.reviewers, c1.reviewers);
   });
 
   test('sync ignores outdated fetch responses', async () => {

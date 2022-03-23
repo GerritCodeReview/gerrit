@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8eb626e_6e341a6b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-23T07:53:46Z",
+      "side": 1,
+      "message": "why does all this need to be state when it\u0027s just derived from the `prefs` object?\nDoes it need to trigger a re-render if it changes?\n\nIf this wasn\u0027t needed previously then why do we need all these variables now?",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 0
+      },
+      "revId": "926d72967933bacee801b229993e1427f5b789cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

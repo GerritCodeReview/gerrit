@@ -189,6 +189,9 @@ export class GrAccountLabel extends LitElement {
         a.ownerLink {
           text-decoration: none;
           color: var(--primary-text-color);
+          display: flex;
+          align-items: center;
+          gap: 3px;
         }
         :host([clickable]) a.ownerLink:hover .name {
           text-decoration: underline;

@@ -10,16 +10,26 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {resolve} from '../../../models/dependency';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {ChangeInfo, AccountInfo} from '../../../api/rest-api';
+import {ChangeInfo, AccountInfo, NumericChangeId} from '../../../api/rest-api';
 import {
   getTriggerVotes,
   computeLabels,
-  mergeLabelMaps,
   computeOrderedLabelValues,
   mergeLabelInfoMaps,
+  getDefaultValue,
+  mergeLabelMaps,
 } from '../../../utils/label-util';
 import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {queryAndAssert} from '../../../utils/common-util';
+import {
+  LabelNameToValuesMap,
+  ReviewInput,
+  LabelNameToValueMap,
+} from '../../../types/common';
+import {GrLabelScoreRow} from '../../change/gr-label-score-row/gr-label-score-row';
+import {ProgressStatus} from '../../../constants/constants';
+import {fireAlert, fireReload} from '../../../utils/event-util';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../change/gr-label-score-row/gr-label-score-row';
 
@@ -30,6 +40,8 @@ export class GrChangeListBulkVoteFlow extends LitElement {
   private readonly userModel = getAppContext().userModel;
 
   @state() selectedChanges: ChangeInfo[] = [];
+
+  @state() progress: Map<NumericChangeId, ProgressStatus> = new Map();
 
   @query('#actionOverlay') actionOverlay!: GrOverlay;
 
@@ -80,19 +92,21 @@ export class GrChangeListBulkVoteFlow extends LitElement {
 
   override render() {
     const permittedLabels = this.computePermittedLabels();
-    const labels = this.computeCommonLabels().filter(
-      label =>
-        permittedLabels?.[label.name] &&
-        permittedLabels?.[label.name].length > 0
-    );
-    // TODO: disable button if no label can be voted upon
+    const labels = this.computeCommonPermittedLabels(permittedLabels);
     return html`
-      <gr-button flatten @click=${() => this.actionOverlay.open()}
+      <gr-button
+        .disabled=${labels.length === 0}
+        id="voteFlowButton"
+        flatten
+        @click=${() => this.actionOverlay.open()}
         >Vote</gr-button
       >
       <gr-overlay id="actionOverlay" with-backdrop="">
         <gr-dialog
-          @cancel=${() => this.actionOverlay.close()}
+          .disableCancel=${!this.isCancelEnabled()}
+          .disabled=${!this.isConfirmEnabled()}
+          @confirm=${() => this.handleConfirm()}
+          @cancel=${() => this.handleClose()}
           .cancelLabel=${'Close'}
         >
           <div slot="main">
@@ -109,12 +123,94 @@ export class GrChangeListBulkVoteFlow extends LitElement {
                   )}"
                 ></gr-label-score-row>`
               )}
+              <!-- TODO: Add section for trigger votes -->
             </div>
-            <!-- TODO: Add section for trigger votes -->
+            <!-- TODO: Add error handling status if something fails -->
           </div>
         </gr-dialog>
       </gr-overlay>
     `;
+  }
+
+  private isConfirmEnabled() {
+    // Action is allowed if none of the changes have any bulk action performed
+    // on them. In case an error happens then we keep the button disabled.
+    return this.selectedChanges
+      .map(change => this.getStatus(change._number))
+      .every(status => status === ProgressStatus.NOT_STARTED);
+  }
+
+  private getStatus(changeNum: NumericChangeId) {
+    return this.progress.get(changeNum) ?? ProgressStatus.NOT_STARTED;
+  }
+
+  private isCancelEnabled() {
+    for (const status of this.progress.values()) {
+      if (status === ProgressStatus.RUNNING) return false;
+    }
+    return true;
+  }
+
+  private handleClose() {
+    this.actionOverlay.close();
+    fireAlert(this, 'Reloading page..');
+    fireReload(this, true);
+  }
+
+  private handleConfirm() {
+    this.progress.clear();
+    const reviewInput: ReviewInput = {
+      labels: this.getLabelValues(),
+    };
+    for (const change of this.selectedChanges) {
+      this.progress.set(change._number, ProgressStatus.RUNNING);
+    }
+    this.requestUpdate();
+    const promises = this.getBulkActionsModel().voteChanges(reviewInput);
+    for (let index = 0; index < promises.length; index++) {
+      const changeNum = this.selectedChanges[index]._number;
+      promises[index]
+        .then(() => {
+          this.progress.set(changeNum, ProgressStatus.SUCCESSFUL);
+        })
+        .catch(() => {
+          this.progress.set(changeNum, ProgressStatus.FAILED);
+        })
+        .finally(() => {
+          this.requestUpdate();
+        });
+    }
+  }
+
+  // private but used in tests
+  getLabelValues(): LabelNameToValueMap {
+    const labels: LabelNameToValueMap = {};
+
+    for (const label of this.computeCommonPermittedLabels(
+      this.computePermittedLabels()
+    )) {
+      const selectorEl = queryAndAssert<GrLabelScoreRow>(
+        this,
+        `gr-label-score-row[name="${label.name}"]`
+      );
+      if (!selectorEl?.selectedItem) continue;
+
+      const selectedVal =
+        typeof selectorEl.selectedValue === 'string'
+          ? Number(selectorEl.selectedValue)
+          : selectorEl.selectedValue;
+
+      if (selectedVal === undefined) continue;
+
+      const defValNum = getDefaultValue(
+        this.selectedChanges[0].labels,
+        label.name
+      );
+      if (selectedVal !== defValNum) {
+        labels[label.name] = selectedVal;
+      }
+    }
+    return labels;
   }
 
   // private but used in tests
@@ -147,13 +243,18 @@ export class GrChangeListBulkVoteFlow extends LitElement {
 
   // private but used in tests
   // TODO: Remove Code Review label explicitly
-  computeCommonLabels() {
+  computeCommonPermittedLabels(permittedLabels?: LabelNameToValuesMap) {
     // Reduce method for empty array throws error if no initial value specified
     if (this.selectedChanges.length === 0) return [];
     return this.selectedChanges
       .map(change => this.computeNonTriggerLabels(change))
       .reduce((prev, current) =>
         current.filter(label => prev.some(l => l.name === label.name))
+      )
+      .filter(
+        label =>
+          permittedLabels?.[label.name] &&
+          permittedLabels?.[label.name].length > 0
       );
   }
 }

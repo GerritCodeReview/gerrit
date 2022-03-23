@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {createChange} from '../../test/test-data-generators';
+import {createChange, createRevisions} from '../../test/test-data-generators';
 import {
   ChangeInfo,
   NumericChangeId,
   ChangeStatus,
   HttpMethod,
   SubmitRequirementStatus,
+  PatchSetNum,
 } from '../../api/rest-api';
 import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
@@ -19,6 +20,7 @@ import {stubRestApi, waitUntilObserved} from '../../test/test-utils';
 import {mockPromise} from '../../test/test-utils';
 import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
+import {ReviewInput} from '../../types/common';
 
 suite('bulk actions model test', () => {
   let bulkActionsModel: BulkActionsModel;
@@ -144,6 +146,61 @@ suite('bulk actions model test', () => {
         '/abandon',
         undefined,
         {message: ''},
+      ]);
+    });
+  });
+
+  suite('voteChanges', () => {
+    let detailedActionsStub: SinonStubbedMember<
+      RestApiService['getDetailedChangesWithActions']
+    >;
+    setup(async () => {
+      const c1 = {...createChange(), revisions: createRevisions(10)};
+      c1._number = 1 as NumericChangeId;
+      const c2 = {...createChange(), revisions: createRevisions(4)};
+      c2._number = 2 as NumericChangeId;
+
+      detailedActionsStub = stubRestApi('getDetailedChangesWithActions');
+      detailedActionsStub.returns(
+        Promise.resolve([
+          {...c1, actions: {abandon: {method: HttpMethod.POST}}},
+          {...c2, status: ChangeStatus.ABANDONED},
+        ])
+      );
+
+      await bulkActionsModel.sync([c1, c2]);
+
+      bulkActionsModel.addSelectedChangeNum(c1._number);
+      bulkActionsModel.addSelectedChangeNum(c2._number);
+    });
+
+    test('vote changes', () => {
+      const reviewStub = stubRestApi('saveChangeReview');
+      const reviewInput: ReviewInput = {
+        labels: {
+          a: 1,
+        },
+      };
+      bulkActionsModel.voteChanges(reviewInput);
+      assert.equal(reviewStub.callCount, 2);
+      assert.deepEqual(reviewStub.firstCall.args.slice(0, 3), [
+        1 as NumericChangeId,
+        10 as PatchSetNum,
+        {
+          labels: {
+            a: 1,
+          },
+        },
+      ]);
+
+      assert.deepEqual(reviewStub.secondCall.args.slice(0, 3), [
+        2 as NumericChangeId,
+        4 as PatchSetNum,
+        {
+          labels: {
+            a: 1,
+          },
+        },
       ]);
     });
   });

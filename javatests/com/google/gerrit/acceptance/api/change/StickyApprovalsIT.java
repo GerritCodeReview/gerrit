@@ -755,10 +755,12 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> userTestRepo = cloneProject(project, user);
     GitUtil.fetch(userTestRepo, r.getPatchSet().refName() + ":ps");
     userTestRepo.reset("ps");
-    amendChange(r.getChangeId(), "refs/for/master", user, testRepo);
+    amendChange(r.getChangeId(), "refs/for/master", user, userTestRepo).assertOkStatus();
+
+    ChangeInfo c = detailedChange(r.getChangeId());
+    assertThat(c.revisions.get(c.currentRevision).uploader._accountId).isEqualTo(user.id().get());
 
     // Assert that the approval of the admin user was copied to the new patch set.
-    ChangeInfo c = detailedChange(r.getChangeId());
     assertVotes(c, admin, 2, 0);
   }
 

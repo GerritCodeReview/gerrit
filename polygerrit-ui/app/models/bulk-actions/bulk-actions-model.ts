@@ -4,12 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {ChangeInfo, NumericChangeId, ChangeStatus} from '../../api/rest-api';
+import {
+  ChangeInfo,
+  NumericChangeId,
+  ChangeStatus,
+  ReviewerState,
+  AccountId,
+} from '../../api/rest-api';
 import {Model} from '../model';
 import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {define} from '../dependency';
 import {select} from '../../utils/observable-util';
+import {ReviewInput} from '../../types/common';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -120,6 +127,40 @@ export class BulkActionsModel
         () => errFn && errFn(change._number)
       );
     });
+  }
+
+  setReviewers(oldReviewerIds: AccountId[], newReviewerIds: AccountId[]) {
+    const current = this.subject$.getValue();
+    const changes = current.selectedChangeNums.map(
+      changeNum => current.allChanges.get(changeNum)!
+    );
+
+    const added = newReviewerIds
+      .filter(id => !oldReviewerIds.includes(id))
+      .map(id => {
+        return {
+          reviewer: id,
+          state: ReviewerState.REVIEWER,
+        };
+      });
+    const removed = oldReviewerIds
+      .filter(id => !newReviewerIds.includes(id))
+      .map(id => {
+        return {
+          reviewer: id,
+          state: ReviewerState.REMOVED,
+        };
+      });
+    const reviewInput: ReviewInput = {
+      reviewers: [...added, ...removed],
+    };
+    return changes.map(change =>
+      this.restApiService.saveChangeReview(
+        change._number,
+        'current',
+        reviewInput
+      )
+    );
   }
 
   async sync(changes: ChangeInfo[]) {

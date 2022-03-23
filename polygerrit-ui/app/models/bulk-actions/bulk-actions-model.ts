@@ -129,6 +129,25 @@ export class BulkActionsModel
     });
   }
 
+  voteChanges(
+    reviewInput: ReviewInput,
+    // errorFn is needed to avoid showing an error dialog
+    errFn?: (changeNum: NumericChangeId) => void
+  ) {
+    const current = this.subject$.getValue();
+    return current.selectedChangeNums.map(changeNum => {
+      if (!current.allChanges.get(changeNum))
+        throw new Error('invalid change id');
+      const change = current.allChanges.get(changeNum)!;
+      return this.restApiService.saveChangeReview(
+        change._number,
+        'current',
+        reviewInput,
+        () => errFn && errFn(change._number)
+      );
+    });
+  }
+
   addReviewers(addedReviewers: AccountInfo[]): Promise<Response>[] {
     const current = this.subject$.getValue();
     const changes = current.selectedChangeNums.map(

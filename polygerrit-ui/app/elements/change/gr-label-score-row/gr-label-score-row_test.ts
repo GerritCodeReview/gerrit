@@ -70,7 +70,8 @@ suite('gr-label-row-score tests', () => {
       Verified: ['-1', ' 0', '+1'],
     };
 
-    element.labelValues = {'0': 2, '1': 3, '2': 4, '-2': 0, '-1': 1};
+    element.labelValues = [-2, -1, 0, 1, 2];
+    //  {'0': 2, '1': 3, '2': 4, '-2': 0, '-1': 1};
 
     element.label = {
       name: 'Verified',
@@ -181,13 +182,7 @@ suite('gr-label-row-score tests', () => {
   });
 
   test('_computeBlankItems', () => {
-    element.labelValues = {
-      '-2': 0,
-      '-1': 1,
-      '0': 2,
-      '1': 3,
-      '2': 4,
-    };
+    element.labelValues = [-2, -1, 0, 1, 2];
     element.label = {name: 'Code-Review', value: ' 0'};
     assert.strictEqual(element._computeBlankItems('start').length, 0);
 
@@ -196,7 +191,7 @@ suite('gr-label-row-score tests', () => {
   });
 
   test('labelValues returns no keys', () => {
-    element.labelValues = {};
+    element.labelValues = [];
     element.label = {name: 'Code-Review', value: ' 0'};
 
     assert.deepEqual(element._computeBlankItems('start'), []);

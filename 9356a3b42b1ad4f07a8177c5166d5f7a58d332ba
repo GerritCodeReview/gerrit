@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce13bfff_d53c68ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2022-03-23T18:56:08Z",
+      "side": 1,
+      "message": "A new parameter needs to be mention",
+      "revId": "9356a3b42b1ad4f07a8177c5166d5f7a58d332ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3518a82a_2272952d",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2022-03-23T18:56:08Z",
+      "side": 1,
+      "message": "I am not sure about this one here. Maybe add a separate section for it? i.e. replication delay",
+      "revId": "9356a3b42b1ad4f07a8177c5166d5f7a58d332ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

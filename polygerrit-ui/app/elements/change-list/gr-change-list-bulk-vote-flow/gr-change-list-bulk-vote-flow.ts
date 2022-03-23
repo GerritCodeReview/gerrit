@@ -14,14 +14,20 @@ import {
   ChangeInfo,
   AccountInfo,
   LabelNameToValueMap,
+  NumericChangeId,
 } from '../../../api/rest-api';
 import {
   getTriggerVotes,
   computeLabels,
   computeColumns,
+  getDefaultValue,
 } from '../../../utils/label-util';
 import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {queryAndAssert} from '../../../utils/common-util';
+import {LabelNameToValuesMap, ReviewInput} from '../../../types/common';
+import {GrLabelScoreRow} from '../../change/gr-label-score-row/gr-label-score-row';
+import {ProgressStatus} from '../../../constants/constants';
 
 @customElement('gr-change-list-bulk-vote-flow')
 export class GrChangeListBulkVoteFlow extends LitElement {
@@ -30,6 +36,8 @@ export class GrChangeListBulkVoteFlow extends LitElement {
   private readonly userModel = getAppContext().userModel;
 
   @state() selectedChanges: ChangeInfo[] = [];
+
+  @state() progress: Map<NumericChangeId, ProgressStatus> = new Map();
 
   @query('#actionOverlay') actionOverlay!: GrOverlay;
 
@@ -91,6 +99,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
       >
       <gr-overlay id="actionOverlay" with-backdrop="">
         <gr-dialog
+          @confirm=${() => this.handleConfirm()}
           @cancel=${() => this.actionOverlay.close()}
           .cancelLabel=${'Close'}
         >
@@ -107,12 +116,94 @@ export class GrChangeListBulkVoteFlow extends LitElement {
                   .labelValues="${labelValues}"
                 ></gr-label-score-row>`
               )}
+              <!-- TODO: Add section for trigger votes -->
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${this.selectedChanges.map(
+                    change => html`
+                      <tr>
+                        <td>Change: ${change.subject}</td>
+                        <td id="status">
+                          Status: ${this.getStatus(change._number)}
+                        </td>
+                      </tr>
+                    `
+                  )}
+                </tbody>
+              </table>
             </div>
-            <!-- TODO: Add section for trigger votes -->
           </div>
         </gr-dialog>
       </gr-overlay>
     `;
+  }
+
+  private getStatus(changeNum: NumericChangeId) {
+    return this.progress.has(changeNum)
+      ? this.progress.get(changeNum)
+      : ProgressStatus.NOT_STARTED;
+  }
+
+  private handleConfirm() {
+    this.progress.clear();
+    const reviewInput: ReviewInput = {
+      labels: this.getLabelValues(),
+    };
+    for (const change of this.selectedChanges) {
+      this.progress.set(change._number, ProgressStatus.RUNNING);
+    }
+    this.requestUpdate();
+    const errFn = (changeNum: NumericChangeId) => {
+      throw new Error(`request for ${changeNum} failed`);
+    };
+    const promises = this.getBulkActionsModel().voteChanges(reviewInput, errFn);
+    for (let index = 0; index < promises.length; index++) {
+      const changeNum = this.selectedChanges[index]._number;
+      promises[index]
+        .then(() => {
+          this.progress.set(changeNum, ProgressStatus.SUCCESSFUL);
+          this.requestUpdate();
+        })
+        .catch(() => {
+          this.progress.set(changeNum, ProgressStatus.FAILED);
+          this.requestUpdate();
+        });
+    }
+  }
+
+  getLabelValues(): LabelNameToValuesMap {
+    const labels: LabelNameToValuesMap = {};
+
+    for (const label of this.computeCommonLabels()) {
+      const selectorEl = queryAndAssert<GrLabelScoreRow>(
+        this,
+        `gr-label-score-row[name="${label.name}"]`
+      );
+      if (!selectorEl?.selectedItem) continue;
+
+      const selectedVal =
+        typeof selectorEl.selectedValue === 'string'
+          ? Number(selectorEl.selectedValue)
+          : selectorEl.selectedValue;
+
+      if (selectedVal === undefined) continue;
+
+      const defValNum = getDefaultValue(
+        this.selectedChanges[0].labels,
+        label.name
+      );
+      if (selectedVal !== defValNum) {
+        labels[label.name] = selectedVal;
+      }
+    }
+    return labels;
   }
 
   private computeLabelAccessClass(_label?: string) {

@@ -4,13 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {createChange} from '../../test/test-data-generators';
+import {
+  createAccountWithIdNameAndEmail,
+  createChange,
+} from '../../test/test-data-generators';
 import {
   ChangeInfo,
   NumericChangeId,
   ChangeStatus,
   HttpMethod,
   SubmitRequirementStatus,
+  AccountInfo,
+  ReviewerState,
 } from '../../api/rest-api';
 import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
@@ -144,6 +149,69 @@ suite('bulk actions model test', () => {
         '/abandon',
         undefined,
         {message: ''},
+      ]);
+    });
+  });
+
+  suite('add reviewers', () => {
+    const accounts: AccountInfo[] = [
+      createAccountWithIdNameAndEmail(0),
+      createAccountWithIdNameAndEmail(1),
+      createAccountWithIdNameAndEmail(2),
+    ];
+    const changes: ChangeInfo[] = [
+      {
+        ...createChange(),
+        _number: 1 as NumericChangeId,
+        subject: 'Subject 1',
+        reviewers: {REVIEWER: [accounts[0]]},
+        removable_reviewers: [accounts[0]],
+      },
+      {
+        ...createChange(),
+        _number: 2 as NumericChangeId,
+        subject: 'Subject 2',
+        reviewers: {REVIEWER: [accounts[0]]},
+        removable_reviewers: [accounts[0]],
+      },
+    ];
+    let saveChangeReviewStub: sinon.SinonStub;
+
+    setup(async () => {
+      saveChangeReviewStub = stubRestApi('saveChangeReview').resolves(
+        new Response()
+      );
+      stubRestApi('getDetailedChangesWithActions').resolves([
+        {...changes[0], actions: {abandon: {method: HttpMethod.POST}}},
+        {...changes[1], status: ChangeStatus.ABANDONED},
+      ]);
+      bulkActionsModel.sync(changes);
+      bulkActionsModel.addSelectedChangeNum(changes[0]._number);
+      bulkActionsModel.addSelectedChangeNum(changes[1]._number);
+    });
+
+    test('adds reviewers', async () => {
+      bulkActionsModel.addReviewers([
+        {reviewer: accounts[1]._account_id!, state: ReviewerState.REVIEWER},
+      ]);
+      assert.isTrue(saveChangeReviewStub.calledTwice);
+      assert.sameDeepOrderedMembers(saveChangeReviewStub.firstCall.args, [
+        changes[0]._number,
+        'current',
+        {
+          reviewers: [
+            {reviewer: accounts[1]._account_id, state: ReviewerState.REVIEWER},
+          ],
+        },
+      ]);
+      assert.sameDeepOrderedMembers(saveChangeReviewStub.secondCall.args, [
+        changes[1]._number,
+        'current',
+        {
+          reviewers: [
+            {reviewer: accounts[1]._account_id, state: ReviewerState.REVIEWER},
+          ],
+        },
       ]);
     });
   });

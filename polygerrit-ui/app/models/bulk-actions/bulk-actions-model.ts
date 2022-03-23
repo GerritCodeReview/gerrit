@@ -10,6 +10,7 @@ import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {define} from '../dependency';
 import {select} from '../../utils/observable-util';
+import {ReviewerInput, ReviewInput} from '../../types/common';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -120,6 +121,21 @@ export class BulkActionsModel
         () => errFn && errFn(change._number)
       );
     });
+  }
+
+  addReviewers(addedReviewerInputs: ReviewerInput[]) {
+    const current = this.subject$.getValue();
+    const changes = current.selectedChangeNums.map(
+      changeNum => current.allChanges.get(changeNum)!
+    );
+    const reviewInput: ReviewInput = {reviewers: addedReviewerInputs};
+    return changes.map(change =>
+      this.restApiService.saveChangeReview(
+        change._number,
+        'current',
+        reviewInput
+      )
+    );
   }
 
   async sync(changes: ChangeInfo[]) {

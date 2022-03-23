@@ -64,6 +64,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeNotificationsIT extends AbstractNotificationTest {
+
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
@@ -599,6 +600,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   private interface Adder {
+
     void addReviewer(String changeId, String reviewer, @Nullable NotifyHandling notify)
         throws Exception;
   }
@@ -1000,6 +1002,15 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
+  public void verifyTitle() throws Exception {
+    StagedPreChange spc = stagePreChange("refs/for/master");
+    assertThat(sender)
+        .sent("newchange", spc)
+        .title(String.format("[S] Change in %s[master]: test commit", project));
+    assertThat(sender).didNotSend();
+  }
+
+  @Test
   public void createWipChange() throws Exception {
     stagePreChange("refs/for/master%wip");
     assertThat(sender).didNotSend();
@@ -1291,6 +1302,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   private interface Stager {
+
     StagedChange stage() throws Exception;
   }
 

@@ -98,6 +98,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
   protected static class FakeEmailSenderSubject extends Subject {
     private final FakeEmailSender fakeEmailSender;
+    private String emailTitle;
     private Message message;
     private StagedUsers users;
     private Map<RecipientType, List<String>> recipients = new HashMap<>();
@@ -145,6 +146,10 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
                     ? ((StringEmailHeader) header).getString()
                     : header));
       }
+      EmailHeader titleHeader = message.headers().get("Subject");
+      if (titleHeader instanceof StringEmailHeader) {
+        emailTitle = ((StringEmailHeader) titleHeader).getString();
+      }
 
       return this;
     }
@@ -188,6 +193,15 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
     public FakeEmailSenderSubject bcc(String... emails) {
       return rcpt(users.supportReviewersByEmail ? BCC : null, emails);
+    }
+
+    public FakeEmailSenderSubject title(String expectedEmailTitle) {
+      if (!emailTitle.equals(expectedEmailTitle)) {
+        failWithoutActual(
+            fact("Expected email title", expectedEmailTitle),
+            fact("but actual title is", emailTitle));
+      }
+      return this;
     }
 
     private FakeEmailSenderSubject rcpt(@Nullable RecipientType type, String[] emails) {

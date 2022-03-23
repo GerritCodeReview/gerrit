@@ -19,9 +19,13 @@ import {
   getTriggerVotes,
   computeLabels,
   computeColumns,
+  getDefaultValue,
 } from '../../../utils/label-util';
 import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {queryAndAssert} from '../../../utils/common-util';
+import {LabelNameToValuesMap} from '../../../types/common';
+import {GrLabelScoreRow} from '../../change/gr-label-score-row/gr-label-score-row';
 
 @customElement('gr-change-list-bulk-vote-flow')
 export class GrChangeListBulkVoteFlow extends LitElement {
@@ -91,6 +95,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
       >
       <gr-overlay id="actionOverlay" with-backdrop="">
         <gr-dialog
+          @confirm=${() => this.handleConfirm()}
           @cancel=${() => this.actionOverlay.close()}
           .cancelLabel=${'Close'}
         >
@@ -113,6 +118,36 @@ export class GrChangeListBulkVoteFlow extends LitElement {
         </gr-dialog>
       </gr-overlay>
     `;
+  }
+
+  private handleConfirm() {
+    const labels = this.getLabelValues();
+    return labels;
+  }
+
+  getLabelValues(): LabelNameToValuesMap {
+    const labels: LabelNameToValuesMap = {};
+
+    for (const label of Object.keys(this.computePermittedLabels() ?? {})) {
+      const selectorEl = queryAndAssert<GrLabelScoreRow>(
+        this,
+        `gr-label-score-row[name="${label}"]`
+      );
+      if (!selectorEl?.selectedItem) continue;
+
+      const selectedVal =
+        typeof selectorEl.selectedValue === 'string'
+          ? Number(selectorEl.selectedValue)
+          : selectorEl.selectedValue;
+
+      if (selectedVal === undefined) continue;
+
+      const defValNum = getDefaultValue(this.selectedChanges[0].labels, label);
+      if (selectedVal !== defValNum) {
+        labels[label] = selectedVal;
+      }
+    }
+    return labels;
   }
 
   private computeLabelAccessClass(_label?: string) {

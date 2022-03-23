@@ -691,12 +691,13 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   public void copyWithListOfFilesUnchangedButAddedMergeList() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
 
-    Change.Id parent1ChangeId = changeOperations.newChange().create();
-    Change.Id parent2ChangeId = changeOperations.newChange().create();
-    Change.Id dummyParentChangeId = changeOperations.newChange().create();
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id dummyParentChangeId = changeOperations.newChange().project(project).create();
     Change.Id changeId =
         changeOperations
             .newChange()
+            .project(project)
             .mergeOf()
             .change(parent1ChangeId)
             .and()

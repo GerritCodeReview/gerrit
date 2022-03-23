@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3308224d_c59fd330",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-23T18:44:02Z",
+      "side": 1,
+      "message": "Thanks, looks great! Just two nits.",
+      "revId": "19f52f321f080e823c3b1868a8492e09321a2395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1291ad0a_cfb9a4ab",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-23T18:44:02Z",
+      "side": 1,
+      "message": "Nit: Lines should not have more than 100 chars. Also below.",
+      "revId": "19f52f321f080e823c3b1868a8492e09321a2395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c11f5a44_519064eb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-23T18:44:02Z",
+      "side": 1,
+      "message": "Nit: For consistency with the unified rule below: Use `.side-by-side` (class on \u003ctr\u003e) instead of `.sideBySide` (class on `div.diffContainer`) and remove the space before `.target-row`.",
+      "range": {
+        "startLine": 205,
+        "startChar": 4,
+        "endLine": 205,
+        "endChar": 16
+      },
+      "revId": "19f52f321f080e823c3b1868a8492e09321a2395",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

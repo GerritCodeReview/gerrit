@@ -249,6 +249,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17e57b43_93c8d1b6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-24T16:15:11Z",
+      "side": 1,
+      "message": "Ack. Still nice to say that there are visibility controls in effect already doing what we want.",
+      "parentUuid": "c07477c8_b99320fd",
+      "range": {
+        "startLine": 143,
+        "startChar": 10,
+        "endLine": 143,
+        "endChar": 24
+      },
+      "revId": "9bfe135a7bd211b03aa905d6d4f4a19a19e0e866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9370d2ef_6d607ed4",

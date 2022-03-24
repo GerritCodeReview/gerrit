@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e0e79f40_505290e4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-24T16:15:11Z",
+      "side": 1,
+      "message": "Can you be more specific? I have this helper function to decide which reviewers to show at the start and later for comparison to decide which reviewers are new.",
+      "parentUuid": "4bef9b91_f3ac96cb",
+      "revId": "ace1159cdfcf2ca0cfde8fe2bdef99cc8e6a1d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5225bb5e_dd2f2ceb",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
         "patchSetId": 7
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d8d9956_56bbdfea",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-24T16:15:11Z",
+      "side": 1,
+      "message": "I am not worried at all about the performance impact of this because all the constants will be small and I would not consider this suggested code \u0027easy\u0027 in comparison. I switched to a `.reduce(filter)` pattern but I don\u0027t think introducing a bunch of O(1) lookup data structures is worth the readability cost.",
+      "parentUuid": "5225bb5e_dd2f2ceb",
+      "revId": "ace1159cdfcf2ca0cfde8fe2bdef99cc8e6a1d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a76ce022_50ffd0ba",
         "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
         "patchSetId": 7
@@ -48,6 +84,24 @@
       "writtenOn": "2022-03-24T14:26:04Z",
       "side": 1,
       "message": "This needs to be smarter to not add reviewers to changes that already have them.\n\nE.g.:\n\nI select 2 changes with these reviewers:\n - frank, dhruv\n - frank\n\nThen the common reviewers is frank. If I add Dhruv we should make sure not to add it to both changes.",
+      "revId": "ace1159cdfcf2ca0cfde8fe2bdef99cc8e6a1d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24dcf6c8_31584abe",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-24T16:15:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a76ce022_50ffd0ba",
       "revId": "ace1159cdfcf2ca0cfde8fe2bdef99cc8e6a1d43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

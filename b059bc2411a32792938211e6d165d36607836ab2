@@ -46,6 +46,30 @@
       },
       "revId": "b059bc2411a32792938211e6d165d36607836ab2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "159c41a2_10ff7d6e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T11:46:32Z",
+      "side": 1,
+      "message": "I was considering that (dropping the _).  I think it\u0027s nice to show a method is still private with an underscore if we can\u0027t make them private. It means the usage of such a method elsewhere outside of a test is easily detectable as a mistake without having to go to the file and check the comment above it.",
+      "parentUuid": "5fe2c7cb_0d6df4ac",
+      "range": {
+        "startLine": 357,
+        "startChar": 2,
+        "endLine": 357,
+        "endChar": 14
+      },
+      "revId": "b059bc2411a32792938211e6d165d36607836ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

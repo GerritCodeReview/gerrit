@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e3a87da_08a0ab06",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-24T13:47:11Z",
+      "side": 1,
+      "message": "Dhruv will write about this, then we can add a shared component as needed.",
+      "parentUuid": "c1641a48_d48066db",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94cd0a98_bd58c02e",
@@ -154,6 +172,24 @@
       "side": 1,
       "message": "will depend on other shared component as in your other comment",
       "parentUuid": "88841c77_e5e5f45a",
+      "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8ee92f4_1acd4d42",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-24T13:47:11Z",
+      "side": 1,
+      "message": "Dhruv will write about this, then we can add a shared helper as needed.",
+      "parentUuid": "4d14f1c0_592a01bb",
       "revId": "3efbb0c664c5eded915de1ecb72a1ee8e8a69796",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

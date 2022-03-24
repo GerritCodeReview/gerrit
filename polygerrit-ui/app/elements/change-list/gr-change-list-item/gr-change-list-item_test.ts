@@ -615,10 +615,7 @@ suite('gr-change-list-item tests', () => {
     const submitRequirement: SubmitRequirementResultInfo = {
       ...createSubmitRequirementResultInfo(),
       name: StandardLabels.CODE_REVIEW,
-      submittability_expression_result: {
-        ...createSubmitRequirementExpressionInfo(),
-        expression: 'label:Verified=MAX -label:Verified=MIN',
-      },
+      submittability_expression_result: createSubmitRequirementExpressionInfo(),
     };
     const change: ChangeInfo = {
       ...createChange(),

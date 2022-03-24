@@ -151,10 +151,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
     const submitRequirement: SubmitRequirementResultInfo = {
       ...createSubmitRequirementResultInfo(),
       description: 'Test Description',
-      submittability_expression_result: {
-        ...createSubmitRequirementExpressionInfo(),
-        expression: 'label:Verified=MAX -label:Verified=MIN',
-      },
+      submittability_expression_result: createSubmitRequirementExpressionInfo(),
     };
     const change: ParsedChangeInfo = {
       ...createParsedChange(),
@@ -238,10 +235,7 @@ suite('gr-submit-requirement-hovercard tests', () => {
     const submitRequirement: SubmitRequirementResultInfo = {
       ...createSubmitRequirementResultInfo(),
       description: 'Test Description',
-      submittability_expression_result: {
-        ...createSubmitRequirementExpressionInfo(),
-        expression: 'label:Verified=MAX -label:Verified=MIN',
-      },
+      submittability_expression_result: createSubmitRequirementExpressionInfo(),
     };
     const account = createAccountWithId();
     const change: ParsedChangeInfo = {
@@ -316,14 +310,11 @@ suite('gr-submit-requirement-hovercard tests', () => {
       const submitRequirement: SubmitRequirementResultInfo = {
         ...createSubmitRequirementResultInfo(),
         description: 'Test Description',
-        submittability_expression_result: {
-          ...createSubmitRequirementExpressionInfo(),
-          expression: 'label:Verified=MAX -label:Verified=MIN',
-        },
-        override_expression_result: {
-          ...createSubmitRequirementExpressionInfo(),
-          expression: 'label:Build-Cop=MAX',
-        },
+        submittability_expression_result:
+          createSubmitRequirementExpressionInfo(),
+        override_expression_result: createSubmitRequirementExpressionInfo(
+          'label:Build-Cop=MAX'
+        ),
       };
       const account = createAccountWithId();
       const change: ParsedChangeInfo = {

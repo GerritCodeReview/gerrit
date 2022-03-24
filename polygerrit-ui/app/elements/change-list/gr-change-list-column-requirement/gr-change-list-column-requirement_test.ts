@@ -46,7 +46,6 @@ suite('gr-change-list-column-requirement tests', () => {
       name: StandardLabels.CODE_REVIEW,
       submittability_expression_result: {
         ...createSubmitRequirementExpressionInfo(),
-        expression: 'label:Verified=MAX -label:Verified=MIN',
       },
     };
     change = {
@@ -98,10 +97,7 @@ suite('gr-change-list-column-requirement tests', () => {
       ...createSubmitRequirementResultInfo(),
       name: StandardLabels.CODE_REVIEW,
       status: SubmitRequirementStatus.UNSATISFIED,
-      submittability_expression_result: {
-        ...createSubmitRequirementExpressionInfo(),
-        expression: 'label:Verified=MAX -label:Verified=MIN',
-      },
+      submittability_expression_result: createSubmitRequirementExpressionInfo(),
     };
     change = {
       ...change,

@@ -123,6 +123,18 @@ import {
 import {RunResult} from '../models/checks/checks-model';
 import {Category, RunStatus} from '../api/checks';
 
+const TEST_DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
+export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;
+export const TEST_BRANCH_ID: BranchName = 'test-branch' as BranchName;
+export const TEST_CHANGE_ID: ChangeId = 'TestChangeId' as ChangeId;
+export const TEST_CHANGE_INFO_ID: ChangeInfoId =
+  `${TEST_PROJECT_NAME}~${TEST_BRANCH_ID}~${TEST_CHANGE_ID}` as ChangeInfoId;
+export const TEST_SUBJECT = 'Test subject';
+export const TEST_NUMERIC_CHANGE_ID = 42 as NumericChangeId;
+
+export const TEST_CHANGE_CREATED = new Date(2020, 1, 1, 1, 2, 3);
+export const TEST_CHANGE_UPDATED = new Date(2020, 10, 6, 5, 12, 34);
+
 export function dateToTimestamp(date: Date): Timestamp {
   const nanosecondSuffix = '.000000000';
   return (formatDate(date, 'YYYY-MM-DD HH:mm:ss') +
@@ -215,17 +227,6 @@ export function createAccountDetailWithIdNameAndEmail(
 export function createReviewers(): Reviewers {
   return {};
 }
-
-export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;
-export const TEST_BRANCH_ID: BranchName = 'test-branch' as BranchName;
-export const TEST_CHANGE_ID: ChangeId = 'TestChangeId' as ChangeId;
-export const TEST_CHANGE_INFO_ID: ChangeInfoId =
-  `${TEST_PROJECT_NAME}~${TEST_BRANCH_ID}~${TEST_CHANGE_ID}` as ChangeInfoId;
-export const TEST_SUBJECT = 'Test subject';
-export const TEST_NUMERIC_CHANGE_ID = 42 as NumericChangeId;
-
-export const TEST_CHANGE_CREATED = new Date(2020, 1, 1, 1, 2, 3);
-export const TEST_CHANGE_UPDATED = new Date(2020, 10, 6, 5, 12, 34);
 
 export function createGitPerson(name = 'Test name'): GitPersonInfo {
   return {
@@ -765,20 +766,25 @@ export function createGroupAuditEventInfo(
   }
 }
 
-export function createSubmitRequirementExpressionInfo(): SubmitRequirementExpressionInfo {
+export function createSubmitRequirementExpressionInfo(
+  expression = TEST_DEFAULT_EXPRESSION
+): SubmitRequirementExpressionInfo {
   return {
-    expression: 'label:Verified=MAX -label:Verified=MIN',
+    expression,
     fulfilled: true,
     passing_atoms: ['label2:verified=MAX'],
     failing_atoms: ['label2:verified=MIN'],
   };
 }
 
-export function createSubmitRequirementResultInfo(): SubmitRequirementResultInfo {
+export function createSubmitRequirementResultInfo(
+  expression = TEST_DEFAULT_EXPRESSION
+): SubmitRequirementResultInfo {
   return {
     name: 'Verified',
     status: SubmitRequirementStatus.SATISFIED,
-    submittability_expression_result: createSubmitRequirementExpressionInfo(),
+    submittability_expression_result:
+      createSubmitRequirementExpressionInfo(expression),
     is_legacy: false,
   };
 }

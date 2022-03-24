@@ -42,10 +42,7 @@ suite('gr-change-list-column-requirements-summary tests', () => {
       ...createSubmitRequirementResultInfo(),
       status: SubmitRequirementStatus.UNSATISFIED,
       description: 'Test Description',
-      submittability_expression_result: {
-        ...createSubmitRequirementExpressionInfo(),
-        expression: 'label:Verified=MAX -label:Verified=MIN',
-      },
+      submittability_expression_result: createSubmitRequirementExpressionInfo(),
     };
     change = {
       ...createParsedChange(),

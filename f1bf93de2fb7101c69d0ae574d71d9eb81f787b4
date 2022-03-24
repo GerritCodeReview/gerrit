@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ab05645_8ebbad27",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-24T08:41:06Z",
+      "side": 1,
+      "message": "This should also be @state, because rendering depends on it.",
+      "revId": "f1bf93de2fb7101c69d0ae574d71d9eb81f787b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "03726bf0_3ca93804",
         "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences_test.ts",
         "patchSetId": 5

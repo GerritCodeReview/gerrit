@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.query.approval;
 
+import static java.util.stream.Collectors.joining;
+
+import com.google.common.base.Enums;
+import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.extensions.client.ChangeKind;
@@ -24,6 +28,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.inject.Inject;
 import java.util.Arrays;
+import java.util.Optional;
 
 public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, ApprovalQueryBuilder> {
   private static final QueryBuilder.Definition<ApprovalContext, ApprovalQueryBuilder> mydef =
@@ -51,13 +56,37 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
   }
 
   @Operator
-  public Predicate<ApprovalContext> changekind(String term) throws QueryParseException {
-    return new ChangeKindPredicate(toEnumValue(ChangeKind.class, term));
+  public Predicate<ApprovalContext> changekind(String value) throws QueryParseException {
+    return parseEnumValue(ChangeKind.class, value)
+        .map(ChangeKindPredicate::new)
+        .orElseThrow(
+            () ->
+                new QueryParseException(
+                    String.format(
+                        "%s is not a valid value for operator 'changekind'. Valid values: %s",
+                        value, formatEnumValues(ChangeKind.class))));
   }
 
   @Operator
-  public Predicate<ApprovalContext> is(String term) throws QueryParseException {
-    return magicValuePredicate.create(toEnumValue(MagicValuePredicate.MagicValue.class, term));
+  public Predicate<ApprovalContext> is(String value) throws QueryParseException {
+    // try to parse exact value
+    Optional<Integer> exactValue = Optional.ofNullable(Ints.tryParse(value));
+    if (exactValue.isPresent()) {
+      return new ExactValuePredicate(exactValue.get().shortValue());
+    }
+
+    // try to parse magic value
+    Optional<MagicValuePredicate.MagicValue> magicValue =
+        parseEnumValue(MagicValuePredicate.MagicValue.class, value);
+    if (magicValue.isPresent()) {
+      return magicValuePredicate.create(magicValue.get());
+    }
+
+    // it's neither an exact value nor a magic value
+    throw new QueryParseException(
+        String.format(
+            "%s is not a valid value for operator 'is'. Valid values: %s or integer",
+            value, formatEnumValues(MagicValuePredicate.MagicValue.class)));
   }
 
   @Operator
@@ -77,21 +106,21 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
     }
     throw error(
         String.format(
-            "'%s' is not a supported argument for has. only 'unchanged-files' is supported",
+            "'%s' is not a valid value for operator 'has'."
+                + " The only valid value is 'unchanged-files'.",
             value));
   }
 
-  private static <T extends Enum<T>> T toEnumValue(Class<T> clazz, String term)
-      throws QueryParseException {
-    try {
-      return Enum.valueOf(clazz, term.toUpperCase().replace('-', '_'));
-    } catch (IllegalArgumentException e) {
-      throw new QueryParseException(
-          String.format(
-              "%s is not a valid term. valid options: %s",
-              term, Arrays.asList(clazz.getEnumConstants())),
-          e);
-    }
+  private static <T extends Enum<T>> Optional<T> parseEnumValue(Class<T> clazz, String value) {
+    return Optional.ofNullable(
+        Enums.getIfPresent(clazz, value.toUpperCase().replace('-', '_')).orNull());
+  }
+
+  private <T extends Enum<T>> String formatEnumValues(Class<T> clazz) {
+    return Arrays.stream(clazz.getEnumConstants())
+        .map(Object::toString)
+        .sorted()
+        .collect(joining(", "));
   }
 
   private AccountGroup.UUID parseGroupOrThrow(String maybeUUID) throws QueryParseException {

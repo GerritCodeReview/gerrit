@@ -233,7 +233,7 @@ export class GrClaView extends LitElement {
     return url;
   }
 
-  private handleShowAgreement = (e: Event) => {
+  private readonly handleShowAgreement = (e: Event) => {
     this.agreementName = (e.target as HTMLInputElement).getAttribute(
       'data-name'
     )!;
@@ -242,7 +242,7 @@ export class GrClaView extends LitElement {
     this.showAgreements = true;
   };
 
-  private handleSaveAgreements = () => {
+  private readonly handleSaveAgreements = () => {
     this.createToast('Agreement saving...');
 
     const name = this.agreementName;
@@ -290,7 +290,7 @@ export class GrClaView extends LitElement {
     );
   }
 
-  private handleBindValueChanged = (e: BindValueChangeEvent) => {
+  private readonly handleBindValueChanged = (e: BindValueChangeEvent) => {
     this.agreementsText = e.detail.value;
   };
 }

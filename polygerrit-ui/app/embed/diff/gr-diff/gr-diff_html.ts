@@ -18,10 +18,13 @@ import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 export const htmlTemplate = html`
   <style include="shared-styles">
-    :host(.no-left) .sideBySide .left,
-    :host(.no-left) .sideBySide .left + td,
-    :host(.no-left) .sideBySide .right:not([data-value]),
-    :host(.no-left) .sideBySide .right:not([data-value]) + td {
+    /**
+     * This is used to hide all left side of the diff (e.g. diffs besides comments
+     * in the change log). Since we want to remove the first 3 cells consistently
+     * in all rows except context buttons (.dividerRow).
+     */
+    :host(.no-left) .sideBySide colgroup col:nth-child(-n + 3),
+    :host(.no-left) .sideBySide tr:not(.dividerRow) td:nth-child(-n + 3) {
       display: none;
     }
     :host(.disable-context-control-buttons) {
@@ -160,9 +163,66 @@ export const htmlTemplate = html`
     .diff-row.target-row.target-side-left .lineNumButton.left,
     .diff-row.target-row.target-side-right .lineNumButton.right,
     .diff-row.target-row.unified .lineNumButton {
-      background-color: var(--diff-selection-background-color);
       color: var(--primary-text-color);
     }
+
+    /**
+     * Preparing selected line cells with position relative so it allows a positioned overlay with 'position: absolute'.
+     */
+    .target-row td {
+      position: relative;
+    }
+
+    /**
+     * Defines an overlay to the selected line for drawing an outline without blocking user interaction (e.g. text selection).
+     */
+    .target-row td::before {
+      border-width: 0;
+      border-style: solid;
+      border-color: var(--focused-line-outline-color);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      user-select: none;
+      content: ' ';
+    }
+
+    /**
+     * the outline for the selected content cell should be the same in all cases.
+     */
+    .target-row.target-side-left td.left.content::before,
+    .target-row.target-side-right td.right.content::before,
+    .unified.target-row td.content::before {
+      border-width: 1px 1px 1px 0;
+    }
+
+    /**
+     * For side-by-side we need to select the correct line number to "visually close"
+     * the outline.
+     */
+    .side-by-side.target-row.target-side-left td.left.lineNum::before,
+    .side-by-side.target-row.target-side-right td.right.lineNum::before {
+      border-width: 1px 0 1px 1px;
+    }
+
+    /**
+     * For unified diff we always start the overlay from the left cell
+     */
+    .unified.target-row td.left:not(.content)::before {
+      border-width: 1px 0 1px 1px;
+    }
+
+    /**
+     * For unified diff we should continue the top/bottom border in right
+     * line number column.
+     */
+    .unified.target-row td.right:not(.content)::before {
+      border-width: 1px 0;
+    }
+
     .content {
       background-color: var(--diff-blank-background-color);
     }
@@ -353,9 +413,6 @@ export const htmlTemplate = html`
       height: 0;
     }
 
-    .displayLine .diff-row.target-row td {
-      box-shadow: inset 0 -1px var(--border-color);
-    }
     .br:after {
       /* Line feed */
       content: '\\A';

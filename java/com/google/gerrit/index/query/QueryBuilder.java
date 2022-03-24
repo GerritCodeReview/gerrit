@@ -366,7 +366,7 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
    * @throws QueryParseException the parser does not recognize this value.
    */
   protected Predicate<T> defaultField(String value) throws QueryParseException {
-    throw error("Unsupported query:" + value);
+    throw error("Unsupported query: " + value);
   }
 
   private List<Predicate<T>> children(Tree r) throws QueryParseException, IllegalArgumentException {

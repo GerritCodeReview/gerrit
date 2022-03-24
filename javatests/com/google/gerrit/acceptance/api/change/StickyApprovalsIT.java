@@ -29,6 +29,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.Comparator.comparing;
 
 import com.google.common.cache.Cache;
@@ -38,12 +39,14 @@ import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.change.ChangeKindCreator;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
@@ -62,6 +65,7 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -75,7 +79,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -83,6 +90,7 @@ import org.junit.Test;
 @NoHttpd
 public class StickyApprovalsIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
+  @Inject private GroupOperations groupOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ChangeOperations changeOperations;
   @Inject private ChangeKindCreator changeKindCreator;
@@ -139,33 +147,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyOnAnyScore() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(true));
-      u.save();
-    }
-
-    for (ChangeKind changeKind :
-        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
-      testRepo.reset(projectOperations.project(project).getHead("master"));
-
-      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
-      vote(admin, changeId, 2, 1);
-      vote(user, changeId, 1, -1);
-
-      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
-      ChangeInfo c = detailedChange(changeId);
-      assertVotes(c, admin, 2, 0, changeKind);
-      assertVotes(c, user, 1, 0, changeKind);
-    }
-  }
-
-  @Test
   public void stickyWhenCopyConditionIsTrue() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("is:ANY"));
-      u.save();
-    }
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
 
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
@@ -183,32 +166,27 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyEvenWhenUserCantSeeUploaderInGroup() throws Exception {
-    // user can't see admin group
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      String administratorsUUID = gApi.groups().query("name:Administrators").get().get(0).id;
-      u.getConfig()
-          .updateLabelType(
-              LabelId.CODE_REVIEW, b -> b.setCopyCondition("approverin:" + administratorsUUID));
-      u.save();
-    }
+  public void stickyOnAnyScore() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
 
-    String changeId = createChange().getChangeId();
-    approve(changeId);
-    amendChange(changeId);
-    vote(user, changeId, 1, -1); // Invalidate cache
-    requestScopeOperations.setApiUser(user.id());
-    ChangeInfo c = detailedChange(changeId);
-    assertVotes(c, admin, 2, 0);
-    assertVotes(c, user, 1, -1);
+    for (ChangeKind changeKind :
+        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
+      testRepo.reset(projectOperations.project(project).getHead("master"));
+
+      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, 1, -1);
+
+      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, 2, 0, changeKind);
+      assertVotes(c, user, 1, 0, changeKind);
+    }
   }
 
   @Test
   public void stickyOnMinScore() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMinScore(true));
-      u.save();
-    }
+    updateCodeReviewLabel(b -> b.setCopyMinScore(true));
 
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
@@ -226,35 +204,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyWhenEitherBooleanConfigsOrCopyConditionAreTrue() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(
-              LabelId.CODE_REVIEW, b -> b.setCopyCondition("is:MAX").setCopyMinScore(true));
-      u.save();
-    }
-
-    for (ChangeKind changeKind :
-        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
-      testRepo.reset(projectOperations.project(project).getHead("master"));
-
-      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
-      vote(admin, changeId, 2, 1);
-      vote(user, changeId, -2, -1);
-
-      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
-      ChangeInfo c = detailedChange(changeId);
-      assertVotes(c, admin, 2, 0, changeKind);
-      assertVotes(c, user, -2, 0, changeKind);
-    }
-  }
-
-  @Test
   public void stickyOnMaxScore() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMaxScore(true));
-      u.save();
-    }
+    updateCodeReviewLabel(b -> b.setCopyMaxScore(true));
 
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
@@ -272,11 +223,1044 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void sticky_copiedToLatestPatchSetFromSubmitRecords() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(LabelId.VERIFIED, b -> b.setFunction(LabelFunction.NO_BLOCK));
-      u.save();
+  public void stickyOnCopyValues() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+    updateCodeReviewLabel(b -> b.setCopyValues(ImmutableList.of((short) -1, (short) 1)));
+
+    for (ChangeKind changeKind :
+        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
+      testRepo.reset(projectOperations.project(project).getHead("master"));
+
+      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
+      vote(admin, changeId, -1, 1);
+      vote(user, changeId, -2, -1);
+      vote(user2, changeId, 1, -1);
+
+      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, -1, 0, changeKind);
+      assertVotes(c, user, 0, 0, changeKind);
+      assertVotes(c, user2, 1, 0, changeKind);
     }
+  }
+
+  @Test
+  public void stickyOnTrivialRebase() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresOnTrivialRebase(true));
+
+    String changeId = changeKindCreator.createChange(TRIVIAL_REBASE, testRepo, admin);
+    vote(admin, changeId, 2, 1);
+    vote(user, changeId, -2, -1);
+
+    changeKindCreator.updateChange(changeId, NO_CHANGE, testRepo, admin, project);
+    ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0, NO_CHANGE);
+    assertVotes(c, user, -2, 0, NO_CHANGE);
+
+    changeKindCreator.updateChange(changeId, TRIVIAL_REBASE, testRepo, admin, project);
+    c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0, TRIVIAL_REBASE);
+    assertVotes(c, user, -2, 0, TRIVIAL_REBASE);
+
+    assertNotSticky(EnumSet.of(REWORK, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE));
+
+    // check that votes are sticky when trivial rebase is done by cherry-pick
+    testRepo.reset(projectOperations.project(project).getHead("master"));
+    changeId = createChange().getChangeId();
+    vote(admin, changeId, 2, 1);
+    vote(user, changeId, -2, -1);
+
+    String cherryPickChangeId =
+        changeKindCreator.cherryPick(changeId, TRIVIAL_REBASE, testRepo, admin, project);
+    c = detailedChange(cherryPickChangeId);
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
+
+    // check that votes are not sticky when rework is done by cherry-pick
+    testRepo.reset(projectOperations.project(project).getHead("master"));
+    changeId = createChange().getChangeId();
+    vote(admin, changeId, 2, 1);
+    vote(user, changeId, -2, -1);
+
+    cherryPickChangeId = changeKindCreator.cherryPick(changeId, REWORK, testRepo, admin, project);
+    c = detailedChange(cherryPickChangeId);
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
+  public void stickyOnNoCodeChange() throws Exception {
+    updateVerifiedLabel(b -> b.setCopyAllScoresIfNoCodeChange(true));
+
+    String changeId = changeKindCreator.createChange(NO_CODE_CHANGE, testRepo, admin);
+    vote(admin, changeId, 2, 1);
+    vote(user, changeId, -2, -1);
+
+    changeKindCreator.updateChange(changeId, NO_CHANGE, testRepo, admin, project);
+    ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 0, 1, NO_CHANGE);
+    assertVotes(c, user, 0, -1, NO_CHANGE);
+
+    changeKindCreator.updateChange(changeId, NO_CODE_CHANGE, testRepo, admin, project);
+    c = detailedChange(changeId);
+    assertVotes(c, admin, 0, 1, NO_CODE_CHANGE);
+    assertVotes(c, user, 0, -1, NO_CODE_CHANGE);
+
+    assertNotSticky(EnumSet.of(REWORK, TRIVIAL_REBASE, MERGE_FIRST_PARENT_UPDATE));
+  }
+
+  @Test
+  public void stickyOnMergeFirstParentUpdate() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresOnMergeFirstParentUpdate(true));
+
+    String changeId = changeKindCreator.createChange(MERGE_FIRST_PARENT_UPDATE, testRepo, admin);
+    vote(admin, changeId, 2, 1);
+    vote(user, changeId, -2, -1);
+
+    changeKindCreator.updateChange(changeId, NO_CHANGE, testRepo, admin, project);
+    ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0, NO_CHANGE);
+    assertVotes(c, user, -2, 0, NO_CHANGE);
+
+    changeKindCreator.updateChange(changeId, MERGE_FIRST_PARENT_UPDATE, testRepo, admin, project);
+    c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0, MERGE_FIRST_PARENT_UPDATE);
+    assertVotes(c, user, -2, 0, MERGE_FIRST_PARENT_UPDATE);
+
+    assertNotSticky(EnumSet.of(REWORK, NO_CODE_CHANGE, TRIVIAL_REBASE));
+  }
+
+  @Test
+  public void notStickyWithCopyOnNoChangeWhenSecondParentIsUpdated() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresIfNoChange(true));
+
+    String changeId = changeKindCreator.createChangeForMergeCommit(testRepo, admin);
+    vote(admin, changeId, 2, 1);
+    vote(user, changeId, -2, -1);
+
+    changeKindCreator.updateSecondParent(changeId, testRepo, admin);
+    ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 0, 0, null);
+    assertVotes(c, user, 0, 0, null);
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded_withoutCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded();
+  }
+
+  @Test
+  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded_withCopyCondition()
+      throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded();
+  }
+
+  private void testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded()
+      throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("new file")
+        .content("new content")
+        .create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // no votes are copied since the list of files changed.
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists_withoutCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists();
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists_withCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists();
+  }
+
+  private void testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists()
+      throws Exception {
+    // create "existing file" and submit it.
+    String existingFile = "existing file";
+    Change.Id prep =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file(existingFile)
+            .content("content")
+            .create();
+    vote(admin, prep.toString(), 2, 1);
+    gApi.changes().id(prep.get()).current().submit();
+
+    Change.Id changeId = changeOperations.newChange().project(project).create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file(existingFile)
+        .content("new content")
+        .create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // no votes are copied since the list of files changed ("existing file" was added to the
+    // change).
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted_withoutCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted();
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted_withCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted();
+  }
+
+  private void testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted()
+      throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("file").delete().create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // no votes are copied since the list of files changed.
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
+  public void
+      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified_withoutCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+    testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified();
+  }
+
+  @Test
+  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified_withCopyCondition()
+      throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+    testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified();
+  }
+
+  private void testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified()
+      throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // only code review votes are copied since copyAllScoresIfListOfFilesDidNotChange is
+    // configured for that label, and list of files didn't change.
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
+  }
+
+  @Test
+  public void
+      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedDueToRebase_withoutCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+
+    // Create two changes both with the same parent
+    PushOneCommit.Result r = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+
+    // Modify f.txt in change 1. Approve and submit the first change
+    gApi.changes().id(r.getChangeId()).edit().modifyFile("f.txt", RawInputUtil.create("content"));
+    gApi.changes().id(r.getChangeId()).edit().publish();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+    revision.review(ReviewInput.approve().label(LabelId.VERIFIED, 1));
+    revision.submit();
+
+    // Add an approval whose score should be copied on change 2.
+    gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.recommend());
+
+    // Rebase the second change. The rebase adds f1.txt.
+    gApi.changes().id(r2.getChangeId()).rebase();
+
+    // The code-review approval is copied for the second change between PS1 and PS2 since the only
+    // modified file is due to rebase.
+    List<PatchSetApproval> patchSetApprovals =
+        r2.getChange().notes().getApprovalsWithCopied().values().stream()
+            .sorted(comparing(a -> a.patchSetId().get()))
+            .collect(toImmutableList());
+    PatchSetApproval nonCopied = patchSetApprovals.get(0);
+    PatchSetApproval copied = patchSetApprovals.get(1);
+    assertCopied(nonCopied, /* psId= */ 1, LabelId.CODE_REVIEW, (short) 1, false);
+    assertCopied(copied, /* psId= */ 2, LabelId.CODE_REVIEW, (short) 1, true);
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void
+      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit_withoutCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+    testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit();
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void
+      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit_withCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+    testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit();
+  }
+
+  private void
+      testStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit()
+          throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // only code review votes are copied since copyAllScoresIfListOfFilesDidNotChange is
+    // configured for that label, and list of files didn't change.
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset_withoutCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset();
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset_withCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset();
+  }
+
+  private void
+      testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset()
+          throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("new file").content("content").create();
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("new file")
+        .content("new content")
+        .create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // Don't copy over votes since ps1->ps2 should copy over, but ps2->ps3 should not.
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed_withoutCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed();
+  }
+
+  @Test
+  public void
+      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed_withCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+    testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed();
+  }
+
+  private void testNotStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed()
+      throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("file").renameTo("new_file").create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // no votes are copied since the list of files changed (rename).
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
+  public void copyWithListOfFilesUnchanged_withoutCopyCondition() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+    testCopyWithListOfFilesUnchanged();
+  }
+
+  @Test
+  public void copyWithListOfFilesUnchanged_withCopyCondition() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+    testCopyWithListOfFilesUnchanged();
+  }
+
+  private void testCopyWithListOfFilesUnchanged() throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().project(project).file("file").content("content").create();
+    vote(admin, changeId.toString(), 2, 1);
+    vote(user, changeId.toString(), -2, -1);
+
+    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
+    ChangeInfo c = detailedChange(changeId.toString());
+
+    // Code-Review votes are copied over from ps1-> ps2 since the list of files were unchanged.
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("file")
+        .content("very new content")
+        .create();
+    c = detailedChange(changeId.toString());
+
+    // Code-Review votes are copied over from ps1-> ps3 since the list of files were unchanged.
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, -2, 0);
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .file("new file")
+        .content("new content")
+        .create();
+
+    c = detailedChange(changeId.toString());
+    // Code-Review votes are not copied over from ps1-> ps4 since a file was added.
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+
+    changeOperations.change(changeId).newPatchset().file("file").content("content").create();
+
+    c = detailedChange(changeId.toString());
+    // Code-Review votes are not copied over from ps1 -> ps5 since a file was added on ps4.
+    // Although the list of files is the same between ps4->ps5, we don't copy votes from before
+    // ps4.
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
+  public void stickyIfFilesUnchanged_magicFilesAreIgnored() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+
+    Change.Id parent1ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parent2ChangeId = changeOperations.newChange().project(project).create();
+    Change.Id dummyParentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .project(project)
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
+
+    // The change is for a merge commit. It doesn't touch any files, but contains /COMMIT_MSG and
+    // /MERGE_LIST as magic files.
+    Map<String, FileInfo> changedFilesFirstPatchset =
+        gApi.changes().id(changeId.get()).current().files();
+    assertThat(changedFilesFirstPatchset.keySet()).containsExactly("/COMMIT_MSG", "/MERGE_LIST");
+
+    // Add a Code-Review+2 vote.
+    approve(changeId.toString());
+
+    // Create a new patch set with a non-merge commit.
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .parent()
+        .patchset(PatchSet.id(dummyParentChangeId, 1))
+        .create();
+
+    // Since the new patch set is not a merge commit, it no longer contains the magic /MERGE_LIST
+    // file.
+    Map<String, FileInfo> changedFilesSecondPatchset =
+        gApi.changes().id(changeId.get()).current().files();
+    assertThat(changedFilesSecondPatchset.keySet())
+        .containsExactly("/COMMIT_MSG"); // /MERGE_LIST is no longer present
+
+    // The only file difference between the 2 patch sets is the magic /MERGE_LIST file.
+    // Since magic files are ignored when checking whether the files between the patch sets differ,
+    // has:unchanged-file should evaluate to true and we expect that the vote was copied.
+    ChangeInfo c = detailedChange(changeId.toString());
+    assertVotes(c, admin, 2, 0);
+  }
+
+  @Test
+  public void approvalsAreStickyIfUploaderMatchesUploaderinCondition() throws Exception {
+    TestAccount userForWhomApprovalsAreSticky =
+        accountCreator.create(
+            /* username= */ null,
+            /* email= */ "userForWhomApprovalsAreSticky@example.com",
+            /* fullName= */ "User For Whom Approvals Are Sticky",
+            /* displayName= */ null);
+    String usersForWhomApprovalsAreStickyUuid =
+        groupOperations
+            .newGroup()
+            .name("Users-for-whom-approvals-are-sticky")
+            .addMember(userForWhomApprovalsAreSticky.id())
+            .create()
+            .get();
+
+    updateCodeReviewLabel(
+        b -> b.setCopyCondition("uploaderin:" + usersForWhomApprovalsAreStickyUuid));
+
+    PushOneCommit.Result r = createChange();
+
+    // Add Code-Review+2 by the admin user.
+    approve(r.getChangeId());
+
+    // Add Code-Review+1 by user.
+    requestScopeOperations.setApiUser(user.id());
+    recommend(r.getChangeId());
+
+    // Create a new patch set by userForWhomApprovalsAreSticky (approavls are sticky).
+    TestRepository<InMemoryRepository> userTestRepo =
+        cloneProject(project, userForWhomApprovalsAreSticky);
+    GitUtil.fetch(userTestRepo, r.getPatchSet().refName() + ":ps");
+    userTestRepo.reset("ps");
+    amendChange(r.getChangeId(), "refs/for/master", userForWhomApprovalsAreSticky, userTestRepo)
+        .assertOkStatus();
+    ChangeInfo c = detailedChange(r.getChangeId());
+    assertThat(c.revisions.get(c.currentRevision).uploader._accountId)
+        .isEqualTo(userForWhomApprovalsAreSticky.id().get());
+
+    // Approvals are sticky.
+    assertVotes(c, admin, 2, 0);
+    assertVotes(c, user, 1, 0);
+
+    // Create a new patch set by admin user (approvals are not sticky).
+    amendChange(r.getChangeId()).assertOkStatus();
+
+    // Approvals are not sticky.
+    c = detailedChange(r.getChangeId());
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, user, 0, 0);
+  }
+
+  @Test
+  public void approvalsThatMatchApproverinConditionAreSticky() throws Exception {
+    TestAccount userWhoseApprovalsAreSticky = accountCreator.create();
+    String usersWhoseApprovalsAreStickyUuid =
+        groupOperations
+            .newGroup()
+            .name("Users-whose-approvals-are-sticky")
+            .addMember(userWhoseApprovalsAreSticky.id())
+            .create()
+            .get();
+
+    updateCodeReviewLabel(
+        b -> b.setCopyCondition("approverin:" + usersWhoseApprovalsAreStickyUuid));
+
+    PushOneCommit.Result r = createChange();
+
+    // Add Code-Review+2 by the admin user (not sticky).
+    approve(r.getChangeId());
+
+    // Add Code-Review+1 by userWhoseApprovalsAreSticky (sticky).
+    requestScopeOperations.setApiUser(userWhoseApprovalsAreSticky.id());
+    recommend(r.getChangeId());
+
+    requestScopeOperations.setApiUser(admin.id());
+    amendChange(r.getChangeId()).assertOkStatus();
+
+    ChangeInfo c = detailedChange(r.getChangeId());
+    assertVotes(c, admin, 0, 0);
+    assertVotes(c, userWhoseApprovalsAreSticky, 1, 0);
+  }
+
+  @Test
+  public void approvalsThatMatchApproverinConditionAreStickyEvenIfUserCantSeeTheGroup()
+      throws Exception {
+    String administratorsUUID = gApi.groups().query("name:Administrators").get().get(0).id;
+
+    // Verify that user can't see the admin group.
+    requestScopeOperations.setApiUser(user.id());
+    ResourceNotFoundException notFound =
+        assertThrows(
+            ResourceNotFoundException.class, () -> gApi.groups().id(administratorsUUID).get());
+    assertThat(notFound).hasMessageThat().isEqualTo("Not found: " + administratorsUUID);
+
+    requestScopeOperations.setApiUser(admin.id());
+    updateCodeReviewLabel(b -> b.setCopyCondition("approverin:" + administratorsUUID));
+
+    PushOneCommit.Result r = createChange();
+
+    // Add Code-Review+2 by the admin user.
+    approve(r.getChangeId());
+
+    // Create a new patch set by user.
+    // Approvals are copied on creation of the new patch set. The approval of the admin user is
+    // expected to be sticky although the group that is configured for the 'approverin' predicate is
+    // not visible to the user.
+    TestRepository<InMemoryRepository> userTestRepo = cloneProject(project, user);
+    GitUtil.fetch(userTestRepo, r.getPatchSet().refName() + ":ps");
+    userTestRepo.reset("ps");
+    amendChange(r.getChangeId(), "refs/for/master", user, userTestRepo).assertOkStatus();
+
+    ChangeInfo c = detailedChange(r.getChangeId());
+    assertThat(c.revisions.get(c.currentRevision).uploader._accountId).isEqualTo(user.id().get());
+
+    // Assert that the approval of the admin user was copied to the new patch set.
+    assertVotes(c, admin, 2, 0);
+  }
+
+  @Test
+  public void removedVotesNotSticky() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresOnTrivialRebase(true));
+    updateVerifiedLabel(b -> b.setCopyAllScoresIfNoCodeChange(true));
+
+    for (ChangeKind changeKind :
+        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
+      testRepo.reset(projectOperations.project(project).getHead("master"));
+
+      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, -2, -1);
+
+      // Remove votes by re-voting with 0
+      vote(admin, changeId, 0, 0);
+      vote(user, changeId, 0, 0);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, 0, 0, null);
+      assertVotes(c, user, 0, 0, null);
+
+      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
+      c = detailedChange(changeId);
+      assertVotes(c, admin, 0, 0, changeKind);
+      assertVotes(c, user, 0, 0, changeKind);
+    }
+  }
+
+  @Test
+  public void stickyAcrossMultiplePatchSets() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyMaxScore(true));
+    updateVerifiedLabel(b -> b.setCopyAllScoresIfNoCodeChange(true));
+
+    String changeId = changeKindCreator.createChange(REWORK, testRepo, admin);
+    vote(admin, changeId, 2, 1);
+
+    for (int i = 0; i < 5; i++) {
+      changeKindCreator.updateChange(changeId, NO_CODE_CHANGE, testRepo, admin, project);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, 2, 1, NO_CODE_CHANGE);
+    }
+
+    changeKindCreator.updateChange(changeId, REWORK, testRepo, admin, project);
+    ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0, REWORK);
+  }
+
+  @Test
+  public void stickyAcrossMultiplePatchSetsDoNotRegressPerformance() throws Exception {
+    // The purpose of this test is to make sure that we compute change kind only against the parent
+    // patch set. Change kind is a heavy operation. In prior version of Gerrit, we computed the
+    // change kind against all prior patch sets. This is a regression that made Gerrit do expensive
+    // work in O(num-patch-sets). This test ensures that we aren't regressing.
+    updateCodeReviewLabel(b -> b.setCopyMaxScore(true));
+    updateVerifiedLabel(b -> b.setCopyAllScoresIfNoCodeChange(true));
+
+    String changeId = changeKindCreator.createChange(REWORK, testRepo, admin);
+    vote(admin, changeId, 2, 1);
+    changeKindCreator.updateChange(changeId, NO_CODE_CHANGE, testRepo, admin, project);
+    changeKindCreator.updateChange(changeId, NO_CODE_CHANGE, testRepo, admin, project);
+    changeKindCreator.updateChange(changeId, NO_CODE_CHANGE, testRepo, admin, project);
+
+    Map<Integer, ObjectId> revisions = new HashMap<>();
+    gApi.changes()
+        .id(changeId)
+        .get()
+        .revisions
+        .forEach(
+            (revId, revisionInfo) ->
+                revisions.put(revisionInfo._number, ObjectId.fromString(revId)));
+    assertThat(revisions.size()).isEqualTo(4);
+    assertChangeKindCacheContains(revisions.get(3), revisions.get(4));
+    assertChangeKindCacheContains(revisions.get(2), revisions.get(3));
+    assertChangeKindCacheContains(revisions.get(1), revisions.get(2));
+
+    assertChangeKindCacheDoesNotContain(revisions.get(1), revisions.get(4));
+    assertChangeKindCacheDoesNotContain(revisions.get(2), revisions.get(4));
+    assertChangeKindCacheDoesNotContain(revisions.get(1), revisions.get(3));
+  }
+
+  @Test
+  public void copyMinMaxAcrossMultiplePatchSets() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyMaxScore(true).setCopyMinScore(true));
+
+    // Vote max score on PS1
+    String changeId = changeKindCreator.createChange(REWORK, testRepo, admin);
+    vote(admin, changeId, 2, 1);
+
+    // Have someone else vote min score on PS2
+    changeKindCreator.updateChange(changeId, REWORK, testRepo, admin, project);
+    vote(user, changeId, -2, 0);
+    ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0, REWORK);
+    assertVotes(c, user, -2, 0, REWORK);
+
+    // No vote changes on PS3
+    changeKindCreator.updateChange(changeId, REWORK, testRepo, admin, project);
+    c = detailedChange(changeId);
+    assertVotes(c, admin, 2, 0, REWORK);
+    assertVotes(c, user, -2, 0, REWORK);
+
+    // Both users revote on PS4
+    changeKindCreator.updateChange(changeId, REWORK, testRepo, admin, project);
+    vote(admin, changeId, 1, 1);
+    vote(user, changeId, 1, 1);
+    c = detailedChange(changeId);
+    assertVotes(c, admin, 1, 1, REWORK);
+    assertVotes(c, user, 1, 1, REWORK);
+
+    // New approvals shouldn't carry through to PS5
+    changeKindCreator.updateChange(changeId, REWORK, testRepo, admin, project);
+    c = detailedChange(changeId);
+    assertVotes(c, admin, 0, 0, REWORK);
+    assertVotes(c, user, 0, 0, REWORK);
+  }
+
+  @Test
+  public void deleteStickyVote() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyMaxScore(true));
+
+    String label = LabelId.CODE_REVIEW;
+
+    // Vote max score on PS1
+    String changeId = changeKindCreator.createChange(REWORK, testRepo, admin);
+    vote(admin, changeId, label, 2);
+    assertVotes(detailedChange(changeId), admin, label, 2, null);
+    changeKindCreator.updateChange(changeId, REWORK, testRepo, admin, project);
+    assertVotes(detailedChange(changeId), admin, label, 2, REWORK);
+
+    // Delete vote that was copied via sticky approval
+    deleteVote(admin, changeId, label);
+    assertVotes(detailedChange(changeId), admin, label, 0, REWORK);
+  }
+
+  @Test
+  public void canVoteMultipleTimesOnNewPatchsets() throws Exception {
+    // Code-Review will be sticky.
+    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
+
+    PushOneCommit.Result r = createChange();
+
+    // Add a new vote.
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // Make a new patchset, keeping the Code-Review +2 vote.
+    amendChange(r.getChangeId());
+
+    // Post without changing the vote.
+    input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // There is a vote both on patchset 1 and on patchset 2, although both votes are Code-Review +2.
+    assertThat(r.getChange().approvals().get(PatchSet.id(r.getChange().getId(), 1))).hasSize(1);
+    assertThat(r.getChange().approvals().get(PatchSet.id(r.getChange().getId(), 2))).hasSize(1);
+  }
+
+  @Test
+  public void stickyVoteStoredOnUpload() throws Exception {
+    // Code-Review will be sticky.
+    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
+
+    PushOneCommit.Result r = createChange();
+    // Add a new vote.
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    input.tag = "tag";
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // Make new patchsets, keeping the Code-Review +2 vote.
+    for (int i = 0; i < 9; i++) {
+      amendChange(r.getChangeId());
+    }
+
+    List<PatchSetApproval> patchSetApprovals =
+        r.getChange().notes().getApprovalsWithCopied().values().stream()
+            .sorted(comparing(a -> a.patchSetId().get()))
+            .collect(toImmutableList());
+
+    for (int i = 0; i < 10; i++) {
+      int patchSet = i + 1;
+      assertThat(patchSetApprovals.get(i).patchSetId().get()).isEqualTo(patchSet);
+      assertThat(patchSetApprovals.get(i).accountId().get()).isEqualTo(admin.id().get());
+      assertThat(patchSetApprovals.get(i).realAccountId().get()).isEqualTo(admin.id().get());
+      assertThat(patchSetApprovals.get(i).label()).isEqualTo(LabelId.CODE_REVIEW);
+      assertThat(patchSetApprovals.get(i).value()).isEqualTo((short) 2);
+      assertThat(patchSetApprovals.get(i).tag().get()).isEqualTo("tag");
+      if (patchSet == 1) {
+        assertThat(patchSetApprovals.get(i).copied()).isFalse();
+      } else {
+        assertThat(patchSetApprovals.get(i).copied()).isTrue();
+      }
+    }
+  }
+
+  @Test
+  public void stickyVoteStoredOnRebase() throws Exception {
+    // Code-Review will be sticky.
+    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
+
+    // Create two changes both with the same parent
+    PushOneCommit.Result r = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+
+    // Approve and submit the first change
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+    revision.review(ReviewInput.approve().label(LabelId.VERIFIED, 1));
+    revision.submit();
+
+    // Add an approval whose score should be copied.
+    gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.recommend());
+
+    // Rebase the second change
+    gApi.changes().id(r2.getChangeId()).rebase();
+
+    List<PatchSetApproval> patchSetApprovals =
+        r2.getChange().notes().getApprovalsWithCopied().values().stream()
+            .sorted(comparing(a -> a.patchSetId().get()))
+            .collect(toImmutableList());
+    PatchSetApproval nonCopied = patchSetApprovals.get(0);
+    PatchSetApproval copied = patchSetApprovals.get(1);
+    assertCopied(nonCopied, 1, LabelId.CODE_REVIEW, (short) 1, /* copied= */ false);
+    assertCopied(copied, 2, LabelId.CODE_REVIEW, (short) 1, /* copied= */ true);
+  }
+
+  @Test
+  public void stickyVoteStoredOnUploadWithRealAccount() throws Exception {
+    // Give "user" permission to vote on behalf of other users.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .impersonation(true)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    // Code-Review will be sticky.
+    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
+
+    PushOneCommit.Result r = createChange();
+
+    // Add a new vote as user
+    requestScopeOperations.setApiUser(user.id());
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
+    input.onBehalfOf = admin.email();
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // Make a new patchset, keeping the Code-Review +1 vote.
+    amendChange(r.getChangeId());
+
+    List<PatchSetApproval> patchSetApprovals =
+        r.getChange().notes().getApprovalsWithCopied().values().stream()
+            .sorted(comparing(a -> a.patchSetId().get()))
+            .collect(toImmutableList());
+
+    PatchSetApproval nonCopied = patchSetApprovals.get(0);
+    assertThat(nonCopied.patchSetId().get()).isEqualTo(1);
+    assertThat(nonCopied.accountId().get()).isEqualTo(admin.id().get());
+    assertThat(nonCopied.realAccountId().get()).isEqualTo(user.id().get());
+    assertThat(nonCopied.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(nonCopied.value()).isEqualTo((short) 1);
+    assertThat(nonCopied.copied()).isFalse();
+
+    PatchSetApproval copied = patchSetApprovals.get(1);
+    assertThat(copied.patchSetId().get()).isEqualTo(2);
+    assertThat(copied.accountId().get()).isEqualTo(admin.id().get());
+    assertThat(copied.realAccountId().get()).isEqualTo(user.id().get());
+    assertThat(copied.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(copied.value()).isEqualTo((short) 1);
+    assertThat(copied.copied()).isTrue();
+  }
+
+  @Test
+  public void stickyVoteStoredOnUploadWithRealAccountAndTag() throws Exception {
+    // Give "user" permission to vote on behalf of other users.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .impersonation(true)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    // Code-Review will be sticky.
+    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
+
+    PushOneCommit.Result r = createChange();
+
+    // Add a new vote as user
+    requestScopeOperations.setApiUser(user.id());
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
+    input.onBehalfOf = admin.email();
+    input.tag = "tag";
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // Make a new patchset, keeping the Code-Review +1 vote.
+    amendChange(r.getChangeId());
+
+    List<PatchSetApproval> patchSetApprovals =
+        r.getChange().notes().getApprovalsWithCopied().values().stream()
+            .sorted(comparing(a -> a.patchSetId().get()))
+            .collect(toImmutableList());
+
+    PatchSetApproval nonCopied = patchSetApprovals.get(0);
+    assertThat(nonCopied.patchSetId().get()).isEqualTo(1);
+    assertThat(nonCopied.accountId().get()).isEqualTo(admin.id().get());
+    assertThat(nonCopied.realAccountId().get()).isEqualTo(user.id().get());
+    assertThat(nonCopied.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(nonCopied.value()).isEqualTo((short) 1);
+    assertThat(nonCopied.tag().get()).isEqualTo("tag");
+    assertThat(nonCopied.copied()).isFalse();
+
+    PatchSetApproval copied = patchSetApprovals.get(1);
+    assertThat(copied.patchSetId().get()).isEqualTo(2);
+    assertThat(copied.accountId().get()).isEqualTo(admin.id().get());
+    assertThat(copied.realAccountId().get()).isEqualTo(user.id().get());
+    assertThat(copied.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(copied.value()).isEqualTo((short) 1);
+    assertThat(nonCopied.tag().get()).isEqualTo("tag");
+    assertThat(copied.copied()).isTrue();
+  }
+
+  @Test
+  public void stickyVoteStoredCanBeRemoved() throws Exception {
+    // Code-Review will be sticky.
+    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
+
+    PushOneCommit.Result r = createChange();
+
+    // Add a new vote
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // Make a new patchset, keeping the Code-Review +2 vote.
+    amendChange(r.getChangeId());
+    assertVotes(detailedChange(r.getChangeId()), admin, LabelId.CODE_REVIEW, 2, null);
+
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.noScore());
+
+    PatchSetApproval nonCopiedSecondPatchsetRemovedVote =
+        Iterables.getOnlyElement(
+            r.getChange()
+                .notes()
+                .getApprovalsWithCopied()
+                .get(r.getChange().change().currentPatchSetId()));
+
+    assertThat(nonCopiedSecondPatchsetRemovedVote.patchSetId().get()).isEqualTo(2);
+    assertThat(nonCopiedSecondPatchsetRemovedVote.accountId().get()).isEqualTo(admin.id().get());
+    assertThat(nonCopiedSecondPatchsetRemovedVote.label()).isEqualTo(LabelId.CODE_REVIEW);
+    // The vote got removed since the latest patch-set only has one vote and it's "0".
+    assertThat(nonCopiedSecondPatchsetRemovedVote.value()).isEqualTo((short) 0);
+    assertThat(nonCopiedSecondPatchsetRemovedVote.copied()).isFalse();
+  }
+
+  @Test
+  public void reviewerStickyVotingCanBeRemoved() throws Exception {
+    // Code-Review will be sticky.
+    updateCodeReviewLabel(b -> b.setCopyAnyScore(true));
+
+    PushOneCommit.Result r = createChange();
+
+    // Add a new vote by user
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.recommend());
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Make a new patchset, keeping the Code-Review +1 vote.
+    amendChange(r.getChangeId());
+    assertVotes(detailedChange(r.getChangeId()), user, LabelId.CODE_REVIEW, 1, null);
+
+    gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
+
+    assertThat(r.getChange().notes().getApprovalsWithCopied()).isEmpty();
+
+    // Changes message has info about vote removed.
+    assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).messages()).message)
+        .contains("Code-Review+1 by User");
+  }
+
+  @Test
+  public void stickyWhenEitherBooleanConfigsOrCopyConditionAreTrue() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:MAX").setCopyMinScore(true));
+
+    for (ChangeKind changeKind :
+        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
+      testRepo.reset(projectOperations.project(project).getHead("master"));
+
+      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, -2, -1);
+
+      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, 2, 0, changeKind);
+      assertVotes(c, user, -2, 0, changeKind);
+    }
+  }
+
+  @Test
+  public void sticky_copiedToLatestPatchSetFromSubmitRecords() throws Exception {
+    updateVerifiedLabel(b -> b.setFunction(LabelFunction.NO_BLOCK));
 
     // This test is covering the backfilling logic for changes which have been submitted, based on
     // copied approvals, before Gerrit persisted copied votes as Copied-Label footers in NoteDb. It
@@ -378,1041 +1362,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     }
   }
 
-  @Test
-  public void stickyOnCopyValues() throws Exception {
-    TestAccount user2 = accountCreator.user2();
-
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(
-              LabelId.CODE_REVIEW, b -> b.setCopyValues(ImmutableList.of((short) -1, (short) 1)));
-      u.save();
-    }
-
-    for (ChangeKind changeKind :
-        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
-      testRepo.reset(projectOperations.project(project).getHead("master"));
-
-      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
-      vote(admin, changeId, -1, 1);
-      vote(user, changeId, -2, -1);
-      vote(user2, changeId, 1, -1);
-
-      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
-      ChangeInfo c = detailedChange(changeId);
-      assertVotes(c, admin, -1, 0, changeKind);
-      assertVotes(c, user, 0, 0, changeKind);
-      assertVotes(c, user2, 1, 0, changeKind);
-    }
-  }
-
-  @Test
-  public void stickyOnTrivialRebase() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAllScoresOnTrivialRebase(true));
-      u.save();
-    }
-
-    String changeId = changeKindCreator.createChange(TRIVIAL_REBASE, testRepo, admin);
-    vote(admin, changeId, 2, 1);
-    vote(user, changeId, -2, -1);
-
-    changeKindCreator.updateChange(changeId, NO_CHANGE, testRepo, admin, project);
-    ChangeInfo c = detailedChange(changeId);
-    assertVotes(c, admin, 2, 0, NO_CHANGE);
-    assertVotes(c, user, -2, 0, NO_CHANGE);
-
-    changeKindCreator.updateChange(changeId, TRIVIAL_REBASE, testRepo, admin, project);
-    c = detailedChange(changeId);
-    assertVotes(c, admin, 2, 0, TRIVIAL_REBASE);
-    assertVotes(c, user, -2, 0, TRIVIAL_REBASE);
-
-    assertNotSticky(EnumSet.of(REWORK, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE));
-
-    // check that votes are sticky when trivial rebase is done by cherry-pick
-    testRepo.reset(projectOperations.project(project).getHead("master"));
-    changeId = createChange().getChangeId();
-    vote(admin, changeId, 2, 1);
-    vote(user, changeId, -2, -1);
-
-    String cherryPickChangeId =
-        changeKindCreator.cherryPick(changeId, TRIVIAL_REBASE, testRepo, admin, project);
-    c = detailedChange(cherryPickChangeId);
-    assertVotes(c, admin, 2, 0);
-    assertVotes(c, user, -2, 0);
-
-    // check that votes are not sticky when rework is done by cherry-pick
-    testRepo.reset(projectOperations.project(project).getHead("master"));
-    changeId = createChange().getChangeId();
-    vote(admin, changeId, 2, 1);
-    vote(user, changeId, -2, -1);
-
-    cherryPickChangeId = changeKindCreator.cherryPick(changeId, REWORK, testRepo, admin, project);
-    c = detailedChange(cherryPickChangeId);
-    assertVotes(c, admin, 0, 0);
-    assertVotes(c, user, 0, 0);
-  }
-
-  @Test
-  public void stickyOnNoCodeChange() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(LabelId.VERIFIED, b -> b.setCopyAllScoresIfNoCodeChange(true));
-      u.save();
-    }
-
-    String changeId = changeKindCreator.createChange(NO_CODE_CHANGE, testRepo, admin);
-    vote(admin, changeId, 2, 1);
-    vote(user, changeId, -2, -1);
-
-    changeKindCreator.updateChange(changeId, NO_CHANGE, testRepo, admin, project);
-    ChangeInfo c = detailedChange(changeId);
-    assertVotes(c, admin, 0, 1, NO_CHANGE);
-    assertVotes(c, user, 0, -1, NO_CHANGE);
-
-    changeKindCreator.updateChange(changeId, NO_CODE_CHANGE, testRepo, admin, project);
-    c = detailedChange(changeId);
-    assertVotes(c, admin, 0, 1, NO_CODE_CHANGE);
-    assertVotes(c, user, 0, -1, NO_CODE_CHANGE);
-
-    assertNotSticky(EnumSet.of(REWORK, TRIVIAL_REBASE, MERGE_FIRST_PARENT_UPDATE));
-  }
-
-  @Test
-  public void stickyOnMergeFirstParentUpdate() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(
-              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresOnMergeFirstParentUpdate(true));
-      u.save();
-    }
-
-    String changeId = changeKindCreator.createChange(MERGE_FIRST_PARENT_UPDATE, testRepo, admin);
-    vote(admin, changeId, 2, 1);
-    vote(user, changeId, -2, -1);
-
-    changeKindCreator.updateChange(changeId, NO_CHANGE, testRepo, admin, project);
-    ChangeInfo c = detailedChange(changeId);
-    assertVotes(c, admin, 2, 0, NO_CHANGE);
-    assertVotes(c, user, -2, 0, NO_CHANGE);
-
-    changeKindCreator.updateChange(changeId, MERGE_FIRST_PARENT_UPDATE, testRepo, admin, project);
-    c = detailedChange(changeId);
-    assertVotes(c, admin, 2, 0, MERGE_FIRST_PARENT_UPDATE);
-    assertVotes(c, user, -2, 0, MERGE_FIRST_PARENT_UPDATE);
-
-    assertNotSticky(EnumSet.of(REWORK, NO_CODE_CHANGE, TRIVIAL_REBASE));
-  }
-
-  @Test
-  public void notStickyWithCopyOnNoChangeWhenSecondParentIsUpdated() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfNoChange(true));
-      u.save();
-    }
-
-    String changeId = changeKindCreator.createChangeForMergeCommit(testRepo, admin);
-    vote(admin, changeId, 2, 1);
-    vote(user, changeId, -2, -1);
-
-    changeKindCreator.updateSecondParent(changeId, testRepo, admin);
-    ChangeInfo c = detailedChange(changeId);
-    assertVotes(c, admin, 0, 0, null);
-    assertVotes(c, user, 0, 0, null);
-  }
-
-  @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded_withoutCopyCondition()
-          throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(
-              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-      u.save();
-    }
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded();
-  }
-
-  @Test
-  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded_withCopyCondition()
-      throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
-      u.save();
-    }
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded();
-  }
-
-  private void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsAdded()
-      throws Exception {
-    Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
-    vote(admin, changeId.toString(), 2, 1);
-    vote(user, changeId.toString(), -2, -1);
-
-    changeOperations
-        .change(changeId)
-        .newPatchset()
-        .file("new file")
-        .content("new content")
-        .create();
-    ChangeInfo c = detailedChange(changeId.toString());
-
-    // no votes are copied since the list of files changed.
-    assertVotes(c, admin, 0, 0);
-    assertVotes(c, user, 0, 0);
-  }
-
-  @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists_withoutCopyCondition()
-          throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(
-              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-      u.save();
-    }
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists();
-  }
-
-  @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists_withCopyCondition()
-          throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
-      u.save();
-    }
-
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists();
-  }
-
-  private void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileAlreadyExists()
-      throws Exception {
-    // create "existing file" and submit it.
-    String existingFile = "existing file";
-    Change.Id prep =
-        changeOperations
-            .newChange()
-            .project(project)
-            .file(existingFile)
-            .content("content")
-            .create();
-    vote(admin, prep.toString(), 2, 1);
-    gApi.changes().id(prep.get()).current().submit();
-
-    Change.Id changeId = changeOperations.newChange().project(project).create();
-    vote(admin, changeId.toString(), 2, 1);
-    vote(user, changeId.toString(), -2, -1);
-
-    changeOperations
-        .change(changeId)
-        .newPatchset()
-        .file(existingFile)
-        .content("new content")
-        .create();
-    ChangeInfo c = detailedChange(changeId.toString());
-
-    // no votes are copied since the list of files changed ("existing file" was added to the
-    // change).
-    assertVotes(c, admin, 0, 0);
-    assertVotes(c, user, 0, 0);
-  }
-
-  @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted_withoutCopyCondition()
-          throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(
-              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-      u.save();
-    }
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted();
-  }
-
-  @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted_withCopyCondition()
-          throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
-      u.save();
-    }
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted();
-  }
-
-  private void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsDeleted()
-      throws Exception {
-    Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
-    vote(admin, changeId.toString(), 2, 1);
-    vote(user, changeId.toString(), -2, -1);
-
-    changeOperations.change(changeId).newPatchset().file("file").delete().create();
-    ChangeInfo c = detailedChange(changeId.toString());
-
-    // no votes are copied since the list of files changed.
-    assertVotes(c, admin, 0, 0);
-    assertVotes(c, user, 0, 0);
-  }
-
-  @Test
-  public void
-      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified_withoutCopyCondition()
-          throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(
-              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-      u.save();
-    }
-    stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified();
-  }
-
-  @Test
-  public void
-      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedDueToRebase_withoutCopyCondition()
-          throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(
-              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-      u.save();
-    }
-    // Create two changes both with the same parent
-    PushOneCommit.Result r = createChange();
-    testRepo.reset("HEAD~1");
-    PushOneCommit.Result r2 = createChange();
-
-    // Modify f.txt in change 1. Approve and submit the first change
-    gApi.changes().id(r.getChangeId()).edit().modifyFile("f.txt", RawInputUtil.create("content"));
-    gApi.changes().id(r.getChangeId()).edit().publish();
-    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
-    revision.review(ReviewInput.approve().label(LabelId.VERIFIED, 1));
-    revision.submit();
-
-    // Add an approval whose score should be copied on change 2.
-    gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.recommend());
-
-    // Rebase the second change. The rebase adds f1.txt.
-    gApi.changes().id(r2.getChangeId()).rebase();
-
-    // The code-review approval is copied for the second change between PS1 and PS2 since the only
-    // modified file is due to rebase.
-    List<PatchSetApproval> patchSetApprovals =
-        r2.getChange().notes().getApprovalsWithCopied().values().stream()
-            .sorted(comparing(a -> a.patchSetId().get()))
-            .collect(toImmutableList());
-    PatchSetApproval nonCopied = patchSetApprovals.get(0);
-    PatchSetApproval copied = patchSetApprovals.get(1);
-    assertCopied(nonCopied, /* psId= */ 1, LabelId.CODE_REVIEW, (short) 1, false);
-    assertCopied(copied, /* psId= */ 2, LabelId.CODE_REVIEW, (short) 1, true);
-  }
-
-  @Test
-  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified_withCopyCondition()
-      throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
-      u.save();
-    }
-    stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified();
-  }
-
-  private void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModified()
-      throws Exception {
-    Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
-    vote(admin, changeId.toString(), 2, 1);
-    vote(user, changeId.toString(), -2, -1);
-
-    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
-    ChangeInfo c = detailedChange(changeId.toString());
-
-    // only code review votes are copied since copyAllScoresIfListOfFilesDidNotChange is
-    // configured for that label, and list of files didn't change.
-    assertVotes(c, admin, 2, 0);
-    assertVotes(c, user, -2, 0);
-  }
-
-  @TestProjectInput(createEmptyCommit = false)
-  public void
-      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit_withoutCopyCondition()
-          throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(
-              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-      u.save();
-    }
-    stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit();
-  }
-
-  @TestProjectInput(createEmptyCommit = false)
-  public void
-      stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit_withCopyCondition()
-          throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
-      u.save();
-    }
-    stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit();
-  }
-
-  private void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedAsInitialCommit()
-      throws Exception {
-    Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
-    vote(admin, changeId.toString(), 2, 1);
-    vote(user, changeId.toString(), -2, -1);
-
-    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
-    ChangeInfo c = detailedChange(changeId.toString());
-
-    // only code review votes are copied since copyAllScoresIfListOfFilesDidNotChange is
-    // configured for that label, and list of files didn't change.
-    assertVotes(c, admin, 2, 0);
-    assertVotes(c, user, -2, 0);
-  }
-
-  @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset_withoutCopyCondition()
-          throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(
-              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-      u.save();
-    }
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset();
-  }
-
-  @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset_withCopyCondition()
-          throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
-      u.save();
-    }
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset();
-  }
-
-  private void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedOnEarlierPatchset()
-          throws Exception {
-    Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
-    vote(admin, changeId.toString(), 2, 1);
-    vote(user, changeId.toString(), -2, -1);
-
-    changeOperations.change(changeId).newPatchset().file("new file").content("content").create();
-    changeOperations
-        .change(changeId)
-        .newPatchset()
-        .file("new file")
-        .content("new content")
-        .create();
-    ChangeInfo c = detailedChange(changeId.toString());
-
-    // Don't copy over votes since ps1->ps2 should copy over, but ps2->ps3 should not.
-    assertVotes(c, admin, 0, 0);
-    assertVotes(c, user, 0, 0);
-  }
-
-  @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed_withoutCopyCondition()
-          throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(
-              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-      u.save();
-    }
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed();
-  }
-
-  @Test
-  public void
-      notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed_withCopyCondition()
-          throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
-      u.save();
-    }
-    notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed();
-  }
-
-  private void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsRenamed()
-      throws Exception {
-    Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
-    vote(admin, changeId.toString(), 2, 1);
-    vote(user, changeId.toString(), -2, -1);
-
-    changeOperations.change(changeId).newPatchset().file("file").renameTo("new_file").create();
-    ChangeInfo c = detailedChange(changeId.toString());
-
-    // no votes are copied since the list of files changed (rename).
-    assertVotes(c, admin, 0, 0);
-    assertVotes(c, user, 0, 0);
-  }
-
-  @Test
-  public void removedVotesNotSticky() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAllScoresOnTrivialRebase(true));
-      u.getConfig().updateLabelType(LabelId.VERIFIED, b -> b.setCopyAllScoresIfNoCodeChange(true));
-      u.save();
-    }
-
-    for (ChangeKind changeKind :
-        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
-      testRepo.reset(projectOperations.project(project).getHead("master"));
-
-      String changeId = changeKindCreator.createChange(changeKind, testRepo, admin);
-      vote(admin, changeId, 2, 1);
-      vote(user, changeId, -2, -1);
-
-      // Remove votes by re-voting with 0
-      vote(admin, changeId, 0, 0);
-      vote(user, changeId, 0, 0);
-      ChangeInfo c = detailedChange(changeId);
-      assertVotes(c, admin, 0, 0, null);
-      assertVotes(c, user, 0, 0, null);
-
-      changeKindCreator.updateChange(changeId, changeKind, testRepo, admin, project);
-      c = detailedChange(changeId);
-      assertVotes(c, admin, 0, 0, changeKind);
-      assertVotes(c, user, 0, 0, changeKind);
-    }
-  }
-
-  @Test
-  public void stickyAcrossMultiplePatchSets() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMaxScore(true));
-      u.getConfig().updateLabelType(LabelId.VERIFIED, b -> b.setCopyAllScoresIfNoCodeChange(true));
-      u.save();
-    }
-
-    String changeId = changeKindCreator.createChange(REWORK, testRepo, admin);
-    vote(admin, changeId, 2, 1);
-
-    for (int i = 0; i < 5; i++) {
-      changeKindCreator.updateChange(changeId, NO_CODE_CHANGE, testRepo, admin, project);
-      ChangeInfo c = detailedChange(changeId);
-      assertVotes(c, admin, 2, 1, NO_CODE_CHANGE);
-    }
-
-    changeKindCreator.updateChange(changeId, REWORK, testRepo, admin, project);
-    ChangeInfo c = detailedChange(changeId);
-    assertVotes(c, admin, 2, 0, REWORK);
-  }
-
-  @Test
-  public void stickyAcrossMultiplePatchSetsDoNotRegressPerformance() throws Exception {
-    // The purpose of this test is to make sure that we compute change kind only against the parent
-    // patch set. Change kind is a heavy operation. In prior version of Gerrit, we computed the
-    // change kind against all prior patch sets. This is a regression that made Gerrit do expensive
-    // work in O(num-patch-sets). This test ensures that we aren't regressing.
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMaxScore(true));
-      u.getConfig().updateLabelType(LabelId.VERIFIED, b -> b.setCopyAllScoresIfNoCodeChange(true));
-      u.save();
-    }
-
-    String changeId = changeKindCreator.createChange(REWORK, testRepo, admin);
-    vote(admin, changeId, 2, 1);
-    changeKindCreator.updateChange(changeId, NO_CODE_CHANGE, testRepo, admin, project);
-    changeKindCreator.updateChange(changeId, NO_CODE_CHANGE, testRepo, admin, project);
-    changeKindCreator.updateChange(changeId, NO_CODE_CHANGE, testRepo, admin, project);
-
-    Map<Integer, ObjectId> revisions = new HashMap<>();
-    gApi.changes()
-        .id(changeId)
-        .get()
-        .revisions
-        .forEach(
-            (revId, revisionInfo) ->
-                revisions.put(revisionInfo._number, ObjectId.fromString(revId)));
-    assertThat(revisions.size()).isEqualTo(4);
-    assertChangeKindCacheContains(revisions.get(3), revisions.get(4));
-    assertChangeKindCacheContains(revisions.get(2), revisions.get(3));
-    assertChangeKindCacheContains(revisions.get(1), revisions.get(2));
-
-    assertChangeKindCacheDoesNotContain(revisions.get(1), revisions.get(4));
-    assertChangeKindCacheDoesNotContain(revisions.get(2), revisions.get(4));
-    assertChangeKindCacheDoesNotContain(revisions.get(1), revisions.get(3));
-  }
-
-  @Test
-  public void copyMinMaxAcrossMultiplePatchSets() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMaxScore(true));
-      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyMinScore(true));
-      u.save();
-    }
-
-    // Vote max score on PS1
-    String changeId = changeKindCreator.createChange(REWORK, testRepo, admin);
-    vote(admin, changeId, 2, 1);
-
-    // Have someone else vote min score on PS2
-    changeKindCreator.updateChange(changeId, REWORK, testRepo, admin, project);
-    vote(user, changeId, -2, 0);
-    ChangeInfo c = detailedChange(changeId);
-    assertVotes(c, admin, 2, 0, REWORK);
-    assertVotes(c, user, -2, 0, REWORK);
-
-    // No vote changes on PS3
-    changeKindCreator.updateChange(changeId, REWORK, testRepo, admin, project);
-    c = detailedChange(changeId);
-    assertVotes(c, admin, 2, 0, REWORK);
-    assertVotes(c, user, -2, 0, REWORK);
-
-    // Both users revote on PS4
-    changeKindCreator.updateChange(changeId, REWORK, testRepo, admin, project);
-    vote(admin, changeId, 1, 1);
-    vote(user, changeId, 1, 1);
-    c = detailedChange(changeId);
-    assertVotes(c, admin, 1, 1, REWORK);
-    assertVotes(c, user, 1, 1, REWORK);
-
-    // New approvals shouldn't carry through to PS5
-    changeKindCreator.updateChange(changeId, REWORK, testRepo, admin, project);
-    c = detailedChange(changeId);
-    assertVotes(c, admin, 0, 0, REWORK);
-    assertVotes(c, user, 0, 0, REWORK);
-  }
-
-  @Test
-  public void copyWithListOfFilesUnchanged_withoutCopyCondition() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(
-              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
-      u.save();
-    }
-    copyWithListOfFilesUnchanged();
-  }
-
-  @Test
-  public void copyWithListOfFilesUnchanged_withCopyCondition() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
-      u.save();
-    }
-    copyWithListOfFilesUnchanged();
-  }
-
-  private void copyWithListOfFilesUnchanged() throws Exception {
-    Change.Id changeId =
-        changeOperations.newChange().project(project).file("file").content("content").create();
-    vote(admin, changeId.toString(), 2, 1);
-    vote(user, changeId.toString(), -2, -1);
-
-    changeOperations.change(changeId).newPatchset().file("file").content("new content").create();
-    ChangeInfo c = detailedChange(changeId.toString());
-
-    // Code-Review votes are copied over from ps1-> ps2 since the list of files were unchanged.
-    assertVotes(c, admin, 2, 0);
-    assertVotes(c, user, -2, 0);
-
-    changeOperations
-        .change(changeId)
-        .newPatchset()
-        .file("file")
-        .content("very new content")
-        .create();
-    c = detailedChange(changeId.toString());
-
-    // Code-Review votes are copied over from ps1-> ps3 since the list of files were unchanged.
-    assertVotes(c, admin, 2, 0);
-    assertVotes(c, user, -2, 0);
-
-    changeOperations
-        .change(changeId)
-        .newPatchset()
-        .file("new file")
-        .content("new content")
-        .create();
-
-    c = detailedChange(changeId.toString());
-    // Code-Review votes are not copied over from ps1-> ps4 since a file was added.
-    assertVotes(c, admin, 0, 0);
-    assertVotes(c, user, 0, 0);
-
-    changeOperations.change(changeId).newPatchset().file("file").content("content").create();
-
-    c = detailedChange(changeId.toString());
-    // Code-Review votes are not copied over from ps1 -> ps5 since a file was added on ps4.
-    // Although the list of files is the same between ps4->ps5, we don't copy votes from before
-    // ps4.
-    assertVotes(c, admin, 0, 0);
-    assertVotes(c, user, 0, 0);
-  }
-
-  @Test
-  public void copyWithListOfFilesUnchangedButAddedMergeList() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
-      u.save();
-    }
-    Change.Id parent1ChangeId = changeOperations.newChange().create();
-    Change.Id parent2ChangeId = changeOperations.newChange().create();
-    Change.Id dummyParentChangeId = changeOperations.newChange().create();
-    Change.Id changeId =
-        changeOperations
-            .newChange()
-            .mergeOf()
-            .change(parent1ChangeId)
-            .and()
-            .change(parent2ChangeId)
-            .create();
-
-    Map<String, FileInfo> changedFilesFirstPatchset =
-        gApi.changes().id(changeId.get()).current().files();
-
-    assertThat(changedFilesFirstPatchset.keySet()).containsExactly("/COMMIT_MSG", "/MERGE_LIST");
-
-    // Make a Code-Review vote that should be sticky.
-    gApi.changes().id(changeId.get()).current().review(ReviewInput.approve());
-
-    changeOperations
-        .change(changeId)
-        .newPatchset()
-        .parent()
-        .patchset(PatchSet.id(dummyParentChangeId, 1))
-        .create();
-
-    Map<String, FileInfo> changedFilesSecondPatchset =
-        gApi.changes().id(changeId.get()).current().files();
-
-    // Only "/MERGE_LIST" was removed.
-    assertThat(changedFilesSecondPatchset.keySet()).containsExactly("/COMMIT_MSG");
-    ApprovalInfo approvalInfo =
-        Iterables.getOnlyElement(
-            gApi.changes().id(changeId.get()).current().votes().get(LabelId.CODE_REVIEW));
-    assertThat(approvalInfo._accountId).isEqualTo(admin.id().get());
-    assertThat(approvalInfo.value).isEqualTo(2);
-  }
-
-  @Test
-  public void deleteStickyVote() throws Exception {
-    String label = LabelId.CODE_REVIEW;
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(label, b -> b.setCopyMaxScore(true));
-      u.save();
-    }
-
-    // Vote max score on PS1
-    String changeId = changeKindCreator.createChange(REWORK, testRepo, admin);
-    vote(admin, changeId, label, 2);
-    assertVotes(detailedChange(changeId), admin, label, 2, null);
-    changeKindCreator.updateChange(changeId, REWORK, testRepo, admin, project);
-    assertVotes(detailedChange(changeId), admin, label, 2, REWORK);
-
-    // Delete vote that was copied via sticky approval
-    deleteVote(admin, changeId, label);
-    assertVotes(detailedChange(changeId), admin, label, 0, REWORK);
-  }
-
-  @Test
-  public void canVoteMultipleTimesOnNewPatchsets() throws Exception {
-    // Code-Review will be sticky.
-    String label = LabelId.CODE_REVIEW;
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(label, b -> b.setCopyAnyScore(true));
-      u.save();
-    }
-
-    PushOneCommit.Result r = createChange();
-
-    // Add a new vote.
-    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
-    gApi.changes().id(r.getChangeId()).current().review(input);
-
-    // Make a new patchset, keeping the Code-Review +2 vote.
-    amendChange(r.getChangeId());
-
-    // Post without changing the vote.
-    input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
-    gApi.changes().id(r.getChangeId()).current().review(input);
-
-    // There is a vote both on patchset 1 and on patchset 2, although both votes are Code-Review +2.
-    assertThat(r.getChange().approvals().get(PatchSet.id(r.getChange().getId(), 1))).hasSize(1);
-    assertThat(r.getChange().approvals().get(PatchSet.id(r.getChange().getId(), 2))).hasSize(1);
-  }
-
-  @Test
-  public void stickyVoteStoredOnUpload() throws Exception {
-    // Code-Review will be sticky.
-    String label = LabelId.CODE_REVIEW;
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(label, b -> b.setCopyAnyScore(true));
-      u.save();
-    }
-
-    PushOneCommit.Result r = createChange();
-    // Add a new vote.
-    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
-    input.tag = "tag";
-    gApi.changes().id(r.getChangeId()).current().review(input);
-
-    // Make new patchsets, keeping the Code-Review +2 vote.
-    for (int i = 0; i < 9; i++) {
-      amendChange(r.getChangeId());
-    }
-
-    List<PatchSetApproval> patchSetApprovals =
-        r.getChange().notes().getApprovalsWithCopied().values().stream()
-            .sorted(comparing(a -> a.patchSetId().get()))
-            .collect(toImmutableList());
-
-    for (int i = 0; i < 10; i++) {
-      int patchSet = i + 1;
-      assertThat(patchSetApprovals.get(i).patchSetId().get()).isEqualTo(patchSet);
-      assertThat(patchSetApprovals.get(i).accountId().get()).isEqualTo(admin.id().get());
-      assertThat(patchSetApprovals.get(i).realAccountId().get()).isEqualTo(admin.id().get());
-      assertThat(patchSetApprovals.get(i).label()).isEqualTo(LabelId.CODE_REVIEW);
-      assertThat(patchSetApprovals.get(i).value()).isEqualTo((short) 2);
-      assertThat(patchSetApprovals.get(i).tag().get()).isEqualTo("tag");
-      if (patchSet == 1) {
-        assertThat(patchSetApprovals.get(i).copied()).isFalse();
-      } else {
-        assertThat(patchSetApprovals.get(i).copied()).isTrue();
-      }
-    }
-  }
-
-  @Test
-  public void stickyVoteStoredOnRebase() throws Exception {
-    // Code-Review will be sticky.
-    String label = LabelId.CODE_REVIEW;
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(label, b -> b.setCopyAnyScore(true));
-      u.save();
-    }
-
-    // Create two changes both with the same parent
-    PushOneCommit.Result r = createChange();
-    testRepo.reset("HEAD~1");
-    PushOneCommit.Result r2 = createChange();
-
-    // Approve and submit the first change
-    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
-    revision.review(ReviewInput.approve().label(LabelId.VERIFIED, 1));
-    revision.submit();
-
-    // Add an approval whose score should be copied.
-    gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.recommend());
-
-    // Rebase the second change
-    gApi.changes().id(r2.getChangeId()).rebase();
-
-    List<PatchSetApproval> patchSetApprovals =
-        r2.getChange().notes().getApprovalsWithCopied().values().stream()
-            .sorted(comparing(a -> a.patchSetId().get()))
-            .collect(toImmutableList());
-    PatchSetApproval nonCopied = patchSetApprovals.get(0);
-    PatchSetApproval copied = patchSetApprovals.get(1);
-    assertCopied(nonCopied, 1, LabelId.CODE_REVIEW, (short) 1, /* copied= */ false);
-    assertCopied(copied, 2, LabelId.CODE_REVIEW, (short) 1, /* copied= */ true);
-  }
-
-  @Test
-  public void stickyVoteStoredOnUploadWithRealAccount() throws Exception {
-    // Give "user" permission to vote on behalf of other users.
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(
-            allowLabel(TestLabels.codeReview().getName())
-                .impersonation(true)
-                .ref("refs/heads/*")
-                .group(REGISTERED_USERS)
-                .range(-1, 1))
-        .update();
-
-    // Code-Review will be sticky.
-    String label = LabelId.CODE_REVIEW;
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(label, b -> b.setCopyAnyScore(true));
-      u.save();
-    }
-
-    PushOneCommit.Result r = createChange();
-
-    // Add a new vote as user
-    requestScopeOperations.setApiUser(user.id());
-    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
-    input.onBehalfOf = admin.email();
-    gApi.changes().id(r.getChangeId()).current().review(input);
-
-    // Make a new patchset, keeping the Code-Review +1 vote.
-    amendChange(r.getChangeId());
-
-    List<PatchSetApproval> patchSetApprovals =
-        r.getChange().notes().getApprovalsWithCopied().values().stream()
-            .sorted(comparing(a -> a.patchSetId().get()))
-            .collect(toImmutableList());
-
-    PatchSetApproval nonCopied = patchSetApprovals.get(0);
-    assertThat(nonCopied.patchSetId().get()).isEqualTo(1);
-    assertThat(nonCopied.accountId().get()).isEqualTo(admin.id().get());
-    assertThat(nonCopied.realAccountId().get()).isEqualTo(user.id().get());
-    assertThat(nonCopied.label()).isEqualTo(LabelId.CODE_REVIEW);
-    assertThat(nonCopied.value()).isEqualTo((short) 1);
-    assertThat(nonCopied.copied()).isFalse();
-
-    PatchSetApproval copied = patchSetApprovals.get(1);
-    assertThat(copied.patchSetId().get()).isEqualTo(2);
-    assertThat(copied.accountId().get()).isEqualTo(admin.id().get());
-    assertThat(copied.realAccountId().get()).isEqualTo(user.id().get());
-    assertThat(copied.label()).isEqualTo(LabelId.CODE_REVIEW);
-    assertThat(copied.value()).isEqualTo((short) 1);
-    assertThat(copied.copied()).isTrue();
-  }
-
-  @Test
-  public void stickyVoteStoredOnUploadWithRealAccountAndTag() throws Exception {
-    // Give "user" permission to vote on behalf of other users.
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(
-            allowLabel(TestLabels.codeReview().getName())
-                .impersonation(true)
-                .ref("refs/heads/*")
-                .group(REGISTERED_USERS)
-                .range(-1, 1))
-        .update();
-
-    // Code-Review will be sticky.
-    String label = LabelId.CODE_REVIEW;
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(label, b -> b.setCopyAnyScore(true));
-      u.save();
-    }
-
-    PushOneCommit.Result r = createChange();
-
-    // Add a new vote as user
-    requestScopeOperations.setApiUser(user.id());
-    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
-    input.onBehalfOf = admin.email();
-    input.tag = "tag";
-    gApi.changes().id(r.getChangeId()).current().review(input);
-
-    // Make a new patchset, keeping the Code-Review +1 vote.
-    amendChange(r.getChangeId());
-
-    List<PatchSetApproval> patchSetApprovals =
-        r.getChange().notes().getApprovalsWithCopied().values().stream()
-            .sorted(comparing(a -> a.patchSetId().get()))
-            .collect(toImmutableList());
-
-    PatchSetApproval nonCopied = patchSetApprovals.get(0);
-    assertThat(nonCopied.patchSetId().get()).isEqualTo(1);
-    assertThat(nonCopied.accountId().get()).isEqualTo(admin.id().get());
-    assertThat(nonCopied.realAccountId().get()).isEqualTo(user.id().get());
-    assertThat(nonCopied.label()).isEqualTo(LabelId.CODE_REVIEW);
-    assertThat(nonCopied.value()).isEqualTo((short) 1);
-    assertThat(nonCopied.tag().get()).isEqualTo("tag");
-    assertThat(nonCopied.copied()).isFalse();
-
-    PatchSetApproval copied = patchSetApprovals.get(1);
-    assertThat(copied.patchSetId().get()).isEqualTo(2);
-    assertThat(copied.accountId().get()).isEqualTo(admin.id().get());
-    assertThat(copied.realAccountId().get()).isEqualTo(user.id().get());
-    assertThat(copied.label()).isEqualTo(LabelId.CODE_REVIEW);
-    assertThat(copied.value()).isEqualTo((short) 1);
-    assertThat(nonCopied.tag().get()).isEqualTo("tag");
-    assertThat(copied.copied()).isTrue();
-  }
-
-  @Test
-  public void stickyVoteStoredCanBeRemoved() throws Exception {
-    // Code-Review will be sticky.
-    String label = LabelId.CODE_REVIEW;
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(label, b -> b.setCopyAnyScore(true));
-      u.save();
-    }
-
-    PushOneCommit.Result r = createChange();
-
-    // Add a new vote
-    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
-    gApi.changes().id(r.getChangeId()).current().review(input);
-
-    // Make a new patchset, keeping the Code-Review +2 vote.
-    amendChange(r.getChangeId());
-    assertVotes(detailedChange(r.getChangeId()), admin, label, 2, null);
-
-    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.noScore());
-
-    PatchSetApproval nonCopiedSecondPatchsetRemovedVote =
-        Iterables.getOnlyElement(
-            r.getChange()
-                .notes()
-                .getApprovalsWithCopied()
-                .get(r.getChange().change().currentPatchSetId()));
-
-    assertThat(nonCopiedSecondPatchsetRemovedVote.patchSetId().get()).isEqualTo(2);
-    assertThat(nonCopiedSecondPatchsetRemovedVote.accountId().get()).isEqualTo(admin.id().get());
-    assertThat(nonCopiedSecondPatchsetRemovedVote.label()).isEqualTo(LabelId.CODE_REVIEW);
-    // The vote got removed since the latest patch-set only has one vote and it's "0".
-    assertThat(nonCopiedSecondPatchsetRemovedVote.value()).isEqualTo((short) 0);
-    assertThat(nonCopiedSecondPatchsetRemovedVote.copied()).isFalse();
-  }
-
-  @Test
-  public void reviewerStickyVotingCanBeRemoved() throws Exception {
-    // Code-Review will be sticky.
-    String label = LabelId.CODE_REVIEW;
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType(label, b -> b.setCopyAnyScore(true));
-      u.save();
-    }
-
-    PushOneCommit.Result r = createChange();
-
-    // Add a new vote by user
-    requestScopeOperations.setApiUser(user.id());
-    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.recommend());
-    requestScopeOperations.setApiUser(admin.id());
-
-    // Make a new patchset, keeping the Code-Review +1 vote.
-    amendChange(r.getChangeId());
-    assertVotes(detailedChange(r.getChangeId()), user, label, 1, null);
-
-    gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
-
-    assertThat(r.getChange().notes().getApprovalsWithCopied()).isEmpty();
-
-    // Changes message has info about vote removed.
-    assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).messages()).message)
-        .contains("Code-Review+1 by User");
-  }
-
   private void assertChangeKindCacheContains(ObjectId prior, ObjectId next) {
     ChangeKind kind =
         changeKindCache.getIfPresent(ChangeKindCacheImpl.Key.create(prior, next, "recursive"));
@@ -1499,6 +1448,21 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     assertThat(approval.label()).isEqualTo(label);
     assertThat(approval.value()).isEqualTo(value);
     assertThat(approval.copied()).isEqualTo(copied);
+  }
+
+  private void updateCodeReviewLabel(Consumer<LabelType.Builder> update) throws Exception {
+    updateLabel(LabelId.CODE_REVIEW, update);
+  }
+
+  private void updateVerifiedLabel(Consumer<LabelType.Builder> update) throws Exception {
+    updateLabel(LabelId.VERIFIED, update);
+  }
+
+  private void updateLabel(String labelName, Consumer<LabelType.Builder> update) throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().updateLabelType(labelName, update);
+      u.save();
+    }
   }
 
   /**

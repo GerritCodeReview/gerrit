@@ -26,6 +26,7 @@ import {
   createChange,
 } from '../../../test/test-data-generators';
 import {ChangeStatus} from '../../../constants/constants';
+import {getVoteForAccount} from '../../../utils/label-util';
 
 const basicFixture = fixtureFromElement('gr-label-scores');
 
@@ -118,75 +119,17 @@ suite('gr-label-scores tests', () => {
 
   test('_getVoteForAccount', () => {
     const labelName = 'Code-Review';
-    assert.strictEqual(element._getVoteForAccount(labelName), '+1');
+    assert.strictEqual(
+      getVoteForAccount(labelName, element.account, element.change),
+      '+1'
+    );
   });
 
-  test('_computeColumns', () => {
-    const labelValues = element._computeColumns();
-    assert.deepEqual(labelValues, {
-      '-2': 0,
-      '-1': 1,
-      '0': 2,
-      '1': 3,
-      '2': 4,
-    });
+  test('computeOrderedLabelValues', () => {
+    const labelValues = element.computeOrderedLabelValues();
+    assert.deepEqual(labelValues, [-2, -1, 0, 1, 2]);
   });
 
-  test('changes in label score are reflected in _labels', async () => {
-    const change = {
-      ...createChange(),
-      labels: {
-        'Code-Review': {
-          values: {
-            '0': 'No score',
-            '+1': 'good',
-            '+2': 'excellent',
-            '-1': 'bad',
-            '-2': 'terrible',
-          },
-          default_value: 0,
-        },
-        Verified: {
-          values: {
-            '0': 'No score',
-            '+1': 'good',
-            '+2': 'excellent',
-            '-1': 'bad',
-            '-2': 'terrible',
-          },
-          default_value: 0,
-        },
-      },
-    };
-    element.change = change;
-    await flush();
-    let labels = element._computeLabels();
-    assert.deepEqual(labels, [
-      {name: 'Code-Review', value: null},
-      {name: 'Verified', value: null},
-    ]);
-    element.change = {
-      ...change,
-      labels: {
-        ...change.labels,
-        Verified: {
-          ...change.labels.Verified,
-          all: [
-            {
-              _account_id: accountId,
-              value: 1,
-            },
-          ],
-        },
-      },
-    };
-    await flush();
-    labels = element._computeLabels();
-    assert.deepEqual(labels, [
-      {name: 'Code-Review', value: null},
-      {name: 'Verified', value: '+1'},
-    ]);
-  });
   suite('message', () => {
     test('shown when change is abandoned', async () => {
       element.change = {

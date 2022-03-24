@@ -198,13 +198,17 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     startLine: LineNumber,
     endLine: LineNumber,
     side: Side
-  ) {
+  ): GrDiffGroup[] {
     const startIndex = this.groups.findIndex(group =>
       group.containsLine(side, startLine)
     );
-    const endIndex = this.groups.findIndex(group =>
+    if (startIndex === -1) return [];
+    let endIndex = this.groups.findIndex(group =>
       group.containsLine(side, endLine)
     );
+    // Not all groups may have rendered yet. In that case let's just render
+    // *all* groups after `startIndex`.
+    if (endIndex === -1) endIndex = this.groups.length - 1;
     // The filter preserves the legacy behavior to only return non-context
     // groups
     return this.groups

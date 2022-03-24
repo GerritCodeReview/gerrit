@@ -27,11 +27,12 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {fireEvent} from '../../../utils/event-util';
 import {isInvolved} from '../../../utils/change-util';
 import {ShowAlertEventDetail} from '../../../types/events';
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {classMap} from 'lit/directives/class-map';
 import {getRemovedByIconClickReason} from '../../../utils/attention-set-util';
 import {ifDefined} from 'lit/directives/if-defined';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 
 @customElement('gr-account-label')
 export class GrAccountLabel extends LitElement {
@@ -96,6 +97,9 @@ export class GrAccountLabel extends LitElement {
 
   @property({type: Boolean, reflect: true})
   deselected = false;
+
+  @property({type: Boolean, reflect: true})
+  clickable = false;
 
   @property({type: Boolean, reflect: true})
   attentionIconShown = false;
@@ -174,7 +178,6 @@ export class GrAccountLabel extends LitElement {
         }
         .name {
           display: inline-block;
-          text-decoration: inherit;
           vertical-align: top;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -182,6 +185,16 @@ export class GrAccountLabel extends LitElement {
         }
         .hasAttention .name {
           font-weight: var(--font-weight-bold);
+        }
+        a.ownerLink {
+          text-decoration: none;
+          color: var(--primary-text-color);
+          display: flex;
+          align-items: center;
+          gap: 3px;
+        }
+        :host([clickable]) a.ownerLink:hover .name {
+          text-decoration: underline;
         }
       `,
     ];
@@ -245,26 +258,31 @@ export class GrAccountLabel extends LitElement {
               </gr-button>
             </gr-tooltip-content>`
           : ''}
-        <span
-          class="${classMap({
-            hovercardTargetWrapper: true,
-            hasAttention: this.attentionIconShown,
-          })}"
-        >
-          ${this.avatarShown
-            ? html`<gr-avatar .account="${account}" imageSize="32"></gr-avatar>`
-            : ''}
+        ${this.maybeRenderLink(html`
           <span
-            tabindex=${this.hideHovercard ? '-1' : '0'}
-            role=${ifDefined(this.hideHovercard ? undefined : 'button')}
-            id="hovercardTarget"
-            class="name"
-            part="gr-account-label-text"
+            class="${classMap({
+              hovercardTargetWrapper: true,
+              hasAttention: this.attentionIconShown,
+            })}"
           >
-            ${this._computeName(account, this.firstName, this._config)}
+            ${this.avatarShown
+              ? html`<gr-avatar
+                  .account="${account}"
+                  imageSize="32"
+                ></gr-avatar>`
+              : ''}
+            <span
+              tabindex=${this.hideHovercard ? '-1' : '0'}
+              role=${ifDefined(this.hideHovercard ? undefined : 'button')}
+              id="hovercardTarget"
+              class="name"
+              part="gr-account-label-text"
+            >
+              ${this._computeName(account, this.firstName, this._config)}
+            </span>
+            ${this.renderAccountStatusPlugins()}
           </span>
-          ${this.renderAccountStatusPlugins()}
-        </span>
+        `)}
       </div>
     `;
   }
@@ -281,6 +299,18 @@ export class GrAccountLabel extends LitElement {
       // For re-evaluation of everything that depends on 'change'.
       if (this.change) this.change = {...this.change};
     });
+  }
+
+  private maybeRenderLink(span: TemplateResult) {
+    if (!this.clickable || !this.account) return span;
+    const url = GerritNav.getUrlForOwner(
+      this.account.email ||
+        this.account.username ||
+        this.account.name ||
+        `${this.account._account_id}`
+    );
+    if (!url) return span;
+    return html`<a class="ownerLink" href="${url}" tabindex="-1">${span}</a>`;
   }
 
   private renderAccountStatusPlugins() {

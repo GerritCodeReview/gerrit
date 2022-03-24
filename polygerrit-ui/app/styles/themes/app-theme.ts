@@ -381,6 +381,7 @@ const appThemeCss = safeStyleSheet`
     --diff-selection-background-color: #c7dbf9;
     --diff-tab-indicator-color: var(--deemphasized-text-color);
     --diff-trailing-whitespace-indicator: #ff9ad2;
+    --focused-line-outline-color: var(--blue-700);
     --light-add-highlight-color: #d8fed8;
     --light-rebased-add-highlight-color: #eef;
     --diff-moved-in-background: var(--cyan-50);
@@ -409,19 +410,21 @@ const appThemeCss = safeStyleSheet`
     --syntax-meta-keyword-color: #219;
     --syntax-number-color: #164;
     --syntax-params-color: var(--primary-text-color);
+    --syntax-property-color: var(--primary-text-color);
     --syntax-regexp-color: #fa8602;
     --syntax-selector-attr-color: #fa8602;
     --syntax-selector-class-color: #164;
     --syntax-selector-id-color: #2a00ff;
-    --syntax-property-color: #fa8602;
     --syntax-selector-pseudo-color: #fa8602;
     --syntax-string-color: #2a00ff;
     --syntax-tag-color: #170;
     --syntax-template-tag-color: #fa8602;
     --syntax-template-variable-color: #0000c0;
     --syntax-title-color: #0000c0;
+    --syntax-title-function-color: var(--syntax-title-color);
     --syntax-type-color: var(--blue-700);
     --syntax-variable-color: var(--primary-text-color);
+    --syntax-variable-language-color: var(--syntax-built_in-color);
 
     /* elevation */
     --elevation-level-1: 0px 1px 2px 0px rgba(60, 64, 67, 0.3),

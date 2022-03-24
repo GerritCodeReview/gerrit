@@ -581,14 +581,6 @@ export class GrFileList extends base {
     }, createDefaultPatchChange());
   }
 
-  _getDiffPreferences() {
-    return this.restApiService.getDiffPreferences();
-  }
-
-  _getPreferences() {
-    return this.restApiService.getPreferences();
-  }
-
   // private but used in test
   _toggleFileExpanded(file: PatchSetFile) {
     // Is the path in the list of expanded diffs? If so, remove it, otherwise

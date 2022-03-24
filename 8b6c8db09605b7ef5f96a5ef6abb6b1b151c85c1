@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2b617ea4_4f08c332",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-03-24T14:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f525b057_42a6aaae",
+      "revId": "8b6c8db09605b7ef5f96a5ef6abb6b1b151c85c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0a2e260e_c37895b3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 10
@@ -60,6 +78,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea340994_7371e08d",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-03-24T14:23:44Z",
+      "side": 1,
+      "message": "Done, also for the other override.\nI\u0027m not sure the octopus merge comment makes sense now though.",
+      "parentUuid": "f11ca94f_d6049691",
+      "range": {
+        "startLine": 236,
+        "startChar": 2,
+        "endLine": 243,
+        "endChar": 3
+      },
+      "revId": "8b6c8db09605b7ef5f96a5ef6abb6b1b151c85c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ba174106_f6d65ad1",
         "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
         "patchSetId": 10
@@ -71,6 +113,30 @@
       "writtenOn": "2022-03-24T13:14:58Z",
       "side": 1,
       "message": "Can you please document this new option in config-mail.txt?",
+      "range": {
+        "startLine": 520,
+        "startChar": 9,
+        "endLine": 520,
+        "endChar": 19
+      },
+      "revId": "8b6c8db09605b7ef5f96a5ef6abb6b1b151c85c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3866cb8c_a0135d59",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-03-24T14:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba174106_f6d65ad1",
       "range": {
         "startLine": 520,
         "startChar": 9,
@@ -104,6 +170,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "353774d5_9e61241b",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-03-24T14:23:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d233116_1f8ca5bf",
+      "range": {
+        "startLine": 624,
+        "startChar": 0,
+        "endLine": 625,
+        "endChar": 26
+      },
+      "revId": "8b6c8db09605b7ef5f96a5ef6abb6b1b151c85c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06d00489_7b6f7d4b",
@@ -117,6 +207,30 @@
       "writtenOn": "2022-03-24T13:14:58Z",
       "side": 1,
       "message": "[optional] I don\u0027t know much about soy. I wonder if having a line-break here causes trouble. Maybe, to be on the safe side, just make this a single line even if it means that it exceeds the 100 chars.",
+      "range": {
+        "startLine": 33,
+        "startChar": 82,
+        "endLine": 34,
+        "endChar": 18
+      },
+      "revId": "8b6c8db09605b7ef5f96a5ef6abb6b1b151c85c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "694a440a_61565110",
+        "filename": "resources/com/google/gerrit/server/mail/ChangeSubject.soy",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2022-03-24T14:23:44Z",
+      "side": 1,
+      "message": "IIUC this should work fine.\ngo/soy/reference/textual-commands#single-space-added",
+      "parentUuid": "06d00489_7b6f7d4b",
       "range": {
         "startLine": 33,
         "startChar": 82,

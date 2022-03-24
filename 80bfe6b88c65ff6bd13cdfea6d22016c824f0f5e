@@ -16,6 +16,75 @@
       "message": "PTAL updated some new files.",
       "revId": "80bfe6b88c65ff6bd13cdfea6d22016c824f0f5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6ee7d7e_bf918f8e",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-24T11:43:50Z",
+      "side": 1,
+      "message": "inline in line above?",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 317,
+        "endChar": 44
+      },
+      "revId": "80bfe6b88c65ff6bd13cdfea6d22016c824f0f5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3895e257_8e5a4a24",
+        "filename": "polygerrit-ui/app/test/test-data-generators.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-24T11:43:50Z",
+      "side": 1,
+      "message": "can you move with the other constants around #221 and match the naming scheme TEST_FOO? DEFAULT_FOO may be confused with a default in the production code. I agree constants go better at the top here, so you can move the others here if you prefer. Either way they should all be together.",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 126,
+        "endChar": 24
+      },
+      "revId": "80bfe6b88c65ff6bd13cdfea6d22016c824f0f5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "081be256_a2d4eeae",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-24T11:43:50Z",
+      "side": 1,
+      "message": "can this be passed in the line above?",
+      "range": {
+        "startLine": 320,
+        "startChar": 23,
+        "endLine": 320,
+        "endChar": 47
+      },
+      "revId": "80bfe6b88c65ff6bd13cdfea6d22016c824f0f5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

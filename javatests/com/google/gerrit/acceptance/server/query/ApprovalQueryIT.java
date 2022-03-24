@@ -67,6 +67,29 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void exactValuePredicate() throws Exception {
+    ApprovalContext approvalContextCodeReviewPlusOne = contextForCodeReviewLabel(1);
+    assertFalse(
+        queryBuilder.parse("is:\"-2\"").asMatchable().match(approvalContextCodeReviewPlusOne));
+    assertFalse(
+        queryBuilder.parse("is:\"-1\"").asMatchable().match(approvalContextCodeReviewPlusOne));
+    assertFalse(queryBuilder.parse("is:0").asMatchable().match(approvalContextCodeReviewPlusOne));
+    assertTrue(queryBuilder.parse("is:1").asMatchable().match(approvalContextCodeReviewPlusOne));
+    assertFalse(queryBuilder.parse("is:2").asMatchable().match(approvalContextCodeReviewPlusOne));
+  }
+
+  @Test
+  public void isPredicate_invalidValue() throws Exception {
+    QueryParseException thrown =
+        assertThrows(QueryParseException.class, () -> queryBuilder.parse("is:INVALID"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "INVALID is not a valid value for operator 'is'. Valid values: ANY, MAX, MIN"
+                + " or integer");
+  }
+
+  @Test
   public void changeKindPredicate_noCodeChange() throws Exception {
     String change = changeKindCreator.createChange(ChangeKind.NO_CODE_CHANGE, testRepo, admin);
     changeKindCreator.updateChange(change, ChangeKind.NO_CODE_CHANGE, testRepo, admin, project);
@@ -124,6 +147,17 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .parse("-changekind:rework")
             .asMatchable()
             .match(contextForCodeReviewLabel(/* value= */ -2, ps2, admin.id())));
+  }
+
+  @Test
+  public void changeKindPredicate_invalidValue() throws Exception {
+    QueryParseException thrown =
+        assertThrows(QueryParseException.class, () -> queryBuilder.parse("changekind:INVALID"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "INVALID is not a valid value for operator 'changekind'. Valid values:"
+                + " MERGE_FIRST_PARENT_UPDATE, NO_CHANGE, NO_CODE_CHANGE, REWORK, TRIVIAL_REBASE");
   }
 
   @Test
@@ -241,7 +275,15 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains(
-            "'invalid' is not a supported argument for has. only 'unchanged-files' is supported");
+            "'invalid' is not a valid value for operator 'has'."
+                + " The only valid value is 'unchanged-files'.");
+  }
+
+  @Test
+  public void invalidQuery() throws Exception {
+    QueryParseException thrown =
+        assertThrows(QueryParseException.class, () -> queryBuilder.parse("INVALID"));
+    assertThat(thrown).hasMessageThat().contains("Unsupported query: INVALID");
   }
 
   private ApprovalContext contextForCodeReviewLabel(int value) throws Exception {

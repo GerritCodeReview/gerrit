@@ -70,7 +70,8 @@ suite('gr-label-row-score tests', () => {
       Verified: ['-1', ' 0', '+1'],
     };
 
-    element.labelValues = {'0': 2, '1': 3, '2': 4, '-2': 0, '-1': 1};
+    element.orderedLabelValues = [-2, -1, 0, 1, 2];
+    //  {'0': 2, '1': 3, '2': 4, '-2': 0, '-1': 1};
 
     element.label = {
       name: 'Verified',
@@ -180,26 +181,20 @@ suite('gr-label-row-score tests', () => {
     assert.strictEqual(element._computeLabelValue(), '+1');
   });
 
-  test('_computeBlankItems', () => {
-    element.labelValues = {
-      '-2': 0,
-      '-1': 1,
-      '0': 2,
-      '1': 3,
-      '2': 4,
-    };
+  test('computeBlankItemsCount', () => {
+    element.orderedLabelValues = [-2, -1, 0, 1, 2];
     element.label = {name: 'Code-Review', value: ' 0'};
-    assert.strictEqual(element._computeBlankItems('start').length, 0);
+    assert.strictEqual(element.computeBlankItemsCount('start'), 0);
 
     element.label = {name: 'Verified', value: ' 0'};
-    assert.strictEqual(element._computeBlankItems('start').length, 1);
+    assert.strictEqual(element.computeBlankItemsCount('start'), 1);
   });
 
   test('labelValues returns no keys', () => {
-    element.labelValues = {};
+    element.orderedLabelValues = [];
     element.label = {name: 'Code-Review', value: ' 0'};
 
-    assert.deepEqual(element._computeBlankItems('start'), []);
+    assert.deepEqual(element.computeBlankItemsCount('start'), 0);
   });
 
   test('changes in label score are reflected in the DOM', async () => {

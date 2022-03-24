@@ -394,6 +394,7 @@ export class GrChangeListItem extends LitElement {
       <td class="cell owner">
         <gr-account-label
           highlightAttention
+          clickable
           .change=${this.change}
           .account=${this.change?.owner}
         ></gr-account-label>
@@ -424,6 +425,7 @@ export class GrChangeListItem extends LitElement {
   private renderChangeReviewers(reviewer: AccountInfo, index: number) {
     return html`
       <gr-account-label
+        clickable
         hideAvatar
         firstName
         highlightAttention

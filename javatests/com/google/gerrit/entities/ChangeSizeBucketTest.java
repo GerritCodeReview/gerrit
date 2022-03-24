@@ -20,13 +20,13 @@ import org.junit.Test;
 
 public class ChangeSizeBucketTest {
 
-    @Test
-    public void getChangeSizeBucket() {
-        assertThat(ChangeSizeBucket.getChangeSizeBucket(0)).isEqualTo("NoOp");
-        assertThat(ChangeSizeBucket.getChangeSizeBucket(1)).isEqualTo("XS");
-        assertThat(ChangeSizeBucket.getChangeSizeBucket(10)).isEqualTo("S");
-        assertThat(ChangeSizeBucket.getChangeSizeBucket(50)).isEqualTo("M");
-        assertThat(ChangeSizeBucket.getChangeSizeBucket(250)).isEqualTo("L");
-        assertThat(ChangeSizeBucket.getChangeSizeBucket(1000)).isEqualTo("XL");
-    }
+  @Test
+  public void getChangeSizeBucket() {
+    assertThat(ChangeSizeBucket.getChangeSizeBucket(0)).isEqualTo("NoOp");
+    assertThat(ChangeSizeBucket.getChangeSizeBucket(1)).isEqualTo("XS");
+    assertThat(ChangeSizeBucket.getChangeSizeBucket(10)).isEqualTo("S");
+    assertThat(ChangeSizeBucket.getChangeSizeBucket(50)).isEqualTo("M");
+    assertThat(ChangeSizeBucket.getChangeSizeBucket(250)).isEqualTo("L");
+    assertThat(ChangeSizeBucket.getChangeSizeBucket(1000)).isEqualTo("XL");
+  }
 }

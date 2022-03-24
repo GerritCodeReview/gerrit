@@ -29,6 +29,7 @@ import {
   hasNeutralStatus,
   labelCompare,
   LabelStatus,
+  computeLabels,
 } from './label-util';
 import {
   AccountId,
@@ -45,10 +46,12 @@ import {
   createSubmitRequirementResultInfo,
   createNonApplicableSubmitRequirementResultInfo,
   createDetailedLabelInfo,
+  createAccountWithId,
 } from '../test/test-data-generators';
 import {
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
+  LabelNameToInfoMap,
 } from '../api/rest-api';
 
 const VALUES_0 = {
@@ -235,6 +238,58 @@ suite('label-util', () => {
     assert.equal(getRepresentativeValue(labelInfo), 2);
     labelInfo = {all: [{value: 0}, {value: -2}]};
     assert.equal(getRepresentativeValue(labelInfo), -2);
+  });
+
+  test('computeLabels', async () => {
+    const accountId = 123 as AccountId;
+    const account = createAccountWithId(accountId);
+    const change = {
+      ...createChange(),
+      labels: {
+        'Code-Review': {
+          values: {
+            '0': 'No score',
+            '+1': 'good',
+            '+2': 'excellent',
+            '-1': 'bad',
+            '-2': 'terrible',
+          },
+          default_value: 0,
+        } as DetailedLabelInfo,
+        Verified: {
+          values: {
+            '0': 'No score',
+            '+1': 'good',
+            '+2': 'excellent',
+            '-1': 'bad',
+            '-2': 'terrible',
+          },
+          default_value: 0,
+        } as DetailedLabelInfo,
+      } as LabelNameToInfoMap,
+    };
+    let labels = computeLabels(account, change);
+    assert.deepEqual(labels, [
+      {name: 'Code-Review', value: null},
+      {name: 'Verified', value: null},
+    ]);
+    change.labels = {
+      ...change.labels,
+      Verified: {
+        ...change.labels.Verified,
+        all: [
+          {
+            _account_id: accountId,
+            value: 1,
+          },
+        ],
+      } as DetailedLabelInfo,
+    } as LabelNameToInfoMap;
+    labels = computeLabels(account, change);
+    assert.deepEqual(labels, [
+      {name: 'Code-Review', value: null},
+      {name: 'Verified', value: '+1'},
+    ]);
   });
 
   suite('extractAssociatedLabels()', () => {

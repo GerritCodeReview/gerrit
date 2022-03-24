@@ -61,11 +61,10 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * Computes approvals for a given patch set by looking at approvals applied to the given patch set
- * and by additionally inferring approvals from the patch set's parents. The latter is done by
- * asserting a change's kind and checking the project config for allowed forward-inference.
+ * and by additionally copying approvals from the previous patch set. The latter is done by
+ * asserting a change's kind and checking the project config for copy conditions.
  *
- * <p>The result of a copy may either be stored, as when stamping approvals in the database at
- * submit time, or refreshed on demand, as when reading approvals from the NoteDb.
+ * <p>The result of a copy is stored in NoteDb when a new patch set is created.
  */
 @Singleton
 class ApprovalInference {

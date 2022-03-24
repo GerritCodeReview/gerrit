@@ -67,7 +67,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * <p>The result of a copy is stored in NoteDb when a new patch set is created.
  */
 @Singleton
-class ApprovalInference {
+class ApprovalCopier {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DiffOperations diffOperations;
@@ -79,7 +79,7 @@ class ApprovalInference {
   private final ListOfFilesUnchangedPredicate listOfFilesUnchangedPredicate;
 
   @Inject
-  ApprovalInference(
+  ApprovalCopier(
       DiffOperations diffOperations,
       ProjectCache projectCache,
       ChangeKindCache changeKindCache,

@@ -65,8 +65,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * asserting a change's kind and checking the project config for allowed forward-inference.
  *
  * <p>The result of a copy may either be stored, as when stamping approvals in the database at
- * submit time, or refreshed on demand, as when reading approvals from the NoteDb. TODO(ghareeb):
- * migrate to new diff cache
+ * submit time, or refreshed on demand, as when reading approvals from the NoteDb.
  */
 @Singleton
 class ApprovalInference {

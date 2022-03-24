@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ffa1a2d_38ba49d7",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T09:30:07Z",
+      "side": 1,
+      "message": "This is the default, so why pass it in?",
+      "revId": "314d272051639a3316b6f1e33a06cdcefc0ebcc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

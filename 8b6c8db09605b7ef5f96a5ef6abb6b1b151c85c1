@@ -100,6 +100,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44e6ee3f_8e79dab2",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-24T14:34:41Z",
+      "side": 1,
+      "message": "Thanks, looks good to me.",
+      "parentUuid": "ea340994_7371e08d",
+      "range": {
+        "startLine": 236,
+        "startChar": 2,
+        "endLine": 243,
+        "endChar": 3
+      },
+      "revId": "8b6c8db09605b7ef5f96a5ef6abb6b1b151c85c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba174106_f6d65ad1",
@@ -231,6 +255,30 @@
       "side": 1,
       "message": "IIUC this should work fine.\ngo/soy/reference/textual-commands#single-space-added",
       "parentUuid": "06d00489_7b6f7d4b",
+      "range": {
+        "startLine": 33,
+        "startChar": 82,
+        "endLine": 34,
+        "endChar": 18
+      },
+      "revId": "8b6c8db09605b7ef5f96a5ef6abb6b1b151c85c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6b9248f_53579524",
+        "filename": "resources/com/google/gerrit/server/mail/ChangeSubject.soy",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-24T14:34:41Z",
+      "side": 1,
+      "message": "Nice. Thanks for checking!",
+      "parentUuid": "694a440a_61565110",
       "range": {
         "startLine": 33,
         "startChar": 82,

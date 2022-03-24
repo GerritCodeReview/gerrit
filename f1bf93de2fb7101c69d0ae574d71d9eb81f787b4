@@ -39,6 +39,30 @@
       },
       "revId": "f1bf93de2fb7101c69d0ae574d71d9eb81f787b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04d1a295_880a0ef9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-24T11:06:00Z",
+      "side": 1,
+      "message": "I\u0027ve tried:\n\n    const saveEditPrefStub \u003d stubRestApi(\u0027saveEditPreferences\u0027).returns(\n      Promise.resolve(editPreferences)\n    );\n    \nbut it doesn\u0027t seem to work as in it doesn\u0027t trigger setEditPreferences within updateEditPreference.\n\nAny ideas how to get it to work?",
+      "parentUuid": "03726bf0_3ca93804",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 40
+      },
+      "revId": "f1bf93de2fb7101c69d0ae574d71d9eb81f787b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

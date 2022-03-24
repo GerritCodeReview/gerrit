@@ -123,6 +123,8 @@ import {
 import {RunResult} from '../models/checks/checks-model';
 import {Category, RunStatus} from '../api/checks';
 
+const DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
+
 export function dateToTimestamp(date: Date): Timestamp {
   const nanosecondSuffix = '.000000000';
   return (formatDate(date, 'YYYY-MM-DD HH:mm:ss') +
@@ -765,20 +767,25 @@ export function createGroupAuditEventInfo(
   }
 }
 
-export function createSubmitRequirementExpressionInfo(): SubmitRequirementExpressionInfo {
+export function createSubmitRequirementExpressionInfo(
+  expression = DEFAULT_EXPRESSION
+): SubmitRequirementExpressionInfo {
   return {
-    expression: 'label:Verified=MAX -label:Verified=MIN',
+    expression,
     fulfilled: true,
     passing_atoms: ['label2:verified=MAX'],
     failing_atoms: ['label2:verified=MIN'],
   };
 }
 
-export function createSubmitRequirementResultInfo(): SubmitRequirementResultInfo {
+export function createSubmitRequirementResultInfo(
+  expression = DEFAULT_EXPRESSION
+): SubmitRequirementResultInfo {
   return {
     name: 'Verified',
     status: SubmitRequirementStatus.SATISFIED,
-    submittability_expression_result: createSubmitRequirementExpressionInfo(),
+    submittability_expression_result:
+      createSubmitRequirementExpressionInfo(expression),
     is_legacy: false,
   };
 }

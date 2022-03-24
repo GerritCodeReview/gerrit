@@ -293,32 +293,20 @@ suite('label-util', () => {
   });
 
   suite('extractAssociatedLabels()', () => {
-    function createSubmitRequirementExpressionInfoWith(expression: string) {
-      return {
-        ...createSubmitRequirementResultInfo(),
-        submittability_expression_result: {
-          ...createSubmitRequirementExpressionInfo(),
-          expression,
-        },
-      };
-    }
-
     test('1 label', () => {
-      const submitRequirement = createSubmitRequirementExpressionInfoWith(
-        'label:Verified=MAX -label:Verified=MIN'
-      );
+      const submitRequirement = createSubmitRequirementResultInfo();
       const labels = extractAssociatedLabels(submitRequirement);
       assert.deepEqual(labels, ['Verified']);
     });
     test('label with number', () => {
-      const submitRequirement = createSubmitRequirementExpressionInfoWith(
+      const submitRequirement = createSubmitRequirementResultInfo(
         'label2:verified=MAX'
       );
       const labels = extractAssociatedLabels(submitRequirement);
       assert.deepEqual(labels, ['verified']);
     });
     test('2 labels', () => {
-      const submitRequirement = createSubmitRequirementExpressionInfoWith(
+      const submitRequirement = createSubmitRequirementResultInfo(
         'label:Verified=MAX -label:Code-Review=MIN'
       );
       const labels = extractAssociatedLabels(submitRequirement);
@@ -326,9 +314,7 @@ suite('label-util', () => {
     });
     test('overridden label', () => {
       const submitRequirement = {
-        ...createSubmitRequirementExpressionInfoWith(
-          'label:Verified=MAX -label:Verified=MIN'
-        ),
+        ...createSubmitRequirementResultInfo(),
         override_expression_result: {
           ...createSubmitRequirementExpressionInfo(),
           expression: 'label:Build-cop-override',

@@ -38,10 +38,7 @@ suite('gr-trigger-vote tests', () => {
     const submitRequirement: SubmitRequirementResultInfo = {
       ...createSubmitRequirementResultInfo(),
       description: 'Test Description',
-      submittability_expression_result: {
-        ...createSubmitRequirementExpressionInfo(),
-        expression: 'label:Verified=MAX -label:Verified=MIN',
-      },
+      submittability_expression_result: createSubmitRequirementExpressionInfo(),
     };
     const change: ParsedChangeInfo = {
       ...createParsedChange(),

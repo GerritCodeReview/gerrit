@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f525b057_42a6aaae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-24T13:14:58Z",
+      "side": 1,
+      "message": "Can you maybe add a sentence here to explain why this is useful?\n(the linked Google issue is not visible to non-Googlers so they can\u0027t find this information there)",
+      "revId": "8b6c8db09605b7ef5f96a5ef6abb6b1b151c85c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a2e260e_c37895b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-24T13:14:58Z",
+      "side": 1,
+      "message": "Looks pretty good, I only have some minor comments.",
+      "revId": "8b6c8db09605b7ef5f96a5ef6abb6b1b151c85c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f11ca94f_d6049691",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-24T13:14:58Z",
+      "side": 1,
+      "message": "I wonder whether we do need this method. Out of 3 callers of this methods, only one actually needs a TreeMap (the call from getChangeDetail()) whereas the other callers (getInsertionsCount and getDeletionsCount) are only interested in the map values.\n\nIIUC for getInsertionsCount and getDeletionsCount you are mainly interested in ignoring the exception. Could we do the following:\n\n* drop this method\n* use listModifiedFiles() instead\n* change listModifiedFiles() to ignore DiffNotAvailableException, rather than throwing it (if I see this correctly all callers of listModifiedFiles() do ignore this exception)",
+      "range": {
+        "startLine": 236,
+        "startChar": 2,
+        "endLine": 243,
+        "endChar": 3
+      },
+      "revId": "8b6c8db09605b7ef5f96a5ef6abb6b1b151c85c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba174106_f6d65ad1",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-24T13:14:58Z",
+      "side": 1,
+      "message": "Can you please document this new option in config-mail.txt?",
+      "range": {
+        "startLine": 520,
+        "startChar": 9,
+        "endLine": 520,
+        "endChar": 19
+      },
+      "revId": "8b6c8db09605b7ef5f96a5ef6abb6b1b151c85c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d233116_1f8ca5bf",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-24T13:14:58Z",
+      "side": 1,
+      "message": "nit: unrelated change",
+      "range": {
+        "startLine": 624,
+        "startChar": 0,
+        "endLine": 625,
+        "endChar": 26
+      },
+      "revId": "8b6c8db09605b7ef5f96a5ef6abb6b1b151c85c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06d00489_7b6f7d4b",
+        "filename": "resources/com/google/gerrit/server/mail/ChangeSubject.soy",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-24T13:14:58Z",
+      "side": 1,
+      "message": "[optional] I don\u0027t know much about soy. I wonder if having a line-break here causes trouble. Maybe, to be on the safe side, just make this a single line even if it means that it exceeds the 100 chars.",
+      "range": {
+        "startLine": 33,
+        "startChar": 82,
+        "endLine": 34,
+        "endChar": 18
+      },
+      "revId": "8b6c8db09605b7ef5f96a5ef6abb6b1b151c85c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

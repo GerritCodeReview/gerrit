@@ -125,12 +125,12 @@ suite('gr-account-label tests', () => {
   suite('_computeName', () => {
     test('not showing anonymous', () => {
       const account = {name: 'Wyatt'};
-      assert.deepEqual(element._computeName(account, false), 'Wyatt');
+      assert.deepEqual(element.computeName(account, false), 'Wyatt');
     });
 
     test('showing anonymous but no config', () => {
       const account = {};
-      assert.deepEqual(element._computeName(account, false), 'Anonymous');
+      assert.deepEqual(element.computeName(account, false), 'Anonymous');
     });
 
     test('test for Anonymous Coward user and replace with Anonymous', () => {
@@ -142,7 +142,7 @@ suite('gr-account-label tests', () => {
       };
       const account = {};
       assert.deepEqual(
-        element._computeName(account, false, config),
+        element.computeName(account, false, config),
         'Anonymous'
       );
     });
@@ -155,10 +155,7 @@ suite('gr-account-label tests', () => {
         },
       };
       const account = {};
-      assert.deepEqual(
-        element._computeName(account, false, config),
-        'TestAnon'
-      );
+      assert.deepEqual(element.computeName(account, false, config), 'TestAnon');
     });
   });
 

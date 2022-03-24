@@ -16,6 +16,24 @@
       "message": "This is the default, so why pass it in?",
       "revId": "314d272051639a3316b6f1e33a06cdcefc0ebcc0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca4ae9ed_02d73f3a",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-24T09:52:18Z",
+      "side": 1,
+      "message": "Found and fixed other usages as well. PTAL.",
+      "parentUuid": "2ffa1a2d_38ba49d7",
+      "revId": "314d272051639a3316b6f1e33a06cdcefc0ebcc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

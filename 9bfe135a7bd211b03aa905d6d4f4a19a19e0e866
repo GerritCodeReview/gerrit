@@ -179,6 +179,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96a15529_f6ea0027",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-24T13:52:47Z",
+      "side": 1,
+      "message": "Add that as a comment so we know in the future nothing needs to be added here.",
+      "parentUuid": "b2ed04f7_1c5828f4",
+      "range": {
+        "startLine": 143,
+        "startChar": 10,
+        "endLine": 143,
+        "endChar": 24
+      },
+      "revId": "9bfe135a7bd211b03aa905d6d4f4a19a19e0e866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9370d2ef_6d607ed4",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
         "patchSetId": 6

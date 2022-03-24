@@ -71,7 +71,7 @@ interface TagsCountReportInfo {
   all: number;
 }
 
-type CombinedMessage = Omit<
+export type CombinedMessage = Omit<
   FormattedReviewerUpdateInfo | ChangeMessageInfo,
   'tag'
 > & {

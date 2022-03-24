@@ -18,7 +18,6 @@ import '../gr-label-score-row/gr-label-score-row';
 import '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {
   LabelNameToValueMap,
   ChangeInfo,
@@ -76,9 +75,6 @@ export class GrLabelScores extends LitElement {
         }
         gr-label-score-row {
           display: table-row;
-        }
-        gr-label-score-row.no-access {
-          display: none;
         }
         .heading-3 {
           padding-left: var(--spacing-xl);
@@ -154,16 +150,21 @@ export class GrLabelScores extends LitElement {
     return html`<div
       class="scoresTable ${newSubReqs ? 'newSubmitRequirements' : ''}"
     >
-      ${labels.map(
-        label => html`<gr-label-score-row
-          class="${this.computeLabelAccessClass(label.name)}"
-          .label="${label}"
-          .name="${label.name}"
-          .labels="${this.change?.labels}"
-          .permittedLabels="${this.permittedLabels}"
-          .orderedLabelValues="${this.computeOrderedLabelValues()}"
-        ></gr-label-score-row>`
-      )}
+      ${labels
+        .filter(
+          label =>
+            this.permittedLabels?.[label.name] &&
+            this.permittedLabels?.[label.name].length > 0
+        )
+        .map(
+          label => html`<gr-label-score-row
+            .label="${label}"
+            .name="${label.name}"
+            .labels="${this.change?.labels}"
+            .permittedLabels="${this.permittedLabels}"
+            .orderedLabelValues="${this.computeOrderedLabelValues()}"
+          ></gr-label-score-row>`
+        )}
     </div>`;
   }
 
@@ -227,15 +228,6 @@ export class GrLabelScores extends LitElement {
 
     const orderedValues = Array.from(values.values()).sort((a, b) => a - b);
     return orderedValues;
-  }
-
-  private computeLabelAccessClass(label?: string) {
-    if (!this.permittedLabels || !label) return '';
-
-    return hasOwnProperty(this.permittedLabels, label) &&
-      this.permittedLabels[label].length
-      ? 'access'
-      : 'no-access';
   }
 }
 

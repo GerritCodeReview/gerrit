@@ -16,6 +16,142 @@
       "message": "PTAL",
       "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a8036f8_e6b9537d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T13:58:47Z",
+      "side": 1,
+      "message": "What is the disable logic for this button?",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c58c7e24_2785068b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T13:58:47Z",
+      "side": 1,
+      "message": "Should we even allow the dialog if a change doesn\u0027t have permitted-labels?",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30f0ae77_f3983940",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T13:58:47Z",
+      "side": 1,
+      "message": "Why are we excluding trigger votes?",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9fb266f_27fc4aa4",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T13:58:47Z",
+      "side": 1,
+      "message": "I thought you had gotten rid of computeColumns and made it computeOrderedLabels?",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "411523d6_c45d7bdc",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T13:58:47Z",
+      "side": 1,
+      "message": "Why are these optional?",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8d334ad_6bf86a83",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T13:58:47Z",
+      "side": 1,
+      "message": "We should return the one that\u0027s not empty if one of them is present. Only return the empty map when neither is present.",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a353065_e18a6736",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T13:58:47Z",
+      "side": 1,
+      "message": "Please put statement on next line and with curly braces before and after for legibility.",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c9f6b24_2e79d2d3",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T13:58:47Z",
+      "side": 1,
+      "message": "Don\u0027t you want the intersection of the keys?",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

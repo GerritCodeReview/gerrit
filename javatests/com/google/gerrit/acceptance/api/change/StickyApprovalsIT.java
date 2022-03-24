@@ -328,9 +328,19 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyOnMergeFirstParentUpdate() throws Exception {
+  public void stickyOnMergeFirstParentUpdate_withoutCopyCondition() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyAllScoresOnMergeFirstParentUpdate(true));
+    testStickyOnMergeFirstParentUpdate();
+  }
 
+  @Test
+  public void stickyOnMergeFirstParentUpdate_withCopyCondition() throws Exception {
+    updateCodeReviewLabel(
+        b -> b.setCopyCondition("changekind:" + MERGE_FIRST_PARENT_UPDATE.name()));
+    testStickyOnMergeFirstParentUpdate();
+  }
+
+  private void testStickyOnMergeFirstParentUpdate() throws Exception {
     String changeId = changeKindCreator.createChange(MERGE_FIRST_PARENT_UPDATE, testRepo, admin);
     vote(admin, changeId, 2, 1);
     vote(user, changeId, -2, -1);

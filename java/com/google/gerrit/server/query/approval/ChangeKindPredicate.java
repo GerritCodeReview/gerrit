@@ -32,15 +32,33 @@ public class ChangeKindPredicate extends ApprovalPredicate {
 
   @Override
   public boolean match(ApprovalContext ctx) {
-    return ctx.changeKind().equals(changeKind)
-        // NO_CHANGE is a special kind of a trivial rebase, hence if votes are configured to be
-        // copied on TRIVIAL_REBASE copying should be done if NO_CHANGE was detected as actual
-        // change kind.
-        || (changeKind == ChangeKind.TRIVIAL_REBASE && ctx.changeKind() == ChangeKind.NO_CHANGE)
-        // NO_CHANGE is a special kind of a no code, hence if votes are configured to be
-        // copied on NO_CODE_CHANGE copying should be done if NO_CHANGE was detected as actual
-        // change kind.
-        || (changeKind == ChangeKind.NO_CODE_CHANGE && ctx.changeKind() == ChangeKind.NO_CHANGE);
+    if (ctx.changeKind().equals(changeKind)) {
+      // The configured change kind (changeKind) on which approvals should be copied matches the
+      // actual change kind (ctx.changeKind()).
+      return true;
+    }
+
+    // If the actual change kind (ctx.changeKind()) is NO_CHANGE it is also matched if the
+    // configured change kind (changeKind) is:
+    // * TRIVIAL_REBASE: since NO_CHANGE is a special kind of a trivial rebase
+    // * NO_CODE_CHANGE: if there is no change, there is also no code change
+    // * MERGE_FIRST_PARENT_UPDATE: if votes should be copied on first parent update, they should
+    //   also be copied if there was no change
+    //
+    // Motivation:
+    // * https://gerrit-review.googlesource.com/c/gerrit/+/74690
+    // * There is no practical use case where you would want votes to be copied on
+    //   TRIVIAL_REBASE|NO_CODE_CHANGE|MERGE_FIRST_PARENT_UPDATE but not on NO_CHANGE. Matching
+    //   NO_CHANGE implicitly for these change kinds makes configuring copy conditions easier (as
+    //   users can simply configure "changekind:<CHANGE-KIND>", rather than
+    //   "changekind:<CHANGE-KIND> OR changekind:NO_CHANGE").
+    // * This preserves backwards compatibility with the deprecated boolean flags for copying
+    //   approvals based on the change kind ('copyAllScoresOnTrivialRebase',
+    //   'copyAllScoresIfNoCodeChange' and 'copyAllScoresOnMergeFirstParentUpdate').
+    return ctx.changeKind() == ChangeKind.NO_CHANGE
+        && (changeKind == ChangeKind.TRIVIAL_REBASE
+            || changeKind == ChangeKind.NO_CODE_CHANGE
+            || changeKind == ChangeKind.MERGE_FIRST_PARENT_UPDATE);
   }
 
   @Override

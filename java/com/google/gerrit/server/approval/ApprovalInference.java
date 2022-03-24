@@ -28,6 +28,7 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.index.query.QueryParseException;
@@ -50,6 +51,7 @@ import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -125,6 +127,7 @@ class ApprovalInference {
       PatchSetApproval psa,
       PatchSet.Id psId,
       ChangeKind kind,
+      boolean isMerge,
       LabelType type,
       @Nullable Map<String, ModifiedFile> baseVsCurrentDiff,
       @Nullable Map<String, ModifiedFile> baseVsPriorDiff,
@@ -272,7 +275,7 @@ class ApprovalInference {
               project.getName());
           return true;
         }
-        if (type.isCopyAllScoresOnMergeFirstParentUpdate()) {
+        if (isMerge && type.isCopyAllScoresOnMergeFirstParentUpdate()) {
           logger.atFine().log(
               "approval %d on label %s of patch set %d of change %d can be copied"
                   + " to patch set %d because change kind is %s and the label has set"
@@ -317,13 +320,15 @@ class ApprovalInference {
       PatchSet patchSet,
       LabelType type,
       ChangeKind changeKind,
+      boolean isMerge,
       RevWalk revWalk,
       Config repoConfig) {
     if (!type.getCopyCondition().isPresent()) {
       return false;
     }
     ApprovalContext ctx =
-        ApprovalContext.create(changeNotes, psa, patchSet, changeKind, revWalk, repoConfig);
+        ApprovalContext.create(
+            changeNotes, psa, patchSet, changeKind, isMerge, revWalk, repoConfig);
     try {
       // Use a request context to run checks as an internal user with expanded visibility. This is
       // so that the output of the copy condition does not depend on who is running the current
@@ -377,6 +382,7 @@ class ApprovalInference {
             repoConfig,
             priorPatchSet.getValue().commitId(),
             patchSet.commitId());
+    boolean isMerge = isMerge(project.getNameKey(), rw, patchSet);
     logger.atFine().log(
         "change kind for patch set %d of change %d against prior patch set %s is %s",
         patchSet.id().get(),
@@ -420,17 +426,30 @@ class ApprovalInference {
               psa,
               patchSet.id(),
               changeKind,
+              isMerge,
               type.get(),
               baseVsCurrent,
               baseVsPrior,
               priorVsCurrent)
           && !canCopyBasedOnCopyCondition(
-              notes, psa, patchSet, type.get(), changeKind, rw, repoConfig)) {
+              notes, psa, patchSet, type.get(), changeKind, isMerge, rw, repoConfig)) {
         continue;
       }
       resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(patchSet.id()));
     }
     return resultByUser.values();
+  }
+
+  private boolean isMerge(Project.NameKey project, RevWalk rw, PatchSet patchSet) {
+    try {
+      return rw.parseCommit(patchSet.commitId()).getParentCount() > 1;
+    } catch (IOException e) {
+      throw new StorageException(
+          String.format(
+              "failed to check if patch set %d of change %s in project %s is a merge commit",
+              patchSet.id().get(), patchSet.id().changeId(), project),
+          e);
+    }
   }
 
   /**

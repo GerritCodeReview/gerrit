@@ -359,6 +359,37 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void
+      notStickyOnNoChangeForNonMergeIfCopyingIsConfiguredForMergeFirstParentUpdate_withoutCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyAllScoresOnMergeFirstParentUpdate(true));
+    testNotStickyOnNoChangeForNonMergeIfCopyingIsConfiguredForMergeFirstParentUpdate();
+  }
+
+  @Test
+  public void
+      notStickyOnNoChangeForNonMergeIfCopyingIsConfiguredForMergeFirstParentUpdate_withCopyCondition()
+          throws Exception {
+    updateCodeReviewLabel(
+        b -> b.setCopyCondition("changekind:" + MERGE_FIRST_PARENT_UPDATE.name()));
+    testNotStickyOnNoChangeForNonMergeIfCopyingIsConfiguredForMergeFirstParentUpdate();
+  }
+
+  private void testNotStickyOnNoChangeForNonMergeIfCopyingIsConfiguredForMergeFirstParentUpdate()
+      throws Exception {
+    // Create a change with a non-merge commit
+    String changeId = changeKindCreator.createChange(REWORK, testRepo, admin);
+    vote(admin, changeId, 2, 1);
+    vote(user, changeId, -2, -1);
+
+    // Make a NO_CHANGE update (expect that votes are not copied since it's not a merge change).
+    changeKindCreator.updateChange(changeId, NO_CHANGE, testRepo, admin, project);
+    ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 0, 0, NO_CHANGE);
+    assertVotes(c, user, -0, 0, NO_CHANGE);
+  }
+
+  @Test
   public void notStickyWithCopyOnNoChangeWhenSecondParentIsUpdated() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyAllScoresIfNoChange(true));
 

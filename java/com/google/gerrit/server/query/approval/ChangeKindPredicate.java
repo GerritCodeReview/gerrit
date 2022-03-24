@@ -42,8 +42,8 @@ public class ChangeKindPredicate extends ApprovalPredicate {
     // configured change kind (changeKind) is:
     // * TRIVIAL_REBASE: since NO_CHANGE is a special kind of a trivial rebase
     // * NO_CODE_CHANGE: if there is no change, there is also no code change
-    // * MERGE_FIRST_PARENT_UPDATE: if votes should be copied on first parent update, they should
-    //   also be copied if there was no change
+    // * MERGE_FIRST_PARENT_UPDATE (only if the new patch set is a merge commit): if votes should be
+    //   copied on first parent update, they should also be copied if there was no change
     //
     // Motivation:
     // * https://gerrit-review.googlesource.com/c/gerrit/+/74690
@@ -58,7 +58,7 @@ public class ChangeKindPredicate extends ApprovalPredicate {
     return ctx.changeKind() == ChangeKind.NO_CHANGE
         && (changeKind == ChangeKind.TRIVIAL_REBASE
             || changeKind == ChangeKind.NO_CODE_CHANGE
-            || changeKind == ChangeKind.MERGE_FIRST_PARENT_UPDATE);
+            || (ctx.isMerge() && changeKind == ChangeKind.MERGE_FIRST_PARENT_UPDATE));
   }
 
   @Override

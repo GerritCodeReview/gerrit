@@ -37,12 +37,6 @@ export interface Label {
   value: string | null;
 }
 
-// TODO(TS): add description to explain what this is after moving
-// gr-label-scores to ts
-export interface LabelValuesMap {
-  [key: number]: number;
-}
-
 declare global {
   interface HTMLElementTagNameMap {
     'gr-label-score-row': GrLabelScoreRow;
@@ -72,8 +66,8 @@ export class GrLabelScoreRow extends LitElement {
   @property({type: Object})
   permittedLabels: LabelNameToValueMap | undefined | null;
 
-  @property({type: Object})
-  labelValues?: LabelValuesMap;
+  @property({type: Array})
+  orderedLabelValues?: number[];
 
   @state()
   private selectedValueText = 'No value selected';
@@ -212,14 +206,17 @@ export class GrLabelScoreRow extends LitElement {
     `;
   }
 
+  // Render blank cells so that all same value votes are aligned
   private renderBlankItems(position: string) {
-    const blankItems = this._computeBlankItems(position);
-    return blankItems.map(
-      _value => html`
-        <span class="placeholder" data-label="${this.label?.name ?? ''}">
-        </span>
-      `
-    );
+    const blankItemCount = this.computeBlankItemsCount(position);
+    return new Array(blankItemCount)
+      .fill('')
+      .map(
+        () => html`
+          <span class="placeholder" data-label="${this.label?.name ?? ''}">
+          </span>
+        `
+      );
   }
 
   private renderLabelSelector() {
@@ -305,25 +302,31 @@ export class GrLabelScoreRow extends LitElement {
   }
 
   // Private but used in tests.
-  _computeBlankItems(side: string) {
+  computeBlankItemsCount(side: string) {
     if (
       !this.label ||
       !this.permittedLabels?.[this.label.name] ||
       !this.permittedLabels[this.label.name].length ||
-      !this.labelValues ||
-      !Object.keys(this.labelValues).length
+      !this.orderedLabelValues?.length
     ) {
-      return [];
+      return 0;
     }
+    const orderedLabelValues = this.orderedLabelValues;
     const permittedLabel = this.permittedLabels[this.label.name];
-    const startPosition = this.labelValues[Number(permittedLabel[0])];
+    // How many empty cells need to be rendered to the left before showing
+    // the first value of the label range. If min value of the label is -1 and
+    // overall min possible is -2 then we render one empty cell. If overall min
+    // is -1 then we don't render any empty cell.
     if (side === 'start') {
-      return new Array(startPosition).fill('');
+      return Number(permittedLabel[0]) - orderedLabelValues[0];
     }
-    const endPosition =
-      this.labelValues[Number(permittedLabel[permittedLabel.length - 1])];
-    const length = Object.keys(this.labelValues).length - endPosition - 1;
-    return new Array(length).fill('');
+    // How many empty cells need to be rendered to the right after showing the
+    // last value of the label range. If max value is +1 and overall max value
+    // is +2 we add one empty cell to the right.
+    return (
+      orderedLabelValues[orderedLabelValues.length - 1] -
+      Number(permittedLabel[permittedLabel.length - 1])
+    );
   }
 
   private getLabelValue() {

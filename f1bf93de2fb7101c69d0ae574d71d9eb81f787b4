@@ -63,6 +63,30 @@
       },
       "revId": "f1bf93de2fb7101c69d0ae574d71d9eb81f787b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a360e8c4_258d375e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-24T11:31:02Z",
+      "side": 1,
+      "message": "saveEditPreferences has return type of Response so the compiler should have immediately told you the types don\u0027t match.\n\nThe returned response is then sent to getResponseObject so what you need instead is\n\n```\nstubRestApi(\u0027getResponseObject\u0027).returns(\n      Promise.resolve(element.editPrefs! as unknown as ParsedJSON)\n    );\n```\n\nI verified that this works locally.",
+      "parentUuid": "04d1a295_880a0ef9",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 40
+      },
+      "revId": "f1bf93de2fb7101c69d0ae574d71d9eb81f787b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

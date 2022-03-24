@@ -20,6 +20,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3cd139e3_87e95a90",
+        "filename": "java/com/google/gerrit/entities/ChangeSizeBucket.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-03-24T16:30:09Z",
+      "side": 1,
+      "message": "Nit: could you, please, add a class-level javadoc?",
+      "range": {
+        "startLine": 16,
+        "startChar": 13,
+        "endLine": 16,
+        "endChar": 29
+      },
+      "revId": "842df8b94532dc116c2e2beb99e0f9b5e0464b2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f793fc2_7305f843",
+        "filename": "java/com/google/gerrit/entities/ChangeSizeBucket.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-03-24T16:30:09Z",
+      "side": 1,
+      "message": "nit: could you, please, document this method? E.g. that delta param is number of lines.",
+      "range": {
+        "startLine": 37,
+        "startChar": 43,
+        "endLine": 37,
+        "endChar": 54
+      },
+      "revId": "842df8b94532dc116c2e2beb99e0f9b5e0464b2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82de4db9_e4d4e14b",
         "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
         "patchSetId": 11
@@ -36,6 +82,52 @@
         "startChar": 19,
         "endLine": 515,
         "endChar": 29
+      },
+      "revId": "842df8b94532dc116c2e2beb99e0f9b5e0464b2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66fe3f27_2896126d",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-03-24T16:30:09Z",
+      "side": 1,
+      "message": "nit: is this formatting change intentional?",
+      "range": {
+        "startLine": 614,
+        "startChar": 84,
+        "endLine": 614,
+        "endChar": 85
+      },
+      "revId": "842df8b94532dc116c2e2beb99e0f9b5e0464b2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca9c4429_c70e9f4d",
+        "filename": "resources/com/google/gerrit/server/mail/ChangeSubject.soy",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-03-24T16:30:09Z",
+      "side": 1,
+      "message": "optional: Would it be possible to add an integration test for that?\nE.g could you add a test to ChangeNotificationsIT[1] using FakeEmailSender.java[2]\n\n[1]https://gerrit.googlesource.com/gerrit/+/refs/heads/master/javatests/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java\n[2]https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/testing/FakeEmailSender.java",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 23
       },
       "revId": "842df8b94532dc116c2e2beb99e0f9b5e0464b2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bef9b91_f3ac96cb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T14:26:04Z",
+      "side": 1,
+      "message": "Why is this necessary?",
+      "revId": "ace1159cdfcf2ca0cfde8fe2bdef99cc8e6a1d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5225bb5e_dd2f2ceb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T14:26:04Z",
+      "side": 1,
+      "message": "This is an O(N^2*k) loop where N \u003d number of reviewers k \u003d reviewers/change.\n\nYou can easily change this to an O(Nk) complexity with something like:\n\n```\nprivate getCurrentReviewers() {\n  if (this.selectedChanges.length \u003d\u003d\u003d 0) return [];\n  \n  const accounts \u003d new Map\u003cAccountId, Account\u003e();\n  let sets \u003d [];\n  for (const change in this.selectedChanges) {\n    const reviewers \u003d Object.values(change.reviewers).flat();\n    sets.push(new Set(...reviewers.map(a \u003d\u003e a.account_id)));\n    for (const account in reviewers) {\n      accounts[account.account_id] \u003d account;\n    }\n  }\n\n  function intersect(?a, b) {\n    return new Set([...a].filter(x \u003d\u003e b.has(x)));\n  }\n  \n  let globalSet \u003d sets.reduce(intersect);\n  return [...globalSet].map(x \u003d\u003e accounts.get(x));\n}\n```",
+      "revId": "ace1159cdfcf2ca0cfde8fe2bdef99cc8e6a1d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a76ce022_50ffd0ba",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T14:26:04Z",
+      "side": 1,
+      "message": "This needs to be smarter to not add reviewers to changes that already have them.\n\nE.g.:\n\nI select 2 changes with these reviewers:\n - frank, dhruv\n - frank\n\nThen the common reviewers is frank. If I add Dhruv we should make sure not to add it to both changes.",
+      "revId": "ace1159cdfcf2ca0cfde8fe2bdef99cc8e6a1d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b519ec6_17c2cbb8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-edit-preferences/gr-edit-preferences.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-24T08:18:09Z",
+      "side": 1,
+      "message": "This code will be immediately overwritten in Change 333710 hence I am fine leaving it as is.\nPerhaps leave a comment saying once this is moved to model this requestUpdate is not required.",
+      "range": {
+        "startLine": 319,
+        "startChar": 6,
+        "endLine": 322,
+        "endChar": 27
+      },
+      "revId": "58925846782f0535ec5a2e5eb6897b932572c7d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

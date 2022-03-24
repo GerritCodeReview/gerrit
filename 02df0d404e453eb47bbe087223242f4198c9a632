@@ -16,6 +16,24 @@
       "message": "How about adding parent option instead? So we create a project only under a specific parent?",
       "revId": "02df0d404e453eb47bbe087223242f4198c9a632",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a52836d_7abb441a",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-03-24T11:52:05Z",
+      "side": 1,
+      "message": "Actually, there is already a parent option(see line 73 in GerritSimulation) even if it is not documented.\nThe project_prefix however solves a different problem. It lets you create a project under a specific namespace for Gerrit setups where you are restricted in the naming of projects.",
+      "parentUuid": "c9e9c03d_e91266e6",
+      "revId": "02df0d404e453eb47bbe087223242f4198c9a632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

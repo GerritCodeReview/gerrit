@@ -205,7 +205,7 @@ export class GrAccountLabel extends LitElement {
     if (!account) return;
     this.attentionIconShown =
       forceAttention ||
-      this._hasUnforcedAttention(highlightAttention, account, change);
+      this.hasUnforcedAttention(highlightAttention, account, change);
     this.deselected = !this.selected;
     const hasAvatars = !!_config?.plugin?.has_avatars;
     this.avatarShown = !this.hideAvatar && hasAvatars;
@@ -223,14 +223,14 @@ export class GrAccountLabel extends LitElement {
           : ''}
         ${this.attentionIconShown
           ? html` <gr-tooltip-content
-              ?has-tooltip=${this._computeAttentionButtonEnabled(
+              ?has-tooltip=${this.computeAttentionButtonEnabled(
                 highlightAttention,
                 account,
                 change,
                 false,
                 this._selfAccount
               )}
-              title="${this._computeAttentionIconTitle(
+              title="${this.computeAttentionIconTitle(
                 highlightAttention,
                 account,
                 change,
@@ -243,8 +243,8 @@ export class GrAccountLabel extends LitElement {
                 id="attentionButton"
                 link=""
                 aria-label="Remove user from attention set"
-                @click=${this._handleRemoveAttentionClick}
-                ?disabled=${!this._computeAttentionButtonEnabled(
+                @click=${this.handleRemoveAttentionClick}
+                ?disabled=${!this.computeAttentionButtonEnabled(
                   highlightAttention,
                   account,
                   change,
@@ -331,7 +331,7 @@ export class GrAccountLabel extends LitElement {
     `;
   }
 
-  _isAttentionSetEnabled(
+  private isAttentionSetEnabled(
     highlight: boolean,
     account: AccountInfo,
     change?: ChangeInfo
@@ -339,13 +339,13 @@ export class GrAccountLabel extends LitElement {
     return highlight && !!change && !!account && !isServiceUser(account);
   }
 
-  _hasUnforcedAttention(
+  private hasUnforcedAttention(
     highlight: boolean,
     account: AccountInfo,
     change?: ChangeInfo
   ): boolean {
     return !!(
-      this._isAttentionSetEnabled(highlight, account, change) &&
+      this.isAttentionSetEnabled(highlight, account, change) &&
       change &&
       change.attention_set &&
       !!account._account_id &&
@@ -353,6 +353,7 @@ export class GrAccountLabel extends LitElement {
     );
   }
 
+  // Private but used in tests.
   _computeName(
     account?: AccountInfo,
     firstName?: boolean,
@@ -361,7 +362,7 @@ export class GrAccountLabel extends LitElement {
     return getDisplayName(config, account, firstName);
   }
 
-  _handleRemoveAttentionClick(e: MouseEvent) {
+  private handleRemoveAttentionClick(e: MouseEvent) {
     if (!this.account || !this.change) return;
     if (this.selected) return;
     e.preventDefault();
@@ -389,7 +390,7 @@ export class GrAccountLabel extends LitElement {
 
     this.reporting.reportInteraction(
       'attention-icon-remove',
-      this._reportingDetails()
+      this.reportingDetails()
     );
     this.restApiService
       .removeFromAttentionSet(
@@ -402,7 +403,7 @@ export class GrAccountLabel extends LitElement {
       });
   }
 
-  _reportingDetails() {
+  private reportingDetails() {
     if (!this.account) return;
     const targetId = this.account._account_id;
     const ownerId =
@@ -424,7 +425,7 @@ export class GrAccountLabel extends LitElement {
     };
   }
 
-  _computeAttentionButtonEnabled(
+  private computeAttentionButtonEnabled(
     highlight: boolean,
     account: AccountInfo,
     change: ChangeInfo | undefined,
@@ -433,12 +434,12 @@ export class GrAccountLabel extends LitElement {
   ) {
     if (selected) return true;
     return (
-      !!this._hasUnforcedAttention(highlight, account, change) &&
+      !!this.hasUnforcedAttention(highlight, account, change) &&
       (isInvolved(change, selfAccount) || isSelf(account, selfAccount))
     );
   }
 
-  _computeAttentionIconTitle(
+  private computeAttentionIconTitle(
     highlight: boolean,
     account: AccountInfo,
     change: ChangeInfo | undefined,
@@ -446,7 +447,7 @@ export class GrAccountLabel extends LitElement {
     selected: boolean,
     selfAccount?: AccountInfo
   ) {
-    const enabled = this._computeAttentionButtonEnabled(
+    const enabled = this.computeAttentionButtonEnabled(
       highlight,
       account,
       change,

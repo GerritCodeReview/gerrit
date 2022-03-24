@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fe2c7cb_0d6df4ac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-24T10:15:08Z",
+      "side": 1,
+      "message": "remove \"_\"?",
+      "range": {
+        "startLine": 357,
+        "startChar": 2,
+        "endLine": 357,
+        "endChar": 14
+      },
+      "revId": "b059bc2411a32792938211e6d165d36607836ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

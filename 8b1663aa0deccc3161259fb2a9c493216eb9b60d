@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cabb172_c46ba486",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T09:25:40Z",
+      "side": 1,
+      "message": "Nice cleanup!",
+      "revId": "8b1663aa0deccc3161259fb2a9c493216eb9b60d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6229ea18_47ae800f",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-24T09:25:40Z",
+      "side": 1,
+      "message": "Maybe rename this to orderedLabelValues?",
+      "revId": "8b1663aa0deccc3161259fb2a9c493216eb9b60d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

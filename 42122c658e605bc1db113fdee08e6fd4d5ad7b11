@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae591db0_37ec814a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-25T13:07:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7beb5729_9f93f3e1",
+      "revId": "42122c658e605bc1db113fdee08e6fd4d5ad7b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f442af88_9615536a",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-03-25T11:15:58Z",
       "side": 1,
       "message": "Consider moving this merging to a helper function, I expect this to grow over time.\n\nAlso easier to test that way.",
+      "revId": "42122c658e605bc1db113fdee08e6fd4d5ad7b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56d28209_f8300105",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-25T13:07:40Z",
+      "side": 1,
+      "message": "Made a separate private method. Since the detail level of a ChangeInfo is flexible and not yet captured in types, I don\u0027t feel I can pick a good enough name for a helper that would reflect the inputs. It would be easier testing but currently it\u0027s pretty straightforward (setup mock, call .sync())",
+      "parentUuid": "f442af88_9615536a",
       "revId": "42122c658e605bc1db113fdee08e6fd4d5ad7b11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

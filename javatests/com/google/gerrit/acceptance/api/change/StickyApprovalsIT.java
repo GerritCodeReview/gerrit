@@ -158,6 +158,16 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     testStickyOnAnyScore();
   }
 
+  @Test
+  public void stickyOnRework() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("changekind:REWORK"));
+
+    // changekind:REWORK should match all kind of changes so that approvals are always copied.
+    // This means setting changekind:REWORK is equivalent to setting is:ANY and we can do the same
+    // assertions for both cases.
+    testStickyOnAnyScore();
+  }
+
   private void testStickyOnAnyScore() throws Exception {
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {

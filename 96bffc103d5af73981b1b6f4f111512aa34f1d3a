@@ -3,6 +3,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3c97743_0633b161",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Add comment as to what these mean?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "804d47e6_217b4900",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Remove, see comment below.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c09cc731_ab7ac4e1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Extremely minor nit: Given these are shown vertically, maybe put them all on their own line to mirror the actual structure.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f472202b_7e88c8eb",
         "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
         "patchSetId": 29
@@ -48,6 +99,98 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f943da3_9390faea",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "It worked for creating the right dom-structure (which it didn\u0027t do without this hack) but it then fails at the shadowDom expectation.  I looked into chai, and they play around with innerHtml as a dom-string which\n\nThis is the hack:\n```\nawait fixture\u003cHTMLTableElement\u003e(html`\n  \u003ctable\u003e\n  ${html`\u003cgr-context-controls-section\u003e\u003c/gr-context-controls-section\u003e`}\n  \u003c/table\u003e\n`);\n```\n\nI think the bug is in the chai-library and how it computes how to diff things.\n\nOne thing this will do is not have a lightdom on the outermost element, so you probably want to do .dom.equals instead of lightdom.equals. But again, it might break because of how chai works.",
+      "parentUuid": "17b103ee_20e23bcd",
+      "range": {
+        "startLine": 97,
+        "startChar": 4,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a9fbbb5_15b07385",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Where is tbody coming from?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51587491_42415ba6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "You mean \"both\"? Not clear what \"show-both\" is.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a111f97_0148f564",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "What about binary-diffs? Do you plan to migrate those as well to be lit-based?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97def299_dcb96060",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "What about unified diffs, do you plan to migrate those as well to be lit-based?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0127e211_ebe198f9",
@@ -67,6 +210,47 @@
         "endLine": 43,
         "endChar": 45
       },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5467a9e_fb8dc646",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "0127e211_ebe198f9",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 45
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caaca5db_702e78a3",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "return row?.findLineNumberCell(side) ?? null;",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -96,6 +280,91 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e351e5c1_354660a9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "getContentTdByLine and getLineElByNumber returns null on error. This functions returns undefined.\n\nWould be nice to have some consistency.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbe39753_691643b4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Factor out shared code with getLineNumberRows.\n\nIf you do that, you might only need to export a single function and have\n\nthe row objects have a common API for getTableRow() and getLineNumberCell(), thereby reducing the amount of protected methods in the diff-builder, which is advantageous because it reduces the API through inheritance, where the rows could just use an interface they implement rather than inheritance.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2b10ee7_60f5a943",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Same comment. should the abstracted method be this.findRow() and it returns a row that has as API findBlameCell()?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "079163d3_2a46bbc4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Why do you call it \u0027oldSection\u0027?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65d2456d_26e9dd1b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Why do you need ?? undefined? Just have this method return GrDiffSection | null",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "151a3754_aaefce9c",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
         "patchSetId": 29
@@ -119,6 +388,132 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9cdd53e9_4e1535ba",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "151a3754_aaefce9c",
+      "range": {
+        "startLine": 131,
+        "startChar": 11,
+        "endLine": 136,
+        "endChar": 6
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d225a82a_b384c8b6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Do these extra divs cause issues given this is a table layout?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ca4d139_efc5c74e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "```\n         \u003ccol class\u003d\"${diffClasses(Side.LEFT)}\" \n              width\u003d\"${lineNumberWidth}\"\u003e\u003c/col\u003e\n              \n```",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "047a4ec1_b929a263",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b36e2978_a2ca923c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Belongs in a util file with unit-tests.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4362d524_9dd6e7b1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "This function is too complicated, please split it up into helper functions with meaningful names.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c2c2052_98293fd0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Why is this necessary?\n\nCan\u0027t you just lightdom.equals with the single row that\u0027s generated?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0f69b67c_4d812bd9",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
         "patchSetId": 29
@@ -136,6 +531,142 @@
         "endLine": 175,
         "endChar": 48
       },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d6c3b06_896b3c31",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Terminate early if lineNumber \u003c\u003d 0. Also when can this happen?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12dc7e1c_da1ae0ff",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "This should be a switch statement.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e226ee94_2a7d92d1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Document what scenarios this can happen.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a114055_3943c657",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Don\u0027t push these, initialize the array with these.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67ec750d_34bd9cb4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Do we need consistency with legacy?  Does this computation of extras belong in a util function that\u0027s shared with legacy?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0d820ae_f75e2fc0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Document where these events are caught.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf47cd30_b70bb212",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "This seems like a signifcant enough TODO that it might warrant a bug filed.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3941168_6a610880",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "I don\u0027t understand this code. If you\u0027ve already selected the correct `line` for the `side`, why do you need to specify `side` to `lineNumber`? This feels like an API smell.",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -188,6 +719,159 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b776b17d_6d6573c6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "How often do these lit re-renderings occur? \nWhat would cause a re-rendering?\nDon\u0027t you want to call all layers if you\u0027re rerendering?\nShould updateLayers be called as part of renderText?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57d85fad_96ada5c9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Have you tested whether calling requestUpdate more than once doesn\u0027t cause issues because you\u0027re messing with the dom that\u0027s rendered by lit?\n\nWhen I tried this for commentLinks, I had to use slots because if I modified the dom, the next time render was called it was very unhappy.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53da0381_4ea23f7b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Should we skip annotating for blank lines?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4d1743c_f82ac04c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Why do layers need lineNumberEl? This seems like an unnecessary argument.\n\nI looked around a bit and\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/embed/diff/gr-coverage-layer/gr-coverage-layer.ts;drc\u003d1c984cb87f28d77e8a41f8aadac8176153d454c9;l\u003d72\n\nCould get its information from the extra arguments its currently ignoring.\n\nThe reason I mention this is because if we removed that dependency, we could call layers directly in renderText",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5a5340b_6534a424",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Consider grouping these with the other getters that are based on side.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf15f62b_878d63c7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "This seems more like get rather than find.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1b41d1e_bd42fffb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Get instead of find?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "344130a4_1ab9f345",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "get instead of find?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9500c5ea_1957f1b8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Is it possible that element.left \u003d REMOVE and element.right \u003d ADD?\n\nIf so I\u0027d consider that also as a test-case.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dd00fbf9_071294a2",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-section.ts",
         "patchSetId": 29
@@ -211,6 +895,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ae80f92_53cb3838",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "As discussed, always render gr-diff-row, to avoid having this duplication of logic across gr-diff-section and gr-diff-row.\n\nThen you can simply pass in whether it\u0027s visible to the gr-diff-row and based on that disable/enable the updated logic.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "972bfb3c_713c5f30",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "I don\u0027t fully understand this.\n\nIf we are showing group 3 out of 5, then even if 5 is skip, you might still want to showBelow because there\u0027s still group 4?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "098157a9_02e8c503",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Why ?? undefined? What\u0027s wrong with null?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae6bb3ae_7c8622d1",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
         "patchSetId": 29
@@ -228,6 +963,57 @@
         "endLine": 231,
         "endChar": 24
       },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "270e23ba_2603d2c0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "This is adding an unnecessary space if additionalClasses are empty.\n\nWhy not return [\u0027style-scope\u0027, \u0027gr-diff\u0027, ...additionalClasses].join(\u0027 \u0027);",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f8790db_acf3bad6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Would it be possible to put this style in the style-table rather than hardcoding style on the element?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85916e67_6e2fb4b3",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T12:57:23Z",
+      "side": 1,
+      "message": "Why are you escaping the tab?\n\nOn line 286 it\u0027s not escaped.",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

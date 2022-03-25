@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8799837_ab4fd8d5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-25T09:46:49Z",
+      "side": 1,
+      "message": "Adding in Change 333779",
+      "parentUuid": "5a8036f8_e6b9537d",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c58c7e24_2785068b",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-03-24T13:58:47Z",
       "side": 1,
       "message": "Should we even allow the dialog if a change doesn\u0027t have permitted-labels?",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6cb242d_24a3b73a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-25T09:46:49Z",
+      "side": 1,
+      "message": "I added a TODO to disable the button if no labels can be voted upon.\nDisable logic I\u0027m adding in the next Change 333779.",
+      "parentUuid": "c58c7e24_2785068b",
       "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "890c7cce_802a7853",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-25T09:46:49Z",
+      "side": 1,
+      "message": "\u003c!-- TODO: Add section for trigger votes --\u003e is added already.\nI\u0027ll add it in a follow up change.",
+      "parentUuid": "30f0ae77_f3983940",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9fb266f_27fc4aa4",
@@ -82,6 +136,24 @@
       "writtenOn": "2022-03-24T13:58:47Z",
       "side": 1,
       "message": "I thought you had gotten rid of computeColumns and made it computeOrderedLabels?",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98405a34_70b6322d",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-25T09:46:49Z",
+      "side": 1,
+      "message": "Sorry rebasing issue.\nI fixed it in label-score but then had to update once I extracted to a util.",
+      "parentUuid": "a9fb266f_27fc4aa4",
       "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -105,6 +177,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8312d701_1548d534",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-25T09:46:49Z",
+      "side": 1,
+      "message": "I was filtering out undefined change.permittedLabels before but that was incorrect since it would then compute a voting range for changes in which voting is allowed.\n\nThe current logic is to show votes which can be applied to all changes to I am following that.\n\nchange.permitted_labels is of type LabelNameToValueMap|undefined hence the parameter is undefined.",
+      "parentUuid": "411523d6_c45d7bdc",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e8d334ad_6bf86a83",
         "filename": "polygerrit-ui/app/utils/label-util.ts",
         "patchSetId": 38
@@ -116,6 +206,24 @@
       "writtenOn": "2022-03-24T13:58:47Z",
       "side": 1,
       "message": "We should return the one that\u0027s not empty if one of them is present. Only return the empty map when neither is present.",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "073e0b4d_7172d647",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-25T09:46:49Z",
+      "side": 1,
+      "message": "I want no votes if any change has permittedLabels undefined. In that case I will just disable the button.\nIf I call merge on one change with votes and one change with undefined I will have the dialog rendering with some votes which I guess shouldn\u0027t happen.",
+      "parentUuid": "e8d334ad_6bf86a83",
       "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -150,6 +258,42 @@
       "writtenOn": "2022-03-24T13:58:47Z",
       "side": 1,
       "message": "Don\u0027t you want the intersection of the keys?",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b6b36fd_08f55f45",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-25T09:46:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a353065_e18a6736",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90844ba2_be76b25e",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-25T09:46:49Z",
+      "side": 1,
+      "message": "In case the key doesn\u0027t exist in the other one we will get the empty array which is basically equivalent to not having any votes for that label.\n\nThis isn\u0027t purely calculating the intersection. Previously a label with no votes was being hidden with access classes.\n\nI updated to avoid rendering the label in Change 333959 and doing the same here. A label is only shown if there are some values applicable to it.",
+      "parentUuid": "7c9f6b24_2e79d2d3",
       "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

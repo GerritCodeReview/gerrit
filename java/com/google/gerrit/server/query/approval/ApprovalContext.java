@@ -43,6 +43,9 @@ public abstract class ApprovalContext {
   /** {@link ChangeKind} of the delta between the origin and target patch set. */
   public abstract ChangeKind changeKind();
 
+  /** Whether the new patch set is a merge commit. */
+  public abstract boolean isMerge();
+
   /** {@link RevWalk} of the repository for the current commit. */
   public abstract RevWalk revWalk();
 
@@ -54,6 +57,7 @@ public abstract class ApprovalContext {
       PatchSetApproval psa,
       PatchSet patchSet,
       ChangeKind changeKind,
+      boolean isMerge,
       RevWalk revWalk,
       Config repoConfig) {
     checkState(
@@ -68,6 +72,6 @@ public abstract class ApprovalContext {
     // are no changes with gaps in patch set numbers. Since it's planned to fix-up old changes with
     // gaps in patch set numbers, this todo is a reminder to add back the check once this is done.
     return new AutoValue_ApprovalContext(
-        psa, patchSet, changeNotes, changeKind, revWalk, repoConfig);
+        psa, patchSet, changeNotes, changeKind, isMerge, revWalk, repoConfig);
   }
 }

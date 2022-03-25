@@ -314,6 +314,7 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
           approval,
           changeNotes.getPatchSets().get(newPsId),
           changeKind,
+          /* isMerge= */ false,
           rw,
           repo.getConfig());
     }

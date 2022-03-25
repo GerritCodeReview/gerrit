@@ -95,7 +95,7 @@ public class ApprovalsUtil {
     return Iterables.filter(psas, a -> Objects.equals(a.accountId(), accountId));
   }
 
-  private final ApprovalInference approvalInference;
+  private final ApprovalCopier approvalInference;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final LabelNormalizer labelNormalizer;
@@ -103,7 +103,7 @@ public class ApprovalsUtil {
   @VisibleForTesting
   @Inject
   public ApprovalsUtil(
-      ApprovalInference approvalInference,
+      ApprovalCopier approvalInference,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       LabelNormalizer labelNormalizer) {

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bfad6ee_afd464f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T11:15:58Z",
+      "side": 1,
+      "message": "Some minor last nits.",
+      "revId": "42122c658e605bc1db113fdee08e6fd4d5ad7b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7beb5729_9f93f3e1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T11:15:58Z",
+      "side": 1,
+      "message": "Add a todo to factor out common log with other flows.",
+      "revId": "42122c658e605bc1db113fdee08e6fd4d5ad7b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f442af88_9615536a",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T11:15:58Z",
+      "side": 1,
+      "message": "Consider moving this merging to a helper function, I expect this to grow over time.\n\nAlso easier to test that way.",
+      "revId": "42122c658e605bc1db113fdee08e6fd4d5ad7b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -158,6 +158,24 @@
       "parentUuid": "24dcf6c8_31584abe",
       "revId": "ace1159cdfcf2ca0cfde8fe2bdef99cc8e6a1d43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a29cc78_d5d1a4fb",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-25T11:02:35Z",
+      "side": 1,
+      "message": "PEBKAC PTAL",
+      "parentUuid": "ba2b1d06_371501f1",
+      "revId": "ace1159cdfcf2ca0cfde8fe2bdef99cc8e6a1d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

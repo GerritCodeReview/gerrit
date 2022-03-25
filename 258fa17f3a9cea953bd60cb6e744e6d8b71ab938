@@ -16,6 +16,24 @@
       "message": "Have you tested this or asked BE team? What happens when you try to add a reviewer only on a change?  Shouldn\u0027t this be computed on a per-change basis to avoid adding a reviewer to a specific change that already has one?",
       "revId": "258fa17f3a9cea953bd60cb6e744e6d8b71ab938",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e8f1d81_0727442d",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-25T11:02:35Z",
+      "side": 1,
+      "message": "Yes I verified it manually many times during testing using FE helper on gerrit host. ReviewInput is merged into change obj in DB. The direct add/remove reviewer endpoint only allows one reviewer per request, so I switched to setchangereview(). Per-change logic Done.",
+      "parentUuid": "0efed5b5_0dfe409c",
+      "revId": "258fa17f3a9cea953bd60cb6e744e6d8b71ab938",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e857392a_5063009c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 43
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T10:08:29Z",
+      "side": 1,
+      "message": "Google-Bug-Id: b/?",
+      "revId": "40da82d6ae1cad0db024e008fa391aad51ba871f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7384b599_a15b4263",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 43
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T10:08:29Z",
+      "side": 1,
+      "message": "Why this change to gr-labels-score.ts?\n\nIdeally we shouldn\u0027t modify it. If there\u0027s extra logic required, I\u0027d put it in the flow component to make sure gr-label-score behaves correctly.",
+      "revId": "40da82d6ae1cad0db024e008fa391aad51ba871f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c465dfb_83bcc0b9",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 43
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T10:08:29Z",
+      "side": 1,
+      "message": "Given the name of the function, the return value should be obvious so I don\u0027t see a benefit in the extra variable.\n\nThis could simply be\n\n```\nreturn Array.from(values.values()).sort((a, b) \u003d\u003e a - b);\n```",
+      "revId": "40da82d6ae1cad0db024e008fa391aad51ba871f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

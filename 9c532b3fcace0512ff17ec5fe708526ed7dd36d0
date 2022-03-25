@@ -123,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44877106_1195e0ae",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T10:08:29Z",
+      "side": 1,
+      "message": "Maybe a comment as to why we\u0027re doing this, it wasn\u0027t immediately obvious.",
+      "parentUuid": "890c7cce_802a7853",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9fb266f_27fc4aa4",
@@ -189,6 +207,24 @@
       "side": 1,
       "message": "I was filtering out undefined change.permittedLabels before but that was incorrect since it would then compute a voting range for changes in which voting is allowed.\n\nThe current logic is to show votes which can be applied to all changes to I am following that.\n\nchange.permitted_labels is of type LabelNameToValueMap|undefined hence the parameter is undefined.",
       "parentUuid": "411523d6_c45d7bdc",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bfedc80_05287806",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T10:08:29Z",
+      "side": 1,
+      "message": "I see, that makes sense.\n\nI think that ideally this should be done in the logic that determines whether the button is even enabled so we can assume the presence in this part of the logic.",
+      "parentUuid": "8312d701_1548d534",
       "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -294,6 +330,24 @@
       "side": 1,
       "message": "In case the key doesn\u0027t exist in the other one we will get the empty array which is basically equivalent to not having any votes for that label.\n\nThis isn\u0027t purely calculating the intersection. Previously a label with no votes was being hidden with access classes.\n\nI updated to avoid rendering the label in Change 333959 and doing the same here. A label is only shown if there are some values applicable to it.",
       "parentUuid": "7c9f6b24_2e79d2d3",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8c059f6_0a81f4f8",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T10:08:29Z",
+      "side": 1,
+      "message": "Currently, this function feels assymetric because a-keys are treated more specially than b-keys.\n\nHere\u0027s a small fix:\n\n```\nconst bKeys \u003d new Set(...Object.keys(b));\nfor (const key of Object.keys(a)) {\n  if (!bKeys.has(key)) continue;\n  ans[key] \u003d mergeLabelValues(a[key], b[key]);\n}\n```\n\nThat would also make mergeLabelValues take non-optional parameters.",
+      "parentUuid": "90844ba2_be76b25e",
       "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

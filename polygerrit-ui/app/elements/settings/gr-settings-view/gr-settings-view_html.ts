@@ -360,24 +360,7 @@ export const htmlTemplate = html`
           >Save changes</gr-button
         >
       </fieldset>
-      <h2
-        id="EditPreferences"
-        class$="[[_computeHeaderClass(_editPrefsChanged)]]"
-      >
-        Edit Preferences
-      </h2>
-      <fieldset id="editPreferences">
-        <gr-edit-preferences
-          id="editPrefs"
-          has-unsaved-changes="{{_editPrefsChanged}}"
-        ></gr-edit-preferences>
-        <gr-button
-          id="saveEditPrefs"
-          on-click="_handleSaveEditPreferences"
-          disabled$="[[!_editPrefsChanged]]"
-          >Save changes</gr-button
-        >
-      </fieldset>
+      <gr-edit-preferences id="editPrefs"></gr-edit-preferences>
       <h2 id="Menu" class$="[[_computeHeaderClass(_menuChanged)]]">Menu</h2>
       <fieldset id="menu">
         <gr-menu-editor menu-items="{{_localMenu}}"></gr-menu-editor>

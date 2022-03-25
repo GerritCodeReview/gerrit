@@ -44,6 +44,7 @@ import {addShortcut, Modifier} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
+import {subscribe} from '../../lit/subscription-controller';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -98,7 +99,7 @@ export class GrEditorView extends LitElement {
   // private but used in test
   @state() successfulSave = false;
 
-  @state() private prefs?: EditPreferencesInfo;
+  @state() private editPrefs?: EditPreferencesInfo;
 
   @state() private lineNum?: number;
 
@@ -107,6 +108,8 @@ export class GrEditorView extends LitElement {
   private readonly storage = getAppContext().storageService;
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly userModel = getAppContext().userModel;
 
   // Tests use this so needs to be non private
   storeTask?: DelayedTask;
@@ -123,8 +126,8 @@ export class GrEditorView extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.restApiService.getEditPreferences().then(prefs => {
-      this.prefs = prefs;
+    subscribe(this, this.userModel.editPreferences$, editPreferences => {
+      this.editPrefs = editPreferences;
     });
     this.cleanups.push(
       addShortcut(this, {key: 's', modifiers: [Modifier.CTRL_KEY]}, () =>
@@ -259,7 +262,7 @@ export class GrEditorView extends LitElement {
           ></gr-endpoint-param>
           <gr-endpoint-param
             name="prefs"
-            .value=${this.prefs}
+            .value=${this.editPrefs}
           ></gr-endpoint-param>
           <gr-endpoint-param
             name="fileType"

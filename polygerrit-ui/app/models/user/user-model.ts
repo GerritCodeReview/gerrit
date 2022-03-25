@@ -23,11 +23,13 @@ import {
 import {
   AccountCapabilityInfo,
   AccountDetailInfo,
+  EditPreferencesInfo,
   PreferencesInfo,
 } from '../../types/common';
 import {
   createDefaultPreferences,
   createDefaultDiffPrefs,
+  createDefaultEditPrefs,
 } from '../../constants/constants';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../types/diff';
@@ -42,6 +44,7 @@ export interface UserState {
   account?: AccountDetailInfo;
   preferences: PreferencesInfo;
   diffPreferences: DiffPreferencesInfo;
+  editPreferences: EditPreferencesInfo;
   capabilities?: AccountCapabilityInfo;
 }
 
@@ -75,6 +78,11 @@ export class UserModel extends Model<UserState> implements Finalizable {
     userState => userState.diffPreferences
   );
 
+  readonly editPreferences$: Observable<EditPreferencesInfo> = select(
+    this.state$,
+    userState => userState.editPreferences
+  );
+
   readonly preferenceDiffViewMode$: Observable<DiffViewMode> = select(
     this.preferences$,
     preference => preference.diff_view ?? DiffViewMode.SIDE_BY_SIDE
@@ -86,6 +94,7 @@ export class UserModel extends Model<UserState> implements Finalizable {
     super({
       preferences: createDefaultPreferences(),
       diffPreferences: createDefaultDiffPrefs(),
+      editPreferences: createDefaultEditPrefs(),
     });
     this.subscriptions = [
       from(this.restApiService.getAccount()).subscribe(
@@ -112,6 +121,16 @@ export class UserModel extends Model<UserState> implements Finalizable {
         )
         .subscribe((diffPrefs?: DiffPreferencesInfoAPI) => {
           this.setDiffPreferences(diffPrefs ?? createDefaultDiffPrefs());
+        }),
+      this.account$
+        .pipe(
+          switchMap(account => {
+            if (!account) return of(createDefaultEditPrefs());
+            return from(this.restApiService.getEditPreferences());
+          })
+        )
+        .subscribe((editPrefs?: EditPreferencesInfo) => {
+          this.setEditPreferences(editPrefs ?? createDefaultEditPrefs());
         }),
       this.account$
         .pipe(
@@ -154,6 +173,18 @@ export class UserModel extends Model<UserState> implements Finalizable {
       });
   }
 
+  updateEditPreference(editPrefs: EditPreferencesInfo) {
+    return this.restApiService
+      .saveEditPreferences(editPrefs)
+      .then((response: Response) => {
+        this.restApiService.getResponseObject(response).then(obj => {
+          const newPrefs = obj as unknown as EditPreferencesInfo;
+          if (!newPrefs) return;
+          this.setEditPreferences(newPrefs);
+        });
+      });
+  }
+
   getDiffPreferences() {
     return this.restApiService.getDiffPreferences().then(prefs => {
       if (!prefs) return;
@@ -169,6 +200,11 @@ export class UserModel extends Model<UserState> implements Finalizable {
   setDiffPreferences(diffPreferences: DiffPreferencesInfo) {
     const current = this.subject$.getValue();
     this.subject$.next({...current, diffPreferences});
+  }
+
+  setEditPreferences(editPreferences: EditPreferencesInfo) {
+    const current = this.subject$.getValue();
+    this.subject$.next({...current, editPreferences});
   }
 
   setCapabilities(capabilities?: AccountCapabilityInfo) {

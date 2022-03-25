@@ -17,20 +17,20 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-edit-preferences';
-import {stubRestApi} from '../../../test/test-utils';
+import {queryAll, stubRestApi} from '../../../test/test-utils';
 import {GrEditPreferences} from './gr-edit-preferences';
-import {EditPreferencesInfo} from '../../../types/common';
+import {EditPreferencesInfo, ParsedJSON} from '../../../types/common';
 import {IronInputElement} from '@polymer/iron-input';
+import {createDefaultEditPrefs} from '../../../constants/constants';
 
 const basicFixture = fixtureFromElement('gr-edit-preferences');
 
 suite('gr-edit-preferences tests', () => {
   let element: GrEditPreferences;
-
   let editPreferences: EditPreferencesInfo;
 
   function valueOf(title: string, id: string): Element {
-    const sections = element.root?.querySelectorAll(`#${id} section`) ?? [];
+    const sections = queryAll(element, `#${id} section`) ?? [];
     let titleEl;
     for (let i = 0; i < sections.length; i++) {
       titleEl = sections[i].querySelector('.title');
@@ -43,31 +43,13 @@ suite('gr-edit-preferences tests', () => {
   }
 
   setup(async () => {
-    editPreferences = {
-      auto_close_brackets: false,
-      cursor_blink_rate: 0,
-      hide_line_numbers: false,
-      hide_top_menu: false,
-      indent_unit: 2,
-      indent_with_tabs: false,
-      key_map_type: 'DEFAULT',
-      line_length: 100,
-      line_wrapping: false,
-      match_brackets: true,
-      show_base: false,
-      show_tabs: true,
-      show_whitespace_errors: true,
-      syntax_highlighting: true,
-      tab_size: 8,
-      theme: 'DEFAULT',
-    };
+    editPreferences = createDefaultEditPrefs();
 
     stubRestApi('getEditPreferences').returns(Promise.resolve(editPreferences));
 
     element = basicFixture.instantiate();
 
-    await element.loadData();
-    await flush();
+    await element.updateComplete;
   });
 
   test('renders', () => {
@@ -108,18 +90,29 @@ suite('gr-edit-preferences tests', () => {
       .firstElementChild as HTMLInputElement;
     assert.equal(autoCloseInput.checked, editPreferences.auto_close_brackets);
 
-    assert.isFalse(element.hasUnsavedChanges);
+    assert.isFalse(element.hasUnsavedChanges());
   });
 
   test('save changes', async () => {
+    assert.isTrue(element.editPrefs?.show_tabs);
+
     const showTabsCheckbox = valueOf('Show tabs', 'editPreferences')
       .firstElementChild as HTMLInputElement;
     showTabsCheckbox.checked = false;
-    element._handleEditShowTabsChanged();
+    element.handleEditShowTabsChanged();
 
-    assert.isTrue(element.hasUnsavedChanges);
+    assert.isTrue(element.hasUnsavedChanges());
+
+    const getResponseObjStub = stubRestApi('getResponseObject').returns(
+      Promise.resolve(element.editPrefs! as unknown as ParsedJSON)
+    );
 
     await element.save();
-    assert.isFalse(element.hasUnsavedChanges);
+
+    assert.isTrue(getResponseObjStub.called);
+
+    assert.isFalse(element.editPrefs?.show_tabs);
+
+    assert.isFalse(element.hasUnsavedChanges());
   });
 });

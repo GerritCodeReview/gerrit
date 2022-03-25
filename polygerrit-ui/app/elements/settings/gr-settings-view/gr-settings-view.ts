@@ -49,7 +49,6 @@ import {GrAccountInfo} from '../gr-account-info/gr-account-info';
 import {GrWatchedProjectsEditor} from '../gr-watched-projects-editor/gr-watched-projects-editor';
 import {GrGroupList} from '../gr-group-list/gr-group-list';
 import {GrIdentities} from '../gr-identities/gr-identities';
-import {GrEditPreferences} from '../gr-edit-preferences/gr-edit-preferences';
 import {GrDiffPreferences} from '../../shared/gr-diff-preferences/gr-diff-preferences';
 import {
   PreferencesInput,
@@ -111,7 +110,6 @@ export interface GrSettingsView {
     watchedProjectsEditor: GrWatchedProjectsEditor;
     groupList: GrGroupList;
     identities: GrIdentities;
-    editPrefs: GrEditPreferences;
     diffPrefs: GrDiffPreferences;
     sshEditor: GrSshEditor;
     gpgEditor: GrGpgEditor;
@@ -184,9 +182,6 @@ export class GrSettingsView extends PolymerElement {
   _diffPrefsChanged = false;
 
   @property({type: Boolean})
-  _editPrefsChanged = false;
-
-  @property({type: Boolean})
   _menuChanged = false;
 
   @property({type: Boolean})
@@ -240,7 +235,6 @@ export class GrSettingsView extends PolymerElement {
       this.$.watchedProjectsEditor.loadData(),
       this.$.groupList.loadData(),
       this.$.identities.loadData(),
-      this.$.editPrefs.loadData(),
     ];
 
     // TODO(dhruvsri): move this to the service
@@ -453,10 +447,6 @@ export class GrSettingsView extends PolymerElement {
 
   _handleSaveDiffPreferences() {
     this.$.diffPrefs.save();
-  }
-
-  _handleSaveEditPreferences() {
-    this.$.editPrefs.save();
   }
 
   _handleSaveMenu() {

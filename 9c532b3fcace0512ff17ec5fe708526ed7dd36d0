@@ -229,6 +229,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "516d4b7f_10f0416a",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-25T10:26:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7bfedc80_05287806",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8d334ad_6bf86a83",
@@ -348,6 +366,24 @@
       "side": 1,
       "message": "Currently, this function feels assymetric because a-keys are treated more specially than b-keys.\n\nHere\u0027s a small fix:\n\n```\nconst bKeys \u003d new Set(...Object.keys(b));\nfor (const key of Object.keys(a)) {\n  if (!bKeys.has(key)) continue;\n  ans[key] \u003d mergeLabelValues(a[key], b[key]);\n}\n```\n\nThat would also make mergeLabelValues take non-optional parameters.",
       "parentUuid": "90844ba2_be76b25e",
+      "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddca2818_a52e218a",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 38
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-25T10:26:56Z",
+      "side": 1,
+      "message": "I guess we can do `if (!hasOwnProperty(b, key)) continue;` instead but that does the same thing.",
+      "parentUuid": "d8c059f6_0a81f4f8",
       "revId": "9c532b3fcace0512ff17ec5fe708526ed7dd36d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

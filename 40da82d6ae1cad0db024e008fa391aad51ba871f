@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ac601eb_98e7b4fe",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 43
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-25T14:56:57Z",
+      "side": 1,
+      "message": "The Change replaces hiding labels with no values permitted with not rendering them at all.\nIt\u0027s a no-op.\nI don\u0027t understand the question you are asking.",
+      "parentUuid": "0128f8bf_80c1b879",
+      "revId": "40da82d6ae1cad0db024e008fa391aad51ba871f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c465dfb_83bcc0b9",
         "filename": "polygerrit-ui/app/utils/label-util.ts",
         "patchSetId": 43

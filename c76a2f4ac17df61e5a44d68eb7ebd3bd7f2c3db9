@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b5e4e1c_392808ff",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 49
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-25T14:56:57Z",
+      "side": 1,
+      "message": "LMK if you prefer the method to be inlined now. I kept it separate to keep the unit tests.",
+      "parentUuid": "08ef5676_fcc62a59",
+      "revId": "c76a2f4ac17df61e5a44d68eb7ebd3bd7f2c3db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cb3a5bb_444b8531",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-03-25T11:24:39Z",
       "side": 1,
       "message": "Consider adding a scenario where one of the input label maps has an empty array.\n\nmergeLabelMaps(\n         {\n          A: [\u0027-1\u0027, \u00270\u0027, \u0027+1\u0027, \u0027+2\u0027],\n          B: [\u0027-1\u0027, \u00270\u0027],\n          C: [\u0027-1\u0027, \u00270\u0027],\n        },\n        {\n          A: [],\n          B: [\u0027-1\u0027, \u00270\u0027],\n          D: [\u00270\u0027],\n        },\n        ...)",
+      "revId": "c76a2f4ac17df61e5a44d68eb7ebd3bd7f2c3db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5384b7db_1775bd1a",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 49
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-25T14:56:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cb3a5bb_444b8531",
       "revId": "c76a2f4ac17df61e5a44d68eb7ebd3bd7f2c3db9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

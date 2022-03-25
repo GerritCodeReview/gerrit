@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f416692_69a89f6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 49
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T11:24:39Z",
+      "side": 1,
+      "message": "Last round of nits.",
+      "revId": "c76a2f4ac17df61e5a44d68eb7ebd3bd7f2c3db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08ef5676_fcc62a59",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 49
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T11:24:39Z",
+      "side": 1,
+      "message": "No point in making this a set if you will right away make it a range.\n\nYou could simplify this to:\n\n```\nconst range2 \u003d new Set(b.map(v \u003d\u003e Number(v)));\nreturn a.filter(value \u003d\u003e range2.has(Number(value));\n```\n\nIt would avoid the formatting back and forth between sets of numbers and arrays of strings.\n\nI\u0027m also wondering why you need to convert them to numbers in the first place.  Isn\u0027t this sufficient:\n\n```\nreturn a.filter(value \u003d\u003e b.contains(value));\n```\n?",
+      "revId": "c76a2f4ac17df61e5a44d68eb7ebd3bd7f2c3db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cb3a5bb_444b8531",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 49
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T11:24:39Z",
+      "side": 1,
+      "message": "Consider adding a scenario where one of the input label maps has an empty array.\n\nmergeLabelMaps(\n         {\n          A: [\u0027-1\u0027, \u00270\u0027, \u0027+1\u0027, \u0027+2\u0027],\n          B: [\u0027-1\u0027, \u00270\u0027],\n          C: [\u0027-1\u0027, \u00270\u0027],\n        },\n        {\n          A: [],\n          B: [\u0027-1\u0027, \u00270\u0027],\n          D: [\u00270\u0027],\n        },\n        ...)",
+      "revId": "c76a2f4ac17df61e5a44d68eb7ebd3bd7f2c3db9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

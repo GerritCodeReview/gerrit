@@ -38,6 +38,12 @@ public class ChangeKindPredicate extends ApprovalPredicate {
       return true;
     }
 
+    // If the configured change kind (changeKind) is REWORK it means that all kind of change kinds
+    // should be matched, since any other change kind is just a more trivial version of a rework.
+    if (changeKind == ChangeKind.REWORK) {
+      return true;
+    }
+
     // If the actual change kind (ctx.changeKind()) is NO_CHANGE it is also matched if the
     // configured change kind (changeKind) is:
     // * TRIVIAL_REBASE: since NO_CHANGE is a special kind of a trivial rebase

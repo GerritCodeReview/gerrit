@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcc685b4_08cd3654",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T10:44:50Z",
+      "side": 1,
+      "message": "I didn\u0027t realize we\u0027d pre-populate the dialog with reviewers already present. That was not apparent in the rough mocks I saw.  But ok to add as a feature.",
+      "parentUuid": "e0e79f40_505290e4",
+      "revId": "ace1159cdfcf2ca0cfde8fe2bdef99cc8e6a1d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5225bb5e_dd2f2ceb",
@@ -71,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4beb0031_9abcddc6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T10:44:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0d8d9956_56bbdfea",
+      "revId": "ace1159cdfcf2ca0cfde8fe2bdef99cc8e6a1d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a76ce022_50ffd0ba",
@@ -102,6 +138,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "a76ce022_50ffd0ba",
+      "revId": "ace1159cdfcf2ca0cfde8fe2bdef99cc8e6a1d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba2b1d06_371501f1",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-25T10:44:50Z",
+      "side": 1,
+      "message": "I don\u0027t see the changes?",
+      "parentUuid": "24dcf6c8_31584abe",
       "revId": "ace1159cdfcf2ca0cfde8fe2bdef99cc8e6a1d43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

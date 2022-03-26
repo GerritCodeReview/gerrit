@@ -20,38 +20,60 @@ import './gr-diff-preferences-dialog';
 import {GrDiffPreferencesDialog} from './gr-diff-preferences-dialog';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {DiffPreferencesInfo} from '../../../api/diff';
 
 const basicFixture = fixtureFromElement('gr-diff-preferences-dialog');
 
 suite('gr-diff-preferences-dialog', () => {
   let element: GrDiffPreferencesDialog;
+  let originalDiffPrefs: DiffPreferencesInfo;
 
   setup(() => {
+    originalDiffPrefs = {
+      ...createDefaultDiffPrefs(),
+      line_wrapping: true,
+    };
+
+    stubRestApi('getDiffPreferences').returns(
+      Promise.resolve(originalDiffPrefs)
+    );
+
     element = basicFixture.instantiate();
   });
 
   test('changes applies only on save', async () => {
-    const originalDiffPrefs = {
-      ...createDefaultDiffPrefs(),
-      line_wrapping: true,
-    };
-    element.diffPrefs = originalDiffPrefs;
     await flush();
     element.open();
     await flush();
-    assert.isTrue(element.$.diffPreferences.$.lineWrappingInput.checked);
+    assert.isFalse(element._diffPrefsChanged);
+    assert.isTrue(
+      queryAndAssert<HTMLInputElement>(
+        queryAndAssert(element, '#diffPreferences'),
+        '#lineWrappingInput'
+      ).checked
+    );
 
-    MockInteractions.tap(element.$.diffPreferences.$.lineWrappingInput);
+    MockInteractions.tap(
+      queryAndAssert<HTMLInputElement>(
+        queryAndAssert(element, '#diffPreferences'),
+        '#lineWrappingInput'
+      )
+    );
     await flush();
-    assert.isFalse(element.$.diffPreferences.$.lineWrappingInput.checked);
+    assert.isFalse(
+      queryAndAssert<HTMLInputElement>(
+        queryAndAssert(element, '#diffPreferences'),
+        '#lineWrappingInput'
+      ).checked
+    );
     assert.isTrue(element._diffPrefsChanged);
-    assert.isTrue(element.diffPrefs.line_wrapping);
     assert.isTrue(originalDiffPrefs.line_wrapping);
 
     MockInteractions.tap(element.$.saveButton);
     await flush();
     // Original prefs must remains unchanged, dialog must expose a new object
     assert.isTrue(originalDiffPrefs.line_wrapping);
-    assert.isFalse(element.diffPrefs.line_wrapping);
+    assert.isFalse(element._diffPrefsChanged);
   });
 });

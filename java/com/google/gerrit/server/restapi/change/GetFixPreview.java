@@ -73,7 +73,7 @@ public class GetFixPreview implements RestReadView<FixResource> {
   @Override
   public Response<Map<String, DiffInfo>> apply(FixResource resource)
       throws PermissionBackendException, ResourceNotFoundException, ResourceConflictException,
-          AuthException, IOException, InvalidChangeOperationException {
+      AuthException, IOException, InvalidChangeOperationException {
     Map<String, DiffInfo> result = new HashMap<>();
     PatchSet patchSet = resource.getRevisionResource().getPatchSet();
     ChangeNotes notes = resource.getRevisionResource().getNotes();
@@ -110,7 +110,7 @@ public class GetFixPreview implements RestReadView<FixResource> {
       String fileName,
       ImmutableList<FixReplacement> fixReplacements)
       throws PermissionBackendException, AuthException, LargeObjectException,
-          InvalidChangeOperationException, IOException, ResourceNotFoundException {
+      InvalidChangeOperationException, IOException, ResourceNotFoundException {
     PatchScriptFactoryForAutoFix psf =
         patchScriptFactoryFactory.create(
             git, notes, fileName, patchSet, fixReplacements, DiffPreferencesInfo.defaults());
@@ -146,3 +146,6 @@ public class GetFixPreview implements RestReadView<FixResource> {
     }
   }
 }
+
+// TODO(sharadbagri): Do stuffs similar as in ApplyFix.java. Once that is figured out, will make
+// changes here.

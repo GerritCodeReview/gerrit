@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t this and below go before the v?",
       "revId": "c6c5c024f0c563abb3199feec888fb37b09e7cc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "643b7ddd_e96e88b6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-syntax-themes/gr-syntax-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-03-26T20:58:34Z",
+      "side": 1,
+      "message": "of course, yes",
+      "parentUuid": "f8106c9d_a69a584b",
+      "revId": "c6c5c024f0c563abb3199feec888fb37b09e7cc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

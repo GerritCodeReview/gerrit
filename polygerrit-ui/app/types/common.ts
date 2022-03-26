@@ -1175,6 +1175,15 @@ export interface ReviewInput {
 }
 
 /**
+ * The ApplyProvidedFixInput entity contains information for applying fixes, provided in the
+ * request body, to a revision.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#apply-provided-fix
+ */
+export interface ApplyProvidedFixInput {
+  fix_replacement_infos: FixReplacementInfo[];
+}
+
+/**
  * The ReviewResult entity contains information regarding the updates that were
  * made to a review.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#review-result

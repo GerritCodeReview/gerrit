@@ -49,10 +49,14 @@ import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewerResult;
+import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.DirectFixInput;
+import com.google.gerrit.extensions.common.FixReplacementInfo;
+import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -61,6 +65,7 @@ import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -68,6 +73,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.junit.Test;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
 
 public class ChangeReviewersIT extends AbstractDaemonTest {
 
@@ -244,8 +250,53 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertReviewers(c, CC);
   }
 
+  private static Comment.Range createRange(
+      int startLine, int startCharacter, int endLine, int endCharacter) {
+    Comment.Range range = new Comment.Range();
+    range.startLine = startLine;
+    range.startCharacter = startCharacter;
+    range.endLine = endLine;
+    range.endCharacter = endCharacter;
+    return range;
+  }
+
+
   @Test
   public void driveByComment() throws Exception {
+
+    String file_name_a = "a.txt";
+    PushOneCommit.Result r = createChangeWithTopic(testRepo, "topic", "message", file_name_a, "content\n");
+
+    String changeId = r.getChangeId();
+    approve(changeId);
+
+    // Post drive-by message as user.
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = file_name_a;
+    fixReplacementInfo1.range = createRange(1, 1, 1, 3);
+    fixReplacementInfo1.replacement = "First modification\n";
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo1);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    RestResponse resp =
+        userRestSession.post(
+            "/changes/" + r.getChangeId() + "/revisions/" + r.getCommit().getName() + "/apply_direct_fix",
+            directFixInput);
+    ReviewResult result = readContentFromJson(resp, 200, ReviewResult.class);
+    assertThat(result.labels).isNull();
+    assertThat(result.reviewers).isNull();
+
+    // Verify user is added to CC list.
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+    assertReviewers(c, REVIEWER);
+    assertReviewers(c, CC, user);
+  }
+
+  @Test
+  public void driveByCommentTest() throws Exception {
     // Create change owned by admin.
     PushOneCommit.Result r = createChange();
 
@@ -264,6 +315,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertReviewers(c, REVIEWER);
     assertReviewers(c, CC, user);
   }
+
 
   @Test
   public void addSelfAsReviewer() throws Exception {

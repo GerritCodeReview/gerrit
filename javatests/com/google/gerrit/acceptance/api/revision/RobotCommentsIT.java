@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffInfo.IntraLineStatus;
+import com.google.gerrit.extensions.common.DirectFixInput;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
@@ -739,6 +740,27 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void directFixWithinALineCanBeApplied() throws Exception {
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
+                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+  }
+
+  @Test
   public void fixSpanningMultipleLinesCanBeApplied() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content\n5";
@@ -750,6 +772,27 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     String fixId = Iterables.getOnlyElement(fixIds);
 
     gApi.changes().id(changeId).current().applyFix(fixId);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nSecond line\nThModified content\n5th line\nSixth line\nSeventh line\n"
+                + "Eighth line\nNinth line\nTenth line\n");
+  }
+
+  @Test
+  public void directFixSpanningMultipleLinesCanBeApplied() throws Exception {
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content\n5";
+    fixReplacementInfo.range = createRange(3, 2, 5, 3);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
 
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
     BinaryResultSubject.assertThat(file)
@@ -782,6 +825,34 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     String fixId = Iterables.getOnlyElement(fixIds);
 
     gApi.changes().id(changeId).current().applyFix(fixId);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nFirst modification\nSome other modified content\nFourth line\nFifth line\n"
+                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+  }
+
+  @Test
+  public void directFixWithTwoCloseReplacementsOnSameFileCanBeApplied() throws Exception {
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 3, 0);
+    fixReplacementInfo1.replacement = "First modification\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME;
+    fixReplacementInfo2.range = createRange(3, 0, 4, 0);
+    fixReplacementInfo2.replacement = "Some other modified content\n";
+
+    List<FixReplacementInfo> fixReplacementInfoList =
+        Arrays.asList(fixReplacementInfo1, fixReplacementInfo2);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
 
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
     BinaryResultSubject.assertThat(file)
@@ -828,6 +899,34 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void twoDirectFixesOnSameFileCanBeApplied() throws Exception {
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 3, 0);
+    fixReplacementInfo1.replacement = "First modification\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME;
+    fixReplacementInfo2.range = createRange(8, 0, 9, 0);
+    fixReplacementInfo2.replacement = "Some other modified content\n";
+
+    List<FixReplacementInfo> fixReplacementInfoList =
+        Arrays.asList(fixReplacementInfo1, fixReplacementInfo2);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nFirst modification\nThird line\nFourth line\nFifth line\nSixth line\n"
+                + "Seventh line\nSome other modified content\nNinth line\nTenth line\n");
+  }
+
+  @Test
   public void twoConflictingFixesOnSameFileCannotBeApplied() throws Exception {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
@@ -856,6 +955,30 @@ public class RobotCommentsIT extends AbstractDaemonTest {
             ResourceConflictException.class,
             () -> gApi.changes().id(changeId).current().applyFix(fixIds.get(1)));
     assertThat(thrown).hasMessageThat().contains("merge");
+  }
+
+  @Test
+  public void twoConflictingDirectFixesOnSameFileCannotBeApplied() throws Exception {
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 3, 1);
+    fixReplacementInfo1.replacement = "First modification\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME;
+    fixReplacementInfo2.range = createRange(3, 0, 4, 0);
+    fixReplacementInfo2.replacement = "Some other modified content\n";
+
+    List<FixReplacementInfo> fixReplacementInfoList =
+        Arrays.asList(fixReplacementInfo1, fixReplacementInfo2);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).current().applyDirectFix(directFixInput));
+    assertThat(thrown).hasMessageThat().contains("Cannot calculate fix replacement");
   }
 
   @Test
@@ -912,6 +1035,26 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void directFixReferringToDifferentFileThanRobotCommentCanBeApplied() throws Exception {
+    fixReplacementInfo.path = FILE_NAME2;
+    fixReplacementInfo.range = createRange(2, 0, 3, 0);
+    fixReplacementInfo.replacement = "Modified content\n";
+
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    gApi.changes().id(changeId).current().applyFix(fixId);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME2);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo("1st line\nModified content\n3rd line\n");
+  }
+
+  @Test
   public void fixInvolvingTwoFilesCanBeApplied() throws Exception {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
@@ -949,6 +1092,39 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void directFixInvolvingTwoFilesCanBeApplied() throws Exception {
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 3, 0);
+    fixReplacementInfo1.replacement = "First modification\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME2;
+    fixReplacementInfo2.range = createRange(1, 0, 2, 0);
+    fixReplacementInfo2.replacement = "Different file modification\n";
+
+    List<FixReplacementInfo> fixReplacementInfoList =
+        Arrays.asList(fixReplacementInfo1, fixReplacementInfo2);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nFirst modification\nThird line\nFourth line\nFifth line\nSixth line\n"
+                + "Seventh line\nEighth line\nNinth line\nTenth line\n");
+    Optional<BinaryResult> file2 = gApi.changes().id(changeId).edit().getFile(FILE_NAME2);
+    BinaryResultSubject.assertThat(file2)
+        .value()
+        .asString()
+        .isEqualTo("Different file modification\n2nd line\n3rd line\n");
+  }
+
+  @Test
   public void fixReferringToNonExistentFileCannotBeApplied() throws Exception {
     fixReplacementInfo.path = "a_non_existent_file.txt";
     fixReplacementInfo.range = createRange(1, 0, 2, 0);
@@ -962,6 +1138,21 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     assertThrows(
         ResourceNotFoundException.class,
         () -> gApi.changes().id(changeId).current().applyFix(fixId));
+  }
+
+  @Test
+  public void directFixReferringToNonExistentFileCannotBeApplied() throws Exception {
+    fixReplacementInfo.path = "a_non_existent_file.txt";
+    fixReplacementInfo.range = createRange(1, 0, 2, 0);
+    fixReplacementInfo.replacement = "Modified content\n";
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.changes().id(changeId).current().applyDirectFix(directFixInput));
   }
 
   @Test
@@ -988,6 +1179,31 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void directFixOnPreviousPatchSetWithoutChangeEditCannotBeApplied() throws Exception {
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    // Remember patch set and add another one.
+    String previousRevision = gApi.changes().id(changeId).get().currentRevision;
+    amendChange(changeId);
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                gApi.changes()
+                    .id(changeId)
+                    .revision(previousRevision)
+                    .applyDirectFix(directFixInput));
+    assertThat(thrown).hasMessageThat().contains("current");
+  }
+
+  @Test
   public void fixOnPreviousPatchSetWithExistingChangeEditCanBeApplied() throws Exception {
     // Create an empty change edit.
     gApi.changes().id(changeId).edit().create();
@@ -1007,6 +1223,36 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     String fixId = Iterables.getOnlyElement(fixIds);
 
     EditInfo editInfo = gApi.changes().id(changeId).revision(previousRevision).applyFix(fixId);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
+                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+    assertThat(editInfo).baseRevision().isEqualTo(previousRevision);
+  }
+
+  @Test
+  public void directFixOnPreviousPatchSetWithExistingChangeEditCanBeApplied() throws Exception {
+    // Create an empty change edit.
+    gApi.changes().id(changeId).edit().create();
+
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    // Remember patch set and add another one.
+    String previousRevision = gApi.changes().id(changeId).get().currentRevision;
+    amendChange(changeId);
+
+    EditInfo editInfo =
+        gApi.changes().id(changeId).revision(previousRevision).applyDirectFix(directFixInput);
 
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
     BinaryResultSubject.assertThat(file)
@@ -1045,6 +1291,30 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void directFixOnCurrentPatchSetWithChangeEditOnPreviousPatchSetCannotBeApplied()
+      throws Exception {
+    // Create an empty change edit.
+    gApi.changes().id(changeId).edit().create();
+
+    // Add another patch set.
+    amendChange(changeId);
+
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).current().applyDirectFix(directFixInput));
+    assertThat(thrown).hasMessageThat().contains("based");
+  }
+
+  @Test
   public void fixDoesNotModifyCommitMessageOfChangeEdit() throws Exception {
     String changeEditCommitMessage =
         "This is the commit message of the change edit.\n\nChange-Id: " + changeId + "\n";
@@ -1058,6 +1328,26 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     String fixId = Iterables.getOnlyElement(getFixIds(getRobotComments()));
 
     gApi.changes().id(changeId).current().applyFix(fixId);
+
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+    assertThat(commitMessage).isEqualTo(changeEditCommitMessage);
+  }
+
+  @Test
+  public void directFixDoesNotModifyCommitMessageOfChangeEdit() throws Exception {
+    String changeEditCommitMessage =
+        "This is the commit message of the change edit.\n\nChange-Id: " + changeId + "\n";
+    gApi.changes().id(changeId).edit().modifyCommitMessage(changeEditCommitMessage);
+
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
 
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
     assertThat(commitMessage).isEqualTo(changeEditCommitMessage);
@@ -1086,6 +1376,29 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void directFixOnCommitMessageCanBeApplied() throws Exception {
+    // Set a dedicated commit message.
+    String footer = "\nChange-Id: " + changeId + "\n";
+    String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n" + footer;
+    gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
+    gApi.changes().id(changeId).edit().publish();
+
+    withFixRobotCommentInput.path = Patch.COMMIT_MSG;
+    fixReplacementInfo.path = Patch.COMMIT_MSG;
+    fixReplacementInfo.replacement = "Modified line\n";
+    fixReplacementInfo.range = createRange(7, 0, 8, 0);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
+
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+    assertThat(commitMessage).isEqualTo("Modified line\nLine 2 of commit message\n" + footer);
+  }
+
+  @Test
   public void fixOnHeaderPartOfCommitMessageCannotBeApplied() throws Exception {
     // Set a dedicated commit message.
     String footer = "Change-Id: " + changeId;
@@ -1106,6 +1419,31 @@ public class RobotCommentsIT extends AbstractDaemonTest {
         assertThrows(
             ResourceConflictException.class,
             () -> gApi.changes().id(changeId).current().applyFix(fixId));
+    assertThat(exception).hasMessageThat().contains("header");
+  }
+
+  @Test
+  public void directFixOnHeaderPartOfCommitMessageCannotBeApplied() throws Exception {
+    // Set a dedicated commit message.
+    String footer = "Change-Id: " + changeId;
+    String originalCommitMessage =
+        "Line 1 of commit message\nLine 2 of commit message\n" + "\n" + footer + "\n";
+    gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
+    gApi.changes().id(changeId).edit().publish();
+
+    withFixRobotCommentInput.path = Patch.COMMIT_MSG;
+    fixReplacementInfo.path = Patch.COMMIT_MSG;
+    fixReplacementInfo.replacement = "Modified line\n";
+    fixReplacementInfo.range = createRange(1, 0, 2, 0);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    ResourceConflictException exception =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).current().applyDirectFix(directFixInput));
     assertThat(exception).hasMessageThat().contains("header");
   }
 
@@ -1144,6 +1482,38 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void directFixContainingSeveralModificationsOfCommitMessageCanBeApplied()
+      throws Exception {
+    // Set a dedicated commit message.
+    String footer = "\nChange-Id: " + changeId + "\n";
+    String originalCommitMessage =
+        "Line 1 of commit message\nLine 2 of commit message\nLine 3 of commit message\n" + footer;
+    gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
+    gApi.changes().id(changeId).edit().publish();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = Patch.COMMIT_MSG;
+    fixReplacementInfo1.range = createRange(7, 0, 8, 0);
+    fixReplacementInfo1.replacement = "Modified line 1\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = Patch.COMMIT_MSG;
+    fixReplacementInfo2.range = createRange(9, 0, 10, 0);
+    fixReplacementInfo2.replacement = "Modified line 3\n";
+
+    List<FixReplacementInfo> fixReplacementInfoList =
+        Arrays.asList(fixReplacementInfo1, fixReplacementInfo2);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
+
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+    assertThat(commitMessage)
+        .isEqualTo("Modified line 1\nLine 2 of commit message\nModified line 3\n" + footer);
+  }
+
+  @Test
   public void fixModifyingTheCommitMessageAndAFileCanBeApplied() throws Exception {
     // Set a dedicated commit message.
     String footer = "\nChange-Id: " + changeId + "\n";
@@ -1169,6 +1539,40 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     String fixId = Iterables.getOnlyElement(getFixIds(getRobotComments()));
 
     gApi.changes().id(changeId).current().applyFix(fixId);
+
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+    assertThat(commitMessage).isEqualTo("Modified line 1\nLine 2 of commit message\n" + footer);
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME2);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo("File modification\n2nd line\n3rd line\n");
+  }
+
+  @Test
+  public void directFixModifyingTheCommitMessageAndAFileCanBeApplied() throws Exception {
+    // Set a dedicated commit message.
+    String footer = "\nChange-Id: " + changeId + "\n";
+    String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n" + footer;
+    gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
+    gApi.changes().id(changeId).edit().publish();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = Patch.COMMIT_MSG;
+    fixReplacementInfo1.range = createRange(7, 0, 8, 0);
+    fixReplacementInfo1.replacement = "Modified line 1\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME2;
+    fixReplacementInfo2.range = createRange(1, 0, 2, 0);
+    fixReplacementInfo2.replacement = "File modification\n";
+
+    List<FixReplacementInfo> fixReplacementInfoList =
+        Arrays.asList(fixReplacementInfo1, fixReplacementInfo2);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
 
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
     assertThat(commitMessage).isEqualTo("Modified line 1\nLine 2 of commit message\n" + footer);
@@ -1217,6 +1621,41 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void twoDirectFixesOnCommitMessageCanBeAppliedOneAfterTheOther() throws Exception {
+    // Set a dedicated commit message.
+    String footer = "\nChange-Id: " + changeId + "\n";
+    String originalCommitMessage =
+        "Line 1 of commit message\nLine 2 of commit message\nLine 3 of commit message\n" + footer;
+    gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
+    gApi.changes().id(changeId).edit().publish();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = Patch.COMMIT_MSG;
+    fixReplacementInfo1.range = createRange(7, 0, 8, 0);
+    fixReplacementInfo1.replacement = "Modified line 1\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = Patch.COMMIT_MSG;
+    fixReplacementInfo2.range = createRange(9, 0, 10, 0);
+    fixReplacementInfo2.replacement = "Modified line 3\n";
+
+    List<FixReplacementInfo> fixReplacementInfoList1 = Arrays.asList(fixReplacementInfo1);
+    DirectFixInput directFixInput1 = new DirectFixInput();
+    directFixInput1.fixReplacementInfos = fixReplacementInfoList1;
+
+    List<FixReplacementInfo> fixReplacementInfoList2 = Arrays.asList(fixReplacementInfo2);
+    DirectFixInput directFixInput2 = new DirectFixInput();
+    directFixInput2.fixReplacementInfos = fixReplacementInfoList2;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput1);
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput2);
+
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+    assertThat(commitMessage)
+        .isEqualTo("Modified line 1\nLine 2 of commit message\nModified line 3\n" + footer);
+  }
+
+  @Test
   public void twoConflictingFixesOnCommitMessageCanNotBeAppliedOneAfterTheOther() throws Exception {
     // Set a dedicated commit message.
     String footer = "Change-Id: " + changeId;
@@ -1254,6 +1693,42 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void twoConflictingDirectFixesOnCommitMessageCanNotBeAppliedOneAfterTheOther()
+      throws Exception {
+    // Set a dedicated commit message.
+    String footer = "Change-Id: " + changeId;
+    String originalCommitMessage =
+        "Line 1 of commit message\nLine 2 of commit message\nLine 3 of commit message\n\n"
+            + footer
+            + "\n";
+    gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
+    gApi.changes().id(changeId).edit().publish();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = Patch.COMMIT_MSG;
+    fixReplacementInfo1.range = createRange(7, 0, 8, 0);
+    fixReplacementInfo1.replacement = "Modified line 1\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = Patch.COMMIT_MSG;
+    fixReplacementInfo2.range = createRange(7, 0, 10, 0);
+    fixReplacementInfo2.replacement = "Differently modified line 1\n";
+
+    List<FixReplacementInfo> fixReplacementInfoList1 = Arrays.asList(fixReplacementInfo1);
+    DirectFixInput directFixInput1 = new DirectFixInput();
+    directFixInput1.fixReplacementInfos = fixReplacementInfoList1;
+
+    List<FixReplacementInfo> fixReplacementInfoList2 = Arrays.asList(fixReplacementInfo2);
+    DirectFixInput directFixInput2 = new DirectFixInput();
+    directFixInput2.fixReplacementInfos = fixReplacementInfoList2;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput1);
+    assertThrows(
+        ResourceConflictException.class,
+        () -> gApi.changes().id(changeId).current().applyDirectFix(directFixInput2));
+  }
+
+  @Test
   public void applyingFixTwiceIsIdempotent() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
@@ -1271,6 +1746,27 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     // Apply the fix again.
     gApi.changes().id(changeId).current().applyFix(fixId);
+
+    Optional<EditInfo> editInfo = gApi.changes().id(changeId).edit().get();
+    assertThat(editInfo).value().commit().commit().isEqualTo(expectedEditCommit);
+  }
+
+  @Test
+  public void applyingDirectFixTwiceIsIdempotent() throws Exception {
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
+    String expectedEditCommit =
+        gApi.changes().id(changeId).edit().get().map(edit -> edit.commit.commit).orElse("");
+
+    // Apply the fix again.
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
 
     Optional<EditInfo> editInfo = gApi.changes().id(changeId).edit().get();
     assertThat(editInfo).value().commit().commit().isEqualTo(expectedEditCommit);
@@ -1316,6 +1812,25 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void applyingDirectFixReturnsEditInfoForCreatedChangeEdit() throws Exception {
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    EditInfo editInfo = gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
+
+    Optional<EditInfo> expectedEditInfo = gApi.changes().id(changeId).edit().get();
+    String expectedEditCommit = expectedEditInfo.map(edit -> edit.commit.commit).orElse("");
+    assertThat(editInfo).commit().commit().isEqualTo(expectedEditCommit);
+    String expectedBaseRevision = expectedEditInfo.map(edit -> edit.baseRevision).orElse("");
+    assertThat(editInfo).baseRevision().isEqualTo(expectedBaseRevision);
+  }
+
+  @Test
   public void applyingFixOnTopOfChangeEditReturnsEditInfoForUpdatedChangeEdit() throws Exception {
     gApi.changes().id(changeId).edit().create();
 
@@ -1339,6 +1854,28 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void applyingDirectFixOnTopOfChangeEditReturnsEditInfoForUpdatedChangeEdit()
+      throws Exception {
+    gApi.changes().id(changeId).edit().create();
+
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    EditInfo editInfo = gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
+
+    Optional<EditInfo> expectedEditInfo = gApi.changes().id(changeId).edit().get();
+    String expectedEditCommit = expectedEditInfo.map(edit -> edit.commit.commit).orElse("");
+    assertThat(editInfo).commit().commit().isEqualTo(expectedEditCommit);
+    String expectedBaseRevision = expectedEditInfo.map(edit -> edit.baseRevision).orElse("");
+    assertThat(editInfo).baseRevision().isEqualTo(expectedBaseRevision);
+  }
+
+  @Test
   public void createdChangeEditIsBasedOnCurrentPatchSet() throws Exception {
     String currentRevision = gApi.changes().id(changeId).get().currentRevision;
 
@@ -1353,6 +1890,23 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     String fixId = Iterables.getOnlyElement(fixIds);
 
     EditInfo editInfo = gApi.changes().id(changeId).current().applyFix(fixId);
+
+    assertThat(editInfo).baseRevision().isEqualTo(currentRevision);
+  }
+
+  @Test
+  public void createdDirectFixChangeEditIsBasedOnCurrentPatchSet() throws Exception {
+    String currentRevision = gApi.changes().id(changeId).get().currentRevision;
+
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    EditInfo editInfo = gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
 
     assertThat(editInfo).baseRevision().isEqualTo(currentRevision);
   }

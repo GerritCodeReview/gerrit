@@ -44,8 +44,9 @@ import java.io.IOException;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-public class ApplyFix implements RestModifyView<FixResource, Input> {
-
+public class ApplyFix
+    implements RestModifyView<FixResource, Input>,
+        RestModifyView<RevisionResource, DirectFixInput> {
   private final GitRepositoryManager gitRepositoryManager;
   private final FixReplacementInterpreter fixReplacementInterpreter;
   private final ChangeEditModifier changeEditModifier;
@@ -87,4 +88,14 @@ public class ApplyFix implements RestModifyView<FixResource, Input> {
       throw new ResourceConflictException(e.getMessage());
     }
   }
+
+  @Override
+  public Response<EditInfo> apply(RevisionResource revisionResource, DirectFixInput directFixInput)
+      throws AuthException, BadRequestException, ResourceConflictException, IOException,
+          ResourceNotFoundException, PermissionBackendException {
+    // TODO(sharadbagri): Load in directFixInput contents and do similar operations as `apply`.
+  }
 }
+
+// TODO(sharadbagri): Define a class DirectFixInput and write method to populate it.
+// I am guessing the population API will be called by the fronteend APIs.

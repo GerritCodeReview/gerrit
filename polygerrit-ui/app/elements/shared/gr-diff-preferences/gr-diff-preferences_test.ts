@@ -18,11 +18,12 @@
 import '../../../test/common-test-setup-karma';
 import './gr-diff-preferences';
 import {GrDiffPreferences} from './gr-diff-preferences';
-import {stubRestApi} from '../../../test/test-utils';
+import {queryAll, stubRestApi} from '../../../test/test-utils';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {IronInputElement} from '@polymer/iron-input';
 import {GrSelect} from '../gr-select/gr-select';
+import {ParsedJSON} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-diff-preferences');
 
@@ -32,7 +33,7 @@ suite('gr-diff-preferences tests', () => {
   let diffPreferences: DiffPreferencesInfo;
 
   function valueOf(title: string, id: string) {
-    const sections = element.root?.querySelectorAll(`#${id} section`) ?? [];
+    const sections = queryAll(element, `#${id} section`) ?? [];
     let titleEl;
     for (let i = 0; i < sections.length; i++) {
       titleEl = sections[i].querySelector('.title');
@@ -51,7 +52,7 @@ suite('gr-diff-preferences tests', () => {
 
     element = basicFixture.instantiate();
 
-    await flush();
+    await element.updateComplete;
   });
 
   test('renders', () => {
@@ -84,7 +85,7 @@ suite('gr-diff-preferences tests', () => {
       <section>
         <label class="title" for="columnsInput">Diff width</label>
         <span class="value">
-          <iron-input allowed-pattern="[0-9]">
+          <iron-input>
             <input id="columnsInput" type="number" />
           </iron-input>
         </span>
@@ -92,7 +93,7 @@ suite('gr-diff-preferences tests', () => {
       <section>
         <label class="title" for="tabSizeInput">Tab width</label>
         <span class="value">
-          <iron-input allowed-pattern="[0-9]">
+          <iron-input>
             <input id="tabSizeInput" type="number" />
           </iron-input>
         </span>
@@ -100,7 +101,7 @@ suite('gr-diff-preferences tests', () => {
       <section>
         <label class="title" for="fontSizeInput">Font size</label>
         <span class="value">
-          <iron-input allowed-pattern="[0-9]">
+          <iron-input>
             <input id="fontSizeInput" type="number" />
           </iron-input>
         </span>
@@ -108,7 +109,7 @@ suite('gr-diff-preferences tests', () => {
       <section>
         <label class="title" for="showTabsInput">Show tabs</label>
         <span class="value">
-          <input id="showTabsInput" type="checkbox" />
+          <input checked="" id="showTabsInput" type="checkbox" />
         </span>
       </section>
       <section>
@@ -116,7 +117,7 @@ suite('gr-diff-preferences tests', () => {
           Show trailing whitespace
         </label>
         <span class="value">
-          <input id="showTrailingWhitespaceInput" type="checkbox" />
+          <input checked="" id="showTrailingWhitespaceInput" type="checkbox" />
         </span>
       </section>
       <section>
@@ -124,7 +125,7 @@ suite('gr-diff-preferences tests', () => {
           Syntax highlighting
         </label>
         <span class="value">
-          <input id="syntaxHighlightInput" type="checkbox" />
+          <input checked="" id="syntaxHighlightInput" type="checkbox" />
         </span>
       </section>
       <section>
@@ -132,7 +133,7 @@ suite('gr-diff-preferences tests', () => {
           Automatically mark viewed files reviewed
         </label>
         <span class="value">
-          <input id="automaticReviewInput" type="checkbox" />
+          <input checked="" id="automaticReviewInput" type="checkbox" />
         </span>
       </section>
       <section>
@@ -216,21 +217,32 @@ suite('gr-diff-preferences tests', () => {
       diffPreferences.ignore_whitespace
     );
 
-    assert.isFalse(element.hasUnsavedChanges);
+    assert.isFalse(element.hasUnsavedChanges());
   });
 
   test('save changes', async () => {
+    assert.isTrue(element.diffPrefs!.show_whitespace_errors);
+
     const showTrailingWhitespaceCheckbox = valueOf(
       'Show trailing whitespace',
       'diffPreferences'
     ).firstElementChild as HTMLInputElement;
     showTrailingWhitespaceCheckbox.checked = false;
-    element._handleShowTrailingWhitespaceTap();
+    element.handleShowTrailingWhitespaceTap();
 
-    assert.isTrue(element.hasUnsavedChanges);
+    assert.isTrue(element.hasUnsavedChanges());
+
+    const getResponseObjStub = stubRestApi('getResponseObject').returns(
+      Promise.resolve(element.diffPrefs! as unknown as ParsedJSON)
+    );
 
     // Save the change.
     await element.save();
-    assert.isFalse(element.hasUnsavedChanges);
+
+    assert.isTrue(getResponseObjStub.called);
+
+    assert.isFalse(element.diffPrefs!.show_whitespace_errors);
+
+    assert.isFalse(element.hasUnsavedChanges());
   });
 });

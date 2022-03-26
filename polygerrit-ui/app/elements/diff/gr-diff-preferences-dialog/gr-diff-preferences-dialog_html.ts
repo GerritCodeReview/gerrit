@@ -57,8 +57,7 @@ export const htmlTemplate = html`
       </h3>
       <gr-diff-preferences
         id="diffPreferences"
-        diff-prefs="{{_editableDiffPrefs}}"
-        has-unsaved-changes="{{_diffPrefsChanged}}"
+        on-has-unsaved-changes-changed="_handleHasUnsavedChangesChanged"
       ></gr-diff-preferences>
       <div class="diffActions">
         <gr-button id="cancelButton" link="" on-click="_handleCancelDiff">

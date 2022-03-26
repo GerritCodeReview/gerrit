@@ -24,7 +24,8 @@ import {customElement, property} from '@polymer/decorators';
 import {GrDiffPreferences} from '../../shared/gr-diff-preferences/gr-diff-preferences';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {DiffPreferencesInfo} from '../../../types/diff';
+import {queryAndAssert} from '../../../utils/common-util';
+import {GrSelect} from '../../shared/gr-select/gr-select';
 
 export interface GrDiffPreferencesDialog {
   $: {
@@ -40,24 +41,18 @@ export class GrDiffPreferencesDialog extends PolymerElement {
     return htmlTemplate;
   }
 
-  @property({type: Object})
-  diffPrefs?: DiffPreferencesInfo;
-
-  @property({type: Object})
-  _editableDiffPrefs?: DiffPreferencesInfo;
-
   @property({type: Boolean, observer: '_onDiffPrefsChanged'})
   _diffPrefsChanged?: boolean;
 
   getFocusStops() {
     return {
-      start: this.$.diffPreferences.$.contextSelect,
+      start: queryAndAssert<GrSelect>(this.$.diffPreferences, '#contextSelect'),
       end: this.$.saveButton.disabled ? this.$.cancelButton : this.$.saveButton,
     };
   }
 
   resetFocus() {
-    this.$.diffPreferences.$.contextSelect.focus();
+    queryAndAssert<GrSelect>(this.$.diffPreferences, '#contextSelect').focus();
   }
 
   _computeHeaderClass(changed: boolean) {
@@ -74,12 +69,6 @@ export class GrDiffPreferencesDialog extends PolymerElement {
   }
 
   open() {
-    // JSON.parse(JSON.stringify(...)) makes a deep clone of diffPrefs.
-    // It is known, that diffPrefs is obtained from an RestAPI call and
-    // it is safe to clone the object this way.
-    this._editableDiffPrefs = JSON.parse(
-      JSON.stringify(this.diffPrefs)
-    ) as DiffPreferencesInfo;
     this.$.diffPrefsOverlay.open().then(() => {
       const focusStops = this.getFocusStops();
       this.$.diffPrefsOverlay.setFocusStops(focusStops);
@@ -88,7 +77,6 @@ export class GrDiffPreferencesDialog extends PolymerElement {
   }
 
   async _handleSaveDiffPreferences() {
-    this.diffPrefs = this._editableDiffPrefs;
     await this.$.diffPreferences.save();
     this.dispatchEvent(
       new CustomEvent('reload-diff-preference', {
@@ -97,6 +85,13 @@ export class GrDiffPreferencesDialog extends PolymerElement {
       })
     );
     this.$.diffPrefsOverlay.close();
+  }
+
+  _handleHasUnsavedChangesChanged() {
+    this._diffPrefsChanged = !!queryAndAssert<GrDiffPreferences>(
+      this,
+      '#diffPreferences'
+    ).hasUnsavedChanges();
   }
 }
 

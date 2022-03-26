@@ -421,7 +421,6 @@ export const htmlTemplate = html`
   </gr-apply-fix-dialog>
   <gr-diff-preferences-dialog
     id="diffPreferencesDialog"
-    diff-prefs="{{_prefs}}"
     on-reload-diff-preference="_handleReloadingDiffPreference"
   >
   </gr-diff-preferences-dialog>

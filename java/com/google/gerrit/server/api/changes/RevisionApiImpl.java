@@ -46,6 +46,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.DirectFixInput;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.Input;
@@ -132,7 +133,8 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   private final ListRobotComments listRobotComments;
   private final ListPortedComments listPortedComments;
   private final ListPortedDrafts listPortedDrafts;
-  private final ApplyFix applyFix;
+  private final ApplyFix.InputNothing applyFix;
+  private final ApplyFix.InputDirectFix applyFixInputDirectFix;
   private final GetFixPreview getFixPreview;
   private final Fixes fixes;
   private final ListRevisionDrafts listDrafts;
@@ -178,7 +180,8 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       ListRobotComments listRobotComments,
       ListPortedComments listPortedComments,
       ListPortedDrafts listPortedDrafts,
-      ApplyFix applyFix,
+      ApplyFix.InputNothing applyFix,
+      ApplyFix.InputDirectFix applyFixInputDirectFix,
       GetFixPreview getFixPreview,
       Fixes fixes,
       ListRevisionDrafts listDrafts,
@@ -224,6 +227,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
     this.listPortedComments = listPortedComments;
     this.listPortedDrafts = listPortedDrafts;
     this.applyFix = applyFix;
+    this.applyFixInputDirectFix = applyFixInputDirectFix;
     this.getFixPreview = getFixPreview;
     this.fixes = fixes;
     this.listDrafts = listDrafts;
@@ -478,6 +482,15 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   public EditInfo applyFix(String fixId) throws RestApiException {
     try {
       return applyFix.apply(fixes.parse(revision, IdString.fromDecoded(fixId)), null).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot apply fix", e);
+    }
+  }
+
+  @Override
+  public EditInfo applyFix(DirectFixInput directFixInput) throws RestApiException {
+    try {
+      return applyFixInputDirectFix.apply(revision, directFixInput).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot apply fix", e);
     }

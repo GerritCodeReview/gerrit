@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffInfo.IntraLineStatus;
+import com.google.gerrit.extensions.common.DirectFixInput;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
@@ -728,6 +729,27 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     String fixId = Iterables.getOnlyElement(fixIds);
 
     gApi.changes().id(changeId).current().applyFix(fixId);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
+                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+  }
+
+  @Test
+  public void directFixWithinALineCanBeApplied() throws Exception {
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.setFixReplacementInfos(fixReplacementInfoList);
+
+    gApi.changes().id(changeId).current().applyFix(directFixInput);
 
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
     BinaryResultSubject.assertThat(file)

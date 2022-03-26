@@ -19,6 +19,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ArchiveFormat;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.ApplyProvidedFixInput;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -116,6 +117,15 @@ public interface RevisionApi {
    * @throws RestApiException if the fix couldn't be applied
    */
   EditInfo applyFix(String fixId) throws RestApiException;
+
+  /**
+   * Applies fix similar to {@code applyFix} method. Instead of using a fix stored in the server,
+   * this applies the fix provided in {@code ApplyProvidedFixInput}
+   *
+   * @param applyProvidedFixInput The reviewer suggested edit(s) on the code review.
+   * @throws RestApiException if the fix couldn't be applied.
+   */
+  EditInfo applyProvidedFix(ApplyProvidedFixInput applyProvidedFixInput) throws RestApiException;
 
   Map<String, DiffInfo> getFixPreview(String fixId) throws RestApiException;
 
@@ -309,6 +319,12 @@ public interface RevisionApi {
 
     @Override
     public EditInfo applyFix(String fixId) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public EditInfo applyProvidedFix(ApplyProvidedFixInput applyProvidedFixInput)
+        throws RestApiException {
       throw new NotImplementedException();
     }
 

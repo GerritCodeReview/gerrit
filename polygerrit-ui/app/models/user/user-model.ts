@@ -164,13 +164,13 @@ export class UserModel extends Model<UserState> implements Finalizable {
   updateDiffPreference(diffPrefs: DiffPreferencesInfo) {
     return this.restApiService
       .saveDiffPreferences(diffPrefs)
-      .then((response: Response) => {
+      .then((response: Response) =>
         this.restApiService.getResponseObject(response).then(obj => {
           const newPrefs = obj as unknown as DiffPreferencesInfo;
           if (!newPrefs) return;
           this.setDiffPreferences(newPrefs);
-        });
-      });
+        })
+      );
   }
 
   updateEditPreference(editPrefs: EditPreferencesInfo) {

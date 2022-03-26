@@ -1186,6 +1186,14 @@ export interface ReviewInput {
 }
 
 /**
+ * The DirectFixInput entity contains information for applying direct fixes to a revision.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#apply-direct-fix
+ */
+export interface DirectFixInput {
+  fix_replacement_infos: FixReplacementInfo[];
+}
+
+/**
  * The ReviewResult entity contains information regarding the updates that were
  * made to a review.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#review-result

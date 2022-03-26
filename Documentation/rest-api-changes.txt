@@ -5374,6 +5374,102 @@ is returned.
   The existing change edit could not be merged with another tree.
 ----
 
+[[apply-direct-fix]]
+=== Apply Direct Fix
+--
+'POST /changes/<<change-id,\{change-id\}>>/revisions/<<revision-id,\{revision-id\}>>/apply_direct_fix'
+--
+Applies a list of <<fix-replacement-info,FixReplacementInfo>> loaded from the
+<<direct-fix-input,DirectFixInput>> entity. The fixes are passed as part of the request body. The
+application of the fixes creates a new change edit.  `Apply Direct Fix` can only be applied if no
+change edit exists and the fix refers to the current patch set.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/apply_direct_fix HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "fix_replacement_infos": [
+      {
+        "path": "abcd.txt",
+        "range": {
+          "start_line": 2,
+          "start_character": 2,
+          "end_line": 2,
+          "end_character": 5
+        },
+        "replacement": "abcdefg"
+      }
+    ]
+  }
+----
+
+If the `DirectFixInput` was successfully applied, an link:#edit-info[EditInfo] describing the
+resulting change edit is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+    Content-Disposition: attachment
+    Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "commit": {
+      "commit": "bd43e48c33d2b1a03485040eba38cefc505f7997",
+      "parents": [
+        {
+          "commit": "9825962f8ab6da89afebad3f5034db05fb4b7560"
+        }
+      ],
+      "author": {
+          "name": "John Doe",
+          "email": "john.doe@example.com",
+          "date": "2022-05-07 15:21:27.000000000",
+          "tz": 120
+      },
+      "committer": {
+           "name": "Jane Doe",
+           "email": "jane.doe@example.com",
+           "date": "2022-05-07 15:35:43.000000000",
+           "tz": 120
+      },
+      "subject": "Implement feature X",
+      "message": "Implement feature X\n\nWith this feature ..."
+    },
+    "base_patch_set_number": 1,
+    "base_revision": "86d87686ce0ef7f7c536bfc7e9a66f5a6fa5d658",
+    "ref": "refs/users/01/1000001/edit-1/1"
+  }
+----
+
+If the application failed due to presence of an existing change edit,
+the response "`400 Bad Request`" including an error message in the response body
+is returned.
+
+.Response
+----
+  HTTP/1.1 400 Bad Request
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=UTF-8
+
+  Change edit already exists. A new change edit can't be created
+----
+
+If the application failed due to application on a previous patch set, the response
+"`409 Conflict`" including an error message in the response body is returned.
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=UTF-8
+
+  A change edit may only be created for the current patch set 1,2 (and not for 1,1)
+----
+
+
 [[list-files]]
 === List Files
 --
@@ -7196,6 +7292,16 @@ external site.
 Whether the web link should be shown on the side-by-side diff screen.
 |show_on_unified_diff_view|
 Whether the web link should be shown on the unified diff screen.
+|=======================
+
+[[direct-fix-input]]
+=== DirectFixInput
+The `DirectFixInput` entity contains the fixes to be applied on a review.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name              |Description
+|`fix_replacement_infos` |A list of <<fix-replacement-info,FixReplacementInfo>>.
 |=======================
 
 [[edit-file-info]]

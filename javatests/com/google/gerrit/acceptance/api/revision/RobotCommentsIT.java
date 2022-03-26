@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffInfo.IntraLineStatus;
+import com.google.gerrit.extensions.common.DirectFixInput;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
@@ -739,6 +740,27 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void directFixWithinALineCanBeApplied() throws Exception {
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
+                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+  }
+
+  @Test
   public void fixSpanningMultipleLinesCanBeApplied() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content\n5";
@@ -750,6 +772,27 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     String fixId = Iterables.getOnlyElement(fixIds);
 
     gApi.changes().id(changeId).current().applyFix(fixId);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nSecond line\nThModified content\n5th line\nSixth line\nSeventh line\n"
+                + "Eighth line\nNinth line\nTenth line\n");
+  }
+
+  @Test
+  public void directFixSpanningMultipleLinesCanBeApplied() throws Exception {
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content\n5";
+    fixReplacementInfo.range = createRange(3, 2, 5, 3);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
 
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
     BinaryResultSubject.assertThat(file)
@@ -782,6 +825,34 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     String fixId = Iterables.getOnlyElement(fixIds);
 
     gApi.changes().id(changeId).current().applyFix(fixId);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nFirst modification\nSome other modified content\nFourth line\nFifth line\n"
+                + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+  }
+
+  @Test
+  public void directFixWithTwoCloseReplacementsOnSameFileCanBeApplied() throws Exception {
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 3, 0);
+    fixReplacementInfo1.replacement = "First modification\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME;
+    fixReplacementInfo2.range = createRange(3, 0, 4, 0);
+    fixReplacementInfo2.replacement = "Some other modified content\n";
+
+    List<FixReplacementInfo> fixReplacementInfoList =
+        Arrays.asList(fixReplacementInfo1, fixReplacementInfo2);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
 
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
     BinaryResultSubject.assertThat(file)
@@ -828,6 +899,34 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void twoDirectFixesOnSameFileCanBeApplied() throws Exception {
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.range = createRange(2, 0, 3, 0);
+    fixReplacementInfo1.replacement = "First modification\n";
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = FILE_NAME;
+    fixReplacementInfo2.range = createRange(8, 0, 9, 0);
+    fixReplacementInfo2.replacement = "Some other modified content\n";
+
+    List<FixReplacementInfo> fixReplacementInfoList =
+        Arrays.asList(fixReplacementInfo1, fixReplacementInfo2);
+    DirectFixInput directFixInput = new DirectFixInput();
+    directFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    gApi.changes().id(changeId).current().applyDirectFix(directFixInput);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo(
+            "First line\nFirst modification\nThird line\nFourth line\nFifth line\nSixth line\n"
+                + "Seventh line\nSome other modified content\nNinth line\nTenth line\n");
+  }
+
+  @Test
   public void twoConflictingFixesOnSameFileCannotBeApplied() throws Exception {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
@@ -857,6 +956,30 @@ public class RobotCommentsIT extends AbstractDaemonTest {
             () -> gApi.changes().id(changeId).current().applyFix(fixIds.get(1)));
     assertThat(thrown).hasMessageThat().contains("merge");
   }
+
+  // @Test
+  // public void twoConflictingDirectFixesOnSameFileCannotBeApplied() throws Exception {
+  //   FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+  //   fixReplacementInfo1.path = FILE_NAME;
+  //   fixReplacementInfo1.range = createRange(2, 0, 3, 1);
+  //   fixReplacementInfo1.replacement = "First modification\n";
+  //
+  //   FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+  //   fixReplacementInfo2.path = FILE_NAME;
+  //   fixReplacementInfo2.range = createRange(3, 0, 4, 0);
+  //   fixReplacementInfo2.replacement = "Some other modified content\n";
+  //
+  //   List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo1,
+  // fixReplacementInfo2);
+  //   DirectFixInput directFixInput = new DirectFixInput();
+  //   directFixInput.fixReplacementInfos = fixReplacementInfoList;
+  //
+  //   ResourceConflictException thrown =
+  //       assertThrows(
+  //           ResourceConflictException.class,
+  //           () ->  gApi.changes().id(changeId).current().applyDirectFix(directFixInput));
+  //   assertThat(thrown).hasMessageThat().contains("merge");
+  // }
 
   @Test
   public void twoFixesOfSameRobotCommentCanBeApplied() throws Exception {
@@ -893,6 +1016,26 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
   @Test
   public void fixReferringToDifferentFileThanRobotCommentCanBeApplied() throws Exception {
+    fixReplacementInfo.path = FILE_NAME2;
+    fixReplacementInfo.range = createRange(2, 0, 3, 0);
+    fixReplacementInfo.replacement = "Modified content\n";
+
+    testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    gApi.changes().id(changeId).current().applyFix(fixId);
+
+    Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME2);
+    BinaryResultSubject.assertThat(file)
+        .value()
+        .asString()
+        .isEqualTo("1st line\nModified content\n3rd line\n");
+  }
+
+  @Test
+  public void directFixReferringToDifferentFileThanRobotCommentCanBeApplied() throws Exception {
     fixReplacementInfo.path = FILE_NAME2;
     fixReplacementInfo.range = createRange(2, 0, 3, 0);
     fixReplacementInfo.replacement = "Modified content\n";

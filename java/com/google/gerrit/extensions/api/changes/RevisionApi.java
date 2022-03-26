@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.DirectFixInput;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
@@ -116,6 +117,15 @@ public interface RevisionApi {
    * @throws RestApiException if the fix couldn't be applied
    */
   EditInfo applyFix(String fixId) throws RestApiException;
+
+  /**
+   * Applies fix similar to {@code applyFix} method. Only difference is change is loaded from {@code
+   * DirectFixInput}.
+   *
+   * @param directFixInput The reviewer suggested edit(s) on the code review.
+   * @throws RestApiException if the fix couldn't be applied.
+   */
+  EditInfo applyDirectFix(DirectFixInput directFixInput) throws RestApiException;
 
   Map<String, DiffInfo> getFixPreview(String fixId) throws RestApiException;
 
@@ -309,6 +319,11 @@ public interface RevisionApi {
 
     @Override
     public EditInfo applyFix(String fixId) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public EditInfo applyDirectFix(DirectFixInput directFixInput) throws RestApiException {
       throw new NotImplementedException();
     }
 

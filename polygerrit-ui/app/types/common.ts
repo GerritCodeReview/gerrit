@@ -1254,6 +1254,15 @@ export interface FixSuggestionInfo extends FixSuggestionInfoInput {
 }
 
 /**
+ * The ApplyProvidedFixInput entity contains information for applying fixes, provided in the
+ * request body, to a revision.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#apply-provided-fix
+ */
+export interface ApplyProvidedFixInput {
+  fix_replacement_infos: FixReplacementInfo[];
+}
+
+/**
  * The FixReplacementInfo entity describes how the content of a file should be replaced by another content
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fix-replacement-info
  */

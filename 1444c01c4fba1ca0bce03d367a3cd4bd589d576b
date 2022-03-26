@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57344895_f92d32bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-03-26T17:54:22Z",
+      "side": 1,
+      "message": "Example Markdown in Gerrit: https://imgur.com/a/LbL4blM",
+      "revId": "1444c01c4fba1ca0bce03d367a3cd4bd589d576b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

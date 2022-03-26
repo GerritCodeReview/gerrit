@@ -46,6 +46,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.DirectFixInput;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.Input;
@@ -64,6 +65,7 @@ import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.restapi.change.ApplyDirectFix;
 import com.google.gerrit.server.restapi.change.ApplyFix;
 import com.google.gerrit.server.restapi.change.CherryPick;
 import com.google.gerrit.server.restapi.change.Comments;
@@ -133,6 +135,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   private final ListPortedComments listPortedComments;
   private final ListPortedDrafts listPortedDrafts;
   private final ApplyFix applyFix;
+  private final ApplyDirectFix applyDirectFix;
   private final GetFixPreview getFixPreview;
   private final Fixes fixes;
   private final ListRevisionDrafts listDrafts;
@@ -179,6 +182,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       ListPortedComments listPortedComments,
       ListPortedDrafts listPortedDrafts,
       ApplyFix applyFix,
+      ApplyDirectFix applyDirectFix,
       GetFixPreview getFixPreview,
       Fixes fixes,
       ListRevisionDrafts listDrafts,
@@ -224,6 +228,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
     this.listPortedComments = listPortedComments;
     this.listPortedDrafts = listPortedDrafts;
     this.applyFix = applyFix;
+    this.applyDirectFix = applyDirectFix;
     this.getFixPreview = getFixPreview;
     this.fixes = fixes;
     this.listDrafts = listDrafts;
@@ -478,6 +483,15 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   public EditInfo applyFix(String fixId) throws RestApiException {
     try {
       return applyFix.apply(fixes.parse(revision, IdString.fromDecoded(fixId)), null).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot apply fix", e);
+    }
+  }
+
+  @Override
+  public EditInfo applyDirectFix(DirectFixInput directFixInput) throws RestApiException {
+    try {
+      return applyDirectFix.apply(revision, directFixInput).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot apply fix", e);
     }

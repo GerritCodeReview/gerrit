@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ArchiveFormat;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.ApplyProvidedFixInput;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -64,6 +65,7 @@ import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.restapi.change.ApplyProvidedFix;
 import com.google.gerrit.server.restapi.change.ApplyStoredFix;
 import com.google.gerrit.server.restapi.change.CherryPick;
 import com.google.gerrit.server.restapi.change.Comments;
@@ -134,6 +136,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   private final ListPortedDrafts listPortedDrafts;
   private final ApplyStoredFix applyStoredFix;
   private final PreviewStoredFix previewStoredFix;
+  private final ApplyProvidedFix applyProvidedFix;
   private final Fixes fixes;
   private final ListRevisionDrafts listDrafts;
   private final CreateDraftComment createDraft;
@@ -180,6 +183,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       ListPortedDrafts listPortedDrafts,
       ApplyStoredFix applyStoredFix,
       PreviewStoredFix previewStoredFix,
+      ApplyProvidedFix applyProvidedFix,
       Fixes fixes,
       ListRevisionDrafts listDrafts,
       CreateDraftComment createDraft,
@@ -225,6 +229,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
     this.listPortedDrafts = listPortedDrafts;
     this.applyStoredFix = applyStoredFix;
     this.previewStoredFix = previewStoredFix;
+    this.applyProvidedFix = applyProvidedFix;
     this.fixes = fixes;
     this.listDrafts = listDrafts;
     this.createDraft = createDraft;
@@ -480,6 +485,15 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       return applyStoredFix.apply(fixes.parse(revision, IdString.fromDecoded(fixId)), null).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot apply stored fix", e);
+    }
+  }
+
+  @Override
+  public EditInfo applyFix(ApplyProvidedFixInput applyProvidedFixInput) throws RestApiException {
+    try {
+      return applyProvidedFix.apply(revision, applyProvidedFixInput).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot apply fix", e);
     }
   }
 

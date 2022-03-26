@@ -87,4 +87,14 @@ public class ApplyFix implements RestModifyView<FixResource, Input> {
       throw new ResourceConflictException(e.getMessage());
     }
   }
+
+  @Override
+  public Response<EditInfo> apply(FixResource fixResource, DirectFixInput directFixInput)
+      throws AuthException, BadRequestException, ResourceConflictException, IOException,
+      ResourceNotFoundException, PermissionBackendException {
+    // TODO(sharadbagri): Load in directFixInput contents and do similar operations as `apply`.
+  }
 }
+
+// TODO(sharadbagri): Define a class DirectFixInput and write method to populate it.
+// I am guessing the population API will be called by the fronteend APIs.

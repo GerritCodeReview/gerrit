@@ -171,7 +171,9 @@ public class ChangeRestApiModule extends RestApiModule {
     get(ROBOT_COMMENT_KIND).to(GetRobotComment.class);
     child(REVISION_KIND, "fixes").to(Fixes.class);
     post(FIX_KIND, "apply").to(ApplyFix.class);
+    post(FIX_KIND, "apply_direct_fix").to(ApplyFix.class);
     get(FIX_KIND, "preview").to(GetFixPreview.class);
+    post(FIX_KIND, "preview_direct_fix").to(GetFixPreview.class);
 
     get(REVISION_KIND, "ported_comments").to(ListPortedComments.class);
     get(REVISION_KIND, "ported_drafts").to(ListPortedDrafts.class);

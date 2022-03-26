@@ -33,6 +33,24 @@
       "message": "We should also map `text/x-gfm` to `markdown` here.\nOr is it better to modify mime-type detection to use `text/x-markdown` also for well-known `*.md` files (e.g. `README.md`)?",
       "revId": "3e233f1c900851c9045b6c3a053f9f98cb10d187",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27c8efc0_58548edd",
+        "filename": "polygerrit-ui/app/embed/diff/gr-syntax-layer/gr-syntax-layer.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2022-03-26T18:00:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00f7fb08_966064e3",
+      "revId": "3e233f1c900851c9045b6c3a053f9f98cb10d187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

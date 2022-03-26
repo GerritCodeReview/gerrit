@@ -71,6 +71,7 @@ import {
 } from '../../../constants/constants';
 import {columnNames} from '../../change-list/gr-change-list/gr-change-list';
 import {windowLocationReload} from '../../../utils/dom-util';
+import {queryAndAssert} from '../../../utils/common-util';
 
 const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'changes_per_page',
@@ -608,6 +609,13 @@ export class GrSettingsView extends PolymerElement {
       | number
   ) {
     return key !== undefined ? String(key) : '';
+  }
+
+  _handleHasUnsavedChangesChanged() {
+    this._diffPrefsChanged = !!queryAndAssert<GrDiffPreferences>(
+      this,
+      '#diffPrefs'
+    ).hasUnsavedChanges();
   }
 }
 

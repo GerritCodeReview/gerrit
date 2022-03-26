@@ -5374,6 +5374,73 @@ is returned.
   The existing change edit could not be merged with another tree.
 ----
 
+[[apply-direct-fix]]
+=== Apply Direct Fix
+--
+'POST /changes/<<change-id,\{change-id\}>>/revisions/<<revision-id,\{revision-id\}>>/apply_direct_fix'
+--
+Applies a fix loaded directly from the DirectFixInput entity, creating a change edit which includes the
+modifications indicated by the DirectFixInput.replacementInfos. If a change edit already exists,
+it will be updated accordingly. A fix can only be applied if no change edit
+exists and the fix refers to the current patch set, or the fix refers to the
+patch set on which the change edit is based.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/apply_direct_fix HTTP/1.0
+----
+
+If the `DirectFixInput` was successfully applied, an <<edit-info,EditInfo>> describing the
+resulting change edit is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+    Content-Disposition: attachment
+    Content-Type: application/json; charset=UTF-8
+
+    )]}'
+    {
+      "commit": {
+        "parents": [
+          {
+            "commit": "1eee2c9d8f352483781e772f35dc586a69ff5646",
+          }
+        ],
+        "author": {
+          "name": "John Doe",
+          "email": "john.doe@example.com",
+          "date": "2013-05-07 15:21:27.000000000",
+          "tz": 120
+         },
+         "committer": {
+           "name": "Jane Doe",
+           "email": "jane.doe@example.com",
+           "date": "2013-05-07 15:35:43.000000000",
+           "tz": 120
+         },
+         "subject": "Implement feature X",
+         "message": "Implement feature X\n\nWith this feature ..."
+      },
+      "base_patch_set_number": 1,
+      "base_revision": "674ac754f91e64a0efb8087e59a176484bd534d1"
+      "ref": "refs/users/01/1000001/edit-42622/1"
+    }
+----
+
+If the application failed e.g. due to conflicts with an existing change edit,
+the response "`409 Conflict`" including an error message in the response body
+is returned.
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=UTF-8
+
+  The existing change edit could not be merged with another tree.
+----
+
 [[list-files]]
 === List Files
 --
@@ -7196,6 +7263,16 @@ external site.
 Whether the web link should be shown on the side-by-side diff screen.
 |show_on_unified_diff_view|
 Whether the web link should be shown on the unified diff screen.
+|=======================
+
+[[direct-fix-input]]
+=== DirectFixInput
+The `DirectFixInput` entity contains the fixes to be applied on a review.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name            |Description
+|`fixReplacementInfos` |A list of <<fix-replacement-info,FixReplacementInfo>>.
 |=======================
 
 [[edit-file-info]]

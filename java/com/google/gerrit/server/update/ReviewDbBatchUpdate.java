@@ -42,6 +42,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.cache.ThreadLocalCacheCleaner;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ChangeUpdateExecutor;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -388,6 +389,8 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
       } else {
         logDebug("No objects to flush");
       }
+
+      ThreadLocalCacheCleaner.get().cleanThreadCache();
     } catch (Exception e) {
       Throwables.throwIfInstanceOf(e, RestApiException.class);
       throw new UpdateException(e);

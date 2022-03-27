@@ -24,6 +24,7 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.cache.ThreadLocalCacheCleaner;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.logging.LoggingContext;
@@ -281,6 +282,11 @@ public class WorkQueue {
     @Override
     public void execute(Runnable command) {
       super.execute(LoggingContext.copy(command));
+    }
+
+    @Override
+    protected void afterExecute(Runnable r, Throwable t) {
+      ThreadLocalCacheCleaner.get().cleanThreadCache();
     }
 
     @Override

@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.ThreadLocalRepoRefCache;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.inject.Inject;
@@ -154,8 +155,7 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   protected ObjectId readRef(Repository repo) throws IOException {
-    Ref ref = repo.getRefDatabase().exactRef(getRefName());
-    return ref != null ? ref.getObjectId() : null;
+    return ThreadLocalRepoRefCache.get(getProjectName(), repo).get(getRefName()).orElse(null);
   }
 
   /**

@@ -16,6 +16,24 @@
       "message": "Are you sure you want to import this gwt HashMap ?",
       "revId": "bbe434cc45dfce998a1008a5f3a9c53db24beeda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aee81fe6_f22bc915",
+        "filename": "java/com/google/gerrit/server/git/ThreadLocalRepoRefCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-03-27T19:17:05Z",
+      "side": 1,
+      "message": "I guess you meant this",
+      "parentUuid": "194f1db1_b7971ec4",
+      "revId": "bbe434cc45dfce998a1008a5f3a9c53db24beeda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

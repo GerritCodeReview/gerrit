@@ -24,6 +24,7 @@ import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.cache.ThreadLocalCacheCleaner;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
@@ -180,8 +181,7 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   protected ObjectId readRef(Repository repo) throws IOException {
-    Ref ref = repo.getRefDatabase().exactRef(getRefName());
-    return ref != null ? ref.getObjectId() : null;
+    return ThreadLocalRepoRefCache.get(getProjectName(), repo).get(getRefName()).orElse(null);
   }
 
   /**
@@ -204,6 +204,7 @@ public abstract class AbstractChangeNotes<T> {
 
   public T reload() throws NoSuchChangeException, OrmException {
     loaded = false;
+    ThreadLocalCacheCleaner.get().cleanThreadCache();
     return load();
   }
 

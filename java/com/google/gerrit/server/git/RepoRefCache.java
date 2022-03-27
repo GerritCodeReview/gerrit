@@ -42,7 +42,10 @@ public class RepoRefCache implements RefCache {
     }
     Ref ref = refdb.exactRef(refName);
     id = Optional.ofNullable(ref).map(Ref::getObjectId);
-    ids.put(refName, id);
+
+    if (ref != null) {
+      ids.put(refName, id);
+    }
     return id;
   }
 

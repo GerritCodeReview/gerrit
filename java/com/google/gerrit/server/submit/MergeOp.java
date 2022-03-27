@@ -55,6 +55,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.cache.ThreadLocalCacheCleaner;
 import com.google.gerrit.server.change.NotifyUtil;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.LockFailureException;
@@ -538,6 +539,7 @@ public class MergeOp implements AutoCloseable {
   }
 
   private ChangeSet reloadChanges(ChangeSet changeSet) {
+    ThreadLocalCacheCleaner.get().cleanThreadCache();
     List<ChangeData> visible = new ArrayList<>(changeSet.changes().size());
     List<ChangeData> nonVisible = new ArrayList<>(changeSet.nonVisibleChanges().size());
     changeSet

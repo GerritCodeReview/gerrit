@@ -465,7 +465,7 @@ public class JettyServer {
     int idleTimeout = (int) MILLISECONDS.convert(60, SECONDS);
     int maxCapacity = maxQueued == 0 ? Integer.MAX_VALUE : Math.max(minThreads, maxQueued);
     QueuedThreadPool pool =
-        new QueuedThreadPool(
+        new QueuedThreadPoolWithThreadLocalCacheCleaner(
             maxThreads,
             minThreads,
             idleTimeout,

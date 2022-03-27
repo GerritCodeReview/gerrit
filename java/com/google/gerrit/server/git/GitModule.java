@@ -15,9 +15,13 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.cache.ThreadLocalCacheCleaner;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.notedb.ThreadLocalRepoRefCache;
+
 import org.eclipse.jgit.transport.PostUploadHook;
 
 /** Configures the Git support. */
@@ -29,5 +33,7 @@ public class GitModule extends FactoryModule {
     DynamicSet.bind(binder(), PostUploadHook.class).to(UploadPackMetricsHook.class);
     DynamicItem.itemOf(binder(), ChangeReportFormatter.class);
     DynamicItem.bind(binder(), ChangeReportFormatter.class).to(DefaultChangeReportFormatter.class);
+    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ThreadLocalCacheCleaner.class);
+    bind(ThreadLocalRepoRefCache.class).asEagerSingleton();
   }
 }

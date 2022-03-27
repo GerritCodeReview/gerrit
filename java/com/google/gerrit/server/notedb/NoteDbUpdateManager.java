@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.cache.ThreadLocalCacheCleaner;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
@@ -666,6 +667,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
     if (!dryrun) {
       RefUpdateUtil.executeChecked(bru, or.rw);
+      ThreadLocalCacheCleaner.get().cleanThreadCache();
     }
     return bru;
   }

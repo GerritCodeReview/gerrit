@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.pgm.http.jetty.HttpLog.HttpLogFactory;
+import com.google.gerrit.server.cache.ThreadLocalCacheCleaner;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.ThreadSettingsConfig;
@@ -464,8 +465,9 @@ public class JettyServer {
     int maxQueued = cfg.getInt("httpd", null, "maxqueued", 200);
     int idleTimeout = (int) MILLISECONDS.convert(60, SECONDS);
     int maxCapacity = maxQueued == 0 ? Integer.MAX_VALUE : Math.max(minThreads, maxQueued);
+    ThreadLocalCacheCleaner.get();
     QueuedThreadPool pool =
-        new QueuedThreadPool(
+        new QueuedThreadPoolWithThreadLocalCacheCleaner(
             maxThreads,
             minThreads,
             idleTimeout,

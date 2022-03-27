@@ -136,7 +136,9 @@ public abstract class AbstractChangeNotes<T> {
     return changeId;
   }
 
-  /** @return revision of the metadata that was loaded. */
+  /**
+   * @return revision of the metadata that was loaded.
+   */
   public ObjectId getRevision() {
     return revision;
   }
@@ -180,8 +182,7 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   protected ObjectId readRef(Repository repo) throws IOException {
-    Ref ref = repo.getRefDatabase().exactRef(getRefName());
-    return ref != null ? ref.getObjectId() : null;
+    return ThreadLocalRepoRefCache.get(getProjectName(), repo).get(getRefName()).orElse(null);
   }
 
   /**
@@ -230,7 +231,9 @@ public abstract class AbstractChangeNotes<T> {
    */
   public abstract Project.NameKey getProjectName();
 
-  /** @return name of the reference storing this configuration. */
+  /**
+   * @return name of the reference storing this configuration.
+   */
   protected abstract String getRefName();
 
   /** Set up the metadata, parsing any state from the loaded revision. */

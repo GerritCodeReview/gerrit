@@ -57,7 +57,6 @@ import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
-import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -546,17 +545,23 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.reviewers();
   }
 
-  /** @return reviewers that do not currently have a Gerrit account and were added by email. */
+  /**
+   * @return reviewers that do not currently have a Gerrit account and were added by email.
+   */
   public ReviewerByEmailSet getReviewersByEmail() {
     return state.reviewersByEmail();
   }
 
-  /** @return reviewers that were modified during this change's current WIP phase. */
+  /**
+   * @return reviewers that were modified during this change's current WIP phase.
+   */
   public ReviewerSet getPendingReviewers() {
     return state.pendingReviewers();
   }
 
-  /** @return reviewers by email that were modified during this change's current WIP phase. */
+  /**
+   * @return reviewers by email that were modified during this change's current WIP phase.
+   */
   public ReviewerByEmailSet getPendingReviewersByEmail() {
     return state.pendingReviewersByEmail();
   }
@@ -565,17 +570,23 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.reviewerUpdates();
   }
 
-  /** @return an ImmutableSet of Account.Ids of all users that have been assigned to this change. */
+  /**
+   * @return an ImmutableSet of Account.Ids of all users that have been assigned to this change.
+   */
   public ImmutableSet<Account.Id> getPastAssignees() {
     return state.pastAssignees();
   }
 
-  /** @return a ImmutableSet of all hashtags for this change sorted in alphabetical order. */
+  /**
+   * @return a ImmutableSet of all hashtags for this change sorted in alphabetical order.
+   */
   public ImmutableSet<String> getHashtags() {
     return ImmutableSortedSet.copyOf(state.hashtags());
   }
 
-  /** @return a list of all users who have ever been a reviewer on this change. */
+  /**
+   * @return a list of all users who have ever been a reviewer on this change.
+   */
   public ImmutableList<Account.Id> getAllPastReviewers() {
     return state.allPastReviewers();
   }
@@ -588,12 +599,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.submitRecords();
   }
 
-  /** @return all change messages, in chronological order, oldest first. */
+  /**
+   * @return all change messages, in chronological order, oldest first.
+   */
   public ImmutableList<ChangeMessage> getChangeMessages() {
     return state.changeMessages();
   }
 
-  /** @return inline comments on each revision. */
+  /**
+   * @return inline comments on each revision.
+   */
   public ImmutableListMultimap<RevId, Comment> getComments() {
     return state.publishedComments();
   }
@@ -754,7 +769,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         // ReviewDb claims NoteDb state exists, but meta ref isn't present: fall through and
         // auto-rebuild if necessary.
       }
-      RefCache refs = this.refs != null ? this.refs : new RepoRefCache(repo);
+      RefCache refs =
+          this.refs != null ? this.refs : ThreadLocalRepoRefCache.get(getProjectName(), repo);
       if (!NoteDbChangeState.isChangeUpToDate(state, refs, getChangeId())) {
         return rebuildAndOpen(repo, id);
       }

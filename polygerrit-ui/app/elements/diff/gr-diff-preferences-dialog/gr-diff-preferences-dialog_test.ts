@@ -19,18 +19,17 @@ import '../../../test/common-test-setup-karma';
 import './gr-diff-preferences-dialog';
 import {GrDiffPreferencesDialog} from './gr-diff-preferences-dialog';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {queryAndAssert, stubRestApi, waitUntil} from '../../../test/test-utils';
 import {DiffPreferencesInfo} from '../../../api/diff';
 import {ParsedJSON} from '../../../types/common';
-
-const basicFixture = fixtureFromElement('gr-diff-preferences-dialog');
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-diff-preferences-dialog', () => {
   let element: GrDiffPreferencesDialog;
   let originalDiffPrefs: DiffPreferencesInfo;
 
-  setup(() => {
+  setup(async () => {
     originalDiffPrefs = {
       ...createDefaultDiffPrefs(),
       line_wrapping: true,
@@ -40,14 +39,15 @@ suite('gr-diff-preferences-dialog', () => {
       Promise.resolve(originalDiffPrefs)
     );
 
-    element = basicFixture.instantiate();
+    element = await fixture<GrDiffPreferencesDialog>(html`
+      <gr-diff-preferences-dialog></gr-diff-preferences-dialog>
+    `);
   });
 
   test('changes applies only on save', async () => {
-    await flush();
     element.open();
-    await flush();
-    assert.isUndefined(element._diffPrefsChanged);
+    await element.updateComplete;
+    assert.isUndefined(element.diffPrefsChanged);
     assert.isTrue(
       queryAndAssert<HTMLInputElement>(
         queryAndAssert(element, '#diffPreferences'),
@@ -55,20 +55,18 @@ suite('gr-diff-preferences-dialog', () => {
       ).checked
     );
 
-    MockInteractions.tap(
-      queryAndAssert<HTMLInputElement>(
-        queryAndAssert(element, '#diffPreferences'),
-        '#lineWrappingInput'
-      )
-    );
-    await flush();
+    queryAndAssert<HTMLInputElement>(
+      queryAndAssert(element, '#diffPreferences'),
+      '#lineWrappingInput'
+    ).click();
+    await element.updateComplete;
     assert.isFalse(
       queryAndAssert<HTMLInputElement>(
         queryAndAssert(element, '#diffPreferences'),
         '#lineWrappingInput'
       ).checked
     );
-    assert.isTrue(element._diffPrefsChanged);
+    assert.isTrue(element.diffPrefsChanged);
     assert.isTrue(originalDiffPrefs.line_wrapping);
 
     stubRestApi('getResponseObject').returns(
@@ -78,10 +76,10 @@ suite('gr-diff-preferences-dialog', () => {
       } as unknown as ParsedJSON)
     );
 
-    MockInteractions.tap(element.$.saveButton);
-    await flush();
+    queryAndAssert<GrButton>(element, '#saveButton').click();
+    await element.updateComplete;
     // Original prefs must remains unchanged, dialog must expose a new object
     assert.isTrue(originalDiffPrefs.line_wrapping);
-    assert.isFalse(element._diffPrefsChanged);
+    await waitUntil(() => element.diffPrefsChanged === false);
   });
 });

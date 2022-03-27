@@ -16,6 +16,29 @@
       "message": "I see some failures when merging upstream to stable-3.3.",
       "revId": "71671e2d124516e09cff972c388e0bf103402cee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de56bec6_687abfff",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-27T21:11:16Z",
+      "side": 1,
+      "message": "Threads can be pooled: what if the cached value is stale because it belongs to a previously recycled thread?",
+      "range": {
+        "startLine": 183,
+        "startChar": 11,
+        "endLine": 183,
+        "endChar": 62
+      },
+      "revId": "71671e2d124516e09cff972c388e0bf103402cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

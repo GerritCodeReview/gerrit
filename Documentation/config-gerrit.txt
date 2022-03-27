@@ -3724,6 +3724,20 @@ each process retrieves at once.
 +
 By default, 1.
 
+[[notedb.cacheMetaRef]] notedb.cacheMetaRef::
++
+Cache the SHA1 of the change '/meta' ref into the current execution
+thread, preventing repeated lookups on the underlying repository
+for the same incoming request.
++
+When repositories contain a large number of refs (100k or more), the
+lookup of the '/meta' ref into the corresponding SHA1s may take up to
+hundreds of milliseconds, causing a significant slowdown of the API
+execution after having migrated to NoteDb. Enabling this option allows
+to mitigate these specific performance issues.
++
+By default, false.
+
 [[notedb.onlineMigrationProjects]] notedb.onlineMigrationProjects::
 +
 Limit the online migration from reviewDb to noteDb to a list of projects.

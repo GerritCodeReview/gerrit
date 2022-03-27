@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "645a0acb_00817dde",
+        "filename": "polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-27T00:14:09Z",
+      "side": 1,
+      "message": "I\u0027m not sure if there is a alternative (better fix).\n\nSo essentially when i save and call in for hasUnsavedChanges, originalDiffPrefs is still the old value because we don\u0027t wait within updateDiffPreference for diffPreferences$ to be updated, the only way i got it to work is using a setTimeout, but that wasn\u0027t working with the gr-diff-preferences-dialog test. So by me firing this twice it works.",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 72
+      },
+      "revId": "c0eb61881fd49d35847910936c2b4cab65fa6f58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

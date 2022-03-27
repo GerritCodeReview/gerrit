@@ -57,7 +57,7 @@ import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
-import com.google.gerrit.server.git.RepoRefCache;
+import com.google.gerrit.server.git.ThreadLocalRepoRefCache;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -754,7 +754,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         // ReviewDb claims NoteDb state exists, but meta ref isn't present: fall through and
         // auto-rebuild if necessary.
       }
-      RefCache refs = this.refs != null ? this.refs : new RepoRefCache(repo);
+      RefCache refs =
+          this.refs != null ? this.refs : ThreadLocalRepoRefCache.get(getProjectName(), repo);
       if (!NoteDbChangeState.isChangeUpToDate(state, refs, getChangeId())) {
         return rebuildAndOpen(repo, id);
       }

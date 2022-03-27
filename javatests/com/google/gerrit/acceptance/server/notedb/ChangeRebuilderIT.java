@@ -60,6 +60,7 @@ import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.cache.ThreadLocalCacheCleaner;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.notedb.ChangeBundle;
@@ -949,6 +950,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
       ru.setNewObjectId(sha);
       assertThat(ru.update()).isEqualTo(RefUpdate.Result.NEW);
     }
+    ThreadLocalCacheCleaner.get().cleanThreadCache();
 
     checker.rebuildAndCheckChanges(id);
 
@@ -1375,6 +1377,8 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
       ru.setForceUpdate(true);
       assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
     }
+    ThreadLocalCacheCleaner.get().cleanThreadCache();
+
     assertChangeUpToDate(false, id);
 
     notesFactory.createChecked(db, project, id);

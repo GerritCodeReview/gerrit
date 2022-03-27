@@ -154,8 +154,7 @@ public abstract class AbstractChangeNotes<T> {
   }
 
   protected ObjectId readRef(Repository repo) throws IOException {
-    Ref ref = repo.getRefDatabase().exactRef(getRefName());
-    return ref != null ? ref.getObjectId() : null;
+    return ThreadLocalRepoRefCache.get(getProjectName(), repo).get(getRefName()).orElse(null);
   }
 
   /**

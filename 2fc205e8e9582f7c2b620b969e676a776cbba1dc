@@ -70,6 +70,24 @@
       "parentUuid": "938c1f7c_848b39cc",
       "revId": "2fc205e8e9582f7c2b620b969e676a776cbba1dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e25de16_a22fb2ed",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-28T13:12:16Z",
+      "side": 1,
+      "message": "I think you bring up a good point that the dialog could be lazy-loaded, that\u0027s a good idea.\n\nIn general I believe in only doing the work that\u0027s required unless there\u0027s a specific reason that it needs to be precomputed. I understand it\u0027s not a lot of cost, but by that reasoning we risk weighing down the app with lots of small low-costs (and allocations can cost) which eventually leads to hard to measure jankiness and death by a thousand paper cuts.\n\nIf we can avoid work upfront by-design, that avoids having to investigate these thousands of paper cuts later, especially if for instance the underlying pieces that are allocated grow in complexity.\n\nIf you\u0027re concerned about the overlay showing up before the dialog, this can be addressed through something like:\n\n```\nthis.isShown \u003d true;\nthis.updateComplete.then(() \u003d\u003e this.overlay.open());\n```",
+      "parentUuid": "c00161e2_79400c24",
+      "revId": "2fc205e8e9582f7c2b620b969e676a776cbba1dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -177,7 +177,7 @@ export class BulkActionsModel
     currentState = this.subject$.getValue();
     // Return early if sync has been called again since starting the load.
     if (basicChanges !== currentState.allChanges) return;
-    const allDetailedChanges = new Map();
+    const allDetailedChanges: Map<NumericChangeId, ChangeInfo> = new Map();
     for (const detailedChange of changeDetails ?? []) {
       const basicChange = basicChanges.get(detailedChange._number)!;
       allDetailedChanges.set(

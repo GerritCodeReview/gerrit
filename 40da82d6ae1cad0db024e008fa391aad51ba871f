@@ -125,6 +125,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaa14690_f2d45597",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 43
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-28T14:08:29Z",
+      "side": 1,
+      "message": "Clarified offline that gr-label-score-row doesn\u0027t get rendered at all by gr-label-score.ts due to it originally hiding the rows so it should hide the text inside of gr-label-score-row as well.  The message seems like it can never be shown to the user then.",
+      "parentUuid": "448d9038_79c70e0e",
+      "revId": "40da82d6ae1cad0db024e008fa391aad51ba871f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c465dfb_83bcc0b9",

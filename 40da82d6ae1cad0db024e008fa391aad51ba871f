@@ -143,6 +143,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d3fc1b4_ccecdee4",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 43
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-28T14:30:36Z",
+      "side": 1,
+      "message": "I replaced `display:none` with not rendering.\n\nIf this `!this._computeAnyPermittedLabelValues()` is true then I think the parent will simply not display the child at all by setting access classes.\n\n```\nprivate computeLabelAccessClass(label?: string) {\n    if (!this.permittedLabels || !label) return \u0027\u0027;\n\n    return hasOwnProperty(this.permittedLabels, label) \u0026\u0026\n      this.permittedLabels[label].length\n      ? \u0027access\u0027\n      : \u0027no-access\u0027;\n  }\n```\n\nThis was the method in the parent that\u0027s checking that the user has permission and a value to vote on this label.\n\nThe message can be cleaned up. Change https://gerrit-review.googlesource.com/c/gerrit/+/334026 for the cleanup.",
+      "parentUuid": "448d9038_79c70e0e",
+      "revId": "40da82d6ae1cad0db024e008fa391aad51ba871f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c465dfb_83bcc0b9",

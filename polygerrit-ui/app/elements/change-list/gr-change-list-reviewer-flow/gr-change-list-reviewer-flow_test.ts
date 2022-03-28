@@ -107,15 +107,11 @@ suite('gr-change-list-reviewer-flow tests', () => {
       >
         <gr-dialog role="dialog">
           <div slot="header">Add Reviewer / CC</div>
-          <div slot="main">
-            <div>
-              <span>Reviewers</span>
-              <gr-account-list id="reviewer-list"></gr-account-list>
-            </div>
-            <div>
-              <span>CC</span>
-              <gr-account-list id="cc-list"></gr-account-list>
-            </div>
+          <div slot="main" class="grid">
+            <span>Reviewers</span>
+            <gr-account-list id="reviewer-list"></gr-account-list>
+            <span>CC</span>
+            <gr-account-list id="cc-list"></gr-account-list>
           </div>
         </gr-dialog>
       </gr-overlay>
@@ -233,7 +229,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
     });
 
     test('confirm button text updates', async () => {
-      assert.equal(dialog.confirmLabel, 'Apply');
+      assert.equal(dialog.confirmLabel, 'Add');
 
       dialog.confirmButton!.click();
       await element.updateComplete;

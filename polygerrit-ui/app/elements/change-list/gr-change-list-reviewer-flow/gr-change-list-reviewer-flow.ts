@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {html, LitElement} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, query, state} from 'lit/decorators';
 import {ProgressStatus, ReviewerState} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
@@ -43,6 +43,23 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   private ccSuggestionsProvider?: ReviewerSuggestionsProvider;
 
+  static override get styles() {
+    return css`
+      gr-dialog {
+        width: 60em;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: min-content 1fr;
+        column-gap: var(--spacing-l);
+      }
+      gr-account-list {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    `;
+  }
+
   override connectedCallback(): void {
     super.connectedCallback();
     subscribe(
@@ -74,29 +91,25 @@ export class GrChangeListReviewerFlow extends LitElement {
           .disabled=${overallStatus === ProgressStatus.RUNNING}
         >
           <div slot="header">Add Reviewer / CC</div>
-          <div slot="main">
-            <div>
-              <span>Reviewers</span>
-              <gr-account-list
-                id="reviewer-list"
-                .accounts=${this.updatedReviewers}
-                .removableValues=${[]}
-                .suggestionsProvider=${this.reviewerSuggestionsProvider}
-                .placeholder=${'Add reviewer'}
-              >
-              </gr-account-list>
-            </div>
-            <div>
-              <span>CC</span>
-              <gr-account-list
-                id="cc-list"
-                .accounts=${this.updatedCcs}
-                .removableValues=${[]}
-                .suggestionsProvider=${this.ccSuggestionsProvider}
-                .placeholder=${'Add CC'}
-              >
-              </gr-account-list>
-            </div>
+          <div slot="main" class="grid">
+            <span>Reviewers</span>
+            <gr-account-list
+              id="reviewer-list"
+              .accounts=${this.updatedReviewers}
+              .removableValues=${[]}
+              .suggestionsProvider=${this.reviewerSuggestionsProvider}
+              .placeholder=${'Add reviewer'}
+            >
+            </gr-account-list>
+            <span>CC</span>
+            <gr-account-list
+              id="cc-list"
+              .accounts=${this.updatedCcs}
+              .removableValues=${[]}
+              .suggestionsProvider=${this.ccSuggestionsProvider}
+              .placeholder=${'Add CC'}
+            >
+            </gr-account-list>
           </div>
         </gr-dialog>
       </gr-overlay>
@@ -169,7 +182,7 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   private getConfirmLabel(overallStatus: ProgressStatus) {
     return overallStatus === ProgressStatus.NOT_STARTED
-      ? 'Apply'
+      ? 'Add'
       : overallStatus === ProgressStatus.RUNNING
       ? 'Running'
       : 'Close';

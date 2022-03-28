@@ -56,9 +56,11 @@ suiteSetup(() => {
     // However we can print an error and the stack trace with assert.fail
     try {
       throw new Error();
-    } catch (e) {
+    } catch (err) {
       console.error('Page reloading attempt detected.');
-      console.error(e.stack.toString());
+      if (err instanceof Error) {
+        console.error(err?.stack?.toString());
+      }
     }
     if (originalOnBeforeUnload) {
       originalOnBeforeUnload.call(window, e);

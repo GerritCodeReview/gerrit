@@ -103,6 +103,23 @@
       "message": "Han-Wen: could you LC +1 now that google updated to 1.21 ?",
       "revId": "b55410ad96b664145ec9f257aebd0789e8713e0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7743a765_2206572f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-03-28T13:48:36Z",
+      "side": 1,
+      "message": "unfortunately, the 1st attempt was rolled back :-/ . I\u0027ll keep an eye on the 2nd attempt and LC +1 if it is successful.",
+      "revId": "b55410ad96b664145ec9f257aebd0789e8713e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

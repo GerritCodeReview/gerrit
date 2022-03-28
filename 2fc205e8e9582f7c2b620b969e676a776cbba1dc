@@ -108,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2dcaf7e_4117ba18",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-28T15:21:12Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/334027",
+      "parentUuid": "ca338c3e_c410360c",
+      "revId": "2fc205e8e9582f7c2b620b969e676a776cbba1dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c22fd3d4_8b61ebde",
@@ -125,6 +143,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "465ad61c_e3cb3ce6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-28T15:21:12Z",
+      "side": 1,
+      "message": "merged everything",
+      "parentUuid": "c22fd3d4_8b61ebde",
+      "revId": "2fc205e8e9582f7c2b620b969e676a776cbba1dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "725828d7_03fd00af",
@@ -138,6 +174,24 @@
       "writtenOn": "2022-03-28T14:23:16Z",
       "side": 1,
       "message": "If you store `this.updatedReviewers` and `this.updatedCcs` as keyed by `[ReviewerState.REVIEWER]` or `[ReviewerState.CC]` on an object in this class, you can also dedup getAddedReviewers and getAddedCcs.\n\nIn fact you can probably make your entire render method generic if you key the various arguments by the ReviewerState.\n\nIt could simply be `this.getCurrent(ReviewerState.REVIEWER)` and `this.getAdded(ReviewerState.REVIEWER)`.",
+      "revId": "2fc205e8e9582f7c2b620b969e676a776cbba1dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b2dd7e8_849b7664",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-28T15:21:12Z",
+      "side": 1,
+      "message": "merged everything",
+      "parentUuid": "725828d7_03fd00af",
       "revId": "2fc205e8e9582f7c2b620b969e676a776cbba1dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

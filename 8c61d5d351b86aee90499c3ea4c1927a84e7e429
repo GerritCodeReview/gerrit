@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3642d4c_c244014d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-28T14:51:32Z",
+      "side": 1,
+      "message": "Thanks. I would say this also avoids extra rendering of all the dom of the dialog.",
+      "revId": "8c61d5d351b86aee90499c3ea4c1927a84e7e429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4d43227_d21804b1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-28T14:51:32Z",
+      "side": 1,
+      "message": "*extremely microscopic* nit: Use lit\u0027s nothing instead of undefined, reads nicer 😊",
+      "revId": "8c61d5d351b86aee90499c3ea4c1927a84e7e429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

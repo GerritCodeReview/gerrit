@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c6cb928_735d4960",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-28T12:52:37Z",
+      "side": 1,
+      "message": "We can get rid of this now that we\u0027re moving to Lit.\n\nYou will need to update usages in tests as well.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 1
+      },
+      "revId": "73626365b745b899426150201ac0758688b00cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2d311d5_904c58c3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.ts",
         "patchSetId": 4

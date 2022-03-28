@@ -700,7 +700,7 @@ suite('gr-change-metadata tests', () => {
       assert.isTrue(element._computeTopicReadOnly(mutable, change));
       mutable = true;
       assert.isTrue(element._computeTopicReadOnly(mutable, change));
-      change!.actions!.topic!.enabled = true;
+      change.actions!.topic!.enabled = true;
       assert.isFalse(element._computeTopicReadOnly(mutable, change));
       mutable = false;
       assert.isTrue(element._computeTopicReadOnly(mutable, change));
@@ -754,7 +754,7 @@ suite('gr-change-metadata tests', () => {
       assert.isTrue(element._computeHashtagReadOnly(mutable, change));
       mutable = true;
       assert.isTrue(element._computeHashtagReadOnly(mutable, change));
-      change!.actions!.hashtags!.enabled = true;
+      change.actions!.hashtags!.enabled = true;
       assert.isFalse(element._computeHashtagReadOnly(mutable, change));
       mutable = false;
       assert.isTrue(element._computeHashtagReadOnly(mutable, change));
@@ -776,7 +776,7 @@ suite('gr-change-metadata tests', () => {
     test('hashtag not read only does not hide delete button', async () => {
       await flush();
       element.account = createAccountDetailWithId();
-      change!.actions!.hashtags!.enabled = true;
+      change.actions!.hashtags!.enabled = true;
       element.change = change;
       sinon
         .stub(GerritNav, 'getUrlForHashtag')
@@ -906,9 +906,9 @@ suite('gr-change-metadata tests', () => {
       );
       getPluginLoader().loadPlugins([]);
       await flush();
-      assert.strictEqual(hookEl!.plugin, plugin!);
-      assert.strictEqual(hookEl!.change, element.change);
-      assert.strictEqual(hookEl!.revision, element.revision);
+      assert.strictEqual(hookEl.plugin, plugin);
+      assert.strictEqual(hookEl.change, element.change);
+      assert.strictEqual(hookEl.revision, element.revision);
     });
   });
 });

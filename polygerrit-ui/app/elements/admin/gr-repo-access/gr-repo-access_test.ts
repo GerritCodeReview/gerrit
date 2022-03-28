@@ -1371,7 +1371,7 @@ suite('gr-repo-access tests', () => {
       MockInteractions.tap(element.$.saveBtn);
       await flush();
       assert.equal(element.$.saveBtn.hasAttribute('loading'), true);
-      resolver!({status: 200} as Response);
+      resolver({status: 200} as Response);
       await flush();
       assert.isTrue(saveStub.called);
       assert.isTrue(navigateToChangeStub.notCalled);
@@ -1418,7 +1418,7 @@ suite('gr-repo-access tests', () => {
       MockInteractions.tap(element.$.saveReviewBtn);
       await flush();
       assert.equal(element.$.saveReviewBtn.hasAttribute('loading'), true);
-      resolver!(createChange());
+      resolver(createChange());
       await flush();
       assert.isTrue(saveForReviewStub.called);
       assert.isTrue(

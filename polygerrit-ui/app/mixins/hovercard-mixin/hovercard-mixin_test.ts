@@ -80,7 +80,7 @@ suite('gr-hovercard tests', () => {
     assert.typeOf(element.style.getPropertyValue('marginTop'), 'string');
 
     const parentRect = document.documentElement.getBoundingClientRect();
-    const targetRect = element!._target!.getBoundingClientRect();
+    const targetRect = element._target!.getBoundingClientRect();
     const thisRect = element.getBoundingClientRect();
 
     const targetLeft = targetRect.left - parentRect.left;
@@ -145,7 +145,7 @@ suite('gr-hovercard tests', () => {
     await enterPromise;
     await flush();
     assert.isTrue(element.isScheduledToShow);
-    element!.showTask!.flush();
+    element.showTask!.flush();
     assert.isTrue(element._isShowing);
     assert.isFalse(element.isScheduledToShow);
 
@@ -154,7 +154,7 @@ suite('gr-hovercard tests', () => {
     await leavePromise;
     assert.isTrue(element.isScheduledToHide);
     assert.isTrue(element._isShowing);
-    element!.hideTask!.flush();
+    element.hideTask!.flush();
     assert.isFalse(element.isScheduledToShow);
     assert.isFalse(element._isShowing);
   });

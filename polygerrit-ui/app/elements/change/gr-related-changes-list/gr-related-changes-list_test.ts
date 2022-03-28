@@ -616,8 +616,8 @@ suite('gr-related-changes-list', () => {
       );
       getPluginLoader().loadPlugins([]);
       await flush();
-      assert.strictEqual(hookEl!.plugin, plugin!);
-      assert.strictEqual(hookEl!.change, element.change);
+      assert.strictEqual(hookEl.plugin, plugin);
+      assert.strictEqual(hookEl.change, element.change);
     });
   });
 });

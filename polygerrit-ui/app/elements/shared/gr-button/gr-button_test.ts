@@ -88,7 +88,7 @@ suite('gr-button tests', () => {
     await element.updateComplete;
     assert.isTrue(paperBtn.disabled);
     assert.isTrue(element.hasAttribute('loading'));
-    resolve!();
+    resolve();
     await element.updateComplete;
     assert.isFalse(paperBtn.disabled);
     assert.isFalse(element.hasAttribute('loading'));

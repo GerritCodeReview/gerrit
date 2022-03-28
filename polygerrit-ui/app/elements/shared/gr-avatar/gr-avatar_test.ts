@@ -143,7 +143,7 @@ suite('gr-avatar tests', () => {
       getPluginLoader().loadPlugins([]);
 
       return Promise.all([
-        appContext!.restApiService.getConfig(),
+        appContext.restApiService.getConfig(),
         getPluginLoader().awaitPluginsLoaded(),
       ]).then(() => {
         assert.isFalse(element.hasAttribute('hidden'));

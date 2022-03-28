@@ -39,6 +39,30 @@
       },
       "revId": "71671e2d124516e09cff972c388e0bf103402cee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca7625fd_0462c68a",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-03-28T06:56:37Z",
+      "side": 1,
+      "message": "According to [1] it could/should be removed in `afterExecute` method of `ThreadPoolExecutor`... Either this or assurance that the same thread is called for the same repo is needed to exclude staleness\n\n[1] https://www.baeldung.com/java-threadlocal#1-extending-thethreadpoolexecutor",
+      "parentUuid": "de56bec6_687abfff",
+      "range": {
+        "startLine": 183,
+        "startChar": 11,
+        "endLine": 183,
+        "endChar": 62
+      },
+      "revId": "71671e2d124516e09cff972c388e0bf103402cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

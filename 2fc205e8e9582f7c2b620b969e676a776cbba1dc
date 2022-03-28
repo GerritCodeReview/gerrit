@@ -34,6 +34,24 @@
       "parentUuid": "84097717_be6e349b",
       "revId": "2fc205e8e9582f7c2b620b969e676a776cbba1dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "938c1f7c_848b39cc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-28T10:10:51Z",
+      "side": 1,
+      "message": "It\u0027s a lot of unnecessary recomputation in resetFlow that only makes sense when you open the dialog.  This could all be done as part of the `@click { ... this.overlay.open()}`",
+      "parentUuid": "157ac2ed_aa66e8d3",
+      "revId": "2fc205e8e9582f7c2b620b969e676a776cbba1dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

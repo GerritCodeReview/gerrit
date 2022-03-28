@@ -238,25 +238,6 @@ suite('gr-label-row-score tests', () => {
     checkAriaCheckedValid();
   });
 
-  test('without permitted labels', async () => {
-    element.permittedLabels = {
-      Verified: ['-1', ' 0', '+1'],
-    };
-    await element.updateComplete;
-    assert.isOk(element.labelSelector);
-    assert.isFalse(element.labelSelector!.hidden);
-
-    element.permittedLabels = {};
-    await element.updateComplete;
-    assert.isOk(element.labelSelector);
-    assert.isTrue(element.labelSelector!.hidden);
-
-    element.permittedLabels = {Verified: []};
-    await element.updateComplete;
-    assert.isOk(element.labelSelector);
-    assert.isTrue(element.labelSelector!.hidden);
-  });
-
   test('asymmetrical labels', async () => {
     element.permittedLabels = {
       'Code-Review': ['-2', '-1', ' 0', '+1', '+2'],

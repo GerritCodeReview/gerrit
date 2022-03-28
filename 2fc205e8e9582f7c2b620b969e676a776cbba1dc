@@ -16,6 +16,24 @@
       "message": "Doesn\u0027t it make more sense to compute this on dialog open instead of on select?",
       "revId": "2fc205e8e9582f7c2b620b969e676a776cbba1dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "157ac2ed_aa66e8d3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-28T09:21:23Z",
+      "side": 1,
+      "message": "The dialog HTML is not lazily computed, it exists even when closed (see render test). I think gr-account-list should have all it\u0027s props correct even when not visible, otherwise we may encounter some bizarre bugs down the line if some of the props are considered \"required\". It\u0027s not likely, but there is no serious downside to computing this on select. I could also make the dialog lazy with something like `${this.isShown ? html\u0027\u003cgr-dialog/\u003e\u0027 : undefined}` but it might be user visible to create/attach all the DOM children at the same instant we show the overlay. WDYT?",
+      "parentUuid": "84097717_be6e349b",
+      "revId": "2fc205e8e9582f7c2b620b969e676a776cbba1dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

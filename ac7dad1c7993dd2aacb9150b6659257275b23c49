@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9583d021_deb51818",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-28T08:04:19Z",
+      "side": 1,
+      "message": "Hey Renan, this completely slipped by me. But it\u0027s showing a merge conflict. Is this still an active change?\n\nIt\u0027s not in my attention set (not sure if it was in the past.",
+      "revId": "ac7dad1c7993dd2aacb9150b6659257275b23c49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

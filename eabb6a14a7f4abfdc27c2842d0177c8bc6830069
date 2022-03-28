@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f58a4f2e_02652171",
+        "filename": "polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-28T13:42:06Z",
+      "side": 1,
+      "message": "isn\u0027t the return value of this method a boolean already?\nIf not, can we update the return value to be boolean so we don\u0027t have to do `!!this.hasUnsavedChanges` but can just return `this.hasUnsavedChanges()`",
+      "range": {
+        "startLine": 292,
+        "startChar": 15,
+        "endLine": 292,
+        "endChar": 37
+      },
+      "revId": "eabb6a14a7f4abfdc27c2842d0177c8bc6830069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

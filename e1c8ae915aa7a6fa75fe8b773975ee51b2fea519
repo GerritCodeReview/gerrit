@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e68ee5c4_2b06f43e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-28T20:06:53Z",
+      "side": 1,
+      "message": "What about \"voteFlow\" instead of vote?",
+      "parentUuid": "26f1a9cb_ff12ddc7",
+      "range": {
+        "startLine": 99,
+        "startChar": 12,
+        "endLine": 99,
+        "endChar": 16
+      },
+      "revId": "e1c8ae915aa7a6fa75fe8b773975ee51b2fea519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92e6f508_b98632f3",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
         "patchSetId": 18
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-28T15:36:26Z",
       "side": 1,
       "message": "`.has()`  can usually be skipped if you are doing `.get` anyway, it doesn\u0027t even give better type narrowing (iirc it still thinks your function may return undefined). This is usually better:\n`this.progress.get(changeNum) ?? ProgressStatus.NOT_STARTED`",
+      "range": {
+        "startLine": 144,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 0
+      },
+      "revId": "e1c8ae915aa7a6fa75fe8b773975ee51b2fea519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "934b1dd2_591143ec",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-28T20:06:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92e6f508_b98632f3",
       "range": {
         "startLine": 144,
         "startChar": 0,
@@ -70,6 +118,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3ef2fec_95db69cf",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-28T20:06:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a143e471_a84a8b28",
+      "range": {
+        "startLine": 149,
+        "startChar": 10,
+        "endLine": 149,
+        "endChar": 19
+      },
+      "revId": "e1c8ae915aa7a6fa75fe8b773975ee51b2fea519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7469cdb_2d9287e7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-28T20:06:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a143e471_a84a8b28",
+      "range": {
+        "startLine": 149,
+        "startChar": 10,
+        "endLine": 149,
+        "endChar": 19
+      },
+      "revId": "e1c8ae915aa7a6fa75fe8b773975ee51b2fea519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26cc45bf_a6ccaf4e",
@@ -83,6 +179,30 @@
       "writtenOn": "2022-03-28T15:36:26Z",
       "side": 1,
       "message": "can you use `\u0027current\u0027` like `addReviewers()` below in line 175? Or do I need to change that? It was working correctly in my manual testing.\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/types/common.ts;l\u003d248;drc\u003d942b852d9bd13be829e1feef1b2a497bb088f854",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 60
+      },
+      "revId": "e1c8ae915aa7a6fa75fe8b773975ee51b2fea519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47330f26_003bc7e1",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-28T20:06:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26cc45bf_a6ccaf4e",
       "range": {
         "startLine": 148,
         "startChar": 0,

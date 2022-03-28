@@ -33,6 +33,8 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   @state() private progressByChange = new Map<ChangeInfo, ProgressStatus>();
 
+  @state() private isOverlayOpen = false;
+
   @query('gr-overlay') private overlay!: GrOverlay;
 
   private getBulkActionsModel = resolve(this, bulkActionsModelToken);
@@ -67,53 +69,69 @@ export class GrChangeListReviewerFlow extends LitElement {
       this.getBulkActionsModel().selectedChanges$,
       selectedChanges => {
         this.selectedChanges = selectedChanges;
-        this.resetFlow();
       }
     );
   }
 
   override render() {
-    const overallStatus = this.getOverallStatus();
     // TODO: factor out button+dialog component with promise-progress tracking
     return html`
       <gr-button
         id="start-flow"
         .disabled=${this.isFlowDisabled()}
         flatten
-        @click=${() => this.overlay.open()}
+        @click=${() => this.openOverlay()}
         >add reviewer/cc</gr-button
       >
       <gr-overlay with-backdrop>
-        <gr-dialog
-          @cancel=${() => this.overlay.close()}
-          @confirm=${() => this.onConfirm(overallStatus)}
-          .confirmLabel=${this.getConfirmLabel(overallStatus)}
-          .disabled=${overallStatus === ProgressStatus.RUNNING}
-        >
-          <div slot="header">Add Reviewer / CC</div>
-          <div slot="main" class="grid">
-            <span>Reviewers</span>
-            <gr-account-list
-              id="reviewer-list"
-              .accounts=${this.updatedReviewers}
-              .removableValues=${[]}
-              .suggestionsProvider=${this.reviewerSuggestionsProvider}
-              .placeholder=${'Add reviewer'}
-            >
-            </gr-account-list>
-            <span>CC</span>
-            <gr-account-list
-              id="cc-list"
-              .accounts=${this.updatedCcs}
-              .removableValues=${[]}
-              .suggestionsProvider=${this.ccSuggestionsProvider}
-              .placeholder=${'Add CC'}
-            >
-            </gr-account-list>
-          </div>
-        </gr-dialog>
+        ${this.isOverlayOpen ? this.renderDialog() : undefined}
       </gr-overlay>
     `;
+  }
+
+  private renderDialog() {
+    const overallStatus = this.getOverallStatus();
+    return html`
+      <gr-dialog
+        @cancel=${() => this.closeOverlay()}
+        @confirm=${() => this.onConfirm(overallStatus)}
+        .confirmLabel=${this.getConfirmLabel(overallStatus)}
+        .disabled=${overallStatus === ProgressStatus.RUNNING}
+      >
+        <div slot="header">Add Reviewer / CC</div>
+        <div slot="main" class="grid">
+          <span>Reviewers</span>
+          <gr-account-list
+            id="reviewer-list"
+            .accounts=${this.updatedReviewers}
+            .removableValues=${[]}
+            .suggestionsProvider=${this.reviewerSuggestionsProvider}
+            .placeholder=${'Add reviewer'}
+          >
+          </gr-account-list>
+          <span>CC</span>
+          <gr-account-list
+            id="cc-list"
+            .accounts=${this.updatedCcs}
+            .removableValues=${[]}
+            .suggestionsProvider=${this.ccSuggestionsProvider}
+            .placeholder=${'Add CC'}
+          >
+          </gr-account-list>
+        </div>
+      </gr-dialog>
+    `;
+  }
+
+  private openOverlay() {
+    this.resetFlow();
+    this.isOverlayOpen = true;
+    this.overlay.open();
+  }
+
+  private closeOverlay() {
+    this.isOverlayOpen = false;
+    this.overlay.close();
   }
 
   private resetFlow() {

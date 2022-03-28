@@ -89,7 +89,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
     await element.updateComplete;
   });
 
-  test('renders flow', async () => {
+  test('skips dialog render when closed', async () => {
     expect(element).shadowDom.to.equal(/* HTML */ `
       <gr-button
         id="start-flow"
@@ -104,17 +104,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
         with-backdrop=""
         tabindex="-1"
         style="outline: none; display: none;"
-      >
-        <gr-dialog role="dialog">
-          <div slot="header">Add Reviewer / CC</div>
-          <div slot="main" class="grid">
-            <span>Reviewers</span>
-            <gr-account-list id="reviewer-list"></gr-account-list>
-            <span>CC</span>
-            <gr-account-list id="cc-list"></gr-account-list>
-          </div>
-        </gr-dialog>
-      </gr-overlay>
+      ></gr-overlay>
     `);
   });
 
@@ -173,6 +163,34 @@ suite('gr-change-list-reviewer-flow tests', () => {
       await element.updateComplete;
       dialog = queryAndAssert<GrDialog>(element, 'gr-dialog');
       await dialog.updateComplete;
+    });
+
+    test('renders dialog when opened', async () => {
+      expect(element).shadowDom.to.equal(/* HTML */ `
+        <gr-button
+          id="start-flow"
+          flatten=""
+          aria-disabled="false"
+          role="button"
+          tabindex="0"
+          >add reviewer/cc</gr-button
+        >
+        <gr-overlay
+          with-backdrop=""
+          tabindex="-1"
+          style="outline: none; display: none;"
+        >
+          <gr-dialog role="dialog">
+            <div slot="header">Add Reviewer / CC</div>
+            <div slot="main" class="grid">
+              <span>Reviewers</span>
+              <gr-account-list id="reviewer-list"></gr-account-list>
+              <span>CC</span>
+              <gr-account-list id="cc-list"></gr-account-list>
+            </div>
+          </gr-dialog>
+        </gr-overlay>
+      `);
     });
 
     test('only lists reviewers/CCs shared by all changes', async () => {

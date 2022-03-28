@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "448d9038_79c70e0e",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 43
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-28T13:47:21Z",
+      "side": 1,
+      "message": "Actually, this is not a no-op.\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.ts;l\u003d200",
+      "parentUuid": "1ac601eb_98e7b4fe",
+      "revId": "40da82d6ae1cad0db024e008fa391aad51ba871f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c465dfb_83bcc0b9",
         "filename": "polygerrit-ui/app/utils/label-util.ts",
         "patchSetId": 43

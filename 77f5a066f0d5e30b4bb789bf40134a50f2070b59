@@ -69,6 +69,24 @@
       "parentUuid": "5abd8039_ff5dc3b1",
       "revId": "77f5a066f0d5e30b4bb789bf40134a50f2070b59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79b28e79_1e1837ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-29T15:50:16Z",
+      "side": 1,
+      "message": "\u003e Another option would be to add the old method signatures back again for older gitiles plugin compatibility as in the early versions of this change.\n\nDon\u0027t think that is needed though, as long as we document the breakage.\n\n\u003e When you say this should have a proper entry in the release notes you mean that a commit to homepage:pages/site/releases/3.4.md should be made? I\u0027m happy to help get this done just want to make sure I\u0027ve parsed correctly.\n\nYes, just mentioning it in the release notes as a breaking change and the necessary upgrade to the Gitiles plugin as well.\n\nv3.4.4 and v3.5.1 so far.",
+      "parentUuid": "02e455cf_c1993fbf",
+      "revId": "77f5a066f0d5e30b4bb789bf40134a50f2070b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

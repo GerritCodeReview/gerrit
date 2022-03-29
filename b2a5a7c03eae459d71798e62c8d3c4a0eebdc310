@@ -34,6 +34,24 @@
       "parentUuid": "abe72d65_7e316456",
       "revId": "b2a5a7c03eae459d71798e62c8d3c4a0eebdc310",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b04ab20_5cc25be9",
+        "filename": "modules/jgit",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-29T09:16:53Z",
+      "side": -1,
+      "message": "Ack",
+      "parentUuid": "665e4ee9_420bcbbb",
+      "revId": "b2a5a7c03eae459d71798e62c8d3c4a0eebdc310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

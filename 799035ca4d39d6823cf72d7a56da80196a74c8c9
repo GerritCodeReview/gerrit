@@ -22,6 +22,30 @@
       },
       "revId": "799035ca4d39d6823cf72d7a56da80196a74c8c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a036010e_33a7484f",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-29T16:22:10Z",
+      "side": 1,
+      "message": "Haha! Good catch.",
+      "parentUuid": "c8de5f8c_a806cb3a",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 42
+      },
+      "revId": "799035ca4d39d6823cf72d7a56da80196a74c8c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

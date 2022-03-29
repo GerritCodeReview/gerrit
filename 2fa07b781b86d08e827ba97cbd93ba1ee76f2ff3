@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9c023dd_cfa1fd82",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-29T14:56:34Z",
+      "side": 1,
+      "message": "Yeah thanks. Done.",
+      "parentUuid": "e85c0bc0_c24f3384",
+      "range": {
+        "startLine": 113,
+        "startChar": 9,
+        "endLine": 113,
+        "endChar": 38
+      },
+      "revId": "2fa07b781b86d08e827ba97cbd93ba1ee76f2ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b91f34ae_84fa7df6",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-28T20:18:25Z",
       "side": 1,
       "message": "I don\u0027t think the \"confirm\" button should be enabled in this case.\n\nBy closing the overlay it;s doing the job of the \"Close\" button.\n\nIt\u0027s what I followed for voting flow. Confirm should trigger the action and then be disabled once the action is triggered.",
+      "range": {
+        "startLine": 165,
+        "startChar": 6,
+        "endLine": 165,
+        "endChar": 36
+      },
+      "revId": "2fa07b781b86d08e827ba97cbd93ba1ee76f2ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37db3788_a96bed98",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-29T14:56:34Z",
+      "side": 1,
+      "message": "It is the Close button. see `getConfirmLabel()`. Are you talking about the Cancel button? I guess it\u0027s not needed to have both buttons once you start..",
+      "parentUuid": "b91f34ae_84fa7df6",
       "range": {
         "startLine": 165,
         "startChar": 6,

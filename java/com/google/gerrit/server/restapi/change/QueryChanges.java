@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryRequiresAuthException;
 import com.google.gerrit.index.query.QueryResult;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.change.ChangeJson;
@@ -95,7 +96,9 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     this.start = start;
   }
 
-  @Option(name = "--no-limit", usage = "Return all results, overriding the default limit")
+  @Option(
+      name = "--no-limit",
+      usage = "Return all results, overriding the default limit. Ignored for anonymous users.")
   public void setNoLimit(boolean on) {
     this.noLimit = on;
   }
@@ -168,7 +171,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     if (start != null) {
       queryProcessor.setStart(start);
     }
-    if (noLimit != null) {
+    if (noLimit != null && !AnonymousUser.class.isAssignableFrom(userProvider.get().getClass())) {
       queryProcessor.setNoLimit(noLimit);
     }
     if (skipVisibility != null) {

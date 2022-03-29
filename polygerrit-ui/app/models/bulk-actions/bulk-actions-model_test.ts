@@ -32,6 +32,14 @@ suite('bulk actions model test', () => {
     bulkActionsModel = new BulkActionsModel(getAppContext().restApiService);
   });
 
+  test('does not request detailed changes when no changes are synced', () => {
+    const detailedActionsStub = stubRestApi('getDetailedChangesWithActions');
+
+    bulkActionsModel.sync([]);
+
+    assert.isTrue(detailedActionsStub.notCalled);
+  });
+
   test('add changes before sync', () => {
     const c1 = createChange();
     c1._number = 1 as NumericChangeId;

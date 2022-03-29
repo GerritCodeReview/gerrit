@@ -170,6 +170,9 @@ export class BulkActionsModel
       allChanges: basicChanges,
     });
 
+    if (changes.length === 0) {
+      return;
+    }
     const changeDetails =
       await this.restApiService.getDetailedChangesWithActions(
         changes.map(c => c._number)

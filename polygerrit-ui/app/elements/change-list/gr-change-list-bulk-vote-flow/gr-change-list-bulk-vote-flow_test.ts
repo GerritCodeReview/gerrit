@@ -191,13 +191,14 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       createSubmitRequirementResultInfo('label:d=MAX'),
     ];
 
+    // In Change3 "e" exists as a trigger vote but should be considered when
+    // computing common labels
     change3.labels = {
       c: {value: null} as LabelInfo,
       d: {value: null} as LabelInfo,
       e: {value: null} as LabelInfo,
     };
     change3.submit_requirements = [
-      createSubmitRequirementResultInfo('label:c=MAX'),
       createSubmitRequirementResultInfo('label:d=MAX'),
       createSubmitRequirementResultInfo('label:e=MAX'),
     ];

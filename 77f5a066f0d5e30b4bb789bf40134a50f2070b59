@@ -16,6 +16,23 @@
       "message": "This unfortunately breaks the extensions API on a stable-branch. Please do breaking changes on master.\nIf you need the changes directly you can always backport them to your own fork of the stable-branch.",
       "revId": "77f5a066f0d5e30b4bb789bf40134a50f2070b59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c880349c_17df9f57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-29T12:13:04Z",
+      "side": 1,
+      "message": "This should have a proper entry in the release notes as it is potentially a breaking change, if you forget to update also the Gitiles plugin.",
+      "revId": "77f5a066f0d5e30b4bb789bf40134a50f2070b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

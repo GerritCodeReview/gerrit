@@ -2948,7 +2948,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void queryChangesNoLimit() throws Exception {
+  public void queryChangesNoLimitRegisteredUser() throws Exception {
     projectOperations
         .allProjectsForUpdate()
         .add(
@@ -2963,6 +2963,26 @@ public class ChangeIT extends AbstractDaemonTest {
     List<ChangeInfo> resultsWithNoLimit = gApi.changes().query().withNoLimit().get();
     assertThat(resultsWithDefaultLimit).hasSize(2);
     assertThat(resultsWithNoLimit.size()).isAtLeast(3);
+  }
+
+  @Test
+  public void queryChangesNoLimitIgnoredForAnonymousUser() throws Exception {
+    int limit = 2;
+    projectOperations
+        .allProjectsForUpdate()
+        .add(
+            allowCapability(GlobalCapability.QUERY_LIMIT)
+                .group(SystemGroupBackend.ANONYMOUS_USERS)
+                .range(0, limit))
+        .update();
+    for (int i = 0; i < 3; i++) {
+      createChange();
+    }
+    requestScopeOperations.setApiUserAnonymous();
+    List<ChangeInfo> resultsWithDefaultLimit = gApi.changes().query().get();
+    List<ChangeInfo> resultsWithNoLimit = gApi.changes().query().withNoLimit().get();
+    assertThat(resultsWithDefaultLimit).hasSize(limit);
+    assertThat(resultsWithNoLimit).hasSize(limit);
   }
 
   @Test

@@ -70,10 +70,8 @@ export class GrKeyboardShortcutsDialog extends LitElement {
         :host {
           display: block;
           max-height: 100vh;
+          min-width: 60vw;
           overflow-y: auto;
-        }
-        header {
-          padding: var(--spacing-l);
         }
         main {
           display: flex;
@@ -83,39 +81,35 @@ export class GrKeyboardShortcutsDialog extends LitElement {
           flex: 50%;
         }
         header {
+          padding: var(--spacing-l) var(--spacing-xxl);
           align-items: center;
           border-bottom: 1px solid var(--border-color);
           display: flex;
           justify-content: space-between;
         }
         table caption {
-          font-weight: var(--font-weight-bold);
           padding-top: var(--spacing-l);
           text-align: left;
         }
-        tr {
-          height: 32px;
-        }
         td {
           padding: var(--spacing-xs) 0;
+          vertical-align: middle;
+          width: 200px;
         }
         td:first-child,
         th:first-child {
           padding-right: var(--spacing-m);
           text-align: right;
-          width: 160px;
-          color: var(--deemphasized-text-color);
         }
-        td:second-child {
-          min-width: 200px;
+        td:last-child,
+        th:last-child {
+          text-align: left;
+        }
+        td:last-child {
+          color: var(--deemphasized-text-color);
         }
         th {
           color: var(--deemphasized-text-color);
-          text-align: left;
-        }
-        .header {
-          font-weight: var(--font-weight-bold);
-          padding-top: var(--spacing-l);
         }
         .modifier {
           font-weight: var(--font-weight-normal);
@@ -125,8 +119,9 @@ export class GrKeyboardShortcutsDialog extends LitElement {
   }
 
   override render() {
-    return html`<header>
-        <h3 class="heading-3">Keyboard shortcuts</h3>
+    return html`
+      <header>
+        <h3 class="heading-2">Keyboard shortcuts</h3>
         <gr-button link="" @click=${this.handleCloseTap}>Close</gr-button>
       </header>
       <main>
@@ -137,28 +132,29 @@ export class GrKeyboardShortcutsDialog extends LitElement {
           ${this._right?.map(section => this.renderSection(section))}
         </div>
       </main>
-      <footer></footer>`;
+      <footer></footer>
+    `;
   }
 
   private renderSection(section: SectionShortcut) {
     return html`<table>
-      <caption>
+      <caption class="heading-3">
         ${section.section}
       </caption>
       <thead>
         <tr>
-          <th>Key</th>
-          <th>Action</th>
+          <th><strong>Key</strong></th>
+          <th><strong>Action</strong></th>
         </tr>
       </thead>
       <tbody>
         ${section.shortcuts?.map(
           shortcut => html`<tr>
+            <td>${shortcut.text}</td>
             <td>
               <gr-key-binding-display .binding=${shortcut.binding}>
               </gr-key-binding-display>
             </td>
-            <td>${shortcut.text}</td>
           </tr>`
         )}
       </tbody>
@@ -215,14 +211,14 @@ export class GrKeyboardShortcutsDialog extends LitElement {
     }
 
     if (directory.has(ShortcutSection.REPLY_DIALOG)) {
-      right.push({
+      left.push({
         section: ShortcutSection.REPLY_DIALOG,
         shortcuts: directory.get(ShortcutSection.REPLY_DIALOG),
       });
     }
 
     if (directory.has(ShortcutSection.FILE_LIST)) {
-      right.push({
+      left.push({
         section: ShortcutSection.FILE_LIST,
         shortcuts: directory.get(ShortcutSection.FILE_LIST),
       });

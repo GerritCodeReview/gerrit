@@ -17,6 +17,7 @@ import {
   computeOrderedLabelValues,
   getDefaultValue,
   mergeLabelMaps,
+  Label,
 } from '../../../utils/label-util';
 import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -86,11 +87,9 @@ export class GrChangeListBulkVoteFlow extends LitElement {
   }
 
   override render() {
-    const permittedLabels = this.computePermittedLabels();
-    const labels = this.computeCommonLabels().filter(
-      label =>
-        permittedLabels?.[label.name] &&
-        permittedLabels?.[label.name].length > 0
+    const triggerLabels = this.computeCommonTriggerLabels();
+    const nonTriggerLabels = this.computeCommonLabels().filter(
+      label => !triggerLabels.some(l => l.name === label.name)
     );
     // TODO: disable button if no label can be voted upon
     return html`
@@ -112,24 +111,38 @@ export class GrChangeListBulkVoteFlow extends LitElement {
           <div slot="main">
             <div class="scoresTable newSubmitRequirements">
               <h3 class="heading-3">Submit requirements votes</h3>
-              ${labels.map(
-                label => html`<gr-label-score-row
-                  .label="${label}"
-                  .name="${label.name}"
-                  .labels="${labels}"
-                  .permittedLabels="${permittedLabels}"
-                  .orderedLabelValues="${computeOrderedLabelValues(
-                    permittedLabels
-                  )}"
-                ></gr-label-score-row>`
-              )}
-              <!-- TODO: Add section for trigger votes -->
+              ${this.renderLabels(nonTriggerLabels)}
             </div>
-            <!-- TODO: Add error handling status if something fails -->
+            <div class="scoresTable newSubmitRequirements">
+              <h3 class="heading-3">Trigger Votes</h3>
+              ${this.renderLabels(triggerLabels)}
+            </div>
           </div>
         </gr-dialog>
       </gr-overlay>
     `;
+  }
+
+  private renderLabels(labels: Label[]) {
+    const permittedLabels = this.computePermittedLabels();
+
+    return html`<div class="scoresTable 'newSubmitRequirements'">
+      ${labels
+        .filter(
+          label =>
+            permittedLabels?.[label.name] &&
+            permittedLabels?.[label.name].length > 0
+        )
+        .map(
+          label => html`<gr-label-score-row
+            .label="${label}"
+            .name="${label.name}"
+            .labels="${labels}"
+            .permittedLabels="${permittedLabels}"
+            .orderedLabelValues="${computeOrderedLabelValues(permittedLabels)}"
+          ></gr-label-score-row>`
+        )}
+    </div>`;
   }
 
   private isConfirmEnabled() {
@@ -235,12 +248,16 @@ export class GrChangeListBulkVoteFlow extends LitElement {
   }
 
   // private but used in tests
-  computeNonTriggerLabels(change: ChangeInfo) {
-    const triggerVotes = getTriggerVotes(change);
-    const labels = computeLabels(this.account, change).filter(
-      label => !triggerVotes.includes(label.name)
+  computeCommonTriggerLabels() {
+    if (this.selectedChanges.length === 0) return [];
+    const triggerVotes = this.selectedChanges
+      .map(change => getTriggerVotes(change))
+      .reduce((prev, current) =>
+        current.filter(label => prev.some(l => l === label))
+      );
+    return this.computeCommonLabels().filter(label =>
+      triggerVotes.includes(label.name)
     );
-    return labels;
   }
 
   // private but used in tests
@@ -249,7 +266,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     // Reduce method for empty array throws error if no initial value specified
     if (this.selectedChanges.length === 0) return [];
     return this.selectedChanges
-      .map(change => this.computeNonTriggerLabels(change))
+      .map(change => computeLabels(this.account, change))
       .reduce((prev, current) =>
         current.filter(label => prev.some(l => l.name === label.name))
       );

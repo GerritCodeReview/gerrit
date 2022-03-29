@@ -139,10 +139,16 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
           <div slot="main">
             <div class="newSubmitRequirements scoresTable">
               <h3 class="heading-3">Submit requirements votes</h3>
-              <gr-label-score-row name="A"> </gr-label-score-row>
-              <gr-label-score-row name="B"> </gr-label-score-row>
-              <gr-label-score-row name="C"> </gr-label-score-row>
-              <gr-label-score-row name="D"> </gr-label-score-row>
+              <div class="'newSubmitRequirements' scoresTable">
+                <gr-label-score-row name="A"> </gr-label-score-row>
+                <gr-label-score-row name="B"> </gr-label-score-row>
+                <gr-label-score-row name="C"> </gr-label-score-row>
+                <gr-label-score-row name="D"> </gr-label-score-row>
+              </div>
+            </div>
+            <div class="newSubmitRequirements scoresTable">
+              <h3 class="heading-3">Trigger Votes</h3>
+              <div class="'newSubmitRequirements' scoresTable"></div>
             </div>
           </div>
         </gr-dialog>
@@ -345,7 +351,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     };
     change1.submit_requirements = [
       createSubmitRequirementResultInfo('label:a=MAX'),
-      createSubmitRequirementResultInfo('label:b=MAX'),
       createSubmitRequirementResultInfo('label:c=MAX'),
     ];
 
@@ -355,7 +360,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       d: {value: null} as LabelInfo,
     };
     change2.submit_requirements = [
-      createSubmitRequirementResultInfo('label:b=MAX'),
       createSubmitRequirementResultInfo('label:c=MAX'),
       createSubmitRequirementResultInfo('label:d=MAX'),
     ];
@@ -366,7 +370,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       e: {value: null} as LabelInfo,
     };
     change3.submit_requirements = [
-      createSubmitRequirementResultInfo('label:c=MAX'),
       createSubmitRequirementResultInfo('label:d=MAX'),
       createSubmitRequirementResultInfo('label:e=MAX'),
     ];
@@ -394,10 +397,15 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     await selectChange(change1);
     await element.updateComplete;
 
+    // trigger votes are part of computeCommonLabels
     assert.deepEqual(element.computeCommonLabels(), [
       {name: 'a', value: null},
       {name: 'b', value: null},
       {name: 'c', value: null},
+    ]);
+
+    assert.deepEqual(element.computeCommonTriggerLabels(), [
+      {name: 'b', value: null},
     ]);
 
     await selectChange(change2);
@@ -409,11 +417,18 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       {name: 'c', value: null},
     ]);
 
+    assert.deepEqual(element.computeCommonTriggerLabels(), [
+      {name: 'b', value: null},
+    ]);
+
     await selectChange(change3);
     await element.updateComplete;
 
     // Intersection of [a,b,c] [b,c,d] [c,d,e] is [c]
+    // Trigger votes are part of computeCommonLabels
     assert.deepEqual(element.computeCommonLabels(), [{name: 'c', value: null}]);
+
+    assert.deepEqual(element.computeCommonTriggerLabels(), []);
 
     await selectChange(change4);
     await element.updateComplete;

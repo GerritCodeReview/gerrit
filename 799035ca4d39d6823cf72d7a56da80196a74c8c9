@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8de5f8c_a806cb3a",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-29T15:23:37Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be:\n\n\u003cth\u003e\u003cstrong\u003eAction\u003c/strong\u003e\u003c/th\u003e\n\u003cth\u003e\u003cstrong\u003eKey\u003c/strong\u003e\u003c/th\u003e\n\nbecause we swap the order?\n\n(i noticed this after taking another look after +2\u0027ing)",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 42
+      },
+      "revId": "799035ca4d39d6823cf72d7a56da80196a74c8c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

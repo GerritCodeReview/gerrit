@@ -109,6 +109,7 @@ export class GrChangeListActionBar extends LitElement {
               : nothing}
           </div>
           <div class="actionButtons">
+            <gr-change-list-bulk-vote-flow></gr-change-list-bulk-vote-flow>
             <gr-change-list-reviewer-flow></gr-change-list-reviewer-flow>
             <gr-change-list-bulk-abandon-flow>
             </gr-change-list-bulk-abandon-flow>

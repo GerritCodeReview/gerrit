@@ -93,6 +93,30 @@
       },
       "revId": "2fa07b781b86d08e827ba97cbd93ba1ee76f2ff3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a488d50_d42c0601",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-29T15:02:25Z",
+      "side": 1,
+      "message": "The onConfirm handler is attached to the `@confirm` event which is fired when the `confirm` button is pressed.\n\nInitially `confirm` button will be pressed when the overall status is `NOT_STARTED`.\n\nThen when the overall status is successful, why would the user press the `confirm` button hence sending the `confirm` event.\n\nIn which case would this onConfirm method be called with `overallStatus \u003d\u003d\u003d ProgressStatus.SUCCESSFUL` ?",
+      "parentUuid": "37db3788_a96bed98",
+      "range": {
+        "startLine": 165,
+        "startChar": 6,
+        "endLine": 165,
+        "endChar": 36
+      },
+      "revId": "2fa07b781b86d08e827ba97cbd93ba1ee76f2ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

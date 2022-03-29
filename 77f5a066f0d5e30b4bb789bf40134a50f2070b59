@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5abd8039_ff5dc3b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-03-29T09:38:19Z",
+      "side": 1,
+      "message": "This unfortunately breaks the extensions API on a stable-branch. Please do breaking changes on master.\nIf you need the changes directly you can always backport them to your own fork of the stable-branch.",
+      "revId": "77f5a066f0d5e30b4bb789bf40134a50f2070b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -5,7 +5,7 @@
  */
 
 import {customElement, query, state} from 'lit/decorators';
-import {LitElement, html, css} from 'lit';
+import {LitElement, html, css, nothing} from 'lit';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {resolve} from '../../../models/dependency';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
@@ -18,6 +18,7 @@ import {
   mergeLabelInfoMaps,
   getDefaultValue,
   mergeLabelMaps,
+  Label,
 } from '../../../utils/label-util';
 import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -92,10 +93,13 @@ export class GrChangeListBulkVoteFlow extends LitElement {
 
   override render() {
     const permittedLabels = this.computePermittedLabels();
-    const labels = this.computeCommonPermittedLabels(permittedLabels);
+    const triggerLabels = this.computeCommonTriggerLabels(permittedLabels);
+    const nonTriggerLabels = this.computeCommonPermittedLabels(
+      permittedLabels
+    ).filter(label => !triggerLabels.some(l => l.name === label.name));
     return html`
       <gr-button
-        .disabled=${labels.length === 0}
+        .disabled=${triggerLabels.length === 0 && nonTriggerLabels.length === 0}
         id="voteFlowButton"
         flatten
         @click=${() => this.actionOverlay.open()}
@@ -110,26 +114,46 @@ export class GrChangeListBulkVoteFlow extends LitElement {
           .cancelLabel=${'Close'}
         >
           <div slot="main">
-            <div class="scoresTable newSubmitRequirements">
-              <h3 class="heading-3">Submit requirements votes</h3>
-              ${labels.map(
-                label => html`<gr-label-score-row
-                  .label="${label}"
-                  .name="${label.name}"
-                  .labels="${this.computeLabelNameToInfoMap()}"
-                  .permittedLabels="${permittedLabels}"
-                  .orderedLabelValues="${computeOrderedLabelValues(
-                    permittedLabels
-                  )}"
-                ></gr-label-score-row>`
-              )}
-              <!-- TODO: Add section for trigger votes -->
-            </div>
-            <!-- TODO: Add error handling status if something fails -->
+            ${this.renderLabels(
+              nonTriggerLabels,
+              'Submit requirements votes',
+              permittedLabels
+            )}
+            ${this.renderLabels(
+              triggerLabels,
+              'Trigger Votes',
+              permittedLabels
+            )}
           </div>
+          <!-- TODO: Add error handling status if something fails -->
         </gr-dialog>
       </gr-overlay>
     `;
+  }
+
+  private renderLabels(
+    labels: Label[],
+    heading: string,
+    permittedLabels?: LabelNameToValuesMap
+  ) {
+    return html` <div class="scoresTable newSubmitRequirements">
+      <h3 class="heading-3">${labels.length ? heading : nothing}</h3>
+      ${labels
+        .filter(
+          label =>
+            permittedLabels?.[label.name] &&
+            permittedLabels?.[label.name].length > 0
+        )
+        .map(
+          label => html`<gr-label-score-row
+            .label="${label}"
+            .name="${label.name}"
+            .labels="${this.computeLabelNameToInfoMap()}"
+            .permittedLabels="${permittedLabels}"
+            .orderedLabelValues="${computeOrderedLabelValues(permittedLabels)}"
+          ></gr-label-score-row>`
+        )}
+    </div>`;
   }
 
   private isConfirmEnabled() {
@@ -160,7 +184,9 @@ export class GrChangeListBulkVoteFlow extends LitElement {
   private handleConfirm() {
     this.progress.clear();
     const reviewInput: ReviewInput = {
-      labels: this.getLabelValues(),
+      labels: this.getLabelValues(
+        this.computeCommonPermittedLabels(this.computePermittedLabels())
+      ),
     };
     for (const change of this.selectedChanges) {
       this.progress.set(change._number, ProgressStatus.RUNNING);
@@ -183,12 +209,10 @@ export class GrChangeListBulkVoteFlow extends LitElement {
   }
 
   // private but used in tests
-  getLabelValues(): LabelNameToValueMap {
+  getLabelValues(commonPermittedLabels: Label[]): LabelNameToValueMap {
     const labels: LabelNameToValueMap = {};
 
-    for (const label of this.computeCommonPermittedLabels(
-      this.computePermittedLabels()
-    )) {
+    for (const label of commonPermittedLabels) {
       const selectorEl = queryAndAssert<GrLabelScoreRow>(
         this,
         `gr-label-score-row[name="${label.name}"]`
@@ -233,12 +257,16 @@ export class GrChangeListBulkVoteFlow extends LitElement {
   }
 
   // private but used in tests
-  computeNonTriggerLabels(change: ChangeInfo) {
-    const triggerVotes = getTriggerVotes(change);
-    const labels = computeLabels(this.account, change).filter(
-      label => !triggerVotes.includes(label.name)
+  computeCommonTriggerLabels(permittedLabels?: LabelNameToValuesMap) {
+    if (this.selectedChanges.length === 0) return [];
+    const triggerVotes = this.selectedChanges
+      .map(change => getTriggerVotes(change))
+      .reduce((prev, current) =>
+        current.filter(label => prev.some(l => l === label))
+      );
+    return this.computeCommonPermittedLabels(permittedLabels).filter(label =>
+      triggerVotes.includes(label.name)
     );
-    return labels;
   }
 
   // private but used in tests
@@ -247,7 +275,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     // Reduce method for empty array throws error if no initial value specified
     if (this.selectedChanges.length === 0) return [];
     return this.selectedChanges
-      .map(change => this.computeNonTriggerLabels(change))
+      .map(change => computeLabels(this.account, change))
       .reduce((prev, current) =>
         current.filter(label => prev.some(l => l.name === label.name))
       )

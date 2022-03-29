@@ -16,6 +16,24 @@
       "message": "Btw. polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts is not filtering labels for permitted values like gr-label-scores",
       "revId": "70b8612f0339248363820fcbe78464fa11057ce4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2aa0404_88957509",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-29T18:45:20Z",
+      "side": 1,
+      "message": "It\u0027s checking here I think that the label name should be permitted and votable\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts;l\u003d82?q\u003d%22polygerrit-ui%2Fapp%2Felements%2Fchange-list%2Fgr-change-list-bulk-vote-flow%2Fgr-change-list-bulk-vote-flow.ts%22",
+      "parentUuid": "5be9e5d2_56ffddec",
+      "revId": "70b8612f0339248363820fcbe78464fa11057ce4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

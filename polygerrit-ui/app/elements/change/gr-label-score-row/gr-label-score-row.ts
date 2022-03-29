@@ -17,7 +17,7 @@
 import '@polymer/iron-selector/iron-selector';
 import '../../shared/gr-button/gr-button';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css, html, nothing, LitElement} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {ifDefined} from 'lit/directives/if-defined';
 import {IronSelectorElement} from '@polymer/iron-selector/iron-selector';
@@ -193,11 +193,6 @@ export class GrLabelScoreRow extends LitElement {
       <div class="buttonsCell">
         ${this.renderBlankItems('start')} ${this.renderLabelSelector()}
         ${this.renderBlankItems('end')}
-        ${!this._computeAnyPermittedLabelValues()
-          ? html` <span class="labelMessage">
-              You don't have permission to edit this label.
-            </span>`
-          : nothing}
       </div>
     `;
   }
@@ -220,7 +215,6 @@ export class GrLabelScoreRow extends LitElement {
       <iron-selector
         id="labelSelector"
         .attrForSelected=${'data-value'}
-        ?hidden="${!this._computeAnyPermittedLabelValues()}"
         selected="${ifDefined(this._computeLabelValue())}"
         @selected-item-changed=${this.setSelectedValueText}
         role="radiogroup"
@@ -266,7 +260,6 @@ export class GrLabelScoreRow extends LitElement {
       <div
         class="${classMap({
           selectedValueCell: true,
-          hidden: !this._computeAnyPermittedLabelValues(),
           newSubmitRequirements: this.isSubmitRequirementsUiEnabled,
         })}"
       >
@@ -417,15 +410,6 @@ export class GrLabelScoreRow extends LitElement {
       })
     );
   };
-
-  _computeAnyPermittedLabelValues() {
-    return (
-      this.permittedLabels &&
-      this.label &&
-      hasOwnProperty(this.permittedLabels, this.label.name) &&
-      this.permittedLabels[this.label.name].length
-    );
-  }
 
   private computePermittedLabelValues() {
     if (!this.permittedLabels || !this.label) {

@@ -44,12 +44,14 @@ const change1: ChangeInfo = {
     B: ['-1', '0'],
     C: ['-1', '0'],
     D: ['0'], // Does not exist on change2
+    E: ['0'], // Does not exist on change2
   },
   labels: {
     A: {value: null} as LabelInfo,
     B: {value: null} as LabelInfo,
     C: {value: null} as LabelInfo,
     D: {value: null} as LabelInfo,
+    E: {value: null} as LabelInfo,
   },
   submit_requirements: [
     createSubmitRequirementResultInfo('label:A=MAX'),
@@ -139,10 +141,18 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
           <div slot="main">
             <div class="newSubmitRequirements scoresTable">
               <h3 class="heading-3">Submit requirements votes</h3>
-              <gr-label-score-row name="A"> </gr-label-score-row>
-              <gr-label-score-row name="B"> </gr-label-score-row>
-              <gr-label-score-row name="C"> </gr-label-score-row>
-              <gr-label-score-row name="D"> </gr-label-score-row>
+              <div class="'newSubmitRequirements' scoresTable">
+                <gr-label-score-row name="A"> </gr-label-score-row>
+                <gr-label-score-row name="B"> </gr-label-score-row>
+                <gr-label-score-row name="C"> </gr-label-score-row>
+                <gr-label-score-row name="D"> </gr-label-score-row>
+              </div>
+            </div>
+            <div class="newSubmitRequirements scoresTable">
+              <h3 class="heading-3">Trigger Votes</h3>
+              <div class="'newSubmitRequirements' scoresTable">
+                <gr-label-score-row name="E"> </gr-label-score-row>
+              </div>
             </div>
           </div>
         </gr-dialog>
@@ -313,6 +323,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       B: ['-1', '0'],
       C: ['-1', '0'],
       D: ['0'],
+      E: ['0'],
     });
 
     changes.push(change2);
@@ -335,7 +346,8 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
   test('computeCommonPermittedLabels', async () => {
     const createChangeWithLabels = (
       num: NumericChangeId,
-      labelNames: string[]
+      labelNames: string[],
+      triggerLabels?: string[]
     ) => {
       const change = createChange();
       change._number = num;
@@ -344,17 +356,19 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       change.permitted_labels = {};
       for (const label of labelNames) {
         change.labels[label] = {value: null} as LabelInfo;
-        change.submit_requirements.push(
-          createSubmitRequirementResultInfo(`label:${label}=MAX`)
-        );
+        if (!triggerLabels?.includes(label)) {
+          change.submit_requirements.push(
+            createSubmitRequirementResultInfo(`label:${label}=MAX`)
+          );
+        }
         change.permitted_labels[label] = ['0'];
       }
       return change;
     };
 
     const changes: ChangeInfo[] = [
-      createChangeWithLabels(1 as NumericChangeId, ['a', 'b', 'c']),
-      createChangeWithLabels(2 as NumericChangeId, ['b', 'c', 'd']),
+      createChangeWithLabels(1 as NumericChangeId, ['a', 'b', 'c'], ['b']),
+      createChangeWithLabels(2 as NumericChangeId, ['b', 'c', 'd'], ['b']),
       createChangeWithLabels(3 as NumericChangeId, ['c', 'd', 'e']),
       createChangeWithLabels(4 as NumericChangeId, ['x', 'y', 'z']),
     ];
@@ -383,31 +397,38 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     await selectChange(
       createChangeWithLabels(2 as NumericChangeId, ['b', 'c', 'd'])
     );
+    assert.deepEqual(element.computeCommonTriggerLabels(), [
+      {name: 'b', value: null},
+    ]);
+
     await element.updateComplete;
 
     // Intersection of [a,b,c] [b,c,d] is [b,c]
-    assert.deepEqual(
-      element.computeCommonPermittedLabels(element.computePermittedLabels()),
-      [
-        {name: 'b', value: null},
-        {name: 'c', value: null},
-      ]
-    );
+    assert.deepEqual(element.computeCommonPermittedLabels(element.computePermittedLabels()), [
+      {name: 'b', value: null},
+      {name: 'c', value: null},
+    ]);
+    assert.deepEqual(element.computeCommonTriggerLabels(), [
+      {name: 'b', value: null},
+    ]);
 
     await selectChange(
       createChangeWithLabels(3 as NumericChangeId, ['c', 'd', 'e'])
     );
+
     await element.updateComplete;
 
     // Intersection of [a,b,c] [b,c,d] [c,d,e] is [c]
-    assert.deepEqual(
-      element.computeCommonPermittedLabels(element.computePermittedLabels()),
-      [{name: 'c', value: null}]
-    );
+    assert.deepEqual(element.computeCommonPermittedLabels(element.computePermittedLabels()), [
+      {name: 'c', value: null},
+    ]);
+    assert.deepEqual(element.computeCommonTriggerLabels(), []);
 
     await selectChange(
       createChangeWithLabels(4 as NumericChangeId, ['x', 'y', 'z'])
     );
+    assert.deepEqual(element.computeCommonTriggerLabels(), []);
+
     await element.updateComplete;
 
     // Intersection of [a,b,c] [b,c,d] [c,d,e] [x,y,z] is []

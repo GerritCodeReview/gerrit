@@ -33,6 +33,24 @@
       "message": "*extremely microscopic* nit: Use lit\u0027s nothing instead of undefined, reads nicer 😊",
       "revId": "8c61d5d351b86aee90499c3ea4c1927a84e7e429",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d1074d4_509d72c3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-29T15:54:36Z",
+      "side": 1,
+      "message": "Done. `nothing` is nice to read but it\u0027s annoying that it isn\u0027t the same type as `html\u0027\u0027`.\n`override render(): unknown {...}` is kind of a compromise that lit does. 😕",
+      "parentUuid": "f4d43227_d21804b1",
+      "revId": "8c61d5d351b86aee90499c3ea4c1927a84e7e429",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

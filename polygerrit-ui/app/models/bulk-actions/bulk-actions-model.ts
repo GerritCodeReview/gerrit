@@ -165,11 +165,15 @@ export class BulkActionsModel
     );
     this.setState({
       ...currentState,
-      loadingState: LoadingState.LOADING,
+      loadingState:
+        changes.length > 0 ? LoadingState.LOADING : LoadingState.LOADED,
       selectedChangeNums,
       allChanges: basicChanges,
     });
 
+    if (changes.length === 0) {
+      return;
+    }
     const changeDetails =
       await this.restApiService.getDetailedChangesWithActions(
         changes.map(c => c._number)

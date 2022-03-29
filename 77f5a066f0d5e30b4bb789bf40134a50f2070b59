@@ -33,6 +33,42 @@
       "message": "This should have a proper entry in the release notes as it is potentially a breaking change, if you forget to update also the Gitiles plugin.",
       "revId": "77f5a066f0d5e30b4bb789bf40134a50f2070b59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02e455cf_c1993fbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-03-29T14:52:48Z",
+      "side": 1,
+      "message": "Another option would be to add the old method signatures back again for older gitiles plugin compatibility as in the early versions of this change.\n\nWhen you say this should have a proper entry in the release notes you mean that a commit to homepage:pages/site/releases/3.4.md should be made? I\u0027m happy to help get this done just want to make sure I\u0027ve parsed correctly.",
+      "parentUuid": "c880349c_17df9f57",
+      "revId": "77f5a066f0d5e30b4bb789bf40134a50f2070b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3faf1a0c_212cfd47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2022-03-29T14:52:48Z",
+      "side": 1,
+      "message": "This was certainly not the intention. The original code kept the old method signatures around to make gitiles happy, but I was told this was not necessary. I guess it isn\u0027t guaranteed that the gitiles plugin and Gerrit update in sync with each other even with the submodule checkouts being explicit?",
+      "parentUuid": "5abd8039_ff5dc3b1",
+      "revId": "77f5a066f0d5e30b4bb789bf40134a50f2070b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

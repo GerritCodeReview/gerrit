@@ -488,17 +488,17 @@ java_library(
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
     exports = [
-        ":hamcrest-core",
+        ":hamcrest",
         "@junit//jar",
     ],
-    runtime_deps = [":hamcrest-core"],
+    runtime_deps = [":hamcrest"],
 )
 
 java_library(
-    name = "hamcrest-core",
+    name = "hamcrest",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@hamcrest-core//jar"],
+    exports = ["@hamcrest//jar"],
 )
 
 java_library(

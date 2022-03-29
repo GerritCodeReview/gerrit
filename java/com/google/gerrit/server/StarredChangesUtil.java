@@ -380,18 +380,24 @@ public class StarredChangesUtil {
         TraceContext.newTimer(
             "Read star labels", Metadata.builder().noteDbRefName(refName).build())) {
       Ref ref = repo.exactRef(refName);
-      if (ref == null) {
-        return StarRef.MISSING;
-      }
+      return readLabels(repo, ref);
+    }
+  }
 
-      try (ObjectReader reader = repo.newObjectReader()) {
-        ObjectLoader obj = reader.open(ref.getObjectId(), Constants.OBJ_BLOB);
-        return StarRef.create(
-            ref,
-            Splitter.on(CharMatcher.whitespace())
-                .omitEmptyStrings()
-                .split(new String(obj.getCachedBytes(Integer.MAX_VALUE), UTF_8)));
-      }
+  public static StarRef readLabels(Repository repo, Ref ref) throws IOException {
+    if (ref == null) {
+      return StarRef.MISSING;
+    }
+    try (TraceTimer traceTimer =
+            TraceContext.newTimer(
+                String.format("Read star labels from %s (without ref lookup)", ref.getName()));
+        ObjectReader reader = repo.newObjectReader()) {
+      ObjectLoader obj = reader.open(ref.getObjectId(), Constants.OBJ_BLOB);
+      return StarRef.create(
+          ref,
+          Splitter.on(CharMatcher.whitespace())
+              .omitEmptyStrings()
+              .split(new String(obj.getCachedBytes(Integer.MAX_VALUE), UTF_8)));
     }
   }
 

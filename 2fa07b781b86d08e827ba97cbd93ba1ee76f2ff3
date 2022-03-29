@@ -141,6 +141,30 @@
       },
       "revId": "2fa07b781b86d08e827ba97cbd93ba1ee76f2ff3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0c0df53_a73abb54",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-29T18:08:48Z",
+      "side": 1,
+      "message": "Ohh sorry I missed that.\nLGTM then but let\u0027s get UX approval on the general pattern we want to follow.",
+      "parentUuid": "82e11408_20d68fb9",
+      "range": {
+        "startLine": 165,
+        "startChar": 6,
+        "endLine": 165,
+        "endChar": 36
+      },
+      "revId": "2fa07b781b86d08e827ba97cbd93ba1ee76f2ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

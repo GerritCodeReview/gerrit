@@ -16,11 +16,11 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
-import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -33,17 +33,14 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** A utility class for computing the base commit / parent for a specific patchset commit. */
 @Singleton
 class BaseCommitUtil {
   private final AutoMerger autoMerger;
-  private final ThreeWayMergeStrategy mergeStrategy;
   private final GitRepositoryManager repoManager;
 
   /** If true, auto-merge results are stored in the repository. */
@@ -52,7 +49,6 @@ class BaseCommitUtil {
   @Inject
   BaseCommitUtil(AutoMerger am, @GerritServerConfig Config cfg, GitRepositoryManager repoManager) {
     this.autoMerger = am;
-    this.mergeStrategy = MergeUtil.getMergeStrategy(cfg);
     this.saveAutomerge = AutoMerger.cacheAutomerge(cfg);
     this.repoManager = repoManager;
   }
@@ -123,39 +119,29 @@ class BaseCommitUtil {
                 "diff against auto-merge commits is only supported if 'change.cacheAutomerge' config is set to true.");
           }
           // TODO(ghareeb): Avoid persisting auto-merge commits.
-          RevCommit autoMerge = createAutoMergeInGitIfNecessary(repo, ins, rw, current);
-          return autoMerge == null ? getAutoMergeFromGit(repo, current) : autoMerge;
+          return getAutoMergeFromGitOrCreate(repo, ins, rw, current);
         }
         return null;
     }
   }
 
   /**
-   * Creates the auto-merge commit in git. If the auto-merge already exists, this does nothing.
-   * Otherwise, the auto-merge is created, persisted in git and the cache-automerge ref is updated
-   * for the merge commit.
+   * Gets the auto-merge commit from git if it already exists. If not, the auto-merge is created,
+   * persisted in git and the cache-automerge ref is updated for the merge commit.
    *
-   * @return null if the auto-merge already exists in git, or the auto-merge {@link RevCommit}
-   *     object otherwise.
+   * @return the auto-merge {@link RevCommit}
    */
-  private RevCommit createAutoMergeInGitIfNecessary(
+  private RevCommit getAutoMergeFromGitOrCreate(
       Repository repo, ObjectInserter ins, RevWalk rw, RevCommit mergeCommit) throws IOException {
-    Optional<ReceiveCommand> receive =
-        autoMerger.createAutoMergeCommitIfNecessary(
-            new RepoView(repo, rw, ins), rw, ins, mergeCommit);
-    if (receive.isPresent()) {
-      ins.flush();
-      return updateRef(repo, rw, receive.get().getRefName(), receive.get().getNewId(), mergeCommit);
+    String refName = RefNames.refsCacheAutomerge(mergeCommit.name());
+    Optional<RevCommit> autoMergeCommit = autoMerger.lookupCommit(repo, rw, refName);
+    if (autoMergeCommit.isPresent()) {
+      return autoMergeCommit.get();
     }
-    return null;
-  }
-
-  private RevCommit getAutoMergeFromGit(Repository repo, RevCommit mergeCommit) throws IOException {
-    try (InMemoryInserter inMemoryIns = new InMemoryInserter(repo);
-        RevWalk inMemoryRw = new RevWalk(inMemoryIns.newReader())) {
-      return autoMerger.lookupFromGitOrMergeInMemory(
-          repo, inMemoryRw, inMemoryIns, mergeCommit, mergeStrategy);
-    }
+    ObjectId autoMergeId =
+        autoMerger.createAutoMergeCommit(new RepoView(repo, rw, ins), rw, ins, mergeCommit);
+    ins.flush();
+    return updateRef(repo, rw, refName, autoMergeId, mergeCommit);
   }
 
   private static RevCommit updateRef(
@@ -164,7 +150,7 @@ class BaseCommitUtil {
     RefUpdate ru = repo.updateRef(refName);
     ru.setNewObjectId(autoMergeId);
     ru.disableRefLog();
-    switch (ru.update()) {
+    switch (ru.forceUpdate()) {
       case FAST_FORWARD:
       case FORCED:
       case NEW:

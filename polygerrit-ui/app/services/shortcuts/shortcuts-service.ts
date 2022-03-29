@@ -355,9 +355,7 @@ export class ShortcutsService implements Finalizable {
   describeBindings(shortcut: Shortcut): string[][] | null {
     const bindings = this.bindings.get(shortcut);
     if (!bindings) return null;
-    return bindings
-      .filter(binding => !binding.docOnly)
-      .map(binding => describeBinding(binding));
+    return bindings.map(binding => describeBinding(binding));
   }
 
   notifyViewListeners() {

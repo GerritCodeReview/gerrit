@@ -117,6 +117,30 @@
       },
       "revId": "2fa07b781b86d08e827ba97cbd93ba1ee76f2ff3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82e11408_20d68fb9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-29T15:45:02Z",
+      "side": 1,
+      "message": "`confirm` is just the variable name, but the user-facing text can be whatever you want. See my test: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts;l\u003d223;drc\u003dabdd2d8de2b9cc8e7eb0d25f166869c7aa15221b\n\nWhen the button says \u0027Close\u0027 it closes the dialog which is the primary action for the user. This is more sensible than clicking \"Cancel\" after you\u0027ve already applied the action.",
+      "parentUuid": "6a488d50_d42c0601",
+      "range": {
+        "startLine": 165,
+        "startChar": 6,
+        "endLine": 165,
+        "endChar": 36
+      },
+      "revId": "2fa07b781b86d08e827ba97cbd93ba1ee76f2ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

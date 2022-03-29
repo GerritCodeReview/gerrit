@@ -64,6 +64,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be9d691f_8ecd3e28",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-29T20:28:29Z",
+      "side": 1,
+      "message": "Decided to follow your below comment (using waitUntil).",
+      "parentUuid": "d7bb9310_19473aeb",
+      "range": {
+        "startLine": 90,
+        "startChar": 10,
+        "endLine": 90,
+        "endChar": 17
+      },
+      "revId": "aa0b51da5a05579ee3cdb1255141d875a90ebc98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e53c3b82_409e7dea",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-29T20:28:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "dc973e68_06ca5996",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 0
+      },
+      "revId": "aa0b51da5a05579ee3cdb1255141d875a90ebc98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a4db835_1fb9f6dd",
@@ -77,6 +125,24 @@
       "writtenOn": "2022-03-29T16:14:12Z",
       "side": 1,
       "message": "I don\u0027t think you need to mock tap anymore in lit, just grab the button and click it:\n`queryAndAssert\u003cGrButton\u003e(element, \u0027#saveButton\u0027).click();`",
+      "revId": "aa0b51da5a05579ee3cdb1255141d875a90ebc98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c593e586_f34ae0c2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-03-29T20:28:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1a4db835_1fb9f6dd",
       "revId": "aa0b51da5a05579ee3cdb1255141d875a90ebc98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

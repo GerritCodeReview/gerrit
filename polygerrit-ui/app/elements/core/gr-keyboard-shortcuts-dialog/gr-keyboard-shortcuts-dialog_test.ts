@@ -80,28 +80,28 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
       assert.isEmpty(element._left);
     });
 
-    test('reply dialog goes on right', () => {
+    test('reply dialog goes on left', () => {
       const sectionView = [{binding: [], text: 'reply dialog shortcuts'}];
       update(new Map([[ShortcutSection.REPLY_DIALOG, sectionView]]));
-      assert.deepEqual(element._right, [
+      assert.deepEqual(element._left, [
         {
           section: ShortcutSection.REPLY_DIALOG,
           shortcuts: sectionView,
         },
       ]);
-      assert.isEmpty(element._left);
+      assert.isEmpty(element._right);
     });
 
-    test('file list goes on right', () => {
+    test('file list goes on left', () => {
       const sectionView = [{binding: [], text: 'file list shortcuts'}];
       update(new Map([[ShortcutSection.FILE_LIST, sectionView]]));
-      assert.deepEqual(element._right, [
+      assert.deepEqual(element._left, [
         {
           section: ShortcutSection.FILE_LIST,
           shortcuts: sectionView,
         },
       ]);
-      assert.isEmpty(element._left);
+      assert.isEmpty(element._right);
     });
 
     test('diffs go on right', () => {

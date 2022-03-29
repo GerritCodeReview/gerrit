@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "978c118a_ef316abe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-29T15:25:04Z",
+      "side": 1,
+      "message": "This handling for empty case should be added in the rest-api method instead of the model.",
+      "revId": "feae5aadd7325898bf500f33ec4c50c9d580c691",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

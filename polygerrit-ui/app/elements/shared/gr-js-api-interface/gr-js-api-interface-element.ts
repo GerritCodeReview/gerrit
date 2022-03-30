@@ -18,7 +18,7 @@ import {getPluginLoader} from './gr-plugin-loader';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
   ChangeInfo,
-  LabelNameToValuesMap,
+  LabelNameToValueMap,
   ReviewInput,
   RevisionInfo,
 } from '../../../types/common';
@@ -361,7 +361,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         if (hasOwnProperty(r, 'labels')) {
           review = r as ReviewInput;
         } else {
-          review = {labels: r as LabelNameToValuesMap};
+          review = {labels: r as LabelNameToValueMap};
         }
       } catch (err: unknown) {
         this.reporting.error(

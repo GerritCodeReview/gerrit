@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40e7d9e6_ceaeff6f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T12:25:40Z",
+      "side": 1,
+      "message": "Pass in permittedLabels to avoid recomputing.",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1eec8e2_dc1dd8d7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T12:25:40Z",
+      "side": 1,
+      "message": "Don\u0027t recompute permitted labels inside of isFlowEnabled.  Simply see if labels is empty.",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fc70b0d_719c8efd",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T12:25:40Z",
+      "side": 1,
+      "message": "As a follow-up, make this dialog load lazy similar to https://gerrit-review.googlesource.com/c/gerrit/+/334027",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30843cc7_812918fb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T12:25:40Z",
+      "side": 1,
+      "message": "Inline this method as you\u0027re already computing common permitted labels in render.",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e994c5d_f26f7f86",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T12:25:40Z",
+      "side": 1,
+      "message": "Inline this catch function into the bulk-actions model. The actions-model shouldn\u0027t need to get an errFn. This seems like a limitation of the rest-api.",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6637c471_b4f115d2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T12:25:40Z",
+      "side": 1,
+      "message": "Instead of requestUpdate in both catch and then, put it in .finally()",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a61e7fd5_09055dbd",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T12:25:40Z",
+      "side": 1,
+      "message": "Pass this in as you\u0027re already computing it.",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29ca16b0_7c302a61",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T12:25:40Z",
+      "side": 1,
+      "message": "This is only true for the restService.\n\nI would not pass on this limitation to clients of this API.\n\nRather, just throw an error on line 146.",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d7d592c_ad31103d",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T12:25:40Z",
+      "side": 1,
+      "message": "Why not fetch the change first, then see if it\u0027s undefined? It avoids calling get twice.",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

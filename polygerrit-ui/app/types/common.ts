@@ -85,7 +85,7 @@ import {
   LabelInfo,
   LabelNameToInfoMap,
   LabelNameToLabelTypeInfoMap,
-  LabelNameToValueMap,
+  LabelNameToValuesMap,
   LabelTypeInfo,
   LabelTypeInfoValues,
   LabelValueToDescriptionMap,
@@ -174,7 +174,7 @@ export {
   LabelInfo,
   LabelNameToInfoMap,
   LabelNameToLabelTypeInfoMap,
-  LabelNameToValueMap,
+  LabelNameToValuesMap,
   LabelTypeInfo,
   LabelTypeInfoValues,
   LabelValueToDescriptionMap,
@@ -1169,7 +1169,7 @@ export interface Base64ImageFile extends Base64File {
 export interface ReviewInput {
   message?: string;
   tag?: ReviewInputTag;
-  labels?: LabelNameToValuesMap;
+  labels?: LabelNameToValueMap;
   comments?: PathToCommentsInputMap;
   robot_comments?: PathToRobotCommentsMap;
   drafts?: DraftsAction;
@@ -1211,7 +1211,7 @@ export interface AddReviewerResult {
   confirm?: boolean;
 }
 
-export type LabelNameToValuesMap = {[labelName: string]: number};
+export type LabelNameToValueMap = {[labelName: string]: number};
 export type PathToCommentsInputMap = {[path: string]: CommentInput[]};
 export type PathToRobotCommentsMap = {[path: string]: RobotCommentInput[]};
 export type RecipientTypeToNotifyInfoMap = {

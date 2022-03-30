@@ -244,14 +244,15 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     );
 
     assert.equal(
-      element.progress.get(1 as NumericChangeId),
+      element.progressByChange.get(1 as NumericChangeId),
       ProgressStatus.RUNNING
     );
 
     saveChangeReview.resolve({...new Response(), status: 200});
     await waitUntil(
       () =>
-        element.progress.get(1 as NumericChangeId) === ProgressStatus.SUCCESSFUL
+        element.progressByChange.get(1 as NumericChangeId) ===
+        ProgressStatus.SUCCESSFUL
     );
 
     assert.isTrue(
@@ -262,7 +263,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     );
 
     assert.equal(
-      element.progress.get(1 as NumericChangeId),
+      element.progressByChange.get(1 as NumericChangeId),
       ProgressStatus.SUCCESSFUL
     );
   });
@@ -293,7 +294,9 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     tap(queryAndAssert(query(element, 'gr-dialog'), '#confirm'));
 
     await waitUntil(
-      () => element.progress.get(2 as NumericChangeId) === ProgressStatus.FAILED
+      () =>
+        element.progressByChange.get(2 as NumericChangeId) ===
+        ProgressStatus.FAILED
     );
 
     assert.isFalse(fireStub.called);

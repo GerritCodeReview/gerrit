@@ -28,6 +28,7 @@ import {ProgressStatus} from '../../../constants/constants';
 import {fireAlert, fireReload} from '../../../utils/event-util';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../change/gr-label-score-row/gr-label-score-row';
+import {getOverallStatus} from '../../../utils/bulk-flow-util';
 
 @customElement('gr-change-list-bulk-vote-flow')
 export class GrChangeListBulkVoteFlow extends LitElement {
@@ -37,7 +38,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
 
   @state() selectedChanges: ChangeInfo[] = [];
 
-  @state() progress: Map<NumericChangeId, ProgressStatus> = new Map();
+  @state() progressByChange: Map<NumericChangeId, ProgressStatus> = new Map();
 
   @query('#actionOverlay') actionOverlay!: GrOverlay;
 
@@ -77,7 +78,10 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     subscribe(
       this,
       this.getBulkActionsModel().selectedChanges$,
-      selectedChanges => (this.selectedChanges = selectedChanges)
+      selectedChanges => {
+        this.selectedChanges = selectedChanges;
+        this.resetFlow();
+      }
     );
     subscribe(
       this,
@@ -151,16 +155,21 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     </div>`;
   }
 
+  private resetFlow() {
+    this.progressByChange = new Map(
+      this.selectedChanges.map(change => [
+        change._number,
+        ProgressStatus.NOT_STARTED,
+      ])
+    );
+  }
+
   private isConfirmEnabled() {
     // Action is allowed if none of the changes have any bulk action performed
     // on them. In case an error happens then we keep the button disabled.
-    return this.selectedChanges
-      .map(change => this.getStatus(change._number))
-      .every(status => status === ProgressStatus.NOT_STARTED);
-  }
-
-  private getStatus(changeNum: NumericChangeId) {
-    return this.progress.get(changeNum) ?? ProgressStatus.NOT_STARTED;
+    return (
+      getOverallStatus(this.progressByChange) === ProgressStatus.NOT_STARTED
+    );
   }
 
   private isFlowEnabled() {
@@ -168,10 +177,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
   }
 
   private isCancelEnabled() {
-    for (const status of this.progress.values()) {
-      if (status === ProgressStatus.RUNNING) return false;
-    }
-    return true;
+    return getOverallStatus(this.progressByChange) !== ProgressStatus.RUNNING;
   }
 
   private handleClose() {
@@ -181,12 +187,12 @@ export class GrChangeListBulkVoteFlow extends LitElement {
   }
 
   private handleConfirm() {
-    this.progress.clear();
+    this.progressByChange.clear();
     const reviewInput: ReviewInput = {
       labels: this.getLabelValues(),
     };
     for (const change of this.selectedChanges) {
-      this.progress.set(change._number, ProgressStatus.RUNNING);
+      this.progressByChange.set(change._number, ProgressStatus.RUNNING);
     }
     this.requestUpdate();
     const errFn = (changeNum: NumericChangeId) => {
@@ -197,11 +203,11 @@ export class GrChangeListBulkVoteFlow extends LitElement {
       const changeNum = this.selectedChanges[index]._number;
       promises[index]
         .then(() => {
-          this.progress.set(changeNum, ProgressStatus.SUCCESSFUL);
+          this.progressByChange.set(changeNum, ProgressStatus.SUCCESSFUL);
           this.requestUpdate();
         })
         .catch(() => {
-          this.progress.set(changeNum, ProgressStatus.FAILED);
+          this.progressByChange.set(changeNum, ProgressStatus.FAILED);
           this.requestUpdate();
         });
     }

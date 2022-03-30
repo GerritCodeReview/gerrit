@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb92334f_e0b9d6c4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T08:48:45Z",
+      "side": 1,
+      "message": "Rather than this ternary clause, pass this in as argument.",
+      "revId": "0abf90fbb445c2cf82b75ad150852792a7b17357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc37f0ab_38c309b7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T08:48:45Z",
+      "side": 1,
+      "message": "Rather than this ternary clause, pass this in as argument.",
+      "revId": "0abf90fbb445c2cf82b75ad150852792a7b17357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f351c594_83cf8c2a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T08:48:45Z",
+      "side": 1,
+      "message": "```\nfor (const state of [ReviewerState.REVIEWER, ReviewerState.CC]) {\n  this.updatedAccountsByReviewerState.set(\n    state,\n    this.getCurrentAccounts(state));\n}\n```",
+      "revId": "0abf90fbb445c2cf82b75ad150852792a7b17357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0c25144_1d4d7b40",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T08:48:45Z",
+      "side": 1,
+      "message": "I guess this goes away in the lazy-loading version?",
+      "revId": "0abf90fbb445c2cf82b75ad150852792a7b17357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0aef84e7_ac5a0a7d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T08:48:45Z",
+      "side": 1,
+      "message": "At the top (or in a util):\n\n```\nconst SUGGESTIONS_PROVIDER_USERS_TYPES_BY_REVIEWER_STATE {\n  ReviewerState.REVIEWER: SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER,\n  ReviewerState.CC: SUGGESTIONS_PROVIDERS_USERS_TYPES.CC\n};\n```\n\nThen here:\n```\nfor (const state of [ReviewerState.REVIEWER, ReviewerState.CC]) {\n  const provider \u003d  this.createSuggestionsProvider(state);\n  provider.init();\n  this.suggestionsProviderByReviewerState(state, provider);\n}\n```\n\nThen I propose a separate method for creating the suggetions provider state as this will likely grow in complexity: \n\n```\nprivate createSuggestionsProvider(state: ReviewerState) {\n  return GrReviewerSuggestionsProvider.create(\n      this.restApiService,\n      // TODO: fan out and get suggestions allowed by all changes\n      this.selectedChanges[0]._number,\n      SUGGESTIONS_PROVIDER_USERS_TYPES_BY_REVIEWER_STATE[state]\n    );\n}\n```",
+      "revId": "0abf90fbb445c2cf82b75ad150852792a7b17357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0feea1b3_329dd078",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T08:48:45Z",
+      "side": 1,
+      "message": "Optional: You could make this a map or an object that maps state to the relevant list.\n\nIt might simplify things a little further still.",
+      "revId": "0abf90fbb445c2cf82b75ad150852792a7b17357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53ddcba1_fdbcf8d3",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T08:48:45Z",
+      "side": 1,
+      "message": "Minor nit: I would put the map at line 141 and line 146.\n\nAnd then you could factor out a utility function:\n\n```\nfunction getReviewers(change: ChangeInfo, state: ReviewerState, accounts: AccountInfo[]) {\n  return accounts\n       .filter(account \u003d\u003e !change.reviewers[state]?.includes(account)\n       .map(account \u003d\u003e {\n          return {state, reviewer: account._account_id!}\n        });\n}\n```",
+      "revId": "0abf90fbb445c2cf82b75ad150852792a7b17357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

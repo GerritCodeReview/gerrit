@@ -19,7 +19,7 @@ import {
   isQuickLabelInfo,
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
-  LabelNameToValueMap,
+  LabelNameToValuesMap,
 } from '../api/rest-api';
 import {FlagsService, KnownExperimentId} from '../services/flags/flags';
 import {
@@ -37,12 +37,6 @@ import {assertNever, unique, hasOwnProperty} from './common-util';
 export interface Label {
   name: string;
   value: string | null;
-}
-
-// TODO(TS): add description to explain what this is after moving
-// gr-label-scores to ts
-export interface LabelValuesMap {
-  [key: number]: number;
 }
 
 // Name of the standard Code-Review label.
@@ -344,7 +338,7 @@ export function getVoteForAccount(
 }
 
 export function computeOrderedLabelValues(
-  permittedLabels?: LabelNameToValueMap
+  permittedLabels?: LabelNameToValuesMap
 ) {
   if (!permittedLabels) return [];
   const labels = Object.keys(permittedLabels);
@@ -359,11 +353,11 @@ export function computeOrderedLabelValues(
 }
 
 export function mergeLabelMaps(
-  a?: LabelNameToValueMap,
-  b?: LabelNameToValueMap
-): LabelNameToValueMap {
+  a?: LabelNameToValuesMap,
+  b?: LabelNameToValuesMap
+): LabelNameToValuesMap {
   if (!a || !b) return {};
-  const ans: LabelNameToValueMap = {};
+  const ans: LabelNameToValuesMap = {};
   for (const key of Object.keys(a)) {
     if (!hasOwnProperty(b, key)) continue;
     ans[key] = mergeLabelValues(a[key], b[key]);

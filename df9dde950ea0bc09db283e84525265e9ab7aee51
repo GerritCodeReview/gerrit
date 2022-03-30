@@ -16,6 +16,24 @@
       "message": "can you add more details here?\n\nWhich errors? Why were they produced and how is this fix fixing them.",
       "revId": "df9dde950ea0bc09db283e84525265e9ab7aee51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89dccaa2_30b046f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-30T11:51:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52da0dcf_4f07dc6a",
+      "revId": "df9dde950ea0bc09db283e84525265e9ab7aee51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

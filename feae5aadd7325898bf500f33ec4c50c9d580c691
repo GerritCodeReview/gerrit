@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec38b1f7_e84f8e86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-30T11:51:47Z",
+      "side": 1,
+      "message": "Discussed separately. Agreed to add here since API is ~correct.",
+      "parentUuid": "978c118a_ef316abe",
+      "revId": "feae5aadd7325898bf500f33ec4c50c9d580c691",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fa3b931_361ee906",

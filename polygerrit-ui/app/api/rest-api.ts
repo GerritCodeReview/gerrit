@@ -399,7 +399,7 @@ export declare interface ChangeInfo {
   actions?: ActionNameToActionInfoMap;
   requirements?: Requirement[];
   labels?: LabelNameToInfoMap;
-  permitted_labels?: LabelNameToValueMap;
+  permitted_labels?: LabelNameToValuesMap;
   removable_reviewers?: AccountInfo[];
   // This is documented as optional, but actually always set.
   reviewers: Reviewers;
@@ -734,7 +734,7 @@ export declare interface LabelCommonInfo {
 export type LabelNameToInfoMap = {[labelName: string]: LabelInfo};
 
 // {Verified: ["-1", " 0", "+1"]}
-export type LabelNameToValueMap = {[labelName: string]: string[]};
+export type LabelNameToValuesMap = {[labelName: string]: string[]};
 
 /**
  * The LabelInfo entity contains information about a label on a change, always

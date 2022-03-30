@@ -8,7 +8,7 @@ import {customElement, query, state} from 'lit/decorators';
 import {ProgressStatus, ReviewerState} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
-import {AccountInfo, ChangeInfo} from '../../../types/common';
+import {AccountInfo, ChangeInfo, NumericChangeId} from '../../../types/common';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-dialog/gr-dialog';
@@ -20,6 +20,7 @@ import {
   SUGGESTIONS_PROVIDERS_USERS_TYPES,
 } from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import '../../shared/gr-account-list/gr-account-list';
+import {getOverallStatus} from '../../../utils/bulk-flow-util';
 
 const SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE: Record<
   ReviewerState,
@@ -45,7 +46,10 @@ export class GrChangeListReviewerFlow extends LitElement {
     ReviewerSuggestionsProvider
   > = new Map();
 
-  @state() private progressByChange = new Map<ChangeInfo, ProgressStatus>();
+  @state() private progressByChangeNum = new Map<
+    NumericChangeId,
+    ProgressStatus
+  >();
 
   @state() private isOverlayOpen = false;
 
@@ -100,7 +104,7 @@ export class GrChangeListReviewerFlow extends LitElement {
   }
 
   private renderDialog() {
-    const overallStatus = this.getOverallStatus();
+    const overallStatus = getOverallStatus(this.progressByChangeNum);
     return html`
       <gr-dialog
         @cancel=${() => this.closeOverlay()}
@@ -159,8 +163,11 @@ export class GrChangeListReviewerFlow extends LitElement {
   }
 
   private resetFlow() {
-    this.progressByChange = new Map(
-      this.selectedChanges.map(change => [change, ProgressStatus.NOT_STARTED])
+    this.progressByChangeNum = new Map(
+      this.selectedChanges.map(change => [
+        change._number,
+        ProgressStatus.NOT_STARTED,
+      ])
     );
     for (const state of [ReviewerState.REVIEWER, ReviewerState.CC]) {
       this.updatedAccountsByReviewerState.set(
@@ -188,9 +195,12 @@ export class GrChangeListReviewerFlow extends LitElement {
     }
   }
 
-  private saveChanges() {
-    this.progressByChange = new Map(
-      this.selectedChanges.map(change => [change, ProgressStatus.RUNNING])
+  private saveReviewers() {
+    this.progressByChangeNum = new Map(
+      this.selectedChanges.map(change => [
+        change._number,
+        ProgressStatus.RUNNING,
+      ])
     );
     const inFlightActions = this.getBulkActionsModel().addReviewers(
       this.updatedAccountsByReviewerState
@@ -199,11 +209,14 @@ export class GrChangeListReviewerFlow extends LitElement {
       const change = this.selectedChanges[index];
       inFlightActions[index]
         .then(() => {
-          this.progressByChange.set(change, ProgressStatus.SUCCESSFUL);
+          this.progressByChangeNum.set(
+            change._number,
+            ProgressStatus.SUCCESSFUL
+          );
           this.requestUpdate();
         })
         .catch(() => {
-          this.progressByChange.set(change, ProgressStatus.FAILED);
+          this.progressByChangeNum.set(change._number, ProgressStatus.FAILED);
           this.requestUpdate();
         });
     }
@@ -247,17 +260,6 @@ export class GrChangeListReviewerFlow extends LitElement {
     );
     suggestionsProvider.init();
     return suggestionsProvider;
-  }
-
-  private getOverallStatus() {
-    const statuses = Array.from(this.progressByChange.values());
-    if (statuses.every(s => s === ProgressStatus.NOT_STARTED)) {
-      return ProgressStatus.NOT_STARTED;
-    }
-    if (statuses.some(s => s === ProgressStatus.RUNNING)) {
-      return ProgressStatus.RUNNING;
-    }
-    return ProgressStatus.SUCCESSFUL;
   }
 }
 

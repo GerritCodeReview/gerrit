@@ -70,7 +70,6 @@ import {
   isDetailedLabelInfo,
   isReviewerAccountSuggestion,
   isReviewerGroupSuggestion,
-  LabelNameToValueMap,
   ParsedJSON,
   PatchSetNum,
   ProjectInfo,
@@ -120,6 +119,7 @@ import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
+import {LabelNameToValuesMap} from '../../../api/rest-api';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -251,7 +251,7 @@ export class GrReplyDialog extends DIPolymerElement {
   filterCCSuggestion: (input: Suggestion) => boolean;
 
   @property({type: Object})
-  permittedLabels?: LabelNameToValueMap;
+  permittedLabels?: LabelNameToValuesMap;
 
   @property({type: Object})
   projectConfig?: ProjectInfo;

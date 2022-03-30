@@ -24,7 +24,6 @@ import {htmlTemplate} from './gr-reviewer-list_html';
 import {customElement, property, computed, observe} from '@polymer/decorators';
 import {
   ChangeInfo,
-  LabelNameToValueMap,
   AccountInfo,
   ApprovalInfo,
   Reviewers,
@@ -48,6 +47,7 @@ import {
 } from '../../../utils/label-util';
 import {sortReviewers} from '../../../utils/attention-set-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {LabelNameToValuesMap} from '../../../api/rest-api';
 
 @customElement('gr-reviewer-list')
 export class GrReviewerList extends PolymerElement {
@@ -125,7 +125,7 @@ export class GrReviewerList extends PolymerElement {
    *   scores: [-1, 0, 1]
    * }]
    */
-  _permittedLabelsToNumericScores(labels: LabelNameToValueMap | undefined) {
+  _permittedLabelsToNumericScores(labels: LabelNameToValuesMap | undefined) {
     if (!labels) return [];
     return Object.keys(labels).map(label => {
       return {

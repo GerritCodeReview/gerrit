@@ -273,43 +273,66 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     );
   });
 
-  test('closing dialog triggers a reload', async () => {
-    const changes: ChangeInfo[] = [{...change1}, {...change2}];
-    getChangesStub.returns(Promise.resolve(changes));
+  suite('closing dialog triggers reloads', () => {
+    test.only('closing dialog triggers a reload', async () => {
+      debugger;
+      const changes: ChangeInfo[] = [{...change1}, {...change2}];
+      getChangesStub.returns(Promise.resolve(changes));
 
-    const fireStub = sinon.stub(element, 'dispatchEvent');
+      const fireStub = sinon.stub(element, 'dispatchEvent');
 
-    stubRestApi('saveChangeReview').callsFake(
-      (_changeNum, _patchNum, _review, errFn) =>
-        Promise.resolve(new Response()).then(res => {
-          errFn && errFn();
-          return res;
-        })
-    );
+      stubRestApi('saveChangeReview').callsFake(
+        (_changeNum, _patchNum, _review, errFn) =>
+          Promise.resolve(new Response()).then(res => {
+            errFn && errFn();
+            return res;
+          })
+      );
 
-    model.sync(changes);
-    await waitUntilObserved(
-      model.loadingState$,
-      state => state === LoadingState.LOADED
-    );
-    await selectChange(change1);
-    await selectChange(change2);
-    await element.updateComplete;
+      model.sync(changes);
+      await waitUntilObserved(
+        model.loadingState$,
+        state => state === LoadingState.LOADED
+      );
+      await selectChange(change1);
+      await selectChange(change2);
+      await element.updateComplete;
 
-    tap(queryAndAssert(query(element, 'gr-dialog'), '#confirm'));
+      tap(queryAndAssert(query(element, 'gr-dialog'), '#confirm'));
 
-    await waitUntil(
-      () =>
-        element.progressByChange.get(2 as NumericChangeId) ===
-        ProgressStatus.FAILED
-    );
+      await waitUntil(
+        () =>
+          element.progressByChange.get(2 as NumericChangeId) ===
+          ProgressStatus.FAILED
+      );
 
-    assert.isFalse(fireStub.called);
+      assert.isFalse(fireStub.called);
 
-    tap(queryAndAssert(query(element, 'gr-dialog'), '#cancel'));
+      tap(queryAndAssert(query(element, 'gr-dialog'), '#cancel'));
 
-    await waitUntil(() => fireStub.called);
-    assert.equal(fireStub.lastCall.args[0].type, 'reload');
+      await waitUntil(() => fireStub.called);
+      assert.equal(fireStub.lastCall.args[0].type, 'reload');
+    });
+
+    test('closing dialog does not trigger reload if no request made', async () => {
+      const changes: ChangeInfo[] = [{...change1}, {...change2}];
+      getChangesStub.returns(Promise.resolve(changes));
+
+      const fireStub = sinon.stub(element, 'dispatchEvent');
+
+      model.sync(changes);
+      await waitUntilObserved(
+        model.loadingState$,
+        state => state === LoadingState.LOADED
+      );
+      await selectChange(change1);
+      await selectChange(change2);
+      await element.updateComplete;
+
+      tap(queryAndAssert(query(element, 'gr-dialog'), '#cancel'));
+
+      assert.isFalse(fireStub.called);
+    });
   });
 
   test('computePermittedLabels', async () => {

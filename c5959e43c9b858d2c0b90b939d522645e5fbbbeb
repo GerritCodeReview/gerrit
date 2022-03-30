@@ -16,6 +16,29 @@
       "message": "PS#8 fixes comments in `[Abstract]ChangeNotes.java` files.",
       "revId": "c5959e43c9b858d2c0b90b939d522645e5fbbbeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbeb9f51_f1bf7dbd",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-03-30T17:56:56Z",
+      "side": 1,
+      "message": "this is not needed :/",
+      "range": {
+        "startLine": 468,
+        "startChar": 4,
+        "endLine": 468,
+        "endChar": 34
+      },
+      "revId": "c5959e43c9b858d2c0b90b939d522645e5fbbbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

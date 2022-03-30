@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e7b2a74_4176121a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-30T13:11:59Z",
+      "side": 1,
+      "message": "Not sure we wanted *THIS* solution for master. We should revert this after the merge and have instead the proper solution implemented in v3.6.",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 62
+      },
+      "revId": "30b4c707e0098a74a5fb530aaed68c87b30620e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d1ea8b0_2ffed89b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-30T13:11:59Z",
+      "side": 1,
+      "message": "Missing entries. You should specify \u0027--log\u003dN\u0027 to get many more up to N.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "30b4c707e0098a74a5fb530aaed68c87b30620e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06ac08b0_109e9630",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-30T13:11:59Z",
+      "side": 1,
+      "message": "We need more front-end eyes on the merge.",
+      "revId": "30b4c707e0098a74a5fb530aaed68c87b30620e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

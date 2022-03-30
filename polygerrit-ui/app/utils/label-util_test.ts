@@ -32,6 +32,7 @@ import {
   computeLabels,
   mergeLabelMaps,
   computeOrderedLabelValues,
+  mergeLabelInfoMaps,
 } from './label-util';
 import {
   AccountId,
@@ -300,6 +301,73 @@ suite('label-util', () => {
       {name: 'Code-Review', value: null},
       {name: 'Verified', value: '+1'},
     ]);
+  });
+
+  test('mergeLabelInfoMaps', () => {
+    assert.deepEqual(
+      mergeLabelInfoMaps(
+        {
+          A: createDetailedLabelInfo(),
+          B: createDetailedLabelInfo(),
+        },
+        undefined
+      ),
+      {}
+    );
+    assert.deepEqual(
+      mergeLabelInfoMaps(undefined, {
+        A: createDetailedLabelInfo(),
+        B: createDetailedLabelInfo(),
+      }),
+      {}
+    );
+
+    assert.deepEqual(
+      mergeLabelInfoMaps(
+        {
+          A: createDetailedLabelInfo(),
+          B: createDetailedLabelInfo(),
+        },
+        {
+          A: createDetailedLabelInfo(),
+          B: createDetailedLabelInfo(),
+        }
+      ),
+      {
+        A: createDetailedLabelInfo(),
+        B: createDetailedLabelInfo(),
+      }
+    );
+
+    assert.deepEqual(
+      mergeLabelInfoMaps(
+        {
+          A: createDetailedLabelInfo(),
+          B: createDetailedLabelInfo(),
+        },
+        {
+          B: createDetailedLabelInfo(),
+          C: createDetailedLabelInfo(),
+        }
+      ),
+      {
+        B: createDetailedLabelInfo(),
+      }
+    );
+
+    assert.deepEqual(
+      mergeLabelInfoMaps(
+        {
+          A: createDetailedLabelInfo(),
+          B: createDetailedLabelInfo(),
+        },
+        {
+          X: createDetailedLabelInfo(),
+          Y: createDetailedLabelInfo(),
+        }
+      ),
+      {}
+    );
   });
 
   test('mergeLabelMaps', () => {

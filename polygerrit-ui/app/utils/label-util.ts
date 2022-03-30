@@ -39,12 +39,6 @@ export interface Label {
   value: string | null;
 }
 
-// TODO(TS): add description to explain what this is after moving
-// gr-label-scores to ts
-export interface LabelValuesMap {
-  [key: number]: number;
-}
-
 // Name of the standard Code-Review label.
 export enum StandardLabels {
   CODE_REVIEW = 'Code-Review',

@@ -255,7 +255,7 @@ public class CreateLabelIT extends AbstractDaemonTest {
     assertThat(createdLabel.copyMinScore).isNull();
     assertThat(createdLabel.copyMaxScore).isNull();
     assertThat(createdLabel.copyAllScoresIfListOfFilesDidNotChange).isNull();
-    assertThat(createdLabel.copyAllScoresIfNoChange).isTrue();
+    assertThat(createdLabel.copyAllScoresIfNoChange).isNull();
     assertThat(createdLabel.copyAllScoresIfNoCodeChange).isNull();
     assertThat(createdLabel.copyAllScoresOnTrivialRebase).isNull();
     assertThat(createdLabel.copyAllScoresOnMergeFirstParentUpdate).isNull();

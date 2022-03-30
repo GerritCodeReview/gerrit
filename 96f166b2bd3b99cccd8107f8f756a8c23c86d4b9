@@ -33,6 +33,24 @@
       "message": "global const SHOULD_BE_IN_ALL_CAPS_WITH_UNDERSCORES.",
       "revId": "96f166b2bd3b99cccd8107f8f756a8c23c86d4b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "311f55e7_ab63b06b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-30T12:23:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b780320_5d0acb73",
+      "revId": "96f166b2bd3b99cccd8107f8f756a8c23c86d4b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

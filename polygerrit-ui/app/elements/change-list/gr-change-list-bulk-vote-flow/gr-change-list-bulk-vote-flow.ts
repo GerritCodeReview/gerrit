@@ -189,6 +189,8 @@ export class GrChangeListBulkVoteFlow extends LitElement {
 
   private handleClose() {
     this.actionOverlay.close();
+    if (getOverallStatus(this.progressByChange) === ProgressStatus.NOT_STARTED)
+      return;
     fireAlert(this, 'Reloading page..');
     fireReload(this, true);
   }

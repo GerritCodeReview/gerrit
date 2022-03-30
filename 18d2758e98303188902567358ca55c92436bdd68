@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7502b22_492e8535",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T12:32:40Z",
+      "side": 1,
+      "message": "Compute permitted Labels only once at the top.",
+      "revId": "18d2758e98303188902567358ca55c92436bdd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c51ea02d_056ed3cd",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T12:32:40Z",
+      "side": 1,
+      "message": "This could all be part of the renderLabels method.  Just also pass in the default header.",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 18
+      },
+      "revId": "18d2758e98303188902567358ca55c92436bdd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d23dd32_789733d8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T12:32:40Z",
+      "side": 1,
+      "message": "Pass this in to avoid duplicate computation.",
+      "revId": "18d2758e98303188902567358ca55c92436bdd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c3a0b92_66086e7e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T12:32:40Z",
+      "side": 1,
+      "message": "Compute computeCommonPermittedLabels only once and pass it in.",
+      "range": {
+        "startLine": 214,
+        "startChar": 61,
+        "endLine": 214,
+        "endChar": 62
+      },
+      "revId": "18d2758e98303188902567358ca55c92436bdd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

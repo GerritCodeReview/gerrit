@@ -141,7 +141,6 @@ public class ListLabelsIT extends AbstractDaemonTest {
               "foo",
               labelType -> {
                 labelType.setCanOverride(false);
-                labelType.setCopyAllScoresIfNoChange(false);
                 labelType.setAllowPostSubmit(false);
               });
       u.save();
@@ -179,6 +178,7 @@ public class ListLabelsIT extends AbstractDaemonTest {
                 labelType.setCopyMinScore(true);
                 labelType.setCopyMaxScore(true);
                 labelType.setCopyAllScoresIfListOfFilesDidNotChange(true);
+                labelType.setCopyAllScoresIfNoChange(true);
                 labelType.setCopyAllScoresIfNoCodeChange(true);
                 labelType.setCopyAllScoresOnTrivialRebase(true);
                 labelType.setCopyAllScoresOnMergeFirstParentUpdate(true);

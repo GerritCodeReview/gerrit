@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c708ff6_5bd09085",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-03-30T18:50:55Z",
+      "side": 1,
+      "message": "Is this needed if in previous change we log all interactions?",
+      "range": {
+        "startLine": 406,
+        "startChar": 4,
+        "endLine": 406,
+        "endChar": 68
+      },
+      "revId": "15f9d3ee881cb1713bdc728d99704dbe12e17023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

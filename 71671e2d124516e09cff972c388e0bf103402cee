@@ -63,6 +63,30 @@
       },
       "revId": "71671e2d124516e09cff972c388e0bf103402cee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7067fcb2_2f661947",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-03-30T17:46:09Z",
+      "side": 1,
+      "message": "PS#7 solves the problem of local thread cache eviction, WDYT?",
+      "parentUuid": "ca7625fd_0462c68a",
+      "range": {
+        "startLine": 183,
+        "startChar": 11,
+        "endLine": 183,
+        "endChar": 62
+      },
+      "revId": "71671e2d124516e09cff972c388e0bf103402cee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

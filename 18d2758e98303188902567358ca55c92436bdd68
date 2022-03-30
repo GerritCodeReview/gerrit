@@ -79,6 +79,52 @@
       },
       "revId": "18d2758e98303188902567358ca55c92436bdd68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e53d2b5_0913cf9c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-30T12:34:13Z",
+      "side": 1,
+      "message": "I think it\u0027s time use names that reflect their different cases rather than A-E. Stuff like `change1OnlyTriggerVote` etc",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 5
+      },
+      "revId": "18d2758e98303188902567358ca55c92436bdd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "798f1829_465ffb91",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-30T12:34:13Z",
+      "side": 1,
+      "message": "why single-quoted? same below and in element\u0027s render()",
+      "range": {
+        "startLine": 144,
+        "startChar": 27,
+        "endLine": 144,
+        "endChar": 48
+      },
+      "revId": "18d2758e98303188902567358ca55c92436bdd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

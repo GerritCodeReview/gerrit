@@ -37,6 +37,34 @@ public interface PatchSetWebLink extends WebLink {
    * @return WebLinkInfo that links to patch set in external service, null if there should be no
    *     link.
    */
+  @Deprecated
   WebLinkInfo getPatchSetWebLink(
       String projectName, String commit, String commitMessage, String branchName);
+
+  /**
+   * {@link com.google.gerrit.extensions.common.WebLinkInfo} describing a link from a patch set to
+   * an external service.
+   *
+   * <p>In order for the web link to be visible {@link
+   * com.google.gerrit.extensions.common.WebLinkInfo#url} and {@link
+   * com.google.gerrit.extensions.common.WebLinkInfo#name} must be set.
+   *
+   * <p>
+   *
+   * @param projectName name of the project
+   * @param commit commit of the patch set
+   * @param commitMessage the commit message of the change
+   * @param branchName target branch of the change
+   * @param changeKey the changeID for this change
+   * @return WebLinkInfo that links to patch set in external service, null if there should be no
+   *     link.
+   */
+  default WebLinkInfo getPatchSetWebLink(
+      String projectName,
+      String commit,
+      String commitMessage,
+      String branchName,
+      String changeKey) {
+    return getPatchSetWebLink(projectName, commit, commitMessage, branchName);
+  }
 }

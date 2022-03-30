@@ -87,6 +87,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "177c32c7_051e48b4",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-30T06:33:15Z",
+      "side": 1,
+      "message": "You may want to mark inline comments as resolved once you have addressed them.",
+      "parentUuid": "82de4db9_e4d4e14b",
+      "range": {
+        "startLine": 515,
+        "startChar": 19,
+        "endLine": 515,
+        "endChar": 29
+      },
+      "revId": "842df8b94532dc116c2e2beb99e0f9b5e0464b2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66fe3f27_2896126d",

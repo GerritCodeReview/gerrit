@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c05af73f_2eeb804e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-30T06:33:15Z",
+      "side": 1,
+      "message": "nit: we try to avoid lines that exceed 100 chars, could you maybe rewrite this as\n\n  String.format(\"[S] Change in %s[master]: test commit\", project)\n  \n?\n\nThis way the assertion also continues to work when the test class or the method gets renamed.",
+      "revId": "f3d8893cbdcf476f2e0d1499fb98e24c4afdf2a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

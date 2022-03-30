@@ -19,11 +19,10 @@ import '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {
-  LabelNameToValueMap,
   ChangeInfo,
   AccountInfo,
   DetailedLabelInfo,
-  LabelNameToValuesMap,
+  LabelNameToValueMap,
 } from '../../../types/common';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
 import {getAppContext} from '../../../services/app-context';
@@ -36,11 +35,12 @@ import {
 } from '../../../utils/label-util';
 import {ChangeStatus} from '../../../constants/constants';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import { LabelNameToValuesMap } from '../../../api/rest-api';
 
 @customElement('gr-label-scores')
 export class GrLabelScores extends LitElement {
   @property({type: Object})
-  permittedLabels?: LabelNameToValueMap;
+  permittedLabels?: LabelNameToValuesMap;
 
   @property({type: Object})
   change?: ChangeInfo;
@@ -185,8 +185,8 @@ export class GrLabelScores extends LitElement {
       </div>`;
   }
 
-  getLabelValues(includeDefaults = true): LabelNameToValuesMap {
-    const labels: LabelNameToValuesMap = {};
+  getLabelValues(includeDefaults = true): LabelNameToValueMap {
+    const labels: LabelNameToValueMap = {};
     if (this.shadowRoot === null || !this.change) {
       return labels;
     }

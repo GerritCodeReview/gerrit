@@ -22,7 +22,6 @@ import {customElement, property, query, state} from 'lit/decorators';
 import {ifDefined} from 'lit/directives/if-defined';
 import {IronSelectorElement} from '@polymer/iron-selector/iron-selector';
 import {
-  LabelNameToValueMap,
   LabelNameToInfoMap,
   QuickLabelInfo,
   DetailedLabelInfo,
@@ -32,6 +31,7 @@ import {getAppContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {classMap} from 'lit/directives/class-map';
 import {Label} from '../../../utils/label-util';
+import { LabelNameToValuesMap } from '../../../api/rest-api';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -60,7 +60,7 @@ export class GrLabelScoreRow extends LitElement {
   name?: string;
 
   @property({type: Object})
-  permittedLabels: LabelNameToValueMap | undefined | null;
+  permittedLabels: LabelNameToValuesMap | undefined | null;
 
   @property({type: Array})
   orderedLabelValues?: number[];

@@ -14,12 +14,29 @@
 
 package com.google.gerrit.testing;
 
+import static java.util.stream.Collectors.joining;
+
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.schema.UpdateUI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class TestUpdateUI implements UpdateUI {
+  private final List<String> messages = new ArrayList<>();
+
   @Override
-  public void message(String message) {}
+  public void message(String message) {
+    messages.add(message);
+  }
+
+  public ImmutableList<String> getMessages() {
+    return ImmutableList.copyOf(messages);
+  }
+
+  public String getOutput() {
+    return messages.stream().collect(joining("\n"));
+  }
 
   @Override
   public boolean yesno(boolean defaultValue, String message) {

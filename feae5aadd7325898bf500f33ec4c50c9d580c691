@@ -16,6 +16,23 @@
       "message": "This handling for empty case should be added in the rest-api method instead of the model.",
       "revId": "feae5aadd7325898bf500f33ec4c50c9d580c691",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fa3b931_361ee906",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-03-30T09:04:03Z",
+      "side": 1,
+      "message": "If changes is length 0 we should probably set loadingState to LOADED",
+      "revId": "feae5aadd7325898bf500f33ec4c50c9d580c691",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

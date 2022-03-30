@@ -362,7 +362,7 @@ export class GrReporting implements ReportingService, Finalizable {
   }
 
   private _reportEvent(eventInfo: EventInfo, opt_noLog?: boolean) {
-    const {type, value, name} = eventInfo;
+    const {type, value, name, eventDetails} = eventInfo;
     document.dispatchEvent(new CustomEvent(type, {detail: eventInfo}));
     if (opt_noLog) {
       return;
@@ -370,6 +370,8 @@ export class GrReporting implements ReportingService, Finalizable {
     if (type !== ERROR.TYPE) {
       if (value !== undefined) {
         console.info(`Reporting: ${name}: ${value}`);
+      } else if (eventDetails !== undefined) {
+        console.info(`Reporting: ${name}: ${eventDetails}`);
       } else {
         console.info(`Reporting: ${name}`);
       }
@@ -614,7 +616,7 @@ export class GrReporting implements ReportingService, Finalizable {
       LifeCycle.PLUGINS_INSTALLED,
       undefined,
       {pluginsList: pluginsList || []},
-      true
+      false
     );
   }
 
@@ -626,7 +628,7 @@ export class GrReporting implements ReportingService, Finalizable {
       LifeCycle.PLUGINS_FAILED,
       undefined,
       {pluginsList: pluginsList || []},
-      true
+      false
     );
   }
 
@@ -755,7 +757,7 @@ export class GrReporting implements ReportingService, Finalizable {
       eventName,
       undefined,
       details,
-      true
+      false
     );
   }
 
@@ -766,7 +768,7 @@ export class GrReporting implements ReportingService, Finalizable {
       eventName,
       undefined,
       details,
-      true
+      false
     );
   }
 
@@ -824,7 +826,7 @@ export class GrReporting implements ReportingService, Finalizable {
       eventName,
       undefined,
       details,
-      true
+      false
     );
   }
 

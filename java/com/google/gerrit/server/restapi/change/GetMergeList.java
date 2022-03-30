@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static java.util.concurrent.TimeUnit.DAYS;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Project;
@@ -30,7 +32,6 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -77,7 +78,7 @@ public class GetMergeList implements RestReadView<RevisionResource> {
         return createResponse(rsrc, ImmutableList.of());
       }
 
-      List<RevCommit> commits = MergeListBuilder.build(rw, commit, uninterestingParent);
+      ImmutableList<RevCommit> commits = MergeListBuilder.build(rw, commit, uninterestingParent);
       List<CommitInfo> result = new ArrayList<>(commits.size());
       RevisionJson changeJson = json.create(ImmutableSet.of());
       for (RevCommit c : commits) {
@@ -88,7 +89,8 @@ public class GetMergeList implements RestReadView<RevisionResource> {
                 c,
                 addLinks,
                 /* fillCommit= */ true,
-                rsrc.getChange().getDest().branch()));
+                rsrc.getChange().getDest().branch(),
+                rsrc.getChange().getKey().get()));
       }
       return createResponse(rsrc, result);
     }
@@ -98,7 +100,7 @@ public class GetMergeList implements RestReadView<RevisionResource> {
       RevisionResource rsrc, List<CommitInfo> result) {
     Response<List<CommitInfo>> r = Response.ok(result);
     if (rsrc.isCacheable()) {
-      r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+      r.caching(CacheControl.PRIVATE(7, DAYS));
     }
     return r;
   }

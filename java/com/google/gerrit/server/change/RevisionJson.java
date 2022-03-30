@@ -168,7 +168,8 @@ public class RevisionJson {
       RevCommit commit,
       boolean addLinks,
       boolean fillCommit,
-      String branchName)
+      String branchName,
+      String changeKey)
       throws IOException {
     CommitInfo info = new CommitInfo();
     if (fillCommit) {
@@ -182,7 +183,8 @@ public class RevisionJson {
 
     if (addLinks) {
       ImmutableList<WebLinkInfo> patchSetLinks =
-          webLinks.getPatchSetLinks(project, commit.name(), commit.getFullMessage(), branchName);
+          webLinks.getPatchSetLinks(
+              project, commit.name(), commit.getFullMessage(), branchName, changeKey);
       info.webLinks = patchSetLinks.isEmpty() ? null : patchSetLinks;
       ImmutableList<WebLinkInfo> resolveConflictsLinks =
           webLinks.getResolveConflictsLinks(
@@ -301,7 +303,9 @@ public class RevisionJson {
       rw.parseBody(commit);
       String branchName = cd.change().getDest().branch();
       if (setCommit) {
-        out.commit = getCommitInfo(project, rw, commit, has(WEB_LINKS), fillCommit, branchName);
+        out.commit =
+            getCommitInfo(
+                 project, rw, commit, has(WEB_LINKS), fillCommit, branchName,c.getKey().get());
       }
       if (addFooters) {
         Ref ref = repo.exactRef(branchName);

@@ -1057,6 +1057,24 @@ public class ProjectConfigTest {
             });
   }
 
+  @Test
+  public void readCopyValues_emptyValueIsIgnored() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[label \"CustomLabel\"]\n"
+                    + "  copyValue = 1\n"
+                    + "  copyValue = 2\n"
+                    + "  copyValue = \n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    Map<String, LabelType> labels = cfg.getLabelSections();
+    assertThat(labels.entrySet().iterator().next().getValue().getCopyValues())
+        .containsExactly((short) 1, (short) 2);
+  }
+
   private Path writeDefaultAllProjectsConfig(String... lines) throws IOException {
     Path dir = sitePaths.etc_dir.resolve(ALL_PROJECTS.get());
     Files.createDirectories(dir);

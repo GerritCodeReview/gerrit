@@ -1179,6 +1179,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE));
       Set<Short> copyValues = new HashSet<>();
       for (String value : rc.getStringList(LABEL, name, KEY_COPY_VALUE)) {
+        if (value == null) {
+          // value is null if copyValue in project.config is set to an empty string
+          continue;
+        }
         try {
           short copyValue = Shorts.checkedCast(PermissionRule.parseInt(value));
           if (!copyValues.add(copyValue)) {

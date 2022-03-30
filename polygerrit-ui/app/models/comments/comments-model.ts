@@ -25,6 +25,7 @@ import {
   UrlEncodedCommentId,
   PathToCommentsInfoMap,
   RobotCommentInfo,
+  PathToRobotCommentsInfoMap,
 } from '../../types/common';
 import {
   addPath,
@@ -50,6 +51,7 @@ import {debounce, DelayedTask} from '../../utils/async-util';
 import {pluralize} from '../../utils/string-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Model} from '../model';
+import {Deduping} from '../../api/reporting';
 
 export interface CommentState {
   /** undefined means 'still loading' */
@@ -376,7 +378,37 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     const robotComments = await this.restApiService.getDiffRobotComments(
       changeNum
     );
+    this.reportRobotCommentStats(robotComments);
     this.updateState(s => setRobotComments(s, robotComments));
+  }
+
+  private reportRobotCommentStats(obj?: PathToRobotCommentsInfoMap) {
+    if (!obj) return;
+    const comments = Object.values(obj).flat();
+    if (comments.length === 0) return;
+    const ids = comments.map(c => c.robot_id);
+    const latestPatchset = comments.reduce(
+      (latestPs, comment) =>
+        Math.max(latestPs, (comment?.patch_set as number) ?? 0),
+      0
+    );
+    const commentsLatest = comments.filter(c => c.patch_set === latestPatchset);
+    const commentsFixes = comments
+      .map(c => c.fix_suggestions?.length ?? 0)
+      .filter(l => l > 0);
+    const details = {
+      firstId: ids[0],
+      ids: [...new Set(ids)],
+      count: comments.length,
+      countLatest: commentsLatest.length,
+      countFixes: commentsFixes.length,
+    };
+    console.log(`report robot comments ${JSON.stringify(details)}`);
+    this.reporting.reportInteraction(
+      Interaction.ROBOT_COMMENTS_STATS,
+      details,
+      {deduping: Deduping.EVENT_ONCE_PER_CHANGE}
+    );
   }
 
   async reloadDrafts(changeNum: NumericChangeId): Promise<void> {

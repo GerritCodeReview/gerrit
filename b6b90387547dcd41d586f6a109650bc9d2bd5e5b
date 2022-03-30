@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef6b9f06_ea7db436",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1012,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-03-30T07:14:00Z",
+      "side": 1,
+      "message": "nit: I literally meant using \u0027project\u0027 here. There is an inherited \u0027project\u0027 variable that contains the name of the current test project.",
+      "range": {
+        "startLine": 1012,
+        "startChar": 16,
+        "endLine": 1012,
+        "endChar": 100
+      },
+      "revId": "b6b90387547dcd41d586f6a109650bc9d2bd5e5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

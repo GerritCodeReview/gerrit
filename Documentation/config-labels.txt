@@ -478,7 +478,7 @@ approvals, reducing turn-around for this special case.
 It is recommended to leave this enabled for both Verified and
 Code-Review labels.
 
-Defaults to true.
+Defaults to false.
 
 [[label_copyValue]]
 === `label.Label-Name.copyValue`

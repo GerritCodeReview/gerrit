@@ -73,6 +73,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
  *       copyAllScoresOnTrivialRebase}, {@code copyAllScoresIfListOfFilesDidNotChange}, {@code
  *       copyValue})
  * </ul>
+ *
+ * <p>This migration assumes {@code true} as default value for the {@code copyAllScoresIfNoChange}
+ * flag since this default value was used for all labels that were created before this migration has
+ * been run (for labels that are created after this migration has been run the default value for
+ * this flag has been changed to {@code false}).
  */
 public class MigrateLabelConfigToCopyCondition {
   public static final String COMMIT_MESSAGE = "Migrate label configs to copy conditions";

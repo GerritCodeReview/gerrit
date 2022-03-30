@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fed14c09_07fa515e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-03-30T17:51:47Z",
+      "side": 1,
+      "message": "PS#8 fixes comments in `[Abstract]ChangeNotes.java` files.",
+      "revId": "c5959e43c9b858d2c0b90b939d522645e5fbbbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

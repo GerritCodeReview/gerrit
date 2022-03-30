@@ -16,6 +16,7 @@ import {
   computeLabels,
   mergeLabelMaps,
   computeOrderedLabelValues,
+  mergeLabelInfoMaps,
 } from '../../../utils/label-util';
 import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -101,7 +102,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
                 label => html`<gr-label-score-row
                   .label="${label}"
                   .name="${label.name}"
-                  .labels="${labels}"
+                  .labels="${this.computeLabelNameToInfoMap()}"
                   .permittedLabels="${permittedLabels}"
                   .orderedLabelValues="${computeOrderedLabelValues(
                     permittedLabels
@@ -124,6 +125,15 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     return this.selectedChanges
       .map(changes => changes.permitted_labels)
       .reduce(mergeLabelMaps);
+  }
+
+  private computeLabelNameToInfoMap() {
+    // Reduce method for empty array throws error if no initial value specified
+    if (this.selectedChanges.length === 0) return {};
+
+    return this.selectedChanges
+      .map(changes => changes.labels)
+      .reduce(mergeLabelInfoMaps);
   }
 
   // private but used in tests

@@ -352,6 +352,19 @@ export function computeOrderedLabelValues(
   return Array.from(values.values()).sort((a, b) => a - b);
 }
 
+export function mergeLabelInfoMaps(
+  a?: LabelNameToInfoMap,
+  b?: LabelNameToInfoMap
+): LabelNameToInfoMap {
+  if (!a || !b) return {};
+  const ans: LabelNameToInfoMap = {};
+  for (const key of Object.keys(a)) {
+    if (!hasOwnProperty(b, key)) continue;
+    ans[key] = a[key];
+  }
+  return ans;
+}
+
 export function mergeLabelMaps(
   a?: LabelNameToValuesMap,
   b?: LabelNameToValuesMap

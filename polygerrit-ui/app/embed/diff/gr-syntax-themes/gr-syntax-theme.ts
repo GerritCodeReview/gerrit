@@ -51,11 +51,6 @@ export const grSyntaxTheme = css`
   .gr-syntax-doctag {
     font-weight: var(--syntax-doctag-weight);
   }
-  .gr-syntax-emphasis {
-    color: var(--syntax-emphasis-color);
-    font-style: var(--syntax-emphasis-style);
-    font-weight: var(--syntax-emphasis-weight);
-  }
   .gr-syntax-formula {
     color: var(--syntax-formula-color);
   }

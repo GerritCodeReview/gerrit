@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static java.util.concurrent.TimeUnit.DAYS;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.CommitInfo;
@@ -25,7 +27,6 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -64,10 +65,11 @@ public class GetCommit implements RestReadView<RevisionResource> {
                   commit,
                   addLinks,
                   /* fillCommit= */ true,
-                  rsrc.getChange().getDest().branch());
+                  rsrc.getChange().getDest().branch(),
+                  rsrc.getChange().getKey().get());
       Response<CommitInfo> r = Response.ok(info);
       if (rsrc.isCacheable()) {
-        r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+        r.caching(CacheControl.PRIVATE(7, DAYS));
       }
       return r;
     }

@@ -351,7 +351,7 @@ export const htmlTemplate = html`
       <fieldset id="diffPreferences">
         <gr-diff-preferences
           id="diffPrefs"
-          has-unsaved-changes="{{_diffPrefsChanged}}"
+          on-has-unsaved-changes-changed="_handleHasUnsavedChangesChanged"
         ></gr-diff-preferences>
         <gr-button
           id="saveDiffPrefs"

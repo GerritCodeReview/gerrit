@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "835cd904_2b8dde6e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T09:20:33Z",
+      "side": 1,
+      "message": "Yeah was intentional, thanks.",
+      "parentUuid": "a17de923_f5ee4176",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 75
+      },
+      "revId": "5ec5e4cebc47e471599717016a6801be1c34380d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf98d576_408ed0bb",
@@ -61,6 +85,30 @@
       "writtenOn": "2022-03-31T09:03:48Z",
       "side": 1,
       "message": "I have no idea what `ans` is short for. Please use the full word",
+      "range": {
+        "startLine": 365,
+        "startChar": 9,
+        "endLine": 365,
+        "endChar": 12
+      },
+      "revId": "5ec5e4cebc47e471599717016a6801be1c34380d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f51f15c_af01e950",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T09:20:33Z",
+      "side": 1,
+      "message": "Replaced with `mergedMap`.",
+      "parentUuid": "bf98d576_408ed0bb",
       "range": {
         "startLine": 365,
         "startChar": 9,

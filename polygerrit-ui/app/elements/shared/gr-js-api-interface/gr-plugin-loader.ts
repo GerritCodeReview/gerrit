@@ -253,7 +253,7 @@ export class PluginLoader {
         plugin: null,
       });
     }
-    console.info(`Plugin ${key} ${state}`);
+    console.debug(`Plugin ${key} ${state}`);
     return this._plugins.get(key)!;
   }
 

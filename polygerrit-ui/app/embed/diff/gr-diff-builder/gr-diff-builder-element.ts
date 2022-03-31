@@ -106,6 +106,12 @@ export class GrDiffBuilderElement extends PolymerElement {
    */
 
   /**
+   * Fired whenever a new chunk of lines has been rendered synchronously.
+   *
+   * @event render-progress
+   */
+
+  /**
    * Fired when the diff finishes rendering text content.
    *
    * @event render-content
@@ -506,6 +512,7 @@ export class GrDiffBuilderElement extends PolymerElement {
       );
       this._builder.addGroups(added);
     }
+    fireEvent(this, 'render-progress');
   }
 
   _createIntralineLayer(): DiffLayer {

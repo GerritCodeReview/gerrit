@@ -752,6 +752,10 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       // border-right in ".section" css definition (in gr-diff_html.ts)
       const sectionRightBorder = '1px';
 
+      // each sign col has 1ch width.
+      const signColsWidth =
+        sideBySide && renderPrefs?.high_contrast ? '2ch' : '0';
+
       // As some of these calculations are done using 'ch' we end up
       // having <1px difference between ideal and calculated size for each side
       // leading to lines using the max columns (e.g. 80) to wrap (decided
@@ -765,7 +769,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       const dontWrapCorrection = '2px';
       stylesToUpdate[
         '--diff-max-width'
-      ] = `calc(${contentWidth} + ${lineNumberWidth} + ${sectionRightBorder} + ${dontWrapCorrection})`;
+      ] = `calc(${contentWidth} + ${lineNumberWidth} + ${signColsWidth} + ${sectionRightBorder} + ${dontWrapCorrection})`;
     } else {
       stylesToUpdate['--diff-max-width'] = 'none';
     }
@@ -786,6 +790,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     }
     if (renderPrefs.hide_line_length_indicator) {
       this.classList.add('hide-line-length-indicator');
+    }
+    if (renderPrefs.high_contrast) {
+      this.classList.add('high-contrast');
     }
     if (this.prefs) {
       this._updatePreferenceStyles(this.prefs, renderPrefs);

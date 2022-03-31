@@ -124,14 +124,14 @@ suite('gr-diff tests', () => {
       element.viewMode = 'SIDE_BY_SIDE';
       flush();
       assert.equal(getComputedStyleValue('--diff-max-width', element),
-          'calc(2 * 80ch + 2 * 48px + 1px + 2px)');
+          'calc(2 * 80ch + 2 * 48px + 0ch + 1px + 2px)');
     });
 
     test('max-width considers one content column in unified', () => {
       element.viewMode = 'UNIFIED_DIFF';
       flush();
       assert.equal(getComputedStyleValue('--diff-max-width', element),
-          'calc(1 * 80ch + 2 * 48px + 1px + 2px)');
+          'calc(1 * 80ch + 2 * 48px + 0ch + 1px + 2px)');
     });
 
     test('max-width considers font-size', () => {
@@ -139,7 +139,14 @@ suite('gr-diff tests', () => {
       flush();
       // Each line number column: 4 * 13 = 52px
       assert.equal(getComputedStyleValue('--diff-max-width', element),
-          'calc(2 * 80ch + 2 * 52px + 1px + 2px)');
+          'calc(2 * 80ch + 2 * 52px + 0ch + 1px + 2px)');
+    });
+
+    test('sign cols are considered if show_sign_col is true', () => {
+      element.renderPrefs = {...element.renderPrefs, show_sign_col: true};
+      flush();
+      assert.equal(getComputedStyleValue('--diff-max-width', element),
+          'calc(2 * 80ch + 2 * 48px + 2ch + 1px + 2px)');
     });
   });
 

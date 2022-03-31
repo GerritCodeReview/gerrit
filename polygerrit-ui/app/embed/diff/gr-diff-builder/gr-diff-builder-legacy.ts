@@ -237,7 +237,8 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     }
 
     const cell = createElementDiff('td', 'dividerCell');
-    cell.setAttribute('colspan', '3');
+    const colspan = this.renderPrefs?.show_sign_col ? '5' : '3';
+    cell.setAttribute('colspan', colspan);
     row.appendChild(cell);
 
     const contextControls = createElementDiff(
@@ -271,9 +272,13 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     row.appendChild(this.createBlameCell(0));
     row.appendChild(createElementDiff('td', 'contextLineNum'));
     if (viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      row.appendChild(createElementDiff('td', 'sign'));
       row.appendChild(createElementDiff('td'));
     }
     row.appendChild(createElementDiff('td', 'contextLineNum'));
+    if (viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      row.appendChild(createElementDiff('td', 'sign'));
+    }
     row.appendChild(createElementDiff('td'));
 
     return row;
@@ -288,6 +293,7 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     const td = createElementDiff('td');
     td.classList.add(side);
     if (line.type === GrDiffLineType.BLANK) {
+      td.classList.add('blankLineNum');
       return td;
     }
     if (line.type === GrDiffLineType.BOTH || line.type === type) {
@@ -439,8 +445,13 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
 
   protected buildMoveControls(group: GrDiffGroup) {
     const movedIn = group.adds.length > 0;
-    const {numberOfCells, movedOutIndex, movedInIndex, lineNumberCols} =
-      this.getMoveControlsConfig();
+    const {
+      numberOfCells,
+      movedOutIndex,
+      movedInIndex,
+      lineNumberCols,
+      signCols,
+    } = this.getMoveControlsConfig();
 
     let controlsClass;
     let descriptionIndex;
@@ -461,6 +472,10 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
       cells[index].classList.add('moveControlsLineNumCol');
     });
 
+    if (signCols) {
+      cells[signCols.left].classList.add('sign', 'left');
+      cells[signCols.right].classList.add('sign', 'right');
+    }
     const moveRangeHeader = createElementDiff('gr-range-header');
     moveRangeHeader.setAttribute('icon', 'gr-icons:move-item');
     moveRangeHeader.appendChild(descriptionTextDiv);

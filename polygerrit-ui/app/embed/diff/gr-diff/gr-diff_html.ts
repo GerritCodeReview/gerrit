@@ -20,11 +20,11 @@ export const htmlTemplate = html`
   <style include="shared-styles">
     /**
      * This is used to hide all left side of the diff (e.g. diffs besides comments
-     * in the change log). Since we want to remove the first 3 cells consistently
+     * in the change log). Since we want to remove the first 4 cells consistently
      * in all rows except context buttons (.dividerRow).
      */
-    :host(.no-left) .sideBySide colgroup col:nth-child(-n + 3),
-    :host(.no-left) .sideBySide tr:not(.dividerRow) td:nth-child(-n + 3) {
+    :host(.no-left) .sideBySide colgroup col:nth-child(-n + 4),
+    :host(.no-left) .sideBySide tr:not(.dividerRow) td:nth-child(-n + 4) {
       display: none;
     }
     :host(.disable-context-control-buttons) {
@@ -70,8 +70,8 @@ export const htmlTemplate = html`
     }
 
     /* Provides the option to add side borders (left and right) to the line number column. */
-    td.left,
-    td.right,
+    td.lineNum,
+    td.blankLineNum,
     td.moveControlsLineNumCol,
     td.contextLineNum {
       box-shadow: var(--line-number-box-shadow, unset);
@@ -200,6 +200,14 @@ export const htmlTemplate = html`
     }
 
     /**
+     * the outline for the sign cell should be always be contiguous top/bottom.
+     */
+    .target-row.target-side-left td.left.sign::before,
+    .target-row.target-side-right td.right.sign::before {
+      border-width: 1px 0;
+    }
+
+    /**
      * For side-by-side we need to select the correct line number to "visually close"
      * the outline.
      */
@@ -286,6 +294,14 @@ export const htmlTemplate = html`
     .canComment .lineNumButton {
       cursor: pointer;
     }
+    .sign {
+      min-width: 1ch;
+      width: 1ch;
+      background-color: var(--view-background-color);
+    }
+    .sign.blank {
+      background-color: var(--diff-blank-background-color);
+    }
     .content {
       /* Set min width since setting width on table cells still
            allows them to shrink. Do not set max width because
@@ -296,20 +312,28 @@ export const htmlTemplate = html`
     .content.add .contentText .intraline,
       /* If there are no intraline info, consider everything changed */
       .content.add.no-intraline-info .contentText,
+      .sign.add.no-intraline-info,
       .delta.total .content.add .contentText {
       background-color: var(--dark-add-highlight-color);
     }
-    .content.add .contentText {
+    .content.add .contentText,
+    .sign.add {
       background-color: var(--light-add-highlight-color);
     }
     .content.remove .contentText .intraline,
       /* If there are no intraline info, consider everything changed */
       .content.remove.no-intraline-info .contentText,
-      .delta.total .content.remove .contentText {
+      .delta.total .content.remove .contentText,
+      .sign.remove.no-intraline-info {
       background-color: var(--dark-remove-highlight-color);
     }
-    .content.remove .contentText {
+    .content.remove .contentText,
+    .sign.remove {
       background-color: var(--light-remove-highlight-color);
+    }
+
+    .ignoredWhitespaceOnly .sign.no-intraline-info {
+      background-color: var(--view-background-color);
     }
 
     /* dueToRebase */
@@ -329,14 +353,18 @@ export const htmlTemplate = html`
     }
 
     /* dueToMove */
+    .dueToMove .sign.add,
     .dueToMove .content.add .contentText,
+    .dueToMove .moveControls.movedIn .sign.right,
     .dueToMove .moveControls.movedIn .moveHeader,
     .delta.total.dueToMove .content.add .contentText {
       background-color: var(--diff-moved-in-background);
     }
 
+    .dueToMove .sign.remove,
     .dueToMove .content.remove .contentText,
     .dueToMove .moveControls.movedOut .moveHeader,
+    .dueToMove .moveControls.movedOut .sign.left,
     .delta.total.dueToMove .content.remove .contentText {
       background-color: var(--diff-moved-out-background);
     }
@@ -494,6 +522,21 @@ export const htmlTemplate = html`
     td.lost iron-icon {
       padding: 0 var(--spacing-s) 0 var(--spacing-m);
       color: var(--blue-700);
+    }
+
+    col.sign,
+    td.sign {
+      display: none;
+    }
+
+    /**
+     * Sign column should only be shown in high-contrast mode.
+     */
+    :host(.with-sign-col) col.sign {
+      display: table-column;
+    }
+    :host(.with-sign-col) td.sign {
+      display: table-cell;
     }
     col.blame {
       display: none;

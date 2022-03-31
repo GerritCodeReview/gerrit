@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a17de923_f5ee4176",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-action-bar/gr-change-list-action-bar.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-31T09:07:48Z",
+      "side": 1,
+      "message": "probably ok to do here if this is intentional",
+      "parentUuid": "b47d8beb_bc1c41b8",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 75
+      },
+      "revId": "5ec5e4cebc47e471599717016a6801be1c34380d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf98d576_408ed0bb",
         "filename": "polygerrit-ui/app/utils/label-util.ts",
         "patchSetId": 2

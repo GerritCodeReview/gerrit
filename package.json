@@ -54,6 +54,9 @@
     "lodash": "4.17.21",
     "twinkie/typescript": "4.3.2"
   },
+  "engines": {
+    "node": ">=16.0.0 <17"
+  },
   "author": "",
   "license": "Apache-2.0"
 }

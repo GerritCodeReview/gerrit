@@ -25,6 +25,9 @@
     "sinon": "^10.0.0",
     "source-map-support": "^0.5.19"
   },
+  "engines": {
+    "node": ">=16.0.0 <17"
+  },
   "license": "Apache-2.0",
   "private": true
 }

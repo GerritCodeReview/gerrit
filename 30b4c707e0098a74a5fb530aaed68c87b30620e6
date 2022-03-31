@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e46ef2de_e249c8e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-03-31T07:41:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5e7b2a74_4176121a",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 62
+      },
+      "revId": "30b4c707e0098a74a5fb530aaed68c87b30620e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d1ea8b0_2ffed89b",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-30T13:11:59Z",
       "side": 1,
       "message": "Missing entries. You should specify \u0027--log\u003dN\u0027 to get many more up to N.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "30b4c707e0098a74a5fb530aaed68c87b30620e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eae8b05f_1803bf68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-03-31T07:41:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d1ea8b0_2ffed89b",
       "range": {
         "startLine": 31,
         "startChar": 0,

@@ -335,6 +335,10 @@ export class GrDiffCursor implements GrDiffCursorApi {
     this.preventAutoScrollOnManualScroll = true;
   };
 
+  private _boundHandleDiffRenderProgress = () => {
+    this._updateStops();
+  };
+
   private _boundHandleDiffRenderContent = () => {
     this._updateStops();
     // When done rendering, turn focus on move and automatic scrolling back on
@@ -546,6 +550,10 @@ export class GrDiffCursor implements GrDiffCursorApi {
     );
     diff.removeEventListener('render-start', this._boundHandleDiffRenderStart);
     diff.removeEventListener(
+      'render-progress',
+      this._boundHandleDiffRenderProgress
+    );
+    diff.removeEventListener(
       'render-content',
       this._boundHandleDiffRenderContent
     );
@@ -561,6 +569,10 @@ export class GrDiffCursor implements GrDiffCursorApi {
       this.boundHandleDiffLoadingChanged
     );
     diff.addEventListener('render-start', this._boundHandleDiffRenderStart);
+    diff.addEventListener(
+      'render-progress',
+      this._boundHandleDiffRenderProgress
+    );
     diff.addEventListener('render-content', this._boundHandleDiffRenderContent);
     diff.addEventListener('line-selected', this._boundHandleDiffLineSelected);
   }

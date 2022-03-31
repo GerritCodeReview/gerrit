@@ -33,6 +33,24 @@
       "message": "This comment threw me off, \u0027rendered\u0027 and \u0027render\u0027 feel like different verbs. Please fix in a follow-up.",
       "revId": "ec4cae407729dc7fbeac915452e9aaf47b7b00cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9375f117_c191327a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-31T14:49:20Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/334241",
+      "parentUuid": "438d52b8_2903af8b",
+      "revId": "ec4cae407729dc7fbeac915452e9aaf47b7b00cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

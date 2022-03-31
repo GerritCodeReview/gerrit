@@ -97,6 +97,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "fb478da7_f3035e63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-31T22:40:31Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "eae8b05f_1803bf68",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "30b4c707e0098a74a5fb530aaed68c87b30620e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "06ac08b0_109e9630",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -126,6 +150,24 @@
       "side": 1,
       "message": "Please suggest a suitable candidate.",
       "parentUuid": "06ac08b0_109e9630",
+      "revId": "30b4c707e0098a74a5fb530aaed68c87b30620e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67f40304_8bac5fa4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-31T22:40:31Z",
+      "side": 1,
+      "message": "I\u0027ve added Chris as a reviewer. @Chris feel free to add anyone from your Team to have a look.",
+      "parentUuid": "70e341d6_b3306d0a",
       "revId": "30b4c707e0098a74a5fb530aaed68c87b30620e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

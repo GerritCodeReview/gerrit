@@ -253,6 +253,7 @@ export declare interface RenderPreferences {
    * be a temporary setting until the experiment is concluded.
    */
   use_lit_components?: boolean;
+  show_sign_col?: boolean;
 }
 
 /**

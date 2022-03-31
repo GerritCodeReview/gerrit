@@ -328,6 +328,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     movedOutIndex: number;
     movedInIndex: number;
     lineNumberCols: number[];
+    signCols?: {left: number; right: number};
   };
 
   /**

@@ -12,6 +12,7 @@ import {AccountInfo, ChangeInfo, NumericChangeId} from '../../../types/common';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-button/gr-button';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {getAppContext} from '../../../services/app-context';
 import {

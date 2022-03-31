@@ -485,10 +485,16 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   getCursorStops(): Array<HTMLElement | AbortStop> {
     if (this.hidden && this.noAutoRender) return [];
 
+    // Get rendered stops.
+    const stops: Array<HTMLElement|AbortStop> =
+        this.$.diffBuilder.getLineNumberRows();
+
+    // If we are still loading this diff, abort after the rendered stops to
+    // avoid skipping over to e.g. the next file.
     if (this.loading) {
-      return [new AbortStop()];
+      stops.push(new AbortStop());
     }
-    return this.$.diffBuilder.getLineNumberRows();
+    return stops;
   }
 
   isRangeSelected() {

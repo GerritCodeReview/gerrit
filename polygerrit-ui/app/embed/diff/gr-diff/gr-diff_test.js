@@ -25,6 +25,7 @@ import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import '@polymer/paper-button/paper-button.js';
 import {Side} from '../../../api/diff.js';
 import {mockPromise, stubRestApi} from '../../../test/test-utils.js';
+import {AbortStop} from '../../../api/core.js';
 
 const basicFixture = fixtureFromElement('gr-diff');
 
@@ -536,22 +537,37 @@ suite('gr-diff tests', () => {
         };
 
         element._renderDiffTable();
-        element._setLoading(false);
+
         flush();
       }
 
-      test('getCursorStops returns [] when hidden and noAutoRender', () => {
+      test('returns [] when hidden and noAutoRender', () => {
         element.noAutoRender = true;
         setupDiff();
+        element._setLoading(false);
+        flush();
         element.hidden = true;
         assert.equal(element.getCursorStops().length, 0);
       });
 
-      test('getCursorStops', () => {
+      test('returns one stop per line and one for the file row', () => {
         setupDiff();
+        element._setLoading(false);
+        flush();
         const ROWS = 48;
         const FILE_ROW = 1;
         assert.equal(element.getCursorStops().length, ROWS + FILE_ROW);
+      });
+
+      test('returns an additional AbortStop when still loading', () => {
+        setupDiff();
+        element._setLoading(true);
+        flush();
+        const ROWS = 48;
+        const FILE_ROW = 1;
+        const actual = element.getCursorStops();
+        assert.equal(actual.length, ROWS + FILE_ROW + 1);
+        assert.isTrue(actual[actual.length -1] instanceof AbortStop);
       });
     });
 

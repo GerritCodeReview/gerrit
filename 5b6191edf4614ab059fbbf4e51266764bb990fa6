@@ -51,6 +51,24 @@
       "message": "This should also be done in the WorkQueue.Executor where other thread pools are created in Gerrit.\n\nE.g. Interactive and Batch indexers are created by the WorkQueue and needs releasing the RefCache once the thread has finished its indexing work.",
       "revId": "5b6191edf4614ab059fbbf4e51266764bb990fa6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9d74f2d_de6f83bf",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-31T19:20:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47f9066f_4a86dbba",
+      "revId": "5b6191edf4614ab059fbbf4e51266764bb990fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

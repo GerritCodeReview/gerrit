@@ -40,6 +40,7 @@ java_library(
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",  # SSH should not depend on servlet
         "//lib/log:log4j",
+        "//lib/mina:contrib",
         "//lib/mina:core",
         "//lib/mina:sshd",
     ],

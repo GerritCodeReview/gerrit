@@ -6,6 +6,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":eddsa",
+        "@sshd-contrib//jar",
         "@sshd-mina//jar",
         "@sshd-osgi//jar",
     ],
@@ -33,4 +34,11 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = ["@mina-core//jar"],
+)
+
+java_library(
+    name = "contrib",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@sshd-contrib//jar"],
 )

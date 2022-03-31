@@ -44,6 +44,12 @@ def declare_nongoogle_deps():
     SSHD_VERS = "2.8.0"
 
     maven_jar(
+        name = "sshd-contrib",
+        artifact = "org.apache.sshd:sshd-contrib:" + SSHD_VERS,
+        sha1 = "fca2813b9a72d6b623fa8bb1711a9e59c4117cb2",
+    )
+
+    maven_jar(
         name = "sshd-osgi",
         artifact = "org.apache.sshd:sshd-osgi:" + SSHD_VERS,
         sha1 = "b2a59b73c045f40d5722b9160d4f909a646d86c9",

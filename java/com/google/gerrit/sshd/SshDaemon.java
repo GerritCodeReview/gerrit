@@ -97,6 +97,7 @@ import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
 import org.apache.sshd.common.util.security.SecurityUtils;
+import org.apache.sshd.contrib.server.session.proxyprotocol.ProxyProtocolAcceptor;
 import org.apache.sshd.mina.MinaServiceFactoryFactory;
 import org.apache.sshd.mina.MinaSession;
 import org.apache.sshd.server.ServerBuilder;
@@ -275,6 +276,10 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
             SocketAddress peer = io.getRemoteAddress();
             final SshSession sd = new SshSession(id, peer);
             s.setAttribute(SshSession.KEY, sd);
+
+            if (cfg.getBoolean("sshd", "useProxyProtocol", false)) {
+              s.setServerProxyAcceptor(new ProxyProtocolAcceptor());
+            }
 
             // Log a session close without authentication as a failure.
             //

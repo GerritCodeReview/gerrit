@@ -88,7 +88,11 @@ module.exports = {
     // https://eslint.org/docs/rules/no-console
     'no-console': [
       'error',
-      {allow: ['warn', 'error', 'info', 'assert', 'group', 'groupEnd']},
+      {
+        allow: [
+          'warn', 'error', 'info', 'debug', 'assert', 'group', 'groupEnd',
+        ],
+      },
     ],
     // https://eslint.org/docs/rules/no-multiple-empty-lines
     'no-multiple-empty-lines': ['error', {max: 1}],

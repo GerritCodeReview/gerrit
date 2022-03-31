@@ -304,7 +304,7 @@ s   */
     const elapsed = endTime - startTime;
     const startAt = new Date(startTime);
     const endAt = new Date(endTime);
-    console.info(
+    console.debug(
       [
         'HTTP',
         status,

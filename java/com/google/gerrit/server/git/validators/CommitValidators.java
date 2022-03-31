@@ -49,10 +49,12 @@ import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.project.LabelConfigValidator;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
@@ -105,6 +107,7 @@ public class CommitValidators {
     private final AccountValidator accountValidator;
     private final ProjectCache projectCache;
     private final ProjectConfig.Factory projectConfigFactory;
+    private final DiffOperations diffOperations;
     private final Config config;
 
     @Inject
@@ -119,7 +122,8 @@ public class CommitValidators {
         ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
         AccountValidator accountValidator,
         ProjectCache projectCache,
-        ProjectConfig.Factory projectConfigFactory) {
+        ProjectConfig.Factory projectConfigFactory,
+        DiffOperations diffOperations) {
       this.gerritIdent = gerritIdent;
       this.urlFormatter = urlFormatter;
       this.config = config;
@@ -131,6 +135,7 @@ public class CommitValidators {
       this.accountValidator = accountValidator;
       this.projectCache = projectCache;
       this.projectConfigFactory = projectConfigFactory;
+      this.diffOperations = diffOperations;
     }
 
     public CommitValidators forReceiveCommits(
@@ -162,7 +167,8 @@ public class CommitValidators {
           .add(new PluginCommitValidationListener(pluginValidators, skipValidation))
           .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker))
           .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
-          .add(new GroupCommitValidator(allUsers));
+          .add(new GroupCommitValidator(allUsers))
+          .add(new LabelConfigValidator(diffOperations));
       return new CommitValidators(validators.build());
     }
 
@@ -191,7 +197,8 @@ public class CommitValidators {
           .add(new PluginCommitValidationListener(pluginValidators))
           .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker))
           .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
-          .add(new GroupCommitValidator(allUsers));
+          .add(new GroupCommitValidator(allUsers))
+          .add(new LabelConfigValidator(diffOperations));
       return new CommitValidators(validators.build());
     }
 

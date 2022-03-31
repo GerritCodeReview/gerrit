@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e9241fb_fbe97161",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-03-31T09:11:35Z",
+      "side": 1,
+      "message": "+2 on this change but can\u0027t say for parent changes",
+      "revId": "63269f5fac47e2389b1099404ad1159eefb01da6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

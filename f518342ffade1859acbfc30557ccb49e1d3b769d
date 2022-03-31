@@ -16,6 +16,24 @@
       "message": "I prefer to have less console logs. I am not interested in interaction logs in console. But it\u0027s interesting to see other view. We can ask more maintainers how they feel about it. I am ok if we change it if more people like it. \n\nOther proposal is to use console.debug for which we don\u0027t put logs now - which is part of verbose level https://developer.mozilla.org/en-US/docs/Web/API/console/debug",
       "revId": "f518342ffade1859acbfc30557ccb49e1d3b769d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea7f3ba2_7b9ce918",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-03-31T08:50:06Z",
+      "side": 1,
+      "message": "What about this?\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/334166\n\nI don\u0027t care much about INFO or DEBUG, but I think the interaction logs are more interesting than all the current latency garbage that is being logged. :-)",
+      "parentUuid": "ff95a8ea_f837c71c",
+      "revId": "f518342ffade1859acbfc30557ccb49e1d3b769d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

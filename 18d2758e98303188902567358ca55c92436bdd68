@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbcc00a6_d977f5c9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T18:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7502b22_492e8535",
+      "revId": "18d2758e98303188902567358ca55c92436bdd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c51ea02d_056ed3cd",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-03-30T12:32:40Z",
       "side": 1,
       "message": "This could all be part of the renderLabels method.  Just also pass in the default header.",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 18
+      },
+      "revId": "18d2758e98303188902567358ca55c92436bdd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a49313e1_8e664148",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T18:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c51ea02d_056ed3cd",
       "range": {
         "startLine": 119,
         "startChar": 0,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db76aa7a_afa2be60",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T18:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d23dd32_789733d8",
+      "revId": "18d2758e98303188902567358ca55c92436bdd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c3a0b92_66086e7e",
@@ -71,6 +131,30 @@
       "writtenOn": "2022-03-30T12:32:40Z",
       "side": 1,
       "message": "Compute computeCommonPermittedLabels only once and pass it in.",
+      "range": {
+        "startLine": 214,
+        "startChar": 61,
+        "endLine": 214,
+        "endChar": 62
+      },
+      "revId": "18d2758e98303188902567358ca55c92436bdd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ba2aead_9502cb6d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T18:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c3a0b92_66086e7e",
       "range": {
         "startLine": 214,
         "startChar": 61,
@@ -106,6 +190,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0162f3fb_761051ef",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T18:18:38Z",
+      "side": 1,
+      "message": "Adding another trigger vote would then be `change1OnlyTriggerVote2`?\n\nNaming gets messy pretty soon and then it\u0027s hard to make changes.\n\nIf I want to share the label between 2 changes then the name becomes `change1AndChange2` trigger vote?\n\nI can add more comments to labels to make it clearer what they are.",
+      "parentUuid": "2e53d2b5_0913cf9c",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 5
+      },
+      "revId": "18d2758e98303188902567358ca55c92436bdd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "798f1829_465ffb91",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
         "patchSetId": 11
@@ -117,6 +225,30 @@
       "writtenOn": "2022-03-30T12:34:13Z",
       "side": 1,
       "message": "why single-quoted? same below and in element\u0027s render()",
+      "range": {
+        "startLine": 144,
+        "startChar": 27,
+        "endLine": 144,
+        "endChar": 48
+      },
+      "revId": "18d2758e98303188902567358ca55c92436bdd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c813a08_ea810941",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T18:18:38Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "798f1829_465ffb91",
       "range": {
         "startLine": 144,
         "startChar": 27,

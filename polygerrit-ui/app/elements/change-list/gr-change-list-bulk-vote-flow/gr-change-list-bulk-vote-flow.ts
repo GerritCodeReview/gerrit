@@ -29,7 +29,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
 
   private readonly userModel = getAppContext().userModel;
 
-  @state() selectedChanges: ChangeInfo[] = [];
+  @state() selectedChanges: ChangeInfo[] = []
 
   @query('#actionOverlay') actionOverlay!: GrOverlay;
 

@@ -47,6 +47,9 @@
     "resemblejs": "^4.0.0",
     "rxjs": "^6.6.7"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "license": "Apache-2.0",
   "private": true
 }

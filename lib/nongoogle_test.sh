@@ -38,6 +38,7 @@ nekohtml
 objenesis
 openid-consumer
 soy
+sshd-contrib
 sshd-mina
 sshd-osgi
 sshd-sftp

@@ -39,6 +39,30 @@
       },
       "revId": "c5959e43c9b858d2c0b90b939d522645e5fbbbeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86a5b4b5_3b970fa3",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-03-31T06:44:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbeb9f51_f1bf7dbd",
+      "range": {
+        "startLine": 468,
+        "startChar": 4,
+        "endLine": 468,
+        "endChar": 34
+      },
+      "revId": "c5959e43c9b858d2c0b90b939d522645e5fbbbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

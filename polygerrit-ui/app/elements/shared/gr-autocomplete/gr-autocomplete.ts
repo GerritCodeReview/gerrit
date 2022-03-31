@@ -174,6 +174,9 @@ export class GrAutocomplete extends PolymerElement {
   @property({type: Boolean})
   noDebounce = false;
 
+  @property({type: Boolean})
+  showBlueFocusBorder = false;
+
   @property({type: Array})
   _suggestions: AutocompleteSuggestion[] = [];
 
@@ -371,8 +374,11 @@ export class GrAutocomplete extends PolymerElement {
     this.$.suggestions.close();
   }
 
-  _computeClass(borderless?: boolean) {
-    return borderless ? 'borderless' : '';
+  _computeClass(borderless?: boolean, showBlueFocusBorder?: boolean) {
+    const classes = [];
+    if (borderless) classes.push('borderless');
+    if (showBlueFocusBorder) classes.push('showBlueFocusBorder');
+    return classes.join(' ');
   }
 
   /**

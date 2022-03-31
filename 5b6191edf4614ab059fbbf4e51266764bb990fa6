@@ -16,6 +16,24 @@
       "message": "What if you tighten it more and make the cache scoped to the request only? Then I think it\u0027s safe to ignore eviction.",
       "revId": "5b6191edf4614ab059fbbf4e51266764bb990fa6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c21c3632_6f6be326",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-31T18:51:27Z",
+      "side": 1,
+      "message": "\u003e What if you tighten it more and make the cache scoped to the request only? \n\nYes, but there are operations that are happing outside a request scope (e.g. batch indexing).\n\n\u003e Then I think it\u0027s safe to ignore eviction.\n\nNot sure: even with a request scope, some operation are changing the NoteDb\u0027s ref and therefore would require eviction anyway.",
+      "parentUuid": "a35cf2a9_8537b27c",
+      "revId": "5b6191edf4614ab059fbbf4e51266764bb990fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

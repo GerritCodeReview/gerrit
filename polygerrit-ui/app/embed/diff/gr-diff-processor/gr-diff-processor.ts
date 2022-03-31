@@ -27,12 +27,13 @@ import {
   GrDiffGroupType,
   hideInContextControl,
 } from '../gr-diff/gr-diff-group';
-import {CancelablePromise, util} from '../../../scripts/util';
 import {customElement, property} from '@polymer/decorators';
-import {DiffContent} from '../../../types/diff';
-import {Side} from '../../../constants/constants';
-import {debounce, DelayedTask} from '../../../utils/async-util';
 import {RenderPreferences} from '../../../api/diff';
+import {Side} from '../../../constants/constants';
+import {CancelablePromise, util} from '../../../scripts/util';
+import {DiffContent} from '../../../types/diff';
+import {debounce, DelayedTask} from '../../../utils/async-util';
+import {fireEvent} from '../../../utils/event-util';
 
 const WHOLE_FILE = -1;
 

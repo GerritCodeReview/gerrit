@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebd173a6_ecdb3dbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2022-03-31T04:28:25Z",
+      "side": 1,
+      "message": "there was an open question on how to run the code formatter locally and get a meaningful diff back\n\n\nPerhaps this would be a good thing to add to your CI to provide a code-finding back with a fix attachment :) \n",
+      "revId": "cdca114b7c6141ea970184aaa711079c3d7fc536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

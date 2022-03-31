@@ -22,12 +22,11 @@ const path = require('path');
 module.exports = {
   extends: ['eslint:recommended', 'google'],
   parserOptions: {
-    ecmaVersion: 9,
     sourceType: 'module',
   },
   env: {
     browser: true,
-    es6: true,
+    es2020: true,
   },
   rules: {
     // https://eslint.org/docs/rules/no-confusing-arrow
@@ -35,8 +34,11 @@ module.exports = {
     // https://eslint.org/docs/rules/newline-per-chained-call
     'newline-per-chained-call': ['error', {ignoreChainWithDepth: 2}],
     // https://eslint.org/docs/rules/arrow-body-style
-    'arrow-body-style': ['error', 'as-needed',
-      {requireReturnForObjectLiteral: true}],
+    'arrow-body-style': [
+      'error',
+      'as-needed',
+      {requireReturnForObjectLiteral: true},
+    ],
     // https://eslint.org/docs/rules/arrow-parens
     'arrow-parens': ['error', 'as-needed'],
     // https://eslint.org/docs/rules/block-spacing
@@ -46,26 +48,33 @@ module.exports = {
     // https://eslint.org/docs/rules/camelcase
     'camelcase': 'off',
     // https://eslint.org/docs/rules/comma-dangle
-    'comma-dangle': ['error', {
-      arrays: 'always-multiline',
-      objects: 'always-multiline',
-      imports: 'always-multiline',
-      exports: 'always-multiline',
-      functions: 'never',
-    }],
+    'comma-dangle': [
+      'error',
+      {
+        arrays: 'always-multiline',
+        objects: 'always-multiline',
+        imports: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'never',
+      },
+    ],
     // https://eslint.org/docs/rules/eol-last
     'eol-last': 'off',
     'guard-for-in': 'error',
     // https://eslint.org/docs/rules/indent
-    'indent': ['error', 2, {
-      MemberExpression: 2,
-      FunctionDeclaration: {body: 1, parameters: 2},
-      FunctionExpression: {body: 1, parameters: 2},
-      CallExpression: {arguments: 2},
-      ArrayExpression: 1,
-      ObjectExpression: 1,
-      SwitchCase: 1,
-    }],
+    'indent': [
+      'error',
+      2,
+      {
+        MemberExpression: 2,
+        FunctionDeclaration: {body: 1, parameters: 2},
+        FunctionExpression: {body: 1, parameters: 2},
+        CallExpression: {arguments: 2},
+        ArrayExpression: 1,
+        ObjectExpression: 1,
+        SwitchCase: 1,
+      },
+    ],
     // https://eslint.org/docs/rules/keyword-spacing
     'keyword-spacing': ['error', {after: true, before: true}],
     // https://eslint.org/docs/rules/lines-between-class-members
@@ -81,16 +90,25 @@ module.exports = {
       },
     ],
     // https://eslint.org/docs/rules/new-cap
-    'new-cap': ['error', {
-      capIsNewExceptions: ['Polymer'],
-      capIsNewExceptionPattern: '^.*Mixin$',
-    }],
+    'new-cap': [
+      'error',
+      {
+        capIsNewExceptions: ['Polymer'],
+        capIsNewExceptionPattern: '^.*Mixin$',
+      },
+    ],
     // https://eslint.org/docs/rules/no-console
     'no-console': [
       'error',
       {
         allow: [
-          'warn', 'error', 'info', 'debug', 'assert', 'group', 'groupEnd',
+          'warn',
+          'error',
+          'info',
+          'debug',
+          'assert',
+          'group',
+          'groupEnd',
         ],
       },
     ],
@@ -110,13 +128,15 @@ module.exports = {
     'no-restricted-syntax': [
       'error',
       {
-        selector: 'ExpressionStatement > CallExpression > ' +
-            'MemberExpression[object.name=\'test\'][property.name=\'only\']',
+        selector:
+          'ExpressionStatement > CallExpression > ' +
+          'MemberExpression[object.name=\'test\'][property.name=\'only\']',
         message: 'Remove test.only.',
       },
       {
-        selector: 'ExpressionStatement > CallExpression > ' +
-            'MemberExpression[object.name=\'suite\'][property.name=\'only\']',
+        selector:
+          'ExpressionStatement > CallExpression > ' +
+          'MemberExpression[object.name=\'suite\'][property.name=\'only\']',
         message: 'Remove suite.only.',
       },
     ],
@@ -178,9 +198,12 @@ module.exports = {
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-syntax
     'jsdoc/check-syntax': 0,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-tag-names
-    'jsdoc/check-tag-names': ['error', {
-      definedTags: ['attr', 'lit', 'mixinFunction', 'mixinClass', 'polymer'],
-    }],
+    'jsdoc/check-tag-names': [
+      'error',
+      {
+        definedTags: ['attr', 'lit', 'mixinFunction', 'mixinClass', 'polymer'],
+      },
+    ],
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-types
     'jsdoc/check-types': 0,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-implements-on-classes
@@ -218,14 +241,17 @@ module.exports = {
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-valid-types
     'jsdoc/valid-types': 2,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-file-overview
-    'jsdoc/require-file-overview': ['error', {
-      tags: {
-        license: {
-          mustExist: true,
-          preventDuplicates: true,
+    'jsdoc/require-file-overview': [
+      'error',
+      {
+        tags: {
+          license: {
+            mustExist: true,
+            preventDuplicates: true,
+          },
         },
       },
-    }],
+    ],
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-self-import.md
     'import/no-self-import': 2,
     // The no-cycle rule is slow, because it doesn't cache dependencies.
@@ -261,7 +287,7 @@ module.exports = {
       files: ['.eslintrc.js', '.eslintrc-bazel.js'],
       env: {
         browser: false,
-        es6: true,
+        es2020: true,
         node: true,
       },
     },
@@ -286,11 +312,14 @@ module.exports = {
       files: ['**/api/*.ts'],
       rules: {
         'regex/invalid': [
-          'error', [{
-            regex: 'export interface',
-            message: 'All interfaces in the api/ dir must have "declare"',
-            replacement: 'export declare interface',
-          }],
+          'error',
+          [
+            {
+              regex: 'export interface',
+              message: 'All interfaces in the api/ dir must have "declare"',
+              replacement: 'export declare interface',
+            },
+          ],
         ],
       },
     },
@@ -298,16 +327,21 @@ module.exports = {
       files: ['**/*.ts'],
       extends: [require.resolve('gts/.eslintrc.json')],
       rules: {
-        'no-restricted-imports': ['error', {
-          name: 'lit-html/static',
-          message: 'Use lit instead',
-        }, {
-          name: '@lit/reactive-element',
-          message: 'Use lit instead',
-        }, {
-          name: '@polymer/decorators/lib/decorators',
-          message: 'Use @polymer/decorators instead',
-        }],
+        'no-restricted-imports': [
+          'error',
+          {
+            name: 'lit-html/static',
+            message: 'Use lit instead',
+          },
+          {
+            name: '@lit/reactive-element',
+            message: 'Use lit instead',
+          },
+          {
+            name: '@polymer/decorators/lib/decorators',
+            message: 'Use @polymer/decorators instead',
+          },
+        ],
         '@typescript-eslint/no-explicit-any': 'error',
         // See https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9
         '@typescript-eslint/ban-ts-comment': 'off',
@@ -342,10 +376,7 @@ module.exports = {
       },
     },
     {
-      files: [
-        '*_test.ts',
-        'test-utils.ts',
-      ],
+      files: ['*_test.ts', 'test-utils.ts'],
       rules: {
         '@typescript-eslint/no-explicit-any': 'off',
       },
@@ -357,11 +388,7 @@ module.exports = {
       },
     },
     {
-      files: [
-        '*.html',
-        '*_test.js',
-        'a11y-test-utils.js',
-      ],
+      files: ['*.html', '*_test.js', 'a11y-test-utils.js'],
       // Additional global variables allowed in tests
       globals: {
         // Global variables from 3rd party test libraries/frameworks.
@@ -423,10 +450,13 @@ module.exports = {
     {
       files: ['*_html.js'],
       rules: {
-        'prettier/prettier': ['error', {
-          bracketSpacing: false,
-          singleQuote: true,
-        }],
+        'prettier/prettier': [
+          'error',
+          {
+            bracketSpacing: false,
+            singleQuote: true,
+          },
+        ],
       },
     },
     {
@@ -450,14 +480,7 @@ module.exports = {
       },
     },
   ],
-  plugins: [
-    'html',
-    'jsdoc',
-    'import',
-    'lit',
-    'prettier',
-    'regex',
-  ],
+  plugins: ['html', 'jsdoc', 'import', 'lit', 'prettier', 'regex'],
   settings: {
     'html/report-bad-indent': 'error',
     'import/resolver': {

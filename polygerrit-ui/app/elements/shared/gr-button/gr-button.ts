@@ -161,6 +161,10 @@ export class GrButton extends LitElement {
           cursor: default;
         }
 
+        :host([disabled][flatten]) {
+          --background-color: transparent;
+        }
+
         /* Styles for link buttons specifically */
         :host([link]) {
           --background-color: transparent;

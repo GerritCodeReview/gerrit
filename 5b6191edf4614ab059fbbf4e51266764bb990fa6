@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a35cf2a9_8537b27c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1146977
+      },
+      "writtenOn": "2022-03-31T02:48:28Z",
+      "side": 1,
+      "message": "What if you tighten it more and make the cache scoped to the request only? Then I think it\u0027s safe to ignore eviction.",
+      "revId": "5b6191edf4614ab059fbbf4e51266764bb990fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

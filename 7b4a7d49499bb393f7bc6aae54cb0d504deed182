@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f67ebb7f_2e316fef",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T14:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40e7d9e6_ceaeff6f",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1eec8e2_dc1dd8d7",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-30T12:25:40Z",
       "side": 1,
       "message": "Don\u0027t recompute permitted labels inside of isFlowEnabled.  Simply see if labels is empty.",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2988d9c_1b650f42",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T14:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1eec8e2_dc1dd8d7",
       "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "017cdaaa_dea3c4c5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T14:44:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2fc70b0d_719c8efd",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30843cc7_812918fb",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-03-30T12:25:40Z",
       "side": 1,
       "message": "Inline this method as you\u0027re already computing common permitted labels in render.",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c3365d9_c38d0423",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T14:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30843cc7_812918fb",
       "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a66011d_9fd5059b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T14:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e994c5d_f26f7f86",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6637c471_b4f115d2",
@@ -99,6 +189,24 @@
       "writtenOn": "2022-03-30T12:25:40Z",
       "side": 1,
       "message": "Instead of requestUpdate in both catch and then, put it in .finally()",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d97925a_9acd141a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T14:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6637c471_b4f115d2",
       "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82e76c41_c9e0cc4a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T14:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a61e7fd5_09055dbd",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29ca16b0_7c302a61",
@@ -137,6 +263,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7da29296_c400410c",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T14:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29ca16b0_7c302a61",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d7d592c_ad31103d",
@@ -150,6 +294,24 @@
       "writtenOn": "2022-03-30T12:25:40Z",
       "side": 1,
       "message": "Why not fetch the change first, then see if it\u0027s undefined? It avoids calling get twice.",
+      "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "797bca9f_d31cb911",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-03-31T14:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d7d592c_ad31103d",
       "revId": "7b4a7d49499bb393f7bc6aae54cb0d504deed182",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

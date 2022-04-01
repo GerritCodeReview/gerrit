@@ -21,6 +21,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.client.ChangeKind;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -152,6 +153,7 @@ public abstract class LabelType {
         .setMaxNegative(Short.MIN_VALUE)
         .setMaxPositive(Short.MAX_VALUE)
         .setCanOverride(DEF_CAN_OVERRIDE)
+        .setCopyCondition("changekind:" + ChangeKind.NO_CHANGE)
         .setCopyAllScoresIfListOfFilesDidNotChange(
             DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE)
         .setCopyAllScoresIfNoChange(DEF_COPY_ALL_SCORES_IF_NO_CHANGE)

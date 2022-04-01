@@ -52,7 +52,10 @@ public class LabelAssert {
     assertThat(codeReviewLabel.copyAllScoresOnMergeFirstParentUpdate).isNull();
     assertThat(codeReviewLabel.copyValues).isNull();
     assertThat(codeReviewLabel.copyCondition)
-        .isEqualTo(String.format("changekind:%s OR is:MIN", ChangeKind.TRIVIAL_REBASE.name()));
+        .isEqualTo(
+            String.format(
+                "changekind:%s OR changekind:%s OR is:MIN",
+                ChangeKind.NO_CHANGE.name(), ChangeKind.TRIVIAL_REBASE.name()));
     assertThat(codeReviewLabel.allowPostSubmit).isTrue();
     assertThat(codeReviewLabel.ignoreSelfApproval).isNull();
   }

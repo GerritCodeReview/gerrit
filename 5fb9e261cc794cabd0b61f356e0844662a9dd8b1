@@ -16,6 +16,29 @@
       "message": "@Edwin @Patrick can you LC+1?",
       "revId": "5fb9e261cc794cabd0b61f356e0844662a9dd8b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98d81967_415c9741",
+        "filename": "tools/maven/package.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-01T15:51:07Z",
+      "side": 1,
+      "message": "Is this needed on 3.5? I thought it would be the default since it\u0027s in .bazelrc [1].\n\n[1] https://gerrit.googlesource.com/gerrit/+/stable-3.5/.bazelrc#5",
+      "range": {
+        "startLine": 43,
+        "startChar": 37,
+        "endLine": 43,
+        "endChar": 103
+      },
+      "revId": "5fb9e261cc794cabd0b61f356e0844662a9dd8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

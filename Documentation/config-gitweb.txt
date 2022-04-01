@@ -268,7 +268,22 @@ Gerrit, such as cgit.
 
 cgit can be used by specifying `gitweb.type` to be 'cgit'.
 
-It is also possible to define custom patterns.
+It is also possible to define custom patterns. Gitea can be used
+with custom patterns for example:
+
+----
+  git config -f $site_path/etc/gerrit.config gitweb.type custom
+  git config -f $site_path/etc/gerrit.config gitweb.urlEncode false
+  git config -f $site_path/etc/gerrit.config gitweb.linkname gitea
+  git config -f $site_path/etc/gerrit.config gitweb.url https://gitea.example.org/
+  git config -f $site_path/etc/gerrit.config gitweb.branch ${project}/src/branch/${branch}
+  git config -f $site_path/etc/gerrit.config gitweb.file ${project}/src/commit/${hash}/${file}
+  git config -f $site_path/etc/gerrit.config gitweb.filehistory ${project}/commits/branch/${branch}/${file}
+  git config -f $site_path/etc/gerrit.config gitweb.project ${project}
+  git config -f $site_path/etc/gerrit.config gitweb.revision ${project}/commit/${commit}
+  git config -f $site_path/etc/gerrit.config gitweb.roottree ${project}/src/commit/${commit}
+  git config -f $site_path/etc/gerrit.config gitweb.tag ${project}/src/tag/${tag}
+----
 
 === SEE ALSO
 

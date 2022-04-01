@@ -61,7 +61,8 @@ public class AllProjectsCreatorTest {
               "\tdefaultValue = 0",
               "\tvalue = 0 Zero",
               "\tvalue = +1 One",
-              "\tvalue = +2 Two"));
+              "\tvalue = +2 Two",
+              "\tcopyCondition = changekind:NO_CHANGE"));
 
   @Inject private AllProjectsName allProjectsName;
 

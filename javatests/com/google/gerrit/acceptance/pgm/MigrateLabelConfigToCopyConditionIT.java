@@ -56,17 +56,21 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
       // This way changes to the "Code Review" label don't affect other tests.
       LabelType.Builder codeReview =
           labelBuilder(
-              LabelId.CODE_REVIEW,
-              value(2, "Looks good to me, approved"),
-              value(1, "Looks good to me, but someone else must approve"),
-              value(0, "No score"),
-              value(-1, "I would prefer this is not submitted as is"),
-              value(-2, "This shall not be submitted"));
+                  LabelId.CODE_REVIEW,
+                  value(2, "Looks good to me, approved"),
+                  value(1, "Looks good to me, but someone else must approve"),
+                  value(0, "No score"),
+                  value(-1, "I would prefer this is not submitted as is"),
+                  value(-2, "This shall not be submitted"))
+              // overwrites the default value ("changekind:NO_CHANGE")
+              .setCopyCondition("");
       u.getConfig().upsertLabelType(codeReview.build());
 
       LabelType.Builder verified =
           labelBuilder(
-              LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+                  LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"))
+              // overwrites the default value ("changekind:NO_CHANGE")
+              .setCopyCondition("");
       u.getConfig().upsertLabelType(verified.build());
 
       u.save();

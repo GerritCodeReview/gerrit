@@ -55,7 +55,10 @@ public abstract class AllProjectsInput {
                 LabelValue.create((short) 0, "No score"),
                 LabelValue.create((short) -1, "I would prefer this is not submitted as is"),
                 LabelValue.create((short) -2, "This shall not be submitted")))
-        .setCopyCondition("is:MIN OR changekind:" + ChangeKind.TRIVIAL_REBASE.name())
+        .setCopyCondition(
+            String.format(
+                "is:MIN OR changekind:%s OR changekind:%s",
+                ChangeKind.NO_CHANGE.name(), ChangeKind.TRIVIAL_REBASE.name()))
         .build();
   }
 

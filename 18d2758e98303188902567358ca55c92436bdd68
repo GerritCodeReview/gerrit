@@ -214,6 +214,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4721a1d2_3fe08fe6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-01T13:33:53Z",
+      "side": 1,
+      "message": "It\u0027s hard to read the asserts and tell whether it\u0027s right or not. I keep going back to look at all the various setup, and more comments won\u0027t help with that as much as using real names. It would be hard to go in and change behavior or add a new test without looking at how every test uses `b` for example. The labels are going to become append-only since we don\u0027t want to mess up any of the existing tests. If the names explain the situation then I can tell if I should reuse a label or add a new one. Why would you have another `change1OnlyTriggerVote` if it\u0027s going to be the same? If it\u0027s different, that difference can be captured in the name.",
+      "parentUuid": "0162f3fb_761051ef",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 5
+      },
+      "revId": "18d2758e98303188902567358ca55c92436bdd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "798f1829_465ffb91",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
         "patchSetId": 11

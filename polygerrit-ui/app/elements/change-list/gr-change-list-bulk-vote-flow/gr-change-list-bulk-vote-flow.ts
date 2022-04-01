@@ -54,6 +54,9 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     return [
       fontStyles,
       css`
+        gr-dialog {
+          width: 840px;
+        }
         .scoresTable {
           display: table;
         }
@@ -71,6 +74,13 @@ export class GrChangeListBulkVoteFlow extends LitElement {
           margin-bottom: var(--spacing-m);
           margin-top: var(--spacing-l);
           display: table-caption;
+          font-weight: 600; /* TODO: create css variable for it */
+        }
+        .main-heading {
+          margin-top: 0;
+          padding-left: var(--spacing-xl);
+          margin-bottom: var(--spacing-m);
+          font-weight: var(--font-weight-h2);
         }
         .heading-3:first-of-type {
           margin-top: 0;
@@ -116,9 +126,11 @@ export class GrChangeListBulkVoteFlow extends LitElement {
           .disabled=${!this.isConfirmEnabled()}
           @confirm=${() => this.handleConfirm()}
           @cancel=${() => this.handleClose()}
+          .confirmLabel=${'Vote'}
           .cancelLabel=${'Close'}
         >
           <div slot="main">
+            <h3 class="main-heading">Vote on selected changes</h3>
             ${this.renderLabels(
               nonTriggerLabels,
               'Submit requirements votes',

@@ -150,6 +150,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       >
         <gr-dialog role="dialog">
           <div slot="main">
+            <h3 class="main-heading">Vote on selected changes</h3>
             <div class="newSubmitRequirements scoresTable">
               <h3 class="heading-3">Submit requirements votes</h3>
               <gr-label-score-row name="A"> </gr-label-score-row>

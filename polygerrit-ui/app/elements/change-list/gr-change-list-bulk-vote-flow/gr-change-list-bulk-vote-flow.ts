@@ -19,6 +19,7 @@ import {
   getDefaultValue,
   mergeLabelMaps,
   Label,
+  StandardLabels,
 } from '../../../utils/label-util';
 import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -250,9 +251,14 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     // Reduce method for empty array throws error if no initial value specified
     if (this.selectedChanges.length === 0) return {};
 
-    return this.selectedChanges
+    const permittedLabels = this.selectedChanges
       .map(changes => changes.permitted_labels)
       .reduce(mergeLabelMaps);
+    // TODO: show a warning to the user that Code Review cannot be voted upon
+    if (permittedLabels?.[StandardLabels.CODE_REVIEW]) {
+      delete permittedLabels[StandardLabels.CODE_REVIEW];
+    }
+    return permittedLabels;
   }
 
   private computeLabelNameToInfoMap() {

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91a03f61_87f79a0f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3c97743_0633b161",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "804d47e6_217b4900",
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a9aa92e7_a587ac0b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "See reply below. I don\u0027t know how to remove it.",
+      "parentUuid": "804d47e6_217b4900",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c09cc731_ab7ac4e1",
         "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
         "patchSetId": 29
@@ -48,6 +84,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Extremely minor nit: Given these are shown vertically, maybe put them all on their own line to mirror the actual structure.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "622c71b7_f218e1bb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "That bothers me as well, but it is prettier/prettier enforcing this. I have looked a few minutes into prettier options, but could not find a way other than not formatting the entire html`` block by using `// prettier-ignore`. :-/",
+      "parentUuid": "c09cc731_ab7ac4e1",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -140,6 +194,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "583528d8_555e43bd",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "No idea.",
+      "parentUuid": "1a9fbbb5_15b07385",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51587491_42415ba6",
@@ -153,6 +225,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "You mean \"both\"? Not clear what \"show-both\" is.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "912d42ef_91f72df6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51587491_42415ba6",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -174,6 +264,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db30a9b8_423313d0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Oh yes, I do plan to migrate those, as well. But you don\u0027t want to review an even large change, do you? :-D",
+      "parentUuid": "3a111f97_0148f564",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97def299_dcb96060",
@@ -187,6 +295,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "What about unified diffs, do you plan to migrate those as well to be lit-based?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acb0cfe7_83bcdb8d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "97def299_dcb96060",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -238,6 +364,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2496bc37_29ebf773",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5467a9e_fb8dc646",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 45
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "caaca5db_702e78a3",
@@ -251,6 +401,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "return row?.findLineNumberCell(side) ?? null;",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0087f14_4f7cf695",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caaca5db_702e78a3",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -295,6 +463,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d4b1dee_61e117ad",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55e27c8f_585557c7",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 38
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "660f30c4_fd8a1606",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Indeed. There is a TODO already for this in gr-diff-builder.ts: `// TODO: Change `null` to `undefined`.`",
+      "parentUuid": "e351e5c1_354660a9",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbe39753_691643b4",
@@ -308,6 +518,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Factor out shared code with getLineNumberRows.\n\nIf you do that, you might only need to export a single function and have\n\nthe row objects have a common API for getTableRow() and getLineNumberCell(), thereby reducing the amount of protected methods in the diff-builder, which is advantageous because it reduces the API through inheritance, where the rows could just use an interface they implement rather than inheritance.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64bac38e_01155add",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Factored out.\n\nYes, once the legacy builder is removed there are a lot of options for nice refactorings. We are on the same page I think. But the refactoring will be much more enjoyable and effective after the legacy builder is removed.",
+      "parentUuid": "cbe39753_691643b4",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -329,6 +557,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff02c44b_0d58aa6e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Same reply. Let\u0027s refactor after legacy builder is gone.",
+      "parentUuid": "d2b10ee7_60f5a943",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "079163d3_2a46bbc4",
@@ -346,6 +592,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50a85cef_0ab55eca",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "079163d3_2a46bbc4",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65d2456d_26e9dd1b",
@@ -359,6 +623,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Why do you need ?? undefined? Just have this method return GrDiffSection | null",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97f9a243_faa5bf34",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "I was trying to be consistent as suggested in your other comment. As much as possible I am trying to prefer `undefined` over `null` in our code base.",
+      "parentUuid": "65d2456d_26e9dd1b",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -410,6 +692,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "353ce76e_dbc65fce",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Added comments.",
+      "parentUuid": "9cdd53e9_4e1535ba",
+      "range": {
+        "startLine": 131,
+        "startChar": 11,
+        "endLine": 136,
+        "endChar": 6
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d225a82a_b384c8b6",
@@ -423,6 +729,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Do these extra divs cause issues given this is a table layout?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63136e13_6ca683fc",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "No, they are just temporary elements such that `render()` has something to render into. But we are not actually attaching them to the DOM and are just returning `firstElementChild`.",
+      "parentUuid": "d225a82a_b384c8b6",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -444,6 +768,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7cc34c2_b9b6e1ad",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "prettier/prettier does the formatting",
+      "parentUuid": "4ca4d139_efc5c74e",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "047a4ec1_b929a263",
@@ -457,6 +799,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Same comment as above.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae83b19c_0df7667f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-lit.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "047a4ec1_b929a263",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -495,6 +855,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00b2e3d1_f3d1e504",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b36e2978_a2ca923c",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "196e0a2d_29c48d4c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4362d524_9dd6e7b1",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c2c2052_98293fd0",
@@ -508,6 +904,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Why is this necessary?\n\nCan\u0027t you just lightdom.equals with the single row that\u0027s generated?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3612d80d_8b96d6bf",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "I have tried for about ~1 hour and could not find a better solution. The test will remove \u003ctr\u003e and \u003ctd\u003e when \u003ctable\u003e is missing.\n\nI would be thankful, if you can make this work in a simpler fashion. I failed. :-/",
+      "parentUuid": "9c2c2052_98293fd0",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -535,6 +949,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c14542e_fa6bd641",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f69b67c_4d812bd9",
+      "range": {
+        "startLine": 175,
+        "startChar": 29,
+        "endLine": 175,
+        "endChar": 48
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d6c3b06_896b3c31",
@@ -548,6 +986,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Terminate early if lineNumber \u003c\u003d 0. Also when can this happen?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b68dfc3_43871f33",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done. When it can happen: See comment.",
+      "parentUuid": "5d6c3b06_896b3c31",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -569,6 +1025,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "703be887_4b7f4a1d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12dc7e1c_da1ae0ff",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e226ee94_2a7d92d1",
@@ -582,6 +1056,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Document what scenarios this can happen.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b021ee5_f2386a0e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "The switch statement makes it clearer.",
+      "parentUuid": "e226ee94_2a7d92d1",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -603,6 +1095,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4c1b6b4_1958abce",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a114055_3943c657",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67ec750d_34bd9cb4",
@@ -616,6 +1126,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Do we need consistency with legacy?  Does this computation of extras belong in a util function that\u0027s shared with legacy?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ef5b1a3_85e82ba4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "*Everything* in the new lit elements has to be kept in sync with the legacy diff builders. I think the goal must be to land this as quickly as possible and try to not touch gr-diff too much in the meantime.",
+      "parentUuid": "67ec750d_34bd9cb4",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -637,6 +1165,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33cc1e2e_376a4e51",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "These are received by gr-diff users, if they want to. Gerrit actually does not use these events at all.\n\nDocumenting this means that we have to document the entire \u003cgr-diff\u003e interface properly, which we should do, but it is not in scope for this change.",
+      "parentUuid": "f0d820ae_f75e2fc0",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf47cd30_b70bb212",
@@ -650,6 +1196,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "This seems like a signifcant enough TODO that it might warrant a bug filed.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d4b3b82_9b106fea",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "I think this is just one of many TODO until lit based gr-diff rendering works. I can file bugs once this change is submitted.",
+      "parentUuid": "cf47cd30_b70bb212",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -671,6 +1235,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d660625c_51b21701",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "line() returns a GrDiffLine object, which has a `beforeNumber` and `afterNumber`.\n\nMaybe there is room for improvement, but nothing obvious. And I am really just trying to write the same code as before, just as a Lit element, so I don\u0027t want to refactor *everything*, only if it is simple.",
+      "parentUuid": "e3941168_6a610880",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b26a3f46_0fadb2c8",
@@ -684,6 +1266,30 @@
       "writtenOn": "2022-03-22T08:19:22Z",
       "side": 1,
       "message": "move before render() method?",
+      "range": {
+        "startLine": 340,
+        "startChar": 2,
+        "endLine": 340,
+        "endChar": 22
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d65244c5_fe99a792",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b26a3f46_0fadb2c8",
       "range": {
         "startLine": 340,
         "startChar": 2,
@@ -734,6 +1340,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5014655_47f055f1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Debouncing would not help. \"Constantly\" refers to happening in each rendering pass.",
+      "parentUuid": "28791a52_6dc493a9",
+      "range": {
+        "startLine": 348,
+        "startChar": 5,
+        "endLine": 348,
+        "endChar": 42
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f8fec75_3b117eb9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Re-rendering occurs only when a layer notifies about changes. Currently the token highlighting layer notifies a lot when you move your mouse over the code. Without the token highlighting layer we would not really have an issue.\n\nWe want to call all layers when re-rendering, but the layers need to understand, if their information is already applied or not.\n\n`updateLayers` cannot be called as part of renderText() (but would be nice!), because layers do DOM manipulation and I cannot think of a good re-architecture for layers that would work with HTML template strings instead of DOM elements. Anyway, that would have to wait until we have switched completely to be lit based.",
+      "parentUuid": "b776b17d_6d6573c6",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57d85fad_96ada5c9",
@@ -747,6 +1395,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Have you tested whether calling requestUpdate more than once doesn\u0027t cause issues because you\u0027re messing with the dom that\u0027s rendered by lit?\n\nWhen I tried this for commentLinks, I had to use slots because if I modified the dom, the next time render was called it was very unhappy.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6514367_81b6d1b8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Yeah, I have tested it quite a bit with lots of re-renders and did not run into such issues. But I am not 100% confident that something will crop up. Let\u0027s dogfood this and see where we get.",
+      "parentUuid": "57d85fad_96ada5c9",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -768,6 +1434,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd57180e_19434d44",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Not sure. I think layers can make that decision for themselves. I could image that layers may want to do something to the content element or the line number element, even if the text of the line is empty. I don\u0027t think this is worth changing or optimizing.",
+      "parentUuid": "53da0381_4ea23f7b",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4d1743c_f82ac04c",
@@ -781,6 +1465,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Why do layers need lineNumberEl? This seems like an unnecessary argument.\n\nI looked around a bit and\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/embed/diff/gr-coverage-layer/gr-coverage-layer.ts;drc\u003d1c984cb87f28d77e8a41f8aadac8176153d454c9;l\u003d72\n\nCould get its information from the extra arguments its currently ignoring.\n\nThe reason I mention this is because if we removed that dependency, we could call layers directly in renderText",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66e8dc2c_691f5820",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "How would the coverage layer get at the lineNumberEl?\n\nrenderText() does not have an instance of `HTMLElement` that it could pass to layers.",
+      "parentUuid": "c4d1743c_f82ac04c",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -819,6 +1521,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8008b16a_28e573f5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf15f62b_878d63c7",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a002d8a8_563313b4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5a5340b_6534a424",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1b41d1e_bd42fffb",
@@ -832,6 +1570,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Get instead of find?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e4a5fff_39218df5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1b41d1e_bd42fffb",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -853,6 +1609,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d22d628f_2bd24eb7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "344130a4_1ab9f345",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9500c5ea_1957f1b8",
@@ -866,6 +1640,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Is it possible that element.left \u003d REMOVE and element.right \u003d ADD?\n\nIf so I\u0027d consider that also as a test-case.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b06a196_6c19187a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "No, that is not possible.",
+      "parentUuid": "9500c5ea_1957f1b8",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -893,6 +1685,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ddd5384_630d417c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "It is the *browser* highlighting that is lost.\nCtrl-F: browser highlights occurrences\nLit re-renders: browser highlighting gone",
+      "parentUuid": "dd00fbf9_071294a2",
+      "range": {
+        "startLine": 78,
+        "startChar": 47,
+        "endLine": 78,
+        "endChar": 69
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ae80f92_53cb3838",
@@ -906,6 +1722,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "As discussed, always render gr-diff-row, to avoid having this duplication of logic across gr-diff-section and gr-diff-row.\n\nThen you can simply pass in whether it\u0027s visible to the gr-diff-row and based on that disable/enable the updated logic.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afc40425_397521cb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ae80f92_53cb3838",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -927,6 +1761,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e766133_00f3a6f0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "`lastGroupIsSkipped` is about the last group in `group.contextGroups` (which are the groups hidden by `group`). `lastGroupIsSkipped` is not about the last group of  the entire diff.\n\nThe idea here is that you can only do +ALL and not +10, because you don\u0027t yet have the 10 lines to show. They would need to be fetched.",
+      "parentUuid": "972bfb3c_713c5f30",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "098157a9_02e8c503",
@@ -940,6 +1792,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Why ?? undefined? What\u0027s wrong with null?",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f05e1cb6_758833a5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "We are trying to be consistent everywhere. It would be nice to completely get rid of `null` in our code base. WDYT?",
+      "parentUuid": "098157a9_02e8c503",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -967,6 +1837,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b625045c_edf892d8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Because we cannot rely anymore on the diff rendering to be one synchronous unit of executed code. The rendering of all the diffs becomes highly parallelised with user interactions. So I had run into at least one situation where the stops had not been updated correctly to the current state of diff rendering here.",
+      "parentUuid": "ae6bb3ae_7c8622d1",
+      "range": {
+        "startLine": 231,
+        "startChar": 4,
+        "endLine": 231,
+        "endChar": 24
+      },
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "270e23ba_2603d2c0",
@@ -980,6 +1874,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "This is adding an unnecessary space if additionalClasses are empty.\n\nWhy not return [\u0027style-scope\u0027, \u0027gr-diff\u0027, ...additionalClasses].join(\u0027 \u0027);",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0f05706_904c744a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "270e23ba_2603d2c0",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -1001,6 +1913,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ad68fd0_459a7799",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "I guess that could be done. You would still have to react to changes of `tabSize`.\n\nAnyway, I would say of of scope, because this is just doing what legacy is doing.",
+      "parentUuid": "0f8790db_acf3bad6",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85916e67_6e2fb4b3",
@@ -1014,6 +1944,24 @@
       "writtenOn": "2022-03-25T12:57:23Z",
       "side": 1,
       "message": "Why are you escaping the tab?\n\nOn line 286 it\u0027s not escaped.",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f12c4c62_f7c12861",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-01T16:50:08Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "85916e67_6e2fb4b3",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

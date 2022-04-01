@@ -22,6 +22,7 @@ import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.notedb.Sequences;
 import java.util.Optional;
@@ -54,8 +55,7 @@ public abstract class AllProjectsInput {
                 LabelValue.create((short) 0, "No score"),
                 LabelValue.create((short) -1, "I would prefer this is not submitted as is"),
                 LabelValue.create((short) -2, "This shall not be submitted")))
-        .setCopyMinScore(true)
-        .setCopyAllScoresOnTrivialRebase(true)
+        .setCopyCondition("is:MIN OR changekind:" + ChangeKind.TRIVIAL_REBASE.name())
         .build();
   }
 

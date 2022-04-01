@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 
@@ -42,14 +43,16 @@ public class LabelAssert {
     assertThat(codeReviewLabel.branches).isNull();
     assertThat(codeReviewLabel.canOverride).isTrue();
     assertThat(codeReviewLabel.copyAnyScore).isNull();
-    assertThat(codeReviewLabel.copyMinScore).isTrue();
+    assertThat(codeReviewLabel.copyMinScore).isNull();
     assertThat(codeReviewLabel.copyMaxScore).isNull();
     assertThat(codeReviewLabel.copyAllScoresIfListOfFilesDidNotChange).isNull();
     assertThat(codeReviewLabel.copyAllScoresIfNoChange).isTrue();
     assertThat(codeReviewLabel.copyAllScoresIfNoCodeChange).isNull();
-    assertThat(codeReviewLabel.copyAllScoresOnTrivialRebase).isTrue();
+    assertThat(codeReviewLabel.copyAllScoresOnTrivialRebase).isNull();
     assertThat(codeReviewLabel.copyAllScoresOnMergeFirstParentUpdate).isNull();
     assertThat(codeReviewLabel.copyValues).isNull();
+    assertThat(codeReviewLabel.copyCondition)
+        .isEqualTo("is:MIN OR changekind:" + ChangeKind.TRIVIAL_REBASE.name());
     assertThat(codeReviewLabel.allowPostSubmit).isTrue();
     assertThat(codeReviewLabel.ignoreSelfApproval).isNull();
   }

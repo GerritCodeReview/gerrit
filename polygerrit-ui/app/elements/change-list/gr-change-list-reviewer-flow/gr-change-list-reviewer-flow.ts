@@ -51,6 +51,8 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   @query('gr-overlay') private overlay!: GrOverlay;
 
+  private readonly reportingService = getAppContext().reportingService;
+
   private getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
   private restApiService = getAppContext().restApiService;
@@ -189,6 +191,10 @@ export class GrChangeListReviewerFlow extends LitElement {
   }
 
   private saveChanges() {
+    this.reportingService.reportInteraction('bulk-action', {
+      type: 'add-reviewer',
+      selectedChangeCount: this.selectedChanges.length,
+    });
     this.progressByChange = new Map(
       this.selectedChanges.map(change => [change, ProgressStatus.RUNNING])
     );

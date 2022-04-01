@@ -33,11 +33,13 @@ import {
 import './gr-change-list-bulk-vote-flow';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {ProgressStatus} from '../../../constants/constants';
+import {StandardLabels} from '../../../utils/label-util';
 
 const change1: ChangeInfo = {
   ...createChange(),
   _number: 1 as NumericChangeId,
   permitted_labels: {
+    [StandardLabels.CODE_REVIEW]: ['-1', '0', '+1', '+2'],
     A: ['-1', '0', '+1', '+2'],
     B: ['-1', '0'],
     C: ['-1', '0'],
@@ -45,6 +47,7 @@ const change1: ChangeInfo = {
     change1OnlyTriggerLabelE: ['0'], // Does not exist on change2
   },
   labels: {
+    [StandardLabels.CODE_REVIEW]: {value: null} as LabelInfo,
     A: {value: null} as LabelInfo,
     B: {value: null} as LabelInfo,
     C: {value: null} as LabelInfo,
@@ -52,6 +55,9 @@ const change1: ChangeInfo = {
     change1OnlyTriggerLabelE: {value: null} as LabelInfo,
   },
   submit_requirements: [
+    createSubmitRequirementResultInfo(
+      `label:${StandardLabels.CODE_REVIEW}=MAX`
+    ),
     createSubmitRequirementResultInfo('label:A=MAX'),
     createSubmitRequirementResultInfo('label:B=MAX'),
     createSubmitRequirementResultInfo('label:C=MAX'),
@@ -62,16 +68,21 @@ const change2: ChangeInfo = {
   ...createChange(),
   _number: 2 as NumericChangeId,
   permitted_labels: {
+    [StandardLabels.CODE_REVIEW]: ['-1', '0', '+1', '+2'],
     A: ['-1', '0', '+1', '+2'], // Intersects fully with change1
     B: ['0', ' +1'], // Intersects with change1 on 0
     C: ['+1', '+2'], // Does not intersect with change1 at all
   },
   labels: {
+    [StandardLabels.CODE_REVIEW]: {value: null} as LabelInfo,
     A: {value: null} as LabelInfo,
     B: {value: null} as LabelInfo,
     C: {value: null} as LabelInfo,
   },
   submit_requirements: [
+    createSubmitRequirementResultInfo(
+      `label:${StandardLabels.CODE_REVIEW}=MAX`
+    ),
     createSubmitRequirementResultInfo('label:A=MAX'),
     createSubmitRequirementResultInfo('label:B=MAX'),
     createSubmitRequirementResultInfo('label:C=MAX'),
@@ -419,6 +430,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     );
     await element.updateComplete;
 
+    // Code-Review is not a common permitted label
     assert.deepEqual(
       element.computeCommonPermittedLabels(element.computePermittedLabels()),
       [
@@ -438,8 +450,9 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
 
     await element.updateComplete;
 
-    // Intersection of ['a', 'triggerLabelB', 'c'] ['triggerLabelB', 'c', 'd']
-    // is [triggerLabelB,c]
+    // Intersection of [CR, 'a', 'triggerLabelB', 'c']
+    // [CR, 'triggerLabelB', 'c', 'd'] is [triggerLabelB,c]
+    // Code-Review is not a common permitted label
     assert.deepEqual(
       element.computeCommonPermittedLabels(element.computePermittedLabels()),
       [

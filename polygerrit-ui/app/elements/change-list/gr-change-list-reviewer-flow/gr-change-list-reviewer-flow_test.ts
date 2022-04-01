@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {fixture, html} from '@open-wc/testing-helpers';
+import {SinonStubbedMember} from 'sinon';
 import {AccountInfo, ReviewerState} from '../../../api/rest-api';
 import {
   BulkActionsModel,
@@ -11,6 +12,7 @@ import {
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {getAppContext} from '../../../services/app-context';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import '../../../test/common-test-setup-karma';
 import {
   createAccountWithIdNameAndEmail,
@@ -20,6 +22,7 @@ import {
   MockPromise,
   mockPromise,
   queryAndAssert,
+  stubReporting,
   stubRestApi,
   waitUntilObserved,
 } from '../../../test/test-utils';
@@ -61,6 +64,7 @@ const changes: ChangeInfo[] = [
 suite('gr-change-list-reviewer-flow tests', () => {
   let element: GrChangeListReviewerFlow;
   let model: BulkActionsModel;
+  let reportingStub: SinonStubbedMember<ReportingService['reportInteraction']>;
 
   async function selectChange(change: ChangeInfo) {
     model.addSelectedChangeNum(change._number);
@@ -72,6 +76,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
 
   setup(async () => {
     stubRestApi('getDetailedChangesWithActions').resolves(changes);
+    reportingStub = stubReporting('reportInteraction');
     model = new BulkActionsModel(getAppContext().restApiService);
     model.sync(changes);
 
@@ -223,6 +228,11 @@ suite('gr-change-list-reviewer-flow tests', () => {
       await flush();
       dialog.confirmButton!.click();
       await element.updateComplete;
+
+      assert.deepEqual(reportingStub.lastCall.args[1], {
+        type: 'add-reviewer',
+        selectedChangeCount: 2,
+      });
 
       assert.isTrue(saveChangeReviewStub.calledTwice);
       assert.sameDeepOrderedMembers(saveChangeReviewStub.firstCall.args, [

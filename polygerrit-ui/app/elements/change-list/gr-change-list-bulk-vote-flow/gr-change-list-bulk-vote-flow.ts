@@ -42,6 +42,8 @@ export class GrChangeListBulkVoteFlow extends LitElement {
 
   private readonly userModel = getAppContext().userModel;
 
+  private readonly reportingService = getAppContext().reportingService;
+
   @state() selectedChanges: ChangeInfo[] = [];
 
   @state() progressByChange: Map<NumericChangeId, ProgressStatus> = new Map();
@@ -195,8 +197,12 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     fireReload(this, true);
   }
 
-  private handleConfirm() {
+  private async handleConfirm() {
     this.progressByChange.clear();
+    this.reportingService.reportInteraction('bulk-action', {
+      type: 'vote',
+      selectedChangeCount: this.selectedChanges.length,
+    });
     const reviewInput: ReviewInput = {
       labels: this.getLabelValues(
         this.computeCommonPermittedLabels(this.computePermittedLabels())
@@ -207,6 +213,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     }
     this.requestUpdate();
     const promises = this.getBulkActionsModel().voteChanges(reviewInput);
+
     for (let index = 0; index < promises.length; index++) {
       const changeNum = this.selectedChanges[index]._number;
       promises[index]
@@ -226,6 +233,34 @@ export class GrChangeListBulkVoteFlow extends LitElement {
             this.handleClose();
           }
         });
+    }
+
+    // TODO: replace with Promise.allSettled once we upgrade to ES2020 or higher
+    // The names and types here match Promise.allSettled.
+    await Promise.all(
+      promises.map(promise =>
+        promise
+          .then(value => {
+            return {
+              status: 'fulfilled',
+              value,
+            };
+          })
+          .catch(reason => {
+            return {
+              status: 'rejected',
+              reason,
+            };
+          })
+      )
+    );
+    if (getOverallStatus(this.progressByChange) === ProgressStatus.FAILED) {
+      this.reportingService.reportInteraction('bulk-action-failure', {
+        type: 'vote',
+        count: Array.from(this.progressByChange.values()).filter(
+          status => status === ProgressStatus.FAILED
+        ).length,
+      });
     }
   }
 

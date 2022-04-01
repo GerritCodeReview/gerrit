@@ -35,6 +35,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
 import {ProgressStatus} from '../../../constants/constants';
 import './gr-change-list-bulk-vote-flow';
+import {StandardLabels} from '../../../utils/label-util';
 
 const change1: ChangeInfo = {
   ...createChange(),
@@ -112,7 +113,26 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
   });
 
   test('renders', async () => {
-    const changes: ChangeInfo[] = [change1];
+    // Code Review labels is not rendered
+    const changes: ChangeInfo[] = [
+      {
+        ...change1,
+        permitted_labels: {
+          ...change1.permitted_labels,
+          [StandardLabels.CODE_REVIEW]: ['-1', '0', '+1', '+2'],
+        },
+        labels: {
+          ...change1.labels,
+          [StandardLabels.CODE_REVIEW]: {value: null} as LabelInfo,
+        },
+        submit_requirements: [
+          ...change1.submit_requirements!,
+          createSubmitRequirementResultInfo(
+            `label:${StandardLabels.CODE_REVIEW}=MAX`
+          ),
+        ],
+      },
+    ];
     getChangesStub.returns(Promise.resolve(changes));
     model.sync(changes);
     await waitUntilObserved(

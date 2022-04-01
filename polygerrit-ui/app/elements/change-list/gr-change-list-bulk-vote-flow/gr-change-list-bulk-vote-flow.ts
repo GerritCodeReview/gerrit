@@ -42,6 +42,8 @@ export class GrChangeListBulkVoteFlow extends LitElement {
 
   private readonly userModel = getAppContext().userModel;
 
+  private readonly reportingService = getAppContext().reportingService;
+
   @state() selectedChanges: ChangeInfo[] = [];
 
   @state() progressByChange: Map<NumericChangeId, ProgressStatus> = new Map();
@@ -197,6 +199,10 @@ export class GrChangeListBulkVoteFlow extends LitElement {
 
   private handleConfirm() {
     this.progressByChange.clear();
+    this.reportingService.reportInteraction('bulk-action', {
+      type: 'vote',
+      selectedChangeCount: this.selectedChanges.length,
+    });
     const reviewInput: ReviewInput = {
       labels: this.getLabelValues(
         this.computeCommonPermittedLabels(this.computePermittedLabels())
@@ -226,6 +232,15 @@ export class GrChangeListBulkVoteFlow extends LitElement {
             this.handleClose();
           }
         });
+    }
+    const failureCount = Array.from(this.progressByChange.values()).filter(
+      status => status === ProgressStatus.FAILED
+    ).length;
+    if (failureCount > 0) {
+      this.reportingService.reportInteraction('bulk-action-failure', {
+        type: 'vote',
+        count: failureCount,
+      });
     }
   }
 

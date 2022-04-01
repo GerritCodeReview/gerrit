@@ -59,6 +59,8 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   @query('gr-overlay') private overlay!: GrOverlay;
 
+  private readonly reportingService = getAppContext().reportingService;
+
   private getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
   private restApiService = getAppContext().restApiService;
@@ -227,6 +229,10 @@ export class GrChangeListReviewerFlow extends LitElement {
   }
 
   private saveReviewers() {
+    this.reportingService.reportInteraction('bulk-action', {
+      type: 'add-reviewer',
+      selectedChangeCount: this.selectedChanges.length,
+    });
     this.progressByChangeNum = new Map(
       this.selectedChanges.map(change => [
         change._number,
@@ -250,6 +256,15 @@ export class GrChangeListReviewerFlow extends LitElement {
           this.progressByChangeNum.set(change._number, ProgressStatus.FAILED);
           this.requestUpdate();
         });
+    }
+    const failureCount = Array.from(this.progressByChangeNum.values()).filter(
+      status => status === ProgressStatus.FAILED
+    ).length;
+    if (failureCount > 0) {
+      this.reportingService.reportInteraction('bulk-action-failure', {
+        type: 'add-reviewer',
+        count: failureCount,
+      });
     }
   }
 

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd0493b8_e9116bd5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-01T13:39:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b00f696d_22b68476",
+      "revId": "e7aafb1d4189bf90977ce3132adbe6ba89054245",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e66a26b3_31878082",
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Asked on chat and labels are a project level config so it\u0027s possible the default_value is different per change.\n\nI can get the list of default values for all changes in a list here but we still have to pick some value.\n`getDefaultValue` becomes `getDefaultValue*s*` and returns a list of defValNums.\n\nLet\u0027s say we get a list of values V:\nWhat would you prefer the default to be? Or would you prefer to not pick the default in case we get multiple values?\n\nI would say we can pick any default value hence keep the code as is but we can skip setting the value if that makes more sense.",
       "parentUuid": "a918e489_247a3911",
+      "revId": "e7aafb1d4189bf90977ce3132adbe6ba89054245",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd768a8c_ec96f0a6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-01T13:39:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0823310a_dbafebbe",
       "revId": "e7aafb1d4189bf90977ce3132adbe6ba89054245",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

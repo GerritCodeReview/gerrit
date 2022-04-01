@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b3e3972_3bcd5089",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetObserver.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-04-01T20:37:45Z",
+      "side": 1,
+      "message": "This class seems perfect, but using it would also create a circular dependency; this time between  \"//java/com/google/gerrit/extensions:api\" and \"//java/com/google/gerrit/entities:entities\".",
+      "parentUuid": "0953b444_fd184205",
+      "revId": "e6a3f59d321f6e87420a64c277160c8582a8b109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de0d2b2f_01d3f04e",
         "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetObserver.java",
         "patchSetId": 12

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5169b24_ef5abf42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-01T13:02:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d185524e_507af41a",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "2d49140a08306bd6dcea8b4b6f0a8268ce5f41d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03cb0599_6d3e8657",
@@ -43,6 +67,47 @@
         "endLine": 41,
         "endChar": 30
       },
+      "revId": "2d49140a08306bd6dcea8b4b6f0a8268ce5f41d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f95d3dd9_1a80ea4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-01T13:02:36Z",
+      "side": 1,
+      "message": "Yes, I think this is correct. \nI agree that this could be an issue.",
+      "parentUuid": "03cb0599_6d3e8657",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "2d49140a08306bd6dcea8b4b6f0a8268ce5f41d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c8fe73a_15c73dc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-01T13:02:36Z",
+      "side": 1,
+      "message": "Maybe another alternative would be to drop assuming true as default for copyAllScoresIfNoChange. Then having an empty copyCondition as default would match. Users would need to remember configuring approval copying for change kind NO_CHANGE when they add label definitions (if they want that), but at least nothing unexpected happens when they set a copyCondition newly. Of course this means we would need to write a migration to explicitly set copyAllScoresIfNoChange \u003d true in all project configs the define labels but have copyAllScoresIfNoChange unset.",
       "revId": "2d49140a08306bd6dcea8b4b6f0a8268ce5f41d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -18,8 +18,34 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "log4j",
-        artifact = "ch.qos.reload4j:reload4j:1.2.18.1",
-        sha1 = "7075022a11e18c1ad230de5be074e0c691fed17b",
+        artifact = "ch.qos.reload4j:reload4j:1.2.19",
+        sha1 = "4eae9978468c5e885a6fb44df7e2bbc07a20e6ce",
+    )
+
+    SLF4J_VERS = "1.7.36"
+
+    maven_jar(
+        name = "log-api",
+        artifact = "org.slf4j:slf4j-api:" + SLF4J_VERS,
+        sha1 = "6c62681a2f655b49963a5983b8b0950a6120ae14",
+    )
+
+    maven_jar(
+        name = "log-ext",
+        artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
+        sha1 = "99f282aea4b6dbca04d00f0ade6e5ed61ee7091a",
+    )
+
+    maven_jar(
+        name = "impl-log4j",
+        artifact = "org.slf4j:slf4j-reload4j:" + SLF4J_VERS,
+        sha1 = "db708f7d959dee1857ac524636e85ecf2e1781c1",
+    )
+
+    maven_jar(
+        name = "jcl-over-slf4j",
+        artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
+        sha1 = "d877e195a05aca4a2f1ad2ff14bfec1393af4b5e",
     )
 
     maven_jar(
@@ -41,18 +67,30 @@ def declare_nongoogle_deps():
         sha1 = "cb2f351bf4463751201f43bb99865235d5ba07ca",
     )
 
+<<<<<<< HEAD
     SSHD_VERS = "2.8.0"
+=======
+    SSHD_VERS = "2.7.0"
+>>>>>>> refs/rewritten/stable-3-5
 
     maven_jar(
         name = "sshd-osgi",
         artifact = "org.apache.sshd:sshd-osgi:" + SSHD_VERS,
+<<<<<<< HEAD
         sha1 = "b2a59b73c045f40d5722b9160d4f909a646d86c9",
+=======
+        sha1 = "a101aad0f79ad424498098f7e91c39d3d92177c1",
+>>>>>>> refs/rewritten/stable-3-5
     )
 
     maven_jar(
         name = "sshd-sftp",
         artifact = "org.apache.sshd:sshd-sftp:" + SSHD_VERS,
+<<<<<<< HEAD
         sha1 = "d3cd9bc8d335b3ed1a86d2965deb4d202de27442",
+=======
+        sha1 = "0c9eff7145e20b338c1dd6aca36ba93ed7c0147c",
+>>>>>>> refs/rewritten/stable-3-5
     )
 
     maven_jar(
@@ -70,7 +108,11 @@ def declare_nongoogle_deps():
     maven_jar(
         name = "sshd-mina",
         artifact = "org.apache.sshd:sshd-mina:" + SSHD_VERS,
+<<<<<<< HEAD
         sha1 = "02f78100cce376198be798a37c84aaf945e8a0f7",
+=======
+        sha1 = "22799941ec7bd5170ea890363cb968e400a69c41",
+>>>>>>> refs/rewritten/stable-3-5
     )
 
     maven_jar(
@@ -247,4 +289,11 @@ def declare_nongoogle_deps():
         name = "lucene-queryparser",
         artifact = "org.apache.lucene:lucene-queryparser:" + LUCENE_VERS,
         sha1 = "2db9ca0086a4b8e0b9bc9f08a9b420303168e37c",
+    )
+
+    # JGit's transitive dependencies
+    maven_jar(
+        name = "hamcrest",
+        artifact = "org.hamcrest:hamcrest:2.2",
+        sha1 = "1820c0968dba3a11a1b30669bb1f01978a91dedc",
     )

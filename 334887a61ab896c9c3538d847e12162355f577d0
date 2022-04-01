@@ -16,6 +16,24 @@
       "message": "What\u0027s wrong with the old link?\n",
       "revId": "334887a61ab896c9c3538d847e12162355f577d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a1f7e41_d68d55a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-04-01T05:40:43Z",
+      "side": 1,
+      "message": "It doesn\u0027t point to the active master branch but the legacy \"md-pages\" branch that hasn\u0027t been used for years.",
+      "parentUuid": "42842712_82bd10a7",
+      "revId": "334887a61ab896c9c3538d847e12162355f577d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

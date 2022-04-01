@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af888528_cf20654d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-01T00:53:07Z",
+      "side": 1,
+      "message": "One more addition for making the cache configurable and then it is ready for review.",
+      "revId": "3c69f454084081e41e72e3577ec853163f2b5d74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

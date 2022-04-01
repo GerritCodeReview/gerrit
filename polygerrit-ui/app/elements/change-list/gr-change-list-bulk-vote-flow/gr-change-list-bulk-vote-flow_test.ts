@@ -147,6 +147,9 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
         with-backdrop=""
       >
         <gr-dialog role="dialog">
+          <div slot="header">
+            <span class="main-heading"> Vote on selected changes </span>
+          </div>
           <div slot="main">
             <div class="newSubmitRequirements scoresTable">
               <h3 class="heading-3">Submit requirements votes</h3>

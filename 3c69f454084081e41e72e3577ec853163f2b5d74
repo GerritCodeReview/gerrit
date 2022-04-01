@@ -33,6 +33,24 @@
       "message": "All the AbstractChangeNotesTests are currently failing because the ref-update event isn\u0027t triggered. Need to amend the test to register the event and therefore trigger the thread-local refdb cache cleanup.",
       "revId": "3c69f454084081e41e72e3577ec853163f2b5d74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2eb6875_5a5e7769",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-01T07:12:14Z",
+      "side": 1,
+      "message": "There is still sth not correct\n\n1. when one publishes edit on a change in new UI it shows the following error:\n\n  Error 404 (Not Found): Not found: 2\n  Endpoint: /changes/*~*/revisions/*/files?reviewed\n\nbut files is saved properly\n\n2. when one gives `CR+2` it requires a page refresh before it is actually visible but only the first time when change is created (could be related to the previous error)\n\nChecked that on vanilla `stable-2.16` and it works as expected.",
+      "parentUuid": "c87a7ac9_919226ea",
+      "revId": "3c69f454084081e41e72e3577ec853163f2b5d74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

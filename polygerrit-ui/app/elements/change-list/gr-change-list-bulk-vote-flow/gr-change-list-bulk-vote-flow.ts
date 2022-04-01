@@ -39,6 +39,8 @@ export class GrChangeListBulkVoteFlow extends LitElement {
 
   private readonly userModel = getAppContext().userModel;
 
+  private readonly reportingService = getAppContext().reportingService;
+
   @state() selectedChanges: ChangeInfo[] = [];
 
   @state() progress: Map<NumericChangeId, ProgressStatus> = new Map();
@@ -159,6 +161,10 @@ export class GrChangeListBulkVoteFlow extends LitElement {
 
   private handleConfirm() {
     this.progress.clear();
+    this.reportingService.reportInteraction('bulk-action', {
+      type: 'vote',
+      selectedChangeCount: this.selectedChanges.length,
+    });
     const reviewInput: ReviewInput = {
       labels: this.getLabelValues(),
     };

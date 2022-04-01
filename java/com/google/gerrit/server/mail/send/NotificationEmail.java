@@ -83,12 +83,14 @@ public abstract class NotificationEmail extends OutgoingEmail {
   /** Add users or email addresses to the TO, CC, or BCC list. */
   protected void add(RecipientType type, WatcherList watcherList) {
     for (Account.Id user : watcherList.accounts) {
-      add(type, user);
+      addWatcher(type, user);
     }
     for (Address addr : watcherList.emails) {
       add(type, addr);
     }
   }
+
+  protected abstract void addWatcher(RecipientType type, Account.Id to);
 
   public String getSshHost() {
     String host = Iterables.getFirst(args.sshAddresses, null);

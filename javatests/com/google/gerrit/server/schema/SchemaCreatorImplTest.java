@@ -79,7 +79,10 @@ public class SchemaCreatorImplTest {
     assertThat(codeReview.getDefaultValue()).isEqualTo(0);
     assertThat(codeReview.getFunction()).isEqualTo(LabelFunction.MAX_WITH_BLOCK);
     assertThat(codeReview.getCopyCondition())
-        .hasValue("is:MIN OR changekind:" + ChangeKind.TRIVIAL_REBASE.name());
+        .hasValue(
+            String.format(
+                "is:MIN OR changekind:%s OR changekind:%s",
+                ChangeKind.NO_CHANGE.name(), ChangeKind.TRIVIAL_REBASE.name()));
     assertValueRange(codeReview, -2, -1, 0, 1, 2);
   }
 

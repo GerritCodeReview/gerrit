@@ -102,7 +102,7 @@ public class AllProjectsCreatorTestUtil {
           "[label \"Code-Review\"]",
           "  function = MaxWithBlock",
           "  defaultValue = 0",
-          "  copyCondition = is:MIN OR changekind:TRIVIAL_REBASE",
+          "  copyCondition = is:MIN OR changekind:NO_CHANGE OR changekind:TRIVIAL_REBASE",
           "  value = -2 This shall not be submitted",
           "  value = -1 I would prefer this is not submitted as is",
           "  value = 0 No score",

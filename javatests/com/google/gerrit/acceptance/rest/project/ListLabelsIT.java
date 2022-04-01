@@ -141,7 +141,9 @@ public class ListLabelsIT extends AbstractDaemonTest {
               "foo",
               labelType -> {
                 labelType.setCanOverride(false);
-                labelType.setCopyAllScoresIfNoChange(false);
+                labelType.setCopyAllScoresIfNoChange(false); // overwrites the default value (true)
+                labelType.setCopyCondition(
+                    ""); // overwrites the default value ("changekind:NO_CHANGE")
                 labelType.setAllowPostSubmit(false);
               });
       u.save();
@@ -152,6 +154,7 @@ public class ListLabelsIT extends AbstractDaemonTest {
 
     LabelDefinitionInfo fooLabel = Iterables.getOnlyElement(labels);
     assertThat(fooLabel.canOverride).isNull();
+    assertThat(fooLabel.copyCondition).isNull();
     assertThat(fooLabel.copyAnyScore).isNull();
     assertThat(fooLabel.copyMinScore).isNull();
     assertThat(fooLabel.copyMaxScore).isNull();

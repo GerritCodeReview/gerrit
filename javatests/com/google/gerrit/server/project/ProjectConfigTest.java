@@ -534,7 +534,8 @@ public class ProjectConfigTest {
                 + "\tdefaultValue = 0\n"
                 + "\tvalue = -1 Negative\n"
                 + "\tvalue = 0 No score\n"
-                + "\tvalue = +1 Positive\n");
+                + "\tvalue = +1 Positive\n"
+                + "\tcopyCondition = changekind:NO_CHANGE\n");
   }
 
   @Test

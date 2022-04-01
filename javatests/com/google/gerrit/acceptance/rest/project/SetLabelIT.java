@@ -29,6 +29,7 @@ import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -532,7 +533,11 @@ public class SetLabelIT extends AbstractDaemonTest {
   @Test
   public void setCopyCondition() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
-    assertThat(gApi.projects().name(project.get()).label("foo").get().copyCondition).isNull();
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyCondition)
+        .isEqualTo(
+            "changekind:"
+                + ChangeKind.NO_CHANGE
+                    .name()); // "changekind:NO_CHANGE" is the default value for copyCondition
 
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.copyCondition = "is:MAX";
@@ -547,7 +552,11 @@ public class SetLabelIT extends AbstractDaemonTest {
       throws Exception {
     String administratorsUUID = gApi.groups().query("name:Administrators").get().get(0).id;
     configLabel("foo", LabelFunction.NO_OP);
-    assertThat(gApi.projects().name(project.get()).label("foo").get().copyCondition).isNull();
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyCondition)
+        .isEqualTo(
+            "changekind:"
+                + ChangeKind.NO_CHANGE
+                    .name()); // "changekind:NO_CHANGE" is the default value for copyCondition
 
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.copyCondition = "uploaderin:" + administratorsUUID;
@@ -574,7 +583,11 @@ public class SetLabelIT extends AbstractDaemonTest {
   @Test
   public void setInvalidCopyCondition() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
-    assertThat(gApi.projects().name(project.get()).label("foo").get().copyCondition).isNull();
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyCondition)
+        .isEqualTo(
+            "changekind:"
+                + ChangeKind.NO_CHANGE
+                    .name()); // "changekind:NO_CHANGE" is the default value for copyCondition
 
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.copyCondition = "foo:::bar";

@@ -59,6 +59,8 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   @query('gr-overlay') private overlay!: GrOverlay;
 
+  private readonly reportingService = getAppContext().reportingService;
+
   private getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
   private restApiService = getAppContext().restApiService;
@@ -226,7 +228,11 @@ export class GrChangeListReviewerFlow extends LitElement {
     }
   }
 
-  private saveReviewers() {
+  private async saveReviewers() {
+    this.reportingService.reportInteraction('bulk-action', {
+      type: 'add-reviewer',
+      selectedChangeCount: this.selectedChanges.length,
+    });
     this.progressByChangeNum = new Map(
       this.selectedChanges.map(change => [
         change._number,
@@ -250,6 +256,34 @@ export class GrChangeListReviewerFlow extends LitElement {
           this.progressByChangeNum.set(change._number, ProgressStatus.FAILED);
           this.requestUpdate();
         });
+    }
+
+    // TODO: replace with Promise.allSettled once we upgrade to ES2020 or higher
+    // The names and types here match Promise.allSettled.
+    await Promise.all(
+      inFlightActions.map(promise =>
+        promise
+          .then(value => {
+            return {
+              status: 'fulfilled',
+              value,
+            };
+          })
+          .catch(reason => {
+            return {
+              status: 'rejected',
+              reason,
+            };
+          })
+      )
+    );
+    if (getOverallStatus(this.progressByChangeNum) === ProgressStatus.FAILED) {
+      this.reportingService.reportInteraction('bulk-action-failure', {
+        type: 'add-reviewer',
+        count: Array.from(this.progressByChangeNum.values()).filter(
+          status => status === ProgressStatus.FAILED
+        ).length,
+      });
     }
   }
 

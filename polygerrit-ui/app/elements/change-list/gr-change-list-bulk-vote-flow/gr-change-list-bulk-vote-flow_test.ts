@@ -18,6 +18,7 @@ import {
   query,
   mockPromise,
   queryAll,
+  stubReporting,
 } from '../../../test/test-utils';
 import {ChangeInfo, NumericChangeId, LabelInfo} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
@@ -34,6 +35,7 @@ import './gr-change-list-bulk-vote-flow';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {ProgressStatus} from '../../../constants/constants';
 import {StandardLabels} from '../../../utils/label-util';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 
 const change1: ChangeInfo = {
   ...createChange(),
@@ -96,6 +98,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
   let getChangesStub: SinonStubbedMember<
     RestApiService['getDetailedChangesWithActions']
   >;
+  let reportingStub: SinonStubbedMember<ReportingService['reportInteraction']>;
 
   async function selectChange(change: ChangeInfo) {
     model.addSelectedChangeNum(change._number);
@@ -108,6 +111,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
   setup(async () => {
     model = new BulkActionsModel(getAppContext().restApiService);
     getChangesStub = stubRestApi('getDetailedChangesWithActions');
+    reportingStub = stubReporting('reportInteraction');
     element = (
       await fixture(
         wrapInProvider(
@@ -256,6 +260,11 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').disabled
     );
 
+    assert.deepEqual(reportingStub.lastCall.args[1], {
+      type: 'vote',
+      selectedChangeCount: 1,
+    });
+
     assert.equal(
       element.progressByChange.get(1 as NumericChangeId),
       ProgressStatus.RUNNING
@@ -320,6 +329,14 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
 
       // Dialog does not autoclose and fire reload event if some request fails
       assert.isFalse(dispatchEventStub.called);
+
+      assert.deepEqual(reportingStub.lastCall.args, [
+        'bulk-action-failure',
+        {
+          type: 'vote',
+          count: 2,
+        },
+      ]);
 
       queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').click();
 

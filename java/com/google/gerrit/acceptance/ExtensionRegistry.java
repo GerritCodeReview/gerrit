@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.webui.EditWebLink;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
+import com.google.gerrit.extensions.webui.FileWebLink;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
 import com.google.gerrit.server.ExceptionHook;
@@ -85,6 +86,7 @@ public class ExtensionRegistry {
   private final DynamicSet<PatchSetWebLink> patchSetWebLinks;
   private final DynamicSet<ResolveConflictsWebLink> resolveConflictsWebLinks;
   private final DynamicSet<EditWebLink> editWebLinks;
+  private final DynamicSet<FileWebLink> fileWebLinks;
   private final DynamicSet<RevisionCreatedListener> revisionCreatedListeners;
   private final DynamicSet<GroupBackend> groupBackends;
   private final DynamicSet<AccountActivationValidationListener>
@@ -127,6 +129,7 @@ public class ExtensionRegistry {
       DynamicSet<PatchSetWebLink> patchSetWebLinks,
       DynamicSet<ResolveConflictsWebLink> resolveConflictsWebLinks,
       DynamicSet<EditWebLink> editWebLinks,
+      DynamicSet<FileWebLink> fileWebLinks,
       DynamicSet<RevisionCreatedListener> revisionCreatedListeners,
       DynamicSet<GroupBackend> groupBackends,
       DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners,
@@ -163,6 +166,7 @@ public class ExtensionRegistry {
     this.fileHistoryWebLinks = fileHistoryWebLinks;
     this.patchSetWebLinks = patchSetWebLinks;
     this.editWebLinks = editWebLinks;
+    this.fileWebLinks = fileWebLinks;
     this.resolveConflictsWebLinks = resolveConflictsWebLinks;
     this.revisionCreatedListeners = revisionCreatedListeners;
     this.groupBackends = groupBackends;
@@ -287,6 +291,10 @@ public class ExtensionRegistry {
 
     public Registration add(EditWebLink editWebLink) {
       return add(editWebLinks, editWebLink);
+    }
+
+    public Registration add(FileWebLink fileWebLink) {
+      return add(fileWebLinks, fileWebLink);
     }
 
     public Registration add(RevisionCreatedListener revisionCreatedListener) {

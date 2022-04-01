@@ -51,6 +51,23 @@
       "parentUuid": "c87a7ac9_919226ea",
       "revId": "3c69f454084081e41e72e3577ec853163f2b5d74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0edd7f4_4a420b88",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-01T07:12:38Z",
+      "side": 1,
+      "message": "do we still need it?",
+      "revId": "3c69f454084081e41e72e3577ec853163f2b5d74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

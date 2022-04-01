@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58b7b697_0dd04b37",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-01T13:40:15Z",
+      "side": 1,
+      "message": "do you need to clone? I think they\u0027re not mutated anywhere, but cloning makes me think otherwise",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 313,
+        "endChar": 65
+      },
+      "revId": "c31cb41cdd4dc006bc79f74b008c4289e3aaeb05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

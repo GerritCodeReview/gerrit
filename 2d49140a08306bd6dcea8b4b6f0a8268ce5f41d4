@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d185524e_507af41a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-04-01T12:48:56Z",
+      "side": 1,
+      "message": "comma, for legibility.",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "2d49140a08306bd6dcea8b4b6f0a8268ce5f41d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03cb0599_6d3e8657",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-04-01T12:48:56Z",
+      "side": 1,
+      "message": "suppose the approval comes from a CI system. then copying the score would lead to a situation where no build logs, etc. exist for the sha1 that actually goes in.\n\n(disclaimer: my understanding of NO_CHANGE is vague and half guessed.)",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "2d49140a08306bd6dcea8b4b6f0a8268ce5f41d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c5a98038_86b1b7dd",

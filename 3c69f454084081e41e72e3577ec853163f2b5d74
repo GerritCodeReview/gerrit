@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a9230c6_938edde1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-02T10:33:37Z",
+      "side": 1,
+      "message": "\u003e There is still sth not correct\n\u003e \n\u003e 1. when one publishes edit on a change in new UI it shows the following error:\n\u003e \n\u003e   Error 404 (Not Found): Not found: 2\n\u003e   Endpoint: /changes/*~*/revisions/*/files?reviewed\n\u003e \n\u003e but files is saved properly\n\nBecause the above 404 is a result of a new REST-API call, I guess the cleanup didn\u0027t run in your case? I tried locally and worked as expected for me.\n\nCan we do a joined session on that? Have you tried to add some extra logging? Does it happen systematically or randomly?\n\n\u003e 2. when one gives `CR+2` it requires a page refresh before it is actually visible but only the first time when change is created (could be related to the previous error)\n\nThat also works for me.\n\n\u003e Checked that on vanilla `stable-2.16` and it works as expected.\n\nSure, we need to understand where the cleanup isn\u0027t working as it should.",
+      "parentUuid": "a2eb6875_5a5e7769",
+      "revId": "3c69f454084081e41e72e3577ec853163f2b5d74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f0edd7f4_4a420b88",
         "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
         "patchSetId": 12
@@ -66,6 +84,24 @@
       "writtenOn": "2022-04-01T07:12:38Z",
       "side": 1,
       "message": "do we still need it?",
+      "revId": "3c69f454084081e41e72e3577ec853163f2b5d74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcba268a_7617c04b",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-02T10:33:37Z",
+      "side": 1,
+      "message": "I guess so, as we need to call the cleanup in all JettyServer-managed threads.",
+      "parentUuid": "f0edd7f4_4a420b88",
       "revId": "3c69f454084081e41e72e3577ec853163f2b5d74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

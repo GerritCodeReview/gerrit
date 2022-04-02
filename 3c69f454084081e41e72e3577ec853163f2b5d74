@@ -104,6 +104,29 @@
       "parentUuid": "f0edd7f4_4a420b88",
       "revId": "3c69f454084081e41e72e3577ec853163f2b5d74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e88bee2_f4dc2d08",
+        "filename": "java/com/google/gerrit/server/notedb/ThreadLocalRepoRefCache.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-02T12:55:00Z",
+      "side": 1,
+      "message": "This should be done once per-thread, not once per key.",
+      "range": {
+        "startLine": 42,
+        "startChar": 14,
+        "endLine": 42,
+        "endChar": 92
+      },
+      "revId": "3c69f454084081e41e72e3577ec853163f2b5d74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

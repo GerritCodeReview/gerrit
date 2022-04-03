@@ -16,6 +16,23 @@
       "message": "Tested with 2 concurrent users running Gatling tests and works as expected E2E. @Jacek let\u0027s check together next week, so that we can identify the issues you\u0027ve seen so far.",
       "revId": "aab3f556cfef367ba6e234a6a3d5a15095e85d97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99d53ce7_30f6985c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-03T00:04:21Z",
+      "side": 1,
+      "message": "I did extensive testing with Gatling and all tests were successful, no errors in the error_log. Also I couldn\u0027t see any problem when interacting with the changes on the GUI.\n\nFrom an E2E perspective, there are the following improvements on the use-cases:\n- reindex of a change: 400% faster\n- posting comments: 200% faster\n- get available actions: 300% faster\n- get changes details: 50% faster\n\nThere are still some tests that are failing, because they do not register the thread local cleaner and run all tests inside the same thread. Need to add the thread cleanup in the setup of the tests.",
+      "revId": "aab3f556cfef367ba6e234a6a3d5a15095e85d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

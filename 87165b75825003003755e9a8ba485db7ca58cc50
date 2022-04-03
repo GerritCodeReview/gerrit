@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bca039f_948d1418",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-03T20:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15cfa30c_b7231644",
+      "revId": "87165b75825003003755e9a8ba485db7ca58cc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64f43806_1471d900",
@@ -155,6 +173,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1a14c8e_42af6463",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/ChangeRebuilderIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-03T20:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00cd335f_6e70e6c5",
+      "revId": "87165b75825003003755e9a8ba485db7ca58cc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32cd1f05_9f046e30",
@@ -168,6 +204,30 @@
       "writtenOn": "2022-04-03T19:57:47Z",
       "side": 1,
       "message": "Not needed anymore: the ChangeRebuilderIT won\u0027t run with the thread-local cache enabled.",
+      "range": {
+        "startLine": 1380,
+        "startChar": 4,
+        "endLine": 1380,
+        "endChar": 53
+      },
+      "revId": "87165b75825003003755e9a8ba485db7ca58cc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e4b20bb_f713d1c4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/ChangeRebuilderIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-03T20:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32cd1f05_9f046e30",
       "range": {
         "startLine": 1380,
         "startChar": 4,

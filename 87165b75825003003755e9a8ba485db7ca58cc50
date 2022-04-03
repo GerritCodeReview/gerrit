@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c06ffc2_f77feddb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-03T19:46:55Z",
+      "side": 1,
+      "message": "This is now working E2E and it is configurable. By default, it behaves as before, without any thread-local SHA1 caching.",
+      "revId": "87165b75825003003755e9a8ba485db7ca58cc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

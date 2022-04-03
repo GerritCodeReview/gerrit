@@ -16,6 +16,166 @@
       "message": "This is now working E2E and it is configurable. By default, it behaves as before, without any thread-local SHA1 caching.",
       "revId": "87165b75825003003755e9a8ba485db7ca58cc50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15cfa30c_b7231644",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-03T19:57:47Z",
+      "side": 1,
+      "message": "This isn\u0027t needed anymore: the use of PerThreadCache has already the cache allocated on a per-request basis.",
+      "revId": "87165b75825003003755e9a8ba485db7ca58cc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64f43806_1471d900",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/QueuedThreadPoolWithThreadLocalCacheCleaner.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-03T19:57:47Z",
+      "side": 1,
+      "message": "This isn\u0027t needed anymore.",
+      "revId": "87165b75825003003755e9a8ba485db7ca58cc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "836073b2_c9ac3134",
+        "filename": "java/com/google/gerrit/server/cache/ThreadLocalCacheCleaner.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-03T19:57:47Z",
+      "side": 1,
+      "message": "This should only evict the cache associated with the repository involved in the event.",
+      "range": {
+        "startLine": 60,
+        "startChar": 9,
+        "endLine": 60,
+        "endChar": 28
+      },
+      "revId": "87165b75825003003755e9a8ba485db7ca58cc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8d12f3a_86a9b2f1",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-03T19:57:47Z",
+      "side": 1,
+      "message": "This should evict only the cache associated with the repo involved in the ref-update",
+      "range": {
+        "startLine": 670,
+        "startChar": 36,
+        "endLine": 670,
+        "endChar": 54
+      },
+      "revId": "87165b75825003003755e9a8ba485db7ca58cc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e648f8b_8de27e6c",
+        "filename": "java/com/google/gerrit/server/notedb/ThreadLocalRepoRefCache.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-03T19:57:47Z",
+      "side": 1,
+      "message": "Not sure this is correct: the PerThreadCache may have also entries associated with other caches which we should not touch.",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 34
+      },
+      "revId": "87165b75825003003755e9a8ba485db7ca58cc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6657f8f9_b03c281c",
+        "filename": "java/com/google/gerrit/server/notedb/ThreadLocalRepoRefCache.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-03T19:57:47Z",
+      "side": 1,
+      "message": "It should also allow to evict the cache associated with a specific repository",
+      "revId": "87165b75825003003755e9a8ba485db7ca58cc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00cd335f_6e70e6c5",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/ChangeRebuilderIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-03T19:57:47Z",
+      "side": 1,
+      "message": "Not needed anymore: the ChangeRebuilderIT won\u0027t run with the thread-local cache enabled.",
+      "revId": "87165b75825003003755e9a8ba485db7ca58cc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32cd1f05_9f046e30",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/ChangeRebuilderIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-03T19:57:47Z",
+      "side": 1,
+      "message": "Not needed anymore: the ChangeRebuilderIT won\u0027t run with the thread-local cache enabled.",
+      "range": {
+        "startLine": 1380,
+        "startChar": 4,
+        "endLine": 1380,
+        "endChar": 53
+      },
+      "revId": "87165b75825003003755e9a8ba485db7ca58cc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

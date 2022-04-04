@@ -114,6 +114,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "aca2cd9d_18c24dea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-04T10:41:13Z",
+      "side": 1,
+      "message": "I\u0027ve implemented this approach as part of the migration to copy conditions now [1]:\n\n* if copyAllScoresIfNoChange is not set, the migration includes \"changekind:NO_CHANGE\" into the copy condition\n\nThis means once the support for the deprecated fields is removed, users that configure labels need to set the copy condition to \"changekind:NO_CHANGE\" explicitly if they want approvals to be copied if change kind is NO_CHANGE (since approval copying for change kind NO_CHANGE will no longer be done by default).\n\nIf you see a problem with this, or if you have a better solution, please let me know.\n\nWith the new approach this change is no longer needed, hence abandoning it.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/334263",
+      "parentUuid": "6c8fe73a_15c73dc7",
+      "revId": "2d49140a08306bd6dcea8b4b6f0a8268ce5f41d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c5a98038_86b1b7dd",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

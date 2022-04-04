@@ -168,6 +168,7 @@ import {
   SwitchTabEvent,
   SwitchTabEventDetail,
   TabState,
+  ValueChangedEvent,
 } from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
@@ -932,6 +933,14 @@ export class GrChangeView extends base {
       tabName,
       src: 'paper-tab-click',
     });
+  }
+
+  handleEditingChanged(e: ValueChangedEvent<boolean>) {
+    this._editingCommitMessage = e.detail.value;
+  }
+
+  handleContentChanged(e: ValueChangedEvent) {
+    this._latestCommitMessage = e.detail.value;
   }
 
   _handleCommitMessageSave(e: EditableContentSaveEvent) {

@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ceedfde_28082ff0",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-04T13:32:58Z",
+      "side": 1,
+      "message": "You can do:\n\n```\n@confirm\u003d${this.handleConfirmTap}\n```\n\nthen\n\n  private readonly handleConfirmTap \u003d (e: Event) \u003d\u003e {\n    e.preventDefault();\n    e.stopPropagation();\n    this.dispatchEvent(\n      new CustomEvent(\u0027confirm\u0027, {\n        composed: true,\n        bubbles: false,\n      })\n    );\n  };\n  \nsame for below",
+      "parentUuid": "2b4af842_f94e506e",
+      "revId": "b65df55994e7f998ce4977d53079a61272450635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1c19fb7_61f91401",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
         "patchSetId": 1

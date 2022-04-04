@@ -47,12 +47,12 @@ class MockSuggestionsProvider implements ReviewerSuggestionsProvider {
   makeSuggestionItem(_: Suggestion) {
     return {
       name: 'test',
-      value: {
+      value: JSON.stringify({
         account: {
           _account_id: 1 as AccountId,
         } as AccountInfo,
         count: 1,
-      } as SuggestedReviewerAccountInfo,
+      } as SuggestedReviewerAccountInfo),
     };
   }
 }
@@ -86,11 +86,13 @@ suite('gr-account-list tests', () => {
 
   function handleAdd(value: RawAccountInput) {
     element._handleAdd(
-      new CustomEvent<{value: RawAccountInput}>('add', {detail: {value}})
+      new CustomEvent<{value: string}>('add', {
+        detail: {value: JSON.stringify(value)},
+      })
     );
   }
 
-  setup(() => {
+  setup(async () => {
     existingAccount1 = makeAccount();
     existingAccount2 = makeAccount();
 
@@ -98,17 +100,32 @@ suite('gr-account-list tests', () => {
     element.accounts = [existingAccount1, existingAccount2];
     suggestionsProvider = new MockSuggestionsProvider();
     element.suggestionsProvider = suggestionsProvider;
+    await element.updateComplete;
   });
 
-  test('account entry only appears when editable', () => {
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(
+      /* HTML */
+      `<div class="list">
+          <gr-account-chip removable="" tabindex="-1"> </gr-account-chip>
+          <gr-account-chip removable="" tabindex="-1"> </gr-account-chip>
+        </div>
+        <gr-account-entry borderless="" id="entry"></gr-account-entry>
+        <slot></slot>`
+    );
+  });
+
+  test('account entry only appears when editable', async () => {
     element.readonly = false;
-    assert.isFalse(element.$.entry.hasAttribute('hidden'));
+    await element.updateComplete;
+    assert.isFalse(element.entry!.hasAttribute('hidden'));
     element.readonly = true;
-    assert.isTrue(element.$.entry.hasAttribute('hidden'));
+    await element.updateComplete;
+    assert.isTrue(element.entry!.hasAttribute('hidden'));
   });
 
-  test('addition and removal of account/group chips', () => {
-    flush();
+  test('addition and removal of account/group chips', async () => {
+    await element.updateComplete;
     sinon.stub(element, '_computeRemovable').returns(true);
     // Existing accounts are listed.
     let chips = getChips();
@@ -119,7 +136,7 @@ suite('gr-account-list tests', () => {
     // New accounts are added to end with pendingAdd class.
     const newAccount = makeAccount();
     handleAdd({account: newAccount, count: 1});
-    flush();
+    await element.updateComplete;
     chips = getChips();
     assert.equal(chips.length, 3);
     assert.isFalse(chips[0].classList.contains('pendingAdd'));
@@ -134,7 +151,7 @@ suite('gr-account-list tests', () => {
         bubbles: true,
       })
     );
-    flush();
+    await element.updateComplete;
     chips = getChips();
     assert.equal(chips.length, 2);
     assert.isFalse(chips[0].classList.contains('pendingAdd'));
@@ -155,7 +172,7 @@ suite('gr-account-list tests', () => {
         bubbles: true,
       })
     );
-    flush();
+    await element.updateComplete;
     chips = getChips();
     assert.equal(chips.length, 1);
     assert.isFalse(chips[0].classList.contains('pendingAdd'));
@@ -163,7 +180,7 @@ suite('gr-account-list tests', () => {
     // New groups are added to end with pendingAdd and group classes.
     const newGroup = makeGroup();
     handleAdd({group: newGroup, confirm: false, count: 1});
-    flush();
+    await element.updateComplete;
     chips = getChips();
     assert.equal(chips.length, 2);
     assert.isTrue(chips[1].classList.contains('group'));
@@ -177,7 +194,7 @@ suite('gr-account-list tests', () => {
         bubbles: true,
       })
     );
-    flush();
+    await element.updateComplete;
     chips = getChips();
     assert.equal(chips.length, 1);
     assert.isFalse(chips[0].classList.contains('pendingAdd'));
@@ -209,10 +226,10 @@ suite('gr-account-list tests', () => {
       .callsFake(suggestion => {
         return {
           name: ((suggestion as AccountInfo).email as string) ?? '',
-          value: {
+          value: JSON.stringify({
             account: suggestion as AccountInfo,
             count: 1,
-          },
+          }),
         };
       });
 
@@ -234,10 +251,10 @@ suite('gr-account-list tests', () => {
         assert.deepEqual(suggestions, [
           {
             name: (originalSuggestions[0] as AccountInfo).email as string,
-            value: {
+            value: JSON.stringify({
               account: originalSuggestions[0] as AccountInfo,
               count: 1,
-            },
+            }),
           },
         ]);
       });
@@ -254,35 +271,38 @@ suite('gr-account-list tests', () => {
     assert.equal(element._computeChipClass(account), 'group');
   });
 
-  test('_computeRemovable', () => {
+  test('_computeRemovable', async () => {
     const newAccount = makeAccount() as AccountInfoInput;
     newAccount._pendingAdd = true;
     element.readonly = false;
     element.removableValues = [];
-    assert.isFalse(element._computeRemovable(existingAccount1, false));
-    assert.isTrue(element._computeRemovable(newAccount, false));
+    element.updateComplete;
+    assert.isFalse(element._computeRemovable(existingAccount1));
+    assert.isTrue(element._computeRemovable(newAccount));
 
     element.removableValues = [existingAccount1];
-    assert.isTrue(element._computeRemovable(existingAccount1, false));
-    assert.isTrue(element._computeRemovable(newAccount, false));
-    assert.isFalse(element._computeRemovable(existingAccount2, false));
+    element.updateComplete;
+    assert.isTrue(element._computeRemovable(existingAccount1));
+    assert.isTrue(element._computeRemovable(newAccount));
+    assert.isFalse(element._computeRemovable(existingAccount2));
 
     element.readonly = true;
-    assert.isFalse(element._computeRemovable(existingAccount1, true));
-    assert.isFalse(element._computeRemovable(newAccount, true));
+    element.updateComplete;
+    assert.isFalse(element._computeRemovable(existingAccount1));
+    assert.isFalse(element._computeRemovable(newAccount));
   });
 
-  test('submitEntryText', () => {
+  test('submitEntryText', async () => {
     element.allowAnyInput = true;
-    flush();
+    await element.updateComplete;
 
-    const getTextStub = sinon.stub(element.$.entry, 'getText');
+    const getTextStub = sinon.stub(element.entry!, 'getText');
     getTextStub.onFirstCall().returns('');
     getTextStub.onSecondCall().returns('test');
     getTextStub.onThirdCall().returns('test@test');
 
     // When entry is empty, return true.
-    const clearStub = sinon.stub(element.$.entry, 'clear');
+    const clearStub = sinon.stub(element.entry!, 'clear');
     assert.isTrue(element.submitEntryText());
     assert.isFalse(clearStub.called);
 
@@ -363,12 +383,12 @@ suite('gr-account-list tests', () => {
     assert.equal(element.accounts.length, 1);
   });
 
-  test('max-count', () => {
+  test('max-count', async () => {
     element.maxCount = 1;
     const acct = makeAccount();
     handleAdd({account: acct, count: 1});
-    flush();
-    assert.isTrue(element.$.entry.hasAttribute('hidden'));
+    await element.updateComplete;
+    assert.isTrue(element.entry!.hasAttribute('hidden'));
   });
 
   test('enter text calls suggestions provider', async () => {
@@ -391,12 +411,12 @@ suite('gr-account-list tests', () => {
       'makeSuggestionItem'
     );
 
-    const input = element.$.entry.$.input;
+    const input = element.entry!.$.input;
 
     input.text = 'newTest';
     MockInteractions.focus(input.$.input);
     input.noDebounce = true;
-    await flush();
+    await element.updateComplete;
     assert.isTrue(getSuggestionsStub.calledOnce);
     assert.equal(getSuggestionsStub.lastCall.args[0], 'newTest');
     assert.equal(makeSuggestionItemSpy.getCalls().length, 2);
@@ -427,16 +447,16 @@ suite('gr-account-list tests', () => {
 
   suite('keyboard interactions', () => {
     test('backspace at text input start removes last account', async () => {
-      const input = element.$.entry.$.input;
+      const input = element.entry!.$.input;
       sinon.stub(input, '_updateSuggestions');
       sinon.stub(element, '_computeRemovable').returns(true);
-      await flush();
+      await await element.updateComplete;
       // Next line is a workaround for Firefox not moving cursor
       // on input field update
       assert.equal(element._getNativeInput(input.$.input).selectionStart, 0);
       input.text = 'test';
       MockInteractions.focus(input.$.input);
-      flush();
+      await element.updateComplete;
       assert.equal(element.accounts.length, 2);
       MockInteractions.pressAndReleaseKeyOn(
         element._getNativeInput(input.$.input),
@@ -448,17 +468,17 @@ suite('gr-account-list tests', () => {
         element._getNativeInput(input.$.input),
         8
       ); // Backspace
-      flush();
+      await element.updateComplete;
       assert.equal(element.accounts.length, 1);
     });
 
     test('arrow key navigation', async () => {
-      const input = element.$.entry.$.input;
+      const input = element.entry!.$.input;
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];
-      flush();
+      await element.updateComplete;
       MockInteractions.focus(input.$.input);
-      await flush();
+      await await element.updateComplete;
       const chips = element.accountChips;
       const chipsOneSpy = sinon.spy(chips[1], 'focus');
       MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
@@ -472,9 +492,9 @@ suite('gr-account-list tests', () => {
       assert.isTrue(chipsOneSpy.calledTwice);
     });
 
-    test('delete', () => {
+    test('delete', async () => {
       element.accounts = [makeAccount(), makeAccount()];
-      flush();
+      await element.updateComplete;
       const focusSpy = sinon.spy(element.accountChips[1], 'focus');
       const removeSpy = sinon.spy(element, 'removeAccount');
       MockInteractions.pressAndReleaseKeyOn(element.accountChips[0], 8); // Backspace

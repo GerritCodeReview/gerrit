@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "070d0cab_c3375bfd",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-04T11:23:01Z",
+      "side": 1,
+      "message": "this used to be a Polymer property as:\n\n```\n@property({type: Boolean, reflectToAttribute: true})\n  disabled \u003d false;\n```\n\nI replaced with ` @property({reflect: true}) disabled \u003d false;` which was then being rendered as \n\n\u003cgr-reviewer-list disabled\u003d\"false\"\u003e\n\nThis was still matching the css rule `:host[disabled]` so I had to update the host css rule to be\n\n```\n:host([disabled\u003d\u0027true\u0027]) {\n          opacity: 0.8;\n          pointer-events: none;\n        }\n```\n\nLMK if this is the correct approach.",
+      "range": {
+        "startLine": 96,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 9
+      },
+      "revId": "55d579a6a9e9a5502e6db8c2c734444738bb19e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

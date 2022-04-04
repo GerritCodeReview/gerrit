@@ -16,6 +16,24 @@
       "message": "please fix the code-style",
       "revId": "4c9b0decf1f45caaa4b090af9267ecec48914622",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24859396_612b701c",
+        "filename": "java/com/google/gerrit/server/restapi/account/PostWatchedProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-04-04T14:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f18be593_41bd641e",
+      "revId": "4c9b0decf1f45caaa4b090af9267ecec48914622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

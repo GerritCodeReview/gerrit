@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6be5bed_5bc7972e",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-04T15:10:38Z",
+      "side": 1,
+      "message": "Found the answer here and tested myself: https://lit.dev/docs/components/events/#understanding-this-in-event-listeners somehow I remember it was an issue before 😜\n\n`@confirm\u003d${this.handleConfirmTap}` works fine because lit auto binds to the component. I think something like `@confirm\u003d${this.someQueryChild.handleEvent}` would not work right. The playground example above is the usual behavior without lit\u0027s auto binding.\n\nI will adjust this one in my next change",
+      "parentUuid": "2893adcf_d080efae",
+      "revId": "b65df55994e7f998ce4977d53079a61272450635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1c19fb7_61f91401",

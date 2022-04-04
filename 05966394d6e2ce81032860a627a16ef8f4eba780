@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac6c2f7d_b8e7a697",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-04-04T12:39:18Z",
+      "side": 1,
+      "message": "Done\n\nThe submodule bump points to an unmerged commit if 334031 isn\u0027t merged. What is the disadvantage to making this dependency obvious in the commit-message?",
+      "parentUuid": "1fe528d2_a3580437",
+      "revId": "05966394d6e2ce81032860a627a16ef8f4eba780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c402fd99_8aa8c029",
         "filename": "tools/maven/package.bzl",
         "patchSetId": 10
@@ -31,6 +49,30 @@
       "writtenOn": "2022-04-01T15:55:42Z",
       "side": 1,
       "message": "I don\u0027t think we need this on master. Added a comment on the 3.5 change: https://gerrit-review.googlesource.com/c/gerrit/+/332610/comments/98d81967_415c9741",
+      "range": {
+        "startLine": 43,
+        "startChar": 37,
+        "endLine": 43,
+        "endChar": 103
+      },
+      "revId": "05966394d6e2ce81032860a627a16ef8f4eba780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "673a0a74_3854e1e8",
+        "filename": "tools/maven/package.bzl",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-04-04T12:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c402fd99_8aa8c029",
       "range": {
         "startLine": 43,
         "startChar": 37,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79700ae9_2de44206",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-04-04T12:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52c0b21a_8311575a",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 5
+      },
+      "revId": "05966394d6e2ce81032860a627a16ef8f4eba780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fed0f9d_edf7f1ae",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-04-01T15:55:42Z",
       "side": 1,
       "message": "Also should be removed from tools/deps.bzl",
+      "range": {
+        "startLine": 280,
+        "startChar": 16,
+        "endLine": 280,
+        "endChar": 24
+      },
+      "revId": "05966394d6e2ce81032860a627a16ef8f4eba780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ef1596b_17d371b5",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 10
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-04-04T12:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fed0f9d_edf7f1ae",
       "range": {
         "startLine": 280,
         "startChar": 16,

@@ -1184,7 +1184,7 @@ suite('gr-reply-dialog tests', () => {
     // We should be focused on account entry input.
     assert.isTrue(
       isFocusInsideElement(
-        queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.$.input.$
+        queryAndAssert<GrAccountList>(element, '#reviewers').entry!.$.input.$
           .input
       )
     );
@@ -1245,13 +1245,13 @@ suite('gr-reply-dialog tests', () => {
     if (cc) {
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAccountList>(element, '#ccs').$.entry.$.input.$.input
+          queryAndAssert<GrAccountList>(element, '#ccs').entry!.$.input.$.input
         )
       );
     } else {
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.$.input.$
+          queryAndAssert<GrAccountList>(element, '#reviewers').entry!.$.input.$
             .input
         )
       );
@@ -1709,8 +1709,7 @@ suite('gr-reply-dialog tests', () => {
     );
 
     assert.isTrue(element._reviewersMutated);
-
-    ccs.$.entry.dispatchEvent(
+    ccs.entry!.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: {account: reviewer1}},
         composed: true,
@@ -1731,7 +1730,7 @@ suite('gr-reply-dialog tests', () => {
         bubbles: true,
       })
     );
-    reviewers.$.entry.dispatchEvent(
+    reviewers.entry!.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: {account: cc1}},
         composed: true,
@@ -1741,14 +1740,14 @@ suite('gr-reply-dialog tests', () => {
 
     // Add to other field without removing from former field.
     // (Currently not possible in UI, but this is a good consistency check).
-    reviewers.$.entry.dispatchEvent(
+    reviewers.entry!.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: {account: cc2}},
         composed: true,
         bubbles: true,
       })
     );
-    ccs.$.entry.dispatchEvent(
+    ccs.entry!.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: {account: reviewer2}},
         composed: true,
@@ -1819,7 +1818,7 @@ suite('gr-reply-dialog tests', () => {
         bubbles: true,
       })
     );
-    ccs.$.entry.dispatchEvent(
+    ccs.entry!.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: {account: reviewer1}},
         composed: true,
@@ -2221,7 +2220,7 @@ suite('gr-reply-dialog tests', () => {
     await flush();
 
     assert.equal(
-      element.getFocusStops().end,
+      element.getFocusStops()!.end,
       queryAndAssert(element, '#cancelButton')
     );
     element.draftCommentThreads = [
@@ -2239,7 +2238,7 @@ suite('gr-reply-dialog tests', () => {
     await flush();
 
     assert.equal(
-      element.getFocusStops().end,
+      element.getFocusStops()!.end,
       queryAndAssert(element, '#sendButton')
     );
   });

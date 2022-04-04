@@ -21,23 +21,38 @@ import {GrTextarea} from './gr-textarea';
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {ItemSelectedEvent} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
+import {waitUntil} from '../../../test/test-utils';
 
 const basicFixture = fixtureFromElement('gr-textarea');
 
 const monospaceFixture = fixtureFromTemplate(html`
-  <gr-textarea monospace="true"></gr-textarea>
+  <gr-textarea monospace></gr-textarea>
 `);
 
 const hideBorderFixture = fixtureFromTemplate(html`
-  <gr-textarea hide-border="true"></gr-textarea>
+  <gr-textarea hide-border></gr-textarea>
 `);
 
 suite('gr-textarea tests', () => {
   let element: GrTextarea;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
     sinon.stub(element.reporting, 'reportInteraction');
+    await element.updateComplete;
+  });
+
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `<div id="hiddenText"></div>
+      <span id="caratSpan"></span>
+      <gr-autocomplete-dropdown
+        id="emojiSuggestions"
+        is-hidden=""
+      ></gr-autocomplete-dropdown>
+      <iron-autogrow-textarea
+        aria-disabled="false"
+        id="textarea"
+      ></iron-autogrow-textarea>`);
   });
 
   test('monospace is set properly', () => {
@@ -45,91 +60,103 @@ suite('gr-textarea tests', () => {
   });
 
   test('hideBorder is set properly', () => {
-    assert.isFalse(element.$.textarea.classList.contains('noBorder'));
+    assert.isFalse(element.textarea!.classList.contains('noBorder'));
   });
 
-  test('emoji selector is not open with the textarea lacks focus', () => {
-    element.$.textarea.selectionStart = 1;
-    element.$.textarea.selectionEnd = 1;
+  test('emoji selector is not open with the textarea lacks focus', async () => {
+    element.textarea!.selectionStart = 1;
+    element.textarea!.selectionEnd = 1;
     element.text = ':';
-    assert.isFalse(!element.$.emojiSuggestions.isHidden);
+    await element.updateComplete;
+    assert.isFalse(!element.emojiSuggestions!.isHidden);
   });
 
-  test('emoji selector is not open when a general text is entered', () => {
-    MockInteractions.focus(element.$.textarea);
-    element.$.textarea.selectionStart = 9;
-    element.$.textarea.selectionEnd = 9;
+  test('emoji selector is not open when a general text is entered', async () => {
+    MockInteractions.focus(element.textarea!);
+    await waitUntil(() => element.textarea!.focused === true);
+    element.textarea!.selectionStart = 9;
+    element.textarea!.selectionEnd = 9;
     element.text = 'some text';
-    assert.isFalse(!element.$.emojiSuggestions.isHidden);
+    await element.updateComplete;
+    assert.isFalse(!element.emojiSuggestions!.isHidden);
   });
 
-  test('emoji selector opens when a colon is typed & the textarea has focus', () => {
-    MockInteractions.focus(element.$.textarea);
+  test('emoji selector is open when a colon is typed & the textarea has focus', async () => {
     // Needed for Safari tests. selectionStart is not updated when text is
     // updated.
-    element.$.textarea.selectionStart = 1;
-    element.$.textarea.selectionEnd = 1;
+    const listenerStub = sinon.stub();
+    element.addEventListener('bind-value-changed', listenerStub);
+    MockInteractions.focus(element.textarea!);
+    await waitUntil(() => element.textarea!.focused === true);
+    element.textarea!.selectionStart = 1;
+    element.textarea!.selectionEnd = 1;
     element.text = ':';
-    flush();
-    assert.isFalse(element.$.emojiSuggestions.isHidden);
+    await element.updateComplete;
+    assert.equal(listenerStub.lastCall.args[0].detail.value, ':');
+    assert.isTrue(element.textarea!.focused);
+    assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element._colonIndex, 0);
     assert.isFalse(element._hideEmojiAutocomplete);
     assert.equal(element._currentSearchString, '');
   });
 
-  test('emoji selector opens when a colon is typed after space', () => {
-    MockInteractions.focus(element.$.textarea);
+  test('emoji selector opens when a colon is typed after space', async () => {
+    MockInteractions.focus(element.textarea!);
+    await waitUntil(() => element.textarea!.focused === true);
     // Needed for Safari tests. selectionStart is not updated when text is
     // updated.
-    element.$.textarea.selectionStart = 2;
-    element.$.textarea.selectionEnd = 2;
+    element.textarea!.selectionStart = 2;
+    element.textarea!.selectionEnd = 2;
     element.text = ' :';
-    flush();
-    assert.isFalse(element.$.emojiSuggestions.isHidden);
+    await element.updateComplete;
+    assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element._colonIndex, 1);
     assert.isFalse(element._hideEmojiAutocomplete);
     assert.equal(element._currentSearchString, '');
   });
 
-  test('emoji selector doesn`t open when a colon is typed after character', () => {
-    MockInteractions.focus(element.$.textarea);
+  test('emoji selector doesn`t open when a colon is typed after character', async () => {
+    MockInteractions.focus(element.textarea!);
+    await waitUntil(() => element.textarea!.focused === true);
     // Needed for Safari tests. selectionStart is not updated when text is
     // updated.
-    element.$.textarea.selectionStart = 5;
-    element.$.textarea.selectionEnd = 5;
+    element.textarea!.selectionStart = 5;
+    element.textarea!.selectionEnd = 5;
     element.text = 'test:';
-    flush();
-    assert.isTrue(element.$.emojiSuggestions.isHidden);
+    await element.updateComplete;
+    assert.isTrue(element.emojiSuggestions!.isHidden);
     assert.isTrue(element._hideEmojiAutocomplete);
   });
 
-  test('emoji selector opens when a colon is typed and some substring', () => {
-    MockInteractions.focus(element.$.textarea);
+  test('emoji selector opens when a colon is typed and some substring', async () => {
+    MockInteractions.focus(element.textarea!);
+    await waitUntil(() => element.textarea!.focused === true);
     // Needed for Safari tests. selectionStart is not updated when text is
     // updated.
-    element.$.textarea.selectionStart = 1;
-    element.$.textarea.selectionEnd = 1;
+    element.textarea!.selectionStart = 1;
+    element.textarea!.selectionEnd = 1;
     element.text = ':';
-    element.$.textarea.selectionStart = 2;
-    element.$.textarea.selectionEnd = 2;
+    await element.updateComplete;
+    element.textarea!.selectionStart = 2;
+    element.textarea!.selectionEnd = 2;
     element.text = ':t';
-    flush();
-    assert.isFalse(element.$.emojiSuggestions.isHidden);
+    await element.updateComplete;
+    assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element._colonIndex, 0);
     assert.isFalse(element._hideEmojiAutocomplete);
     assert.equal(element._currentSearchString, 't');
   });
 
-  test('emoji selector opens when a colon is typed in middle of text', () => {
-    MockInteractions.focus(element.$.textarea);
+  test('emoji selector opens when a colon is typed in middle of text', async () => {
+    MockInteractions.focus(element.textarea!);
     // Needed for Safari tests. selectionStart is not updated when text is
     // updated.
-    element.$.textarea.selectionStart = 1;
-    element.$.textarea.selectionEnd = 1;
+    element.textarea!.selectionStart = 1;
+    element.textarea!.selectionEnd = 1;
     // Since selectionStart is on Chrome set always on end of text, we
     // stub it to 1
     const text = ': hello';
-    sinon.stub(element.$, 'textarea').value({
+    sinon.stub(element, 'textarea').value({
       selectionStart: 1,
       value: text,
       textarea: {
@@ -137,41 +164,47 @@ suite('gr-textarea tests', () => {
       },
     });
     element.text = text;
-    flush();
-    assert.isFalse(element.$.emojiSuggestions.isHidden);
+    await element.updateComplete;
+    assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element._colonIndex, 0);
     assert.isFalse(element._hideEmojiAutocomplete);
     assert.equal(element._currentSearchString, '');
   });
-  test('emoji selector closes when text changes before the colon', () => {
+
+  test('emoji selector closes when text changes before the colon', async () => {
     const resetStub = sinon.stub(element, '_resetEmojiDropdown');
-    MockInteractions.focus(element.$.textarea);
-    flush();
-    element.$.textarea.selectionStart = 10;
-    element.$.textarea.selectionEnd = 10;
+    MockInteractions.focus(element.textarea!);
+    await waitUntil(() => element.textarea!.focused === true);
+    await element.updateComplete;
+    element.textarea!.selectionStart = 10;
+    element.textarea!.selectionEnd = 10;
     element.text = 'test test ';
-    element.$.textarea.selectionStart = 12;
-    element.$.textarea.selectionEnd = 12;
+    await element.updateComplete;
+    element.textarea!.selectionStart = 12;
+    element.textarea!.selectionEnd = 12;
     element.text = 'test test :';
-    element.$.textarea.selectionStart = 15;
-    element.$.textarea.selectionEnd = 15;
+    await element.updateComplete;
+    element.textarea!.selectionStart = 15;
+    element.textarea!.selectionEnd = 15;
     element.text = 'test test :smi';
+    await element.updateComplete;
 
     assert.equal(element._currentSearchString, 'smi');
     assert.isFalse(resetStub.called);
     element.text = 'test test test :smi';
+    await element.updateComplete;
     assert.isTrue(resetStub.called);
   });
 
-  test('_resetEmojiDropdown', () => {
+  test('_resetEmojiDropdown', async () => {
     const closeSpy = sinon.spy(element, 'closeDropdown');
     element._resetEmojiDropdown();
     assert.equal(element._currentSearchString, '');
     assert.isTrue(element._hideEmojiAutocomplete);
     assert.equal(element._colonIndex, null);
 
-    element.$.emojiSuggestions.open();
-    flush();
+    element.emojiSuggestions!.open();
+    await element.updateComplete;
     element._resetEmojiDropdown();
     assert.isTrue(closeSpy.called);
   });
@@ -210,8 +243,8 @@ suite('gr-textarea tests', () => {
   });
 
   test('_handleEmojiSelect', () => {
-    element.$.textarea.selectionStart = 16;
-    element.$.textarea.selectionEnd = 16;
+    element.textarea!.selectionStart = 16;
+    element.textarea!.selectionEnd = 16;
     element.text = 'test test :tears';
     element._colonIndex = 10;
     const selectedItem = {dataset: {value: '😂'}} as unknown as HTMLElement;
@@ -223,29 +256,29 @@ suite('gr-textarea tests', () => {
   });
 
   test('_updateCaratPosition', () => {
-    element.$.textarea.selectionStart = 4;
-    element.$.textarea.selectionEnd = 4;
+    element.textarea!.selectionStart = 4;
+    element.textarea!.selectionEnd = 4;
     element.text = 'test';
     element._updateCaratPosition();
     assert.deepEqual(
-      element.$.hiddenText.innerHTML,
-      element.text + element.$.caratSpan.outerHTML
+      element.hiddenText!.innerHTML,
+      element.text + element.caratSpan!.outerHTML
     );
   });
 
   test('newline receives matching indentation', async () => {
     const indentCommand = sinon.stub(document, 'execCommand');
-    element.$.textarea.value = '    a';
+    element.textarea!.value = '    a';
     element._handleEnterByKey(
       new KeyboardEvent('keydown', {key: 'Enter', keyCode: 13})
     );
-    await flush();
+    await element.updateComplete;
     assert.deepEqual(indentCommand.args[0], ['insertText', false, '\n    ']);
   });
 
   test('emoji dropdown is closed when iron-overlay-closed is fired', () => {
     const resetSpy = sinon.spy(element, '_resetEmojiDropdown');
-    element.$.emojiSuggestions.dispatchEvent(
+    element.emojiSuggestions!.dispatchEvent(
       new CustomEvent('dropdown-closed', {
         composed: true,
         bubbles: true,
@@ -264,50 +297,50 @@ suite('gr-textarea tests', () => {
     assert.isTrue(listenerStub.called);
   });
 
-  suite('keyboard shortcuts', () => {
-    function setupDropdown() {
-      MockInteractions.focus(element.$.textarea);
-      element.$.textarea.selectionStart = 1;
-      element.$.textarea.selectionEnd = 1;
+  suite('keyboard shortcuts', async () => {
+    async function setupDropdown() {
+      MockInteractions.focus(element.textarea!);
+      element.textarea!.selectionStart = 1;
+      element.textarea!.selectionEnd = 1;
       element.text = ':';
-      element.$.textarea.selectionStart = 1;
-      element.$.textarea.selectionEnd = 2;
+      element.textarea!.selectionStart = 1;
+      element.textarea!.selectionEnd = 2;
       element.text = ':1';
-      flush();
+      await element.updateComplete;
     }
 
-    test('escape key', () => {
+    test('escape key', async () => {
       const resetSpy = sinon.spy(element, '_resetEmojiDropdown');
       MockInteractions.pressAndReleaseKeyOn(
-        element.$.textarea,
+        element.textarea!,
         27,
         null,
         'Escape'
       );
       assert.isFalse(resetSpy.called);
-      setupDropdown();
+      await setupDropdown();
       MockInteractions.pressAndReleaseKeyOn(
-        element.$.textarea,
+        element.textarea!,
         27,
         null,
         'Escape'
       );
       assert.isTrue(resetSpy.called);
-      assert.isFalse(!element.$.emojiSuggestions.isHidden);
+      assert.isFalse(!element.emojiSuggestions!.isHidden);
     });
 
-    test('up key', () => {
-      const upSpy = sinon.spy(element.$.emojiSuggestions, 'cursorUp');
+    test('up key', async () => {
+      const upSpy = sinon.spy(element.emojiSuggestions!, 'cursorUp');
       MockInteractions.pressAndReleaseKeyOn(
-        element.$.textarea,
+        element.textarea!,
         38,
         null,
         'ArrowUp'
       );
       assert.isFalse(upSpy.called);
-      setupDropdown();
+      await setupDropdown();
       MockInteractions.pressAndReleaseKeyOn(
-        element.$.textarea,
+        element.textarea!,
         38,
         null,
         'ArrowUp'
@@ -315,18 +348,18 @@ suite('gr-textarea tests', () => {
       assert.isTrue(upSpy.called);
     });
 
-    test('down key', () => {
-      const downSpy = sinon.spy(element.$.emojiSuggestions, 'cursorDown');
+    test('down key', async () => {
+      const downSpy = sinon.spy(element.emojiSuggestions!, 'cursorDown');
       MockInteractions.pressAndReleaseKeyOn(
-        element.$.textarea,
+        element.textarea!,
         40,
         null,
         'ArrowDown'
       );
       assert.isFalse(downSpy.called);
-      setupDropdown();
+      await setupDropdown();
       MockInteractions.pressAndReleaseKeyOn(
-        element.$.textarea,
+        element.textarea!,
         40,
         null,
         'ArrowDown'
@@ -334,37 +367,37 @@ suite('gr-textarea tests', () => {
       assert.isTrue(downSpy.called);
     });
 
-    test('enter key', () => {
-      const enterSpy = sinon.spy(element.$.emojiSuggestions, 'getCursorTarget');
+    test('enter key', async () => {
+      const enterSpy = sinon.spy(element.emojiSuggestions!, 'getCursorTarget');
       MockInteractions.pressAndReleaseKeyOn(
-        element.$.textarea,
+        element.textarea!,
         13,
         null,
         'Enter'
       );
       assert.isFalse(enterSpy.called);
-      setupDropdown();
+      await setupDropdown();
       MockInteractions.pressAndReleaseKeyOn(
-        element.$.textarea,
+        element.textarea!,
         13,
         null,
         'Enter'
       );
       assert.isTrue(enterSpy.called);
-      flush();
+      await element.updateComplete;
       assert.equal(element.text, '💯');
     });
 
-    test('enter key - ignored on just colon without more information', () => {
-      const enterSpy = sinon.spy(element.$.emojiSuggestions, 'getCursorTarget');
-      MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
+    test('enter key - ignored on just colon without more information', async () => {
+      const enterSpy = sinon.spy(element.emojiSuggestions!, 'getCursorTarget');
+      MockInteractions.pressAndReleaseKeyOn(element.textarea!, 13);
       assert.isFalse(enterSpy.called);
-      MockInteractions.focus(element.$.textarea);
-      element.$.textarea.selectionStart = 1;
-      element.$.textarea.selectionEnd = 1;
+      MockInteractions.focus(element.textarea!);
+      element.textarea!.selectionStart = 1;
+      element.textarea!.selectionEnd = 1;
       element.text = ':';
-      flush();
-      MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
+      await element.updateComplete;
+      MockInteractions.pressAndReleaseKeyOn(element.textarea!, 13);
       assert.isFalse(enterSpy.called);
     });
   });
@@ -378,8 +411,9 @@ suite('gr-textarea tests', () => {
 
     let element: GrTextarea;
 
-    setup(() => {
+    setup(async () => {
       element = monospaceFixture.instantiate() as GrTextarea;
+      await element.updateComplete;
     });
 
     test('monospace is set properly', () => {
@@ -396,12 +430,13 @@ suite('gr-textarea tests', () => {
 
     let element: GrTextarea;
 
-    setup(() => {
+    setup(async () => {
       element = hideBorderFixture.instantiate() as GrTextarea;
+      await element.updateComplete;
     });
 
     test('hideBorder is set properly', () => {
-      assert.isTrue(element.$.textarea.classList.contains('noBorder'));
+      assert.isTrue(element.textarea!.classList.contains('noBorder'));
     });
   });
 });

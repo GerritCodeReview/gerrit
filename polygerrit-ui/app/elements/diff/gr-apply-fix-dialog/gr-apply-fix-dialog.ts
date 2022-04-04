@@ -41,6 +41,7 @@ import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
+import {css, html} from 'lit';
 
 export interface GrApplyFixDialog {
   $: {
@@ -112,6 +113,90 @@ export class GrApplyFixDialog extends PolymerElement {
         this.layers = [new TokenHighlightLayer(this)];
       }
     });
+  }
+
+  static styles = [
+    css`
+      gr-diff {
+        --content-width: 90vw;
+      }
+      .diffContainer {
+        padding: var(--spacing-l) 0;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .file-name {
+        display: block;
+        padding: var(--spacing-s) var(--spacing-l);
+        background-color: var(--background-color-secondary);
+        border-bottom: 1px solid var(--border-color);
+      }
+      gr-button {
+        margin-left: var(--spacing-m);
+      }
+      .fix-picker {
+        display: flex;
+        align-items: center;
+        margin-right: var(--spacing-l);
+      }
+    `,
+  ];
+
+  render() {
+    return html`
+      <gr-overlay id="applyFixOverlay" with-backdrop="">
+        <gr-dialog
+          id="applyFixDialog"
+          on-confirm="_handleApplyFix"
+          confirm-label="[[_getApplyFixButtonLabel(_isApplyFixLoading)]]"
+          disabled="[[_disableApplyFixButton]]"
+          confirm-tooltip="[[_computeTooltip(change, _patchNum)]]"
+          on-cancel="onCancel"
+        >
+          <div slot="header">
+            [[_robotId]] - [[getFixDescription(_currentFix)]]
+          </div>
+          <div slot="main">
+            <template is="dom-repeat" items="[[_currentPreviews]]">
+              <div class="file-name">
+                <span>[[item.filepath]]</span>
+              </div>
+              <div class="diffContainer">
+                <gr-diff
+                  prefs="[[overridePartialPrefs(prefs)]]"
+                  path="[[item.filepath]]"
+                  diff="[[item.preview]]"
+                  layers="[[layers]]"
+                ></gr-diff>
+              </div>
+            </template>
+          </div>
+          <div
+            slot="footer"
+            class="fix-picker"
+            hidden$="[[hasSingleFix(_fixSuggestions)]]"
+          >
+            <span
+              >Suggested fix [[addOneTo(_selectedFixIdx)]] of
+              [[_fixSuggestions.length]]</span
+            >
+            <gr-button
+              id="prevFix"
+              on-click="_onPrevFixClick"
+              disabled$="[[_noPrevFix(_selectedFixIdx)]]"
+            >
+              <iron-icon icon="gr-icons:chevron-left"></iron-icon>
+            </gr-button>
+            <gr-button
+              id="nextFix"
+              on-click="_onNextFixClick"
+              disabled$="[[_noNextFix(_selectedFixIdx, _fixSuggestions)]]"
+            >
+              <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+            </gr-button>
+          </div>
+        </gr-dialog>
+      </gr-overlay>
+    `;
   }
 
   /**

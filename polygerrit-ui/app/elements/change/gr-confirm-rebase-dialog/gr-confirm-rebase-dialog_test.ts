@@ -18,95 +18,225 @@
 import '../../../test/common-test-setup-karma';
 import './gr-confirm-rebase-dialog';
 import {GrConfirmRebaseDialog, RebaseChange} from './gr-confirm-rebase-dialog';
-import {stubRestApi} from '../../../test/test-utils';
+import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {NumericChangeId} from '../../../types/common';
 import {createChangeViewChange} from '../../../test/test-data-generators';
-
-const basicFixture = fixtureFromElement('gr-confirm-rebase-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-confirm-rebase-dialog tests', () => {
   let element: GrConfirmRebaseDialog;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture(
+      html`<gr-confirm-rebase-dialog></gr-confirm-rebase-dialog>`
+    );
   });
 
-  test('controls with parent and rebase on current available', () => {
+  test('render', async () => {
+    expect(element).shadowDom.to.equal(/* HTML*/ `
+      <gr-dialog
+        id="confirmDialog"
+        confirm-label="Rebase"
+        role="dialog"
+      >
+        <div class="header" slot="header">Confirm rebase</div>
+        <div class="main" slot="main">
+          <div
+            id="rebaseOnParent"
+            class="rebaseOption"
+            hidden=""
+          >
+            <input id="rebaseOnParentInput" name="rebaseOptions" type="radio" />
+            <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
+              Rebase on parent change
+            </label>
+          </div>
+          <div
+            id="parentUpToDateMsg"
+            class="message"
+            hidden=""
+          >
+            This change is up to date with its parent.
+          </div>
+          <div
+            id="rebaseOnTip"
+            class="rebaseOption"
+            hidden=""
+          >
+            <input
+              disabled=""
+              id="rebaseOnTipInput"
+              name="rebaseOptions"
+              type="radio"
+            />
+            <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
+              Rebase on top of the  branch<span hidden=""
+              >
+                (breaks relation chain)
+              </span>
+            </label>
+          </div>
+          <div
+            id="tipUpToDateMsg"
+            class="message"
+          >
+            Change is up to date with the target branch already ()
+          </div>
+          <div id="rebaseOnOther" class="rebaseOption">
+            <input
+              id="rebaseOnOtherInput"
+              name="rebaseOptions"
+              type="radio"
+            />
+            <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
+              Rebase on a specific change, ref, or commit
+              <span hidden=""> (breaks relation chain) </span>
+            </label>
+          </div>
+          <div class="parentRevisionContainer">
+            <gr-autocomplete
+              id="parentInput"
+              no-debounce=""
+              allow-non-suggested-values
+              placeholder="Change number, ref, or commit hash"
+              text=""
+            >
+            </gr-autocomplete>
+          </div>
+        </div>
+      </gr-dialog>
+    `);
+  });
+
+  test('controls with parent and rebase on current available', async () => {
     element.rebaseOnCurrent = true;
     element.hasParent = true;
-    flush();
-    assert.isTrue(element.$.rebaseOnParentInput.checked);
-    assert.isFalse(element.$.rebaseOnParent.hasAttribute('hidden'));
-    assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));
-    assert.isFalse(element.$.rebaseOnTip.hasAttribute('hidden'));
-    assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
+    await element.updateComplete;
+
+    assert.isTrue(
+      queryAndAssert<HTMLInputElement>(element, '#rebaseOnParentInput').checked
+    );
+    assert.isFalse(
+      queryAndAssert(element, '#rebaseOnParent').hasAttribute('hidden')
+    );
+    assert.isTrue(
+      queryAndAssert(element, '#parentUpToDateMsg').hasAttribute('hidden')
+    );
+    assert.isFalse(
+      queryAndAssert(element, '#rebaseOnTip').hasAttribute('hidden')
+    );
+    assert.isTrue(
+      queryAndAssert(element, '#tipUpToDateMsg').hasAttribute('hidden')
+    );
   });
 
-  test('controls with parent rebase on current not available', () => {
+  test('controls with parent rebase on current not available', async () => {
     element.rebaseOnCurrent = false;
     element.hasParent = true;
-    flush();
-    assert.isTrue(element.$.rebaseOnTipInput.checked);
-    assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
-    assert.isFalse(element.$.parentUpToDateMsg.hasAttribute('hidden'));
-    assert.isFalse(element.$.rebaseOnTip.hasAttribute('hidden'));
-    assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
+    await element.updateComplete;
+
+    assert.isTrue(
+      queryAndAssert<HTMLInputElement>(element, '#rebaseOnTipInput').checked
+    );
+    assert.isTrue(
+      queryAndAssert(element, '#rebaseOnParent').hasAttribute('hidden')
+    );
+    assert.isFalse(
+      queryAndAssert(element, '#parentUpToDateMsg').hasAttribute('hidden')
+    );
+    assert.isFalse(
+      queryAndAssert(element, '#rebaseOnTip').hasAttribute('hidden')
+    );
+    assert.isTrue(
+      queryAndAssert(element, '#tipUpToDateMsg').hasAttribute('hidden')
+    );
   });
 
-  test('controls without parent and rebase on current available', () => {
+  test('controls without parent and rebase on current available', async () => {
     element.rebaseOnCurrent = true;
     element.hasParent = false;
-    flush();
-    assert.isTrue(element.$.rebaseOnTipInput.checked);
-    assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
-    assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));
-    assert.isFalse(element.$.rebaseOnTip.hasAttribute('hidden'));
-    assert.isTrue(element.$.tipUpToDateMsg.hasAttribute('hidden'));
+    await element.updateComplete;
+
+    assert.isTrue(
+      queryAndAssert<HTMLInputElement>(element, '#rebaseOnTipInput').checked
+    );
+    assert.isTrue(
+      queryAndAssert(element, '#rebaseOnParent').hasAttribute('hidden')
+    );
+    assert.isTrue(
+      queryAndAssert(element, '#parentUpToDateMsg').hasAttribute('hidden')
+    );
+    assert.isFalse(
+      queryAndAssert(element, '#rebaseOnTip').hasAttribute('hidden')
+    );
+    assert.isTrue(
+      queryAndAssert(element, '#tipUpToDateMsg').hasAttribute('hidden')
+    );
   });
 
-  test('controls without parent rebase on current not available', () => {
+  test('controls without parent rebase on current not available', async () => {
     element.rebaseOnCurrent = false;
     element.hasParent = false;
-    flush();
-    assert.isTrue(element.$.rebaseOnOtherInput.checked);
-    assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
-    assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));
-    assert.isTrue(element.$.rebaseOnTip.hasAttribute('hidden'));
-    assert.isFalse(element.$.tipUpToDateMsg.hasAttribute('hidden'));
+    await element.updateComplete;
+
+    assert.isTrue(element.rebaseOnOtherInput.checked);
+    assert.isTrue(
+      queryAndAssert(element, '#rebaseOnParent').hasAttribute('hidden')
+    );
+    assert.isTrue(
+      queryAndAssert(element, '#parentUpToDateMsg').hasAttribute('hidden')
+    );
+    assert.isTrue(
+      queryAndAssert(element, '#rebaseOnTip').hasAttribute('hidden')
+    );
+    assert.isFalse(
+      queryAndAssert(element, '#tipUpToDateMsg').hasAttribute('hidden')
+    );
   });
 
-  test('input cleared on cancel or submit', () => {
-    element._text = '123';
-    element.$.confirmDialog.dispatchEvent(
+  test('input cleared on cancel or submit', async () => {
+    element.text = '123';
+    await element.updateComplete;
+    queryAndAssert(element, '#confirmDialog').dispatchEvent(
       new CustomEvent('confirm', {
         composed: true,
         bubbles: true,
       })
     );
-    assert.equal(element._text, '');
+    assert.equal(element.text, '');
 
-    element._text = '123';
-    element.$.confirmDialog.dispatchEvent(
+    element.text = '123';
+    await element.updateComplete;
+
+    queryAndAssert(element, '#confirmDialog').dispatchEvent(
       new CustomEvent('cancel', {
         composed: true,
         bubbles: true,
       })
     );
-    assert.equal(element._text, '');
+    assert.equal(element.text, '');
   });
 
-  test('_getSelectedBase', () => {
-    element._text = '5fab321c';
-    element.$.rebaseOnParentInput.checked = true;
-    assert.equal(element._getSelectedBase(), null);
-    element.$.rebaseOnParentInput.checked = false;
-    element.$.rebaseOnTipInput.checked = true;
-    assert.equal(element._getSelectedBase(), '');
-    element.$.rebaseOnTipInput.checked = false;
-    assert.equal(element._getSelectedBase(), element._text);
-    element._text = '101: Test';
-    assert.equal(element._getSelectedBase(), '101');
+  test('_getSelectedBase', async () => {
+    element.text = '5fab321c';
+    await element.updateComplete;
+
+    queryAndAssert<HTMLInputElement>(element, '#rebaseOnParentInput').checked =
+      true;
+    assert.equal(element.getSelectedBase(), null);
+    queryAndAssert<HTMLInputElement>(element, '#rebaseOnParentInput').checked =
+      false;
+    queryAndAssert<HTMLInputElement>(element, '#rebaseOnTipInput').checked =
+      true;
+    assert.equal(element.getSelectedBase(), '');
+    queryAndAssert<HTMLInputElement>(element, '#rebaseOnTipInput').checked =
+      false;
+    assert.equal(element.getSelectedBase(), element.text);
+    element.text = '101: Test';
+    await element.updateComplete;
+
+    assert.equal(element.getSelectedBase(), '101');
   });
 
   suite('parent suggestions', () => {
@@ -149,46 +279,52 @@ suite('gr-confirm-rebase-dialog tests', () => {
       );
     });
 
-    test('_getRecentChanges', () => {
-      const recentChangesSpy = sinon.spy(element, '_getRecentChanges');
-      return element
-        ._getRecentChanges()
-        .then(() => {
-          assert.deepEqual(element._recentChanges, recentChanges);
-          assert.equal(getChangesStub.callCount, 1);
-          // When called a second time, should not re-request recent changes.
-          element._getRecentChanges();
-        })
-        .then(() => {
-          assert.equal(recentChangesSpy.callCount, 2);
-          assert.equal(getChangesStub.callCount, 1);
-        });
+    test('_getRecentChanges', async () => {
+      const recentChangesSpy = sinon.spy(element, 'getRecentChanges');
+      await element.getRecentChanges();
+      await element.updateComplete;
+
+      assert.deepEqual(element.recentChanges, recentChanges);
+      assert.equal(getChangesStub.callCount, 1);
+
+      // When called a second time, should not re-request recent changes.
+      await element.getRecentChanges();
+      await element.updateComplete;
+
+      assert.equal(recentChangesSpy.callCount, 2);
+      assert.equal(getChangesStub.callCount, 1);
     });
 
-    test('_filterChanges', () => {
-      assert.equal(element._filterChanges('123', recentChanges).length, 1);
-      assert.equal(element._filterChanges('12', recentChanges).length, 2);
-      assert.equal(element._filterChanges('awesome', recentChanges).length, 3);
-      assert.equal(element._filterChanges('third', recentChanges).length, 1);
+    test('_filterChanges', async () => {
+      assert.equal(element.filterChanges('123', recentChanges).length, 1);
+      assert.equal(element.filterChanges('12', recentChanges).length, 2);
+      assert.equal(element.filterChanges('awesome', recentChanges).length, 3);
+      assert.equal(element.filterChanges('third', recentChanges).length, 1);
 
       element.changeNumber = 123 as NumericChangeId;
-      assert.equal(element._filterChanges('123', recentChanges).length, 0);
-      assert.equal(element._filterChanges('124', recentChanges).length, 1);
-      assert.equal(element._filterChanges('awesome', recentChanges).length, 2);
+      await element.updateComplete;
+
+      assert.equal(element.filterChanges('123', recentChanges).length, 0);
+      assert.equal(element.filterChanges('124', recentChanges).length, 1);
+      assert.equal(element.filterChanges('awesome', recentChanges).length, 2);
     });
 
-    test('input text change triggers function', () => {
-      const recentChangesSpy = sinon.spy(element, '_getRecentChanges');
-      element.$.parentInput.noDebounce = true;
+    test('input text change triggers function', async () => {
+      const recentChangesSpy = sinon.spy(element, 'getRecentChanges');
+      element.parentInput.noDebounce = true;
       MockInteractions.pressAndReleaseKeyOn(
-        element.$.parentInput.$.input,
+        queryAndAssert(queryAndAssert(element, '#parentInput'), '#input'),
         13,
         null,
         'enter'
       );
-      element._text = '1';
+      element.text = '1';
+      await element.updateComplete;
+
       assert.isTrue(recentChangesSpy.calledOnce);
-      element._text = '12';
+      element.text = '12';
+      await element.updateComplete;
+
       assert.isTrue(recentChangesSpy.calledTwice);
     });
   });

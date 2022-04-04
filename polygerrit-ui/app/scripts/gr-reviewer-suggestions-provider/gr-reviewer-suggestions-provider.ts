@@ -25,10 +25,10 @@ import {
   isReviewerGroupSuggestion,
   NumericChangeId,
   ServerInfo,
-  SuggestedReviewerInfo,
   Suggestion,
 } from '../../types/common';
 import {assertNever} from '../../utils/common-util';
+import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-autocomplete';
 
 // TODO(TS): enum name doesn't follow typescript style guid rules
 // Rename it
@@ -44,15 +44,10 @@ export function isAccountSuggestions(s: Suggestion): s is AccountInfo {
 
 type ApiCallCallback = (input: string) => Promise<Suggestion[] | void>;
 
-export interface SuggestionItem {
-  name: string;
-  value: SuggestedReviewerInfo;
-}
-
 export interface ReviewerSuggestionsProvider {
   init(): void;
   getSuggestions(input: string): Promise<Suggestion[]>;
-  makeSuggestionItem(suggestion: Suggestion): SuggestionItem;
+  makeSuggestionItem(suggestion: Suggestion): AutocompleteSuggestion;
 }
 
 export class GrReviewerSuggestionsProvider
@@ -120,12 +115,15 @@ export class GrReviewerSuggestionsProvider
     return this._apiCall(input).then(reviewers => reviewers || []);
   }
 
-  makeSuggestionItem(suggestion: Suggestion): SuggestionItem {
+  // this can be retyped to AutocompleteSuggestion<SuggestedReviewerInfo> but
+  // this would need to change generics of gr-autocomplete.
+  makeSuggestionItem(suggestion: Suggestion): AutocompleteSuggestion {
     if (isReviewerAccountSuggestion(suggestion)) {
       // Reviewer is an account suggestion from getChangeSuggestedReviewers.
       return {
         name: getAccountDisplayName(this.config, suggestion.account),
-        value: suggestion,
+        // TODO(TS) this is temporary hack to avoid cascade of ts issues
+        value: suggestion as unknown as string,
       };
     }
 
@@ -133,7 +131,8 @@ export class GrReviewerSuggestionsProvider
       // Reviewer is a group suggestion from getChangeSuggestedReviewers.
       return {
         name: getGroupDisplayName(suggestion.group),
-        value: suggestion,
+        // TODO(TS) this is temporary hack to avoid cascade of ts issues
+        value: suggestion as unknown as string,
       };
     }
 
@@ -141,7 +140,8 @@ export class GrReviewerSuggestionsProvider
       // Reviewer is an account suggestion from getSuggestedAccounts.
       return {
         name: getAccountDisplayName(this.config, suggestion),
-        value: {account: suggestion, count: 1},
+        // TODO(TS) this is temporary hack to avoid cascade of ts issues
+        value: {account: suggestion, count: 1} as unknown as string,
       };
     }
     assertNever(suggestion, 'Received an incorrect suggestion');

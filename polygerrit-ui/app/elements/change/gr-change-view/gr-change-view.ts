@@ -2555,8 +2555,9 @@ export class GrChangeView extends base {
 
   _resetReplyOverlayFocusStops() {
     const dialog = query<GrReplyDialog>(this, '#replyDialog');
-    if (!dialog) return;
-    this.$.replyOverlay.setFocusStops(dialog.getFocusStops());
+    const focusStops = dialog?.getFocusStops();
+    if (!focusStops) return;
+    this.$.replyOverlay.setFocusStops(focusStops);
   }
 
   _handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {

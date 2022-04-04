@@ -14,20 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-autocomplete/gr-autocomplete';
-import '../../shared/gr-dialog/gr-dialog';
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-confirm-rebase-dialog_html';
-import {customElement, property, observe} from '@polymer/decorators';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
 import {NumericChangeId, BranchName} from '../../../types/common';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-autocomplete/gr-autocomplete';
 import {
   GrAutocomplete,
   AutocompleteQuery,
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
-import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
+import {sharedStyles} from '../../../styles/shared-styles';
 
 export interface RebaseChange {
   name: string;
@@ -38,26 +36,8 @@ export interface ConfirmRebaseEventDetail {
   base: string | null;
 }
 
-export interface GrConfirmRebaseDialog {
-  $: {
-    confirmDialog: GrDialog;
-    parentInput: GrAutocomplete;
-    parentUpToDateMsg: HTMLDivElement;
-    rebaseOnParent: HTMLDivElement;
-    rebaseOnParentInput: HTMLInputElement;
-    rebaseOnOtherInput: HTMLInputElement;
-    rebaseOnTip: HTMLDivElement;
-    rebaseOnTipInput: HTMLInputElement;
-    tipUpToDateMsg: HTMLDivElement;
-  };
-}
-
 @customElement('gr-confirm-rebase-dialog')
-export class GrConfirmRebaseDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrConfirmRebaseDialog extends LitElement {
   /**
    * Fired when the confirm button is pressed.
    *
@@ -82,20 +62,154 @@ export class GrConfirmRebaseDialog extends PolymerElement {
   @property({type: Boolean})
   rebaseOnCurrent?: boolean;
 
-  @property({type: String})
-  _text = '';
+  @state()
+  text = '';
 
-  @property({type: Object})
-  _query: AutocompleteQuery = () => Promise.resolve([]);
+  @state()
+  private query: AutocompleteQuery;
 
-  @property({type: Array})
-  _recentChanges?: RebaseChange[];
+  @state()
+  recentChanges?: RebaseChange[];
+
+  @query('#rebaseOnParentInput')
+  private rebaseOnParentInput!: HTMLInputElement;
+
+  @query('#rebaseOnTipInput')
+  private rebaseOnTipInput!: HTMLInputElement;
+
+  @query('#rebaseOnOtherInput')
+  rebaseOnOtherInput!: HTMLInputElement;
+
+  @query('#parentInput')
+  parentInput!: GrAutocomplete;
 
   private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();
-    this._query = input => this._getChangeSuggestions(input);
+    this.query = input => this.getChangeSuggestions(input);
+  }
+
+  override willUpdate(changedProperties: PropertyValues): void {
+    if (
+      changedProperties.has('rebaseOnCurrent') ||
+      changedProperties.has('hasParent')
+    ) {
+      this.updateSelectedOption();
+    }
+  }
+
+  static override styles = [
+    sharedStyles,
+    css`
+      :host {
+        display: block;
+        width: 30em;
+      }
+      :host([disabled]) {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      label {
+        cursor: pointer;
+      }
+      .message {
+        font-style: italic;
+      }
+      .parentRevisionContainer label,
+      .parentRevisionContainer input[type='text'] {
+        display: block;
+        width: 100%;
+      }
+      .parentRevisionContainer label {
+        margin-bottom: var(--spacing-xs);
+      }
+      .rebaseOption {
+        margin: var(--spacing-m) 0;
+      }
+    `,
+  ];
+
+  override render() {
+    return html`
+      <gr-dialog
+        id="confirmDialog"
+        confirm-label="Rebase"
+        @confirm=${this.handleConfirmTap}
+        @cancel=${this.handleCancelTap}
+      >
+        <div class="header" slot="header">Confirm rebase</div>
+        <div class="main" slot="main">
+          <div
+            id="rebaseOnParent"
+            class="rebaseOption"
+            ?hidden=${!this.displayParentOption()}
+          >
+            <input id="rebaseOnParentInput" name="rebaseOptions" type="radio" />
+            <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
+              Rebase on parent change
+            </label>
+          </div>
+          <div
+            id="parentUpToDateMsg"
+            class="message"
+            ?hidden=${!this.displayParentUpToDateMsg()}
+          >
+            This change is up to date with its parent.
+          </div>
+          <div
+            id="rebaseOnTip"
+            class="rebaseOption"
+            ?hidden=${!this.displayTipOption()}
+          >
+            <input
+              id="rebaseOnTipInput"
+              name="rebaseOptions"
+              type="radio"
+              ?disabled=${!this.displayTipOption()}
+            />
+            <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
+              Rebase on top of the ${this.branch} branch<span
+                ?hidden=${!this.hasParent}
+              >
+                (breaks relation chain)
+              </span>
+            </label>
+          </div>
+          <div
+            id="tipUpToDateMsg"
+            class="message"
+            ?hidden=${this.displayTipOption()}
+          >
+            Change is up to date with the target branch already (${this.branch})
+          </div>
+          <div id="rebaseOnOther" class="rebaseOption">
+            <input
+              id="rebaseOnOtherInput"
+              name="rebaseOptions"
+              type="radio"
+              @click=${this.handleRebaseOnOther}
+            />
+            <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
+              Rebase on a specific change, ref, or commit
+              <span ?hidden=${!this.hasParent}> (breaks relation chain) </span>
+            </label>
+          </div>
+          <div class="parentRevisionContainer">
+            <gr-autocomplete
+              id="parentInput"
+              .query=${this.query}
+              no-debounce
+              text=${this.text}
+              @click=${this.handleEnterChangeNumberClick}
+              allow-non-suggested-values
+              placeholder="Change number, ref, or commit hash"
+            >
+            </gr-autocomplete>
+          </div>
+        </div>
+      </gr-dialog>
+    `;
   }
 
   // This is called by gr-change-actions every time the rebase dialog is
@@ -116,25 +230,25 @@ export class GrConfirmRebaseDialog extends PolymerElement {
             value: change._number,
           });
         }
-        this._recentChanges = changes;
-        return this._recentChanges;
+        this.recentChanges = changes;
+        return this.recentChanges;
       });
   }
 
-  _getRecentChanges() {
-    if (this._recentChanges) {
-      return Promise.resolve(this._recentChanges);
+  getRecentChanges() {
+    if (this.recentChanges) {
+      return Promise.resolve(this.recentChanges);
     }
     return this.fetchRecentChanges();
   }
 
-  _getChangeSuggestions(input: string) {
-    return this._getRecentChanges().then(changes =>
-      this._filterChanges(input, changes)
+  private getChangeSuggestions(input: string) {
+    return this.getRecentChanges().then(changes =>
+      this.filterChanges(input, changes)
     );
   }
 
-  _filterChanges(
+  filterChanges(
     input: string,
     changes: RebaseChange[]
   ): AutocompleteSuggestion[] {
@@ -152,16 +266,16 @@ export class GrConfirmRebaseDialog extends PolymerElement {
       );
   }
 
-  _displayParentOption(rebaseOnCurrent?: boolean, hasParent?: boolean) {
-    return hasParent && rebaseOnCurrent;
+  private displayParentOption() {
+    return this.hasParent && this.rebaseOnCurrent;
   }
 
-  _displayParentUpToDateMsg(rebaseOnCurrent?: boolean, hasParent?: boolean) {
-    return hasParent && !rebaseOnCurrent;
+  private displayParentUpToDateMsg() {
+    return this.hasParent && !this.rebaseOnCurrent;
   }
 
-  _displayTipOption(rebaseOnCurrent?: boolean, hasParent?: boolean) {
-    return !(!rebaseOnCurrent && !hasParent);
+  private displayTipOption() {
+    return this.rebaseOnCurrent || this.hasParent;
   }
 
   /**
@@ -171,63 +285,62 @@ export class GrConfirmRebaseDialog extends PolymerElement {
    * rebased on top of the target branch. Leaving out the base implies that it
    * should be rebased on top of its current parent.
    */
-  _getSelectedBase() {
-    if (this.$.rebaseOnParentInput.checked) {
+  getSelectedBase() {
+    if (this.rebaseOnParentInput.checked) {
       return null;
     }
-    if (this.$.rebaseOnTipInput.checked) {
+    if (this.rebaseOnTipInput.checked) {
       return '';
     }
-    if (!this._text) {
+    if (!this.text) {
       return '';
     }
     // Change numbers will have their description appended by the
     // autocomplete.
-    return this._text.split(':')[0];
+    return this.text.split(':')[0];
   }
 
-  _handleConfirmTap(e: Event) {
+  private handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     const detail: ConfirmRebaseEventDetail = {
-      base: this._getSelectedBase(),
+      base: this.getSelectedBase(),
     };
     this.dispatchEvent(new CustomEvent('confirm', {detail}));
-    this._text = '';
+    this.text = '';
   }
 
-  _handleCancelTap(e: Event) {
+  private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('cancel'));
-    this._text = '';
+    this.text = '';
   }
 
-  _handleRebaseOnOther() {
-    this.$.parentInput.focus();
+  private handleRebaseOnOther() {
+    this.parentInput.focus();
   }
 
-  _handleEnterChangeNumberClick() {
-    this.$.rebaseOnOtherInput.checked = true;
+  private handleEnterChangeNumberClick() {
+    this.rebaseOnOtherInput.checked = true;
   }
 
   /**
    * Sets the default radio button based on the state of the app and
    * the corresponding value to be submitted.
    */
-  @observe('rebaseOnCurrent', 'hasParent')
-  _updateSelectedOption(rebaseOnCurrent?: boolean, hasParent?: boolean) {
-    // Polymer 2: check for undefined
+  private updateSelectedOption() {
+    const {rebaseOnCurrent, hasParent} = this;
     if (rebaseOnCurrent === undefined || hasParent === undefined) {
       return;
     }
 
-    if (this._displayParentOption(rebaseOnCurrent, hasParent)) {
-      this.$.rebaseOnParentInput.checked = true;
-    } else if (this._displayTipOption(rebaseOnCurrent, hasParent)) {
-      this.$.rebaseOnTipInput.checked = true;
+    if (this.displayParentOption()) {
+      this.rebaseOnParentInput.checked = true;
+    } else if (this.displayTipOption()) {
+      this.rebaseOnTipInput.checked = true;
     } else {
-      this.$.rebaseOnOtherInput.checked = true;
+      this.rebaseOnOtherInput.checked = true;
     }
   }
 }

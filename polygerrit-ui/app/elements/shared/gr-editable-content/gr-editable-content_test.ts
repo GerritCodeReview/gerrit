@@ -27,17 +27,28 @@ const basicFixture = fixtureFromElement('gr-editable-content');
 suite('gr-editable-content tests', () => {
   let element: GrEditableContent;
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
+    await element.updateComplete;
   });
 
-  test('save event', () => {
+  test('save event', async () => {
     element.content = '';
-    element._newContent = 'foo';
+
+    // Needed because contentChanged resets newContent
+    await element.updateComplete;
+
+    element.newContent = 'foo';
+    element.disabled = false;
     const handler = sinon.spy();
     element.addEventListener('editable-content-save', handler);
 
-    MockInteractions.tap(queryAndAssert(element, 'gr-button[primary]'));
+    await element.updateComplete;
+    await flush();
+
+    queryAndAssert<GrButton>(element, 'gr-button[primary]').click();
+
+    await element.updateComplete;
 
     assert.isTrue(handler.called);
     assert.equal(handler.lastCall.args[0].detail.content, 'foo');
@@ -52,26 +63,40 @@ suite('gr-editable-content tests', () => {
     assert.isTrue(handler.called);
   });
 
-  test('enabling editing keeps old content', () => {
+  test('enabling editing keeps old content', async () => {
     element.content = 'current content';
-    element._newContent = 'old content';
+
+    // Needed because contentChanged resets newContent
+    await element.updateComplete;
+
+    element.newContent = 'old content';
     element.editing = true;
-    assert.equal(element._newContent, 'old content');
+
+    await element.updateComplete;
+
+    assert.equal(element.newContent, 'old content');
   });
 
   test('disabling editing does not update edit field contents', () => {
     element.content = 'current content';
     element.editing = true;
-    element._newContent = 'stale content';
+    element.newContent = 'stale content';
     element.editing = false;
-    assert.equal(element._newContent, 'stale content');
+    assert.equal(element.newContent, 'stale content');
   });
 
-  test('zero width spaces are removed properly', () => {
+  test('zero width spaces are removed properly', async () => {
     element.removeZeroWidthSpace = true;
     element.content = 'R=\u200Btest@google.com';
+
+    // Needed because contentChanged resets newContent
+    await element.updateComplete;
+
     element.editing = true;
-    assert.equal(element._newContent, 'R=test@google.com');
+
+    await element.updateComplete;
+
+    assert.equal(element.newContent, 'R=test@google.com');
   });
 
   suite('editing', () => {
@@ -87,7 +112,7 @@ suite('gr-editable-content tests', () => {
     });
 
     test('save button is enabled when content changes', () => {
-      element._newContent = 'new content';
+      element.newContent = 'new content';
       assert.isFalse(
         queryAndAssert<GrButton>(element, 'gr-button[primary]').disabled
       );
@@ -110,7 +135,7 @@ suite('gr-editable-content tests', () => {
       });
       element.editing = true;
 
-      assert.equal(element._newContent, 'stored content');
+      assert.equal(element.newContent, 'stored content');
       assert.isTrue(dispatchSpy.called);
       assert.equal(dispatchSpy.firstCall.args[0].type, 'show-alert');
     });
@@ -119,7 +144,7 @@ suite('gr-editable-content tests', () => {
       stubStorage('getEditableContentItem').returns(null);
       element.editing = true;
 
-      assert.equal(element._newContent, 'current content');
+      assert.equal(element.newContent, 'current content');
       assert.equal(dispatchSpy.firstCall.args[0].type, 'editing-changed');
     });
 
@@ -128,17 +153,17 @@ suite('gr-editable-content tests', () => {
       const eraseStub = stubStorage('eraseEditableContentItem');
       element.editing = true;
 
-      element._newContent = 'new content';
+      element.newContent = 'new content';
       flush();
       element.storeTask?.flush();
 
       assert.isTrue(storeStub.called);
       assert.deepEqual(
-        [element.storageKey, element._newContent],
+        [element.storageKey, element.newContent],
         storeStub.lastCall.args
       );
 
-      element._newContent = '';
+      element.newContent = '';
       flush();
       element.storeTask?.flush();
 

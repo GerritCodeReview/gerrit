@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11c6aa14_7cbc0cdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-04-04T13:18:40Z",
+      "side": 1,
+      "message": "Code-Style errors were introduced by https://gerrit-review.googlesource.com/c/gerrit/+/334302",
+      "revId": "2fa822def29cf7ae3b01c64bdfe2533d670de717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

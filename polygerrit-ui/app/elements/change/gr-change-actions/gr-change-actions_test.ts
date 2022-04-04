@@ -1220,7 +1220,7 @@ suite('gr-change-actions tests', () => {
       test('revert change with plugin hook', async () => {
         const newRevertMsg = 'Modified revert msg';
         sinon
-          .stub(element.$.confirmRevertDialog, '_modifyRevertMsg')
+          .stub(element.$.confirmRevertDialog, 'modifyRevertMsg')
           .callsFake(() => newRevertMsg);
         element.change = {
           ...createChangeViewChange(),
@@ -1245,7 +1245,7 @@ suite('gr-change-actions tests', () => {
         sinon
           .stub(
             element.$.confirmRevertDialog,
-            '_populateRevertSubmissionMessage'
+            'populateRevertSubmissionMessage'
           )
           .callsFake(() => 'original msg');
         await flush();
@@ -1255,7 +1255,7 @@ suite('gr-change-actions tests', () => {
         );
         tap(revertButton);
         await flush();
-        assert.equal(element.$.confirmRevertDialog._message, newRevertMsg);
+        assert.equal(element.$.confirmRevertDialog.message, newRevertMsg);
       });
 
       suite('revert change submitted together', () => {
@@ -1319,7 +1319,7 @@ suite('gr-change-actions tests', () => {
             '\n' +
             '23456:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...' +
             '\n';
-          assert.equal(confirmRevertDialog._message, expectedMsg);
+          assert.equal(confirmRevertDialog.message, expectedMsg);
           const radioInputs = queryAll(
             confirmRevertDialog,
             'input[name="revertOptions"]'
@@ -1330,7 +1330,7 @@ suite('gr-change-actions tests', () => {
             'Revert "random commit message"\n\nThis reverts ' +
             'commit 2000.\n\nReason' +
             ' for revert: <INSERT REASONING HERE>\n';
-          assert.equal(confirmRevertDialog._message, expectedMsg);
+          assert.equal(confirmRevertDialog.message, expectedMsg);
         });
 
         test('submit fails if message is not edited', async () => {
@@ -1348,7 +1348,7 @@ suite('gr-change-actions tests', () => {
           );
           tap(confirmButton);
           await flush();
-          assert.isTrue(confirmRevertDialog._showErrorMessage);
+          assert.isTrue(confirmRevertDialog.showErrorMessage);
           assert.isFalse(fireStub.called);
         });
 
@@ -1379,20 +1379,20 @@ suite('gr-change-actions tests', () => {
             'Revert "random commit message"\n\nThis reverts ' +
             'commit 2000.\n\nReason' +
             ' for revert: <INSERT REASONING HERE>\n';
-          assert.equal(confirmRevertDialog._message, revertSubmissionMsg);
+          assert.equal(confirmRevertDialog.message, revertSubmissionMsg);
           const newRevertMsg = revertSubmissionMsg + 'random';
           const newSingleChangeMsg = singleChangeMsg + 'random';
-          confirmRevertDialog._message = newRevertMsg;
+          confirmRevertDialog.message = newRevertMsg;
           tap(radioInputs[0]);
           await flush();
-          assert.equal(confirmRevertDialog._message, singleChangeMsg);
-          confirmRevertDialog._message = newSingleChangeMsg;
+          assert.equal(confirmRevertDialog.message, singleChangeMsg);
+          confirmRevertDialog.message = newSingleChangeMsg;
           tap(radioInputs[1]);
           await flush();
-          assert.equal(confirmRevertDialog._message, newRevertMsg);
+          assert.equal(confirmRevertDialog.message, newRevertMsg);
           tap(radioInputs[0]);
           await flush();
-          assert.equal(confirmRevertDialog._message, newSingleChangeMsg);
+          assert.equal(confirmRevertDialog.message, newSingleChangeMsg);
         });
       });
 
@@ -1430,7 +1430,7 @@ suite('gr-change-actions tests', () => {
           );
           tap(confirmButton);
           await flush();
-          assert.isTrue(confirmRevertDialog._showErrorMessage);
+          assert.isTrue(confirmRevertDialog.showErrorMessage);
           assert.isFalse(fireStub.called);
         });
 
@@ -1451,9 +1451,9 @@ suite('gr-change-actions tests', () => {
             'Revert "random commit message"\n\n' +
             'This reverts commit 2000.\n\nReason ' +
             'for revert: <INSERT REASONING HERE>\n';
-          assert.equal(confirmRevertDialog._message, msg);
+          assert.equal(confirmRevertDialog.message, msg);
           let editedMsg = msg + 'hello';
-          confirmRevertDialog._message += 'hello';
+          confirmRevertDialog.message += 'hello';
           const confirmButton = queryAndAssert(
             queryAndAssert(element.$.confirmRevertDialog, 'gr-dialog'),
             '#confirm'
@@ -1462,7 +1462,7 @@ suite('gr-change-actions tests', () => {
           await flush();
           // Contains generic template reason so doesn't submit
           assert.isFalse(fireActionStub.called);
-          confirmRevertDialog._message = confirmRevertDialog._message.replace(
+          confirmRevertDialog.message = confirmRevertDialog.message.replace(
             '<INSERT REASONING HERE>',
             ''
           );

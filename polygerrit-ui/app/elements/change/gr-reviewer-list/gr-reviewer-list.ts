@@ -113,29 +113,6 @@ export class GrReviewerList extends PolymerElement {
   }
 
   /**
-   * Converts change.permitted_labels to an array of hashes of label keys to
-   * numeric scores.
-   * Example:
-   * [{
-   *   'Code-Review': ['-1', ' 0', '+1']
-   * }]
-   * will be converted to
-   * [{
-   *   label: 'Code-Review',
-   *   scores: [-1, 0, 1]
-   * }]
-   */
-  _permittedLabelsToNumericScores(labels: LabelNameToValuesMap | undefined) {
-    if (!labels) return [];
-    return Object.keys(labels).map(label => {
-      return {
-        label,
-        scores: labels[label].map(v => Number(v)),
-      };
-    });
-  }
-
-  /**
    * Returns max permitted score for reviewer.
    */
   _getReviewerPermittedScore(

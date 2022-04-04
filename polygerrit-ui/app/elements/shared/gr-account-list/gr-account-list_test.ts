@@ -113,9 +113,9 @@ suite('gr-account-list tests', () => {
 
   test('account entry only appears when editable', () => {
     element.readonly = false;
-    assert.isFalse(element.$.entry.hasAttribute('hidden'));
+    assert.isFalse(element.entry?.hasAttribute('hidden'));
     element.readonly = true;
-    assert.isTrue(element.$.entry.hasAttribute('hidden'));
+    assert.isTrue(element.entry?.hasAttribute('hidden'));
   });
 
   test('addition and removal of account/group chips', () => {
@@ -287,13 +287,13 @@ suite('gr-account-list tests', () => {
     element.allowAnyInput = true;
     flush();
 
-    const getTextStub = sinon.stub(element.$.entry, 'getText');
+    const getTextStub = sinon.stub(element.entry?, 'getText');
     getTextStub.onFirstCall().returns('');
     getTextStub.onSecondCall().returns('test');
     getTextStub.onThirdCall().returns('test@test');
 
     // When entry is empty, return true.
-    const clearStub = sinon.stub(element.$.entry, 'clear');
+    const clearStub = sinon.stub(element.entry?, 'clear');
     assert.isTrue(element.submitEntryText());
     assert.isFalse(clearStub.called);
 
@@ -377,7 +377,7 @@ suite('gr-account-list tests', () => {
     const acct = makeAccount();
     handleAdd({account: acct});
     flush();
-    assert.isTrue(element.$.entry.hasAttribute('hidden'));
+    assert.isTrue(element.entry?.hasAttribute('hidden'));
   });
 
   test('enter text calls suggestions provider', async () => {
@@ -400,7 +400,7 @@ suite('gr-account-list tests', () => {
       'makeSuggestionItem'
     );
 
-    const input = element.$.entry.$.input;
+    const input = element.entry?.$.input;
 
     input.text = 'newTest';
     MockInteractions.focus(input.$.input);
@@ -436,7 +436,7 @@ suite('gr-account-list tests', () => {
 
   suite('keyboard interactions', () => {
     test('backspace at text input start removes last account', async () => {
-      const input = element.$.entry.$.input;
+      const input = element.entry?.$.input;
       sinon.stub(input, '_updateSuggestions');
       sinon.stub(element, '_computeRemovable').returns(true);
       await flush();
@@ -462,7 +462,7 @@ suite('gr-account-list tests', () => {
     });
 
     test('arrow key navigation', async () => {
-      const input = element.$.entry.$.input;
+      const input = element.entry?.$.input;
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];
       flush();

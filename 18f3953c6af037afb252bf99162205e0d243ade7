@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bff0e8ec_bc1508fb",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-04T14:57:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8433a999_92fbee22",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 32
+      },
+      "revId": "18f3953c6af037afb252bf99162205e0d243ade7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47ca8ef4_94d45512",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-04T14:46:29Z",
       "side": 1,
       "message": "This is css and not html, so I assume none of these styles are working? Add formStyles to array just like sharedStyles and remove this style tag wrapper.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 38
+      },
+      "revId": "18f3953c6af037afb252bf99162205e0d243ade7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "889be0fb_c67b6a11",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-04T14:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47ca8ef4_94d45512",
       "range": {
         "startLine": 73,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5befe71b_56e42950",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-04T14:57:38Z",
+      "side": 1,
+      "message": "Yeah my original implementation was ${() \u003d\u003e {} } but I took a look at this comment and assumed they were the same.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/334339/comments/c0173af8_320a3116",
+      "parentUuid": "01fb0e71_8a3c359e",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 33
+      },
+      "revId": "18f3953c6af037afb252bf99162205e0d243ade7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6aaa2c7e_fc70648d",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-04-04T14:46:29Z",
       "side": 1,
       "message": "same `this` bind situation",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 41
+      },
+      "revId": "18f3953c6af037afb252bf99162205e0d243ade7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c656f4a8_9bbd7e0c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-04T14:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6aaa2c7e_fc70648d",
       "range": {
         "startLine": 185,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31b2add0_4255af76",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-04T14:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0fe1ce9_422a77bb",
+      "range": {
+        "startLine": 198,
+        "startChar": 42,
+        "endLine": 198,
+        "endChar": 49
+      },
+      "revId": "18f3953c6af037afb252bf99162205e0d243ade7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58e5d2e8_2ff7dc7c",
@@ -129,6 +249,30 @@
       "writtenOn": "2022-04-04T14:46:29Z",
       "side": 1,
       "message": "same `this` bind situation",
+      "range": {
+        "startLine": 215,
+        "startChar": 25,
+        "endLine": 215,
+        "endChar": 40
+      },
+      "revId": "18f3953c6af037afb252bf99162205e0d243ade7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b41e6cb7_96f9d9d4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-04T14:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58e5d2e8_2ff7dc7c",
       "range": {
         "startLine": 215,
         "startChar": 25,

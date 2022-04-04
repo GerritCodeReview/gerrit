@@ -361,19 +361,7 @@ export const htmlTemplate = html`
         >
       </fieldset>
       <gr-edit-preferences id="editPrefs"></gr-edit-preferences>
-      <h2 id="Menu" class$="[[_computeHeaderClass(_menuChanged)]]">Menu</h2>
-      <fieldset id="menu">
-        <gr-menu-editor menu-items="{{_localMenu}}"></gr-menu-editor>
-        <gr-button
-          id="saveMenu"
-          on-click="_handleSaveMenu"
-          disabled="[[!_menuChanged]]"
-          >Save changes</gr-button
-        >
-        <gr-button id="resetButton" link="" on-click="_handleResetMenuButton"
-          >Reset</gr-button
-        >
-      </fieldset>
+      <gr-menu-editor></gr-menu-editor>
       <h2
         id="ChangeTableColumns"
         class$="[[_computeHeaderClass(_changeTableChanged)]]"

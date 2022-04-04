@@ -81,6 +81,24 @@
       "parentUuid": "2a641996_ec53dcc1",
       "revId": "1e0c90b745d040271d31d392423f5d33e326745f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1aee06d_13059c8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-04T17:53:50Z",
+      "side": 1,
+      "message": "Why skip though? This seems like a nice small improvement to mention. Consider it this way, every skipped commit is potentially a missed \"selling point\" for upgrading Gerrit.",
+      "parentUuid": "63d6a0a4_e1198f82",
+      "revId": "1e0c90b745d040271d31d392423f5d33e326745f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

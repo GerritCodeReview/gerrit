@@ -69,6 +69,7 @@ import {
   GroupName,
   UrlEncodedRepoName,
   NumericChangeId,
+  PreferencesInput,
 } from '../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../types/diff';
 import {readResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
@@ -502,8 +503,9 @@ export const grRestApiMock: RestApiService = {
   saveIncludedGroup(): Promise<GroupInfo | undefined> {
     throw new Error('saveIncludedGroup() not implemented by RestApiMock.');
   },
-  savePreferences(): Promise<PreferencesInfo> {
-    return Promise.resolve(createDefaultPreferences());
+  savePreferences(input: PreferencesInput): Promise<PreferencesInfo> {
+    const info = input as PreferencesInfo;
+    return Promise.resolve({...info});
   },
   saveRepoConfig(): Promise<Response> {
     return Promise.resolve(new Response());

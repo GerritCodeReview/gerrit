@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8433a999_92fbee22",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-04T14:46:29Z",
+      "side": 1,
+      "message": "Optional: I use this same getter pattern but I don\u0027t remember why (maybe the docs used to use it?). `static override styles \u003d [...];` is simpler and what the docs use if you want to switch to that for your migrations.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 32
+      },
+      "revId": "18f3953c6af037afb252bf99162205e0d243ade7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47ca8ef4_94d45512",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-04T14:46:29Z",
+      "side": 1,
+      "message": "This is css and not html, so I assume none of these styles are working? Add formStyles to array just like sharedStyles and remove this style tag wrapper.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 38
+      },
+      "revId": "18f3953c6af037afb252bf99162205e0d243ade7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01fb0e71_8a3c359e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-04T14:46:29Z",
+      "side": 1,
+      "message": "I think this doesn\u0027t bind `this` correctly? Either:\nA) ensure it works manually\nB) convert to a known working pattern like `${() \u003d\u003e this.save()}`\nC) improve a test to query and click the button instead of calling the private `element.save()` directly which avoids testing the button.\n\nThis is a good example to not expose a bunch of private stuff for tests, but it\u0027s not necessary to rewrite everything for our migration work.",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 33
+      },
+      "revId": "18f3953c6af037afb252bf99162205e0d243ade7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6aaa2c7e_fc70648d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-04T14:46:29Z",
+      "side": 1,
+      "message": "same `this` bind situation",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 41
+      },
+      "revId": "18f3953c6af037afb252bf99162205e0d243ade7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0fe1ce9_422a77bb",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-04T14:46:29Z",
+      "side": 1,
+      "message": "same `this` bind situation",
+      "range": {
+        "startLine": 198,
+        "startChar": 42,
+        "endLine": 198,
+        "endChar": 49
+      },
+      "revId": "18f3953c6af037afb252bf99162205e0d243ade7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58e5d2e8_2ff7dc7c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-04T14:46:29Z",
+      "side": 1,
+      "message": "same `this` bind situation",
+      "range": {
+        "startLine": 215,
+        "startChar": 25,
+        "endLine": 215,
+        "endChar": 40
+      },
+      "revId": "18f3953c6af037afb252bf99162205e0d243ade7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

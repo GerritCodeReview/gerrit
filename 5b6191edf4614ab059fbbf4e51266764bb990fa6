@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e4d9fde8_883887ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-04T15:43:07Z",
+      "side": 1,
+      "message": "\u003e \u003e What if you tighten it more and make the cache scoped to the request only?\n\u003e Yes, but there are operations that are happing outside a request scope (e.g. batch indexing).\n\nBut do those contribute to user-facing time? If not, a minimal solution wouldn\u0027t use any caching for them.\n\n\u003e \u003e Then I think it\u0027s safe to ignore eviction.\n\u003e Not sure: even with a request scope, some operation are changing the NoteDb\u0027s ref and therefore would require eviction anyway.\n\nCan you elaborate on this? What scenario would be unsafe?\n\n\u003e The eviction should be sorted, upon ref-updates and runnable execution completed.\n\nI don\u0027t understand this comment, can you add more context please?",
+      "parentUuid": "6bc7e4f0_4302e000",
+      "revId": "5b6191edf4614ab059fbbf4e51266764bb990fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "47f9066f_4a86dbba",
         "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
         "patchSetId": 9

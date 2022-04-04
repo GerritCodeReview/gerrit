@@ -23,6 +23,7 @@ import {
   AutocompleteQuery,
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
+import {SuggestedReviewerInfo} from '../../../types/common';
 
 export interface GrAccountEntry {
   $: {
@@ -63,7 +64,8 @@ export class GrAccountEntry extends PolymerElement {
   placeholder = '';
 
   @property({type: Object, notify: true})
-  querySuggestions: AutocompleteQuery = () => Promise.resolve([]);
+  querySuggestions: AutocompleteQuery<SuggestedReviewerInfo> = () =>
+    Promise.resolve([]);
 
   @property({type: String, observer: '_inputTextChanged'})
   _inputText = '';

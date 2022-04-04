@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a4f7d25_351b8d97",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-04T15:17:03Z",
+      "side": 1,
+      "message": "optional: BTW I see lit docs just use `static override styles \u003d [...]` instead of getter function. You should be able to use that simpler pattern instead if you like.",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 32
+      },
+      "revId": "4b7f97925aeeeeb83f9296b2a82ec68c1041d73c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

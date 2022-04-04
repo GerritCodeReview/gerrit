@@ -170,6 +170,24 @@
       "message": "This needs a TODO. We don\u0027t really want to mutate `change`, which likely comes from the model.",
       "revId": "2fa98b815d08ea6a2384973eb457f23110be3960",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f64b598_4dc59a9f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-04T20:18:17Z",
+      "side": 1,
+      "message": "Btw. I think this whole section can be removed, since we removed removing reviewer. \n\nDhruv feel free to remove function handleRemove, computeCanRemoveReviewer and etc.",
+      "parentUuid": "749872f2_4f8f5cb9",
+      "revId": "2fa98b815d08ea6a2384973eb457f23110be3960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

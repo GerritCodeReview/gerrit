@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-reviewer-list';
 import {
   mockPromise,
+  queryAll,
   queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
@@ -114,7 +115,7 @@ suite('gr-reviewer-list tests', () => {
       ],
     };
     await flush();
-    const chips = element.root!.querySelectorAll('gr-account-chip');
+    const chips = queryAll<GrAccountChip>(element, 'gr-account-chip');
     assert.equal(chips.length, 4);
 
     for (const el of Array.from(chips)) {
@@ -153,7 +154,7 @@ suite('gr-reviewer-list tests', () => {
 
     setup(() => {
       removeReviewerStub = sinon
-        .stub(element, '_removeReviewer')
+        .stub(element, 'removeReviewer')
         .returns(Promise.resolve(new Response()));
       element.mutable = true;
 
@@ -174,9 +175,8 @@ suite('gr-reviewer-list tests', () => {
         removable_reviewers: allReviewers,
       };
       flush();
-      chips = Array.from(element.root!.querySelectorAll('gr-account-chip'));
+      chips = Array.from(queryAll<GrAccountChip>(element, 'gr-account-chip'));
       assert.equal(chips.length, allReviewers.length);
-      reviewersChangedSpy = sinon.spy(element, '_reviewersChanged');
     });
 
     test('_handleRemove for account with accountId only', async () => {
@@ -187,7 +187,6 @@ suite('gr-reviewer-list tests', () => {
       await flush();
       assert.isTrue(removeReviewerStub.calledOnce);
       assert.isTrue(removeReviewerStub.calledWith(reviewerWithId._account_id));
-      assert.isTrue(reviewersChangedSpy.called);
       expect(element.change!.reviewers.REVIEWER).to.have.deep.members([
         reviewerWithIdAndEmail,
         reviewerWithEmailOnly,
@@ -249,7 +248,7 @@ suite('gr-reviewer-list tests', () => {
       owner,
       reviewers,
     };
-    assert.deepEqual(element._reviewers, [reviewer, cc]);
+    assert.deepEqual(element.reviewers, [reviewer, cc]);
 
     element.reviewersOnly = true;
     element.change = {
@@ -257,7 +256,7 @@ suite('gr-reviewer-list tests', () => {
       owner,
       reviewers,
     };
-    assert.deepEqual(element._reviewers, [reviewer]);
+    assert.deepEqual(element.reviewers, [reviewer]);
 
     element.ccsOnly = true;
     element.reviewersOnly = false;
@@ -266,16 +265,16 @@ suite('gr-reviewer-list tests', () => {
       owner,
       reviewers,
     };
-    assert.deepEqual(element._reviewers, [cc]);
+    assert.deepEqual(element.reviewers, [cc]);
   });
 
-  test('_handleAddTap passes mode with event', () => {
+  test('handleAddTap passes mode with event', () => {
     const fireStub = sinon.stub(element, 'dispatchEvent');
     const e = {...new Event(''), preventDefault() {}};
 
     element.ccsOnly = false;
     element.reviewersOnly = false;
-    element._handleAddTap(e);
+    element.handleAddTap(e);
     assert.equal(fireStub.lastCall.args[0].type, 'show-reply-dialog');
     assert.deepEqual((fireStub.lastCall.args[0] as CustomEvent).detail, {
       value: {
@@ -285,7 +284,7 @@ suite('gr-reviewer-list tests', () => {
     });
 
     element.reviewersOnly = true;
-    element._handleAddTap(e);
+    element.handleAddTap(e);
     assert.equal(fireStub.lastCall.args[0].type, 'show-reply-dialog');
     assert.deepEqual((fireStub.lastCall.args[0] as CustomEvent).detail, {
       value: {reviewersOnly: true, ccsOnly: false},
@@ -293,7 +292,7 @@ suite('gr-reviewer-list tests', () => {
 
     element.ccsOnly = true;
     element.reviewersOnly = false;
-    element._handleAddTap(e);
+    element.handleAddTap(e);
     assert.equal(fireStub.lastCall.args[0].type, 'show-reply-dialog');
     assert.deepEqual((fireStub.lastCall.args[0] as CustomEvent).detail, {
       value: {ccsOnly: true, reviewersOnly: false},
@@ -320,9 +319,9 @@ suite('gr-reviewer-list tests', () => {
         CC: reviewers,
       },
     };
-    assert.equal(element._hiddenReviewerCount, 0);
-    assert.equal(element._displayedReviewers.length, 4);
-    assert.equal(element._reviewers.length, 4);
+    assert.equal(element.hiddenReviewerCount, 0);
+    assert.equal(element.displayedReviewers.length, 4);
+    assert.equal(element.reviewers.length, 4);
     assert.isTrue(queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden);
   });
 
@@ -349,7 +348,7 @@ suite('gr-reviewer-list tests', () => {
       },
     };
     flush();
-    assert.equal(element._displayedReviewers[0]._account_id, 1 as AccountId);
+    assert.equal(element.displayedReviewers[0]._account_id, 1 as AccountId);
   });
 
   test('show all reviewers button with 9 reviewers', () => {
@@ -372,9 +371,9 @@ suite('gr-reviewer-list tests', () => {
         CC: reviewers,
       },
     };
-    assert.equal(element._hiddenReviewerCount, 3);
-    assert.equal(element._displayedReviewers.length, 6);
-    assert.equal(element._reviewers.length, 9);
+    assert.equal(element.hiddenReviewerCount, 3);
+    assert.equal(element.displayedReviewers.length, 6);
+    assert.equal(element.reviewers.length, 9);
     assert.isFalse(
       queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden
     );
@@ -400,18 +399,18 @@ suite('gr-reviewer-list tests', () => {
         CC: reviewers,
       },
     };
-    assert.equal(element._hiddenReviewerCount, 94);
-    assert.equal(element._displayedReviewers.length, 6);
-    assert.equal(element._reviewers.length, 100);
+    assert.equal(element.hiddenReviewerCount, 94);
+    assert.equal(element.displayedReviewers.length, 6);
+    assert.equal(element.reviewers.length, 100);
     assert.isFalse(
       queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden
     );
 
     tap(queryAndAssert(element, '.hiddenReviewers'));
 
-    assert.equal(element._hiddenReviewerCount, 0);
-    assert.equal(element._displayedReviewers.length, 100);
-    assert.equal(element._reviewers.length, 100);
+    assert.equal(element.hiddenReviewerCount, 0);
+    assert.equal(element.displayedReviewers.length, 100);
+    assert.equal(element.reviewers.length, 100);
     assert.isTrue(queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden);
   });
 
@@ -452,15 +451,15 @@ suite('gr-reviewer-list tests', () => {
       },
     };
     assert.strictEqual(
-      element._computeVoteableText({...createAccountDetailWithId(1)}, change),
+      element.computeVoteableText({...createAccountDetailWithId(1)}, change),
       'Bar: +1'
     );
     assert.strictEqual(
-      element._computeVoteableText({...createAccountDetailWithId(7)}, change),
+      element.computeVoteableText({...createAccountDetailWithId(7)}, change),
       'Foo: +2, Bar: +1, FooBar: 0'
     );
     assert.strictEqual(
-      element._computeVoteableText({...createAccountDetailWithId(2)}, change),
+      element.computeVoteableText({...createAccountDetailWithId(2)}, change),
       ''
     );
   });
@@ -474,7 +473,7 @@ suite('gr-reviewer-list tests', () => {
       },
     };
     assert.strictEqual(
-      element._computeVoteableText({...createAccountDetailWithId(1)}, change),
+      element.computeVoteableText({...createAccountDetailWithId(1)}, change),
       ''
     );
   });

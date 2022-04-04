@@ -474,7 +474,7 @@ export const htmlTemplate = html`
         </h2>
         <gr-ssh-editor
           id="sshEditor"
-          has-unsaved-changes="{{_keysChanged}}"
+          has-unsaved-changes-changed="[[handleUnsavedChangesChanged]]"
         ></gr-ssh-editor>
       </div>
       <div hidden$="[[!_serverConfig.receive.enable_signed_push]]">

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a425deda_5b09b7cf",
+        "filename": "java/com/google/gerrit/server/restapi/account/PostWatchedProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-04-04T09:19:50Z",
+      "side": 1,
+      "message": "filter expression",
+      "range": {
+        "startLine": 106,
+        "startChar": 23,
+        "endLine": 106,
+        "endChar": 28
+      },
+      "revId": "03e7d075944f6d6b57a1035242e92ee24b8a7c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca1ee4fa_0d335d79",
+        "filename": "java/com/google/gerrit/server/restapi/account/PostWatchedProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-04-04T09:19:50Z",
+      "side": 1,
+      "message": "Can we also include the message from the QueryParseException into this message so that the user has more chance to understand where is the syntax error?",
+      "revId": "03e7d075944f6d6b57a1035242e92ee24b8a7c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

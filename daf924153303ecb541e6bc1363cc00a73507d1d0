@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e772679_62c84b89",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-04T17:33:13Z",
+      "side": 1,
+      "message": "I am not sure whether at this API level it is helpful to have this abstraction. Maybe consider changing this to a `show_sign_col` rendering preference. That would potentially allow users to opt in or out of this independently of `high_contrast`. Or do you envision a bunch of other changes to gr-diff because of `high_contrast`?",
+      "revId": "daf924153303ecb541e6bc1363cc00a73507d1d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

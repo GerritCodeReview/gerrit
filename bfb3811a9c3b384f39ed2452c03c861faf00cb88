@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa56a838_01a097b2",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-04T20:25:46Z",
+      "side": 1,
+      "message": "Some optional style:\n\n- removing _ from names\n- adding private to private functions, variables\n- remove parameters from function and use this\nlike \n\n```\n_computeIfRevertSubmission() {\n    return this.revertType \u003d\u003d\u003d RevertType.REVERT_SUBMISSION;\n  }\n```",
+      "revId": "bfb3811a9c3b384f39ed2452c03c861faf00cb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ef8ee92_0f54e4bd",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-04T20:25:46Z",
+      "side": 1,
+      "message": "I think this should be ?checked same as ?hidden",
+      "range": {
+        "startLine": 141,
+        "startChar": 20,
+        "endLine": 141,
+        "endChar": 28
+      },
+      "revId": "bfb3811a9c3b384f39ed2452c03c861faf00cb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9c591e7_74c3b613",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-04T20:25:46Z",
+      "side": 1,
+      "message": "I think this should be ?checked same as ?hidden",
+      "range": {
+        "startLine": 156,
+        "startChar": 20,
+        "endLine": 156,
+        "endChar": 28
+      },
+      "revId": "bfb3811a9c3b384f39ed2452c03c861faf00cb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f92a6f42_a980b0ce",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-04T20:25:46Z",
+      "side": 1,
+      "message": "Since there is no two way binding, you need something like\n```\n @bind-value-changed\u003d${(e: BindValueChangeEvent) \u003d\u003e {\n              this.handleBindValueChanged(e);\n            }}\n\n```",
+      "range": {
+        "startLine": 173,
+        "startChar": 14,
+        "endLine": 173,
+        "endChar": 41
+      },
+      "revId": "bfb3811a9c3b384f39ed2452c03c861faf00cb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

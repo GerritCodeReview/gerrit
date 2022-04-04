@@ -81,7 +81,7 @@ suite('gr-ssh-editor tests', () => {
       Promise.resolve()
     );
 
-    assert.equal(element._keysToRemove.length, 0);
+    assert.equal(element.keysToRemove.length, 0);
     assert.isFalse(element.hasUnsavedChanges);
 
     // Get the delete button for the last row.
@@ -92,21 +92,21 @@ suite('gr-ssh-editor tests', () => {
 
     MockInteractions.tap(button!);
 
-    assert.equal(element._keys.length, 1);
-    assert.equal(element._keysToRemove.length, 1);
-    assert.equal(element._keysToRemove[0], lastKey);
+    assert.equal(element.keys.length, 1);
+    assert.equal(element.keysToRemove.length, 1);
+    assert.equal(element.keysToRemove[0], lastKey);
     assert.isTrue(element.hasUnsavedChanges);
     assert.isFalse(saveStub.called);
 
     await element.save();
     assert.isTrue(saveStub.called);
     assert.equal(saveStub.lastCall.args[0], `${lastKey.seq}`);
-    assert.equal(element._keysToRemove.length, 0);
+    assert.equal(element.keysToRemove.length, 0);
     assert.isFalse(element.hasUnsavedChanges);
   });
 
   test('show key', () => {
-    const openSpy = sinon.spy(element.$.viewKeyOverlay, 'open');
+    const openSpy = sinon.spy(element.viewKeyOverlay, 'open');
 
     // Get the show button for the last row.
     const button = query<GrButton>(
@@ -116,7 +116,7 @@ suite('gr-ssh-editor tests', () => {
 
     MockInteractions.tap(button!);
 
-    assert.equal(element._keyToView, keys[1]);
+    assert.equal(element.keyToView, keys[1]);
     assert.isTrue(openSpy.called);
   });
 
@@ -133,21 +133,23 @@ suite('gr-ssh-editor tests', () => {
 
     const addStub = stubRestApi('addAccountSSHKey').resolves(newKeyObject);
 
-    element._newKey = newKeyString;
+    element.newKey = newKeyString;
 
-    assert.isFalse(element.$.addButton.disabled);
-    assert.isFalse(element.$.newKey.disabled);
+    await element.updateComplete;
+
+    assert.isFalse(element.addButton.disabled);
+    assert.isFalse(element.newKeyEditor.disabled);
 
     const promise = mockPromise();
-    element._handleAddKey().then(() => {
-      assert.isTrue(element.$.addButton.disabled);
-      assert.isFalse(element.$.newKey.disabled);
-      assert.equal(element._keys.length, 3);
+    element.handleAddKey().then(() => {
+      assert.isTrue(element.addButton.disabled);
+      assert.isFalse(element.newKeyEditor.disabled);
+      assert.equal(element.keys.length, 3);
       promise.resolve();
     });
 
-    assert.isTrue(element.$.addButton.disabled);
-    assert.isTrue(element.$.newKey.disabled);
+    assert.isTrue(element.addButton.disabled);
+    assert.isTrue(element.newKeyEditor.disabled);
 
     assert.isTrue(addStub.called);
     assert.equal(addStub.lastCall.args[0], newKeyString);
@@ -159,21 +161,23 @@ suite('gr-ssh-editor tests', () => {
 
     const addStub = stubRestApi('addAccountSSHKey').rejects(new Error('error'));
 
-    element._newKey = newKeyString;
+    element.newKey = newKeyString;
 
-    assert.isFalse(element.$.addButton.disabled);
-    assert.isFalse(element.$.newKey.disabled);
+    await element.updateComplete;
+
+    assert.isFalse(element.addButton.disabled);
+    assert.isFalse(element.newKeyEditor.disabled);
 
     const promise = mockPromise();
-    element._handleAddKey().then(() => {
-      assert.isFalse(element.$.addButton.disabled);
-      assert.isFalse(element.$.newKey.disabled);
-      assert.equal(element._keys.length, 2);
+    element.handleAddKey().then(() => {
+      assert.isFalse(element.addButton.disabled);
+      assert.isFalse(element.newKeyEditor.disabled);
+      assert.equal(element.keys.length, 2);
       promise.resolve();
     });
 
-    assert.isTrue(element.$.addButton.disabled);
-    assert.isTrue(element.$.newKey.disabled);
+    assert.isTrue(element.addButton.disabled);
+    assert.isTrue(element.newKeyEditor.disabled);
 
     assert.isTrue(addStub.called);
     assert.equal(addStub.lastCall.args[0], newKeyString);

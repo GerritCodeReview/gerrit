@@ -20,6 +20,8 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.QueryParser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
@@ -72,7 +74,8 @@ public class PostWatchedProjects
 
   @Override
   public Response<List<ProjectWatchInfo>> apply(AccountResource rsrc, List<ProjectWatchInfo> input)
-      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException,
+          QueryParseException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
@@ -88,11 +91,22 @@ public class PostWatchedProjects
   }
 
   private Map<ProjectWatchKey, Set<NotifyType>> asMap(List<ProjectWatchInfo> input)
-      throws RestApiException, IOException, PermissionBackendException {
+      throws RestApiException, IOException, PermissionBackendException, QueryParseException {
     Map<ProjectWatchKey, Set<NotifyType>> m = new HashMap<>();
     for (ProjectWatchInfo info : input) {
       if (info.project == null) {
         throw new BadRequestException("project name must be specified");
+      }
+
+      try {
+        QueryParser.parse(info.filter);
+      } catch (QueryParseException e) {
+        try {
+          throw new BadRequestException(
+              "invalid query for project " + format(info.project, info.filter));
+        } catch (Exception ex) {
+          throw ex;
+        }
       }
 
       ProjectWatchKey key =

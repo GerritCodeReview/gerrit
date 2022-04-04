@@ -316,6 +316,10 @@ export class GrSettingsView extends PolymerElement {
     super.disconnectedCallback();
   }
 
+  handleUnsavedChangesChanged(e: ValueChangedEvent) {
+    this._keysChanged = !!e.detail.value;
+  }
+
   private readonly handleLocationChange = () => {
     // Handle anchor tag after dom attached
     const urlHash = window.location.hash;

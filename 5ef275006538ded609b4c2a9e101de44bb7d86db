@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91ebab96_9aadcb41",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-04T13:25:57Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be ${\u0027File path\u0027}?",
+      "range": {
+        "startLine": 221,
+        "startChar": 24,
+        "endLine": 221,
+        "endChar": 35
+      },
+      "revId": "5ef275006538ded609b4c2a9e101de44bb7d86db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eebe5568_dbc17bae",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-04T13:25:57Z",
+      "side": 1,
+      "message": "Can we use state for the properties that have _ (e.g. private properties)?",
+      "revId": "5ef275006538ded609b4c2a9e101de44bb7d86db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4700c20a_31d1a622",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-04T13:25:57Z",
+      "side": 1,
+      "message": "Should import shared-styles here.",
+      "revId": "5ef275006538ded609b4c2a9e101de44bb7d86db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6e383ef_cab05da9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-04T13:25:57Z",
+      "side": 1,
+      "message": "Don\u0027t need to use else can just remove this and have it return.\n\nSame for below.",
+      "revId": "5ef275006538ded609b4c2a9e101de44bb7d86db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58eafe15_d28a5531",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-04T13:25:57Z",
+      "side": 1,
+      "message": "Can be text-changed\u003d${this.handleAutocompleteChange}\n\nthen\n\n  private readonly handleAutocompleteChange \u003d (e: CustomEvent) \u003d\u003e {\n    this._inputText \u003d e.detail.value;\n  };",
+      "revId": "5ef275006538ded609b4c2a9e101de44bb7d86db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a6c4c4b_61d522c4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-04T13:25:57Z",
+      "side": 1,
+      "message": "Maybe we should rename so that one doesn\u0027t have to use _open rather private \u003cfunction name\u003e?",
+      "range": {
+        "startLine": 277,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 3
+      },
+      "revId": "5ef275006538ded609b4c2a9e101de44bb7d86db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

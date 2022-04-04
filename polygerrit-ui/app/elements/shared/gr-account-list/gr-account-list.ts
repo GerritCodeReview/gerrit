@@ -16,11 +16,7 @@
  */
 import '../gr-account-chip/gr-account-chip';
 import '../gr-account-entry/gr-account-entry';
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-account-list_html';
 import {getAppContext} from '../../../services/app-context';
-import {customElement, property} from '@polymer/decorators';
 import {
   ChangeInfo,
   Suggestion,
@@ -29,30 +25,34 @@ import {
   EmailAddress,
   SuggestedReviewerGroupInfo,
   SuggestedReviewerAccountInfo,
+  SuggestedReviewerInfo,
 } from '../../../types/common';
-import {
-  ReviewerSuggestionsProvider,
-  SuggestionItem,
-} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
+import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {PaperInputElementExt} from '../../../types/types';
-import {fireAlert} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {accountOrGroupKey} from '../../../utils/account-util';
+import {LitElement, css, html} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {classMap} from 'lit/directives/class-map';
+import {
+  AutocompleteQuery,
+  AutocompleteSuggestion,
+} from '../gr-autocomplete/gr-autocomplete';
+import {ValueChangedEvent} from '../../../types/events';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
 declare global {
+  interface HTMLElementEventMap {
+    'accounts-changed': ValueChangedEvent<(AccountInfo | GroupInfo)[]>;
+    'pending-confirmation-changed': ValueChangedEvent<SuggestedReviewerGroupInfo | null>;
+  }
   interface HTMLElementTagNameMap {
     'gr-account-list': GrAccountList;
   }
-}
-
-export interface GrAccountList {
-  $: {
-    entry: GrAccountEntry;
-  };
 }
 
 /** Supported input to be added */
@@ -108,18 +108,15 @@ export interface AccountAddition {
 }
 
 @customElement('gr-account-list')
-export class GrAccountList extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrAccountList extends LitElement {
   /**
    * Fired when user inputs an invalid email address.
    *
    * @event show-alert
    */
+  @query('#entry') entry?: GrAccountEntry;
 
-  @property({type: Array, notify: true})
+  @property({type: Array})
   accounts: AccountInput[] = [];
 
   @property({type: Object})
@@ -128,7 +125,7 @@ export class GrAccountList extends PolymerElement {
   @property({type: Object})
   filter?: (input: Suggestion) => boolean;
 
-  @property({type: String})
+  @property()
   placeholder = '';
 
   @property({type: Boolean})
@@ -143,7 +140,7 @@ export class GrAccountList extends PolymerElement {
   /**
    * Needed for template checking since value is initially set to null.
    */
-  @property({type: Object, notify: true})
+  @property({type: Object})
   pendingConfirmation: SuggestedReviewerGroupInfo | null = null;
 
   @property({type: Boolean})
@@ -168,8 +165,8 @@ export class GrAccountList extends PolymerElement {
   /**
    * Returns suggestion items
    */
-  @property({type: Object})
-  _querySuggestions: (input: string) => Promise<SuggestionItem[]>;
+  @state()
+  _querySuggestions: AutocompleteQuery<SuggestedReviewerInfo>;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -183,15 +180,80 @@ export class GrAccountList extends PolymerElement {
     );
   }
 
-  get accountChips() {
-    return Array.from(this.root?.querySelectorAll('gr-account-chip') || []);
+  static override styles = [
+    sharedStyles,
+    css`
+      gr-account-chip {
+        display: inline-block;
+        margin: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0;
+      }
+      gr-account-entry {
+        display: flex;
+        flex: 1;
+        min-width: 10em;
+        margin: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0;
+      }
+      .group {
+        --account-label-suffix: ' (group)';
+      }
+      .pending-add {
+        font-style: italic;
+      }
+      .list {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+      }
+    `,
+  ];
+
+  override render() {
+    return html`<div class="list">
+        ${this.accounts.map(
+          account => html`
+            <gr-account-chip
+              .account=${account}
+              class=${classMap({
+                group: !!account._group,
+                pendingAdd: !!account._pendingAdd,
+              })}
+              ?removable=${this._computeRemovable(account)}
+              @keydown=${this._handleChipKeydown}
+              tabindex="-1"
+            >
+            </gr-account-chip>
+          `
+        )}
+      </div>
+      <gr-account-entry
+        borderless=""
+        ?hidden=${(this.maxCount && this.maxCount <= this.accounts.length) ||
+        this.readonly}
+        id="entry"
+        .placeholder=${this.placeholder}
+        @add=${this._handleAdd}
+        @keydown=${this._handleInputKeydown}
+        .allowAnyInput=${this.allowAnyInput}
+        .querySuggestions=${this._querySuggestions}
+      >
+      </gr-account-entry>
+      <slot></slot>`;
+  }
+
+  get accountChips(): GrAccountChip[] {
+    return Array.from(
+      this.shadowRoot?.querySelectorAll('gr-account-chip') || []
+    );
   }
 
   get focusStart() {
-    return this.$.entry.focusStart;
+    // Entry is always defined and we cannot return undefined.
+    return this.entry?.focusStart;
   }
 
-  _getSuggestions(input: string) {
+  _getSuggestions(
+    input: string
+  ): Promise<AutocompleteSuggestion<SuggestedReviewerInfo>[]> {
     const provider = this.suggestionsProvider;
     if (!provider) return Promise.resolve([]);
     return provider.getSuggestions(input).then(suggestions => {
@@ -217,45 +279,49 @@ export class GrAccountList extends PolymerElement {
     if (isAccountObject(item)) {
       const account = {...item.account, _pendingAdd: true};
       this.removeFromPendingRemoval(account);
-      this.push('accounts', account);
+      this.accounts.push(account);
       itemTypeAdded = 'account';
     } else if (isSuggestedReviewerGroupInfo(item)) {
       if (item.confirm) {
-        this.pendingConfirmation = item;
+        this.setPendingConfirmation(item);
         return;
       }
       const group = {...item.group, _pendingAdd: true, _group: true};
-      this.push('accounts', group);
+      this.accounts.push(group);
       this.removeFromPendingRemoval(group);
       itemTypeAdded = 'group';
     } else if (this.allowAnyInput) {
       if (!item.includes('@')) {
         // Repopulate the input with what the user tried to enter and have
         // a toast tell them why they can't enter it.
-        this.$.entry.setText(item);
+        this.entry?.setText(item);
         fireAlert(this, VALID_EMAIL_ALERT);
         return false;
       } else {
         const account = {email: item as EmailAddress, _pendingAdd: true};
-        this.push('accounts', account);
+        this.accounts.push(account);
         this.removeFromPendingRemoval(account);
         itemTypeAdded = 'email';
       }
     }
 
     this.reporting.reportInteraction(`Add to ${this.id}`, {itemTypeAdded});
-    this.pendingConfirmation = null;
+    this.setPendingConfirmation(null);
+    this.requestUpdate();
+    fire(this, 'accounts-changed', {value: this.accounts});
     return true;
   }
 
   confirmGroup(group: GroupInfo) {
-    this.push('accounts', {
+    this.accounts.push({
       ...group,
       confirmed: true,
       _pendingAdd: true,
       _group: true,
     });
-    this.pendingConfirmation = null;
+    this.setPendingConfirmation(null);
+    fire(this, 'accounts-changed', {value: this.accounts});
+    this.requestUpdate();
   }
 
   _computeChipClass(account: AccountInput) {
@@ -269,8 +335,8 @@ export class GrAccountList extends PolymerElement {
     return classes.join(' ');
   }
 
-  _computeRemovable(account: AccountInput, readonly: boolean) {
-    if (readonly) {
+  _computeRemovable(account: AccountInput) {
+    if (this.readonly) {
       return false;
     }
     if (this.removableValues) {
@@ -290,18 +356,20 @@ export class GrAccountList extends PolymerElement {
   _handleRemove(e: CustomEvent<{account: AccountInput}>) {
     const toRemove = e.detail.account;
     this.removeAccount(toRemove);
-    this.$.entry.focus();
+    this.entry?.focus();
   }
 
   removeAccount(toRemove?: AccountInput) {
-    if (!toRemove || !this._computeRemovable(toRemove, this.readonly)) {
+    if (!toRemove || !this._computeRemovable(toRemove)) {
       return;
     }
     for (let i = 0; i < this.accounts.length; i++) {
       if (accountOrGroupKey(toRemove) === accountOrGroupKey(this.accounts[i])) {
-        this.splice('accounts', i, 1);
+        this.accounts.splice(i, 1);
         this.pendingRemoval.add(toRemove);
         this.reporting.reportInteraction(`Remove from ${this.id}`);
+        this.requestUpdate();
+        fire(this, 'accounts-changed', {value: this.accounts});
         return;
       }
     }
@@ -316,17 +384,16 @@ export class GrAccountList extends PolymerElement {
       paperInput.inputElement) as HTMLTextAreaElement;
   }
 
-  _handleInputKeydown(
-    e: CustomEvent<{input: PaperInputElementExt; keyCode: number}>
-  ) {
-    const input = this._getNativeInput(e.detail.input);
+  _handleInputKeydown(e: KeyboardEvent) {
+    const target = e.target as GrAccountEntry;
+    const input = this._getNativeInput(target.$.input.$.input);
     if (
       input.selectionStart !== input.selectionEnd ||
       input.selectionStart !== 0
     ) {
       return;
     }
-    switch (e.detail.keyCode) {
+    switch (e.keyCode) {
       case 8: // Backspace
         this.removeAccount(this.accounts[this.accounts.length - 1]);
         break;
@@ -356,7 +423,7 @@ export class GrAccountList extends PolymerElement {
         } else if (index > 0) {
           chips[index - 1].focus();
         } else {
-          this.$.entry.focus();
+          this.entry?.focus();
         }
         break;
       case 37: // Left arrow
@@ -370,7 +437,7 @@ export class GrAccountList extends PolymerElement {
         if (index < chips.length - 1) {
           chips[index + 1].focus();
         } else {
-          this.$.entry.focus();
+          this.entry?.focus();
         }
         break;
     }
@@ -385,13 +452,13 @@ export class GrAccountList extends PolymerElement {
    * return true.
    */
   submitEntryText() {
-    const text = this.$.entry.getText();
-    if (!text.length) {
+    const text = this.entry?.getText();
+    if (!text?.length) {
       return true;
     }
     const wasSubmitted = this.addAccountItem(text);
     if (wasSubmitted) {
-      this.$.entry.clear();
+      this.entry?.clear();
     }
     return wasSubmitted;
   }
@@ -430,11 +497,8 @@ export class GrAccountList extends PolymerElement {
     this.pendingRemoval.clear();
   }
 
-  _computeEntryHidden(
-    maxCount: number,
-    accountsRecord: PolymerDeepPropertyChange<AccountInput[], AccountInput[]>,
-    readonly: boolean
-  ) {
-    return (maxCount && maxCount <= accountsRecord.base.length) || readonly;
+  setPendingConfirmation(value: SuggestedReviewerGroupInfo | null) {
+    this.pendingConfirmation = value;
+    fire(this, 'pending-confirmation-changed', {value});
   }
 }

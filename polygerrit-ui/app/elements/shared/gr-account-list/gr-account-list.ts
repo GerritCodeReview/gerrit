@@ -16,11 +16,7 @@
  */
 import '../gr-account-chip/gr-account-chip';
 import '../gr-account-entry/gr-account-entry';
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-account-list_html';
 import {getAppContext} from '../../../services/app-context';
-import {customElement, property} from '@polymer/decorators';
 import {
   ChangeInfo,
   Suggestion,
@@ -38,8 +34,10 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {PaperInputElementExt} from '../../../types/types';
 import {fireAlert} from '../../../utils/event-util';
 import {accountOrGroupKey} from '../../../utils/account-util';
-import {css, html} from 'lit';
+import {LitElement, css, html} from 'lit';
+import {customElement, property, query} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {classMap} from 'lit/directives/class-map';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
@@ -47,12 +45,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-account-list': GrAccountList;
   }
-}
-
-export interface GrAccountList {
-  $: {
-    entry: GrAccountEntry;
-  };
 }
 
 /**
@@ -116,16 +108,14 @@ export interface AccountAddition {
 }
 
 @customElement('gr-account-list')
-export class GrAccountList extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrAccountList extends LitElement {
   /**
    * Fired when user inputs an invalid email address.
    *
    * @event show-alert
    */
+  @query('#entry')
+  entry?: GrAccountEntry;
 
   @property({type: Array, notify: true})
   accounts: AccountInput[] = [];
@@ -136,7 +126,7 @@ export class GrAccountList extends PolymerElement {
   @property({type: Object})
   filter?: (input: Suggestion) => boolean;
 
-  @property({type: String})
+  @property()
   placeholder = '';
 
   @property({type: Boolean})
@@ -191,54 +181,61 @@ export class GrAccountList extends PolymerElement {
     );
   }
 
-  static styles = [
-    sharedStyles,
-    css`
-      gr-account-chip {
-        display: inline-block;
-        margin: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0;
-      }
-      gr-account-entry {
-        display: flex;
-        flex: 1;
-        min-width: 10em;
-        margin: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0;
-      }
-      .group {
-        --account-label-suffix: ' (group)';
-      }
-      .pending-add {
-        font-style: italic;
-      }
-      .list {
-        align-items: center;
-        display: flex;
-        flex-wrap: wrap;
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        gr-account-chip {
+          display: inline-block;
+          margin: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0;
+        }
+        gr-account-entry {
+          display: flex;
+          flex: 1;
+          min-width: 10em;
+          margin: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0;
+        }
+        .group {
+          --account-label-suffix: ' (group)';
+        }
+        .pending-add {
+          font-style: italic;
+        }
+        .list {
+          align-items: center;
+          display: flex;
+          flex-wrap: wrap;
+        }
+      `,
+    ];
+  }
 
-  render() {
+  override render() {
     return html`<div class="list">
-        <template id="chips" is="dom-repeat" items="[[accounts]]" as="account">
-          <gr-account-chip
-            account="[[account]]"
-            class$="[[_computeChipClass(account)]]"
-            data-account-id$="[[account._account_id]]"
-            removable="[[_computeRemovable(account, readonly)]]"
-            on-keydown="_handleChipKeydown"
-            tabindex="-1"
-          >
-          </gr-account-chip>
-        </template>
+        ${this.accounts.map(
+          account => html`
+            <gr-account-chip
+              .account=${account}
+              class="${classMap({
+                group: !!account._group,
+                pendingAdd: !!account._pendingAdd,
+              })}"
+              data-account-id="${account._account_id}"
+              removable=${this._computeRemovable(account)}
+              @keydown=${this._handleChipKeydown}
+              tabindex="-1"
+            >
+            </gr-account-chip>
+          `
+        )}
       </div>
       <gr-account-entry
         borderless=""
         hidden$="[[_computeEntryHidden(maxCount, accounts.*, readonly)]]"
         id="entry"
         placeholder="[[placeholder]]"
-        on-add="_handleAdd"
-        on-input-keydown="_handleInputKeydown"
+        @add=${this._handleAdd}
+        @keydown=${this._handleInputKeydown}
         allow-any-input="[[allowAnyInput]]"
         query-suggestions="[[_querySuggestions]]"
       >
@@ -246,12 +243,12 @@ export class GrAccountList extends PolymerElement {
       <slot></slot>`;
   }
 
-  get accountChips() {
+  get accountChips(): GrAccountChip[] {
     return Array.from(this.root?.querySelectorAll('gr-account-chip') || []);
   }
 
   get focusStart() {
-    return this.$.entry.focusStart;
+    return this.entry?.focusStart;
   }
 
   _getSuggestions(input: string) {
@@ -295,7 +292,7 @@ export class GrAccountList extends PolymerElement {
       if (!item.includes('@')) {
         // Repopulate the input with what the user tried to enter and have
         // a toast tell them why they can't enter it.
-        this.$.entry.setText(item);
+        this.entry?.setText(item);
         fireAlert(this, VALID_EMAIL_ALERT);
         return false;
       } else {
@@ -332,8 +329,8 @@ export class GrAccountList extends PolymerElement {
     return classes.join(' ');
   }
 
-  _computeRemovable(account: AccountInput, readonly: boolean) {
-    if (readonly) {
+  _computeRemovable(account: AccountInput) {
+    if (this.readonly) {
       return false;
     }
     if (this.removableValues) {
@@ -353,11 +350,11 @@ export class GrAccountList extends PolymerElement {
   _handleRemove(e: CustomEvent<{account: AccountInput}>) {
     const toRemove = e.detail.account;
     this.removeAccount(toRemove);
-    this.$.entry.focus();
+    this.entry?.focus();
   }
 
   removeAccount(toRemove?: AccountInput) {
-    if (!toRemove || !this._computeRemovable(toRemove, this.readonly)) {
+    if (!toRemove || !this._computeRemovable(toRemove)) {
       return;
     }
     for (let i = 0; i < this.accounts.length; i++) {
@@ -419,7 +416,7 @@ export class GrAccountList extends PolymerElement {
         } else if (index > 0) {
           chips[index - 1].focus();
         } else {
-          this.$.entry.focus();
+          this.entry?.focus();
         }
         break;
       case 37: // Left arrow
@@ -433,7 +430,7 @@ export class GrAccountList extends PolymerElement {
         if (index < chips.length - 1) {
           chips[index + 1].focus();
         } else {
-          this.$.entry.focus();
+          this.entry?.focus();
         }
         break;
     }
@@ -448,13 +445,13 @@ export class GrAccountList extends PolymerElement {
    * return true.
    */
   submitEntryText() {
-    const text = this.$.entry.getText();
-    if (!text.length) {
+    const text = this.entry?.getText();
+    if (!text?.length) {
       return true;
     }
     const wasSubmitted = this.addAccountItem(text);
     if (wasSubmitted) {
-      this.$.entry.clear();
+      this.entry?.clear();
     }
     return wasSubmitted;
   }

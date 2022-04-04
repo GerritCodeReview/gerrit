@@ -17,12 +17,13 @@
 import '../../shared/gr-dialog/gr-dialog';
 import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-confirm-revert-dialog_html';
 import {customElement, property} from '@polymer/decorators';
 import {ChangeInfo, CommitId} from '../../../types/common';
 import {fireAlert} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -41,10 +42,6 @@ export interface ConfirmRevertEventDetail {
 
 @customElement('gr-confirm-revert-dialog')
 export class GrConfirmRevertDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
   /**
    * Fired when the confirm button is pressed.
    *
@@ -83,6 +80,93 @@ export class GrConfirmRevertDialog extends PolymerElement {
   // Store the actual messages that the user has edited
   @property({type: Array})
   _revertMessages: string[] = [];
+
+  static get template() {
+    return html`
+      <style include="shared-styles">
+        :host {
+          display: block;
+        }
+        :host([disabled]) {
+          opacity: 0.5;
+          pointer-events: none;
+        }
+        label {
+          cursor: pointer;
+          display: block;
+          width: 100%;
+        }
+        .revertSubmissionLayout {
+          display: flex;
+          align-items: center;
+        }
+        .label {
+          margin-left: var(--spacing-m);
+        }
+        iron-autogrow-textarea {
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-mono);
+          line-height: var(--line-height-mono);
+          width: 73ch; /* Add a char to account for the border. */
+        }
+        .error {
+          color: var(--error-text-color);
+          margin-bottom: var(--spacing-m);
+        }
+        label[for='messageInput'] {
+          margin-top: var(--spacing-m);
+        }
+      </style>
+      <gr-dialog
+        confirm-label="Revert"
+        on-confirm="_handleConfirmTap"
+        on-cancel="_handleCancelTap"
+      >
+        <div class="header" slot="header">Revert Merged Change</div>
+        <div class="main" slot="main">
+          <div class="error" hidden$="[[!_showErrorMessage]]">
+            <span> A reason is required </span>
+          </div>
+          <template is="dom-if" if="[[_showRevertSubmission]]">
+            <div class="revertSubmissionLayout">
+              <input
+                name="revertOptions"
+                type="radio"
+                id="revertSingleChange"
+                on-change="_handleRevertSingleChangeClicked"
+                checked="[[_computeIfSingleRevert(_revertType)]]"
+              />
+              <label for="revertSingleChange" class="label revertSingleChange">
+                Revert single change
+              </label>
+            </div>
+            <div class="revertSubmissionLayout">
+              <input
+                name="revertOptions"
+                type="radio"
+                id="revertSubmission"
+                on-change="_handleRevertSubmissionClicked"
+                checked="[[_computeIfRevertSubmission(_revertType)]]"
+              />
+              <label for="revertSubmission" class="label revertSubmission">
+                Revert entire submission ([[_changesCount]] Changes)
+              </label>
+            </div>
+          </template>
+          <gr-endpoint-decorator name="confirm-revert-change">
+            <label for="messageInput"> Revert Commit Message </label>
+            <iron-autogrow-textarea
+              id="messageInput"
+              class="message"
+              autocomplete="on"
+              max-rows="15"
+              bind-value="{{_message}}"
+            ></iron-autogrow-textarea>
+          </gr-endpoint-decorator>
+        </div>
+      </gr-dialog>
+    `;
+  }
 
   private readonly jsAPI = getAppContext().jsApiService;
 

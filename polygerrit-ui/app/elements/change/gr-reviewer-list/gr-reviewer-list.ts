@@ -19,21 +19,21 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-vote-chip/gr-vote-chip';
 import '../../../styles/shared-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-reviewer-list_html';
-import {customElement, property, computed, observe} from '@polymer/decorators';
+import {LitElement, PropertyValues, html} from 'lit';
+import {customElement, property, state} from 'lit/decorators';
+import {ifDefined} from 'lit/directives/if-defined';
+
 import {
   ChangeInfo,
   AccountInfo,
   ApprovalInfo,
-  Reviewers,
   AccountId,
   EmailAddress,
   AccountDetailInfo,
   isDetailedLabelInfo,
   LabelInfo,
 } from '../../../types/common';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {isRemovableReviewer} from '../../../utils/change-util';
@@ -48,9 +48,12 @@ import {
 import {sortReviewers} from '../../../utils/attention-set-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {LabelNameToValuesMap} from '../../../api/rest-api';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {css} from 'lit';
+import {nothing} from 'lit';
 
 @customElement('gr-reviewer-list')
-export class GrReviewerList extends PolymerElement {
+export class GrReviewerList extends LitElement {
   static get template() {
     return htmlTemplate;
   }
@@ -61,55 +64,157 @@ export class GrReviewerList extends PolymerElement {
    * @event show-reply-dialog
    */
 
-  @property({type: Object})
-  change?: ChangeInfo;
+  @property() change?: ChangeInfo;
 
-  @property({type: Object})
-  account?: AccountDetailInfo;
+  @property() account?: AccountDetailInfo;
 
-  @property({type: Boolean, reflectToAttribute: true})
-  disabled = false;
+  @property({reflect: true}) disabled = false;
 
-  @property({type: Boolean})
-  mutable = false;
+  @property() mutable = false;
 
-  @property({type: Boolean})
-  reviewersOnly = false;
+  @property() reviewersOnly = false;
 
-  @property({type: Boolean})
-  ccsOnly = false;
+  @property() ccsOnly = false;
 
-  @property({type: Array})
-  _displayedReviewers: AccountInfo[] = [];
+  @state() displayedReviewers: AccountInfo[] = [];
 
-  @property({type: Array})
-  _reviewers: AccountInfo[] = [];
+  @state() reviewers: AccountInfo[] = [];
 
-  @property({type: Boolean})
-  _showInput = false;
+  @state() _showInput = false;
 
-  @property({type: Object})
-  _xhrPromise?: Promise<Response | undefined>;
+  @state() addLabel = '';
+
+  @state() hiddenReviewerCount?: number;
+
+  private xhrPromise?: Promise<Response | undefined>;
 
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly flagsService = getAppContext().flagsService;
 
-  @computed('ccsOnly')
-  get _addLabel() {
-    return this.ccsOnly ? 'Add CC' : 'Add reviewer';
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+        }
+        :host([disabled]) {
+          opacity: 0.8;
+          pointer-events: none;
+        }
+        .container {
+          display: block;
+          /* line-height-normal for the chips, 2px for the chip border, spacing-s
+            for the gap between lines, negative bottom margin for eliminating the
+            gap after the last line */
+          line-height: calc(var(--line-height-normal) + 2px + var(--spacing-s));
+          margin-bottom: calc(0px - var(--spacing-s));
+        }
+        .addReviewer iron-icon {
+          color: inherit;
+          --iron-icon-height: 18px;
+          --iron-icon-width: 18px;
+        }
+        .controlsContainer {
+          display: inline-block;
+        }
+        gr-button.addReviewer {
+          --gr-button-padding: 1px 0px;
+          vertical-align: top;
+          top: 1px;
+        }
+        gr-button {
+          line-height: var(--line-height-normal);
+          --gr-button-padding: 0px;
+        }
+        gr-account-chip {
+          line-height: var(--line-height-normal);
+          vertical-align: top;
+          display: inline-block;
+        }
+        gr-vote-chip {
+          --gr-vote-chip-width: 14px;
+          --gr-vote-chip-height: 14px;
+        }
+      `,
+    ];
   }
 
-  @computed('_reviewers', '_displayedReviewers')
-  get _hiddenReviewerCount() {
-    // Polymer 2: check for undefined
-    if (
-      this._reviewers === undefined ||
-      this._displayedReviewers === undefined
-    ) {
-      return undefined;
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('ccsOnly')) {
+      this.addLabel = this.ccsOnly ? 'Add CC' : 'Add reviewer';
     }
-    return this._reviewers.length - this._displayedReviewers.length;
+    if (
+      changedProperties.has('reviewers') &&
+      changedProperties.has('displayedReviewers')
+    ) {
+      if (
+        this.reviewers === undefined ||
+        this.displayedReviewers === undefined
+      ) {
+        this.hiddenReviewerCount = undefined;
+      }
+      this.hiddenReviewerCount =
+        this.reviewers.length - this.displayedReviewers.length;
+    }
+  }
+
+  override render() {
+    this.displayedReviewers = this.computeDisplayedReviewers() ?? [];
+    return html`
+      <div class="container">
+        <div>
+          ${this.displayedReviewers.map(reviewer =>
+            this.renderAccountChip(reviewer)
+          )}
+          <div class="controlsContainer" hidden="${!this.mutable}">
+            <gr-button
+              link=""
+              id="addReviewer"
+              class="addReviewer"
+              @click="${(e: Event) => this.handleAddTap(e)}"
+              $title="${ifDefined(this.addLabel)}"
+              ><iron-icon icon="gr-icons:edit"></iron-icon
+            ></gr-button>
+          </div>
+        </div>
+        <gr-button
+          class="hiddenReviewers"
+          link=""
+          hidden="${!this.hiddenReviewerCount}"
+          @click="${() => this.handleViewAll()}"
+          >and ${this.hiddenReviewerCount} more</gr-button
+        >
+      </div>
+    `;
+  }
+
+  private renderAccountChip(reviewer: AccountInfo) {
+    const change = this.change;
+    if (!change) return nothing;
+    return html`
+      <gr-account-chip
+        class="reviewer"
+        .account="${reviewer}"
+        .change="${change}"
+        @remove="${(e: Event) => this.handleRemove(e)}"
+        .highlightAttention=${true}
+        .voteable-text="${this.computeVoteableText(reviewer, change)}"
+        .removable="${this.computeCanRemoveReviewer(reviewer, this.mutable)}"
+        .vote="${this.computeVote(reviewer, change)}"
+        .label="${this.computeCodeReviewLabel(change)}"
+      >
+        ${showNewSubmitRequirements(this.flagsService, this.change)
+          ? html`<gr-vote-chip
+              slot="vote-chip"
+              .vote="${this.computeVote(reviewer, change)}"
+              .label="${this.computeCodeReviewLabel(change)}"
+              circle-shape
+            ></gr-vote-chip>`
+          : nothing}
+      </gr-account-chip>
+    `;
   }
 
   /**
@@ -166,7 +271,7 @@ export class GrReviewerList extends PolymerElement {
     return NaN;
   }
 
-  _computeVoteableText(reviewer: AccountInfo, change: ChangeInfo) {
+  computeVoteableText(reviewer: AccountInfo, change: ChangeInfo) {
     if (!change || !change.labels) {
       return '';
     }
@@ -182,35 +287,26 @@ export class GrReviewerList extends PolymerElement {
     return maxScores.join(', ');
   }
 
-  _computeVote(
+  computeVote(
     reviewer: AccountInfo,
     change?: ChangeInfo
   ): ApprovalInfo | undefined {
-    const codeReviewLabel = this._computeCodeReviewLabel(change);
+    const codeReviewLabel = this.computeCodeReviewLabel(change);
     if (!codeReviewLabel || !isDetailedLabelInfo(codeReviewLabel)) return;
     return getApprovalInfo(codeReviewLabel, reviewer);
   }
 
-  _computeCodeReviewLabel(change?: ChangeInfo): LabelInfo | undefined {
+  computeCodeReviewLabel(change?: ChangeInfo): LabelInfo | undefined {
     if (!change || !change.labels) return;
     return getCodeReviewLabel(change.labels);
   }
 
-  @observe('change.reviewers.*', 'change.owner')
-  _reviewersChanged(
-    changeRecord: PolymerDeepPropertyChange<Reviewers, Reviewers>,
-    owner: AccountInfo
-  ) {
-    // Polymer 2: check for undefined
-    if (
-      changeRecord === undefined ||
-      owner === undefined ||
-      this.change === undefined
-    ) {
+  private computeDisplayedReviewers() {
+    if (this.change?.owner === undefined) {
       return;
     }
     let result: AccountInfo[] = [];
-    const reviewers = changeRecord.base;
+    const reviewers = this.change.reviewers;
     for (const key of Object.keys(reviewers)) {
       if (this.reviewersOnly && key !== 'REVIEWER') {
         continue;
@@ -222,25 +318,27 @@ export class GrReviewerList extends PolymerElement {
         result = result.concat(reviewers[key]!);
       }
     }
-    this._reviewers = result
-      .filter(reviewer => reviewer._account_id !== owner._account_id)
+    this.reviewers = result
+      .filter(
+        reviewer => reviewer._account_id !== this.change?.owner._account_id
+      )
       .sort((r1, r2) => sortReviewers(r1, r2, this.change, this.account));
 
-    if (this._reviewers.length > 8) {
-      this._displayedReviewers = this._reviewers.slice(0, 6);
+    if (this.reviewers.length > 8) {
+      return this.reviewers.slice(0, 6);
     } else {
-      this._displayedReviewers = this._reviewers;
+      return this.reviewers;
     }
   }
 
-  _computeCanRemoveReviewer(reviewer: AccountInfo, mutable: boolean) {
+  private computeCanRemoveReviewer(reviewer: AccountInfo, mutable: boolean) {
     if (this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
       return false;
     }
     return mutable && isRemovableReviewer(this.change, reviewer);
   }
 
-  _handleRemove(e: Event) {
+  private handleRemove(e: Event) {
     e.preventDefault();
     const target = (dom(e) as EventApi).rootTarget as GrAccountChip;
     if (!target.account || !this.change?.reviewers) return;
@@ -259,19 +357,21 @@ export class GrReviewerList extends PolymerElement {
         ) {
           removedAccount = reviewerStateByType[i];
           removedType = type;
-          this.splice(`change.reviewers.${type}`, i, 1);
+          this.change.reviewers[type]?.splice(i, 1);
+          this.requestUpdate();
           break;
         }
       }
     }
     const curChange = this.change;
     this.disabled = true;
-    this._xhrPromise = this._removeReviewer(accountID)
+    this.xhrPromise = this.removeReviewer(accountID)
       .then(response => {
         this.disabled = false;
         if (!this.change?.reviewers || this.change !== curChange) return;
         if (!response?.ok) {
-          this.push(`change.reviewers.${removedType}`, removedAccount);
+          this.change.reviewers[removedType!]?.push(removedAccount!);
+          this.requestUpdate();
           fireAlert(this, `Cannot remove a ${removedType}`);
           return response;
         }
@@ -283,7 +383,7 @@ export class GrReviewerList extends PolymerElement {
       });
   }
 
-  _handleAddTap(e: Event) {
+  private handleAddTap(e: Event) {
     e.preventDefault();
     const value = {
       reviewersOnly: false,
@@ -304,17 +404,15 @@ export class GrReviewerList extends PolymerElement {
     );
   }
 
-  _handleViewAll() {
-    this._displayedReviewers = this._reviewers;
+  private handleViewAll() {
+    this.displayedReviewers = this.reviewers;
   }
 
-  _removeReviewer(id: AccountId | EmailAddress): Promise<Response | undefined> {
+  private removeReviewer(
+    id: AccountId | EmailAddress
+  ): Promise<Response | undefined> {
     if (!this.change) return Promise.resolve(undefined);
     return this.restApiService.removeChangeReviewer(this.change._number, id);
-  }
-
-  showNewSubmitRequirements(change?: ChangeInfo) {
-    return showNewSubmitRequirements(this.flagsService, change);
   }
 }
 

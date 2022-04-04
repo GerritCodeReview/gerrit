@@ -20,15 +20,20 @@ import '../gr-button/gr-button';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {customElement, property} from '@polymer/decorators';
-import {htmlTemplate} from './gr-editable-content_html';
-import {fireAlert, fireEvent} from '../../../utils/event-util';
+import {fire, fireAlert, fireEvent} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {queryAndAssert} from '../../../utils/common-util';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {Interaction} from '../../../constants/reporting';
+import {LitElement, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {css} from 'lit';
+import {PropertyValues} from 'lit';
+import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {nothing} from 'lit';
+import {classMap} from 'lit/directives/class-map';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -37,14 +42,16 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-editable-content': GrEditableContent;
   }
+  interface HTMLElementEventMap {
+    'content-changed': ValueChangedEvent<string>;
+  }
+  interface HTMLElementEventMap {
+    'editing-changed': ValueChangedEvent<boolean>;
+  }
 }
 
 @customElement('gr-editable-content')
-export class GrEditableContent extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrEditableContent extends LitElement {
   /**
    * Fired when the save button is pressed.
    *
@@ -63,17 +70,15 @@ export class GrEditableContent extends PolymerElement {
    * @event show-alert
    */
 
-  @property({type: String, notify: true, observer: '_contentChanged'})
+  @property({type: String})
   content?: string;
 
-  @property({type: Boolean, reflectToAttribute: true})
+  @property({type: Boolean, reflect: true})
   disabled = false;
 
   @property({
     type: Boolean,
-    observer: '_editingChanged',
-    notify: true,
-    reflectToAttribute: true,
+    reflect: true,
   })
   editing = false;
 
@@ -86,35 +91,16 @@ export class GrEditableContent extends PolymerElement {
 
   /** If false, then the "Show more" button was used to expand. */
   @property({type: Boolean})
-  _commitCollapsed = true;
+  commitCollapsed = true;
 
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'commit-collapsible'})
   commitCollapsible = true;
 
-  @property({
-    type: Boolean,
-    computed:
-      '_computeHideShowAllContainer(hideEditCommitMessage, _hideShowAllButton, editing)',
-  })
-  _hideShowAllContainer = false;
-
-  @property({
-    type: Boolean,
-    computed: '_computeHideShowAllButton(commitCollapsible, editing)',
-  })
-  _hideShowAllButton = false;
-
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'hide-edit-commit-message'})
   hideEditCommitMessage?: boolean;
 
-  @property({
-    type: Boolean,
-    computed: '_computeSaveDisabled(disabled, content, _newContent)',
-  })
-  _saveDisabled!: boolean;
-
-  @property({type: String, observer: '_newContentChanged'})
-  _newContent = '';
+  @property({type: String})
+  newContent = '';
 
   private readonly storage = getAppContext().storageService;
 
@@ -128,12 +114,201 @@ export class GrEditableContent extends PolymerElement {
     super.disconnectedCallback();
   }
 
-  _contentChanged() {
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('editing')) this.editingChanged();
+    if (changedProperties.has('newContent')) this.newContentChanged();
+    if (changedProperties.has('content')) this.contentChanged();
+  }
+
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+        }
+        :host([disabled]) iron-autogrow-textarea {
+          opacity: 0.5;
+        }
+        .viewer {
+          background-color: var(--view-background-color);
+          border: 1px solid var(--view-background-color);
+          border-radius: var(--border-radius);
+          box-shadow: var(--elevation-level-1);
+          padding: var(--spacing-m);
+        }
+        :host(.collapsed) .viewer,
+        .viewer.collapsed {
+          max-height: var(--collapsed-max-height, 300px);
+          overflow: hidden;
+        }
+        .editor iron-autogrow-textarea,
+        .viewer {
+          min-height: 100px;
+        }
+        .editor iron-autogrow-textarea {
+          background-color: var(--view-background-color);
+          width: 100%;
+          display: block;
+
+          /* You have to also repeat everything from shared-styles here, because
+              you can only *replace* --iron-autogrow-textarea vars as a whole. */
+          --iron-autogrow-textarea: {
+            box-sizing: border-box;
+            padding: var(--spacing-m);
+            overflow-y: hidden;
+            white-space: pre;
+          }
+        }
+        .editButtons {
+          display: flex;
+          justify-content: space-between;
+        }
+        .show-all-container {
+          background-color: var(--view-background-color);
+          display: flex;
+          justify-content: flex-end;
+          border: 1px solid transparent;
+          border-top-color: var(--border-color);
+          border-radius: 0 0 4px 4px;
+          box-shadow: var(--elevation-level-1);
+          /* slightly up to cover rounded corner of the commit msg */
+          margin-top: calc(-1 * var(--spacing-xs));
+          /* To make this bar pop over editor, since editor has relative position.
+          */
+          position: relative;
+        }
+        :host([editing]) .show-all-container {
+          box-shadow: none;
+          border: 1px solid var(--border-color);
+        }
+        .show-all-container .show-all-button {
+          margin-right: auto;
+        }
+        .show-all-container iron-icon {
+          color: inherit;
+          --iron-icon-height: 18px;
+          --iron-icon-width: 18px;
+        }
+        .cancel-button {
+          margin-right: var(--spacing-l);
+        }
+        .save-button {
+          margin-right: var(--spacing-xs);
+        }
+        gr-button {
+          font-family: var(--font-family);
+          line-height: var(--line-height-normal);
+          padding: var(--spacing-xs);
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <gr-endpoint-decorator name="commit-message">
+        <gr-endpoint-param
+          name="editing"
+          .value="${this.editing}"
+        ></gr-endpoint-param>
+        ${this.renderViewer()} ${this.renderEditor()} ${this.renderButtons()}
+        <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
+      </gr-endpoint-decorator>
+    `;
+  }
+
+  private renderViewer() {
+    if (this.editing) return nothing;
+    return html`
+      <div
+        class="${classMap({
+          viewer: true,
+          collapsed: this.commitCollapsed && this.commitCollapsible,
+        })}"
+      >
+        <slot></slot>
+      </div>
+    `;
+  }
+
+  private renderEditor() {
+    return html`
+      <div class="editor" ?hidden="${!this.editing}">
+        <div>
+          <iron-autogrow-textarea
+            autocomplete="on"
+            .bindValue=${this.newContent}
+            ?disabled="${this.disabled}"
+            @bind-value-changed=${(e: BindValueChangeEvent) => {
+              this.newContent = e.detail.value;
+            }}
+          ></iron-autogrow-textarea>
+        </div>
+      </div>
+    `;
+  }
+
+  private renderButtons() {
+    if (
+      !this.editing ||
+      (!this.commitCollapsible && this.hideEditCommitMessage)
+    )
+      return nothing;
+
+    return html`
+      <div class="show-all-container">
+        <gr-button
+          class="show-all-button"
+          @click="${this.toggleCommitCollapsed}"
+          ?hidden="${!this.commitCollapsible || this.editing}"
+          ><iron-icon
+            icon="gr-icons:expand-more"
+            ?hidden="${!this.commitCollapsed}"
+          ></iron-icon
+          ><iron-icon
+            icon="gr-icons:expand-less"
+            ?hidden="${this.commitCollapsed}"
+          ></iron-icon>
+          ${this.commitCollapsed ? 'Show all' : 'Show less'}
+        </gr-button>
+        <gr-button
+          link=""
+          class="edit-commit-message"
+          title="Edit commit message"
+          @click="${this.handleEditCommitMessage}"
+          ?hidden="${this.hideEditCommitMessage}"
+          ><iron-icon icon="gr-icons:edit"></iron-icon> Edit</gr-button
+        >
+        <div class="editButtons" ?hidden="${!this.editing}">
+          <gr-button
+            link=""
+            class="cancel-button"
+            @click="${this.handleCancel}"
+            ?disabled="${this.disabled}"
+            >Cancel</gr-button
+          >
+          <gr-button
+            class="save-button"
+            primary=""
+            @click="${this.handleSave}"
+            ?disabled="${this.computeSaveDisabled()}"
+            >Save</gr-button
+          >
+        </div>
+      </div>
+    `;
+  }
+
+  contentChanged() {
     /* A changed content means that either a different change has been loaded
      * or new content was saved. Either way, let's reset the component.
      */
     this.editing = false;
-    this._newContent = '';
+    this.newContent = '';
+    fire(this, 'content-changed', {
+      value: this.content ?? '',
+    });
   }
 
   focusTextarea() {
@@ -143,15 +318,15 @@ export class GrEditableContent extends PolymerElement {
     ).textarea.focus();
   }
 
-  _newContentChanged(newContent: string) {
+  newContentChanged() {
     if (!this.storageKey) return;
     const storageKey = this.storageKey;
 
     this.storeTask = debounce(
       this.storeTask,
       () => {
-        if (newContent.length) {
-          this.storage.setEditableContentItem(storageKey, newContent);
+        if (this.newContent.length) {
+          this.storage.setEditableContentItem(storageKey, this.newContent);
         } else {
           // This does not really happen, because we don't clear newContent
           // after saving (see below). So this only occurs when the user clears
@@ -165,8 +340,8 @@ export class GrEditableContent extends PolymerElement {
     );
   }
 
-  _editingChanged(editing: boolean) {
-    // This method is for initializing _newContent when you start editing.
+  editingChanged() {
+    // This method is for initializing newContent when you start editing.
     // Restoring content from local storage is not perfect and has
     // some issues:
     //
@@ -180,7 +355,7 @@ export class GrEditableContent extends PolymerElement {
     // content from local storage when you enter editing mode for the first
     // time. Otherwise it is better to just keep the last editing state from
     // the same session.
-    if (!editing || this._newContent) return;
+    if (!this.editing || this.newContent) return;
 
     let content;
     if (this.storageKey) {
@@ -197,72 +372,53 @@ export class GrEditableContent extends PolymerElement {
     }
 
     // TODO(wyatta) switch linkify sequence, see issue 5526.
-    this._newContent = this.removeZeroWidthSpace
+    this.newContent = this.removeZeroWidthSpace
       ? content.replace(/^R=\u200B/gm, 'R=')
       : content;
+
+    fire(this, 'editing-changed', {
+      value: this.editing,
+    });
   }
 
-  _computeSaveDisabled(
-    disabled?: boolean,
-    content?: string,
-    newContent?: string
-  ): boolean {
-    return disabled || !newContent || content === newContent;
+  computeSaveDisabled(): boolean {
+    return (
+      this.disabled || !this.newContent || this.content === this.newContent
+    );
   }
 
-  _handleSave(e: Event) {
+  handleSave(e: Event) {
     e.preventDefault();
     this.dispatchEvent(
       new CustomEvent('editable-content-save', {
-        detail: {content: this._newContent},
+        detail: {content: this.newContent},
         composed: true,
         bubbles: true,
       })
     );
-    // It would be nice, if we would set this._newContent = undefined here,
+    // It would be nice, if we would set this.newContent = undefined here,
     // but we can only do that when we are sure that the save operation has
     // succeeded.
   }
 
-  _handleCancel(e: Event) {
+  handleCancel(e: Event) {
     e.preventDefault();
     this.editing = false;
     fireEvent(this, 'editable-content-cancel');
   }
 
-  _computeCollapseText(collapsed: boolean) {
-    return collapsed ? 'Show all' : 'Show less';
-  }
-
-  _toggleCommitCollapsed() {
-    this._commitCollapsed = !this._commitCollapsed;
+  toggleCommitCollapsed() {
+    this.commitCollapsed = !this.commitCollapsed;
     this.reporting.reportInteraction(Interaction.TOGGLE_SHOW_ALL_BUTTON, {
       sectionName: 'Commit message',
-      toState: !this._commitCollapsed ? 'Show all' : 'Show less',
+      toState: !this.commitCollapsed ? 'Show all' : 'Show less',
     });
-    if (this._commitCollapsed) {
+    if (this.commitCollapsed) {
       window.scrollTo(0, 0);
     }
   }
 
-  _computeHideShowAllContainer(
-    hideEditCommitMessage?: boolean,
-    _hideShowAllButton?: boolean,
-    editing?: boolean
-  ) {
-    if (editing) return false;
-    return _hideShowAllButton && hideEditCommitMessage;
-  }
-
-  _computeHideShowAllButton(commitCollapsible?: boolean, editing?: boolean) {
-    return !commitCollapsible || editing;
-  }
-
-  _computeCommitMessageCollapsed(collapsed?: boolean, collapsible?: boolean) {
-    return collapsible && collapsed;
-  }
-
-  _handleEditCommitMessage() {
+  handleEditCommitMessage() {
     this.editing = true;
     this.focusTextarea();
   }

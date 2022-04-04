@@ -16,6 +16,24 @@
       "message": "Why was this change merged with code-style errors?",
       "revId": "fbdc16ed4b20b2729262f1d04dc4da93159b4caa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abe334c7_8ab4fdf9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-04T13:37:23Z",
+      "side": 1,
+      "message": "Sorry for the trouble. These errors are temporary false-positives so I overrode it, but I was shortsighted and did not realize it would affect others in the meanwhile. It is fixed in Change 334339 which I am about to submit, and I will make sure to merge the two change pairs together in the future to prevent issues for others.\n\nThe false positive is that it assumes code in .*_html.ts is Polymer framework code and other files will have Lit framework code, but I have temporarily broken that convention to make the migration steps more discrete.",
+      "parentUuid": "65b156ad_a4316e59",
+      "revId": "fbdc16ed4b20b2729262f1d04dc4da93159b4caa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

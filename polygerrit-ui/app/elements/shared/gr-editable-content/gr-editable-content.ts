@@ -76,9 +76,8 @@ export class GrEditableContent extends LitElement {
 
   @property({
     type: Boolean,
-    observer: '_editingChanged',
     notify: true,
-    reflectToAttribute: true,
+    reflect: true,
   })
   editing = false;
 
@@ -91,35 +90,16 @@ export class GrEditableContent extends LitElement {
 
   /** If false, then the "Show more" button was used to expand. */
   @property({type: Boolean})
-  _commitCollapsed = true;
+  commitCollapsed = true;
 
   @property({type: Boolean})
   commitCollapsible = true;
 
-  @property({
-    type: Boolean,
-    computed:
-      '_computeHideShowAllContainer(hideEditCommitMessage, _hideShowAllButton, editing)',
-  })
-  _hideShowAllContainer = false;
-
-  @property({
-    type: Boolean,
-    computed: '_computeHideShowAllButton(commitCollapsible, editing)',
-  })
-  _hideShowAllButton = false;
-
   @property({type: Boolean})
   hideEditCommitMessage?: boolean;
 
-  @property({
-    type: Boolean,
-    computed: 'computeSaveDisabled(disabled, content, _newContent)',
-  })
-  _saveDisabled!: boolean;
-
-  @property({type: String, observer: 'newContentChanged'})
-  _newContent = '';
+  @property({type: String})
+  newContent = '';
 
   private readonly storage = getAppContext().storageService;
 
@@ -131,6 +111,11 @@ export class GrEditableContent extends LitElement {
   override disconnectedCallback() {
     this.storeTask?.cancel();
     super.disconnectedCallback();
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('editing')) this.editingChanged();
+    if (changedProperties.has('newContent')) this.newContentChanged();
   }
 
   static override get styles() {
@@ -223,62 +208,70 @@ export class GrEditableContent extends LitElement {
       <gr-endpoint-decorator name="commit-message">
         <gr-endpoint-param
           name="editing"
-          value="[[editing]]"
+          value="${this.editing}"
         ></gr-endpoint-param>
         <div
           class="viewer"
-          hidden$="[[editing]]"
-          collapsed$="[[_computeCommitMessageCollapsed(_commitCollapsed, commitCollapsible)]]"
+          ?hidden="${this.editing}"
+          collapsed$="${this.commitCollapsed && this.commitCollapsible}"
         >
           <slot></slot>
         </div>
-        <div class="editor" hidden$="[[!editing]]">
+        <div class="editor" ?hidden="${!this.editing}">
           <div>
             <iron-autogrow-textarea
               autocomplete="on"
-              bind-value="{{_newContent}}"
-              disabled="[[disabled]]"
+              bind-value="{{newContent}}"
+              disabled="${this.disabled}"
             ></iron-autogrow-textarea>
           </div>
         </div>
         <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
-        <div class="show-all-container" hidden$="[[_hideShowAllContainer]]">
+        <div
+          class="show-all-container"
+          ?hidden="${(!this.commitCollapsible || this.editing) &&
+          this.hideEditCommitMessage}"
+        >
           <gr-button
             link=""
             class="show-all-button"
-            on-click="_toggleCommitCollapsed"
-            hidden$="[[_hideShowAllButton]]"
+            on-click="toggleCommitCollapsed"
+            ?hidden="${!this.commitCollapsible || this.editing}"
             ><iron-icon
               icon="gr-icons:expand-more"
-              hidden$="[[!_commitCollapsed]]"
+              ?hidden="${!this.commitCollapsed}"
             ></iron-icon
             ><iron-icon
               icon="gr-icons:expand-less"
-              hidden$="[[_commitCollapsed]]"
+              ?hidden="${this.commitCollapsed}"
             ></iron-icon>
-            [[_computeCollapseText(_commitCollapsed)]]
+            ${this.computeCollapseText(this.commitCollapsed)}
           </gr-button>
           <gr-button
             link=""
             class="edit-commit-message"
             title="Edit commit message"
-            on-click="_handleEditCommitMessage"
-            hidden$="[[hideEditCommitMessage]]"
+            on-click="handleEditCommitMessage"
+            ?hidden="${this.hideEditCommitMessage}"
             ><iron-icon icon="gr-icons:edit"></iron-icon> Edit</gr-button
           >
-          <div class="editButtons" hidden$="[[!editing]]">
+          <div class="editButtons" ?hidden="${!this.editing}">
             <gr-button
               link=""
               class="cancel-button"
-              on-click="_handleCancel"
-              disabled="[[disabled]]"
+              on-click="handleCancel"
+              ?disabled="${this.disabled}"
               >Cancel</gr-button
             >
             <gr-button
               class="save-button"
               primary=""
               on-click="handleSave"
-              disabled="[[_saveDisabled]]"
+              ?disabled="${this.computeSaveDisabled(
+                this.disabled,
+                this.content,
+                this.newContent
+              )}"
               >Save</gr-button
             >
           </div>
@@ -292,7 +285,7 @@ export class GrEditableContent extends LitElement {
      * or new content was saved. Either way, let's reset the component.
      */
     this.editing = false;
-    this._newContent = '';
+    this.newContent = '';
   }
 
   focusTextarea() {
@@ -302,7 +295,8 @@ export class GrEditableContent extends LitElement {
     ).textarea.focus();
   }
 
-  newContentChanged(newContent: string) {
+  newContentChanged() {
+    const newContent = this.newContent;
     if (!this.storageKey) return;
     const storageKey = this.storageKey;
 
@@ -324,8 +318,8 @@ export class GrEditableContent extends LitElement {
     );
   }
 
-  _editingChanged(editing: boolean) {
-    // This method is for initializing _newContent when you start editing.
+  editingChanged() {
+    // This method is for initializing newContent when you start editing.
     // Restoring content from local storage is not perfect and has
     // some issues:
     //
@@ -339,7 +333,8 @@ export class GrEditableContent extends LitElement {
     // content from local storage when you enter editing mode for the first
     // time. Otherwise it is better to just keep the last editing state from
     // the same session.
-    if (!editing || this._newContent) return;
+    const editing = this.editing;
+    if (!editing || this.newContent) return;
 
     let content;
     if (this.storageKey) {
@@ -356,7 +351,7 @@ export class GrEditableContent extends LitElement {
     }
 
     // TODO(wyatta) switch linkify sequence, see issue 5526.
-    this._newContent = this.removeZeroWidthSpace
+    this.newContent = this.removeZeroWidthSpace
       ? content.replace(/^R=\u200B/gm, 'R=')
       : content;
   }
@@ -373,55 +368,38 @@ export class GrEditableContent extends LitElement {
     e.preventDefault();
     this.dispatchEvent(
       new CustomEvent('editable-content-save', {
-        detail: {content: this._newContent},
+        detail: {content: this.newContent},
         composed: true,
         bubbles: true,
       })
     );
-    // It would be nice, if we would set this._newContent = undefined here,
+    // It would be nice, if we would set this.newContent = undefined here,
     // but we can only do that when we are sure that the save operation has
     // succeeded.
   }
 
-  _handleCancel(e: Event) {
+  handleCancel(e: Event) {
     e.preventDefault();
     this.editing = false;
     fireEvent(this, 'editable-content-cancel');
   }
 
-  _computeCollapseText(collapsed: boolean) {
+  computeCollapseText(collapsed: boolean) {
     return collapsed ? 'Show all' : 'Show less';
   }
 
-  _toggleCommitCollapsed() {
-    this._commitCollapsed = !this._commitCollapsed;
+  toggleCommitCollapsed() {
+    this.commitCollapsed = !this.commitCollapsed;
     this.reporting.reportInteraction(Interaction.TOGGLE_SHOW_ALL_BUTTON, {
       sectionName: 'Commit message',
-      toState: !this._commitCollapsed ? 'Show all' : 'Show less',
+      toState: !this.commitCollapsed ? 'Show all' : 'Show less',
     });
-    if (this._commitCollapsed) {
+    if (this.commitCollapsed) {
       window.scrollTo(0, 0);
     }
   }
 
-  _computeHideShowAllContainer(
-    hideEditCommitMessage?: boolean,
-    _hideShowAllButton?: boolean,
-    editing?: boolean
-  ) {
-    if (editing) return false;
-    return _hideShowAllButton && hideEditCommitMessage;
-  }
-
-  _computeHideShowAllButton(commitCollapsible?: boolean, editing?: boolean) {
-    return !commitCollapsible || editing;
-  }
-
-  _computeCommitMessageCollapsed(collapsed?: boolean, collapsible?: boolean) {
-    return collapsible && collapsed;
-  }
-
-  _handleEditCommitMessage() {
+  handleEditCommitMessage() {
     this.editing = true;
     this.focusTextarea();
   }

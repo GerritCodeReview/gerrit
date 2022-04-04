@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13cd41b0_1ed04fe8",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-04T14:25:12Z",
+      "side": 1,
+      "message": "You need either `.labelText\u003d${\u0027File path\u0027}` or `labelText\u003d\"File path\"` Both works, I prefer this one.",
+      "parentUuid": "91ebab96_9aadcb41",
+      "range": {
+        "startLine": 221,
+        "startChar": 24,
+        "endLine": 221,
+        "endChar": 35
+      },
+      "revId": "5ef275006538ded609b4c2a9e101de44bb7d86db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eebe5568_dbc17bae",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-04-04T13:25:57Z",
       "side": 1,
       "message": "Can we use state for the properties that have _ (e.g. private properties)?",
+      "revId": "5ef275006538ded609b4c2a9e101de44bb7d86db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1128ab3_72493bc6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-04T14:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eebe5568_dbc17bae",
       "revId": "5ef275006538ded609b4c2a9e101de44bb7d86db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2d3e4e0_030d1a82",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-04T14:25:12Z",
+      "side": 1,
+      "message": "Thanks, I forgot about it.",
+      "parentUuid": "4700c20a_31d1a622",
+      "revId": "5ef275006538ded609b4c2a9e101de44bb7d86db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6e383ef_cab05da9",
@@ -71,6 +131,24 @@
       "writtenOn": "2022-04-04T13:25:57Z",
       "side": 1,
       "message": "Don\u0027t need to use else can just remove this and have it return.\n\nSame for below.",
+      "revId": "5ef275006538ded609b4c2a9e101de44bb7d86db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6be2df5_99c0923b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-04T14:25:12Z",
+      "side": 1,
+      "message": "If you insist, I can rewrite this. But I actually prefer if/else structure if there are only 2 options.",
+      "parentUuid": "d6e383ef_cab05da9",
       "revId": "5ef275006538ded609b4c2a9e101de44bb7d86db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -92,6 +170,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5f06323_04a3f650",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-04T14:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58eafe15_d28a5531",
+      "revId": "5ef275006538ded609b4c2a9e101de44bb7d86db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a6c4c4b_61d522c4",
@@ -105,6 +201,30 @@
       "writtenOn": "2022-04-04T13:25:57Z",
       "side": 1,
       "message": "Maybe we should rename so that one doesn\u0027t have to use _open rather private \u003cfunction name\u003e?",
+      "range": {
+        "startLine": 277,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 3
+      },
+      "revId": "5ef275006538ded609b4c2a9e101de44bb7d86db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d5e349f_a0689f70",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-04T14:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a6c4c4b_61d522c4",
       "range": {
         "startLine": 277,
         "startChar": 0,

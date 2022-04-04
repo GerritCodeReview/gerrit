@@ -50,11 +50,7 @@ import {GrWatchedProjectsEditor} from '../gr-watched-projects-editor/gr-watched-
 import {GrGroupList} from '../gr-group-list/gr-group-list';
 import {GrIdentities} from '../gr-identities/gr-identities';
 import {GrDiffPreferences} from '../../shared/gr-diff-preferences/gr-diff-preferences';
-import {
-  PreferencesInput,
-  ServerInfo,
-  TopMenuItemInfo,
-} from '../../../types/common';
+import {PreferencesInput, ServerInfo} from '../../../types/common';
 import {GrSshEditor} from '../gr-ssh-editor/gr-ssh-editor';
 import {GrGpgEditor} from '../gr-gpg-editor/gr-gpg-editor';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
@@ -103,8 +99,6 @@ enum CopyPrefsDirection {
   LocalPrefsToPrefs,
 }
 
-type LocalMenuItemInfo = Omit<TopMenuItemInfo, 'id'>;
-
 export interface GrSettingsView {
   $: {
     accountInfo: GrAccountInfo;
@@ -129,7 +123,6 @@ export interface GrSettingsView {
     emailFormatSelect: HTMLInputElement;
     defaultBaseForMergesSelect: HTMLInputElement;
     diffViewSelect: HTMLInputElement;
-    menu: HTMLFieldSetElement;
     resetButton: GrButton;
   };
 }
@@ -167,9 +160,6 @@ export class GrSettingsView extends PolymerElement {
   @property({type: Array})
   _localChangeTableColumns: string[] = [];
 
-  @property({type: Array})
-  _localMenu: LocalMenuItemInfo[] = [];
-
   @property({type: Boolean})
   _loading = true;
 
@@ -181,9 +171,6 @@ export class GrSettingsView extends PolymerElement {
 
   @property({type: Boolean})
   _diffPrefsChanged = false;
-
-  @property({type: Boolean})
-  _menuChanged = false;
 
   @property({type: Boolean})
   _watchedProjectsChanged = false;
@@ -247,7 +234,6 @@ export class GrSettingsView extends PolymerElement {
         this.prefs = prefs;
         this._showNumber = !!prefs.legacycid_in_change_table;
         this._copyPrefs(CopyPrefsDirection.PrefsToLocalPrefs);
-        this._localMenu = this._cloneMenu(prefs.my);
         this._localChangeTableColumns =
           prefs.change_table.length === 0
             ? columnNames
@@ -351,11 +337,6 @@ export class GrSettingsView extends PolymerElement {
     }
   }
 
-  _cloneMenu(prefs: TopMenuItemInfo[]) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return prefs.map(({id, ...item}) => item);
-  }
-
   @observe('_localChangeTableColumns', '_showNumber')
   _handleChangeTableChanged() {
     if (this._isLoading()) {
@@ -418,14 +399,6 @@ export class GrSettingsView extends PolymerElement {
     this.set('_localPrefs.signed_off_by', this.$.insertSignedOff.checked);
   }
 
-  @observe('_localMenu.splices')
-  _handleMenuChanged() {
-    if (this._isLoading()) {
-      return;
-    }
-    this._menuChanged = true;
-  }
-
   _handleSaveAccountInfo() {
     this.$.accountInfo.save();
   }
@@ -448,21 +421,6 @@ export class GrSettingsView extends PolymerElement {
 
   _handleSaveDiffPreferences() {
     this.$.diffPrefs.save();
-  }
-
-  _handleSaveMenu() {
-    this.set('prefs.my', this._localMenu);
-    return this.restApiService.savePreferences(this.prefs).then(() => {
-      this._menuChanged = false;
-    });
-  }
-
-  _handleResetMenuButton() {
-    return this.restApiService.getDefaultPreferences().then(data => {
-      if (data?.my) {
-        this._localMenu = this._cloneMenu(data.my);
-      }
-    });
   }
 
   _handleSaveWatchedProjects() {

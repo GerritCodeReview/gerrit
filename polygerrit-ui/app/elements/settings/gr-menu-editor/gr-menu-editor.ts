@@ -1,48 +1,53 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
-import '../../../styles/shared-styles';
-import '../../../styles/gr-form-styles';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-menu-editor_html';
-import {customElement, property} from '@polymer/decorators';
-import {TopMenuItemInfo} from '../../../types/common';
+import {PreferencesInfo, TopMenuItemInfo} from '../../../types/common';
+import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css, html} from 'lit';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {state, customElement} from 'lit/decorators';
+import {BindValueChangeEvent} from '../../../types/events';
+import {subscribe} from '../../lit/subscription-controller';
+import {getAppContext} from '../../../services/app-context';
+import {deepEqual} from '../../../utils/deep-util';
+import {createDefaultPreferences} from '../../../constants/constants';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {classMap} from 'lit/directives/class-map';
+import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 
 @customElement('gr-menu-editor')
-export class GrMenuEditor extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
+export class GrMenuEditor extends LitElement {
+  @state()
+  menuItems: TopMenuItemInfo[] = [];
+
+  @state()
+  originalPrefs: PreferencesInfo = createDefaultPreferences();
+
+  @state()
+  newName = '';
+
+  @state()
+  newUrl = '';
+
+  private readonly userModel = getAppContext().userModel;
+
+  override connectedCallback() {
+    super.connectedCallback();
+    subscribe(this, this.userModel.preferences$, prefs => {
+      this.originalPrefs = prefs;
+      this.menuItems = [...prefs.my];
+    });
   }
 
-  @property({type: Array})
-  menuItems!: TopMenuItemInfo[];
-
-  @property({type: String})
-  _newName?: string;
-
-  @property({type: String})
-  _newUrl?: string;
-
-  styles = [
+  static override styles = [
+    formStyles,
     sharedStyles,
+    fontStyles,
+    menuPageStyles,
     css`
       .buttonColumn {
         width: 2em;
@@ -64,154 +69,165 @@ export class GrMenuEditor extends PolymerElement {
     `,
   ];
 
-  render() {
+  override render() {
+    const unchanged = deepEqual(this.menuItems, this.originalPrefs.my);
+    const classes = {
+      'heading-2': true,
+      edited: !unchanged,
+    };
     return html`
       <div class="gr-form-styles">
-        <table>
-          <thead>
-            <tr>
-              <th class="nameHeader">Name</th>
-              <th class="url-header">URL</th>
-            </tr>
-          </thead>
-          <tbody>
-            <template is="dom-repeat" items="[[menuItems]]">
+        <h2 id="Menu" class=${classMap(classes)}>Menu</h2>
+        <fieldset id="menu">
+          <table>
+            <thead>
               <tr>
-                <td>[[item.name]]</td>
-                <td class="urlCell">[[item.url]]</td>
-                <td class="buttonColumn">
-                  <gr-button
-                    link=""
-                    data-index$="[[index]]"
-                    on-click="_handleMoveUpButton"
-                    class="moveUpButton"
-                    >↑</gr-button
-                  >
-                </td>
-                <td class="buttonColumn">
-                  <gr-button
-                    link=""
-                    data-index$="[[index]]"
-                    on-click="_handleMoveDownButton"
-                    class="moveDownButton"
-                    >↓</gr-button
-                  >
-                </td>
-                <td>
-                  <gr-button
-                    link=""
-                    data-index$="[[index]]"
-                    on-click="_handleDeleteButton"
-                    class="remove-button"
-                    >Delete</gr-button
-                  >
-                </td>
+                <th>Name</th>
+                <th>URL</th>
               </tr>
-            </template>
-          </tbody>
-          <tfoot>
-            <tr>
-              <th>
-                <iron-input
-                  placeholder="New Title"
-                  on-keydown="_handleInputKeydown"
-                  bind-value="{{_newName}}"
-                >
-                  <input
-                    is="iron-input"
-                    placeholder="New Title"
-                    on-keydown="_handleInputKeydown"
-                    bind-value="{{_newName}}"
-                  />
-                </iron-input>
-              </th>
-              <th>
-                <iron-input
-                  class="newUrlInput"
-                  placeholder="New URL"
-                  on-keydown="_handleInputKeydown"
-                  bind-value="{{_newUrl}}"
-                >
-                  <input
-                    class="newUrlInput"
-                    is="iron-input"
-                    placeholder="New URL"
-                    on-keydown="_handleInputKeydown"
-                    bind-value="{{_newUrl}}"
-                  />
-                </iron-input>
-              </th>
-              <th></th>
-              <th></th>
-              <th>
-                <gr-button
-                  link=""
-                  disabled$="[[_computeAddDisabled(_newName, _newUrl)]]"
-                  on-click="_handleAddButton"
-                  >Add</gr-button
-                >
-              </th>
-            </tr>
-          </tfoot>
-        </table>
+            </thead>
+            <tbody>
+              ${this.menuItems.map((item, index) =>
+                this.renderMenuItemRow(item, index)
+              )}
+            </tbody>
+            <tfoot>
+              ${this.renderFooterRow()}
+            </tfoot>
+          </table>
+          <gr-button
+            id="saveMenu"
+            @click=${this.handleSave}
+            ?disabled=${unchanged}
+            >Save changes</gr-button
+          >
+          <gr-button id="resetButton" link @click=${this.handleReset}
+            >Reset</gr-button
+          >
+        </fieldset>
       </div>
     `;
   }
 
-  _handleMoveUpButton(e: Event) {
-    const target = (dom(e) as EventApi).localTarget;
-    if (!(target instanceof HTMLElement)) return;
-    const index = Number(target.dataset['index']);
-    if (index === 0) {
-      return;
-    }
-    const row = this.menuItems[index];
-    const prev = this.menuItems[index - 1];
-    this.splice('menuItems', index - 1, 2, row, prev);
+  private renderMenuItemRow(item: TopMenuItemInfo, index: number) {
+    return html`
+      <tr>
+        <td>${item.name}</td>
+        <td class="urlCell">${item.url}</td>
+        <td class="buttonColumn">
+          <gr-button
+            link
+            data-index=${index}
+            @click=${() => this.swapItems(index, index - 1)}
+            class="moveUpButton"
+            >↑</gr-button
+          >
+        </td>
+        <td class="buttonColumn">
+          <gr-button
+            link
+            data-index=${index}
+            @click=${() => this.swapItems(index, index + 1)}
+            class="moveDownButton"
+            >↓</gr-button
+          >
+        </td>
+        <td>
+          <gr-button
+            link
+            data-index=${index}
+            @click=${() => {
+              this.menuItems.splice(index, 1);
+              this.requestUpdate('menuItems');
+            }}
+            class="remove-button"
+            >Delete</gr-button
+          >
+        </td>
+      </tr>
+    `;
   }
 
-  _handleMoveDownButton(e: Event) {
-    const target = (dom(e) as EventApi).localTarget;
-    if (!(target instanceof HTMLElement)) return;
-    const index = Number(target.dataset['index']);
-    if (index === this.menuItems.length - 1) {
-      return;
-    }
-    const row = this.menuItems[index];
-    const next = this.menuItems[index + 1];
-    this.splice('menuItems', index, 2, next, row);
+  private renderFooterRow() {
+    return html`
+      <tr>
+        <th>
+          <iron-input
+            .bindValue=${this.newName}
+            @bind-value-changed=${(e: BindValueChangeEvent) => {
+              this.newName = e.detail.value ?? '';
+            }}
+          >
+            <input
+              is="iron-input"
+              placeholder="New Title"
+              @keydown=${this.handleInputKeydown}
+            />
+          </iron-input>
+        </th>
+        <th>
+          <iron-input
+            .bindValue=${this.newUrl}
+            @bind-value-changed=${(e: BindValueChangeEvent) => {
+              this.newUrl = e.detail.value ?? '';
+            }}
+          >
+            <input
+              class="newUrlInput"
+              placeholder="New URL"
+              @keydown=${this.handleInputKeydown}
+            />
+          </iron-input>
+        </th>
+        <th></th>
+        <th></th>
+        <th>
+          <gr-button
+            link
+            ?disabled=${this.newName.length === 0 || this.newUrl.length === 0}
+            @click=${this.handleAddButton}
+            >Add</gr-button
+          >
+        </th>
+      </tr>
+    `;
   }
 
-  _handleDeleteButton(e: Event) {
-    const target = (dom(e) as EventApi).localTarget;
-    if (!(target instanceof HTMLElement)) return;
-    const index = Number(target.dataset['index']);
-    this.splice('menuItems', index, 1);
+  private handleSave() {
+    this.userModel.updatePreferences({
+      ...this.originalPrefs,
+      my: this.menuItems,
+    });
   }
 
-  _handleAddButton() {
-    if (this._computeAddDisabled(this._newName, this._newUrl)) {
-      return;
-    }
+  private handleReset() {
+    this.menuItems = [...this.originalPrefs.my];
+  }
 
-    this.splice('menuItems', this.menuItems.length, 0, {
-      name: this._newName,
-      url: this._newUrl,
+  private swapItems(i: number, j: number) {
+    const x = this.menuItems[i];
+    this.menuItems[i] = this.menuItems[j];
+    this.menuItems[j] = x;
+    this.requestUpdate('menuItems');
+  }
+
+  private handleAddButton() {
+    if (this.newName.length === 0 || this.newUrl.length === 0) return;
+
+    this.menuItems.push({
+      name: this.newName,
+      url: this.newUrl,
       target: '_blank',
     });
-
-    this._newName = '';
-    this._newUrl = '';
+    this.newName = '';
+    this.newUrl = '';
+    this.requestUpdate('menuItems');
   }
 
-  _computeAddDisabled(newName?: string, newUrl?: string) {
-    return !newName?.length || !newUrl?.length;
-  }
-
-  _handleInputKeydown(e: KeyboardEvent) {
+  private handleInputKeydown(e: KeyboardEvent) {
     if (e.keyCode === 13) {
       e.stopPropagation();
-      this._handleAddButton();
+      this.handleAddButton();
     }
   }
 }

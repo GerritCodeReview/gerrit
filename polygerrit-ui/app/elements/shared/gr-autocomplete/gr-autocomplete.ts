@@ -54,7 +54,7 @@ export interface AutocompleteSuggestion<T = string> {
   name?: string;
   label?: string;
   value?: T;
-  text?: T;
+  text?: string;
 }
 
 export interface AutocompleteCommitEventDetail {

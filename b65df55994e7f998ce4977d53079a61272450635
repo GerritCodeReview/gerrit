@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2893adcf_d080efae",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-04T13:34:49Z",
+      "side": 1,
+      "message": "I prefer anonymous function or `.bind` for handler so the weirdness does not leak out of the template, but it does work.\nI am merging this change now because I think it is correct and want to fix style failures at HEAD. I don\u0027t mind doing any followup work for this comment if you think it could be improved, so I am leaving the comment open for you to take another look.",
+      "parentUuid": "2b4af842_f94e506e",
+      "revId": "b65df55994e7f998ce4977d53079a61272450635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1c19fb7_61f91401",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
         "patchSetId": 1

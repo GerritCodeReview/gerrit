@@ -40,6 +40,22 @@ suite('gr-textarea tests', () => {
     sinon.stub(element.reporting, 'reportInteraction');
   });
 
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `<div id="hiddenText"></div>
+      <span id="caratSpan"></span>
+      <gr-autocomplete-dropdown
+        dynamic-align=""
+        horizontal-align="left"
+        id="emojiSuggestions"
+        is-hidden=""
+        vertical-align="top"
+      ></gr-autocomplete-dropdown>
+      <iron-autogrow-textarea
+        aria-disabled="false"
+        id="textarea"
+      ></iron-autogrow-textarea>`);
+  });
+
   test('monospace is set properly', () => {
     assert.isFalse(element.classList.contains('monospace'));
   });

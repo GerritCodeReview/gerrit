@@ -32,6 +32,8 @@ import {
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {addShortcut, Key} from '../../../utils/dom-util';
 import {BindValueChangeEvent} from '../../../types/events';
+import {css, html} from 'lit';
+import {sharedStyles} from '../../../styles/shared-styles';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -190,6 +192,89 @@ export class GrTextarea extends PolymerElement {
     if (this.hideBorder) {
       this.$.textarea.classList.add('noBorder');
     }
+  }
+
+  static styles = [
+    sharedStyles,
+    css`
+      :host {
+        display: flex;
+        position: relative;
+      }
+      :host(.monospace) {
+        font-family: var(--monospace-font-family);
+        font-size: var(--font-size-mono);
+        line-height: var(--line-height-mono);
+        font-weight: var(--font-weight-normal);
+      }
+      :host(.code) {
+        font-family: var(--monospace-font-family);
+        font-size: var(--font-size-code);
+        /* usually 16px = 12px + 4px */
+        line-height: calc(var(--font-size-code) + var(--spacing-s));
+        font-weight: var(--font-weight-normal);
+      }
+      #emojiSuggestions {
+        font-family: var(--font-family);
+      }
+      gr-autocomplete {
+        display: inline-block;
+      }
+      #textarea {
+        background-color: var(--view-background-color);
+        width: 100%;
+      }
+      #hiddenText #emojiSuggestions {
+        visibility: visible;
+        white-space: normal;
+      }
+      iron-autogrow-textarea {
+        position: relative;
+      }
+      #textarea.noBorder {
+        border: none;
+      }
+      #hiddenText {
+        display: block;
+        float: left;
+        position: absolute;
+        visibility: hidden;
+        width: 100%;
+        white-space: pre-wrap;
+      }
+    `,
+  ];
+
+  render() {
+    return html`
+      <div id="hiddenText"></div>
+      <!-- When the autocomplete is open, the span is moved at the end of
+      hiddenText in order to correctly position the dropdown. After being moved,
+      it is set as the positionTarget for the emojiSuggestions dropdown. -->
+      <span id="caratSpan"></span>
+      <gr-autocomplete-dropdown
+        vertical-align="top"
+        horizontal-align="left"
+        dynamic-align=""
+        id="emojiSuggestions"
+        suggestions="[[_suggestions]]"
+        index="[[_index]]"
+        vertical-offset="[[_verticalOffset]]"
+        on-dropdown-closed="_resetEmojiDropdown"
+        on-item-selected="_handleEmojiSelect"
+      >
+      </gr-autocomplete-dropdown>
+      <iron-autogrow-textarea
+        id="textarea"
+        autocomplete="[[autocomplete]]"
+        placeholder="[[placeholder]]"
+        disabled="[[disabled]]"
+        rows="[[rows]]"
+        max-rows="[[maxRows]]"
+        value="{{text}}"
+        on-bind-value-changed="_onValueChanged"
+      ></iron-autogrow-textarea>
+    `;
   }
 
   closeDropdown() {

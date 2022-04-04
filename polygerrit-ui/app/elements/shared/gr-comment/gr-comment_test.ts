@@ -504,7 +504,7 @@ suite('gr-comment tests', () => {
       element.messageText = 'is that the horse from horsing around??';
       element.editing = true;
       await element.updateComplete;
-      pressKey(element.textarea!.$.textarea.textarea, 's', Modifier.CTRL_KEY);
+      pressKey(element.textarea!.textarea!.textarea, 's', Modifier.CTRL_KEY);
       assert.isTrue(spy.called);
     });
 

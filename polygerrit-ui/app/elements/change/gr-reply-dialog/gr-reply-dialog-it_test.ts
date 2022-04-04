@@ -101,12 +101,12 @@ suite('gr-reply-dialog-it tests', () => {
   test('submit blocked when invalid email is supplied to ccs', () => {
     const sendStub = sinon.stub(element, 'send').returns(Promise.resolve());
 
-    element.$.ccs.$.entry.setText('test');
+    element.$.ccs.entry.setText('test');
     MockInteractions.tap(queryAndAssert(element, 'gr-button.send'));
     assert.isFalse(sendStub.called);
     flush();
 
-    element.$.ccs.$.entry.setText('test@test.test');
+    element.$.ccs.entry.setText('test@test.test');
     MockInteractions.tap(queryAndAssert(element, 'gr-button.send'));
     assert.isTrue(sendStub.called);
   });

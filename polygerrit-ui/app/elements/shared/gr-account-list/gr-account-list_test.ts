@@ -100,6 +100,19 @@ suite('gr-account-list tests', () => {
     element.suggestionsProvider = suggestionsProvider;
   });
 
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(
+      /* HTML */
+      `<div class="list">
+          <dom-repeat as="account" id="chips" style="display: none;">
+            <template is="dom-repeat"></template>
+          </dom-repeat>
+        </div>
+        <gr-account-entry borderless="" id="entry"></gr-account-entry>
+        <slot></slot>`
+    );
+  });
+
   test('account entry only appears when editable', () => {
     element.readonly = false;
     assert.isFalse(element.$.entry.hasAttribute('hidden'));

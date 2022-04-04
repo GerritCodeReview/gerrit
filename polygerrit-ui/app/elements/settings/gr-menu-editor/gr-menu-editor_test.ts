@@ -1,29 +1,23 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-menu-editor';
 import {GrMenuEditor} from './gr-menu-editor';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {query, queryAll} from '../../../test/test-utils';
+import {
+  query,
+  queryAndAssert,
+  waitUntil,
+  waitUntilObserved,
+} from '../../../test/test-utils';
 import {PaperButtonElement} from '@polymer/paper-button';
 import {TopMenuItemInfo} from '../../../types/common';
-
-const basicFixture = fixtureFromElement('gr-menu-editor');
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {fixture, html} from '@open-wc/testing-helpers';
+import {createDefaultPreferences} from '../../../constants/constants';
 
 suite('gr-menu-editor tests', () => {
   let element: GrMenuEditor;
@@ -53,52 +47,229 @@ suite('gr-menu-editor tests', () => {
   }
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture<GrMenuEditor>(
+      html`<gr-menu-editor></gr-menu-editor>`
+    );
     menu = [
       {url: '/first/url', name: 'first name', target: '_blank'},
       {url: '/second/url', name: 'second name', target: '_blank'},
       {url: '/third/url', name: 'third name', target: '_blank'},
     ];
-    element.set('menuItems', menu);
-    await flush();
+    element.originalPrefs = {...createDefaultPreferences(), my: menu};
+    element.menuItems = [...menu];
+    await element.updateComplete;
   });
 
   test('renders', () => {
-    const rows = queryAll(query<HTMLElement>(element, 'tbody')!, 'tr');
-    let tds;
-
-    assert.equal(rows.length, menu.length);
-    for (let i = 0; i < menu.length; i++) {
-      tds = rows[i].querySelectorAll('td');
-      assert.equal(tds[0].textContent, menu[i].name);
-      assert.equal(tds[1].textContent, menu[i].url);
-    }
-
-    assert.isTrue(
-      element._computeAddDisabled(element._newName, element._newUrl)
-    );
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div class="gr-form-styles">
+        <h2 class="heading-2" id="Menu">Menu</h2>
+        <fieldset id="menu">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>URL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>first name</td>
+                <td class="urlCell">/first/url</td>
+                <td class="buttonColumn">
+                  <gr-button
+                    aria-disabled="false"
+                    class="moveUpButton"
+                    data-index="0"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    ↑
+                  </gr-button>
+                </td>
+                <td class="buttonColumn">
+                  <gr-button
+                    aria-disabled="false"
+                    class="moveDownButton"
+                    data-index="0"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    ↓
+                  </gr-button>
+                </td>
+                <td>
+                  <gr-button
+                    aria-disabled="false"
+                    class="remove-button"
+                    data-index="0"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Delete
+                  </gr-button>
+                </td>
+              </tr>
+              <tr>
+                <td>second name</td>
+                <td class="urlCell">/second/url</td>
+                <td class="buttonColumn">
+                  <gr-button
+                    aria-disabled="false"
+                    class="moveUpButton"
+                    data-index="1"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    ↑
+                  </gr-button>
+                </td>
+                <td class="buttonColumn">
+                  <gr-button
+                    aria-disabled="false"
+                    class="moveDownButton"
+                    data-index="1"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    ↓
+                  </gr-button>
+                </td>
+                <td>
+                  <gr-button
+                    aria-disabled="false"
+                    class="remove-button"
+                    data-index="1"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Delete
+                  </gr-button>
+                </td>
+              </tr>
+              <tr>
+                <td>third name</td>
+                <td class="urlCell">/third/url</td>
+                <td class="buttonColumn">
+                  <gr-button
+                    aria-disabled="false"
+                    class="moveUpButton"
+                    data-index="2"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    ↑
+                  </gr-button>
+                </td>
+                <td class="buttonColumn">
+                  <gr-button
+                    aria-disabled="false"
+                    class="moveDownButton"
+                    data-index="2"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    ↓
+                  </gr-button>
+                </td>
+                <td>
+                  <gr-button
+                    aria-disabled="false"
+                    class="remove-button"
+                    data-index="2"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Delete
+                  </gr-button>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>
+                  <iron-input>
+                    <input is="iron-input" placeholder="New Title" />
+                  </iron-input>
+                </th>
+                <th>
+                  <iron-input>
+                    <input class="newUrlInput" placeholder="New URL" />
+                  </iron-input>
+                </th>
+                <th></th>
+                <th></th>
+                <th>
+                  <gr-button
+                    aria-disabled="true"
+                    disabled=""
+                    id="add"
+                    link=""
+                    role="button"
+                    tabindex="-1"
+                  >
+                    Add
+                  </gr-button>
+                </th>
+              </tr>
+            </tfoot>
+          </table>
+          <gr-button
+            aria-disabled="true"
+            disabled=""
+            id="save"
+            role="button"
+            tabindex="-1"
+          >
+            Save changes
+          </gr-button>
+          <gr-button
+            aria-disabled="false"
+            id="reset"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            Reset
+          </gr-button>
+        </fieldset>
+      </div>
+    `);
   });
 
-  test('_computeAddDisabled', () => {
-    assert.isTrue(element._computeAddDisabled('', ''));
-    assert.isTrue(element._computeAddDisabled('name', ''));
-    assert.isTrue(element._computeAddDisabled('', 'url'));
-    assert.isFalse(element._computeAddDisabled('name', 'url'));
+  test('add button disabled', async () => {
+    element.newName = 'test-name';
+    await element.updateComplete;
+    let addButton = queryAndAssert<GrButton>(element, 'gr-button#add');
+    assert.isTrue(addButton.hasAttribute('disabled'));
+
+    element.newUrl = 'test-url';
+    await element.updateComplete;
+    addButton = queryAndAssert<GrButton>(element, 'gr-button#add');
+    assert.isFalse(addButton.hasAttribute('disabled'));
   });
 
-  test('add a new menu item', () => {
+  test('add a new menu item', async () => {
     const newName = 'new name';
     const newUrl = 'new url';
-
-    element._newName = newName;
-    element._newUrl = newUrl;
-    assert.isFalse(
-      element._computeAddDisabled(element._newName, element._newUrl)
-    );
-
     const originalMenuLength = element.menuItems.length;
 
-    element._handleAddButton();
+    element.newName = newName;
+    element.newUrl = newUrl;
+    await element.updateComplete;
+
+    const addButton = queryAndAssert<GrButton>(element, 'gr-button#add');
+    assert.isFalse(addButton.hasAttribute('disabled'));
+    addButton.click();
 
     assert.equal(element.menuItems.length, originalMenuLength + 1);
     assert.equal(element.menuItems[element.menuItems.length - 1].name, newName);
@@ -115,6 +286,37 @@ suite('gr-menu-editor tests', () => {
     // Moving the bottom item down is a no-op.
     move(element, 2, 'Down');
     assertMenuNamesEqual(element, ['first name', 'third name', 'second name']);
+  });
+
+  test('move item down and save', async () => {
+    assertMenuNamesEqual(element, ['first name', 'second name', 'third name']);
+    const saveButton = queryAndAssert<GrButton>(element, 'gr-button#save');
+    assert.isTrue(saveButton.hasAttribute('disabled'));
+
+    move(element, 1, 'Down');
+    await element.updateComplete;
+    assertMenuNamesEqual(element, ['first name', 'third name', 'second name']);
+    assert.isFalse(saveButton.hasAttribute('disabled'));
+
+    saveButton.click();
+    await waitUntil(() => element.originalPrefs.my[1].name === 'third name');
+    await element.updateComplete;
+
+    assertMenuNamesEqual(element, ['first name', 'third name', 'second name']);
+    assert.isTrue(saveButton.hasAttribute('disabled'));
+  });
+
+  test('move item down and reset', async () => {
+    assertMenuNamesEqual(element, ['first name', 'second name', 'third name']);
+
+    move(element, 1, 'Down');
+    assertMenuNamesEqual(element, ['first name', 'third name', 'second name']);
+
+    const resetButton = queryAndAssert<GrButton>(element, 'gr-button#reset');
+    resetButton.click();
+    await element.updateComplete;
+
+    assertMenuNamesEqual(element, ['first name', 'second name', 'third name']);
   });
 
   test('move items up', () => {
@@ -161,9 +363,9 @@ suite('gr-menu-editor tests', () => {
     assertMenuNamesEqual(element, []);
 
     // Add item to empty menu.
-    element._newName = 'new name';
-    element._newUrl = 'new url';
-    element._handleAddButton();
+    element.newName = 'new name';
+    element.newUrl = 'new url';
+    element.handleAddButton();
     assertMenuNamesEqual(element, ['new name']);
   });
 });

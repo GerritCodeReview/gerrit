@@ -260,14 +260,19 @@ export enum AccountsVisibility {
   NONE = 'NONE',
 }
 
-// TODO(TS): Many properties are omitted here, but they are required.
-// Add default values for missing properties.
-export function createDefaultPreferences() {
+export function createDefaultPreferences(): PreferencesInfo {
   return {
     changes_per_page: 25,
     diff_view: DiffViewMode.SIDE_BY_SIDE,
     size_bar_in_change_table: true,
-  } as PreferencesInfo;
+    my: [],
+    theme: AppTheme.LIGHT,
+    date_format: DateFormat.EURO,
+    time_format: TimeFormat.HHMM_24,
+    change_table: [],
+    email_strategy: EmailStrategy.ATTENTION_SET_ONLY,
+    default_base_for_merges: DefaultBase.AUTO_MERGE,
+  };
 }
 
 // These defaults should match the defaults in

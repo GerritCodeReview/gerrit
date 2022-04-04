@@ -1184,7 +1184,7 @@ suite('gr-reply-dialog tests', () => {
     // We should be focused on account entry input.
     assert.isTrue(
       isFocusInsideElement(
-        queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.$.input.$
+        queryAndAssert<GrAccountList>(element, '#reviewers').entry!.$.input.$
           .input
       )
     );
@@ -1245,13 +1245,13 @@ suite('gr-reply-dialog tests', () => {
     if (cc) {
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAccountList>(element, '#ccs').$.entry.$.input.$.input
+          queryAndAssert<GrAccountList>(element, '#ccs').entry!.$.input.$.input
         )
       );
     } else {
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.$.input.$
+          queryAndAssert<GrAccountList>(element, '#reviewers').entry!.$.input.$
             .input
         )
       );
@@ -1683,13 +1683,14 @@ suite('gr-reply-dialog tests', () => {
     const cc1 = makeAccount();
     const cc2 = makeAccount();
     const cc3 = makeAccount();
-    element._reviewers = [reviewer1, reviewer2];
-    element._ccs = [cc1, cc2, cc3];
-
     element.change!.reviewers = {
       [ReviewerState.CC]: [],
       [ReviewerState.REVIEWER]: [{_account_id: 33 as AccountId}],
     };
+    await flush();
+
+    element._reviewers = [reviewer1, reviewer2];
+    element._ccs = [cc1, cc2, cc3];
 
     const mutations: ReviewerInput[] = [];
 
@@ -1708,9 +1709,9 @@ suite('gr-reply-dialog tests', () => {
       })
     );
 
+    await flush();
     assert.isTrue(element._reviewersMutated);
-
-    ccs.$.entry.dispatchEvent(
+    ccs.entry!.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: {account: reviewer1}},
         composed: true,
@@ -1731,7 +1732,7 @@ suite('gr-reply-dialog tests', () => {
         bubbles: true,
       })
     );
-    reviewers.$.entry.dispatchEvent(
+    reviewers.entry!.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: {account: cc1}},
         composed: true,
@@ -1741,14 +1742,14 @@ suite('gr-reply-dialog tests', () => {
 
     // Add to other field without removing from former field.
     // (Currently not possible in UI, but this is a good consistency check).
-    reviewers.$.entry.dispatchEvent(
+    reviewers.entry!.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: {account: cc2}},
         composed: true,
         bubbles: true,
       })
     );
-    ccs.$.entry.dispatchEvent(
+    ccs.entry!.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: {account: reviewer2}},
         composed: true,
@@ -1771,6 +1772,7 @@ suite('gr-reply-dialog tests', () => {
 
     // Send and purge and verify moves, delete cc3.
     await element.send(false, false);
+    await flush();
     expect(mutations).to.have.lengthOf(5);
     expect(mutations[0]).to.deep.equal(
       mapReviewer(cc1, ReviewerState.REVIEWER)
@@ -1819,7 +1821,7 @@ suite('gr-reply-dialog tests', () => {
         bubbles: true,
       })
     );
-    ccs.$.entry.dispatchEvent(
+    ccs.entry!.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: {account: reviewer1}},
         composed: true,
@@ -2221,7 +2223,7 @@ suite('gr-reply-dialog tests', () => {
     await flush();
 
     assert.equal(
-      element.getFocusStops().end,
+      element.getFocusStops()!.end,
       queryAndAssert(element, '#cancelButton')
     );
     element.draftCommentThreads = [
@@ -2239,7 +2241,7 @@ suite('gr-reply-dialog tests', () => {
     await flush();
 
     assert.equal(
-      element.getFocusStops().end,
+      element.getFocusStops()!.end,
       queryAndAssert(element, '#sendButton')
     );
   });

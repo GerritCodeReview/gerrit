@@ -82,10 +82,7 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
-import {
-  PolymerDeepPropertyChange,
-  PolymerSpliceChange,
-} from '@polymer/polymer/interfaces';
+import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {
   areSetsEqual,
   assertIsDefined,
@@ -119,6 +116,7 @@ import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {LabelNameToValuesMap} from '../../../api/rest-api';
+import {ValueChangedEvent} from '../../../types/events';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -480,6 +478,7 @@ export class GrReplyDialog extends DIPolymerElement {
 
   getFocusStops() {
     const end = this._sendDisabled ? this.$.cancelButton : this.$.sendButton;
+    if (!this.$.reviewers.focusStart) return undefined;
     return {
       start: this.$.reviewers.focusStart,
       end,
@@ -500,16 +499,6 @@ export class GrReplyDialog extends DIPolymerElement {
         `gr-label-score-row[name="${label}"]`
       );
     return selectorEl?.selectedValue;
-  }
-
-  @observe('_reviewers.splices', '_ccs.splices')
-  reviewerOrCCChanged(
-    reviewerSplices?: PolymerSpliceChange<AccountInfo[] | GroupInfo[]>,
-    ccsSplices?: PolymerSpliceChange<AccountInfo[] | GroupInfo[]>
-  ) {
-    if (reviewerSplices?.indexSplices || ccsSplices?.indexSplices) {
-      this._reviewersMutated = true;
-    }
   }
 
   accountAdded(e: CustomEvent<AccountInputDetail>) {
@@ -679,10 +668,10 @@ export class GrReplyDialog extends DIPolymerElement {
       setTimeout(() => textarea.getNativeTextarea().focus());
     } else if (section === FocusTarget.REVIEWERS) {
       const reviewerEntry = this.$.reviewers.focusStart;
-      setTimeout(() => reviewerEntry.focus());
+      setTimeout(() => reviewerEntry?.focus());
     } else if (section === FocusTarget.CCS) {
       const ccEntry = this.$.ccs.focusStart;
-      setTimeout(() => ccEntry.focus());
+      setTimeout(() => ccEntry?.focus());
     }
   }
 
@@ -1276,6 +1265,33 @@ export class GrReplyDialog extends DIPolymerElement {
   _handleLabelsChanged() {
     this._labelsChanged =
       Object.keys(this.getLabelScores().getLabelValues(false)).length !== 0;
+  }
+
+  // To decouple account-list and reply dialog
+  _getAccountListCopy(list: (AccountInfo | GroupInfo)[]) {
+    return list.slice();
+  }
+
+  _handleReviewersChanged(e: ValueChangedEvent<(AccountInfo | GroupInfo)[]>) {
+    this._reviewers = e.detail.value.slice();
+    this._reviewersMutated = true;
+  }
+
+  _handleCcsChanged(e: ValueChangedEvent<(AccountInfo | GroupInfo)[]>) {
+    this._ccs = e.detail.value.slice();
+    this._reviewersMutated = true;
+  }
+
+  _handleReviewersConfirmationChanged(
+    e: ValueChangedEvent<SuggestedReviewerGroupInfo | null>
+  ) {
+    this._reviewerPendingConfirmation = e.detail.value;
+  }
+
+  _handleCcsConfirmationChanged(
+    e: ValueChangedEvent<SuggestedReviewerGroupInfo | null>
+  ) {
+    this._ccPendingConfirmation = e.detail.value;
   }
 
   _isState(knownLatestState?: LatestPatchState, value?: LatestPatchState) {

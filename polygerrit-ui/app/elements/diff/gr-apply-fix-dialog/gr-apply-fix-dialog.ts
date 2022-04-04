@@ -1,28 +1,14 @@
 /**
  * @license
- * Copyright (C) 2019 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2019 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-icon/iron-icon';
 import '../../../styles/shared-styles';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../../embed/diff/gr-diff/gr-diff';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-apply-fix-dialog_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property} from '@polymer/decorators';
 import {
   NumericChangeId,
   EditPatchSetNum,
@@ -41,14 +27,8 @@ import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
-import {css, html} from 'lit';
-
-export interface GrApplyFixDialog {
-  $: {
-    applyFixOverlay: GrOverlay;
-    nextFix: GrButton;
-  };
-}
+import {css, html, LitElement} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
 
 interface FilePreview {
   filepath: string;
@@ -56,10 +36,12 @@ interface FilePreview {
 }
 
 @customElement('gr-apply-fix-dialog')
-export class GrApplyFixDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrApplyFixDialog extends LitElement {
+  @query('#applyFixOverlay')
+  applyFixOverlay?: GrOverlay;
+
+  @query('#nextFix')
+  nextFix?: GrButton;
 
   @property({type: Object})
   prefs?: DiffPreferencesInfo;
@@ -67,55 +49,49 @@ export class GrApplyFixDialog extends PolymerElement {
   @property({type: Object})
   change?: ParsedChangeInfo;
 
-  @property({type: String})
+  @property({type: Number})
   changeNum?: NumericChangeId;
 
-  @property({type: Number})
-  _patchNum?: PatchSetNum;
+  @state()
+  patchNum?: PatchSetNum;
 
-  @property({type: String})
-  _robotId?: RobotId;
+  @state()
+  robotId?: RobotId;
 
-  @property({type: Object})
-  _currentFix?: FixSuggestionInfo;
+  @state()
+  currentFix?: FixSuggestionInfo;
 
-  @property({type: Array})
-  _currentPreviews: FilePreview[] = [];
+  @state()
+  currentPreviews: FilePreview[] = [];
 
-  @property({type: Array})
-  _fixSuggestions?: FixSuggestionInfo[];
+  @state()
+  fixSuggestions?: FixSuggestionInfo[];
 
-  @property({type: Boolean})
-  _isApplyFixLoading = false;
+  @state()
+  isApplyFixLoading = false;
 
-  @property({type: Number})
-  _selectedFixIdx = 0;
+  @state()
+  selectedFixIdx = 0;
 
-  @property({
-    type: Boolean,
-    computed:
-      '_computeDisableApplyFixButton(_isApplyFixLoading, change, ' +
-      '_patchNum)',
-  })
-  _disableApplyFixButton = false;
-
-  @property({type: Array})
+  @state()
   layers: DiffLayer[] = [];
-
-  private refitOverlay?: () => void;
 
   private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();
+    // TODO Get preferences from model.
     this.restApiService.getPreferences().then(prefs => {
       if (!prefs?.disable_token_highlighting) {
         this.layers = [new TokenHighlightLayer(this)];
       }
     });
+    this.addEventListener('diff-context-expanded', () => {
+      if (this.applyFixOverlay) fireEvent(this.applyFixOverlay, 'iron-resize');
+    });
   }
 
-  static styles = [
+  static override styles = [
     css`
       gr-diff {
         --content-width: 90vw;
@@ -141,61 +117,72 @@ export class GrApplyFixDialog extends PolymerElement {
     `,
   ];
 
-  render() {
+  override render() {
     return html`
       <gr-overlay id="applyFixOverlay" with-backdrop="">
         <gr-dialog
           id="applyFixDialog"
-          on-confirm="_handleApplyFix"
-          confirm-label="[[_getApplyFixButtonLabel(_isApplyFixLoading)]]"
-          disabled="[[_disableApplyFixButton]]"
-          confirm-tooltip="[[_computeTooltip(change, _patchNum)]]"
-          on-cancel="onCancel"
+          .confirmLabel=${this.isApplyFixLoading ? 'Saving...' : 'Apply Fix'}
+          .confirmTooltip=${this.computeTooltip()}
+          ?disabled=${this.computeDisableApplyFixButton()}
+          @confirm=${this.handleApplyFix}
+          @cancel=${this.onCancel}
         >
-          <div slot="header">
-            [[_robotId]] - [[getFixDescription(_currentFix)]]
-          </div>
-          <div slot="main">
-            <template is="dom-repeat" items="[[_currentPreviews]]">
-              <div class="file-name">
-                <span>[[item.filepath]]</span>
-              </div>
-              <div class="diffContainer">
-                <gr-diff
-                  prefs="[[overridePartialPrefs(prefs)]]"
-                  path="[[item.filepath]]"
-                  diff="[[item.preview]]"
-                  layers="[[layers]]"
-                ></gr-diff>
-              </div>
-            </template>
-          </div>
-          <div
-            slot="footer"
-            class="fix-picker"
-            hidden$="[[hasSingleFix(_fixSuggestions)]]"
-          >
-            <span
-              >Suggested fix [[addOneTo(_selectedFixIdx)]] of
-              [[_fixSuggestions.length]]</span
-            >
-            <gr-button
-              id="prevFix"
-              on-click="_onPrevFixClick"
-              disabled$="[[_noPrevFix(_selectedFixIdx)]]"
-            >
-              <iron-icon icon="gr-icons:chevron-left"></iron-icon>
-            </gr-button>
-            <gr-button
-              id="nextFix"
-              on-click="_onNextFixClick"
-              disabled$="[[_noNextFix(_selectedFixIdx, _fixSuggestions)]]"
-            >
-              <iron-icon icon="gr-icons:chevron-right"></iron-icon>
-            </gr-button>
-          </div>
+          ${this.renderHeader()} ${this.renderMain()} ${this.renderFooter()}
         </gr-dialog>
       </gr-overlay>
+    `;
+  }
+
+  private renderHeader() {
+    return html`
+      <div slot="header">
+        ${this.robotId ?? ''} - ${this.currentFix?.description ?? ''}
+      </div>
+    `;
+  }
+
+  private renderMain() {
+    const items = this.currentPreviews.map(
+      item => html`
+        <div class="file-name">
+          <span>${item.filepath}</span>
+        </div>
+        <div class="diffContainer">
+          <gr-diff
+            .prefs=${this.overridePartialPrefs()}
+            .path=${item.filepath}
+            .diff=${item.preview}
+            .layers=${this.layers}
+          ></gr-diff>
+        </div>
+      `
+    );
+    return html`<div slot="main">${items}</div>`;
+  }
+
+  private renderFooter() {
+    const id = this.selectedFixIdx;
+    const fixCount = this.fixSuggestions?.length ?? 0;
+    if (fixCount < 2) return;
+    return html`
+      <div slot="footer" class="fix-picker">
+        <span>Suggested fix ${id + 1} of ${fixCount}</span>
+        <gr-button
+          id="prevFix"
+          @click=${this.onPrevFixClick}
+          ?disabled=${id === 0}
+        >
+          <iron-icon icon="gr-icons:chevron-left"></iron-icon>
+        </gr-button>
+        <gr-button
+          id="nextFix"
+          @click=${this.onNextFixClick}
+          ?disabled=${id === fixCount - 1}
+        >
+          <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+        </gr-button>
+      </div>
     `;
   }
 
@@ -213,183 +200,131 @@ export class GrApplyFixDialog extends PolymerElement {
     if (!detail.patchNum || !comment || !isRobot(comment)) {
       return Promise.resolve();
     }
-    this._patchNum = detail.patchNum;
-    this._fixSuggestions = comment.fix_suggestions;
-    this._robotId = comment.robot_id;
-    if (!this._fixSuggestions || !this._fixSuggestions.length) {
+    this.patchNum = detail.patchNum;
+    this.fixSuggestions = comment.fix_suggestions;
+    this.robotId = comment.robot_id;
+    if (!this.fixSuggestions || !this.fixSuggestions.length) {
       return Promise.resolve();
     }
-    this._selectedFixIdx = 0;
+    this.selectedFixIdx = 0;
     const promises = [];
     promises.push(
-      this._showSelectedFixSuggestion(this._fixSuggestions[0]),
-      this.$.applyFixOverlay.open()
+      this.showSelectedFixSuggestion(this.fixSuggestions[0]),
+      this.applyFixOverlay?.open()
     );
     return Promise.all(promises).then(() => {
-      // ensures gr-overlay repositions overlay in center
-      fireEvent(this.$.applyFixOverlay, 'iron-resize');
+      if (this.applyFixOverlay) fireEvent(this.applyFixOverlay, 'iron-resize');
     });
   }
 
-  override connectedCallback() {
-    super.connectedCallback();
-    this.refitOverlay = () => {
-      // re-center the dialog as content changed
-      fireEvent(this.$.applyFixOverlay, 'iron-resize');
-    };
-    this.addEventListener('diff-context-expanded', this.refitOverlay);
+  private showSelectedFixSuggestion(fixSuggestion: FixSuggestionInfo) {
+    this.currentFix = fixSuggestion;
+    return this.fetchFixPreview(fixSuggestion.fix_id);
   }
 
-  override disconnectedCallback() {
-    if (this.refitOverlay) {
-      this.removeEventListener('diff-context-expanded', this.refitOverlay);
-    }
-    super.disconnectedCallback();
-  }
-
-  _showSelectedFixSuggestion(fixSuggestion: FixSuggestionInfo) {
-    this._currentFix = fixSuggestion;
-    return this._fetchFixPreview(fixSuggestion.fix_id);
-  }
-
-  _fetchFixPreview(fixId: FixId) {
-    if (!this.changeNum || !this._patchNum) {
+  private fetchFixPreview(fixId: FixId) {
+    if (!this.changeNum || !this.patchNum) {
       return Promise.reject(
-        new Error('Both _patchNum and changeNum must be set')
+        new Error('Both patchNum and changeNum must be set')
       );
     }
     return this.restApiService
-      .getRobotCommentFixPreview(this.changeNum, this._patchNum, fixId)
+      .getRobotCommentFixPreview(this.changeNum, this.patchNum, fixId)
       .then(res => {
         if (res) {
-          this._currentPreviews = Object.keys(res).map(key => {
+          this.currentPreviews = Object.keys(res).map(key => {
             return {filepath: key, preview: res[key]};
           });
         }
       })
       .catch(err => {
-        this._close(false);
+        this.close(false);
         throw err;
       });
   }
 
-  hasSingleFix(_fixSuggestions?: FixSuggestionInfo[]) {
-    return (_fixSuggestions || []).length === 1;
-  }
-
-  overridePartialPrefs(prefs?: DiffPreferencesInfo) {
-    if (!prefs) return undefined;
+  private overridePartialPrefs() {
+    if (!this.prefs) return undefined;
     // generate a smaller gr-diff than fullscreen for dialog
-    return {...prefs, line_length: 50};
+    return {...this.prefs, line_length: 50};
   }
 
+  // visible for testing
   onCancel(e: Event) {
-    if (e) {
-      e.stopPropagation();
-    }
-    this._close(false);
-  }
-
-  addOneTo(_selectedFixIdx: number) {
-    return _selectedFixIdx + 1;
-  }
-
-  _onPrevFixClick(e: Event) {
     if (e) e.stopPropagation();
-    if (this._selectedFixIdx >= 1 && this._fixSuggestions) {
-      this._selectedFixIdx -= 1;
-      this._showSelectedFixSuggestion(
-        this._fixSuggestions[this._selectedFixIdx]
-      );
+    this.close(false);
+  }
+
+  // visible for testing
+  onPrevFixClick(e: Event) {
+    if (e) e.stopPropagation();
+    if (this.selectedFixIdx >= 1 && this.fixSuggestions) {
+      this.selectedFixIdx -= 1;
+      this.showSelectedFixSuggestion(this.fixSuggestions[this.selectedFixIdx]);
     }
   }
 
-  _onNextFixClick(e: Event) {
+  // visible for testing
+  onNextFixClick(e: Event) {
     if (e) e.stopPropagation();
     if (
-      this._fixSuggestions &&
-      this._selectedFixIdx < this._fixSuggestions.length
+      this.fixSuggestions &&
+      this.selectedFixIdx < this.fixSuggestions.length
     ) {
-      this._selectedFixIdx += 1;
-      this._showSelectedFixSuggestion(
-        this._fixSuggestions[this._selectedFixIdx]
-      );
+      this.selectedFixIdx += 1;
+      this.showSelectedFixSuggestion(this.fixSuggestions[this.selectedFixIdx]);
     }
   }
 
-  _noPrevFix(_selectedFixIdx: number) {
-    return _selectedFixIdx === 0;
-  }
-
-  _noNextFix(_selectedFixIdx: number, fixSuggestions?: FixSuggestionInfo[]) {
-    if (!fixSuggestions) return true;
-    return _selectedFixIdx === fixSuggestions.length - 1;
-  }
-
-  _close(fixApplied: boolean) {
-    this._currentFix = undefined;
-    this._currentPreviews = [];
-    this._isApplyFixLoading = false;
+  private close(fixApplied: boolean) {
+    this.currentFix = undefined;
+    this.currentPreviews = [];
+    this.isApplyFixLoading = false;
 
     fireCloseFixPreview(this, fixApplied);
-    this.$.applyFixOverlay.close();
+    this.applyFixOverlay?.close();
   }
 
-  _getApplyFixButtonLabel(isLoading: boolean) {
-    return isLoading ? 'Saving...' : 'Apply Fix';
-  }
-
-  _computeTooltip(change?: ParsedChangeInfo, patchNum?: PatchSetNum) {
-    if (!change || !patchNum) return '';
-    const latestPatchNum = change.revisions[change.current_revision]._number;
-    return latestPatchNum !== patchNum
+  private computeTooltip() {
+    if (!this.change || !this.patchNum) return '';
+    const currentPatchNum =
+      this.change.revisions[this.change.current_revision]._number;
+    return currentPatchNum !== this.patchNum
       ? 'Fix can only be applied to the latest patchset'
       : '';
   }
 
-  _computeDisableApplyFixButton(
-    isApplyFixLoading: boolean,
-    change?: ParsedChangeInfo,
-    patchNum?: PatchSetNum
-  ) {
-    if (!change || isApplyFixLoading === undefined || patchNum === undefined) {
-      return true;
-    }
-    const currentPatchNum = change.revisions[change.current_revision]._number;
-    if (patchNum !== currentPatchNum) {
-      return true;
-    }
-    return isApplyFixLoading;
+  private computeDisableApplyFixButton() {
+    if (!this.change || !this.patchNum) return true;
+    const currentPatchNum =
+      this.change.revisions[this.change.current_revision]._number;
+    return this.patchNum !== currentPatchNum || this.isApplyFixLoading;
   }
 
-  _handleApplyFix(e: Event) {
-    if (e) {
-      e.stopPropagation();
-    }
+  // visible for testing
+  async handleApplyFix(e: Event) {
+    if (e) e.stopPropagation();
 
     const changeNum = this.changeNum;
-    const patchNum = this._patchNum;
+    const patchNum = this.patchNum;
     const change = this.change;
-    if (!changeNum || !patchNum || !change || !this._currentFix) {
-      return Promise.reject(new Error('Not all required properties are set.'));
+    if (!changeNum || !patchNum || !change || !this.currentFix) {
+      throw new Error('Not all required properties are set.');
     }
-    this._isApplyFixLoading = true;
-    return this.restApiService
-      .applyFixSuggestion(changeNum, patchNum, this._currentFix.fix_id)
-      .then(res => {
-        if (res && res.ok) {
-          GerritNav.navigateToChange(change, {
-            patchNum: EditPatchSetNum,
-            basePatchNum: patchNum as BasePatchSetNum,
-          });
-          this._close(true);
-        }
-        this._isApplyFixLoading = false;
+    this.isApplyFixLoading = true;
+    const res = await this.restApiService.applyFixSuggestion(
+      changeNum,
+      patchNum,
+      this.currentFix.fix_id
+    );
+    if (res && res.ok) {
+      GerritNav.navigateToChange(change, {
+        patchNum: EditPatchSetNum,
+        basePatchNum: patchNum as BasePatchSetNum,
       });
-  }
-
-  getFixDescription(currentFix?: FixSuggestionInfo) {
-    return currentFix && currentFix.description ? currentFix.description : '';
+      this.close(true);
+    }
+    this.isApplyFixLoading = false;
   }
 }
 

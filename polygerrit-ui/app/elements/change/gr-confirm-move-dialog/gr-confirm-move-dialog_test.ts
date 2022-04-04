@@ -18,15 +18,15 @@
 import '../../../test/common-test-setup-karma';
 import './gr-confirm-move-dialog';
 import {GrConfirmMoveDialog} from './gr-confirm-move-dialog';
-import {stubRestApi} from '../../../test/test-utils';
+import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {BranchName, GitRef, RepoName} from '../../../types/common';
-
-const basicFixture = fixtureFromElement('gr-confirm-move-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 
 suite('gr-confirm-move-dialog tests', () => {
   let element: GrConfirmMoveDialog;
 
-  setup(() => {
+  setup(async () => {
     stubRestApi('getRepoBranches').callsFake((input: string) => {
       if (input.startsWith('test')) {
         return Promise.resolve([
@@ -40,35 +40,47 @@ suite('gr-confirm-move-dialog tests', () => {
         return Promise.resolve([]);
       }
     });
-    element = basicFixture.instantiate();
-    element.project = 'test-repo' as RepoName;
+    element = await fixture(
+      html`<gr-confirm-move-dialog
+        .project=${'test-repo' as RepoName}
+      ></gr-confirm-move-dialog>`
+    );
   });
 
-  test('with updated commit message', () => {
+  test('with updated commit message', async () => {
     element.branch = 'master' as BranchName;
     const myNewMessage = 'updated commit message';
     element.message = myNewMessage;
-    flush();
+    await element.updateComplete;
+
     assert.equal(element.message, myNewMessage);
   });
 
-  test('_getProjectBranchesSuggestions empty', async () => {
-    const branches = await element._getProjectBranchesSuggestions(
-      'nonexistent'
+  test('suggestions empty', async () => {
+    const autoComplete = queryAndAssert<GrAutocomplete>(
+      element,
+      'gr-autocomplete'
     );
+    const branches = await autoComplete.query!('nonexistent');
     assert.equal(branches.length, 0);
   });
 
-  test('_getProjectBranchesSuggestions non-empty', async () => {
-    const branches = await element._getProjectBranchesSuggestions(
-      'test-branch'
+  test('suggestions non-empty', async () => {
+    const autoComplete = queryAndAssert<GrAutocomplete>(
+      element,
+      'gr-autocomplete'
     );
+    const branches = await autoComplete.query!('test-branch');
     assert.equal(branches.length, 1);
     assert.equal(branches[0].name, 'test-branch');
   });
 
-  test('_getProjectBranchesSuggestions input empty string', async () => {
-    const branches = await element._getProjectBranchesSuggestions('');
+  test('suggestions input empty string', async () => {
+    const autoComplete = queryAndAssert<GrAutocomplete>(
+      element,
+      'gr-autocomplete'
+    );
+    const branches = await autoComplete.query!('');
     assert.equal(branches.length, 0);
   });
 });

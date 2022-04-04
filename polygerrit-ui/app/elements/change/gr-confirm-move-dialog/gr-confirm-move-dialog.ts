@@ -18,12 +18,12 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-dialog/gr-dialog';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-confirm-move-dialog_html';
 import {customElement, property} from '@polymer/decorators';
 import {BranchName, RepoName} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {GrTypedAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -37,10 +37,6 @@ export interface GrConfirmMoveDialog {
 
 @customElement('gr-confirm-move-dialog')
 export class GrConfirmMoveDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
   /**
    * Fired when the confirm button is pressed.
    *
@@ -93,6 +89,69 @@ export class GrConfirmMoveDialog extends PolymerElement {
   constructor() {
     super();
     this._query = (text: string) => this._getProjectBranchesSuggestions(text);
+  }
+
+  static get template() {
+    return html`
+      <style include="shared-styles">
+        :host {
+          display: block;
+          width: 30em;
+        }
+        :host([disabled]) {
+          opacity: 0.5;
+          pointer-events: none;
+        }
+        label {
+          cursor: pointer;
+        }
+        .main {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
+        .main label,
+        .main input[type='text'] {
+          display: block;
+          width: 100%;
+        }
+        .main .message {
+          width: 100%;
+        }
+        .warning {
+          color: var(--error-text-color);
+        }
+      </style>
+      <gr-dialog
+        confirm-label="Move Change"
+        on-confirm="_handleConfirmTap"
+        on-cancel="_handleCancelTap"
+      >
+        <div class="header" slot="header">Move Change to Another Branch</div>
+        <div class="main" slot="main">
+          <p class="warning">
+            Warning: moving a change will not change its parents.
+          </p>
+          <label for="branchInput"> Move change to branch </label>
+          <gr-autocomplete
+            id="branchInput"
+            text="{{branch}}"
+            query="[[_query]]"
+            placeholder="Destination branch"
+          >
+          </gr-autocomplete>
+          <label for="messageInput"> Move Change Message </label>
+          <iron-autogrow-textarea
+            id="messageInput"
+            class="message"
+            autocomplete="on"
+            rows="4"
+            max-rows="15"
+            bind-value="{{message}}"
+          ></iron-autogrow-textarea>
+        </div>
+      </gr-dialog>
+    `;
   }
 
   _handleConfirmTap(e: Event) {

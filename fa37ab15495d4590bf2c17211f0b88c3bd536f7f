@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6e5380c_fc672f21",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-04T19:36:38Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be removed as it\u0027s inlined?",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 3
+      },
+      "revId": "fa37ab15495d4590bf2c17211f0b88c3bd536f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

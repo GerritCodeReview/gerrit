@@ -689,10 +689,10 @@ export class GrReplyDialog extends DIPolymerElement {
       setTimeout(() => textarea.getNativeTextarea().focus());
     } else if (section === FocusTarget.REVIEWERS) {
       const reviewerEntry = this.$.reviewers.focusStart;
-      setTimeout(() => reviewerEntry.focus());
+      setTimeout(() => reviewerEntry?.focus());
     } else if (section === FocusTarget.CCS) {
       const ccEntry = this.$.ccs.focusStart;
-      setTimeout(() => ccEntry.focus());
+      setTimeout(() => ccEntry?.focus());
     }
   }
 

@@ -23,6 +23,8 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-menu-editor_html';
 import {customElement, property} from '@polymer/decorators';
 import {TopMenuItemInfo} from '../../../types/common';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {css, html} from 'lit';
 
 @customElement('gr-menu-editor')
 export class GrMenuEditor extends PolymerElement {
@@ -38,6 +40,123 @@ export class GrMenuEditor extends PolymerElement {
 
   @property({type: String})
   _newUrl?: string;
+
+  styles = [
+    sharedStyles,
+    css`
+      .buttonColumn {
+        width: 2em;
+      }
+      .moveUpButton,
+      .moveDownButton {
+        width: 100%;
+      }
+      tbody tr:first-of-type td .moveUpButton,
+      tbody tr:last-of-type td .moveDownButton {
+        display: none;
+      }
+      td.urlCell {
+        word-break: break-word;
+      }
+      .newUrlInput {
+        min-width: 23em;
+      }
+    `,
+  ];
+
+  render() {
+    return html`
+      <div class="gr-form-styles">
+        <table>
+          <thead>
+            <tr>
+              <th class="nameHeader">Name</th>
+              <th class="url-header">URL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template is="dom-repeat" items="[[menuItems]]">
+              <tr>
+                <td>[[item.name]]</td>
+                <td class="urlCell">[[item.url]]</td>
+                <td class="buttonColumn">
+                  <gr-button
+                    link=""
+                    data-index$="[[index]]"
+                    on-click="_handleMoveUpButton"
+                    class="moveUpButton"
+                    >↑</gr-button
+                  >
+                </td>
+                <td class="buttonColumn">
+                  <gr-button
+                    link=""
+                    data-index$="[[index]]"
+                    on-click="_handleMoveDownButton"
+                    class="moveDownButton"
+                    >↓</gr-button
+                  >
+                </td>
+                <td>
+                  <gr-button
+                    link=""
+                    data-index$="[[index]]"
+                    on-click="_handleDeleteButton"
+                    class="remove-button"
+                    >Delete</gr-button
+                  >
+                </td>
+              </tr>
+            </template>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>
+                <iron-input
+                  placeholder="New Title"
+                  on-keydown="_handleInputKeydown"
+                  bind-value="{{_newName}}"
+                >
+                  <input
+                    is="iron-input"
+                    placeholder="New Title"
+                    on-keydown="_handleInputKeydown"
+                    bind-value="{{_newName}}"
+                  />
+                </iron-input>
+              </th>
+              <th>
+                <iron-input
+                  class="newUrlInput"
+                  placeholder="New URL"
+                  on-keydown="_handleInputKeydown"
+                  bind-value="{{_newUrl}}"
+                >
+                  <input
+                    class="newUrlInput"
+                    is="iron-input"
+                    placeholder="New URL"
+                    on-keydown="_handleInputKeydown"
+                    bind-value="{{_newUrl}}"
+                  />
+                </iron-input>
+              </th>
+              <th></th>
+              <th></th>
+              <th>
+                <gr-button
+                  link=""
+                  disabled$="[[_computeAddDisabled(_newName, _newUrl)]]"
+                  on-click="_handleAddButton"
+                  >Add</gr-button
+                >
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    `;
+  }
 
   _handleMoveUpButton(e: Event) {
     const target = (dom(e) as EventApi).localTarget;

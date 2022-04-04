@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.QueryParser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
@@ -93,6 +96,15 @@ public class PostWatchedProjects
     for (ProjectWatchInfo info : input) {
       if (info.project == null) {
         throw new BadRequestException("project name must be specified");
+      }
+
+      if (!Strings.isNullOrEmpty(info.filter)) {
+        try {
+          QueryParser.parse(info.filter);
+        } catch (QueryParseException e) {
+          throw new BadRequestException(
+              "invalid query for project " + format(info.project, info.filter), e);
+        }
       }
 
       ProjectWatchKey key =

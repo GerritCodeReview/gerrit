@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2b4af842_f94e506e",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-04T13:24:46Z",
+      "side": 1,
+      "message": "Won\u0027t `this` be bound incorrectly in the function? [Here\u0027s an example I made you can run](https://www.typescriptlang.org/play?#code/MYGwhgzhAEBiD29oG8BQ0PQA4CcCWAbmAC4Cm0ZAHsdALzQDkAtgJ4Aqp1DA3KupgHNSxDtQAUAShT9MmHMICuOAHYUAFnggA6KsV6yAvqiPB4yiDQBmiOtGWkA7nESTeqSwuXBieM9nzKxACypFBgQmK6AOLCZDgAXNCSdAB80BYBAlJosqbm8CCkWiDwApGcxDHEcZISvEaouHiBIWER1vBaQiIVddAA9P128DTwANYANNCmTEykgdDwCjTESDie6uQjaqQ4EI0BwaEQ4aRiHV3CosRaAEbNACbniBJ9g4tjB81HbWfJtGkLt1rrVuAMhuMgA)\n\nWe usually use anonymous function to solve this, but `this.handleConfirmTap.bind(this)` would work too without needing specify args",
+      "parentUuid": "c0173af8_320a3116",
+      "revId": "b65df55994e7f998ce4977d53079a61272450635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1c19fb7_61f91401",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2022-04-04T10:27:56Z",
       "side": 1,
       "message": "iron-autogrow-textarea is a Polymer element, so I think\n\n* `maxRows` is the property name.\n* `max-rows` is the attribute name.\n\nSo you have to do either of\n\n* `.maxRows\u003d${15}`\n* `max-rows\u003d\"15\"`",
+      "revId": "b65df55994e7f998ce4977d53079a61272450635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d011a58f_5f2e19f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-04T13:24:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1c19fb7_61f91401",
       "revId": "b65df55994e7f998ce4977d53079a61272450635",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -48,6 +84,24 @@
       "writtenOn": "2022-04-04T10:27:56Z",
       "side": 1,
       "message": "bonus point for adding a simple dom diff test, see here for a simple example: https://gerrit-review.googlesource.com/c/gerrit/+/334341/1/polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.ts",
+      "revId": "b65df55994e7f998ce4977d53079a61272450635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28e1abfc_a37d8c71",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-04T13:24:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b5feb47_a4a4d056",
       "revId": "b65df55994e7f998ce4977d53079a61272450635",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

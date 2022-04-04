@@ -16,7 +16,7 @@
  */
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
+import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
 import {RenderPreferences} from '../../../api/diff';
@@ -36,10 +36,11 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
 
   protected override getMoveControlsConfig() {
     return {
-      numberOfCells: 4,
-      movedOutIndex: 1,
-      movedInIndex: 3,
-      lineNumberCols: [0, 2],
+      numberOfCells: 6,
+      movedOutIndex: 2,
+      movedInIndex: 5,
+      lineNumberCols: [0, 3],
+      signCols: {left: 1, right: 4},
     };
   }
 
@@ -83,6 +84,8 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
     col.setAttribute('width', lineNumberWidth.toString());
     colgroup.appendChild(col);
 
+    colgroup.appendChild(createElementDiff('col', 'sign left'));
+
     // Add left-side content.
     colgroup.appendChild(createElementDiff('col', 'left'));
 
@@ -90,6 +93,8 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
     col = document.createElement('col');
     col.setAttribute('width', lineNumberWidth.toString());
     colgroup.appendChild(col);
+
+    colgroup.appendChild(createElementDiff('col', 'sign right'));
 
     // Add right-side content.
     colgroup.appendChild(document.createElement('col'));
@@ -120,7 +125,26 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
   ) {
     const lineNumberEl = this.createLineEl(line, lineNumber, line.type, side);
     row.appendChild(lineNumberEl);
+    row.appendChild(this.createSignEl(line, side));
     row.appendChild(this.createTextEl(lineNumberEl, line, side));
+  }
+
+  private createSignEl(line: GrDiffLine, side: Side): HTMLElement {
+    const td = createElementDiff('td', 'sign');
+    td.classList.add(side);
+    if (line.type === GrDiffLineType.BLANK) {
+      td.classList.add('blank');
+    } else if (line.type === GrDiffLineType.ADD && side === Side.RIGHT) {
+      td.classList.add('add');
+      td.innerText = '+';
+    } else if (line.type === GrDiffLineType.REMOVE && side === Side.LEFT) {
+      td.classList.add('remove');
+      td.innerText = '-';
+    }
+    if (!line.hasIntralineInfo) {
+      td.classList.add('no-intraline-info');
+    }
+    return td;
   }
 
   protected override getNextContentOnSide(

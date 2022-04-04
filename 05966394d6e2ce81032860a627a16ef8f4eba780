@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92dfe6fb_87e5f681",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-04T15:35:05Z",
+      "side": 1,
+      "message": "Probably nothing, and you make a good point that it shows the dependency on a potentially unmerged commit.",
+      "parentUuid": "ac6c2f7d_b8e7a697",
+      "revId": "05966394d6e2ce81032860a627a16ef8f4eba780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c402fd99_8aa8c029",

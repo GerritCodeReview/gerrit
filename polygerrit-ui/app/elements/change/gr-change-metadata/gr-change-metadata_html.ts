@@ -298,9 +298,8 @@ export const htmlTemplate = html`
         <gr-reviewer-list
           change="{{change}}"
           mutable="[[_mutable]]"
-          reviewers-only=""
+          reviewersOnly
           account="[[account]]"
-          server-config="[[serverConfig]]"
         ></gr-reviewer-list>
       </span>
     </section>
@@ -312,9 +311,8 @@ export const htmlTemplate = html`
         <gr-reviewer-list
           change="{{change}}"
           mutable="[[_mutable]]"
-          ccs-only=""
+          ccsOnly
           account="[[account]]"
-          server-config="[[serverConfig]]"
         ></gr-reviewer-list>
       </span>
     </section>

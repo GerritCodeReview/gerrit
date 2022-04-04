@@ -15,19 +15,41 @@
  * limitations under the License.
  */
 
+import {fixture, html} from '@open-wc/testing-helpers';
 import '../../../test/common-test-setup-karma';
 import {createChange} from '../../../test/test-data-generators';
 import {CommitId} from '../../../types/common';
 import './gr-confirm-revert-dialog';
 import {GrConfirmRevertDialog} from './gr-confirm-revert-dialog';
 
-const basicFixture = fixtureFromElement('gr-confirm-revert-dialog');
-
 suite('gr-confirm-revert-dialog tests', () => {
   let element: GrConfirmRevertDialog;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture(
+      html`<gr-confirm-revert-dialog></gr-confirm-revert-dialog>`
+    );
+  });
+
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-dialog role="dialog">
+        <div class="header" slot="header">Revert Merged Change</div>
+        <div class="main" slot="main">
+          <div class="error" hidden="">
+            <span> A reason is required </span>
+          </div>
+          <gr-endpoint-decorator name="confirm-revert-change">
+            <label for="messageInput"> Revert Commit Message </label>
+            <iron-autogrow-textarea
+              id="messageInput"
+              class="message"
+              aria-disabled="false"
+            ></iron-autogrow-textarea>
+          </gr-endpoint-decorator>
+        </div>
+      </gr-dialog>
+    `);
   });
 
   test('no match', () => {

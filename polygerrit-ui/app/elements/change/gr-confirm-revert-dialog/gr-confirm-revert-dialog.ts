@@ -15,15 +15,14 @@
  * limitations under the License.
  */
 import '../../shared/gr-dialog/gr-dialog';
-import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {customElement, property} from '@polymer/decorators';
+import {LitElement, html, css, nothing} from 'lit';
+import {customElement, state} from 'lit/decorators';
 import {ChangeInfo, CommitId} from '../../../types/common';
 import {fireAlert} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {sharedStyles} from '../../../styles/shared-styles';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -41,7 +40,7 @@ export interface ConfirmRevertEventDetail {
 }
 
 @customElement('gr-confirm-revert-dialog')
-export class GrConfirmRevertDialog extends PolymerElement {
+export class GrConfirmRevertDialog extends LitElement {
   /**
    * Fired when the confirm button is pressed.
    *
@@ -56,111 +55,122 @@ export class GrConfirmRevertDialog extends PolymerElement {
 
   /* The revert message updated by the user
       The default value is set by the dialog */
-  @property({type: String})
+  @state()
   _message = '';
 
-  @property({type: Number})
+  @state()
   _revertType = RevertType.REVERT_SINGLE_CHANGE;
 
-  @property({type: Boolean})
+  @state()
   _showRevertSubmission = false;
 
-  @property({type: Number})
+  @state()
   _changesCount?: number;
 
-  @property({type: Boolean})
+  @state()
   _showErrorMessage = false;
 
   /* store the default revert messages per revert type so that we can
   check if user has edited the revert message or not
   Set when populate() is called */
-  @property({type: Array})
+  @state()
   _originalRevertMessages: string[] = [];
 
   // Store the actual messages that the user has edited
-  @property({type: Array})
+  @state()
   _revertMessages: string[] = [];
 
-  static get template() {
+  static override styles = [
+    sharedStyles,
+    css`
+      :host {
+        display: block;
+      }
+      :host([disabled]) {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      label {
+        cursor: pointer;
+        display: block;
+        width: 100%;
+      }
+      .revertSubmissionLayout {
+        display: flex;
+        align-items: center;
+      }
+      .label {
+        margin-left: var(--spacing-m);
+      }
+      iron-autogrow-textarea {
+        font-family: var(--monospace-font-family);
+        font-size: var(--font-size-mono);
+        line-height: var(--line-height-mono);
+        width: 73ch; /* Add a char to account for the border. */
+      }
+      .error {
+        color: var(--error-text-color);
+        margin-bottom: var(--spacing-m);
+      }
+      label[for='messageInput'] {
+        margin-top: var(--spacing-m);
+      }
+    `,
+  ];
+
+  override render() {
     return html`
-      <style include="shared-styles">
-        :host {
-          display: block;
-        }
-        :host([disabled]) {
-          opacity: 0.5;
-          pointer-events: none;
-        }
-        label {
-          cursor: pointer;
-          display: block;
-          width: 100%;
-        }
-        .revertSubmissionLayout {
-          display: flex;
-          align-items: center;
-        }
-        .label {
-          margin-left: var(--spacing-m);
-        }
-        iron-autogrow-textarea {
-          font-family: var(--monospace-font-family);
-          font-size: var(--font-size-mono);
-          line-height: var(--line-height-mono);
-          width: 73ch; /* Add a char to account for the border. */
-        }
-        .error {
-          color: var(--error-text-color);
-          margin-bottom: var(--spacing-m);
-        }
-        label[for='messageInput'] {
-          margin-top: var(--spacing-m);
-        }
-      </style>
       <gr-dialog
-        confirm-label="Revert"
-        on-confirm="_handleConfirmTap"
-        on-cancel="_handleCancelTap"
+        .confirmLabel=${'Revert'}
+        @confirm=${(e: Event) => this._handleConfirmTap(e)}
+        @cancel=${(e: Event) => this._handleCancelTap(e)}
       >
         <div class="header" slot="header">Revert Merged Change</div>
         <div class="main" slot="main">
-          <div class="error" hidden$="[[!_showErrorMessage]]">
+          <div class="error" ?hidden=${!this._showErrorMessage}>
             <span> A reason is required </span>
           </div>
-          <template is="dom-if" if="[[_showRevertSubmission]]">
-            <div class="revertSubmissionLayout">
-              <input
-                name="revertOptions"
-                type="radio"
-                id="revertSingleChange"
-                on-change="_handleRevertSingleChangeClicked"
-                checked="[[_computeIfSingleRevert(_revertType)]]"
-              />
-              <label for="revertSingleChange" class="label revertSingleChange">
-                Revert single change
-              </label>
-            </div>
-            <div class="revertSubmissionLayout">
-              <input
-                name="revertOptions"
-                type="radio"
-                id="revertSubmission"
-                on-change="_handleRevertSubmissionClicked"
-                checked="[[_computeIfRevertSubmission(_revertType)]]"
-              />
-              <label for="revertSubmission" class="label revertSubmission">
-                Revert entire submission ([[_changesCount]] Changes)
-              </label>
-            </div>
-          </template>
+          ${this._showRevertSubmission
+            ? html`
+                <div class="revertSubmissionLayout">
+                  <input
+                    name="revertOptions"
+                    type="radio"
+                    id="revertSingleChange"
+                    @change=${() => this._handleRevertSingleChangeClicked()}
+                    .checked=${this._computeIfSingleRevert(this._revertType)}
+                  />
+                  <label
+                    for="revertSingleChange"
+                    class="label revertSingleChange"
+                  >
+                    Revert single change
+                  </label>
+                </div>
+                <div class="revertSubmissionLayout">
+                  <input
+                    name="revertOptions"
+                    type="radio"
+                    id="revertSubmission"
+                    @change=${() => this._handleRevertSubmissionClicked()}
+                    .checked=${this._computeIfRevertSubmission(
+                      this._revertType
+                    )}
+                  />
+                  <label for="revertSubmission" class="label revertSubmission">
+                    Revert entire submission (${this._changesCount} Changes)
+                  </label>
+                </div>
+              `
+            : nothing}
           <gr-endpoint-decorator name="confirm-revert-change">
             <label for="messageInput"> Revert Commit Message </label>
             <iron-autogrow-textarea
               id="messageInput"
               class="message"
-              autocomplete="on"
-              max-rows="15"
-              bind-value="{{_message}}"
+              .autocomplete=${'on'}
+              .maxRows=${15}
+              .bindValue=${this._message}
             ></iron-autogrow-textarea>
           </gr-endpoint-decorator>
         </div>

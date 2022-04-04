@@ -934,6 +934,10 @@ export class GrChangeView extends base {
     });
   }
 
+  handleEditingChanged() {}
+
+  handleContentChanged() {}
+
   _handleCommitMessageSave(e: EditableContentSaveEvent) {
     assertIsDefined(this._change, '_change');
     if (!this._changeNum)

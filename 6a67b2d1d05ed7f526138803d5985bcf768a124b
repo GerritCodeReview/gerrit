@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22646ec3_8ee82b0e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-04T13:58:22Z",
+      "side": 1,
+      "message": "I think these don\u0027t work and that problem is hidden because we are calling private methods directly in tests instead of clicking buttons. Did you verify manually that this works? Issue with `this` binding is described in your comment on my change [here](https://gerrit-review.googlesource.com/c/gerrit/+/334339/1..3/polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts#b115)\n\nGenerally I am worried that we call a bunch of private stuff in tests and a lot of the \"hook-together\" code is untested and error prone.",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 41
+      },
+      "revId": "6a67b2d1d05ed7f526138803d5985bcf768a124b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

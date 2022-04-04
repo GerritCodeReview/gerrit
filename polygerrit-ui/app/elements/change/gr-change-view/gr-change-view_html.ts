@@ -420,8 +420,10 @@ export const htmlTemplate = html`
               <div id="commitMessage" class="commitMessage">
                 <gr-editable-content
                   id="commitMessageEditor"
-                  editing="{{_editingCommitMessage}}"
-                  content="{{_latestCommitMessage}}"
+                  editing="[[_editingCommitMessage]]"
+                  content="[[_latestCommitMessage]]"
+                  on-editing-changed="handleEditingChanged"
+                  on-content-changed="handleContentChanged"
                   storage-key="[[_computeCommitMessageKey(_change._number, _change.current_revision)]]"
                   hide-edit-commit-message="[[_hideEditCommitMessage]]"
                   commit-collapsible="[[_commitCollapsible]]"

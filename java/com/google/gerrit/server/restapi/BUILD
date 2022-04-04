@@ -38,5 +38,7 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+        "//lib/antlr:java-runtime",
+        "//antlr3:query_parser",
     ],
 )

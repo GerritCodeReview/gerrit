@@ -151,15 +151,6 @@ public class ListLabelsIT extends AbstractDaemonTest {
 
     LabelDefinitionInfo fooLabel = Iterables.getOnlyElement(labels);
     assertThat(fooLabel.canOverride).isNull();
-    assertThat(fooLabel.copyAnyScore).isNull();
-    assertThat(fooLabel.copyMinScore).isNull();
-    assertThat(fooLabel.copyMaxScore).isNull();
-    assertThat(fooLabel.copyAllScoresIfListOfFilesDidNotChange).isNull();
-    assertThat(fooLabel.copyAllScoresIfNoChange).isNull();
-    assertThat(fooLabel.copyAllScoresIfNoCodeChange).isNull();
-    assertThat(fooLabel.copyAllScoresOnTrivialRebase).isNull();
-    assertThat(fooLabel.copyAllScoresOnMergeFirstParentUpdate).isNull();
-    assertThat(fooLabel.copyValues).isNull();
     assertThat(fooLabel.allowPostSubmit).isNull();
     assertThat(fooLabel.ignoreSelfApproval).isNull();
   }
@@ -174,15 +165,7 @@ public class ListLabelsIT extends AbstractDaemonTest {
           .updateLabelType(
               "foo",
               labelType -> {
-                labelType.setCopyAnyScore(true);
-                labelType.setCopyMinScore(true);
-                labelType.setCopyMaxScore(true);
-                labelType.setCopyAllScoresIfListOfFilesDidNotChange(true);
-                labelType.setCopyAllScoresIfNoChange(true);
-                labelType.setCopyAllScoresIfNoCodeChange(true);
-                labelType.setCopyAllScoresOnTrivialRebase(true);
-                labelType.setCopyAllScoresOnMergeFirstParentUpdate(true);
-                labelType.setCopyValues(ImmutableList.of((short) -1, (short) 1));
+                labelType.setCopyCondition("is:MIN OR is:MAX");
                 labelType.setIgnoreSelfApproval(true);
               });
       u.save();
@@ -193,15 +176,7 @@ public class ListLabelsIT extends AbstractDaemonTest {
 
     LabelDefinitionInfo fooLabel = Iterables.getOnlyElement(labels);
     assertThat(fooLabel.canOverride).isTrue();
-    assertThat(fooLabel.copyAnyScore).isTrue();
-    assertThat(fooLabel.copyMinScore).isTrue();
-    assertThat(fooLabel.copyMaxScore).isTrue();
-    assertThat(fooLabel.copyAllScoresIfListOfFilesDidNotChange).isTrue();
-    assertThat(fooLabel.copyAllScoresIfNoChange).isTrue();
-    assertThat(fooLabel.copyAllScoresIfNoCodeChange).isTrue();
-    assertThat(fooLabel.copyAllScoresOnTrivialRebase).isTrue();
-    assertThat(fooLabel.copyAllScoresOnMergeFirstParentUpdate).isTrue();
-    assertThat(fooLabel.copyValues).containsExactly((short) -1, (short) 1).inOrder();
+    assertThat(fooLabel.copyCondition).isEqualTo("is:MIN OR is:MAX");
     assertThat(fooLabel.allowPostSubmit).isTrue();
     assertThat(fooLabel.ignoreSelfApproval).isTrue();
   }

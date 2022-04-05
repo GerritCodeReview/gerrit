@@ -16,6 +16,7 @@ package com.google.gerrit.server.schema;
 
 import static java.util.stream.Collectors.joining;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -82,6 +83,31 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class MigrateLabelConfigToCopyCondition {
   public static final String COMMIT_MESSAGE = "Migrate label configs to copy conditions";
 
+  @VisibleForTesting public static final String KEY_COPY_ANY_SCORE = "copyAnyScore";
+
+  @VisibleForTesting public static final String KEY_COPY_MIN_SCORE = "copyMinScore";
+
+  @VisibleForTesting public static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
+
+  @VisibleForTesting public static final String KEY_COPY_VALUE = "copyValue";
+
+  @VisibleForTesting
+  public static final String KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE =
+      "copyAllScoresOnMergeFirstParentUpdate";
+
+  @VisibleForTesting
+  public static final String KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = "copyAllScoresOnTrivialRebase";
+
+  @VisibleForTesting
+  public static final String KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = "copyAllScoresIfNoCodeChange";
+
+  @VisibleForTesting
+  public static final String KEY_COPY_ALL_SCORES_IF_NO_CHANGE = "copyAllScoresIfNoChange";
+
+  @VisibleForTesting
+  public static final String KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE =
+      "copyAllScoresIfListOfFilesDidNotChange";
+
   private final GitRepositoryManager repoManager;
   private final PersonIdent serverUser;
 
@@ -137,18 +163,18 @@ public class MigrateLabelConfigToCopyCondition {
       boolean isAlreadyMigrated, Config cfg, String labelName) {
     List<String> copyConditions = new ArrayList<>();
 
-    ifTrue(cfg, labelName, ProjectConfig.KEY_COPY_ANY_SCORE, () -> copyConditions.add("is:ANY"));
-    ifTrue(cfg, labelName, ProjectConfig.KEY_COPY_MIN_SCORE, () -> copyConditions.add("is:MIN"));
-    ifTrue(cfg, labelName, ProjectConfig.KEY_COPY_MAX_SCORE, () -> copyConditions.add("is:MAX"));
+    ifTrue(cfg, labelName, KEY_COPY_ANY_SCORE, () -> copyConditions.add("is:ANY"));
+    ifTrue(cfg, labelName, KEY_COPY_MIN_SCORE, () -> copyConditions.add("is:MIN"));
+    ifTrue(cfg, labelName, KEY_COPY_MAX_SCORE, () -> copyConditions.add("is:MAX"));
     forEachSkipNullValues(
         cfg,
         labelName,
-        ProjectConfig.KEY_COPY_VALUE,
+        KEY_COPY_VALUE,
         value -> copyConditions.add("is:" + quoteIfNegative(parseCopyValue(value))));
     ifTrue(
         cfg,
         labelName,
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+        KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
         () -> copyConditions.add("changekind:" + ChangeKind.NO_CHANGE.name()));
 
     // If the migration has already been run on this project we must no longer assume true as
@@ -169,29 +195,29 @@ public class MigrateLabelConfigToCopyCondition {
       ifUnset(
           cfg,
           labelName,
-          ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+          KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
           () -> copyConditions.add("changekind:" + ChangeKind.NO_CHANGE.name()));
     }
 
     ifTrue(
         cfg,
         labelName,
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
+        KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
         () -> copyConditions.add("changekind:" + ChangeKind.NO_CODE_CHANGE.name()));
     ifTrue(
         cfg,
         labelName,
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
+        KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
         () -> copyConditions.add("changekind:" + ChangeKind.MERGE_FIRST_PARENT_UPDATE.name()));
     ifTrue(
         cfg,
         labelName,
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
+        KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
         () -> copyConditions.add("changekind:" + ChangeKind.TRIVIAL_REBASE.name()));
     ifTrue(
         cfg,
         labelName,
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
+        KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
         () -> copyConditions.add("has:unchanged-files"));
 
     if (copyConditions.isEmpty()) {
@@ -241,21 +267,15 @@ public class MigrateLabelConfigToCopyCondition {
   }
 
   private static void unsetDeprecatedFields(Config cfg, String labelName) {
-    cfg.unset(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_ANY_SCORE);
-    cfg.unset(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_MIN_SCORE);
-    cfg.unset(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_MAX_SCORE);
-    cfg.unset(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_VALUE);
-    cfg.unset(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
-    cfg.unset(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
-    cfg.unset(
-        ProjectConfig.LABEL,
-        labelName,
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
-    cfg.unset(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
-    cfg.unset(
-        ProjectConfig.LABEL,
-        labelName,
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE);
+    cfg.unset(ProjectConfig.LABEL, labelName, KEY_COPY_ANY_SCORE);
+    cfg.unset(ProjectConfig.LABEL, labelName, KEY_COPY_MIN_SCORE);
+    cfg.unset(ProjectConfig.LABEL, labelName, KEY_COPY_MAX_SCORE);
+    cfg.unset(ProjectConfig.LABEL, labelName, KEY_COPY_VALUE);
+    cfg.unset(ProjectConfig.LABEL, labelName, KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
+    cfg.unset(ProjectConfig.LABEL, labelName, KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
+    cfg.unset(ProjectConfig.LABEL, labelName, KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
+    cfg.unset(ProjectConfig.LABEL, labelName, KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
+    cfg.unset(ProjectConfig.LABEL, labelName, KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE);
   }
 
   private static ImmutableList<String> splitOrConditions(String copyCondition) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -45,10 +46,11 @@ import org.eclipse.jgit.lib.Config;
  * Validates modifications to label configurations in the {@code project.config} file that is stored
  * in {@code refs/meta/config}.
  *
- * <p>Rejects setting/changing deprecated fields (fields {@code copyAnyScore}, {@code copyMinScore},
- * {@code copyMaxScore}, {@code copyAllScoresIfNoChange}, {@code copyAllScoresIfNoCodeChange},
- * {@code copyAllScoresOnMergeFirstParentUpdate}, {@code copyAllScoresOnTrivialRebase}, {@code
- * copyAllScoresIfListOfFilesDidNotChange}, {@code copyValue}).
+ * <p>Rejects setting/changing deprecated fields that are no longer supported (fields {@code
+ * copyAnyScore}, {@code copyMinScore}, {@code copyMaxScore}, {@code copyAllScoresIfNoChange},
+ * {@code copyAllScoresIfNoCodeChange}, {@code copyAllScoresOnMergeFirstParentUpdate}, {@code
+ * copyAllScoresOnTrivialRebase}, {@code copyAllScoresIfListOfFilesDidNotChange}, {@code
+ * copyValue}).
  *
  * <p>Updates that unset the deprecated fields or that don't touch them are allowed.
  */
@@ -56,28 +58,49 @@ import org.eclipse.jgit.lib.Config;
 public class LabelConfigValidator implements CommitValidationListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  @VisibleForTesting public static final String KEY_COPY_ANY_SCORE = "copyAnyScore";
+
+  @VisibleForTesting public static final String KEY_COPY_MIN_SCORE = "copyMinScore";
+
+  @VisibleForTesting public static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
+
+  @VisibleForTesting public static final String KEY_COPY_VALUE = "copyValue";
+
+  @VisibleForTesting
+  public static final String KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE =
+      "copyAllScoresOnMergeFirstParentUpdate";
+
+  @VisibleForTesting
+  public static final String KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = "copyAllScoresOnTrivialRebase";
+
+  @VisibleForTesting
+  public static final String KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = "copyAllScoresIfNoCodeChange";
+
+  @VisibleForTesting
+  public static final String KEY_COPY_ALL_SCORES_IF_NO_CHANGE = "copyAllScoresIfNoChange";
+
+  @VisibleForTesting
+  public static final String KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE =
+      "copyAllScoresIfListOfFilesDidNotChange";
+
   // Map of deprecated boolean flags to the predicates that should be used in the copy condition
   // instead.
   private static final ImmutableMap<String, String> DEPRECATED_FLAGS =
       ImmutableMap.<String, String>builder()
-          .put(ProjectConfig.KEY_COPY_ANY_SCORE, "is:ANY")
-          .put(ProjectConfig.KEY_COPY_MIN_SCORE, "is:MIN")
-          .put(ProjectConfig.KEY_COPY_MAX_SCORE, "is:MAX")
+          .put(KEY_COPY_ANY_SCORE, "is:ANY")
+          .put(KEY_COPY_MIN_SCORE, "is:MIN")
+          .put(KEY_COPY_MAX_SCORE, "is:MAX")
+          .put(KEY_COPY_ALL_SCORES_IF_NO_CHANGE, "changekind:" + ChangeKind.NO_CHANGE.name())
           .put(
-              ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
-              "changekind:" + ChangeKind.NO_CHANGE.name())
-          .put(
-              ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
+              KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
               "changekind:" + ChangeKind.NO_CODE_CHANGE.name())
           .put(
-              ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
+              KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
               "changekind:" + ChangeKind.MERGE_FIRST_PARENT_UPDATE.name())
           .put(
-              ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
+              KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
               "changekind:" + ChangeKind.TRIVIAL_REBASE.name())
-          .put(
-              ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
-              "has:unchanged-files")
+          .put(KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE, "has:unchanged-files")
           .build();
 
   private final DiffOperations diffOperations;
@@ -149,7 +172,7 @@ public class LabelConfigValidator implements CommitValidationListener {
                           + " use 'is:<copy-value>' in '%s.%s.%s' instead.",
                       ProjectConfig.LABEL,
                       labelName,
-                      ProjectConfig.KEY_COPY_VALUE,
+                      KEY_COPY_VALUE,
                       ProjectConfig.LABEL,
                       labelName,
                       ProjectConfig.KEY_COPY_CONDITION),
@@ -312,19 +335,17 @@ public class LabelConfigValidator implements CommitValidationListener {
   private static boolean copyValuesChangedOrNewlySet(
       Config newConfig, @Nullable Config oldConfig, String labelName) {
     if (oldConfig == null) {
-      return newConfig
-          .getNames(ProjectConfig.LABEL, labelName)
-          .contains(ProjectConfig.KEY_COPY_VALUE);
+      return newConfig.getNames(ProjectConfig.LABEL, labelName).contains(KEY_COPY_VALUE);
     }
 
     // Ignore the order in which the copy values are defined in the new and old config, since the
     // order doesn't matter for this parameter.
     ImmutableSet<String> oldValues =
         ImmutableSet.copyOf(
-            oldConfig.getStringList(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_VALUE));
+            oldConfig.getStringList(ProjectConfig.LABEL, labelName, KEY_COPY_VALUE));
     ImmutableSet<String> newValues =
         ImmutableSet.copyOf(
-            newConfig.getStringList(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_VALUE));
+            newConfig.getStringList(ProjectConfig.LABEL, labelName, KEY_COPY_VALUE));
     return !newValues.isEmpty() && !Sets.difference(newValues, oldValues).isEmpty();
   }
 

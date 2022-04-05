@@ -43,19 +43,6 @@ public class LabelTypeSerializer {
         .setIgnoreSelfApproval(proto.getIgnoreSelfApproval())
         .setDefaultValue(Shorts.saturatedCast(proto.getDefaultValue()))
         .setCopyCondition(Strings.emptyToNull(proto.getCopyCondition()))
-        .setCopyAnyScore(proto.getCopyAnyScore())
-        .setCopyMinScore(proto.getCopyMinScore())
-        .setCopyMaxScore(proto.getCopyMaxScore())
-        .setCopyAllScoresIfListOfFilesDidNotChange(
-            proto.getCopyAllScoresIfListOfFilesDidNotChange())
-        .setCopyAllScoresOnMergeFirstParentUpdate(proto.getCopyAllScoresOnMergeFirstParentUpdate())
-        .setCopyAllScoresOnTrivialRebase(proto.getCopyAllScoresOnTrivialRebase())
-        .setCopyAllScoresIfNoCodeChange(proto.getCopyAllScoresIfNoCodeChange())
-        .setCopyAllScoresIfNoChange(proto.getCopyAllScoresIfNoChange())
-        .setCopyValues(
-            proto.getCopyValuesList().stream()
-                .map(Shorts::saturatedCast)
-                .collect(toImmutableList()))
         .setMaxNegative(Shorts.saturatedCast(proto.getMaxNegative()))
         .setMaxPositive(Shorts.saturatedCast(proto.getMaxPositive()))
         .setRefPatterns(proto.getRefPatternsList())
@@ -73,18 +60,6 @@ public class LabelTypeSerializer {
         .setDescription(autoValue.getDescription().orElse(""))
         .setFunction(FUNCTION_CONVERTER.reverse().convert(autoValue.getFunction()))
         .setCopyCondition(autoValue.getCopyCondition().orElse(""))
-        .setCopyAnyScore(autoValue.isCopyAnyScore())
-        .setCopyMinScore(autoValue.isCopyMinScore())
-        .setCopyMaxScore(autoValue.isCopyMaxScore())
-        .setCopyAllScoresIfListOfFilesDidNotChange(
-            autoValue.isCopyAllScoresIfListOfFilesDidNotChange())
-        .setCopyAllScoresOnMergeFirstParentUpdate(
-            autoValue.isCopyAllScoresOnMergeFirstParentUpdate())
-        .setCopyAllScoresOnTrivialRebase(autoValue.isCopyAllScoresOnTrivialRebase())
-        .setCopyAllScoresIfNoCodeChange(autoValue.isCopyAllScoresIfNoCodeChange())
-        .setCopyAllScoresIfNoChange(autoValue.isCopyAllScoresIfNoChange())
-        .addAllCopyValues(
-            autoValue.getCopyValues().stream().map(c -> (int) c).collect(toImmutableList()))
         .setAllowPostSubmit(autoValue.isAllowPostSubmit())
         .setIgnoreSelfApproval(autoValue.isIgnoreSelfApproval())
         .setDefaultValue(Shorts.saturatedCast(autoValue.getDefaultValue()))

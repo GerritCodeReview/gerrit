@@ -16,6 +16,24 @@
       "message": "Just let me know when you want me to do a first round of review. Thanks.",
       "revId": "abdb36f2e6cf77088062615c069627c4b27269fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ecc2026_d776f6b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-04-05T14:12:28Z",
+      "side": 1,
+      "message": "Hi Patrick, I am following a top down approach where I am adding the API first and then if this looks correct, will go ahead and add functions for the API. Please do a first round of review now, so that I can see that I am on the right track. I have left TODO\u0027s where I feel I will need to fill in, if this overall approach looks good.",
+      "parentUuid": "efd89a8c_c5174d06",
+      "revId": "abdb36f2e6cf77088062615c069627c4b27269fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

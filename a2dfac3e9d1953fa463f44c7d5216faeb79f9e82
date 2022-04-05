@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab170282_7d0c9dde",
+        "filename": "java/com/google/gerrit/server/project/LabelConfigValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-05T08:19:04Z",
+      "side": 1,
+      "message": "I am wondering if this will always work. Have you tested it witch change edits or other code paths that create a commit in Gerrit?\n\nThe diff facade does not accept a RevWalk. We pass down a RevWalk in CommitReceivedEvent because if the commit is newly created, using this RevWalk is the only way to read it back as it won\u0027t be visible in RevWalks created from the Repository (instead of the ObjectInserter).",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 94
+      },
+      "revId": "a2dfac3e9d1953fa463f44c7d5216faeb79f9e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

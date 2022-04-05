@@ -63,7 +63,7 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
               value(0, "No score"),
               value(-1, "I would prefer this is not submitted as is"),
               value(-2, "This shall not be submitted"));
-      codeReview.setCopyAnyScore(true);
+      codeReview.setCopyCondition("is:ANY");
       u.getConfig().upsertLabelType(codeReview.build());
       u.save();
     }

@@ -22,6 +22,30 @@
       },
       "revId": "fa37ab15495d4590bf2c17211f0b88c3bd536f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "910b5673_da42f88c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T06:25:01Z",
+      "side": 1,
+      "message": "This is just a preparation change. It will only be submitted together with its descendant. Please leave comments on the actual migration change. Thanks!\n\nPS: The \"inlined\" template is a lit template, but in this change the component is still Polymer, so we cannot remove the reference to the Polymer template, if we want this to compile.",
+      "parentUuid": "d6e5380c_fc672f21",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 3
+      },
+      "revId": "fa37ab15495d4590bf2c17211f0b88c3bd536f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

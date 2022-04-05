@@ -133,6 +133,9 @@ export function define<ValueType>(name: string) {
  */
 export type Provider<T> = () => T;
 
+const PROVIDERS_SYMBOL = Symbol('providers');
+const RESOLVERS_SYMBOL = Symbol('resolvers');
+
 /**
  * A producer of a dependency expresses this as a need that results in a promise
  * for the given dependency.
@@ -142,6 +145,10 @@ export function provide<T>(
   dependency: DependencyToken<T>,
   provider: Provider<T>
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const hostProviders = ((host as any)[PROVIDERS_SYMBOL] ||= new Set());
+  if (hostProviders.has(dependency)) return;
+  hostProviders.add(dependency);
   host.addController(new DependencyProvider<T>(host, dependency, provider));
 }
 
@@ -154,9 +161,16 @@ export function resolve<T>(
   host: ReactiveControllerHost & HTMLElement,
   dependency: DependencyToken<T>
 ): Provider<T> {
-  const controller = new DependencySubscriber(host, dependency);
-  host.addController(controller);
-  return () => controller.get();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const hostResolvers = ((host as any)[RESOLVERS_SYMBOL] ||= new Map());
+  let resolver = hostResolvers.get(dependency);
+  if (!resolver) {
+    const controller = new DependencySubscriber(host, dependency);
+    host.addController(controller);
+    resolver = () => controller.get();
+    hostResolvers.set(dependency, resolver);
+  }
+  return resolver;
 }
 
 /**

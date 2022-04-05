@@ -30,18 +30,6 @@ public class LabelTypeTest {
   }
 
   @Test
-  public void sortCopyValues() {
-    LabelValue v0 = LabelValue.create((short) 0, "Zero");
-    LabelValue v1 = LabelValue.create((short) 1, "One");
-    LabelValue v2 = LabelValue.create((short) 2, "Two");
-    LabelType types =
-        LabelType.builder("Label", ImmutableList.of(v2, v0, v1))
-            .setCopyValues(ImmutableList.of((short) 2, (short) 0, (short) 1))
-            .build();
-    assertThat(types.getCopyValues()).containsExactly((short) 0, (short) 1, (short) 2).inOrder();
-  }
-
-  @Test
   public void insertMissingLabelValues() {
     LabelValue v0 = LabelValue.create((short) 0, "Zero");
     LabelValue v2 = LabelValue.create((short) 2, "Two");

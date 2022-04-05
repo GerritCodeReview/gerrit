@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.entities.BooleanProjectConfig.REQUIRE_CHANGE_ID;
 
 import com.google.common.collect.ImmutableList;
@@ -75,31 +76,8 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class ProjectConfigTest {
-  private static final String LABEL_SCORES_CONFIG =
-      "  copyAnyScore = "
-          + !LabelType.DEF_COPY_ANY_SCORE
-          + "\n"
-          + "  copyMinScore = "
-          + !LabelType.DEF_COPY_MIN_SCORE
-          + "\n"
-          + "  copyMaxScore = "
-          + !LabelType.DEF_COPY_MAX_SCORE
-          + "\n"
-          + "  copyAllScoresIfListOfFilesDidNotChange = "
-          + !LabelType.DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE
-          + "\n"
-          + "  copyAllScoresOnMergeFirstParentUpdate = "
-          + !LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE
-          + "\n"
-          + "  copyAllScoresOnTrivialRebase = "
-          + !LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE
-          + "\n"
-          + "  copyAllScoresIfNoCodeChange = "
-          + !LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE
-          + "\n"
-          + "  copyAllScoresIfNoChange = "
-          + !LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE
-          + "\n";
+  private static final String COPY_CONDITION = "is:MIN OR is:MAX";
+  private static final String LABEL_SCORES_CONFIG = "  copyCondition = " + COPY_CONDITION + "\n";
 
   private static final AllProjectsName ALL_PROJECTS = new AllProjectsName("All-The-Projects");
 
@@ -422,7 +400,7 @@ public class ProjectConfigTest {
   }
 
   @Test
-  public void readConfigLabelScores() throws Exception {
+  public void readConfigCondition() throws Exception {
     RevCommit rev =
         tr.commit()
             .add("groups", group(developers))
@@ -432,19 +410,7 @@ public class ProjectConfigTest {
     ProjectConfig cfg = read(rev);
     Map<String, LabelType> labels = cfg.getLabelSections();
     LabelType type = labels.entrySet().iterator().next().getValue();
-    assertThat(type.isCopyAnyScore()).isNotEqualTo(LabelType.DEF_COPY_ANY_SCORE);
-    assertThat(type.isCopyMinScore()).isNotEqualTo(LabelType.DEF_COPY_MIN_SCORE);
-    assertThat(type.isCopyMaxScore()).isNotEqualTo(LabelType.DEF_COPY_MAX_SCORE);
-    assertThat(type.isCopyAllScoresIfListOfFilesDidNotChange())
-        .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE);
-    assertThat(type.isCopyAllScoresOnMergeFirstParentUpdate())
-        .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
-    assertThat(type.isCopyAllScoresOnTrivialRebase())
-        .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
-    assertThat(type.isCopyAllScoresIfNoCodeChange())
-        .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
-    assertThat(type.isCopyAllScoresIfNoChange())
-        .isNotEqualTo(LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE);
+    assertThat(type.getCopyCondition()).hasValue(COPY_CONDITION);
   }
 
   @Test
@@ -1055,24 +1021,6 @@ public class ProjectConfigTest {
             new byte[] {
               -53, -97, -1, 52, -119, 104, -13, -41, -7, 82, -90, 126, -32, -13, -91, 49
             });
-  }
-
-  @Test
-  public void readCopyValues_emptyValueIsIgnored() throws Exception {
-    RevCommit rev =
-        tr.commit()
-            .add(
-                "project.config",
-                "[label \"CustomLabel\"]\n"
-                    + "  copyValue = 1\n"
-                    + "  copyValue = 2\n"
-                    + "  copyValue = \n")
-            .create();
-
-    ProjectConfig cfg = read(rev);
-    Map<String, LabelType> labels = cfg.getLabelSections();
-    assertThat(labels.entrySet().iterator().next().getValue().getCopyValues())
-        .containsExactly((short) 1, (short) 2);
   }
 
   private Path writeDefaultAllProjectsConfig(String... lines) throws IOException {

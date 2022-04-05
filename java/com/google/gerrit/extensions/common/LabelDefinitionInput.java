@@ -25,17 +25,8 @@ public class LabelDefinitionInput extends InputWithCommitMessage {
   public Short defaultValue;
   public List<String> branches;
   public Boolean canOverride;
-  public Boolean copyAnyScore;
   public String copyCondition;
   public Boolean unsetCopyCondition;
-  public Boolean copyMinScore;
-  public Boolean copyMaxScore;
-  public Boolean copyAllScoresIfListOfFilesDidNotChange;
-  public Boolean copyAllScoresIfNoChange;
-  public Boolean copyAllScoresIfNoCodeChange;
-  public Boolean copyAllScoresOnTrivialRebase;
-  public Boolean copyAllScoresOnMergeFirstParentUpdate;
-  public List<Short> copyValues;
   public Boolean allowPostSubmit;
   public Boolean ignoreSelfApproval;
 }

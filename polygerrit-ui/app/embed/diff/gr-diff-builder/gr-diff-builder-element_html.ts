@@ -20,9 +20,5 @@ export const htmlTemplate = html`
   <div class="contentWrapper">
     <slot></slot>
   </div>
-  <gr-ranged-comment-layer
-    id="rangeLayer"
-    comment-ranges="[[commentRanges]]"
-  ></gr-ranged-comment-layer>
   <gr-diff-processor id="processor" groups="{{_groups}}"></gr-diff-processor>
 `;

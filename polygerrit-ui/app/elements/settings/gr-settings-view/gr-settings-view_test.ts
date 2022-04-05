@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-settings-view';
 import {GrSettingsView} from './gr-settings-view';
 import {GerritView} from '../../../services/router/router-model';
-import {queryAll, queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {
   AuthInfo,
   AccountDetailInfo,
@@ -259,7 +259,6 @@ suite('gr-settings-view tests', () => {
     );
 
     assert.isFalse(element._prefsChanged);
-    assert.isFalse(element._menuChanged);
 
     const publishOnPush = valueOf('Publish comments on push', 'preferences')!
       .firstElementChild!;
@@ -267,7 +266,6 @@ suite('gr-settings-view tests', () => {
     MockInteractions.tap(publishOnPush);
 
     assert.isTrue(element._prefsChanged);
-    assert.isFalse(element._menuChanged);
 
     stubRestApi('savePreferences').callsFake(prefs => {
       assertMenusEqual(prefs.my, preferences.my);
@@ -278,7 +276,6 @@ suite('gr-settings-view tests', () => {
     // Save the change.
     await element._handleSavePreferences();
     assert.isFalse(element._prefsChanged);
-    assert.isFalse(element._menuChanged);
   });
 
   test('publish comments on push', async () => {
@@ -288,7 +285,6 @@ suite('gr-settings-view tests', () => {
     )!.firstElementChild!;
     MockInteractions.tap(publishCommentsOnPush);
 
-    assert.isFalse(element._menuChanged);
     assert.isTrue(element._prefsChanged);
 
     stubRestApi('savePreferences').callsFake(prefs => {
@@ -299,7 +295,6 @@ suite('gr-settings-view tests', () => {
     // Save the change.
     await element._handleSavePreferences();
     assert.isFalse(element._prefsChanged);
-    assert.isFalse(element._menuChanged);
   });
 
   test('set new changes work-in-progress', async () => {
@@ -309,7 +304,6 @@ suite('gr-settings-view tests', () => {
     )!.firstElementChild!;
     MockInteractions.tap(newChangesWorkInProgress);
 
-    assert.isFalse(element._menuChanged);
     assert.isTrue(element._prefsChanged);
 
     stubRestApi('savePreferences').callsFake(prefs => {
@@ -320,40 +314,6 @@ suite('gr-settings-view tests', () => {
     // Save the change.
     await element._handleSavePreferences();
     assert.isFalse(element._prefsChanged);
-    assert.isFalse(element._menuChanged);
-  });
-
-  test('menu', async () => {
-    assert.isFalse(element._menuChanged);
-    assert.isFalse(element._prefsChanged);
-
-    assertMenusEqual(element._localMenu, preferences.my);
-
-    const menu = element.$.menu.firstElementChild!;
-    let tableRows = queryAll(menu, 'tbody tr');
-    // let tableRows = menu.root.querySelectorAll('tbody tr');
-    assert.equal(tableRows.length, preferences.my.length);
-
-    // Add a menu item:
-    element.splice('_localMenu', 1, 0, {name: 'foo', url: 'bar', target: ''});
-    flush();
-
-    // tableRows = menu.root.querySelectorAll('tbody tr');
-    tableRows = queryAll(menu, 'tbody tr');
-    assert.equal(tableRows.length, preferences.my.length + 1);
-
-    assert.isTrue(element._menuChanged);
-    assert.isFalse(element._prefsChanged);
-
-    stubRestApi('savePreferences').callsFake(prefs => {
-      assertMenusEqual(prefs.my, element._localMenu);
-      return Promise.resolve(createDefaultPreferences());
-    });
-
-    await element._handleSaveMenu();
-    assert.isFalse(element._menuChanged);
-    assert.isFalse(element._prefsChanged);
-    assertMenusEqual(element.prefs.my, element._localMenu);
   });
 
   test('add email validation', () => {
@@ -443,39 +403,6 @@ suite('gr-settings-view tests', () => {
     element._handleSaveChangeTable();
     assert.deepEqual(element.prefs.change_table, newColumns);
     assert.isTrue(element.prefs.legacycid_in_change_table);
-  });
-
-  test('reset menu item back to default', async () => {
-    const originalMenu = {
-      ...createDefaultPreferences(),
-      my: [
-        {url: '/first/url', name: 'first name', target: '_blank'},
-        {url: '/second/url', name: 'second name', target: '_blank'},
-        {url: '/third/url', name: 'third name', target: '_blank'},
-      ] as TopMenuItemInfo[],
-    };
-
-    stubRestApi('getDefaultPreferences').returns(Promise.resolve(originalMenu));
-
-    const updatedMenu = [
-      {url: '/first/url', name: 'first name', target: '_blank'},
-      {url: '/second/url', name: 'second name', target: '_blank'},
-      {url: '/third/url', name: 'third name', target: '_blank'},
-      {url: '/fourth/url', name: 'fourth name', target: '_blank'},
-    ];
-
-    element.set('_localMenu', updatedMenu);
-
-    await element._handleResetMenuButton();
-    assertMenusEqual(element._localMenu, originalMenu.my);
-  });
-
-  test('test that reset button is called', () => {
-    const overlayOpen = sinon.stub(element, '_handleResetMenuButton');
-
-    MockInteractions.tap(element.$.resetButton);
-
-    assert.isTrue(overlayOpen.called);
   });
 
   test('_showHttpAuth', () => {

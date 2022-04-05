@@ -316,9 +316,9 @@ per change whether a label is required for submit or not.
 
 A useful feature on labels is the possibility to automatically copy
 scores forward to new patch sets if it was a
-link:config-labels.html#label_copyAllScoresOnTrivialRebase[trivial
-rebase] or if link:config-labels.html#label_copyAllScoresIfNoCodeChange[
-there was no code change] (e.g. only the commit message was edited).
+link:config-labels.html#trivial_rebase[trivial rebase] or if
+link:config-labels.html#no_code_change[there was no code change] (e.g.
+only the commit message was edited).
 
 [[submit-rules]]
 == Submit Rules

@@ -24,15 +24,5 @@ export const htmlTemplate = html`
     id="rangeLayer"
     comment-ranges="[[commentRanges]]"
   ></gr-ranged-comment-layer>
-  <gr-coverage-layer
-    id="coverageLayerLeft"
-    coverage-ranges="[[_leftCoverageRanges]]"
-    side="left"
-  ></gr-coverage-layer>
-  <gr-coverage-layer
-    id="coverageLayerRight"
-    coverage-ranges="[[_rightCoverageRanges]]"
-    side="right"
-  ></gr-coverage-layer>
   <gr-diff-processor id="processor" groups="{{_groups}}"></gr-diff-processor>
 `;

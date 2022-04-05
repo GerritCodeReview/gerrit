@@ -3,16 +3,12 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {CoverageRange, CoverageType, Side} from '../../../api/diff';
 import '../../../test/common-test-setup-karma';
-import '../gr-diff/gr-diff-line';
-import './gr-coverage-layer';
+import {CoverageRange, CoverageType, Side} from '../../../api/diff';
 import {GrCoverageLayer} from './gr-coverage-layer';
 
-const basicFixture = fixtureFromElement('gr-coverage-layer');
-
 suite('gr-coverage-layer', () => {
-  let element: GrCoverageLayer;
+  let layer: GrCoverageLayer;
 
   setup(() => {
     const initialCoverageRanges: CoverageRange[] = [
@@ -50,9 +46,8 @@ suite('gr-coverage-layer', () => {
       },
     ];
 
-    element = basicFixture.instantiate();
-    element.coverageRanges = initialCoverageRanges;
-    element.side = Side.RIGHT;
+    layer = new GrCoverageLayer(Side.RIGHT);
+    layer.setRanges(initialCoverageRanges);
   });
 
   suite('annotate', () => {
@@ -71,7 +66,7 @@ suite('gr-coverage-layer', () => {
     ) {
       const content = document.createElement('div');
       const line = createLine(lineNumber);
-      element.annotate(content, line);
+      layer.annotate(content, line);
       let contains = line.classList.contains(className);
       if (negated) contains = !contains;
       assert.isTrue(contains);

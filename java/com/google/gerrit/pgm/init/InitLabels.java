@@ -26,7 +26,7 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class InitLabels implements InitStep {
-  private static final String KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = "copyAllScoresIfNoCodeChange";
+  private static final String KEY_COPY_CONDITION = "copyCondition";
   private static final String KEY_LABEL = "label";
   private static final String KEY_FUNCTION = "function";
   private static final String KEY_VALUE = "value";
@@ -62,7 +62,7 @@ public class InitLabels implements InitStep {
           LABEL_VERIFIED,
           KEY_VALUE,
           Arrays.asList("-1 Fails", "0 No score", "+1 Verified"));
-      cfg.setBoolean(KEY_LABEL, LABEL_VERIFIED, KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE, true);
+      cfg.setString(KEY_LABEL, LABEL_VERIFIED, KEY_COPY_CONDITION, "changekind:NO_CODE_CHANGE");
       allProjectsConfig.save("Configure 'Verified' label");
     }
   }

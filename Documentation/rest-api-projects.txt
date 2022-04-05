@@ -3079,9 +3079,7 @@ label name.
       },
       "default_value": 0,
       "can_override": true,
-      "copy_min_score": true,
-      "copy_all_scores_if_no_change": true,
-      "copy_all_scores_on_trivial_rebase": true,
+      "copy_condition": "changekind:NO_CHANGE OR changekind:TRIVIAL_REBASE or is:MIN",
       "allow_post_submit": true
     }
   ]
@@ -3126,9 +3124,7 @@ Labels that belong to the same project are sorted by label name.
       },
       "default_value": 0,
       "can_override": true,
-      "copy_min_score": true,
-      "copy_all_scores_if_no_change": true,
-      "copy_all_scores_on_trivial_rebase": true,
+      "copy_condition": "changekind:NO_CHANGE OR changekind:TRIVIAL_REBASE or is:MIN",
       "allow_post_submit": true
     },
     {
@@ -3144,7 +3140,7 @@ Labels that belong to the same project are sorted by label name.
       },
       "default_value": 0,
       "can_override": true,
-      "copy_any_score": true,
+      "copy_condition": "is:ANY",
       "allow_post_submit": true
     }
   ]
@@ -3189,9 +3185,7 @@ returned that describes the label.
     },
     "default_value": 0,
     "can_override": true,
-    "copy_min_score": true,
-    "copy_all_scores_if_no_change": true,
-    "copy_all_scores_on_trivial_rebase": true,
+    "copy_condition": "changekind:NO_CHANGE OR changekind:TRIVIAL_REBASE OR is:MIN",
     "allow_post_submit": true
   }
 ----
@@ -3250,7 +3244,7 @@ returned that describes the created label.
     },
     "default_value": 0,
     "can_override": true,
-    "copy_all_scores_if_no_change": true,
+    "copy_condition": "changekind:NO_CHANGE",
     "allow_post_submit": true
   }
 ----
@@ -3302,9 +3296,7 @@ returned that describes the updated label.
     },
     "default_value": 0,
     "can_override": true,
-    "copy_min_score": true,
-    "copy_all_scores_if_no_change": true,
-    "copy_all_scores_on_trivial_rebase": true,
+    "copy_condition": "changekind:NO_CHANGE OR changekind:TRIVIAL_REBASE OR is:MIN",
     "allow_post_submit": true,
     "ignore_self_approval": true
   }
@@ -3388,7 +3380,7 @@ The updates are processed in the following order:
         "function": "MaxWithBlock"
       },
       "Baz-Review": {
-        "copy_min_score": true
+        "copy_condition": "is:MIN"
       }
     }
   }

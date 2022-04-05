@@ -1,51 +1,44 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-selection-action-box';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {GrSelectionActionBox} from './gr-selection-action-box';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {queryAndAssert} from '../../../test/test-utils';
-
-const basicFixture = fixtureFromTemplate(html`
-  <div>
-    <gr-selection-action-box></gr-selection-action-box>
-    <div class="target">some text</div>
-  </div>
-`);
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-selection-action-box', () => {
-  let container: GrSelectionActionBox;
+  let container: HTMLDivElement;
   let element: GrSelectionActionBox;
   let dispatchEventStub: sinon.SinonStub;
 
-  setup(() => {
-    container = basicFixture.instantiate() as GrSelectionActionBox;
+  setup(async () => {
+    container = await fixture<HTMLDivElement>(html`
+      <div>
+        <gr-selection-action-box></gr-selection-action-box>
+        <div class="target">some text</div>
+      </div>
+    `);
     element = queryAndAssert<GrSelectionActionBox>(
       container,
       'gr-selection-action-box'
     );
+    await element.updateComplete;
 
     dispatchEventStub = sinon.stub(element, 'dispatchEvent');
   });
 
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+    `);
+  });
+
   test('ignores regular keys', () => {
-    MockInteractions.pressAndReleaseKeyOn(document.body, 27, null, 'esc');
+    const event = new KeyboardEvent('keydown', {key: 'a'});
+    document.body.dispatchEvent(event);
     assert.isFalse(dispatchEventStub.called);
   });
 
@@ -61,7 +54,7 @@ suite('gr-selection-action-box', () => {
     });
 
     test('event handled if main button', () => {
-      element._handleMouseDown(e);
+      element.handleMouseDown(e);
       assert.isTrue(e.preventDefault.called);
       assert.equal(
         dispatchEventStub.lastCall.args[0].type,
@@ -71,7 +64,7 @@ suite('gr-selection-action-box', () => {
 
     test('event ignored if not main button', () => {
       e.button = 1;
-      element._handleMouseDown(e);
+      element.handleMouseDown(e);
       assert.isFalse(e.preventDefault.called);
       assert.isFalse(dispatchEventStub.called);
     });
@@ -92,7 +85,7 @@ suite('gr-selection-action-box', () => {
         height: 6,
       } as DOMRect);
       getTargetBoundingRectStub = sinon
-        .stub(element, '_getTargetBoundingRect')
+        .stub(element, 'getTargetBoundingRect')
         .returns({
           top: 42,
           bottom: 20,
@@ -101,8 +94,9 @@ suite('gr-selection-action-box', () => {
           width: 100,
           height: 60,
         } as DOMRect);
+      assert.isOk(element.tooltip);
       sinon
-        .stub(element.$.tooltip, 'getBoundingClientRect')
+        .stub(element.tooltip!, 'getBoundingClientRect')
         .returns({width: 10, height: 10} as DOMRect);
     });
 

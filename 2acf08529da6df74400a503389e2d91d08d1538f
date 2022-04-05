@@ -1,0 +1,283 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27907c32_e8a5f6de",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "Maybe `ValueChangedEvent\u003cboolean\u003e`. Can `!!` then be dropped?",
+      "range": {
+        "startLine": 938,
+        "startChar": 26,
+        "endLine": 938,
+        "endChar": 43
+      },
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dc1ab8b_f934d267",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "nit: remove these two lines",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 33
+      },
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a19d0d5a_c92b124d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "Maybe break up render() into at least two methods. 75 lines is a lot. Maybe\n* renderViewer()\n* renderEditor()\n* renderButtons()",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a068834_2d21de08",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "Optional: If you move such a \u003cdiv\u003e into its own render...() method, then you can do:\n```\nif (this.editing) return;\n```\ninstead of using the `hidden` attribute. I find that a much nicer pattern and am using it in the components that I convert. Ideally all the `hidden` attributes are taken care of by Lit\u0027s render methods returning early, if something should not be rendered.\n\nThen you using a `classMap` in a local var for the \u003cdiv\u003e makes this even nicer.",
+      "range": {
+        "startLine": 213,
+        "startChar": 8,
+        "endLine": 220,
+        "endChar": 14
+      },
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "748a5e36_792c207d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "Nit: just `link` will do.",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5a04916_86067190",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "Maybe just `@click\u003d\"${this.handleSave}\"`.",
+      "range": {
+        "startLine": 272,
+        "startChar": 14,
+        "endLine": 272,
+        "endChar": 58
+      },
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50b5f5ec_020ac2ee",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "Why a local variable?",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f679170e_d646bf6b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "Why assign to a local variable?",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b276ab59_5c29ca12",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "So when `editing\u003d\u003d\u003dfalse` you don\u0027t fire `editing-changed`?",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "138475bd_c2b3628b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "Would be nice to start using `import {fixture, html} from \u0027@open-wc/testing-helpers\u0027;`\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/334322/5/polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.ts",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8751f518_ad8bb410",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "It would also be nice to add a simple `renders` test:\n```\n  test(\u0027renders\u0027, () \u003d\u003e {\n    expect(element).shadowDom.to.equal(/* HTML */ `\n      ...\n    `);\n  });  \n```\nIt just takes a minute and increases our test coverage substantially.",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53b0a391_11c32d5d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "This comment is not required, but don\u0027t put a blank line between `element.prop \u003d ...` and `await element.updateComplete;`. Then it is clearer that those statements belong together.\n\nAlso below in a couple of places.",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "006d3d57_94ff578c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "Try removing all `flush()`es.",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37ec3226_aad4d26e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "Why `await element.updateComplete;` twice?",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30d372ec_84655ccd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T16:16:13Z",
+      "side": 1,
+      "message": "Why `await element.updateComplete;` twice?",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

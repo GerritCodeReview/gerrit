@@ -300,6 +300,10 @@ Gerrit currently supports the following predicates:
 
 Matches if the diff between two patch sets was of a certain change kind.
 
+`REWORK` matches all kind of change kinds because any other change kind
+is just a more trivial version of a rework. This means setting
+`changekind:REWORK` is equivalent to setting `is:ANY`.
+
 `NO_CHANGE` is more trivial than a trivial rebase, no code change and
 a first parent update, hence this change kind is also matched by
 `changekind:TRIVIAL_REBASE`, `changekind:NO_CODE_CHANGE` and

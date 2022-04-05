@@ -452,14 +452,14 @@ message LabelValueProto {
 message LabelTypeProto {
   string name = 1;
   string function = 2; // ENUM as String
-  bool copy_any_score = 3;
-  bool copy_min_score = 4;
-  bool copy_max_score = 5;
-  bool copy_all_scores_on_merge_first_parent_update = 6;
-  bool copy_all_scores_on_trivial_rebase = 7;
-  bool copy_all_scores_if_no_code_change = 8;
-  bool copy_all_scores_if_no_change = 9;
-  repeated int32 copy_values = 10;
+  reserved 3; // copy_any_score
+  reserved 4; // copy_min_score
+  reserved 5; // copy_max_score
+  reserved 6; // copy_all_scores_on_merge_first_parent_update
+  reserved 7; // copy_all_scores_on_trivial_rebase
+  reserved 8; // copy_all_scores_if_no_code_change
+  reserved 9; // copy_all_scores_if_no_change
+  reserved 10; // copy_values
   bool allow_post_submit = 11;
   bool ignore_self_approval = 12;
   int32 default_value = 13;
@@ -468,7 +468,7 @@ message LabelTypeProto {
   int32 max_positive = 16;
   bool can_override = 17;
   repeated string ref_patterns = 18;
-  bool copy_all_scores_if_list_of_files_did_not_change = 19;
+  reserved 19; // copy_all_scores_if_list_of_files_did_not_change
   string copy_condition = 20;
   string description = 21;
 }

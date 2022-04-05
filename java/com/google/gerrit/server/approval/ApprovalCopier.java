@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.approval;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
@@ -22,7 +21,6 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
@@ -38,15 +36,10 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.patch.DiffNotAvailableException;
-import com.google.gerrit.server.patch.DiffOperations;
-import com.google.gerrit.server.patch.DiffOptions;
-import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
-import com.google.gerrit.server.query.approval.ListOfFilesUnchangedPredicate;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
@@ -56,7 +49,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
@@ -70,30 +62,24 @@ import org.eclipse.jgit.revwalk.RevWalk;
 class ApprovalCopier {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final DiffOperations diffOperations;
   private final ProjectCache projectCache;
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
   private final ApprovalQueryBuilder approvalQueryBuilder;
   private final OneOffRequestContext requestContext;
-  private final ListOfFilesUnchangedPredicate listOfFilesUnchangedPredicate;
 
   @Inject
   ApprovalCopier(
-      DiffOperations diffOperations,
       ProjectCache projectCache,
       ChangeKindCache changeKindCache,
       LabelNormalizer labelNormalizer,
       ApprovalQueryBuilder approvalQueryBuilder,
-      OneOffRequestContext requestContext,
-      ListOfFilesUnchangedPredicate listOfFilesUnchangedPredicate) {
-    this.diffOperations = diffOperations;
+      OneOffRequestContext requestContext) {
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
     this.approvalQueryBuilder = approvalQueryBuilder;
     this.requestContext = requestContext;
-    this.listOfFilesUnchangedPredicate = listOfFilesUnchangedPredicate;
   }
 
   /**
@@ -120,199 +106,7 @@ class ApprovalCopier {
     }
   }
 
-  private boolean canCopyBasedOnBooleanLabelConfigs(
-      ProjectState project,
-      PatchSetApproval psa,
-      PatchSet.Id psId,
-      ChangeKind kind,
-      boolean isMerge,
-      LabelType type,
-      @Nullable Map<String, ModifiedFile> baseVsCurrentDiff,
-      @Nullable Map<String, ModifiedFile> baseVsPriorDiff,
-      @Nullable Map<String, ModifiedFile> priorVsCurrentDiff) {
-    int n = psa.key().patchSetId().get();
-    checkArgument(n != psId.get());
-
-    if (type.isCopyMinScore() && type.isMaxNegative(psa)) {
-      logger.atFine().log(
-          "veto approval %s on label %s of patch set %d of change %d can be copied"
-              + " to patch set %d because the label has set copyMinScore = true on project %s",
-          psa.value(),
-          psa.label(),
-          n,
-          psa.key().patchSetId().changeId().get(),
-          psId.get(),
-          project.getName());
-      return true;
-    } else if (type.isCopyMaxScore() && type.isMaxPositive(psa)) {
-      logger.atFine().log(
-          "max approval %s on label %s of patch set %d of change %d can be copied"
-              + " to patch set %d because the label has set copyMaxScore = true on project %s",
-          psa.value(),
-          psa.label(),
-          n,
-          psa.key().patchSetId().changeId().get(),
-          psId.get(),
-          project.getName());
-      return true;
-    } else if (type.isCopyAnyScore()) {
-      logger.atFine().log(
-          "approval %d on label %s of patch set %d of change %d can be copied"
-              + " to patch set %d because the label has set copyAnyScore = true on project %s",
-          psa.value(),
-          psa.label(),
-          n,
-          psa.key().patchSetId().changeId().get(),
-          psId.get(),
-          project.getName());
-      return true;
-    } else if (type.getCopyValues().contains(psa.value())) {
-      logger.atFine().log(
-          "approval %d on label %s of patch set %d of change %d can be copied"
-              + " to patch set %d because the label has set copyValue = %d on project %s",
-          psa.value(),
-          psa.label(),
-          n,
-          psa.key().patchSetId().changeId().get(),
-          psId.get(),
-          psa.value(),
-          project.getName());
-      return true;
-    } else if (type.isCopyAllScoresIfListOfFilesDidNotChange()
-        && listOfFilesUnchangedPredicate.match(
-            baseVsCurrentDiff, baseVsPriorDiff, priorVsCurrentDiff)) {
-      logger.atFine().log(
-          "approval %d on label %s of patch set %d of change %d can be copied"
-              + " to patch set %d because the label has set "
-              + "copyAllScoresIfListOfFilesDidNotChange = true on "
-              + "project %s and list of files did not change (maybe except a rename, which is "
-              + "still the same file).",
-          psa.value(),
-          psa.label(),
-          n,
-          psa.key().patchSetId().changeId().get(),
-          psId.get(),
-          project.getName());
-      return true;
-    }
-    switch (kind) {
-      case MERGE_FIRST_PARENT_UPDATE:
-        if (type.isCopyAllScoresOnMergeFirstParentUpdate()) {
-          logger.atFine().log(
-              "approval %d on label %s of patch set %d of change %d can be copied"
-                  + " to patch set %d because change kind is %s and the label has set"
-                  + " copyAllScoresOnMergeFirstParentUpdate = true on project %s",
-              psa.value(),
-              psa.label(),
-              n,
-              psa.key().patchSetId().changeId().get(),
-              psId.get(),
-              kind,
-              project.getName());
-          return true;
-        }
-        return false;
-      case NO_CODE_CHANGE:
-        if (type.isCopyAllScoresIfNoCodeChange()) {
-          logger.atFine().log(
-              "approval %d on label %s of patch set %d of change %d can be copied"
-                  + " to patch set %d because change kind is %s and the label has set"
-                  + " copyAllScoresIfNoCodeChange = true on project %s",
-              psa.value(),
-              psa.label(),
-              n,
-              psa.key().patchSetId().changeId().get(),
-              psId.get(),
-              kind,
-              project.getName());
-          return true;
-        }
-        return false;
-      case TRIVIAL_REBASE:
-        if (type.isCopyAllScoresOnTrivialRebase()) {
-          logger.atFine().log(
-              "approval %d on label %s of patch set %d of change %d can be copied"
-                  + " to patch set %d because change kind is %s and the label has set"
-                  + " copyAllScoresOnTrivialRebase = true on project %s",
-              psa.value(),
-              psa.label(),
-              n,
-              psa.key().patchSetId().changeId().get(),
-              psId.get(),
-              kind,
-              project.getName());
-          return true;
-        }
-        return false;
-      case NO_CHANGE:
-        if (type.isCopyAllScoresIfNoChange()) {
-          logger.atFine().log(
-              "approval %d on label %s of patch set %d of change %d can be copied"
-                  + " to patch set %d because change kind is %s and the label has set"
-                  + " copyAllScoresIfNoCodeChange = true on project %s",
-              psa.value(),
-              psa.label(),
-              n,
-              psa.key().patchSetId().changeId().get(),
-              psId.get(),
-              kind,
-              project.getName());
-          return true;
-        }
-        if (type.isCopyAllScoresOnTrivialRebase()) {
-          logger.atFine().log(
-              "approval %d on label %s of patch set %d of change %d can be copied"
-                  + " to patch set %d because change kind is %s and the label has set"
-                  + " copyAllScoresOnTrivialRebase = true on project %s",
-              psa.value(),
-              psa.label(),
-              n,
-              psa.key().patchSetId().changeId().get(),
-              psId.get(),
-              kind,
-              project.getName());
-          return true;
-        }
-        if (isMerge && type.isCopyAllScoresOnMergeFirstParentUpdate()) {
-          logger.atFine().log(
-              "approval %d on label %s of patch set %d of change %d can be copied"
-                  + " to patch set %d because change kind is %s and the label has set"
-                  + " copyAllScoresOnMergeFirstParentUpdate = true on project %s",
-              psa.value(),
-              psa.label(),
-              n,
-              psa.key().patchSetId().changeId().get(),
-              psId.get(),
-              kind,
-              project.getName());
-          return true;
-        }
-        if (type.isCopyAllScoresIfNoCodeChange()) {
-          logger.atFine().log(
-              "approval %d on label %s of patch set %d of change %d can be copied"
-                  + " to patch set %d because change kind is %s and the label has set"
-                  + " copyAllScoresIfNoCodeChange = true on project %s",
-              psa.value(),
-              psa.label(),
-              n,
-              psa.key().patchSetId().changeId().get(),
-              psId.get(),
-              kind,
-              project.getName());
-          return true;
-        }
-        return false;
-      case REWORK:
-      default:
-        logger.atFine().log(
-            "approval %d on label %s of patch set %d of change %d cannot be copied"
-                + " to patch set %d because change kind is %s",
-            psa.value(), psa.label(), n, psa.key().patchSetId().changeId().get(), psId.get(), kind);
-        return false;
-    }
-  }
-
-  private boolean canCopyBasedOnCopyCondition(
+  private boolean canCopy(
       ChangeNotes changeNotes,
       PatchSetApproval psa,
       PatchSet patchSet,
@@ -388,9 +182,6 @@ class ApprovalCopier {
         priorPatchSet.getValue().id().changeId(),
         changeKind);
 
-    Map<String, ModifiedFile> baseVsCurrent = null;
-    Map<String, ModifiedFile> baseVsPrior = null;
-    Map<String, ModifiedFile> priorVsCurrent = null;
     LabelTypes labelTypes = project.getLabelTypes();
     for (PatchSetApproval psa : priorApprovalsIncludingCopied) {
       if (resultByUser.contains(psa.label(), psa.accountId())) {
@@ -398,15 +189,6 @@ class ApprovalCopier {
       }
       Optional<LabelType> type = labelTypes.byLabel(psa.labelId());
       // Only compute modified files if there is a relevant label, since this is expensive.
-      if (baseVsCurrent == null
-          && type.isPresent()
-          && type.get().isCopyAllScoresIfListOfFilesDidNotChange()) {
-        baseVsCurrent = listModifiedFiles(project, patchSet, rw, repoConfig);
-        baseVsPrior = listModifiedFiles(project, priorPatchSet.getValue(), rw, repoConfig);
-        priorVsCurrent =
-            listModifiedFiles(
-                project, priorPatchSet.getValue().commitId(), patchSet.commitId(), rw, repoConfig);
-      }
       if (!type.isPresent()) {
         logger.atFine().log(
             "approval %d on label %s of patch set %d of change %d cannot be copied"
@@ -419,18 +201,7 @@ class ApprovalCopier {
             project.getName());
         continue;
       }
-      if (!canCopyBasedOnBooleanLabelConfigs(
-              project,
-              psa,
-              patchSet.id(),
-              changeKind,
-              isMerge,
-              type.get(),
-              baseVsCurrent,
-              baseVsPrior,
-              priorVsCurrent)
-          && !canCopyBasedOnCopyCondition(
-              notes, psa, patchSet, type.get(), changeKind, isMerge, rw, repoConfig)) {
+      if (!canCopy(notes, psa, patchSet, type.get(), changeKind, isMerge, rw, repoConfig)) {
         continue;
       }
       resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(patchSet.id()));
@@ -447,60 +218,6 @@ class ApprovalCopier {
               "failed to check if patch set %d of change %s in project %s is a merge commit",
               patchSet.id().get(), patchSet.id().changeId(), project),
           e);
-    }
-  }
-
-  /**
-   * Gets the modified files between the two latest patch-sets. Can be used to compute difference in
-   * files between those two patch-sets .
-   */
-  private Map<String, ModifiedFile> listModifiedFiles(
-      ProjectState project, PatchSet ps, RevWalk revWalk, Config repoConfig) {
-    try {
-      Integer parentNum =
-          listOfFilesUnchangedPredicate.isInitialCommit(project.getNameKey(), ps.commitId())
-              ? 0
-              : 1;
-      return diffOperations.loadModifiedFilesAgainstParent(
-          project.getNameKey(),
-          ps.commitId(),
-          parentNum,
-          DiffOptions.DEFAULTS,
-          revWalk,
-          repoConfig);
-    } catch (DiffNotAvailableException ex) {
-      throw new StorageException(
-          "failed to compute difference in files, so won't copy"
-              + " votes on labels even if list of files is the same and "
-              + "copyAllIfListOfFilesDidNotChange",
-          ex);
-    }
-  }
-
-  /**
-   * Gets the modified files between two commits corresponding to different patchsets of the same
-   * change.
-   */
-  private Map<String, ModifiedFile> listModifiedFiles(
-      ProjectState project,
-      ObjectId sourceCommit,
-      ObjectId targetCommit,
-      RevWalk revWalk,
-      Config repoConfig) {
-    try {
-      return diffOperations.loadModifiedFiles(
-          project.getNameKey(),
-          sourceCommit,
-          targetCommit,
-          DiffOptions.DEFAULTS,
-          revWalk,
-          repoConfig);
-    } catch (DiffNotAvailableException ex) {
-      throw new StorageException(
-          "failed to compute difference in files, so won't copy"
-              + " votes on labels even if list of files is the same and "
-              + "copyAllIfListOfFilesDidNotChange",
-          ex);
     }
   }
 }

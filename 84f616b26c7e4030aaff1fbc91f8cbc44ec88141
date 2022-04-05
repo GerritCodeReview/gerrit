@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16309392_5ddd4e7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-05T16:04:32Z",
+      "side": 1,
+      "message": "-1 for thread-scoped. I think it should be request-scoped as a minimal solution for stable branches.",
+      "revId": "84f616b26c7e4030aaff1fbc91f8cbc44ec88141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

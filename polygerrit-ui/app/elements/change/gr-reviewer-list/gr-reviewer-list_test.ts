@@ -17,12 +17,7 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-reviewer-list';
-import {
-  mockPromise,
-  queryAll,
-  queryAndAssert,
-  stubRestApi,
-} from '../../../test/test-utils';
+import {mockPromise, queryAndAssert} from '../../../test/test-utils';
 import {GrReviewerList} from './gr-reviewer-list';
 import {
   createAccountDetailWithId,
@@ -31,7 +26,6 @@ import {
 } from '../../../test/test-data-generators';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {AccountId, EmailAddress} from '../../../types/common';
-import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import './gr-reviewer-list';
 
 const basicFixture = fixtureFromElement('gr-reviewer-list');
@@ -41,10 +35,6 @@ suite('gr-reviewer-list tests', () => {
 
   setup(async () => {
     element = basicFixture.instantiate();
-
-    stubRestApi('removeChangeReviewer').returns(
-      Promise.resolve({...new Response(), ok: true})
-    );
     await element.updateComplete;
   });
 
@@ -71,160 +61,6 @@ suite('gr-reviewer-list tests', () => {
     });
     queryAndAssert<GrButton>(element, '.addReviewer').click();
     await dialogShown;
-  });
-
-  test('only show remove for removable reviewers', async () => {
-    element.mutable = true;
-    element.change = {
-      ...createChange(),
-      owner: {
-        ...createAccountDetailWithId(1),
-      },
-      reviewers: {
-        REVIEWER: [
-          {
-            ...createAccountDetailWithId(2),
-            name: 'Bojack Horseman',
-            email: 'SecretariatRulez96@hotmail.com' as EmailAddress,
-          },
-          {
-            _account_id: 3 as AccountId,
-            name: 'Pinky Penguin',
-          },
-        ],
-        CC: [
-          {
-            ...createAccountDetailWithId(4),
-            name: 'Diane Nguyen',
-            email: 'macarthurfellow2B@juno.com' as EmailAddress,
-          },
-          {
-            email: 'test@e.mail' as EmailAddress,
-          },
-        ],
-      },
-      removable_reviewers: [
-        {
-          _account_id: 3 as AccountId,
-          name: 'Pinky Penguin',
-        },
-        {
-          ...createAccountDetailWithId(4),
-          name: 'Diane Nguyen',
-          email: 'macarthurfellow2B@juno.com' as EmailAddress,
-        },
-        {
-          email: 'test@e.mail' as EmailAddress,
-        },
-      ],
-    };
-    await element.updateComplete;
-    const chips = queryAll<GrAccountChip>(element, 'gr-account-chip');
-    assert.equal(chips.length, 4);
-
-    for (const el of Array.from(chips)) {
-      const accountID = el.account!._account_id || el.account!.email;
-      assert.ok(accountID);
-
-      const buttonEl = queryAndAssert(el, 'gr-button');
-      if (accountID === 2) {
-        assert.isTrue(buttonEl.hasAttribute('hidden'));
-      } else {
-        assert.isFalse(buttonEl.hasAttribute('hidden'));
-      }
-    }
-  });
-
-  suite('_handleRemove', () => {
-    let removeReviewerStub: sinon.SinonStub;
-
-    const reviewerWithId = {
-      ...createAccountDetailWithId(2),
-      name: 'Some name',
-    };
-
-    const reviewerWithIdAndEmail = {
-      ...createAccountDetailWithId(4),
-      name: 'Some other name',
-      email: 'example@' as EmailAddress,
-    };
-
-    const reviewerWithEmailOnly = {
-      email: 'example2@example' as EmailAddress,
-    };
-
-    let chips: GrAccountChip[];
-
-    setup(async () => {
-      removeReviewerStub = sinon
-        .stub(element, 'removeReviewer')
-        .returns(Promise.resolve(new Response()));
-      element.mutable = true;
-
-      const allReviewers = [
-        reviewerWithId,
-        reviewerWithIdAndEmail,
-        reviewerWithEmailOnly,
-      ];
-
-      element.change = {
-        ...createChange(),
-        owner: {
-          ...createAccountDetailWithId(1),
-        },
-        reviewers: {
-          REVIEWER: allReviewers,
-        },
-        removable_reviewers: allReviewers,
-      };
-      await element.updateComplete;
-      chips = Array.from(queryAll<GrAccountChip>(element, 'gr-account-chip'));
-      assert.equal(chips.length, allReviewers.length);
-    });
-
-    test('_handleRemove for account with accountId only', async () => {
-      const accountChip = chips.find(
-        chip => chip.account!._account_id === reviewerWithId._account_id
-      );
-      accountChip!._handleRemoveTap(new MouseEvent('click'));
-      await element.updateComplete;
-      assert.isTrue(removeReviewerStub.calledOnce);
-      assert.isTrue(removeReviewerStub.calledWith(reviewerWithId._account_id));
-      expect(element.change!.reviewers.REVIEWER).to.have.deep.members([
-        reviewerWithIdAndEmail,
-        reviewerWithEmailOnly,
-      ]);
-    });
-
-    test('_handleRemove for account with accountId and email', async () => {
-      const accountChip = chips.find(
-        chip => chip.account!._account_id === reviewerWithIdAndEmail._account_id
-      );
-      accountChip!._handleRemoveTap(new MouseEvent('click'));
-      await element.updateComplete;
-      assert.isTrue(removeReviewerStub.calledOnce);
-      assert.isTrue(
-        removeReviewerStub.calledWith(reviewerWithIdAndEmail._account_id)
-      );
-      expect(element.change!.reviewers.REVIEWER).to.have.deep.members([
-        reviewerWithId,
-        reviewerWithEmailOnly,
-      ]);
-    });
-
-    test('_handleRemove for account with email only', async () => {
-      const accountChip = chips.find(
-        chip => chip.account!.email === reviewerWithEmailOnly.email
-      );
-      accountChip!._handleRemoveTap(new MouseEvent('click'));
-      await element.updateComplete;
-      assert.isTrue(removeReviewerStub.calledOnce);
-      assert.isTrue(removeReviewerStub.calledWith(reviewerWithEmailOnly.email));
-      expect(element.change!.reviewers.REVIEWER).to.have.deep.members([
-        reviewerWithId,
-        reviewerWithIdAndEmail,
-      ]);
-    });
   });
 
   test('tracking reviewers and ccs', async () => {

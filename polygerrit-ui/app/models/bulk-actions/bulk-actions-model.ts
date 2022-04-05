@@ -129,6 +129,22 @@ export class BulkActionsModel
     });
   }
 
+  voteChanges(reviewInput: ReviewInput) {
+    const current = this.subject$.getValue();
+    return current.selectedChangeNums.map(changeNum => {
+      const change = current.allChanges.get(changeNum)!;
+      if (!change) throw new Error('invalid change id');
+      return this.restApiService.saveChangeReview(
+        change._number,
+        'current',
+        reviewInput,
+        () => {
+          throw new Error();
+        }
+      );
+    });
+  }
+
   addReviewers(
     changedReviewers: Map<ReviewerState, AccountInfo[]>
   ): Promise<Response>[] {

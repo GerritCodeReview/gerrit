@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd0df166_2b6b5def",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-05T09:21:49Z",
+      "side": 1,
+      "message": "Can you briefly talk about the idempotency of the migration (running it more than once on a single repo produces exactly the same result as running it just once on that repo)?\n\nThe case that looks interesting to talk about is:\n\ncopyAllScoresIfNoChange is unset, hence true. So we go and add \"change-kind:NO_CHANGE OR ...existing...\". Now we run the migration again, will we add this once more?",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 44
+      },
+      "revId": "59bbe4b94791d0fd2476f92e167fc364b76250de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "170a5f54_b7c6ce37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-05T09:21:49Z",
+      "side": 1,
+      "message": "LGTM minus comment on idempotency",
+      "revId": "59bbe4b94791d0fd2476f92e167fc364b76250de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

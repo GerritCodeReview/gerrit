@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.git.ObjectIds;
+import com.google.gerrit.server.project.LabelConfigValidator;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import org.eclipse.jgit.junit.TestRepository;
@@ -121,38 +122,48 @@ public class ProjectConfigIT extends AbstractDaemonTest {
 
   @Test
   public void rejectSettingCopyAnyScore() throws Exception {
-    testRejectSettingLabelFlag(ProjectConfig.KEY_COPY_ANY_SCORE, /* value= */ true, "is:ANY");
-    testRejectSettingLabelFlag(ProjectConfig.KEY_COPY_ANY_SCORE, /* value= */ false, "is:ANY");
+    testRejectSettingLabelFlag(
+        LabelConfigValidator.KEY_COPY_ANY_SCORE, /* value= */ true, "is:ANY");
+    testRejectSettingLabelFlag(
+        LabelConfigValidator.KEY_COPY_ANY_SCORE, /* value= */ false, "is:ANY");
   }
 
   @Test
   public void rejectSettingCopyMinScore() throws Exception {
-    testRejectSettingLabelFlag(ProjectConfig.KEY_COPY_MIN_SCORE, /* value= */ true, "is:MIN");
-    testRejectSettingLabelFlag(ProjectConfig.KEY_COPY_MIN_SCORE, /* value= */ false, "is:MIN");
+    testRejectSettingLabelFlag(
+        LabelConfigValidator.KEY_COPY_MIN_SCORE, /* value= */ true, "is:MIN");
+    testRejectSettingLabelFlag(
+        LabelConfigValidator.KEY_COPY_MIN_SCORE, /* value= */ false, "is:MIN");
   }
 
   @Test
   public void rejectSettingCopyMaxScore() throws Exception {
-    testRejectSettingLabelFlag(ProjectConfig.KEY_COPY_MAX_SCORE, /* value= */ true, "is:MAX");
-    testRejectSettingLabelFlag(ProjectConfig.KEY_COPY_MAX_SCORE, /* value= */ false, "is:MAX");
+    testRejectSettingLabelFlag(
+        LabelConfigValidator.KEY_COPY_MAX_SCORE, /* value= */ true, "is:MAX");
+    testRejectSettingLabelFlag(
+        LabelConfigValidator.KEY_COPY_MAX_SCORE, /* value= */ false, "is:MAX");
   }
 
   @Test
   public void rejectSettingCopyAllScoresIfNoChange() throws Exception {
     testRejectSettingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE, /* value= */ true, "changekind:NO_CHANGE");
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+        /* value= */ true,
+        "changekind:NO_CHANGE");
     testRejectSettingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE, /* value= */ false, "changekind:NO_CHANGE");
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+        /* value= */ false,
+        "changekind:NO_CHANGE");
   }
 
   @Test
   public void rejectSettingCopyAllScoresIfNoCodeChange() throws Exception {
     testRejectSettingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
         /* value= */ true,
         "changekind:NO_CODE_CHANGE");
     testRejectSettingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
         /* value= */ false,
         "changekind:NO_CODE_CHANGE");
   }
@@ -160,11 +171,11 @@ public class ProjectConfigIT extends AbstractDaemonTest {
   @Test
   public void rejectSettingCopyAllScoresOnMergeFirstParentUpdate() throws Exception {
     testRejectSettingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
         /* value= */ true,
         "changekind:MERGE_FIRST_PARENT_UPDATE");
     testRejectSettingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
         /* value= */ false,
         "changekind:MERGE_FIRST_PARENT_UPDATE");
   }
@@ -172,11 +183,11 @@ public class ProjectConfigIT extends AbstractDaemonTest {
   @Test
   public void rejectSettingCopyAllScoresOnTrivialRebase() throws Exception {
     testRejectSettingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
         /* value= */ true,
         "changekind:TRIVIAL_REBASE");
     testRejectSettingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
         /* value= */ false,
         "changekind:TRIVIAL_REBASE");
   }
@@ -184,11 +195,11 @@ public class ProjectConfigIT extends AbstractDaemonTest {
   @Test
   public void rejectSettingCopyAllScoresIfListOfFilesDidNotChange() throws Exception {
     testRejectSettingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
         /* value= */ true,
         "has:unchanged-files");
     testRejectSettingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
         /* value= */ false,
         "has:unchanged-files");
   }
@@ -225,7 +236,7 @@ public class ProjectConfigIT extends AbstractDaemonTest {
             ProjectConfig.PROJECT_CONFIG,
             String.format(
                 "[label \"Foo\"]\n  %s = 1\n  %s = 2",
-                ProjectConfig.KEY_COPY_VALUE, ProjectConfig.KEY_COPY_VALUE));
+                LabelConfigValidator.KEY_COPY_VALUE, LabelConfigValidator.KEY_COPY_VALUE));
     PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
     r.assertErrorStatus(
         String.format(
@@ -234,43 +245,53 @@ public class ProjectConfigIT extends AbstractDaemonTest {
         String.format(
             "ERROR: commit %s: Parameter 'label.Foo.%s' is deprecated and cannot be set,"
                 + " use 'is:<copy-value>' in 'label.Foo.copyCondition' instead.",
-            abbreviateName(r.getCommit()), ProjectConfig.KEY_COPY_VALUE));
+            abbreviateName(r.getCommit()), LabelConfigValidator.KEY_COPY_VALUE));
   }
 
   @Test
   public void rejectChangingCopyAnyScore() throws Exception {
-    testRejectChangingLabelFlag(ProjectConfig.KEY_COPY_ANY_SCORE, /* value= */ true, "is:ANY");
-    testRejectChangingLabelFlag(ProjectConfig.KEY_COPY_ANY_SCORE, /* value= */ false, "is:ANY");
+    testRejectChangingLabelFlag(
+        LabelConfigValidator.KEY_COPY_ANY_SCORE, /* value= */ true, "is:ANY");
+    testRejectChangingLabelFlag(
+        LabelConfigValidator.KEY_COPY_ANY_SCORE, /* value= */ false, "is:ANY");
   }
 
   @Test
   public void rejectChangingCopyMinScore() throws Exception {
-    testRejectChangingLabelFlag(ProjectConfig.KEY_COPY_MIN_SCORE, /* value= */ true, "is:MIN");
-    testRejectChangingLabelFlag(ProjectConfig.KEY_COPY_MIN_SCORE, /* value= */ false, "is:MIN");
+    testRejectChangingLabelFlag(
+        LabelConfigValidator.KEY_COPY_MIN_SCORE, /* value= */ true, "is:MIN");
+    testRejectChangingLabelFlag(
+        LabelConfigValidator.KEY_COPY_MIN_SCORE, /* value= */ false, "is:MIN");
   }
 
   @Test
   public void rejectChangingCopyMaxScore() throws Exception {
-    testRejectChangingLabelFlag(ProjectConfig.KEY_COPY_MAX_SCORE, /* value= */ true, "is:MAX");
-    testRejectChangingLabelFlag(ProjectConfig.KEY_COPY_MAX_SCORE, /* value= */ false, "is:MAX");
+    testRejectChangingLabelFlag(
+        LabelConfigValidator.KEY_COPY_MAX_SCORE, /* value= */ true, "is:MAX");
+    testRejectChangingLabelFlag(
+        LabelConfigValidator.KEY_COPY_MAX_SCORE, /* value= */ false, "is:MAX");
   }
 
   @Test
   public void rejectChangingCopyAllScoresIfNoChange() throws Exception {
     testRejectChangingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE, /* value= */ true, "changekind:NO_CHANGE");
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+        /* value= */ true,
+        "changekind:NO_CHANGE");
     testRejectChangingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE, /* value= */ false, "changekind:NO_CHANGE");
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+        /* value= */ false,
+        "changekind:NO_CHANGE");
   }
 
   @Test
   public void rejectChangingCopyAllScoresIfNoCodeChange() throws Exception {
     testRejectChangingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
         /* value= */ true,
         "changekind:NO_CODE_CHANGE");
     testRejectChangingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
         /* value= */ false,
         "changekind:NO_CODE_CHANGE");
   }
@@ -278,11 +299,11 @@ public class ProjectConfigIT extends AbstractDaemonTest {
   @Test
   public void rejectChangingCopyAllScoresOnMergeFirstParentUpdate() throws Exception {
     testRejectChangingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
         /* value= */ true,
         "changekind:MERGE_FIRST_PARENT_UPDATE");
     testRejectChangingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
         /* value= */ false,
         "changekind:MERGE_FIRST_PARENT_UPDATE");
   }
@@ -290,11 +311,11 @@ public class ProjectConfigIT extends AbstractDaemonTest {
   @Test
   public void rejectChangingCopyAllScoresOnTrivialRebase() throws Exception {
     testRejectChangingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
         /* value= */ true,
         "changekind:TRIVIAL_REBASE");
     testRejectChangingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
         /* value= */ false,
         "changekind:TRIVIAL_REBASE");
   }
@@ -302,11 +323,11 @@ public class ProjectConfigIT extends AbstractDaemonTest {
   @Test
   public void rejectChangingCopyAllScoresIfListOfFilesDidNotChange() throws Exception {
     testRejectChangingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
         /* value= */ true,
         "has:unchanged-files");
     testRejectChangingLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
         /* value= */ false,
         "has:unchanged-files");
   }
@@ -339,7 +360,7 @@ public class ProjectConfigIT extends AbstractDaemonTest {
               ProjectConfig.PROJECT_CONFIG,
               String.format(
                   "[label \"Foo\"]\n  %s = 1\n  %s = 2",
-                  ProjectConfig.KEY_COPY_VALUE, ProjectConfig.KEY_COPY_VALUE))
+                  LabelConfigValidator.KEY_COPY_VALUE, LabelConfigValidator.KEY_COPY_VALUE))
           .parent(projectOperations.project(project).getHead(RefNames.REFS_CONFIG))
           .create();
     }
@@ -353,7 +374,7 @@ public class ProjectConfigIT extends AbstractDaemonTest {
             ProjectConfig.PROJECT_CONFIG,
             String.format(
                 "[label \"Foo\"]\n  %s = -1\n  %s = -2",
-                ProjectConfig.KEY_COPY_VALUE, ProjectConfig.KEY_COPY_VALUE));
+                LabelConfigValidator.KEY_COPY_VALUE, LabelConfigValidator.KEY_COPY_VALUE));
     PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
     r.assertErrorStatus(
         String.format(
@@ -362,64 +383,68 @@ public class ProjectConfigIT extends AbstractDaemonTest {
         String.format(
             "ERROR: commit %s: Parameter 'label.Foo.%s' is deprecated and cannot be set,"
                 + " use 'is:<copy-value>' in 'label.Foo.copyCondition' instead.",
-            abbreviateName(r.getCommit()), ProjectConfig.KEY_COPY_VALUE));
+            abbreviateName(r.getCommit()), LabelConfigValidator.KEY_COPY_VALUE));
   }
 
   @Test
   public void unsetCopyAnyScore() throws Exception {
-    testUnsetLabelFlag(ProjectConfig.KEY_COPY_ANY_SCORE, /* previousValue= */ true);
-    testUnsetLabelFlag(ProjectConfig.KEY_COPY_ANY_SCORE, /* previousValue= */ false);
+    testUnsetLabelFlag(LabelConfigValidator.KEY_COPY_ANY_SCORE, /* previousValue= */ true);
+    testUnsetLabelFlag(LabelConfigValidator.KEY_COPY_ANY_SCORE, /* previousValue= */ false);
   }
 
   @Test
   public void unsetCopyMinScore() throws Exception {
-    testUnsetLabelFlag(ProjectConfig.KEY_COPY_MIN_SCORE, /* previousValue= */ true);
-    testUnsetLabelFlag(ProjectConfig.KEY_COPY_MIN_SCORE, /* previousValue= */ false);
+    testUnsetLabelFlag(LabelConfigValidator.KEY_COPY_MIN_SCORE, /* previousValue= */ true);
+    testUnsetLabelFlag(LabelConfigValidator.KEY_COPY_MIN_SCORE, /* previousValue= */ false);
   }
 
   @Test
   public void unsetCopyMaxScore() throws Exception {
-    testUnsetLabelFlag(ProjectConfig.KEY_COPY_MAX_SCORE, /* previousValue= */ true);
-    testUnsetLabelFlag(ProjectConfig.KEY_COPY_MAX_SCORE, /* previousValue= */ false);
+    testUnsetLabelFlag(LabelConfigValidator.KEY_COPY_MAX_SCORE, /* previousValue= */ true);
+    testUnsetLabelFlag(LabelConfigValidator.KEY_COPY_MAX_SCORE, /* previousValue= */ false);
   }
 
   @Test
   public void unsetCopyAllScoresIfNoChange() throws Exception {
-    testUnsetLabelFlag(ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE, /* previousValue= */ true);
-    testUnsetLabelFlag(ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE, /* previousValue= */ false);
+    testUnsetLabelFlag(
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CHANGE, /* previousValue= */ true);
+    testUnsetLabelFlag(
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CHANGE, /* previousValue= */ false);
   }
 
   @Test
   public void unsetCopyAllScoresIfNoCodeChange() throws Exception {
     testUnsetLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE, /* previousValue= */ true);
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE, /* previousValue= */ true);
     testUnsetLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE, /* previousValue= */ false);
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE, /* previousValue= */ false);
   }
 
   @Test
   public void unsetCopyAllScoresOnMergeFirstParentUpdate() throws Exception {
     testUnsetLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE, /* previousValue= */ true);
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
+        /* previousValue= */ true);
     testUnsetLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE, /* previousValue= */ false);
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
+        /* previousValue= */ false);
   }
 
   @Test
   public void unsetCopyAllScoresOnTrivialRebase() throws Exception {
     testUnsetLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE, /* previousValue= */ true);
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE, /* previousValue= */ true);
     testUnsetLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE, /* previousValue= */ false);
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE, /* previousValue= */ false);
   }
 
   @Test
   public void unsetCopyAllScoresIfListOfFilesDidNotChange() throws Exception {
     testUnsetLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
         /* previousValue= */ true);
     testUnsetLabelFlag(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
         /* previousValue= */ false);
   }
 
@@ -459,7 +484,7 @@ public class ProjectConfigIT extends AbstractDaemonTest {
               ProjectConfig.PROJECT_CONFIG,
               String.format(
                   "[label \"Foo\"]\n  %s = 1\n  %s = 2",
-                  ProjectConfig.KEY_COPY_VALUE, ProjectConfig.KEY_COPY_VALUE))
+                  LabelConfigValidator.KEY_COPY_VALUE, LabelConfigValidator.KEY_COPY_VALUE))
           .parent(projectOperations.project(project).getHead(RefNames.REFS_CONFIG))
           .create();
     }
@@ -478,58 +503,62 @@ public class ProjectConfigIT extends AbstractDaemonTest {
 
   @Test
   public void keepCopyAnyScoreUnchanged() throws Exception {
-    testKeepLabelFlagUnchanged(ProjectConfig.KEY_COPY_ANY_SCORE, /* value= */ true);
-    testKeepLabelFlagUnchanged(ProjectConfig.KEY_COPY_ANY_SCORE, /* value= */ false);
+    testKeepLabelFlagUnchanged(LabelConfigValidator.KEY_COPY_ANY_SCORE, /* value= */ true);
+    testKeepLabelFlagUnchanged(LabelConfigValidator.KEY_COPY_ANY_SCORE, /* value= */ false);
   }
 
   @Test
   public void keepCopyMinScoreUnchanged() throws Exception {
-    testKeepLabelFlagUnchanged(ProjectConfig.KEY_COPY_MIN_SCORE, /* value= */ true);
-    testKeepLabelFlagUnchanged(ProjectConfig.KEY_COPY_MIN_SCORE, /* value= */ false);
+    testKeepLabelFlagUnchanged(LabelConfigValidator.KEY_COPY_MIN_SCORE, /* value= */ true);
+    testKeepLabelFlagUnchanged(LabelConfigValidator.KEY_COPY_MIN_SCORE, /* value= */ false);
   }
 
   @Test
   public void keepCopyMaxScoreUnchanged() throws Exception {
-    testKeepLabelFlagUnchanged(ProjectConfig.KEY_COPY_MAX_SCORE, /* value= */ true);
-    testKeepLabelFlagUnchanged(ProjectConfig.KEY_COPY_MAX_SCORE, /* value= */ false);
+    testKeepLabelFlagUnchanged(LabelConfigValidator.KEY_COPY_MAX_SCORE, /* value= */ true);
+    testKeepLabelFlagUnchanged(LabelConfigValidator.KEY_COPY_MAX_SCORE, /* value= */ false);
   }
 
   @Test
   public void keepCopyAllScoresIfNoChangeUnchanged() throws Exception {
-    testKeepLabelFlagUnchanged(ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE, /* value= */ true);
-    testKeepLabelFlagUnchanged(ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE, /* value= */ false);
+    testKeepLabelFlagUnchanged(
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CHANGE, /* value= */ true);
+    testKeepLabelFlagUnchanged(
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CHANGE, /* value= */ false);
   }
 
   @Test
   public void keepCopyAllScoresIfNoCodeChangeUnchanged() throws Exception {
     testKeepLabelFlagUnchanged(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE, /* value= */ true);
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE, /* value= */ true);
     testKeepLabelFlagUnchanged(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE, /* value= */ false);
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE, /* value= */ false);
   }
 
   @Test
   public void keepCopyAllScoresOnMergeFirstParentUpdateUnchanged() throws Exception {
     testKeepLabelFlagUnchanged(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE, /* value= */ true);
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE, /* value= */ true);
     testKeepLabelFlagUnchanged(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE, /* value= */ false);
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE, /* value= */ false);
   }
 
   @Test
   public void keepCopyAllScoresOnTrivialRebaseUnchanged() throws Exception {
     testKeepLabelFlagUnchanged(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE, /* value= */ true);
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE, /* value= */ true);
     testKeepLabelFlagUnchanged(
-        ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE, /* value= */ false);
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE, /* value= */ false);
   }
 
   @Test
   public void keepCopyAllScoresIfListOfFilesDidNotChangeUnchanged() throws Exception {
     testKeepLabelFlagUnchanged(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE, /* value= */ true);
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
+        /* value= */ true);
     testKeepLabelFlagUnchanged(
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE, /* value= */ false);
+        LabelConfigValidator.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
+        /* value= */ false);
   }
 
   private void testKeepLabelFlagUnchanged(String key, boolean value) throws Exception {
@@ -567,7 +596,7 @@ public class ProjectConfigIT extends AbstractDaemonTest {
               ProjectConfig.PROJECT_CONFIG,
               String.format(
                   "[label \"Foo\"]\n  %s = 1\n  %s = 2",
-                  ProjectConfig.KEY_COPY_VALUE, ProjectConfig.KEY_COPY_VALUE))
+                  LabelConfigValidator.KEY_COPY_VALUE, LabelConfigValidator.KEY_COPY_VALUE))
           .parent(projectOperations.project(project).getHead(RefNames.REFS_CONFIG))
           .create();
     }
@@ -581,7 +610,7 @@ public class ProjectConfigIT extends AbstractDaemonTest {
             ProjectConfig.PROJECT_CONFIG,
             String.format(
                 "[label \"Foo\"]\n  %s = 1\n  %s = 2\n  otherKey = value",
-                ProjectConfig.KEY_COPY_VALUE, ProjectConfig.KEY_COPY_VALUE));
+                LabelConfigValidator.KEY_COPY_VALUE, LabelConfigValidator.KEY_COPY_VALUE));
     PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
     r.assertOkStatus();
   }
@@ -597,7 +626,7 @@ public class ProjectConfigIT extends AbstractDaemonTest {
               ProjectConfig.PROJECT_CONFIG,
               String.format(
                   "[label \"Foo\"]\n  %s = 1\n  %s = 2",
-                  ProjectConfig.KEY_COPY_VALUE, ProjectConfig.KEY_COPY_VALUE))
+                  LabelConfigValidator.KEY_COPY_VALUE, LabelConfigValidator.KEY_COPY_VALUE))
           .parent(projectOperations.project(project).getHead(RefNames.REFS_CONFIG))
           .create();
     }
@@ -611,7 +640,7 @@ public class ProjectConfigIT extends AbstractDaemonTest {
             ProjectConfig.PROJECT_CONFIG,
             String.format(
                 "[label \"Foo\"]\n  %s = 2\n  %s = 1",
-                ProjectConfig.KEY_COPY_VALUE, ProjectConfig.KEY_COPY_VALUE));
+                LabelConfigValidator.KEY_COPY_VALUE, LabelConfigValidator.KEY_COPY_VALUE));
     PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
     r.assertOkStatus();
   }
@@ -627,7 +656,7 @@ public class ProjectConfigIT extends AbstractDaemonTest {
             ProjectConfig.PROJECT_CONFIG,
             String.format(
                 "[label \"Foo\"]\n  %s = true\n  %s = true",
-                ProjectConfig.KEY_COPY_MIN_SCORE, ProjectConfig.KEY_COPY_MAX_SCORE));
+                LabelConfigValidator.KEY_COPY_MIN_SCORE, LabelConfigValidator.KEY_COPY_MAX_SCORE));
     PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
     r.assertErrorStatus(
         String.format(
@@ -636,12 +665,12 @@ public class ProjectConfigIT extends AbstractDaemonTest {
         String.format(
             "ERROR: commit %s: Parameter 'label.Foo.%s' is deprecated and cannot be set,"
                 + " use 'is:MIN' in 'label.Foo.copyCondition' instead.",
-            abbreviateName(r.getCommit()), ProjectConfig.KEY_COPY_MIN_SCORE));
+            abbreviateName(r.getCommit()), LabelConfigValidator.KEY_COPY_MIN_SCORE));
     r.assertMessage(
         String.format(
             "ERROR: commit %s: Parameter 'label.Foo.%s' is deprecated and cannot be set,"
                 + " use 'is:MAX' in 'label.Foo.copyCondition' instead.",
-            abbreviateName(r.getCommit()), ProjectConfig.KEY_COPY_MAX_SCORE));
+            abbreviateName(r.getCommit()), LabelConfigValidator.KEY_COPY_MAX_SCORE));
   }
 
   @Test

@@ -15,30 +15,23 @@
  * limitations under the License.
  */
 import '../../shared/gr-button/gr-button';
-import '../../../styles/shared-styles';
-import '../../../styles/gr-form-styles';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-change-table-editor_html';
-import {customElement, property, observe} from '@polymer/decorators';
 import {ServerInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {columnNames} from '../../change-list/gr-change-list/gr-change-list';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {css, html} from 'lit';
+import {LitElement, css, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
+import {PropertyValues} from 'lit';
+import {fire} from '../../../utils/event-util';
 
 @customElement('gr-change-table-editor')
-export class GrChangeTableEditor extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: Array, notify: true})
+export class GrChangeTableEditor extends LitElement {
+  @property({type: Array})
   displayedColumns: string[] = [];
 
-  @property({type: Boolean, notify: true})
+  @property({type: Boolean})
   showNumber?: boolean;
 
   @property({type: Object})
@@ -49,7 +42,7 @@ export class GrChangeTableEditor extends PolymerElement {
 
   private readonly flagsService = getAppContext().flagsService;
 
-  static styles = [
+  static override styles = [
     sharedStyles,
     formStyles,
     css`
@@ -72,7 +65,7 @@ export class GrChangeTableEditor extends PolymerElement {
     `,
   ];
 
-  render() {
+  override render() {
     return html`<div class="gr-form-styles">
       <table id="changeCols">
         <thead>
@@ -86,54 +79,59 @@ export class GrChangeTableEditor extends PolymerElement {
             <td><label for="numberCheckbox">Number</label></td>
             <td
               class="checkboxContainer"
-              on-click="_handleCheckboxContainerClick"
+              @click=${this.handleCheckboxContainerClick}
             >
               <input
                 id="numberCheckbox"
                 type="checkbox"
                 name="number"
-                on-click="_handleNumberCheckboxClick"
-                checked$="[[showNumber]]"
+                @click=${this.handleNumberCheckboxClick}
+                ?checked=${this.showNumber}
               />
             </td>
           </tr>
-          <template is="dom-repeat" items="[[defaultColumns]]">
-            <tr>
-              <td><label for$="[[item]]">[[item]]</label></td>
-              <td
-                class="checkboxContainer"
-                on-click="_handleCheckboxContainerClick"
-              >
-                <input
-                  id$="[[item]]"
-                  type="checkbox"
-                  name="[[item]]"
-                  on-click="_handleTargetClick"
-                  checked$="[[!_computeIsColumnHidden(item, displayedColumns)]]"
-                />
-              </td>
-            </tr>
-          </template>
+          ${this.defaultColumns.map(column => this.renderRow(column))}
         </tbody>
       </table>
     </div>`;
   }
 
-  @observe('serverConfig')
-  _configChanged(config: ServerInfo) {
+  renderRow(column: string) {
+    return html`<tr>
+      <td><label for=${column}>${column}</label></td>
+      <td class="checkboxContainer" @click=${this.handleCheckboxContainerClick}>
+        <input
+          id=${column}
+          type="checkbox"
+          name=${column}
+          @click=${this.handleTargetClick}
+          ?checked=${!this.computeIsColumnHidden(column)}
+        />
+      </td>
+    </tr>`;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('serverConfig')) {
+      this.configChanged();
+    }
+  }
+
+  private configChanged() {
     this.defaultColumns = columnNames.filter(col =>
-      this._isColumnEnabled(col, config)
+      this.isColumnEnabled(col, this.serverConfig!)
     );
     if (!this.displayedColumns) return;
     this.displayedColumns = this.displayedColumns.filter(column =>
-      this._isColumnEnabled(column, config)
+      this.isColumnEnabled(column, this.serverConfig!)
     );
   }
 
   /**
    * Is the column disabled by a server config or experiment?
+   * private but used in test
    */
-  _isColumnEnabled(column: string, config: ServerInfo) {
+  isColumnEnabled(column: string, config: ServerInfo) {
     if (!config || !config.change) return true;
     if (column === 'Comments')
       return this.flagsService.isEnabled('comments-column');
@@ -151,11 +149,12 @@ export class GrChangeTableEditor extends PolymerElement {
   /**
    * Get the list of enabled column names from whichever checkboxes are
    * checked (excluding the number checkbox).
+   * private but used in test
    */
-  _getDisplayedColumns() {
-    if (this.root === null) return [];
+  getDisplayedColumns() {
+    if (this.shadowRoot === null) return [];
     return Array.from(
-      this.root.querySelectorAll<HTMLInputElement>(
+      this.shadowRoot.querySelectorAll<HTMLInputElement>(
         '.checkboxContainer input:not([name=number])'
       )
     )
@@ -163,7 +162,8 @@ export class GrChangeTableEditor extends PolymerElement {
       .map(checkbox => checkbox.name);
   }
 
-  _computeIsColumnHidden(columnToCheck?: string, columnsToDisplay?: string[]) {
+  private computeIsColumnHidden(columnToCheck?: string) {
+    const columnsToDisplay = this.displayedColumns;
     if (!columnsToDisplay || !columnToCheck) {
       return false;
     }
@@ -174,7 +174,7 @@ export class GrChangeTableEditor extends PolymerElement {
    * Handle a click on a checkbox container and relay the click to the checkbox it
    * contains.
    */
-  _handleCheckboxContainerClick(e: MouseEvent) {
+  private handleCheckboxContainerClick(e: MouseEvent) {
     if (e.target === null) return;
     const checkbox = (e.target as HTMLElement).querySelector('input');
     if (!checkbox) {
@@ -187,22 +187,26 @@ export class GrChangeTableEditor extends PolymerElement {
    * Handle a click on the number checkbox and update the showNumber property
    * accordingly.
    */
-  _handleNumberCheckboxClick(e: MouseEvent) {
-    this.showNumber = (
-      (dom(e) as EventApi).rootTarget as HTMLInputElement
-    ).checked;
+  private handleNumberCheckboxClick(e: MouseEvent) {
+    this.showNumber = (e.target as HTMLInputElement).checked;
+    fire(this, 'show-number-changed', {value: this.showNumber});
   }
 
   /**
    * Handle a click on a displayed column checkboxes (excluding number) and
    * update the displayedColumns property accordingly.
    */
-  _handleTargetClick() {
-    this.set('displayedColumns', this._getDisplayedColumns());
+  private handleTargetClick() {
+    this.displayedColumns = this.getDisplayedColumns();
+    fire(this, 'displayed-columns-changed', {value: this.displayedColumns});
   }
 }
 
 declare global {
+  interface HTMLElementEventMap {
+    'show-number-changed': CustomEvent<{value: boolean}>;
+    'displayed-columns-changed': CustomEvent<{value: string[]}>;
+  }
   interface HTMLElementTagNameMap {
     'gr-change-table-editor': GrChangeTableEditor;
   }

@@ -42,15 +42,6 @@ public class LabelAssert {
     assertThat(codeReviewLabel.defaultValue).isEqualTo(0);
     assertThat(codeReviewLabel.branches).isNull();
     assertThat(codeReviewLabel.canOverride).isTrue();
-    assertThat(codeReviewLabel.copyAnyScore).isNull();
-    assertThat(codeReviewLabel.copyMinScore).isNull();
-    assertThat(codeReviewLabel.copyMaxScore).isNull();
-    assertThat(codeReviewLabel.copyAllScoresIfListOfFilesDidNotChange).isNull();
-    assertThat(codeReviewLabel.copyAllScoresIfNoChange).isNull();
-    assertThat(codeReviewLabel.copyAllScoresIfNoCodeChange).isNull();
-    assertThat(codeReviewLabel.copyAllScoresOnTrivialRebase).isNull();
-    assertThat(codeReviewLabel.copyAllScoresOnMergeFirstParentUpdate).isNull();
-    assertThat(codeReviewLabel.copyValues).isNull();
     assertThat(codeReviewLabel.copyCondition)
         .isEqualTo(
             String.format(

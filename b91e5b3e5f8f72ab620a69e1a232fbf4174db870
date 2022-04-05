@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0eca3fb2_7a15cb00",
+        "filename": "polygerrit-ui/app/embed/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-05T14:03:31Z",
+      "side": 1,
+      "message": "Where is this function triggered?\n\nI don\u0027t see it called anywhere apart from in the test.",
+      "revId": "b91e5b3e5f8f72ab620a69e1a232fbf4174db870",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

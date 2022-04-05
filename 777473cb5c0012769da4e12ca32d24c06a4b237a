@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d201259e_19b7be51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-05T14:41:43Z",
+      "side": 1,
+      "message": "duplicate `a`",
+      "range": {
+        "startLine": 11,
+        "startChar": 63,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "777473cb5c0012769da4e12ca32d24c06a4b237a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ece1297_cb853013",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-05T14:41:43Z",
+      "side": 1,
+      "message": "test both cases",
+      "revId": "777473cb5c0012769da4e12ca32d24c06a4b237a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ca028d1_277124bd",
+        "filename": "polygerrit-ui/app/models/dependency.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-05T14:41:43Z",
+      "side": 1,
+      "message": "consider adding `\u0026 Registrations` here \u0026 in resolve and define it above near with your symbols\n```\ninterface Registrations {\n  [PROVIDERS_SYMBOL]?: Set\u003cDependencyToken\u003e;\n  [RESOLVERS_SYMBOL]?: Map\u003cDependencyToken, () \u003d\u003e unknown\u003e \n}\n```\nthen you shouldn\u0027t need to cast as any and skip eslint",
+      "range": {
+        "startLine": 145,
+        "startChar": 44,
+        "endLine": 145,
+        "endChar": 45
+      },
+      "revId": "777473cb5c0012769da4e12ca32d24c06a4b237a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

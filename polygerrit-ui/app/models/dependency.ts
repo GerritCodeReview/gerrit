@@ -133,16 +133,35 @@ export function define<ValueType>(name: string) {
  */
 export type Provider<T> = () => T;
 
+// Symbols to cache the providers and resolvers to avoid duplicate registration.
+const PROVIDERS_SYMBOL = Symbol('providers');
+const RESOLVERS_SYMBOL = Symbol('resolvers');
+
+interface Registrations {
+  [PROVIDERS_SYMBOL]?: Map<
+    DependencyToken<unknown>,
+    DependencyProvider<unknown>
+  >;
+  [RESOLVERS_SYMBOL]?: Map<DependencyToken<unknown>, Provider<unknown>>;
+}
 /**
  * A producer of a dependency expresses this as a need that results in a promise
  * for the given dependency.
  */
 export function provide<T>(
-  host: ReactiveControllerHost & HTMLElement,
+  host: ReactiveControllerHost & HTMLElement & Registrations,
   dependency: DependencyToken<T>,
   provider: Provider<T>
 ) {
-  host.addController(new DependencyProvider<T>(host, dependency, provider));
+  const hostProviders = (host[PROVIDERS_SYMBOL] ||= new Map());
+  const oldController = hostProviders.get(dependency);
+  if (oldController) {
+    host.removeController(oldController);
+    oldController.hostDisconnected();
+  }
+  const controller = new DependencyProvider<T>(host, dependency, provider);
+  hostProviders.set(dependency, provider);
+  host.addController(controller);
 }
 
 /**
@@ -151,12 +170,18 @@ export function provide<T>(
  * the injected value.
  */
 export function resolve<T>(
-  host: ReactiveControllerHost & HTMLElement,
+  host: ReactiveControllerHost & HTMLElement & Registrations,
   dependency: DependencyToken<T>
 ): Provider<T> {
-  const controller = new DependencySubscriber(host, dependency);
-  host.addController(controller);
-  return () => controller.get();
+  const hostResolvers = (host[RESOLVERS_SYMBOL] ||= new Map());
+  let resolver = hostResolvers.get(dependency);
+  if (!resolver) {
+    const controller = new DependencySubscriber(host, dependency);
+    host.addController(controller);
+    resolver = () => controller.get();
+    hostResolvers.set(dependency, resolver);
+  }
+  return resolver;
 }
 
 /**

@@ -22,6 +22,30 @@
       },
       "revId": "73b3b657f518e263cdf867aec570102edfd1d9e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbac9c77_08338731",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T14:44:38Z",
+      "side": 1,
+      "message": "Yes. Good catch. Thanks. Done.",
+      "parentUuid": "b71552d1_8b6e82c7",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 26
+      },
+      "revId": "73b3b657f518e263cdf867aec570102edfd1d9e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

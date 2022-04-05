@@ -22,6 +22,30 @@
       },
       "revId": "fa37ab15495d4590bf2c17211f0b88c3bd536f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14e36bbd_ff132c2b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T14:44:38Z",
+      "side": 0,
+      "message": "Added tests for reset and save.",
+      "parentUuid": "b9845316_f073bdb5",
+      "range": {
+        "startLine": 448,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 0
+      },
+      "revId": "fa37ab15495d4590bf2c17211f0b88c3bd536f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -62,7 +62,7 @@ export class GrAgreementsList extends LitElement {
     return html`
       <tr>
         <td class="nameColumn">
-          <a href="${this.getUrlBase(agreement?.url)}" rel="external">
+          <a href=${this.getUrlBase(agreement?.url)} rel="external">
             ${agreement.name}
           </a>
         </td>
@@ -86,7 +86,7 @@ export class GrAgreementsList extends LitElement {
           )}
         </tbody>
       </table>
-      <a href="${this.getUrl()}">New Contributor Agreement</a>
+      <a href=${this.getUrl()}>New Contributor Agreement</a>
     </div>`;
   }
 

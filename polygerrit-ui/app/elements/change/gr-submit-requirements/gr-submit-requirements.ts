@@ -182,10 +182,10 @@ export class GrSubmitRequirements extends LitElement {
             (requirement, index) => html`
               <gr-submit-requirement-hovercard
                 for="requirement-${index}-${charsOnly(requirement.name)}"
-                .requirement="${requirement}"
-                .change="${this.change}"
-                .account="${this.account}"
-                .mutable="${this.mutable ?? false}"
+                .requirement=${requirement}
+                .change=${this.change}
+                .account=${this.account}
+                .mutable=${this.mutable ?? false}
               ></gr-submit-requirement-hovercard>
             `
           )}
@@ -199,7 +199,7 @@ export class GrSubmitRequirements extends LitElement {
           <gr-limited-text
             class="name"
             limit="25"
-            .text="${requirement.name}"
+            .text=${requirement.name}
           ></gr-limited-text>
         </td>
         <td>
@@ -237,10 +237,7 @@ export class GrSubmitRequirements extends LitElement {
       return html`<div class="votes-cell">${slot}</div>`;
 
     const endpointName = this.calculateEndpointName(requirement.name);
-    return html`<gr-endpoint-decorator
-      class="votes-cell"
-      name="${endpointName}"
-    >
+    return html`<gr-endpoint-decorator class="votes-cell" name=${endpointName}>
       <gr-endpoint-param
         name="change"
         .value=${this.change}
@@ -256,10 +253,10 @@ export class GrSubmitRequirements extends LitElement {
   renderStatus(status: SubmitRequirementStatus) {
     const icon = iconForStatus(status);
     return html`<iron-icon
-      class="${icon}"
+      class=${icon}
       icon="gr-icons:${icon}"
       role="img"
-      aria-label="${status.toLowerCase()}"
+      aria-label=${status.toLowerCase()}
     ></iron-icon>`;
   }
 
@@ -304,15 +301,15 @@ export class GrSubmitRequirements extends LitElement {
       return uniqueApprovals.map(
         approvalInfo =>
           html`<gr-vote-chip
-            .vote="${approvalInfo}"
-            .label="${labelInfo}"
-            .more="${(labelInfo.all ?? []).filter(
+            .vote=${approvalInfo}
+            .label=${labelInfo}
+            .more=${(labelInfo.all ?? []).filter(
               other => other.value === approvalInfo.value
-            ).length > 1}"
+            ).length > 1}
           ></gr-vote-chip>`
       );
     } else if (isQuickLabelInfo(labelInfo)) {
-      return [html`<gr-vote-chip .label="${labelInfo}"></gr-vote-chip>`];
+      return [html`<gr-vote-chip .label=${labelInfo}></gr-vote-chip>`];
     } else {
       return html``;
     }
@@ -338,13 +335,13 @@ export class GrSubmitRequirements extends LitElement {
       .text=${`${runsCount}`}
       .links=${links}
       .statusOrCategory=${Category.ERROR}
-      @click="${() => {
+      @click=${() => {
         fireShowPrimaryTab(this, PrimaryTab.CHECKS, false, {
           checksTab: {
             statusOrCategory: Category.ERROR,
           },
         });
-      }}"
+      }}
     ></gr-checks-chip>`;
   }
 
@@ -373,11 +370,11 @@ export class GrSubmitRequirements extends LitElement {
         ${triggerVotes.map(
           label =>
             html`<gr-trigger-vote
-              .label="${label}"
-              .labelInfo="${labels[label]}"
-              .change="${this.change}"
-              .account="${this.account}"
-              .mutable="${this.mutable ?? false}"
+              .label=${label}
+              .labelInfo=${labels[label]}
+              .change=${this.change}
+              .account=${this.account}
+              .mutable=${this.mutable ?? false}
               .disableHovercards=${this.disableHovercards}
             ></gr-trigger-vote>`
         )}

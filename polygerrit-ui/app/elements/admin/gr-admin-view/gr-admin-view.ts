@@ -187,7 +187,7 @@ export class GrAdminView extends LitElement {
   private renderAdminNav(item: NavLink) {
     return html`
       <li class="sectionTitle ${this.computeSelectedClass(item.view)}">
-        <a class="title" href="${this.computeLinkURL(item)}" rel="noopener"
+        <a class="title" href=${this.computeLinkURL(item)} rel="noopener"
           >${item.name}</a
         >
       </li>
@@ -198,8 +198,8 @@ export class GrAdminView extends LitElement {
 
   private renderAdminNavChild(child: SubsectionInterface) {
     return html`
-      <li class="${this.computeSelectedClass(child.view)}">
-        <a href="${this.computeLinkURL(child)}" rel="noopener">${child.name}</a>
+      <li class=${this.computeSelectedClass(child.view)}>
+        <a href=${this.computeLinkURL(child)} rel="noopener">${child.name}</a>
       </li>
     `;
   }
@@ -209,7 +209,7 @@ export class GrAdminView extends LitElement {
 
     return html`
       <!--If a section has a subsection, render that.-->
-      <li class="${this.computeSelectedClass(item.subsection.view)}">
+      <li class=${this.computeSelectedClass(item.subsection.view)}>
         ${this.renderAdminNavSubsectionUrl(item.subsection)}
       </li>
       <!--Loop through the links in the sub-section.-->
@@ -223,7 +223,7 @@ export class GrAdminView extends LitElement {
     if (!subsection!.url) return html`${subsection!.name}`;
 
     return html`
-      <a class="title" href="${this.computeLinkURL(subsection)}" rel="noopener">
+      <a class="title" href=${this.computeLinkURL(subsection)} rel="noopener">
         ${subsection!.name}</a
       >
     `;
@@ -237,7 +237,7 @@ export class GrAdminView extends LitElement {
           child.detailType
         )}"
       >
-        <a href="${this.computeLinkURL(child)}">${child.name}</a>
+        <a href=${this.computeLinkURL(child)}>${child.name}</a>
       </li>
     `;
   }

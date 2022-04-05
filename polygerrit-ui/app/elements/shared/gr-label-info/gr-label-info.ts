@@ -267,15 +267,15 @@ export class GrLabelInfo extends LitElement {
         hasNeutralStatus(labelInfo, approvalInfo));
     return html`<div class="reviewer-row">
       <gr-account-chip
-        .account="${reviewer}"
-        .change="${this.change}"
-        .vote="${approvalInfo}"
-        .label="${labelInfo}"
+        .account=${reviewer}
+        .change=${this.change}
+        .vote=${approvalInfo}
+        .label=${labelInfo}
       >
         <gr-vote-chip
           slot="vote-chip"
-          .vote="${approvalInfo}"
-          .label="${labelInfo}"
+          .vote=${approvalInfo}
+          .label=${labelInfo}
           circle-shape
         ></gr-vote-chip
       ></gr-account-chip>
@@ -291,7 +291,7 @@ export class GrLabelInfo extends LitElement {
       <td>
         <gr-tooltip-content
           has-tooltip
-          title="${this._computeValueTooltip(labelInfo, mappedLabel.value)}"
+          title=${this._computeValueTooltip(labelInfo, mappedLabel.value)}
         >
           <gr-label class="${mappedLabel.className} voteChip font-small">
             ${mappedLabel.value}
@@ -301,8 +301,8 @@ export class GrLabelInfo extends LitElement {
       <td>
         <gr-account-label
           clickable
-          .account="${mappedLabel.account}"
-          .change="${change}"
+          .account=${mappedLabel.account}
+          .change=${change}
         ></gr-account-label>
       </td>
       <td>${this.renderRemoveVote(mappedLabel.account)}</td>
@@ -327,10 +327,8 @@ export class GrLabelInfo extends LitElement {
       <gr-button
         link
         aria-label="Remove vote"
-        @click="${this.onDeleteVote}"
-        data-account-id="${ifDefined(
-          reviewer._account_id as number | undefined
-        )}"
+        @click=${this.onDeleteVote}
+        data-account-id=${ifDefined(reviewer._account_id as number | undefined)}
         class="deleteBtn ${this.computeDeleteClass(
           reviewer,
           this.mutable,

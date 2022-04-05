@@ -375,15 +375,15 @@ export class GrImageViewer extends LitElement {
       color === this.backgroundColor && !this.checkerboardSelected;
     return html`
       <div
-        class="${classMap({
+        class=${classMap({
           'color-picker-button': true,
           selected,
-        })}"
+        })}
       >
         <paper-icon-button
           class="color"
-          style="${styleMap({backgroundColor: color})}"
-          @click="${colorPicked}"
+          style=${styleMap({backgroundColor: color})}
+          @click=${colorPicked}
         ></paper-icon-button>
       </div>
     `;
@@ -392,14 +392,14 @@ export class GrImageViewer extends LitElement {
   private renderCheckerboardButton() {
     return html`
       <div
-        class="${classMap({
+        class=${classMap({
           'color-picker-button': true,
           selected: this.checkerboardSelected,
-        })}"
+        })}
       >
         <paper-icon-button
           class="color checkerboard"
-          @click="${this.pickCheckerboard}"
+          @click=${this.pickCheckerboard}
         >
         </paper-icon-button>
       </div>
@@ -412,14 +412,14 @@ export class GrImageViewer extends LitElement {
     const sourceImage = html`
       <img
         id="source-image"
-        src="${src}"
-        class="${classMap({checkerboard: this.checkerboardSelected})}"
-        style="${styleMap({
+        src=${src}
+        class=${classMap({checkerboard: this.checkerboardSelected})}
+        style=${styleMap({
           backgroundColor: this.checkerboardSelected
             ? ''
             : this.backgroundColor,
-        })}"
-        @load="${this.updateSizes}"
+        })}
+        @load=${this.updateSizes}
       />
     `;
 
@@ -428,15 +428,15 @@ export class GrImageViewer extends LitElement {
         ${sourceImage}
         <img
           id="highlight-image"
-          style="${styleMap({
+          style=${styleMap({
             opacity: this.showHighlight ? '1' : '0',
             // When the highlight layer is not being shown, saving the image or
             // opening it in a new tab from the context menu, e.g. for external
             // comparison, should give back the source image, not the highlight
             // layer.
             'pointer-events': this.showHighlight ? 'auto' : 'none',
-          })}"
-          src="${ifDefined(this.diffHighlightSrc)}"
+          })}
+          src=${ifDefined(this.diffHighlightSrc)}
         />
       </div>
     `;
@@ -461,17 +461,14 @@ export class GrImageViewer extends LitElement {
     };
     const versionToggle = html`
       <div id="version-switcher">
-        <paper-button
-          class="${classMap(leftClasses)}"
-          @click="${this.selectBase}"
-        >
+        <paper-button class=${classMap(leftClasses)} @click=${this.selectBase}>
           Base
         </paper-button>
-        <paper-fab mini icon="gr-icons:swapHoriz" @click="${this.manualBlink}">
+        <paper-fab mini icon="gr-icons:swapHoriz" @click=${this.manualBlink}>
         </paper-fab>
         <paper-button
-          class="${classMap(rightClasses)}"
-          @click="${this.selectRevision}"
+          class=${classMap(rightClasses)}
+          @click=${this.selectRevision}
         >
           Revision
         </paper-button>
@@ -486,8 +483,8 @@ export class GrImageViewer extends LitElement {
       ? html`
           <paper-checkbox
             id="highlight-changes"
-            ?checked="${this.showHighlight}"
-            @change="${this.showHighlightChanged}"
+            ?checked=${this.showHighlight}
+            @change=${this.showHighlightChanged}
           >
             Highlight differences
           </paper-checkbox>
@@ -496,17 +493,17 @@ export class GrImageViewer extends LitElement {
 
     const overviewImage = html`
       <gr-overview-image
-        .frameRect="${this.overviewFrame}"
-        @center-updated="${this.onOverviewCenterUpdated}"
+        .frameRect=${this.overviewFrame}
+        @center-updated=${this.onOverviewCenterUpdated}
       >
         <img
-          src="${src}"
-          class="${classMap({checkerboard: this.checkerboardSelected})}"
-          style="${styleMap({
+          src=${src}
+          class=${classMap({checkerboard: this.checkerboardSelected})}
+          style=${styleMap({
             backgroundColor: this.checkerboardSelected
               ? ''
               : this.backgroundColor,
-          })}"
+          })}
         />
       </gr-overview-image>
     `;
@@ -516,12 +513,12 @@ export class GrImageViewer extends LitElement {
         <paper-listbox
           slot="dropdown-content"
           selected="fit"
-          .attrForSelected="${'value'}"
-          @selected-changed="${this.zoomControlChanged}"
+          .attrForSelected=${'value'}
+          @selected-changed=${this.zoomControlChanged}
         >
           ${this.zoomLevels.map(
             zoomLevel => html`
-              <paper-item value="${zoomLevel}">
+              <paper-item value=${zoomLevel}>
                 ${zoomLevel === 'fit' ? 'Fit' : `${zoomLevel * 100}%`}
               </paper-item>
             `
@@ -533,8 +530,8 @@ export class GrImageViewer extends LitElement {
     const followMouse = html`
       <paper-checkbox
         id="follow-mouse"
-        ?checked="${this.followMouse}"
-        @change="${this.followMouseChanged}"
+        ?checked=${this.followMouse}
+        @change=${this.followMouseChanged}
       >
         Magnifier follows mouse
       </paper-checkbox>
@@ -566,20 +563,20 @@ export class GrImageViewer extends LitElement {
     const spacer = html`
       <div
         id="spacer"
-        style="${styleMap({
+        style=${styleMap({
           width: `${spacerWidth}px`,
           height: `${spacerHeight}px`,
-        })}"
+        })}
       ></div>
     `;
 
     const automaticBlink = html`
       <paper-fab
         id="automatic-blink-button"
-        class="${classMap({show: this.automaticBlinkShown})}"
+        class=${classMap({show: this.automaticBlinkShown})}
         title="Automatic blink"
         icon="gr-icons:${this.automaticBlink ? 'pause' : 'playArrow'}"
-        @click="${this.toggleAutomaticBlink}"
+        @click=${this.toggleAutomaticBlink}
       >
       </paper-fab>
     `;
@@ -609,25 +606,25 @@ export class GrImageViewer extends LitElement {
       ${customStyle}
       <div
         class="imageArea"
-        @mousemove="${this.mousemoveImageArea}"
-        @mouseleave="${this.mouseleaveImageArea}"
+        @mousemove=${this.mousemoveImageArea}
+        @mouseleave=${this.mouseleaveImageArea}
       >
         <gr-zoomed-image
-          class="${classMap({
+          class=${classMap({
             base: this.baseSelected,
             revision: !this.baseSelected,
-          })}"
-          style="${styleMap({
+          })}
+          style=${styleMap({
             ...this.zoomedImageStyle,
             cursor: this.grabbing ? 'grabbing' : 'pointer',
-          })}"
-          .scale="${this.scale}"
-          .frameRect="${this.magnifierFrame}"
-          @mousedown="${this.mousedownMagnifier}"
-          @mouseup="${this.mouseupMagnifier}"
-          @mousemove="${this.mousemoveMagnifier}"
-          @mouseleave="${this.mouseleaveMagnifier}"
-          @dragstart="${this.dragstartMagnifier}"
+          })}
+          .scale=${this.scale}
+          .frameRect=${this.magnifierFrame}
+          @mousedown=${this.mousedownMagnifier}
+          @mouseup=${this.mouseupMagnifier}
+          @mousemove=${this.mousemoveMagnifier}
+          @mouseleave=${this.mouseleaveMagnifier}
+          @dragstart=${this.dragstartMagnifier}
         >
           ${sourceImageWithHighlight}
         </gr-zoomed-image>

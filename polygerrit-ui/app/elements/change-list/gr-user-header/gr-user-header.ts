@@ -65,7 +65,7 @@ export class GrUserHeader extends LitElement {
 
   override render() {
     return html`<gr-avatar
-        .account="${this._accountDetails}"
+        .account=${this._accountDetails}
         .imageSize=${100}
         aria-label="Account avatar"
       ></gr-avatar>
@@ -85,31 +85,31 @@ export class GrUserHeader extends LitElement {
         <div>
           <span>Joined:</span>
           <gr-date-formatter
-            dateStr="${this._computeDetail(
+            dateStr=${this._computeDetail(
               this._accountDetails,
               'registered_on'
-            )}"
+            )}
           >
           </gr-date-formatter>
         </div>
         <gr-endpoint-decorator name="user-header">
           <gr-endpoint-param
             name="accountDetails"
-            .value="${this._accountDetails}"
+            .value=${this._accountDetails}
           >
           </gr-endpoint-param>
-          <gr-endpoint-param name="loggedIn" .value="${this.loggedIn}">
+          <gr-endpoint-param name="loggedIn" .value=${this.loggedIn}>
           </gr-endpoint-param>
         </gr-endpoint-decorator>
       </div>
       <div class="info">
         <div
-          class="${this._computeDashboardLinkClass(
+          class=${this._computeDashboardLinkClass(
             this.showDashboardLink,
             this.loggedIn
-          )}"
+          )}
         >
-          <a href="${this._computeDashboardUrl(this._accountDetails)}"
+          <a href=${this._computeDashboardUrl(this._accountDetails)}
             >View dashboard</a
           >
         </div>

@@ -62,7 +62,7 @@ export class GrRepoHeader extends LitElement {
     return html`<div>
       <span class="browse">Browse:</span>
       ${webLinks.map(
-        link => html`<a target="_blank" href="${link.url}">${link.name}</a> `
+        link => html`<a target="_blank" href=${link.url}>${link.name}</a> `
       )}
     </div> `;
   }
@@ -72,7 +72,7 @@ export class GrRepoHeader extends LitElement {
       <h1 class="heading-1">${this.repo}</h1>
       <hr />
       <div>
-        <span>Detail:</span> <a href="${this._repoUrl!}">Repo settings</a>
+        <span>Detail:</span> <a href=${this._repoUrl!}>Repo settings</a>
       </div>
       ${this._renderLinks(this._webLinks)}
     </div>`;

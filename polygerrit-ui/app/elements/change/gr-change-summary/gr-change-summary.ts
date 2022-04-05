@@ -155,8 +155,8 @@ export class GrSummaryChip extends LitElement {
   override render() {
     const chipClass = `summaryChip font-small ${this.styleType}`;
     const grIcon = this.icon ? `gr-icons:${this.icon}` : '';
-    return html`<button class="${chipClass}" @click="${this.handleClick}">
-      ${this.icon && html`<iron-icon icon="${grIcon}"></iron-icon>`}
+    return html`<button class=${chipClass} @click=${this.handleClick}>
+      ${this.icon && html`<iron-icon icon=${grIcon}></iron-icon>`}
       <slot></slot>
     </button>`;
   }
@@ -342,8 +342,8 @@ export class GrChecksChip extends LitElement {
 
   private renderChip(clazz: string, ariaLabel: string, icon: string) {
     return html`
-      <div class="${clazz}" role="link" tabindex="0" aria-label="${ariaLabel}">
-        <iron-icon icon="${icon}"></iron-icon>
+      <div class=${clazz} role="link" tabindex="0" aria-label=${ariaLabel}>
+        <iron-icon icon=${icon}></iron-icon>
         ${this.renderLinks()}
         <div class="text">${this.text}</div>
       </div>
@@ -354,10 +354,10 @@ export class GrChecksChip extends LitElement {
     return this.links.map(
       link => html`
         <a
-          href="${link}"
+          href=${link}
           target="_blank"
-          @click="${this.onLinkClick}"
-          @keydown="${this.onLinkKeyDown}"
+          @click=${this.onLinkClick}
+          @keydown=${this.onLinkKeyDown}
           aria-label="Link to check details"
           ><iron-icon class="launch" icon="gr-icons:launch"></iron-icon
         ></a>
@@ -614,7 +614,7 @@ export class GrChangeSummary extends LitElement {
     if (!action) return;
     return html`<gr-checks-action
       context="summary"
-      .action="${action}"
+      .action=${action}
     ></gr-checks-action>`;
   }
 
@@ -634,9 +634,9 @@ export class GrChangeSummary extends LitElement {
         link=""
         vertical-offset="32"
         horizontal-align="right"
-        @tap-item="${this.handleAction}"
-        .items="${items}"
-        .disabledIds="${disabledIds}"
+        @tap-item=${this.handleAction}
+        .items=${items}
+        .disabledIds=${disabledIds}
       >
         <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
         </iron-icon>
@@ -654,7 +654,7 @@ export class GrChangeSummary extends LitElement {
               <iron-icon icon="gr-icons:error"></iron-icon>
             </div>
             <div class="right">
-              <div class="message" title="${message}">
+              <div class="message" title=${message}>
                 Error while fetching results for ${plugin}: ${message}
               </div>
             </div>
@@ -675,7 +675,7 @@ export class GrChangeSummary extends LitElement {
           Not logged in
         </div>
         <div class="right">
-          <gr-button @click="${this.loginCallback}" link>Sign in</gr-button>
+          <gr-button @click=${this.loginCallback} link>Sign in</gr-button>
         </div>
       </div>
     `;
@@ -736,10 +736,10 @@ export class GrChangeSummary extends LitElement {
     if (count === 0) return;
     const handler = () => this.onChipClick({statusOrCategory});
     return html`<gr-checks-chip
-      .statusOrCategory="${statusOrCategory}"
-      .text="${`${count}`}"
-      @click="${handler}"
-      @keydown="${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}"
+      .statusOrCategory=${statusOrCategory}
+      .text=${`${count}`}
+      @click=${handler}
+      @keydown=${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}
     ></gr-checks-chip>`;
   }
 
@@ -754,10 +754,10 @@ export class GrChangeSummary extends LitElement {
       this.requestUpdate();
     };
     return html`<gr-checks-chip
-      .statusOrCategory="${statusOrCategory}"
+      .statusOrCategory=${statusOrCategory}
       .text="+ ${count} more"
-      @click="${handler}"
-      @keydown="${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}"
+      @click=${handler}
+      @keydown=${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}
     ></gr-checks-chip>`;
   }
 
@@ -782,11 +782,11 @@ export class GrChangeSummary extends LitElement {
     }
     const handler = () => this.onChipClick(tabState);
     return html`<gr-checks-chip
-      .statusOrCategory="${statusOrCategory}"
-      .text="${text}"
-      .links="${links}"
-      @click="${handler}"
-      @keydown="${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}"
+      .statusOrCategory=${statusOrCategory}
+      .text=${text}
+      .links=${links}
+      @click=${handler}
+      @keydown=${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}
     ></gr-checks-chip>`;
   }
 
@@ -834,7 +834,7 @@ export class GrChangeSummary extends LitElement {
                   : ''}${this.renderChecksChipRunning()}
                 <span
                   class="loadingSpin"
-                  ?hidden="${!this.someProvidersAreLoading}"
+                  ?hidden=${!this.someProvidersAreLoading}
                 ></span>
                 ${this.renderErrorMessages()} ${this.renderChecksLogin()}
                 ${this.renderSummaryMessage()} ${this.renderActions()}
@@ -866,7 +866,7 @@ export class GrChangeSummary extends LitElement {
                 ${unresolvedAuthors.map(
                   account =>
                     html`<gr-avatar
-                      .account="${account}"
+                      .account=${account}
                       imageSize="32"
                     ></gr-avatar>`
                 )}

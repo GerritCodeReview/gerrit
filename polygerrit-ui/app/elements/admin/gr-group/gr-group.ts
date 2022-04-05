@@ -136,8 +136,8 @@ export class GrGroup extends LitElement {
   override render() {
     return html`
       <div class="main gr-form-styles read-only">
-        <div id="loading" class="${this.computeLoadingClass()}">Loading...</div>
-        <div id="loadedContent" class="${this.computeLoadingClass()}">
+        <div id="loading" class=${this.computeLoadingClass()}>Loading...</div>
+        <div id="loadedContent" class=${this.computeLoadingClass()}>
           <h1 id="Title" class="heading-1">${this.originalName}</h1>
           <h2 id="configurations" class="heading-2">General</h2>
           <div id="form">
@@ -287,9 +287,9 @@ export class GrGroup extends LitElement {
           <span class="value">
             <gr-select
               id="visibleToAll"
-              .bindValue="${convertToString(
+              .bindValue=${convertToString(
                 Boolean(this.groupConfig?.options?.visible_to_all)
-              )}"
+              )}
               @bind-value-changed=${this.handleOptionsBindValueChanged}
             >
               <select ?disabled=${this.computeGroupDisabled()}>

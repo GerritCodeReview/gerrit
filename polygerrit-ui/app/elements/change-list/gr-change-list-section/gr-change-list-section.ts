@@ -166,11 +166,9 @@ export class GrChangeListSection extends LitElement {
           ?aria-hidden=${!this.showStar}
           ?hidden=${!this.showStar}
         ></td>
-        <td class="cell" colspan="${colSpan}">
+        <td class="cell" colspan=${colSpan}>
           ${this.changeSection.emptyStateSlotName
-            ? html`<slot
-                name="${this.changeSection.emptyStateSlotName}"
-              ></slot>`
+            ? html`<slot name=${this.changeSection.emptyStateSlotName}></slot>`
             : 'No changes'}
         </td>
       </tr>
@@ -191,10 +189,10 @@ export class GrChangeListSection extends LitElement {
           <td aria-hidden="true" class="leftPadding"></td>
           ${this.renderSelectionHeader()}
           <td aria-hidden="true" class="star" ?hidden=${!this.showStar}></td>
-          <td class="cell" colspan="${colSpan}">
+          <td class="cell" colspan=${colSpan}>
             <h2 class="heading-3">
               <a
-                href="${this.sectionHref(this.changeSection.query)}"
+                href=${this.sectionHref(this.changeSection.query)}
                 class="section-title"
               >
                 <span class="section-name">${this.changeSection.name}</span>
@@ -240,12 +238,12 @@ export class GrChangeListSection extends LitElement {
   }
 
   private renderHeaderCell(item: string) {
-    return html`<td class="${item.toLowerCase()}">${item}</td>`;
+    return html`<td class=${item.toLowerCase()}>${item}</td>`;
   }
 
   private renderLabelHeader(labelName: string) {
     return html`
-      <td class="label" title="${labelName}">
+      <td class="label" title=${labelName}>
         ${computeLabelShortcut(labelName)}
       </td>
     `;
@@ -254,7 +252,7 @@ export class GrChangeListSection extends LitElement {
   private renderEndpointHeader(pluginHeader: string) {
     return html`
       <td class="endpoint">
-        <gr-endpoint-decorator .name="${pluginHeader}"></gr-endpoint-decorator>
+        <gr-endpoint-decorator .name=${pluginHeader}></gr-endpoint-decorator>
       </td>
     `;
   }
@@ -279,7 +277,7 @@ export class GrChangeListSection extends LitElement {
         ?showStar=${this.showStar}
         tabindex=${ifDefined(tabindex)}
         .labelNames=${this.labelNames}
-        aria-label="${ariaLabel}"
+        aria-label=${ariaLabel}
       ></gr-change-list-item>
     `;
   }

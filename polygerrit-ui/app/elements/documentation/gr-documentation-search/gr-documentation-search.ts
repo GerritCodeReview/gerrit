@@ -70,7 +70,7 @@ export class GrDocumentationSearch extends LitElement {
             <td>Loading...</td>
           </tr>
         </tbody>
-        <tbody class="${this.loading ? 'loading' : ''}">
+        <tbody class=${this.loading ? 'loading' : ''}>
           ${this.documentationSearches?.map(search =>
             this.renderDocumentationList(search)
           )}
@@ -83,7 +83,7 @@ export class GrDocumentationSearch extends LitElement {
     return html`
       <tr class="table">
         <td class="name">
-          <a href="${this.computeSearchUrl(search.url)}">${search.title}</a>
+          <a href=${this.computeSearchUrl(search.url)}>${search.title}</a>
         </td>
         <td></td>
         <td></td>

@@ -202,31 +202,31 @@ export class GrRelatedChangesList extends LitElement {
     return html`<section id="relatedChanges">
       <gr-related-collapse
         title="Relation chain"
-        class="${classMap({first: isFirst})}"
+        class=${classMap({first: isFirst})}
         .length=${this.relatedChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
       >
         ${this.relatedChanges.map(
           (change, index) =>
             html`<div
-              class="${classMap({
+              class=${classMap({
                 ['relatedChangeLine']: true,
                 ['show-when-collapsed']:
                   relatedChangesMarkersPredicate(index).showWhenCollapsed,
-              })}"
+              })}
             >
               ${this.renderMarkers(
                 relatedChangesMarkersPredicate(index)
               )}<gr-related-change
-                .change="${change}"
-                .connectedRevisions="${connectedRevisions}"
-                .href="${change?._change_number
+                .change=${change}
+                .connectedRevisions=${connectedRevisions}
+                .href=${change?._change_number
                   ? GerritNav.getUrlForChangeById(
                       change._change_number,
                       change.project,
                       change._revision_number as PatchSetNum
                     )
-                  : ''}"
+                  : ''}
                 .showChangeStatus=${true}
                 >${change.commit.subject}</gr-related-change
               >
@@ -259,28 +259,28 @@ export class GrRelatedChangesList extends LitElement {
     return html`<section id="submittedTogether">
       <gr-related-collapse
         title="Submitted together"
-        class="${classMap({first: isFirst})}"
+        class=${classMap({first: isFirst})}
         .length=${submittedTogetherChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.SUBMITTED_TOGETHER)}
       >
         ${submittedTogetherChanges.map(
           (change, index) =>
             html`<div
-              class="${classMap({
+              class=${classMap({
                 ['relatedChangeLine']: true,
                 ['show-when-collapsed']:
                   submittedTogetherMarkersPredicate(index).showWhenCollapsed,
-              })}"
+              })}
             >
               ${this.renderMarkers(
                 submittedTogetherMarkersPredicate(index)
               )}<gr-related-change
-                .label="${this.renderChangeTitle(change)}"
-                .change="${change}"
-                .href="${GerritNav.getUrlForChangeById(
+                .label=${this.renderChangeTitle(change)}
+                .change=${change}
+                .href=${GerritNav.getUrlForChangeById(
                   change._number,
                   change.project
-                )}"
+                )}
                 .showSubmittableCheck=${true}
                 >${this.renderChangeLine(change)}</gr-related-change
               >
@@ -309,28 +309,28 @@ export class GrRelatedChangesList extends LitElement {
     return html`<section id="sameTopic">
       <gr-related-collapse
         title="Same topic"
-        class="${classMap({first: isFirst})}"
+        class=${classMap({first: isFirst})}
         .length=${this.sameTopicChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.SAME_TOPIC)}
       >
         ${this.sameTopicChanges.map(
           (change, index) =>
             html`<div
-              class="${classMap({
+              class=${classMap({
                 ['relatedChangeLine']: true,
                 ['show-when-collapsed']:
                   sameTopicMarkersPredicate(index).showWhenCollapsed,
-              })}"
+              })}
             >
               ${this.renderMarkers(
                 sameTopicMarkersPredicate(index)
               )}<gr-related-change
-                .change="${change}"
-                .label="${this.renderChangeTitle(change)}"
-                .href="${GerritNav.getUrlForChangeById(
+                .change=${change}
+                .label=${this.renderChangeTitle(change)}
+                .href=${GerritNav.getUrlForChangeById(
                   change._number,
                   change.project
-                )}"
+                )}
                 >${this.renderChangeLine(change)}</gr-related-change
               >
             </div>`
@@ -354,27 +354,27 @@ export class GrRelatedChangesList extends LitElement {
     return html`<section id="mergeConflicts">
       <gr-related-collapse
         title="Merge conflicts"
-        class="${classMap({first: isFirst})}"
+        class=${classMap({first: isFirst})}
         .length=${this.conflictingChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.MERGE_CONFLICTS)}
       >
         ${this.conflictingChanges.map(
           (change, index) =>
             html`<div
-              class="${classMap({
+              class=${classMap({
                 ['relatedChangeLine']: true,
                 ['show-when-collapsed']:
                   mergeConflictsMarkersPredicate(index).showWhenCollapsed,
-              })}"
+              })}
             >
               ${this.renderMarkers(
                 mergeConflictsMarkersPredicate(index)
               )}<gr-related-change
-                .change="${change}"
-                .href="${GerritNav.getUrlForChangeById(
+                .change=${change}
+                .href=${GerritNav.getUrlForChangeById(
                   change._number,
                   change.project
-                )}"
+                )}
                 >${change.subject}</gr-related-change
               >
             </div>`
@@ -398,27 +398,27 @@ export class GrRelatedChangesList extends LitElement {
     return html`<section id="cherryPicks">
       <gr-related-collapse
         title="Cherry picks"
-        class="${classMap({first: isFirst})}"
+        class=${classMap({first: isFirst})}
         .length=${this.cherryPickChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.CHERRY_PICKS)}
       >
         ${this.cherryPickChanges.map(
           (change, index) =>
             html`<div
-              class="${classMap({
+              class=${classMap({
                 ['relatedChangeLine']: true,
                 ['show-when-collapsed']:
                   cherryPicksMarkersPredicate(index).showWhenCollapsed,
-              })}"
+              })}
             >
               ${this.renderMarkers(
                 cherryPicksMarkersPredicate(index)
               )}<gr-related-change
-                .change="${change}"
-                .href="${GerritNav.getUrlForChangeById(
+                .change=${change}
+                .href=${GerritNav.getUrlForChangeById(
                   change._number,
                   change.project
-                )}"
+                )}
                 >${change.branch}: ${change.subject}</gr-related-change
               >
             </div>`
@@ -433,7 +433,7 @@ export class GrRelatedChangesList extends LitElement {
 
   private renderChangeLine(change: ChangeInfo) {
     const truncatedRepo = truncatePath(change.project, 2);
-    return html`<span class="truncatedRepo" .title="${change.project}"
+    return html`<span class="truncatedRepo" .title=${change.project}
         >${truncatedRepo}</span
       >: ${change.branch}: ${change.subject}`;
   }
@@ -775,7 +775,7 @@ export class GrRelatedCollapse extends LitElement {
         buttonText = `Show all (${this.length})`;
         buttonIcon = 'expand-more';
       }
-      button = html`<gr-button link="" @click="${this.toggle}"
+      button = html`<gr-button link="" @click=${this.toggle}
         >${buttonText}<iron-icon icon="gr-icons:${buttonIcon}"></iron-icon
       ></gr-button>`;
     }

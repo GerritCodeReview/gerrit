@@ -155,8 +155,8 @@ export class GrEditControls extends LitElement {
   private renderAction(action: GrEditAction) {
     return html`
       <gr-button
-        id="${action.id}"
-        class="${this.computeIsInvisible(action.id)}"
+        id=${action.id}
+        class=${this.computeIsInvisible(action.id)}
         link=""
         @click=${this.handleTap}
         >${action.label}</gr-button

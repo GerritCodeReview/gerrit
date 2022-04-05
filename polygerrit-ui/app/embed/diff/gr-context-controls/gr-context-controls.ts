@@ -334,11 +334,11 @@ export class GrContextControls extends LitElement {
     };
 
     const button = html` <paper-button
-      class="${classes}"
-      aria-label="${ariaLabel}"
-      @click="${expandHandler}"
-      @mouseenter="${() => mouseHandler('enter')}"
-      @mouseleave="${() => mouseHandler('leave')}"
+      class=${classes}
+      aria-label=${ariaLabel}
+      @click=${expandHandler}
+      @mouseenter=${() => mouseHandler('enter')}
+      @mouseleave=${() => mouseHandler('leave')}
     >
       <span class="showContext">${text}</span>
       ${tooltip}
@@ -451,7 +451,7 @@ export class GrContextControls extends LitElement {
 
     const position =
       buttonType === ContextButtonType.BLOCK_ABOVE ? 'top' : 'bottom';
-    return html`<paper-tooltip offset="10" position="${position}"
+    return html`<paper-tooltip offset="10" position=${position}
       ><div class="breadcrumbTooltip">${tooltipText}</div></paper-tooltip
     >`;
   }

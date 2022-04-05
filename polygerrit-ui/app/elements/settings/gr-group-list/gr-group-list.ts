@@ -80,7 +80,7 @@ export class GrGroupList extends LitElement {
             return html`
               <tr>
                 <td class="nameColumn">
-                  <a href="${href}"> ${group.name} </a>
+                  <a href=${href}> ${group.name} </a>
                 </td>
                 <td>${group.description}</td>
                 <td class="visibleCell">

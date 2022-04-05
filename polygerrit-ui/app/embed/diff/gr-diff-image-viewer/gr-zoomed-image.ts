@@ -59,7 +59,7 @@ export class GrZoomedImage extends LitElement {
   override render() {
     return html`
       <div id="clip">
-        <div id="transform" style="${styleMap(this.imageStyles)}">
+        <div id="transform" style=${styleMap(this.imageStyles)}>
           <slot></slot>
         </div>
       </div>

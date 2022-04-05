@@ -190,17 +190,17 @@ export class GrAccountChip extends LitElement {
     `;
     return html`${customStyle}
       <div
-        class="${classMap({
+        class=${classMap({
           ...this.computeVoteClasses(),
           container: true,
           transparentBackground: this.transparentBackground,
           closeShown: this.removable,
-        })}"
+        })}
       >
         <div>
           <gr-account-label
-            .account="${this.account}"
-            .change="${this.change}"
+            .account=${this.account}
+            .change=${this.change}
             ?forceAttention=${this.forceAttention}
             ?highlightAttention=${this.highlightAttention}
             .voteableText=${this.voteableText}
@@ -214,10 +214,10 @@ export class GrAccountChip extends LitElement {
           link=""
           ?hidden=${!this.removable}
           aria-label="Remove"
-          class="${classMap({
+          class=${classMap({
             remove: true,
             transparentBackground: this.transparentBackground,
-          })}"
+          })}
           @click=${this._handleRemoveTap}
         >
           <iron-icon icon="gr-icons:close"></iron-icon>

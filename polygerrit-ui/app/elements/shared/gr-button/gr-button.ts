@@ -209,15 +209,15 @@ export class GrButton extends LitElement {
 
   override render() {
     return html`<paper-button
-      ?raised="${!this.link && !this.flatten}"
-      ?disabled="${this.disabled || this.loading}"
+      ?raised=${!this.link && !this.flatten}
+      ?disabled=${this.disabled || this.loading}
       role="button"
       tabindex="-1"
       part="paper-button"
-      class="${classMap({
+      class=${classMap({
         voteChip: this.voteChip && !this.isSubmitRequirementsUiEnabled,
         newVoteChip: this.voteChip && this.isSubmitRequirementsUiEnabled,
-      })}"
+      })}
     >
       ${this.loading ? html`<span class="loadingSpin"></span>` : ''}
       <slot></slot>

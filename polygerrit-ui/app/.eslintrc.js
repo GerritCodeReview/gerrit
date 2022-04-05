@@ -445,6 +445,7 @@ module.exports = {
         'lit/no-useless-template-literals': 'error',
         'lit/no-value-attribute': 'error',
         'lit/prefer-static-styles': 'error',
+        'lit/quoted-expressions': ['error', 'never'],
       },
     },
   ],

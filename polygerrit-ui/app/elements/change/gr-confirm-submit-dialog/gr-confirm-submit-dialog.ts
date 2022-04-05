@@ -129,7 +129,7 @@ export class GrConfirmSubmitDialog extends LitElement {
       </p>
       <gr-thread-list
         id="commentList"
-        .threads="${this.unresolvedThreads}"
+        .threads=${this.unresolvedThreads}
         hide-dropdown
       >
       </gr-thread-list>
@@ -159,11 +159,11 @@ export class GrConfirmSubmitDialog extends LitElement {
           ${this.renderChangeEdit()}
           <gr-endpoint-param
             name="change"
-            .value="${this.change}"
+            .value=${this.change}
           ></gr-endpoint-param>
           <gr-endpoint-param
             name="action"
-            .value="${this.action}"
+            .value=${this.action}
           ></gr-endpoint-param>
         </gr-endpoint-decorator>
       </div>

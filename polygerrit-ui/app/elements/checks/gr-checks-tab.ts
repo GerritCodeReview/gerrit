@@ -133,21 +133,21 @@ export class GrChecksTab extends LitElement {
       <div class="container">
         <gr-checks-runs
           class="runs"
-          ?collapsed="${this.offsetWidth < 1000}"
-          .runs="${this.runs}"
-          .selectedRuns="${this.selectedRuns}"
-          .selectedAttempts="${this.selectedAttempts}"
-          .tabState="${this.tabState?.checksTab}"
-          @run-selected="${this.handleRunSelected}"
-          @attempt-selected="${this.handleAttemptSelected}"
+          ?collapsed=${this.offsetWidth < 1000}
+          .runs=${this.runs}
+          .selectedRuns=${this.selectedRuns}
+          .selectedAttempts=${this.selectedAttempts}
+          .tabState=${this.tabState?.checksTab}
+          @run-selected=${this.handleRunSelected}
+          @attempt-selected=${this.handleAttemptSelected}
         ></gr-checks-runs>
         <gr-checks-results
           class="results"
-          .tabState="${this.tabState?.checksTab}"
-          .runs="${this.runs}"
-          .selectedRuns="${this.selectedRuns}"
-          .selectedAttempts="${this.selectedAttempts}"
-          @run-selected="${this.handleRunSelected}"
+          .tabState=${this.tabState?.checksTab}
+          .runs=${this.runs}
+          .selectedRuns=${this.selectedRuns}
+          .selectedAttempts=${this.selectedAttempts}
+          @run-selected=${this.handleRunSelected}
         ></gr-checks-results>
       </div>
     `;

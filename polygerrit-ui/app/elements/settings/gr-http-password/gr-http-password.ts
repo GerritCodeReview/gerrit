@@ -125,7 +125,7 @@ export class GrHttpPassword extends LitElement {
           >
         </div>
         <span ?hidden=${!this._passwordUrl}>
-          <a href="${this._passwordUrl!}" target="_blank" rel="noopener">
+          <a href=${this._passwordUrl!} target="_blank" rel="noopener">
             Obtain password</a
           >
           (opens in a new tab)
@@ -144,7 +144,7 @@ export class GrHttpPassword extends LitElement {
               hasTooltip=""
               buttonTitle="Copy password to clipboard"
               hideInput=""
-              .text="${this._generatedPassword}"
+              .text=${this._generatedPassword}
             >
             </gr-copy-clipboard>
           </section>

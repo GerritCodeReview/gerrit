@@ -46,6 +46,6 @@ export class GrSettingsItem extends LitElement {
 
   override render() {
     const anchor = this.anchor ?? '';
-    return html`<h2 id="${anchor}" class="heading-2">${this.title}</h2>`;
+    return html`<h2 id=${anchor} class="heading-2">${this.title}</h2>`;
   }
 }

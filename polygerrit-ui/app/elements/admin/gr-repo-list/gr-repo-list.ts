@@ -133,7 +133,7 @@ export class GrRepoList extends LitElement {
               <td>Loading...</td>
             </tr>
           </tbody>
-          <tbody class="${this.computeLoadingClass(this.loading)}">
+          <tbody class=${this.computeLoadingClass(this.loading)}>
             ${this.renderRepoList()}
           </tbody>
         </table>
@@ -168,11 +168,11 @@ export class GrRepoList extends LitElement {
     return html`
       <tr class="table">
         <td class="name">
-          <a href="${this.computeRepoUrl(item.name)}">${item.name}</a>
+          <a href=${this.computeRepoUrl(item.name)}>${item.name}</a>
         </td>
         <td class="repositoryBrowser">${this.renderWebLinks(item)}</td>
         <td class="changesLink">
-          <a href="${this.computeChangesLink(item.name)}">view all</a>
+          <a href=${this.computeChangesLink(item.name)}>view all</a>
         </td>
         <td class="readOnly">
           ${item.state === ProjectState.READ_ONLY ? 'Y' : ''}
@@ -189,7 +189,7 @@ export class GrRepoList extends LitElement {
 
   private renderWebLink(link: WebLinkInfo) {
     return html`
-      <a href="${link.url}" class="webLink" rel="noopener" target="_blank">
+      <a href=${link.url} class="webLink" rel="noopener" target="_blank">
         ${link.name}
       </a>
     `;

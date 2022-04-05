@@ -133,12 +133,12 @@ export class GrTriggerVote extends LitElement {
       );
       return approvals.map(
         approvalInfo => html`<gr-vote-chip
-          .vote="${approvalInfo}"
-          .label="${labelInfo}"
+          .vote=${approvalInfo}
+          .label=${labelInfo}
         ></gr-vote-chip>`
       );
     } else if (isQuickLabelInfo(labelInfo)) {
-      return [html`<gr-vote-chip .label="${this.labelInfo}"></gr-vote-chip>`];
+      return [html`<gr-vote-chip .label=${this.labelInfo}></gr-vote-chip>`];
     } else {
       return html``;
     }

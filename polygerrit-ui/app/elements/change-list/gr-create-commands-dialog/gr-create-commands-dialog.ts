@@ -78,11 +78,9 @@ export class GrCreateCommandsDialog extends LitElement {
             </li>
             <li>
               <p>If you are making a new commit use</p>
-              <gr-shell-command
-                .command="${Commands.CREATE}"
-              ></gr-shell-command>
+              <gr-shell-command .command=${Commands.CREATE}></gr-shell-command>
               <p>Or to amend an existing commit use</p>
-              <gr-shell-command .command="${Commands.AMEND}"></gr-shell-command>
+              <gr-shell-command .command=${Commands.AMEND}></gr-shell-command>
               <p>
                 Please make sure you add a commit message as it becomes the
                 description for your change.
@@ -91,7 +89,7 @@ export class GrCreateCommandsDialog extends LitElement {
             <li>
               <p>Push the change for code review</p>
               <gr-shell-command
-                .command="${Commands.PUSH_PREFIX + (this.branch ?? '[BRANCH]')}"
+                .command=${Commands.PUSH_PREFIX + (this.branch ?? '[BRANCH]')}
               ></gr-shell-command>
             </li>
             <li>

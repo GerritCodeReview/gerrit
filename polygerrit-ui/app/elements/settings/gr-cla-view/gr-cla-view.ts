@@ -132,8 +132,8 @@ export class GrClaView extends LitElement {
           id="claNewAgreementsInput${item.name}"
           name="claNewAgreementsRadio"
           type="radio"
-          data-name="${ifDefined(item.name)}"
-          data-url="${ifDefined(item.url)}"
+          data-name=${ifDefined(item.name)}
+          data-url=${ifDefined(item.url)}
           @click=${this.handleShowAgreement}
           ?disabled=${this.disableAgreements(item)}
         />
@@ -159,7 +159,7 @@ export class GrClaView extends LitElement {
         <h3 class="heading-3">Review the agreement:</h3>
         <div id="agreementsUrl" class="agreementsUrl">
           <a
-            href="${ifDefined(this.agreementsUrl)}"
+            href=${ifDefined(this.agreementsUrl)}
             target="blank"
             rel="noopener"
           >

@@ -358,7 +358,7 @@ export class GrMainHeader extends LitElement {
   override render() {
     return html`
   <nav>
-    <a href="${`//${window.location.host}${getBaseUrl()}/`}" class="bigTitle">
+    <a href=${`//${window.location.host}${getBaseUrl()}/`} class="bigTitle">
       <gr-endpoint-decorator name="header-title">
         <span class="titleText"></span>
       </gr-endpoint-decorator>
@@ -398,14 +398,14 @@ export class GrMainHeader extends LitElement {
 
   private renderLinkGroup(linkGroup: MainHeaderLinkGroup) {
     return html`
-      <li class="${linkGroup.class ?? ''}">
+      <li class=${linkGroup.class ?? ''}>
         <gr-dropdown
           link
           down-arrow
           .items=${linkGroup.links}
           horizontal-align="left"
         >
-          <span class="linksTitle" id="${linkGroup.title}">
+          <span class="linksTitle" id=${linkGroup.title}>
             ${linkGroup.title}
           </span>
         </gr-dropdown>
@@ -418,7 +418,7 @@ export class GrMainHeader extends LitElement {
 
     return html`
       <a
-        href="${this.feedbackURL}"
+        href=${this.feedbackURL}
         title="File a bug"
         aria-label="File a bug"
         target="_blank"
@@ -439,12 +439,12 @@ export class GrMainHeader extends LitElement {
             this.onMobileSearchTap(e);
           }}
           role="button"
-          aria-label="${this.mobileSearchHidden
+          aria-label=${this.mobileSearchHidden
             ? 'Show Searchbar'
-            : 'Hide Searchbar'}"
+            : 'Hide Searchbar'}
         ></iron-icon>
         ${this.renderRegister()}
-        <a class="loginButton" href="${this.loginUrl}">Sign in</a>
+        <a class="loginButton" href=${this.loginUrl}>Sign in</a>
         <a
           class="settingsButton"
           href="${getBaseUrl()}/settings/"
@@ -464,7 +464,7 @@ export class GrMainHeader extends LitElement {
 
     return html`
       <div class="registerDiv">
-        <a class="registerButton" href="${this.registerURL}">
+        <a class="registerButton" href=${this.registerURL}>
           ${this.registerText}
         </a>
       </div>

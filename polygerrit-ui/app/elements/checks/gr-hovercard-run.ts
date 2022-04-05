@@ -137,7 +137,7 @@ export class GrHovercardRun extends base {
       <div id="container" role="tooltip" tabindex="-1">
         <div class="section">
           <div
-            ?hidden="${!this.run || this.run.status === RunStatus.RUNNABLE}"
+            ?hidden=${!this.run || this.run.status === RunStatus.RUNNABLE}
             class="chipRow"
           >
             <div class="chip">
@@ -147,8 +147,8 @@ export class GrHovercardRun extends base {
           </div>
         </div>
         <div class="section">
-          <div class="sectionIcon" ?hidden="${icon.length === 0}">
-            <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
+          <div class="sectionIcon" ?hidden=${icon.length === 0}>
+            <iron-icon class=${icon} icon="gr-icons:${icon}"></iron-icon>
           </div>
           <div class="sectionContent">
             <h3 class="name heading-3">
@@ -177,7 +177,7 @@ export class GrHovercardRun extends base {
             ? html` <div class="row">
                 <div class="title">Status</div>
                 <div>
-                  <a href="${this.run.statusLink}" target="_blank"
+                  <a href=${this.run.statusLink} target="_blank"
                     ><iron-icon
                       aria-label="external link to check status"
                       class="small link"
@@ -222,7 +222,7 @@ export class GrHovercardRun extends base {
       <div>
         <div class="attemptIcon">
           <iron-icon
-            class="${attempt.icon}"
+            class=${attempt.icon}
             icon="gr-icons:${attempt.icon}"
           ></iron-icon>
         </div>
@@ -320,7 +320,7 @@ export class GrHovercardRun extends base {
             ? html` <div class="row">
                 <div class="title">Documentation</div>
                 <div>
-                  <a href="${this.run.checkLink}" target="_blank"
+                  <a href=${this.run.checkLink} target="_blank"
                     ><iron-icon
                       aria-label="external link to check documentation"
                       class="small link"
@@ -344,8 +344,8 @@ export class GrHovercardRun extends base {
           <div class="action">
             <gr-checks-action
               context="hovercard"
-              .eventTarget="${this._target}"
-              .action="${action}"
+              .eventTarget=${this._target}
+              .action=${action}
             ></gr-checks-action>
           </div>
         `

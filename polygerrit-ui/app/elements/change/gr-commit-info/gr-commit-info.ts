@@ -60,12 +60,12 @@ export class GrCommitInfo extends LitElement {
       <a
         target="_blank"
         rel="noopener"
-        href="${this.computeCommitLink(
+        href=${this.computeCommitLink(
           this._webLink,
           this.change,
           this.commitInfo,
           this.serverConfig
-        )}"
+        )}
         >${this._computeShortHash(
           this.change,
           this.commitInfo,
@@ -74,9 +74,9 @@ export class GrCommitInfo extends LitElement {
       >
       <gr-copy-clipboard
         hastooltip
-        .buttonTitle="${'Copy full SHA to clipboard'}"
+        .buttonTitle=${'Copy full SHA to clipboard'}
         hideinput
-        .text="${this.commitInfo?.commit}"
+        .text=${this.commitInfo?.commit}
       >
       </gr-copy-clipboard>
     </div>`;

@@ -92,12 +92,12 @@ export class GrTooltip extends LitElement {
     return html` <div class="tooltip">
       <i
         class="arrowPositionBelow arrow"
-        style="${styleMap({marginLeft: this.arrowCenterOffset})}"
+        style=${styleMap({marginLeft: this.arrowCenterOffset})}
       ></i>
       ${this.text}
       <i
         class="arrowPositionAbove arrow"
-        style="${styleMap({marginLeft: this.arrowCenterOffset})}"
+        style=${styleMap({marginLeft: this.arrowCenterOffset})}
       ></i>
     </div>`;
   }

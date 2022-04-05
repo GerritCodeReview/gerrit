@@ -89,12 +89,12 @@ export class GrLabeledAutocomplete extends LitElement {
           <gr-autocomplete
             id="autocomplete"
             threshold="0"
-            .query="${this.query}"
-            ?disabled="${this.disabled}"
-            .placeholder="${this.placeholder}"
+            .query=${this.query}
+            ?disabled=${this.disabled}
+            .placeholder=${this.placeholder}
             borderless=""
           ></gr-autocomplete>
-          <div id="trigger" @click="${this._handleTriggerClick}">▼</div>
+          <div id="trigger" @click=${this._handleTriggerClick}>▼</div>
         </div>
       </div>
     `;

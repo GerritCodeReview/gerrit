@@ -454,11 +454,11 @@ export class GrComment extends LitElement {
     if (isUnsaved(this.comment) && !this.editing) return;
     const classes = {container: true, draft: isDraftOrUnsaved(this.comment)};
     return html`
-      <div id="container" class="${classMap(classes)}">
+      <div id="container" class=${classMap(classes)}>
         <div
           class="header"
           id="header"
-          @click="${() => (this.collapsed = !this.collapsed)}"
+          @click=${() => (this.collapsed = !this.collapsed)}
         >
           <div class="headerLeft">
             ${this.renderAuthor()} ${this.renderPortedCommentMessage()}
@@ -486,8 +486,8 @@ export class GrComment extends LitElement {
     const classes = {draft: isDraftOrUnsaved(this.comment)};
     return html`
       <gr-account-label
-        .account="${this.comment?.author ?? this.account}"
-        class="${classMap(classes)}"
+        .account=${this.comment?.author ?? this.account}
+        class=${classMap(classes)}
       >
       </gr-account-label>
     `;
@@ -497,8 +497,8 @@ export class GrComment extends LitElement {
     if (!this.showPortedComment) return;
     if (!this.comment?.patch_set) return;
     return html`
-      <a href="${this.getUrlForComment()}">
-        <span class="portedMessage" @click="${this.handlePortedMessageClick}">
+      <a href=${this.getUrlForComment()}>
+        <span class="portedMessage" @click=${this.handlePortedMessageClick}>
           From patchset ${this.comment?.patch_set}
         </span>
       </a>
@@ -520,7 +520,7 @@ export class GrComment extends LitElement {
       <gr-tooltip-content
         class="draftTooltip"
         has-tooltip
-        title="${tooltip}"
+        title=${tooltip}
         max-width="20em"
         show-icon
       >
@@ -542,7 +542,7 @@ export class GrComment extends LitElement {
     return html`
       <div class="runIdMessage message">
         <div class="runIdInformation">
-          <a class="robotRunLink" href="${this.comment.url}">
+          <a class="robotRunLink" href=${this.comment.url}>
             <span class="robotRun link">Run Details</span>
           </a>
         </div>
@@ -568,7 +568,7 @@ export class GrComment extends LitElement {
         title="Delete Comment"
         link
         class="action delete"
-        @click="${this.openDeleteCommentOverlay}"
+        @click=${this.openDeleteCommentOverlay}
       >
         <iron-icon id="icon" icon="gr-icons:delete"></iron-icon>
       </gr-button>
@@ -587,10 +587,10 @@ export class GrComment extends LitElement {
     if (!this.comment?.updated || this.collapsed) return;
     return html`
       <span class="separator"></span>
-      <span class="date" tabindex="0" @click="${this.handleAnchorClick}">
+      <span class="date" tabindex="0" @click=${this.handleAnchorClick}>
         <gr-date-formatter
           withTooltip
-          .dateStr="${this.comment.updated}"
+          .dateStr=${this.comment.updated}
         ></gr-date-formatter>
       </span>
     `;
@@ -603,14 +603,14 @@ export class GrComment extends LitElement {
     const ariaLabel = this.collapsed ? 'Expand' : 'Collapse';
     return html`
       <div class="show-hide" tabindex="0">
-        <label class="show-hide" aria-label="${ariaLabel}">
+        <label class="show-hide" aria-label=${ariaLabel}>
           <input
             type="checkbox"
             class="show-hide"
-            ?checked="${this.collapsed}"
-            @change="${() => (this.collapsed = !this.collapsed)}"
+            ?checked=${this.collapsed}
+            @change=${() => (this.collapsed = !this.collapsed)}
           />
-          <iron-icon id="icon" icon="${icon}"></iron-icon>
+          <iron-icon id="icon" icon=${icon}></iron-icon>
         </label>
       </div>
     `;
@@ -629,17 +629,17 @@ export class GrComment extends LitElement {
         class="editMessage"
         autocomplete="on"
         code=""
-        ?disabled="${this.saving}"
+        ?disabled=${this.saving}
         rows="4"
-        text="${this.messageText}"
-        @text-changed="${(e: ValueChangedEvent) => {
+        text=${this.messageText}
+        @text-changed=${(e: ValueChangedEvent) => {
           // TODO: This is causing a re-render of <gr-comment> on every key
           // press. Try to avoid always setting `this.messageText` or at least
           // debounce it. Most of the code can just inspect the current value
           // of the textare instead of needing a dedicated property.
           this.messageText = e.detail.value;
           this.autoSaveTrigger$.next();
-        }}"
+        }}
       ></gr-textarea>
     `;
   }
@@ -651,9 +651,9 @@ export class GrComment extends LitElement {
           gr-diff-selection.-->
       <gr-formatted-text
         class="message"
-        .content="${this.comment?.message}"
-        .config="${this.commentLinks}"
-        ?noTrailingMargin="${!isDraftOrUnsaved(this.comment)}"
+        .content=${this.comment?.message}
+        .config=${this.commentLinks}
+        ?noTrailingMargin=${!isDraftOrUnsaved(this.comment)}
       ></gr-formatted-text>
     `;
   }
@@ -664,7 +664,7 @@ export class GrComment extends LitElement {
     return html`
       <iron-icon
         class="copy link-icon"
-        @click="${this.handleCopyLink}"
+        @click=${this.handleCopyLink}
         title="Copy link to this comment"
         icon="gr-icons:link"
         role="button"
@@ -684,8 +684,8 @@ export class GrComment extends LitElement {
             <input
               type="checkbox"
               id="resolvedCheckbox"
-              ?checked="${!this.unresolved}"
-              @change="${this.handleToggleResolved}"
+              ?checked=${!this.unresolved}
+              @change=${this.handleToggleResolved}
             />
             Resolved
           </label>
@@ -711,9 +711,9 @@ export class GrComment extends LitElement {
     if (this.editing) return;
     return html`<gr-button
       link
-      ?disabled="${this.saving}"
+      ?disabled=${this.saving}
       class="action discard"
-      @click="${this.discard}"
+      @click=${this.discard}
       >Discard</gr-button
     >`;
   }
@@ -722,9 +722,9 @@ export class GrComment extends LitElement {
     if (this.editing) return;
     return html`<gr-button
       link
-      ?disabled="${this.saving}"
+      ?disabled=${this.saving}
       class="action edit"
-      @click="${this.edit}"
+      @click=${this.edit}
       >Edit</gr-button
     >`;
   }
@@ -734,9 +734,9 @@ export class GrComment extends LitElement {
     return html`
       <gr-button
         link
-        ?disabled="${this.saving}"
+        ?disabled=${this.saving}
         class="action cancel"
-        @click="${this.cancel}"
+        @click=${this.cancel}
         >Cancel</gr-button
       >
     `;
@@ -747,9 +747,9 @@ export class GrComment extends LitElement {
     return html`
       <gr-button
         link
-        ?disabled="${this.isSaveDisabled()}"
+        ?disabled=${this.isSaveDisabled()}
         class="action save"
-        @click="${this.save}"
+        @click=${this.save}
         >Save</gr-button
       >
     `;
@@ -759,7 +759,7 @@ export class GrComment extends LitElement {
     if (!this.account || !isRobot(this.comment)) return;
     const endpoint = html`
       <gr-endpoint-decorator name="robot-comment-controls">
-        <gr-endpoint-param name="comment" .value="${this.comment}">
+        <gr-endpoint-param name="comment" .value=${this.comment}>
         </gr-endpoint-param>
       </gr-endpoint-decorator>
     `;
@@ -778,8 +778,8 @@ export class GrComment extends LitElement {
         link
         secondary
         class="action show-fix"
-        ?disabled="${this.saving}"
-        @click="${this.handleShowFix}"
+        ?disabled=${this.saving}
+        @click=${this.handleShowFix}
       >
         Show Fix
       </gr-button>
@@ -791,9 +791,9 @@ export class GrComment extends LitElement {
     return html`
       <gr-button
         link
-        ?disabled="${this.robotButtonDisabled}"
+        ?disabled=${this.robotButtonDisabled}
         class="action fix"
-        @click="${this.handleFix}"
+        @click=${this.handleFix}
       >
         Please Fix
       </gr-button>
@@ -806,8 +806,8 @@ export class GrComment extends LitElement {
       <gr-overlay id="confirmDeleteOverlay" with-backdrop>
         <gr-confirm-delete-comment-dialog
           id="confirmDeleteComment"
-          @confirm="${this.handleConfirmDeleteComment}"
-          @cancel="${this.closeDeleteCommentOverlay}"
+          @confirm=${this.handleConfirmDeleteComment}
+          @cancel=${this.closeDeleteCommentOverlay}
         >
         </gr-confirm-delete-comment-dialog>
       </gr-overlay>

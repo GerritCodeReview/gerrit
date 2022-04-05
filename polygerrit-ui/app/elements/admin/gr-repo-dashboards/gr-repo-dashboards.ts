@@ -90,7 +90,7 @@ export class GrRepoDashboards extends LitElement {
               info => html`
                 <tr class="table">
                   <td class="name">
-                    <a href="${this._getUrl(info.project, info.id)}"
+                    <a href=${this._getUrl(info.project, info.id)}
                       >${info.path}</a
                     >
                   </td>

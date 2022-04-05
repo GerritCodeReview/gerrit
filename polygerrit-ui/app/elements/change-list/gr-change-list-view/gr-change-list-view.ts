@@ -248,7 +248,7 @@ export class GrChangeListView extends LitElement {
     if (this.offset === 0) return;
 
     return html`
-      <a id="prevArrow" href="${this.computeNavLink(-1)}">
+      <a id="prevArrow" href=${this.computeNavLink(-1)}>
         <iron-icon icon="gr-icons:chevron-left" aria-label="Older"> </iron-icon>
       </a>
     `;
@@ -264,7 +264,7 @@ export class GrChangeListView extends LitElement {
       return;
 
     return html`
-      <a id="nextArrow" href="${this.computeNavLink(1)}">
+      <a id="nextArrow" href=${this.computeNavLink(1)}>
         <iron-icon icon="gr-icons:chevron-right" aria-label="Newer">
         </iron-icon>
       </a>

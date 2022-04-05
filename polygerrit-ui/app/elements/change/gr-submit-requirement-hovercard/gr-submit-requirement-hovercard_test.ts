@@ -40,9 +40,9 @@ suite('gr-submit-requirement-hovercard tests', () => {
   setup(async () => {
     element = await fixture<GrSubmitRequirementHovercard>(
       html`<gr-submit-requirement-hovercard
-        .requirement="${createSubmitRequirementResultInfo()}"
+        .requirement=${createSubmitRequirementResultInfo()}
         .change=${createChange()}
-        .account="${createAccountWithId()}"
+        .account=${createAccountWithId()}
       ></gr-submit-requirement-hovercard>`
     );
   });

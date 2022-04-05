@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "54a65ddd_f81a8677",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-05T15:03:31Z",
+      "side": 1,
+      "message": "what does it mean `not guard` here? It seems like it is guarded and the second one bounces off without sticking.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "777473cb5c0012769da4e12ca32d24c06a4b237a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8ece1297_cb853013",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

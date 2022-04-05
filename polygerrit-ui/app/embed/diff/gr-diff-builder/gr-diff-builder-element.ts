@@ -16,7 +16,6 @@
  */
 import '../gr-diff-processor/gr-diff-processor';
 import '../../../elements/shared/gr-hovercard/gr-hovercard';
-import '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import './gr-diff-builder-side-by-side';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-builder-element_html';
@@ -62,7 +61,6 @@ const COMMIT_MSG_LINE_LENGTH = 72;
 export interface GrDiffBuilderElement {
   $: {
     processor: GrDiffProcessor;
-    rangeLayer: GrRangedCommentLayer;
   };
 }
 
@@ -194,6 +192,8 @@ export class GrDiffBuilderElement extends PolymerElement {
 
   private coverageLayerRight = new GrCoverageLayer(Side.RIGHT);
 
+  private rangeLayer = new GrRangedCommentLayer();
+
   constructor() {
     super();
     afterNextRender(this, () => {
@@ -218,6 +218,11 @@ export class GrDiffBuilderElement extends PolymerElement {
   get diffElement(): HTMLTableElement {
     // Not searching in shadowRoot, because the diff table is slotted!
     return this.querySelector('#diffTable') as HTMLTableElement;
+  }
+
+  @observe('commentRanges.*')
+  rangeObserver() {
+    this.rangeLayer.updateRanges(this.commentRanges);
   }
 
   coverageObserver(coverageRanges: CoverageRange[]) {
@@ -294,7 +299,7 @@ export class GrDiffBuilderElement extends PolymerElement {
       this._createIntralineLayer(),
       this._createTabIndicatorLayer(),
       this._createSpecialCharacterIndicatorLayer(),
-      this.$.rangeLayer,
+      this.rangeLayer,
       this.coverageLayerLeft,
       this.coverageLayerRight,
     ];

@@ -312,9 +312,6 @@ export class GrDiffHost extends DIPolymerElement {
       'create-comment',
       e => this._handleCreateThread(e)
     );
-    this.addEventListener('normalize-range', event =>
-      this._handleNormalizeRange(event)
-    );
     this.addEventListener('diff-context-expanded', event =>
       this._handleDiffContextExpanded(event)
     );
@@ -1213,13 +1210,6 @@ export class GrDiffHost extends DIPolymerElement {
       return false;
     }
     return true;
-  }
-
-  _handleNormalizeRange(event: CustomEvent) {
-    this.reporting.reportInteraction('normalize-range', {
-      side: event.detail.side,
-      lineNum: event.detail.lineNum,
-    });
   }
 
   _handleDiffContextExpanded(e: CustomEvent<DiffContextExpandedEventDetail>) {

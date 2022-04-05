@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3464eed4_c21e1a03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1147077
+      },
+      "writtenOn": "2022-04-05T19:42:21Z",
+      "side": 1,
+      "message": "Sorry This is my first time working in gerrit, could you point me to the docs that talk about this?\n\ncassetta@cassetta-cloudtop:~/gerrit$ git ls-files | grep java$ | xargs java -jar ~/gerrit/tools/format/google-java-format-1.7-all-deps.jar -i\nError: Unable to access jarfile /usr/local/google/home/cassetta/gerrit/tools/format/google-java-format-1.7-all-deps.jar\nError: Unable to access jarfile /usr/local/google/home/cassetta/gerrit/tools/format/google-java-format-1.7-all-deps.jar\n\nI am getting an error when trying to run the formatter how you mentioned. I dont see that jarfile in the specified location. I am using vim since I ordinarily work in cider and dont have a setup for gerrit. I cant seem to find the docs",
+      "parentUuid": "4cf9c8e5_0300a4b3",
+      "revId": "cdca114b7c6141ea970184aaa711079c3d7fc536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec92ac51_e26819b0",
         "filename": "java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
         "patchSetId": 8
@@ -49,6 +67,24 @@
       "writtenOn": "2022-04-05T08:09:53Z",
       "side": 1,
       "message": "Please mark this @Deprecated",
+      "revId": "cdca114b7c6141ea970184aaa711079c3d7fc536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8cd249a_7dd7ab6a",
+        "filename": "java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1147077
+      },
+      "writtenOn": "2022-04-05T19:42:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec92ac51_e26819b0",
       "revId": "cdca114b7c6141ea970184aaa711079c3d7fc536",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

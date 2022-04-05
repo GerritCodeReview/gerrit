@@ -1,26 +1,14 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../styles/shared-styles';
 import '../../../elements/shared/gr-tooltip/gr-tooltip';
 import {GrTooltip} from '../../../elements/shared/gr-tooltip/gr-tooltip';
-import {customElement, property} from '@polymer/decorators';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-selection-action-box_html';
 import {fireEvent} from '../../../utils/event-util';
+import {css, html, LitElement} from 'lit';
+import {customElement, property, query} from 'lit/decorators';
+import {sharedStyles} from '../../../styles/shared-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -28,23 +16,16 @@ declare global {
   }
 }
 
-export interface GrSelectionActionBox {
-  $: {
-    tooltip: GrTooltip;
-  };
-}
-
 @customElement('gr-selection-action-box')
-export class GrSelectionActionBox extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrSelectionActionBox extends LitElement {
   /**
    * Fired when the comment creation action was taken (click).
    *
    * @event create-comment-requested
    */
+
+  @query('#tooltip')
+  tooltip?: GrTooltip;
 
   @property({type: Boolean})
   positionBelow = false;
@@ -52,14 +33,37 @@ export class GrSelectionActionBox extends PolymerElement {
   constructor() {
     super();
     // See https://crbug.com/gerrit/4767
-    this.addEventListener('mousedown', e => this._handleMouseDown(e));
+    this.addEventListener('mousedown', e => this.handleMouseDown(e));
+  }
+
+  static override styles = [
+    sharedStyles,
+    css`
+      :host {
+        cursor: pointer;
+        font-family: var(--font-family);
+        position: absolute;
+        white-space: nowrap;
+      }
+    `,
+  ];
+
+  override render() {
+    return html`
+      <gr-tooltip
+        id="tooltip"
+        text="Press c to comment"
+        ?position-below=${this.positionBelow}
+      ></gr-tooltip>
+    `;
   }
 
   async placeAbove(el: Text | Element | Range) {
-    await this.$.tooltip.updateComplete;
-    const rect = this._getTargetBoundingRect(el);
-    const boxRect = this.$.tooltip.getBoundingClientRect();
-    const parentRect = this._getParentBoundingClientRect();
+    if (!this.tooltip) return;
+    await this.tooltip.updateComplete;
+    const rect = this.getTargetBoundingRect(el);
+    const boxRect = this.tooltip.getBoundingClientRect();
+    const parentRect = this.getParentBoundingClientRect();
     if (parentRect === null) {
       return;
     }
@@ -70,10 +74,11 @@ export class GrSelectionActionBox extends PolymerElement {
   }
 
   async placeBelow(el: Text | Element | Range) {
-    await this.$.tooltip.updateComplete;
-    const rect = this._getTargetBoundingRect(el);
-    const boxRect = this.$.tooltip.getBoundingClientRect();
-    const parentRect = this._getParentBoundingClientRect();
+    if (!this.tooltip) return;
+    await this.tooltip.updateComplete;
+    const rect = this.getTargetBoundingRect(el);
+    const boxRect = this.tooltip.getBoundingClientRect();
+    const parentRect = this.getParentBoundingClientRect();
     if (parentRect === null) {
       return;
     }
@@ -83,7 +88,7 @@ export class GrSelectionActionBox extends PolymerElement {
     }px`;
   }
 
-  private _getParentBoundingClientRect() {
+  private getParentBoundingClientRect() {
     // With native shadow DOM, the parent is the shadow root, not the gr-diff
     // element
     if (this.parentElement) {
@@ -95,8 +100,8 @@ export class GrSelectionActionBox extends PolymerElement {
     return null;
   }
 
-  // private but used in test
-  _getTargetBoundingRect(el: Text | Element | Range) {
+  // visible for testing
+  getTargetBoundingRect(el: Text | Element | Range) {
     let rect;
     if (el instanceof Text) {
       const range = document.createRange();
@@ -109,8 +114,8 @@ export class GrSelectionActionBox extends PolymerElement {
     return rect;
   }
 
-  // private but used in test
-  _handleMouseDown(e: MouseEvent) {
+  // visible for testing
+  handleMouseDown(e: MouseEvent) {
     if (e.button !== 0) {
       return;
     } // 0 = main button

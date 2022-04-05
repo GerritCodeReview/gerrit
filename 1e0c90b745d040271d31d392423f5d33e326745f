@@ -99,6 +99,24 @@
       "parentUuid": "63d6a0a4_e1198f82",
       "revId": "1e0c90b745d040271d31d392423f5d33e326745f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "761d5c40_ad9d6b74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-04-05T07:22:42Z",
+      "side": 1,
+      "message": "OK, then let\u0027s add a release note for this fix.",
+      "parentUuid": "d1aee06d_13059c8e",
+      "revId": "1e0c90b745d040271d31d392423f5d33e326745f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

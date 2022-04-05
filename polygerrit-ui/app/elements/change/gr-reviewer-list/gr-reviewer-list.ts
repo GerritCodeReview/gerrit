@@ -30,19 +30,14 @@ import {
   isDetailedLabelInfo,
   LabelInfo,
 } from '../../../types/common';
-import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {isRemovableReviewer} from '../../../utils/change-util';
-import {ReviewerState} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
-import {fireAlert} from '../../../utils/event-util';
 import {
   getApprovalInfo,
   getCodeReviewLabel,
   showNewSubmitRequirements,
 } from '../../../utils/label-util';
 import {sortReviewers} from '../../../utils/attention-set-util';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
 import {nothing} from 'lit';
@@ -170,10 +165,8 @@ export class GrReviewerList extends LitElement {
         class="reviewer"
         .account="${reviewer}"
         .change="${change}"
-        @remove="${this.handleRemove}"
         highlightAttention
         .voteableText="${this.computeVoteableText(reviewer)}"
-        ?removable="${this.computeCanRemoveReviewer(reviewer, this.mutable)}"
         .vote="${this.computeVote(reviewer)}"
         .label="${this.computeCodeReviewLabel()}"
       >
@@ -273,58 +266,6 @@ export class GrReviewerList extends LitElement {
     } else {
       return this.reviewers;
     }
-  }
-
-  private computeCanRemoveReviewer(reviewer: AccountInfo, mutable: boolean) {
-    if (this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
-      return false;
-    }
-    return mutable && isRemovableReviewer(this.change, reviewer);
-  }
-
-  private handleRemove(e: Event) {
-    e.preventDefault();
-    const target = e.composedPath()[0] as GrAccountChip;
-    if (!target.account || !this.change?.reviewers) return;
-    const accountID = target.account._account_id || target.account.email;
-    if (!accountID) return;
-    const reviewers = this.change.reviewers;
-    let removedAccount: AccountInfo | undefined;
-    let removedType: ReviewerState | undefined;
-    for (const type of [ReviewerState.REVIEWER, ReviewerState.CC]) {
-      const reviewerStateByType = reviewers[type] || [];
-      reviewers[type] = reviewerStateByType;
-      for (let i = 0; i < reviewerStateByType.length; i++) {
-        if (
-          reviewerStateByType[i]._account_id === accountID ||
-          reviewerStateByType[i].email === accountID
-        ) {
-          removedAccount = reviewerStateByType[i];
-          removedType = type;
-          this.change.reviewers[type]?.splice(i, 1);
-          this.requestUpdate();
-          break;
-        }
-      }
-    }
-    const curChange = this.change;
-    this.disabled = true;
-    this.removeReviewer(accountID)
-      .then(response => {
-        this.disabled = false;
-        if (!this.change?.reviewers || this.change !== curChange) return;
-        if (!response?.ok) {
-          this.change.reviewers[removedType!]?.push(removedAccount!);
-          this.requestUpdate();
-          fireAlert(this, `Cannot remove a ${removedType}`);
-          return response;
-        }
-        return;
-      })
-      .catch((err: Error) => {
-        this.disabled = false;
-        throw err;
-      });
   }
 
   // private but used in tests

@@ -414,8 +414,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   public void stickyVoteStoredOnSubmitOnNewPatchset_withoutCopyCondition() throws Exception {
     try (ProjectConfigUpdate u = updateProject(NameKey.parse("All-Projects"))) {
       u.getConfig()
-          .updateLabelType(
-              LabelId.CODE_REVIEW, b -> b.setCopyAllScoresIfListOfFilesDidNotChange(true));
+          .updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("has:unchanged-files"));
       u.save();
     }
     stickyVoteStoredOnSubmitOnNewPatchset();

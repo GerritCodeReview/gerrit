@@ -470,6 +470,14 @@ export class GrSettingsView extends PolymerElement {
     });
   }
 
+  _handleShowNumberChanged(e: ValueChangedEvent<boolean>) {
+    this._showNumber = e.detail.value;
+  }
+
+  _handleDisplayedColumnsChanged(e: ValueChangedEvent<string[]>) {
+    this._localChangeTableColumns = e.detail.value;
+  }
+
   _getFilterDocsLink(docsBaseUrl?: string | null) {
     let base = docsBaseUrl;
     if (!base || !ABSOLUTE_URL_PATTERN.test(base)) {

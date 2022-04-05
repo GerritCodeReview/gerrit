@@ -14,21 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import '../../../test/common-test-setup-karma';
 import './gr-change-table-editor';
 import {GrChangeTableEditor} from './gr-change-table-editor';
 import {queryAndAssert} from '../../../test/test-utils';
 import {createServerInfo} from '../../../test/test-data-generators';
-
-const basicFixture = fixtureFromElement('gr-change-table-editor');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-change-table-editor tests', () => {
   let element: GrChangeTableEditor;
   let columns: string[];
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture<GrChangeTableEditor>(
+      html`<gr-change-table-editor></gr-change-table-editor>`
+    );
 
     columns = [
       'Subject',
@@ -41,17 +41,14 @@ suite('gr-change-table-editor tests', () => {
       'Updated',
     ];
 
-    element.set('displayedColumns', columns);
+    element.displayedColumns = columns;
     element.showNumber = false;
     element.serverConfig = createServerInfo();
-    await flush();
+    await element.updateComplete;
   });
 
   test('renders', () => {
     expect(element).shadowDom.to.equal(/* HTML */ ` <div class="gr-form-styles">
-      <dom-repeat style="display: none;">
-        <template is="dom-repeat"> </template>
-      </dom-repeat>
       <table id="changeCols">
         <thead>
           <tr>
@@ -69,31 +66,26 @@ suite('gr-change-table-editor tests', () => {
           <tr>
             <td><label for="Subject"> Subject </label></td>
             <td class="checkboxContainer">
-              <input
-                checked="true"
-                id="Subject"
-                name="Subject"
-                type="checkbox"
-              />
+              <input checked="" id="Subject" name="Subject" type="checkbox" />
             </td>
           </tr>
           <tr>
             <td><label for="Status"> Status </label></td>
             <td class="checkboxContainer">
-              <input checked="true" id="Status" name="Status" type="checkbox" />
+              <input checked="" id="Status" name="Status" type="checkbox" />
             </td>
           </tr>
           <tr>
             <td><label for="Owner"> Owner </label></td>
             <td class="checkboxContainer">
-              <input checked="true" id="Owner" name="Owner" type="checkbox" />
+              <input checked="" id="Owner" name="Owner" type="checkbox" />
             </td>
           </tr>
           <tr>
             <td><label for="Reviewers"> Reviewers </label></td>
             <td class="checkboxContainer">
               <input
-                checked="true"
+                checked=""
                 id="Reviewers"
                 name="Reviewers"
                 type="checkbox"
@@ -103,24 +95,19 @@ suite('gr-change-table-editor tests', () => {
           <tr>
             <td><label for="Repo"> Repo </label></td>
             <td class="checkboxContainer">
-              <input checked="true" id="Repo" name="Repo" type="checkbox" />
+              <input checked="" id="Repo" name="Repo" type="checkbox" />
             </td>
           </tr>
           <tr>
             <td><label for="Branch"> Branch </label></td>
             <td class="checkboxContainer">
-              <input checked="true" id="Branch" name="Branch" type="checkbox" />
+              <input checked="" id="Branch" name="Branch" type="checkbox" />
             </td>
           </tr>
           <tr>
             <td><label for="Updated"> Updated </label></td>
             <td class="checkboxContainer">
-              <input
-                checked="true"
-                id="Updated"
-                name="Updated"
-                type="checkbox"
-              />
+              <input checked="" id="Updated" name="Updated" type="checkbox" />
             </td>
           </tr>
           <tr>
@@ -147,7 +134,7 @@ suite('gr-change-table-editor tests', () => {
     }
   });
 
-  test('hide item', () => {
+  test('hide item', async () => {
     const checkbox = queryAndAssert<HTMLInputElement>(
       element,
       'table tr:nth-child(2) input'
@@ -156,23 +143,17 @@ suite('gr-change-table-editor tests', () => {
     const displayedLength = element.displayedColumns.length;
     assert.isTrue(isChecked);
 
-    MockInteractions.tap(checkbox);
-    flush();
+    checkbox.click();
+    await element.updateComplete;
 
     assert.equal(element.displayedColumns.length, displayedLength - 1);
   });
 
-  test('show item', () => {
-    element.set('displayedColumns', [
-      'Status',
-      'Owner',
-      'Repo',
-      'Branch',
-      'Updated',
-    ]);
+  test('show item', async () => {
+    element.displayedColumns = ['Status', 'Owner', 'Repo', 'Branch', 'Updated'];
     // trigger computation of enabled displayed columns
     element.serverConfig = createServerInfo();
-    flush();
+    await element.updateComplete;
     const checkbox = queryAndAssert<HTMLInputElement>(
       element,
       'table tr:nth-child(2) input'
@@ -183,74 +164,68 @@ suite('gr-change-table-editor tests', () => {
     const table = queryAndAssert<HTMLTableElement>(element, 'table');
     assert.equal(table.style.display, '');
 
-    MockInteractions.tap(checkbox);
-    flush();
+    checkbox.click();
+    await element.updateComplete;
 
     assert.equal(element.displayedColumns.length, displayedLength + 1);
   });
 
-  test('_getDisplayedColumns', () => {
+  test('getDisplayedColumns', () => {
     const enabledColumns = columns.filter(column =>
-      element._isColumnEnabled(column, element.serverConfig!)
+      element.isColumnEnabled(column)
     );
-    assert.deepEqual(element._getDisplayedColumns(), enabledColumns);
+    assert.deepEqual(element.getDisplayedColumns(), enabledColumns);
     const input = queryAndAssert<HTMLInputElement>(
       element,
       '.checkboxContainer input[name=Subject]'
     );
-    MockInteractions.tap(input);
+    input.click();
     assert.deepEqual(
-      element._getDisplayedColumns(),
+      element.getDisplayedColumns(),
       enabledColumns.filter(c => c !== 'Subject')
     );
   });
 
-  test('_handleCheckboxContainerClick relays taps to checkboxes', () => {
-    const checkBoxClickStub = sinon.stub(element, '_handleNumberCheckboxClick');
-    const targetClickStub = sinon.stub(element, '_handleTargetClick');
-
-    const firstContainer = queryAndAssert(
+  test('handleCheckboxContainerClick relays taps to checkboxes', async () => {
+    const firstContainer = queryAndAssert<HTMLTableRowElement>(
       element,
       'table tr:first-of-type .checkboxContainer'
     );
-    MockInteractions.tap(firstContainer);
-    assert.isTrue(checkBoxClickStub.calledOnce);
-    assert.isFalse(targetClickStub.called);
+    assert.isFalse(element.showNumber);
+    firstContainer.click();
+    assert.isTrue(element.showNumber);
 
-    const lastContainer = queryAndAssert(
+    const lastContainer = queryAndAssert<HTMLTableRowElement>(
       element,
       'table tr:last-of-type .checkboxContainer'
     );
-    MockInteractions.tap(lastContainer);
-    assert.isTrue(checkBoxClickStub.calledOnce);
-    assert.isTrue(targetClickStub.calledOnce);
+    const lastColumn =
+      element.defaultColumns[element.defaultColumns.length - 1];
+    assert.notInclude(element.displayedColumns, lastColumn);
+    lastContainer.click();
+    await element.updateComplete;
+    assert.include(element.displayedColumns, lastColumn);
   });
 
-  test('_handleNumberCheckboxClick', () => {
-    const checkBoxClickSpy = sinon.spy(element, '_handleNumberCheckboxClick');
-
-    const numberInput = queryAndAssert(
+  test('handleNumberCheckboxClick', () => {
+    const numberInput = queryAndAssert<HTMLInputElement>(
       element,
       '.checkboxContainer input[name=number]'
     );
-    MockInteractions.tap(numberInput);
-    assert.isTrue(checkBoxClickSpy.calledOnce);
+    numberInput.click();
     assert.isTrue(element.showNumber);
 
-    MockInteractions.tap(numberInput);
-    assert.isTrue(checkBoxClickSpy.calledTwice);
+    numberInput.click();
     assert.isFalse(element.showNumber);
   });
 
-  test('_handleTargetClick', () => {
-    const targetClickSpy = sinon.spy(element, '_handleTargetClick');
+  test('handleTargetClick', () => {
     assert.include(element.displayedColumns, 'Subject');
-    const subjectInput = queryAndAssert(
+    const subjectInput = queryAndAssert<HTMLInputElement>(
       element,
       '.checkboxContainer input[name=Subject]'
     );
-    MockInteractions.tap(subjectInput);
-    assert.isTrue(targetClickSpy.calledOnce);
+    subjectInput.click();
     assert.notInclude(element.displayedColumns, 'Subject');
   });
 });

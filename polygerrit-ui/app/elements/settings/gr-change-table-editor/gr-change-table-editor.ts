@@ -25,6 +25,9 @@ import {ServerInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {columnNames} from '../../change-list/gr-change-list/gr-change-list';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {css, html} from 'lit';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
 
 @customElement('gr-change-table-editor')
 export class GrChangeTableEditor extends PolymerElement {
@@ -45,6 +48,76 @@ export class GrChangeTableEditor extends PolymerElement {
   defaultColumns: string[] = [];
 
   private readonly flagsService = getAppContext().flagsService;
+
+  static styles = [
+    sharedStyles,
+    formStyles,
+    css`
+      #changeCols {
+        width: auto;
+      }
+      #changeCols .visibleHeader {
+        text-align: center;
+      }
+      .checkboxContainer {
+        cursor: pointer;
+        text-align: center;
+      }
+      .checkboxContainer input {
+        cursor: pointer;
+      }
+      .checkboxContainer:hover {
+        outline: 1px solid var(--border-color);
+      }
+    `,
+  ];
+
+  render() {
+    return html`<div class="gr-form-styles">
+      <table id="changeCols">
+        <thead>
+          <tr>
+            <th class="nameHeader">Column</th>
+            <th class="visibleHeader">Visible</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><label for="numberCheckbox">Number</label></td>
+            <td
+              class="checkboxContainer"
+              on-click="_handleCheckboxContainerClick"
+            >
+              <input
+                id="numberCheckbox"
+                type="checkbox"
+                name="number"
+                on-click="_handleNumberCheckboxClick"
+                checked$="[[showNumber]]"
+              />
+            </td>
+          </tr>
+          <template is="dom-repeat" items="[[defaultColumns]]">
+            <tr>
+              <td><label for$="[[item]]">[[item]]</label></td>
+              <td
+                class="checkboxContainer"
+                on-click="_handleCheckboxContainerClick"
+              >
+                <input
+                  id$="[[item]]"
+                  type="checkbox"
+                  name="[[item]]"
+                  on-click="_handleTargetClick"
+                  checked$="[[!_computeIsColumnHidden(item, displayedColumns)]]"
+                />
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>`;
+  }
 
   @observe('serverConfig')
   _configChanged(config: ServerInfo) {

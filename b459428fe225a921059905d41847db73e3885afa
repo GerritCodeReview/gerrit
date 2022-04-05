@@ -18,6 +18,25 @@
       "message": "fake robot comment by ben",
       "revId": "b459428fe225a921059905d41847db73e3885afa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "robotId": "roboben",
+      "robotRunId": "run-314",
+      "fixSuggestions": [],
+      "key": {
+        "uuid": "e290ec4b_c708ca16",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-05T07:50:21Z",
+      "side": 1,
+      "message": "fake robot comment by ben",
+      "revId": "b459428fe225a921059905d41847db73e3885afa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

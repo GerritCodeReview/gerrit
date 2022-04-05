@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,15 +29,6 @@ import java.util.Optional;
 public abstract class LabelType {
   public static final boolean DEF_ALLOW_POST_SUBMIT = true;
   public static final boolean DEF_CAN_OVERRIDE = true;
-  public static final boolean DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE = false;
-  public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CHANGE = false;
-  public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = false;
-  public static final boolean DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = false;
-  public static final boolean DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE = false;
-  public static final boolean DEF_COPY_ANY_SCORE = false;
-  public static final boolean DEF_COPY_MAX_SCORE = false;
-  public static final boolean DEF_COPY_MIN_SCORE = false;
-  public static final ImmutableList<Short> DEF_COPY_VALUES = ImmutableList.of();
   public static final boolean DEF_IGNORE_SELF_APPROVAL = false;
 
   public static LabelType withDefaultValues(String name) {
@@ -99,24 +89,6 @@ public abstract class LabelType {
 
   public abstract LabelFunction getFunction();
 
-  public abstract boolean isCopyAnyScore();
-
-  public abstract boolean isCopyMinScore();
-
-  public abstract boolean isCopyMaxScore();
-
-  public abstract boolean isCopyAllScoresIfListOfFilesDidNotChange();
-
-  public abstract boolean isCopyAllScoresOnMergeFirstParentUpdate();
-
-  public abstract boolean isCopyAllScoresOnTrivialRebase();
-
-  public abstract boolean isCopyAllScoresIfNoCodeChange();
-
-  public abstract boolean isCopyAllScoresIfNoChange();
-
-  public abstract ImmutableList<Short> getCopyValues();
-
   public abstract boolean isAllowPostSubmit();
 
   public abstract boolean isIgnoreSelfApproval();
@@ -152,16 +124,6 @@ public abstract class LabelType {
         .setMaxNegative(Short.MIN_VALUE)
         .setMaxPositive(Short.MAX_VALUE)
         .setCanOverride(DEF_CAN_OVERRIDE)
-        .setCopyAllScoresIfListOfFilesDidNotChange(
-            DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE)
-        .setCopyAllScoresIfNoChange(DEF_COPY_ALL_SCORES_IF_NO_CHANGE)
-        .setCopyAllScoresIfNoCodeChange(DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE)
-        .setCopyAllScoresOnTrivialRebase(DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE)
-        .setCopyAllScoresOnMergeFirstParentUpdate(DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE)
-        .setCopyAnyScore(DEF_COPY_ANY_SCORE)
-        .setCopyMaxScore(DEF_COPY_MAX_SCORE)
-        .setCopyMinScore(DEF_COPY_MIN_SCORE)
-        .setCopyValues(DEF_COPY_VALUES)
         .setAllowPostSubmit(DEF_ALLOW_POST_SUBMIT)
         .setIgnoreSelfApproval(DEF_IGNORE_SELF_APPROVAL);
   }
@@ -253,27 +215,7 @@ public abstract class LabelType {
 
     public abstract Builder setDefaultValue(short defaultValue);
 
-    public abstract Builder setCopyAnyScore(boolean copyAnyScore);
-
     public abstract Builder setCopyCondition(@Nullable String copyCondition);
-
-    public abstract Builder setCopyMinScore(boolean copyMinScore);
-
-    public abstract Builder setCopyMaxScore(boolean copyMaxScore);
-
-    public abstract Builder setCopyAllScoresIfListOfFilesDidNotChange(
-        boolean copyAllScoresIfListOfFilesDidNotChange);
-
-    public abstract Builder setCopyAllScoresOnMergeFirstParentUpdate(
-        boolean copyAllScoresOnMergeFirstParentUpdate);
-
-    public abstract Builder setCopyAllScoresOnTrivialRebase(boolean copyAllScoresOnTrivialRebase);
-
-    public abstract Builder setCopyAllScoresIfNoCodeChange(boolean copyAllScoresIfNoCodeChange);
-
-    public abstract Builder setCopyAllScoresIfNoChange(boolean copyAllScoresIfNoChange);
-
-    public abstract Builder setCopyValues(Collection<Short> copyValues);
 
     public abstract Builder setMaxNegative(short maxNegative);
 
@@ -282,8 +224,6 @@ public abstract class LabelType {
     public abstract ImmutableList<LabelValue> getValues();
 
     protected abstract String getName();
-
-    protected abstract ImmutableList<Short> getCopyValues();
 
     protected abstract Builder setByValue(ImmutableMap<Short, LabelValue> byValue);
 
@@ -315,8 +255,6 @@ public abstract class LabelType {
         byValue.put(v.getValue(), v);
       }
       setByValue(byValue.build());
-
-      setCopyValues(ImmutableList.sortedCopyOf(getCopyValues()));
 
       return autoBuild();
     }

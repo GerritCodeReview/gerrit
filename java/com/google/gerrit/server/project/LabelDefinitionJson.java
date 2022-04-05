@@ -34,17 +34,6 @@ public class LabelDefinitionJson {
     label.branches = labelType.getRefPatterns() != null ? labelType.getRefPatterns() : null;
     label.canOverride = toBoolean(labelType.isCanOverride());
     label.copyCondition = labelType.getCopyCondition().orElse(null);
-    label.copyAnyScore = toBoolean(labelType.isCopyAnyScore());
-    label.copyMinScore = toBoolean(labelType.isCopyMinScore());
-    label.copyMaxScore = toBoolean(labelType.isCopyMaxScore());
-    label.copyAllScoresIfListOfFilesDidNotChange =
-        toBoolean(labelType.isCopyAllScoresIfListOfFilesDidNotChange());
-    label.copyAllScoresIfNoChange = toBoolean(labelType.isCopyAllScoresIfNoChange());
-    label.copyAllScoresIfNoCodeChange = toBoolean(labelType.isCopyAllScoresIfNoCodeChange());
-    label.copyAllScoresOnTrivialRebase = toBoolean(labelType.isCopyAllScoresOnTrivialRebase());
-    label.copyAllScoresOnMergeFirstParentUpdate =
-        toBoolean(labelType.isCopyAllScoresOnMergeFirstParentUpdate());
-    label.copyValues = labelType.getCopyValues().isEmpty() ? null : labelType.getCopyValues();
     label.allowPostSubmit = toBoolean(labelType.isAllowPostSubmit());
     label.ignoreSelfApproval = toBoolean(labelType.isIgnoreSelfApproval());
     return label;

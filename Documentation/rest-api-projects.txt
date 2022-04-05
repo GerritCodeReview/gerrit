@@ -4139,36 +4139,8 @@ set, the label applies for all branches.
 |`can_override`  |`false` if not set|
 Whether this label can be link:config-labels.html#label_canOverride[overridden]
 by child projects.
-|`copy_any_score`|`false` if not set|
-*DEPRECATED* Whether link:config-labels.html#label_copyAnyScore[copyAnyScore]
-is set on the label.
 |`copy_condition`|optional|
 See link:config-labels.html#label_copyCondition[copyCondition].
-|`copy_min_score`|`false` if not set|
-*DEPRECATED* Whether link:config-labels.html#label_copyMinScore[copyMinScore]
-is set on the label.
-|`copy_max_score`|`false` if not set|
-*DEPRECATED* Whether link:config-labels.html#label_copyMaxScore[copyMaxScore]
-is set on the label.
-|`copy_all_scores_if_no_change`|`false` if not set|
-*DEPRECATED* Whether link:config-labels.html#label_copyAllScoresIfNoChange[
-copyAllScoresIfNoChange] is set on the label.
-|`copy_all_scores_if_no_code_change`|`false` if not set|
-*DEPRECATED* Whether link:config-labels.html#label_copyAllScoresIfNoCodeChange[
-copyAllScoresIfNoCodeChange] is set on the label.
-|`copy_all_scores_on_trivial_rebase`|`false` if not set|
-*DEPRECATED* Whether link:config-labels.html#label_copyAllScoresOnTrivialRebase[
-copyAllScoresOnTrivialRebase] is set on the label.
-|`copy_all_scores_if_list_of_files_did_not_change`|`false` if not set|
-*DEPRECATED* Whether
-link:config-labels.html#label_copyAllScoresIfListOfFilesDidNotChange[
-copyAllScoresIfListOfFilesDidNotChange] is set on the label.
-|`copy_all_scores_on_merge_first_parent_update`|`false` if not set|
-*DEPRECATED* Whether
-link:config-labels.html#label_copyAllScoresOnMergeFirstParentUpdate[
-copyAllScoresOnMergeFirstParentUpdate] is set on the label.
-|`copy_values`   |optional|
-List of values that should be copied forward when a new patch set is uploaded.
 |`allow_post_submit`|`false` if not set|
 Whether link:config-labels.html#label_allowPostSubmit[allowPostSubmit] is set
 on the label.
@@ -4215,36 +4187,10 @@ branches.
 |`can_override`  |optional|
 Whether this label can be link:config-labels.html#label_canOverride[overridden]
 by child projects.
-|`copy_any_score`|optional|
-Whether link:config-labels.html#label_copyAnyScore[copyAnyScore] is set on the
-label.
 |`copy_condition`|optional|
 See link:config-labels.html#label_copyCondition[copyCondition].
 |`unset_copy_condition`|optional|
 If true, clears the value stored in `copy_condition`.
-|`copy_min_score`|optional|
-Whether link:config-labels.html#label_copyMinScore[copyMinScore] is set on the
-label.
-|`copy_max_score`|optional|
-Whether link:config-labels.html#label_copyMaxScore[copyMaxScore] is set on the
-label.
-|`copy_all_scores_if_no_change`|optional|
-Whether link:config-labels.html#label_copyAllScoresIfNoChange[
-copyAllScoresIfNoChange] is set on the label.
-|`copy_all_scores_if_no_code_change`|optional|
-Whether link:config-labels.html#label_copyAllScoresIfNoCodeChange[
-copyAllScoresIfNoCodeChange] is set on the label.
-|`copy_all_scores_on_trivial_rebase`|optional|
-Whether link:config-labels.html#label_copyAllScoresOnTrivialRebase[
-copyAllScoresOnTrivialRebase] is set on the label.
-|`copy_all_scores_if_list_of_files_did_not_change`|optional|
-Whether link:config-labels.html#label_copyAllScoresIfListOfFilesDidNotChange[
-copyAllScoresIfListOfFilesDidNotChange] is set on the label.
-|`copy_all_scores_on_merge_first_parent_update`|optional|
-Whether link:config-labels.html#label_copyAllScoresOnMergeFirstParentUpdate[
-copyAllScoresOnMergeFirstParentUpdate] is set on the label.
-|`copy_values`   |optional|
-List of values that should be copied forward when a new patch set is uploaded.
 |`allow_post_submit`|optional|
 Whether link:config-labels.html#label_allowPostSubmit[allowPostSubmit] is set
 on the label.

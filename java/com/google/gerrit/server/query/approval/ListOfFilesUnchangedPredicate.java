@@ -86,8 +86,7 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"
-              + " votes on labels even if list of files is the same and "
-              + "copyAllIfListOfFilesDidNotChange",
+              + " votes on labels even if list of files is the same",
           ex);
     }
   }

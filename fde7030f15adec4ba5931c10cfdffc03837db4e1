@@ -16,6 +16,24 @@
       "message": "Can we convert all _.* properties to not contain _ same for the functions?",
       "revId": "fde7030f15adec4ba5931c10cfdffc03837db4e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a3987c9_30c9a7d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-05T11:45:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b82490f_922204ba",
+      "revId": "fde7030f15adec4ba5931c10cfdffc03837db4e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44d1bb59_f3bb4990",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-05T19:00:10Z",
+      "side": 1,
+      "message": "Does this work correctly?",
+      "range": {
+        "startLine": 305,
+        "startChar": 13,
+        "endLine": 305,
+        "endChar": 22
+      },
+      "revId": "8003bd3e846c787a047d61ec0c12b386e007edcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,41 @@
       "message": "there was an open question on how to run the code formatter locally and get a meaningful diff back\n\n\nPerhaps this would be a good thing to add to your CI to provide a code-finding back with a fix attachment :) \n",
       "revId": "cdca114b7c6141ea970184aaa711079c3d7fc536",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cf9c8e5_0300a4b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-05T08:09:53Z",
+      "side": 1,
+      "message": "git ls-files | grep java$ | xargs java -jar ~/gerrit/tools/format/google-java-format-1.7-all-deps.jar -i\n\nOur documentation also has pointers to how to run the formatter.",
+      "parentUuid": "ebd173a6_ecdb3dbc",
+      "revId": "cdca114b7c6141ea970184aaa711079c3d7fc536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec92ac51_e26819b0",
+        "filename": "java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-05T08:09:53Z",
+      "side": 1,
+      "message": "Please mark this @Deprecated",
+      "revId": "cdca114b7c6141ea970184aaa711079c3d7fc536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

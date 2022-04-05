@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd85eecc_723f6d9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-05T07:05:08Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e What if you tighten it more and make the cache scoped to the request only?\n\u003e \u003e Yes, but there are operations that are happing outside a request scope (e.g. batch indexing).\n\u003e \n\u003e But do those contribute to user-facing time? If not, a minimal solution wouldn\u0027t use any caching for them.\n\nEventually, yes, they do, because they may fill-up all the internal thread pools.\nHowever, they could be addressed as two separate changes, I agree.\n\n\u003e \u003e \u003e Then I think it\u0027s safe to ignore eviction.\n\u003e \u003e Not sure: even with a request scope, some operation are changing the NoteDb\u0027s ref and therefore would require eviction anyway.\n\u003e \n\u003e Can you elaborate on this? What scenario would be unsafe?\n\nSubmitting a change and all the other REST-API that have an impact on NoteDb.\n\n\u003e \n\u003e \u003e The eviction should be sorted, upon ref-updates and runnable execution completed.\n\u003e \n\u003e I don\u0027t understand this comment, can you add more context please?\n\nWhenever a \u0027/meta\u0027 ref-update happens, we should evict the in-memory cache, even if it is in the same thread.",
+      "parentUuid": "e4d9fde8_883887ab",
+      "revId": "5b6191edf4614ab059fbbf4e51266764bb990fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "47f9066f_4a86dbba",
         "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
         "patchSetId": 9

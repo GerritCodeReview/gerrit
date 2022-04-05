@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9845316_f073bdb5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-05T10:54:22Z",
+      "side": 0,
+      "message": "are these tests not migrated in your refactor?",
+      "range": {
+        "startLine": 448,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 0
+      },
+      "revId": "fa37ab15495d4590bf2c17211f0b88c3bd536f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -48,6 +48,93 @@ suite('gr-change-table-editor tests', () => {
   });
 
   test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ ` <div class="gr-form-styles">
+      <dom-repeat style="display: none;">
+        <template is="dom-repeat"> </template>
+      </dom-repeat>
+      <table id="changeCols">
+        <thead>
+          <tr>
+            <th class="nameHeader">Column</th>
+            <th class="visibleHeader">Visible</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><label for="numberCheckbox"> Number </label></td>
+            <td class="checkboxContainer">
+              <input id="numberCheckbox" name="number" type="checkbox" />
+            </td>
+          </tr>
+          <tr>
+            <td><label for="Subject"> Subject </label></td>
+            <td class="checkboxContainer">
+              <input
+                checked="true"
+                id="Subject"
+                name="Subject"
+                type="checkbox"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td><label for="Status"> Status </label></td>
+            <td class="checkboxContainer">
+              <input checked="true" id="Status" name="Status" type="checkbox" />
+            </td>
+          </tr>
+          <tr>
+            <td><label for="Owner"> Owner </label></td>
+            <td class="checkboxContainer">
+              <input checked="true" id="Owner" name="Owner" type="checkbox" />
+            </td>
+          </tr>
+          <tr>
+            <td><label for="Reviewers"> Reviewers </label></td>
+            <td class="checkboxContainer">
+              <input
+                checked="true"
+                id="Reviewers"
+                name="Reviewers"
+                type="checkbox"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td><label for="Repo"> Repo </label></td>
+            <td class="checkboxContainer">
+              <input checked="true" id="Repo" name="Repo" type="checkbox" />
+            </td>
+          </tr>
+          <tr>
+            <td><label for="Branch"> Branch </label></td>
+            <td class="checkboxContainer">
+              <input checked="true" id="Branch" name="Branch" type="checkbox" />
+            </td>
+          </tr>
+          <tr>
+            <td><label for="Updated"> Updated </label></td>
+            <td class="checkboxContainer">
+              <input
+                checked="true"
+                id="Updated"
+                name="Updated"
+                type="checkbox"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td><label for="Size"> Size </label></td>
+            <td class="checkboxContainer">
+              <input id="Size" name="Size" type="checkbox" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>`);
+  });
+
+  test('renders', () => {
     const rows = queryAndAssert(element, 'tbody').querySelectorAll('tr');
     let tds;
 

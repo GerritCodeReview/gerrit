@@ -38,13 +38,6 @@ export class GrAccountChip extends LitElement {
    * @event account-chip-keydown
    */
 
-  /**
-   * Fired to indicate this chip should be removed, i.e. when the x button is
-   * clicked or when the remove function is called.
-   *
-   * @event remove
-   */
-
   @property({type: Object})
   account?: AccountInfo;
 
@@ -209,19 +202,6 @@ export class GrAccountChip extends LitElement {
           </gr-account-label>
         </div>
         <slot name="vote-chip"></slot>
-        <gr-button
-          id="remove"
-          link=""
-          ?hidden=${!this.removable}
-          aria-label="Remove"
-          class="${classMap({
-            remove: true,
-            transparentBackground: this.transparentBackground,
-          })}"
-          @click=${this._handleRemoveTap}
-        >
-          <iron-icon icon="gr-icons:close"></iron-icon>
-        </gr-button>
       </div>`;
   }
 
@@ -230,17 +210,6 @@ export class GrAccountChip extends LitElement {
     this._getHasAvatars().then(hasAvatars => {
       this.showAvatar = hasAvatars;
     });
-  }
-
-  _handleRemoveTap(e: MouseEvent) {
-    e.preventDefault();
-    this.dispatchEvent(
-      new CustomEvent('remove', {
-        detail: {account: this.account},
-        composed: true,
-        bubbles: true,
-      })
-    );
   }
 
   _getHasAvatars() {

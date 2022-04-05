@@ -1,58 +1,44 @@
 /**
  * @license
- * Copyright (C) 2019 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2019 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
-import '../../../test/common-test-setup-karma.js';
-import '../gr-diff/gr-diff-line.js';
-import './gr-coverage-layer.js';
-
-const basicFixture = fixtureFromElement('gr-coverage-layer');
+import '../../../test/common-test-setup-karma';
+import {CoverageRange, CoverageType, Side} from '../../../api/diff';
+import {GrCoverageLayer} from './gr-coverage-layer';
 
 suite('gr-coverage-layer', () => {
-  let element;
+  let layer: GrCoverageLayer;
 
   setup(() => {
-    const initialCoverageRanges = [
+    const initialCoverageRanges: CoverageRange[] = [
       {
-        type: 'COVERED',
-        side: 'right',
+        type: CoverageType.COVERED,
+        side: Side.RIGHT,
         code_range: {
           start_line: 1,
           end_line: 2,
         },
       },
       {
-        type: 'NOT_COVERED',
-        side: 'right',
+        type: CoverageType.NOT_COVERED,
+        side: Side.RIGHT,
         code_range: {
           start_line: 3,
           end_line: 4,
         },
       },
       {
-        type: 'PARTIALLY_COVERED',
-        side: 'right',
+        type: CoverageType.PARTIALLY_COVERED,
+        side: Side.RIGHT,
         code_range: {
           start_line: 5,
           end_line: 6,
         },
       },
       {
-        type: 'NOT_INSTRUMENTED',
-        side: 'right',
+        type: CoverageType.NOT_INSTRUMENTED,
+        side: Side.RIGHT,
         code_range: {
           start_line: 8,
           end_line: 9,
@@ -60,25 +46,29 @@ suite('gr-coverage-layer', () => {
       },
     ];
 
-    element = basicFixture.instantiate();
-    element.coverageRanges = initialCoverageRanges;
-    element.side = 'right';
+    layer = new GrCoverageLayer(Side.RIGHT);
+    layer.setRanges(initialCoverageRanges);
   });
 
   suite('annotate', () => {
-    function createLine(lineNumber) {
+    function createLine(lineNumber: number) {
       const lineEl = document.createElement('div');
-      lineEl.setAttribute('data-side', 'right');
-      lineEl.setAttribute('data-value', lineNumber);
-      lineEl.className = 'right';
+      lineEl.setAttribute('data-side', Side.RIGHT);
+      lineEl.setAttribute('data-value', lineNumber.toString());
+      lineEl.className = Side.RIGHT;
       return lineEl;
     }
 
-    function checkLine(lineNumber, className, opt_negated) {
+    function checkLine(
+      lineNumber: number,
+      className: string,
+      negated?: boolean
+    ) {
+      const content = document.createElement('div');
       const line = createLine(lineNumber);
-      element.annotate(undefined, line, undefined);
+      layer.annotate(content, line);
       let contains = line.classList.contains(className);
-      if (opt_negated) contains = !contains;
+      if (negated) contains = !contains;
       assert.isTrue(contains);
     }
 
@@ -121,4 +111,3 @@ suite('gr-coverage-layer', () => {
     });
   });
 });
-

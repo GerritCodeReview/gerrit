@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../gr-coverage-layer/gr-coverage-layer';
 import '../gr-diff-processor/gr-diff-processor';
 import '../../../elements/shared/gr-hovercard/gr-hovercard';
 import '../gr-ranged-comment-layer/gr-ranged-comment-layer';
@@ -64,8 +63,6 @@ export interface GrDiffBuilderElement {
   $: {
     processor: GrDiffProcessor;
     rangeLayer: GrRangedCommentLayer;
-    coverageLayerLeft: GrCoverageLayer;
-    coverageLayerRight: GrCoverageLayer;
   };
 }
 
@@ -179,23 +176,11 @@ export class GrDiffBuilderElement extends PolymerElement {
   @property({type: Array})
   commentRanges: CommentRangeLayer[] = [];
 
-  @property({type: Array})
+  @property({type: Array, observer: 'coverageObserver'})
   coverageRanges: CoverageRange[] = [];
 
   @property({type: Boolean})
   useNewImageDiffUi = false;
-
-  @property({
-    type: Array,
-    computed: '_computeLeftCoverageRanges(coverageRanges)',
-  })
-  _leftCoverageRanges?: CoverageRange[];
-
-  @property({
-    type: Array,
-    computed: '_computeRightCoverageRanges(coverageRanges)',
-  })
-  _rightCoverageRanges?: CoverageRange[];
 
   /**
    * The promise last returned from `render()` while the asynchronous
@@ -204,6 +189,10 @@ export class GrDiffBuilderElement extends PolymerElement {
    */
   @property({type: Object})
   _cancelableRenderPromise: CancelablePromise<unknown> | null = null;
+
+  private coverageLayerLeft = new GrCoverageLayer(Side.LEFT);
+
+  private coverageLayerRight = new GrCoverageLayer(Side.RIGHT);
 
   constructor() {
     super();
@@ -231,12 +220,16 @@ export class GrDiffBuilderElement extends PolymerElement {
     return this.querySelector('#diffTable') as HTMLTableElement;
   }
 
-  _computeLeftCoverageRanges(coverageRanges: CoverageRange[]) {
-    return coverageRanges.filter(range => range && range.side === 'left');
-  }
+  coverageObserver(coverageRanges: CoverageRange[]) {
+    const leftRanges = coverageRanges.filter(
+      range => range && range.side === Side.LEFT
+    );
+    this.coverageLayerLeft.setRanges(leftRanges);
 
-  _computeRightCoverageRanges(coverageRanges: CoverageRange[]) {
-    return coverageRanges.filter(range => range && range.side === 'right');
+    const rightRanges = coverageRanges.filter(
+      range => range && range.side === Side.RIGHT
+    );
+    this.coverageLayerRight.setRanges(rightRanges);
   }
 
   render(keyLocations: KeyLocations) {
@@ -302,8 +295,8 @@ export class GrDiffBuilderElement extends PolymerElement {
       this._createTabIndicatorLayer(),
       this._createSpecialCharacterIndicatorLayer(),
       this.$.rangeLayer,
-      this.$.coverageLayerLeft,
-      this.$.coverageLayerRight,
+      this.coverageLayerLeft,
+      this.coverageLayerRight,
     ];
 
     if (this.layers) {

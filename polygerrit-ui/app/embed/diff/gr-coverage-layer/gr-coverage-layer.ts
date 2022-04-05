@@ -1,29 +1,10 @@
 /**
  * @license
- * Copyright (C) 2019 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2019 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-coverage-layer_html';
+import {Side} from '../../../api/diff';
 import {CoverageRange, CoverageType, DiffLayer} from '../../../types/types';
-import {customElement, property} from '@polymer/decorators';
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-coverage-layer': GrCoverageLayer;
-  }
-}
 
 const TOOLTIP_MAP = new Map([
   [CoverageType.COVERED, 'Covered by tests.'],
@@ -32,21 +13,12 @@ const TOOLTIP_MAP = new Map([
   [CoverageType.NOT_INSTRUMENTED, 'Not instrumented by any tests.'],
 ]);
 
-@customElement('gr-coverage-layer')
-export class GrCoverageLayer extends PolymerElement implements DiffLayer {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrCoverageLayer implements DiffLayer {
   /**
    * Must be sorted by code_range.start_line.
    * Must only contain ranges that match the side.
    */
-  @property({type: Array})
-  coverageRanges: CoverageRange[] = [];
-
-  @property({type: String})
-  side?: string;
+  private coverageRanges: CoverageRange[] = [];
 
   /**
    * We keep track of the line number from the previous annotate() call,
@@ -56,11 +28,22 @@ export class GrCoverageLayer extends PolymerElement implements DiffLayer {
    * and efficient way for finding the coverage range that matches a given
    * line number.
    */
-  @property({type: Number})
-  _lineNumber = 0;
+  private lastLineNumber = 0;
 
-  @property({type: Number})
-  _index = 0;
+  /**
+   * See `lastLineNumber` comment.
+   */
+  private index = 0;
+
+  constructor(private readonly side: Side) {}
+
+  /**
+   * Must be sorted by code_range.start_line.
+   * Must only contain ranges that match the side.
+   */
+  setRanges(ranges: CoverageRange[]) {
+    this.coverageRanges = ranges;
+  }
 
   /**
    * Layer method to add annotations to a line.
@@ -87,27 +70,27 @@ export class GrCoverageLayer extends PolymerElement implements DiffLayer {
     // If the line number is smaller than before, then we have to reset our
     // algorithm and start searching the coverage ranges from the beginning.
     // That happens for example when you expand diff sections.
-    if (elementLineNumber < this._lineNumber) {
-      this._index = 0;
+    if (elementLineNumber < this.lastLineNumber) {
+      this.index = 0;
     }
-    this._lineNumber = elementLineNumber;
+    this.lastLineNumber = elementLineNumber;
 
     // We simply loop through all the coverage ranges until we find one that
     // matches the line number.
-    while (this._index < this.coverageRanges.length) {
-      const coverageRange = this.coverageRanges[this._index];
+    while (this.index < this.coverageRanges.length) {
+      const coverageRange = this.coverageRanges[this.index];
 
       // If the line number has moved past the current coverage range, then
       // try the next coverage range.
-      if (this._lineNumber > coverageRange.code_range.end_line) {
-        this._index++;
+      if (this.lastLineNumber > coverageRange.code_range.end_line) {
+        this.index++;
         continue;
       }
 
       // If the line number has not reached the next coverage range (and the
       // range before also did not match), then this line has not been
       // instrumented. Nothing to do for this line.
-      if (this._lineNumber < coverageRange.code_range.start_line) {
+      if (this.lastLineNumber < coverageRange.code_range.start_line) {
         return;
       }
 

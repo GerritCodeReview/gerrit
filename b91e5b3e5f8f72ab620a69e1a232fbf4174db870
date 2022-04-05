@@ -3,6 +3,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5eefc4f3_e6086387",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-05T14:56:58Z",
+      "side": 1,
+      "message": "My understanding is, that it\u0027s migrated to plain class not to lit",
+      "range": {
+        "startLine": 7,
+        "startChar": 45,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "b91e5b3e5f8f72ab620a69e1a232fbf4174db870",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e43dfb30_44b161d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-05T14:56:58Z",
+      "side": 1,
+      "message": "Nice change. Much easier to understand now.",
+      "revId": "b91e5b3e5f8f72ab620a69e1a232fbf4174db870",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7532d542_c5d8cf48",
+        "filename": "polygerrit-ui/app/embed/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-05T14:56:58Z",
+      "side": 1,
+      "message": "Nit: Wouldn\u0027t be Json.stringify good enough?",
+      "range": {
+        "startLine": 35,
+        "startChar": 9,
+        "endLine": 35,
+        "endChar": 113
+      },
+      "revId": "b91e5b3e5f8f72ab620a69e1a232fbf4174db870",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0eca3fb2_7a15cb00",
         "filename": "polygerrit-ui/app/embed/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.ts",
         "patchSetId": 4

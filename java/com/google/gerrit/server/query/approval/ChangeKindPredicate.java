@@ -58,8 +58,8 @@ public class ChangeKindPredicate extends ApprovalPredicate {
     //   NO_CHANGE implicitly for these change kinds makes configuring copy conditions easier (as
     //   users can simply configure "changekind:<CHANGE-KIND>", rather than
     //   "changekind:<CHANGE-KIND> OR changekind:NO_CHANGE").
-    // * This preserves backwards compatibility with the deprecated boolean flags for copying
-    //   approvals based on the change kind ('copyAllScoresOnTrivialRebase',
+    // * This preserves backwards compatibility with the deprecated, and now unsupported, boolean
+    //   flags for copying approvals based on the change kind ('copyAllScoresOnTrivialRebase',
     //   'copyAllScoresIfNoCodeChange' and 'copyAllScoresOnMergeFirstParentUpdate').
     return ctx.changeKind() == ChangeKind.NO_CHANGE
         && (changeKind == ChangeKind.TRIVIAL_REBASE

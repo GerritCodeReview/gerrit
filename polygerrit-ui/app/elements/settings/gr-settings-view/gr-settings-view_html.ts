@@ -370,9 +370,11 @@ export const htmlTemplate = html`
       </h2>
       <fieldset id="changeTableColumns">
         <gr-change-table-editor
-          show-number="{{_showNumber}}"
+          show-number="[[_showNumber]]"
+          on-show-number-changed="_handleShowNumberChanged"
           server-config="[[_serverConfig]]"
-          displayed-columns="{{_localChangeTableColumns}}"
+          displayed-columns="[[_localChangeTableColumns]]"
+          on-displayed-columns-changed="_handleDisplayedColumnsChanged"
         >
         </gr-change-table-editor>
         <gr-button

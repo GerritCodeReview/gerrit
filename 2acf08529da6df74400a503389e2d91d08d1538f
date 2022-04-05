@@ -506,6 +506,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "31911c12_41a85f07",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:59:01Z",
+      "side": 1,
+      "message": "There\u0027s still `element.storeTask?.flush();` which I\u0027m not sure is equivalent to element.updateComplete.",
+      "parentUuid": "8df8d238_add2013a",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "37ec3226_aad4d26e",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
         "patchSetId": 14

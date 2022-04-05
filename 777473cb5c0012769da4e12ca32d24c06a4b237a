@@ -62,6 +62,29 @@
       },
       "revId": "777473cb5c0012769da4e12ca32d24c06a4b237a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30255880_3ed5d0f3",
+        "filename": "polygerrit-ui/app/models/dependency.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-05T14:43:31Z",
+      "side": 1,
+      "message": "should we overwrite instead of keeping only the first one? Any work happening in `connectedCallback` may lead to confusion when it\u0027s not applying",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 44
+      },
+      "revId": "777473cb5c0012769da4e12ca32d24c06a4b237a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

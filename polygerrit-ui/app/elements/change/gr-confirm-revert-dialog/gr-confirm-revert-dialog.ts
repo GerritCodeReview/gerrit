@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 import '../../shared/gr-dialog/gr-dialog';
-import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-confirm-revert-dialog_html';
-import {customElement, property} from '@polymer/decorators';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import {LitElement, html, css, nothing} from 'lit';
+import {customElement, state} from 'lit/decorators';
 import {ChangeInfo, CommitId} from '../../../types/common';
 import {fireAlert} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {BindValueChangeEvent} from '../../../types/events';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -40,11 +41,7 @@ export interface ConfirmRevertEventDetail {
 }
 
 @customElement('gr-confirm-revert-dialog')
-export class GrConfirmRevertDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrConfirmRevertDialog extends LitElement {
   /**
    * Fired when the confirm button is pressed.
    *
@@ -59,57 +56,154 @@ export class GrConfirmRevertDialog extends PolymerElement {
 
   /* The revert message updated by the user
       The default value is set by the dialog */
-  @property({type: String})
-  _message = '';
+  @state()
+  message = '';
 
-  @property({type: Number})
-  _revertType = RevertType.REVERT_SINGLE_CHANGE;
+  @state()
+  private revertType = RevertType.REVERT_SINGLE_CHANGE;
 
-  @property({type: Boolean})
-  _showRevertSubmission = false;
+  @state()
+  private showRevertSubmission = false;
 
-  @property({type: Number})
-  _changesCount?: number;
+  @state()
+  private changesCount?: number;
 
-  @property({type: Boolean})
-  _showErrorMessage = false;
+  @state()
+  showErrorMessage = false;
 
   /* store the default revert messages per revert type so that we can
   check if user has edited the revert message or not
   Set when populate() is called */
-  @property({type: Array})
-  _originalRevertMessages: string[] = [];
+  @state()
+  private originalRevertMessages: string[] = [];
 
   // Store the actual messages that the user has edited
-  @property({type: Array})
-  _revertMessages: string[] = [];
+  @state()
+  private revertMessages: string[] = [];
+
+  static override styles = [
+    sharedStyles,
+    css`
+      :host {
+        display: block;
+      }
+      :host([disabled]) {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      label {
+        cursor: pointer;
+        display: block;
+        width: 100%;
+      }
+      .revertSubmissionLayout {
+        display: flex;
+        align-items: center;
+      }
+      .label {
+        margin-left: var(--spacing-m);
+      }
+      iron-autogrow-textarea {
+        font-family: var(--monospace-font-family);
+        font-size: var(--font-size-mono);
+        line-height: var(--line-height-mono);
+        width: 73ch; /* Add a char to account for the border. */
+      }
+      .error {
+        color: var(--error-text-color);
+        margin-bottom: var(--spacing-m);
+      }
+      label[for='messageInput'] {
+        margin-top: var(--spacing-m);
+      }
+    `,
+  ];
+
+  override render() {
+    return html`
+      <gr-dialog
+        .confirmLabel=${'Revert'}
+        @confirm=${(e: Event) => this.handleConfirmTap(e)}
+        @cancel=${(e: Event) => this.handleCancelTap(e)}
+      >
+        <div class="header" slot="header">Revert Merged Change</div>
+        <div class="main" slot="main">
+          <div class="error" ?hidden=${!this.showErrorMessage}>
+            <span> A reason is required </span>
+          </div>
+          ${this.showRevertSubmission
+            ? html`
+                <div class="revertSubmissionLayout">
+                  <input
+                    name="revertOptions"
+                    type="radio"
+                    id="revertSingleChange"
+                    @change=${() => this.handleRevertSingleChangeClicked()}
+                    ?checked=${this.computeIfSingleRevert()}
+                  />
+                  <label
+                    for="revertSingleChange"
+                    class="label revertSingleChange"
+                  >
+                    Revert single change
+                  </label>
+                </div>
+                <div class="revertSubmissionLayout">
+                  <input
+                    name="revertOptions"
+                    type="radio"
+                    id="revertSubmission"
+                    @change=${() => this.handleRevertSubmissionClicked()}
+                    .checked=${this.computeIfRevertSubmission()}
+                  />
+                  <label for="revertSubmission" class="label revertSubmission">
+                    Revert entire submission (${this.changesCount} Changes)
+                  </label>
+                </div>
+              `
+            : nothing}
+          <gr-endpoint-decorator name="confirm-revert-change">
+            <label for="messageInput"> Revert Commit Message </label>
+            <iron-autogrow-textarea
+              id="messageInput"
+              class="message"
+              .autocomplete=${'on'}
+              .maxRows=${15}
+              .bindValue=${this.message}
+              @bind-value-changed=${this.handleBindValueChanged}
+            ></iron-autogrow-textarea>
+          </gr-endpoint-decorator>
+        </div>
+      </gr-dialog>
+    `;
+  }
 
   private readonly jsAPI = getAppContext().jsApiService;
 
-  _computeIfSingleRevert(revertType: number) {
-    return revertType === RevertType.REVERT_SINGLE_CHANGE;
+  private computeIfSingleRevert() {
+    return this.revertType === RevertType.REVERT_SINGLE_CHANGE;
   }
 
-  _computeIfRevertSubmission(revertType: number) {
-    return revertType === RevertType.REVERT_SUBMISSION;
+  private computeIfRevertSubmission() {
+    return this.revertType === RevertType.REVERT_SUBMISSION;
   }
 
-  _modifyRevertMsg(change: ChangeInfo, commitMessage: string, message: string) {
+  modifyRevertMsg(change: ChangeInfo, commitMessage: string, message: string) {
     return this.jsAPI.modifyRevertMsg(change, message, commitMessage);
   }
 
   populate(change: ChangeInfo, commitMessage: string, changes: ChangeInfo[]) {
-    this._changesCount = changes.length;
+    this.changesCount = changes.length;
     // The option to revert a single change is always available
-    this._populateRevertSingleChangeMessage(
+    this.populateRevertSingleChangeMessage(
       change,
       commitMessage,
       change.current_revision
     );
-    this._populateRevertSubmissionMessage(change, changes, commitMessage);
+    this.populateRevertSubmissionMessage(change, changes, commitMessage);
   }
 
-  _populateRevertSingleChangeMessage(
+  populateRevertSingleChangeMessage(
     change: ChangeInfo,
     commitMessage: string,
     commitHash?: CommitId
@@ -127,20 +221,20 @@ export class GrConfirmRevertDialog extends PolymerElement {
       `${revertTitle}\n\n${revertCommitText}\n\n` +
       `Reason for revert: ${INSERT_REASON_STRING}\n`;
     // This is to give plugins a chance to update message
-    this._message = this._modifyRevertMsg(change, commitMessage, message);
-    this._revertType = RevertType.REVERT_SINGLE_CHANGE;
-    this._showRevertSubmission = false;
-    this._revertMessages[this._revertType] = this._message;
-    this._originalRevertMessages[this._revertType] = this._message;
+    this.message = this.modifyRevertMsg(change, commitMessage, message);
+    this.revertType = RevertType.REVERT_SINGLE_CHANGE;
+    this.showRevertSubmission = false;
+    this.revertMessages[this.revertType] = this.message;
+    this.originalRevertMessages[this.revertType] = this.message;
   }
 
-  _getTrimmedChangeSubject(subject: string) {
+  private getTrimmedChangeSubject(subject: string) {
     if (!subject) return '';
     if (subject.length < CHANGE_SUBJECT_LIMIT) return subject;
     return subject.substring(0, CHANGE_SUBJECT_LIMIT) + '...';
   }
 
-  _modifyRevertSubmissionMsg(
+  private modifyRevertSubmissionMsg(
     change: ChangeInfo,
     msg: string,
     commitMessage: string
@@ -148,7 +242,7 @@ export class GrConfirmRevertDialog extends PolymerElement {
     return this.jsAPI.modifyRevertSubmissionMsg(change, msg, commitMessage);
   }
 
-  _populateRevertSubmissionMessage(
+  populateRevertSubmissionMessage(
     change: ChangeInfo,
     changes: ChangeInfo[],
     commitMessage: string
@@ -170,48 +264,52 @@ export class GrConfirmRevertDialog extends PolymerElement {
     changes.forEach(change => {
       message +=
         `${change.change_id.substring(0, 10)}:` +
-        `${this._getTrimmedChangeSubject(change.subject)}\n`;
+        `${this.getTrimmedChangeSubject(change.subject)}\n`;
     });
-    this._message = this._modifyRevertSubmissionMsg(
+    this.message = this.modifyRevertSubmissionMsg(
       change,
       message,
       commitMessage
     );
-    this._revertType = RevertType.REVERT_SUBMISSION;
-    this._revertMessages[this._revertType] = this._message;
-    this._originalRevertMessages[this._revertType] = this._message;
-    this._showRevertSubmission = true;
+    this.revertType = RevertType.REVERT_SUBMISSION;
+    this.revertMessages[this.revertType] = this.message;
+    this.originalRevertMessages[this.revertType] = this.message;
+    this.showRevertSubmission = true;
   }
 
-  _handleRevertSingleChangeClicked() {
-    this._showErrorMessage = false;
-    if (this._message)
-      this._revertMessages[RevertType.REVERT_SUBMISSION] = this._message;
-    this._message = this._revertMessages[RevertType.REVERT_SINGLE_CHANGE];
-    this._revertType = RevertType.REVERT_SINGLE_CHANGE;
+  private handleBindValueChanged(e: BindValueChangeEvent) {
+    this.message = e.detail.value;
   }
 
-  _handleRevertSubmissionClicked() {
-    this._showErrorMessage = false;
-    this._revertType = RevertType.REVERT_SUBMISSION;
-    if (this._message)
-      this._revertMessages[RevertType.REVERT_SINGLE_CHANGE] = this._message;
-    this._message = this._revertMessages[RevertType.REVERT_SUBMISSION];
+  private handleRevertSingleChangeClicked() {
+    this.showErrorMessage = false;
+    if (this.message)
+      this.revertMessages[RevertType.REVERT_SUBMISSION] = this.message;
+    this.message = this.revertMessages[RevertType.REVERT_SINGLE_CHANGE];
+    this.revertType = RevertType.REVERT_SINGLE_CHANGE;
   }
 
-  _handleConfirmTap(e: Event) {
+  private handleRevertSubmissionClicked() {
+    this.showErrorMessage = false;
+    this.revertType = RevertType.REVERT_SUBMISSION;
+    if (this.message)
+      this.revertMessages[RevertType.REVERT_SINGLE_CHANGE] = this.message;
+    this.message = this.revertMessages[RevertType.REVERT_SUBMISSION];
+  }
+
+  private handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     if (
-      this._message === this._originalRevertMessages[this._revertType] ||
-      this._message.includes(INSERT_REASON_STRING)
+      this.message === this.originalRevertMessages[this.revertType] ||
+      this.message.includes(INSERT_REASON_STRING)
     ) {
-      this._showErrorMessage = true;
+      this.showErrorMessage = true;
       return;
     }
     const detail: ConfirmRevertEventDetail = {
-      revertType: this._revertType,
-      message: this._message,
+      revertType: this.revertType,
+      message: this.message,
     };
     this.dispatchEvent(
       new CustomEvent('confirm', {
@@ -222,12 +320,12 @@ export class GrConfirmRevertDialog extends PolymerElement {
     );
   }
 
-  _handleCancelTap(e: Event) {
+  private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(
       new CustomEvent('cancel', {
-        detail: {revertType: this._revertType},
+        detail: {revertType: this.revertType},
         composed: true,
         bubbles: false,
       })

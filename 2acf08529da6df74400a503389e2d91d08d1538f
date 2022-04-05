@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8788e519_ce7fc9f8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27907c32_e8a5f6de",
+      "range": {
+        "startLine": 938,
+        "startChar": 26,
+        "endLine": 938,
+        "endChar": 43
+      },
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8dc1ab8b_f934d267",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-05T16:16:13Z",
       "side": 1,
       "message": "nit: remove these two lines",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 33
+      },
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b888a80_51833c1c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:57:33Z",
+      "side": 1,
+      "message": "I think this is required?\n\n```\nTSC - 2022/04/05 20:20:09 app/elements/shared/gr-editable-content/gr-editable-content.ts(362,5): error TS2769: No overload matches this call.\nTSC - 2022/04/05 20:20:09 Overload 1 of 2, \u0027(target: Document, type: keyof DocumentEventMap, detail: never): void\u0027, gave the following error.\nTSC - 2022/04/05 20:20:09 Argument of type \u0027this\u0027 is not assignable to parameter of type \u0027Document\u0027.\nTSC - 2022/04/05 20:20:09 Type \u0027GrEditableContent\u0027 is missing the following properties from type \u0027Document\u0027: URL, alinkColor, all, anchors, and 85 more.\nTSC - 2022/04/05 20:20:09 Overload 2 of 2, \u0027(target: EventTarget, type: keyof HTMLElementEventMap, detail: never): void\u0027, gave the following error.\nTSC - 2022/04/05 20:20:09 Argument of type \u0027\"editing-changed\"\u0027 is not assignable to parameter of type \u0027keyof HTMLElementEventMap\u0027.\n```\n\nI get this error.\n\nLMK if you want me to dig deeper and if it can be removed but I see a usages here as well.\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts;l\u003d80?q\u003d%22comment-thread-editing-changed%27:%20ValueChangedEvent%22\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences.ts;l\u003d331?q\u003d%22%20%20%20%20%27has-unsaved-changes-changed%27:%20ValueChangedEvent%3Cboolean%3E;%22",
+      "parentUuid": "8dc1ab8b_f934d267",
       "range": {
         "startLine": 45,
         "startChar": 1,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc394dfc_812996e4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a19d0d5a_c92b124d",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a068834_2d21de08",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-04-05T16:16:13Z",
       "side": 1,
       "message": "Optional: If you move such a \u003cdiv\u003e into its own render...() method, then you can do:\n```\nif (this.editing) return;\n```\ninstead of using the `hidden` attribute. I find that a much nicer pattern and am using it in the components that I convert. Ideally all the `hidden` attributes are taken care of by Lit\u0027s render methods returning early, if something should not be rendered.\n\nThen you using a `classMap` in a local var for the \u003cdiv\u003e makes this even nicer.",
+      "range": {
+        "startLine": 213,
+        "startChar": 8,
+        "endLine": 220,
+        "endChar": 14
+      },
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2865166_9f9ca611",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a068834_2d21de08",
       "range": {
         "startLine": 213,
         "startChar": 8,
@@ -104,6 +194,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "518c7343_b482cc7a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "748a5e36_792c207d",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5a04916_86067190",
@@ -117,6 +225,30 @@
       "writtenOn": "2022-04-05T16:16:13Z",
       "side": 1,
       "message": "Maybe just `@click\u003d\"${this.handleSave}\"`.",
+      "range": {
+        "startLine": 272,
+        "startChar": 14,
+        "endLine": 272,
+        "endChar": 58
+      },
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81c8dde2_36ca24d4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5a04916_86067190",
       "range": {
         "startLine": 272,
         "startChar": 14,
@@ -144,6 +276,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a89b714_d6ed33e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:57:33Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "50b5f5ec_020ac2ee",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f679170e_d646bf6b",
@@ -157,6 +307,24 @@
       "writtenOn": "2022-04-05T16:16:13Z",
       "side": 1,
       "message": "Why assign to a local variable?",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65ebdfba_43d22ca9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:57:33Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "f679170e_d646bf6b",
       "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -180,6 +348,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c1391989_a8a0017e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:57:33Z",
+      "side": 1,
+      "message": "Not just that but apparently once newContent is set then the event is not fired at all also.\nSo this event is something closer to firstEditingChanged or something like that.\n\nThis change is for converting to Lit and I think I would like to maintain existing behaviour.",
+      "parentUuid": "b276ab59_5c29ca12",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "138475bd_c2b3628b",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
         "patchSetId": 14
@@ -191,6 +377,24 @@
       "writtenOn": "2022-04-05T16:16:13Z",
       "side": 1,
       "message": "Would be nice to start using `import {fixture, html} from \u0027@open-wc/testing-helpers\u0027;`\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/334322/5/polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.ts",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cd3a0bc_d127678e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "138475bd_c2b3628b",
       "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -212,6 +416,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9d3f311_e74d9be1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8751f518_ad8bb410",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53b0a391_11c32d5d",
@@ -229,6 +451,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72abfe02_ffdfb2f8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53b0a391_11c32d5d",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "006d3d57_94ff578c",
@@ -242,6 +482,24 @@
       "writtenOn": "2022-04-05T16:16:13Z",
       "side": 1,
       "message": "Try removing all `flush()`es.",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8df8d238_add2013a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:57:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "006d3d57_94ff578c",
       "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -276,6 +534,24 @@
       "writtenOn": "2022-04-05T16:16:13Z",
       "side": 1,
       "message": "Why `await element.updateComplete;` twice?",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "286655f2_9573e44b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-05T18:57:33Z",
+      "side": 1,
+      "message": "Both of them are updating `newContent` and I wanted the observer of first method to finish before triggering the second observer.\n\nI\u0027m not sure that is guaranteed if I remove the first `updateComplete`.",
+      "parentUuid": "30d372ec_84655ccd",
       "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

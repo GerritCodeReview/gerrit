@@ -830,7 +830,7 @@ suite('gr-reply-dialog tests', () => {
           new Set(currentAtt),
           new Set(newAtt)
         )
-        .map(a => a!._account_id);
+        .map(a => a._account_id);
 
     assert.sameMembers(compute([], []), []);
     assert.sameMembers(compute([], [999 as AccountId]), [999 as AccountId]);

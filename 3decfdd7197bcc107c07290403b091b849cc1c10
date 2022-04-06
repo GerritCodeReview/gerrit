@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f19506fe_f53268b8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T13:03:33Z",
+      "side": 1,
+      "message": "Yes, it is just for easier reviewing.",
+      "parentUuid": "2673e59b_a292c905",
+      "revId": "3decfdd7197bcc107c07290403b091b849cc1c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c81656e_da813e6b",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-04-06T12:57:53Z",
       "side": 1,
       "message": "What is this render function? It\u0027s also using polymer dom-repeat.",
+      "revId": "3decfdd7197bcc107c07290403b091b849cc1c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6d12a92_4221c719",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T13:03:33Z",
+      "side": 1,
+      "message": "It\u0027s just for next change for easier reviewing. Ben suggested this approach. I am testing it.",
+      "parentUuid": "9c81656e_da813e6b",
       "revId": "3decfdd7197bcc107c07290403b091b849cc1c10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -139,6 +139,8 @@ export class GrChangeListReviewerFlow extends LitElement {
     if (!updatedAccounts || !suggestionsProvider) {
       return;
     }
+    // TODO: update to use events from GrAccountList instead of passing a
+    // list
     return html`
       <gr-account-list
         id=${id}

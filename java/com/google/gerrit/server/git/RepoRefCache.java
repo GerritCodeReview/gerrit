@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.server.cache.PerThreadCache;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,6 +30,11 @@ public class RepoRefCache implements RefCache {
   private final RefDatabase refdb;
   private final Map<String, Optional<ObjectId>> ids;
 
+  public static RepoRefCache getOrCreate(Repository repo) {
+    return PerThreadCache.getOrCompute(
+        PerThreadCache.Key.create(RepoRefCache.class, repo), () -> new RepoRefCache(repo));
+  }
+
   public RepoRefCache(Repository repo) {
     this.refdb = repo.getRefDatabase();
     this.ids = new HashMap<>();
@@ -42,7 +48,9 @@ public class RepoRefCache implements RefCache {
     }
     Ref ref = refdb.exactRef(refName);
     id = Optional.ofNullable(ref).map(Ref::getObjectId);
-    ids.put(refName, id);
+    if (id.isPresent()) {
+      ids.put(refName, id);
+    }
     return id;
   }
 

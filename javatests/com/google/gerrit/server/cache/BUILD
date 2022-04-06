@@ -7,5 +7,6 @@ junit_tests(
         "//java/com/google/gerrit/server",
         "//lib:junit",
         "//lib/truth",
+        "//lib/truth:truth-java8-extension",
     ],
 )

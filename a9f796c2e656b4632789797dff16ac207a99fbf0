@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f0444e3_7f7390c4",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-06T11:50:30Z",
+      "side": 1,
+      "message": "nit: filter? or better extract it to a method with a reasonable name like `notReadOnlyRequest` etc..",
+      "range": {
+        "startLine": 40,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 16
+      },
+      "revId": "a9f796c2e656b4632789797dff16ac207a99fbf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -38,7 +38,7 @@ import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {PaperInputElementExt} from '../../../types/types';
-import {fireAlert, fire} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {accountOrGroupKey} from '../../../utils/account-util';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';

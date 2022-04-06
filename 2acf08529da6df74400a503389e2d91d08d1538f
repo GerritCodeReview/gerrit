@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e58e9f2c_cf99774b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-06T08:51:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc8fe1dd_f9e51bc3",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 33
+      },
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a19d0d5a_c92b124d",
@@ -406,6 +430,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "909655da_2c8944e9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-06T08:51:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8671f3e4_3073c315",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "138475bd_c2b3628b",
@@ -582,6 +624,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6a48a99_b7dd7722",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-06T08:51:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc1334e6_afe4bafd",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37ec3226_aad4d26e",
@@ -595,6 +655,24 @@
       "writtenOn": "2022-04-05T16:16:13Z",
       "side": 1,
       "message": "Why `await element.updateComplete;` twice?",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28f8ac76_dba427cc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-06T08:51:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37ec3226_aad4d26e",
       "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -648,6 +726,24 @@
       "side": 1,
       "message": "You can try. :-)\nIf two awaits are needed, then add a comment explaining why.",
       "parentUuid": "286655f2_9573e44b",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "457219d9_cc0937b8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-06T08:51:37Z",
+      "side": 1,
+      "message": "Added a comment.\nI\u0027m worried if it works it will still add potential flakiness to our tests so I prefer being explicit in the setup and awaiting more.",
+      "parentUuid": "f585aea6_0ff19bb4",
       "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

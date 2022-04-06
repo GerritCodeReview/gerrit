@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccfd32a5_54ff8bf3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-06T11:18:13Z",
+      "side": 1,
+      "message": "I remember someone said they prefer `nothing` over `return` but could not dig up the chat.",
+      "parentUuid": "e55eb406_7f0fb5eb",
+      "range": {
+        "startLine": 218,
+        "startChar": 29,
+        "endLine": 218,
+        "endChar": 36
+      },
+      "revId": "9f2b6013c2ee04c13d93b4d1d8dc3d08a1171271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4efdf1b8_0977a337",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-04-06T09:19:33Z",
       "side": 1,
       "message": "Maybe\n`if (!this.editing) return nothing;`",
+      "revId": "9f2b6013c2ee04c13d93b4d1d8dc3d08a1171271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b105b88_5e85793c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-06T11:18:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4efdf1b8_0977a337",
       "revId": "9f2b6013c2ee04c13d93b4d1d8dc3d08a1171271",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f0bac18_d0799cba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-06T11:18:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2867564_237e1c37",
+      "revId": "9f2b6013c2ee04c13d93b4d1d8dc3d08a1171271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0556bc0_e2913238",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b063793_d81b8fda",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-06T11:18:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0556bc0_e2913238",
+      "revId": "9f2b6013c2ee04c13d93b4d1d8dc3d08a1171271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc8038d0_ce5a5df1",
@@ -88,6 +166,30 @@
       "writtenOn": "2022-04-06T09:19:33Z",
       "side": 1,
       "message": "If you do `await element.updateComplete;` please add a comment explaining why.",
+      "range": {
+        "startLine": 227,
+        "startChar": 6,
+        "endLine": 233,
+        "endChar": 35
+      },
+      "revId": "9f2b6013c2ee04c13d93b4d1d8dc3d08a1171271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9a4e87d_f131ab67",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-06T11:18:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc8038d0_ce5a5df1",
       "range": {
         "startLine": 227,
         "startChar": 6,

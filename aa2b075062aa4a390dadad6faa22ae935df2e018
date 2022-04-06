@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fbe4e2b_6b44d4bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T08:00:28Z",
+      "side": 1,
+      "message": "Why is here space?",
+      "range": {
+        "startLine": 16,
+        "startChar": 6,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "aa2b075062aa4a390dadad6faa22ae935df2e018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

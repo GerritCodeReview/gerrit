@@ -120,6 +120,20 @@ See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md
 [[build]]
 == Building on the Command Line
 
+[NOTE]
+====
+For building on M1 Mac it may be needed to use the `--host_javabase` option. Either provide this
+option in the command line:
+```
+bazel build --host_javabase=--host_javabase=@local_jdk//:jdk
+```
+
+or set it in the `.bazelrc` or in the `$HOME/.bazelrc`:
+```
+build --host_javabase=@local_jdk//:jdk
+```
+====
+
 === Gerrit Development WAR File
 
 To build the Gerrit web application:

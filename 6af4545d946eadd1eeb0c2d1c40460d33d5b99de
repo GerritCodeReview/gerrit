@@ -57,6 +57,30 @@
       },
       "revId": "6af4545d946eadd1eeb0c2d1c40460d33d5b99de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1e6c4c4_a3f30e18",
+        "filename": "polygerrit-ui/app/utils/syntax-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-06T08:57:47Z",
+      "side": 1,
+      "message": "I was worried about performance, but maybe I should not have been. :-/\n\nSorry, just saw the comment after submitting.",
+      "parentUuid": "1cd981f1_82f693ba",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 80
+      },
+      "revId": "6af4545d946eadd1eeb0c2d1c40460d33d5b99de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

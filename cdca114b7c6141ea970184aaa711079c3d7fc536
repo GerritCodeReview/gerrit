@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ee72145_d6d4be01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-06T06:25:47Z",
+      "side": 1,
+      "message": "Sure: \n\nhttps://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html\n\nhas\n\nYou may download and run google-java-format on your own, or you may run ./tools/setup_gjf.sh to download a local copy and set up a wrapper script. If you run your own copy, please use the same version, as there may be slight differences between versions.\n\nThen you should get that jar that you can point the command to I posted above.",
+      "parentUuid": "3464eed4_c21e1a03",
+      "revId": "cdca114b7c6141ea970184aaa711079c3d7fc536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec92ac51_e26819b0",
         "filename": "java/com/google/gerrit/extensions/webui/PatchSetWebLink.java",
         "patchSetId": 8

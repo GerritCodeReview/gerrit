@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d2c6659_6646f9fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-04-06T16:59:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6dd3394_8a560b1d",
+      "revId": "c1334395391948f0548f09c74492cc8bcc8a5355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8996315_772bc318",
@@ -66,6 +84,30 @@
       "writtenOn": "2022-04-06T15:42:00Z",
       "side": 1,
       "message": "should this be inlined?\nWondering if we should consider inlining one line functions.",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 138,
+        "endChar": 32
+      },
+      "revId": "c1334395391948f0548f09c74492cc8bcc8a5355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd52c007_f5422e70",
+        "filename": "polygerrit-ui/app/elements/shared/gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-04-06T16:59:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8996315_772bc318",
       "range": {
         "startLine": 138,
         "startChar": 2,

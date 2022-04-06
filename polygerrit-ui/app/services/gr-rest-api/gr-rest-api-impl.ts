@@ -16,7 +16,6 @@
  */
 /* NB: Order is important, because of namespaced classes. */
 
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {GrEtagDecorator} from '../../elements/shared/gr-rest-api-interface/gr-etag-decorator';
 import {
   FetchJSONRequest,
@@ -40,7 +39,6 @@ import {
   listChangesOptionsToHex,
 } from '../../utils/change-util';
 import {assertNever, hasOwnProperty} from '../../utils/common-util';
-import {customElement} from '@polymer/decorators';
 import {AuthRequestInit, AuthService} from '../gr-auth/gr-auth';
 import {
   AccountCapabilityInfo,
@@ -275,12 +273,6 @@ export function _testOnlyResetGrRestApiSharedObjects() {
   getAppContext().authService.clearCache();
 }
 
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-rest-api-service-impl': GrRestApiServiceImpl;
-  }
-}
-
 function createReadScheduler() {
   return new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 10);
 }
@@ -288,12 +280,7 @@ function createReadScheduler() {
 function createWriteScheduler() {
   return new MaxInFlightScheduler<Response>(new BaseScheduler<Response>(), 5);
 }
-
-@customElement('gr-rest-api-service-impl')
-export class GrRestApiServiceImpl
-  extends PolymerElement
-  implements RestApiService, Finalizable
-{
+export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   readonly _cache = siteBasedCache; // Shared across instances.
 
   readonly _sharedFetchPromises = fetchPromisesCache; // Shared across instances.

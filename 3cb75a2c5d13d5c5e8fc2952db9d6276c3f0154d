@@ -41,6 +41,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05293e50_b538827c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T12:17:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "973af2dd_f6cd4662",
+      "revId": "3cb75a2c5d13d5c5e8fc2952db9d6276c3f0154d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceea1e0b_3444fda7",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T12:17:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c104af5_3dc1be8d",
+      "range": {
+        "startLine": 39,
+        "startChar": 34,
+        "endLine": 39,
+        "endChar": 38
+      },
+      "revId": "3cb75a2c5d13d5c5e8fc2952db9d6276c3f0154d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "922ce67a_fe612d4e",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-04-06T11:29:06Z",
       "side": 1,
       "message": "is this to trigger an update?\nPerhaps `requestUpdate` would make it more explicit?",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 38
+      },
+      "revId": "3cb75a2c5d13d5c5e8fc2952db9d6276c3f0154d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74867b06_4ec7109b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T12:17:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "922ce67a_fe612d4e",
       "range": {
         "startLine": 155,
         "startChar": 4,
@@ -81,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f372d5d2_77a1fdf4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T12:17:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8b596c7_b16bc77d",
+      "revId": "3cb75a2c5d13d5c5e8fc2952db9d6276c3f0154d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e33ff6c8_7d13288d",
@@ -94,6 +178,24 @@
       "writtenOn": "2022-04-06T11:47:26Z",
       "side": 1,
       "message": "Rather than always copying the array, simply do this.requestUpdate();",
+      "revId": "3cb75a2c5d13d5c5e8fc2952db9d6276c3f0154d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "928298fb_12eb6b7a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T12:17:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e33ff6c8_7d13288d",
       "revId": "3cb75a2c5d13d5c5e8fc2952db9d6276c3f0154d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

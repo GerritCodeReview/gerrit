@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "976dcced_ee15001e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-06T15:27:45Z",
+      "side": 1,
+      "message": "Tests need updating to either do `await element.updateComplete;` after the element is completed or to use the new way of creating an element in the test using the open-* package.",
+      "revId": "c1334395391948f0548f09c74492cc8bcc8a5355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6dd3394_8a560b1d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-06T15:27:45Z",
+      "side": 1,
+      "message": "I think that you need to escape this (based on memory i\u0027ve had ci fail because of that)",
+      "revId": "c1334395391948f0548f09c74492cc8bcc8a5355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

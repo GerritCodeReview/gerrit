@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b767544_d96adf2b",
+        "filename": "javatests/com/google/gerrit/server/cache/PerThreadCacheTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-06T12:36:02Z",
+      "side": 1,
+      "message": "This isn\u0027t available: \nERROR: /Users/lucamilanesio/gerrithub/gerrit-2.16/javatests/com/google/gerrit/server/cache/BUILD:3:1: Building javatests/com/google/gerrit/server/cache/tests.jar (2 source files) failed (Exit 1)\njavatests/com/google/gerrit/server/cache/PerThreadCacheTest.java:18: error: package org.mockito does not exist",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 39
+      },
+      "revId": "bd927632a03c1f04056237935872e8b649bfd538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

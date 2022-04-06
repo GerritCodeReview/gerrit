@@ -16,6 +16,24 @@
       "message": "What is this flush for? Should this be await element.updateComplete?",
       "revId": "3b1d5148e83a84e4c1674595b541ed4b976a8b70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22ecd866_4af3683d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T14:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ac1d73a_c1d8bb03",
+      "revId": "3b1d5148e83a84e4c1674595b541ed4b976a8b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

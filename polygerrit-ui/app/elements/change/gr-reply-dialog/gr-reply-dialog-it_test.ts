@@ -90,8 +90,8 @@ suite('gr-reply-dialog-it tests', () => {
       <gr-reply-dialog></gr-reply-dialog>
     `);
     setupElement(element);
-    // Allow the elements created by dom-repeat to be stamped.
-    flush();
+
+    await element.updateComplete;
   });
 
   teardown(() => {
@@ -101,13 +101,13 @@ suite('gr-reply-dialog-it tests', () => {
   test('submit blocked when invalid email is supplied to ccs', () => {
     const sendStub = sinon.stub(element, 'send').returns(Promise.resolve());
 
-    element.$.ccs.entry!.setText('test');
+    element.ccsList!.entry!.setText('test');
     MockInteractions.tap(queryAndAssert(element, 'gr-button.send'));
-    assert.isFalse(element.$.ccs.submitEntryText());
+    assert.isFalse(element.ccsList!.submitEntryText());
     assert.isFalse(sendStub.called);
     flush();
 
-    element.$.ccs.entry!.setText('test@test.test');
+    element.ccsList!.entry!.setText('test@test.test');
     MockInteractions.tap(queryAndAssert(element, 'gr-button.send'));
     assert.isTrue(sendStub.called);
   });

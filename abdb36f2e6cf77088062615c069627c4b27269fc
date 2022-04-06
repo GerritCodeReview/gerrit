@@ -34,6 +34,98 @@
       "parentUuid": "efd89a8c_c5174d06",
       "revId": "abdb36f2e6cf77088062615c069627c4b27269fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ee261ba_fc5906fa",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyFix.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-06T06:34:59Z",
+      "side": 1,
+      "message": ", RestMofifyView\u003cRevisionResource, DirectFixInput\u003e",
+      "range": {
+        "startLine": 47,
+        "startChar": 67,
+        "endLine": 47,
+        "endChar": 68
+      },
+      "revId": "abdb36f2e6cf77088062615c069627c4b27269fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee636cfb_48954bb7",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyFix.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-06T06:34:59Z",
+      "side": 1,
+      "message": "RevisionResource revisionResource",
+      "range": {
+        "startLine": 92,
+        "startChar": 34,
+        "endLine": 92,
+        "endChar": 57
+      },
+      "revId": "abdb36f2e6cf77088062615c069627c4b27269fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a455b8c7_8d78de93",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeRestApiModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-06T06:34:59Z",
+      "side": 1,
+      "message": "REVISION_KIND",
+      "range": {
+        "startLine": 174,
+        "startChar": 9,
+        "endLine": 174,
+        "endChar": 17
+      },
+      "revId": "abdb36f2e6cf77088062615c069627c4b27269fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e96d837f_ae8f9c9e",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeRestApiModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-06T06:34:59Z",
+      "side": 1,
+      "message": "REVISION_KIND",
+      "range": {
+        "startLine": 176,
+        "startChar": 9,
+        "endLine": 176,
+        "endChar": 17
+      },
+      "revId": "abdb36f2e6cf77088062615c069627c4b27269fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

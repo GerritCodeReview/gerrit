@@ -16,28 +16,21 @@
  */
 
 import '@polymer/paper-toggle-button/paper-toggle-button';
-import '../../../styles/gr-form-styles';
-import '../../../styles/gr-menu-page-styles';
-import '../../../styles/gr-paper-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../gr-rule-editor/gr-rule-editor';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-permission_html';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {
   toSortedPermissionsArray,
   PermissionArrayItem,
   PermissionArray,
+  AccessPermissionId,
 } from '../../../utils/access-util';
-import {customElement, property, observe} from '@polymer/decorators';
+import {customElement, property, query, state} from 'lit/decorators';
 import {
   LabelNameToLabelTypeInfoMap,
   LabelTypeInfoValues,
   GroupInfo,
-  ProjectAccessGroups,
-  GroupId,
   GitRef,
   RepoName,
 } from '../../../types/common';
@@ -52,22 +45,19 @@ import {
   EditablePermissionRuleInfo,
   EditableProjectAccessGroups,
 } from '../gr-repo-access/gr-repo-access-interfaces';
-import {PolymerDomRepeatEvent} from '../../../types/types';
 import {getAppContext} from '../../../services/app-context';
 import {fireEvent} from '../../../utils/event-util';
-import {PolymerDomRepeatCustomEvent} from '../../../types/types';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {paperStyles} from '../../../styles/gr-paper-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
+import {when} from 'lit/directives/when';
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;
 
 const RANGE_NAMES = ['QUERY LIMIT', 'BATCH CHANGES LIMIT'];
 
 type GroupsWithRulesMap = {[ruleId: string]: boolean};
-
-export interface GrPermission {
-  $: {
-    groupAutocomplete: GrAutocomplete;
-  };
-}
 
 interface ComputedLabelValue {
   value: number;
@@ -95,11 +85,7 @@ interface GroupSuggestion {
  * @event added-permission-removed
  */
 @customElement('gr-permission')
-export class GrPermission extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrPermission extends LitElement {
   @property({type: String})
   repo?: RepoName;
 
@@ -109,7 +95,7 @@ export class GrPermission extends PolymerElement {
   @property({type: String})
   name?: string;
 
-  @property({type: Object, observer: '_sortPermission', notify: true})
+  @property({type: Object})
   permission?: PermissionArrayItem<EditablePermissionInfo>;
 
   @property({type: Object})
@@ -118,76 +104,244 @@ export class GrPermission extends PolymerElement {
   @property({type: String})
   section?: GitRef;
 
-  @property({type: Boolean, observer: '_handleEditingChanged'})
+  @property({type: Boolean})
   editing = false;
 
-  @property({type: Object, computed: '_computeLabel(permission, labels)'})
-  _label?: ComputedLabel;
+  @state()
+  private label?: ComputedLabel;
 
-  @property({type: String})
-  _groupFilter?: string;
+  @state()
+  private groupFilter?: string;
 
-  @property({type: Object})
-  _query: AutocompleteQuery;
+  @state()
+  private query: AutocompleteQuery;
 
-  @property({type: Array})
-  _rules?: PermissionArray<EditablePermissionRuleInfo>;
+  @state()
+  rules?: PermissionArray<EditablePermissionRuleInfo | undefined>;
 
-  @property({type: Object})
-  _groupsWithRules?: GroupsWithRulesMap;
+  @state()
+  groupsWithRules?: GroupsWithRulesMap;
 
-  @property({type: Boolean})
-  _deleted = false;
+  @state()
+  deleted = false;
 
-  @property({type: Boolean})
-  _originalExclusiveValue?: boolean;
+  @state()
+  originalExclusiveValue?: boolean;
+
+  @query('#groupAutocomplete')
+  private groupAutocomplete!: GrAutocomplete;
 
   private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();
-    this._query = () => this._getGroupSuggestions();
-    this.addEventListener('access-saved', () => this._handleAccessSaved());
+    this.query = () => this.getGroupSuggestions();
+    this.addEventListener('access-saved', () => this.handleAccessSaved());
   }
 
-  override ready() {
-    super.ready();
-    this._setupValues();
+  override connectedCallback() {
+    super.connectedCallback();
+    this.setupValues();
   }
 
-  _setupValues() {
+  override willUpdate(changedProperties: PropertyValues<GrPermission>): void {
+    if (changedProperties.has('editing')) {
+      this.handleEditingChanged(
+        this.editing,
+        changedProperties.get('editing') as boolean
+      );
+    }
+    if (
+      changedProperties.has('permission') ||
+      changedProperties.has('labels')
+    ) {
+      this.label = this.computeLabel();
+    }
+    if (changedProperties.has('permission')) {
+      this.sortPermission(this.permission);
+    }
+  }
+
+  static override styles = [
+    sharedStyles,
+    paperStyles,
+    formStyles,
+    menuPageStyles,
+    css`
+      :host {
+        display: block;
+        margin-bottom: var(--spacing-m);
+      }
+      .header {
+        align-items: baseline;
+        display: flex;
+        justify-content: space-between;
+        margin: var(--spacing-s) var(--spacing-m);
+      }
+      .rules {
+        background: var(--table-header-background-color);
+        border: 1px solid var(--border-color);
+        border-bottom: 0;
+      }
+      .editing .rules {
+        border-bottom: 1px solid var(--border-color);
+      }
+      .title {
+        margin-bottom: var(--spacing-s);
+      }
+      #addRule,
+      #removeBtn {
+        display: none;
+      }
+      .right {
+        display: flex;
+        align-items: center;
+      }
+      .editing #removeBtn {
+        display: block;
+        margin-left: var(--spacing-xl);
+      }
+      .editing #addRule {
+        display: block;
+        padding: var(--spacing-m);
+      }
+      #deletedContainer,
+      .deleted #mainContainer {
+        display: none;
+      }
+      .deleted #deletedContainer {
+        align-items: baseline;
+        border: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        padding: var(--spacing-m);
+      }
+      #mainContainer {
+        display: block;
+      }
+    `,
+  ];
+
+  override render() {
+    if (!this.section || !this.permission) {
+      return;
+    }
+    return html`
+      <section
+        id="permission"
+        class="gr-form-styles ${this.computeSectionClass(
+          this.editing,
+          this.deleted
+        )}"
+      >
+        <div id="mainContainer">
+          <div class="header">
+            <span class="title">${this.name}</span>
+            <div class="right">
+              ${when(
+                !this.permissionIsOwnerOrGlobal(
+                  this.permission.id ?? '',
+                  this.section
+                ),
+                () => html`
+                  <paper-toggle-button
+                    id="exclusiveToggle"
+                    ?checked=${this.permission?.value.exclusive}
+                    ?disabled=${!this.editing}
+                    @change=${this.handleValueChange}
+                    @click=${this.onTapExclusiveToggle}
+                  ></paper-toggle-button
+                  >${this.computeExclusiveLabel(this.permission?.value)}
+                `
+              )}
+              <gr-button
+                link=""
+                id="removeBtn"
+                @click=${this.handleRemovePermission}
+                >Remove</gr-button
+              >
+            </div>
+          </div>
+          <!-- end header -->
+          <div class="rules">
+            ${this.rules?.map(
+              (rule, index) => html`
+                <gr-rule-editor
+                  .hasRange=${this.computeHasRange(this.name)}
+                  .label=${this.label}
+                  .editing=${this.editing}
+                  .groupId=${rule.id}
+                  .groupName=${this.computeGroupName(this.groups, rule.id)}
+                  .permission=${this.permission!.id as AccessPermissionId}
+                  .rule=${rule}
+                  .section=${this.section}
+                  @rule-changed=${(e: CustomEvent) =>
+                    this.handleRuleChanged(e, index)}
+                  @added-rule-removed=${(_: Event) =>
+                    this.handleAddedRuleRemoved(index)}
+                ></gr-rule-editor>
+              `
+            )}
+            <div id="addRule">
+              <gr-autocomplete
+                id="groupAutocomplete"
+                .text=${this.groupFilter ?? ''}
+                .query=${this.query}
+                placeholder="Add group"
+                @commit=${this.handleAddRuleItem}
+              >
+              </gr-autocomplete>
+            </div>
+            <!-- end addRule -->
+          </div>
+          <!-- end rules -->
+        </div>
+        <!-- end mainContainer -->
+        <div id="deletedContainer">
+          <span>${this.name} was deleted</span>
+          <gr-button link="" id="undoRemoveBtn" @click=${this.handleUndoRemove}
+            >Undo</gr-button
+          >
+        </div>
+        <!-- end deletedContainer -->
+      </section>
+    `;
+  }
+
+  setupValues() {
     if (!this.permission) {
       return;
     }
-    this._originalExclusiveValue = !!this.permission.value.exclusive;
-    flush();
+    this.originalExclusiveValue = !!this.permission.value.exclusive;
+    this.requestUpdate();
   }
 
-  _handleAccessSaved() {
+  private handleAccessSaved() {
     // Set a new 'original' value to keep track of after the value has been
     // saved.
-    this._setupValues();
+    this.setupValues();
   }
 
-  _permissionIsOwnerOrGlobal(permissionId: string, section: string) {
+  private permissionIsOwnerOrGlobal(permissionId: string, section: string) {
     return permissionId === 'owner' || section === 'GLOBAL_CAPABILITIES';
   }
 
-  _handleEditingChanged(editing: boolean, editingOld: boolean) {
+  private handleEditingChanged(editing: boolean, editingOld: boolean) {
     // Ignore when editing gets set initially.
     if (!editingOld) {
       return;
     }
-    if (!this.permission || !this._rules) {
+    if (!this.permission || !this.rules) {
       return;
     }
 
     // Restore original values if no longer editing.
     if (!editing) {
-      this._deleted = false;
+      this.deleted = false;
       delete this.permission.value.deleted;
-      this._groupFilter = '';
-      this._rules = this._rules.filter(rule => !rule.value.added);
+      this.groupFilter = '';
+      this.rules = this.rules.filter(rule => !rule.value!.added);
+      this.handleRulesChanged();
       for (const key of Object.keys(this.permission.value.rules)) {
         if (this.permission.value.rules[key].added) {
           delete this.permission.value.rules[key];
@@ -195,58 +349,58 @@ export class GrPermission extends PolymerElement {
       }
 
       // Restore exclusive bit to original.
-      this.set(
-        ['permission', 'value', 'exclusive'],
-        this._originalExclusiveValue
-      );
+      this.permission.value.exclusive = this.originalExclusiveValue;
+      this.requestUpdate();
     }
   }
 
-  _handleAddedRuleRemoved(e: PolymerDomRepeatEvent) {
-    if (!this._rules) {
+  private handleAddedRuleRemoved(index: number) {
+    if (!this.rules) {
       return;
     }
-    const index = e.model.index;
-    this._rules = this._rules
+    // const index = e.model.index;
+    this.rules = this.rules
       .slice(0, index)
-      .concat(this._rules.slice(index + 1, this._rules.length));
+      .concat(this.rules.slice(index + 1, this.rules.length));
+    this.handleRulesChanged();
   }
 
-  _handleValueChange() {
+  handleValueChange(e: Event) {
     if (!this.permission) {
       return;
     }
     this.permission.value.modified = true;
+    this.permission.value.exclusive = (e.target as HTMLInputElement).checked;
     // Allows overall access page to know a change has been made.
     fireEvent(this, 'access-modified');
   }
 
-  _handleRemovePermission() {
+  handleRemovePermission() {
     if (!this.permission) {
       return;
     }
     if (this.permission.value.added) {
       fireEvent(this, 'added-permission-removed');
     }
-    this._deleted = true;
+    this.deleted = true;
     this.permission.value.deleted = true;
     fireEvent(this, 'access-modified');
   }
 
-  @observe('_rules.splices')
-  _handleRulesChanged() {
-    if (!this._rules) {
+  private handleRulesChanged() {
+    if (!this.rules) {
       return;
     }
     // Update the groups to exclude in the autocomplete.
-    this._groupsWithRules = this._computeGroupsWithRules(this._rules);
+    this.groupsWithRules = this.computeGroupsWithRules(this.rules);
   }
 
-  _sortPermission(permission: PermissionArrayItem<EditablePermissionInfo>) {
-    this._rules = toSortedPermissionsArray(permission.value.rules);
+  sortPermission(permission?: PermissionArrayItem<EditablePermissionInfo>) {
+    this.rules = toSortedPermissionsArray(permission?.value.rules);
+    this.handleRulesChanged();
   }
 
-  _computeSectionClass(editing: boolean, deleted: boolean) {
+  computeSectionClass(editing: boolean, deleted: boolean) {
     const classList = [];
     if (editing) {
       classList.push('editing');
@@ -257,18 +411,16 @@ export class GrPermission extends PolymerElement {
     return classList.join(' ');
   }
 
-  _handleUndoRemove() {
+  handleUndoRemove() {
     if (!this.permission) {
       return;
     }
-    this._deleted = false;
+    this.deleted = false;
     delete this.permission.value.deleted;
   }
 
-  _computeLabel(
-    permission?: PermissionArrayItem<EditablePermissionInfo>,
-    labels?: LabelNameToLabelTypeInfoMap
-  ): ComputedLabel | undefined {
+  computeLabel(): ComputedLabel | undefined {
+    const {permission, labels} = this;
     if (
       !labels ||
       !permission ||
@@ -287,11 +439,11 @@ export class GrPermission extends PolymerElement {
     }
     return {
       name: labelName,
-      values: this._computeLabelValues(labels[labelName].values),
+      values: this.computeLabelValues(labels[labelName].values),
     };
   }
 
-  _computeLabelValues(values: LabelTypeInfoValues): ComputedLabelValue[] {
+  computeLabelValues(values: LabelTypeInfoValues): ComputedLabelValue[] {
     const valuesArr: ComputedLabelValue[] = [];
     const keys = Object.keys(values).sort((a, b) => Number(a) - Number(b));
 
@@ -307,8 +459,8 @@ export class GrPermission extends PolymerElement {
     return valuesArr;
   }
 
-  _computeGroupsWithRules(
-    rules: PermissionArray<EditablePermissionRuleInfo>
+  computeGroupsWithRules(
+    rules: PermissionArray<EditablePermissionRuleInfo | undefined>
   ): GroupsWithRulesMap {
     const groups: GroupsWithRulesMap = {};
     for (const rule of rules) {
@@ -317,16 +469,19 @@ export class GrPermission extends PolymerElement {
     return groups;
   }
 
-  _computeGroupName(groups: ProjectAccessGroups, groupId: GroupId) {
+  computeGroupName(
+    groups: EditableProjectAccessGroups | undefined,
+    groupId: GitRef
+  ) {
     return groups && groups[groupId] && groups[groupId].name
       ? groups[groupId].name
       : groupId;
   }
 
-  _getGroupSuggestions(): Promise<AutocompleteSuggestion[]> {
+  getGroupSuggestions(): Promise<AutocompleteSuggestion[]> {
     return this.restApiService
       .getSuggestedGroups(
-        this._groupFilter || '',
+        this.groupFilter || '',
         this.repo,
         MAX_AUTOCOMPLETE_RESULTS
       )
@@ -339,7 +494,7 @@ export class GrPermission extends PolymerElement {
         return groups
           .filter(
             group =>
-              this._groupsWithRules && !this._groupsWithRules[group.value.id]
+              this.groupsWithRules && !this.groupsWithRules[group.value.id]
           )
           .map((group: GroupSuggestion) => {
             const autocompleteSuggestion: AutocompleteSuggestion = {
@@ -355,8 +510,8 @@ export class GrPermission extends PolymerElement {
    * Handles adding a skeleton item to the dom-repeat.
    * gr-rule-editor handles setting the default values.
    */
-  _handleAddRuleItem(e: AutocompleteCommitEvent) {
-    if (!this.permission || !this._rules) {
+  async handleAddRuleItem(e: AutocompleteCommitEvent) {
+    if (!this.permission || !this.rules) {
       return;
     }
 
@@ -373,33 +528,36 @@ export class GrPermission extends PolymerElement {
 
     // Purposely don't recompute sorted array so that the newly added rule
     // is the last item of the array.
-    this.push('_rules', {
-      id: groupId,
+    this.rules.push({
+      id: groupId as GitRef,
+      value: undefined,
+      // value: this.permission.value.rules[groupId],
     });
-
-    // Add the new group name to the groups object so the name renders
-    // correctly.
-    if (this.groups && !this.groups[groupId]) {
-      this.groups[groupId] = {name: this.$.groupAutocomplete.text};
-    }
-
-    // Clear the text of the auto-complete box, so that the user can add the
-    // next group.
-    this.$.groupAutocomplete.text = '';
-
     // Wait for new rule to get value populated via gr-rule-editor, and then
     // add to permission values as well, so that the change gets propagated
     // back to the section. Since the rule is inside a dom-repeat, a flush
     // is needed.
-    flush();
-    const value = this._rules[this._rules.length - 1].value;
-    value.added = true;
-    // See comment above for why we cannot use "this.set(...)" here.
-    this.permission.value.rules[groupId] = value;
+    this.requestUpdate();
+    await this.updateComplete;
+
+    // Add the new group name to the groups object so the name renders
+    // correctly.
+    if (this.groups && !this.groups[groupId]) {
+      this.groups[groupId] = {name: this.groupAutocomplete.text};
+    }
+
+    // Clear the text of the auto-complete box, so that the user can add the
+    // next group.
+    this.groupAutocomplete.text = '';
+
+    const value = this.rules[this.rules.length - 1].value;
+    value!.added = true;
+    this.permission.value.rules[groupId] = value!;
     fireEvent(this, 'access-modified');
+    this.requestUpdate();
   }
 
-  _computeHasRange(name: string) {
+  computeHasRange(name?: string) {
     if (!name) {
       return false;
     }
@@ -407,28 +565,25 @@ export class GrPermission extends PolymerElement {
     return RANGE_NAMES.includes(name.toUpperCase());
   }
 
-  _computeExclusiveLabel(permission?: EditablePermissionInfo) {
+  private computeExclusiveLabel(permission?: EditablePermissionInfo) {
     return permission?.exclusive ? 'Exclusive' : 'Not Exclusive';
   }
 
   /**
    * Work around a issue on iOS when clicking turns into double tap
    */
-  _onTapExclusiveToggle(e: Event) {
+  private onTapExclusiveToggle(e: Event) {
     e.preventDefault();
   }
 
-  _handleRuleChanged(e: PolymerDomRepeatCustomEvent) {
-    if (
-      this._rules === undefined ||
-      (e as CustomEvent).detail.value === undefined
-    )
-      return;
-    const index = Number(e.model.index);
+  private handleRuleChanged(e: CustomEvent, index: number) {
+    if (this.rules === undefined || e.detail.value === undefined) return;
     if (isNaN(index)) {
       return;
     }
-    this.splice('_rules', index, (e as CustomEvent).detail.value);
+    this.rules.splice(index, e.detail.value);
+    this.handleRulesChanged();
+    this.requestUpdate();
   }
 }
 

@@ -5,7 +5,10 @@ junit_tests(
     srcs = glob(["*.java"]),
     deps = [
         "//java/com/google/gerrit/server",
+        "//javatests/com/google/gerrit/util/http/testutil",
         "//lib:junit",
         "//lib/truth",
+        "//lib/truth:truth-java8-extension",
+        "@servlet-api-3_1//jar",
     ],
 )

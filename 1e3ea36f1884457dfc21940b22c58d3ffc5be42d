@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7dbe221_7ae92b76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T09:02:26Z",
+      "side": 1,
+      "message": "Thanks, probably artifact of old implementation of commit message collapsing",
+      "revId": "1e3ea36f1884457dfc21940b22c58d3ffc5be42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

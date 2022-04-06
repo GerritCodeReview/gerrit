@@ -72,7 +72,6 @@ import {
   isReviewerGroupSuggestion,
   ParsedJSON,
   PatchSetNum,
-  ProjectInfo,
   ReviewerInput,
   Reviewers,
   ReviewInput,
@@ -119,9 +118,12 @@ import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
-import {LabelNameToValuesMap} from '../../../api/rest-api';
+import {ConfigInfo, LabelNameToValuesMap} from '../../../api/rest-api';
 import {css, html} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {when} from 'lit/directives/when';
+import {classMap} from 'lit/directives/class-map';
+import {BindValueChangeEvent} from '../../../types/events';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -256,7 +258,7 @@ export class GrReplyDialog extends DIPolymerElement {
   permittedLabels?: LabelNameToValuesMap;
 
   @property({type: Object})
-  projectConfig?: ProjectInfo;
+  projectConfig?: ConfigInfo;
 
   @property({type: Object})
   serverConfig?: ServerInfo;
@@ -614,396 +616,535 @@ export class GrReplyDialog extends DIPolymerElement {
     `,
   ];
 
-  render() {
+  private renderPeopleList() {
     return html`
-    <div tabindex="-1">
-      <section class="peopleContainer">
-        <gr-endpoint-decorator name="reply-reviewers">
-          <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
-          <gr-endpoint-param name="reviewers" value="[[_allReviewers]]">
-          </gr-endpoint-param>
-          <div class="peopleList">
-            <div class="peopleListLabel">Reviewers</div>
-            <gr-account-list
-              id="reviewers"
-              accounts="{{_reviewers}}"
-              removable-values="[[change.removable_reviewers]]"
-              filter="[[filterReviewerSuggestion]]"
-              pending-confirmation="{{_reviewerPendingConfirmation}}"
-              placeholder="Add reviewer..."
-              on-account-text-changed="_handleAccountTextEntry"
-              suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]"
-            >
-            </gr-account-list>
-            <gr-endpoint-slot name="right"></gr-endpoint-slot>
-          </div>
-          <gr-endpoint-slot name="below"></gr-endpoint-slot>
-        </gr-endpoint-decorator>
-        <div class="peopleList">
-          <div class="peopleListLabel">CC</div>
-          <gr-account-list
-            id="ccs"
-            accounts="{{_ccs}}"
-            filter="[[filterCCSuggestion]]"
-            pending-confirmation="{{_ccPendingConfirmation}}"
-            allow-any-input=""
-            placeholder="Add CC..."
-            on-account-text-changed="_handleAccountTextEntry"
-            suggestions-provider="[[_getCcSuggestionsProvider(change)]]"
-          >
-          </gr-account-list>
-        </div>
-        <gr-overlay
-          id="reviewerConfirmationOverlay"
-          on-iron-overlay-canceled="_cancelPendingReviewer"
+      <div class="peopleList">
+        <div class="peopleListLabel">Reviewers</div>
+        <!--  TODO: replace 2 way binding once GrAccountList is in Lit -->
+        <gr-account-list
+          id="reviewers"
+          .accounts="{{_reviewers}}"
+          .removableValues=${this.change?.removable_reviewers}
+          .filter=${this.filterReviewerSuggestion}
+          .pendingConfirmation="{{_reviewerPendingConfirmation}}"
+          .placeholder=${'Add reviewer...'}
+          @account-text-changed=${this._handleAccountTextEntry}
+          .suggestionsProvider=${this._getReviewerSuggestionsProvider(
+            this.change
+          )}
         >
-          <div class="reviewerConfirmation">
-            Group
-            <span class="groupName">
-              [[_pendingConfirmationDetails.group.name]]
-            </span>
-            has
-            <span class="groupSize"> [[_pendingConfirmationDetails.count]] </span>
-            members.
-            <br />
-            Are you sure you want to add them all?
-          </div>
-          <div class="reviewerConfirmationButtons">
-            <gr-button on-click="_confirmPendingReviewer">Yes</gr-button>
-            <gr-button on-click="_cancelPendingReviewer">No</gr-button>
-          </div>
-        </gr-overlay>
-      </section>
-  
-      <section class="labelsContainer">
-        <gr-endpoint-decorator name="reply-label-scores">
-          <gr-label-scores
-            id="labelScores"
-            account="[[_account]]"
-            change="[[change]]"
-            on-labels-changed="_handleLabelsChanged"
-            permitted-labels="[[permittedLabels]]"
-          ></gr-label-scores>
-          <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
-        </gr-endpoint-decorator>
-        <div id="pluginMessage">[[_pluginMessage]]</div>
-      </section>
-      <section class="newReplyDialog textareaContainer">
-        <div class$="patchsetLevelContainer [[getUnresolvedPatchsetLevelClass(_isResolvedPatchsetLevelComment)]]">
-          <gr-endpoint-decorator name="reply-text">
-            <gr-textarea
-              id="textarea"
-              class="message newReplyDialog"
-              autocomplete="on"
-              placeholder="[[_messagePlaceholder]]"
-              monospace="true"
-              disabled="{{disabled}}"
-              rows="4"
-              text="{{draft}}"
-              on-bind-value-changed="_handleHeightChanged"
-            >
-            </gr-textarea>
-            <gr-endpoint-param name="change" value="[[change]]">
-            </gr-endpoint-param>
-          </gr-endpoint-decorator>
-          <div class="labelContainer">
-            <label>
-              <input
-                id="resolvedPatchsetLevelCommentCheckbox"
-                type="checkbox"
-                checked="{{_isResolvedPatchsetLevelComment::change}}"
-              />
-              Resolved
-            </label>
-            <label class="preview-formatting">
-              <input type="checkbox" checked="{{_previewFormatting::change}}" />
-              Preview formatting
-            </label>
-          </div>
-        </div>
-      </section>
-      <template is="dom-if" if="[[_previewFormatting]]">
-        <section class="previewContainer">
-          <gr-formatted-text
-            content="[[draft]]"
-            config="[[projectConfig.commentlinks]]"
-          ></gr-formatted-text>
-      </template>
-      </section>
-  
-      <section
-        class="draftsContainer"
-        hidden$="[[_computeHideDraftList(draftCommentThreads)]]"
+        </gr-account-list>
+        <gr-endpoint-slot name="right"></gr-endpoint-slot>
+      </div>
+    `;
+  }
+
+  private renderReviewConfirmation() {
+    return html`
+      <gr-overlay
+        id="reviewerConfirmationOverlay"
+        @iron-overlay-canceled=${this._cancelPendingReviewer}
       >
+        <div class="reviewerConfirmation">
+          Group
+          <span class="groupName">
+            ${this._pendingConfirmationDetails?.group.name}
+          </span>
+          has
+          <span class="groupSize">
+            <!--  TODO(TS): replace any with correct type -->.
+            ${
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (this._pendingConfirmationDetails as any)?.count
+            }
+          </span>
+          members.
+          <br />
+          Are you sure you want to add them all?
+        </div>
+        <div class="reviewerConfirmationButtons">
+          <gr-button @click=${this._confirmPendingReviewer}>Yes</gr-button>
+          <gr-button @click=${this._cancelPendingReviewer}>No</gr-button>
+        </div>
+      </gr-overlay>
+    `;
+  }
+
+  private renderLabels() {
+    if (!this.change || !this._account || !this.permittedLabels) return;
+    return html`
+      <gr-endpoint-decorator name="reply-label-scores">
+        <gr-label-scores
+          id="labelScores"
+          .account=${this._account}
+          .change=${this.change}
+          @labels-changed=${this._handleLabelsChanged}
+          .permittedLabels=${this.permittedLabels}
+        ></gr-label-scores>
+        <gr-endpoint-param
+          .name=${'change'}
+          .value=${this.change}
+        ></gr-endpoint-param>
+      </gr-endpoint-decorator>
+      <div id="pluginMessage">${this._pluginMessage}</div>
+    `;
+  }
+
+  renderReplyText() {
+    if (!this.change) return;
+    return html`
+      <div
+        class=${classMap({
+          patchsetLevelContainer: true,
+          [this.getUnresolvedPatchsetLevelClass(
+            this._isResolvedPatchsetLevelComment
+          )]: true,
+        })}
+      >
+        <gr-endpoint-decorator name="reply-text">
+          <gr-textarea
+            id="textarea"
+            class="message newReplyDialog"
+            .autocomplete=${'on'}
+            .placeholder=${this._messagePlaceholder}
+            monospace
+            ?disabled=${this.disabled}
+            .rows=${'4'}
+            .text=${this.draft}
+            @bind-value-changed=${(e: BindValueChangeEvent) => {
+              this.draft = e.detail.value;
+              this._handleHeightChanged;
+            }}
+          >
+          </gr-textarea>
+          <gr-endpoint-param .name=${'change'} .value=${this.change}>
+          </gr-endpoint-param>
+        </gr-endpoint-decorator>
+        <div class="labelContainer">
+          <label>
+            <input
+              id="resolvedPatchsetLevelCommentCheckbox"
+              type="checkbox"
+              ?checked=${this._isResolvedPatchsetLevelComment}
+              @change=${this.handleResolvedPatchsetLevelCommentCheckboxChanged}
+            />
+            Resolved
+          </label>
+          <label class="preview-formatting">
+            <input
+              type="checkbox"
+              ?checked=${this._previewFormatting}
+              @change=${this.handlePreviewFormattingChanged}
+            />
+            Preview formatting
+          </label>
+        </div>
+      </div>
+    `;
+  }
+
+  private renderDraftsSection() {
+    if (this._computeHideDraftList(this.draftCommentThreads)) return;
+    return html`
+      <section class="draftsContainer">
         <div class="includeComments">
           <input
             type="checkbox"
             id="includeComments"
-            checked="{{_includeComments::change}}"
+            @change=${this.handleIncludeCommentsChanged}
+            ?checked=${this._includeComments}
           />
           <label for="includeComments"
-            >Publish [[_computeDraftsTitle(draftCommentThreads)]]</label
+            >Publish
+            ${this._computeDraftsTitle(this.draftCommentThreads)}</label
           >
         </div>
-        <gr-thread-list
-          id="commentList"
-          hidden$="[[!_includeComments]]"
-          threads="[[draftCommentThreads]]"
-          hide-dropdown=""
-        >
-        </gr-thread-list>
+        ${when(
+          this._includeComments,
+          () => html`
+            <gr-thread-list
+              id="commentList"
+              .threads=${this.draftCommentThreads!}
+              hide-dropdown
+            >
+            </gr-thread-list>
+          `
+        )}
         <span
           id="savingLabel"
-          class$="[[_computeSavingLabelClass(_savingComments)]]"
+          class=${this._computeSavingLabelClass(this._savingComments)}
         >
           Saving comments...
         </span>
       </section>
-      <div class="stickyBottom newReplyDialog">
-        <gr-endpoint-decorator name="reply-bottom">
-          <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
-          <section
-            hidden$="[[!_showAttentionSummary(_attentionExpanded)]]"
-            class="attention"
-          >
-            <div class="attentionSummary">
-              <div>
-                <template
-                  is="dom-if"
-                  if="[[_computeShowNoAttentionUpdate(serverConfig, _currentAttentionSet, _newAttentionSet, _sendDisabled)]]"
+    `;
+  }
+
+  private renderAttentionSummarySection() {
+    if (!this._showAttentionSummary()) return;
+    return html`
+      <section class="attention">
+        <div class="attentionSummary">
+          <div>
+            ${when(
+              this._computeShowNoAttentionUpdate(
+                this.serverConfig,
+                this._currentAttentionSet,
+                this._newAttentionSet,
+                this._sendDisabled
+              ),
+              () => html`
+                <span
+                  >${this._computeDoNotUpdateMessage(
+                    this._currentAttentionSet,
+                    this._newAttentionSet,
+                    this._sendDisabled
+                  )}</span
                 >
-                  <span
-                    >[[_computeDoNotUpdateMessage(_currentAttentionSet,
-                    _newAttentionSet, _sendDisabled)]]</span
-                  >
-                </template>
-                <template
-                  is="dom-if"
-                  if="[[!_computeShowNoAttentionUpdate(serverConfig, _currentAttentionSet, _newAttentionSet, _sendDisabled)]]"
-                >
-                  <span>Bring to attention of</span>
-                  <template
-                    is="dom-repeat"
-                    items="[[_computeNewAttentionAccounts(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
-                    as="account"
-                  >
+              `
+            )}
+            ${when(
+              !this._computeShowNoAttentionUpdate(
+                this.serverConfig,
+                this._currentAttentionSet,
+                this._newAttentionSet,
+                this._sendDisabled
+              ),
+              () => html`
+                <span>Bring to attention of</span>
+                ${this._computeNewAttentionAccounts().map(
+                  account => html`
                     <gr-account-label
-                      account="[[account]]"
-                      force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                      selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                      hideHovercard
-                      selectionChipStyle
-                      on-click="_handleAttentionClick"
+                      .account=${account}
+                      .forceAttention=${this._computeHasNewAttention(
+                        account,
+                        this._newAttentionSet
+                      )}
+                      .selected=${this._computeHasNewAttention(
+                        account,
+                        this._newAttentionSet
+                      )}
+                      .hideHovercard=${true}
+                      .selectionChipStyle=${true}
+                      @click=${this._handleAttentionClick}
                     ></gr-account-label>
-                  </template>
-                </template>
-                <gr-tooltip-content
-                  has-tooltip
-                  title="[[_computeAttentionButtonTitle(_sendDisabled)]]"
-                >
-                  <gr-button
-                    class="edit-attention-button"
-                    on-click="_handleAttentionModify"
-                    disabled="[[_sendDisabled]]"
-                    link=""
-                    position-below=""
-                    data-label="Edit"
-                    data-action-type="change"
-                    data-action-key="edit"
-                    role="button"
-                    tabindex="0"
-                  >
-                    <iron-icon icon="gr-icons:edit"></iron-icon>
-                    Modify
-                  </gr-button>
-                </gr-tooltip-content>
-              </div>
-              <div>
-                <a
-                  href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
-                  target="_blank"
-                >
-                  <iron-icon
-                    icon="gr-icons:help-outline"
-                    title="read documentation"
-                  ></iron-icon>
-                </a>
-              </div>
-            </div>
-          </section>
-          <section
-            hidden$="[[!_showAttentionDetails(_attentionExpanded)]]"
-            class="attention-detail"
-          >
-            <div class="attentionDetailsTitle">
-              <div>
-                <span>Modify attention to</span>
-              </div>
-              <div></div>
-              <div>
-                <a
-                  href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
-                  target="_blank"
-                >
-                  <iron-icon
-                    icon="gr-icons:help-outline"
-                    title="read documentation"
-                  ></iron-icon>
-                </a>
-              </div>
-            </div>
-            <div class="selectUsers">
-              <span
-                >Select chips to set who will be in the attention set after sending
-                this reply</span
+                  `
+                )}
+              `
+            )}
+            <gr-tooltip-content
+              has-tooltip
+              title=${this._computeAttentionButtonTitle()}
+            >
+              <gr-button
+                class="edit-attention-button"
+                @click=${this._handleAttentionModify}
+                ?disabled=${this._sendDisabled}
+                link=""
+                position-below=""
+                data-label="Edit"
+                data-action-type="change"
+                data-action-key="edit"
+                role="button"
+                tabindex="0"
               >
-            </div>
+                <iron-icon icon="gr-icons:edit"></iron-icon>
+                Modify
+              </gr-button>
+            </gr-tooltip-content>
+          </div>
+          <div>
+            <a
+              href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
+              target="_blank"
+            >
+              <iron-icon
+                icon="gr-icons:help-outline"
+                title="read documentation"
+              ></iron-icon>
+            </a>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  private renderAttentionDetailsSection() {
+    if (!this._showAttentionDetails()) return;
+    return html`
+      <section class="attention-detail">
+        <div class="attentionDetailsTitle">
+          <div>
+            <span>Modify attention to</span>
+          </div>
+          <div></div>
+          <div>
+            <a
+              href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
+              target="_blank"
+            >
+              <iron-icon
+                icon="gr-icons:help-outline"
+                title="read documentation"
+              ></iron-icon>
+            </a>
+          </div>
+        </div>
+        <div class="selectUsers">
+          <span
+            >Select chips to set who will be in the attention set after sending
+            this reply</span
+          >
+        </div>
+        <div class="peopleList">
+          <div class="peopleListLabel">Owner</div>
+          <div class="peopleListValues">
+            <gr-account-label
+              .account=${this._owner}
+              ?forceAttention=${this._computeHasNewAttention(
+                this._owner,
+                this._newAttentionSet
+              )}
+              .selected=${this._computeHasNewAttention(
+                this._owner,
+                this._newAttentionSet
+              )}
+              .hideHovercard=${true}
+              .selectionChipStyle=${true}
+              @click=${this._handleAttentionClick}
+            >
+            </gr-account-label>
+          </div>
+        </div>
+        ${when(
+          this._uploader,
+          () => html`
             <div class="peopleList">
-              <div class="peopleListLabel">Owner</div>
+              <div class="peopleListLabel">Uploader</div>
               <div class="peopleListValues">
                 <gr-account-label
-                  account="[[_owner]]"
-                  force-attention="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
-                  selected="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
-                  hideHovercard
-                  selectionChipStyle
-                  on-click="_handleAttentionClick"
+                  .account=${this._uploader}
+                  ?forceAttention=${this._computeHasNewAttention(
+                    this._uploader,
+                    this._newAttentionSet
+                  )}
+                  .selected=${this._computeHasNewAttention(
+                    this._uploader,
+                    this._newAttentionSet
+                  )}
+                  .hideHovercard=${true}
+                  .selectionChipStyle=${true}
+                  @click=${this._handleAttentionClick}
                 >
                 </gr-account-label>
               </div>
             </div>
-            <template is="dom-if" if="[[_uploader]]">
-              <div class="peopleList">
-                <div class="peopleListLabel">Uploader</div>
-                <div class="peopleListValues">
-                  <gr-account-label
-                    account="[[_uploader]]"
-                    force-attention="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
-                    selected="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
-                    hideHovercard
-                    selectionChipStyle
-                    on-click="_handleAttentionClick"
-                  >
-                  </gr-account-label>
-                </div>
-              </div>
-            </template>
-            <div class="peopleList">
-              <div class="peopleListLabel">Reviewers</div>
-              <div class="peopleListValues">
-                <template
-                  is="dom-repeat"
-                  items="[[_removeServiceUsers(_reviewers, _newAttentionSet)]]"
-                  as="account"
+          `
+        )}
+        <div class="peopleList">
+          <div class="peopleListLabel">Reviewers</div>
+          <div class="peopleListValues">
+            ${this._removeServiceUsers(
+              this._reviewers,
+              this._newAttentionSet
+            ).map(
+              account => html`
+                <gr-account-label
+                  .account=${account}
+                  ?forceAttention=${this._computeHasNewAttention(
+                    account,
+                    this._newAttentionSet
+                  )}
+                  .selected=${this._computeHasNewAttention(
+                    account,
+                    this._newAttentionSet
+                  )}
+                  .hideHovercard=${true}
+                  .selectionChipStyle=${true}
+                  @click=${this._handleAttentionClick}
                 >
-                  <gr-account-label
-                    account="[[account]]"
-                    force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                    selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                    hideHovercard
-                    selectionChipStyle
-                    on-click="_handleAttentionClick"
-                  >
-                  </gr-account-label>
-                </template>
-              </div>
-            </div>
-            <template is="dom-if" if="[[_attentionCcsCount]]">
-              <div class="peopleList">
-                <div class="peopleListLabel">CC</div>
-                <div class="peopleListValues">
-                  <template
-                    is="dom-repeat"
-                    items="[[_removeServiceUsers(_ccs, _newAttentionSet)]]"
-                    as="account"
-                  >
+                </gr-account-label>
+              `
+            )}
+          </div>
+        </div>
+
+        ${when(
+          this._attentionCcsCount,
+          () => html`
+            <div class="peopleList">
+              <div class="peopleListLabel">CC</div>
+              <div class="peopleListValues">
+                ${this._removeServiceUsers(
+                  this._ccs,
+                  this._newAttentionSet
+                ).map(
+                  account => html`
                     <gr-account-label
-                      account="[[account]]"
-                      force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                      selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                      hideHovercard
-                      selectionChipStyle
-                      on-click="_handleAttentionClick"
+                      .account=${account}
+                      ?forceAttention=${this._computeHasNewAttention(
+                        account,
+                        this._newAttentionSet
+                      )}
+                      .selected=${this._computeHasNewAttention(
+                        account,
+                        this._newAttentionSet
+                      )}
+                      .hideHovercard=${true}
+                      .selectionChipStyle=${true}
+                      @click=${this._handleAttentionClick}
                     >
                     </gr-account-label>
-                  </template>
-                </div>
+                  `
+                )}
               </div>
-            </template>
-            <template
-              is="dom-if"
-              if="[[_computeShowAttentionTip(_account, _owner, _currentAttentionSet, _newAttentionSet)]]"
-            >
-              <div class="attentionTip">
-                <iron-icon
-                  class="pointer"
-                  icon="gr-icons:lightbulb-outline"
-                ></iron-icon>
-                Be mindful of requiring attention from too many users.
-              </div>
-            </template>
-          </section>
-          <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
-          <section class="actions">
-            <div class="left">
-              <span
-                id="checkingStatusLabel"
-                hidden$="[[!_isState(knownLatestState, 'checking')]]"
-              >
-                Checking whether patch [[patchNum]] is latest...
-              </span>
-              <span
-                id="notLatestLabel"
-                hidden$="[[!_isState(knownLatestState, 'not-latest')]]"
-              >
-                [[_computePatchSetWarning(patchNum, _labelsChanged)]]
-                <gr-button link="" on-click="_reload">Reload</gr-button>
-              </span>
             </div>
-            <div class="right">
-              <gr-button
-                link=""
-                id="cancelButton"
-                class="action cancel"
-                on-click="_cancelTapHandler"
-                >Cancel</gr-button
-              >
-              <template is="dom-if" if="[[canBeStarted]]">
-                <!-- Use 'Send' here as the change may only about reviewers / ccs
-                    and when this button is visible, the next button will always
-                    be 'Start review' -->
-                <gr-tooltip-content
-                  has-tooltip=""
-                  title$="[[_saveTooltip]]"
-                >
-                  <gr-button
-                    link=""
-                    disabled="[[_isState(knownLatestState, 'not-latest')]]"
-                    class="action save"
-                    on-click="_saveClickHandler"
-                    >Send As WIP</gr-button
-                  >
-                </gr-tooltip-content>
-              </template>
-              <gr-tooltip-content
-                has-tooltip=""
-                title$="[[_computeSendButtonTooltip(canBeStarted, _commentEditing)]]"
-              >
+          `
+        )}
+        ${when(
+          this._computeShowAttentionTip(
+            this._account,
+            this._owner,
+            this._currentAttentionSet,
+            this._newAttentionSet
+          ),
+          () => html`
+            <div class="attentionTip">
+              <iron-icon
+                class="pointer"
+                icon="gr-icons:lightbulb-outline"
+              ></iron-icon>
+              Be mindful of requiring attention from too many users.
+            </div>
+          `
+        )}
+      </section>
+    `;
+  }
+
+  private renderActionsSection() {
+    return html`
+      <section class="actions">
+        <div class="left">
+          ${when(
+            this._isState(this.knownLatestState, LatestPatchState.CHECKING),
+            () => html`
+              <span id="checkingStatusLabel">
+                Checking whether patch ${this.patchNum} is latest...
+              </span>
+            `
+          )}
+          ${when(
+            this._isState(this.knownLatestState, LatestPatchState.NOT_LATEST),
+            () => html`
+              <span id="notLatestLabel">
+                ${this._computePatchSetWarning(
+                  this.patchNum,
+                  this._labelsChanged
+                )}
+                <gr-button link="" @click=${this._reload}>Reload</gr-button>
+              </span>
+            `
+          )}
+        </div>
+        <div class="right">
+          <gr-button
+            link=""
+            id="cancelButton"
+            class="action cancel"
+            @click=${this._cancelTapHandler}
+            >Cancel</gr-button
+          >
+          ${when(
+            this.canBeStarted,
+            () => html`
+              <!-- Use 'Send' here as the change may only about reviewers / ccs
+            and when this button is visible, the next button will always
+            be 'Start review' -->
+              <gr-tooltip-content has-tooltip="" title=${this._saveTooltip}>
                 <gr-button
-                  id="sendButton"
-                  primary=""
-                  disabled="[[_sendDisabled]]"
-                  class="action send"
-                  on-click="_sendTapHandler"
-                  >[[_sendButtonLabel]]
-                </gr-button>
+                  link=""
+                  ?disabled=${this._isState(
+                    this.knownLatestState,
+                    LatestPatchState.NOT_LATEST
+                  )}
+                  class="action save"
+                  @click=${this._saveClickHandler}
+                  >Send As WIP</gr-button
+                >
               </gr-tooltip-content>
-            </div>
-          </section>
-        </gr-endpoint-decorator>
+            `
+          )}
+          <gr-tooltip-content
+            has-tooltip=""
+            title=${this._computeSendButtonTooltip(
+              this.canBeStarted,
+              this._commentEditing
+            )}
+          >
+            <gr-button
+              id="sendButton"
+              primary=""
+              ?disabled=${this._sendDisabled}
+              class="action send"
+              @click=${this._sendTapHandler}
+              >${this._sendButtonLabel}
+            </gr-button>
+          </gr-tooltip-content>
+        </div>
+      </section>
+    `;
+  }
+
+  render() {
+    if (!this.change) return;
+    return html`
+      <div tabindex="-1">
+        <section class="peopleContainer">
+          <gr-endpoint-decorator name="reply-reviewers">
+            <gr-endpoint-param
+              .name=${'change'}
+              .value=${this.change}
+            ></gr-endpoint-param>
+            <gr-endpoint-param
+              .name=${'reviewers'}
+              .value=${this._allReviewers}
+            >
+            </gr-endpoint-param>
+            <gr-endpoint-slot name="below"></gr-endpoint-slot>
+          </gr-endpoint-decorator>
+          ${this.renderPeopleList()} ${this.renderReviewConfirmation()}
+        </section>
+        <section class="labelsContainer">${this.renderLabels()}</section>
+        <section class="newReplyDialog textareaContainer">
+          ${this.renderReplyText()}
+        </section>
+        ${when(
+          this._previewFormatting,
+          () => html`
+            <section class="previewContainer">
+              <gr-formatted-text
+                .content=${this.draft}
+                .config=${this.projectConfig?.commentlinks}
+              ></gr-formatted-text>
+            </section>
+          `
+        )}
+        ${this.renderDraftsSection()}
+        <div class="stickyBottom newReplyDialog">
+          <gr-endpoint-decorator name="reply-bottom">
+            <gr-endpoint-param
+              .name=${'change'}
+              .value=${this.change}
+            ></gr-endpoint-param>
+            ${this.renderAttentionSummarySection()}
+            ${this.renderAttentionDetailsSection()}
+            <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
+            ${this.renderActionsSection()}
+          </gr-endpoint-decorator>
+        </div>
       </div>
-    </div>
-  `;
+    `;
   }
 
   constructor() {
@@ -1120,6 +1261,21 @@ export class GrReplyDialog extends DIPolymerElement {
       start: this.$.reviewers.focusStart,
       end,
     };
+  }
+
+  private handleResolvedPatchsetLevelCommentCheckboxChanged(e: Event) {
+    if (!(e.target instanceof HTMLInputElement)) return;
+    this._isResolvedPatchsetLevelComment = e.target.checked;
+  }
+
+  private handlePreviewFormattingChanged(e: Event) {
+    if (!(e.target instanceof HTMLInputElement)) return;
+    this._previewFormatting = e.target.checked;
+  }
+
+  private handleIncludeCommentsChanged(e: Event) {
+    if (!(e.target instanceof HTMLInputElement)) return;
+    this._includeComments = e.target.checked;
   }
 
   setLabelValue(label: string, value: string) {
@@ -1458,8 +1614,8 @@ export class GrReplyDialog extends DIPolymerElement {
     fireEvent(this, 'iron-resize');
   }
 
-  _showAttentionSummary(attentionExpanded?: boolean) {
-    return !attentionExpanded;
+  _showAttentionSummary() {
+    return !this._attentionExpanded;
   }
 
   _showAttentionDetails(attentionExpanded?: boolean) {
@@ -1503,7 +1659,7 @@ export class GrReplyDialog extends DIPolymerElement {
     account?: AccountInfo,
     newAttention?: Set<AccountId>
   ) {
-    return (
+    return !!(
       newAttention &&
       account &&
       account._account_id &&
@@ -1682,14 +1838,14 @@ export class GrReplyDialog extends DIPolymerElement {
     _?: ServerInfo,
     currentAttentionSet?: Set<AccountId>,
     newAttentionSet?: Set<AccountId>
-  ) {
+  ): AccountInfo[] {
     if (currentAttentionSet === undefined || newAttentionSet === undefined) {
       return [];
     }
     return [...newAttentionSet]
       .filter(id => !currentAttentionSet.has(id))
       .map(id => this._findAccountById(id))
-      .filter(account => !!account);
+      .filter(account => !!account) as AccountInfo[];
   }
 
   _findAccountById(accountId: AccountId) {
@@ -2007,7 +2163,8 @@ export class GrReplyDialog extends DIPolymerElement {
     this.dispatchEvent(new CustomEvent('send-disabled-changed'));
   }
 
-  _getReviewerSuggestionsProvider(change: ChangeInfo) {
+  _getReviewerSuggestionsProvider(change?: ChangeInfo) {
+    if (!change) return;
     const provider = GrReviewerSuggestionsProvider.create(
       this.restApiService,
       change._number,

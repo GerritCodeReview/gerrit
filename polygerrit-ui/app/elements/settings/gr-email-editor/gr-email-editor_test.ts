@@ -19,8 +19,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-email-editor';
 import {GrEmailEditor} from './gr-email-editor';
 import {spyRestApi, stubRestApi} from '../../../test/test-utils';
-
-const basicFixture = fixtureFromElement('gr-email-editor');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-email-editor tests', () => {
   let element: GrEmailEditor;
@@ -34,7 +33,9 @@ suite('gr-email-editor tests', () => {
 
     stubRestApi('getAccountEmails').returns(Promise.resolve(emails));
 
-    element = basicFixture.instantiate();
+    element = await fixture<GrEmailEditor>(
+      html`<gr-email-editor></gr-email-editor>`
+    );
 
     await element.loadData();
     await flush();
@@ -42,9 +43,6 @@ suite('gr-email-editor tests', () => {
 
   test('renders', () => {
     expect(element).shadowDom.to.equal(/* HTML */ `<div class="gr-form-styles">
-      <dom-repeat style="display: none;">
-        <template is="dom-repeat"> </template>
-      </dom-repeat>
       <table id="emailTable">
         <thead>
           <tr>
@@ -57,7 +55,7 @@ suite('gr-email-editor tests', () => {
           <tr>
             <td class="emailColumn">email@one.com</td>
             <td class="preferredControl">
-              <iron-input class="preferredRadio" name="preferred" type="radio">
+              <iron-input class="preferredRadio">
                 <input
                   class="preferredRadio"
                   name="preferred"
@@ -81,14 +79,9 @@ suite('gr-email-editor tests', () => {
           <tr>
             <td class="emailColumn">email@two.com</td>
             <td class="preferredControl">
-              <iron-input
-                checked=""
-                class="preferredRadio"
-                name="preferred"
-                type="radio"
-              >
+              <iron-input class="preferredRadio">
                 <input
-                  checked="true"
+                  checked=""
                   class="preferredRadio"
                   name="preferred"
                   type="radio"
@@ -112,7 +105,7 @@ suite('gr-email-editor tests', () => {
           <tr>
             <td class="emailColumn">email@three.com</td>
             <td class="preferredControl">
-              <iron-input class="preferredRadio" name="preferred" type="radio">
+              <iron-input class="preferredRadio">
                 <input
                   class="preferredRadio"
                   name="preferred"
@@ -164,28 +157,27 @@ suite('gr-email-editor tests', () => {
   });
 
   test('edit preferred', () => {
-    const preferredChangedSpy = sinon.spy(element, '_handlePreferredChange');
     const radios = element
       .shadowRoot!.querySelector('table')!
       .querySelectorAll<HTMLInputElement>('input[type=radio]');
 
     assert.isFalse(element.hasUnsavedChanges);
-    assert.isNotOk(element._newPreferred);
-    assert.equal(element._emailsToRemove.length, 0);
-    assert.equal(element._emails.length, 3);
+    assert.isNotOk(element.newPreferred);
+    assert.equal(element.emailsToRemove.length, 0);
+    assert.equal(element.emails.length, 3);
     assert.isNotOk(radios[0].checked);
     assert.isOk(radios[1].checked);
-    assert.isFalse(preferredChangedSpy.called);
+    assert.isUndefined(element.emails[0].preferred);
 
     radios[0].click();
 
     assert.isTrue(element.hasUnsavedChanges);
-    assert.isOk(element._newPreferred);
-    assert.equal(element._emailsToRemove.length, 0);
-    assert.equal(element._emails.length, 3);
+    assert.isOk(element.newPreferred);
+    assert.equal(element.emailsToRemove.length, 0);
+    assert.equal(element.emails.length, 3);
     assert.isOk(radios[0].checked);
     assert.isNotOk(radios[1].checked);
-    assert.isTrue(preferredChangedSpy.called);
+    assert.isTrue(element.emails[0].preferred);
   });
 
   test('delete email', () => {
@@ -194,18 +186,18 @@ suite('gr-email-editor tests', () => {
       .querySelectorAll('gr-button');
 
     assert.isFalse(element.hasUnsavedChanges);
-    assert.isNotOk(element._newPreferred);
-    assert.equal(element._emailsToRemove.length, 0);
-    assert.equal(element._emails.length, 3);
+    assert.isNotOk(element.newPreferred);
+    assert.equal(element.emailsToRemove.length, 0);
+    assert.equal(element.emails.length, 3);
 
     buttons[2].click();
 
     assert.isTrue(element.hasUnsavedChanges);
-    assert.isNotOk(element._newPreferred);
-    assert.equal(element._emailsToRemove.length, 1);
-    assert.equal(element._emails.length, 2);
+    assert.isNotOk(element.newPreferred);
+    assert.equal(element.emailsToRemove.length, 1);
+    assert.equal(element.emails.length, 2);
 
-    assert.equal(element._emailsToRemove[0].email, 'email@three.com');
+    assert.equal(element.emailsToRemove[0].email, 'email@three.com');
   });
 
   test('save changes', async () => {
@@ -217,19 +209,19 @@ suite('gr-email-editor tests', () => {
       .querySelectorAll('tbody tr');
 
     assert.isFalse(element.hasUnsavedChanges);
-    assert.isNotOk(element._newPreferred);
-    assert.equal(element._emailsToRemove.length, 0);
-    assert.equal(element._emails.length, 3);
+    assert.isNotOk(element.newPreferred);
+    assert.equal(element.emailsToRemove.length, 0);
+    assert.equal(element.emails.length, 3);
 
     // Delete the first email and set the last as preferred.
     rows[0].querySelector('gr-button')!.click();
     rows[2].querySelector<HTMLInputElement>('input[type=radio]')!.click();
 
     assert.isTrue(element.hasUnsavedChanges);
-    assert.equal(element._newPreferred, 'email@three.com');
-    assert.equal(element._emailsToRemove.length, 1);
-    assert.equal(element._emailsToRemove[0].email, 'email@one.com');
-    assert.equal(element._emails.length, 2);
+    assert.equal(element.newPreferred, 'email@three.com');
+    assert.equal(element.emailsToRemove.length, 1);
+    assert.equal(element.emailsToRemove[0].email, 'email@one.com');
+    assert.equal(element.emails.length, 2);
 
     await element.save();
     assert.equal(deleteEmailSpy.callCount, 1);

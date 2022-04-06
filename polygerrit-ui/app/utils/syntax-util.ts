@@ -38,6 +38,15 @@ function unescapeHTML(value: string) {
     .replace(/&amp;/g, '&');
 }
 
+function equal(r: SyntaxLayerRange) {
+  return (s: SyntaxLayerRange) =>
+    r.start === s.start && r.length === s.length && r.className === s.className;
+}
+
+function unique(r: SyntaxLayerRange, index: number, array: SyntaxLayerRange[]) {
+  return index === array.findIndex(equal(r));
+}
+
 /**
  * HighlightJS produces one long HTML string with HTML elements spanning
  * multiple lines. <gr-diff> is line based, needs all elements closed at the end
@@ -87,7 +96,9 @@ export function highlightedStringToRanges(
         range.length = lineLength - range.start;
       }
     }
-    rangesPerLine.push({ranges: ranges.filter(r => r.length > 0)});
+    rangesPerLine.push({
+      ranges: ranges.filter(r => r.length > 0).filter(unique),
+    });
   }
   if (carryOverRanges.length > 0) {
     throw new Error('unclosed <span>s in highlighted code');

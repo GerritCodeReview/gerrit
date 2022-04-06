@@ -15,13 +15,16 @@
 package com.google.gerrit.server.cache;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.mock;
 
 import java.util.function.Supplier;
+import javax.servlet.http.HttpServletRequest;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class PerThreadCacheTest {
+  private HttpServletRequest requestMock = mock(HttpServletRequest.class);
   @Rule public ExpectedException exception = ExpectedException.none();
 
   @Test
@@ -42,7 +45,7 @@ public class PerThreadCacheTest {
 
   @Test
   public void endToEndCache() {
-    try (PerThreadCache ignored = PerThreadCache.create()) {
+    try (PerThreadCache ignored = PerThreadCache.create(requestMock)) {
       PerThreadCache cache = PerThreadCache.get();
       PerThreadCache.Key<String> key1 = PerThreadCache.Key.create(String.class);
 
@@ -60,7 +63,7 @@ public class PerThreadCacheTest {
   @Test
   public void cleanUp() {
     PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class);
-    try (PerThreadCache ignored = PerThreadCache.create()) {
+    try (PerThreadCache ignored = PerThreadCache.create(requestMock)) {
       PerThreadCache cache = PerThreadCache.get();
       String value1 = cache.get(key, () -> "value1");
       assertThat(value1).isEqualTo("value1");
@@ -68,7 +71,7 @@ public class PerThreadCacheTest {
 
     // Create a second cache and assert that it is not connected to the first one.
     // This ensures that the cleanup is actually working.
-    try (PerThreadCache ignored = PerThreadCache.create()) {
+    try (PerThreadCache ignored = PerThreadCache.create(requestMock)) {
       PerThreadCache cache = PerThreadCache.get();
       String value1 = cache.get(key, () -> "value2");
       assertThat(value1).isEqualTo("value2");
@@ -77,16 +80,16 @@ public class PerThreadCacheTest {
 
   @Test
   public void doubleInstantiationFails() {
-    try (PerThreadCache ignored = PerThreadCache.create()) {
+    try (PerThreadCache ignored = PerThreadCache.create(requestMock)) {
       exception.expect(IllegalStateException.class);
       exception.expectMessage("called create() twice on the same request");
-      PerThreadCache.create();
+      PerThreadCache.create(requestMock);
     }
   }
 
   @Test
   public void enforceMaxSize() {
-    try (PerThreadCache cache = PerThreadCache.create()) {
+    try (PerThreadCache cache = PerThreadCache.create(requestMock)) {
       // Fill the cache
       for (int i = 0; i < 50; i++) {
         PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class, i);

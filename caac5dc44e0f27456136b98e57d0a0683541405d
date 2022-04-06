@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82fb0065_f366dba5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T08:00:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32c14742_27cf817d",
+      "range": {
+        "startLine": 134,
+        "startChar": 34,
+        "endLine": 134,
+        "endChar": 40
+      },
+      "revId": "caac5dc44e0f27456136b98e57d0a0683541405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ff39099_009d0a5a",
@@ -54,6 +78,24 @@
       "writtenOn": "2022-04-06T05:49:01Z",
       "side": 1,
       "message": "Nit: Maybe not use a local var?",
+      "revId": "caac5dc44e0f27456136b98e57d0a0683541405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "483558ba_03707411",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T08:00:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ff39099_009d0a5a",
       "revId": "caac5dc44e0f27456136b98e57d0a0683541405d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2e263bc_e6a398d4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T08:00:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ffd8162_2641462c",
+      "range": {
+        "startLine": 207,
+        "startChar": 27,
+        "endLine": 207,
+        "endChar": 38
+      },
+      "revId": "caac5dc44e0f27456136b98e57d0a0683541405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ef5dcfa_a566d98f",
@@ -98,6 +164,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51c66ea8_0c5b6509",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T08:00:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ef5dcfa_a566d98f",
+      "revId": "caac5dc44e0f27456136b98e57d0a0683541405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6075709a_1d538a54",
@@ -111,6 +195,30 @@
       "writtenOn": "2022-04-06T05:49:01Z",
       "side": 1,
       "message": "ValueChangedEvent, also below",
+      "range": {
+        "startLine": 473,
+        "startChar": 30,
+        "endLine": 473,
+        "endChar": 41
+      },
+      "revId": "caac5dc44e0f27456136b98e57d0a0683541405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21952fa6_3f9c02de",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T08:00:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6075709a_1d538a54",
       "range": {
         "startLine": 473,
         "startChar": 30,

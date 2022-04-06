@@ -38,14 +38,18 @@ import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {PaperInputElementExt} from '../../../types/types';
-import {fireAlert} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {accountOrGroupKey} from '../../../utils/account-util';
+import {ValueChangedEvent} from '../../../types/events';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-account-list': GrAccountList;
+  }
+  interface HTMLElementEventMap {
+    'account-added': ValueChangedEvent<AccountInput>;
   }
 }
 
@@ -100,7 +104,7 @@ function isGroupInfoInput(x: AccountInput): x is GroupInfoInput {
   return !!input._group || !!input.id;
 }
 
-type AccountInput = AccountInfoInput | GroupInfoInput;
+export type AccountInput = AccountInfoInput | GroupInfoInput;
 
 export interface AccountAddition {
   account?: AccountInfoInput;
@@ -213,9 +217,11 @@ export class GrAccountList extends PolymerElement {
     // Append new account or group to the accounts property. We add our own
     // internal properties to the account/group here, so we clone the object
     // to avoid cluttering up the shared change object.
+    let account;
+    let group;
     let itemTypeAdded = 'unknown';
     if (isAccountObject(item)) {
-      const account = {...item.account, _pendingAdd: true};
+      account = {...item.account, _pendingAdd: true};
       this.removeFromPendingRemoval(account);
       this.push('accounts', account);
       itemTypeAdded = 'account';
@@ -224,7 +230,7 @@ export class GrAccountList extends PolymerElement {
         this.pendingConfirmation = item;
         return;
       }
-      const group = {...item.group, _pendingAdd: true, _group: true};
+      group = {...item.group, _pendingAdd: true, _group: true};
       this.push('accounts', group);
       this.removeFromPendingRemoval(group);
       itemTypeAdded = 'group';
@@ -236,13 +242,14 @@ export class GrAccountList extends PolymerElement {
         fireAlert(this, VALID_EMAIL_ALERT);
         return false;
       } else {
-        const account = {email: item as EmailAddress, _pendingAdd: true};
+        account = {email: item as EmailAddress, _pendingAdd: true};
         this.push('accounts', account);
         this.removeFromPendingRemoval(account);
         itemTypeAdded = 'email';
       }
     }
 
+    fire(this, 'account-added', {value: (account ?? group)!});
     this.reporting.reportInteraction(`Add to ${this.id}`, {itemTypeAdded});
     this.pendingConfirmation = null;
     return true;

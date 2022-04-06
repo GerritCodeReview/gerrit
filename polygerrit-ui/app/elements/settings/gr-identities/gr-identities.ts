@@ -28,6 +28,9 @@ import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {PolymerDomRepeatEvent} from '../../../types/types';
 import {getAppContext} from '../../../services/app-context';
 import {AuthType} from '../../../constants/constants';
+import {css, html} from 'lit';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
 
 const AUTH = [AuthType.OPENID, AuthType.OAUTH];
 
@@ -59,6 +62,97 @@ export class GrIdentities extends PolymerElement {
   _showLinkAnotherIdentity?: boolean;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  static styles = [
+    sharedStyles,
+    formStyles,
+    css`
+      tr th.emailAddressHeader,
+      tr th.identityHeader {
+        width: 15em;
+        padding: 0 10px;
+      }
+      tr td.statusColumn,
+      tr td.emailAddressColumn,
+      tr td.identityColumn {
+        word-break: break-word;
+      }
+      tr td.emailAddressColumn,
+      tr td.identityColumn {
+        padding: 4px 10px;
+        width: 15em;
+      }
+      .deleteButton {
+        float: right;
+      }
+      .deleteButton:not(.show) {
+        display: none;
+      }
+      .space {
+        margin-bottom: var(--spacing-l);
+      }
+    `,
+  ];
+
+  render() {
+    return html`<div class="gr-form-styles">
+        <fieldset class="space">
+          <table>
+            <thead>
+              <tr>
+                <th class="statusHeader">Status</th>
+                <th class="emailAddressHeader">Email Address</th>
+                <th class="identityHeader">Identity</th>
+                <th class="deleteHeader"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <template
+                is="dom-repeat"
+                items="[[_identities]]"
+                filter="filterIdentities"
+              >
+                <tr>
+                  <td class="statusColumn">
+                    [[_computeIsTrusted(item.trusted)]]
+                  </td>
+                  <td class="emailAddressColumn">[[item.email_address]]</td>
+                  <td class="identityColumn">
+                    [[_computeIdentity(item.identity)]]
+                  </td>
+                  <td class="deleteColumn">
+                    <gr-button
+                      class$="deleteButton [[_computeHideDeleteClass(item.can_delete)]]"
+                      on-click="_handleDeleteItem"
+                    >
+                      Delete
+                    </gr-button>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </fieldset>
+        <template is="dom-if" if="[[_showLinkAnotherIdentity]]">
+          <fieldset>
+            <a href$="[[_computeLinkAnotherIdentity()]]">
+              <gr-button id="linkAnotherIdentity" link=""
+                >Link Another Identity</gr-button
+              >
+            </a>
+          </fieldset>
+        </template>
+      </div>
+      <gr-overlay id="overlay" with-backdrop="">
+        <gr-confirm-delete-item-dialog
+          class="confirmDialog"
+          on-confirm="_handleDeleteItemConfirm"
+          on-cancel="_handleConfirmDialogCancel"
+          item="[[_idName]]"
+          itemTypeName="ID"
+        ></gr-confirm-delete-item-dialog>
+      </gr-overlay>`;
+  }
 
   loadData() {
     return this.restApiService.getExternalIds().then(id => {

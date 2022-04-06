@@ -16,6 +16,24 @@
       "message": "-1 for thread-scoped. I think it should be request-scoped as a minimal solution for stable branches.",
       "revId": "84f616b26c7e4030aaff1fbc91f8cbc44ec88141",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "802c5e0e_c4f3afae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-06T02:05:23Z",
+      "side": 1,
+      "message": "Done with Change-Id: If41377b78c",
+      "parentUuid": "16309392_5ddd4e7e",
+      "revId": "84f616b26c7e4030aaff1fbc91f8cbc44ec88141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

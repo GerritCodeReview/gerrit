@@ -408,7 +408,8 @@ export const htmlTemplate = html`
       <fieldset id="email">
         <gr-email-editor
           id="emailEditor"
-          has-unsaved-changes="{{_emailsChanged}}"
+          has-unsaved-changes="[[_emailsChanged]]"
+          on-has-unsaved-changes-changed="_handleHasSavedChanges"
         ></gr-email-editor>
         <gr-button on-click="_handleSaveEmails" disabled$="[[!_emailsChanged]]"
           >Save changes</gr-button

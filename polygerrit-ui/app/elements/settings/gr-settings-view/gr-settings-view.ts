@@ -478,6 +478,10 @@ export class GrSettingsView extends PolymerElement {
     this._localChangeTableColumns = e.detail.value;
   }
 
+  _handleHasSavedChanges(e: ValueChangedEvent<boolean>) {
+    this._emailsChanged = e.detail.value;
+  }
+
   _getFilterDocsLink(docsBaseUrl?: string | null) {
     let base = docsBaseUrl;
     if (!base || !ABSOLUTE_URL_PATTERN.test(base)) {

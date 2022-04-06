@@ -109,8 +109,6 @@ export const grSyntaxTheme = css`
   }
   .gr-syntax-strong {
     color: var(--syntax-strong-color);
-    font-style: var(--syntax-strong-style);
-    font-weight: var(--syntax-strong-weight);
   }
   .gr-syntax-tag {
     color: var(--syntax-tag-color);

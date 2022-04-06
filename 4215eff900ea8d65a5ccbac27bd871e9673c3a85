@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca6f79ea_d1671450",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-06T23:07:15Z",
+      "side": 1,
+      "message": "Can we convert this to minus the _? (_ was used to indicate it was private. Now that we can use private type and or state and also add a comment if it has to be public but is private for x reasons same for down below).",
+      "revId": "4215eff900ea8d65a5ccbac27bd871e9673c3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71bee4ee_3bf1de3c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-06T23:07:15Z",
+      "side": 1,
+      "message": "Remove or maybe waitUntil is of use to you.",
+      "revId": "4215eff900ea8d65a5ccbac27bd871e9673c3a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

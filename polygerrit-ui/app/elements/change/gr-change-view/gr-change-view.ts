@@ -439,10 +439,6 @@ export class GrChangeView extends base {
   })
   _changeStatuses?: ChangeStates[];
 
-  /** If false, then the "Show more" button was used to expand. */
-  @property({type: Boolean})
-  _commitCollapsed = true;
-
   /** Is the "Show more/less" button visible? */
   @property({
     type: Boolean,

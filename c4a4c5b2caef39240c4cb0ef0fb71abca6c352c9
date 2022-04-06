@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7cb54c0_cec0a887",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-06T02:07:23Z",
+      "side": 1,
+      "message": "The impact of this version of the /meta ref caching is more limited.",
+      "revId": "c4a4c5b2caef39240c4cb0ef0fb71abca6c352c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -614,45 +614,37 @@ export class GrReplyDialog extends DIPolymerElement {
     `,
   ];
 
+  private renderPeopleList() {
+    return html `
+      <div class="peopleList">
+      <div class="peopleListLabel">Reviewers</div>
+      <gr-account-list
+        id="reviewers"
+        accounts="{{_reviewers}}"
+        removable-values=${this.change?.removable_reviewers}
+        filter=${this.filterReviewerSuggestion}
+        pending-confirmation="{{_reviewerPendingConfirmation}}"
+        placeholder="Add reviewer..."
+        on-account-text-changed="_handleAccountTextEntry"
+        suggestions-provider=${this._getReviewerSuggestionsProvider(this.change)}
+      >
+      </gr-account-list>
+      <gr-endpoint-slot name="right"></gr-endpoint-slot>
+    </div>
+    `
+  }
+
   render() {
     return html`
     <div tabindex="-1">
       <section class="peopleContainer">
         <gr-endpoint-decorator name="reply-reviewers">
-          <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
-          <gr-endpoint-param name="reviewers" value="[[_allReviewers]]">
+          <gr-endpoint-param name="change" value=${this.change}></gr-endpoint-param>
+          <gr-endpoint-param name="reviewers" value=${this._allReviewers}>
           </gr-endpoint-param>
-          <div class="peopleList">
-            <div class="peopleListLabel">Reviewers</div>
-            <gr-account-list
-              id="reviewers"
-              accounts="{{_reviewers}}"
-              removable-values="[[change.removable_reviewers]]"
-              filter="[[filterReviewerSuggestion]]"
-              pending-confirmation="{{_reviewerPendingConfirmation}}"
-              placeholder="Add reviewer..."
-              on-account-text-changed="_handleAccountTextEntry"
-              suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]"
-            >
-            </gr-account-list>
-            <gr-endpoint-slot name="right"></gr-endpoint-slot>
-          </div>
           <gr-endpoint-slot name="below"></gr-endpoint-slot>
         </gr-endpoint-decorator>
-        <div class="peopleList">
-          <div class="peopleListLabel">CC</div>
-          <gr-account-list
-            id="ccs"
-            accounts="{{_ccs}}"
-            filter="[[filterCCSuggestion]]"
-            pending-confirmation="{{_ccPendingConfirmation}}"
-            allow-any-input=""
-            placeholder="Add CC..."
-            on-account-text-changed="_handleAccountTextEntry"
-            suggestions-provider="[[_getCcSuggestionsProvider(change)]]"
-          >
-          </gr-account-list>
-        </div>
+        ${this.renderPeopleList()}
         <gr-overlay
           id="reviewerConfirmationOverlay"
           on-iron-overlay-canceled="_cancelPendingReviewer"
@@ -660,17 +652,17 @@ export class GrReplyDialog extends DIPolymerElement {
           <div class="reviewerConfirmation">
             Group
             <span class="groupName">
-              [[_pendingConfirmationDetails.group.name]]
+              ${this._pendingConfirmationDetails?.group.name}
             </span>
             has
-            <span class="groupSize"> [[_pendingConfirmationDetails.count]] </span>
+            <span class="groupSize"> ${this._pendingConfirmationDetails?.count} </span>
             members.
             <br />
             Are you sure you want to add them all?
           </div>
           <div class="reviewerConfirmationButtons">
-            <gr-button on-click="_confirmPendingReviewer">Yes</gr-button>
-            <gr-button on-click="_cancelPendingReviewer">No</gr-button>
+            <gr-button @click=${this._confirmPendingReviewer}>Yes</gr-button>
+            <gr-button @click=${this._cancelPendingReviewer}>No</gr-button>
           </div>
         </gr-overlay>
       </section>
@@ -679,31 +671,31 @@ export class GrReplyDialog extends DIPolymerElement {
         <gr-endpoint-decorator name="reply-label-scores">
           <gr-label-scores
             id="labelScores"
-            account="[[_account]]"
-            change="[[change]]"
+            account=${this._account}
+            change=${this.change}
             on-labels-changed="_handleLabelsChanged"
-            permitted-labels="[[permittedLabels]]"
+            permitted-labels=${this.permittedLabels}
           ></gr-label-scores>
-          <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
+          <gr-endpoint-param name="change" value=${this.change}></gr-endpoint-param>
         </gr-endpoint-decorator>
-        <div id="pluginMessage">[[_pluginMessage]]</div>
+        <div id="pluginMessage">${this._pluginMessage}</div>
       </section>
       <section class="newReplyDialog textareaContainer">
-        <div class$="patchsetLevelContainer [[getUnresolvedPatchsetLevelClass(_isResolvedPatchsetLevelComment)]]">
+        <div class$="patchsetLevelContainer ${this.getUnresolvedPatchsetLevelClass(this._isResolvedPatchsetLevelComment)}>
           <gr-endpoint-decorator name="reply-text">
             <gr-textarea
               id="textarea"
               class="message newReplyDialog"
               autocomplete="on"
-              placeholder="[[_messagePlaceholder]]"
+              placeholder=${this._messagePlaceholder}
               monospace="true"
               disabled="{{disabled}}"
               rows="4"
               text="{{draft}}"
-              on-bind-value-changed="_handleHeightChanged"
+              @bind-value-changed=${this._handleHeightChanged}
             >
             </gr-textarea>
-            <gr-endpoint-param name="change" value="[[change]]">
+            <gr-endpoint-param name="change" value=${this.change}>
             </gr-endpoint-param>
           </gr-endpoint-decorator>
           <div class="labelContainer">
@@ -722,18 +714,18 @@ export class GrReplyDialog extends DIPolymerElement {
           </div>
         </div>
       </section>
-      <template is="dom-if" if="[[_previewFormatting]]">
+      <template is="dom-if" if=${this._previewFormatting}>
         <section class="previewContainer">
           <gr-formatted-text
-            content="[[draft]]"
-            config="[[projectConfig.commentlinks]]"
+            content=${this.draft}
+            config=${this.projectConfig?.commentlinks}
           ></gr-formatted-text>
       </template>
       </section>
   
       <section
         class="draftsContainer"
-        hidden$="[[_computeHideDraftList(draftCommentThreads)]]"
+        hidden$=${this._computeHideDraftList(this.draftCommentThreads)}
       >
         <div class="includeComments">
           <input
@@ -742,69 +734,69 @@ export class GrReplyDialog extends DIPolymerElement {
             checked="{{_includeComments::change}}"
           />
           <label for="includeComments"
-            >Publish [[_computeDraftsTitle(draftCommentThreads)]]</label
+            >Publish ${this._computeDraftsTitle(draftCommentThreads)}</label
           >
         </div>
         <gr-thread-list
           id="commentList"
-          hidden$="[[!_includeComments]]"
-          threads="[[draftCommentThreads]]"
+          hidden$=${!this._includeComments}
+          threads=${this.draftCommentThreads}
           hide-dropdown=""
         >
         </gr-thread-list>
         <span
           id="savingLabel"
-          class$="[[_computeSavingLabelClass(_savingComments)]]"
+          class$=${this._computeSavingLabelClass()}
         >
           Saving comments...
         </span>
       </section>
       <div class="stickyBottom newReplyDialog">
         <gr-endpoint-decorator name="reply-bottom">
-          <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
+          <gr-endpoint-param name="change" value=${this.change}></gr-endpoint-param>
           <section
-            hidden$="[[!_showAttentionSummary(_attentionExpanded)]]"
+            hidden$=${!this._showAttentionSummary()}
             class="attention"
           >
             <div class="attentionSummary">
               <div>
                 <template
                   is="dom-if"
-                  if="[[_computeShowNoAttentionUpdate(serverConfig, _currentAttentionSet, _newAttentionSet, _sendDisabled)]]"
+                  if=${this._computeShowNoAttentionUpdate()}
                 >
                   <span
-                    >[[_computeDoNotUpdateMessage(_currentAttentionSet,
-                    _newAttentionSet, _sendDisabled)]]</span
+                    >${this._computeDoNotUpdateMessage(_currentAttentionSet,
+                    _newAttentionSet, _sendDisabled)}</span
                   >
                 </template>
                 <template
                   is="dom-if"
-                  if="[[!_computeShowNoAttentionUpdate(serverConfig, _currentAttentionSet, _newAttentionSet, _sendDisabled)]]"
+                  if=${this.!_computeShowNoAttentionUpdate()}
                 >
                   <span>Bring to attention of</span>
                   <template
                     is="dom-repeat"
-                    items="[[_computeNewAttentionAccounts(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
+                    items=${this._computeNewAttentionAccounts()}
                     as="account"
                   >
                     <gr-account-label
-                      account="[[account]]"
-                      force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                      selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+                      account=${this.account}
+                      force-attention=${this._computeHasNewAttention()}
+                      selected=${this._computeHasNewAttention()}
                       hideHovercard
                       selectionChipStyle
-                      on-click="_handleAttentionClick"
+                      @click=${this._handleAttentionClick}
                     ></gr-account-label>
                   </template>
                 </template>
                 <gr-tooltip-content
                   has-tooltip
-                  title="[[_computeAttentionButtonTitle(_sendDisabled)]]"
+                  title=${this._computeAttentionButtonTitle(this._sendDisabled)}
                 >
                   <gr-button
                     class="edit-attention-button"
-                    on-click="_handleAttentionModify"
-                    disabled="[[_sendDisabled]]"
+                    @click=${this._handleAttentionModify"
+                    disabled=${this._sendDisabled}
                     link=""
                     position-below=""
                     data-label="Edit"
@@ -832,7 +824,7 @@ export class GrReplyDialog extends DIPolymerElement {
             </div>
           </section>
           <section
-            hidden$="[[!_showAttentionDetails(_attentionExpanded)]]"
+            hidden$=${this.!_showAttentionDetails(_attentionExpanded)}
             class="attention-detail"
           >
             <div class="attentionDetailsTitle">
@@ -862,27 +854,27 @@ export class GrReplyDialog extends DIPolymerElement {
               <div class="peopleListLabel">Owner</div>
               <div class="peopleListValues">
                 <gr-account-label
-                  account="[[_owner]]"
-                  force-attention="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
-                  selected="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
+                  account=${this._owner}
+                  force-attention=${this._computeHasNewAttention(_owner, _newAttentionSet)}
+                  selected=${this._computeHasNewAttention(_owner, _newAttentionSet)}
                   hideHovercard
                   selectionChipStyle
-                  on-click="_handleAttentionClick"
+                  @click=${this._handleAttentionClick"
                 >
                 </gr-account-label>
               </div>
             </div>
-            <template is="dom-if" if="[[_uploader]]">
+            <template is="dom-if" if=${this._uploader}>
               <div class="peopleList">
                 <div class="peopleListLabel">Uploader</div>
                 <div class="peopleListValues">
                   <gr-account-label
-                    account="[[_uploader]]"
-                    force-attention="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
-                    selected="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
+                    account=${this._uploader}
+                    force-attention=${this._computeHasNewAttention(_uploader, _newAttentionSet)}
+                    selected=${this._computeHasNewAttention(_uploader, _newAttentionSet)}
                     hideHovercard
                     selectionChipStyle
-                    on-click="_handleAttentionClick"
+                    @click=${this._handleAttentionClick"
                   >
                   </gr-account-label>
                 </div>
@@ -893,37 +885,37 @@ export class GrReplyDialog extends DIPolymerElement {
               <div class="peopleListValues">
                 <template
                   is="dom-repeat"
-                  items="[[_removeServiceUsers(_reviewers, _newAttentionSet)]]"
+                  items=${this._removeServiceUsers(_reviewers, _newAttentionSet)}
                   as="account"
                 >
                   <gr-account-label
-                    account="[[account]]"
-                    force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                    selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+                    account=${this.account}
+                    force-attention=${this._computeHasNewAttention(account, _newAttentionSet)}
+                    selected=${this._computeHasNewAttention(account, _newAttentionSet)}
                     hideHovercard
                     selectionChipStyle
-                    on-click="_handleAttentionClick"
+                    @click=${this._handleAttentionClick"
                   >
                   </gr-account-label>
                 </template>
               </div>
             </div>
-            <template is="dom-if" if="[[_attentionCcsCount]]">
+            <template is="dom-if" if=${this._attentionCcsCount}>
               <div class="peopleList">
                 <div class="peopleListLabel">CC</div>
                 <div class="peopleListValues">
                   <template
                     is="dom-repeat"
-                    items="[[_removeServiceUsers(_ccs, _newAttentionSet)]]"
+                    items=${this._removeServiceUsers(_ccs, _newAttentionSet)}
                     as="account"
                   >
                     <gr-account-label
-                      account="[[account]]"
-                      force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                      selected="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+                      account=${this.account}
+                      force-attention=${this._computeHasNewAttention()}
+                      selected=${this._computeHasNewAttention()}
                       hideHovercard
                       selectionChipStyle
-                      on-click="_handleAttentionClick"
+                      @click=${this._handleAttentionClick"
                     >
                     </gr-account-label>
                   </template>
@@ -932,7 +924,7 @@ export class GrReplyDialog extends DIPolymerElement {
             </template>
             <template
               is="dom-if"
-              if="[[_computeShowAttentionTip(_account, _owner, _currentAttentionSet, _newAttentionSet)]]"
+              if=${this._computeShowAttentionTip(_account, _owner, _currentAttentionSet, _newAttentionSet)}
             >
               <div class="attentionTip">
                 <iron-icon
@@ -948,16 +940,16 @@ export class GrReplyDialog extends DIPolymerElement {
             <div class="left">
               <span
                 id="checkingStatusLabel"
-                hidden$="[[!_isState(knownLatestState, 'checking')]]"
+                hidden$=${this.!_isState(knownLatestState, 'checking')}
               >
-                Checking whether patch [[patchNum]] is latest...
+                Checking whether patch ${this.patchNum} is latest...
               </span>
               <span
                 id="notLatestLabel"
-                hidden$="[[!_isState(knownLatestState, 'not-latest')]]"
+                hidden$=${this.!_isState(knownLatestState, 'not-latest')}
               >
-                [[_computePatchSetWarning(patchNum, _labelsChanged)]]
-                <gr-button link="" on-click="_reload">Reload</gr-button>
+                ${this._computePatchSetWarning(patchNum, _labelsChanged)}
+                <gr-button link="" @click=${this._reload">Reload</gr-button>
               </span>
             </div>
             <div class="right">
@@ -965,37 +957,37 @@ export class GrReplyDialog extends DIPolymerElement {
                 link=""
                 id="cancelButton"
                 class="action cancel"
-                on-click="_cancelTapHandler"
+                @click=${this._cancelTapHandler"
                 >Cancel</gr-button
               >
-              <template is="dom-if" if="[[canBeStarted]]">
+              <template is="dom-if" if=${this.canBeStarted}>
                 <!-- Use 'Send' here as the change may only about reviewers / ccs
                     and when this button is visible, the next button will always
                     be 'Start review' -->
                 <gr-tooltip-content
                   has-tooltip=""
-                  title$="[[_saveTooltip]]"
+                  title$=${this._saveTooltip}
                 >
                   <gr-button
                     link=""
-                    disabled="[[_isState(knownLatestState, 'not-latest')]]"
+                    disabled=${this._isState(knownLatestState, 'not-latest')}
                     class="action save"
-                    on-click="_saveClickHandler"
+                    @click=${this._saveClickHandler"
                     >Send As WIP</gr-button
                   >
                 </gr-tooltip-content>
               </template>
               <gr-tooltip-content
                 has-tooltip=""
-                title$="[[_computeSendButtonTooltip(canBeStarted, _commentEditing)]]"
+                title$=${this._computeSendButtonTooltip(canBeStarted, _commentEditing)}
               >
                 <gr-button
                   id="sendButton"
                   primary=""
-                  disabled="[[_sendDisabled]]"
+                  disabled=${this._sendDisabled}
                   class="action send"
-                  on-click="_sendTapHandler"
-                  >[[_sendButtonLabel]]
+                  @click=${this._sendTapHandler"
+                  >${this._sendButtonLabel}
                 </gr-button>
               </gr-tooltip-content>
             </div>
@@ -1125,7 +1117,7 @@ export class GrReplyDialog extends DIPolymerElement {
   setLabelValue(label: string, value: string) {
     const selectorEl =
       this.getLabelScores().shadowRoot?.querySelector<GrLabelScoreRow>(
-        `gr-label-score-row[name="${label}"]`
+        `gr-label-score-row[name="${this.label}"]`
       );
     selectorEl?.setSelectedValue(value);
   }
@@ -1133,7 +1125,7 @@ export class GrReplyDialog extends DIPolymerElement {
   getLabelValue(label: string) {
     const selectorEl =
       this.getLabelScores().shadowRoot?.querySelector<GrLabelScoreRow>(
-        `gr-label-score-row[name="${label}"]`
+        `gr-label-score-row[name="${this.label}"]`
       );
     return selectorEl?.selectedValue;
   }
@@ -1173,7 +1165,7 @@ export class GrReplyDialog extends DIPolymerElement {
             const moveFrom = isReviewer ? 'CC' : 'reviewer';
             const moveTo = isReviewer ? 'reviewer' : 'CC';
             const id = account.name || key;
-            const message = `${id} moved from ${moveFrom} to ${moveTo}.`;
+            const message = `${this.id} moved from ${this.moveFrom} to ${this.moveTo}.`;
             fireAlert(this, message);
           }
         }
@@ -1423,7 +1415,7 @@ export class GrReplyDialog extends DIPolymerElement {
     if (changeReviewers) {
       for (const key of Object.keys(changeReviewers)) {
         if (key !== 'REVIEWER' && key !== 'CC') {
-          this.reporting.error(new Error(`Unexpected reviewer state: ${key}`));
+          this.reporting.error(new Error(`Unexpected reviewer state: ${this.key}`));
           continue;
         }
         if (!changeReviewers[key]) continue;
@@ -1458,7 +1450,7 @@ export class GrReplyDialog extends DIPolymerElement {
     fireEvent(this, 'iron-resize');
   }
 
-  _showAttentionSummary(attentionExpanded?: boolean) {
+  _showAttentionSummary() {
     return !attentionExpanded;
   }
 
@@ -1486,12 +1478,12 @@ export class GrReplyDialog extends DIPolymerElement {
     if (this._newAttentionSet.has(id)) {
       this._newAttentionSet.delete(id);
       this.reporting.reportInteraction(Interaction.ATTENTION_SET_CHIP, {
-        action: `REMOVE${self}${role}`,
+        action: `REMOVE${this.self}${this.role}`,
       });
     } else {
       this._newAttentionSet.add(id);
       this.reporting.reportInteraction(Interaction.ATTENTION_SET_CHIP, {
-        action: `ADD${self}${role}`,
+        action: `ADD${this.self}${this.role}`,
       });
     }
 
@@ -1500,8 +1492,6 @@ export class GrReplyDialog extends DIPolymerElement {
   }
 
   _computeHasNewAttention(
-    account?: AccountInfo,
-    newAttention?: Set<AccountId>
   ) {
     return (
       newAttention &&
@@ -1642,10 +1632,6 @@ export class GrReplyDialog extends DIPolymerElement {
   }
 
   _computeShowNoAttentionUpdate(
-    config?: ServerInfo,
-    currentAttentionSet?: Set<AccountId>,
-    newAttentionSet?: Set<AccountId>,
-    sendDisabled?: boolean
   ) {
     return (
       sendDisabled ||
@@ -1679,9 +1665,6 @@ export class GrReplyDialog extends DIPolymerElement {
   }
 
   _computeNewAttentionAccounts(
-    _?: ServerInfo,
-    currentAttentionSet?: Set<AccountId>,
-    newAttentionSet?: Set<AccountId>
   ) {
     if (currentAttentionSet === undefined || newAttentionSet === undefined) {
       return [];
@@ -1751,7 +1734,7 @@ export class GrReplyDialog extends DIPolymerElement {
         entry = suggestion.group;
       } else {
         this.reporting.error(
-          new Error(`Suggestion is neither account nor group: ${suggestion}`)
+          new Error(`Suggestion is neither account nor group: ${this.suggestion}`)
         );
         return false;
       }
@@ -1819,7 +1802,7 @@ export class GrReplyDialog extends DIPolymerElement {
         new CustomEvent('show-error', {
           bubbles: true,
           composed: true,
-          detail: {message: `Error submitting review ${err}`},
+          detail: {message: `Error submitting review ${this.err}`},
         })
       );
     });
@@ -1945,7 +1928,7 @@ export class GrReplyDialog extends DIPolymerElement {
     return canBeStarted ? ButtonTooltips.START_REVIEW : ButtonTooltips.SEND;
   }
 
-  _computeSavingLabelClass(savingComments: boolean) {
+  _computeSavingLabelClass() {
     return savingComments ? 'saving' : '';
   }
 
@@ -1992,7 +1975,7 @@ export class GrReplyDialog extends DIPolymerElement {
   }
 
   _computePatchSetWarning(patchNum?: PatchSetNum, labelsChanged?: boolean) {
-    let str = `Patch ${patchNum} is not latest.`;
+    let str = `Patch ${this.patchNum} is not latest.`;
     if (labelsChanged) {
       str += ' Voting may have no effect.';
     }

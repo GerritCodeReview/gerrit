@@ -31,6 +31,7 @@ declare global {
 }
 /**
  * @attr {Boolean} no-uppercase - text in button is not uppercased
+ * @attr {Boolean} position-below
  * @attr {Boolean} primary - set primary button color
  * @attr {Boolean} secondary - set secondary button color
  */

@@ -522,12 +522,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return sort(contributorAgreements.values());
   }
 
-  public void remove(ContributorAgreement section) {
-    if (section != null) {
-      accessSections.remove(section.getName());
-    }
-  }
-
   public void replace(ContributorAgreement section) {
     ContributorAgreement.Builder ca = section.toBuilder();
     ca.setAutoVerify(resolve(section.getAutoVerify()));

@@ -54,7 +54,6 @@ import {
   GrAccountList,
   GroupInfoInput,
   GroupObjectInput,
-  RawAccountInput,
 } from '../../shared/gr-account-list/gr-account-list';
 import {
   AccountId,
@@ -125,6 +124,7 @@ import {classMap} from 'lit/directives/class-map';
 import {BindValueChangeEvent} from '../../../types/events';
 import {LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators';
+import {PropertyValues} from 'lit';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -237,16 +237,15 @@ export class GrReplyDialog extends LitElement {
   @property({type: Boolean})
   canBeStarted = false;
 
-  @property({type: Boolean, reflectToAttribute: true})
+  @property({type: Boolean, reflect: true})
   disabled = false;
 
   @property({
     type: Boolean,
-    computed: '_computeHasDrafts(draft, draftCommentThreads.*)',
   })
   hasDrafts = false;
 
-  @property({type: String, observer: '_draftChanged'})
+  @property({type: String})
   draft = '';
 
   @property({type: Object})
@@ -279,20 +278,19 @@ export class GrReplyDialog extends LitElement {
   @property({type: Number})
   _attentionCcsCount = 0;
 
-  @property({type: Object, observer: '_reviewerPendingConfirmationUpdated'})
-  _ccPendingConfirmation: GroupObjectInput | null = null;
+  @property({type: Object, observer: 'reviewerPendingConfirmationUpdated'})
+  ccPendingConfirmation: GroupObjectInput | null = null;
 
   @property({
     type: String,
-    computed: '_computeMessagePlaceholder(canBeStarted)',
   })
-  _messagePlaceholder?: string;
+  messagePlaceholder?: string;
 
   @property({type: Object})
   _owner?: AccountInfo;
 
-  @property({type: Object, computed: '_computeUploader(change)'})
-  _uploader?: AccountInfo;
+  @property({type: Object})
+  uploader?: AccountInfo;
 
   @property({type: Object})
   _pendingConfirmationDetails: GroupObjectInput | null = null;
@@ -301,22 +299,22 @@ export class GrReplyDialog extends LitElement {
   _includeComments = true;
 
   @property({type: Array})
-  _reviewers: (AccountInfo | GroupInfo)[] = [];
+  reviewers: (AccountInfo | GroupInfo)[] = [];
 
-  @property({type: Object, observer: '_reviewerPendingConfirmationUpdated'})
+  @property({type: Object, observer: 'reviewerPendingConfirmationUpdated'})
   _reviewerPendingConfirmation: GroupObjectInput | null = null;
 
-  @property({type: Boolean, observer: '_handleHeightChanged'})
+  @property({type: Boolean})
   _previewFormatting = false;
 
-  @property({type: String, computed: '_computeSendButtonLabel(canBeStarted)'})
-  _sendButtonLabel?: string;
+  @property({type: String})
+  sendButtonLabel?: string;
 
   @property({type: Boolean})
   _savingComments = false;
 
   @property({type: Boolean})
-  _reviewersMutated = false;
+  reviewersMutated = false;
 
   /**
    * Signifies that the user has changed their vote on a label or (if they have
@@ -348,19 +346,19 @@ export class GrReplyDialog extends LitElement {
     type: Boolean,
     computed:
       '_computeSendButtonDisabled(canBeStarted, ' +
-      'draftCommentThreads, draft, _reviewersMutated, _labelsChanged, ' +
+      'draftCommentThreads, draft, reviewersMutated, _labelsChanged, ' +
       '_includeComments, disabled, _commentEditing, change, _account)',
     observer: '_sendDisabledChanged',
   })
   _sendDisabled?: boolean;
 
-  @property({type: Array, observer: '_handleHeightChanged'})
+  @property({type: Array})
   draftCommentThreads: CommentThread[] | undefined;
 
   @property({type: Boolean})
   _isResolvedPatchsetLevelComment = true;
 
-  @property({type: Array, computed: '_computeAllReviewers(_reviewers.*)'})
+  @property({type: Array})
   _allReviewers: (AccountInfo | GroupInfo)[] = [];
 
   private readonly restApiService: RestApiService =
@@ -617,6 +615,37 @@ export class GrReplyDialog extends LitElement {
     `,
   ];
 
+  override willUpdate(changedProperties: PropertyValues) {
+    if (
+      changedProperties.has('draft') &&
+      changedProperties.has('draftCommentThreads')
+    ) {
+      this.computeHasDrafts();
+    }
+    if (changedProperties.has('draft')) {
+      this.draftChanged();
+    }
+    if (changedProperties.has('ccPendingConfirmation')) {
+      this.reviewerPendingConfirmationUpdated();
+    }
+    if (changedProperties.has('change')) {
+      this.computeUploader();
+    }
+    if (changedProperties.has('canBeStarted')) {
+      this.computeMessagePlaceholder();
+      this.computeSendButtonLabel();
+    }
+    if (changedProperties.has('reviewFormatting')) {
+      this.handleHeightChanged();
+    }
+    if (changedProperties.has('draftCommentThreads')) {
+      this.handleHeightChanged();
+    }
+    if (changedProperties.has('reviewers')) {
+      this.computeAllReviewers();
+    }
+  }
+
   private renderPeopleList() {
     return html`
       <div class="peopleList">
@@ -624,8 +653,8 @@ export class GrReplyDialog extends LitElement {
         <!--  TODO: replace 2 way binding once GrAccountList is in Lit -->
         <gr-account-list
           id="reviewers"
-          .accounts="{{_reviewers}}"
-          .removableValues=${this.change?.removable_reviewers}
+          .accounts="{{reviewers}}"
+          .removableValues=${this.change?.removablereviewers}
           .filter=${this.filterReviewerSuggestion}
           .pendingConfirmation="{{_reviewerPendingConfirmation}}"
           .placeholder=${'Add reviewer...'}
@@ -707,14 +736,14 @@ export class GrReplyDialog extends LitElement {
             id="textarea"
             class="message newReplyDialog"
             .autocomplete=${'on'}
-            .placeholder=${this._messagePlaceholder}
+            .placeholder=${this.messagePlaceholder}
             monospace
             ?disabled=${this.disabled}
             .rows=${'4'}
             .text=${this.draft}
             @bind-value-changed=${(e: BindValueChangeEvent) => {
               this.draft = e.detail.value;
-              this._handleHeightChanged;
+              this.handleHeightChanged;
             }}
           >
           </gr-textarea>
@@ -918,19 +947,19 @@ export class GrReplyDialog extends LitElement {
           </div>
         </div>
         ${when(
-          this._uploader,
+          this.uploader,
           () => html`
             <div class="peopleList">
               <div class="peopleListLabel">Uploader</div>
               <div class="peopleListValues">
                 <gr-account-label
-                  .account=${this._uploader}
+                  .account=${this.uploader}
                   ?forceAttention=${this._computeHasNewAttention(
-                    this._uploader,
+                    this.uploader,
                     this._newAttentionSet
                   )}
                   .selected=${this._computeHasNewAttention(
-                    this._uploader,
+                    this.uploader,
                     this._newAttentionSet
                   )}
                   .hideHovercard=${true}
@@ -946,7 +975,7 @@ export class GrReplyDialog extends LitElement {
           <div class="peopleListLabel">Reviewers</div>
           <div class="peopleListValues">
             ${this._removeServiceUsers(
-              this._reviewers,
+              this.reviewers,
               this._newAttentionSet
             ).map(
               account => html`
@@ -1089,7 +1118,7 @@ export class GrReplyDialog extends LitElement {
               ?disabled=${this._sendDisabled}
               class="action send"
               @click=${this._sendTapHandler}
-              >${this._sendButtonLabel}
+              >${this.sendButtonLabel}
             </gr-button>
           </gr-tooltip-content>
         </div>
@@ -1241,15 +1270,9 @@ export class GrReplyDialog extends LitElement {
     }
   }
 
-  _computeHasDrafts(
-    draft: string,
-    draftCommentThreads: PolymerDeepPropertyChange<
-      CommentThread[] | undefined,
-      CommentThread[] | undefined
-    >
-  ) {
-    if (draftCommentThreads.base === undefined) return false;
-    return draft.length > 0 || draftCommentThreads.base.length > 0;
+  computeHasDrafts() {
+    if (this.draftCommentThreads === undefined) return false;
+    return this.draft.length > 0 || this.draftCommentThreads.length > 0;
   }
 
   override focus() {
@@ -1300,8 +1323,8 @@ export class GrReplyDialog extends LitElement {
     this._reviewerTypeChanged(splices, ReviewerType.CC);
   }
 
-  @observe('_reviewers.splices')
-  _reviewersChanged(splices: PolymerSpliceChange<AccountInfo[] | GroupInfo[]>) {
+  @observe('reviewers.splices')
+  reviewersChanged(splices: PolymerSpliceChange<AccountInfo[] | GroupInfo[]>) {
     this._reviewerTypeChanged(splices, ReviewerType.REVIEWER);
   }
 
@@ -1310,7 +1333,7 @@ export class GrReplyDialog extends LitElement {
     reviewerType: ReviewerType
   ) {
     if (splices && splices.indexSplices) {
-      this._reviewersMutated = true;
+      this.reviewersMutated = true;
       let key: AccountId | EmailAddress | GroupId | undefined;
       let index;
       let account;
@@ -1321,12 +1344,12 @@ export class GrReplyDialog extends LitElement {
         for (let i = 0; i < splice.addedCount; i++) {
           account = splice.object[splice.index + i];
           key = accountOrGroupKey(account);
-          const array = isReviewer ? this._ccs : this._reviewers;
+          const array = isReviewer ? this._ccs : this.reviewers;
           index = array.findIndex(
             account => accountOrGroupKey(account) === key
           );
           if (index >= 0) {
-            this.splice(isReviewer ? '_ccs' : '_reviewers', index, 1);
+            this.splice(isReviewer ? '_ccs' : 'reviewers', index, 1);
             const moveFrom = isReviewer ? 'CC' : 'reviewer';
             const moveTo = isReviewer ? 'reviewer' : 'CC';
             const id = account.name || key;
@@ -1495,7 +1518,7 @@ export class GrReplyDialog extends LitElement {
       this.change &&
       this.change.owner &&
       this._account._account_id === this.change.owner._account_id &&
-      (!this._reviewers || this._reviewers.length === 0)
+      (!this.reviewers || this.reviewers.length === 0)
     ) {
       return FocusTarget.REVIEWERS;
     }
@@ -1556,8 +1579,8 @@ export class GrReplyDialog extends LitElement {
     return pluralize(total, 'Draft');
   }
 
-  _computeMessagePlaceholder(canBeStarted: boolean) {
-    return canBeStarted
+  computeMessagePlaceholder() {
+    this.messagePlaceholder = this.canBeStarted
       ? 'Add a note for your reviewers...'
       : 'Say something nice...';
   }
@@ -1601,7 +1624,7 @@ export class GrReplyDialog extends LitElement {
     }
 
     this._ccs = ccs;
-    this._reviewers = reviewers;
+    this.reviewers = reviewers;
   }
 
   _handleAttentionModify() {
@@ -1670,7 +1693,7 @@ export class GrReplyDialog extends LitElement {
 
   @observe(
     '_account',
-    '_reviewers.*',
+    'reviewers.*',
     '_ccs.*',
     'change',
     'draftCommentThreads',
@@ -1707,7 +1730,7 @@ export class GrReplyDialog extends LitElement {
     draftCommentThreads = includeComments ? draftCommentThreads : [];
     const hasVote = !!_labelsChanged;
     const isOwner = this._isOwner(currentUser, change);
-    const isUploader = this._uploader?._account_id === currentUser._account_id;
+    const isUploader = this.uploader?._account_id === currentUser._account_id;
     this._attentionCcsCount = removeServiceUsers(ccs.base).length;
     this._currentAttentionSet = new Set(
       Object.keys(change.attention_set || {}).map(id => Number(id) as AccountId)
@@ -1731,8 +1754,8 @@ export class GrReplyDialog extends LitElement {
         .forEach(r => newAttention.add(r._account_id!));
       // Add owner and uploader, if someone else replies.
       if (hasDrafts || hasVote) {
-        if (this._uploader?._account_id && !isUploader) {
-          newAttention.add(this._uploader._account_id);
+        if (this.uploader?._account_id && !isUploader) {
+          newAttention.add(this.uploader._account_id);
         }
         if (change.owner?._account_id && !isOwner) {
           newAttention.add(change.owner._account_id);
@@ -1856,8 +1879,8 @@ export class GrReplyDialog extends LitElement {
   _allAccounts() {
     let allAccounts: (AccountInfoInput | GroupInfoInput)[] = [];
     if (this.change && this.change.owner) allAccounts.push(this.change.owner);
-    if (this._uploader) allAccounts.push(this._uploader);
-    if (this._reviewers) allAccounts = [...allAccounts, ...this._reviewers];
+    if (this.uploader) allAccounts.push(this.uploader);
+    if (this.reviewers) allAccounts = [...allAccounts, ...this.reviewers];
     if (this._ccs) allAccounts = [...allAccounts, ...this._ccs];
     return removeServiceUsers(allAccounts.filter(isAccount));
   }
@@ -1869,30 +1892,28 @@ export class GrReplyDialog extends LitElement {
     return removeServiceUsers(accounts);
   }
 
-  _computeUploader(change: ChangeInfo) {
+  computeUploader() {
     if (
-      !change ||
-      !change.current_revision ||
-      !change.revisions ||
-      !change.revisions[change.current_revision]
+      !this.change?.current_revision ||
+      !this.change?.revisions?.[this.change.current_revision]
     ) {
-      return undefined;
+      this.uploader = undefined;
     }
-    const rev = change.revisions[change.current_revision];
+    const rev = this.change!.revisions![this.change!.current_revision!];
 
     if (
       !rev.uploader ||
-      change.owner._account_id === rev.uploader._account_id
+      this.change?.owner._account_id === rev.uploader._account_id
     ) {
-      return undefined;
+      this.uploader = undefined;
     }
-    return rev.uploader;
+    this.uploader = rev.uploader;
   }
 
   /**
    * Generates a function to filter out reviewer/CC entries. When isCCs is
    * truthy, the function filters out entries that already exist in this._ccs.
-   * When falsy, the function filters entries that exist in this._reviewers.
+   * When falsy, the function filters entries that exist in this.reviewers.
    */
   _filterReviewerSuggestionGenerator(
     isCCs: boolean
@@ -1919,7 +1940,7 @@ export class GrReplyDialog extends LitElement {
       if (isCCs) {
         return this._ccs.find(finder) === undefined;
       }
-      return this._reviewers.find(finder) === undefined;
+      return this.reviewers.find(finder) === undefined;
     };
   }
 
@@ -1993,19 +2014,20 @@ export class GrReplyDialog extends LitElement {
     );
   }
 
-  _reviewerPendingConfirmationUpdated(reviewer: RawAccountInput | null) {
-    if (reviewer === null) {
+  // TODO: look into this method
+  reviewerPendingConfirmationUpdated() {
+    if (this.ccPendingConfirmation === null) {
       this.$.reviewerConfirmationOverlay.close();
     } else {
       this._pendingConfirmationDetails =
-        this._ccPendingConfirmation || this._reviewerPendingConfirmation;
+        this.ccPendingConfirmation || this._reviewerPendingConfirmation;
       this.$.reviewerConfirmationOverlay.open();
     }
   }
 
   _confirmPendingReviewer() {
-    if (this._ccPendingConfirmation) {
-      this.$.ccs.confirmGroup(this._ccPendingConfirmation.group);
+    if (this.ccPendingConfirmation) {
+      this.$.ccs.confirmGroup(this.ccPendingConfirmation.group);
       this._focusOn(FocusTarget.CCS);
       return;
     }
@@ -2020,10 +2042,10 @@ export class GrReplyDialog extends LitElement {
   }
 
   _cancelPendingReviewer() {
-    this._ccPendingConfirmation = null;
+    this.ccPendingConfirmation = null;
     this._reviewerPendingConfirmation = null;
 
-    const target = this._ccPendingConfirmation
+    const target = this.ccPendingConfirmation
       ? FocusTarget.CCS
       : FocusTarget.REVIEWERS;
     this._focusOn(target);
@@ -2048,10 +2070,10 @@ export class GrReplyDialog extends LitElement {
     // it should trigger the save button to enable/
     //
     // Note: if the text is removed, the save button will not get disabled.
-    this._reviewersMutated = true;
+    this.reviewersMutated = true;
   }
 
-  _draftChanged(newDraft: string, oldDraft?: string) {
+  draftChanged() {
     this.storeTask = debounce(
       this.storeTask,
       () => {
@@ -2067,7 +2089,7 @@ export class GrReplyDialog extends LitElement {
     );
   }
 
-  _handleHeightChanged() {
+  handleHeightChanged() {
     fireEvent(this, 'autogrow');
   }
 
@@ -2089,8 +2111,8 @@ export class GrReplyDialog extends LitElement {
     this.cancel();
   }
 
-  _computeSendButtonLabel(canBeStarted: boolean) {
-    return canBeStarted
+  computeSendButtonLabel() {
+    this.sendButtonLabel = this.canBeStarted
       ? ButtonLabels.SEND + ' and ' + ButtonLabels.START_REVIEW
       : ButtonLabels.SEND;
   }
@@ -2209,8 +2231,8 @@ export class GrReplyDialog extends LitElement {
     this.reporting.reportInteraction('attention-set-actions', {actions});
   }
 
-  _computeAllReviewers() {
-    return [...this._reviewers];
+  computeAllReviewers() {
+    return [...this.reviewers];
   }
 }
 

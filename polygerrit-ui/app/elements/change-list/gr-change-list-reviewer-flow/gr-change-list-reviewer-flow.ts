@@ -140,6 +140,8 @@ export class GrChangeListReviewerFlow extends LitElement {
       return;
     }
     return html`
+      // TODO: update to use events from GrAccountList instead of passing a
+      // list
       <gr-account-list
         id=${id}
         .accounts=${updatedAccounts}

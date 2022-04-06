@@ -61,7 +61,7 @@ export class GrDefaultEditor extends LitElement {
   override render() {
     return html` <textarea
       id="textarea"
-      .value="${this.fileContent}"
+      .value=${this.fileContent}
       @input=${this._handleTextareaInput}
     ></textarea>`;
   }

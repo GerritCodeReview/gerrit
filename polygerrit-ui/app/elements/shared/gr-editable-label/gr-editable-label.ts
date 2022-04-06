@@ -186,14 +186,14 @@ export class GrEditableLabel extends LitElement {
         link=""
         class="pencil ${this.computeLabelClass()}"
         @click=${this.showDropdown}
-        title="${this.computeLabel()}"
+        title=${this.computeLabel()}
         ><iron-icon icon="gr-icons:edit"></iron-icon
       ></gr-button>`;
     } else {
       return html`<label
-        class="${this.computeLabelClass()}"
-        title="${this.computeLabel()}"
-        aria-label="${this.computeLabel()}"
+        class=${this.computeLabelClass()}
+        title=${this.computeLabel()}
+        aria-label=${this.computeLabel()}
         @click=${this.showDropdown}
         part="label"
         >${this.computeLabel()}</label

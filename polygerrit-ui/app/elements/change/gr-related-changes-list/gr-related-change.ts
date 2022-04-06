@@ -114,9 +114,9 @@ export class GrRelatedChange extends LitElement {
     return html`
       <div class="changeContainer">
         <a
-          href="${ifDefined(this.href)}"
-          aria-label="${ifDefined(this.label)}"
-          class="${linkClass}"
+          href=${ifDefined(this.href)}
+          aria-label=${ifDefined(this.label)}
+          class=${linkClass}
           ><slot></slot
         ></a>
         ${this.showSubmittableCheck
@@ -130,7 +130,7 @@ export class GrRelatedChange extends LitElement {
             >`
           : ''}
         ${this.showChangeStatus && !isChangeInfo(change)
-          ? html`<span class="${this._computeChangeStatusClass(change)}">
+          ? html`<span class=${this._computeChangeStatusClass(change)}>
               (${this._computeChangeStatus(change)})
             </span>`
           : ''}

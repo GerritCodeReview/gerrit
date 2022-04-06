@@ -274,8 +274,8 @@ export class GrChangeList extends LitElement {
       >
         ${changeSection.emptyStateSlotName
           ? html`<slot
-              slot="${changeSection.emptyStateSlotName}"
-              name="${changeSection.emptyStateSlotName}"
+              slot=${changeSection.emptyStateSlotName}
+              name=${changeSection.emptyStateSlotName}
             ></slot>`
           : nothing}
       </gr-change-list-section>

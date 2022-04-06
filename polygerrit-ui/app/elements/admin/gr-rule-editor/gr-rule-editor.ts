@@ -220,15 +220,13 @@ export class GrRuleEditor extends LitElement {
           ${this.renderMinAndMaxLabel()} ${this.renderMinAndMaxInput()}
           <a
             class="groupPath"
-            href="${ifDefined(this.computeGroupPath(this.groupId))}"
+            href=${ifDefined(this.computeGroupPath(this.groupId))}
           >
             ${this.groupName}
           </a>
           <gr-select
             id="force"
-            class="${this.computeForce(this.rule?.value?.action)
-              ? 'force'
-              : ''}"
+            class=${this.computeForce(this.rule?.value?.action) ? 'force' : ''}
             .bindValue=${this.rule?.value?.force}
             @bind-value-changed=${(e: BindValueChangeEvent) => {
               this.handleForceBindValueChanged(e);

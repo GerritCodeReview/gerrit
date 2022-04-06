@@ -340,7 +340,7 @@ export class GrChangeListItem extends LitElement {
 
     return html`
       <td class="cell number">
-        <a href="${changeUrl}">${this.change?._number}</a>
+        <a href=${changeUrl}>${this.change?._number}</a>
       </td>
     `;
   }
@@ -352,8 +352,8 @@ export class GrChangeListItem extends LitElement {
     return html`
       <td class="cell subject">
         <a
-          title="${ifDefined(this.change?.subject)}"
-          href="${changeUrl}"
+          title=${ifDefined(this.change?.subject)}
+          href=${changeUrl}
           @click=${() => this.handleChangeClick()}
         >
           <div class="container">
@@ -413,7 +413,7 @@ export class GrChangeListItem extends LitElement {
             this.renderChangeReviewers(reviewer, index)
           )}
           ${this.computeAdditionalReviewersCount()
-            ? html`<span title="${this.computeAdditionalReviewersTitle()}"
+            ? html`<span title=${this.computeAdditionalReviewersTitle()}
                 >+${this.computeAdditionalReviewersCount()}</span
               >`
             : ''}
@@ -460,13 +460,13 @@ export class GrChangeListItem extends LitElement {
 
     return html`
       <td class="cell repo">
-        <a class="fullRepo" href="${this.computeRepoUrl()}">
+        <a class="fullRepo" href=${this.computeRepoUrl()}>
           ${this.computeRepoDisplay()}
         </a>
         <a
           class="truncatedRepo"
-          href="${this.computeRepoUrl()}"
-          title="${this.computeRepoDisplay()}"
+          href=${this.computeRepoUrl()}
+          title=${this.computeRepoDisplay()}
         >
           ${this.computeTruncatedRepoDisplay()}
         </a>
@@ -480,7 +480,7 @@ export class GrChangeListItem extends LitElement {
 
     return html`
       <td class="cell branch">
-        <a href="${this.computeRepoBranchURL()}"> ${this.change?.branch} </a>
+        <a href=${this.computeRepoBranchURL()}> ${this.change?.branch} </a>
         ${this.renderChangeBranch()}
       </td>
     `;
@@ -490,7 +490,7 @@ export class GrChangeListItem extends LitElement {
     if (!this.change?.topic) return;
 
     return html`
-      (<a href="${this.computeTopicURL()}"
+      (<a href=${this.computeTopicURL()}
         ><!--
       --><gr-limited-text .limit=${50} .text=${this.change.topic}>
         </gr-limited-text
@@ -550,7 +550,7 @@ export class GrChangeListItem extends LitElement {
 
     return html`
       <td class="cell size">
-        <gr-tooltip-content has-tooltip title="${this.computeSizeTooltip()}">
+        <gr-tooltip-content has-tooltip title=${this.computeSizeTooltip()}>
           ${this.renderChangeSize()}
         </gr-tooltip-content>
       </td>
@@ -590,8 +590,8 @@ export class GrChangeListItem extends LitElement {
     }
     return html`
       <td
-        title="${this.computeLabelTitle(labelName)}"
-        class="${this.computeLabelClass(labelName)}"
+        title=${this.computeLabelTitle(labelName)}
+        class=${this.computeLabelClass(labelName)}
       >
         ${this.renderChangeHasLabelIcon(labelName)}
       </td>
@@ -610,7 +610,7 @@ export class GrChangeListItem extends LitElement {
   private renderChangePluginEndpoint(pluginEndpointName: string) {
     return html`
       <td class="cell endpoint">
-        <gr-endpoint-decorator name="${pluginEndpointName}">
+        <gr-endpoint-decorator name=${pluginEndpointName}>
           <gr-endpoint-param name="change" .value=${this.change}>
           </gr-endpoint-param>
         </gr-endpoint-decorator>

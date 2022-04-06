@@ -232,7 +232,7 @@ export class GrDashboardView extends LitElement {
       <div class="banner">
         <div>
           You have draft comments on closed changes.
-          <a href="${this.computeDraftsLink()}" target="_blank">(view all)</a>
+          <a href=${this.computeDraftsLink()} target="_blank">(view all)</a>
         </div>
         <div>
           <gr-button

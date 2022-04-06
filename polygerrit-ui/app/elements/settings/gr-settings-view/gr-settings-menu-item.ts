@@ -40,7 +40,7 @@ export class GrSettingsMenuItem extends LitElement {
   override render() {
     const href = this.href ?? '';
     return html` <div class="navStyles">
-      <li><a href="${href}">${this.title}</a></li>
+      <li><a href=${href}>${this.title}</a></li>
     </div>`;
   }
 }

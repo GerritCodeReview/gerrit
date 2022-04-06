@@ -139,7 +139,7 @@ export class GrVoteChip extends LitElement {
 
     return html`<gr-tooltip-content
       class="container ${this.more ? 'more' : ''}"
-      title="${this.computeTooltip()}"
+      title=${this.computeTooltip()}
       has-tooltip
     >
       <div class="vote-chip ${this.computeClass()}">${renderValue}</div>

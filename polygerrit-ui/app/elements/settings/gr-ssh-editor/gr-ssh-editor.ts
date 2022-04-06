@@ -153,13 +153,13 @@ export class GrSshEditor extends LitElement {
             </fieldset>
             <gr-button
               class="closeButton"
-              @click="${() => this.viewKeyOverlay.close()}"
+              @click=${() => this.viewKeyOverlay.close()}
               >Close</gr-button
             >
           </gr-overlay>
           <gr-button
-            @click="${() => this.save()}"
-            ?disabled="${!this.hasUnsavedChanges}"
+            @click=${() => this.save()}
+            ?disabled=${!this.hasUnsavedChanges}
             >Save changes</gr-button
           >
         </fieldset>
@@ -181,8 +181,8 @@ export class GrSshEditor extends LitElement {
           <gr-button
             id="addButton"
             link=""
-            ?disabled="${!this.newKey.length}"
-            @click="${() => this.handleAddKey()}"
+            ?disabled=${!this.newKey.length}
+            @click=${() => this.handleAddKey()}
             >Add new SSH key</gr-button
           >
         </fieldset>
@@ -197,25 +197,25 @@ export class GrSshEditor extends LitElement {
       <td>
         <gr-button
           link=""
-          @click="${(e: Event) => this.showKey(e)}"
-          data-index="${index}"
+          @click=${(e: Event) => this.showKey(e)}
+          data-index=${index}
           >Click to View</gr-button
         >
       </td>
       <td>
         <gr-copy-clipboard
           hasTooltip=""
-          .buttonTitle="${'Copy SSH public key to clipboard'}"
+          .buttonTitle=${'Copy SSH public key to clipboard'}
           hideInput=""
-          .text="${key.ssh_public_key}"
+          .text=${key.ssh_public_key}
         >
         </gr-copy-clipboard>
       </td>
       <td>
         <gr-button
           link=""
-          data-index="${index}"
-          @click="${(e: Event) => this.handleDeleteKey(e)}"
+          data-index=${index}
+          @click=${(e: Event) => this.handleDeleteKey(e)}
           >Delete</gr-button
         >
       </td>

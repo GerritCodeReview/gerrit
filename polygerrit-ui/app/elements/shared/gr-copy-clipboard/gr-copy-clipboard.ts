@@ -97,15 +97,15 @@ export class GrCopyClipboard extends LitElement {
       <div class="text">
         <iron-input
           class="copyText"
-          @click="${this._handleInputClick}"
+          @click=${this._handleInputClick}
           .bindValue=${this.text ?? ''}
         >
           <input
             id="input"
             is="iron-input"
-            class="${classMap({hideInput: this.hideInput})}"
+            class=${classMap({hideInput: this.hideInput})}
             type="text"
-            @click="${this._handleInputClick}"
+            @click=${this._handleInputClick}
             readonly=""
             .value=${this.text ?? ''}
             part="text-container-style"
@@ -113,13 +113,13 @@ export class GrCopyClipboard extends LitElement {
         </iron-input>
         <gr-tooltip-content
           ?has-tooltip=${this.hasTooltip}
-          title="${ifDefined(this.buttonTitle)}"
+          title=${ifDefined(this.buttonTitle)}
         >
           <gr-button
             id="copy-clipboard-button"
             link=""
             class="copyToClipboard"
-            @click="${this._copyToClipboard}"
+            @click=${this._copyToClipboard}
             aria-label="Click to copy to clipboard"
           >
             <iron-icon id="icon" icon="gr-icons:content-copy"></iron-icon>

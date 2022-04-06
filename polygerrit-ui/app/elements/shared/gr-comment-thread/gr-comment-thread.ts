@@ -438,9 +438,7 @@ export class GrCommentThread extends LitElement {
     return html`
       ${this.renderFileName()}
       <div class="pathInfo">
-        ${href
-          ? html`<a href="${href}">${line}</a>`
-          : html`<span>${line}</span>`}
+        ${href ? html`<a href=${href}>${line}</a>` : html`<span>${line}</span>`}
       </div>
     `;
   }
@@ -455,9 +453,9 @@ export class GrCommentThread extends LitElement {
     return html`
       <div class="fileName">
         ${href
-          ? html`<a href="${href}">${displayPath}</a>`
+          ? html`<a href=${href}>${displayPath}</a>`
           : html`<span>${displayPath}</span>`}
-        <gr-copy-clipboard hideInput .text="${displayPath}"></gr-copy-clipboard>
+        <gr-copy-clipboard hideInput .text=${displayPath}></gr-copy-clipboard>
       </div>
     `;
   }
@@ -481,21 +479,21 @@ export class GrCommentThread extends LitElement {
             : !this.unresolved);
         return html`
           <gr-comment
-            .comment="${comment}"
-            .comments="${this.thread!.comments}"
-            ?initially-collapsed="${initiallyCollapsed}"
-            ?robot-button-disabled="${robotButtonDisabled}"
-            ?show-patchset="${this.showPatchset}"
-            ?show-ported-comment="${this.showPortedComment &&
-            comment.id === this.rootId}"
-            @create-fix-comment="${this.handleCommentFix}"
-            @copy-comment-link="${this.handleCopyLink}"
-            @comment-editing-changed="${(e: CustomEvent) => {
+            .comment=${comment}
+            .comments=${this.thread!.comments}
+            ?initially-collapsed=${initiallyCollapsed}
+            ?robot-button-disabled=${robotButtonDisabled}
+            ?show-patchset=${this.showPatchset}
+            ?show-ported-comment=${this.showPortedComment &&
+            comment.id === this.rootId}
+            @create-fix-comment=${this.handleCommentFix}
+            @copy-comment-link=${this.handleCopyLink}
+            @comment-editing-changed=${(e: CustomEvent) => {
               if (isDraftOrUnsaved(comment)) this.editing = e.detail;
-            }}"
-            @comment-unresolved-changed="${(e: CustomEvent) => {
+            }}
+            @comment-unresolved-changed=${(e: CustomEvent) => {
               if (isDraftOrUnsaved(comment)) this.unresolved = e.detail;
-            }}"
+            }}
           ></gr-comment>
         `;
       }
@@ -513,7 +511,7 @@ export class GrCommentThread extends LitElement {
         <div id="actions">
           <iron-icon
               class="link-icon copy"
-              @click="${this.handleCopyLink}"
+              @click=${this.handleCopyLink}
               title="Copy link to this comment"
               icon="gr-icons:link"
               role="button"
@@ -524,16 +522,16 @@ export class GrCommentThread extends LitElement {
               id="replyBtn"
               link
               class="action reply"
-              ?disabled="${this.saving}"
-              @click="${() => this.handleCommentReply(false)}"
+              ?disabled=${this.saving}
+              @click=${() => this.handleCommentReply(false)}
           >Reply</gr-button
           >
           <gr-button
               id="quoteBtn"
               link
               class="action quote"
-              ?disabled="${this.saving}"
-              @click="${() => this.handleCommentReply(true)}"
+              ?disabled=${this.saving}
+              @click=${() => this.handleCommentReply(true)}
           >Quote</gr-button
           >
           ${
@@ -543,16 +541,16 @@ export class GrCommentThread extends LitElement {
                     id="ackBtn"
                     link
                     class="action ack"
-                    ?disabled="${this.saving}"
-                    @click="${this.handleCommentAck}"
+                    ?disabled=${this.saving}
+                    @click=${this.handleCommentAck}
                     >Ack</gr-button
                   >
                   <gr-button
                     id="doneBtn"
                     link
                     class="action done"
-                    ?disabled="${this.saving}"
-                    @click="${this.handleCommentDone}"
+                    ?disabled=${this.saving}
+                    @click=${this.handleCommentDone}
                     >Done</gr-button
                   >
                 `
@@ -572,16 +570,16 @@ export class GrCommentThread extends LitElement {
       <div class="diff-container">
         <gr-diff
           id="diff"
-          .diff="${this.diff}"
-          .layers="${this.layers}"
-          .path="${this.thread.path}"
-          .prefs="${this.prefs}"
-          .renderPrefs="${this.renderPrefs}"
-          .highlightRange="${this.highlightRange}"
+          .diff=${this.diff}
+          .layers=${this.layers}
+          .path=${this.thread.path}
+          .prefs=${this.prefs}
+          .renderPrefs=${this.renderPrefs}
+          .highlightRange=${this.highlightRange}
         >
         </gr-diff>
         <div class="view-diff-container">
-          <a href="${href}">
+          <a href=${href}>
             <gr-button link class="view-diff-button">View Diff</gr-button>
           </a>
         </div>

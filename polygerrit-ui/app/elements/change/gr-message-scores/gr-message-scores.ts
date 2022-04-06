@@ -119,11 +119,11 @@ export class GrMessageScores extends LitElement {
     ) {
       const labels = this.change?.labels ?? {};
       return html`<gr-trigger-vote
-        .label="${score.label}"
+        .label=${score.label}
         .displayValue=${score.value}
-        .labelInfo="${labels[score.label]}"
-        .change="${this.change}"
-        .mutable="${false}"
+        .labelInfo=${labels[score.label]}
+        .change=${this.change}
+        .mutable=${false}
         disable-hovercards
       >
       </gr-trigger-vote>`;

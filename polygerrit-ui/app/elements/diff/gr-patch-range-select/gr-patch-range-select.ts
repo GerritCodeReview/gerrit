@@ -180,8 +180,8 @@ export class GrPatchRangeSelect extends LitElement {
       <span class="patchRange" aria-label="patch range starts with">
         <gr-dropdown-list
           id="basePatchDropdown"
-          .value="${convertToString(this.basePatchNum)}"
-          .items="${this.computeBaseDropdownContent()}"
+          .value=${convertToString(this.basePatchNum)}
+          .items=${this.computeBaseDropdownContent()}
           @value-change=${this.handlePatchChange}
         >
         </gr-dropdown-list>
@@ -191,8 +191,8 @@ export class GrPatchRangeSelect extends LitElement {
       <span class="patchRange" aria-label="patch range ends with">
         <gr-dropdown-list
           id="patchNumDropdown"
-          .value="${convertToString(this.patchNum)}"
-          .items="${this.computePatchDropdownContent()}"
+          .value=${convertToString(this.patchNum)}
+          .items=${this.computePatchDropdownContent()}
           @value-change=${this.handlePatchChange}
         >
         </gr-dropdown-list>
@@ -206,7 +206,7 @@ export class GrPatchRangeSelect extends LitElement {
     return html`<span class="filesWeblinks">
       ${fileLinks.map(
         weblink => html`
-          <a target="_blank" rel="noopener" href="${ifDefined(weblink.url)}">
+          <a target="_blank" rel="noopener" href=${ifDefined(weblink.url)}>
             ${weblink.name}
           </a>
         `

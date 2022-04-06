@@ -330,19 +330,19 @@ export class GrThreadList extends LitElement {
         <span class="sort-text">Sort By:</span>
         <gr-dropdown-list
           id="sortDropdown"
-          .value="${this.sortDropdownValue}"
-          @value-change="${(e: CustomEvent) =>
-            (this.sortDropdownValue = e.detail.value)}"
-          .items="${this.getSortDropdownEntries()}"
+          .value=${this.sortDropdownValue}
+          @value-change=${(e: CustomEvent) =>
+            (this.sortDropdownValue = e.detail.value)}
+          .items=${this.getSortDropdownEntries()}
         >
         </gr-dropdown-list>
         <span class="separator"></span>
         <span class="filter-text">Filter By:</span>
         <gr-dropdown-list
           id="filterDropdown"
-          .value="${this.getCommentsDropdownValue()}"
-          @value-change="${this.handleCommentsDropdownValueChange}"
-          .items="${this.getCommentsDropdownEntries()}"
+          .value=${this.getCommentsDropdownValue()}
+          @value-change=${this.handleCommentsDropdownValueChange}
+          .items=${this.getCommentsDropdownEntries()}
         >
         </gr-dropdown-list>
         ${this.renderAuthorChips()}
@@ -362,7 +362,7 @@ export class GrThreadList extends LitElement {
       <gr-button
         class="show-resolved-comments"
         link
-        @click="${this.handleAllComments}"
+        @click=${this.handleAllComments}
         >Show ${pluralize(threads.length, 'resolved comment')}</gr-button
       >
     `;
@@ -398,16 +398,16 @@ export class GrThreadList extends LitElement {
   private renderCommentThread(thread: CommentThread, isFirst: boolean) {
     return html`
       <gr-comment-thread
-        .thread="${thread}"
+        .thread=${thread}
         show-file-path
-        ?show-ported-comment="${thread.ported}"
-        ?show-comment-context="${this.showCommentContext}"
-        ?show-file-name="${isFirst}"
-        .messageId="${this.messageId}"
-        ?should-scroll-into-view="${thread.rootId === this.scrollCommentId}"
-        @comment-thread-editing-changed="${() => {
+        ?show-ported-comment=${thread.ported}
+        ?show-comment-context=${this.showCommentContext}
+        ?show-file-name=${isFirst}
+        .messageId=${this.messageId}
+        ?should-scroll-into-view=${thread.rootId === this.scrollCommentId}
+        @comment-thread-editing-changed=${() => {
           this.requestUpdate();
-        }}"
+        }}
       ></gr-comment-thread>
     `;
   }
@@ -426,11 +426,11 @@ export class GrThreadList extends LitElement {
     );
     return html`
       <gr-account-label
-        .account="${account}"
-        @click="${this.handleAccountClicked}"
+        .account=${account}
+        @click=${this.handleAccountClicked}
         selectionChipStyle
         noStatusIcons
-        ?selected="${selected}"
+        ?selected=${selected}
       ></gr-account-label>
     `;
   }

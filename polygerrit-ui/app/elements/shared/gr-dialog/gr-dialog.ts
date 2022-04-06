@@ -136,7 +136,7 @@ export class GrDialog extends LitElement {
         <footer>
           <gr-button
             id="cancel"
-            class="${this.cancelLabel.length ? '' : 'hidden'}"
+            class=${this.cancelLabel.length ? '' : 'hidden'}
             link
             ?disabled=${this.disableCancel}
             @click=${(e: Event) => this.handleCancelTap(e)}

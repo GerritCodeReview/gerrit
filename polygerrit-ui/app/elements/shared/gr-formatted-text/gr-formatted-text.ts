@@ -353,7 +353,7 @@ export class GrFormattedText extends LitElement {
   private renderText(content: string, isPre?: boolean): TemplateResult {
     return html`
       <gr-linked-text
-        class="${isPre ? 'pre' : ''}"
+        class=${isPre ? 'pre' : ''}
         .config=${this.config}
         content=${content}
         pre
@@ -364,7 +364,7 @@ export class GrFormattedText extends LitElement {
   private renderInlineText(content: string, isPre?: boolean): TemplateResult {
     return html`
       <gr-linked-text
-        class="${isPre ? 'pre' : ''}"
+        class=${isPre ? 'pre' : ''}
         .config=${this.config}
         content=${content}
         pre
@@ -374,7 +374,7 @@ export class GrFormattedText extends LitElement {
   }
 
   private renderLink(text: string, url: string): TemplateResult {
-    return html`<a href="${url}">${text}</a>`;
+    return html`<a href=${url}>${text}</a>`;
   }
 
   private renderInlineItem(span: InlineItem): TemplateResult {

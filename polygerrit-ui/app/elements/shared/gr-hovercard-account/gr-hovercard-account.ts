@@ -214,7 +214,7 @@ export class GrHovercardAccount extends base {
           class="removeReviewerOrCC"
           link=""
           no-uppercase
-          @click="${this.handleRemoveReviewerOrCC}"
+          @click=${this.handleRemoveReviewerOrCC}
         >
           Remove ${this.computeReviewerOrCCText()}
         </gr-button>
@@ -224,7 +224,7 @@ export class GrHovercardAccount extends base {
           class="changeReviewerOrCC"
           link=""
           no-uppercase
-          @click="${this.handleChangeReviewerOrCCStatus}"
+          @click=${this.handleChangeReviewerOrCCStatus}
         >
           ${this.computeChangeReviewerOrCCText()}
         </gr-button>
@@ -237,7 +237,7 @@ export class GrHovercardAccount extends base {
       <gr-endpoint-decorator name="hovercard-status">
         <gr-endpoint-param
           name="account"
-          .value="${this.account}"
+          .value=${this.account}
         ></gr-endpoint-param>
       </gr-endpoint-decorator>
     `;
@@ -247,7 +247,7 @@ export class GrHovercardAccount extends base {
     return html` <div class="links">
       <iron-icon class="linkIcon" icon="gr-icons:link"></iron-icon
       ><a
-        href="${ifDefined(this.computeOwnerChangesLink())}"
+        href=${ifDefined(this.computeOwnerChangesLink())}
         @click=${() => {
           this.forceHide();
           return true;
@@ -258,7 +258,7 @@ export class GrHovercardAccount extends base {
         }}
         >Changes</a
       >·<a
-        href="${ifDefined(this.computeOwnerDashboardLink())}"
+        href=${ifDefined(this.computeOwnerDashboardLink())}
         @click=${() => {
           this.forceHide();
           return true;
@@ -311,7 +311,7 @@ export class GrHovercardAccount extends base {
           ${lastUpdate
             ? html` (<gr-date-formatter
                   withTooltip
-                  .dateStr="${lastUpdate}"
+                  .dateStr=${lastUpdate}
                 ></gr-date-formatter
                 >)`
             : ''}
@@ -328,7 +328,7 @@ export class GrHovercardAccount extends base {
           class="addToAttentionSet"
           link=""
           no-uppercase
-          @click="${this.handleClickAddToAttentionSet}"
+          @click=${this.handleClickAddToAttentionSet}
         >
           Add to attention set
         </gr-button>
@@ -344,7 +344,7 @@ export class GrHovercardAccount extends base {
           class="removeFromAttentionSet"
           link=""
           no-uppercase
-          @click="${this.handleClickRemoveFromAttentionSet}"
+          @click=${this.handleClickRemoveFromAttentionSet}
         >
           Remove from attention set
         </gr-button>

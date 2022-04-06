@@ -129,13 +129,13 @@ export class GrReviewerList extends LitElement {
           ${this.displayedReviewers.map(reviewer =>
             this.renderAccountChip(reviewer)
           )}
-          <div class="controlsContainer" ?hidden="${!this.mutable}">
+          <div class="controlsContainer" ?hidden=${!this.mutable}>
             <gr-button
               link
               id="addReviewer"
               class="addReviewer"
-              @click="${this.handleAddTap}"
-              title="${this.ccsOnly ? 'Add CC' : 'Add reviewer'}"
+              @click=${this.handleAddTap}
+              title=${this.ccsOnly ? 'Add CC' : 'Add reviewer'}
               ><iron-icon icon="gr-icons:edit"></iron-icon
             ></gr-button>
           </div>
@@ -143,10 +143,10 @@ export class GrReviewerList extends LitElement {
         <gr-button
           class="hiddenReviewers"
           link=""
-          ?hidden="${!this.hiddenReviewerCount}"
-          @click="${() => {
+          ?hidden=${!this.hiddenReviewerCount}
+          @click=${() => {
             this.showAllReviewers = true;
-          }}"
+          }}
           >and ${this.hiddenReviewerCount} more</gr-button
         >
       </div>
@@ -159,18 +159,18 @@ export class GrReviewerList extends LitElement {
     return html`
       <gr-account-chip
         class="reviewer"
-        .account="${reviewer}"
-        .change="${change}"
+        .account=${reviewer}
+        .change=${change}
         highlightAttention
-        .voteableText="${this.computeVoteableText(reviewer)}"
-        .vote="${this.computeVote(reviewer)}"
-        .label="${this.computeCodeReviewLabel()}"
+        .voteableText=${this.computeVoteableText(reviewer)}
+        .vote=${this.computeVote(reviewer)}
+        .label=${this.computeCodeReviewLabel()}
       >
         ${showNewSubmitRequirements(this.flagsService, this.change)
           ? html`<gr-vote-chip
               slot="vote-chip"
-              .vote="${this.computeVote(reviewer)}"
-              .label="${this.computeCodeReviewLabel()}"
+              .vote=${this.computeVote(reviewer)}
+              .label=${this.computeCodeReviewLabel()}
               circle-shape
             ></gr-vote-chip>`
           : nothing}

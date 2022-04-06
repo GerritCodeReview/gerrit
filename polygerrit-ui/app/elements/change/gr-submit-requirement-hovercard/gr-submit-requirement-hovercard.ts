@@ -144,7 +144,7 @@ export class GrSubmitRequirementHovercard extends base {
     return html` <div id="container" role="tooltip" tabindex="-1">
       <div class="section">
         <div class="sectionIcon">
-          <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
+          <iron-icon class=${icon} icon="gr-icons:${icon}"></iron-icon>
         </div>
         <div class="sectionContent">
           <h3 class="name heading-3">
@@ -237,7 +237,7 @@ export class GrSubmitRequirementHovercard extends base {
       <gr-button
         link=""
         id="toggleConditionsButton"
-        @click="${(_: MouseEvent) => this.toggleConditionsVisibility()}"
+        @click=${(_: MouseEvent) => this.toggleConditionsVisibility()}
       >
         ${buttonText}
         <iron-icon icon="gr-icons:${icon}"></iron-icon
@@ -285,7 +285,7 @@ export class GrSubmitRequirementHovercard extends base {
     return html` <div class="button quickApprove">
       <gr-button
         link=""
-        @click="${(_: MouseEvent) => this.quickApprove(labelName, maxVote)}"
+        @click=${(_: MouseEvent) => this.quickApprove(labelName, maxVote)}
       >
         ${this.computeVoteButtonName(labelName, maxVote, type)}
       </gr-button>

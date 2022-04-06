@@ -122,10 +122,10 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
   }
 
   renderState(icon: string, aggregation: string | TemplateResult) {
-    return html`<span class="${icon}" role="button" tabindex="0">
+    return html`<span class=${icon} role="button" tabindex="0">
       <gr-submit-requirement-dashboard-hovercard .change=${this.change}>
       </gr-submit-requirement-dashboard-hovercard>
-      <iron-icon class="${icon}" icon="gr-icons:${icon}" role="img"></iron-icon
+      <iron-icon class=${icon} icon="gr-icons:${icon}" role="img"></iron-icon
       >${aggregation}</span
     >`;
   }
@@ -142,10 +142,10 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
     return html`<iron-icon
       icon="gr-icons:comment"
       class="commentIcon"
-      .title="${pluralize(
+      .title=${pluralize(
         this.change?.unresolved_comment_count,
         'unresolved comment'
-      )}"
+      )}
     ></iron-icon>`;
   }
 }

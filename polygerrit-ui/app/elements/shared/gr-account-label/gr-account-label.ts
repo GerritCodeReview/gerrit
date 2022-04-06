@@ -230,14 +230,14 @@ export class GrAccountLabel extends LitElement {
                 false,
                 this._selfAccount
               )}
-              title="${this.computeAttentionIconTitle(
+              title=${this.computeAttentionIconTitle(
                 highlightAttention,
                 account,
                 change,
                 forceAttention,
                 this.selected,
                 this._selfAccount
-              )}"
+              )}
             >
               <gr-button
                 id="attentionButton"
@@ -260,16 +260,13 @@ export class GrAccountLabel extends LitElement {
           : ''}
         ${this.maybeRenderLink(html`
           <span
-            class="${classMap({
+            class=${classMap({
               hovercardTargetWrapper: true,
               hasAttention: this.attentionIconShown,
-            })}"
+            })}
           >
             ${this.avatarShown
-              ? html`<gr-avatar
-                  .account="${account}"
-                  imageSize="32"
-                ></gr-avatar>`
+              ? html`<gr-avatar .account=${account} imageSize="32"></gr-avatar>`
               : ''}
             <span
               tabindex=${this.hideHovercard ? '-1' : '0'}
@@ -310,7 +307,7 @@ export class GrAccountLabel extends LitElement {
         `${this.account._account_id}`
     );
     if (!url) return span;
-    return html`<a class="ownerLink" href="${url}" tabindex="-1">${span}</a>`;
+    return html`<a class="ownerLink" href=${url} tabindex="-1">${span}</a>`;
   }
 
   private renderAccountStatusPlugins() {
@@ -324,7 +321,7 @@ export class GrAccountLabel extends LitElement {
       >
         <gr-endpoint-param
           name="accountId"
-          .value="${this.account._account_id}"
+          .value=${this.account._account_id}
         ></gr-endpoint-param>
         <span class="rightSidePadding"></span>
       </gr-endpoint-decorator>

@@ -67,10 +67,10 @@ export class GrFileStatusChip extends LitElement {
 
   override render() {
     return html` <span
-      class="${this._computeStatusClass(this.file)}"
+      class=${this._computeStatusClass(this.file)}
       tabindex="0"
-      title="${this._computeFileStatusLabel(this.file?.status)}"
-      aria-label="${this._computeFileStatusLabel(this.file?.status)}"
+      title=${this._computeFileStatusLabel(this.file?.status)}
+      aria-label=${this._computeFileStatusLabel(this.file?.status)}
     >
       ${this._computeFileStatusLabel(this.file?.status)}
     </span>`;

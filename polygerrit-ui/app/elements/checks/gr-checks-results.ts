@@ -333,16 +333,16 @@ class GrResultRow extends LitElement {
       `;
     }
     return html`
-      <tr class="${classMap({container: true, collapsed: !this.isExpanded})}">
-        <td class="nameCol" @click="${this.toggleExpandedClick}">
+      <tr class=${classMap({container: true, collapsed: !this.isExpanded})}>
+        <td class="nameCol" @click=${this.toggleExpandedClick}>
           <div class="flex">
-            <gr-hovercard-run .run="${this.result}"></gr-hovercard-run>
+            <gr-hovercard-run .run=${this.result}></gr-hovercard-run>
             <div
               class="name"
               role="button"
               tabindex="0"
-              @click="${this.toggleExpandedClick}"
-              @keydown="${this.toggleExpandedPress}"
+              @click=${this.toggleExpandedClick}
+              @keydown=${this.toggleExpandedPress}
             >
               ${this.result.checkName}
             </div>
@@ -353,7 +353,7 @@ class GrResultRow extends LitElement {
           <div class="summary-cell">
             ${this.renderLink(firstPrimaryLink(this.result))}
             ${this.renderSummary(this.result.summary)}
-            <div class="message" @click="${this.toggleExpandedClick}">
+            <div class="message" @click=${this.toggleExpandedClick}>
               ${this.isExpanded ? '' : this.result.message}
             </div>
             ${this.renderLinks()} ${this.renderActions()}
@@ -363,27 +363,27 @@ class GrResultRow extends LitElement {
             ${this.renderLabel()}
           </div>
         </td>
-        <td class="expanderCol" @click="${this.toggleExpandedClick}">
+        <td class="expanderCol" @click=${this.toggleExpandedClick}>
           <div
             class="show-hide"
             role="switch"
             tabindex="0"
-            ?hidden="${!this.isExpandable}"
-            aria-checked="${this.isExpanded ? 'true' : 'false'}"
-            aria-label="${this.isExpanded
+            ?hidden=${!this.isExpandable}
+            aria-checked=${this.isExpanded ? 'true' : 'false'}
+            aria-label=${this.isExpanded
               ? 'Collapse result row'
-              : 'Expand result row'}"
-            @keydown="${this.toggleExpandedPress}"
+              : 'Expand result row'}
+            @keydown=${this.toggleExpandedPress}
           >
             <iron-icon
-              icon="${this.isExpanded
+              icon=${this.isExpanded
                 ? 'gr-icons:expand-less'
-                : 'gr-icons:expand-more'}"
+                : 'gr-icons:expand-more'}
             ></iron-icon>
           </div>
         </td>
       </tr>
-      <tr class="${classMap({detailsRow: true, collapsed: !this.isExpanded})}">
+      <tr class=${classMap({detailsRow: true, collapsed: !this.isExpanded})}>
         <td class="expandedCol" colspan="3">${this.renderExpanded()}</td>
       </tr>
     `;
@@ -392,7 +392,7 @@ class GrResultRow extends LitElement {
   private renderExpanded() {
     if (!this.isExpanded) return;
     return html`<gr-result-expanded
-      .result="${this.result}"
+      .result=${this.result}
     ></gr-result-expanded>`;
   }
 
@@ -437,7 +437,7 @@ class GrResultRow extends LitElement {
     return html`
       <!-- The &nbsp; is for being able to shrink a tiny amount without
        the text itself getting shrunk with an ellipsis. -->
-      <div class="summary" @click="${this.toggleExpanded}">${text}&nbsp;</div>
+      <div class="summary" @click=${this.toggleExpanded}>${text}&nbsp;</div>
     `;
   }
 
@@ -457,7 +457,7 @@ class GrResultRow extends LitElement {
     return html`
       <div class="label ${status}">
         <span>${label} ${valueStr}</span>
-        <paper-tooltip offset="5" ?fitToVisibleBounds="${true}">
+        <paper-tooltip offset="5" ?fitToVisibleBounds=${true}>
           The check result has (probably) influenced this label vote.
         </paper-tooltip>
       </div>
@@ -484,7 +484,7 @@ class GrResultRow extends LitElement {
     if (this.isExpanded) return;
     if (!link) return;
     const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
-    return html`<a href="${link.url}" class="link" target="_blank"
+    return html`<a href=${link.url} class="link" target="_blank"
       ><iron-icon
         aria-label="external link to details"
         class="link"
@@ -510,12 +510,12 @@ class GrResultRow extends LitElement {
         link=""
         vertical-offset="32"
         horizontal-align="right"
-        @tap-item="${this.handleAction}"
-        @opened-changed="${(e: CustomEvent) =>
-          toggleClass(this, 'dropdown-open', e.detail.value)}"
-        ?hidden="${overflowItems.length === 0}"
-        .items="${overflowItems}"
-        .disabledIds="${disabledItems}"
+        @tap-item=${this.handleAction}
+        @opened-changed=${(e: CustomEvent) =>
+          toggleClass(this, 'dropdown-open', e.detail.value)}
+        ?hidden=${overflowItems.length === 0}
+        .items=${overflowItems}
+        .disabledIds=${disabledItems}
       >
         <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
         </iron-icon>
@@ -536,7 +536,7 @@ class GrResultRow extends LitElement {
     if (!action) return;
     return html`<gr-checks-action
       context="result-row"
-      .action="${action}"
+      .action=${action}
     ></gr-checks-action>`;
   }
 
@@ -561,10 +561,10 @@ class GrResultRow extends LitElement {
   renderTag(tag: Tag) {
     return html`<button
       class="tag ${tag.color}"
-      @click="${(e: MouseEvent) => this.tagClick(e, tag.name)}"
+      @click=${(e: MouseEvent) => this.tagClick(e, tag.name)}
     >
       <span>${tag.name}</span>
-      <paper-tooltip offset="5" ?fitToVisibleBounds="${true}">
+      <paper-tooltip offset="5" ?fitToVisibleBounds=${true}>
         ${tag.tooltip ??
         'A category tag for this check result. Click to filter.'}
       </paper-tooltip>
@@ -624,21 +624,18 @@ class GrResultExpanded extends LitElement {
       ${this.renderSecondaryLinks()} ${this.renderCodePointers()}
       <gr-endpoint-decorator
         name="check-result-expanded"
-        .targetPlugin="${this.result.pluginName}"
+        .targetPlugin=${this.result.pluginName}
       >
-        <gr-endpoint-param
-          name="run"
-          .value="${this.result}"
-        ></gr-endpoint-param>
+        <gr-endpoint-param name="run" .value=${this.result}></gr-endpoint-param>
         <gr-endpoint-param
           name="result"
-          .value="${this.result}"
+          .value=${this.result}
         ></gr-endpoint-param>
         <gr-formatted-text
           noTrailingMargin
           class="message"
-          .content="${this.result.message}"
-          .config="${this.repoConfig?.commentlinks}"
+          .content=${this.result.message}
+          .config=${this.repoConfig?.commentlinks}
         ></gr-formatted-text>
       </gr-endpoint-decorator>
     `;
@@ -697,7 +694,7 @@ class GrResultExpanded extends LitElement {
     if (!link) return;
     const text = link.tooltip ?? tooltipForLink(link.icon);
     const target = targetBlank ? '_blank' : undefined;
-    return html`<a href="${link.url}" target="${ifDefined(target)}">
+    return html`<a href=${link.url} target=${ifDefined(target)}>
       <iron-icon
         class="link"
         icon="gr-icons:${iconForLink(link.icon)}"
@@ -1056,27 +1053,27 @@ export class GrChecksResults extends LitElement {
       notLatest: !!this.checksPatchsetNumber,
     };
     return html`
-      <div class="${classMap(headerClasses)}">
+      <div class=${classMap(headerClasses)}>
         <div class="headerTopRow">
           <div class="left">
             <h2 class="heading-2">Results</h2>
-            <div class="loading" ?hidden="${!this.someProvidersAreLoading}">
+            <div class="loading" ?hidden=${!this.someProvidersAreLoading}>
               <span>Loading results </span>
               <span class="loadingSpin"></span>
             </div>
           </div>
           <div class="right">
             <div class="goToLatest">
-              <gr-button @click="${this.goToLatestPatchset}" link
+              <gr-button @click=${this.goToLatestPatchset} link
                 >Go to latest patchset</gr-button
               >
             </div>
             <gr-dropdown-list
-              value="${this.checksPatchsetNumber ??
+              value=${this.checksPatchsetNumber ??
               this.latestPatchsetNumber ??
-              0}"
-              .items="${this.createPatchsetDropdownItems()}"
-              @value-change="${this.onPatchsetSelected}"
+              0}
+              .items=${this.createPatchsetDropdownItems()}
+              @value-change=${this.onPatchsetSelected}
             ></gr-dropdown-list>
           </div>
         </div>
@@ -1141,9 +1138,9 @@ export class GrChecksResults extends LitElement {
   private renderLink(link?: Link) {
     if (!link) return;
     const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
-    return html`<a href="${link.url}" target="_blank"
+    return html`<a href=${link.url} target="_blank"
       ><iron-icon
-        aria-label="${tooltipText}"
+        aria-label=${tooltipText}
         class="link"
         icon="gr-icons:${iconForLink(link.icon)}"
       ></iron-icon
@@ -1159,9 +1156,9 @@ export class GrChecksResults extends LitElement {
         link=""
         vertical-offset="32"
         horizontal-align="right"
-        @tap-item="${this.handleAction}"
-        .items="${items}"
-        .disabledIds="${disabledIds}"
+        @tap-item=${this.handleAction}
+        .items=${items}
+        .disabledIds=${disabledIds}
       >
         <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
         </iron-icon>
@@ -1190,7 +1187,7 @@ export class GrChecksResults extends LitElement {
     if (!action) return;
     return html`<gr-checks-action
       context="results"
-      .action="${action}"
+      .action=${action}
     ></gr-checks-action>`;
   }
 
@@ -1241,7 +1238,7 @@ export class GrChecksResults extends LitElement {
           id="filterInput"
           type="text"
           placeholder="Filter results by tag or regular expression"
-          @input="${this.onFilterInputChange}"
+          @input=${this.onFilterInputChange}
         />
       </div>
     `;
@@ -1295,12 +1292,12 @@ export class GrChecksResults extends LitElement {
       resultCount
     );
     return html`
-      <div class="${expandedClass}">
+      <div class=${expandedClass}>
         <h3
           class="categoryHeader ${catString} ${empty} heading-3"
-          @click="${() => this.toggleExpanded(category)}"
+          @click=${() => this.toggleExpanded(category)}
         >
-          <iron-icon class="expandIcon" icon="${icon}"></iron-icon>
+          <iron-icon class="expandIcon" icon=${icon}></iron-icon>
           <div class="statusIconWrapper">
             <iron-icon
               icon="gr-icons:${iconFor(category)}"
@@ -1336,7 +1333,7 @@ export class GrChecksResults extends LitElement {
     return html`
       <tr class="showAllRow">
         <td colspan="3">
-          <gr-button class="showAll" link @click="${handler}"
+          <gr-button class="showAll" link @click=${handler}
             >${message}</gr-button
           >
         </td>
@@ -1386,7 +1383,7 @@ export class GrChecksResults extends LitElement {
       <table class="resultsTable">
         <thead>
           <tr class="headerRow">
-            <th class="${classMap(nameColClasses)}">Run</th>
+            <th class=${classMap(nameColClasses)}>Run</th>
             <th class="summaryCol">Summary</th>
             <th class="expanderCol"></th>
           </tr>
@@ -1397,8 +1394,8 @@ export class GrChecksResults extends LitElement {
             result => result.internalResultId,
             (result?: RunResult) => html`
               <gr-result-row
-                class="${charsOnly(result!.checkName)}"
-                .result="${result}"
+                class=${charsOnly(result!.checkName)}
+                .result=${result}
               ></gr-result-row>
             `
           )}

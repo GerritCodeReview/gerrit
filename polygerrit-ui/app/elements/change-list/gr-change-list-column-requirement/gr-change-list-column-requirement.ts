@@ -74,7 +74,7 @@ export class GrChangeListColumnRequirement extends LitElement {
   override render() {
     return html`<div
       class="container ${this.computeClass()}"
-      title="${ifDefined(this.computeLabelTitle())}"
+      title=${ifDefined(this.computeLabelTitle())}
     >
       ${this.renderContent()}
     </div>`;
@@ -105,14 +105,14 @@ export class GrChangeListColumnRequirement extends LitElement {
       if (votes.length > 0) {
         const bestVote = votes[0];
         return html`<gr-vote-chip
-          .vote="${bestVote}"
-          .label="${labelInfo}"
+          .vote=${bestVote}
+          .label=${labelInfo}
           tooltip-with-who-voted
         ></gr-vote-chip>`;
       }
     }
     if (isQuickLabelInfo(labelInfo)) {
-      return html`<gr-vote-chip .label="${labelInfo}"></gr-vote-chip>`;
+      return html`<gr-vote-chip .label=${labelInfo}></gr-vote-chip>`;
     }
     return;
   }
@@ -144,8 +144,8 @@ export class GrChangeListColumnRequirement extends LitElement {
       return this.renderStatusIcon(requirement.status);
     } else {
       return html`<gr-vote-chip
-        .vote="${worstVote}"
-        .label="${labelInfo}"
+        .vote=${worstVote}
+        .label=${labelInfo}
         tooltip-with-who-voted
       ></gr-vote-chip>`;
     }
@@ -153,10 +153,7 @@ export class GrChangeListColumnRequirement extends LitElement {
 
   private renderStatusIcon(status: SubmitRequirementStatus) {
     const icon = iconForStatus(status ?? SubmitRequirementStatus.ERROR);
-    return html`<iron-icon
-      class="${icon}"
-      icon="gr-icons:${icon}"
-    ></iron-icon>`;
+    return html`<iron-icon class=${icon} icon="gr-icons:${icon}"></iron-icon>`;
   }
 
   private computeClass(): string {

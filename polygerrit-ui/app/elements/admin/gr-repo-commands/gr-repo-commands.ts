@@ -108,10 +108,10 @@ export class GrRepoCommands extends LitElement {
     return html`
       <div class="main gr-form-styles read-only">
         <h1 id="Title" class="heading-1">Repository Commands</h1>
-        <div id="loading" class="${this.loading ? 'loading' : ''}">
+        <div id="loading" class=${this.loading ? 'loading' : ''}>
           Loading...
         </div>
-        <div id="loadedContent" class="${this.loading ? 'loading' : ''}">
+        <div id="loadedContent" class=${this.loading ? 'loading' : ''}>
           <h2 id="options" class="heading-2">Command</h2>
           <div id="form">
             <h3 class="heading-3">Create change</h3>
@@ -137,7 +137,7 @@ export class GrRepoCommands extends LitElement {
             <gr-endpoint-decorator name="repo-command">
               <gr-endpoint-param name="config" .value=${this.repoConfig}>
               </gr-endpoint-param>
-              <gr-endpoint-param name="repoName" .value="${this.repo}">
+              <gr-endpoint-param name="repoName" .value=${this.repo}>
               </gr-endpoint-param>
             </gr-endpoint-decorator>
           </div>
@@ -159,8 +159,8 @@ export class GrRepoCommands extends LitElement {
           <div class="main" slot="main">
             <gr-create-change-dialog
               id="createNewChangeModal"
-              .repoName="${this.repo}"
-              .privateByDefault="${this.repoConfig?.private_by_default}"
+              .repoName=${this.repo}
+              .privateByDefault=${this.repoConfig?.private_by_default}
               @can-create-change=${() => {
                 this.handleCanCreateChange();
               }}
@@ -178,7 +178,7 @@ export class GrRepoCommands extends LitElement {
     return html`
       <h3 class="heading-3">${this.repoConfig?.actions['gc']?.label}</h3>
       <gr-button
-        title="${this.repoConfig?.actions['gc']?.title || ''}"
+        title=${this.repoConfig?.actions['gc']?.title || ''}
         ?loading=${this.runningGC}
         @click=${() => this.handleRunningGC()}
       >

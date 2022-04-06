@@ -92,7 +92,7 @@ export class GrEditPreferences extends LitElement {
     return html`
       <h2
         id="EditPreferences"
-        class="${this.hasUnsavedChanges() ? 'edited' : ''}"
+        class=${this.hasUnsavedChanges() ? 'edited' : ''}
       >
         Edit Preferences
       </h2>

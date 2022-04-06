@@ -63,11 +63,11 @@ suite('gr-trigger-vote tests', () => {
     const labelInfo = change?.labels?.[label];
     element = await fixture<GrTriggerVote>(
       html`<gr-trigger-vote
-        .label="${label}"
-        .labelInfo="${labelInfo}"
-        .change="${change}"
-        .account="${account}"
-        .mutable="${false}"
+        .label=${label}
+        .labelInfo=${labelInfo}
+        .change=${change}
+        .account=${account}
+        .mutable=${false}
       ></gr-trigger-vote>`
     );
   });

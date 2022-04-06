@@ -151,11 +151,11 @@ export class GrChangeListBulkVoteFlow extends LitElement {
         )
         .map(
           label => html`<gr-label-score-row
-            .label="${label}"
-            .name="${label.name}"
-            .labels="${this.computeLabelNameToInfoMap()}"
-            .permittedLabels="${permittedLabels}"
-            .orderedLabelValues="${computeOrderedLabelValues(permittedLabels)}"
+            .label=${label}
+            .name=${label.name}
+            .labels=${this.computeLabelNameToInfoMap()}
+            .permittedLabels=${permittedLabels}
+            .orderedLabelValues=${computeOrderedLabelValues(permittedLabels)}
           ></gr-label-score-row>`
         )}
     </div>`;

@@ -160,13 +160,13 @@ export class GrLabelScores extends LitElement {
         )
         .map(
           label => html`<gr-label-score-row
-            .label="${label}"
-            .name="${label.name}"
-            .labels="${this.change?.labels}"
-            .permittedLabels="${this.permittedLabels}"
-            .orderedLabelValues="${computeOrderedLabelValues(
+            .label=${label}
+            .name=${label.name}
+            .labels=${this.change?.labels}
+            .permittedLabels=${this.permittedLabels}
+            .orderedLabelValues=${computeOrderedLabelValues(
               this.permittedLabels
-            )}"
+            )}
           ></gr-label-score-row>`
         )}
     </div>`;

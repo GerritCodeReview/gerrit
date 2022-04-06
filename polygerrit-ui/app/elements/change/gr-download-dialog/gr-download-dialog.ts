@@ -178,10 +178,10 @@ export class GrDownloadDialog extends LitElement {
       <div class="patchFiles">
         <label>Patch file</label>
         <div>
-          <a id="download" .href="${this.computeDownloadLink()}" download>
+          <a id="download" .href=${this.computeDownloadLink()} download>
             ${this.computeDownloadFilename()}
           </a>
-          <a .href="${this.computeDownloadLink(true)}" download>
+          <a .href=${this.computeDownloadLink(true)} download>
             ${this.computeDownloadFilename(true)}
           </a>
         </div>

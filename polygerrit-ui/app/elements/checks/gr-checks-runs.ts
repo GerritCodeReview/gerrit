@@ -245,35 +245,35 @@ export class GrChecksRun extends LitElement {
 
     return html`
       <div
-        @click="${this.handleChipClick}"
-        @keydown="${this.handleChipKey}"
-        class="${classMap(classes)}"
+        @click=${this.handleChipClick}
+        @keydown=${this.handleChipKey}
+        class=${classMap(classes)}
         tabindex="0"
       >
         <div class="left">
-          <gr-hovercard-run .run="${this.run}"></gr-hovercard-run>
+          <gr-hovercard-run .run=${this.run}></gr-hovercard-run>
           ${this.renderFilterIcon()}
-          <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
+          <iron-icon class=${icon} icon="gr-icons:${icon}"></iron-icon>
           ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
           ${this.renderETA()}
         </div>
         <div class="middle">
-          <gr-checks-attempt .run="${this.run}"></gr-checks-attempt>
+          <gr-checks-attempt .run=${this.run}></gr-checks-attempt>
           ${this.renderStatusLink()}
         </div>
         <div class="right">
           ${action
             ? html`<gr-checks-action
                 context="runs"
-                .action="${action}"
+                .action=${action}
               ></gr-checks-action>`
             : ''}
         </div>
       </div>
       <div
         class="attemptDetails"
-        ?hidden="${this.run.isSingleAttempt || !this.selected}"
+        ?hidden=${this.run.isSingleAttempt || !this.selected}
       >
         ${this.run.attemptDetails.map(a => this.renderAttempt(a))}
       </div>
@@ -295,14 +295,14 @@ export class GrChecksRun extends LitElement {
     return html`<div class="attemptDetail">
       <input
         type="radio"
-        id="${id}"
-        name="${`${checkNameId}-attempt-choice`}"
-        ?checked="${this.isSelected(detail)}"
-        ?disabled="${!this.isSelected(detail) && wasNotRun}"
-        @change="${() => this.handleAttemptChange(detail)}"
+        id=${id}
+        name=${`${checkNameId}-attempt-choice`}
+        ?checked=${this.isSelected(detail)}
+        ?disabled=${!this.isSelected(detail) && wasNotRun}
+        @change=${() => this.handleAttemptChange(detail)}
       />
-      <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
-      <label for="${id}">
+      <iron-icon class=${icon} icon="gr-icons:${icon}"></iron-icon>
+      <label for=${id}>
         Attempt ${detail.attempt}${wasNotRun ? ' (not run)' : ''}
       </label>
     </div>`;
@@ -325,7 +325,7 @@ export class GrChecksRun extends LitElement {
     const link = this.run.statusLink;
     if (!link) return;
     return html`
-      <a href="${link}" target="_blank" @click="${this.onLinkClick}"
+      <a href=${link} target="_blank" @click=${this.onLinkClick}
         ><iron-icon
           class="statusLinkIcon"
           icon="gr-icons:launch"
@@ -362,7 +362,7 @@ export class GrChecksRun extends LitElement {
     if (!category) return nothing;
     const icon = iconFor(category);
     return html`
-      <iron-icon class="${icon}" icon="gr-icons:${icon}"></iron-icon>
+      <iron-icon class=${icon} icon="gr-icons:${icon}"></iron-icon>
     `;
   }
 
@@ -597,8 +597,8 @@ export class GrChecksRuns extends LitElement {
         id="filterInput"
         type="text"
         placeholder="Filter runs by regular expression"
-        ?hidden="${!this.showFilter()}"
-        @input="${this.onInput}"
+        ?hidden=${!this.showFilter()}
+        @input=${this.onInput}
       />
       ${this.renderSection(RunStatus.RUNNING)}
       ${this.renderSection(RunStatus.COMPLETED)}
@@ -641,7 +641,7 @@ export class GrChecksRuns extends LitElement {
           Sign in to Checks Plugin to see runs and results
         </div>
         <div class="buttonRow">
-          <gr-button @click="${this.loginCallback}" link>Sign in</gr-button>
+          <gr-button @click=${this.loginCallback} link>Sign in</gr-button>
         </div>
       </div>
     `;
@@ -664,20 +664,20 @@ export class GrChecksRuns extends LitElement {
       <gr-button
         class="font-normal"
         link
-        @click="${() => fireRunSelectionReset(this)}"
+        @click=${() => fireRunSelectionReset(this)}
         >Unselect All</gr-button
       >
       <gr-tooltip-content
-        title="${runButtonDisabled
+        title=${runButtonDisabled
           ? 'Disabled. Unselect checks without a "Run" action to enable the button.'
-          : ''}"
+          : ''}
         ?has-tooltip=${runButtonDisabled}
       >
         <gr-button
           class="font-normal"
           link
           ?disabled=${runButtonDisabled}
-          @click="${() => {
+          @click=${() => {
             actions.forEach(action => {
               if (!action) return;
               this.getChecksModel().triggerAction(
@@ -689,7 +689,7 @@ export class GrChecksRuns extends LitElement {
             this.reporting.reportInteraction(
               Interaction.CHECKS_RUNS_SELECTED_TRIGGERED
             );
-          }}"
+          }}
           >Run Selected</gr-button
         >
       </gr-tooltip-content>
@@ -700,22 +700,22 @@ export class GrChecksRuns extends LitElement {
     return html`
       <gr-tooltip-content
         has-tooltip
-        title="${this.collapsed ? 'Expand runs panel' : 'Collapse runs panel'}"
+        title=${this.collapsed ? 'Expand runs panel' : 'Collapse runs panel'}
       >
         <gr-button
           link
           class="expandButton"
           role="switch"
-          aria-checked="${this.collapsed ? 'true' : 'false'}"
-          aria-label="${this.collapsed
+          aria-checked=${this.collapsed ? 'true' : 'false'}
+          aria-label=${this.collapsed
             ? 'Expand runs panel'
-            : 'Collapse runs panel'}"
-          @click="${this.toggleCollapsed}"
+            : 'Collapse runs panel'}
+          @click=${this.toggleCollapsed}
           ><iron-icon
             class="expandIcon"
-            icon="${this.collapsed
+            icon=${this.collapsed
               ? 'gr-icons:chevron-right'
-              : 'gr-icons:chevron-left'}"
+              : 'gr-icons:chevron-left'}
           ></iron-icon>
         </gr-button>
       </gr-tooltip-content>
@@ -781,11 +781,8 @@ export class GrChecksRuns extends LitElement {
     }
     return html`
       <div class="${status.toLowerCase()} ${expandedClass}">
-        <div
-          class="sectionHeader"
-          @click="${() => this.toggleExpanded(status)}"
-        >
-          <iron-icon class="expandIcon" icon="${icon}"></iron-icon>
+        <div class="sectionHeader" @click=${() => this.toggleExpanded(status)}>
+          <iron-icon class="expandIcon" icon=${icon}></iron-icon>
           <h3 class="heading-3">${header}</h3>
         </div>
         <div class="sectionRuns">${runs.map(run => this.renderRun(run))}</div>
@@ -808,10 +805,10 @@ export class GrChecksRuns extends LitElement {
     const selectedAttempt = this.selectedAttempts.get(run.checkName);
     const deselected = !selectedRun && this.selectedRuns.length > 0;
     return html`<gr-checks-run
-      .run="${run}"
-      .selected="${selectedRun}"
-      .selectedAttempt="${selectedAttempt}"
-      .deselected="${deselected}"
+      .run=${run}
+      .selected=${selectedRun}
+      .selectedAttempt=${selectedAttempt}
+      .deselected=${deselected}
     ></gr-checks-run>`;
   }
 
@@ -824,39 +821,31 @@ export class GrChecksRuns extends LitElement {
     return html`
       <div class="testing">
         <div>Toggle fake runs by clicking buttons:</div>
-        <gr-button
-          link
-          @click="${() => clearAllFakeRuns(this.getChecksModel())}"
+        <gr-button link @click=${() => clearAllFakeRuns(this.getChecksModel())}
           >none</gr-button
         >
         <gr-button
           link
-          @click="${() =>
-            this.toggle(
-              'f0',
-              [fakeRun0],
-              fakeActions,
-              fakeLinks,
-              'ETA: 1 min'
-            )}"
+          @click=${() =>
+            this.toggle('f0', [fakeRun0], fakeActions, fakeLinks, 'ETA: 1 min')}
           >0</gr-button
         >
-        <gr-button link @click="${() => this.toggle('f1', [fakeRun1])}"
+        <gr-button link @click=${() => this.toggle('f1', [fakeRun1])}
           >1</gr-button
         >
-        <gr-button link @click="${() => this.toggle('f2', [fakeRun2])}"
+        <gr-button link @click=${() => this.toggle('f2', [fakeRun2])}
           >2</gr-button
         >
-        <gr-button link @click="${() => this.toggle('f3', [fakeRun3])}"
+        <gr-button link @click=${() => this.toggle('f3', [fakeRun3])}
           >3</gr-button
         >
         <gr-button link @click="${() => this.toggle('f4', fakeRun4Att)}}"
           >4</gr-button
         >
-        <gr-button link @click="${() => this.toggle('f5', [fakeRun5])}"
+        <gr-button link @click=${() => this.toggle('f5', [fakeRun5])}
           >5</gr-button
         >
-        <gr-button link @click="${() => setAllFakeRuns(this.getChecksModel())}"
+        <gr-button link @click=${() => setAllFakeRuns(this.getChecksModel())}
           >all</gr-button
         >
       </div>

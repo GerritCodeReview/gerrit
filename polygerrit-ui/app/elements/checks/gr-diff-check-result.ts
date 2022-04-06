@@ -129,19 +129,19 @@ export class GrDiffCheckResult extends LitElement {
     const cat = this.result.category.toLowerCase();
     return html`
       <div class="${cat} container font-normal">
-        <div class="header" @click="${this.toggleExpandedClick}">
+        <div class="header" @click=${this.toggleExpandedClick}>
           <div class="icon">
             <iron-icon
               icon="gr-icons:${iconFor(this.result.category)}"
             ></iron-icon>
           </div>
           <div class="name">
-            <gr-hovercard-run .run="${this.result}"></gr-hovercard-run>
+            <gr-hovercard-run .run=${this.result}></gr-hovercard-run>
             <div
               class="name"
               role="button"
               tabindex="0"
-              @keydown="${this.toggleExpandedPress}"
+              @keydown=${this.toggleExpandedPress}
             >
               ${this.result.checkName}
             </div>
@@ -166,16 +166,16 @@ export class GrDiffCheckResult extends LitElement {
         class="show-hide"
         role="switch"
         tabindex="0"
-        aria-checked="${this.isExpanded ? 'true' : 'false'}"
-        aria-label="${this.isExpanded
+        aria-checked=${this.isExpanded ? 'true' : 'false'}
+        aria-label=${this.isExpanded
           ? 'Collapse result row'
-          : 'Expand result row'}"
-        @keydown="${this.toggleExpandedPress}"
+          : 'Expand result row'}
+        @keydown=${this.toggleExpandedPress}
       >
         <iron-icon
-          icon="${this.isExpanded
+          icon=${this.isExpanded
             ? 'gr-icons:expand-less'
-            : 'gr-icons:expand-more'}"
+            : 'gr-icons:expand-more'}
         ></iron-icon>
       </div>
     `;
@@ -186,7 +186,7 @@ export class GrDiffCheckResult extends LitElement {
     return html`
       <gr-result-expanded
         hidecodepointers
-        .result="${this.result}"
+        .result=${this.result}
       ></gr-result-expanded>
     `;
   }

@@ -136,7 +136,7 @@ export class GrRepoPluginConfig extends LitElement {
     return html` <gr-tooltip-content
       has-tooltip
       show-icon
-      title="${option.info.description}"
+      title=${option.info.description}
     >
       ${titleName}
     </gr-tooltip-content>`;
@@ -147,7 +147,7 @@ export class GrRepoPluginConfig extends LitElement {
       return html`
         <gr-plugin-config-array-editor
           @plugin-config-option-changed=${this._handleArrayChange}
-          .pluginOption="${option}"
+          .pluginOption=${option}
           ?disabled=${this.disabled || !option.info.editable}
         ></gr-plugin-config-array-editor>
       `;
@@ -172,7 +172,7 @@ export class GrRepoPluginConfig extends LitElement {
             ?disabled=${this.disabled || !option.info.editable}
           >
             ${(option.info.permitted_values || []).map(
-              value => html`<option value="${value}">${value}</option>`
+              value => html`<option value=${value}>${value}</option>`
             )}
           </select>
         </gr-select>
@@ -185,13 +185,13 @@ export class GrRepoPluginConfig extends LitElement {
       return html`
         <iron-input
           @input=${this._handleStringChange}
-          data-option-key="${option._key}"
+          data-option-key=${option._key}
         >
           <input
             is="iron-input"
-            .value="${option.info.value ?? ''}"
+            .value=${option.info.value ?? ''}
             @input=${this._handleStringChange}
-            data-option-key="${option._key}"
+            data-option-key=${option._key}
             ?disabled=${this.disabled || !option.info.editable}
           />
         </iron-input>

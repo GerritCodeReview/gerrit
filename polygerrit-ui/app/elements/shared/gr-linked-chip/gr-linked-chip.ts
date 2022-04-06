@@ -113,10 +113,10 @@ export class GrLinkedChip extends LitElement {
           this.transparentBackground
         )}"
       >
-        <a href="${this.href}">
+        <a href=${this.href}>
           <gr-limited-text
-            .limit="${this.limit}"
-            .text="${this.text}"
+            .limit=${this.limit}
+            .text=${this.text}
           ></gr-limited-text>
         </a>
         <gr-button

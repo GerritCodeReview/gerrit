@@ -145,7 +145,7 @@ export class GrDownloadCommands extends LitElement {
     return html`
       <paper-tabs
         id="downloadTabs"
-        class="${this.computeShowTabs()}"
+        class=${this.computeShowTabs()}
         .selected=${selectedIndex}
         @selected-changed=${this.handleTabChange}
       >
@@ -160,7 +160,7 @@ export class GrDownloadCommands extends LitElement {
 
   private renderCommands() {
     return html`
-      <div class="commands" ?hidden="${!this.schemes.length}"></div>
+      <div class="commands" ?hidden=${!this.schemes.length}></div>
         ${this.commands?.map((command, index) =>
           this.renderShellCommand(command, index)
         )}
@@ -171,7 +171,7 @@ export class GrDownloadCommands extends LitElement {
   private renderShellCommand(command: Command, index: number) {
     return html`
       <gr-shell-command
-        class="${this.computeClass(command.title)}"
+        class=${this.computeClass(command.title)}
         .label=${command.title}
         .command=${command.command}
         .tooltip=${this.computeTooltip(index)}

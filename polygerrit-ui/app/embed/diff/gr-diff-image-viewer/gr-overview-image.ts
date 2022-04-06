@@ -124,26 +124,26 @@ export class GrOverviewImage extends LitElement {
       <div class="content-box">
         <div
           class="content"
-          style="${styleMap({
+          style=${styleMap({
             ...this.contentStyle,
-          })}"
-          @mousemove="${this.maybeDragFrame}"
+          })}
+          @mousemove=${this.maybeDragFrame}
           @mousedown=${this.clickOverview}
-          @mouseup="${this.releaseFrame}"
+          @mouseup=${this.releaseFrame}
         >
           <div
             class="content-transform"
-            style="${styleMap(this.contentTransformStyle)}"
+            style=${styleMap(this.contentTransformStyle)}
           >
             <slot></slot>
           </div>
           <div
             class="frame"
-            style="${styleMap({
+            style=${styleMap({
               ...this.frameStyle,
               cursor: this.dragging ? 'grabbing' : 'grab',
-            })}"
-            @mousedown="${this.grabFrame}"
+            })}
+            @mousedown=${this.grabFrame}
           ></div>
         </div>
       </div>

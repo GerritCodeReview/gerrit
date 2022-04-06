@@ -176,10 +176,10 @@ export class GrLabelScoreRow extends LitElement {
   override render() {
     return html`
       <span
-        class="${classMap({
+        class=${classMap({
           labelNameCell: true,
           newSubmitRequirements: this.isSubmitRequirementsUiEnabled,
-        })}"
+        })}
         id="labelName"
         aria-hidden="true"
         >${this.label?.name ?? ''}</span
@@ -204,7 +204,7 @@ export class GrLabelScoreRow extends LitElement {
       .fill('')
       .map(
         () => html`
-          <span class="placeholder" data-label="${this.label?.name ?? ''}">
+          <span class="placeholder" data-label=${this.label?.name ?? ''}>
           </span>
         `
       );
@@ -215,7 +215,7 @@ export class GrLabelScoreRow extends LitElement {
       <iron-selector
         id="labelSelector"
         .attrForSelected=${'data-value'}
-        selected="${ifDefined(this._computeLabelValue())}"
+        selected=${ifDefined(this._computeLabelValue())}
         @selected-item-changed=${this.setSelectedValueText}
         role="radiogroup"
         aria-labelledby="labelName"
@@ -231,22 +231,22 @@ export class GrLabelScoreRow extends LitElement {
       (value, index) => html`
         <gr-button
           role="radio"
-          title="${ifDefined(this.computeLabelValueTitle(value))}"
-          data-vote="${this._computeVoteAttribute(
+          title=${ifDefined(this.computeLabelValueTitle(value))}
+          data-vote=${this._computeVoteAttribute(
             Number(value),
             index,
             items.length
-          )}"
-          data-name="${ifDefined(this.label?.name)}"
-          data-value="${value}"
-          aria-label="${value}"
+          )}
+          data-name=${ifDefined(this.label?.name)}
+          data-value=${value}
+          aria-label=${value}
           voteChip
           flatten
         >
           <gr-tooltip-content
             has-tooltip
             light-tooltip
-            title="${ifDefined(this.computeLabelValueTitle(value))}"
+            title=${ifDefined(this.computeLabelValueTitle(value))}
           >
             ${value}
           </gr-tooltip-content>
@@ -258,10 +258,10 @@ export class GrLabelScoreRow extends LitElement {
   private renderSelectedValue() {
     return html`
       <div
-        class="${classMap({
+        class=${classMap({
           selectedValueCell: true,
           newSubmitRequirements: this.isSubmitRequirementsUiEnabled,
-        })}"
+        })}
       >
         <span id="selectedValueLabel">${this.selectedValueText}</span>
       </div>

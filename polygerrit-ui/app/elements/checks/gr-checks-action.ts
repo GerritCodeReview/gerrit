@@ -63,9 +63,9 @@ export class GrChecksAction extends LitElement {
     return html`
       <gr-button
         link
-        ?disabled="${this.action.disabled}"
+        ?disabled=${this.action.disabled}
         class="action"
-        @click="${(e: Event) => this.handleClick(e)}"
+        @click=${(e: Event) => this.handleClick(e)}
       >
         ${this.action.name}
       </gr-button>

@@ -165,7 +165,7 @@ export class GrChangeStatus extends LitElement {
     }
 
     return html`
-      <a class="status-link" href="${this.getStatusLink()}">
+      <a class="status-link" href=${this.getStatusLink()}>
         <div class="chip" aria-label="Label: ${this.status}">
           ${this.computeStatusString()}
           ${this.showResolveIcon()

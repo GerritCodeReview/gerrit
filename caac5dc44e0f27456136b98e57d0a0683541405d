@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd6b94c8_ebf21bed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-06T05:49:01Z",
+      "side": 1,
+      "message": "Thanks!\nFeel free to just address the comments (or not) and submit. :-)",
+      "revId": "caac5dc44e0f27456136b98e57d0a0683541405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32c14742_27cf817d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-06T05:49:01Z",
+      "side": 1,
+      "message": "Nit: Maybe use `this.serverConfig` instead of a parameter.",
+      "range": {
+        "startLine": 134,
+        "startChar": 34,
+        "endLine": 134,
+        "endChar": 40
+      },
+      "revId": "caac5dc44e0f27456136b98e57d0a0683541405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ff39099_009d0a5a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-06T05:49:01Z",
+      "side": 1,
+      "message": "Nit: Maybe not use a local var?",
+      "revId": "caac5dc44e0f27456136b98e57d0a0683541405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ffd8162_2641462c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-06T05:49:01Z",
+      "side": 1,
+      "message": "ValueChangedEvent",
+      "range": {
+        "startLine": 207,
+        "startChar": 27,
+        "endLine": 207,
+        "endChar": 38
+      },
+      "revId": "caac5dc44e0f27456136b98e57d0a0683541405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ef5dcfa_a566d98f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-06T05:49:01Z",
+      "side": 1,
+      "message": "Consider using `open-wc`:\n\n`import {fixture, html} from \u0027@open-wc/testing-helpers\u0027;`\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/334481/1/polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box_test.ts",
+      "revId": "caac5dc44e0f27456136b98e57d0a0683541405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6075709a_1d538a54",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-06T05:49:01Z",
+      "side": 1,
+      "message": "ValueChangedEvent, also below",
+      "range": {
+        "startLine": 473,
+        "startChar": 30,
+        "endLine": 473,
+        "endChar": 41
+      },
+      "revId": "caac5dc44e0f27456136b98e57d0a0683541405d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

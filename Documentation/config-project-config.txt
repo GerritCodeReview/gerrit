@@ -142,7 +142,7 @@ receive settings:
 [[receive.requireContributorAgreement]]receive.requireContributorAgreement::
 +
 Controls whether or not a user must complete a contributor agreement before
-they can upload changes. Default is `INHERIT`. If `All-Project` enables this
+they can upload changes. Default is `INHERIT`. If `All-Projects` enables this
 option then the dependent project must set it to false if users are not
 required to sign a contributor agreement prior to submitting changes for that
 specific project. To use that feature the global option in `gerrit.config`

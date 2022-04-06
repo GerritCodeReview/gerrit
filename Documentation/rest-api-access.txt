@@ -388,7 +388,7 @@ rights for a project.
 |`revision`           ||
 The revision of the `refs/meta/config` branch from which the access
 rights were loaded.
-|`inherits_from`      |not set for the `All-Project` project|
+|`inherits_from`      |not set for the `All-Projects` project|
 The parent project from which permissions are inherited as a
 link:rest-api-projects.html#project-info[ProjectInfo] entity.
 |`local`              ||

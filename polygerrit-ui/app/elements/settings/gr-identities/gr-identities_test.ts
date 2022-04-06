@@ -23,9 +23,8 @@ import {stubRestApi} from '../../../test/test-utils';
 import {ServerInfo} from '../../../types/common';
 import {createServerInfo} from '../../../test/test-data-generators';
 import {queryAll, queryAndAssert} from '../../../test/test-utils';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-
-const basicFixture = fixtureFromElement('gr-identities');
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-identities tests', () => {
   let element: GrIdentities;
@@ -51,9 +50,72 @@ suite('gr-identities tests', () => {
   setup(async () => {
     stubRestApi('getExternalIds').returns(Promise.resolve(ids));
 
-    element = basicFixture.instantiate();
+    element = await fixture<GrIdentities>(
+      html`<gr-identities></gr-identities>`
+    );
     await element.loadData();
-    await flush();
+    await element.updateComplete;
+  });
+
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `<div class="gr-form-styles">
+        <fieldset class="space">
+          <table>
+            <thead>
+              <tr>
+                <th class="statusHeader">Status</th>
+                <th class="emailAddressHeader">Email Address</th>
+                <th class="identityHeader">Identity</th>
+                <th class="deleteHeader"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="statusColumn">Untrusted</td>
+                <td class="emailAddressColumn">gerrit@example.com</td>
+                <td class="identityColumn">gerrit:gerrit</td>
+                <td class="deleteColumn">
+                  <gr-button
+                    aria-disabled="false"
+                    class="deleteButton"
+                    data-index="0"
+                    role="button"
+                    tabindex="0"
+                  >
+                    Delete
+                  </gr-button>
+                </td>
+              </tr>
+              <tr>
+                <td class="statusColumn"></td>
+                <td class="emailAddressColumn">gerrit2@example.com</td>
+                <td class="identityColumn"></td>
+                <td class="deleteColumn">
+                  <gr-button
+                    aria-disabled="false"
+                    class="deleteButton show"
+                    data-index="1"
+                    role="button"
+                    tabindex="0"
+                  >
+                    Delete
+                  </gr-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </fieldset>
+      </div>
+      <gr-overlay
+        aria-hidden="true"
+        id="overlay"
+        style="outline: none; display: none;"
+        tabindex="-1"
+        with-backdrop=""
+      >
+        <gr-confirm-delete-item-dialog class="confirmDialog" itemtypename="ID">
+        </gr-confirm-delete-item-dialog
+      ></gr-overlay>`);
   });
 
   test('renders', () => {
@@ -78,70 +140,71 @@ suite('gr-identities tests', () => {
     assert.equal(nameCells[1]!, 'gerrit2@example.com');
   });
 
-  test('_computeIdentity', () => {
-    assert.equal(element._computeIdentity(ids[0].identity), 'username:john');
-    assert.equal(element._computeIdentity(ids[2].identity), '');
-  });
-
   test('filterIdentities', () => {
-    assert.isFalse(element.filterIdentities(ids[0]));
-
-    assert.isTrue(element.filterIdentities(ids[1]));
+    assert.notInclude(element.getIdentities(), ids[0]);
+    assert.include(element.getIdentities(), ids[1]);
   });
 
   test('delete id', async () => {
-    element._idName = 'mailto:gerrit2@example.com';
+    element.idName = 'mailto:gerrit2@example.com';
     const loadDataStub = sinon.stub(element, 'loadData');
-    await element._handleDeleteItemConfirm();
+    await element.handleDeleteItemConfirm();
     assert.isTrue(loadDataStub.called);
   });
 
-  test('_handleDeleteItem opens modal', () => {
-    const deleteBtn = queryAndAssert(element, '.deleteButton');
-    const deleteItem = sinon.stub(element, '_handleDeleteItem');
-    MockInteractions.tap(deleteBtn);
-    assert.isTrue(deleteItem.called);
+  test('handleDeleteItem opens modal', async () => {
+    const deleteBtn = queryAndAssert<GrButton>(element, '.deleteButton');
+    deleteBtn.click();
+    await element.updateComplete;
+    assert.isTrue(element.overlay?.opened);
   });
 
-  test('_computeShowLinkAnotherIdentity', () => {
+  test('computeShowLinkAnotherIdentity', () => {
     const config: ServerInfo = {
       ...createServerInfo(),
     };
 
     config.auth.auth_type = AuthType.OAUTH;
-    assert.isTrue(element._computeShowLinkAnotherIdentity(config));
+    element.serverConfig = config;
+    assert.isTrue(element.computeShowLinkAnotherIdentity());
 
     config.auth.auth_type = AuthType.OPENID;
-    assert.isTrue(element._computeShowLinkAnotherIdentity(config));
+    element.serverConfig = config;
+    assert.isTrue(element.computeShowLinkAnotherIdentity());
 
     config.auth.auth_type = AuthType.HTTP_LDAP;
-    assert.isFalse(element._computeShowLinkAnotherIdentity(config));
+    element.serverConfig = config;
+    assert.isFalse(element.computeShowLinkAnotherIdentity());
 
     config.auth.auth_type = AuthType.LDAP;
-    assert.isFalse(element._computeShowLinkAnotherIdentity(config));
+    element.serverConfig = config;
+    assert.isFalse(element.computeShowLinkAnotherIdentity());
 
     config.auth.auth_type = AuthType.HTTP;
-    assert.isFalse(element._computeShowLinkAnotherIdentity(config));
+    element.serverConfig = config;
+    assert.isFalse(element.computeShowLinkAnotherIdentity());
 
-    assert.isFalse(element._computeShowLinkAnotherIdentity(undefined));
+    element.serverConfig = undefined;
+    assert.isFalse(element.computeShowLinkAnotherIdentity());
   });
 
-  test('_showLinkAnotherIdentity', () => {
+  test('showLinkAnotherIdentity', async () => {
     let config: ServerInfo = {
       ...createServerInfo(),
     };
     config.auth.auth_type = AuthType.OAUTH;
-
     element.serverConfig = config;
+    await element.updateComplete;
 
-    assert.isTrue(element._showLinkAnotherIdentity);
+    assert.isTrue(element.showLinkAnotherIdentity);
 
     config = {
       ...createServerInfo(),
     };
     config.auth.auth_type = AuthType.LDAP;
     element.serverConfig = config;
+    await element.updateComplete;
 
-    assert.isFalse(element._showLinkAnotherIdentity);
+    assert.isFalse(element.showLinkAnotherIdentity);
   });
 });

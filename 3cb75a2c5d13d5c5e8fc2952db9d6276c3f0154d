@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "973af2dd_f6cd4662",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-04-06T11:47:26Z",
+      "side": 1,
+      "message": "Just set this to the empty string, empty strings are falsy.",
+      "revId": "3cb75a2c5d13d5c5e8fc2952db9d6276c3f0154d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "922ce67a_fe612d4e",
         "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
         "patchSetId": 2
@@ -43,6 +60,40 @@
         "endLine": 155,
         "endChar": 38
       },
+      "revId": "3cb75a2c5d13d5c5e8fc2952db9d6276c3f0154d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8b596c7_b16bc77d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-04-06T11:47:26Z",
+      "side": 1,
+      "message": "Rather than always copying the array, simply do this.requestUpdate();",
+      "revId": "3cb75a2c5d13d5c5e8fc2952db9d6276c3f0154d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e33ff6c8_7d13288d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-email-editor/gr-email-editor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-04-06T11:47:26Z",
+      "side": 1,
+      "message": "Rather than always copying the array, simply do this.requestUpdate();",
       "revId": "3cb75a2c5d13d5c5e8fc2952db9d6276c3f0154d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

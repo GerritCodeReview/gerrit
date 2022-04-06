@@ -23,6 +23,9 @@ import {htmlTemplate} from './gr-email-editor_html';
 import {customElement, property} from '@polymer/decorators';
 import {EmailInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
+import {css, html} from 'lit';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
 
 @customElement('gr-email-editor')
 export class GrEmailEditor extends PolymerElement {
@@ -43,6 +46,87 @@ export class GrEmailEditor extends PolymerElement {
   _newPreferred: string | null = null;
 
   readonly restApiService = getAppContext().restApiService;
+
+  static styles = [
+    sharedStyles,
+    formStyles,
+    css`
+      th {
+        color: var(--deemphasized-text-color);
+        text-align: left;
+      }
+      #emailTable .emailColumn {
+        min-width: 32.5em;
+        width: auto;
+      }
+      #emailTable .preferredHeader {
+        text-align: center;
+        width: 6em;
+      }
+      #emailTable .preferredControl {
+        cursor: pointer;
+        height: auto;
+        text-align: center;
+      }
+      #emailTable .preferredControl .preferredRadio {
+        height: auto;
+      }
+      .preferredControl:hover {
+        outline: 1px solid var(--border-color);
+      }
+    `,
+  ];
+
+  render() {
+    return html`<div class="gr-form-styles">
+      <table id="emailTable">
+        <thead>
+          <tr>
+            <th class="emailColumn">Email</th>
+            <th class="preferredHeader">Preferred</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <template is="dom-repeat" items="[[_emails]]">
+            <tr>
+              <td class="emailColumn">[[item.email]]</td>
+              <td
+                class="preferredControl"
+                on-click="_handlePreferredControlClick"
+              >
+                <iron-input
+                  class="preferredRadio"
+                  type="radio"
+                  on-change="_handlePreferredChange"
+                  name="preferred"
+                  bind-value="[[item.email]]"
+                  checked$="[[item.preferred]]"
+                >
+                  <input
+                    class="preferredRadio"
+                    type="radio"
+                    on-change="_handlePreferredChange"
+                    name="preferred"
+                    checked$="[[item.preferred]]"
+                  />
+                </iron-input>
+              </td>
+              <td>
+                <gr-button
+                  data-index$="[[index]]"
+                  on-click="_handleDeleteButton"
+                  disabled="[[_checkPreferred(item.preferred)]]"
+                  class="remove-button"
+                  >Delete</gr-button
+                >
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>`;
+  }
 
   loadData() {
     return this.restApiService.getAccountEmails().then(emails => {

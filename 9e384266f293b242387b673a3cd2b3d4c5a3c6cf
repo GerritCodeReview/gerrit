@@ -16,6 +16,24 @@
       "message": "Where is the removed html file?",
       "revId": "9e384266f293b242387b673a3cd2b3d4c5a3c6cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb967cca_1200dbb6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-06T12:33:00Z",
+      "side": 1,
+      "message": "We do not remove html to be compiled. This is just for easier reviewing.",
+      "parentUuid": "d2f9dde6_74640196",
+      "revId": "9e384266f293b242387b673a3cd2b3d4c5a3c6cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

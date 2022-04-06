@@ -50,7 +50,7 @@ suite('gr-permission tests', () => {
   });
 
   suite('unit tests', () => {
-    test('_sortPermission', () => {
+    test('sortPermission', () => {
       const permission = {
         id: 'submit' as GitRef,
         value: {
@@ -78,11 +78,11 @@ suite('gr-permission tests', () => {
         },
       ];
 
-      element._sortPermission(permission);
-      assert.deepEqual(element._rules, expectedRules);
+      element.sortPermission(permission);
+      assert.deepEqual(element.rules, expectedRules);
     });
 
-    test('_computeLabel and _computeLabelValues', () => {
+    test('computeLabel and computeLabelValues', async () => {
       const labels = {
         'Code-Review': {
           default_value: 0,
@@ -129,15 +129,16 @@ suite('gr-permission tests', () => {
         values: expectedLabelValues,
       };
 
+      element.permission = permission;
+      element.labels = labels;
+      await element.updateComplete;
+
       assert.deepEqual(
-        element._computeLabelValues(labels['Code-Review'].values),
+        element.computeLabelValues(labels['Code-Review'].values),
         expectedLabelValues
       );
 
-      assert.deepEqual(
-        element._computeLabel(permission, labels),
-        expectedLabel
-      );
+      assert.deepEqual(element.computeLabel(), expectedLabel);
 
       permission = {
         id: 'label-reviewDB' as GitRef,
@@ -160,43 +161,46 @@ suite('gr-permission tests', () => {
         },
       };
 
-      assert.isNotOk(element._computeLabel(permission, labels));
+      element.permission = permission;
+      await element.updateComplete;
+
+      assert.isNotOk(element.computeLabel());
     });
 
-    test('_computeSectionClass', () => {
+    test('computeSectionClass', () => {
       let deleted = true;
       let editing = false;
-      assert.equal(element._computeSectionClass(editing, deleted), 'deleted');
+      assert.equal(element.computeSectionClass(editing, deleted), 'deleted');
 
       deleted = false;
-      assert.equal(element._computeSectionClass(editing, deleted), '');
+      assert.equal(element.computeSectionClass(editing, deleted), '');
 
       editing = true;
-      assert.equal(element._computeSectionClass(editing, deleted), 'editing');
+      assert.equal(element.computeSectionClass(editing, deleted), 'editing');
 
       deleted = true;
       assert.equal(
-        element._computeSectionClass(editing, deleted),
+        element.computeSectionClass(editing, deleted),
         'editing deleted'
       );
     });
 
-    test('_computeGroupName', () => {
+    test('computeGroupName', () => {
       const groups = {
         abc123: {id: '1' as GroupId, name: 'test group' as GroupName},
         bcd234: {id: '1' as GroupId},
       };
       assert.equal(
-        element._computeGroupName(groups, 'abc123' as GroupId),
+        element.computeGroupName(groups, 'abc123' as GitRef),
         'test group' as GroupName
       );
       assert.equal(
-        element._computeGroupName(groups, 'bcd234' as GroupId),
+        element.computeGroupName(groups, 'bcd234' as GitRef),
         'bcd234' as GroupName
       );
     });
 
-    test('_computeGroupsWithRules', () => {
+    test('computeGroupsWithRules', () => {
       const rules = [
         {
           id: '4c97682e6ce6b7247f3381b6f1789356666de7f' as GitRef,
@@ -211,13 +215,13 @@ suite('gr-permission tests', () => {
         '4c97682e6ce6b7247f3381b6f1789356666de7f': true,
         'global:Project-Owners': true,
       };
-      assert.deepEqual(element._computeGroupsWithRules(rules), groupsWithRules);
+      assert.deepEqual(element.computeGroupsWithRules(rules), groupsWithRules);
     });
 
-    test('_getGroupSuggestions without existing rules', async () => {
-      element._groupsWithRules = {};
+    test('getGroupSuggestions without existing rules', async () => {
+      element.groupsWithRules = {};
 
-      const groups = await element._getGroupSuggestions();
+      const groups = await element.getGroupSuggestions();
       assert.deepEqual(groups, [
         {
           name: 'Administrators',
@@ -230,12 +234,12 @@ suite('gr-permission tests', () => {
       ]);
     });
 
-    test('_getGroupSuggestions with existing rules filters them', async () => {
-      element._groupsWithRules = {
+    test('getGroupSuggestions with existing rules filters them', async () => {
+      element.groupsWithRules = {
         '4c97682e6ce61b7247f3381b6f1789356666de7f': true,
       };
 
-      const groups = await element._getGroupSuggestions();
+      const groups = await element.getGroupSuggestions();
       assert.deepEqual(groups, [
         {
           name: 'Anonymous Users',
@@ -244,40 +248,40 @@ suite('gr-permission tests', () => {
       ]);
     });
 
-    test('_handleRemovePermission', () => {
+    test('handleRemovePermission', () => {
       element.editing = true;
       element.permission = {id: 'test' as GitRef, value: {rules: {}}};
-      element._handleRemovePermission();
-      assert.isTrue(element._deleted);
+      element.handleRemovePermission();
+      assert.isTrue(element.deleted);
       assert.isTrue(element.permission.value.deleted);
 
       element.editing = false;
-      assert.isFalse(element._deleted);
+      assert.isFalse(element.deleted);
       assert.isNotOk(element.permission.value.deleted);
     });
 
-    test('_handleUndoRemove', () => {
+    test('handleUndoRemove', () => {
       element.permission = {
         id: 'test' as GitRef,
         value: {deleted: true, rules: {}},
       };
-      element._handleUndoRemove();
-      assert.isFalse(element._deleted);
+      element.handleUndoRemove();
+      assert.isFalse(element.deleted);
       assert.isNotOk(element.permission.value.deleted);
     });
 
-    test('_computeHasRange', () => {
-      assert.isTrue(element._computeHasRange('Query Limit'));
+    test('computeHasRange', () => {
+      assert.isTrue(element.computeHasRange('Query Limit'));
 
-      assert.isTrue(element._computeHasRange('Batch Changes Limit'));
+      assert.isTrue(element.computeHasRange('Batch Changes Limit'));
 
-      assert.isFalse(element._computeHasRange('test'));
+      assert.isFalse(element.computeHasRange('test'));
     });
   });
 
   suite('interactions', () => {
-    setup(() => {
-      sinon.spy(element, '_computeLabel');
+    setup(async () => {
+      sinon.spy(element, 'computeLabel');
       element.name = 'Priority';
       element.section = 'refs/*' as GitRef;
       element.labels = {
@@ -312,14 +316,17 @@ suite('gr-permission tests', () => {
           },
         },
       };
-      element._setupValues();
+      element.setupValues();
+      await element.updateComplete;
       flush();
     });
 
-    test('adding a rule', () => {
+    test('adding a rule', async () => {
       element.name = 'Priority';
       element.section = 'refs/*' as GitRef;
       element.groups = {};
+      await element.updateComplete;
+
       queryAndAssert<GrAutocomplete>(element, '#groupAutocomplete').text =
         'ldap/tests te.st';
       const e = {
@@ -328,17 +335,19 @@ suite('gr-permission tests', () => {
         },
       } as CustomEvent<AutocompleteCommitEventDetail>;
       element.editing = true;
-      assert.equal(element._rules!.length, 2);
-      assert.equal(Object.keys(element._groupsWithRules!).length, 2);
-      element._handleAddRuleItem(e);
-      flush();
+      await element.updateComplete;
+      assert.equal(element.rules!.length, 2);
+      assert.equal(Object.keys(element.groupsWithRules!).length, 2);
+      element.handleAddRuleItem(e);
+      await element.updateComplete;
+      // flush();
       assert.deepEqual(element.groups, {
         'ldap:CN=test te.st': {
           name: 'ldap/tests te.st',
         },
       });
-      assert.equal(element._rules!.length, 3);
-      assert.equal(Object.keys(element._groupsWithRules!).length, 3);
+      assert.equal(element.rules!.length, 3);
+      assert.equal(Object.keys(element.groupsWithRules!).length, 3);
       assert.deepEqual(element.permission!.value.rules['ldap:CN=test te.st'], {
         action: PermissionAction.ALLOW,
         min: -2,
@@ -351,7 +360,8 @@ suite('gr-permission tests', () => {
       );
       // New rule should be removed if cancel from editing.
       element.editing = false;
-      assert.equal(element._rules!.length, 2);
+      await element.updateComplete;
+      assert.equal(element.rules!.length, 2);
       assert.equal(Object.keys(element.permission!.value.rules).length, 2);
     });
 
@@ -359,9 +369,10 @@ suite('gr-permission tests', () => {
       element.name = 'Priority';
       element.section = 'refs/*' as GitRef;
       element.groups = {};
+      await element.updateComplete;
       queryAndAssert<GrAutocomplete>(element, '#groupAutocomplete').text =
         'new group name';
-      assert.equal(element._rules!.length, 2);
+      assert.equal(element.rules!.length, 2);
       queryAndAssert<GrRuleEditor>(element, 'gr-rule-editor').dispatchEvent(
         new CustomEvent('added-rule-removed', {
           composed: true,
@@ -369,24 +380,27 @@ suite('gr-permission tests', () => {
         })
       );
       await flush();
-      assert.equal(element._rules!.length, 1);
+      assert.equal(element.rules!.length, 1);
     });
 
-    test('removing an added permission', () => {
+    test('removing an added permission', async () => {
       const removeStub = sinon.stub();
       element.addEventListener('added-permission-removed', removeStub);
       element.editing = true;
       element.name = 'Priority';
       element.section = 'refs/*' as GitRef;
       element.permission!.value.added = true;
+      await element.updateComplete;
       MockInteractions.tap(queryAndAssert<GrButton>(element, '#removeBtn'));
+      await element.updateComplete;
       assert.isTrue(removeStub.called);
     });
 
-    test('removing the permission', () => {
+    test('removing the permission', async () => {
       element.editing = true;
       element.name = 'Priority';
       element.section = 'refs/*' as GitRef;
+      await element.updateComplete;
 
       const removeStub = sinon.stub();
       element.addEventListener('added-permission-removed', removeStub);
@@ -394,54 +408,61 @@ suite('gr-permission tests', () => {
       assert.isFalse(
         queryAndAssert(element, '#permission').classList.contains('deleted')
       );
-      assert.isFalse(element._deleted);
+      assert.isFalse(element.deleted);
       MockInteractions.tap(queryAndAssert<GrButton>(element, '#removeBtn'));
       assert.isTrue(
         queryAndAssert(element, '#permission').classList.contains('deleted')
       );
-      assert.isTrue(element._deleted);
+      assert.isTrue(element.deleted);
       MockInteractions.tap(queryAndAssert<GrButton>(element, '#undoRemoveBtn'));
       assert.isFalse(
         queryAndAssert(element, '#permission').classList.contains('deleted')
       );
-      assert.isFalse(element._deleted);
+      assert.isFalse(element.deleted);
       assert.isFalse(removeStub.called);
     });
 
-    test('modify a permission', () => {
+    test('modify a permission', async () => {
       element.editing = true;
       element.name = 'Priority';
       element.section = 'refs/*' as GitRef;
+      await element.updateComplete;
 
-      assert.isFalse(element._originalExclusiveValue);
+      assert.isFalse(element.originalExclusiveValue);
       assert.isNotOk(element.permission!.value.modified);
       queryAndAssert(element, '#exclusiveToggle');
       MockInteractions.tap(queryAndAssert(element, '#exclusiveToggle'));
-      flush();
+      await element.updateComplete;
+      // flush();
       assert.isTrue(element.permission!.value.exclusive);
       assert.isTrue(element.permission!.value.modified);
-      assert.isFalse(element._originalExclusiveValue);
+      assert.isFalse(element.originalExclusiveValue);
       element.editing = false;
+      await element.updateComplete;
       assert.isFalse(element.permission!.value.exclusive);
     });
 
-    test('_handleValueChange', () => {
+    test('handleValueChange', async () => {
       const modifiedHandler = sinon.stub();
       element.permission = {id: '0' as GitRef, value: {rules: {}}};
       element.addEventListener('access-modified', modifiedHandler);
+      await element.updateComplete;
       assert.isNotOk(element.permission.value.modified);
-      element._handleValueChange();
+      element.handleValueChange();
+      await element.updateComplete;
       assert.isTrue(element.permission.value.modified);
       assert.isTrue(modifiedHandler.called);
     });
 
-    test('Exclusive hidden for owner permission', () => {
+    test('Exclusive hidden for owner permission', async () => {
       queryAndAssert(element, '#exclusiveToggle');
       assert.equal(
         getComputedStyle(queryAndAssert(element, '#exclusiveToggle')).display,
         'flex'
       );
-      element.set(['permission', 'id'], 'owner');
+      element.permission!.id = 'owner' as GitRef;
+      await element.updateComplete;
+      // element.set(['permission', 'id'], 'owner');
       flush();
       assert.equal(
         getComputedStyle(queryAndAssert(element, '#exclusiveToggle')).display,

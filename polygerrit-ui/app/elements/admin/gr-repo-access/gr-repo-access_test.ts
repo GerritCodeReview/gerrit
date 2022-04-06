@@ -725,7 +725,7 @@ suite('gr-repo-access tests', () => {
       queryAndAssert<GrPermission>(
         grAccessSection,
         'gr-permission'
-      )._handleAddRuleItem({
+      ).handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
 
@@ -837,7 +837,7 @@ suite('gr-repo-access tests', () => {
         grAccessSection,
         'gr-permission'
       )[2];
-      newPermission._handleAddRuleItem({
+      newPermission.handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
       await flush();
@@ -969,7 +969,7 @@ suite('gr-repo-access tests', () => {
       queryAndAssert<GrPermission>(
         newSection,
         'gr-permission'
-      )._handleAddRuleItem({
+      ).handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
       await flush();
@@ -1095,7 +1095,7 @@ suite('gr-repo-access tests', () => {
         grAccessSection,
         'gr-permission'
       )[1];
-      readPermission._handleAddRuleItem({
+      readPermission.handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
       await flush();
@@ -1179,7 +1179,7 @@ suite('gr-repo-access tests', () => {
       queryAndAssert<GrPermission>(
         newSection,
         'gr-permission'
-      )._handleAddRuleItem({
+      ).handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
       // Modify a the reference from the default value.
@@ -1259,7 +1259,7 @@ suite('gr-repo-access tests', () => {
       queryAndAssert<GrPermission>(
         newSection,
         'gr-permission'
-      )._handleAddRuleItem({
+      ).handleAddRuleItem({
         detail: {value: 'Maintainers'},
       } as AutocompleteCommitEvent);
       // Modify a the reference from the default value.

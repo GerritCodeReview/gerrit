@@ -16,6 +16,24 @@
       "message": "is there a highlightjs side issue you can link in commit message?",
       "revId": "6af4545d946eadd1eeb0c2d1c40460d33d5b99de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26787f9a_83da07f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-06T08:56:35Z",
+      "side": 1,
+      "message": "The problem is that in google3 we are far behind with the version of highlightjs, so it is not really worthwhile to find/file a highlightjs issue, because it is very likely fixed in the current version.",
+      "parentUuid": "07819a88_b00478d8",
+      "revId": "6af4545d946eadd1eeb0c2d1c40460d33d5b99de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

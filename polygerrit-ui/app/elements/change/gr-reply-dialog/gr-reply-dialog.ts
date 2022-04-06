@@ -125,6 +125,7 @@ import {classMap} from 'lit/directives/class-map';
 import {BindValueChangeEvent} from '../../../types/events';
 import {LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators';
+import { PropertyValues } from 'lit';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -242,7 +243,6 @@ export class GrReplyDialog extends LitElement {
 
   @property({
     type: Boolean,
-    computed: '_computeHasDrafts(draft, draftCommentThreads.*)',
   })
   hasDrafts = false;
 
@@ -616,6 +616,15 @@ export class GrReplyDialog extends LitElement {
       }
     `,
   ];
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (
+      changedProperties.has('draft') &&
+      changedProperties.has('draftCommentThreads')
+    ) {
+      this.computeHasDrafts();
+    }
+  }
 
   private renderPeopleList() {
     return html`
@@ -1241,15 +1250,9 @@ export class GrReplyDialog extends LitElement {
     }
   }
 
-  _computeHasDrafts(
-    draft: string,
-    draftCommentThreads: PolymerDeepPropertyChange<
-      CommentThread[] | undefined,
-      CommentThread[] | undefined
-    >
-  ) {
-    if (draftCommentThreads.base === undefined) return false;
-    return draft.length > 0 || draftCommentThreads.base.length > 0;
+  computeHasDrafts() {
+    if (this.draftCommentThreads === undefined) return false;
+    return this.draft.length > 0 || this.draftCommentThreads.length > 0;
   }
 
   override focus() {

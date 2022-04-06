@@ -80,6 +80,15 @@ suite('file syntax-util', () => {
       );
     });
 
+    test('removal of duplicate spans', async () => {
+      assert.deepEqual(
+        highlightedStringToRanges(
+          '<span class="d"><span class="d">asdfqwer</span></span>'
+        ),
+        [{ranges: [{start: 0, length: 8, className: 'd'}]}]
+      );
+    });
+
     test('one line, two spans one after another', async () => {
       assert.deepEqual(
         highlightedStringToRanges(

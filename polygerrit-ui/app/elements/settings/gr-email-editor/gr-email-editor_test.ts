@@ -41,6 +41,104 @@ suite('gr-email-editor tests', () => {
   });
 
   test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `<div class="gr-form-styles">
+      <dom-repeat style="display: none;">
+        <template is="dom-repeat"> </template>
+      </dom-repeat>
+      <table id="emailTable">
+        <thead>
+          <tr>
+            <th class="emailColumn">Email</th>
+            <th class="preferredHeader">Preferred</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="emailColumn">email@one.com</td>
+            <td class="preferredControl">
+              <iron-input class="preferredRadio" name="preferred" type="radio">
+                <input
+                  class="preferredRadio"
+                  name="preferred"
+                  type="radio"
+                  value="email@one.com"
+                />
+              </iron-input>
+            </td>
+            <td>
+              <gr-button
+                aria-disabled="false"
+                class="remove-button"
+                data-index="0"
+                role="button"
+                tabindex="0"
+              >
+                Delete
+              </gr-button>
+            </td>
+          </tr>
+          <tr>
+            <td class="emailColumn">email@two.com</td>
+            <td class="preferredControl">
+              <iron-input
+                checked=""
+                class="preferredRadio"
+                name="preferred"
+                type="radio"
+              >
+                <input
+                  checked="true"
+                  class="preferredRadio"
+                  name="preferred"
+                  type="radio"
+                  value="email@two.com"
+                />
+              </iron-input>
+            </td>
+            <td>
+              <gr-button
+                aria-disabled="true"
+                class="remove-button"
+                data-index="1"
+                disabled=""
+                role="button"
+                tabindex="-1"
+              >
+                Delete
+              </gr-button>
+            </td>
+          </tr>
+          <tr>
+            <td class="emailColumn">email@three.com</td>
+            <td class="preferredControl">
+              <iron-input class="preferredRadio" name="preferred" type="radio">
+                <input
+                  class="preferredRadio"
+                  name="preferred"
+                  type="radio"
+                  value="email@three.com"
+                />
+              </iron-input>
+            </td>
+            <td>
+              <gr-button
+                aria-disabled="false"
+                class="remove-button"
+                data-index="2"
+                role="button"
+                tabindex="0"
+              >
+                Delete
+              </gr-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>`);
+  });
+
+  test('renders', () => {
     const rows = element
       .shadowRoot!.querySelector('table')!
       .querySelectorAll('tbody tr');

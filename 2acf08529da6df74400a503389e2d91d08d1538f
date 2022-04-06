@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc8fe1dd_f9e51bc3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-06T06:43:08Z",
+      "side": 1,
+      "message": "Maybe that was misunderstanding. I meant removing lines 45 and 46.\n\nReplace\n```\n  interface HTMLElementEventMap {\n    \u0027content-changed\u0027: ValueChangedEvent\u003cstring\u003e;\n  }\n  interface HTMLElementEventMap {\n    \u0027editing-changed\u0027: ValueChangedEvent\u003cboolean\u003e;\n  }\n```\n\nwith\n```\n  interface HTMLElementEventMap {\n    \u0027content-changed\u0027: ValueChangedEvent\u003cstring\u003e;\n    \u0027editing-changed\u0027: ValueChangedEvent\u003cboolean\u003e;\n  }\n```",
+      "parentUuid": "7b888a80_51833c1c",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 33
+      },
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a19d0d5a_c92b124d",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
         "patchSetId": 14
@@ -366,6 +390,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8671f3e4_3073c315",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-06T06:43:08Z",
+      "side": 1,
+      "message": "Existing behavior (notify:true on `editing` prop) is that the event is always fired when `this.editing` changes its value. That is not the case anymore. For that `fire(...)` would have to be the first thing you do in `editingChanged()` (at least before the first `return;`).",
+      "parentUuid": "c1391989_a8a0017e",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "138475bd_c2b3628b",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
         "patchSetId": 14
@@ -524,6 +566,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc1334e6_afe4bafd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-06T06:43:08Z",
+      "side": 1,
+      "message": "Oh, sorry. Yeah, task flush() needs to stay.",
+      "parentUuid": "31911c12_41a85f07",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "37ec3226_aad4d26e",
         "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
         "patchSetId": 14
@@ -570,6 +630,24 @@
       "side": 1,
       "message": "Both of them are updating `newContent` and I wanted the observer of first method to finish before triggering the second observer.\n\nI\u0027m not sure that is guaranteed if I remove the first `updateComplete`.",
       "parentUuid": "30d372ec_84655ccd",
+      "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f585aea6_0ff19bb4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content_test.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-06T06:43:08Z",
+      "side": 1,
+      "message": "You can try. :-)\nIf two awaits are needed, then add a comment explaining why.",
+      "parentUuid": "286655f2_9573e44b",
       "revId": "2acf08529da6df74400a503389e2d91d08d1538f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

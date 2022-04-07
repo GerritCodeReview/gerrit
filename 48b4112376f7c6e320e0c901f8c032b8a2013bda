@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fbd0cd2_bf1db2e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1147075
+      },
+      "writtenOn": "2022-04-07T18:23:26Z",
+      "side": 1,
+      "message": "Would processing a single project per thread be more performant than batches of 50 projects?",
+      "range": {
+        "startLine": 18,
+        "startChar": 49,
+        "endLine": 18,
+        "endChar": 71
+      },
+      "revId": "48b4112376f7c6e320e0c901f8c032b8a2013bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

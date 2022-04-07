@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a562061_53001a40",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-04-07T18:48:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "868f78f4_15c80c45",
+      "revId": "8ff7e236ead5bd2f428b0826e6764dc99e6431ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "343be8b7_85efa234",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-04-07T18:33:31Z",
       "side": 1,
       "message": "I saw litlint showed error, because this. It seems save to remove since it is in input",
+      "range": {
+        "startLine": 134,
+        "startChar": 16,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "8ff7e236ead5bd2f428b0826e6764dc99e6431ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54b115b6_2c162dc8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-04-07T18:48:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "343be8b7_85efa234",
       "range": {
         "startLine": 134,
         "startChar": 16,

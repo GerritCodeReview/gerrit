@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2433e8a8_fe9cf16b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-gpg-editor/gr-gpg-editor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-07T17:53:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38b5858f_1e3ca955",
+      "revId": "82b8e34e7726f290c9cb6c89b8830c1014fedd10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ac6821d_b87af3a1",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-04-07T14:57:43Z",
       "side": 1,
       "message": "Maybe instead:\n```\n\u003cgr-button @click\u003d${() \u003d\u003e this.handleDeleteKey(index)}\n```",
+      "range": {
+        "startLine": 176,
+        "startChar": 8,
+        "endLine": 176,
+        "endChar": 69
+      },
+      "revId": "82b8e34e7726f290c9cb6c89b8830c1014fedd10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0a41ba1_b5b4c78e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-gpg-editor/gr-gpg-editor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-07T17:53:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ac6821d_b87af3a1",
       "range": {
         "startLine": 176,
         "startChar": 8,

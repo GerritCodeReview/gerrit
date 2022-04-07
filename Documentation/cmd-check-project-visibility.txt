@@ -1,0 +1,33 @@
+= gerrit check-project-visibility
+
+== NAME
+gerrit check-project-visibility - Check project readability to a specific user
+
+== SYNOPSIS
+[verse]
+--
+_ssh_ -p <port> <host> _gerrit check-project-visibility_
+  [--project <PROJECT> | -p <PROJECT>]
+  [--user <USER> | -u <USER>]
+--
+
+== DESCRIPTION
+Allows any user to query if a specific user can read non-config references in the specific project.
+
+== ACCESS
+Any user who has configured an SSH key.
+
+== EXAMPLES
+
+Check if project "test_project" is visible to "test_user".
+----
+$ ssh -p @SSH_PORT@ @SSH_HOST@ @PLUGIN@ check-project-visibility -p test_project -u test_user
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------
+

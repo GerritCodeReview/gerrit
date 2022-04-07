@@ -46,6 +46,30 @@
       },
       "revId": "a2dfac3e9d1953fa463f44c7d5216faeb79f9e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d96783df_edd84b89",
+        "filename": "java/com/google/gerrit/server/project/LabelConfigValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-07T07:28:02Z",
+      "side": 1,
+      "message": "I\u0027ve added a test with change edits now.",
+      "parentUuid": "35600e9d_9cfdc2c9",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 94
+      },
+      "revId": "a2dfac3e9d1953fa463f44c7d5216faeb79f9e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

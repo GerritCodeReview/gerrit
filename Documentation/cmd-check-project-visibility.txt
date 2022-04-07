@@ -1,0 +1,38 @@
+= gerrit check-project-visibility
+
+== NAME
+gerrit check-project-visibility - Check project readability to a specific user
+
+== SYNOPSIS
+[verse]
+--
+_ssh_ -p <port> <host> _gerrit check-project-visibility_
+  [--project <PROJECT> | -p <PROJECT>]
+  [--user <USER> | -u <USER>]
+--
+
+== DESCRIPTION
+Allows any user to query if a specific user has a visibility to the project’s changes, comments, code differences, and Git access over SSH or HTTP
+
+== ACCESS
+Any user who has configured an SSH key.
+
+== EXAMPLES
+
+Check if a user with unique username "test_user" and Full name as TestUser, can read all references in the repository called "test_project".
+
+----
+$ ssh -p @SSH_PORT@ @SSH_HOST@ gerrit check-project-visibility -p test_project -u test_user
+----
+This will return
+----
+$ TestUser test_user true
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------
+

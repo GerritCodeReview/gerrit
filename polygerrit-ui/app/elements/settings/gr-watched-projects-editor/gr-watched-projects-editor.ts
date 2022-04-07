@@ -17,12 +17,8 @@
 import '@polymer/iron-input/iron-input';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
-import '../../../styles/gr-form-styles';
-import '../../../styles/shared-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-watched-projects-editor_html';
-import {customElement, property} from '@polymer/decorators';
+import {customElement, property} from 'lit/decorators';
 import {
   AutocompleteQuery,
   GrAutocomplete,
@@ -32,6 +28,9 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {ProjectWatchInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {IronInputElement} from '@polymer/iron-input';
+import {css, html, LitElement} from 'lit';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
 
 const NOTIFICATION_TYPES = [
   {name: 'Changes', key: 'notify_new_changes'},
@@ -50,11 +49,7 @@ export interface GrWatchedProjectsEditor {
 }
 
 @customElement('gr-watched-projects-editor')
-export class GrWatchedProjectsEditor extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrWatchedProjectsEditor extends LitElement {
   @property({type: Boolean, notify: true})
   hasUnsavedChanges = false;
 
@@ -72,6 +67,116 @@ export class GrWatchedProjectsEditor extends PolymerElement {
   constructor() {
     super();
     this._query = input => this._getProjectSuggestions(input);
+  }
+
+  static override get styles() {
+    return [
+      sharedStyles,
+      formStyles,
+      css`
+        #watchedProjects .notifType {
+          text-align: center;
+          padding: 0 var(--spacing-s);
+        }
+        .notifControl {
+          cursor: pointer;
+          text-align: center;
+        }
+        .notifControl:hover {
+          outline: 1px solid var(--border-color);
+        }
+        .projectFilter {
+          color: var(--deemphasized-text-color);
+          font-style: italic;
+          margin-left: var(--spacing-l);
+        }
+        .newFilterInput {
+          width: 100%;
+        }`
+    ];
+  }
+
+  override render() {
+    return html`
+      <div class="gr-form-styles">
+      <table id="watchedProjects">
+        <thead>
+          <tr>
+            <th>Repo</th>
+            <template is="dom-repeat" items="[[_getTypes()]]">
+              <th class="notifType">[[item.name]]</th>
+            </template>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <template
+            is="dom-repeat"
+            items="[[_projects]]"
+            as="project"
+            index-as="projectIndex"
+          >
+            <tr>
+              <td>
+                [[project.project]]
+                <template is="dom-if" if="[[project.filter]]">
+                  <div class="projectFilter">[[project.filter]]</div>
+                </template>
+              </td>
+              <template is="dom-repeat" items="[[_getTypes()]]" as="type">
+                <td class="notifControl" on-click="_handleNotifCellClick">
+                  <input
+                    type="checkbox"
+                    data-index$="[[projectIndex]]"
+                    data-key$="[[type.key]]"
+                    on-change="_handleCheckboxChange"
+                    checked$="[[_computeCheckboxChecked(project, type.key)]]"
+                  />
+                </td>
+              </template>
+              <td>
+                <gr-button
+                  link=""
+                  data-index$="[[projectIndex]]"
+                  on-click="_handleRemoveProject"
+                  >Delete</gr-button
+                >
+              </td>
+            </tr>
+          </template>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>
+              <gr-autocomplete
+                id="newProject"
+                query="[[_query]]"
+                threshold="1"
+                allow-non-suggested-values=""
+                tab-complete=""
+                placeholder="Repo"
+              ></gr-autocomplete>
+            </th>
+            <th colspan$="[[_getTypeCount()]]">
+              <iron-input
+                id="newFilterInput"
+                class="newFilterInput"
+                placeholder="branch:name, or other search expression"
+              >
+                <input
+                  id="newFilter"
+                  class="newFilterInput"
+                  placeholder="branch:name, or other search expression"
+                />
+              </iron-input>
+            </th>
+            <th>
+              <gr-button link="" on-click="_handleAddProject">Add</gr-button>
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>`;
   }
 
   loadData() {

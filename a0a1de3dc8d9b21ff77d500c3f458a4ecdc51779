@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dd5ca8d_f9c0b86b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-07T10:51:14Z",
+      "side": 1,
+      "message": "Thanks for finding this issue, I would use this opportunity to clean up types. ",
+      "revId": "a0a1de3dc8d9b21ff77d500c3f458a4ecdc51779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "895ed03e_903e8a44",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-07T10:51:14Z",
+      "side": 1,
+      "message": "Why to use this interface, when we can use SuggestedReviewerAccountInfo",
+      "range": {
+        "startLine": 59,
+        "startChar": 17,
+        "endLine": 59,
+        "endChar": 35
+      },
+      "revId": "a0a1de3dc8d9b21ff77d500c3f458a4ecdc51779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cac9239d_6654776b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-07T10:51:14Z",
+      "side": 1,
+      "message": "Why to use this interface when we can use SuggestedReviewerGroupInfo",
+      "range": {
+        "startLine": 67,
+        "startChar": 17,
+        "endLine": 67,
+        "endChar": 33
+      },
+      "revId": "a0a1de3dc8d9b21ff77d500c3f458a4ecdc51779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

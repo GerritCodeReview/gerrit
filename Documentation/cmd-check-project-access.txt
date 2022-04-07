@@ -1,0 +1,37 @@
+= gerrit check-project-access
+
+== NAME
+gerrit check-project-access - Check project readability of all users in a given String
+
+== SYNOPSIS
+[verse]
+--
+_ssh_ -p <port> <host> _gerrit check-project-access_
+  [--project <PROJECT> | -p <PROJECT>]
+  [--user <USER> | -u <USER>]
+--
+
+== DESCRIPTION
+Allows any user to query if any users have access to the project’s changes, comments, code differences, and Git access over SSH or HTTP.
+It returns all users in given input String, where it includes: username, email address and full name.
+
+== ACCESS
+Any user who has configured an SSH key.
+
+== EXAMPLES
+Check if users can read all references in the repository called "test_project", in given input String TestUser.
+Given that there's a user with username "test_user1" and Full name as TestUser and a user with username "test_user2" and Full name as TestUser
+
+----
+$ ssh -p @SSH_PORT@ @SSH_HOST@ gerrit check-project-access -p test_project -u TestUser
+TestUser test_user1 true
+TestUser test_user2 true
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------
+

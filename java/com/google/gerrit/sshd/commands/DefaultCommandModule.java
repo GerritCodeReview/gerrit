@@ -46,6 +46,7 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
     command(gerrit, AproposCommand.class);
     command(gerrit, BanCommitCommand.class);
+    command(gerrit, CheckProjectAccessCommand.class);
     command(gerrit, CloseConnection.class);
     command(gerrit, ConvertRefStorage.class);
     command(gerrit, FlushCaches.class);

@@ -293,7 +293,7 @@ public class RestApiServlet extends HttpServlet {
     ViewData viewData = null;
 
     try (TraceContext traceContext = enableTracing(req, res)) {
-      try (PerThreadCache ignored = PerThreadCache.create()) {
+      try (PerThreadCache ignored = PerThreadCache.create(req)) {
         logger.atFinest().log(
             "Received REST request: %s %s (parameters: %s)",
             req.getMethod(), req.getRequestURI(), getParameterNames(req));

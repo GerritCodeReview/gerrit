@@ -39,7 +39,7 @@ public class PerThreadCacheTest extends GerritBaseTests {
 
   @Test
   public void endToEndCache() {
-    try (PerThreadCache ignored = PerThreadCache.create()) {
+    try (PerThreadCache ignored = PerThreadCache.create(null)) {
       PerThreadCache cache = PerThreadCache.get();
       PerThreadCache.Key<String> key1 = PerThreadCache.Key.create(String.class);
 
@@ -57,7 +57,7 @@ public class PerThreadCacheTest extends GerritBaseTests {
   @Test
   public void cleanUp() {
     PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class);
-    try (PerThreadCache ignored = PerThreadCache.create()) {
+    try (PerThreadCache ignored = PerThreadCache.create(null)) {
       PerThreadCache cache = PerThreadCache.get();
       String value1 = cache.get(key, () -> "value1");
       assertThat(value1).isEqualTo("value1");
@@ -65,7 +65,7 @@ public class PerThreadCacheTest extends GerritBaseTests {
 
     // Create a second cache and assert that it is not connected to the first one.
     // This ensures that the cleanup is actually working.
-    try (PerThreadCache ignored = PerThreadCache.create()) {
+    try (PerThreadCache ignored = PerThreadCache.create(null)) {
       PerThreadCache cache = PerThreadCache.get();
       String value1 = cache.get(key, () -> "value2");
       assertThat(value1).isEqualTo("value2");
@@ -74,16 +74,16 @@ public class PerThreadCacheTest extends GerritBaseTests {
 
   @Test
   public void doubleInstantiationFails() {
-    try (PerThreadCache ignored = PerThreadCache.create()) {
+    try (PerThreadCache ignored = PerThreadCache.create(null)) {
       exception.expect(IllegalStateException.class);
       exception.expectMessage("called create() twice on the same request");
-      PerThreadCache.create();
+      PerThreadCache.create(null);
     }
   }
 
   @Test
   public void enforceMaxSize() {
-    try (PerThreadCache cache = PerThreadCache.create()) {
+    try (PerThreadCache cache = PerThreadCache.create(null)) {
       // Fill the cache
       for (int i = 0; i < 50; i++) {
         PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class, i);

@@ -16,6 +16,24 @@
       "message": "You need\n`Release-Notes: skip`\nin the commit message.",
       "revId": "07a19e12eb8e1341f90a0d1b1a34a88761b2b7f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7ef8c9d_2e44ffb9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-04-07T14:29:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a558d609_3821a592",
+      "revId": "07a19e12eb8e1341f90a0d1b1a34a88761b2b7f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

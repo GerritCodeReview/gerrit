@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa832491_2e335bba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-07T14:57:43Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "82b8e34e7726f290c9cb6c89b8830c1014fedd10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38b5858f_1e3ca955",
+        "filename": "polygerrit-ui/app/elements/settings/gr-gpg-editor/gr-gpg-editor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-07T14:57:43Z",
+      "side": 1,
+      "message": "Maybe add `attribute: \u0027has-unsaved-changes\u0027`",
+      "revId": "82b8e34e7726f290c9cb6c89b8830c1014fedd10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ac6821d_b87af3a1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-gpg-editor/gr-gpg-editor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-07T14:57:43Z",
+      "side": 1,
+      "message": "Maybe instead:\n```\n\u003cgr-button @click\u003d${() \u003d\u003e this.handleDeleteKey(index)}\n```",
+      "range": {
+        "startLine": 176,
+        "startChar": 8,
+        "endLine": 176,
+        "endChar": 69
+      },
+      "revId": "82b8e34e7726f290c9cb6c89b8830c1014fedd10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

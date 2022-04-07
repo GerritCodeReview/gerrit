@@ -34,6 +34,24 @@
       "parentUuid": "f5d1ed59_567d3120",
       "revId": "db0d286414b04c9301a6d01e6ff13a3c7238a7cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "849f387f_671e10a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-07T10:29:31Z",
+      "side": 1,
+      "message": "I skipped this one, because the next change in the series directly further bumps the version to 5.1.0. I don\u0027t think we need to mention this intermediate step. It was just done in two changes, because both cherry-picks were required to bring in all connected code changes.\nI don\u0027t know how it affects frontend plugins. I would say it shouldn\u0027t affect them, but that would be more of a question to the UI developers. I found no special mention of the version bumps in the release notes of other Gerrit versions. So I would guess that a special mention would not be required.",
+      "parentUuid": "1b021860_e74cafd1",
+      "revId": "db0d286414b04c9301a6d01e6ff13a3c7238a7cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -3,10 +3,9 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {PluginApi} from '../../../api/plugin';
 import {HookApi, HookCallback, PluginElement} from '../../../api/hook';
-import {html, LitElement} from 'lit';
-import {property} from 'lit/decorators';
 
 export class GrDomHooksManager {
   private hooks: Record<string, GrDomHook<PluginElement>>;
@@ -75,19 +74,20 @@ export class GrDomHook<T extends PluginElement> implements HookApi<T> {
      * See gr-endpoint-decorator.ts for how hooks are instantiated and
      * initialized.
      */
-    class HookPlaceholder extends LitElement {
-      @property({type: Object})
-      plugin?: PluginApi;
+    class HookPlaceholder extends PolymerElement {
+      static get is() {
+        return hookName;
+      }
 
-      @property({type: Object})
-      content?: Element | null;
-
-      override render() {
-        return html``;
+      static get properties() {
+        return {
+          plugin: Object,
+          content: Object,
+        };
       }
     }
 
-    customElements.define(hookName, HookPlaceholder);
+    customElements.define(HookPlaceholder.is, HookPlaceholder);
   }
 
   handleInstanceDetached(instance: T) {

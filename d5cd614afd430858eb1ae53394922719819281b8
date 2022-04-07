@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2191162_438aaba7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6f9f99e_451b6307",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7b48163_d54f1510",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-07T15:46:57Z",
       "side": 1,
       "message": "nit: s/API/APIs/",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7b78686_34a9a852",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7b48163_d54f1510",
       "range": {
         "startLine": 9,
         "startChar": 17,
@@ -93,6 +141,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a81e2708_c55f1697",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76f24023_0d1b4205",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "483092c2_50e20858",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abaae40b_0f2b1519",
+      "range": {
+        "startLine": 10,
+        "startChar": 44,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a89ab419_543a75f8",
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e39e6042_21e391e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a89ab419_543a75f8",
+      "range": {
+        "startLine": 14,
+        "startChar": 24,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8de5fa0c_76f2b6b6",
@@ -129,6 +249,30 @@
       "writtenOn": "2022-04-07T15:46:57Z",
       "side": 1,
       "message": "Seems a little strange to call out that this is a \"Gerrit built-in\" since most classes in Gerrit are. Do we care? I think it would be sufficient to say:\n\n Make sure that a lookup of a /meta ref happens only once per GET/HEAD\n API request by caching the result in a PerThreadCache scoped to the\n execution of the RestApiServlet.",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 15,
+        "endChar": 72
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c57fbc4_7f34ce0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8de5fa0c_76f2b6b6",
       "range": {
         "startLine": 15,
         "startChar": 38,
@@ -186,6 +330,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e5128f3_4ed02ca2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d663949_711b59bc",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 43
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f6edaee_2a7c6a79",
@@ -223,6 +391,30 @@
       "side": 1,
       "message": "True, I need also to specify that applies to shared filesystem where trustfolderstat is false.",
       "parentUuid": "9f6edaee_2a7c6a79",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 16
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "818d8278_5ca1735e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dccb0be8_f962febb",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -298,6 +490,54 @@
         "startChar": 41,
         "endLine": 25,
         "endChar": 44
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76b87a77_00d7205d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87aa60cc_16b35a61",
+      "range": {
+        "startLine": 25,
+        "startChar": 41,
+        "endLine": 25,
+        "endChar": 44
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "457d284b_8db02017",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:27:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa35f969_f886cfe4",
+      "range": {
+        "startLine": 25,
+        "startChar": 26,
+        "endLine": 25,
+        "endChar": 30
       },
       "revId": "d5cd614afd430858eb1ae53394922719819281b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

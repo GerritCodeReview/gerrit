@@ -179,6 +179,29 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
       this.metrics = metrics;
     }
 
+    private static class DynamicAutoClosable implements AutoCloseable {
+      private final List<AutoCloseable> closeables;
+
+      DynamicAutoClosable() {
+        closeables = new ArrayList<>();
+      }
+
+      private void register(AutoCloseable closeable) {
+        closeables.add(closeable);
+      }
+
+      @Override
+      public void close() {
+        for (AutoCloseable c : closeables) {
+          try {
+            c.close();
+          } catch (Exception e) {
+            throw new IllegalStateException(e);
+          }
+        }
+      }
+    }
+
     @Override
     public GitFileDiff load(GitFileDiffCacheKey key) throws IOException, DiffNotAvailableException {
       try (TraceTimer timer =
@@ -207,8 +230,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
                 .collect(Collectors.groupingBy(GitFileDiffCacheKey::project));
 
         for (Map.Entry<Project.NameKey, List<GitFileDiffCacheKey>> entry : byProject.entrySet()) {
-          try (Repository repo = repoManager.openRepository(entry.getKey());
-              ObjectReader reader = repo.newObjectReader()) {
+          try (Repository repo = repoManager.openRepository(entry.getKey())) {
 
             // Grouping keys by diff options because each group of keys will be processed with a
             // separate call to JGit using the DiffFormatter object.
@@ -217,7 +239,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
 
             for (Map.Entry<DiffOptions, List<GitFileDiffCacheKey>> group :
                 optionsGroups.entrySet()) {
-              result.putAll(loadAllImpl(repo, reader, group.getKey(), group.getValue()));
+              result.putAll(loadAllImpl(repo, group.getKey(), group.getValue()));
             }
           }
         }
@@ -232,42 +254,72 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
      * @return The git file diffs for all input keys.
      */
     private Map<GitFileDiffCacheKey, GitFileDiff> loadAllImpl(
-        Repository repo, ObjectReader reader, DiffOptions options, List<GitFileDiffCacheKey> keys)
+        Repository repo, DiffOptions options, List<GitFileDiffCacheKey> keys)
         throws IOException, DiffNotAvailableException {
       ImmutableMap.Builder<GitFileDiffCacheKey, GitFileDiff> result =
           ImmutableMap.builderWithExpectedSize(keys.size());
       Map<GitFileDiffCacheKey, String> filePaths =
           keys.stream().collect(Collectors.toMap(identity(), GitFileDiffCacheKey::newFilePath));
-      DiffFormatter formatter = createDiffFormatter(options, repo, reader);
-      ListMultimap<String, DiffEntry> diffEntries =
-          loadDiffEntries(formatter, options, filePaths.values());
-      for (GitFileDiffCacheKey key : filePaths.keySet()) {
-        String newFilePath = filePaths.get(key);
-        if (!diffEntries.containsKey(newFilePath)) {
-          result.put(
-              key,
-              GitFileDiff.empty(
-                  AbbreviatedObjectId.fromObjectId(key.oldTree()),
-                  AbbreviatedObjectId.fromObjectId(key.newTree()),
-                  newFilePath));
-          continue;
-        }
-        List<DiffEntry> entries = diffEntries.get(newFilePath);
-        if (entries.size() == 1) {
-          result.put(key, createGitFileDiff(entries.get(0), formatter, key));
-        } else {
-          // Handle when JGit returns two {Added, Deleted} entries for the same file. This happens,
-          // for example, when a file's mode is changed between patchsets (e.g. converting a
-          // symlink to a regular file). We combine both diff entries into a single entry with
-          // {changeType = Rewrite}.
-          List<GitFileDiff> gitDiffs = new ArrayList<>();
-          for (DiffEntry entry : diffEntries.get(newFilePath)) {
-            gitDiffs.add(createGitFileDiff(entry, formatter, key));
+      try (DynamicAutoClosable closer = new DynamicAutoClosable()) {
+        ObjectReader currentReader = repo.newObjectReader();
+        closer.register(currentReader);
+
+        DiffFormatter formatter = createDiffFormatter(options, repo, currentReader);
+        ListMultimap<String, DiffEntry> diffEntries =
+            loadDiffEntries(formatter, options, filePaths.values());
+        for (GitFileDiffCacheKey key : filePaths.keySet()) {
+          String newFilePath = filePaths.get(key);
+          if (!diffEntries.containsKey(newFilePath)) {
+            result.put(
+                key,
+                GitFileDiff.empty(
+                    AbbreviatedObjectId.fromObjectId(key.oldTree()),
+                    AbbreviatedObjectId.fromObjectId(key.newTree()),
+                    newFilePath));
+            continue;
           }
-          result.put(key, createRewriteEntry(gitDiffs));
+          List<DiffEntry> entries = diffEntries.get(newFilePath);
+          if (entries.size() == 1) {
+            GitFileDiff fileDiff = createGitFileDiff(entries.get(0), formatter, key);
+            if (fileDiff.isNegative()) {
+              // JGit was unable to compute the diff. Most likely, this is due to a timeout in the
+              // diff algorithm. This brings us into a difficult spot: We computed the diff in a
+              // different thread to be able to abort the computation in case of a timeout. The
+              // logic is however not thread safe. To make sure we aren't causing any threading
+              // issues in case the timed out thread continues to process we swap the ObjectReader
+              // and DiffFormatter for a fresh instance.
+              currentReader = repo.newObjectReader();
+              closer.register(currentReader);
+              formatter = createDiffFormatter(options, repo, currentReader);
+            }
+            result.put(key, fileDiff);
+          } else {
+            // Handle when JGit returns two {Added, Deleted} entries for the same file. This
+            // happens,
+            // for example, when a file's mode is changed between patchsets (e.g. converting a
+            // symlink to a regular file). We combine both diff entries into a single entry with
+            // {changeType = Rewrite}.
+            List<GitFileDiff> gitDiffs = new ArrayList<>();
+            for (DiffEntry entry : diffEntries.get(newFilePath)) {
+              GitFileDiff fileDiff = createGitFileDiff(entry, formatter, key);
+              if (fileDiff.isNegative()) {
+                // JGit was unable to compute the diff. Most likely, this is due to a timeout in the
+                // diff algorithm. This brings us into a difficult spot: We computed the diff in a
+                // different thread to be able to abort the computation in case of a timeout. The
+                // logic is however not thread safe. To make sure we aren't causing any threading
+                // issues in case the timed out thread continues to process we swap the ObjectReader
+                // and DiffFormatter for a fresh instance.
+                currentReader = repo.newObjectReader();
+                closer.register(currentReader);
+                formatter = createDiffFormatter(options, repo, currentReader);
+              }
+              gitDiffs.add(fileDiff);
+            }
+            result.put(key, createRewriteEntry(gitDiffs));
+          }
         }
+        return result.build();
       }
-      return result.build();
     }
 
     private static ListMultimap<String, DiffEntry> loadDiffEntries(

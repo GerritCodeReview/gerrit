@@ -721,6 +721,24 @@
       "message": "Add a test with a http request?",
       "revId": "d5cd614afd430858eb1ae53394922719819281b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f92cdc53_bd7d4bda",
+        "filename": "javatests/com/google/gerrit/server/cache/PerThreadCacheTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06298b6d_0d4f41c1",
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "37f56cc4c9220af4f6084ec9d4c6ed5be3921cf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83b9f503_233371f7",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:57:36Z",
+      "side": 0,
+      "message": "The super.readRef() is reading directly from the refDb, without caching:\n\n  protected ObjectId readRef(Repository repo) throws IOException {\n    Ref ref \u003d repo.getRefDatabase().exactRef(getRefName());\n    return ref !\u003d null ? ref.getObjectId() : null;\n  }\n\nThe existing code is using the RepoRefCache only if set by its caller. The intent of this change is to use caching *also* if the incoming call is from a GET/HEAD HTTP request, that\u0027s why we have the RepoRefCache.getOrCreate(repo) instead of super.readRef().\n\nIf the incoming call isn\u0027t HTTP or isn\u0027t a GET/HEAD, the RepoRefCache does:\n\n    Ref ref \u003d refdb.exactRef(refName);\n    id \u003d Optional.ofNullable(ref).map(Ref::getObjectId);\n\nI\u0027ve tested it E2E and it works as expected: it caches refs only for incoming HTTP calls (GET/HEAD) but it doesn\u0027t for anything else, which is exactly the intent.\n\nDo you foresee cases where we cache whilst we shouldn\u0027t?",
+      "parentUuid": "cb2e5db9_d8fdeeda",
+      "range": {
+        "startLine": 728,
+        "startChar": 64,
+        "endLine": 728,
+        "endChar": 83
+      },
+      "revId": "37f56cc4c9220af4f6084ec9d4c6ed5be3921cf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

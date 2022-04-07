@@ -116,6 +116,29 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "98a91761_ac804d01",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-04-07T15:50:48Z",
+      "side": 1,
+      "message": "is this thread-safe? If there is an exception in this thread, we\u0027ll unwind the stack, and close the closer here, but the other thread might still be using the reader.",
+      "range": {
+        "startLine": 263,
+        "startChar": 12,
+        "endLine": 263,
+        "endChar": 66
+      },
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "931ca33e_cd44ca58",
@@ -199,6 +222,24 @@
       "writtenOn": "2022-04-07T10:41:13Z",
       "side": 1,
       "message": "While we swap reader/formatter for fresh instances, why do we need to use the DynamicAutoCloseable? It looks to me the logic will work without it. Otherwise, could you please add a one-liner of Javadoc to DynamicAutoCloseable explaining why it\u0027s needed?",
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "405c1820_8348acab",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-04-07T15:50:48Z",
+      "side": 1,
+      "message": "Would it be an alternative to use a pool instead? The thread starts by getting a objectReader from the pool (if the pool is empty, a new reader is created), does the computation and then returns the reader to the pool. \n\nThe pool has to be thread-safe. It also has to wait for all outstanding readers to be returned before closing them. \n\nIf there are no mishaps, then we\u0027ll reuse a single reader all the time. If there are timeouts, we\u0027ll create more readers.",
+      "parentUuid": "1e98acad_c47ed1b4",
       "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

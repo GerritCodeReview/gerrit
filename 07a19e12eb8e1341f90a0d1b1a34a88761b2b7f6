@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a558d609_3821a592",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-07T12:33:45Z",
+      "side": 1,
+      "message": "You need\n`Release-Notes: skip`\nin the commit message.",
+      "revId": "07a19e12eb8e1341f90a0d1b1a34a88761b2b7f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

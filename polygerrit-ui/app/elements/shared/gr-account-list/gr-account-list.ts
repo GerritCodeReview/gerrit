@@ -27,6 +27,8 @@ import {
   AccountInfo,
   GroupInfo,
   EmailAddress,
+  SuggestedReviewerGroupInfo,
+  SuggestedReviewerAccountInfo,
 } from '../../../types/common';
 import {
   ReviewerSuggestionsProvider,
@@ -53,31 +55,23 @@ export interface GrAccountList {
   };
 }
 
-/**
- * For item added with account info
- */
-export interface AccountObjectInput {
-  account: AccountInfo;
-}
-
-/**
- * For item added with group info
- */
-export interface GroupObjectInput {
-  group: GroupInfo;
-  confirm: boolean;
-}
-
 /** Supported input to be added */
-export type RawAccountInput = string | AccountObjectInput | GroupObjectInput;
+export type RawAccountInput =
+  | string
+  | SuggestedReviewerAccountInfo
+  | SuggestedReviewerGroupInfo;
 
-// type guards for AccountObjectInput and GroupObjectInput
-function isAccountObject(x: RawAccountInput): x is AccountObjectInput {
-  return !!(x as AccountObjectInput).account;
+// type guards for SuggestedReviewerAccountInfo and SuggestedReviewerGroupInfo
+function isAccountObject(
+  x: RawAccountInput
+): x is SuggestedReviewerAccountInfo {
+  return !!(x as SuggestedReviewerAccountInfo).account;
 }
 
-function isGroupObjectInput(x: RawAccountInput): x is GroupObjectInput {
-  return !!(x as GroupObjectInput).group;
+function isSuggestedReviewerGroupInfo(
+  x: RawAccountInput
+): x is SuggestedReviewerGroupInfo {
+  return !!(x as SuggestedReviewerGroupInfo).group;
 }
 
 // Internal input type with account info
@@ -150,7 +144,7 @@ export class GrAccountList extends PolymerElement {
    * Needed for template checking since value is initially set to null.
    */
   @property({type: Object, notify: true})
-  pendingConfirmation: GroupObjectInput | null = null;
+  pendingConfirmation: SuggestedReviewerGroupInfo | null = null;
 
   @property({type: Boolean})
   readonly = false;
@@ -225,7 +219,7 @@ export class GrAccountList extends PolymerElement {
       this.removeFromPendingRemoval(account);
       this.push('accounts', account);
       itemTypeAdded = 'account';
-    } else if (isGroupObjectInput(item)) {
+    } else if (isSuggestedReviewerGroupInfo(item)) {
       if (item.confirm) {
         this.pendingConfirmation = item;
         return;

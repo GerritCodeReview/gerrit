@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fc04100_9ac8607c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-04-07T18:54:23Z",
+      "side": 1,
+      "message": "Ok, I didn\u0027t mean the +1 to mean coming close to submission but more like for our coordination that everything until that point looks good. However, I understand your point, so let\u0027s not do +1 until the change is close to submittable.\n\nI am still interested in making this contribution. However, I have been really slowed down by not being able to understand the code. I am looking up for lots of terms online, as I haven\u0027t coded a lot with Java also.\n\nI will come back to you with questions over a shared doc.",
+      "parentUuid": "1c6203e6_c411a7f0",
+      "revId": "abdb36f2e6cf77088062615c069627c4b27269fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ee261ba_fc5906fa",

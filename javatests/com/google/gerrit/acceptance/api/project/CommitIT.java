@@ -381,7 +381,6 @@ public class CommitIT extends AbstractDaemonTest {
     assertThat(cherryPickResult._number).isEqualTo(existingDestChange._number);
     assertThat(cherryPickResult.cherryPickOfChange).isNull();
     assertThat(cherryPickResult.cherryPickOfPatchSet).isNull();
-  }
 
   @Test
   public void cherryPickCommitWithChangeIdToClosedChange() throws Exception {

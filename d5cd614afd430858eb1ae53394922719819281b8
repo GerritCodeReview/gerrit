@@ -164,6 +164,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3d663949_711b59bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T20:38:06Z",
+      "side": 1,
+      "message": "Done already in the code: need to remove the reference in the commit message. I agree that it was not needed in this change.",
+      "parentUuid": "243037b5_5cdb1ef8",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 43
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f6edaee_2a7c6a79",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -175,6 +199,30 @@
       "writtenOn": "2022-04-07T15:46:57Z",
       "side": 1,
       "message": "nit: \"The measured improvement\"?\n\nIt also probably depends on the size of the repo, storage system performance, ref-packing state, etc, correct?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 16
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dccb0be8_f962febb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T20:38:06Z",
+      "side": 1,
+      "message": "True, I need also to specify that applies to shared filesystem where trustfolderstat is false.",
+      "parentUuid": "9f6edaee_2a7c6a79",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -233,6 +281,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "87aa60cc_16b35a61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T20:38:06Z",
+      "side": 1,
+      "message": "Make sense, will add that, indicating the NFS shared storage.",
+      "parentUuid": "0ede5261_3c39d98d",
+      "range": {
+        "startLine": 25,
+        "startChar": 41,
+        "endLine": 25,
+        "endChar": 44
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ef2d3f27_7bc418f3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -261,6 +333,23 @@
       "writtenOn": "2022-04-07T15:46:57Z",
       "side": 1,
       "message": "-1 is for the ChangeNotes comment",
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc9c2666_ac7c19d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T20:38:06Z",
+      "side": 1,
+      "message": "Thanks @Nasser for the review, will address the points in the next PS.",
       "revId": "d5cd614afd430858eb1ae53394922719819281b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

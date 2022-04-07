@@ -58,6 +58,9 @@ link:cmd-apropos.html[gerrit apropos]::
 link:cmd-ban-commit.html[gerrit ban-commit]::
 	Bans a commit from a project's repository.
 
+link:cmd-check-project-access.html[gerrit check-project-access]::
+	Check if user(s) can read non-config refs of a project
+
 link:cmd-create-branch.html[gerrit create-branch]::
 	Create a new project branch.
 

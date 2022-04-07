@@ -22,6 +22,8 @@ import {stubRestApi} from '../../../test/test-utils';
 import {ProjectWatchInfo} from '../../../types/common';
 import {queryAll, queryAndAssert} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {IronInputElement} from '@polymer/iron-input';
+import {assertIsDefined} from '../../../utils/common-util';
 
 const basicFixture = fixtureFromElement('gr-watched-projects-editor');
 
@@ -70,7 +72,7 @@ suite('gr-watched-projects-editor tests', () => {
     element = basicFixture.instantiate();
 
     await element.loadData();
-    await flush();
+    await element.updateComplete;
   });
 
   test('renders', () => {
@@ -119,51 +121,52 @@ suite('gr-watched-projects-editor tests', () => {
   });
 
   test('_canAddProject', () => {
-    assert.isFalse(element._canAddProject(null, null, null));
+    assert.isFalse(element.canAddProject(null, null, null));
 
     // Can add a project that is not in the list.
-    assert.isTrue(element._canAddProject('project d', null, null));
-    assert.isTrue(element._canAddProject('project d', null, 'filter 3'));
+    assert.isTrue(element.canAddProject('project d', null, null));
+    assert.isTrue(element.canAddProject('project d', null, 'filter 3'));
 
     // Cannot add a project that is in the list with no filter.
-    assert.isFalse(element._canAddProject('project a', null, null));
+    assert.isFalse(element.canAddProject('project a', null, null));
 
     // Can add a project that is in the list if the filter differs.
-    assert.isTrue(element._canAddProject('project a', null, 'filter 4'));
+    assert.isTrue(element.canAddProject('project a', null, 'filter 4'));
 
     // Cannot add a project that is in the list with the same filter.
-    assert.isFalse(element._canAddProject('project b', null, 'filter 1'));
-    assert.isFalse(element._canAddProject('project b', null, 'filter 2'));
+    assert.isFalse(element.canAddProject('project b', null, 'filter 1'));
+    assert.isFalse(element.canAddProject('project b', null, 'filter 2'));
 
     // Can add a project that is in the list using a new filter.
-    assert.isTrue(element._canAddProject('project b', null, 'filter 3'));
+    assert.isTrue(element.canAddProject('project b', null, 'filter 3'));
 
     // Can add a project that is not added by the auto complete
-    assert.isTrue(element._canAddProject(null, 'test', null));
+    assert.isTrue(element.canAddProject(null, 'test', null));
   });
 
-  test('_getNewProjectIndex', () => {
+  test('getNewProjectIndex', () => {
     // Projects are sorted in ASCII order.
-    assert.equal(element._getNewProjectIndex('project A', 'filter'), 0);
-    assert.equal(element._getNewProjectIndex('project a', 'filter'), 1);
+    assert.equal(element.getNewProjectIndex('project A', 'filter'), 0);
+    assert.equal(element.getNewProjectIndex('project a', 'filter'), 1);
 
     // Projects are sorted by filter when the names are equal
-    assert.equal(element._getNewProjectIndex('project b', 'filter 0'), 1);
-    assert.equal(element._getNewProjectIndex('project b', 'filter 1.5'), 2);
-    assert.equal(element._getNewProjectIndex('project b', 'filter 3'), 3);
+    assert.equal(element.getNewProjectIndex('project b', 'filter 0'), 1);
+    assert.equal(element.getNewProjectIndex('project b', 'filter 1.5'), 2);
+    assert.equal(element.getNewProjectIndex('project b', 'filter 3'), 3);
 
     // Projects with filters follow those without
-    assert.equal(element._getNewProjectIndex('project c', 'filter'), 4);
+    assert.equal(element.getNewProjectIndex('project c', 'filter'), 4);
   });
 
-  test('_handleAddProject', () => {
-    element.$.newProject.value = 'project d';
-    element.$.newProject.setText('project d');
-    element.$.newFilterInput.bindValue = '';
+  test('handleAddProject', () => {
+    assertIsDefined(element.newProject, 'newProject');
+    element.newProject.value = 'project d';
+    element.newProject.setText('project d');
+    queryAndAssert<IronInputElement>(element, '#newFilterInput').bindValue = '';
 
-    element._handleAddProject();
+    element.handleAddProject();
 
-    const projects = element._projects!;
+    const projects = element.projects!;
     assert.equal(projects.length, 5);
     assert.equal(projects[4].project, 'project d');
     assert.isNotOk(projects[4].filter);
@@ -171,18 +174,21 @@ suite('gr-watched-projects-editor tests', () => {
   });
 
   test('_handleAddProject with invalid inputs', () => {
-    element.$.newProject.value = 'project b';
-    element.$.newProject.setText('project b');
-    element.$.newFilterInput.bindValue = 'filter 1';
-    element.$.newFilter.value = 'filter 1';
+    assertIsDefined(element.newProject, 'newProject');
+    element.newProject.value = 'project b';
+    element.newProject.setText('project b');
+    queryAndAssert<IronInputElement>(element, '#newFilterInput')
+      .bindValue = 'filter 1';
+    assertIsDefined(element.newFilter, 'newFilter');
+    element.newFilter.value = 'filter 1';
 
-    element._handleAddProject();
+    element.handleAddProject();
 
-    assert.equal(element._projects!.length, 4);
+    assert.equal(element.projects!.length, 4);
   });
 
-  test('_handleRemoveProject', () => {
-    assert.deepEqual(element._projectsToRemove, []);
+  test('_handleRemoveProject', async () => {
+    assert.deepEqual(element.projectsToRemove, []);
 
     const button = queryAndAssert(
       element,
@@ -190,13 +196,13 @@ suite('gr-watched-projects-editor tests', () => {
     );
     MockInteractions.tap(button);
 
-    flush();
+    await element.updateComplete;
 
     const rows = queryAndAssert(element, 'table tbody').querySelectorAll('tr');
 
     assert.equal(rows.length, 3);
 
-    assert.equal(element._projectsToRemove.length, 1);
-    assert.equal(element._projectsToRemove[0].project, 'project b');
+    assert.equal(element.projectsToRemove.length, 1);
+    assert.equal(element.projectsToRemove[0].project, 'project b');
   });
 });

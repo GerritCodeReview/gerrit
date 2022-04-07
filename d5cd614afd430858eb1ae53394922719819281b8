@@ -1,0 +1,331 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6f9f99e_451b6307",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "Maybe: \"for each REST API request\"\n\nThat makes it clearer that this improvement only applies to REST APIs and the cache lifetime is per-request.",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7b48163_d54f1510",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "nit: s/API/APIs/",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abaae40b_0f2b1519",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "nit: s/which it/which/",
+      "range": {
+        "startLine": 10,
+        "startChar": 44,
+        "endLine": 10,
+        "endChar": 46
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76f24023_0d1b4205",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "nit: s/on/during/",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a89ab419_543a75f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "nit: add \"each\"? -\u003e \"lookup of each /meta ref\"",
+      "range": {
+        "startLine": 14,
+        "startChar": 24,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8de5fa0c_76f2b6b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "Seems a little strange to call out that this is a \"Gerrit built-in\" since most classes in Gerrit are. Do we care? I think it would be sufficient to say:\n\n Make sure that a lookup of a /meta ref happens only once per GET/HEAD\n API request by caching the result in a PerThreadCache scoped to the\n execution of the RestApiServlet.",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 15,
+        "endChar": 72
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "243037b5_5cdb1ef8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "Why not a separate fix uploaded for this? We almost always try to split logically independent changes.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 43
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f6edaee_2a7c6a79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "nit: \"The measured improvement\"?\n\nIt also probably depends on the size of the repo, storage system performance, ref-packing state, etc, correct?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 16
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ede5261_3c39d98d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "Measured numbers please. Is this 400ms-\u003e40ms?",
+      "range": {
+        "startLine": 25,
+        "startChar": 41,
+        "endLine": 25,
+        "endChar": 44
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa35f969_f886cfe4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "nit: extra word \"the\"",
+      "range": {
+        "startLine": 25,
+        "startChar": 26,
+        "endLine": 25,
+        "endChar": 30
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef2d3f27_7bc418f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "Explain why we\u0027re not attempting to improve performance of those too? Is that future work?",
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74fe34a5_87cda192",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "-1 is for the ChangeNotes comment",
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0a65143_9f5aeee8",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "why \u0027Boolean\u0027 when isPresent() returns \u0027boolean\u0027? https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html#isPresent--",
+      "range": {
+        "startLine": 44,
+        "startChar": 17,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a75ec094_ae43a916",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "Why is this method here and not on the cache?",
+      "range": {
+        "startLine": 44,
+        "startChar": 25,
+        "endLine": 44,
+        "endChar": 61
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06298b6d_0d4f41c1",
+        "filename": "javatests/com/google/gerrit/server/cache/PerThreadCacheTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 1,
+      "message": "Add a test with a http request?",
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

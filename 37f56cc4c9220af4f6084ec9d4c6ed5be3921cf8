@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb2e5db9_d8fdeeda",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:46:57Z",
+      "side": 0,
+      "message": "I\u0027m concerned you\u0027re never calling super.readRef() now. Doesn\u0027t that mean you\u0027re always using a RefCache of some kind now? That\u0027s not the intent of this change.",
+      "range": {
+        "startLine": 728,
+        "startChar": 64,
+        "endLine": 728,
+        "endChar": 83
+      },
+      "revId": "37f56cc4c9220af4f6084ec9d4c6ed5be3921cf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

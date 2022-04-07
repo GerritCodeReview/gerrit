@@ -474,7 +474,8 @@ export const htmlTemplate = html`
         </h2>
         <gr-gpg-editor
           id="gpgEditor"
-          has-unsaved-changes="{{_gpgKeysChanged}}"
+          has-unsaved-changes="[[_gpgKeysChanged]]"
+          on-has-unsaved-changes-changed="_handleGpgEditorHasSavedChanges"
         ></gr-gpg-editor>
       </div>
       <h2 id="Groups">Groups</h2>

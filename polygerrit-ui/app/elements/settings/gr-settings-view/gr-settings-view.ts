@@ -304,6 +304,10 @@ export class GrSettingsView extends PolymerElement {
     this._keysChanged = !!e.detail.value;
   }
 
+  _handleGpgEditorHasSavedChanges(e: ValueChangedEvent) {
+    this._gpgKeysChanged = !!e.detail.value;
+  }
+
   private readonly handleLocationChange = () => {
     // Handle anchor tag after dom attached
     const urlHash = window.location.hash;

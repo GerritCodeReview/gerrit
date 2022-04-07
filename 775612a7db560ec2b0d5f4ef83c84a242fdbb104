@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9e40dcc_abfaac02",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-07T09:43:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3546b2ff_a2fff77e",
+      "revId": "775612a7db560ec2b0d5f4ef83c84a242fdbb104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e92d8da_60d22177",
@@ -64,6 +82,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0916fe2f_44c63c39",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-07T09:43:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3013f50c_dd308656",
+      "range": {
+        "startLine": 45,
+        "startChar": 39,
+        "endLine": 45,
+        "endChar": 46
+      },
+      "revId": "775612a7db560ec2b0d5f4ef83c84a242fdbb104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dbe3f67_4c91ba7e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-07T09:43:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e92d8da_60d22177",
+      "range": {
+        "startLine": 45,
+        "startChar": 9,
+        "endLine": 45,
+        "endChar": 11
+      },
+      "revId": "775612a7db560ec2b0d5f4ef83c84a242fdbb104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e491a909_07327ae0",
@@ -81,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4197d85f_57d0ef2a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-07T09:43:51Z",
+      "side": 1,
+      "message": "It\u0027s not possible to change, because eslint will remove line break",
+      "parentUuid": "e491a909_07327ae0",
+      "revId": "775612a7db560ec2b0d5f4ef83c84a242fdbb104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdc952fd_7fb37a1d",
@@ -94,6 +178,30 @@
       "writtenOn": "2022-04-07T07:25:21Z",
       "side": 1,
       "message": "Nit: you can can do `with-backdrop` instead of `with-backdrop\u003d\"\"`.",
+      "range": {
+        "startLine": 110,
+        "startChar": 31,
+        "endLine": 110,
+        "endChar": 47
+      },
+      "revId": "775612a7db560ec2b0d5f4ef83c84a242fdbb104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63b9e263_6f85eb29",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-07T09:43:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdc952fd_7fb37a1d",
       "range": {
         "startLine": 110,
         "startChar": 31,
@@ -127,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d945e78a_c10ad656",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-07T09:43:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3bb66a7_b097274f",
+      "range": {
+        "startLine": 116,
+        "startChar": 10,
+        "endLine": 116,
+        "endChar": 22
+      },
+      "revId": "775612a7db560ec2b0d5f4ef83c84a242fdbb104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f91734d_08f36e2c",
@@ -140,6 +272,24 @@
       "writtenOn": "2022-04-07T07:25:21Z",
       "side": 1,
       "message": "What about doing:\n```\n@click\u003d${() \u003d\u003e this.handleDeleteItem(account.name)}\n```\nI think that would allow you to remove 9 lines of code from `handleDeleteItem()`.",
+      "revId": "775612a7db560ec2b0d5f4ef83c84a242fdbb104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd0d3b32_80d4b6fd",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-07T09:43:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f91734d_08f36e2c",
       "revId": "775612a7db560ec2b0d5f4ef83c84a242fdbb104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -167,6 +317,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "640aa3f0_520d2c3b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-07T09:43:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00b888ac_f4692b13",
+      "range": {
+        "startLine": 157,
+        "startChar": 53,
+        "endLine": 157,
+        "endChar": 55
+      },
+      "revId": "775612a7db560ec2b0d5f4ef83c84a242fdbb104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0771105_4cd8695c",
@@ -180,6 +354,30 @@
       "writtenOn": "2022-04-07T07:25:21Z",
       "side": 1,
       "message": "Better `assertIsDefined` instead of just putting `!`.",
+      "range": {
+        "startLine": 170,
+        "startChar": 35,
+        "endLine": 170,
+        "endChar": 41
+      },
+      "revId": "775612a7db560ec2b0d5f4ef83c84a242fdbb104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beb348eb_5225c310",
+        "filename": "polygerrit-ui/app/elements/settings/gr-identities/gr-identities.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-07T09:43:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0771105_4cd8695c",
       "range": {
         "startLine": 170,
         "startChar": 35,

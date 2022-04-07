@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c6203e6_c411a7f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-07T09:41:46Z",
+      "side": 1,
+      "message": "This is not how contributing to Gerrit works. +1 means that the change is ready to be merged minus some smaller nits. At this point, this change has just added some interfaces. Logic and tests are missing.\n\nIf you are still interested in making this contribution, please take the time to sit down, understand the surrounding code and implement a working prototype with tests that you send over for review. If there are questions along the implementation that can\u0027t be figured out with research of surrounding code and documentation I am more than happy to help answer these.",
+      "parentUuid": "e7fc8f65_06f4630c",
+      "revId": "abdb36f2e6cf77088062615c069627c4b27269fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ee261ba_fc5906fa",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyFix.java",
         "patchSetId": 4

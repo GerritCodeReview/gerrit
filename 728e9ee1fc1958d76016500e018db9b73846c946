@@ -50,6 +50,24 @@
       "message": "@Luca can you check/cast also the CS?",
       "revId": "728e9ee1fc1958d76016500e018db9b73846c946",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "559c0ce3_bb78750c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T14:22:50Z",
+      "side": 1,
+      "message": "Let me complete the merge up to stable-3.5, so that we can have the validation that isn\u0027t breaking anything upstream.",
+      "parentUuid": "f7b25b12_c7f552bd",
+      "revId": "728e9ee1fc1958d76016500e018db9b73846c946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

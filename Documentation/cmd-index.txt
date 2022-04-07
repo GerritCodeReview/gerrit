@@ -58,8 +58,13 @@ link:cmd-apropos.html[gerrit apropos]::
 link:cmd-ban-commit.html[gerrit ban-commit]::
 	Bans a commit from a project's repository.
 
+<<<<<<< HEAD
 link:cmd-copy-approvals.html[gerrit copy-approvals]::
 	Copy all inferred approvals labels to the latest patch-set.
+=======
+link:cmd-check-project-access.html[gerrit check-project-access]::
+	Check if user(s) can read non-config refs of a project
+>>>>>>> 11b385bb1c... Add check-project-access command to the Gerrit core
 
 link:cmd-create-branch.html[gerrit create-branch]::
 	Create a new project branch.

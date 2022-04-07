@@ -14,11 +14,13 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.server.cache.PerThreadCache;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -28,6 +30,24 @@ import org.eclipse.jgit.lib.Repository;
 public class RepoRefCache implements RefCache {
   private final RefDatabase refdb;
   private final Map<String, Optional<ObjectId>> ids;
+
+  public static RepoRefCache getOrCreate(Repository repo) {
+    PerThreadCache cache = PerThreadCache.get();
+    if (cache != null && isCacheAssociatedWithReadonlyRequest(cache)) {
+      return cache.get(
+          PerThreadCache.Key.create(RepoRefCache.class, repo), () -> new RepoRefCache(repo));
+    }
+
+    return new RepoRefCache(repo);
+  }
+
+  private static Boolean isCacheAssociatedWithReadonlyRequest(PerThreadCache cache) {
+    return cache
+        .getHttpRequest()
+        .map(HttpServletRequest::getMethod)
+        .filter(m -> m.equalsIgnoreCase("get") || m.equalsIgnoreCase("head"))
+        .isPresent();
+  }
 
   public RepoRefCache(Repository repo) {
     this.refdb = repo.getRefDatabase();

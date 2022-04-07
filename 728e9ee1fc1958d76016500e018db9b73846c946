@@ -16,6 +16,23 @@
       "message": "All tests are passing and it works E2E for me.",
       "revId": "728e9ee1fc1958d76016500e018db9b73846c946",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7b25b12_c7f552bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-07T14:19:54Z",
+      "side": 1,
+      "message": "LGTM, @Nasser any objections?",
+      "revId": "728e9ee1fc1958d76016500e018db9b73846c946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

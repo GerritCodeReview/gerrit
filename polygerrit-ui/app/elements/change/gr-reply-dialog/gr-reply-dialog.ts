@@ -409,6 +409,7 @@ export class GrReplyDialog extends DIPolymerElement {
       // elements/shared/gr-account-list/gr-account-list.js#addAccountItem
       this.$.reviewers.addAccountItem({
         account: (e as CustomEvent).detail.reviewer,
+        count: 1,
       });
     });
 

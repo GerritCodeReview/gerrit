@@ -58,6 +58,7 @@ export interface GrAccountList {
  */
 export interface AccountObjectInput {
   account: AccountInfo;
+  count: number;
 }
 
 /**
@@ -66,6 +67,7 @@ export interface AccountObjectInput {
 export interface GroupObjectInput {
   group: GroupInfo;
   confirm: boolean;
+  count: number;
 }
 
 /** Supported input to be added */

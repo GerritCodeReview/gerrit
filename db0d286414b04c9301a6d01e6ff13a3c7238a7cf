@@ -16,6 +16,24 @@
       "message": "why not mention this update in release notes ?",
       "revId": "db0d286414b04c9301a6d01e6ff13a3c7238a7cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b021860_e74cafd1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T10:12:53Z",
+      "side": 1,
+      "message": "+1, this is a major upgrade. Is there an impact on the frontend plugins as well? Do we need to add some details on the homepage project?",
+      "parentUuid": "f5d1ed59_567d3120",
+      "revId": "db0d286414b04c9301a6d01e6ff13a3c7238a7cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

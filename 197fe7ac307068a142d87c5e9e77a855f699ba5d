@@ -54,6 +54,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "832d0876_7f5ecd44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T14:16:29Z",
+      "side": 1,
+      "message": "Apologies for the delayed validation: the RBE tests got stuck in the middle of the Jenkins CI restart and I had to re-trigger the check.",
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "931ca33e_cd44ca58",
         "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
         "patchSetId": 2

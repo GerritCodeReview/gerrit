@@ -19,24 +19,18 @@ import '../../../styles/gr-form-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-overlay/gr-overlay';
-import '../../../styles/shared-styles';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-gpg-editor_html';
-import {customElement, property} from '@polymer/decorators';
 import {GpgKeyInfo, GpgKeyId} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 import {getAppContext} from '../../../services/app-context';
-
-export interface GrGpgEditor {
-  $: {
-    viewKeyOverlay: GrOverlay;
-    addButton: GrButton;
-    newKey: IronAutogrowTextareaElement;
-  };
-}
+import {css, html, LitElement} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {assertIsDefined} from '../../../utils/common-util';
+import {BindValueChangeEvent} from '../../../types/events';
+import {fire} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -44,27 +38,139 @@ declare global {
   }
 }
 @customElement('gr-gpg-editor')
-export class GrGpgEditor extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrGpgEditor extends LitElement {
+  @query('#viewKeyOverlay') viewKeyOverlay?: GrOverlay;
 
-  @property({type: Boolean, notify: true})
-  hasUnsavedChanges = false;
+  @query('#addButton') addButton?: GrButton;
 
-  @property({type: Array})
-  _keys: GpgKeyInfo[] = [];
+  @query('#newKey') newKey?: IronAutogrowTextareaElement;
 
-  @property({type: Object})
-  _keyToView?: GpgKeyInfo;
+  @property({type: Boolean}) hasUnsavedChanges = false;
 
-  @property({type: String})
-  _newKey = '';
+  @state() _keys: GpgKeyInfo[] = [];
 
-  @property({type: Array})
-  _keysToRemove: GpgKeyInfo[] = [];
+  @state() _keyToView?: GpgKeyInfo;
+
+  @state() _newKey = '';
+
+  @state() _keysToRemove: GpgKeyInfo[] = [];
 
   private readonly restApiService = getAppContext().restApiService;
+
+  static override styles = [
+    sharedStyles,
+    formStyles,
+    css`
+      .keyHeader {
+        width: 9em;
+      }
+      .userIdHeader {
+        width: 15em;
+      }
+      #viewKeyOverlay {
+        padding: var(--spacing-xxl);
+        width: 50em;
+      }
+      .closeButton {
+        bottom: 2em;
+        position: absolute;
+        right: 2em;
+      }
+      #existing {
+        margin-bottom: var(--spacing-l);
+      }
+    `,
+  ];
+
+  override render() {
+    return html`
+      <div class="gr-form-styles">
+        <fieldset id="existing">
+          <table>
+            <thead>
+              <tr>
+                <th class="idColumn">ID</th>
+                <th class="fingerPrintColumn">Fingerprint</th>
+                <th class="userIdHeader">User IDs</th>
+                <th class="keyHeader">Public Key</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${this._keys.map((key, index) => this.renderKey(key, index))}
+            </tbody>
+          </table>
+          <gr-overlay id="viewKeyOverlay" with-backdrop="">
+            <fieldset>
+              <section>
+                <span class="title">Status</span>
+                <span class="value">${this._keyToView?.status}</span>
+              </section>
+              <section>
+                <span class="title">Key</span>
+                <span class="value">${this._keyToView?.key}</span>
+              </section>
+            </fieldset>
+            <gr-button class="closeButton" @click=${this._closeOverlay}
+              >Close</gr-button
+            >
+          </gr-overlay>
+          <gr-button @click=${this.save} ?disabled=${!this.hasUnsavedChanges}
+            >Save changes</gr-button
+          >
+        </fieldset>
+        <fieldset>
+          <section>
+            <span class="title">New GPG key</span>
+            <span class="value">
+              <iron-autogrow-textarea
+                id="newKey"
+                autocomplete="on"
+                .bindValue=${this._newKey}
+                @bind-value-changed=${(e: BindValueChangeEvent) =>
+                  this.handleNewKeyChanged(e)}
+                placeholder="New GPG Key"
+              ></iron-autogrow-textarea>
+            </span>
+          </section>
+          <gr-button
+            id="addButton"
+            ?disabled=${!this._newKey?.length}
+            @click=${this._handleAddKey}
+            >Add new GPG key</gr-button
+          >
+        </fieldset>
+      </div>
+    `;
+  }
+
+  private renderKey(key: GpgKeyInfo, index: number) {
+    return html`<tr>
+      <td class="idColumn">${key.id}</td>
+      <td class="fingerPrintColumn">${key.fingerprint}</td>
+      <td class="userIdHeader">${key.user_ids?.map(id => html`${id}`)}</td>
+      <td class="keyHeader">
+        <gr-button @click=${() => this._showKey(key)} link=""
+          >Click to View</gr-button
+        >
+      </td>
+      <td>
+        <gr-copy-clipboard
+          hasTooltip
+          buttonTitle="Copy GPG public key to clipboard"
+          hideInput
+          .text=${key.key}
+        >
+        </gr-copy-clipboard>
+      </td>
+      <td>
+        <gr-button data-index=${index} @click=${this._handleDeleteKey}
+          >Delete</gr-button
+        >
+      </td>
+    </tr>`;
+  }
 
   loadData() {
     this._keys = [];
@@ -87,46 +193,55 @@ export class GrGpgEditor extends PolymerElement {
 
     return Promise.all(promises).then(() => {
       this._keysToRemove = [];
-      this.hasUnsavedChanges = false;
+      this.setHasUnsavedChanges(false);
     });
   }
 
-  _showKey(e: Event) {
-    const el = (dom(e) as EventApi).localTarget as Element;
-    const index = Number(el.getAttribute('data-index')!);
-    this._keyToView = this._keys[index];
-    this.$.viewKeyOverlay.open();
+  _showKey(key: GpgKeyInfo) {
+    this._keyToView = key;
+    this.viewKeyOverlay?.open();
+  }
+
+  handleNewKeyChanged(e: BindValueChangeEvent) {
+    this._newKey = e.detail.value;
   }
 
   _closeOverlay() {
-    this.$.viewKeyOverlay.close();
+    this.viewKeyOverlay?.close();
   }
 
   _handleDeleteKey(e: Event) {
-    const el = (dom(e) as EventApi).localTarget as Element;
+    const el = e.target as Element;
     const index = Number(el.getAttribute('data-index')!);
-    this.push('_keysToRemove', this._keys[index]);
-    this.splice('_keys', index, 1);
-    this.hasUnsavedChanges = true;
+    this._keysToRemove.push(this._keys[index]);
+    this._keys.splice(index, 1);
+    this.requestUpdate();
+    this.setHasUnsavedChanges(true);
   }
 
   _handleAddKey() {
-    this.$.addButton.disabled = true;
-    this.$.newKey.disabled = true;
+    assertIsDefined(this.newKey);
+    assertIsDefined(this.addButton);
+    this.addButton.disabled = true;
+    this.newKey.disabled = true;
     return this.restApiService
       .addAccountGPGKey({add: [this._newKey.trim()]})
       .then(() => {
-        this.$.newKey.disabled = false;
+        assertIsDefined(this.newKey);
+        this.newKey.disabled = false;
         this._newKey = '';
         this.loadData();
       })
       .catch(() => {
-        this.$.addButton.disabled = false;
-        this.$.newKey.disabled = false;
+        assertIsDefined(this.newKey);
+        assertIsDefined(this.addButton);
+        this.addButton.disabled = false;
+        this.newKey.disabled = false;
       });
   }
 
-  _computeAddButtonDisabled(newKey: string) {
-    return !newKey.length;
+  private setHasUnsavedChanges(value: boolean) {
+    this.hasUnsavedChanges = value;
+    fire(this, 'has-unsaved-changes-changed', {value});
   }
 }

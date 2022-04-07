@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "474b9bec_928e1fb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-07T10:41:13Z",
+      "side": 1,
+      "message": "AFAIU this is happening because we implement loading multiple diffs (with getAll) which might cause this racing when the diff formatter is reused between different files, i.e. when one file timing out might continue processing on a different thread while we start processing the next file.\n\nAt a first glance, I wrongly thought the discrepancy is caused by different requests to the cache.\n\nIf my understanding is inline with yours, can we mention it in the CM?",
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e2f43d65_b53e3406",
@@ -14,6 +31,46 @@
       "writtenOn": "2022-04-07T09:12:13Z",
       "side": 1,
       "message": "thanks for digging ",
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b39a9492_e6f8b7d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-07T10:41:13Z",
+      "side": 1,
+      "message": "Thanks for the detailed analysis and fix!",
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "931ca33e_cd44ca58",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-07T10:41:13Z",
+      "side": 1,
+      "message": "Optional: these 3 lines could be extracted (used multiple times).",
+      "range": {
+        "startLine": 264,
+        "startChar": 8,
+        "endLine": 267,
+        "endChar": 84
+      },
       "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -37,6 +94,64 @@
         "endLine": 287,
         "endChar": 33
       },
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cceac91d_633b4fba",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-07T10:41:13Z",
+      "side": 1,
+      "message": "Right, the future is at l.394",
+      "parentUuid": "071063cb_cd30ca85",
+      "range": {
+        "startLine": 287,
+        "startChar": 27,
+        "endLine": 287,
+        "endChar": 33
+      },
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e98acad_c47ed1b4",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-07T10:41:13Z",
+      "side": 1,
+      "message": "While we swap reader/formatter for fresh instances, why do we need to use the DynamicAutoCloseable? It looks to me the logic will work without it. Otherwise, could you please add a one-liner of Javadoc to DynamicAutoCloseable explaining why it\u0027s needed?",
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9b86765_14213867",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-07T10:41:13Z",
+      "side": 1,
+      "message": "nit: duplicate comment. maybe better to extract these 3 lines (as mentioned above) and add the comment only once for why this is needed.",
       "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

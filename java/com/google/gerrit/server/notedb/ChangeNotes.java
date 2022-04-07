@@ -56,6 +56,7 @@ import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
+import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -432,17 +433,23 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.reviewers();
   }
 
-  /** @return reviewers that do not currently have a Gerrit account and were added by email. */
+  /**
+   * @return reviewers that do not currently have a Gerrit account and were added by email.
+   */
   public ReviewerByEmailSet getReviewersByEmail() {
     return state.reviewersByEmail();
   }
 
-  /** @return reviewers that were modified during this change's current WIP phase. */
+  /**
+   * @return reviewers that were modified during this change's current WIP phase.
+   */
   public ReviewerSet getPendingReviewers() {
     return state.pendingReviewers();
   }
 
-  /** @return reviewers by email that were modified during this change's current WIP phase. */
+  /**
+   * @return reviewers by email that were modified during this change's current WIP phase.
+   */
   public ReviewerByEmailSet getPendingReviewersByEmail() {
     return state.pendingReviewersByEmail();
   }
@@ -476,12 +483,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.assigneeUpdates();
   }
 
-  /** @return a ImmutableSet of all hashtags for this change sorted in alphabetical order. */
+  /**
+   * @return a ImmutableSet of all hashtags for this change sorted in alphabetical order.
+   */
   public ImmutableSet<String> getHashtags() {
     return ImmutableSortedSet.copyOf(state.hashtags());
   }
 
-  /** @return a list of all users who have ever been a reviewer on this change. */
+  /**
+   * @return a list of all users who have ever been a reviewer on this change.
+   */
   public ImmutableList<Account.Id> getAllPastReviewers() {
     return state.allPastReviewers();
   }
@@ -494,12 +505,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.submitRecords();
   }
 
-  /** @return all change messages, in chronological order, oldest first. */
+  /**
+   * @return all change messages, in chronological order, oldest first.
+   */
   public ImmutableList<ChangeMessage> getChangeMessages() {
     return state.changeMessages();
   }
 
-  /** @return inline comments on each revision. */
+  /**
+   * @return inline comments on each revision.
+   */
   public ImmutableListMultimap<ObjectId, HumanComment> getHumanComments() {
     return state.publishedComments();
   }
@@ -638,6 +653,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @Override
   protected ObjectId readRef(Repository repo) throws IOException {
-    return refs != null ? refs.get(getRefName()).orElse(null) : super.readRef(repo);
+    RefCache refsCache = refs != null ? refs : RepoRefCache.getOrCreate(repo);
+    return refsCache.get(getRefName()).orElse(null);
   }
 }

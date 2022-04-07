@@ -259,6 +259,47 @@ refs/meta/config branch.
   canOverrideInChildProjects = true
 ----
 
+
+[[examples]]
+== Testing Submit Requirements
+
+The link:rest-api-changes.html#check-submit-requirement[Check Submit Requirement]
+change endpoint can be used to test submit requirements on any change. Users
+are encouraged to test submit requirements before adding them to the project
+to ensure they work as intended.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/check.submit_requirement HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+    {
+      "name": "Code-Review",
+      "submittability_expression": "label:Code-Review=+2"
+    }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "name": "Code-Review",
+    "status": "SATISFIED",
+    "submittability_expression_result": {
+      "expression": "label:Code-Review=+2",
+      "fulfilled": true,
+      "passingAtoms": [
+        "label:Code-Review=+2"
+      ]
+    },
+    "is_legacy": false
+  }
+----
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b76eaf5e_ed952ee2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-07T11:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "895ed03e_903e8a44",
+      "range": {
+        "startLine": 59,
+        "startChar": 17,
+        "endLine": 59,
+        "endChar": 35
+      },
+      "revId": "a0a1de3dc8d9b21ff77d500c3f458a4ecdc51779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cac9239d_6654776b",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-04-07T10:51:14Z",
       "side": 1,
       "message": "Why to use this interface when we can use SuggestedReviewerGroupInfo",
+      "range": {
+        "startLine": 67,
+        "startChar": 17,
+        "endLine": 67,
+        "endChar": 33
+      },
+      "revId": "a0a1de3dc8d9b21ff77d500c3f458a4ecdc51779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ef3ee8b_bdd75e62",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-07T11:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cac9239d_6654776b",
       "range": {
         "startLine": 67,
         "startChar": 17,

@@ -562,6 +562,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "36a9a2f5_e415a0ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:50:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef2d3f27_7bc418f3",
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "74fe34a5_87cda192",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8
@@ -630,6 +648,54 @@
       "writtenOn": "2022-04-07T15:46:57Z",
       "side": 1,
       "message": "Why is this method here and not on the cache?",
+      "range": {
+        "startLine": 44,
+        "startChar": 25,
+        "endLine": 44,
+        "endChar": 61
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f79a47f_555affb8",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:50:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0a65143_9f5aeee8",
+      "range": {
+        "startLine": 44,
+        "startChar": 17,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "d5cd614afd430858eb1ae53394922719819281b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6638de25_2a054f94",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-07T23:50:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a75ec094_ae43a916",
       "range": {
         "startLine": 44,
         "startChar": 25,

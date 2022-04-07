@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5d1ed59_567d3120",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-04-07T09:21:55Z",
+      "side": 1,
+      "message": "why not mention this update in release notes ?",
+      "revId": "db0d286414b04c9301a6d01e6ff13a3c7238a7cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -54,7 +54,6 @@ import {
   AccountInfoInput,
   GrAccountList,
   GroupInfoInput,
-  GroupObjectInput,
   RawAccountInput,
 } from '../../shared/gr-account-list/gr-account-list';
 import {
@@ -78,6 +77,7 @@ import {
   ReviewInput,
   ReviewResult,
   ServerInfo,
+  SuggestedReviewerGroupInfo,
   Suggestion,
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -275,7 +275,7 @@ export class GrReplyDialog extends DIPolymerElement {
   _attentionCcsCount = 0;
 
   @property({type: Object, observer: '_reviewerPendingConfirmationUpdated'})
-  _ccPendingConfirmation: GroupObjectInput | null = null;
+  _ccPendingConfirmation: SuggestedReviewerGroupInfo | null = null;
 
   @property({
     type: String,
@@ -290,7 +290,7 @@ export class GrReplyDialog extends DIPolymerElement {
   _uploader?: AccountInfo;
 
   @property({type: Object})
-  _pendingConfirmationDetails: GroupObjectInput | null = null;
+  _pendingConfirmationDetails: SuggestedReviewerGroupInfo | null = null;
 
   @property({type: Boolean})
   _includeComments = true;
@@ -299,7 +299,7 @@ export class GrReplyDialog extends DIPolymerElement {
   _reviewers: (AccountInfo | GroupInfo)[] = [];
 
   @property({type: Object, observer: '_reviewerPendingConfirmationUpdated'})
-  _reviewerPendingConfirmation: GroupObjectInput | null = null;
+  _reviewerPendingConfirmation: SuggestedReviewerGroupInfo | null = null;
 
   @property({type: Boolean, observer: '_handleHeightChanged'})
   _previewFormatting = false;
@@ -409,6 +409,7 @@ export class GrReplyDialog extends DIPolymerElement {
       // elements/shared/gr-account-list/gr-account-list.js#addAccountItem
       this.$.reviewers.addAccountItem({
         account: (e as CustomEvent).detail.reviewer,
+        count: 1,
       });
     });
 

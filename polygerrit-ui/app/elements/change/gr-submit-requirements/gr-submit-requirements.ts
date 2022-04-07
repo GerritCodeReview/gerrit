@@ -93,6 +93,7 @@ export class GrSubmitRequirements extends LitElement {
         iron-icon {
           width: var(--line-height-normal, 20px);
           height: var(--line-height-normal, 20px);
+          vertical-align: top;
         }
         .requirements,
         section.trigger-votes {
@@ -121,13 +122,6 @@ export class GrSubmitRequirements extends LitElement {
         }
         .votes-cell {
           display: flex;
-        }
-        .check-error {
-          margin-right: var(--spacing-l);
-        }
-        .check-error iron-icon {
-          color: var(--error-foreground);
-          vertical-align: top;
         }
         gr-vote-chip {
           margin-right: var(--spacing-s);

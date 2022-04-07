@@ -41,9 +41,9 @@ suite('gr-gpg-editor tests', () => {
 
   setup(async () => {
     const fingerprint1 =
-      '0192 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B' as GpgKeyFingerprint;
+      '0192 723D 42D1 0C5B 32A6 E1E0 9350 9E4B AFC8 A49B' as GpgKeyFingerprint;
     const fingerprint2 =
-      '0196 723D 42D1 0C5B 32A6  E1E0 9350 9E4B AFC8 A49B' as GpgKeyFingerprint;
+      '0196 723D 42D1 0C5B 32A6 E1E0 9350 9E4B AFC8 A49B' as GpgKeyFingerprint;
     keys = {
       AFC8A49B: {
         fingerprint: fingerprint1,
@@ -71,6 +71,162 @@ suite('gr-gpg-editor tests', () => {
 
     await element.loadData();
     await flush();
+  });
+
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `<div class="gr-form-styles">
+      <fieldset id="existing">
+        <dom-repeat as="key" style="display: none;">
+          <template is="dom-repeat"> </template>
+        </dom-repeat>
+        <table>
+          <thead>
+            <tr>
+              <th class="idColumn">ID</th>
+              <th class="fingerPrintColumn">Fingerprint</th>
+              <th class="userIdHeader">User IDs</th>
+              <th class="keyHeader">Public Key</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="idColumn">AFC8A49B</td>
+              <td class="fingerPrintColumn">
+                0192 723D 42D1 0C5B 32A6 E1E0 9350 9E4B AFC8 A49B
+              </td>
+              <td class="userIdHeader">
+                John Doe john.doe@example.com
+                <dom-repeat style="display: none;">
+                  <template is="dom-repeat"> </template>
+                </dom-repeat>
+              </td>
+              <td class="keyHeader">
+                <gr-button
+                  aria-disabled="false"
+                  data-index="0"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Click to View
+                </gr-button>
+              </td>
+              <td>
+                <gr-copy-clipboard
+                  buttontitle="Copy GPG public key to clipboard"
+                  hastooltip=""
+                  hideinput=""
+                >
+                </gr-copy-clipboard>
+              </td>
+              <td>
+                <gr-button
+                  aria-disabled="false"
+                  data-index="0"
+                  role="button"
+                  tabindex="0"
+                >
+                  Delete
+                </gr-button>
+              </td>
+            </tr>
+            <tr>
+              <td class="idColumn">AED9B59C</td>
+              <td class="fingerPrintColumn">
+                0196 723D 42D1 0C5B 32A6 E1E0 9350 9E4B AFC8 A49B
+              </td>
+              <td class="userIdHeader">
+                Gerrit gerrit@example.com
+                <dom-repeat style="display: none;">
+                  <template is="dom-repeat"> </template>
+                </dom-repeat>
+              </td>
+              <td class="keyHeader">
+                <gr-button
+                  aria-disabled="false"
+                  data-index="1"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Click to View
+                </gr-button>
+              </td>
+              <td>
+                <gr-copy-clipboard
+                  buttontitle="Copy GPG public key to clipboard"
+                  hastooltip=""
+                  hideinput=""
+                >
+                </gr-copy-clipboard>
+              </td>
+              <td>
+                <gr-button
+                  aria-disabled="false"
+                  data-index="1"
+                  role="button"
+                  tabindex="0"
+                >
+                  Delete
+                </gr-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <gr-overlay
+          aria-hidden="true"
+          id="viewKeyOverlay"
+          style="outline: none; display: none;"
+          tabindex="-1"
+          with-backdrop=""
+        >
+          <fieldset>
+            <section>
+              <span class="title"> Status </span> <span class="value"> </span>
+            </section>
+            <section>
+              <span class="title"> Key </span> <span class="value"> </span>
+            </section>
+          </fieldset>
+          <gr-button
+            aria-disabled="false"
+            class="closeButton"
+            role="button"
+            tabindex="0"
+          >
+            Close
+          </gr-button>
+        </gr-overlay>
+        <gr-button aria-disabled="true" disabled="" role="button" tabindex="-1">
+          Save changes
+        </gr-button>
+      </fieldset>
+      <fieldset>
+        <section>
+          <span class="title"> New GPG key </span>
+          <span class="value">
+            <iron-autogrow-textarea
+              aria-disabled="false"
+              autocomplete="on"
+              id="newKey"
+              placeholder="New GPG Key"
+            >
+            </iron-autogrow-textarea>
+          </span>
+        </section>
+        <gr-button
+          aria-disabled="true"
+          disabled=""
+          id="addButton"
+          role="button"
+          tabindex="-1"
+        >
+          Add new GPG key
+        </gr-button>
+      </fieldset>
+    </div> `);
   });
 
   test('renders', () => {
@@ -133,8 +289,7 @@ suite('gr-gpg-editor tests', () => {
 
   test('add key', async () => {
     const newKeyString =
-      '-----BEGIN PGP PUBLIC KEY BLOCK-----' +
-      '\nVersion: BCPG v1.52\n\t<key 3>';
+      '-----BEGIN PGP PUBLIC KEY BLOCK-----' + ' Version: BCPG v1.52 \t<key 3>';
     const newKeyObject = {
       ADE8A59B: {
         fingerprint:

@@ -392,7 +392,8 @@ export const htmlTemplate = html`
       </h2>
       <fieldset id="watchedProjects">
         <gr-watched-projects-editor
-          has-unsaved-changes="{{_watchedProjectsChanged}}"
+          has-unsaved-changes="[[_watchedProjectsChanged]]"
+          on-has-unsaved-changes-changed="_handleHasProjectsChanged"
           id="watchedProjectsEditor"
         ></gr-watched-projects-editor>
         <gr-button
@@ -409,7 +410,7 @@ export const htmlTemplate = html`
         <gr-email-editor
           id="emailEditor"
           has-unsaved-changes="[[_emailsChanged]]"
-          on-has-unsaved-changes-changed="_handleHasSavedChanges"
+          on-has-unsaved-changes-changed="_handleHasEmailsChanged"
         ></gr-email-editor>
         <gr-button on-click="_handleSaveEmails" disabled$="[[!_emailsChanged]]"
           >Save changes</gr-button

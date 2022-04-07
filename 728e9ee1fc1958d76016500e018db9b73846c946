@@ -68,6 +68,69 @@
       "parentUuid": "f7b25b12_c7f552bd",
       "revId": "728e9ee1fc1958d76016500e018db9b73846c946",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "101c8928_5857f7c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-07T14:42:35Z",
+      "side": 1,
+      "message": "Doh, just found two typos there...",
+      "revId": "728e9ee1fc1958d76016500e018db9b73846c946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38c40d5b_5f63a5f6",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-07T14:42:35Z",
+      "side": 1,
+      "message": "typo: s/pre/per/",
+      "range": {
+        "startLine": 63,
+        "startChar": 47,
+        "endLine": 63,
+        "endChar": 50
+      },
+      "revId": "728e9ee1fc1958d76016500e018db9b73846c946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbec989c_c4bac394",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-07T14:42:35Z",
+      "side": 1,
+      "message": "nit: should the thread BE associated with?",
+      "range": {
+        "startLine": 63,
+        "startChar": 65,
+        "endLine": 63,
+        "endChar": 98
+      },
+      "revId": "728e9ee1fc1958d76016500e018db9b73846c946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

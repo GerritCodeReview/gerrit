@@ -25,8 +25,9 @@ import {
   AccountId,
   AccountInfo,
   EmailAddress,
+  GroupBaseInfo,
   GroupId,
-  GroupInfo,
+  GroupName,
   SuggestedReviewerAccountInfo,
   Suggestion,
 } from '../../../types/common';
@@ -64,11 +65,12 @@ suite('gr-account-list tests', () => {
       _account_id: accountId as AccountId,
     };
   };
-  const makeGroup: () => GroupInfo = function () {
+  const makeGroup: () => GroupBaseInfo = function () {
     const groupId = `group${++_nextAccountId}`;
     return {
       id: groupId as GroupId,
       _group: true,
+      name: 'abcd' as GroupName,
     };
   };
 
@@ -116,7 +118,7 @@ suite('gr-account-list tests', () => {
 
     // New accounts are added to end with pendingAdd class.
     const newAccount = makeAccount();
-    handleAdd({account: newAccount});
+    handleAdd({account: newAccount, count: 1});
     flush();
     chips = getChips();
     assert.equal(chips.length, 3);
@@ -160,7 +162,7 @@ suite('gr-account-list tests', () => {
 
     // New groups are added to end with pendingAdd and group classes.
     const newGroup = makeGroup();
-    handleAdd({group: newGroup, confirm: false});
+    handleAdd({group: newGroup, confirm: false, count: 1});
     flush();
     chips = getChips();
     assert.equal(chips.length, 2);
@@ -301,9 +303,9 @@ suite('gr-account-list tests', () => {
     assert.equal(element.additions().length, 0);
 
     const newAccount = makeAccount();
-    handleAdd({account: newAccount});
+    handleAdd({account: newAccount, count: 1});
     const newGroup = makeGroup();
-    handleAdd({group: newGroup, confirm: false});
+    handleAdd({group: newGroup, confirm: false, count: 1});
 
     assert.deepEqual(element.additions(), [
       {
@@ -317,6 +319,7 @@ suite('gr-account-list tests', () => {
           id: newGroup.id,
           _group: true,
           _pendingAdd: true,
+          name: 'abcd' as GroupName,
         },
       },
     ]);
@@ -346,6 +349,7 @@ suite('gr-account-list tests', () => {
           _group: true,
           _pendingAdd: true,
           confirmed: true,
+          name: 'abcd' as GroupName,
         },
       },
     ]);
@@ -362,7 +366,7 @@ suite('gr-account-list tests', () => {
   test('max-count', () => {
     element.maxCount = 1;
     const acct = makeAccount();
-    handleAdd({account: acct});
+    handleAdd({account: acct, count: 1});
     flush();
     assert.isTrue(element.$.entry.hasAttribute('hidden'));
   });

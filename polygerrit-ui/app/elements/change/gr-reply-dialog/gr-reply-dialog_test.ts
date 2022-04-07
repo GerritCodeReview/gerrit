@@ -1138,11 +1138,13 @@ suite('gr-reply-dialog tests', () => {
       element._ccPendingConfirmation = {
         group,
         confirm: false,
+        count: 1,
       };
     } else {
       element._reviewerPendingConfirmation = {
         group,
         confirm: false,
+        count: 1,
       };
     }
     flush();
@@ -1203,11 +1205,13 @@ suite('gr-reply-dialog tests', () => {
       element._ccPendingConfirmation = {
         group,
         confirm: false,
+        count: 1,
       };
     } else {
       element._reviewerPendingConfirmation = {
         group,
         confirm: false,
+        count: 1,
       };
     }
 

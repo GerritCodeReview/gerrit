@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d403787f_acc3018d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-07T15:49:38Z",
+      "side": 1,
+      "message": "We\u0027re pretty sure we\u0027ve seen this issue during offline reindex on 3.5 (probably should move to stable-3.5). We\u0027re testing it out to confirm if it fixes it.",
+      "parentUuid": "9f0e5d18_70c7cf8d",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e2f43d65_b53e3406",

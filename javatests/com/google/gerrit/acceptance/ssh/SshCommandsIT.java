@@ -44,6 +44,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
   private static final ImmutableList<String> COMMON_ROOT_COMMANDS =
       ImmutableList.of(
           "apropos",
+          "check-project-access",
           "close-connection",
           "convert-ref-storage",
           "flush-caches",

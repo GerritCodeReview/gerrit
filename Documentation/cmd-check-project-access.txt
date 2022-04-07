@@ -1,0 +1,49 @@
+= gerrit check-project-access
+
+== NAME
+gerrit check-project-access - Check project readability of all users in a given String
+
+== SYNOPSIS
+[verse]
+--
+_ssh_ -p <port> <host> _gerrit check-project-access_
+  [--project <PROJECT> | -p <PROJECT>]
+  [--user <USER> | -u <USER>]
+--
+
+== DESCRIPTION
+Allow users to query if any users have access to the project’s changes, comments, code differences, and Git access over SSH or HTTP.
+It returns all users in given input String, where it includes: username, email address and full name.
+
+== ACCESS
+Users who have view access and administrate server capability.
+
+== EXAMPLES
+Check if users can read all references in the repository called "test_project", in given input String TestUser.
+Given that there are
+a user with username "test_user1", email "one@email.com", Full name as TestUser,
+a user with username "test_user2", email "two@email.com" and Full name as TestUser,
+a user with username "test_user3", email "TestUser@email.com" and Full name as John Doe
+
+----
+$ ssh -p @SSH_PORT@ @SSH_HOST@ gerrit check-project-access -p test_project -u TestUser
+Username: 'TestUser', Email: 'two@example.com',  Full Name: 'test_user2', Result: TRUE
+Username: 'TestUser', Email: 'one@example.com',  Full Name: 'test_user1', Result: FALSE
+Username: 'John Doe', Email: 'TestUser@example.com',  Full Name: 'test_user3', Result: FALSE
+----
+
+----
+$ ssh -p @SSH_PORT@ @SSH_HOST@ gerrit check-project-access -p test_project_doesnt_exist -u TestUser
+Fatal: Error reading project: 'test_project_doesnt_exist', for Username: 'test_user1', Email: 'one@example.com', and Full Name: 'TestUser'
+Fatal: Error reading project: 'test_project_doesnt_exist', for Username: 'test_user2', Email: 'two@example.com', and Full Name: 'TestUser'
+Fatal: Error reading project: 'test_project_doesnt_exist', for Username: 'test_user3', Email: 'TestUser@example.com', and Full Name: 'John Doe'
+----
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------
+

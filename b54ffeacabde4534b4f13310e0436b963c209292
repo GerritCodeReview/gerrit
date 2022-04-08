@@ -231,6 +231,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35a985a4_c1106920",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 8249,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-08T10:28:27Z",
+      "side": 1,
+      "message": "\u003e Because we only store SRs that were applicable\n\nWe store all SRs in NoteDb, including non-applicable.\n\n\u003e 1) NOT_EVALUATED will never be serialized in Notedb. Because we only store SRs that were applicable (if we store not applicable SRs, we can just remove that). So we can update the Status enum directly and add a checkState to the logic that serializes SubmitRequirementExpressionResults into NoteDb to make sure the status is either pass or fail (also, we would not serialize an error status). So we can spare the extra rollout hop, by just adding the enum value + a checkState call. We can also spare the adapter for unknown enum values. Already in this change, we can use the set NOT_EVALUATED because we aren\u0027t putting it into the storage.\n\nWe can do that, but I prefer to keep things simple and avoid extra custom logic. See my suggestion below.\n\nAs a middle ground and in order not to overcomplicate things, I came to a much simpler solution for now: I kept the fulfilled boolean and just appended the STATUS field: this is both rollout safe and will serve our purpose.",
+      "parentUuid": "270f8882_dbeeff62",
+      "range": {
+        "startLine": 8243,
+        "startChar": 0,
+        "endLine": 8249,
+        "endChar": 51
+      },
+      "revId": "b54ffeacabde4534b4f13310e0436b963c209292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5baef048_3b52475b",

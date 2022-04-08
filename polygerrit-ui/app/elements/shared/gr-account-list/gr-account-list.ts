@@ -404,7 +404,7 @@ export class GrAccountList extends LitElement {
 
   private handleInputKeydown(e: KeyboardEvent) {
     const target = e.target as GrAccountEntry;
-    const input = this.getOwnNativeInput(target.$.input.$.input);
+    const input = this.getOwnNativeInput(target.$.input.input!);
     if (
       input.selectionStart !== input.selectionEnd ||
       input.selectionStart !== 0

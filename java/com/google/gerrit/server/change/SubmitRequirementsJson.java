@@ -65,7 +65,10 @@ public class SubmitRequirementsJson {
       boolean hide) {
     SubmitRequirementExpressionInfo info = new SubmitRequirementExpressionInfo();
     info.expression = hide ? null : expression.expressionString();
-    info.fulfilled = result.status().equals(SubmitRequirementExpressionResult.Status.PASS);
+    info.fulfilled =
+        result.status().equals(SubmitRequirementExpressionResult.Status.PASS)
+            || result.status().equals(SubmitRequirementExpressionResult.Status.NOT_EVALUATED);
+    info.status = SubmitRequirementExpressionInfo.Status.valueOf(result.status().name());
     info.passingAtoms = hide ? null : result.passingAtoms();
     info.failingAtoms = hide ? null : result.failingAtoms();
     info.errorMessage = result.errorMessage().isPresent() ? result.errorMessage().get() : null;

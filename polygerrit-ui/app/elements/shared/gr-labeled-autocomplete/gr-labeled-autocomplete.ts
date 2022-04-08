@@ -24,6 +24,7 @@ import {
 } from '../gr-autocomplete/gr-autocomplete';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
+import {ValueChangedEvent} from '../../../types/events';
 
 @customElement('gr-labeled-autocomplete')
 export class GrLabeledAutocomplete extends LitElement {
@@ -102,7 +103,7 @@ export class GrLabeledAutocomplete extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('text')) {
-      fire(this, 'text-changed', this.text);
+      fire(this, 'text-changed', {value: this.text});
     }
   }
 
@@ -127,7 +128,7 @@ export class GrLabeledAutocomplete extends LitElement {
 
 declare global {
   interface HTMLElementEventMap {
-    'text-changed': CustomEvent<string>;
+    'text-changed': ValueChangedEvent<string>;
   }
   interface HTMLElementTagNameMap {
     'gr-labeled-autocomplete': GrLabeledAutocomplete;

@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma';
 import './gr-editable-content';
 import {GrEditableContent} from './gr-editable-content';
-import {queryAndAssert, stubStorage} from '../../../test/test-utils';
+import {query, queryAndAssert, stubStorage} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrButton} from '../gr-button/gr-button';
 import {fixture, html} from '@open-wc/testing-helpers';
@@ -64,6 +64,28 @@ suite('gr-editable-content tests', () => {
       </div>
       <gr-endpoint-slot name="above-actions"> </gr-endpoint-slot>
     </gr-endpoint-decorator> `);
+  });
+
+  test('show-all-container visibility', async () => {
+    element.editing = false;
+    element.commitCollapsible = false;
+    element.hideEditCommitMessage = true;
+    await element.updateComplete;
+    assert.isNotOk(query(element, '.show-all-container'));
+
+    element.hideEditCommitMessage = false;
+    await element.updateComplete;
+    assert.isOk(query(element, '.show-all-container'));
+
+    element.hideEditCommitMessage = true;
+    element.editing = true;
+    await element.updateComplete;
+    assert.isOk(query(element, '.show-all-container'));
+
+    element.editing = false;
+    element.commitCollapsible = true;
+    await element.updateComplete;
+    assert.isOk(query(element, '.show-all-container'));
   });
 
   test('save event', async () => {

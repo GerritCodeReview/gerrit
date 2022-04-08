@@ -413,7 +413,7 @@ suite('gr-account-list tests', () => {
     const input = element.entry!.$.input;
 
     input.text = 'newTest';
-    MockInteractions.focus(input.$.input);
+    MockInteractions.focus(input.input);
     input.noDebounce = true;
     await element.updateComplete;
     assert.isTrue(getSuggestionsStub.calledOnce);
@@ -458,13 +458,13 @@ suite('gr-account-list tests', () => {
       await element.updateComplete;
       assert.equal(element.accounts.length, 2);
       MockInteractions.pressAndReleaseKeyOn(
-        element.getOwnNativeInput(input.$.input),
+        element.getOwnNativeInput(input.input),
         8
       ); // Backspace
       assert.equal(element.accounts.length, 2);
       input.text = '';
       MockInteractions.pressAndReleaseKeyOn(
-        element.getOwnNativeInput(input.$.input),
+        element.getOwnNativeInput(input.input),
         8
       ); // Backspace
       await element.updateComplete;
@@ -476,11 +476,11 @@ suite('gr-account-list tests', () => {
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];
       await element.updateComplete;
-      MockInteractions.focus(input.$.input);
+      MockInteractions.focus(input.input);
       await await element.updateComplete;
       const chips = element.accountChips;
       const chipsOneSpy = sinon.spy(chips[1], 'focus');
-      MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
+      MockInteractions.pressAndReleaseKeyOn(input.input, 37); // Left
       assert.isTrue(chipsOneSpy.called);
       const chipsZeroSpy = sinon.spy(chips[0], 'focus');
       MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left

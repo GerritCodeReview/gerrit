@@ -316,7 +316,7 @@ public class RestApiServlet extends HttpServlet {
       RequestInfo requestInfo = createRequestInfo(traceContext, requestUri(req), path);
       globals.requestListeners.runEach(l -> l.onRequest(requestInfo));
 
-      try (PerThreadCache ignored = PerThreadCache.create()) {
+      try (PerThreadCache ignored = PerThreadCache.create(req)) {
         // It's important that the PerformanceLogContext is closed before the response is sent to
         // the client. Only this way it is ensured that the invocation of the PerformanceLogger
         // plugins happens before the client sees the response. This is needed for being able to

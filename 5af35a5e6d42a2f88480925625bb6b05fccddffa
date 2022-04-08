@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec59dab1_7c9b0cb9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-08T13:46:35Z",
+      "side": 1,
+      "message": "Sorry there is no \"before\" patchset to compare html diffs, I have added gerrit comments explaining what is changed.",
+      "revId": "5af35a5e6d42a2f88480925625bb6b05fccddffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c27cd3c3_15b8e9ea",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-08T13:46:35Z",
+      "side": 1,
+      "message": "This is the existing behavior, just the undefined case was hidden by the template before. See comment in line 534 for explanation.",
+      "range": {
+        "startLine": 120,
+        "startChar": 55,
+        "endLine": 120,
+        "endChar": 64
+      },
+      "revId": "5af35a5e6d42a2f88480925625bb6b05fccddffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fb06142_b9cba8a6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-08T13:46:35Z",
+      "side": 1,
+      "message": "no structural changes to html or css, only prop-for-prop conversion to lit, and dom-repeat --\u003e array.map().",
+      "range": {
+        "startLine": 225,
+        "startChar": 11,
+        "endLine": 225,
+        "endChar": 17
+      },
+      "revId": "5af35a5e6d42a2f88480925625bb6b05fccddffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37170135_3523afd0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-08T13:46:35Z",
+      "side": 1,
+      "message": "triggering observer manually",
+      "range": {
+        "startLine": 344,
+        "startChar": 11,
+        "endLine": 344,
+        "endChar": 29
+      },
+      "revId": "5af35a5e6d42a2f88480925625bb6b05fccddffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64c1adf8_27c30478",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-08T13:46:35Z",
+      "side": 1,
+      "message": "`exclusive` was handled by 2-way binding before. Now it is merged into this existing `@change` handler",
+      "range": {
+        "startLine": 372,
+        "startChar": 0,
+        "endLine": 372,
+        "endChar": 77
+      },
+      "revId": "5af35a5e6d42a2f88480925625bb6b05fccddffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e64f04db_acf56c90",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-08T13:46:35Z",
+      "side": 1,
+      "message": "this comment explains the existing strangeness happening here.",
+      "range": {
+        "startLine": 537,
+        "startChar": 0,
+        "endLine": 537,
+        "endChar": 17
+      },
+      "revId": "5af35a5e6d42a2f88480925625bb6b05fccddffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

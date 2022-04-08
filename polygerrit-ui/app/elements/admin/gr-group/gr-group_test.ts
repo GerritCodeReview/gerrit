@@ -23,6 +23,7 @@ import {
   mockPromise,
   queryAndAssert,
   stubRestApi,
+  waitUntil,
 } from '../../../test/test-utils';
 import {createGroupInfo} from '../../../test/test-data-generators.js';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
@@ -139,9 +140,8 @@ suite('gr-group tests', () => {
     queryAndAssert<GrAutocomplete>(element, '#groupNameInput').text =
       groupName2;
 
-    await element.updateComplete;
+    await waitUntil(() => button.hasAttribute('disabled') === false);
 
-    assert.isFalse(button.hasAttribute('disabled'));
     assert.isTrue(
       queryAndAssert<HTMLHeadingElement>(
         element,
@@ -184,8 +184,7 @@ suite('gr-group tests', () => {
     queryAndAssert<GrAutocomplete>(element, '#groupOwnerInput').text =
       'testId2';
 
-    await element.updateComplete;
-    assert.isFalse(button.disabled);
+    await waitUntil(() => button.disabled === false);
     assert.isTrue(
       queryAndAssert<HTMLHeadingElement>(
         element,

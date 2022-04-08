@@ -200,12 +200,12 @@ export class GrConfirmRebaseDialog extends LitElement {
             <gr-autocomplete
               id="parentInput"
               .query=${this.query}
-              no-debounce
-              text=${this.text}
+              ?noDebounce=${true}
+              .text=${this.text}
               @text-changed=${(e: ValueChangedEvent) =>
                 (this.text = e.detail.value)}
               @click=${this.handleEnterChangeNumberClick}
-              allow-non-suggested-values
+              ?allowNonSuggestedValues=${true}
               placeholder="Change number, ref, or commit hash"
             >
             </gr-autocomplete>

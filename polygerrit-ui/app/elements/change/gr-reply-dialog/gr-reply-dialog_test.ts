@@ -1184,7 +1184,7 @@ suite('gr-reply-dialog tests', () => {
     // We should be focused on account entry input.
     assert.isTrue(
       isFocusInsideElement(
-        queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.$.input.$
+        queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.$.input
           .input
       )
     );
@@ -1245,13 +1245,13 @@ suite('gr-reply-dialog tests', () => {
     if (cc) {
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAccountList>(element, '#ccs').$.entry.$.input.$.input
+          queryAndAssert<GrAccountList>(element, '#ccs').$.entry.$.input.input
         )
       );
     } else {
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.$.input.$
+          queryAndAssert<GrAccountList>(element, '#reviewers').$.entry.$.input
             .input
         )
       );

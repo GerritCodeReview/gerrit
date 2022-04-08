@@ -22,6 +22,29 @@
       },
       "revId": "93d094c2530a00b95ab603bceb79d41ecb83f043",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3277e64f_cfda8e8b",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-04-08T17:35:59Z",
+      "side": 1,
+      "message": "we should also do something here, no? The DiffFormatter doesn\u0027t look threadsafe either.",
+      "range": {
+        "startLine": 279,
+        "startChar": 34,
+        "endLine": 279,
+        "endChar": 53
+      },
+      "revId": "93d094c2530a00b95ab603bceb79d41ecb83f043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

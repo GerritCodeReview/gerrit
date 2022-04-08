@@ -81,10 +81,10 @@ export class GrAccountEntry extends LitElement {
         .borderless=${this.borderless}
         .placeholder=${this.placeholder}
         .query=${this.querySuggestions}
-        .allowNonSuggestedValues=${this.allowAnyInput}
+        allow-non-suggested-values=${this.allowAnyInput}
         @commit=${this.handleInputCommit}
-        clear-on-commit=""
-        warn-uncommitted=""
+        clear-on-commit
+        warn-uncommitted
         .text=${this.inputText}
         .verticalOffset=${24}
         @text-changed=${this.handleTextChanged}

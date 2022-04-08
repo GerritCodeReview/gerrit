@@ -1193,7 +1193,7 @@ suite('gr-reply-dialog tests', () => {
     const reviewersEntry = queryAndAssert<GrAccountList>(element, '#reviewers');
     assert.isTrue(
       isFocusInsideElement(
-        queryAndAssert<GrAutocomplete>(reviewersEntry.entry, '#input').$.input
+        queryAndAssert<GrAutocomplete>(reviewersEntry.entry, '#input').input!
       )
     );
 
@@ -1254,7 +1254,7 @@ suite('gr-reply-dialog tests', () => {
       const ccsEntry = queryAndAssert<GrAccountList>(element, '#ccs');
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAutocomplete>(ccsEntry.entry, '#input').$.input
+          queryAndAssert<GrAutocomplete>(ccsEntry.entry, '#input').input!
         )
       );
     } else {
@@ -1264,7 +1264,7 @@ suite('gr-reply-dialog tests', () => {
       );
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAutocomplete>(reviewersEntry.entry, '#input').$.input
+          queryAndAssert<GrAutocomplete>(reviewersEntry.entry, '#input').input!
         )
       );
     }
@@ -1438,6 +1438,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('focusOn', async () => {
+    await element.updateComplete;
     const clock = sinon.useFakeTimers();
     const chooseFocusTargetSpy = sinon.spy(element, 'chooseFocusTarget');
     element.focusOn();
@@ -1847,6 +1848,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('Ignore removal requests if being added as reviewer/CC', async () => {
+    await element.updateComplete;
     const reviewers = queryAndAssert<GrAccountList>(element, '#reviewers');
     const ccs = queryAndAssert<GrAccountList>(element, '#ccs');
     const reviewer1 = makeAccount();

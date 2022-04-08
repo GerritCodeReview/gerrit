@@ -205,6 +205,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "68e1bdaf_bd1b61c6",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-08T12:49:37Z",
+      "side": 1,
+      "message": "We could (and think that\u0027s what you suggested) take the reader of the pool and in case of time outs not close these readers instead.\n\nSo the tradeoff is: Not close the reader used by the zombie thread (risk not closing a resource that should be closed) vs close it (risk threading problem).",
+      "parentUuid": "75bb78c8_39ec0a51",
+      "range": {
+        "startLine": 263,
+        "startChar": 12,
+        "endLine": 263,
+        "endChar": 66
+      },
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "931ca33e_cd44ca58",

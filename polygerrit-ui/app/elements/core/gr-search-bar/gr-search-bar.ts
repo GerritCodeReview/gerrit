@@ -215,13 +215,13 @@ export class GrSearchBar extends LitElement {
         <gr-autocomplete
           id="searchInput"
           .label=${this.label}
-          show-search-icon
+          ?showSearchIcon=${true}
           .text=${this.inputVal}
           .query=${this.query}
-          allow-non-suggested-values
+          ?allowNonSuggestedValues=${true}
           multi
           .threshold=${this.threshold}
-          tab-complete
+          ?tabComplete=${true}
           .verticalOffset=${30}
           @commit=${(e: Event) => {
             this.handleInputCommit(e);

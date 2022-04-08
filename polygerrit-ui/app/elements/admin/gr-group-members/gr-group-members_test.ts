@@ -192,6 +192,7 @@ suite('gr-group-members tests', () => {
     groupMemberSearchInput.value = '1234';
 
     await element.updateComplete;
+    await element.updateComplete;
     assert.isFalse(button.hasAttribute('disabled'));
 
     return element.handleSavingGroupMember().then(() => {
@@ -218,6 +219,9 @@ suite('gr-group-members tests', () => {
 
     const button = queryAndAssert<GrButton>(element, '#saveIncludedGroups');
 
+    await element.updateComplete;
+    await element.updateComplete;
+
     assert.isTrue(button.hasAttribute('disabled'));
 
     const includedGroupSearchInput = queryAndAssert<GrAutocomplete>(
@@ -227,6 +231,8 @@ suite('gr-group-members tests', () => {
     includedGroupSearchInput.text = includedGroupName;
     includedGroupSearchInput.value = 'testId';
     await element.updateComplete;
+    await element.updateComplete;
+
     assert.isFalse(button.hasAttribute('disabled'));
 
     return element.handleSavingIncludedGroups().then(() => {

@@ -98,15 +98,17 @@ suite('gr-reply-dialog-it tests', () => {
     resetPlugins();
   });
 
-  test('submit blocked when invalid email is supplied to ccs', () => {
+  test('submit blocked when invalid email is supplied to ccs', async () => {
     const sendStub = sinon.stub(element, 'send').returns(Promise.resolve());
 
     element.$.ccs.$.entry.setText('test');
+    await flush();
     MockInteractions.tap(queryAndAssert(element, 'gr-button.send'));
     assert.isFalse(sendStub.called);
     flush();
 
     element.$.ccs.$.entry.setText('test@test.test');
+    await flush();
     MockInteractions.tap(queryAndAssert(element, 'gr-button.send'));
     assert.isTrue(sendStub.called);
   });

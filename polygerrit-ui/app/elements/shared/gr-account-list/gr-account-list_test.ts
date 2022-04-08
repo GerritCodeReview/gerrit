@@ -31,9 +31,10 @@ import {
   SuggestedReviewerAccountInfo,
   Suggestion,
 } from '../../../types/common';
-import {queryAll} from '../../../test/test-utils';
+import {queryAll, queryAndAssert} from '../../../test/test-utils';
 import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import { GrAutocomplete } from '../gr-autocomplete/gr-autocomplete';
 
 const basicFixture = fixtureFromElement('gr-account-list');
 
@@ -372,6 +373,7 @@ suite('gr-account-list tests', () => {
   });
 
   test('enter text calls suggestions provider', async () => {
+    await flush();
     const suggestions: Suggestion[] = [
       {
         email: 'abc@example.com' as EmailAddress,
@@ -391,7 +393,7 @@ suite('gr-account-list tests', () => {
       'makeSuggestionItem'
     );
 
-    const input = element.$.entry.$.input;
+    const input = queryAndAssert<GrAutocomplete>(element.$.entry, '#input');
 
     input.text = 'newTest';
     MockInteractions.focus(input.$.input);
@@ -427,7 +429,8 @@ suite('gr-account-list tests', () => {
 
   suite('keyboard interactions', () => {
     test('backspace at text input start removes last account', async () => {
-      const input = element.$.entry.$.input;
+      await flush();
+      const input = queryAndAssert<GrAutocomplete>(element.$.entry, '#input');
       sinon.stub(input, '_updateSuggestions');
       sinon.stub(element, '_computeRemovable').returns(true);
       await flush();
@@ -453,7 +456,8 @@ suite('gr-account-list tests', () => {
     });
 
     test('arrow key navigation', async () => {
-      const input = element.$.entry.$.input;
+      await flush();
+      const input = queryAndAssert<GrAutocomplete>(element.$.entry, '#input');
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];
       flush();

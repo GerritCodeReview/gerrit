@@ -70,6 +70,30 @@
       },
       "revId": "a2dfac3e9d1953fa463f44c7d5216faeb79f9e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67244128_2c3afa14",
+        "filename": "java/com/google/gerrit/server/project/LabelConfigValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-08T12:09:18Z",
+      "side": 1,
+      "message": "Nice thanks. Indeed, I think this was fixed by that change :-)",
+      "parentUuid": "d96783df_edd84b89",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 94
+      },
+      "revId": "a2dfac3e9d1953fa463f44c7d5216faeb79f9e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

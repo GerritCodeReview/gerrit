@@ -266,7 +266,8 @@ export const htmlTemplate = html`
           <div class="peopleListLabel">Reviewers</div>
           <gr-account-list
             id="reviewers"
-            accounts="{{_reviewers}}"
+            accounts="[[_reviewers]]"
+            on-account-added="accountAdded"
             removable-values="[[change.removable_reviewers]]"
             filter="[[filterReviewerSuggestion]]"
             pending-confirmation="{{_reviewerPendingConfirmation}}"
@@ -283,7 +284,8 @@ export const htmlTemplate = html`
         <div class="peopleListLabel">CC</div>
         <gr-account-list
           id="ccs"
-          accounts="{{_ccs}}"
+          accounts="[[_ccs]]"
+          on-account-added="accountAdded"
           filter="[[filterCCSuggestion]]"
           pending-confirmation="{{_ccPendingConfirmation}}"
           allow-any-input=""

@@ -52,6 +52,7 @@ import {FixIronA11yAnnouncer} from '../../../types/types';
 import {
   AccountAddition,
   AccountInfoInput,
+  AccountInput,
   GrAccountList,
   GroupInfoInput,
   RawAccountInput,
@@ -62,8 +63,6 @@ import {
   AttentionSetInput,
   ChangeInfo,
   CommentInput,
-  EmailAddress,
-  GroupId,
   GroupInfo,
   isAccount,
   isDetailedLabelInfo,
@@ -83,10 +82,7 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
-import {
-  PolymerDeepPropertyChange,
-  PolymerSpliceChange,
-} from '@polymer/polymer/interfaces';
+import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {
   areSetsEqual,
   assertIsDefined,
@@ -120,6 +116,7 @@ import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {LabelNameToValuesMap} from '../../../api/rest-api';
+import {ValueChangedEvent} from '../../../types/events';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -503,46 +500,25 @@ export class GrReplyDialog extends DIPolymerElement {
     return selectorEl?.selectedValue;
   }
 
-  @observe('_ccs.splices')
-  _ccsChanged(splices: PolymerSpliceChange<AccountInfo[] | GroupInfo[]>) {
-    this._reviewerTypeChanged(splices, ReviewerType.CC);
-  }
-
-  @observe('_reviewers.splices')
-  _reviewersChanged(splices: PolymerSpliceChange<AccountInfo[] | GroupInfo[]>) {
-    this._reviewerTypeChanged(splices, ReviewerType.REVIEWER);
-  }
-
-  _reviewerTypeChanged(
-    splices: PolymerSpliceChange<AccountInfo[] | GroupInfo[]>,
-    reviewerType: ReviewerType
-  ) {
-    if (splices && splices.indexSplices) {
-      this._reviewersMutated = true;
-      let key: AccountId | EmailAddress | GroupId | undefined;
-      let index;
-      let account;
-      // Remove any accounts that already exist as a CC for reviewer
-      // or vice versa.
-      const isReviewer = ReviewerType.REVIEWER === reviewerType;
-      for (const splice of splices.indexSplices) {
-        for (let i = 0; i < splice.addedCount; i++) {
-          account = splice.object[splice.index + i];
-          key = accountOrGroupKey(account);
-          const array = isReviewer ? this._ccs : this._reviewers;
-          index = array.findIndex(
-            account => accountOrGroupKey(account) === key
-          );
-          if (index >= 0) {
-            this.splice(isReviewer ? '_ccs' : '_reviewers', index, 1);
-            const moveFrom = isReviewer ? 'CC' : 'reviewer';
-            const moveTo = isReviewer ? 'reviewer' : 'CC';
-            const id = account.name || key;
-            const message = `${id} moved from ${moveFrom} to ${moveTo}.`;
-            fireAlert(this, message);
-          }
-        }
-      }
+  accountAdded(e: ValueChangedEvent<AccountInput>) {
+    const account = e.detail.value;
+    const key = accountOrGroupKey(account);
+    const reviewerType =
+      (e.target as GrAccountList).getAttribute('id') === 'ccs'
+        ? ReviewerType.CC
+        : ReviewerType.REVIEWER;
+    const isReviewer = ReviewerType.REVIEWER === reviewerType;
+    const array = isReviewer ? this._ccs : this._reviewers;
+    const index = array.findIndex(
+      account => accountOrGroupKey(account) === key
+    );
+    if (index >= 0) {
+      this.splice(isReviewer ? '_ccs' : '_reviewers', index, 1);
+      const moveFrom = isReviewer ? 'CC' : 'reviewer';
+      const moveTo = isReviewer ? 'reviewer' : 'CC';
+      const id = account.name || key;
+      const message = `${id} moved from ${moveFrom} to ${moveTo}.`;
+      fireAlert(this, message);
     }
   }
 

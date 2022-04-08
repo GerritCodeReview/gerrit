@@ -38,6 +38,7 @@ import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-co
 import {isMergeParent, getParentIndex} from './patch-set-util';
 import {DiffInfo} from '../types/diff';
 import {LineNumber} from '../api/diff';
+import {FormattedReviewerUpdateInfo} from '../types/types';
 
 export interface DraftCommentProps {
   // This must be true for all drafts. Drafts received from the backend will be
@@ -96,6 +97,12 @@ export interface ChangeMessage extends ChangeMessageInfo {
   type: string;
   expanded: boolean;
   commentThreads: CommentThread[];
+}
+
+export function isFormattedReviewerUpdate(
+  message: ChangeMessage
+): message is ChangeMessage & FormattedReviewerUpdateInfo {
+  return message.type === 'REVIEWER_UPDATE';
 }
 
 export type LabelExtreme = {[labelName: string]: VotingRangeInfo};

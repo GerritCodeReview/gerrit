@@ -17,8 +17,8 @@
 import '../../../styles/shared-styles';
 import '../../shared/gr-dialog/gr-dialog';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-confirm-cherrypick-conflict-dialog_html';
 import {customElement} from '@polymer/decorators';
+import {css, html} from 'lit';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -28,8 +28,43 @@ declare global {
 
 @customElement('gr-confirm-cherrypick-conflict-dialog')
 export class GrConfirmCherrypickConflictDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
+  static override styles = [
+    css`
+      <style include="shared-styles">
+    :host {
+      display: block;
+    }
+    :host([disabled]) {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .main {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+  </style>
+    `,
+  ];
+
+  override render() {
+    return html`
+      <gr-dialog
+        confirm-label="Continue"
+        on-confirm="_handleConfirmTap"
+        on-cancel="_handleCancelTap"
+      >
+        <div class="header" slot="header">Cherry Pick Conflict!</div>
+        <div class="main" slot="main">
+          <span>Cherry Pick failed! (merge conflicts)</span>
+
+          <span
+            >Please select "Continue" to continue with conflicts or select
+            "cancel" to close the dialog.</span
+          >
+        </div>
+      </gr-dialog>
+    `;
   }
 
   /**

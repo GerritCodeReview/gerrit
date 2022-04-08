@@ -229,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7e77ac5_ad8f580a",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-04-08T17:25:23Z",
+      "side": 1,
+      "message": "I had something like this in mind:\n\n```\npublic abstract class Pool\u003cT extends AutoCloseable\u003e implements AutoCloseable {\n  ArrayList\u003cT\u003e ts;\n  synchronized Handle get() {\n    if (ts.isEmpty()) {\n      return new Handle(newT());\n    }\n    return new Handle(ts.remove(ts.size()-1));\n  }\n  synchronized boolean discard(T t) {\n    if (ts !\u003d null) {\n      ts.add(t);\n      return true;\n    }\n    return false;\n  }\n\n  @Override\n  public synchronized void close() {\n    for (T t : ts)\n      try {\n        t.close();\n      } catch (Exception e) {\n        \n      }\n    ts \u003d null;\n  }\n  \n  abstract T newT();\n  \n  public class Handle implements AutoCloseable {\n    T t;\n    Handle(T t) { this.t \u003d t; }\n    T get() { return t; } \n    @Override\n    public void close() {\n      if (!discard(t)) {\n        try {\n          t.close();\n        } catch (Exception e) {\n        \n        }\n      }\n    }\n  }\n}\n```\n\n(untested)",
+      "parentUuid": "68e1bdaf_bd1b61c6",
+      "range": {
+        "startLine": 263,
+        "startChar": 12,
+        "endLine": 263,
+        "endChar": 66
+      },
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "931ca33e_cd44ca58",

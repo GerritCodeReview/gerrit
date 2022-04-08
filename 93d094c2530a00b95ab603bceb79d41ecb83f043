@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57ecaf44_13bee59c",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-04-08T17:25:23Z",
+      "side": 1,
+      "message": "this only ever has 0 or 1 elements? Use Optional?",
+      "range": {
+        "startLine": 193,
+        "startChar": 55,
+        "endLine": 193,
+        "endChar": 68
+      },
+      "revId": "93d094c2530a00b95ab603bceb79d41ecb83f043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

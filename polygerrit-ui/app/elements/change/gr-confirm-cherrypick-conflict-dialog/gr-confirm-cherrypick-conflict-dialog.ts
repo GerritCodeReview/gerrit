@@ -14,24 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles';
+import {css, html, LitElement} from 'lit';
+import {customElement} from 'lit/decorators';
+import {sharedStyles} from '../../../styles/shared-styles';
 import '../../shared/gr-dialog/gr-dialog';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-confirm-cherrypick-conflict-dialog_html';
-import {customElement} from '@polymer/decorators';
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-confirm-cherrypick-conflict-dialog': GrConfirmCherrypickConflictDialog;
-  }
-}
 
 @customElement('gr-confirm-cherrypick-conflict-dialog')
-export class GrConfirmCherrypickConflictDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrConfirmCherrypickConflictDialog extends LitElement {
   /**
    * Fired when the confirm button is pressed.
    *
@@ -44,7 +33,44 @@ export class GrConfirmCherrypickConflictDialog extends PolymerElement {
    * @event cancel
    */
 
-  _handleConfirmTap(e: Event) {
+  static override styles = [
+    sharedStyles,
+    css`
+      :host {
+        display: block;
+      }
+      :host([disabled]) {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      .main {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+    `,
+  ];
+
+  override render() {
+    return html`
+      <gr-dialog
+        confirm-label="Continue"
+        @confirm=${this.handleConfirmTap}
+        @cancel=${this.handleCancelTap}
+      >
+        <div class="header" slot="header">Cherry Pick Conflict!</div>
+        <div class="main" slot="main">
+          <span>Cherry Pick failed! (merge conflicts)</span>
+          <span
+            >Please select "Continue" to continue with conflicts or select
+            "cancel" to close the dialog.</span
+          >
+        </div>
+      </gr-dialog>
+    `;
+  }
+
+  handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(
@@ -55,7 +81,7 @@ export class GrConfirmCherrypickConflictDialog extends PolymerElement {
     );
   }
 
-  _handleCancelTap(e: Event) {
+  handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(
@@ -64,5 +90,11 @@ export class GrConfirmCherrypickConflictDialog extends PolymerElement {
         bubbles: false,
       })
     );
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-confirm-cherrypick-conflict-dialog': GrConfirmCherrypickConflictDialog;
   }
 }

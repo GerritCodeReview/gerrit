@@ -256,6 +256,30 @@ suite('gr-admin-view tests', () => {
     assert.equal(reloadStub.callCount, 1);
   });
 
+  test('Nav is reloaded when changing from repo to group', async () => {
+    element.repoName = 'Test Repo' as RepoName;
+    stubRestApi('getAccount').returns(
+      Promise.resolve({
+        name: 'test-user',
+        registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
+      })
+    );
+    stubRestApi('getAccountCapabilities').returns(
+      Promise.resolve(createAdminCapabilities())
+    );
+    await element.reload();
+    await element.updateComplete;
+
+    sinon.stub(element, 'computeGroupName');
+    const reloadStub = sinon.stub(element, 'reload');
+    const groupId = '1' as GroupId;
+    element.params = {groupId, view: GerritView.GROUP};
+    await element.updateComplete;
+
+    assert.equal(reloadStub.callCount, 1);
+    assert.equal(element.groupId, groupId);
+  });
+
   test('Nav is reloaded when group name changes', async () => {
     const newName = 'newName' as GroupName;
     const reloadCalled = mockPromise();

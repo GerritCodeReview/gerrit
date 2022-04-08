@@ -59,15 +59,15 @@ export class GrContextControlsSection extends LitElement {
     const type = sideBySide ? GrDiffGroupType.CONTEXT_CONTROL : undefined;
     return html`
       <tr
-        class="${diffClasses('contextBackground', modeClass, whereClass)}"
+        class=${diffClasses('contextBackground', modeClass, whereClass)}
         left-type=${ifDefined(type)}
         right-type=${ifDefined(type)}
       >
-        <td class="${diffClasses('blame')}" data-line-number="0"></td>
-        <td class="${diffClasses('contextLineNum')}"></td>
-        ${sideBySide ? html`<td class="${diffClasses()}"></td>` : ''}
-        <td class="${diffClasses('contextLineNum')}"></td>
-        <td class="${diffClasses()}"></td>
+        <td class=${diffClasses('blame')} data-line-number="0"></td>
+        <td class=${diffClasses('contextLineNum')}></td>
+        ${sideBySide ? html`<td class=${diffClasses()}></td>` : ''}
+        <td class=${diffClasses('contextLineNum')}></td>
+        <td class=${diffClasses()}></td>
       </tr>
     `;
   }
@@ -76,10 +76,10 @@ export class GrContextControlsSection extends LitElement {
     const sideBySide = this.viewMode === DiffViewMode.SIDE_BY_SIDE;
     const showConfig = getShowConfig(this.showAbove, this.showBelow);
     return html`
-      <tr class="${diffClasses('dividerRow', `show-${showConfig}`)}">
-        <td class="${diffClasses('blame')}" data-line-number="0"></td>
-        ${sideBySide ? html`<td class="${diffClasses()}"></td>` : ''}
-        <td class="${diffClasses('dividerCell')}" colspan="3">
+      <tr class=${diffClasses('dividerRow', `show-${showConfig}`)}>
+        <td class=${diffClasses('blame')} data-line-number="0"></td>
+        ${sideBySide ? html`<td class=${diffClasses()}></td>` : ''}
+        <td class=${diffClasses('dividerCell')} colspan="3">
           <gr-context-controls
             .diff=${this.diff}
             .renderPreferences=${this.renderPrefs}

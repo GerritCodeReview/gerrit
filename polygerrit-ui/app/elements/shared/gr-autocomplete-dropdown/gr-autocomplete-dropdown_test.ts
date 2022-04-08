@@ -135,7 +135,7 @@ suite('gr-autocomplete-dropdown', () => {
   });
 
   test('updated suggestions resets cursor stops', () => {
-    const resetStopsSpy = sinon.spy(element, '_resetCursorStops');
+    const resetStopsSpy = sinon.spy(element, 'onSuggestionsChanged');
     element.suggestions = [];
     assert.isTrue(resetStopsSpy.called);
   });

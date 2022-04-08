@@ -201,7 +201,7 @@ export class GrConfirmRebaseDialog extends LitElement {
               id="parentInput"
               .query=${this.query}
               no-debounce
-              text=${this.text}
+              .text=${this.text}
               @text-changed=${(e: ValueChangedEvent) =>
                 (this.text = e.detail.value)}
               @click=${this.handleEnterChangeNumberClick}

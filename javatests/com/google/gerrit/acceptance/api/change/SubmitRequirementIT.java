@@ -1895,6 +1895,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         /* expression= */ null,
         /* passingAtoms= */ null,
         /* failingAtoms= */ null,
+        /* status= */ SubmitRequirementExpressionInfo.Status.PASS,
         /* fulfilled= */ true);
     assertThat(requirement.submittabilityExpressionResult).isNotNull();
   }
@@ -1928,9 +1929,16 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         /* expression= */ null,
         /* passingAtoms= */ null,
         /* failingAtoms= */ null,
+        /* status= */ SubmitRequirementExpressionInfo.Status.FAIL,
         /* fulfilled= */ false);
-    assertThat(requirement.submittabilityExpressionResult).isNull();
-    assertThat(requirement.overrideExpressionResult).isNull();
+    assertThat(requirement.submittabilityExpressionResult.status)
+        .isEqualTo(SubmitRequirementExpressionInfo.Status.NOT_EVALUATED);
+    assertThat(requirement.submittabilityExpressionResult.expression)
+        .isEqualTo(SubmitRequirementExpression.maxCodeReview().expressionString());
+    assertThat(requirement.overrideExpressionResult.status)
+        .isEqualTo(SubmitRequirementExpressionInfo.Status.NOT_EVALUATED);
+    assertThat(requirement.overrideExpressionResult.expression)
+        .isEqualTo("project:" + project.get());
   }
 
   @Test
@@ -1963,12 +1971,14 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         /* passingAtoms= */ ImmutableList.of(
             SubmitRequirementExpression.maxCodeReview().expressionString()),
         /* failingAtoms= */ ImmutableList.of(),
+        /* status= */ SubmitRequirementExpressionInfo.Status.PASS,
         /* fulfilled= */ true);
     assertSubmitRequirementExpression(
         requirement.overrideExpressionResult,
         /* expression= */ "project:non-existent",
         /* passingAtoms= */ ImmutableList.of(),
         /* failingAtoms= */ ImmutableList.of("project:non-existent"),
+        /* status= */ SubmitRequirementExpressionInfo.Status.FAIL,
         /* fulfilled= */ false);
   }
 
@@ -2003,12 +2013,14 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         /* passingAtoms= */ ImmutableList.of(),
         /* failingAtoms= */ ImmutableList.of(
             SubmitRequirementExpression.maxCodeReview().expressionString()),
+        /* status= */ SubmitRequirementExpressionInfo.Status.FAIL,
         /* fulfilled= */ false);
     assertSubmitRequirementExpression(
         requirement.overrideExpressionResult,
         /* expression= */ "project:" + project.get(),
         /* passingAtoms= */ ImmutableList.of("project:" + project.get()),
         /* failingAtoms= */ ImmutableList.of(),
+        /* status= */ SubmitRequirementExpressionInfo.Status.PASS,
         /* fulfilled= */ true);
   }
 
@@ -2810,6 +2822,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
       @Nullable String expression,
       @Nullable List<String> passingAtoms,
       @Nullable List<String> failingAtoms,
+      SubmitRequirementExpressionInfo.Status status,
       boolean fulfilled) {
     assertThat(result.expression).isEqualTo(expression);
     if (passingAtoms == null) {
@@ -2822,6 +2835,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     } else {
       assertThat(result.failingAtoms).containsExactlyElementsIn(failingAtoms);
     }
+    assertThat(result.status).isEqualTo(status);
     assertThat(result.fulfilled).isEqualTo(fulfilled);
   }
 

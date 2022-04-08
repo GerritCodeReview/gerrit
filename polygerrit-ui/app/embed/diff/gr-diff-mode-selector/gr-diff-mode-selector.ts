@@ -28,6 +28,8 @@ import {getAppContext} from '../../../services/app-context';
 import {fireIronAnnounce} from '../../../utils/event-util';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
+import {css, html} from 'lit';
+import {sharedStyles} from '../../../styles/shared-styles';
 
 @customElement('gr-diff-mode-selector')
 export class GrDiffModeSelector extends DIPolymerElement {
@@ -77,6 +79,58 @@ export class GrDiffModeSelector extends DIPolymerElement {
     }
     this.subscriptions = [];
     super.disconnectedCallback();
+  }
+
+  static override styles = [
+    sharedStyles,
+    css`
+      :host {
+        /* Used to remove horizontal whitespace between the icons. */
+        display: flex;
+      }
+      gr-button.selected iron-icon {
+        color: var(--link-color);
+      }
+      iron-icon {
+        height: 1.3rem;
+        width: 1.3rem;
+      }
+    `,
+  ];
+
+  override render() {
+    return html`
+      <gr-tooltip-content
+        has-tooltip=""
+        title="Side-by-side diff"
+        position-below="[[showTooltipBelow]]"
+      >
+        <gr-button
+          id="sideBySideBtn"
+          link=""
+          class$="[[_computeSideBySideSelected(mode)]]"
+          aria-pressed$="[[isSideBySideSelected(mode)]]"
+          on-click="_handleSideBySideTap"
+        >
+          <iron-icon icon="gr-icons:side-by-side"></iron-icon>
+        </gr-button>
+      </gr-tooltip-content>
+      <gr-tooltip-content
+        has-tooltip=""
+        position-below="[[showTooltipBelow]]"
+        title="Unified diff"
+      >
+        <gr-button
+          id="unifiedBtn"
+          link=""
+          class$="[[_computeUnifiedSelected(mode)]]"
+          aria-pressed$="[[isUnifiedSelected(mode)]]"
+          on-click="_handleUnifiedTap"
+        >
+          <iron-icon icon="gr-icons:unified"></iron-icon>
+        </gr-button>
+      </gr-tooltip-content>
+    `;
   }
 
   /**

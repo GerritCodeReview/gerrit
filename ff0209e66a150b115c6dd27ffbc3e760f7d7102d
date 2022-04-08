@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1824cc82_440a3e87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-08T00:14:22Z",
+      "side": 1,
+      "message": "Now the code-paths look a lot more similar to what it was before: the only addition is the use of a request-scoped thread-local ref-cache, which is exactly the intent of this change.",
+      "revId": "ff0209e66a150b115c6dd27ffbc3e760f7d7102d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -29,7 +29,7 @@ import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {convertToString} from '../../../utils/string-util';
-import {BindValueChangeEvent} from '../../../types/events';
+import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -57,8 +57,8 @@ export interface GroupNameChangedDetail {
 
 declare global {
   interface HTMLElementEventMap {
-    'text-changed': CustomEvent<string>;
-    'value-changed': CustomEvent;
+    'text-changed': ValueChangedEvent<string>;
+    'value-changed': ValueChangedEvent<string>;
   }
   interface HTMLElementTagNameMap {
     'gr-group': GrGroup;

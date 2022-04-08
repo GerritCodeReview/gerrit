@@ -56,6 +56,7 @@ import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.RefCache;
+import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -638,6 +639,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   @Override
   protected ObjectId readRef(Repository repo) throws IOException {
-    return refs != null ? refs.get(getRefName()).orElse(null) : super.readRef(repo);
+    Optional<RefCache> refsCache =
+        Optional.ofNullable(refs).map(Optional::of).orElse(RepoRefCache.getOptional(repo));
+    return refsCache.isPresent()
+        ? refsCache.get().get(getRefName()).orElse(null)
+        : super.readRef(repo);
   }
 }

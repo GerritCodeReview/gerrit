@@ -25,6 +25,7 @@ import {
   queryAndAssert,
   stubBaseUrl,
   stubRestApi,
+  waitUntil,
 } from '../../../test/test-utils';
 import {
   AccountId,
@@ -192,7 +193,7 @@ suite('gr-group-members tests', () => {
     groupMemberSearchInput.value = '1234';
 
     await element.updateComplete;
-    assert.isFalse(button.hasAttribute('disabled'));
+    await waitUntil(() => !button.hasAttribute('disabled'));
 
     return element.handleSavingGroupMember().then(() => {
       assert.isTrue(button.hasAttribute('disabled'));
@@ -218,7 +219,9 @@ suite('gr-group-members tests', () => {
 
     const button = queryAndAssert<GrButton>(element, '#saveIncludedGroups');
 
-    assert.isTrue(button.hasAttribute('disabled'));
+    await element.updateComplete;
+
+    await waitUntil(() => button.hasAttribute('disabled'));
 
     const includedGroupSearchInput = queryAndAssert<GrAutocomplete>(
       element,
@@ -227,7 +230,8 @@ suite('gr-group-members tests', () => {
     includedGroupSearchInput.text = includedGroupName;
     includedGroupSearchInput.value = 'testId';
     await element.updateComplete;
-    assert.isFalse(button.hasAttribute('disabled'));
+
+    await waitUntil(() => !button.hasAttribute('disabled'));
 
     return element.handleSavingIncludedGroups().then(() => {
       assert.isTrue(button.hasAttribute('disabled'));

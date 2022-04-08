@@ -16,6 +16,24 @@
       "message": "Should we add this to the documentation? I guess most people won\u0027t check here.",
       "revId": "c3452e84680f494978a00e590e444e2075230d94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94423357_893b0605",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-04-08T13:18:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5fddc63_43b07b0c",
+      "revId": "c3452e84680f494978a00e590e444e2075230d94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

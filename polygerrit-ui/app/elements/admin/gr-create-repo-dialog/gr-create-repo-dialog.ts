@@ -34,11 +34,12 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators';
 import {fireEvent} from '../../../utils/event-util';
+import {ValueChangedEvent} from '../../../types/events';
 
 declare global {
   interface HTMLElementEventMap {
-    'text-changed': CustomEvent<string>;
-    'value-changed': CustomEvent;
+    'text-changed': ValueChangedEvent<string>;
+    'value-changed': ValueChangedEvent<string>;
   }
   interface HTMLElementTagNameMap {
     'gr-create-repo-dialog': GrCreateRepoDialog;

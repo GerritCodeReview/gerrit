@@ -15,42 +15,60 @@
  * limitations under the License.
  */
 
+import {fixture, html} from '@open-wc/testing-helpers';
 import '../../../test/common-test-setup-karma';
 import {queryAndAssert} from '../../../utils/common-util';
-import {fireEvent} from '../../../utils/event-util';
 import './gr-confirm-cherrypick-conflict-dialog';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {GrConfirmCherrypickConflictDialog} from './gr-confirm-cherrypick-conflict-dialog';
-
-const basicFixture = fixtureFromElement(
-  'gr-confirm-cherrypick-conflict-dialog'
-);
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 suite('gr-confirm-cherrypick-conflict-dialog tests', () => {
   let element: GrConfirmCherrypickConflictDialog;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture(
+      html`<gr-confirm-cherrypick-conflict-dialog></gr-confirm-cherrypick-conflict-dialog>`
+    );
   });
 
-  test('_handleConfirmTap', () => {
+  test('render', async () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-dialog confirm-label="Continue" role="dialog">
+        <div class="header" slot="header">Cherry Pick Conflict!</div>
+        <div class="main" slot="main">
+          <span>Cherry Pick failed! (merge conflicts)</span>
+          <span
+            >Please select "Continue" to continue with conflicts or select
+            "cancel" to close the dialog.</span
+          >
+        </div>
+      </gr-dialog>
+    `);
+  });
+
+  test('confirm', async () => {
     const confirmHandler = sinon.stub();
     element.addEventListener('confirm', confirmHandler);
-    const confirmTapStub = sinon.spy(element, '_handleConfirmTap');
-    fireEvent(queryAndAssert(element, 'gr-dialog'), 'confirm');
+
+    queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!.click();
+    await element.updateComplete;
+
     assert.isTrue(confirmHandler.called);
     assert.isTrue(confirmHandler.calledOnce);
-    assert.isTrue(confirmTapStub.called);
-    assert.isTrue(confirmTapStub.calledOnce);
   });
 
-  test('_handleCancelTap', () => {
+  test('cancel', async () => {
     const cancelHandler = sinon.stub();
     element.addEventListener('cancel', cancelHandler);
-    const cancelTapStub = sinon.spy(element, '_handleCancelTap');
-    fireEvent(queryAndAssert(element, 'gr-dialog'), 'cancel');
+
+    queryAndAssert<GrButton>(
+      queryAndAssert<GrDialog>(element, 'gr-dialog'),
+      'gr-button#cancel'
+    )!.click();
+    await element.updateComplete;
+
     assert.isTrue(cancelHandler.called);
     assert.isTrue(cancelHandler.calledOnce);
-    assert.isTrue(cancelTapStub.called);
-    assert.isTrue(cancelTapStub.calledOnce);
   });
 });

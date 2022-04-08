@@ -17,39 +17,31 @@
 import {Subscription} from 'rxjs';
 import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-a11y-announcer/iron-a11y-announcer';
-import '../../../styles/shared-styles';
 import '../../../elements/shared/gr-button/gr-button';
 import {DiffViewMode} from '../../../constants/constants';
-import {htmlTemplate} from './gr-diff-mode-selector_html';
-import {customElement, property} from '@polymer/decorators';
+import {customElement, property, state} from 'lit/decorators';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {FixIronA11yAnnouncer} from '../../../types/types';
 import {getAppContext} from '../../../services/app-context';
 import {fireIronAnnounce} from '../../../utils/event-util';
 import {browserModelToken} from '../../../models/browser/browser-model';
-import {resolve, DIPolymerElement} from '../../../models/dependency';
+import {resolve} from '../../../models/dependency';
+import {css, html, LitElement} from 'lit';
+import {sharedStyles} from '../../../styles/shared-styles';
 
 @customElement('gr-diff-mode-selector')
-export class GrDiffModeSelector extends DIPolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: String, notify: true})
-  mode: DiffViewMode = DiffViewMode.SIDE_BY_SIDE;
-
+export class GrDiffModeSelector extends LitElement {
   /**
    * If set to true, the user's preference will be updated every time a
    * button is tapped. Don't set to true if there is no user.
    */
-  @property({type: Boolean})
-  saveOnChange = false;
+  @property({type: Boolean}) saveOnChange = false;
 
-  @property({type: Boolean})
-  showTooltipBelow = false;
+  @property({type: Boolean}) showTooltipBelow = false;
 
-  // Private but accessed by tests.
-  readonly getBrowserModel = resolve(this, browserModelToken);
+  @state() private mode: DiffViewMode = DiffViewMode.SIDE_BY_SIDE;
+
+  private readonly getBrowserModel = resolve(this, browserModelToken);
 
   private readonly userModel = getAppContext().userModel;
 
@@ -79,18 +71,70 @@ export class GrDiffModeSelector extends DIPolymerElement {
     super.disconnectedCallback();
   }
 
+  static override styles = [
+    sharedStyles,
+    css`
+      :host {
+        /* Used to remove horizontal whitespace between the icons. */
+        display: flex;
+      }
+      gr-button.selected iron-icon {
+        color: var(--link-color);
+      }
+      iron-icon {
+        height: 1.3rem;
+        width: 1.3rem;
+      }
+    `,
+  ];
+
+  override render() {
+    return html`
+      <gr-tooltip-content
+        has-tooltip
+        title="Side-by-side diff"
+        ?position-below=${this.showTooltipBelow}
+      >
+        <gr-button
+          id="sideBySideBtn"
+          link
+          class=${this.computeSideBySideSelected()}
+          aria-pressed=${this.isSideBySideSelected()}
+          @click=${this.handleSideBySideTap}
+        >
+          <iron-icon icon="gr-icons:side-by-side"></iron-icon>
+        </gr-button>
+      </gr-tooltip-content>
+      <gr-tooltip-content
+        has-tooltip
+        ?position-below=${this.showTooltipBelow}
+        title="Unified diff"
+      >
+        <gr-button
+          id="unifiedBtn"
+          link
+          class=${this.computeUnifiedSelected()}
+          aria-pressed=${this.isUnifiedSelected()}
+          @click=${this.handleUnifiedTap}
+        >
+          <iron-icon icon="gr-icons:unified"></iron-icon>
+        </gr-button>
+      </gr-tooltip-content>
+    `;
+  }
+
   /**
    * Set the mode. If save on change is enabled also update the preference.
    */
-  setMode(newMode: DiffViewMode) {
+  private setMode(newMode: DiffViewMode) {
     if (this.saveOnChange && this.mode && this.mode !== newMode) {
       this.userModel.updatePreferences({diff_view: newMode});
     }
     this.mode = newMode;
     let announcement;
-    if (this.isUnifiedSelected(newMode)) {
+    if (this.isUnifiedSelected()) {
       announcement = 'Changed diff view to unified';
-    } else if (this.isSideBySideSelected(newMode)) {
+    } else if (this.isSideBySideSelected()) {
       announcement = 'Changed diff view to side by side';
     }
     if (announcement) {
@@ -98,27 +142,27 @@ export class GrDiffModeSelector extends DIPolymerElement {
     }
   }
 
-  _computeSideBySideSelected(mode?: DiffViewMode) {
-    return mode === DiffViewMode.SIDE_BY_SIDE ? 'selected' : '';
+  private computeSideBySideSelected() {
+    return this.mode === DiffViewMode.SIDE_BY_SIDE ? 'selected' : '';
   }
 
-  _computeUnifiedSelected(mode?: DiffViewMode) {
-    return mode === DiffViewMode.UNIFIED ? 'selected' : '';
+  private computeUnifiedSelected() {
+    return this.mode === DiffViewMode.UNIFIED ? 'selected' : '';
   }
 
-  isSideBySideSelected(mode?: DiffViewMode) {
-    return mode === DiffViewMode.SIDE_BY_SIDE;
+  private isSideBySideSelected() {
+    return this.mode === DiffViewMode.SIDE_BY_SIDE;
   }
 
-  isUnifiedSelected(mode?: DiffViewMode) {
-    return mode === DiffViewMode.UNIFIED;
+  private isUnifiedSelected() {
+    return this.mode === DiffViewMode.UNIFIED;
   }
 
-  _handleSideBySideTap() {
+  private handleSideBySideTap() {
     this.setMode(DiffViewMode.SIDE_BY_SIDE);
   }
 
-  _handleUnifiedTap() {
+  private handleUnifiedTap() {
     this.setMode(DiffViewMode.UNIFIED);
   }
 }

@@ -1188,7 +1188,7 @@ suite('gr-reply-dialog tests', () => {
     const reviewersEntry = queryAndAssert<GrAccountList>(element, '#reviewers');
     assert.isTrue(
       isFocusInsideElement(
-        queryAndAssert<GrAutocomplete>(reviewersEntry.entry, '#input').$.input
+        queryAndAssert<GrAutocomplete>(reviewersEntry.entry, '#input').input!
       )
     );
 
@@ -1249,7 +1249,7 @@ suite('gr-reply-dialog tests', () => {
       const ccsEntry = queryAndAssert<GrAccountList>(element, '#ccs');
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAutocomplete>(ccsEntry.entry, '#input').$.input
+          queryAndAssert<GrAutocomplete>(ccsEntry.entry, '#input').input!
         )
       );
     } else {
@@ -1259,7 +1259,7 @@ suite('gr-reply-dialog tests', () => {
       );
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAutocomplete>(reviewersEntry.entry, '#input').$.input
+          queryAndAssert<GrAutocomplete>(reviewersEntry.entry, '#input').input!
         )
       );
     }

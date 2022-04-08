@@ -394,7 +394,7 @@ suite('gr-account-list tests', () => {
     const input = element.$.entry.$.input;
 
     input.text = 'newTest';
-    MockInteractions.focus(input.$.input);
+    MockInteractions.focus(input.input);
     input.noDebounce = true;
     await flush();
     assert.isTrue(getSuggestionsStub.calledOnce);
@@ -428,24 +428,24 @@ suite('gr-account-list tests', () => {
   suite('keyboard interactions', () => {
     test('backspace at text input start removes last account', async () => {
       const input = element.$.entry.$.input;
-      sinon.stub(input, '_updateSuggestions');
+      sinon.stub(input, 'updateSuggestions');
       sinon.stub(element, '_computeRemovable').returns(true);
       await flush();
       // Next line is a workaround for Firefox not moving cursor
       // on input field update
-      assert.equal(element._getNativeInput(input.$.input).selectionStart, 0);
+      assert.equal(element._getNativeInput(input.input).selectionStart, 0);
       input.text = 'test';
-      MockInteractions.focus(input.$.input);
+      MockInteractions.focus(input.input);
       flush();
       assert.equal(element.accounts.length, 2);
       MockInteractions.pressAndReleaseKeyOn(
-        element._getNativeInput(input.$.input),
+        element._getNativeInput(input.input),
         8
       ); // Backspace
       assert.equal(element.accounts.length, 2);
       input.text = '';
       MockInteractions.pressAndReleaseKeyOn(
-        element._getNativeInput(input.$.input),
+        element._getNativeInput(input.input),
         8
       ); // Backspace
       flush();
@@ -457,11 +457,11 @@ suite('gr-account-list tests', () => {
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];
       flush();
-      MockInteractions.focus(input.$.input);
+      MockInteractions.focus(input.input);
       await flush();
       const chips = element.accountChips;
       const chipsOneSpy = sinon.spy(chips[1], 'focus');
-      MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
+      MockInteractions.pressAndReleaseKeyOn(input.input, 37); // Left
       assert.isTrue(chipsOneSpy.called);
       const chipsZeroSpy = sinon.spy(chips[0], 'focus');
       MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left

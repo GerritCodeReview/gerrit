@@ -248,7 +248,7 @@ export class GrEditableContent extends LitElement {
   }
 
   private renderButtons() {
-    if (this.editing && !this.commitCollapsible && this.hideEditCommitMessage)
+    if (!this.editing && !this.commitCollapsible && this.hideEditCommitMessage)
       return nothing;
 
     return html`

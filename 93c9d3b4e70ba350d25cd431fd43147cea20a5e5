@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76c05f91_95856359",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-04-08T09:07:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c99be1e2_2e268855",
+      "revId": "93c9d3b4e70ba350d25cd431fd43147cea20a5e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ae06275_83daaf1d",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-04-08T01:03:35Z",
       "side": 1,
       "message": "Can we make this private (or at least drop the _ with a note that it\u0027s private but used in the test if it\u0027s used in the test)?",
+      "revId": "93c9d3b4e70ba350d25cd431fd43147cea20a5e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "721c749e_15c5bb78",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-04-08T09:07:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ae06275_83daaf1d",
       "revId": "93c9d3b4e70ba350d25cd431fd43147cea20a5e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

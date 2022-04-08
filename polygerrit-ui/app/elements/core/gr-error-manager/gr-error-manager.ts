@@ -19,12 +19,9 @@
 import '../gr-error-dialog/gr-error-dialog';
 import '../../shared/gr-alert/gr-alert';
 import '../../shared/gr-overlay/gr-overlay';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-error-manager_html';
 import {getBaseUrl} from '../../../utils/url-util';
 import {getAppContext} from '../../../services/app-context';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
-import {customElement, property} from '@polymer/decorators';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrErrorDialog} from '../gr-error-dialog/gr-error-dialog';
 import {GrAlert} from '../../shared/gr-alert/gr-alert';
@@ -40,6 +37,8 @@ import {
 import {windowLocationReload} from '../../../utils/dom-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {fireIronAnnounce} from '../../../utils/event-util';
+import {LitElement, html} from 'lit';
+import {customElement, property} from 'lit/decorators';
 
 const HIDE_ALERT_TIMEOUT_MS = 10 * 1000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -107,11 +106,7 @@ export function constructServerErrorMsg({
 }
 
 @customElement('gr-error-manager')
-export class GrErrorManager extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrErrorManager extends LitElement {
   /**
    * The ID of the account that was logged in when the app was launched. If
    * not set, then there was no account at launch.
@@ -143,7 +138,7 @@ export class GrErrorManager extends PolymerElement {
 
   private readonly eventEmitter = getAppContext().eventEmitter;
 
-  _authErrorHandlerDeregistrationHook?: Function;
+  private authErrorHandlerDeregistrationHook?: Function;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -159,10 +154,10 @@ export class GrErrorManager extends PolymerElement {
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     document.addEventListener('show-auth-required', this.handleAuthRequired);
 
-    this._authErrorHandlerDeregistrationHook = this.eventEmitter.on(
+    this.authErrorHandlerDeregistrationHook = this.eventEmitter.on(
       'auth-error',
       event => {
-        this._handleAuthError(event.message, event.action);
+        this.handleAuthError(event.message, event.action);
       }
     );
 
@@ -172,7 +167,7 @@ export class GrErrorManager extends PolymerElement {
   }
 
   override disconnectedCallback() {
-    this._clearHideAlertHandle();
+    this.clearHideAlertHandle();
     document.removeEventListener(
       EventType.SERVER_ERROR,
       this.handleServerError
@@ -191,26 +186,46 @@ export class GrErrorManager extends PolymerElement {
     document.removeEventListener('show-auth-required', this.handleAuthRequired);
     this.checkLoggedInTask?.cancel();
 
-    if (this._authErrorHandlerDeregistrationHook) {
-      this._authErrorHandlerDeregistrationHook();
+    if (this.authErrorHandlerDeregistrationHook) {
+      this.authErrorHandlerDeregistrationHook();
     }
     super.disconnectedCallback();
   }
 
-  _shouldSuppressError(msg: string) {
+  override render() {
+    return html`
+      <gr-overlay with-backdrop="" id="errorOverlay">
+        <gr-error-dialog
+          id="errorDialog"
+          @dismiss=${() => this.$.errorOverlay.close()}
+          .loginUrl=${this.loginUrl}
+        ></gr-error-dialog>
+      </gr-overlay>
+      <gr-overlay
+        id="noInteractionOverlay"
+        with-backdrop=""
+        always-on-top=""
+        no-cancel-on-esc-key=""
+        no-cancel-on-outside-click=""
+      >
+      </gr-overlay>
+    `;
+  }
+
+  private shouldSuppressError(msg: string) {
     return msg.includes(TOO_MANY_FILES);
   }
 
   private readonly handleAuthRequired = () => {
-    this._showAuthErrorAlert(
+    this.showAuthErrorAlert(
       'Log in is required to perform that action.',
       'Log in.'
     );
   };
 
-  _handleAuthError(msg: string, action: string) {
+  private handleAuthError(msg: string, action: string) {
     this.$.noInteractionOverlay.open().then(() => {
-      this._showAuthErrorAlert(msg, action);
+      this.showAuthErrorAlert(msg, action);
     });
   }
 
@@ -237,11 +252,11 @@ export class GrErrorManager extends PolymerElement {
         // Re-check on auth
         this._authService.clearCache();
         this.restApiService.getLoggedIn();
-      } else if (!this._shouldSuppressError(errorText)) {
+      } else if (!this.shouldSuppressError(errorText)) {
         const trace =
           response.headers && response.headers.get('X-Gerrit-Trace');
         if (response.status === 404) {
-          this._showNotFoundMessageWithTip({
+          this.showNotFoundMessageWithTip({
             status,
             statusText,
             errorText,
@@ -249,9 +264,9 @@ export class GrErrorManager extends PolymerElement {
             trace,
           });
         } else if (response.status === 429) {
-          this._showQuotaExceeded({status, statusText});
+          this.showQuotaExceeded({status, statusText});
         } else {
-          this._showErrorDialog(
+          this.showErrorDialog(
             constructServerErrorMsg({
               status,
               statusText,
@@ -266,7 +281,7 @@ export class GrErrorManager extends PolymerElement {
     });
   };
 
-  _showNotFoundMessageWithTip({
+  private showNotFoundMessageWithTip({
     status,
     statusText,
     errorText,
@@ -277,7 +292,7 @@ export class GrErrorManager extends PolymerElement {
       const tip = isLoggedIn
         ? 'You might have not enough privileges.'
         : 'You might have not enough privileges. Sign in and try again.';
-      this._showErrorDialog(
+      this.showErrorDialog(
         constructServerErrorMsg({
           status,
           statusText,
@@ -293,10 +308,10 @@ export class GrErrorManager extends PolymerElement {
     });
   }
 
-  _showQuotaExceeded({status, statusText}: ErrorMsg) {
+  private showQuotaExceeded({status, statusText}: ErrorMsg) {
     const tip = 'Try again later';
     const errorText = 'Too many requests from this client';
-    this._showErrorDialog(
+    this.showErrorDialog(
       constructServerErrorMsg({
         status,
         statusText,
@@ -324,7 +339,8 @@ export class GrErrorManager extends PolymerElement {
 
   // TODO(dhruvsr): allow less priority alerts to override high priority alerts
   // In some use cases we may want generic alerts to show along/over errors
-  _canOverride(incoming = ErrorType.GENERIC, existing = ErrorType.GENERIC) {
+  // private but used in tests
+  canOverride(incoming = ErrorType.GENERIC, existing = ErrorType.GENERIC) {
     return ErrorTypePriority[incoming] >= ErrorTypePriority[existing];
   }
 
@@ -338,11 +354,11 @@ export class GrErrorManager extends PolymerElement {
   ) {
     if (this._alertElement) {
       // check priority before hiding
-      if (!this._canOverride(type, this._alertElement.type)) return;
+      if (!this.canOverride(type, this._alertElement.type)) return;
       this.hideAlert();
     }
 
-    this._clearHideAlertHandle();
+    this.clearHideAlertHandle();
     if (dismissOnNavigation) {
       // Persist alert until navigation.
       document.addEventListener('location-change', this.hideAlert);
@@ -352,7 +368,7 @@ export class GrErrorManager extends PolymerElement {
         HIDE_ALERT_TIMEOUT_MS
       );
     }
-    const el = this._createToastAlert(showDismiss);
+    const el = this.createToastAlert(showDismiss);
     el.show(text, actionText, actionCallback);
     this._alertElement = el;
     fireIronAnnounce(this, `Alert: ${text}`);
@@ -371,35 +387,37 @@ export class GrErrorManager extends PolymerElement {
     document.removeEventListener('location-change', this.hideAlert);
   };
 
-  _clearHideAlertHandle() {
+  private clearHideAlertHandle() {
     if (this._hideAlertHandle !== null) {
       window.clearTimeout(this._hideAlertHandle);
       this._hideAlertHandle = null;
     }
   }
 
-  _showAuthErrorAlert(errorText: string, actionText?: string) {
+  // private but used in tests
+  showAuthErrorAlert(errorText: string, actionText?: string) {
     // hide any existing alert like `reload`
     // as auth error should have the highest priority
     if (this._alertElement) {
       this._alertElement.hide();
     }
 
-    this._alertElement = this._createToastAlert();
+    this._alertElement = this.createToastAlert();
     this._alertElement.type = ErrorType.AUTH;
     this._alertElement.show(errorText, actionText, () =>
-      this._createLoginPopup()
+      this.createLoginPopup()
     );
     fireIronAnnounce(this, errorText);
     this.reporting.reportInteraction('show-auth-error', {text: errorText});
     this._refreshingCredentials = true;
-    this._requestCheckLoggedIn();
+    this.requestCheckLoggedIn();
     if (!document.hidden) {
       this.handleVisibilityChange();
     }
   }
 
-  _createToastAlert(showDismiss?: boolean) {
+  // private but used in tests
+  createToastAlert(showDismiss?: boolean) {
     const el = document.createElement('gr-alert');
     el.toast = true;
     el.showDismiss = !!showDismiss;
@@ -425,19 +443,21 @@ export class GrErrorManager extends PolymerElement {
       // check auth status in case:
       // - user signed out
       // - user switched account
-      this._checkSignedIn();
+      this.checkSignedIn();
     }
   };
 
-  _requestCheckLoggedIn() {
+  // private but used in tests
+  requestCheckLoggedIn() {
     this.checkLoggedInTask = debounce(
       this.checkLoggedInTask,
-      () => this._checkSignedIn(),
+      () => this.checkSignedIn(),
       CHECK_SIGN_IN_INTERVAL_MS
     );
   }
 
-  _checkSignedIn() {
+  // private but used in tests
+  checkSignedIn() {
     this._lastCredentialCheck = Date.now();
 
     // force to refetch account info
@@ -452,7 +472,7 @@ export class GrErrorManager extends PolymerElement {
         // 1. guest mode
         // 2. or signed out
         // in case #2, auth-error is taken care of separately
-        this._requestCheckLoggedIn();
+        this.requestCheckLoggedIn();
       } else {
         this.restApiService.getAccount().then(account => {
           if (this._refreshingCredentials) {
@@ -463,7 +483,7 @@ export class GrErrorManager extends PolymerElement {
                 oldAccount: !!this.knownAccountId,
                 newAccount: !!account?._account_id,
               });
-              this._reloadPage();
+              windowLocationReload();
               return;
             }
 
@@ -474,11 +494,11 @@ export class GrErrorManager extends PolymerElement {
     });
   }
 
-  _reloadPage() {
+  reloadPage() {
     windowLocationReload();
   }
 
-  _createLoginPopup() {
+  private createLoginPopup() {
     const left = window.screenLeft + (window.outerWidth - SIGN_IN_WIDTH_PX) / 2;
     const top = window.screenTop + (window.outerHeight - SIGN_IN_HEIGHT_PX) / 2;
     const options = [
@@ -495,6 +515,7 @@ export class GrErrorManager extends PolymerElement {
     window.addEventListener('focus', this.handleWindowFocus);
   }
 
+  // private but used in tests
   handleCredentialRefreshed() {
     window.removeEventListener('focus', this.handleWindowFocus);
     this._refreshingCredentials = false;
@@ -511,14 +532,11 @@ export class GrErrorManager extends PolymerElement {
   };
 
   private readonly handleShowErrorDialog = (e: ShowErrorEvent) => {
-    this._showErrorDialog(e.detail.message);
+    this.showErrorDialog(e.detail.message);
   };
 
-  _handleDismissErrorDialog() {
-    this.$.errorOverlay.close();
-  }
-
-  _showErrorDialog(message: string, options?: {showSignInButton?: boolean}) {
+  // private but used in tests
+  showErrorDialog(message: string, options?: {showSignInButton?: boolean}) {
     this.reporting.reportErrorDialog(message);
     this.$.errorDialog.text = message;
     this.$.errorDialog.showSignInButton =

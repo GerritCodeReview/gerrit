@@ -56,7 +56,7 @@ suite('gr-error-manager tests', () => {
       );
       element = basicFixture.instantiate();
       appContext.authService.clearCache();
-      toastSpy = sinon.spy(element, '_createToastAlert');
+      toastSpy = sinon.spy(element, 'createToastAlert');
     });
 
     teardown(() => {
@@ -66,7 +66,7 @@ suite('gr-error-manager tests', () => {
     });
 
     test('does not show auth error on 403 by default', async () => {
-      const showAuthErrorStub = sinon.stub(element, '_showAuthErrorAlert');
+      const showAuthErrorStub = sinon.stub(element, 'showAuthErrorAlert');
       const responseText = Promise.resolve('server says no.');
       element.dispatchEvent(
         new CustomEvent('server-error', {
@@ -87,7 +87,7 @@ suite('gr-error-manager tests', () => {
     });
 
     test('show auth required for 403 with auth error and not authed before', async () => {
-      const showAuthErrorStub = sinon.stub(element, '_showAuthErrorAlert');
+      const showAuthErrorStub = sinon.stub(element, 'showAuthErrorAlert');
       const responseText = Promise.resolve('Authentication required\n');
       getLoggedInStub.returns(Promise.resolve(true));
       element.dispatchEvent(
@@ -132,7 +132,7 @@ suite('gr-error-manager tests', () => {
     });
 
     test('show logged in error', () => {
-      const spy = sinon.spy(element, '_showAuthErrorAlert');
+      const spy = sinon.spy(element, 'showAuthErrorAlert');
       element.dispatchEvent(
         new CustomEvent('show-auth-required', {
           composed: true,
@@ -148,7 +148,7 @@ suite('gr-error-manager tests', () => {
     });
 
     test('show normal Error', async () => {
-      const showErrorSpy = sinon.spy(element, '_showErrorDialog');
+      const showErrorSpy = sinon.spy(element, 'showErrorDialog');
       const textSpy = sinon.spy(() => Promise.resolve('ZOMG'));
       element.dispatchEvent(
         new CustomEvent('server-error', {
@@ -259,31 +259,29 @@ suite('gr-error-manager tests', () => {
       );
     });
 
-    test('_canOverride alerts', () => {
+    test('canOverride alerts', () => {
+      assert.isFalse(element.canOverride(undefined, __testOnly_ErrorType.AUTH));
       assert.isFalse(
-        element._canOverride(undefined, __testOnly_ErrorType.AUTH)
-      );
-      assert.isFalse(
-        element._canOverride(undefined, __testOnly_ErrorType.NETWORK)
+        element.canOverride(undefined, __testOnly_ErrorType.NETWORK)
       );
       assert.isTrue(
-        element._canOverride(undefined, __testOnly_ErrorType.GENERIC)
+        element.canOverride(undefined, __testOnly_ErrorType.GENERIC)
       );
-      assert.isTrue(element._canOverride(undefined, undefined));
+      assert.isTrue(element.canOverride(undefined, undefined));
 
       assert.isTrue(
-        element._canOverride(__testOnly_ErrorType.NETWORK, undefined)
+        element.canOverride(__testOnly_ErrorType.NETWORK, undefined)
       );
-      assert.isTrue(element._canOverride(__testOnly_ErrorType.AUTH, undefined));
+      assert.isTrue(element.canOverride(__testOnly_ErrorType.AUTH, undefined));
       assert.isFalse(
-        element._canOverride(
+        element.canOverride(
           __testOnly_ErrorType.NETWORK,
           __testOnly_ErrorType.AUTH
         )
       );
 
       assert.isTrue(
-        element._canOverride(
+        element.canOverride(
           __testOnly_ErrorType.AUTH,
           __testOnly_ErrorType.NETWORK
         )
@@ -360,7 +358,7 @@ suite('gr-error-manager tests', () => {
 
       clock.tick(1000);
       element.knownAccountId = 5 as AccountId;
-      element._checkSignedIn();
+      element.checkSignedIn();
       await flush();
 
       assert.isTrue(refreshStub.called);
@@ -525,7 +523,7 @@ suite('gr-error-manager tests', () => {
     });
 
     test('checks stale credentials on visibility change', () => {
-      const refreshStub = sinon.stub(element, '_checkSignedIn');
+      const refreshStub = sinon.stub(element, 'checkSignedIn');
       sinon.stub(Date, 'now').returns(999999);
       element._lastCredentialCheck = 0;
 
@@ -549,16 +547,16 @@ suite('gr-error-manager tests', () => {
         ...createAccountDetailWithId(1234),
       });
       stubRestApi('getAccount').returns(accountPromise);
-      const requestCheckStub = sinon.stub(element, '_requestCheckLoggedIn');
+      const requestCheckStub = sinon.stub(element, 'requestCheckLoggedIn');
       const handleRefreshStub = sinon.stub(
         element,
         'handleCredentialRefreshed'
       );
-      const reloadStub = sinon.stub(element, '_reloadPage');
+      const reloadStub = sinon.stub(element, 'reloadPage');
 
       element.knownAccountId = 1234 as AccountId;
       element._refreshingCredentials = true;
-      element._checkSignedIn();
+      element.checkSignedIn();
 
       await flush();
       assert.isFalse(requestCheckStub.called);
@@ -567,7 +565,7 @@ suite('gr-error-manager tests', () => {
     });
 
     test('_showAlert hides existing alerts', () => {
-      element._alertElement = element._createToastAlert();
+      element._alertElement = element.createToastAlert();
       // const hideStub = sinon.stub(element, 'hideAlert');
       // element._showAlert('');
       // assert.isTrue(hideStub.calledOnce);
@@ -608,16 +606,16 @@ suite('gr-error-manager tests', () => {
         ...createAccountDetailWithId(1234),
       });
       stubRestApi('getAccount').returns(accountPromise);
-      const requestCheckStub = sinon.stub(element, '_requestCheckLoggedIn');
+      const requestCheckStub = sinon.stub(element, 'requestCheckLoggedIn');
       const handleRefreshStub = sinon.stub(
         element,
         'handleCredentialRefreshed'
       );
-      const reloadStub = sinon.stub(element, '_reloadPage');
+      const reloadStub = sinon.stub(element, 'reloadPage');
 
       element.knownAccountId = 4321 as AccountId; // Different from 1234
       element._refreshingCredentials = true;
-      element._checkSignedIn();
+      element.checkSignedIn();
 
       await flush();
 
@@ -632,7 +630,7 @@ suite('gr-error-manager tests', () => {
     setup(() => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       element = basicFixture.instantiate();
-      toastSpy = sinon.spy(element, '_createToastAlert');
+      toastSpy = sinon.spy(element, 'createToastAlert');
     });
 
     teardown(() => {
@@ -642,15 +640,15 @@ suite('gr-error-manager tests', () => {
     });
 
     test('refresh loop continues on credential fail', async () => {
-      const requestCheckStub = sinon.stub(element, '_requestCheckLoggedIn');
+      const requestCheckStub = sinon.stub(element, 'requestCheckLoggedIn');
       const handleRefreshStub = sinon.stub(
         element,
         'handleCredentialRefreshed'
       );
-      const reloadStub = sinon.stub(element, '_reloadPage');
+      const reloadStub = sinon.stub(element, 'reloadPage');
 
       element._refreshingCredentials = true;
-      element._checkSignedIn();
+      element.checkSignedIn();
 
       await flush();
       assert.isTrue(requestCheckStub.called);

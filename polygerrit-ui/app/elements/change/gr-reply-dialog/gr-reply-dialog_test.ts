@@ -1528,6 +1528,11 @@ suite('gr-reply-dialog tests', () => {
     element._reviewers = [reviewer1, reviewer2, reviewer3];
     element._ccs = [cc1, cc2, cc3, cc4];
     element.push('_reviewers', cc1);
+    element.$.reviewers.dispatchEvent(
+      new CustomEvent('account-added', {
+        detail: {account: cc1},
+      })
+    );
     flush();
 
     assert.deepEqual(element._reviewers, [
@@ -1538,7 +1543,20 @@ suite('gr-reply-dialog tests', () => {
     ]);
     assert.deepEqual(element._ccs, [cc2, cc3, cc4]);
 
-    element.push('_reviewers', cc4, cc3);
+    element.push('_reviewers', cc4);
+    element.$.reviewers.dispatchEvent(
+      new CustomEvent('account-added', {
+        detail: {account: cc4},
+      })
+    );
+    flush();
+
+    element.push('_reviewers', cc3);
+    element.$.reviewers.dispatchEvent(
+      new CustomEvent('account-added', {
+        detail: {account: cc3},
+      })
+    );
     flush();
 
     assert.deepEqual(element._reviewers, [
@@ -1617,12 +1635,31 @@ suite('gr-reply-dialog tests', () => {
     element._reviewers = [reviewer1, reviewer2, reviewer3];
     element._ccs = [cc1, cc2, cc3, cc4];
     element.push('_ccs', reviewer1);
+    element.$.ccs.dispatchEvent(
+      new CustomEvent('account-added', {
+        detail: {account: reviewer1},
+      })
+    );
+
     flush();
 
     assert.deepEqual(element._reviewers, [reviewer2, reviewer3]);
     assert.deepEqual(element._ccs, [cc1, cc2, cc3, cc4, reviewer1]);
 
-    element.push('_ccs', reviewer3, reviewer2);
+    element.push('_ccs', reviewer3);
+    element.$.ccs.dispatchEvent(
+      new CustomEvent('account-added', {
+        detail: {account: reviewer3},
+      })
+    );
+    flush();
+
+    element.push('_ccs', reviewer2);
+    element.$.ccs.dispatchEvent(
+      new CustomEvent('account-added', {
+        detail: {account: reviewer2},
+      })
+    );
     flush();
 
     assert.deepEqual(element._reviewers, []);

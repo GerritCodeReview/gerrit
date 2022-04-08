@@ -20,7 +20,6 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-dialog/gr-dialog';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-confirm-cherrypick-dialog_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {
@@ -39,6 +38,8 @@ import {
 } from '../../../constants/constants';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {fireEvent} from '../../../utils/event-util';
+import {css, html} from 'lit';
+import {sharedStyles} from '../../../styles/shared-styles';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -68,10 +69,6 @@ export interface GrConfirmCherrypickDialog {
 
 @customElement('gr-confirm-cherrypick-dialog')
 export class GrConfirmCherrypickDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
   /**
    * Fired when the confirm button is pressed.
    *
@@ -140,6 +137,226 @@ export class GrConfirmCherrypickDialog extends PolymerElement {
     super();
     this._statuses = {};
     this._query = (text: string) => this._getProjectBranchesSuggestions(text);
+  }
+
+  static override styles = [
+    sharedStyles,
+    css`
+      :host {
+        display: block;
+      }
+      :host([disabled]) {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      label {
+        cursor: pointer;
+      }
+      .main {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+      .main label,
+      .main input[type='text'] {
+        display: block;
+        width: 100%;
+      }
+      iron-autogrow-textarea {
+        font-family: var(--monospace-font-family);
+        font-size: var(--font-size-mono);
+        line-height: var(--line-height-mono);
+        width: 73ch; /* Add a char to account for the border. */
+      }
+      .cherryPickTopicLayout {
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--spacing-m);
+      }
+      .cherryPickSingleChange,
+      .cherryPickTopic {
+        margin-left: var(--spacing-m);
+      }
+      .cherry-pick-topic-message {
+        margin-bottom: var(--spacing-m);
+      }
+      label[for='messageInput'],
+      label[for='baseInput'] {
+        margin-top: var(--spacing-m);
+      }
+      .title {
+        font-weight: var(--font-weight-bold);
+      }
+      tr > td {
+        padding: var(--spacing-m);
+      }
+      th {
+        color: var(--deemphasized-text-color);
+      }
+      table {
+        border-collapse: collapse;
+      }
+      tr {
+        border-bottom: 1px solid var(--border-color);
+      }
+      .error {
+        color: var(--error-text-color);
+      }
+      .error-message {
+        color: var(--error-text-color);
+        margin: var(--spacing-m) 0 var(--spacing-m) 0;
+      }
+    `,
+  ];
+
+  override render() {
+    return html`
+      <gr-dialog
+        confirm-label="Cherry Pick"
+        cancel-label="[[_computeCancelLabel(_statuses)]]"
+        disabled$="[[_computeDisableCherryPick(_cherryPickType, _duplicateProjectChanges, _statuses, branch)]]"
+        on-confirm="_handleConfirmTap"
+        on-cancel="_handleCancelTap"
+      >
+        <div class="header title" slot="header">
+          Cherry Pick Change to Another Branch
+        </div>
+        <div class="main" slot="main">
+          <template is="dom-if" if="[[_showCherryPickTopic]]">
+            <div class="cherryPickTopicLayout">
+              <input
+                name="cherryPickOptions"
+                type="radio"
+                id="cherryPickSingleChange"
+                on-change="_handlecherryPickSingleChangeClicked"
+                checked=""
+              />
+              <label
+                for="cherryPickSingleChange"
+                class="cherryPickSingleChange"
+              >
+                Cherry Pick single change
+              </label>
+            </div>
+            <div class="cherryPickTopicLayout">
+              <input
+                name="cherryPickOptions"
+                type="radio"
+                id="cherryPickTopic"
+                on-change="_handlecherryPickTopicClicked"
+              />
+              <label for="cherryPickTopic" class="cherryPickTopic">
+                Cherry Pick entire topic ([[_changesCount]] Changes)
+              </label>
+            </div></template
+          >
+
+          <label for="branchInput"> Cherry Pick to branch </label>
+          <gr-autocomplete
+            id="branchInput"
+            text="{{branch}}"
+            query="[[_query]]"
+            placeholder="Destination branch"
+          >
+          </gr-autocomplete>
+          <template is="dom-if" if="[[_invalidBranch]]">
+            <span class="error">
+              Branch name cannot contain space or commas.
+            </span>
+          </template>
+          <template
+            is="dom-if"
+            if="[[_computeIfSinglecherryPick(_cherryPickType)]]"
+          >
+            <label for="baseInput">
+              Provide base commit sha1 for cherry-pick
+            </label>
+            <iron-input
+              maxlength="40"
+              placeholder="(optional)"
+              bind-value="{{baseCommit}}"
+            >
+              <input
+                is="iron-input"
+                id="baseCommitInput"
+                maxlength="40"
+                placeholder="(optional)"
+                bind-value="{{baseCommit}}"
+              />
+            </iron-input>
+            <label for="messageInput"> Cherry Pick Commit Message </label>
+          </template>
+          <template
+            is="dom-if"
+            if="[[_computeIfSinglecherryPick(_cherryPickType)]]"
+          >
+            <iron-autogrow-textarea
+              id="messageInput"
+              class="message"
+              autocomplete="on"
+              rows="4"
+              max-rows="15"
+              bind-value="{{message}}"
+            ></iron-autogrow-textarea>
+          </template>
+          <template
+            is="dom-if"
+            if="[[_computeIfCherryPickTopic(_cherryPickType)]]"
+          >
+            <span class="error-message"
+              >[[_computeTopicErrorMessage(_duplicateProjectChanges)]]</span
+            >
+            <span class="cherry-pick-topic-message">
+              Commit Message will be auto generated
+            </span>
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Change</th>
+                  <th>Status</th>
+                  <th>Subject</th>
+                  <th>Project</th>
+                  <th>Progress</th>
+                  <!-- Error Message -->
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <template is="dom-repeat" items="[[changes]]">
+                  <tr>
+                    <td>
+                      <input
+                        type="checkbox"
+                        data-item$="[[item.id]]"
+                        on-change="_toggleChangeSelected"
+                        checked="[[_isChangeSelected(item.id)]]"
+                      />
+                    </td>
+                    <td><span> [[_getChangeId(item)]] </span></td>
+                    <td><span> [[item.status]] </span></td>
+                    <td>
+                      <span> [[_getTrimmedChangeSubject(item.subject)]] </span>
+                    </td>
+                    <td><span> [[item.project]] </span></td>
+                    <td>
+                      <span class$="[[_computeStatusClass(item, _statuses)]]">
+                        [[_computeStatus(item, _statuses)]]
+                      </span>
+                    </td>
+                    <td>
+                      <span class="error">
+                        [[_computeError(item, _statuses)]]
+                      </span>
+                    </td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </template>
+        </div>
+      </gr-dialog>
+    `;
   }
 
   containsDuplicateProject(changes: ChangeInfo[]) {

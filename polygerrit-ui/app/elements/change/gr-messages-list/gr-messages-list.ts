@@ -57,6 +57,7 @@ import {
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
+import {queryAll} from '../../../utils/common-util';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -317,13 +318,13 @@ export class GrMessagesList extends DIPolymerElement {
       );
       return;
     }
-    if (!el) {
+    if (!el || !el.message) {
       this._showAllActivity = true;
       setTimeout(() => this.scrollToMessage(messageID));
       return;
     }
 
-    el.set('message.expanded', true);
+    el.message = {...el.message, expanded: true};
     let top = el.offsetTop;
     for (
       let offsetParent = el.offsetParent as HTMLElement | null;
@@ -409,11 +410,14 @@ export class GrMessagesList extends DIPolymerElement {
   }
 
   _updateExpandedStateOfAllMessages(exp: boolean) {
-    if (this._combinedMessages) {
-      for (let i = 0; i < this._combinedMessages.length; i++) {
-        this._combinedMessages[i].expanded = exp;
-        this.notifyPath(`_combinedMessages.${i}.expanded`);
-      }
+    if (!this._combinedMessages) return;
+
+    for (let i = 0; i < this._combinedMessages.length; i++) {
+      this._combinedMessages[i].expanded = exp;
+      this.notifyPath(`_combinedMessages.${i}.expanded`);
+    }
+    for (const message of queryAll<GrMessage>(this, 'gr-message')) {
+      message.requestUpdate('message');
     }
   }
 

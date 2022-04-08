@@ -5,10 +5,6 @@
  */
 import {LitElement, html, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators';
-import '../gr-context-controls/gr-context-controls-section';
-import '../gr-context-controls/gr-context-controls';
-import '../gr-range-header/gr-range-header';
-import './gr-diff-row';
 import {diffClasses} from '../gr-diff/gr-diff-utils';
 
 const SURROGATE_PAIR = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
@@ -104,7 +100,7 @@ export class GrDiffText extends LitElement {
       tabSize = this.tabSize;
     }
     const piece = html`<span
-      class="${diffClasses('tab')}"
+      class=${diffClasses('tab')}
       style="tab-size: ${tabSize}; -moz-tab-size: ${tabSize};"
       >${TAB}</span
     >`;
@@ -126,9 +122,9 @@ export class GrDiffText extends LitElement {
   /** Render a line break, don't advance text offset, reset col position. */
   private renderLineBreak() {
     if (this.isResponsive) {
-      this.pieces.push(html`<wbr class="${diffClasses()}"></wbr>`);
+      this.pieces.push(html`<wbr class=${diffClasses()}></wbr>`);
     } else {
-      this.pieces.push(html`<span class="${diffClasses('br')}"></span>`);
+      this.pieces.push(html`<span class=${diffClasses('br')}></span>`);
     }
     // this.textOffset += 0;
     this.columnPos = 0;

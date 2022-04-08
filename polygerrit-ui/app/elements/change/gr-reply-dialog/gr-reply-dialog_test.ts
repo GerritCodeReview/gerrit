@@ -64,11 +64,13 @@ import {CommentThread} from '../../../utils/comment-util';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {
   AccountInfoInput,
+  AccountInput,
   GrAccountList,
 } from '../../shared/gr-account-list/gr-account-list';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
+import {ValueChangedEvent} from '../../../types/events';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 
@@ -1528,6 +1530,11 @@ suite('gr-reply-dialog tests', () => {
     element._reviewers = [reviewer1, reviewer2, reviewer3];
     element._ccs = [cc1, cc2, cc3, cc4];
     element.push('_reviewers', cc1);
+    element.$.reviewers.dispatchEvent(
+      new CustomEvent('account-added', {
+        detail: {value: cc1},
+      }) as ValueChangedEvent<AccountInput>
+    );
     flush();
 
     assert.deepEqual(element._reviewers, [
@@ -1538,7 +1545,20 @@ suite('gr-reply-dialog tests', () => {
     ]);
     assert.deepEqual(element._ccs, [cc2, cc3, cc4]);
 
-    element.push('_reviewers', cc4, cc3);
+    element.push('_reviewers', cc4);
+    element.$.reviewers.dispatchEvent(
+      new CustomEvent('account-added', {
+        detail: {value: cc4},
+      }) as ValueChangedEvent<AccountInput>
+    );
+    flush();
+
+    element.push('_reviewers', cc3);
+    element.$.reviewers.dispatchEvent(
+      new CustomEvent('account-added', {
+        detail: {value: cc3},
+      }) as ValueChangedEvent<AccountInput>
+    );
     flush();
 
     assert.deepEqual(element._reviewers, [
@@ -1617,12 +1637,31 @@ suite('gr-reply-dialog tests', () => {
     element._reviewers = [reviewer1, reviewer2, reviewer3];
     element._ccs = [cc1, cc2, cc3, cc4];
     element.push('_ccs', reviewer1);
+    element.$.ccs.dispatchEvent(
+      new CustomEvent('account-added', {
+        detail: {value: reviewer1},
+      }) as ValueChangedEvent<AccountInput>
+    );
+
     flush();
 
     assert.deepEqual(element._reviewers, [reviewer2, reviewer3]);
     assert.deepEqual(element._ccs, [cc1, cc2, cc3, cc4, reviewer1]);
 
-    element.push('_ccs', reviewer3, reviewer2);
+    element.push('_ccs', reviewer3);
+    element.$.ccs.dispatchEvent(
+      new CustomEvent('account-added', {
+        detail: {value: reviewer3},
+      }) as ValueChangedEvent<AccountInput>
+    );
+    flush();
+
+    element.push('_ccs', reviewer2);
+    element.$.ccs.dispatchEvent(
+      new CustomEvent('account-added', {
+        detail: {value: reviewer2},
+      }) as ValueChangedEvent<AccountInput>
+    );
     flush();
 
     assert.deepEqual(element._reviewers, []);

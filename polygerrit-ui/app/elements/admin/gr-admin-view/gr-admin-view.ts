@@ -562,32 +562,33 @@ export class GrAdminView extends LitElement {
     if (this.needsReload()) await this.reload();
   }
 
-  needsReload() {
-    if (!this.params) return;
+  needsReload(): boolean {
+    if (!this.params) return false;
 
+    let needsReload = false;
     const newRepoName =
       this.params.view === GerritView.REPO ? this.params.repo : undefined;
     if (newRepoName !== this.repoName) {
       this.repoName = newRepoName;
       // Reloads the admin menu.
-      return true;
+      needsReload = true;
     }
     const newGroupId =
       this.params.view === GerritView.GROUP ? this.params.groupId : undefined;
     if (newGroupId !== this.groupId) {
       this.groupId = newGroupId;
       // Reloads the admin menu.
-      return true;
+      needsReload = true;
     }
     if (
       this.breadcrumbParentName &&
       (this.params.view !== GerritView.GROUP || !this.params.groupId) &&
       (this.params.view !== GerritView.REPO || !this.params.repo)
     ) {
-      return true;
+      needsReload = true;
     }
 
-    return false;
+    return needsReload;
   }
 
   // private but used in test

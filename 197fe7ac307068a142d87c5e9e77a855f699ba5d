@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ba6619b_4a7f7889",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-08T12:46:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "474b9bec_928e1fb9",
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f0e5d18_70c7cf8d",
@@ -55,6 +73,30 @@
       "side": 1,
       "message": "We\u0027re pretty sure we\u0027ve seen this issue during offline reindex on 3.5 (probably should move to stable-3.5). We\u0027re testing it out to confirm if it fixes it.",
       "parentUuid": "9f0e5d18_70c7cf8d",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebc653dd_5dd42d66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-08T12:46:55Z",
+      "side": 1,
+      "message": "Nice! Curious about the test results when you have them. Explained some more about dfs vs file based setup in the commit message.",
+      "parentUuid": "d403787f_acc3018d",
       "range": {
         "startLine": 7,
         "startChar": 4,
@@ -139,6 +181,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "75bb78c8_39ec0a51",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-08T12:46:55Z",
+      "side": 1,
+      "message": "We could get into the case where we close a reader that is still used in the thread that timed out. But I don\u0027t think we want for wait for this thread. Closing e.g. the DFS reader sets members to null and releases a pointer to a cache. It seems at worst this will create NPEs in that zombie thread.\n\nThe only other alternative I see is waiting for the zombie thread which bears the risk of waiting for a very long time which seems like it would go against the idea of a timeout in the first place? WDYT?",
+      "parentUuid": "98a91761_ac804d01",
+      "range": {
+        "startLine": 263,
+        "startChar": 12,
+        "endLine": 263,
+        "endChar": 66
+      },
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "931ca33e_cd44ca58",
@@ -152,6 +218,30 @@
       "writtenOn": "2022-04-07T10:41:13Z",
       "side": 1,
       "message": "Optional: these 3 lines could be extracted (used multiple times).",
+      "range": {
+        "startLine": 264,
+        "startChar": 8,
+        "endLine": 267,
+        "endChar": 84
+      },
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84399a94_6f9edf8f",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-08T12:46:55Z",
+      "side": 1,
+      "message": "Removed them :-)",
+      "parentUuid": "931ca33e_cd44ca58",
       "range": {
         "startLine": 264,
         "startChar": 8,
@@ -209,6 +299,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d84d308_0aa404e2",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-08T12:46:55Z",
+      "side": 1,
+      "message": "Solved with a Pool as you suggested. Done.",
+      "parentUuid": "cceac91d_633b4fba",
+      "range": {
+        "startLine": 287,
+        "startChar": 27,
+        "endLine": 287,
+        "endChar": 33
+      },
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e98acad_c47ed1b4",
@@ -244,6 +358,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdd44c63_4615d6d6",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-08T12:46:55Z",
+      "side": 1,
+      "message": "The pool is a nice idea that simplifies the code. Done.\n\nYoussef: We need to close any reader we instantiate because that needs to release resources it reserved.",
+      "parentUuid": "405c1820_8348acab",
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9b86765_14213867",
@@ -257,6 +389,24 @@
       "writtenOn": "2022-04-07T10:41:13Z",
       "side": 1,
       "message": "nit: duplicate comment. maybe better to extract these 3 lines (as mentioned above) and add the comment only once for why this is needed.",
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "000ff3e7_1b39a4da",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-08T12:46:55Z",
+      "side": 1,
+      "message": "Solved differently.",
+      "parentUuid": "d9b86765_14213867",
       "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -132,9 +132,9 @@ export class GrDiffRow extends LitElement {
     const row = html`
       <tr
         ${ref(this.tableRowRef)}
-        class="${diffClasses('diff-row', 'side-by-side')}"
-        left-type="${this.left.type}"
-        right-type="${this.right.type}"
+        class=${diffClasses('diff-row', 'side-by-side')}
+        left-type=${this.left.type}
+        right-type=${this.right.type}
         tabindex="-1"
       >
         ${this.renderBlameCell()} ${this.renderLineNumberCell(Side.LEFT)}
@@ -175,8 +175,8 @@ export class GrDiffRow extends LitElement {
     return html`
       <td
         ${ref(this.blameCellRef)}
-        class="${diffClasses('blame')}"
-        data-line-number="${this.left?.beforeNumber ?? 0}"
+        class=${diffClasses('blame')}
+        data-line-number=${this.left?.beforeNumber ?? 0}
       >${this.renderBlameElement()}</td>
     `;
   }
@@ -195,11 +195,11 @@ export class GrDiffRow extends LitElement {
 
     // td.blame has `white-space: pre`, so prettier must not add spaces.
     // prettier-ignore
-    return html`<span class="${diffClasses(...extras)}"
-        ><a href="${url}" class="${diffClasses('blameDate')}">${date}</a
-        ><span class="${diffClasses('blameAuthor')}"> ${shortName}</span
-        ><gr-hovercard class="${diffClasses()}">
-          <span class="${diffClasses('blameHoverCard')}">
+    return html`<span class=${diffClasses(...extras)}
+        ><a href=${url} class=${diffClasses('blameDate')}>${date}</a
+        ><span class=${diffClasses('blameAuthor')}> ${shortName}</span
+        ><gr-hovercard class=${diffClasses()}>
+          <span class=${diffClasses('blameHoverCard')}>
             Commit ${commit.id}<br />
             Author: ${commit.author}<br />
             Date: ${date}<br />
@@ -216,13 +216,13 @@ export class GrDiffRow extends LitElement {
     if (!line || !lineNumber || line.type === GrDiffLineType.BLANK) {
       return html`<td
         ${ref(this.lineNumberRef(side))}
-        class="${diffClasses(side)}"
+        class=${diffClasses(side)}
       ></td>`;
     }
 
     return html`<td
       ${ref(this.lineNumberRef(side))}
-      class="${diffClasses(side, 'lineNum')}"
+      class=${diffClasses(side, 'lineNum')}
       data-value=${lineNumber}
     >
       ${this.renderLineNumberButton(line, lineNumber, side)}
@@ -240,7 +240,7 @@ export class GrDiffRow extends LitElement {
     // prettier-ignore
     return html`
       <button
-        class="${diffClasses('lineNumButton', side)}"
+        class=${diffClasses('lineNumButton', side)}
         tabindex="-1"
         data-value=${lineNumber}
         aria-label=${ifDefined(
@@ -288,7 +288,7 @@ export class GrDiffRow extends LitElement {
     // prettier-ignore
     return html`
       <td
-        class="${diffClasses(...extras)}"
+        class=${diffClasses(...extras)}
         @mouseenter=${() => {
           if (lineNumber)
             fire(this, 'line-mouse-enter', {lineNum: lineNumber, side});
@@ -354,7 +354,7 @@ export class GrDiffRow extends LitElement {
     // .content has `white-space: pre`, so prettier must not add spaces.
     // prettier-ignore
     return html`<div
-        class="${diffClasses('contentText', side)}"
+        class=${diffClasses('contentText', side)}
         .ariaLabel=${line?.text ?? ''}
         data-side=${ifDefined(side)}
       >${textElement}</div>`;

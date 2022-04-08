@@ -162,15 +162,11 @@ export class GrDiffBuilderLit extends GrDiffBuilder {
     render(
       html`
         <colgroup>
-         <col class="${diffClasses('blame')}"></col>
-         <col class="${diffClasses(
-           Side.LEFT
-         )}" width="${lineNumberWidth}"></col>
-         <col class="${diffClasses(Side.LEFT)}"></col>
-         <col class="${diffClasses(
-           Side.RIGHT
-         )}" width="${lineNumberWidth}"></col>
-         <col class="${diffClasses(Side.RIGHT)}"></col>
+         <col class=${diffClasses('blame')}></col>
+         <col class=${diffClasses(Side.LEFT)} width=${lineNumberWidth}></col>
+         <col class=${diffClasses(Side.LEFT)}></col>
+         <col class=${diffClasses(Side.RIGHT)} width=${lineNumberWidth}></col>
+         <col class=${diffClasses(Side.RIGHT)}></col>
         </colgroup>
       `,
       outputEl

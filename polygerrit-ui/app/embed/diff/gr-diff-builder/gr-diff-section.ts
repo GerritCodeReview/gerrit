@@ -86,7 +86,7 @@ export class GrDiffSection extends LitElement {
     const isControl = this.group.type === GrDiffGroupType.CONTEXT_CONTROL;
     const pairs = isControl ? [] : this.group.getSideBySidePairs();
     const body = html`
-      <tbody class="${diffClasses(...extras)}">
+      <tbody class=${diffClasses(...extras)}>
         ${this.renderContextControls()} ${this.renderMoveControls()}
         ${pairs.map(pair => {
           const leftCl = `left-${pair.left.lineNumber(Side.LEFT)}`;
@@ -155,20 +155,20 @@ export class GrDiffSection extends LitElement {
   private renderMoveControls() {
     if (!this.group?.moveDetails) return;
     const movedIn = this.group.adds.length > 0;
-    const plainCell = html`<td class="${diffClasses()}"></td>`;
+    const plainCell = html`<td class=${diffClasses()}></td>`;
     const lineNumberCell = html`
-      <td class="${diffClasses('moveControlsLineNumCol')}"></td>
+      <td class=${diffClasses('moveControlsLineNumCol')}></td>
     `;
     const moveCell = html`
-      <td class="${diffClasses('moveHeader')}">
-        <gr-range-header class="${diffClasses()}" icon="gr-icons:move-item">
+      <td class=${diffClasses('moveHeader')}>
+        <gr-range-header class=${diffClasses()} icon="gr-icons:move-item">
           ${this.renderMoveDescription(movedIn)}
         </gr-range-header>
       </td>
     `;
     return html`
       <tr
-        class="${diffClasses('moveControls', movedIn ? 'movedIn' : 'movedOut')}"
+        class=${diffClasses('moveControls', movedIn ? 'movedIn' : 'movedOut')}
       >
         ${lineNumberCell} ${movedIn ? plainCell : moveCell} ${lineNumberCell}
         ${movedIn ? moveCell : plainCell}
@@ -184,18 +184,18 @@ export class GrDiffSection extends LitElement {
       const direction = movedIn ? 'from' : 'to';
       const textLabel = `Moved ${andChangedLabel}${direction} lines `;
       return html`
-        <div class="${diffClasses()}">
-          <span class="${diffClasses()}">${textLabel}</span>
+        <div class=${diffClasses()}>
+          <span class=${diffClasses()}>${textLabel}</span>
           ${this.renderMovedLineAnchor(range.start, otherSide)}
-          <span class="${diffClasses()}"> - </span>
+          <span class=${diffClasses()}> - </span>
           ${this.renderMovedLineAnchor(range.end, otherSide)}
         </div>
       `;
     }
 
     return html`
-      <div class="${diffClasses()}">
-        <span class="${diffClasses()}"
+      <div class=${diffClasses()}>
+        <span class=${diffClasses()}
           >${movedIn ? 'Moved in' : 'Moved out'}</span
         >
       </div>
@@ -209,7 +209,7 @@ export class GrDiffSection extends LitElement {
     };
     // `href` is not actually used but important for Screen Readers
     return html`
-      <a class="${diffClasses()}" href="${`#${line}`}" @click=${listener}
+      <a class=${diffClasses()} href=${`#${line}`} @click=${listener}
         >${line}</a
       >
     `;

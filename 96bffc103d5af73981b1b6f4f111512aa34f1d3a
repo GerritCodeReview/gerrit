@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "013de8e6_343c7d1f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-04-08T08:22:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a9aa92e7_a587ac0b",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c09cc731_ab7ac4e1",
@@ -1487,6 +1505,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1a1b564_1cab11b2",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-04-08T08:22:37Z",
+      "side": 1,
+      "message": "Oops, I missed the code at the bottom that adds classes to the lineNumberEl.",
+      "parentUuid": "66e8dc2c_691f5820",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5a5340b_6534a424",
@@ -1810,6 +1846,24 @@
       "side": 1,
       "message": "We are trying to be consistent everywhere. It would be nice to completely get rid of `null` in our code base. WDYT?",
       "parentUuid": "098157a9_02e8c503",
+      "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e18cc142_f70d0217",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-section.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-04-08T08:22:37Z",
+      "side": 1,
+      "message": "I don\u0027t have a strong opinion about this.\n\nThere\u0027s pros and cons to having null as well as undefined.\n\nSome pros to null:\n1. Not having to add extra logic like this\n2. Nulls are explicit, you can\u0027t make a mistake by accidentally forgetting a return statement.",
+      "parentUuid": "f05e1cb6_758833a5",
       "revId": "96bffc103d5af73981b1b6f4f111512aa34f1d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

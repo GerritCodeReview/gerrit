@@ -46,6 +46,30 @@
       },
       "revId": "37f56cc4c9220af4f6084ec9d4c6ed5be3921cf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dcd1847_37f7eaf7",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-08T00:10:44Z",
+      "side": 0,
+      "message": "I\u0027ve preserved now the call to super.readRef(repo), so that when caching isn\u0027t used we preserve the existing code path.",
+      "parentUuid": "83b9f503_233371f7",
+      "range": {
+        "startLine": 728,
+        "startChar": 64,
+        "endLine": 728,
+        "endChar": 83
+      },
+      "revId": "37f56cc4c9220af4f6084ec9d4c6ed5be3921cf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

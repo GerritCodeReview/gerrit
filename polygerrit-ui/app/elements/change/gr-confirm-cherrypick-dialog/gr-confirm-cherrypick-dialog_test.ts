@@ -36,8 +36,7 @@ import {createChange, createRevision} from '../../../test/test-data-generators';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog.js';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {ProgressStatus} from '../../../constants/constants';
-
-const basicFixture = fixtureFromElement('gr-confirm-cherrypick-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 const CHERRY_PICK_TYPES = {
   SINGLE_CHANGE: 1,
@@ -46,7 +45,7 @@ const CHERRY_PICK_TYPES = {
 suite('gr-confirm-cherrypick-dialog tests', () => {
   let element: GrConfirmCherrypickDialog;
 
-  setup(() => {
+  setup(async () => {
     stubRestApi('getRepoBranches').callsFake(input => {
       if (input.startsWith('test')) {
         return Promise.resolve([
@@ -60,48 +59,54 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
         return Promise.resolve([]);
       }
     });
-    element = basicFixture.instantiate();
+    element = await fixture(
+      html`<gr-confirm-cherrypick-dialog></gr-confirm-cherrypick-dialog>`
+    );
     element.project = 'test-project' as RepoName;
   });
 
-  test('with message missing newline', () => {
+  test('with message missing newline', async () => {
     element.changeStatus = ChangeStatus.MERGED;
     element.commitMessage = 'message';
     element.commitNum = '123' as CommitId;
     element.branch = 'master' as BranchName;
-    flush();
+    await element.updateComplete;
     const expectedMessage = 'message\n(cherry picked from commit 123)';
     assert.equal(element.message, expectedMessage);
   });
 
-  test('with merged change', () => {
+  test('with merged change', async () => {
     element.changeStatus = ChangeStatus.MERGED;
     element.commitMessage = 'message\n';
     element.commitNum = '123' as CommitId;
     element.branch = 'master' as BranchName;
-    flush();
+    await element.updateComplete;
     const expectedMessage = 'message\n(cherry picked from commit 123)';
     assert.equal(element.message, expectedMessage);
   });
 
-  test('with unmerged change', () => {
+  test('with unmerged change', async () => {
     element.changeStatus = ChangeStatus.NEW;
     element.commitMessage = 'message\n';
     element.commitNum = '123' as CommitId;
     element.branch = 'master' as BranchName;
-    flush();
+    await element.updateComplete;
+
     const expectedMessage = 'message\n';
     assert.equal(element.message, expectedMessage);
   });
 
-  test('with updated commit message', () => {
+  test('with updated commit message', async () => {
     element.changeStatus = ChangeStatus.NEW;
     element.commitMessage = 'message\n';
     element.commitNum = '123' as CommitId;
     element.branch = 'master' as BranchName;
+    await element.updateComplete;
+
     const myNewMessage = 'updated commit message';
     element.message = myNewMessage;
-    flush();
+    await element.updateComplete;
+
     assert.equal(element.message, myNewMessage);
   });
 
@@ -142,19 +147,17 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     setup(async () => {
       element.updateChanges(changes);
       element._cherryPickType = CHERRY_PICK_TYPES.TOPIC;
-      await flush();
+      await element.updateComplete;
     });
 
     test('cherry pick topic submit', async () => {
       element.branch = 'master' as BranchName;
-      await flush();
+      await element.updateComplete;
       const executeChangeActionStub = stubRestApi(
         'executeChangeAction'
       ).returns(Promise.resolve(new Response()));
-      MockInteractions.tap(
-        queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!
-      );
-      await flush();
+      queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!.click();
+      await element.updateComplete;
       const args = executeChangeActionStub.args[0];
       assert.equal(args[0], 1);
       assert.equal(args[1], 'POST' as HttpMethod);
@@ -170,7 +173,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
         'containsDuplicateProject'
       );
       element.branch = 'master' as BranchName;
-      await flush();
+      await element.updateComplete;
       const executeChangeActionStub = stubRestApi(
         'executeChangeAction'
       ).returns(Promise.resolve(new Response()));
@@ -181,17 +184,15 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       assert.equal(checkboxes.length, 2);
       assert.isTrue(checkboxes[0].checked);
       MockInteractions.tap(checkboxes[0]);
-      MockInteractions.tap(
-        queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!
-      );
-      await flush();
+      queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!.click();
+      await element.updateComplete;
       assert.equal(executeChangeActionStub.callCount, 1);
       assert.isTrue(duplicateChangesStub.called);
     });
 
     test('deselecting all change shows error message', async () => {
       element.branch = 'master' as BranchName;
-      await flush();
+      await element.updateComplete;
       const executeChangeActionStub = stubRestApi(
         'executeChangeAction'
       ).returns(Promise.resolve(new Response()));
@@ -205,7 +206,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       MockInteractions.tap(
         queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!
       );
-      await flush();
+      await element.updateComplete;
       assert.equal(executeChangeActionStub.callCount, 0);
       assert.equal(
         queryAndAssert<HTMLElement>(element, '.error-message').innerText,
@@ -213,7 +214,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       );
     });
 
-    test('_computeStatusClass', () => {
+    test('_computeStatusClass', async () => {
       assert.equal(
         element._computeStatusClass(
           {...createChange(), id: '1' as ChangeInfoId},
@@ -237,17 +238,19 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       ).confirmButton;
       assert.isTrue(confirmButton!.hasAttribute('disabled'));
       element.branch = 'b' as BranchName;
-      await flush();
+      await element.updateComplete;
       assert.isFalse(confirmButton!.hasAttribute('disabled'));
       element.updateStatus(changes[0], {status: ProgressStatus.RUNNING});
-      await flush();
+      await element.updateComplete;
       assert.isTrue(confirmButton!.hasAttribute('disabled'));
     });
   });
 
-  test('resetFocus', () => {
-    const focusStub = sinon.stub(element.$.branchInput, 'focus');
+  test('resetFocus', async () => {
+    const focusStub = sinon.stub(element.branchInput, 'focus');
     element.resetFocus();
+    await element.updateComplete;
+
     assert.isTrue(focusStub.called);
   });
 

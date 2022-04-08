@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6581f02e_48db6fd5",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-08T10:04:40Z",
+      "side": 1,
+      "message": "var name clash with `account` above",
+      "range": {
+        "startLine": 513,
+        "startChar": 6,
+        "endLine": 513,
+        "endChar": 13
+      },
+      "revId": "054c28b1a698bb2e57356238ebe6fd7be1b75ead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce416ec3_f2769e12",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-08T10:04:40Z",
+      "side": 1,
+      "message": "Maybe keep the comment\n```\n// Remove any accounts that already exist as a CC for reviewer\n// or vice versa.\n```\nin some form here or as a method comment.",
+      "revId": "054c28b1a698bb2e57356238ebe6fd7be1b75ead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be332045_194f7dc3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-08T10:04:40Z",
+      "side": 1,
+      "message": "This is just a `CustomEvent`, not a typical `ValueChangedEvent`.",
+      "range": {
+        "startLine": 52,
+        "startChar": 21,
+        "endLine": 52,
+        "endChar": 38
+      },
+      "revId": "054c28b1a698bb2e57356238ebe6fd7be1b75ead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

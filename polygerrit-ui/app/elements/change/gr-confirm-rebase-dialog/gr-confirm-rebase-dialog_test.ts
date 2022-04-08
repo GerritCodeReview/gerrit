@@ -97,8 +97,8 @@ suite('gr-confirm-rebase-dialog tests', () => {
           <div class="parentRevisionContainer">
             <gr-autocomplete
               id="parentInput"
-              no-debounce=""
-              allow-non-suggested-values
+              ?noDebounce=${true}
+              ?allowNonSuggestedValues=${true}
               placeholder="Change number, ref, or commit hash"
               text=""
             >

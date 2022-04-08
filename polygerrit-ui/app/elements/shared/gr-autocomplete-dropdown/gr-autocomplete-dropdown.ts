@@ -55,6 +55,11 @@ export interface ItemSelectedEvent {
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = IronFitMixin(PolymerElement, IronFitBehavior as IronFitBehavior);
 
+/**
+ * @attr {Boolean} vertical-align - inherited from IronOverlay
+ * @attr {Boolean} horizontal-align - inherited from IronOverlay
+ * @attr {Object} position-target - inherited from IronOverlay
+ */
 @customElement('gr-autocomplete-dropdown')
 export class GrAutocompleteDropdown extends base {
   static get template() {

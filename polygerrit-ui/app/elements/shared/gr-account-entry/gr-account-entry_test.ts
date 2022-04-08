@@ -59,7 +59,7 @@ suite('gr-account-entry tests', () => {
     element.setText('test text');
     flush();
 
-    assert.equal(element.$.input.$.input.value, 'test text');
+    assert.equal(element.$.input.input!.value, 'test text');
     assert.isFalse(suggestSpy.called);
   });
 });

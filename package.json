@@ -3,11 +3,15 @@
   "version": "3.1.0-SNAPSHOT",
   "description": "Gerrit Code Review",
   "dependencies": {
-    "@bazel/rollup": "^3.2.3",
-    "@bazel/terser": "^3.2.3",
-    "@bazel/typescript": "^3.2.3"
+    "@bazel/rollup": "^5.1.0",
+    "@bazel/terser": "^5.1.0",
+    "@bazel/typescript": "^5.1.0"
   },
   "devDependencies": {
+    "@bazel/concatjs": "^5.1.0",
+    "@bazel/rollup": "^5.1.0",
+    "@bazel/terser": "^5.1.0",
+    "@bazel/typescript": "^5.1.0",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "eslint": "^7.24.0",
     "eslint-config-google": "^0.14.0",

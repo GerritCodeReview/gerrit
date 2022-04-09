@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd6b2063_c786ec69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-09T10:52:39Z",
+      "side": 1,
+      "message": "@Paladox I\u0027m not sure about the conflict resolution for the frontend: could you double-check?",
+      "revId": "bdfdfeeb1eb7660f61e25c165ecfe1437dbe6051",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

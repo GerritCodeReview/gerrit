@@ -28,13 +28,19 @@ nodejs_binary(
 
 # Create a tsc_wrapped compiler rule to use in the ts_library
 # compiler attribute when using self-managed dependencies
+# TODO: Would be nice to just use `tsc-bin` below instead.
+# We would prefer to not depend on @bazel/concatjs ...
 nodejs_binary(
     name = "tsc_wrapped-bin",
     # Point bazel to your node_modules to find the entry point
-    data = ["@tools_npm//:node_modules"],
+    data = [
+        "@tools_npm//:node_modules",
+        "@tools_npm//@bazel/concatjs",
+        "@tools_npm//typescript",
+    ],
     # It seems, bazel uses different approaches to compile ts files (it runs some
     # ts service in background). It works without any workaround.
-    entry_point = "@tools_npm//:node_modules/@bazel/typescript/internal/tsc_wrapped/tsc_wrapped.js",
+    entry_point = "@tools_npm//:node_modules/@bazel/concatjs/internal/tsc_wrapped/tsc_wrapped.js",
 )
 
 # Wrap a typescript into a tsc-bin binary.

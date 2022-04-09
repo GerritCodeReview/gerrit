@@ -500,25 +500,35 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@bazel/rollup@^3.2.3":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@bazel/rollup/-/rollup-3.2.3.tgz#eb6b17f89da5d38b035a6d59a99000f2d5ada667"
-  integrity sha512-7PmJqekk92OaiwwEN3dYsp5qbZX8cqr0WkFUiaM3FBsNYVoN/rdh+VxQJWTuDGLjWiHxLwE95YwVHcvwerSrCg==
-
-"@bazel/terser@^3.2.3":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@bazel/terser/-/terser-3.2.3.tgz#18849cb01f6a9fd840955547b0a9dbf63f02c720"
-  integrity sha512-SzX3ytgt8+i36sODPO9ju0LbjKXB8w9zi00S+XNManQTRilNrr/NODTYbBzKrjuebA/o52NMpvRGigRd1Z2RGg==
-
-"@bazel/typescript@^3.2.3":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-3.2.3.tgz#6e40bdb7c5294e588bac3b7d1269e58b98a1856c"
-  integrity sha512-Q1Yin/AYdh9yrkSJo3H6nVn6mMaohr5syjLd0Df0w7WI4zerdJTxrY5nhoWZwO/S1rPj8/MedDwZudCqPDeDMA==
+"@bazel/rollup@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@bazel/rollup/-/rollup-5.1.0.tgz#dc858ddc93c9fdb9cc2e7982e632c939c646ebdc"
+  integrity sha512-wEiWdSyVbsycSirSYjR6FGfPGbRNI7sGNAYmrV0hIzYIi+KqXeTNcwKIRSE9PESP3mb0VWbZmHvXvmrWk6daPQ==
   dependencies:
+    "@bazel/worker" "5.1.0"
+
+"@bazel/terser@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@bazel/terser/-/terser-5.1.0.tgz#5c82b93f4d9def8103c16be2dd33900d156fa066"
+  integrity sha512-uE3hTqfkZr4nvlk3jwi0xx6URqqI7r6GGPtDAU02/PVei+O4PfThaov7cwHO+D1FnoLncDqChb9Iolr7Crw/8A==
+
+"@bazel/typescript@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-5.1.0.tgz#348552355cc92a43f22e637fabce76ed64505548"
+  integrity sha512-E7wYv1tBFtcsFp0YN7Cf9Lv184xOzvT5WJKwZxt+43oq8R5tGmTSuqQwm4c9JmEq6s0eZmwUaRv+WXp9hxsE4A==
+  dependencies:
+    "@bazel/worker" "5.1.0"
     protobufjs "6.8.8"
     semver "5.6.0"
     source-map-support "0.5.9"
-    tsutils "2.27.2"
+    tsutils "3.21.0"
+
+"@bazel/worker@5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@bazel/worker/-/worker-5.1.0.tgz#6f1e0f3ef628e3449d424cacd341c9abd09a3735"
+  integrity sha512-u3aU93UtHz3vL6ozezq0jnw83s1cNT4dAnW+vvB7M++YKFlB3CWzZFb0JRJbCp1b6DDe30ML0WOdd3nVYuylpw==
+  dependencies:
+    google-protobuf "^3.6.1"
 
 "@dabh/diagnostics@^2.0.2":
   version "2.0.2"
@@ -1108,9 +1118,9 @@
   integrity sha512-XYmBiy+ohOR4Lh5jE379fV2IU+6Jn4g5qASinhitfyO71b/sCo6MKsMLF5tc7Zf2CE8hViVQyYSobJNke8OvUw==
 
 "@types/node@^10.1.0":
-  version "10.17.56"
-  resolved "https://registry.npmjs.org/@types/node/-/node-10.17.56.tgz"
-  integrity sha512-LuAa6t1t0Bfw4CuSR0UITsm1hP17YL+u82kfHGrHUWdhlBtH7sa7jGY5z7glGaIj/WDYDkRtgGd+KCjCzxBW1w==
+  version "10.17.49"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.49.tgz#ecf0b67bab4b84d0ec9b0709db4aac3824a51c4a"
+  integrity sha512-PGaJNs5IZz5XgzwJvL/1zRfZB7iaJ5BydZ8/Picm+lUNYoNO9iVTQkVy5eUh0dZDrx3rBOIs3GCbCRmMuYyqwg==
 
 "@types/node@^4.0.30":
   version "4.9.5"
@@ -5013,6 +5023,11 @@ globby@^9.2.0:
     ignore "^4.0.3"
     pify "^4.0.1"
     slash "^2.0.0"
+
+google-protobuf@^3.6.1:
+  version "3.19.4"
+  resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.19.4.tgz#8d32c3e34be9250956f28c0fb90955d13f311888"
+  integrity sha512-OIPNCxsG2lkIvf+P5FNfJ/Km95CsXOBecS9ZcAU6m2Rq3svc0Apl9nB3GMDNKfQ9asNv4KjyAqGwPQFrVle3Yg==
 
 got@^11.8.0:
   version "11.8.2"
@@ -9856,16 +9871,9 @@ tslib@^1.8.1, tslib@^1.9.0:
   resolved "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tsutils@2.27.2:
-  version "2.27.2"
-  resolved "https://registry.npmjs.org/tsutils/-/tsutils-2.27.2.tgz"
-  integrity sha512-qf6rmT84TFMuxAKez2pIfR8UCai49iQsfB7YWVjV1bKpy/d0PWT5rEOSM6La9PiHZ0k1RRZQiwVdVJfQ3BPHgg==
-  dependencies:
-    tslib "^1.8.1"
-
-tsutils@^3.17.1:
+tsutils@3.21.0, tsutils@^3.17.1:
   version "3.21.0"
-  resolved "https://registry.npmjs.org/tsutils/-/tsutils-3.21.0.tgz"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-3.21.0.tgz#b48717d394cea6c1e096983eed58e9d61715b623"
   integrity sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==
   dependencies:
     tslib "^1.8.1"

@@ -57,8 +57,38 @@ protobuf_deps()
 
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "dd7ea7efda7655c218ca707f55c3e1b9c68055a70c31a98f264b3445bc8f4cb1",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/3.2.3/rules_nodejs-3.2.3.tar.gz"],
+    sha256 = "c077680a307eb88f3e62b0b662c2e9c6315319385bc8c637a861ffdbed8ca247",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.1.0/rules_nodejs-5.1.0.tar.gz"],
+)
+
+load("@build_bazel_rules_nodejs//:repositories.bzl", "build_bazel_rules_nodejs_dependencies")
+
+build_bazel_rules_nodejs_dependencies()
+
+# This is required just because we have a dependency on @bazel/concatjs.
+# We don't actually use any of this web_testing stuff.
+# TODO: Remove this dependency.
+http_archive(
+    name = "io_bazel_rules_webtesting",
+    sha256 = "e9abb7658b6a129740c0b3ef6f5a2370864e102a5ba5ffca2cea565829ed825a",
+    urls = [
+        "https://github.com/bazelbuild/rules_webtesting/releases/download/0.3.5/rules_webtesting.tar.gz",
+    ],
+)
+
+# TODO: Remove this, see comments on `io_bazel_rules_webtesting`.
+load("@io_bazel_rules_webtesting//web:repositories.bzl", "web_test_repositories")
+
+# TODO: Remove this, see comments on `io_bazel_rules_webtesting`.
+web_test_repositories()
+
+# TODO: Remove this, see comments on `io_bazel_rules_webtesting`.
+load("@io_bazel_rules_webtesting//web/versioned:browsers-0.3.3.bzl", "browser_repositories")
+
+# TODO: Remove this, see comments on `io_bazel_rules_webtesting`.
+browser_repositories(
+    chromium = True,
+    firefox = True,
 )
 
 # Golang support for PolyGerrit local dev server.
@@ -883,42 +913,57 @@ maven_jar(
     sha1 = "11cfac598df9dc48bb9ed9357ed04212694b7808",
 )
 
-load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
+load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
+
+node_repositories(
+    node_version = "16.13.2",
+    yarn_version = "1.22.17",
+)
 
 yarn_install(
     name = "npm",
+    exports_directories_only = False,
     frozen_lockfile = False,
     package_json = "//:package.json",
+    symlink_node_modules = True,
     yarn_lock = "//:yarn.lock",
 )
 
 yarn_install(
     name = "ui_npm",
     args = ["--prod"],
+    exports_directories_only = False,
     frozen_lockfile = False,
     package_json = "//:polygerrit-ui/app/package.json",
+    symlink_node_modules = True,
     yarn_lock = "//:polygerrit-ui/app/yarn.lock",
 )
 
 yarn_install(
     name = "ui_dev_npm",
+    exports_directories_only = False,
     frozen_lockfile = False,
     package_json = "//:polygerrit-ui/package.json",
+    symlink_node_modules = True,
     yarn_lock = "//:polygerrit-ui/yarn.lock",
 )
 
 yarn_install(
     name = "tools_npm",
+    exports_directories_only = False,
     frozen_lockfile = False,
     package_json = "//:tools/node_tools/package.json",
+    symlink_node_modules = True,
     yarn_lock = "//:tools/node_tools/yarn.lock",
 )
 
 yarn_install(
     name = "plugins_npm",
     args = ["--prod"],
+    exports_directories_only = False,
     frozen_lockfile = False,
     package_json = "//:plugins/package.json",
+    symlink_node_modules = True,
     yarn_lock = "//:plugins/yarn.lock",
 )
 

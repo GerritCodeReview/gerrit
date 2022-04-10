@@ -46,7 +46,7 @@ import {
   EditableProjectAccessGroups,
 } from '../gr-repo-access/gr-repo-access-interfaces';
 import {getAppContext} from '../../../services/app-context';
-import {fireEvent} from '../../../utils/event-util';
+import {fire, fireEvent} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
@@ -353,6 +353,7 @@ export class GrPermission extends LitElement {
 
       // Restore exclusive bit to original.
       this.permission.value.exclusive = this.originalExclusiveValue;
+      fire(this, 'permission-changed', {value: this.permission});
       this.requestUpdate();
     }
   }
@@ -578,17 +579,18 @@ export class GrPermission extends LitElement {
   }
 
   private handleRuleChanged(e: CustomEvent, index: number) {
-    if (this.rules === undefined || e.detail.value === undefined) return;
-    if (isNaN(index)) {
-      return;
-    }
-    this.rules.splice(index, e.detail.value);
+    this.rules!.splice(index, e.detail.value);
     this.handleRulesChanged();
     this.requestUpdate();
   }
 }
 
 declare global {
+  interface HTMLElementEventMap {
+    'permission-changed': ValueChangedEvent<
+      PermissionArrayItem<EditablePermissionInfo>
+    >;
+  }
   interface HTMLElementTagNameMap {
     'gr-permission': GrPermission;
   }

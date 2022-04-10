@@ -15,14 +15,20 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import './gr-access-section.js';
-import {AccessPermissions, toSortedPermissionsArray} from '../../../utils/access-util.js';
+import '../../../test/common-test-setup-karma';
+import './gr-access-section';
+import {
+  AccessPermissions,
+  toSortedPermissionsArray,
+} from '../../../utils/access-util';
+import {GrAccessSection} from './gr-access-section';
+import {GitRef} from '../../../types/common';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 
 const fixture = fixtureFromElement('gr-access-section');
 
 suite('gr-access-section tests', () => {
-  let element;
+  let element: GrAccessSection;
 
   setup(() => {
     element = fixture.instantiate();
@@ -31,7 +37,7 @@ suite('gr-access-section tests', () => {
   suite('unit tests', () => {
     setup(() => {
       element.section = {
-        id: 'refs/*',
+        id: 'refs/*' as GitRef,
         value: {
           permissions: {
             read: {
@@ -78,14 +84,14 @@ suite('gr-access-section tests', () => {
       // _updateSection was called in setup, so just make assertions.
       const expectedPermissions = [
         {
-          id: 'read',
+          id: 'read' as GitRef,
           value: {
             rules: {},
           },
         },
       ];
       assert.deepEqual(element._permissions, expectedPermissions);
-      assert.equal(element._originalId, element.section.id);
+      assert.equal(element._originalId, element.section!.id);
     });
 
     test('_computeLabelOptions', () => {
@@ -106,15 +112,17 @@ suite('gr-access-section tests', () => {
         },
       ];
 
-      assert.deepEqual(element._computeLabelOptions(element.labels),
-          expectedLabelOptions);
+      assert.deepEqual(
+        element._computeLabelOptions(element.labels),
+        expectedLabelOptions
+      );
     });
 
     test('_handleAccessSaved', () => {
-      assert.equal(element._originalId, 'refs/*');
-      element.section.id = 'refs/for/bar';
+      assert.equal(element._originalId, 'refs/*' as GitRef);
+      element.section!.id = 'refs/for/bar' as GitRef;
       element._handleAccessSaved();
-      assert.equal(element._originalId, 'refs/for/bar');
+      assert.equal(element._originalId, 'refs/for/bar' as GitRef);
     });
 
     test('_computePermissions', () => {
@@ -125,15 +133,16 @@ suite('gr-access-section tests', () => {
         read: {
           rules: {},
         },
-      };
+      } as any;
 
-      const expectedPermissions = [{
-        id: 'push',
-        value: {
-          rules: {},
+      const expectedPermissions = [
+        {
+          id: 'push',
+          value: {
+            rules: {},
+          },
         },
-      },
-      ];
+      ] as any;
       const labelOptions = [
         {
           id: 'label-Code-Review',
@@ -154,72 +163,81 @@ suite('gr-access-section tests', () => {
       // For global capabilities, just return the sorted array filtered by
       // existing permissions.
       let name = 'GLOBAL_CAPABILITIES';
-      assert.deepEqual(element._computePermissions(name, capabilities,
-          element.labels), expectedPermissions);
+      assert.deepEqual(
+        element._computePermissions(name, capabilities, element.labels),
+        expectedPermissions
+      );
 
       // For everything else, include possible label values before filtering.
       name = 'refs/for/*';
       assert.deepEqual(
-          element._computePermissions(name, capabilities, element.labels),
-          labelOptions
-              .concat(toSortedPermissionsArray(AccessPermissions))
-              .filter(permission => permission.id !== 'read'));
+        element._computePermissions(name, capabilities, element.labels),
+        labelOptions
+          .concat(toSortedPermissionsArray(AccessPermissions))
+          .filter(permission => permission.id !== 'read')
+      );
     });
 
     test('_computePermissionName', () => {
       let name = 'GLOBAL_CAPABILITIES';
       let permission = {
-        id: 'administrateServer',
-        value: {},
+        id: 'administrateServer' as GitRef,
+        value: {rules: {}},
       };
-      assert.equal(element._computePermissionName(name, permission,
-          element.capabilities),
-      element.capabilities[permission.id].name);
+      assert.equal(
+        element._computePermissionName(name, permission, element.capabilities),
+        element.capabilities![permission.id].name
+      );
 
       name = 'refs/for/*';
       permission = {
-        id: 'abandon',
-        value: {},
+        id: 'abandon' as GitRef,
+        value: {rules: {}},
       };
 
-      assert.equal(element._computePermissionName(
-          name, permission, element.capabilities),
-      AccessPermissions[permission.id].name);
+      assert.equal(
+        element._computePermissionName(name, permission, element.capabilities),
+        AccessPermissions[permission.id].name
+      );
 
       name = 'refs/for/*';
       permission = {
-        id: 'label-Code-Review',
+        id: 'label-Code-Review' as GitRef,
         value: {
-          label: 'Code-Review',
+          rules: {label: 'Code-Review'},
         },
       };
 
-      assert.equal(element._computePermissionName(name, permission,
-          element.capabilities),
-      'Label Code-Review');
+      assert.equal(
+        element._computePermissionName(name, permission, element.capabilities),
+        'Label Code-Review'
+      );
 
       permission = {
-        id: 'labelAs-Code-Review',
+        id: 'labelAs-Code-Review' as GitRef,
         value: {
-          label: 'Code-Review',
+          rules: {label: 'Code-Review'},
         },
       };
 
-      assert.equal(element._computePermissionName(name, permission,
-          element.capabilities),
-      'Label Code-Review(On Behalf Of)');
+      assert.equal(
+        element._computePermissionName(name, permission, element.capabilities),
+        'Label Code-Review(On Behalf Of)'
+      );
     });
 
     test('_computeSectionName', () => {
-      let name;
+      let name = '';
       // When computing the section name for an undefined name, it means a
       // new section is being added. In this case, it should default to
       // 'refs/heads/*'.
       element._editingRef = false;
-      assert.equal(element._computeSectionName(name),
-          'Reference: refs/heads/*');
+      assert.equal(
+        element._computeSectionName(name),
+        'Reference: refs/heads/*'
+      );
       assert.isTrue(element._editingRef);
-      assert.equal(element.section.id, 'refs/heads/*');
+      assert.equal(element.section!.id, 'refs/heads/*');
 
       // Reset editing to false.
       element._editingRef = false;
@@ -228,8 +246,7 @@ suite('gr-access-section tests', () => {
       assert.isFalse(element._editingRef);
 
       name = 'refs/for/*';
-      assert.equal(element._computeSectionName(name),
-          'Reference: refs/for/*');
+      assert.equal(element._computeSectionName(name), 'Reference: refs/for/*');
       assert.isFalse(element._editingRef);
     });
 
@@ -241,36 +258,92 @@ suite('gr-access-section tests', () => {
     test('_computeSectionClass', () => {
       let editingRef = false;
       let canUpload = false;
-      let ownerOf = [];
+      let ownerOf: GitRef[] | undefined = [];
       let editing = false;
       let deleted = false;
-      assert.equal(element._computeSectionClass(editing, canUpload, ownerOf,
-          editingRef, deleted), '');
+      assert.equal(
+        element._computeSectionClass(
+          editing,
+          canUpload,
+          ownerOf,
+          editingRef,
+          deleted
+        ),
+        ''
+      );
 
       editing = true;
-      assert.equal(element._computeSectionClass(editing, canUpload, ownerOf,
-          editingRef, deleted), '');
+      assert.equal(
+        element._computeSectionClass(
+          editing,
+          canUpload,
+          ownerOf,
+          editingRef,
+          deleted
+        ),
+        ''
+      );
 
-      ownerOf = ['refs/*'];
-      assert.equal(element._computeSectionClass(editing, canUpload, ownerOf,
-          editingRef, deleted), 'editing');
+      ownerOf = ['refs/*' as GitRef];
+      assert.equal(
+        element._computeSectionClass(
+          editing,
+          canUpload,
+          ownerOf,
+          editingRef,
+          deleted
+        ),
+        'editing'
+      );
 
       ownerOf = [];
       canUpload = true;
-      assert.equal(element._computeSectionClass(editing, canUpload, ownerOf,
-          editingRef, deleted), 'editing');
+      assert.equal(
+        element._computeSectionClass(
+          editing,
+          canUpload,
+          ownerOf,
+          editingRef,
+          deleted
+        ),
+        'editing'
+      );
 
       editingRef = true;
-      assert.equal(element._computeSectionClass(editing, canUpload, ownerOf,
-          editingRef, deleted), 'editing editingRef');
+      assert.equal(
+        element._computeSectionClass(
+          editing,
+          canUpload,
+          ownerOf,
+          editingRef,
+          deleted
+        ),
+        'editing editingRef'
+      );
 
       deleted = true;
-      assert.equal(element._computeSectionClass(editing, canUpload, ownerOf,
-          editingRef, deleted), 'editing editingRef deleted');
+      assert.equal(
+        element._computeSectionClass(
+          editing,
+          canUpload,
+          ownerOf,
+          editingRef,
+          deleted
+        ),
+        'editing editingRef deleted'
+      );
 
       editingRef = false;
-      assert.equal(element._computeSectionClass(editing, canUpload, ownerOf,
-          editingRef, deleted), 'editing deleted');
+      assert.equal(
+        element._computeSectionClass(
+          editing,
+          canUpload,
+          ownerOf,
+          editingRef,
+          deleted
+        ),
+        'editing deleted'
+      );
     });
 
     test('_computeEditBtnClass', () => {
@@ -299,7 +372,7 @@ suite('gr-access-section tests', () => {
     suite('Global section', () => {
       setup(() => {
         element.section = {
-          id: 'GLOBAL_CAPABILITIES',
+          id: 'GLOBAL_CAPABILITIES' as GitRef,
           value: {
             permissions: {
               accessDatabase: {
@@ -344,7 +417,7 @@ suite('gr-access-section tests', () => {
     suite('Non-global section', () => {
       setup(() => {
         element.section = {
-          id: 'refs/*',
+          id: 'refs/*' as GitRef,
           value: {
             permissions: {
               read: {
@@ -372,67 +445,71 @@ suite('gr-access-section tests', () => {
       test('add permission', () => {
         element.editing = true;
         element.$.permissionSelect.value = 'label-Code-Review';
-        assert.equal(element._permissions.length, 1);
-        assert.equal(Object.keys(element.section.value.permissions).length,
-            1);
+        assert.equal(element._permissions!.length, 1);
+        assert.equal(Object.keys(element.section!.value.permissions).length, 1);
         MockInteractions.tap(element.$.addBtn);
         flush();
 
         // The permission is added to both the permissions array and also
         // the section's permission object.
-        assert.equal(element._permissions.length, 2);
-        let permission = {
-          id: 'label-Code-Review',
+        assert.equal(element._permissions!.length, 2);
+        let permission;
+
+        permission = {
+          id: 'label-Code-Review' as GitRef,
           value: {
             added: true,
             label: 'Code-Review',
             rules: {},
           },
         };
-        assert.equal(element._permissions.length, 2);
-        assert.deepEqual(element._permissions[1], permission);
-        assert.equal(Object.keys(element.section.value.permissions).length,
-            2);
+        assert.equal(element._permissions!.length, 2);
+        assert.deepEqual(element._permissions![1], permission);
+        assert.equal(Object.keys(element.section!.value.permissions).length, 2);
         assert.deepEqual(
-            element.section.value.permissions['label-Code-Review'],
-            permission.value);
+          element.section!.value.permissions['label-Code-Review'],
+          permission.value
+        );
 
         element.$.permissionSelect.value = 'abandon';
         MockInteractions.tap(element.$.addBtn);
         flush();
 
         permission = {
-          id: 'abandon',
+          id: 'abandon' as GitRef,
           value: {
             added: true,
             rules: {},
           },
         };
 
-        assert.equal(element._permissions.length, 3);
-        assert.deepEqual(element._permissions[2], permission);
-        assert.equal(Object.keys(element.section.value.permissions).length,
-            3);
-        assert.deepEqual(element.section.value.permissions['abandon'],
-            permission.value);
+        assert.equal(element._permissions!.length, 3);
+        assert.deepEqual(element._permissions![2], permission);
+        assert.equal(Object.keys(element.section!.value.permissions).length, 3);
+        assert.deepEqual(
+          element.section!.value.permissions['abandon'],
+          permission.value
+        );
 
         // Unsaved changes are discarded when editing is cancelled.
         element.editing = false;
-        assert.equal(element._permissions.length, 1);
-        assert.equal(Object.keys(element.section.value.permissions).length,
-            1);
+        assert.equal(element._permissions!.length, 1);
+        assert.equal(Object.keys(element.section!.value.permissions).length, 1);
       });
 
       test('edit section reference', async () => {
         element.canUpload = true;
         element.ownerOf = [];
-        element.section = {id: 'refs/for/bar', value: {permissions: {}}};
+        element.section = {
+          id: 'refs/for/bar' as GitRef,
+          value: {permissions: {}},
+        };
         assert.isFalse(element.$.section.classList.contains('editing'));
         element.editing = true;
         assert.isTrue(element.$.section.classList.contains('editing'));
         assert.isFalse(element._editingRef);
         MockInteractions.tap(element.$.editBtn);
-        element.editRefInput().bindValue='new/ref';
+        element.editRefInput().bindValue = 'new/ref';
         await flush();
         assert.equal(element.section.id, 'new/ref');
         assert.isTrue(element._editingRef);
@@ -445,16 +522,19 @@ suite('gr-access-section tests', () => {
       test('_handleValueChange', () => {
         // For an existing section.
         const modifiedHandler = sinon.stub();
-        element.section = {id: 'refs/for/bar', value: {permissions: {}}};
+        element.section = {
+          id: 'refs/for/bar' as GitRef,
+          value: {permissions: {}},
+        };
         assert.notOk(element.section.value.updatedId);
-        element.section.id = 'refs/for/baz';
+        element.section.id = 'refs/for/baz' as GitRef;
         element.addEventListener('access-modified', modifiedHandler);
         assert.isNotOk(element.section.value.modified);
         element._handleValueChange();
         assert.equal(element.section.value.updatedId, 'refs/for/baz');
         assert.isTrue(element.section.value.modified);
         assert.equal(modifiedHandler.callCount, 1);
-        element.section.id = 'refs/for/bar';
+        element.section.id = 'refs/for/bar' as GitRef;
         element._handleValueChange();
         assert.isFalse(element.section.value.modified);
         assert.equal(modifiedHandler.callCount, 2);
@@ -464,7 +544,7 @@ suite('gr-access-section tests', () => {
         element._handleValueChange();
         assert.isFalse(element.section.value.modified);
         assert.equal(modifiedHandler.callCount, 2);
-        element.section.id = 'refs/for/bar';
+        element.section.id = 'refs/for/bar' as GitRef;
         element._handleValueChange();
         assert.isFalse(element.section.value.modified);
         assert.equal(modifiedHandler.callCount, 2);
@@ -475,44 +555,45 @@ suite('gr-access-section tests', () => {
         element.canUpload = true;
         element.ownerOf = [];
         assert.isFalse(element._deleted);
-        assert.isNotOk(element.section.value.deleted);
+        assert.isNotOk(element.section!.value.deleted);
         MockInteractions.tap(element.$.deleteBtn);
         flush();
         assert.isTrue(element._deleted);
-        assert.isTrue(element.section.value.deleted);
+        assert.isTrue(element.section!.value.deleted);
         assert.isTrue(element.$.section.classList.contains('deleted'));
-        assert.isTrue(element.section.value.deleted);
+        assert.isTrue(element.section!.value.deleted);
 
         MockInteractions.tap(element.$.undoRemoveBtn);
         flush();
         assert.isFalse(element._deleted);
-        assert.isNotOk(element.section.value.deleted);
+        assert.isNotOk(element.section!.value.deleted);
 
         MockInteractions.tap(element.$.deleteBtn);
         assert.isTrue(element._deleted);
-        assert.isTrue(element.section.value.deleted);
+        assert.isTrue(element.section!.value.deleted);
         element.editing = false;
         assert.isFalse(element._deleted);
-        assert.isNotOk(element.section.value.deleted);
+        assert.isNotOk(element.section!.value.deleted);
       });
 
       test('removing an added permission', () => {
         element.editing = true;
-        assert.equal(element._permissions.length, 1);
-        element.shadowRoot
-            .querySelector('gr-permission').dispatchEvent(
-                new CustomEvent('added-permission-removed', {
-                  composed: true, bubbles: true,
-                }));
+        assert.equal(element._permissions!.length, 1);
+        element.shadowRoot!.querySelector('gr-permission')!.dispatchEvent(
+          new CustomEvent('added-permission-removed', {
+            composed: true,
+            bubbles: true,
+          })
+        );
         flush();
-        assert.equal(element._permissions.length, 0);
+        assert.equal(element._permissions!.length, 0);
       });
 
       test('remove an added section', () => {
         const removeStub = sinon.stub();
         element.addEventListener('added-section-removed', removeStub);
         element.editing = true;
-        element.section.value.added = true;
+        element.section!.value.added = true;
         MockInteractions.tap(element.$.deleteBtn);
         assert.isTrue(removeStub.called);
       });

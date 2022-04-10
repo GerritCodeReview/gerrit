@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72d49525_b65314e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-10T09:19:41Z",
+      "side": 1,
+      "message": "Leaving the attention to Paladox and Thomas, to see if they can help out on this difficult merge.",
+      "revId": "ce5dc08ca8cded65a06344adc5d583799c43400e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

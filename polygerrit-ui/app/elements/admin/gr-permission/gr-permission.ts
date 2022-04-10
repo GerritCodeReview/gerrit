@@ -46,7 +46,7 @@ import {
   EditableProjectAccessGroups,
 } from '../gr-repo-access/gr-repo-access-interfaces';
 import {getAppContext} from '../../../services/app-context';
-import {fireEvent} from '../../../utils/event-util';
+import {fire, fireEvent} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
@@ -353,6 +353,7 @@ export class GrPermission extends LitElement {
 
       // Restore exclusive bit to original.
       this.permission.value.exclusive = this.originalExclusiveValue;
+      fire(this, 'permission-changed', {value: this.permission});
       this.requestUpdate();
     }
   }
@@ -373,6 +374,7 @@ export class GrPermission extends LitElement {
     }
     this.permission.value.modified = true;
     this.permission.value.exclusive = (e.target as HTMLInputElement).checked;
+    fire(this, 'permission-changed', {value: this.permission});
     // Allows overall access page to know a change has been made.
     fireEvent(this, 'access-modified');
   }
@@ -386,6 +388,7 @@ export class GrPermission extends LitElement {
     }
     this.deleted = true;
     this.permission.value.deleted = true;
+    fire(this, 'permission-changed', {value: this.permission});
     fireEvent(this, 'access-modified');
   }
 
@@ -419,6 +422,7 @@ export class GrPermission extends LitElement {
     }
     this.deleted = false;
     delete this.permission.value.deleted;
+    fire(this, 'permission-changed', {value: this.permission});
   }
 
   computeLabel(): ComputedLabel | undefined {
@@ -527,6 +531,7 @@ export class GrPermission extends LitElement {
     // https://polymer-library.polymer-project.org/2.0/docs/devguide/data-system#mutable-data
     // Actual value assigned below, after the flush
     this.permission.value.rules[groupId] = {} as EditablePermissionRuleInfo;
+    fire(this, 'permission-changed', {value: this.permission});
 
     // Purposely don't recompute sorted array so that the newly added rule
     // is the last item of the array.
@@ -554,6 +559,7 @@ export class GrPermission extends LitElement {
     const value = this.rules[this.rules.length - 1].value;
     value!.added = true;
     this.permission.value.rules[groupId] = value!;
+    fire(this, 'permission-changed', {value: this.permission});
     fireEvent(this, 'access-modified');
     this.requestUpdate();
   }
@@ -589,6 +595,11 @@ export class GrPermission extends LitElement {
 }
 
 declare global {
+  interface HTMLElementEventMap {
+    'permission-changed': ValueChangedEvent<
+      PermissionArrayItem<EditablePermissionInfo>
+    >;
+  }
   interface HTMLElementTagNameMap {
     'gr-permission': GrPermission;
   }

@@ -803,7 +803,7 @@ suite('gr-repo-access tests', () => {
       queryAndAssert<GrAccessSection>(
         element,
         'gr-access-section'
-      )._handleAddPermission();
+      ).handleAddPermission();
       await flush();
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
@@ -938,7 +938,7 @@ suite('gr-repo-access tests', () => {
         element,
         'gr-access-section'
       )[1];
-      newSection._handleAddPermission();
+      newSection.handleAddPermission();
       await flush();
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
@@ -1170,11 +1170,12 @@ suite('gr-repo-access tests', () => {
 
       // Add a new section.
       MockInteractions.tap(element.$.addReferenceBtn);
+      await flush();
       let newSection = queryAll<GrAccessSection>(
         element,
         'gr-access-section'
       )[1];
-      newSection._handleAddPermission();
+      newSection.handleAddPermission();
       await flush();
       queryAndAssert<GrPermission>(
         newSection,
@@ -1254,7 +1255,7 @@ suite('gr-repo-access tests', () => {
       MockInteractions.tap(element.$.addReferenceBtn);
       await flush();
       newSection = queryAll<GrAccessSection>(element, 'gr-access-section')[2];
-      newSection._handleAddPermission();
+      newSection.handleAddPermission();
       await flush();
       queryAndAssert<GrPermission>(
         newSection,

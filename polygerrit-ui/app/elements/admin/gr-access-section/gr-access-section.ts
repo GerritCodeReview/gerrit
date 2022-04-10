@@ -14,22 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import '@polymer/iron-input/iron-input';
-import '../../../styles/gr-font-styles';
-import '../../../styles/gr-form-styles';
-import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
 import '../gr-permission/gr-permission';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-access-section_html';
 import {
   AccessPermissions,
   PermissionArray,
   PermissionArrayItem,
   toSortedPermissionsArray,
 } from '../../../utils/access-util';
-import {customElement, property} from '@polymer/decorators';
 import {
   EditablePermissionInfo,
   PermissionAccessSection,
@@ -41,10 +36,15 @@ import {
   LabelNameToLabelTypeInfoMap,
   RepoName,
 } from '../../../types/common';
-import {PolymerDomRepeatEvent} from '../../../types/types';
-import {fireEvent} from '../../../utils/event-util';
-import {GrButton} from '../../shared/gr-button/gr-button';
+import {fire, fireEvent} from '../../../utils/event-util';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, html, css} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 
 /**
  * Fired when the section has been modified or removed.
@@ -66,22 +66,9 @@ const REFS_NAME = 'refs/';
 const ON_BEHALF_OF = '(On Behalf Of)';
 const LABEL = 'Label';
 
-export interface GrAccessSection {
-  $: {
-    addBtn: GrButton;
-    deleteBtn: GrButton;
-    editBtn: GrButton;
-    permissionSelect: HTMLSelectElement;
-    section: HTMLFieldSetElement;
-    undoRemoveBtn: GrButton;
-  };
-}
-
 @customElement('gr-access-section')
-export class GrAccessSection extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrAccessSection extends LitElement {
+  @query('#permissionSelect') private permissionSelect?: HTMLSelectElement;
 
   @property({type: String})
   repo?: RepoName;
@@ -89,7 +76,7 @@ export class GrAccessSection extends PolymerElement {
   @property({type: Object})
   capabilities?: CapabilityInfoMap;
 
-  @property({type: Object, notify: true, observer: '_updateSection'})
+  @property({type: Object})
   section?: PermissionAccessSection;
 
   @property({type: Object})
@@ -98,7 +85,7 @@ export class GrAccessSection extends PolymerElement {
   @property({type: Object})
   labels?: LabelNameToLabelTypeInfoMap;
 
-  @property({type: Boolean, observer: '_handleEditingChanged'})
+  @property({type: Boolean})
   editing = false;
 
   @property({type: Boolean})
@@ -107,43 +94,231 @@ export class GrAccessSection extends PolymerElement {
   @property({type: Array})
   ownerOf?: GitRef[];
 
-  @property({type: String})
-  _originalId?: GitRef;
+  // private but used in test
+  @state() originalId?: GitRef;
 
-  @property({type: Boolean})
-  _editingRef = false;
+  // private but used in test
+  @state() editingRef = false;
 
-  @property({type: Boolean})
-  _deleted = false;
+  // private but used in test
+  @state() deleted = false;
 
-  @property({type: Array})
-  _permissions?: PermissionArray<EditablePermissionInfo>;
+  // private but used in test
+  @state() permissions?: PermissionArray<EditablePermissionInfo>;
 
   constructor() {
     super();
-    this.addEventListener('access-saved', () => this._handleAccessSaved());
+    this.addEventListener('access-saved', () => this.handleAccessSaved());
   }
 
-  _updateSection(section: PermissionAccessSection) {
-    this._permissions = toSortedPermissionsArray(section.value.permissions);
-    this._originalId = section.id;
+  static override get styles() {
+    return [
+      formStyles,
+      fontStyles,
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+          margin-bottom: var(--spacing-l);
+        }
+        fieldset {
+          border: 1px solid var(--border-color);
+        }
+        .name {
+          align-items: center;
+          display: flex;
+        }
+        .header,
+        #deletedContainer {
+          align-items: center;
+          background: var(--table-header-background-color);
+          border-bottom: 1px dotted var(--border-color);
+          display: flex;
+          justify-content: space-between;
+          min-height: 3em;
+          padding: 0 var(--spacing-m);
+        }
+        #deletedContainer {
+          border-bottom: 0;
+        }
+        .sectionContent {
+          padding: var(--spacing-m);
+        }
+        #editBtn,
+        .editing #editBtn.global,
+        #deletedContainer,
+        .deleted #mainContainer,
+        #addPermission,
+        #deleteBtn,
+        .editingRef .name,
+        .editRefInput {
+          display: none;
+        }
+        .editing #editBtn,
+        .editingRef .editRefInput {
+          display: flex;
+        }
+        .deleted #deletedContainer {
+          display: flex;
+        }
+        .editing #addPermission,
+        #mainContainer,
+        .editing #deleteBtn {
+          display: block;
+        }
+        .editing #deleteBtn,
+        #undoRemoveBtn {
+          padding-right: var(--spacing-m);
+        }
+      `,
+    ];
   }
 
-  _handleAccessSaved() {
+  override render() {
+    if (!this.section) return;
+    return html`
+      <fieldset
+        id="section"
+        class="gr-form-styles ${this.computeSectionClass()}"
+      >
+        <div id="mainContainer">
+          <div class="header">
+            <div class="name">
+              <h3 class="heading-3">${this.computeSectionName()}</h3>
+              <gr-button
+                id="editBtn"
+                link=""
+                class=${this.section?.id === GLOBAL_NAME ? 'global' : ''}
+                @click=${this.editReference}
+              >
+                <iron-icon id="icon" icon="gr-icons:create"></iron-icon>
+              </gr-button>
+            </div>
+            <iron-input
+              class="editRefInput"
+              .bindValue=${this.section?.id}
+              type="text"
+              @input=${this.handleValueChange}
+              @bind-value-changed=${this.handleIdBindValueChanged}
+            >
+              <input
+                class="editRefInput"
+                is="iron-input"
+                type="text"
+                @input=${this.handleValueChange}
+              />
+            </iron-input>
+            <gr-button
+              link=""
+              id="deleteBtn"
+              @click=${this.handleRemoveReference}
+              >Remove</gr-button
+            >
+          </div>
+          <!-- end header -->
+          <div class="sectionContent">
+            ${this.permissions?.map((permission, index) =>
+              this.renderPermission(permission, index)
+            )}
+            <div id="addPermission">
+              Add permission:
+              <select id="permissionSelect">
+                <!-- called with a third parameter so that permissions update
+                      after a new section is added. -->
+                ${this.computePermissions().map(item =>
+                  this.renderPermissionOptions(item)
+                )}
+              </select>
+              <gr-button link="" id="addBtn" @click=${this.handleAddPermission}
+                >Add</gr-button
+              >
+            </div>
+            <!-- end addPermission -->
+          </div>
+          <!-- end sectionContent -->
+        </div>
+        <!-- end mainContainer -->
+        <div id="deletedContainer">
+          <span>${this.computeSectionName()} was deleted</span>
+          <gr-button link="" id="undoRemoveBtn" @click=${this._handleUndoRemove}
+            >Undo</gr-button
+          >
+        </div>
+        <!-- end deletedContainer -->
+      </fieldset>
+    `;
+  }
+
+  private renderPermission(
+    permission: PermissionArrayItem<EditablePermissionInfo>,
+    index: number
+  ) {
+    return html`
+      <gr-permission
+        .name=${this.computePermissionName(permission)}
+        .permission=${permission}
+        .labels=${this.labels}
+        .section=${this.section?.id}
+        .editing=${this.editing}
+        .groups=${this.groups}
+        .repo=${this.repo}
+        @added-permission-removed=${() => {
+          this.handleAddedPermissionRemoved(index);
+        }}
+        @permission-changed=${(
+          e: ValueChangedEvent<PermissionArrayItem<EditablePermissionInfo>>
+        ) => {
+          this.handlePermissionChanged(e, index);
+        }}
+      >
+      </gr-permission>
+    `;
+  }
+
+  private renderPermissionOptions(item: {
+    id: string;
+    value: {name: string; id: string};
+  }) {
+    return html`<option value=${item.value.id}>${item.value.name}</option>`;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('section')) {
+      this.updateSection();
+    }
+    if (changedProperties.has('editing')) {
+      this.handleEditingChanged(changedProperties.get('editing') as boolean);
+    }
+  }
+
+  // private but used in test
+  updateSection() {
+    this.permissions = toSortedPermissionsArray(
+      this.section?.value.permissions
+    );
+    this.originalId = this.section!.id;
+    this.requestUpdate();
+  }
+
+  // private but used in test
+  handleAccessSaved() {
     if (!this.section) {
       return;
     }
     // Set a new 'original' value to keep track of after the value has been
     // saved.
-    this._updateSection(this.section);
+    this.updateSection();
   }
 
-  _handleValueChange() {
+  // private but used in test
+  handleValueChange() {
     if (!this.section) {
       return;
     }
     if (!this.section.value.added) {
-      this.section.value.modified = this.section.id !== this._originalId;
+      this.section.value.modified = this.section.id !== this.originalId;
+      fire(this, 'section-changed', {value: this.section});
+      this.requestUpdate();
       // Allows overall access page to know a change has been made.
       // For a new section, this is not fired because new permissions and
       // rules have to be added in order to save, modifying the ref is not
@@ -151,49 +326,49 @@ export class GrAccessSection extends PolymerElement {
       fireEvent(this, 'access-modified');
     }
     this.section.value.updatedId = this.section.id;
+    fire(this, 'section-changed', {value: this.section});
+    this.requestUpdate();
   }
 
-  _handleEditingChanged(editing: boolean, editingOld: boolean) {
+  private handleEditingChanged(editingOld: boolean) {
     // Ignore when editing gets set initially.
     if (!editingOld) {
       return;
     }
-    if (!this.section || !this._permissions) {
+    if (!this.section || !this.permissions) {
       return;
     }
     // Restore original values if no longer editing.
-    if (!editing) {
-      this._editingRef = false;
-      this._deleted = false;
+    if (!this.editing) {
+      this.editingRef = false;
+      this.deleted = false;
       delete this.section.value.deleted;
       // Restore section ref.
-      this.set(['section', 'id'], this._originalId);
+      this.section.id = this.originalId as GitRef;
+      fire(this, 'section-changed', {value: this.section});
       // Remove any unsaved but added permissions.
-      this._permissions = this._permissions.filter(p => !p.value.added);
+      this.permissions = this.permissions.filter(p => !p.value.added);
       for (const key of Object.keys(this.section.value.permissions)) {
         if (this.section.value.permissions[key].added) {
           delete this.section.value.permissions[key];
+          fire(this, 'section-changed', {value: this.section});
         }
       }
+      this.requestUpdate();
     }
   }
 
-  _computePermissions(
-    name: string,
-    capabilities?: CapabilityInfoMap,
-    labels?: LabelNameToLabelTypeInfoMap,
-    // This is just for triggering re-computation. We don't use the value.
-    _?: unknown
-  ) {
+  // private but used in test
+  computePermissions() {
     let allPermissions;
     const section = this.section;
     if (!section || !section.value) {
       return [];
     }
-    if (name === GLOBAL_NAME) {
-      allPermissions = toSortedPermissionsArray(capabilities);
+    if (section.id === GLOBAL_NAME) {
+      allPermissions = toSortedPermissionsArray(this.capabilities);
     } else {
-      const labelOptions = this._computeLabelOptions(labels);
+      const labelOptions = this.computeLabelOptions();
       allPermissions = labelOptions.concat(
         toSortedPermissionsArray(AccessPermissions)
       );
@@ -203,22 +378,21 @@ export class GrAccessSection extends PolymerElement {
     );
   }
 
-  _handleAddedPermissionRemoved(e: PolymerDomRepeatEvent) {
-    if (!this._permissions) {
+  private handleAddedPermissionRemoved(index: number) {
+    if (!this.permissions) {
       return;
     }
-    const index = e.model.index;
-    this._permissions = this._permissions
+    this.permissions = this.permissions
       .slice(0, index)
-      .concat(this._permissions.slice(index + 1, this._permissions.length));
+      .concat(this.permissions.slice(index + 1, this.permissions.length));
   }
 
-  _computeLabelOptions(labels?: LabelNameToLabelTypeInfoMap) {
+  computeLabelOptions() {
     const labelOptions = [];
-    if (!labels) {
+    if (!this.labels) {
       return [];
     }
-    for (const labelName of Object.keys(labels)) {
+    for (const labelName of Object.keys(this.labels)) {
       labelOptions.push({
         id: 'label-' + labelName,
         value: {
@@ -237,13 +411,12 @@ export class GrAccessSection extends PolymerElement {
     return labelOptions;
   }
 
-  _computePermissionName(
-    name: string,
-    permission: PermissionArrayItem<EditablePermissionInfo>,
-    capabilities?: CapabilityInfoMap
+  // private but used in test
+  computePermissionName(
+    permission: PermissionArrayItem<EditablePermissionInfo>
   ): string | undefined {
-    if (name === GLOBAL_NAME) {
-      return capabilities?.[permission.id].name;
+    if (this.section?.id === GLOBAL_NAME) {
+      return this.capabilities?.[permission.id].name;
     } else if (AccessPermissions[permission.id]) {
       return AccessPermissions[permission.id].name;
     } else if (permission.value.label) {
@@ -256,15 +429,19 @@ export class GrAccessSection extends PolymerElement {
     return undefined;
   }
 
-  _computeSectionName(name: string) {
+  // private but used in test
+  computeSectionName() {
+    let name = this.section?.id;
     // When a new section is created, it doesn't yet have a ref. Set into
     // edit mode so that the user can input one.
     if (!name) {
-      this._editingRef = true;
+      this.editingRef = true;
       // Needed for the title value. This is the same default as GWT.
-      name = NEW_NAME;
+      name = NEW_NAME as GitRef;
       // Needed for the input field value.
-      this.set('section.id', name);
+      this.section!.id = name;
+      fire(this, 'section-changed', {value: this.section});
+      this.requestUpdate();
     }
     if (name === GLOBAL_NAME) {
       return 'Global Capabilities';
@@ -274,14 +451,14 @@ export class GrAccessSection extends PolymerElement {
     return name;
   }
 
-  _handleRemoveReference() {
+  private handleRemoveReference() {
     if (!this.section) {
       return;
     }
     if (this.section.value.added) {
       fireEvent(this, 'added-section-removed');
     }
-    this._deleted = true;
+    this.deleted = true;
     this.section.value.deleted = true;
     fireEvent(this, 'access-modified');
   }
@@ -290,59 +467,46 @@ export class GrAccessSection extends PolymerElement {
     if (!this.section) {
       return;
     }
-    this._deleted = false;
+    this.deleted = false;
     delete this.section.value.deleted;
+    fire(this, 'section-changed', {value: this.section});
   }
 
   editRefInput() {
-    return this.root!.querySelector(
-      'iron-input.editRefInput'
-    ) as IronInputElement;
+    return queryAndAssert<IronInputElement>(this, 'iron-input.editRefInput');
   }
 
   editReference() {
-    this._editingRef = true;
+    this.editingRef = true;
     this.editRefInput().focus();
   }
 
-  _isEditEnabled(
-    canUpload: boolean | undefined,
-    ownerOf: GitRef[] | undefined,
-    sectionId: GitRef
-  ) {
-    return canUpload || (ownerOf && ownerOf.indexOf(sectionId) >= 0);
+  private isEditEnabled() {
+    return (
+      this.canUpload ||
+      (this.ownerOf && this.ownerOf.indexOf(this.section!.id) >= 0)
+    );
   }
 
-  _computeSectionClass(
-    editing: boolean,
-    canUpload: boolean | undefined,
-    ownerOf: GitRef[] | undefined,
-    editingRef: boolean,
-    deleted: boolean
-  ) {
+  // private but used in test
+  computeSectionClass() {
     const classList = [];
-    if (
-      editing &&
-      this.section &&
-      this._isEditEnabled(canUpload, ownerOf, this.section.id)
-    ) {
+    if (this.editing && this.section && this.isEditEnabled()) {
       classList.push('editing');
     }
-    if (editingRef) {
+    if (this.editingRef) {
       classList.push('editingRef');
     }
-    if (deleted) {
+    if (this.deleted) {
       classList.push('deleted');
     }
     return classList.join(' ');
   }
 
-  _computeEditBtnClass(name: string) {
-    return name === GLOBAL_NAME ? 'global' : '';
-  }
-
-  _handleAddPermission() {
-    const value = this.$.permissionSelect.value as GitRef;
+  // private but used in test
+  handleAddPermission() {
+    assertIsDefined(this.permissionSelect, 'permissionSelect');
+    const value = this.permissionSelect.value as GitRef;
     const permission: PermissionArrayItem<EditablePermissionInfo> = {
       id: value,
       value: {rules: {}, added: true},
@@ -370,12 +534,30 @@ export class GrAccessSection extends PolymerElement {
     }
     // Add to the end of the array (used in dom-repeat) and also to the
     // section object that is two way bound with its parent element.
-    this.push('_permissions', permission);
-    this.set(['section.value.permissions', permission.id], permission.value);
+    this.permissions!.push(permission);
+    this.section!.value.permissions[permission.id] = permission.value;
+    fire(this, 'section-changed', {value: this.section});
+    this.requestUpdate();
   }
+
+  private handleIdBindValueChanged = (e: BindValueChangeEvent) => {
+    this.section!.id = e.detail.value as GitRef;
+    this.requestUpdate();
+  };
+
+  private handlePermissionChanged = (
+    e: ValueChangedEvent<PermissionArrayItem<EditablePermissionInfo>>,
+    index: number
+  ) => {
+    this.permissions![index] = e.detail.value;
+    this.requestUpdate();
+  };
 }
 
 declare global {
+  interface HTMLElementEventMap {
+    'section-changed': ValueChangedEvent<PermissionAccessSection | undefined>;
+  }
   interface HTMLElementTagNameMap {
     'gr-access-section': GrAccessSection;
   }

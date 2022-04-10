@@ -457,7 +457,7 @@ export class GrRepoAccess extends PolymerElement {
     return addRemoveObj;
   }
 
-  _handleCreateSection() {
+  async _handleCreateSection() {
     if (!this._local) {
       return;
     }
@@ -470,7 +470,8 @@ export class GrRepoAccess extends PolymerElement {
     const section = {permissions: {}, added: true};
     this.push('_sections', {id: newRef, value: section});
     this.set(['_local', newRef], section);
-    flush();
+    // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
+    await flush();
     // Template already instantiated at this point
     (
       this.root!.querySelector(

@@ -19,7 +19,6 @@ import '../../../styles/gr-menu-page-styles';
 import '../../../styles/gr-subpage-styles';
 import '../../../styles/shared-styles';
 import '../gr-access-section/gr-access-section';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-access_html';
 import {encodeURL, getBaseUrl, singleDecodeURL} from '../../../utils/url-util';
@@ -470,7 +469,6 @@ export class GrRepoAccess extends PolymerElement {
     const section = {permissions: {}, added: true};
     this.push('_sections', {id: newRef, value: section});
     this.set(['_local', newRef], section);
-    flush();
     // Template already instantiated at this point
     (
       this.root!.querySelector(

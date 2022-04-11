@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e4c2098_e129edd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-04-11T09:20:52Z",
+      "side": 1,
+      "message": "I didn\u0027t look in detail at the logic; Youssef, can you take another look?\n\nAlso, I\u0027m curious if we have test coverage for the timeout branch.",
+      "revId": "e20ab59038bea97a6726c86c5d096fb5fea38a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "991d4512_7d0de07d",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-04-11T09:20:52Z",
+      "side": 1,
+      "message": "comment why this must be synchronized.",
+      "range": {
+        "startLine": 350,
+        "startChar": 15,
+        "endLine": 350,
+        "endChar": 40
+      },
+      "revId": "e20ab59038bea97a6726c86c5d096fb5fea38a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

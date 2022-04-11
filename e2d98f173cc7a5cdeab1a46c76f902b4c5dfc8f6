@@ -22,6 +22,30 @@
       },
       "revId": "e2d98f173cc7a5cdeab1a46c76f902b4c5dfc8f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92c66d7f_ef60ece4",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-04-11T09:20:52Z",
+      "side": 1,
+      "message": "add a comment + file bug? It may make a race window smaller, but better not have no races at all?",
+      "parentUuid": "11f0ea31_aabaa597",
+      "range": {
+        "startLine": 241,
+        "startChar": 30,
+        "endLine": 241,
+        "endChar": 71
+      },
+      "revId": "e2d98f173cc7a5cdeab1a46c76f902b4c5dfc8f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

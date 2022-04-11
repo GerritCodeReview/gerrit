@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d14e21ae_a1226cbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T11:22:28Z",
+      "side": 1,
+      "message": "All comments addressed, tests passing locally.",
+      "revId": "69429a4dcc666f3e97cd38480fd7d6c8ad945f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

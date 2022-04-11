@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1f896eb_86c095be",
+        "filename": "java/com/google/gerrit/server/extensions/events/CommentAdded.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T22:36:06Z",
+      "side": 1,
+      "message": "This can be inlined at L86",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 19
+      },
+      "revId": "21d525a3312866687b01af8545fe0550e48dfd75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

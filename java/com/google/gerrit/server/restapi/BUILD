@@ -8,6 +8,7 @@ java_library(
     name = "restapi",
     srcs = glob(["**/*.java"]),
     deps = [
+        "//antlr3:query_parser",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/entities",
@@ -29,6 +30,7 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:servlet-api",
+        "//lib/antlr:java-runtime",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/commons:compress",

@@ -19,11 +19,9 @@ import '../../../test/common-test-setup-karma';
 import './gr-file-list-header';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import 'lodash/lodash';
 import {createChange, createRevision} from '../../../test/test-data-generators';
 import {query, queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {GrFileListHeader} from './gr-file-list-header';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {
   BasePatchSetNum,
   ChangeId,
@@ -33,19 +31,33 @@ import {
 import {ChangeInfo, ChangeStatus} from '../../../api/rest-api.js';
 import {PatchSet} from '../../../utils/patch-set-util';
 import {createDefaultDiffPrefs} from '../../../constants/constants.js';
-
-const basicFixture = fixtureFromElement('gr-file-list-header');
+import {fixture, html} from '@open-wc/testing-helpers';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 suite('gr-file-list-header tests', () => {
   let element: GrFileListHeader;
+  const change: ChangeInfo = {
+    ...createChange(),
+    change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca' as ChangeId,
+    revisions: {
+      rev2: createRevision(2),
+      rev1: createRevision(1),
+      rev13: createRevision(13),
+      rev3: createRevision(3),
+    },
+    status: 'NEW' as ChangeStatus,
+    labels: {},
+  };
 
-  setup(() => {
-    stubRestApi('getAccount').returns(Promise.resolve(undefined));
-    element = basicFixture.instantiate();
-  });
-
-  teardown(async () => {
-    await flush();
+  setup(async () => {
+    stubRestApi('getAccount').resolves(undefined);
+    element = await fixture(
+      html`<gr-file-list-header
+        .change=${change}
+        .diffPrefs=${createDefaultDiffPrefs()}
+        .shownFileCount=${3}
+      ></gr-file-list-header>`
+    );
   });
 
   test('Diff preferences hidden when no prefs', async () => {
@@ -55,53 +67,63 @@ suite('gr-file-list-header tests', () => {
 
     element.diffPrefs = createDefaultDiffPrefs();
     element.loggedIn = true;
-    await flush();
+    await element.updateComplete;
+
     assert.isFalse(
       queryAndAssert<HTMLElement>(element, '#diffPrefsContainer').hidden
     );
   });
 
   test('expandAllDiffs called when expand button clicked', async () => {
-    element.shownFileCount = 1;
-    await flush();
-    const expandAllDiffsStub = sinon.stub(element, '_expandAllDiffs');
-    MockInteractions.tap(queryAndAssert(element, '#expandBtn'));
-    assert.isTrue(expandAllDiffsStub.called);
+    const expandDiffsListener = sinon.stub();
+    element.addEventListener('expand-diffs', expandDiffsListener);
+
+    queryAndAssert<GrButton>(element, 'gr-button#expandBtn').click();
+    await element.updateComplete;
+
+    assert.isTrue(expandDiffsListener.called);
   });
 
   test('collapseAllDiffs called when collapse button clicked', async () => {
-    element.shownFileCount = 1;
-    await flush();
-    const collapseAllDiffsStub = sinon.stub(element, '_collapseAllDiffs');
-    MockInteractions.tap(queryAndAssert(element, '#collapseBtn'));
-    assert.isTrue(collapseAllDiffsStub.called);
+    const collapseAllDiffsListener = sinon.stub();
+    element.addEventListener('collapse-diffs', collapseAllDiffsListener);
+
+    queryAndAssert<GrButton>(element, 'gr-button#collapseBtn').click();
+    await element.updateComplete;
+
+    assert.isTrue(collapseAllDiffsListener.called);
   });
 
   test('show/hide diffs disabled for large amounts of files', async () => {
-    const computeSpy = sinon.spy(element, '_fileListActionsVisible');
     element.changeNum = 42 as NumericChangeId;
     element.basePatchNum = 'PARENT' as BasePatchSetNum;
     element.patchNum = '2' as PatchSetNum;
     element.shownFileCount = 1;
-    await flush();
-    assert.isTrue(computeSpy.lastCall.returnValue);
-    _.times(element._maxFilesForBulkActions + 1, () => {
-      element.shownFileCount = element.shownFileCount! + 1;
-    });
-    assert.isFalse(computeSpy.lastCall.returnValue);
+    await element.updateComplete;
+
+    queryAndAssert(element, 'gr-button#expandBtn');
+    queryAndAssert(element, 'gr-button#collapseBtn');
+    assert.isNotOk(query(element, '.warning'));
+
+    element.shownFileCount = 226; // more than element.maxFilesForBulkActions
+    await element.updateComplete;
+
+    assert.isNotOk(query(element, 'gr-button#expandBtn'));
+    assert.isNotOk(query(element, 'gr-button#collapseBtn'));
+    queryAndAssert(element, '.warning');
   });
 
   test('fileViewActions are properly hidden', async () => {
     const actions = queryAndAssert(element, '.fileViewActions');
     assert.equal(getComputedStyle(actions).display, 'none');
     element.filesExpanded = FilesExpandedState.SOME;
-    await flush();
+    await element.updateComplete;
     assert.notEqual(getComputedStyle(actions).display, 'none');
     element.filesExpanded = FilesExpandedState.ALL;
-    await flush();
+    await element.updateComplete;
     assert.notEqual(getComputedStyle(actions).display, 'none');
     element.filesExpanded = FilesExpandedState.NONE;
-    await flush();
+    await element.updateComplete;
     assert.equal(getComputedStyle(actions).display, 'none');
   });
 
@@ -109,7 +131,7 @@ suite('gr-file-list-header tests', () => {
     // Only the expand button should be visible in the initial state when
     // NO files are expanded.
     element.shownFileCount = 10;
-    await flush();
+    await element.updateComplete;
     const expandBtn = queryAndAssert(element, '#expandBtn');
     const collapseBtn = queryAndAssert(element, '#collapseBtn');
     assert.notEqual(getComputedStyle(expandBtn).display, 'none');
@@ -118,46 +140,37 @@ suite('gr-file-list-header tests', () => {
     // Both expand and collapse buttons should be visible when SOME files are
     // expanded.
     element.filesExpanded = FilesExpandedState.SOME;
-    await flush();
+    await element.updateComplete;
     assert.notEqual(getComputedStyle(expandBtn).display, 'none');
     assert.notEqual(getComputedStyle(collapseBtn).display, 'none');
 
     // Only the collapse button should be visible when ALL files are expanded.
     element.filesExpanded = FilesExpandedState.ALL;
-    await flush();
+    await element.updateComplete;
     assert.equal(getComputedStyle(expandBtn).display, 'none');
     assert.notEqual(getComputedStyle(collapseBtn).display, 'none');
 
     // Only the expand button should be visible when NO files are expanded.
     element.filesExpanded = FilesExpandedState.NONE;
-    await flush();
+    await element.updateComplete;
     assert.notEqual(getComputedStyle(expandBtn).display, 'none');
     assert.equal(getComputedStyle(collapseBtn).display, 'none');
   });
 
-  test('navigateToChange called when range select changes', () => {
+  test('navigateToChange called when range select changes', async () => {
     const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
-    element.change = {
-      ...createChange(),
-      change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca' as ChangeId,
-      revisions: {
-        rev2: createRevision(2),
-        rev1: createRevision(1),
-        rev13: createRevision(13),
-        rev3: createRevision(3),
-      },
-      status: 'NEW' as ChangeStatus,
-      labels: {},
-    } as ChangeInfo;
     element.basePatchNum = 1 as BasePatchSetNum;
     element.patchNum = 2 as PatchSetNum;
+    await element.updateComplete;
 
-    element._handlePatchChange({
+    element.handlePatchChange({
       detail: {basePatchNum: 1, patchNum: 3},
     } as CustomEvent);
+    await element.updateComplete;
+
     assert.equal(navigateToChangeStub.callCount, 1);
     assert.isTrue(
-      navigateToChangeStub.lastCall.calledWithExactly(element.change, {
+      navigateToChangeStub.lastCall.calledWithExactly(change, {
         patchNum: 3 as PatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
       })
@@ -171,29 +184,29 @@ suite('gr-file-list-header tests', () => {
       {num: 1 as PatchSetNum, desc: undefined, sha: ''},
     ];
     assert.equal(
-      element._computePatchInfoClass(1 as PatchSetNum, allPatchSets),
+      element.computePatchInfoClass(1 as PatchSetNum, allPatchSets),
       'patchInfoOldPatchSet'
     );
     assert.equal(
-      element._computePatchInfoClass(2 as PatchSetNum, allPatchSets),
+      element.computePatchInfoClass(2 as PatchSetNum, allPatchSets),
       'patchInfoOldPatchSet'
     );
     assert.equal(
-      element._computePatchInfoClass(4 as PatchSetNum, allPatchSets),
+      element.computePatchInfoClass(4 as PatchSetNum, allPatchSets),
       ''
     );
   });
 
   suite('editMode behavior', () => {
-    setup(() => {
+    setup(async () => {
       element.loggedIn = true;
-      element.diffPrefs = createDefaultDiffPrefs();
+      await element.updateComplete;
     });
 
-    const isVisible = (el: HTMLElement) => {
+    function isVisible(el: HTMLElement) {
       assert.ok(el);
       return getComputedStyle(el).getPropertyValue('display') !== 'none';
-    };
+    }
 
     test('patch specific elements', async () => {
       element.editMode = true;
@@ -202,14 +215,14 @@ suite('gr-file-list-header tests', () => {
         {num: 2 as PatchSetNum, desc: undefined, sha: ''},
         {num: 3 as PatchSetNum, desc: undefined, sha: ''},
       ];
-      await flush();
+      await element.updateComplete;
 
       assert.isFalse(
         isVisible(queryAndAssert<HTMLElement>(element, '#diffPrefsContainer'))
       );
 
       element.editMode = false;
-      await flush();
+      await element.updateComplete;
 
       assert.isTrue(
         isVisible(queryAndAssert<HTMLElement>(element, '#diffPrefsContainer'))
@@ -218,27 +231,21 @@ suite('gr-file-list-header tests', () => {
 
     test('edit-controls visibility', async () => {
       element.editMode = false;
-      await flush();
-      // on the first render, when editMode is false, editControls are not
-      // in the DOM to reduce size of DOM and make first render faster.
-      assert.isUndefined(query(element, '#editControls'));
+      await element.updateComplete;
+
+      assert.isNotOk(query(element, '#editControls'));
 
       element.editMode = true;
-      await flush();
-      queryAndAssert<HTMLElement>(element, '#editControls').parentElement;
+      await element.updateComplete;
+
       assert.isTrue(
-        isVisible(
-          queryAndAssert<HTMLElement>(element, '#editControls').parentElement!
-        )
+        isVisible(queryAndAssert<HTMLElement>(element, '#editControls'))
       );
 
       element.editMode = false;
-      await flush();
-      assert.isFalse(
-        isVisible(
-          queryAndAssert<HTMLElement>(element, '#editControls').parentElement!
-        )
-      );
+      await element.updateComplete;
+
+      assert.isNotOk(query<HTMLElement>(element, '#editControls'));
     });
   });
 });

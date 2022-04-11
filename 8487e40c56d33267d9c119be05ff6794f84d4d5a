@@ -16,6 +16,29 @@
       "message": "Thanks for reviews.",
       "revId": "8487e40c56d33267d9c119be05ff6794f84d4d5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b4ce3d3_04ca2537",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-11T19:49:34Z",
+      "side": 1,
+      "message": "drop the _.",
+      "range": {
+        "startLine": 174,
+        "startChar": 2,
+        "endLine": 174,
+        "endChar": 19
+      },
+      "revId": "8487e40c56d33267d9c119be05ff6794f84d4d5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

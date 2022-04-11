@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d404df17_889e3343",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-11T13:02:10Z",
+      "side": 1,
+      "message": "Rather then using hidden can we use another render function that hides it?",
+      "revId": "1285fe15e921ecdf6a0b20bfe425b93bd0e04766",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

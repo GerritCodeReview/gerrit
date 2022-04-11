@@ -246,6 +246,7 @@ eslint(
     ],
     ignore = ".eslintignore",
     plugins = [
+        "@npm//@typescript-eslint/eslint-plugin",
         "@npm//eslint-config-google",
         "@npm//eslint-plugin-html",
         "@npm//eslint-plugin-import",

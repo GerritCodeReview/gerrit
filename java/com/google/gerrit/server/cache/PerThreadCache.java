@@ -20,8 +20,11 @@ import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.git.RepoRefCache;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -161,8 +164,7 @@ public class PerThreadCache implements AutoCloseable {
    * provided {@link Supplier}.
    */
   public <T> T get(Key<T> key, Supplier<T> loader) {
-    @SuppressWarnings("unchecked")
-    T value = (T) cache.get(key);
+    T value = get(key);
     if (value == null) {
       value = loader.get();
       if (cache.size() < PER_THREAD_CACHE_SIZE) {
@@ -172,6 +174,12 @@ public class PerThreadCache implements AutoCloseable {
     return value;
   }
 
+  /** Returns an instance of {@code T} that is already loaded from the cache or null otherwise. */
+  @SuppressWarnings("unchecked")
+  public <T> T get(Key<T> key) {
+    return (T) cache.get(key);
+  }
+
   /** Returns true if the associated request is read-only */
   public boolean hasReadonlyRequest() {
     return readOnlyRequest;
@@ -179,6 +187,12 @@ public class PerThreadCache implements AutoCloseable {
 
   @Override
   public void close() {
+    Optional.of(CACHE.get())
+        .map(v -> v.cache.values().stream())
+        .orElse(Stream.empty())
+        .filter(v -> v instanceof RepoRefCache)
+        .forEach(cache -> ((RepoRefCache) cache).close());
+
     CACHE.remove();
   }
 }

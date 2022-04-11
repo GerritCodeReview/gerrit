@@ -184,6 +184,8 @@ public class GetDiff implements RestReadView<FileResource> {
     private final DiffSide sideB;
     private final String revA;
     private final String revB;
+    private final String hashA;
+    private final String hashB;
     private final FileResource resource;
     @Nullable private final PatchSet basePatchSet;
 
@@ -202,6 +204,7 @@ public class GetDiff implements RestReadView<FileResource> {
       this.sideB = sideB;
 
       revA = basePatchSet != null ? basePatchSet.refName() : sideA.fileInfo().commitId;
+      hashA = sideA.fileInfo().commitId;
 
       RevisionResource revision = resource.getRevision();
       revB =
@@ -209,8 +212,9 @@ public class GetDiff implements RestReadView<FileResource> {
               .getEdit()
               .map(edit -> edit.getRefName())
               .orElseGet(() -> revision.getPatchSet().refName());
+      hashB = sideB.fileInfo().commitId;
 
-      logger.atFine().log("revA = %s, revB = %s", revA, revB);
+      logger.atFine().log("revA = %s, hashA = %s, revB = %s, hashB = %s", revA, hashA, revB, hashB);
     }
 
     @Override
@@ -234,12 +238,17 @@ public class GetDiff implements RestReadView<FileResource> {
     @Override
     public ImmutableList<WebLinkInfo> getFileWebLinks(DiffSide.Type type) {
       String rev = getSideRev(type);
+      String hash = getSideHash(type);
       DiffSide side = getDiffSide(type);
-      return webLinks.getFileLinks(projectName.get(), rev, side.fileName());
+      return webLinks.getFileLinks(projectName.get(), rev, hash, side.fileName());
     }
 
     private String getSideRev(DiffSide.Type sideType) {
       return DiffSide.Type.SIDE_A == sideType ? revA : revB;
+    }
+
+    private String getSideHash(DiffSide.Type sideType) {
+      return DiffSide.Type.SIDE_A == sideType ? hashA : hashB;
     }
 
     private DiffSide getDiffSide(DiffSide.Type sideType) {

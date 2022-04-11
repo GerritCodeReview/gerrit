@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63cfcf3b_235fdeb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T09:43:22Z",
+      "side": 1,
+      "message": "This should be mentioned in the Release-Notes footer.",
+      "revId": "e974ec485b9fbc69deecf87d8743d3112ba130ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

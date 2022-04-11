@@ -727,9 +727,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   protected ObjectId readRef(Repository repo) throws IOException {
     Optional<RefCache> refsCache =
         Optional.ofNullable(refs).map(Optional::of).orElse(RepoRefCache.getOptional(repo));
-    return refsCache.isPresent()
-        ? refsCache.get().get(getRefName()).orElse(null)
-        : super.readRef(repo);
+
+    if (refsCache.isPresent()) {
+      try (RefCache cache = refsCache.get()) {
+        return cache.get(getRefName()).orElse(null);
+      }
+    }
+
+    return super.readRef(repo);
   }
 
   @Override
@@ -758,12 +763,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         // ReviewDb claims NoteDb state exists, but meta ref isn't present: fall through and
         // auto-rebuild if necessary.
       }
-      RefCache refs =
+
+      try (RefCache refs =
           this.refs != null
               ? this.refs
-              : RepoRefCache.getOptional(repo).orElse(new RepoRefCache(repo));
-      if (!NoteDbChangeState.isChangeUpToDate(state, refs, getChangeId())) {
-        return rebuildAndOpen(repo, id);
+              : RepoRefCache.getOptional(repo).orElse(new RepoRefCache(repo))) {
+        if (!NoteDbChangeState.isChangeUpToDate(state, refs, getChangeId())) {
+          return rebuildAndOpen(repo, id);
+        }
       }
     }
     return super.openHandle(repo);

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles';
 import '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import '../../diff/gr-patch-range-select/gr-patch-range-select';
 import '../../edit/gr-edit-controls/gr-edit-controls';
@@ -23,7 +22,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
 import '../gr-commit-info/gr-commit-info';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-file-list-header_html';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {computeLatestPatchNum, PatchSet} from '../../../utils/patch-set-util';
@@ -47,6 +45,8 @@ import {
   ShortcutSection,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {getAppContext} from '../../../services/app-context';
+import {css, html} from 'lit';
+import {sharedStyles} from '../../../styles/shared-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -64,10 +64,6 @@ export interface GrFileListHeader {
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
   /**
    * @event expand-diffs
    */
@@ -135,6 +131,229 @@ export class GrFileListHeader extends PolymerElement {
   revisionInfo?: RevisionInfo;
 
   private readonly shortcuts = getAppContext().shortcutsService;
+
+  static override styles = [
+    sharedStyles,
+    css`
+      .prefsButton {
+        float: right;
+      }
+      .patchInfoOldPatchSet.patchInfo-header {
+        background-color: var(--emphasis-color);
+      }
+      .patchInfo-header {
+        align-items: center;
+        display: flex;
+        padding: var(--spacing-s) var(--spacing-l);
+      }
+      .patchInfo-left {
+        align-items: baseline;
+        display: flex;
+      }
+      .patchInfoContent {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .patchInfo-header .container.latestPatchContainer {
+        display: none;
+      }
+      .patchInfoOldPatchSet .container.latestPatchContainer {
+        display: initial;
+      }
+      .editMode.patchInfoOldPatchSet .container.latestPatchContainer {
+        display: none;
+      }
+      .latestPatchContainer a {
+        text-decoration: none;
+      }
+      .mobile {
+        display: none;
+      }
+      .patchInfo-header .container {
+        align-items: center;
+        display: flex;
+      }
+      .downloadContainer,
+      .uploadContainer {
+        margin-right: 16px;
+      }
+      .uploadContainer.hide {
+        display: none;
+      }
+      .rightControls {
+        align-self: flex-end;
+        margin: auto 0 auto auto;
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        font-weight: var(--font-weight-normal);
+        justify-content: flex-end;
+      }
+      #collapseBtn,
+      .allExpanded #expandBtn,
+      .fileViewActions {
+        display: none;
+      }
+      .someExpanded #expandBtn {
+        margin-right: 8px;
+      }
+      .someExpanded #collapseBtn,
+      .allExpanded #collapseBtn,
+      .openFile .fileViewActions {
+        align-items: center;
+        display: flex;
+      }
+      .rightControls gr-button,
+      gr-patch-range-select {
+        margin: 0 -4px;
+      }
+      .fileViewActions gr-button {
+        margin: 0;
+        --gr-button-padding: 2px 4px;
+      }
+      .editMode .hideOnEdit {
+        display: none;
+      }
+      .showOnEdit {
+        display: none;
+      }
+      .editMode .showOnEdit {
+        display: initial;
+      }
+      .editMode .showOnEdit.flexContainer {
+        align-items: center;
+        display: flex;
+      }
+      .label {
+        font-weight: var(--font-weight-bold);
+        margin-right: 24px;
+      }
+      gr-commit-info,
+      gr-edit-controls {
+        margin-right: -5px;
+      }
+      .fileViewActionsLabel {
+        margin-right: var(--spacing-xs);
+      }
+      @media screen and (max-width: 50em) {
+        .patchInfo-header .desktop {
+          display: none;
+        }
+      }
+    `,
+  ];
+
+  override render() {
+    return html`
+      <div
+        class$="patchInfo-header [[_computeEditModeClass(editMode)]] [[_computePatchInfoClass(patchNum, allPatchSets)]]"
+      >
+        <div class="patchInfo-left">
+          <div class="patchInfoContent">
+            <gr-patch-range-select
+              id="rangeSelect"
+              change-num="[[changeNum]]"
+              patch-num="[[patchNum]]"
+              base-patch-num="[[basePatchNum]]"
+              available-patches="[[allPatchSets]]"
+              revisions="[[change.revisions]]"
+              revision-info="[[revisionInfo]]"
+              on-patch-range-change="_handlePatchChange"
+            >
+            </gr-patch-range-select>
+            <span class="separator"></span>
+            <gr-commit-info
+              change="[[change]]"
+              server-config="[[serverConfig]]"
+              commit-info="[[commitInfo]]"
+            ></gr-commit-info>
+            <span class="container latestPatchContainer">
+              <span class="separator"></span>
+              <a href$="[[changeUrl]]">Go to latest patch set</a>
+            </span>
+          </div>
+        </div>
+        <div class$="rightControls [[_computeExpandedClass(filesExpanded)]]">
+          <template is="dom-if" if="[[editMode]]">
+            <span class="showOnEdit flexContainer">
+              <gr-edit-controls
+                id="editControls"
+                patch-num="[[patchNum]]"
+                change="[[change]]"
+              ></gr-edit-controls>
+              <span class="separator"></span>
+            </span>
+          </template>
+          <div class="fileViewActions">
+            <span class="fileViewActionsLabel">Diff view:</span>
+            <gr-diff-mode-selector
+              id="modeSelect"
+              save-on-change="[[loggedIn]]"
+            ></gr-diff-mode-selector>
+            <span
+              id="diffPrefsContainer"
+              class="hideOnEdit"
+              hidden$="[[_computePrefsButtonHidden(diffPrefs, loggedIn)]]"
+              hidden=""
+            >
+              <gr-tooltip-content has-tooltip title="Diff preferences">
+                <gr-button
+                  link=""
+                  class="prefsButton desktop"
+                  on-click="_handlePrefsTap"
+                  ><iron-icon icon="gr-icons:settings"></iron-icon
+                ></gr-button>
+              </gr-tooltip-content>
+            </span>
+            <span class="separator"></span>
+          </div>
+          <span class="downloadContainer desktop">
+            <gr-tooltip-content
+              has-tooltip
+              title="[[createTitle(Shortcut.OPEN_DOWNLOAD_DIALOG,
+                   ShortcutSection.ACTIONS)]]"
+            >
+              <gr-button link="" class="download" on-click="_handleDownloadTap"
+                >Download</gr-button
+              >
+            </gr-tooltip-content>
+          </span>
+          <template
+            is="dom-if"
+            if="[[_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]"
+          >
+            <gr-tooltip-content
+              has-tooltip
+              title="[[createTitle(Shortcut.TOGGLE_ALL_INLINE_DIFFS,
+                  ShortcutSection.FILE_LIST)]]"
+            >
+              <gr-button id="expandBtn" link="" on-click="_expandAllDiffs"
+                >Expand All</gr-button
+              >
+            </gr-tooltip-content>
+            <gr-tooltip-content
+              has-tooltip
+              title="[[createTitle(Shortcut.TOGGLE_ALL_INLINE_DIFFS,
+                  ShortcutSection.FILE_LIST)]]"
+            >
+              <gr-button id="collapseBtn" link="" on-click="_collapseAllDiffs"
+                >Collapse All</gr-button
+              >
+            </gr-tooltip-content>
+          </template>
+          <template
+            is="dom-if"
+            if="[[!_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]"
+          >
+            <div class="warning">
+              Bulk actions disabled because there are too many files.
+            </div>
+          </template>
+        </div>
+      </div>
+    `;
+  }
 
   _expandAllDiffs() {
     fireEvent(this, 'expand-diffs');

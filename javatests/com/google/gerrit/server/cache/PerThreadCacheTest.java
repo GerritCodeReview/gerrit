@@ -15,8 +15,8 @@
 package com.google.gerrit.server.cache;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import java.util.function.Supplier;
 import javax.servlet.http.HttpServletRequest;
@@ -92,7 +92,7 @@ public class PerThreadCacheTest {
   public void isAssociatedWithHttpReadonlyRequest() {
     HttpServletRequest getRequest = new FakeHttpServletRequest();
     try (PerThreadCache cache = PerThreadCache.create(getRequest)) {
-      assertThat(cache.hasReadonlyRequest()).isTrue();
+      assertThat(cache.isReadonlyRequest()).isTrue();
     }
   }
 
@@ -106,21 +106,34 @@ public class PerThreadCacheTest {
           }
         };
     try (PerThreadCache cache = PerThreadCache.create(putRequest)) {
-      assertThat(cache.hasReadonlyRequest()).isFalse();
+      assertThat(cache.isReadonlyRequest()).isFalse();
     }
   }
 
   @Test
   public void isNotAssociatedWithHttpRequest() {
     try (PerThreadCache cache = PerThreadCache.create(null)) {
-      assertThat(cache.hasReadonlyRequest()).isFalse();
+      assertThat(cache.isReadonlyRequest()).isFalse();
     }
   }
 
   @Test
   public void isAssociatedWithReadonlyRequest() {
     try (PerThreadCache cache = PerThreadCache.createReadOnly()) {
-      assertThat(cache.hasReadonlyRequest()).isTrue();
+      assertThat(cache.isReadonlyRequest()).isTrue();
+    }
+  }
+
+  @Test
+  public void openTemporaryReadonlyRequestWindow() throws Exception {
+    try (PerThreadCache cache = PerThreadCache.create(null)) {
+      assertThat(cache.isReadonlyRequest()).isFalse();
+
+      try (ReadonlyRequestWindow readOnlyWindow = cache.openReadonlyRequestWindow()) {
+        assertThat(cache.isReadonlyRequest()).isTrue();
+      }
+
+      assertThat(cache.isReadonlyRequest()).isFalse();
     }
   }
 

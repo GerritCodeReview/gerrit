@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94819949_6853b7da",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-11T07:51:19Z",
+      "side": 0,
+      "message": "This looks like we diffed twice before: Once in the future and once here. It seemed we just discarded the future\u0027s result.",
+      "range": {
+        "startLine": 353,
+        "startChar": 0,
+        "endLine": 354,
+        "endChar": 66
+      },
+      "revId": "fa6336bb08a293c61d9c2c5f96b6193cefd72469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

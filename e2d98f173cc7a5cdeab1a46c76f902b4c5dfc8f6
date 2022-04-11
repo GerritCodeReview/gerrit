@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11f0ea31_aabaa597",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-11T07:51:19Z",
+      "side": 1,
+      "message": "This means ObjectReader and DiffFormatter are not shared among threads that are processing at the same time, but Repository is. FileRepositry is thread-safe, so we are good, but for DfsRepository, it depends on the implementation.\n\nGoogle\u0027s implementation doesn\u0027t guarantee thread safety so this still isn\u0027t the cleanest possible solution. I do think it will solve our problem.",
+      "range": {
+        "startLine": 241,
+        "startChar": 30,
+        "endLine": 241,
+        "endChar": 71
+      },
+      "revId": "e2d98f173cc7a5cdeab1a46c76f902b4c5dfc8f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

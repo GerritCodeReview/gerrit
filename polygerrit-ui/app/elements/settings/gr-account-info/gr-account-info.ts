@@ -19,80 +19,222 @@ import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-account-info_html';
-import {customElement, property, observe} from '@polymer/decorators';
 import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {EditableAccountField} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
-import {fireEvent} from '../../../utils/event-util';
+import {fire, fireEvent} from '../../../utils/event-util';
+import {LitElement, css, html, nothing, PropertyValues} from 'lit';
+import {customElement, property, state} from 'lit/decorators';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {when} from 'lit/directives/when';
+import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 
 @customElement('gr-account-info')
-export class GrAccountInfo extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrAccountInfo extends LitElement {
   /**
    * Fired when account details are changed.
    *
    * @event account-detail-update
    */
 
-  @property({
-    type: Boolean,
-    notify: true,
-    computed: '_computeUsernameMutable(_serverConfig, _account.username)',
-  })
-  usernameMutable?: boolean;
+  @state() usernameMutable?: boolean;
 
-  @property({
-    type: Boolean,
-    notify: true,
-    computed: '_computeNameMutable(_serverConfig)',
-  })
-  nameMutable?: boolean;
+  @state() nameMutable?: boolean;
 
-  @property({
-    type: Boolean,
-    notify: true,
-    computed:
-      '_computeHasUnsavedChanges(_hasNameChange, ' +
-      '_hasUsernameChange, _hasStatusChange, _hasDisplayNameChange)',
-  })
-  hasUnsavedChanges?: boolean;
+  @property({type: Boolean}) hasUnsavedChanges = false;
 
-  @property({type: Boolean})
-  _hasNameChange?: boolean;
+  @state() _hasNameChange = false;
 
-  @property({type: Boolean})
-  _hasUsernameChange?: boolean;
+  @state() _hasUsernameChange = false;
 
-  @property({type: Boolean})
-  _hasDisplayNameChange?: boolean;
+  @state() _hasDisplayNameChange = false;
 
-  @property({type: Boolean})
-  _hasStatusChange?: boolean;
+  @state() _hasStatusChange = false;
 
-  @property({type: Boolean})
-  _loading = false;
+  @state() _loading = false;
 
-  @property({type: Boolean})
-  _saving = false;
+  @state() _saving = false;
 
-  @property({type: Object})
-  _account?: AccountDetailInfo;
+  @state() _account?: AccountDetailInfo;
 
-  @property({type: Object})
-  _serverConfig?: ServerInfo;
+  @state() _serverConfig?: ServerInfo;
 
-  @property({type: String, observer: '_usernameChanged'})
-  _username?: string;
+  @state() _username?: string;
 
-  @property({type: String})
-  _avatarChangeUrl = '';
+  @state() _avatarChangeUrl = '';
 
   private readonly restApiService = getAppContext().restApiService;
+
+  static override styles = [
+    sharedStyles,
+    formStyles,
+    css`
+      gr-avatar {
+        height: 120px;
+        width: 120px;
+        margin-right: var(--spacing-xs);
+        vertical-align: -0.25em;
+      }
+      div section.hide {
+        display: none;
+      }
+    `,
+  ];
+
+  override render() {
+    if (!this._account || this._loading) return nothing;
+    return html`<div class="gr-form-styles">
+      <section>
+        <span class="title"></span>
+        <span class="value">
+          <gr-avatar .account=${this._account} imageSize="120"></gr-avatar>
+        </span>
+      </section>
+      ${when(
+        this._avatarChangeUrl,
+        () => html` <section>
+          <span class="title"></span>
+          <span class="value">
+            <a href=${this._avatarChangeUrl}> Change avatar </a>
+          </span>
+        </section>`
+      )}
+      <section>
+        <span class="title">ID</span>
+        <span class="value">${this._account._account_id}</span>
+      </section>
+      <section>
+        <span class="title">Email</span>
+        <span class="value">${this._account.email}</span>
+      </section>
+      <section>
+        <span class="title">Registered</span>
+        <span class="value">
+          <gr-date-formatter
+            withTooltip
+            .dateStr=${this._account.registered_on}
+          ></gr-date-formatter>
+        </span>
+      </section>
+      <section id="usernameSection">
+        <span class="title">Username</span>
+        ${when(
+          this.usernameMutable,
+          () => html`<span class="value">
+            <iron-input
+              @keydown=${this._handleKeydown}
+              .bindValue=${this._username}
+              @bind-value-changed=${(e: BindValueChangeEvent) => {
+                if (!this._username || this._username === e.detail.value)
+                  return;
+                this._username = e.detail.value;
+                this._hasUsernameChange = true;
+              }}
+              id="usernameIronInput"
+            >
+              <input
+                id="usernameInput"
+                ?disabled=${this._saving}
+                @keydown=${this._handleKeydown}
+              />
+            </iron-input>
+          </span>`,
+          () => html`<span class="value">${this._username}</span>`
+        )}
+      </section>
+      <section id="nameSection">
+        <label class="title" for="nameInput">Full name</label>
+        ${when(
+          this.nameMutable,
+          () => html`<span class="value">
+            <iron-input
+              @keydown=${this._handleKeydown}
+              .bindValue=${this._account?.name}
+              @bind-value-changed=${(e: BindValueChangeEvent) => {
+                const oldAccount = this._account;
+                if (!oldAccount || oldAccount.name === e.detail.value) return;
+                this._account = {...oldAccount, name: e.detail.value};
+                this._hasNameChange = true;
+              }}
+              id="nameIronInput"
+            >
+              <input
+                id="nameInput"
+                ?disabled=${this._saving}
+                @keydown=${this._handleKeydown}
+              />
+            </iron-input>
+          </span>`,
+          () => html` <span class="value">${this._account?.name}</span>`
+        )}
+      </section>
+      <section>
+        <label class="title" for="displayNameInput">Display name</label>
+        <span class="value">
+          <iron-input
+            @keydown=${this._handleKeydown}
+            .bindValue=${this._account.display_name}
+            @bind-value-changed=${(e: BindValueChangeEvent) => {
+              const oldAccount = this._account;
+              if (!oldAccount || oldAccount.display_name === e.detail.value) {
+                return;
+              }
+              this._account = {...oldAccount, display_name: e.detail.value};
+              this._hasDisplayNameChange = true;
+            }}
+          >
+            <input
+              id="displayNameInput"
+              ?disabled=${this._saving}
+              @keydown=${this._handleKeydown}
+            />
+          </iron-input>
+        </span>
+      </section>
+      <section>
+        <label class="title" for="statusInput">About me (e.g. employer)</label>
+        <span class="value">
+          <iron-input
+            @keydown=${this._handleKeydown}
+            .bindValue=${this._account?.status}
+            @bind-value-changed=${(e: BindValueChangeEvent) => {
+              const oldAccount = this._account;
+              if (!oldAccount || oldAccount.status === e.detail.value) return;
+              this._account = {...oldAccount, status: e.detail.value};
+              this._hasStatusChange = true;
+            }}
+          >
+            <input
+              id="statusInput"
+              ?disabled=${this._saving}
+              @keydown=${this._handleKeydown}
+            />
+          </iron-input>
+        </span>
+      </section>
+    </div>`;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('_serverConfig')) {
+      this.usernameMutable = this._computeUsernameMutable();
+      this.nameMutable = this._computeNameMutable();
+    }
+    if (
+      changedProperties.has('_hasNameChange') ||
+      changedProperties.has('_hasUsernameChange') ||
+      changedProperties.has('_hasStatusChange') ||
+      changedProperties.has('_hasDisplayNameChange')
+    ) {
+      this.hasUnsavedChanges = this._computeHasUnsavedChanges();
+    }
+    if (changedProperties.has('hasUnsavedChanges')) {
+      fire(this, 'unsaved-changes-changed', {
+        value: this.hasUnsavedChanges,
+      });
+    }
+  }
 
   loadData() {
     const promises = [];
@@ -183,67 +325,30 @@ export class GrAccountInfo extends PolymerElement {
       : Promise.resolve();
   }
 
-  _computeHasUnsavedChanges(
-    nameChanged: boolean,
-    usernameChanged: boolean,
-    statusChanged: boolean,
-    displayNameChanged: boolean
-  ) {
+  _computeHasUnsavedChanges() {
     return (
-      nameChanged || usernameChanged || statusChanged || displayNameChanged
+      this._hasNameChange ||
+      this._hasUsernameChange ||
+      this._hasStatusChange ||
+      this._hasDisplayNameChange
     );
   }
 
-  _computeUsernameMutable(config: ServerInfo, username?: string) {
-    // Polymer 2: check for undefined
-    if ([config, username].includes(undefined)) {
-      return undefined;
-    }
-
+  _computeUsernameMutable() {
+    if (!this._serverConfig) return false;
     // Username may not be changed once it is set.
     return (
-      config.auth.editable_account_fields.includes(
+      this._serverConfig.auth.editable_account_fields.includes(
         EditableAccountField.USER_NAME
-      ) && !username
+      ) && !this._account?.username
     );
   }
 
-  _computeNameMutable(config: ServerInfo) {
-    return config.auth.editable_account_fields.includes(
+  _computeNameMutable() {
+    if (!this._serverConfig) return false;
+    return this._serverConfig.auth.editable_account_fields.includes(
       EditableAccountField.FULL_NAME
     );
-  }
-
-  @observe('_account.status')
-  _statusChanged() {
-    if (this._loading) {
-      return;
-    }
-    this._hasStatusChange = true;
-  }
-
-  @observe('_account.display_name')
-  _displayNameChanged() {
-    if (this._loading) {
-      return;
-    }
-    this._hasDisplayNameChange = true;
-  }
-
-  _usernameChanged() {
-    if (this._loading || !this._account) {
-      return;
-    }
-    this._hasUsernameChange =
-      (this._account.username || '') !== (this._username || '');
-  }
-
-  @observe('_account.name')
-  _nameChanged() {
-    if (this._loading) {
-      return;
-    }
-    this._hasNameChange = true;
   }
 
   _handleKeydown(e: KeyboardEvent) {
@@ -253,17 +358,12 @@ export class GrAccountInfo extends PolymerElement {
       this.save();
     }
   }
-
-  _hideAvatarChangeUrl(avatarChangeUrl: string) {
-    if (!avatarChangeUrl) {
-      return 'hide';
-    }
-
-    return '';
-  }
 }
 
 declare global {
+  interface HTMLElementEventMap {
+    'unsaved-changes-changed': ValueChangedEvent<boolean>;
+  }
   interface HTMLElementTagNameMap {
     'gr-account-info': GrAccountInfo;
   }

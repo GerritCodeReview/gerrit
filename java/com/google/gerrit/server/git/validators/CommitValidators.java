@@ -372,14 +372,19 @@ public class CommitValidators {
       // If there are no SSH keys, the commit-msg hook must be installed via
       // HTTP(S)
       Optional<String> webUrl = urlFormatter.getWebUrl();
+
+      String httpHook =
+          String.format(
+              "f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\""
+                  + " %stools/hooks/commit-msg ; chmod +x \"$f\"",
+              webUrl.get());
+
       if (hostKeys.isEmpty()) {
         checkState(webUrl.isPresent());
-        return String.format(
-            "  f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\" %stools/hooks/commit-msg ; chmod +x \"$f\"",
-            webUrl.get());
+        return httpHook;
       }
 
-      // SSH keys exist, so the hook can be installed with scp.
+      // SSH keys exist, so the hook might be able to be installed with scp.
       String sshHost;
       int sshPort;
       String host = hostKeys.get(0).getHost();
@@ -397,9 +402,11 @@ public class CommitValidators {
         sshPort = 22;
       }
 
-      return String.format(
-          "  gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/",
-          sshPort, user.getUserName().orElse("<USERNAME>"), sshHost);
+      String sshHook =
+          String.format(
+              "gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/",
+              sshPort, user.getUserName().orElse("<USERNAME>"), sshHost);
+      return String.format("  %s\nor, for http(s):\n  %s", sshHook, httpHook);
     }
   }
 

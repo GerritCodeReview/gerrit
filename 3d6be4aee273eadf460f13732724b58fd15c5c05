@@ -34,6 +34,41 @@
       "parentUuid": "ca70b79b_18c09a3f",
       "revId": "3d6be4aee273eadf460f13732724b58fd15c5c05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de393ecb_fdb83d8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T20:23:00Z",
+      "side": 1,
+      "message": "\u003e I want to get another pair of eyes on this. We have a team meeting tomorrow morning, and we\u0027ll get someone to look at this.\n\u003e \n\u003e I\u0027m personally worried that code executing within a ReadonlyWindow (eg. an event listener) could execute ref updates, which would lead to confusion all around. \n\nLet me check if by narrowing down even further the window would be possible. Bear in mind that the caching happens only when using the Gerrit ChangeNotes class.\n\n\u003e Is there a way such that executing a BRU or RU from here would throw an exception?\n\nI am not following, can you make a real-life example?\n\n\u003e Is this for some plugin, or does the firing itself trigger the ref loads?\n\nNo, this is for Gerrit which does 22 (!) refs lookups for the /meta refs upon posting a comment or scoring a review. If each refs lookup takes 500ms, you would wait as much as 11 seconds for posting a review.",
+      "parentUuid": "7fb580d2_eb9eaf5f",
+      "revId": "3d6be4aee273eadf460f13732724b58fd15c5c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d551118f_6cfa87f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T20:23:00Z",
+      "side": 1,
+      "message": "Happy to hold this until Han-Wen get someone to review on his side.",
+      "revId": "3d6be4aee273eadf460f13732724b58fd15c5c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

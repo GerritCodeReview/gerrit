@@ -35,6 +35,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Map;
+import java.util.Optional;
 
 @Singleton
 public class CommentAdded {
@@ -60,8 +61,20 @@ public class CommentAdded {
     if (listeners.isEmpty()) {
       return;
     }
+
+    newEvent(change, ps, author, comment, approvals, oldApprovals, when).ifPresent(this::fireEvent);
+  }
+
+  public Optional<CommentAddedListener.Event> newEvent(
+      Change change,
+      PatchSet ps,
+      AccountState author,
+      String comment,
+      Map<String, Short> approvals,
+      Map<String, Short> oldApprovals,
+      Timestamp when) {
     try {
-      Event event =
+      return Optional.of(
           new Event(
               util.changeInfo(change),
               util.revisionInfo(change.getProject(), ps),
@@ -69,8 +82,7 @@ public class CommentAdded {
               comment,
               util.approvals(author, approvals, when),
               util.approvals(author, oldApprovals, when),
-              when);
-      listeners.runEach(l -> l.onCommentAdded(event));
+              when));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
     } catch (PatchListNotAvailableException
@@ -80,6 +92,14 @@ public class CommentAdded {
         | PermissionBackendException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }
+    return Optional.empty();
+  }
+
+  public void fireEvent(CommentAddedListener.Event event) {
+    if (listeners.isEmpty()) {
+      return;
+    }
+    listeners.runEach(l -> l.onCommentAdded(event));
   }
 
   private static class Event extends AbstractRevisionEvent implements CommentAddedListener.Event {

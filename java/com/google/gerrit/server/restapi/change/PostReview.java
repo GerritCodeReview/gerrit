@@ -56,6 +56,7 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
+import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -89,6 +90,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.change.AddReviewersEmail;
 import com.google.gerrit.server.change.AddReviewersOp.Result;
 import com.google.gerrit.server.change.ChangeResource;
@@ -141,6 +143,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -160,6 +163,12 @@ public class PostReview
 
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
   private static final int DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES = 1024 * 1024;
+
+  private static final AutoCloseable EMPTY_AUTO_CLOSEABLE =
+      new AutoCloseable() {
+        @Override
+        public void close() {}
+      };
 
   private final Provider<ReviewDb> db;
   private final ChangeResource.Factory changeResourceFactory;
@@ -930,14 +939,26 @@ public class PostReview
                 labelDelta)
             .sendAsync();
       }
-      commentAdded.fire(
-          notes.getChange(),
-          ps,
-          user.state(),
-          message.getMessage(),
-          approvals,
-          oldApprovals,
-          ctx.getWhen());
+
+      Optional<CommentAddedListener.Event> event = Optional.empty();
+      try (AutoCloseable perThreadCache =
+          Optional.ofNullable(PerThreadCache.get())
+              .map(cache -> (AutoCloseable) cache.openReadonlyRequestWindow())
+              .orElse(EMPTY_AUTO_CLOSEABLE)) {
+        event =
+            commentAdded.newEvent(
+                notes.getChange(),
+                ps,
+                user.state(),
+                message.getMessage(),
+                approvals,
+                oldApprovals,
+                ctx.getWhen());
+      } catch (Exception e) {
+        throw new OrmException(e);
+      }
+
+      event.ifPresent(commentAdded::fireEvent);
     }
 
     private boolean insertComments(ChangeContext ctx)

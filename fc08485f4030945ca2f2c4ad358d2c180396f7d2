@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f865872f_e946c2df",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-11T08:33:04Z",
+      "side": 1,
+      "message": "as we discussed: how about restoring previous state of `readOnly` flag after `postUpdate` is finished?",
+      "range": {
+        "startLine": 921,
+        "startChar": 6,
+        "endLine": 924,
+        "endChar": 7
+      },
+      "revId": "fc08485f4030945ca2f2c4ad358d2c180396f7d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

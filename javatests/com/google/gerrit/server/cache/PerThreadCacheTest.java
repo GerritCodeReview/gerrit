@@ -17,10 +17,17 @@ package com.google.gerrit.server.cache;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 
+import com.google.gerrit.server.git.RefCache;
+import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
+import java.io.IOException;
 import java.util.function.Supplier;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.FS;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -86,6 +93,27 @@ public class PerThreadCacheTest {
       exception.expectMessage("called create() twice on the same request");
       PerThreadCache.create(null);
     }
+  }
+
+  @Test
+  public void usingClosedPerThreadCacheFails() throws IOException {
+    RefCache refCache;
+    DfsRepositoryDescription desc = new DfsRepositoryDescription("foo");
+    FS fs = FS.detect();
+    fs.setUserHome(null);
+    try (Repository repo =
+        new InMemoryRepository.Builder().setRepositoryDescription(desc).setFS(fs).build()) {
+      String repoName = "reponame";
+      try (PerThreadCache cache = PerThreadCache.create(null)) {
+        refCache =
+            cache.get(
+                PerThreadCache.Key.create(RefCache.class, repoName), () -> new RepoRefCache(repo));
+      }
+    }
+
+    exception.expect(IllegalStateException.class);
+    exception.expectMessage("already closed");
+    refCache.get("foobar");
   }
 
   @Test

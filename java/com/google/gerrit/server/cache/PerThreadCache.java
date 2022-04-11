@@ -20,8 +20,12 @@ import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.git.RefCache;
+import com.google.gerrit.server.git.RepoRefCache;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -172,13 +176,26 @@ public class PerThreadCache implements AutoCloseable {
     return value;
   }
 
-  /** Returns true if the associated request is read-only */
+  /** Remove an instance of {@code T} from the cache. */
+  public <T> void remove(Key<T> key) {
+    if (RefCache.class.isAssignableFrom(key.clazz)) {
+      ((RefCache) cache.get(key)).close();
+    }
+    cache.remove(key);
+  }
+
+  /** Returns true if there is an HTTP request associated and is a GET or HEAD */
   public boolean hasReadonlyRequest() {
     return readOnlyRequest;
   }
 
   @Override
   public void close() {
+    Optional.of(CACHE.get())
+        .map(v -> v.cache.values().stream())
+        .orElse(Stream.empty())
+        .filter(v -> v instanceof RepoRefCache)
+        .forEach(cache -> ((RepoRefCache) cache).close());
     CACHE.remove();
   }
 }

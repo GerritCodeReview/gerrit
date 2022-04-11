@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2d05106_b2997cfc",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T14:36:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c69471d_128fb76d",
+      "range": {
+        "startLine": 77,
+        "startChar": 23,
+        "endLine": 77,
+        "endChar": 41
+      },
+      "revId": "69429a4dcc666f3e97cd38480fd7d6c8ad945f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "904fa5ae_cbf69378",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40046432_672d4f4c",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T14:36:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "904fa5ae_cbf69378",
+      "range": {
+        "startLine": 287,
+        "startChar": 8,
+        "endLine": 291,
+        "endChar": 26
+      },
+      "revId": "69429a4dcc666f3e97cd38480fd7d6c8ad945f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "734ef3a7_e3f3ac6a",
@@ -77,6 +125,30 @@
       "writtenOn": "2022-04-11T14:26:12Z",
       "side": 1,
       "message": "nit: unrelated change in comment format",
+      "range": {
+        "startLine": 404,
+        "startChar": 6,
+        "endLine": 405,
+        "endChar": 20
+      },
+      "revId": "69429a4dcc666f3e97cd38480fd7d6c8ad945f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b1eb0df_40d46a38",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T14:36:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "734ef3a7_e3f3ac6a",
       "range": {
         "startLine": 404,
         "startChar": 6,

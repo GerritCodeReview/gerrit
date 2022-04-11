@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexUtils;
@@ -402,8 +403,10 @@ public class ChangeIndexer {
     @Override
     public Void callImpl(Provider<ReviewDb> db) throws Exception {
       remove();
-      ChangeData cd = newChangeData(db.get(), project, id);
-      index(cd);
+      try (PerThreadCache perThreadCache = PerThreadCache.createReadOnly()) {
+        ChangeData cd = newChangeData(db.get(), project, id);
+        index(cd);
+      }
       return null;
     }
 

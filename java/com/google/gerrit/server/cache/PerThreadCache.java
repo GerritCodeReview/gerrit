@@ -66,6 +66,12 @@ public class PerThreadCache implements AutoCloseable {
   private final Optional<HttpServletRequest> httpRequest;
 
   /**
+   * True when the current thread is associated with an incoming API request that is not changing
+   * any state.
+   */
+  private final boolean readOnlyRequest;
+
+  /**
    * Unique key for key-value mappings stored in PerThreadCache. The key is based on the value's
    * class and a list of identifiers that in combination uniquely set the object apart form others
    * of the same class.
@@ -110,9 +116,29 @@ public class PerThreadCache implements AutoCloseable {
     }
   }
 
+  /**
+   * Creates a thread-local cache associated to an incoming HTTP request.
+   *
+   * <p>The request is considered as read-only if the associated method is GET or HEAD.
+   *
+   * @param httpRequest HTTP request associated with the thread-local cache
+   * @return thread-local cache
+   */
   public static PerThreadCache create(@Nullable HttpServletRequest httpRequest) {
     checkState(CACHE.get() == null, "called create() twice on the same request");
-    PerThreadCache cache = new PerThreadCache(httpRequest);
+    PerThreadCache cache = new PerThreadCache(httpRequest, false);
+    CACHE.set(cache);
+    return cache;
+  }
+
+  /**
+   * Creates a thread-local cache associated to an incoming read-only request.
+   *
+   * @return thread-local cache
+   */
+  public static PerThreadCache createReadOnly() {
+    checkState(CACHE.get() == null, "called create() twice on the same request");
+    PerThreadCache cache = new PerThreadCache(null, true);
     CACHE.set(cache);
     return cache;
   }
@@ -129,8 +155,13 @@ public class PerThreadCache implements AutoCloseable {
 
   private final Map<Key<?>, Object> cache = Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);
 
-  private PerThreadCache(@Nullable HttpServletRequest req) {
+  private PerThreadCache(@Nullable HttpServletRequest req, boolean readOnly) {
     httpRequest = Optional.ofNullable(req);
+    readOnlyRequest =
+        readOnly
+            || (req != null
+                && (req.getMethod().equalsIgnoreCase("GET")
+                    || req.getMethod().equalsIgnoreCase("HEAD")));
   }
 
   /**
@@ -154,12 +185,9 @@ public class PerThreadCache implements AutoCloseable {
     return httpRequest;
   }
 
-  /** Returns true if there is an HTTP request associated and is a GET or HEAD */
+  /** Returns true if the associated request is read-only */
   public boolean hasReadonlyRequest() {
-    return httpRequest
-        .map(HttpServletRequest::getMethod)
-        .filter(m -> m.equalsIgnoreCase("GET") || m.equalsIgnoreCase("HEAD"))
-        .isPresent();
+    return readOnlyRequest;
   }
 
   @Override

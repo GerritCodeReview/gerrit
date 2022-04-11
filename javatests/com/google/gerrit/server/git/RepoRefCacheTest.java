@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.testing.GerritBaseTests;
@@ -24,8 +25,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectDatabase;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefDatabase;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -125,6 +130,28 @@ public class RepoRefCacheTest extends GerritBaseTests {
       }
 
       assertThat(repoPointedFromCache.useCnt.get()).isEqualTo(0);
+    }
+  }
+
+  public void shouldCheckForStaleness() throws Exception {
+    String refName = "refs/heads/foo";
+
+    try (InMemoryRepository repo = RepositoryWrapper.builder().build();
+        RepoRefCache refCache = new RepoRefCache(repo)) {
+      TestRepository<Repository> testRepo = new TestRepository<>(repo);
+
+      Optional<ObjectId> cachedObjId = refCache.get(refName);
+
+      assertThat(cachedObjId).isEqualTo(Optional.empty());
+
+      RefUpdate refUpdate = repo.getRefDatabase().newUpdate(refName, true);
+      refUpdate.setNewObjectId(testRepo.commit().create().getId());
+
+      assertThat(refUpdate.forceUpdate()).isEqualTo(Result.NEW);
+
+      IllegalStateException thrown =
+          assertThrows(IllegalStateException.class, () -> refCache.checkStaleness());
+      assertThat(thrown).hasMessageThat().contains(refName);
     }
   }
 

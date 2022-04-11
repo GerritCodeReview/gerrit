@@ -15,11 +15,13 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.Key;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -29,25 +31,51 @@ import org.eclipse.jgit.lib.Repository;
 public class RepoRefCache implements RefCache {
   private final RefDatabase refdb;
   private final Map<String, Optional<ObjectId>> ids;
+  private final Repository repo;
+  private final AtomicBoolean open;
 
+  /** TODO: REMOVE after merging to stable-3.2 */
+  @SuppressWarnings("resource")
   public static Optional<RefCache> getOptional(Repository repo) {
     PerThreadCache cache = PerThreadCache.get();
     if (cache != null && cache.hasReadonlyRequest()) {
-      return Optional.of(
-          cache.get(
-              PerThreadCache.Key.create(RepoRefCache.class, repo), () -> new RepoRefCache(repo)));
+      Key<RepoRefCache> refCacheKey = PerThreadCache.Key.create(RepoRefCache.class, repo);
+      RepoRefCache refCache = cache.get(refCacheKey, () -> new RepoRefCache(repo));
+      if (cache.get(refCacheKey) != null) {
+        return Optional.of(
+            new RefCache() {
+              private final AtomicBoolean wrapperClosed = new AtomicBoolean();
+
+              @Override
+              public Optional<ObjectId> get(String refName) throws IOException {
+                return refCache.get(refName);
+              }
+
+              @Override
+              public void close() {
+                if (wrapperClosed.getAndSet(false)) {
+                  refCache.close();
+                }
+              }
+            });
+      }
+      return Optional.of(refCache);
     }
 
     return Optional.empty();
   }
 
   public RepoRefCache(Repository repo) {
+    repo.incrementOpen();
+    this.repo = repo;
     this.refdb = repo.getRefDatabase();
     this.ids = new HashMap<>();
+    open = new AtomicBoolean(true);
   }
 
   @Override
   public Optional<ObjectId> get(String refName) throws IOException {
+    checkIsOpen();
     Optional<ObjectId> id = ids.get(refName);
     if (id != null) {
       return id;
@@ -60,6 +88,21 @@ public class RepoRefCache implements RefCache {
 
   /** @return an unmodifiable view of the refs that have been cached by this instance. */
   public Map<String, Optional<ObjectId>> getCachedRefs() {
+    checkIsOpen();
     return Collections.unmodifiableMap(ids);
+  }
+
+  @Override
+  public void close() {
+    checkIsOpen();
+
+    repo.close();
+    open.set(false);
+  }
+
+  private void checkIsOpen() {
+    if (!open.get()) {
+      throw new IllegalStateException("RepoRefCache for repository " + repo + " is already closed");
+    }
   }
 }

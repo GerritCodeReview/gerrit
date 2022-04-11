@@ -161,8 +161,7 @@ public class PerThreadCache implements AutoCloseable {
    * provided {@link Supplier}.
    */
   public <T> T get(Key<T> key, Supplier<T> loader) {
-    @SuppressWarnings("unchecked")
-    T value = (T) cache.get(key);
+    T value = get(key);
     if (value == null) {
       value = loader.get();
       if (cache.size() < PER_THREAD_CACHE_SIZE) {
@@ -170,6 +169,12 @@ public class PerThreadCache implements AutoCloseable {
       }
     }
     return value;
+  }
+
+  /** Returns an instance of {@code T} that is already loaded from the cache or null otherwise. */
+  @SuppressWarnings("unchecked")
+  public <T> T get(Key<T> key) {
+    return (T) cache.get(key);
   }
 
   /** Returns true if the associated request is read-only */

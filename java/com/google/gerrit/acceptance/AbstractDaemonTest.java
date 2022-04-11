@@ -93,6 +93,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.change.BatchAbandon;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeResource;
@@ -181,6 +182,7 @@ import org.eclipse.jgit.transport.URIish;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TestRule;
@@ -192,6 +194,7 @@ import org.junit.runners.model.Statement;
 public abstract class AbstractDaemonTest {
   private static GerritServer commonServer;
   private static Description firstTest;
+  private static String perThreadCacheCheckStaleEntry;
 
   @ConfigSuite.Parameter public Config baseConfig;
   @ConfigSuite.Name private String configName;
@@ -291,6 +294,12 @@ public abstract class AbstractDaemonTest {
   private ProjectResetter resetter;
   private List<Repository> toClose;
 
+  @BeforeClass
+  public static void enablePerThreadCacheStalenessCheck() {
+    perThreadCacheCheckStaleEntry =
+        System.setProperty(PerThreadCache.PER_THREAD_CACHE_CHECK_STALE_ENTRIES_PROPERTY, "true");
+  }
+
   @Before
   public void clearSender() {
     sender.clear();
@@ -331,6 +340,17 @@ public abstract class AbstractDaemonTest {
       }
     }
     TempFileUtil.cleanup();
+  }
+
+  @AfterClass
+  public static void disablePerThreadCacheStalenessCheck() {
+    if (perThreadCacheCheckStaleEntry == null) {
+      System.clearProperty(PerThreadCache.PER_THREAD_CACHE_CHECK_STALE_ENTRIES_PROPERTY);
+    } else {
+      System.setProperty(
+          PerThreadCache.PER_THREAD_CACHE_CHECK_STALE_ENTRIES_PROPERTY,
+          perThreadCacheCheckStaleEntry);
+    }
   }
 
   /** Controls which project and branches should be reset after each test case. */

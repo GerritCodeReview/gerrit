@@ -46,6 +46,30 @@
       },
       "revId": "e2d98f173cc7a5cdeab1a46c76f902b4c5dfc8f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "710e5a70_3c18e107",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-11T10:05:40Z",
+      "side": 1,
+      "message": "We are papering over this for the N-th time, so instead of making Repository thread safe in all cases to eliminate the remaining race potential, I think we should prioritize https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d487. (Myers has a defined worst case runtime) and eliminate all of this Future,Pool,syncronziation logic so that what remains in single threaded WDYT?",
+      "parentUuid": "92c66d7f_ef60ece4",
+      "range": {
+        "startLine": 241,
+        "startChar": 30,
+        "endLine": 241,
+        "endChar": 71
+      },
+      "revId": "e2d98f173cc7a5cdeab1a46c76f902b4c5dfc8f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

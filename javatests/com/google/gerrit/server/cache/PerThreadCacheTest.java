@@ -15,12 +15,15 @@
 package com.google.gerrit.server.cache;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 
+import com.github.dockerjava.api.model.Repository;
+import com.google.gerrit.server.cache.PerThreadCache.Key;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import java.util.function.Supplier;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -92,7 +95,7 @@ public class PerThreadCacheTest {
   public void isAssociatedWithHttpReadonlyRequest() {
     HttpServletRequest getRequest = new FakeHttpServletRequest();
     try (PerThreadCache cache = PerThreadCache.create(getRequest)) {
-      assertThat(cache.hasReadonlyRequest()).isTrue();
+      assertThat(cache.isReadonlyRequest(Repository.class)).isTrue();
     }
   }
 
@@ -106,21 +109,81 @@ public class PerThreadCacheTest {
           }
         };
     try (PerThreadCache cache = PerThreadCache.create(putRequest)) {
-      assertThat(cache.hasReadonlyRequest()).isFalse();
+      assertThat(cache.isReadonlyRequest(Repository.class)).isFalse();
     }
   }
 
   @Test
   public void isNotAssociatedWithHttpRequest() {
     try (PerThreadCache cache = PerThreadCache.create(null)) {
-      assertThat(cache.hasReadonlyRequest()).isFalse();
+      assertThat(cache.isReadonlyRequest(Repository.class)).isFalse();
     }
   }
 
   @Test
   public void isAssociatedWithReadonlyRequest() {
     try (PerThreadCache cache = PerThreadCache.createReadOnly()) {
-      assertThat(cache.hasReadonlyRequest()).isTrue();
+      assertThat(cache.isReadonlyRequest(Repository.class)).isTrue();
+    }
+  }
+
+  @Test
+  public void openTemporaryReadonlyRequestWindowForSpecificKeyType() throws Exception {
+    Class<?> readOnlyKeyType = Repository.class;
+    Class<?> otherKeyType = ObjectId.class;
+    try (PerThreadCache cache = PerThreadCache.create(null)) {
+      assertThat(cache.isReadonlyRequest(readOnlyKeyType)).isFalse();
+      assertThat(cache.isReadonlyRequest(otherKeyType)).isFalse();
+
+      try (ReadonlyRequestWindow readOnlyWindow =
+          PerThreadCache.openReadonlyRequestWindow(readOnlyKeyType)) {
+        assertThat(cache.isReadonlyRequest(readOnlyKeyType)).isTrue();
+        assertThat(cache.isReadonlyRequest(otherKeyType)).isFalse();
+      }
+
+      assertThat(cache.isReadonlyRequest(readOnlyKeyType)).isFalse();
+      assertThat(cache.isReadonlyRequest(otherKeyType)).isFalse();
+    }
+  }
+
+  @Test
+  public void openNestedTemporaryReadonlyWindows() throws Exception {
+    Class<?> readOnlyKeyType = Repository.class;
+
+    try (PerThreadCache cache = PerThreadCache.create(null)) {
+      assertThat(cache.isReadonlyRequest(readOnlyKeyType)).isFalse();
+
+      try (ReadonlyRequestWindow outerWindow =
+          PerThreadCache.openReadonlyRequestWindow(readOnlyKeyType)) {
+        assertThat(cache.isReadonlyRequest(readOnlyKeyType)).isTrue();
+
+        try (ReadonlyRequestWindow innerWindow =
+            PerThreadCache.openReadonlyRequestWindow(readOnlyKeyType)) {
+          assertThat(cache.isReadonlyRequest(readOnlyKeyType)).isTrue();
+        }
+
+        assertThat(cache.isReadonlyRequest(readOnlyKeyType)).isTrue();
+      }
+
+      assertThat(cache.isReadonlyRequest(readOnlyKeyType)).isFalse();
+    }
+  }
+
+  @Test
+  public void clearOutStaleEntriesAfterReadonlyWindow() throws Exception {
+    Class<String> keyType = String.class;
+    Key<String> key = PerThreadCache.Key.create(keyType, "key");
+
+    try (PerThreadCache cache = PerThreadCache.create(null)) {
+      try (ReadonlyRequestWindow outerWindow = PerThreadCache.openReadonlyRequestWindow(keyType)) {
+        assertThat(PerThreadCache.getOrCompute(key, () -> "cached value"))
+            .isEqualTo("cached value");
+        assertThat(PerThreadCache.getOrCompute(key, () -> "updated value"))
+            .isEqualTo("cached value");
+      }
+
+      assertThat(PerThreadCache.getOrCompute(key, () -> "updated value"))
+          .isEqualTo("updated value");
     }
   }
 

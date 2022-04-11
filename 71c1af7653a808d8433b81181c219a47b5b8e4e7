@@ -94,6 +94,30 @@
       },
       "revId": "71c1af7653a808d8433b81181c219a47b5b8e4e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03dd0531_7b0e2eb7",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-11T12:37:34Z",
+      "side": 0,
+      "message": "Seems to have worked. Maybe davido should confirm that this change to his original change is fine, since he left a comment specifically mentioning that this would be required. If it is not required, we should also remove it from master/stable-3.3.",
+      "parentUuid": "f2947ed7_7149609b",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 65
+      },
+      "revId": "71c1af7653a808d8433b81181c219a47b5b8e4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

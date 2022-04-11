@@ -16,6 +16,40 @@
       "message": "@Han-Wen could you check and LC+1 this merge up?",
       "revId": "a59fbe4efc09de9c68fa8ffb7ef4bc74845f97c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42c20e04_a375dedb",
+        "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-11T12:37:34Z",
+      "side": 1,
+      "message": "This comment should now be removed.",
+      "revId": "a59fbe4efc09de9c68fa8ffb7ef4bc74845f97c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7f69a05_ccf8a9e2",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-11T12:37:34Z",
+      "side": 1,
+      "message": "This comment should now be removed.",
+      "revId": "a59fbe4efc09de9c68fa8ffb7ef4bc74845f97c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

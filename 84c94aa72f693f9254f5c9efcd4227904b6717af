@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "829d2f7d_d32fa42c",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T10:36:15Z",
+      "side": 1,
+      "message": "True, would you suggest to make an AutoCloseable anonymous class instead?",
+      "parentUuid": "194450da_e3aa1880",
+      "range": {
+        "startLine": 925,
+        "startChar": 14,
+        "endLine": 925,
+        "endChar": 32
+      },
+      "revId": "84c94aa72f693f9254f5c9efcd4227904b6717af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5835d7a_27656e14",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
         "patchSetId": 8
@@ -54,6 +78,30 @@
       "writtenOn": "2022-04-11T10:29:17Z",
       "side": 1,
       "message": "as this happens async it doesn\u0027t need this to be fast. Also, since it is async, I _hope_ it\u0027s not actually using a per-request caching mechanism.",
+      "range": {
+        "startLine": 941,
+        "startChar": 15,
+        "endLine": 941,
+        "endChar": 24
+      },
+      "revId": "84c94aa72f693f9254f5c9efcd4227904b6717af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14386966_5c9f508f",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T10:36:15Z",
+      "side": 1,
+      "message": "True, the one actually causing trouble is the block on L943, which causes around 2s of delay due to the refs lookups. Let me narrow down the scope to just L943 instead.",
+      "parentUuid": "f5835d7a_27656e14",
       "range": {
         "startLine": 941,
         "startChar": 15,

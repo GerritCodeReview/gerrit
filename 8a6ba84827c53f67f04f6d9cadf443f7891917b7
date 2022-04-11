@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec82fadf_11cf804a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-11T18:56:18Z",
+      "side": 1,
+      "message": "You should probably wait to approach this until after stable-3.5 is merged up because of: 330579: BaseCommitUtil: Fix behavior when cache-automerge refs points to a tree | https://gerrit-review.googlesource.com/c/gerrit/+/330579 ",
+      "revId": "8a6ba84827c53f67f04f6d9cadf443f7891917b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "71c1af7653a808d8433b81181c219a47b5b8e4e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fb79817_bc4704fa",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T10:21:52Z",
+      "side": 0,
+      "message": "Let me cherry-pick specifically Change-Id: Iff5330417f",
+      "parentUuid": "ddcffbdd_de767fa3",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 65
+      },
+      "revId": "71c1af7653a808d8433b81181c219a47b5b8e4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

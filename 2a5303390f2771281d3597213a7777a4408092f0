@@ -284,6 +284,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaf91430_45dd5cc0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-11T12:59:42Z",
+      "side": 1,
+      "message": "Thanks a lot for explaining. Now I got it. That\u0027s nice pattern.",
+      "parentUuid": "c35cc5b8_b414d65d",
+      "range": {
+        "startLine": 514,
+        "startChar": 4,
+        "endLine": 514,
+        "endChar": 56
+      },
+      "revId": "2a5303390f2771281d3597213a7777a4408092f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0ffc882_b2179621",

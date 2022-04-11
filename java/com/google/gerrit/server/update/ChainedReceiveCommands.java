@@ -122,4 +122,9 @@ public class ChainedReceiveCommands implements RefCache {
   public Map<String, ReceiveCommand> getCommands() {
     return Collections.unmodifiableMap(commands);
   }
+
+  @Override
+  public void close() {
+    refCache.close();
+  }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b1c5179_ec65cf2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-11T09:31:29Z",
+      "side": 1,
+      "message": "I fixed the merge in regard to the M1-topic. The check_licenses test is working locally for me. It seems to me that it is an issue with the number of files allowed to be opened or the path depth that is allowed on the OS used to run the test.",
+      "revId": "ec9ac0ebda5e6197e4cc934bae9e279df2998029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -194,7 +194,7 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     group.element = element;
   }
 
-  protected getGroupsByLineRange(
+  private getGroupsByLineRange(
     startLine: LineNumber,
     endLine: LineNumber,
     side: Side

@@ -262,6 +262,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e323b94e_4fbff033",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-11T12:50:18Z",
+      "side": 1,
+      "message": "Instead of having a `setPendingConfirmation` method, you update the property and then the `willUpdate` observer will ensure that this event is fired.\n\nThe code that I linked is one such example.\n\nThis is similar to how we do it for `notify:true` conversions as well. From the conversion guide\n\n```\nInstead of using Polymer’s notify:true property option you have to explicitly fire a ValueChangedEvent (naming convention is $propName-changed) during the updated() lifecycle.\n```\n\nSo we fire this ValueChangedEvent in the updated() lifecycle instead of in a set method.",
+      "parentUuid": "c35cc5b8_b414d65d",
+      "range": {
+        "startLine": 514,
+        "startChar": 4,
+        "endLine": 514,
+        "endChar": 56
+      },
+      "revId": "2a5303390f2771281d3597213a7777a4408092f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a0ffc882_b2179621",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
         "patchSetId": 16

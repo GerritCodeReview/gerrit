@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c990bca2_6c7c5e27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-11T17:52:32Z",
+      "side": 1,
+      "message": "Due to the change in the commit message of the previous change, I have to redo the merge. I will wait until I get CR+2 on the previous change to avoid to have to do that too often.",
+      "revId": "f1145b4c207fb2840f2a4e3ca4c129005322bacb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

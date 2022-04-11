@@ -39,13 +39,19 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 public class ChainedReceiveCommands implements RefCache {
   private final Map<String, ReceiveCommand> commands = new LinkedHashMap<>();
   private final RepoRefCache refCache;
+  private final boolean closeRefCache;
 
   public ChainedReceiveCommands(Repository repo) {
-    this(new RepoRefCache(repo));
+    this(new RepoRefCache(repo), true);
   }
 
   public ChainedReceiveCommands(RepoRefCache refCache) {
+    this(refCache, false);
+  }
+
+  private ChainedReceiveCommands(RepoRefCache refCache, boolean closeRefCache) {
     this.refCache = requireNonNull(refCache);
+    this.closeRefCache = closeRefCache;
   }
 
   public RepoRefCache getRepoRefCache() {
@@ -121,5 +127,12 @@ public class ChainedReceiveCommands implements RefCache {
   /** @return an unmodifiable view of commands. */
   public Map<String, ReceiveCommand> getCommands() {
     return Collections.unmodifiableMap(commands);
+  }
+
+  @Override
+  public void close() {
+    if (closeRefCache) {
+      refCache.close();
+    }
   }
 }

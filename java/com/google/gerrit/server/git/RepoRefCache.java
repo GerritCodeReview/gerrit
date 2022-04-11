@@ -32,7 +32,7 @@ public class RepoRefCache implements RefCache {
 
   public static Optional<RefCache> getOptional(Repository repo) {
     PerThreadCache cache = PerThreadCache.get();
-    if (cache != null && cache.hasReadonlyRequest()) {
+    if (cache != null && cache.isReadonlyRequest()) {
       return Optional.of(
           cache.get(
               PerThreadCache.Key.create(RepoRefCache.class, repo), () -> new RepoRefCache(repo)));

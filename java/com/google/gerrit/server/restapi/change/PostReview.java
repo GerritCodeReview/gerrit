@@ -89,6 +89,8 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.change.AddReviewersEmail;
 import com.google.gerrit.server.change.AddReviewersOp.Result;
 import com.google.gerrit.server.change.ChangeResource;
@@ -930,6 +932,19 @@ public class PostReview
                 labelDelta)
             .sendAsync();
       }
+
+      PerThreadCache perThreadCache = PerThreadCache.get();
+      if (perThreadCache != null) {
+        try (ReadonlyRequestWindow readonlyRequestWindow =
+            perThreadCache.openReadonlyRequestWindow()) {
+          fireCommentAdded(ctx);
+        }
+      } else {
+        fireCommentAdded(ctx);
+      }
+    }
+
+    private void fireCommentAdded(Context ctx) {
       commentAdded.fire(
           notes.getChange(),
           ps,

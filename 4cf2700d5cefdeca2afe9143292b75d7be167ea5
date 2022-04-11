@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46c86d82_e5a73f52",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-11T12:00:29Z",
+      "side": 1,
+      "message": "I meant we could\u0027ve directly created the formatter without the pool since this if statement is synchronous. Doing it with the pool is also fine.",
+      "parentUuid": "24e4f175_7f1ddcce",
+      "range": {
+        "startLine": 342,
+        "startChar": 8,
+        "endLine": 342,
+        "endChar": 12
+      },
+      "revId": "4cf2700d5cefdeca2afe9143292b75d7be167ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe14ca67_4f6bdf95",

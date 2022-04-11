@@ -1697,6 +1697,8 @@ suite('gr-reply-dialog tests', () => {
       mutations.push(...review.reviewers!);
     });
 
+    assert.isFalse(element._reviewersMutated);
+
     // Remove and add to other field.
     reviewers.dispatchEvent(
       new CustomEvent('remove', {
@@ -1705,6 +1707,9 @@ suite('gr-reply-dialog tests', () => {
         bubbles: true,
       })
     );
+
+    assert.isTrue(element._reviewersMutated);
+
     ccs.$.entry.dispatchEvent(
       new CustomEvent('add', {
         detail: {value: {account: reviewer1}},

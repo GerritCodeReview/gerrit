@@ -82,7 +82,10 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+import {
+  PolymerDeepPropertyChange,
+  PolymerSpliceChange,
+} from '@polymer/polymer/interfaces';
 import {
   areSetsEqual,
   assertIsDefined,
@@ -497,6 +500,16 @@ export class GrReplyDialog extends DIPolymerElement {
         `gr-label-score-row[name="${label}"]`
       );
     return selectorEl?.selectedValue;
+  }
+
+  @observe('_reviewers.splices', '_ccs.splices')
+  reviewerOrCCChanged(
+    reviewerSplices?: PolymerSpliceChange<AccountInfo[] | GroupInfo[]>,
+    ccsSplices?: PolymerSpliceChange<AccountInfo[] | GroupInfo[]>
+  ) {
+    if (reviewerSplices?.indexSplices || ccsSplices?.indexSplices) {
+      this._reviewersMutated = true;
+    }
   }
 
   accountAdded(e: CustomEvent<AccountInputDetail>) {

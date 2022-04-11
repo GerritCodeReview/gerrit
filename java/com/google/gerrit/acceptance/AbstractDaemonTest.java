@@ -93,6 +93,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.change.BatchAbandon;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeResource;
@@ -181,6 +182,7 @@ import org.eclipse.jgit.transport.URIish;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.junit.rules.TestRule;
@@ -291,6 +293,11 @@ public abstract class AbstractDaemonTest {
   private ProjectResetter resetter;
   private List<Repository> toClose;
 
+  @BeforeClass
+  public void enablePerThreadCacheStalenessCheck() {
+    System.setProperty(PerThreadCache.PER_THREAD_CACHE_CHECK_STALE_ENTRIES_PROPERTY, "true");
+  }
+
   @Before
   public void clearSender() {
     sender.clear();
@@ -331,6 +338,11 @@ public abstract class AbstractDaemonTest {
       }
     }
     TempFileUtil.cleanup();
+  }
+
+  @AfterClass
+  public void disablePerThreadCacheStalenessCheck() {
+    System.setProperty(PerThreadCache.PER_THREAD_CACHE_CHECK_STALE_ENTRIES_PROPERTY, "false");
   }
 
   /** Controls which project and branches should be reset after each test case. */

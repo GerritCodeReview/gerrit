@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94be8ca1_ffd74a0f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-11T12:27:37Z",
+      "side": 1,
+      "message": "I actually tested it with entry! and it stops working. getFocus is called before rendering so entry is null. I have to leave it as ?",
+      "parentUuid": "7686a50d_b848a9c9",
+      "range": {
+        "startLine": 122,
+        "startChar": 24,
+        "endLine": 122,
+        "endChar": 26
+      },
+      "revId": "2a5303390f2771281d3597213a7777a4408092f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5bc5ed29_16bdeba9",
@@ -118,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7adcfff5_145edec9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-11T12:27:37Z",
+      "side": 1,
+      "message": "I prefer hidden since this is queried by @query(\u0027#entry\u0027) it should be always in dom.",
+      "parentUuid": "e2c25875_c3f8923e",
+      "range": {
+        "startLine": 235,
+        "startChar": 8,
+        "endLine": 236,
+        "endChar": 22
+      },
+      "revId": "2a5303390f2771281d3597213a7777a4408092f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56982e49_206e20ac",
@@ -178,6 +226,30 @@
       "writtenOn": "2022-04-11T09:22:21Z",
       "side": 1,
       "message": "I think these events are fired in the updated lifecycle and then you don\u0027t need this method.\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-labeled-autocomplete/gr-labeled-autocomplete.ts;l\u003d105?q\u003d%22fire(this,%20%27text-changed%27,%20this.text);%22\u0026sq\u003d",
+      "range": {
+        "startLine": 514,
+        "startChar": 4,
+        "endLine": 514,
+        "endChar": 56
+      },
+      "revId": "2a5303390f2771281d3597213a7777a4408092f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c35cc5b8_b414d65d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-11T12:27:37Z",
+      "side": 1,
+      "message": "Could you please give me more details? I don\u0027t see connection between linked code and this one.",
+      "parentUuid": "8eefeb4d_0f493c83",
       "range": {
         "startLine": 514,
         "startChar": 4,

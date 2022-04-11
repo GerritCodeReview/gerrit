@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63eae47c_7a40d115",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-11T11:07:41Z",
+      "side": 1,
+      "message": "+2 - nits",
+      "revId": "4cf2700d5cefdeca2afe9143292b75d7be167ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5472c42_513a2d7e",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-11T11:07:41Z",
+      "side": 1,
+      "message": "That\u0027s not actually needed here because we\u0027re running on the same thread, right?",
+      "range": {
+        "startLine": 342,
+        "startChar": 8,
+        "endLine": 342,
+        "endChar": 12
+      },
+      "revId": "4cf2700d5cefdeca2afe9143292b75d7be167ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe14ca67_4f6bdf95",
+        "filename": "java/com/google/gerrit/server/util/git/CloseablePool.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-11T11:07:41Z",
+      "side": 1,
+      "message": "License header missing",
+      "revId": "4cf2700d5cefdeca2afe9143292b75d7be167ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

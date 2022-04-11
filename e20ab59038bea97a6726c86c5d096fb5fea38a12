@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2364efed_be76b66c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-11T11:07:41Z",
+      "side": 1,
+      "message": "Sure.\n\n\u003e I\u0027m curious if we have test coverage for the timeout branch.\n\nUnfortunately we don\u0027t have test coverage for it.",
+      "parentUuid": "6e4c2098_e129edd8",
+      "revId": "e20ab59038bea97a6726c86c5d096fb5fea38a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "991d4512_7d0de07d",
@@ -55,6 +73,30 @@
       "side": 1,
       "message": "I took a closer look:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/71381 added this band-aid because we were falling back in Gerrit to a different diff algorithm and retriggered the computation.\n\nThis logic is no longer there. The fallback is a `negative` result. DiffOperationsImpl l.307 uses that as an indicator to perform a histogram diff without Myers fallback.\n\nThe diff entry was process directly by another thread here before, so it was synchronized. I think we can safely remove that since this reusing isn\u0027t happening anymore.\n\nYoussef, can you please double-check my thinking?",
       "parentUuid": "991d4512_7d0de07d",
+      "range": {
+        "startLine": 350,
+        "startChar": 15,
+        "endLine": 350,
+        "endChar": 40
+      },
+      "revId": "e20ab59038bea97a6726c86c5d096fb5fea38a12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67cbd517_e89e3402",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-11T11:07:41Z",
+      "side": 1,
+      "message": "Yes, the loader returns a negative result and we fallback to the alternative algorithm outside of the cache. I missed on removing this part during the migration. LGTM.",
+      "parentUuid": "053917cb_961e44a4",
       "range": {
         "startLine": 350,
         "startChar": 15,

@@ -118,6 +118,13 @@ public class PerThreadCacheTest extends GerritBaseTests {
   }
 
   @Test
+  public void isAssociatedWithReadonlyRequest() {
+    try (PerThreadCache cache = PerThreadCache.createReadOnly()) {
+      assertThat(cache.hasReadonlyRequest()).isTrue();
+    }
+  }
+
+  @Test
   public void enforceMaxSize() {
     try (PerThreadCache cache = PerThreadCache.create(null)) {
       // Fill the cache

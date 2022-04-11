@@ -89,6 +89,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.change.AddReviewersEmail;
 import com.google.gerrit.server.change.AddReviewersOp.Result;
 import com.google.gerrit.server.change.ChangeResource;
@@ -916,28 +917,41 @@ public class PostReview
       if (message == null) {
         return;
       }
-      if (in.notify.compareTo(NotifyHandling.NONE) > 0 || !accountsToNotify.isEmpty()) {
-        email
-            .create(
-                in.notify,
-                accountsToNotify,
-                notes,
-                ps,
-                user,
-                message,
-                comments,
-                in.message,
-                labelDelta)
-            .sendAsync();
+
+      PerThreadCache cache = PerThreadCache.get();
+      boolean requestWasReadonly = false;
+      if (cache != null) {
+        cache.setReadonlyRequest(true);
       }
-      commentAdded.fire(
-          notes.getChange(),
-          ps,
-          user.state(),
-          message.getMessage(),
-          approvals,
-          oldApprovals,
-          ctx.getWhen());
+
+      try {
+        if (in.notify.compareTo(NotifyHandling.NONE) > 0 || !accountsToNotify.isEmpty()) {
+          email
+              .create(
+                  in.notify,
+                  accountsToNotify,
+                  notes,
+                  ps,
+                  user,
+                  message,
+                  comments,
+                  in.message,
+                  labelDelta)
+              .sendAsync();
+        }
+        commentAdded.fire(
+            notes.getChange(),
+            ps,
+            user.state(),
+            message.getMessage(),
+            approvals,
+            oldApprovals,
+            ctx.getWhen());
+      } finally {
+        if (cache != null) {
+          cache.setReadonlyRequest(requestWasReadonly);
+        }
+      }
     }
 
     private boolean insertComments(ChangeContext ctx)

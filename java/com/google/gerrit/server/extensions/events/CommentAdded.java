@@ -25,6 +25,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -35,6 +37,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Map;
+import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class CommentAdded {
@@ -60,8 +63,10 @@ public class CommentAdded {
     if (listeners.isEmpty()) {
       return;
     }
-    try {
-      Event event =
+    Event event;
+    try (ReadonlyRequestWindow window =
+        PerThreadCache.openReadonlyRequestWindow(Repository.class)) {
+      event =
           new Event(
               util.changeInfo(change),
               util.revisionInfo(change.getProject(), ps),
@@ -70,16 +75,18 @@ public class CommentAdded {
               util.approvals(author, approvals, when),
               util.approvals(author, oldApprovals, when),
               when);
-      listeners.runEach(l -> l.onCommentAdded(event));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
+      return;
     } catch (PatchListNotAvailableException
         | GpgException
         | IOException
         | OrmException
         | PermissionBackendException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
+      return;
     }
+    listeners.runEach(l -> l.onCommentAdded(event));
   }
 
   private static class Event extends AbstractRevisionEvent implements CommentAddedListener.Event {

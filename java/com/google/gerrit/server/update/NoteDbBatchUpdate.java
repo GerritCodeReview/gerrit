@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -444,6 +445,11 @@ public class NoteDbBatchUpdate extends BatchUpdate {
   }
 
   private void executePostOps() throws Exception {
+    PerThreadCache perThreadCache = PerThreadCache.get();
+    if (perThreadCache != null) {
+      perThreadCache.setReadonlyRequest(true);
+    }
+
     ContextImpl ctx = new ContextImpl();
     for (BatchUpdateOp op : ops.values()) {
       op.postUpdate(ctx);

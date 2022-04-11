@@ -16,6 +16,24 @@
       "message": "I fixed the merge in regard to the M1-topic. The check_licenses test is working locally for me. It seems to me that it is an issue with the number of files allowed to be opened or the path depth that is allowed on the OS used to run the test.",
       "revId": "ec9ac0ebda5e6197e4cc934bae9e279df2998029",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a22bc7f_1c2c38f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T09:37:30Z",
+      "side": 1,
+      "message": "\u003e I fixed the merge in regard to the M1-topic. The check_licenses test is working locally for me. It seems to me that it is an issue with the number of files allowed to be opened or the path depth that is allowed on the OS used to run the test.\n\nI don\u0027t think it is a problem related to the OS but rather a hard limit on node_module_license?\n\n```\n  ERROR: /home/jenkins/workspace/Gerrit-verifier-chrome- \n  69/gerrit/tools/node_tools/node_modules_licenses/BUILD:9:11: Compiling TypeScript \n  (prodmode) //tools/node_tools/node_modules_licenses:licenses-map [for host] failed: (Exit 34): INVALID_ARGUMENT: Input tree has 84692 files, above the maximum of 70000\n  ERROR: /home/jenkins/workspace/Gerrit-verifier-chrome- \n  69/gerrit/tools/node_tools/node_modules_licenses/BUILD:25:14 Bundling JavaScript \n  tools/node_tools/node_modules_licenses/license-map-generator-bundle.js [rollup] \n  [for host] failed: (Exit 34): INVALID_ARGUMENT: Input tree has 84692 files, above \n  the maximum of 70000\n```",
+      "parentUuid": "9b1c5179_ec65cf2d",
+      "revId": "ec9ac0ebda5e6197e4cc934bae9e279df2998029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

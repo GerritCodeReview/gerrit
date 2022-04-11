@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99cc3150_84253a07",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-11T15:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c74de18_bdd2295a",
+      "revId": "cd8583007be2ae77a86f4142013a6d20f65209a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "196d21a0_19fc43d8",
@@ -49,6 +67,24 @@
       "writtenOn": "2022-04-11T13:08:30Z",
       "side": 1,
       "message": "Can we drop _ same for below?",
+      "revId": "cd8583007be2ae77a86f4142013a6d20f65209a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58a18b1e_31482ea1",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-11T15:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "196d21a0_19fc43d8",
       "revId": "cd8583007be2ae77a86f4142013a6d20f65209a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

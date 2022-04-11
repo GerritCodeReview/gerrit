@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c984a1c_dd54255d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T16:21:10Z",
+      "side": 1,
+      "message": "Missing Release-Notes: skip",
+      "revId": "13f6a2e1d38ce334c3289273b019fd0ded730832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c3bad00b_5f0d9a35",

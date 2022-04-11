@@ -94,6 +94,30 @@
       },
       "revId": "e2d98f173cc7a5cdeab1a46c76f902b4c5dfc8f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7a85b22_e21d6812",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-04-11T12:09:17Z",
+      "side": 1,
+      "message": "maybe fixing MD is feasible. Regardless, if we\u0027re committing a thread-safety sin here, we should at least document it.",
+      "parentUuid": "6ba7e505_748e7ec0",
+      "range": {
+        "startLine": 241,
+        "startChar": 30,
+        "endLine": 241,
+        "endChar": 71
+      },
+      "revId": "e2d98f173cc7a5cdeab1a46c76f902b4c5dfc8f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

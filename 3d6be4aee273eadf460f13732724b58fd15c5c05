@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9c5cce3_88566989",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T22:11:44Z",
+      "side": 1,
+      "message": "I have now reduced the scope of the read-only request window to the pure generation of the event data, which was responsible for a high number of /meta refs lookups.\n\nThe execution of the event listeners is now outside the read-only window and therefore safe from any potential stale read.\n\n@Han-Wen does this address your concerns?\n\nThank you again for your review and feedback, much appreciated.",
+      "parentUuid": "de393ecb_fdb83d8e",
+      "revId": "3d6be4aee273eadf460f13732724b58fd15c5c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7c85a2a_501e3a41",
@@ -84,6 +102,24 @@
       "writtenOn": "2022-04-11T21:52:16Z",
       "side": 1,
       "message": "Actually, not *all* the fire of the event is needed to be run inside a read-only request window: covering the creation of the Event would be good enough to provide a significant performance improvement, leaving the `listeners.runEach` out of the window.",
+      "revId": "3d6be4aee273eadf460f13732724b58fd15c5c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9d454f0_9645c89f",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T22:11:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c85a2a_501e3a41",
       "revId": "3d6be4aee273eadf460f13732724b58fd15c5c05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1870,7 +1870,7 @@ suite('gr-change-view tests', () => {
     assert.equal(element._patchRange.patchNum, 5 as RevisionPatchSetNum);
   });
 
-  test('file-action-tap handling', () => {
+  test('file-action-tap handling', async () => {
     element._patchRange = {
       basePatchNum: ParentPatchSetNum,
       patchNum: 1 as RevisionPatchSetNum,
@@ -1881,10 +1881,12 @@ suite('gr-change-view tests', () => {
     const fileList = element.$.fileList;
     const Actions = GrEditConstants.Actions;
     element.$.fileListHeader.editMode = true;
+    await element.$.fileListHeader.updateComplete;
     flush();
-    const controls = element.$.fileListHeader.shadowRoot!.querySelector(
+    const controls = queryAndAssert<GrEditControls>(
+      element.$.fileListHeader,
       '#editControls'
-    ) as GrEditControls;
+    );
     const openDeleteDialogStub = sinon.stub(controls, 'openDeleteDialog');
     const openRenameDialogStub = sinon.stub(controls, 'openRenameDialog');
     const openRestoreDialogStub = sinon.stub(controls, 'openRestoreDialog');

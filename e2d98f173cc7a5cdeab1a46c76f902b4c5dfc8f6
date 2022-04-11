@@ -118,6 +118,30 @@
       },
       "revId": "e2d98f173cc7a5cdeab1a46c76f902b4c5dfc8f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f16e929_11c556c0",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-11T12:45:33Z",
+      "side": 1,
+      "message": "Done (further below where the sin is committed)",
+      "parentUuid": "a7a85b22_e21d6812",
+      "range": {
+        "startLine": 241,
+        "startChar": 30,
+        "endLine": 241,
+        "endChar": 71
+      },
+      "revId": "e2d98f173cc7a5cdeab1a46c76f902b4c5dfc8f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

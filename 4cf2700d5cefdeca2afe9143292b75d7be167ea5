@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24e4f175_7f1ddcce",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-11T11:14:55Z",
+      "side": 1,
+      "message": "This takes one instance from the pool and when (auto) closed returns it, so it actually needs to be in a try-with-resources, otherwise the instance is not returned to the pool. Amended the javadoc.",
+      "parentUuid": "c5472c42_513a2d7e",
+      "range": {
+        "startLine": 342,
+        "startChar": 8,
+        "endLine": 342,
+        "endChar": 12
+      },
+      "revId": "4cf2700d5cefdeca2afe9143292b75d7be167ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe14ca67_4f6bdf95",
@@ -54,6 +78,24 @@
       "writtenOn": "2022-04-11T11:07:41Z",
       "side": 1,
       "message": "License header missing",
+      "revId": "4cf2700d5cefdeca2afe9143292b75d7be167ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea19ad58_ef9c4b3b",
+        "filename": "java/com/google/gerrit/server/util/git/CloseablePool.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-11T11:14:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe14ca67_4f6bdf95",
       "revId": "4cf2700d5cefdeca2afe9143292b75d7be167ea5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

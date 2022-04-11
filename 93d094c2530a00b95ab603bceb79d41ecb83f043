@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95d23092_785f9161",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-11T07:44:14Z",
+      "side": 1,
+      "message": "We could, but I like how the pooling on the list plays out and it seems a bit more generic.",
+      "parentUuid": "57ecaf44_13bee59c",
+      "range": {
+        "startLine": 193,
+        "startChar": 55,
+        "endLine": 193,
+        "endChar": 68
+      },
+      "revId": "93d094c2530a00b95ab603bceb79d41ecb83f043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3277e64f_cfda8e8b",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-08T17:35:59Z",
       "side": 1,
       "message": "we should also do something here, no? The DiffFormatter doesn\u0027t look threadsafe either.",
+      "range": {
+        "startLine": 279,
+        "startChar": 34,
+        "endLine": 279,
+        "endChar": 53
+      },
+      "revId": "93d094c2530a00b95ab603bceb79d41ecb83f043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c21743e_592e120b",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiffCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-11T07:44:14Z",
+      "side": 1,
+      "message": "I rewrote this a bit to pool DiffFormatters iso ObjectReaders. DiffFormatters can be set up to propagate the close to the object reader which we now do.",
+      "parentUuid": "3277e64f_cfda8e8b",
       "range": {
         "startLine": 279,
         "startChar": 34,

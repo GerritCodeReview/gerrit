@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2c36508_589bcd82",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-11T09:18:44Z",
+      "side": 1,
+      "message": "we learned and verified that this pattern is not needed. You can write it normally and `this` will still be bound correctly.\n\n`Event listeners added using the declarative @ syntax in the template are automatically bound to the component.`\n[documentation](https://lit.dev/docs/components/events/#understanding-this-in-event-listeners)\n\nsame below",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 51
+      },
+      "revId": "c8fe8c4b27766846cb56882b172cefc51257776f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce9f1974_41a97ed0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-11T09:18:44Z",
+      "side": 1,
+      "message": "switch to async await",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 56
+      },
+      "revId": "c8fe8c4b27766846cb56882b172cefc51257776f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

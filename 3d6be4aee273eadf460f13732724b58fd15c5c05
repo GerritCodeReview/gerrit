@@ -16,6 +16,24 @@
       "message": "@Han-Wen any objections?",
       "revId": "3d6be4aee273eadf460f13732724b58fd15c5c05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fb580d2_eb9eaf5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-04-11T16:32:43Z",
+      "side": 1,
+      "message": "I want to get another pair of eyes on this. We have a team meeting tomorrow morning, and we\u0027ll get someone to look at this.\n\nI\u0027m personally worried that code executing within a ReadonlyWindow (eg. an event listener) could execute ref updates, which would lead to confusion all around.  Is there a way such that executing a BRU or RU from here would throw an exception?\n\nIs this for some plugin, or does the firing itself trigger the ref loads?",
+      "parentUuid": "ca70b79b_18c09a3f",
+      "revId": "3d6be4aee273eadf460f13732724b58fd15c5c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -45,19 +45,11 @@ import {getBaseUrl} from '../../../utils/url-util';
  *   Graphemes: http://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries
  *   A proposed JS API: https://github.com/tc39/proposal-intl-segmenter
  */
-export const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
 // If any line of the diff is more than the character limit, then disable
 // syntax highlighting for the entire file.
 export const SYNTAX_MAX_LINE_LENGTH = 500;
-
-export function countLines(diff?: DiffInfo, side?: Side) {
-  if (!diff?.content || !side) return 0;
-  return diff.content.reduce((sum, chunk) => {
-    const sideChunk = side === Side.LEFT ? chunk.a : chunk.b;
-    return sum + (sideChunk?.length ?? chunk.ab?.length ?? chunk.skip ?? 0);
-  }, 0);
-}
 
 export function getResponsiveMode(
   prefs: DiffPreferencesInfo,
@@ -73,7 +65,7 @@ export function getResponsiveMode(
   return 'NONE';
 }
 
-export function isResponsive(responsiveMode?: DiffResponsiveMode) {
+export function isResponsive(responsiveMode: DiffResponsiveMode) {
   return (
     responsiveMode === 'FULL_RESPONSIVE' || responsiveMode === 'SHRINK_ONLY'
   );
@@ -124,12 +116,7 @@ export function getLineElByChild(node?: Node): HTMLElement | null {
         return null;
       }
     }
-    node =
-      (node as Element).assignedSlot ??
-      (node as ShadowRoot).host ??
-      node.previousSibling ??
-      node.parentNode ??
-      undefined;
+    node = node.previousSibling ?? node.parentElement ?? undefined;
   }
   return null;
 }
@@ -208,19 +195,6 @@ export function anyLineTooLong(diff?: DiffInfo) {
 }
 
 /**
- * Simple helper method for creating element classes in the context of
- * gr-diff.
- *
- * We are adding 'style-scope', 'gr-diff' classes for compatibility with
- * Shady DOM. TODO: Is that still required??
- *
- * Otherwise this is just a super simple convenience function.
- */
-export function diffClasses(...additionalClasses: string[]) {
-  return ['style-scope', 'gr-diff', ...additionalClasses].join(' ');
-}
-
-/**
  * Simple helper method for creating elements in the context of gr-diff.
  *
  * We are adding 'style-scope', 'gr-diff' classes for compatibility with
@@ -281,8 +255,6 @@ export function createTabWrapper(tabSize: number): HTMLElement {
 }
 
 /**
- * Deprecated: Lit based rendering uses the textToPieces() function above.
- *
  * Returns a 'div' element containing the supplied |text| as its innerText,
  * with '\t' characters expanded to a width determined by |tabSize|, and the
  * text wrapped at column |lineLimit|, which may be Infinity if no wrapping is

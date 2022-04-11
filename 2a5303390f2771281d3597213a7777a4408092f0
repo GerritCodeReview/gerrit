@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d1dd104_1eca0d9e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-11T09:22:21Z",
+      "side": 1,
+      "message": "I think we mark these as \"!:\" and then we don\u0027t need to the \"!\" when accessing the property like in ReplyIT test.",
+      "range": {
+        "startLine": 122,
+        "startChar": 24,
+        "endLine": 122,
+        "endChar": 26
+      },
+      "revId": "2a5303390f2771281d3597213a7777a4408092f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bc5ed29_16bdeba9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-11T09:22:21Z",
+      "side": 1,
+      "message": "remove \"_\"",
+      "range": {
+        "startLine": 174,
+        "startChar": 2,
+        "endLine": 174,
+        "endChar": 3
+      },
+      "revId": "2a5303390f2771281d3597213a7777a4408092f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2c25875_c3f8923e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-11T09:22:21Z",
+      "side": 1,
+      "message": "I think we\u0027re prefering not rendering instead of hiding.\n\nYou can use the `when` directive for it.",
+      "range": {
+        "startLine": 235,
+        "startChar": 8,
+        "endLine": 236,
+        "endChar": 22
+      },
+      "revId": "2a5303390f2771281d3597213a7777a4408092f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56982e49_206e20ac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-11T09:22:21Z",
+      "side": 1,
+      "message": "remove comment and the \"?\" access.",
+      "range": {
+        "startLine": 255,
+        "startChar": 4,
+        "endLine": 255,
+        "endChar": 62
+      },
+      "revId": "2a5303390f2771281d3597213a7777a4408092f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eefeb4d_0f493c83",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-11T09:22:21Z",
+      "side": 1,
+      "message": "I think these events are fired in the updated lifecycle and then you don\u0027t need this method.\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-labeled-autocomplete/gr-labeled-autocomplete.ts;l\u003d105?q\u003d%22fire(this,%20%27text-changed%27,%20this.text);%22\u0026sq\u003d",
+      "range": {
+        "startLine": 514,
+        "startChar": 4,
+        "endLine": 514,
+        "endChar": 56
+      },
+      "revId": "2a5303390f2771281d3597213a7777a4408092f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0ffc882_b2179621",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-11T09:22:21Z",
+      "side": 1,
+      "message": "is this still needed?",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 16
+      },
+      "revId": "2a5303390f2771281d3597213a7777a4408092f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -86,12 +86,19 @@ public class WebLinks {
    * @param commit SHA1 of commit.
    * @param commitMessage the commit message of the commit.
    * @param branchName branch of the commit.
+   * @param changeKey change Identifier for this change
    */
   public ImmutableList<WebLinkInfo> getPatchSetLinks(
-      Project.NameKey project, String commit, String commitMessage, String branchName) {
+      Project.NameKey project,
+      String commit,
+      String commitMessage,
+      String branchName,
+      String changeKey) {
     return filterLinks(
         patchSetLinks,
-        webLink -> webLink.getPatchSetWebLink(project.get(), commit, commitMessage, branchName));
+        webLink ->
+            webLink.getPatchSetWebLink(
+                project.get(), commit, commitMessage, branchName, changeKey));
   }
 
   /**

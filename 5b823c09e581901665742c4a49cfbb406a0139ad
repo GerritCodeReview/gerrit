@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42797666_a7faf3d0",
+        "filename": "java/com/google/gerrit/server/update/NoteDbBatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-11T01:47:14Z",
+      "side": 1,
+      "message": "This is too dangerous as we don\u0027t know what the BatchUpdateOp actually do. Better to reduce the scope.",
+      "range": {
+        "startLine": 448,
+        "startChar": 0,
+        "endLine": 451,
+        "endChar": 5
+      },
+      "revId": "5b823c09e581901665742c4a49cfbb406a0139ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

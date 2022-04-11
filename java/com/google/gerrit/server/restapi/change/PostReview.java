@@ -89,6 +89,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.change.AddReviewersEmail;
 import com.google.gerrit.server.change.AddReviewersOp.Result;
 import com.google.gerrit.server.change.ChangeResource;
@@ -916,6 +917,12 @@ public class PostReview
       if (message == null) {
         return;
       }
+
+      PerThreadCache cache = PerThreadCache.get();
+      if (cache != null) {
+        cache.setReadonlyRequest(true);
+      }
+
       if (in.notify.compareTo(NotifyHandling.NONE) > 0 || !accountsToNotify.isEmpty()) {
         email
             .create(
@@ -930,6 +937,7 @@ public class PostReview
                 labelDelta)
             .sendAsync();
       }
+
       commentAdded.fire(
           notes.getChange(),
           ps,

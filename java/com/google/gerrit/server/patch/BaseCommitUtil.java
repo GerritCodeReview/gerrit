@@ -17,7 +17,6 @@ package com.google.gerrit.server.patch;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
@@ -31,7 +30,6 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -141,37 +139,7 @@ class BaseCommitUtil {
     ObjectId autoMergeId =
         autoMerger.createAutoMergeCommit(new RepoView(repo, rw, ins), rw, ins, mergeCommit);
     ins.flush();
-    return updateRef(repo, rw, refName, autoMergeId, mergeCommit);
-  }
-
-  private static RevCommit updateRef(
-      Repository repo, RevWalk rw, String refName, ObjectId autoMergeId, RevCommit merge)
-      throws IOException {
-    RefUpdate ru = repo.updateRef(refName);
-    ru.setNewObjectId(autoMergeId);
-    ru.disableRefLog();
-    switch (ru.forceUpdate()) {
-      case FAST_FORWARD:
-      case FORCED:
-      case NEW:
-      case NO_CHANGE:
-        return rw.parseCommit(autoMergeId);
-      case LOCK_FAILURE:
-        throw new LockFailureException(
-            String.format("Failed to create auto-merge of %s", merge.name()), ru);
-      case IO_FAILURE:
-      case NOT_ATTEMPTED:
-      case REJECTED:
-      case REJECTED_CURRENT_BRANCH:
-      case REJECTED_MISSING_OBJECT:
-      case REJECTED_OTHER_REASON:
-      case RENAMED:
-      default:
-        throw new IOException(
-            String.format(
-                "Failed to create auto-merge of %s: Cannot write %s (%s)",
-                merge.name(), refName, ru.getResult()));
-    }
+    return rw.parseCommit(autoMergeId);
   }
 
   private ObjectInserter newInserter(Repository repo) {

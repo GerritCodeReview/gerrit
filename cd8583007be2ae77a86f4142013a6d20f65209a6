@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f00a77ed_9c2ed318",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-11T13:08:30Z",
+      "side": 1,
+      "message": "Can we drop _ for the state properties and for the functions as well (marking as private if they can be otherwise commenting that it is private but used in the test if it cannot be)",
+      "revId": "cd8583007be2ae77a86f4142013a6d20f65209a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "196d21a0_19fc43d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-11T13:08:30Z",
+      "side": 1,
+      "message": "Can we drop _ same for below?",
+      "revId": "cd8583007be2ae77a86f4142013a6d20f65209a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

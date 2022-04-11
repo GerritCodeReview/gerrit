@@ -16,6 +16,29 @@
       "message": "Rather then using hidden can we use another render function that hides it?",
       "revId": "1285fe15e921ecdf6a0b20bfe425b93bd0e04766",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6079306_dbe7b8ef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-11T14:50:12Z",
+      "side": 1,
+      "message": "sorry to comment now but is it possible to avoid null usage?",
+      "range": {
+        "startLine": 338,
+        "startChar": 31,
+        "endLine": 338,
+        "endChar": 35
+      },
+      "revId": "1285fe15e921ecdf6a0b20bfe425b93bd0e04766",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

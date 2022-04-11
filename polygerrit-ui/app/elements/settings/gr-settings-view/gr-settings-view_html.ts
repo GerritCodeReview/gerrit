@@ -123,7 +123,8 @@ export const htmlTemplate = html`
       <fieldset id="profile">
         <gr-account-info
           id="accountInfo"
-          has-unsaved-changes="{{_accountInfoChanged}}"
+          has-unsaved-changes="[[_accountInfoChanged]]"
+          on-unsaved-changes-changed="_handleAccountInfoUnsavedChanges"
         ></gr-account-info>
         <gr-button
           on-click="_handleSaveAccountInfo"

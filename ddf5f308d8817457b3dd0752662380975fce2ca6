@@ -16,6 +16,24 @@
       "message": "The master branch has advanced: need re-merging",
       "revId": "ddf5f308d8817457b3dd0752662380975fce2ca6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a761ca0b_c442fedb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-04-11T14:36:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "404cbafc_77cc0fba",
+      "revId": "ddf5f308d8817457b3dd0752662380975fce2ca6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

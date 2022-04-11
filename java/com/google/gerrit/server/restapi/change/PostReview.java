@@ -89,6 +89,8 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.change.AddReviewersEmail;
 import com.google.gerrit.server.change.AddReviewersOp.Result;
 import com.google.gerrit.server.change.ChangeResource;
@@ -282,9 +284,11 @@ public class PostReview
     if (input.reviewers != null) {
       reviewerJsonResults = Maps.newHashMap();
       for (AddReviewerInput reviewerInput : input.reviewers) {
-        // Prevent individual AddReviewersOps from sending one email each. Instead, we call
+        // Prevent individual AddReviewersOps from sending one email each. Instead, we
+        // call
         // batchEmailReviewers at the very end to send out a single email.
-        // TODO(dborowitz): I think this still sends out separate emails if any of input.reviewers
+        // TODO(dborowitz): I think this still sends out separate emails if any of
+        // input.reviewers
         // specifies explicit accountsToNotify. Unclear whether that's a good thing.
         reviewerInput.notify = NotifyHandling.NONE;
 
@@ -397,7 +401,8 @@ public class PostReview
 
       boolean readyForReview =
           (output.ready != null && output.ready) || !revision.getChange().isWorkInProgress();
-      // Sending from AddReviewersOp was suppressed so we can send a single batch email here.
+      // Sending from AddReviewersOp was suppressed so we can send a single batch
+      // email here.
       batchEmailReviewers(
           revision.getUser(),
           revision.getChange(),
@@ -916,6 +921,7 @@ public class PostReview
       if (message == null) {
         return;
       }
+
       if (in.notify.compareTo(NotifyHandling.NONE) > 0 || !accountsToNotify.isEmpty()) {
         email
             .create(
@@ -930,6 +936,21 @@ public class PostReview
                 labelDelta)
             .sendAsync();
       }
+
+      PerThreadCache perThreadCache = PerThreadCache.get();
+      if (perThreadCache != null) {
+        try (ReadonlyRequestWindow readonlyRequestWindow =
+            perThreadCache.openReadonlyRequestWindow()) {
+          fireCommentAdded(ctx);
+        } catch (Exception e) {
+          throw new OrmException(e);
+        }
+      } else {
+        fireCommentAdded(ctx);
+      }
+    }
+
+    private void fireCommentAdded(Context ctx) {
       commentAdded.fire(
           notes.getChange(),
           ps,

@@ -150,7 +150,7 @@ export class GrSettingsView extends PolymerElement {
   params?: AppElementParams;
 
   @property({type: Boolean})
-  _accountInfoChanged?: boolean;
+  _accountInfoChanged = false;
 
   @property({type: Object})
   _localPrefs: PreferencesInput = {};
@@ -472,6 +472,10 @@ export class GrSettingsView extends PolymerElement {
       this._lastSentVerificationEmail = this._newEmail;
       this._newEmail = '';
     });
+  }
+
+  _handleAccountInfoUnsavedChanges(e: ValueChangedEvent<boolean>) {
+    this._accountInfoChanged = e.detail.value;
   }
 
   _handleShowNumberChanged(e: ValueChangedEvent<boolean>) {

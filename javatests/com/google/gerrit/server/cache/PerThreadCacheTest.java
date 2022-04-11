@@ -92,7 +92,6 @@ public class PerThreadCacheTest {
   public void isAssociatedWithHttpReadonlyRequest() {
     HttpServletRequest getRequest = new FakeHttpServletRequest();
     try (PerThreadCache cache = PerThreadCache.create(getRequest)) {
-      assertThat(cache.getHttpRequest()).hasValue(getRequest);
       assertThat(cache.hasReadonlyRequest()).isTrue();
     }
   }
@@ -107,7 +106,6 @@ public class PerThreadCacheTest {
           }
         };
     try (PerThreadCache cache = PerThreadCache.create(putRequest)) {
-      assertThat(cache.getHttpRequest()).hasValue(putRequest);
       assertThat(cache.hasReadonlyRequest()).isFalse();
     }
   }
@@ -115,8 +113,14 @@ public class PerThreadCacheTest {
   @Test
   public void isNotAssociatedWithHttpRequest() {
     try (PerThreadCache cache = PerThreadCache.create(null)) {
-      assertThat(cache.getHttpRequest()).isEmpty();
       assertThat(cache.hasReadonlyRequest()).isFalse();
+    }
+  }
+
+  @Test
+  public void isAssociatedWithReadonlyRequest() {
+    try (PerThreadCache cache = PerThreadCache.createReadOnly()) {
+      assertThat(cache.hasReadonlyRequest()).isTrue();
     }
   }
 

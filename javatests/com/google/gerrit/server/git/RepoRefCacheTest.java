@@ -15,11 +15,14 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.gerrit.server.cache.PerThreadCache;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -28,10 +31,12 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectDatabase;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -56,6 +61,61 @@ public class RepoRefCacheTest {
 
     assertThat(repoWithRefCounting.refCounter()).isEqualTo(1);
     assertThat(cache.get(Constants.R_HEADS + TEST_BRANCH)).isNotNull();
+  }
+
+  @Test
+  @SuppressWarnings("resource")
+  public void shouldNotKeepReferenceToReposWhenCacheIsFull() throws Exception {
+    TestRepositoryWithRefCounting repoPointedFromCache;
+
+    try (PerThreadCache threadCache = PerThreadCache.createReadOnly()) {
+      fillUpAllThreadCache(threadCache);
+
+      try (TestRepositoryWithRefCounting repo =
+          TestRepositoryWithRefCounting.createWithBranch(TEST_BRANCH)) {
+        repoPointedFromCache = repo;
+        assertThat(repo.refCounter()).isEqualTo(1);
+        RefCache refCache = RepoRefCache.getOptional(repo).get();
+        assertThat(repo.refCounter()).isEqualTo(2);
+        refCache.close();
+        assertThat(repo.refCounter()).isEqualTo(1);
+      }
+
+      assertThat(repoPointedFromCache.refCounter()).isEqualTo(0);
+    }
+  }
+
+  @Test
+  public void shouldCheckForStaleness() throws Exception {
+    String refName = "refs/heads/foo";
+
+    try (TestRepositoryWithRefCounting repo =
+        TestRepositoryWithRefCounting.createWithBranch(TEST_BRANCH)) {
+      RepoRefCache refCache = new RepoRefCache(repo);
+      TestRepository<Repository> testRepo = new TestRepository<>(repo);
+
+      Optional<ObjectId> cachedObjId = refCache.get(refName);
+
+      assertThat(cachedObjId).isEqualTo(Optional.empty());
+
+      RefUpdate refUpdate = repo.getRefDatabase().newUpdate(refName, true);
+      refUpdate.setNewObjectId(testRepo.commit().create().getId());
+
+      assertThat(refUpdate.forceUpdate()).isEqualTo(Result.NEW);
+
+      IllegalStateException thrown =
+          assertThrows(IllegalStateException.class, () -> refCache.checkStaleness());
+      assertThat(thrown).hasMessageThat().contains(refName);
+    }
+  }
+
+  private void fillUpAllThreadCache(PerThreadCache cache) {
+
+    // Fill the cache
+    for (int i = 0; i < 50; i++) {
+      PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class, i);
+      cache.get(key, () -> "cached value", v -> {});
+    }
   }
 
   private static class TestRepositoryWithRefCounting extends Repository {

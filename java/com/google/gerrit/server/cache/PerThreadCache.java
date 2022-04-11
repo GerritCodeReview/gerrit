@@ -62,7 +62,7 @@ public class PerThreadCache implements AutoCloseable {
    * True when the current thread is associated with an incoming API request that is not changing
    * any state.
    */
-  private final boolean readOnlyRequest;
+  private boolean readOnlyRequest;
 
   /**
    * Unique key for key-value mappings stored in PerThreadCache. The key is based on the value's
@@ -173,8 +173,17 @@ public class PerThreadCache implements AutoCloseable {
   }
 
   /** Returns true if the associated request is read-only */
-  public boolean hasReadonlyRequest() {
+  public boolean isReadonlyRequest() {
     return readOnlyRequest;
+  }
+
+  /**
+   * Set the cache read-only request status.
+   *
+   * @param readOnly true if the cache is associated to a read-only request
+   */
+  public void setReadonlyRequest(boolean readOnly) {
+    readOnlyRequest = readOnly;
   }
 
   @Override

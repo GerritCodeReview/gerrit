@@ -474,6 +474,10 @@ export class GrSettingsView extends PolymerElement {
     });
   }
 
+  _handleAccountInfoUnsavedChanges(e: ValueChangedEvent<boolean>) {
+    this._accountInfoChanged = e.detail.value;
+  }
+
   _handleShowNumberChanged(e: ValueChangedEvent<boolean>) {
     this._showNumber = e.detail.value;
   }

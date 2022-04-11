@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74ebeef6_22514ea3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-11T12:39:34Z",
+      "side": 1,
+      "message": "@davido Could you confirm that Luca\u0027s change to the */node_module_licenses/BUILD files will work for every case? If yes, can we stop loading the complete node_modules there in the master branch as well?",
+      "revId": "a59fbe4efc09de9c68fa8ffb7ef4bc74845f97c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42c20e04_a375dedb",

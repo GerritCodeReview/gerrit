@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1da5855c_0b75a850",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-11T15:44:29Z",
+      "side": 1,
+      "message": "I\u0027ve seen usages of `!:` instead of `?:` for @query()\n\nIs this intentional?",
+      "range": {
+        "startLine": 71,
+        "startChar": 54,
+        "endLine": 71,
+        "endChar": 56
+      },
+      "revId": "1251ca41ad56991ea1adc69ee3232ce5ed476533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2af77395_46081e08",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-11T15:44:29Z",
+      "side": 1,
+      "message": "we want to fire this event in the updated() lifecycle so that updating the property means Lit ensures this event is fired.\n\nMore details here:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/334321/comments/8eefeb4d_0f493c83\n\nsame for `editing-changed`.",
+      "range": {
+        "startLine": 353,
+        "startChar": 10,
+        "endLine": 353,
+        "endChar": 37
+      },
+      "revId": "1251ca41ad56991ea1adc69ee3232ce5ed476533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39dc73e0_249a6a9e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-11T19:43:21Z",
+      "side": 1,
+      "message": "Since this element is queried, I would rather leave it hidden and always in dom.",
+      "parentUuid": "d404df17_889e3343",
+      "revId": "1285fe15e921ecdf6a0b20bfe425b93bd0e04766",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6079306_dbe7b8ef",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-04-11T14:50:12Z",
       "side": 1,
       "message": "sorry to comment now but is it possible to avoid null usage?",
+      "range": {
+        "startLine": 338,
+        "startChar": 31,
+        "endLine": 338,
+        "endChar": 35
+      },
+      "revId": "1285fe15e921ecdf6a0b20bfe425b93bd0e04766",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "614f9c06_b8a6375f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-11T19:43:21Z",
+      "side": 1,
+      "message": "I tried it and it cascaded to too many changes. Maybe later I can move from null to undefined.",
+      "parentUuid": "b6079306_dbe7b8ef",
       "range": {
         "startLine": 338,
         "startChar": 31,

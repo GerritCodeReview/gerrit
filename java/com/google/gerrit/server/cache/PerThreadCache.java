@@ -17,15 +17,19 @@ package com.google.gerrit.server.cache;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.git.RefCache;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -63,10 +67,48 @@ public class PerThreadCache implements AutoCloseable {
   private static final int PER_THREAD_CACHE_SIZE = 25;
 
   /**
-   * True when the current thread is associated with an incoming API request that is not changing
-   * any state.
+   * System property for disabling caching specific key types. TODO: DO NOT MERGE into stable-3.2
+   * onwards.
    */
-  private final boolean readOnlyRequest;
+  public static final String PER_THREAD_CACHE_DISABLED_TYPES_PROPERTY =
+      "PerThreadCache_disabledTypes";
+
+  /**
+   * True when the current thread is associated with an incoming API request that is not changing
+   * any repository /meta refs and therefore caching repo refs is safe. TODO: DO NOT MERGE into
+   * stable-3.2 onwards.
+   */
+  private boolean allowRefCache;
+
+  /**
+   * Sets the request status flag to read-only temporarily. TODO: DO NOT MERGE into stable-3.2
+   * onwards.
+   */
+  public interface ReadonlyRequestWindow extends AutoCloseable {
+
+    /**
+     * Close the request read-only status, restoring the previous value.
+     *
+     * <p>NOTE: If the previous status was not read-only, the cache is getting cleared for making
+     * sure that all potential stale entries coming from a read-only windows are cleared.
+     */
+    @Override
+    default void close() {}
+  }
+
+  private class ReadonlyRequestWindowImpl implements ReadonlyRequestWindow {
+    private final boolean oldAllowRepoRefsCache;
+
+    private ReadonlyRequestWindowImpl() {
+      oldAllowRepoRefsCache = allowRefCache();
+      allowRefCache(true);
+    }
+
+    @Override
+    public void close() {
+      allowRefCache(oldAllowRepoRefsCache);
+    }
+  }
 
   private final Map<Key<?>, Consumer<Object>> unloaders =
       Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);
@@ -186,10 +228,16 @@ public class PerThreadCache implements AutoCloseable {
   }
 
   private final Map<Key<?>, Object> cache = Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);
+  private final ImmutableSet<String> disabledTypes;
 
-  private PerThreadCache(@Nullable HttpServletRequest req, boolean readOnly) {
-    readOnlyRequest =
-        readOnly
+  private PerThreadCache(@Nullable HttpServletRequest req, boolean alwaysCacheRepoRefs) {
+    disabledTypes =
+        ImmutableSet.copyOf(
+            Splitter.on(',')
+                .split(System.getProperty(PER_THREAD_CACHE_DISABLED_TYPES_PROPERTY, "")));
+
+    allowRefCache =
+        alwaysCacheRepoRefs
             || (req != null
                 && (req.getMethod().equalsIgnoreCase("GET")
                     || req.getMethod().equalsIgnoreCase("HEAD")));
@@ -220,6 +268,10 @@ public class PerThreadCache implements AutoCloseable {
   @SuppressWarnings("unchecked")
   public <T> Optional<T> getWithLoader(
       Key<T> key, Supplier<T> loader, @Nullable Consumer<T> unloader) {
+    if (disabledTypes.contains(key.clazz.getCanonicalName())) {
+      return Optional.empty();
+    }
+
     T value = (T) cache.get(key);
     if (value == null && cache.size() < PER_THREAD_CACHE_SIZE) {
       value = loader.get();
@@ -231,22 +283,60 @@ public class PerThreadCache implements AutoCloseable {
     return Optional.ofNullable(value);
   }
 
-  /** Returns true if the associated request is read-only */
-  public boolean hasReadonlyRequest() {
-    return readOnlyRequest;
+  /** Returns an instance of {@code T} that is already loaded from the cache or null otherwise. */
+  @SuppressWarnings("unchecked")
+  public <T> T get(Key<T> key) {
+    return (T) cache.get(key);
+  }
+
+  /**
+   * Returns true if the associated request is read-only and therefore the repo refs are safe to be
+   * cached
+   */
+  public boolean allowRefCache() {
+    return allowRefCache;
+  }
+
+  /**
+   * Set the cache read-only request status temporarily, for enabling caching of all entries.
+   *
+   * @return {@link ReadonlyRequestWindow} associated with the incoming request
+   */
+  public static ReadonlyRequestWindow openReadonlyRequestWindow() {
+    PerThreadCache perThreadCache = CACHE.get();
+    return perThreadCache == null
+        ? new ReadonlyRequestWindow() {}
+        : perThreadCache.new ReadonlyRequestWindowImpl();
   }
 
   @Override
   public void close() {
-    Optional.of(CACHE.get())
-        .map(v -> v.unloaders.entrySet().stream())
-        .orElse(Stream.empty())
-        .forEach(this::unload);
-
+    unload(unloaders.entrySet());
     CACHE.remove();
   }
 
+  private void unload(Collection<Entry<Key<?>, Consumer<Object>>> toUnload) {
+    try {
+      toUnload.stream().forEach(this::unload);
+    } finally {
+      toUnload.stream().forEach(e -> cache.remove(e.getKey()));
+    }
+  }
+
   private <T> void unload(Entry<Key<?>, Consumer<Object>> unloaderEntry) {
-    unloaderEntry.getValue().accept(cache.get(unloaderEntry.getKey()));
+    Object valueToUnload = cache.get(unloaderEntry.getKey());
+    unloaderEntry.getValue().accept(valueToUnload);
+    cache.remove(unloaderEntry.getKey());
+  }
+
+  private void allowRefCache(boolean allowed) {
+    allowRefCache = allowed;
+
+    if (!allowRefCache) {
+      unload(
+          unloaders.entrySet().stream()
+              .filter(e -> RefCache.class.isAssignableFrom(e.getKey().clazz))
+              .collect(Collectors.toSet()));
+    }
   }
 }

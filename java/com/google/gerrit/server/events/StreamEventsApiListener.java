@@ -47,6 +47,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
@@ -393,22 +395,27 @@ public class StreamEventsApiListener
 
   @Override
   public void onCommentAdded(CommentAddedListener.Event ev) {
-    try {
+    Change change;
+    CommentAddedEvent event;
+
+    try (ReadonlyRequestWindow window =
+        PerThreadCache.openReadonlyRequestWindow(Repository.class)) {
       ChangeNotes notes = getNotes(ev.getChange());
-      Change change = notes.getChange();
+      change = notes.getChange();
       PatchSet ps = getPatchSet(notes, ev.getRevision());
-      CommentAddedEvent event = new CommentAddedEvent(change);
+      event = new CommentAddedEvent(change);
 
       event.change = changeAttributeSupplier(change, notes);
       event.author = accountAttributeSupplier(ev.getWho());
       event.patchSet = patchSetAttributeSupplier(change, ps);
       event.comment = ev.getComment();
       event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
-
-      dispatcher.run(d -> d.postEvent(change, event));
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
+      return;
     }
+
+    dispatcher.run(d -> d.postEvent(change, event));
   }
 
   @Override

@@ -62,7 +62,28 @@ public class PerThreadCache implements AutoCloseable {
    * True when the current thread is associated with an incoming API request that is not changing
    * any state.
    */
-  private final boolean readOnlyRequest;
+  private boolean readOnlyRequest;
+
+  /** Sets the request status flag to read-only temporarily. */
+  public interface ReadonlyRequestWindow extends AutoCloseable {
+
+    @Override
+    default void close() {}
+  }
+
+  private class ReadonlyRequestWindowImpl implements ReadonlyRequestWindow {
+    private boolean oldReadonlyRequestStatus;
+
+    private ReadonlyRequestWindowImpl() {
+      oldReadonlyRequestStatus = isReadonlyRequest();
+      setReadonlyRequest(true);
+    }
+
+    @Override
+    public void close() {
+      setReadonlyRequest(oldReadonlyRequestStatus);
+    }
+  }
 
   /**
    * Unique key for key-value mappings stored in PerThreadCache. The key is based on the value's
@@ -173,12 +194,28 @@ public class PerThreadCache implements AutoCloseable {
   }
 
   /** Returns true if the associated request is read-only */
-  public boolean hasReadonlyRequest() {
+  public boolean isReadonlyRequest() {
     return readOnlyRequest;
+  }
+
+  /**
+   * Set the cache read-only request status temporarily.
+   *
+   * @return {@link ReadonlyRequestWindow} associated with the incoming request
+   */
+  public static ReadonlyRequestWindow openReadonlyRequestWindow() {
+    PerThreadCache perThreadCache = CACHE.get();
+    return perThreadCache == null
+        ? new ReadonlyRequestWindow() {}
+        : perThreadCache.new ReadonlyRequestWindowImpl();
   }
 
   @Override
   public void close() {
     CACHE.remove();
+  }
+
+  private void setReadonlyRequest(boolean readOnly) {
+    readOnlyRequest = readOnly;
   }
 }

@@ -458,7 +458,7 @@ public class StreamEventsApiListener
 
   @Override
   public void onChangeAbandoned(ChangeAbandonedListener.Event ev) {
-    try {
+    try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
       ChangeNotes notes = getNotes(ev.getChange());
       Change change = notes.getChange();
       ChangeAbandonedEvent event = new ChangeAbandonedEvent(change);

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd4e2693_5a08c4fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-12T06:02:32Z",
+      "side": 1,
+      "message": "Release note is missing",
+      "revId": "5bddfd3c3db0ef8cc4b4df27eb7e9e7622a9d117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54b6542e_897c2ea2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-12T06:02:32Z",
+      "side": 1,
+      "message": "Could you mention the bazel versions that are affected and after which version it works (5.0.0?). That would help to decide on which branch to revert this change.",
+      "revId": "5bddfd3c3db0ef8cc4b4df27eb7e9e7622a9d117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

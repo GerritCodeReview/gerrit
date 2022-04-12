@@ -441,18 +441,21 @@ public class StreamEventsApiListener
   @Override
   public void onChangeMerged(ChangeMergedListener.Event ev) {
     try {
-      ChangeNotes notes = getNotes(ev.getChange());
-      Change change = notes.getChange();
-      ChangeMergedEvent event = new ChangeMergedEvent(change);
+      ChangeMergedEvent event;
+      try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+        ChangeNotes notes = getNotes(ev.getChange());
+        Change change = notes.getChange();
+        event = new ChangeMergedEvent(change);
 
-      event.change = changeAttributeSupplier(change, notes);
-      event.submitter = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
-      event.newRev = ev.getNewRevisionId();
+        event.change = changeAttributeSupplier(change, notes);
+        event.submitter = accountAttributeSupplier(ev.getWho());
+        event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
+        event.newRev = ev.getNewRevisionId();
 
+      } catch (OrmException e) {
+        logger.atSevere().withCause(e).log("Failed to dispatch event");
+      }
       dispatcher.run(d -> d.postEvent(change, event));
-    } catch (OrmException e) {
-      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 

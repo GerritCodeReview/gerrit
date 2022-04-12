@@ -29,6 +29,7 @@ import {
 } from '../test/test-data-generators';
 import {GrAppElement} from './gr-app-element';
 import {GrPluginHost} from './plugins/gr-plugin-host/gr-plugin-host';
+import {GrRouter} from './core/gr-router/gr-router';
 
 suite('gr-app tests', () => {
   let grApp: GrApp;
@@ -39,7 +40,8 @@ suite('gr-app tests', () => {
   setup(async () => {
     appStartedStub = sinon.stub(getAppContext().reportingService, 'appStarted');
     stub('gr-account-dropdown', '_getTopContent');
-    routerStartStub = stub('gr-router', 'start');
+    // routerStartStub = stub('gr-router', 'start');
+    routerStartStub = sinon.stub(GrRouter.prototype, 'start');
     stubRestApi('getAccount').returns(Promise.resolve(undefined));
     stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
     stubRestApi('getConfig').returns(Promise.resolve(config));

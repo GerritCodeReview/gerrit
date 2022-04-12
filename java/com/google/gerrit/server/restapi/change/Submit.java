@@ -43,6 +43,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
@@ -214,7 +216,8 @@ public class Submit
     try (MergeOp op = mergeOpProvider.get()) {
       ReviewDb db = dbProvider.get();
       op.merge(db, change, submitter, true, input, false);
-      try {
+      try (ReadonlyRequestWindow readonlyRequestWindow =
+          PerThreadCache.openReadonlyRequestWindow()) {
         change =
             changeNotesFactory.createChecked(db, change.getProject(), change.getId()).getChange();
       } catch (NoSuchChangeException e) {

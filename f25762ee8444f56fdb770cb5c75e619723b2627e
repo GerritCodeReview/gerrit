@@ -16,6 +16,24 @@
       "message": "How about moving the `ReadonlyRequestWindow` here to wrap the event creation? If it was possible then interface wouldn\u0027t have to be extended. I can see more candidates that could be wrapped inside this package e.g. `ReviewerDeleted`, `ChangeMerged`, etc... It would most likely make sense to wrap all of them 😊",
       "revId": "f25762ee8444f56fdb770cb5c75e619723b2627e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eca39227_651415d4",
+        "filename": "java/com/google/gerrit/server/extensions/events/CommentAdded.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-12T11:21:46Z",
+      "side": 1,
+      "message": "\u003e How about moving the `ReadonlyRequestWindow` here to wrap the event creation?\n\nDone.\n\n\u003e If it was possible then interface wouldn\u0027t have to be extended. I can see more candidates that could be wrapped inside this package e.g. `ReviewerDeleted`, `ChangeMerged`, etc... It would most likely make sense to wrap all of them 😊\n\nSure, makes sense but I\u0027d rather do in a separate change and one-by-one, to make sure that we\u0027re not impacting any use-case.",
+      "parentUuid": "1e16181d_d82ac7f9",
+      "revId": "f25762ee8444f56fdb770cb5c75e619723b2627e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

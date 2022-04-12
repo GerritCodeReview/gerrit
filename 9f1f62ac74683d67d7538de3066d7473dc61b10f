@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abda8164_21056849",
+        "filename": "java/com/google/gerrit/server/extensions/events/CommentAdded.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-12T13:03:02Z",
+      "side": 1,
+      "message": "This would avoid the creation of the event at L70 to re-read the \u0027/meta\u0027 ref multiple times and use instead the same SHA1 for all reads.\n\nThe only risk would be *IF* the SHA1 changes between L67 and L69. Before this change, the change of the SHA1 would have created an inconsistent Event anyway that was coming from two different NoteDb states. Now, after this change, the entire event is using the same NoteDb state, which is actually a good thing :-)",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 85
+      },
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6974467_eb3ee81c",
+        "filename": "java/com/google/gerrit/server/extensions/events/CommentAdded.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-12T13:03:02Z",
+      "side": 1,
+      "message": "Now the triggering of the event listeners is done outside the caching window.",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 70
+      },
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -845,7 +845,7 @@ suite('gr-change-actions tests', () => {
         sinon.stub(window, 'alert');
       });
 
-      test('works', () => {
+      test('works', async () => {
         element._handleCherrypickTap();
         const action = {
           __key: 'cherrypick',
@@ -868,8 +868,10 @@ suite('gr-change-actions tests', () => {
         element.$.confirmCherrypick.commitMessage = 'foo message';
         element.$.confirmCherrypick.changeStatus = ChangeStatus.NEW;
         element.$.confirmCherrypick.commitNum = '123' as CommitId;
+        await element.updateComplete;
 
         element._handleCherrypickConfirm();
+        await element.updateComplete;
 
         const autogrowEl = queryAndAssert<IronAutogrowTextareaElement>(
           element.$.confirmCherrypick,
@@ -890,7 +892,7 @@ suite('gr-change-actions tests', () => {
         ]);
       });
 
-      test('cherry pick even with conflicts', () => {
+      test('cherry pick even with conflicts', async () => {
         element._handleCherrypickTap();
         const action = {
           __key: 'cherrypick',
@@ -908,8 +910,10 @@ suite('gr-change-actions tests', () => {
         element.$.confirmCherrypick.commitMessage = 'foo message';
         element.$.confirmCherrypick.changeStatus = ChangeStatus.NEW;
         element.$.confirmCherrypick.commitNum = '123' as CommitId;
+        await element.updateComplete;
 
         element._handleCherrypickConflictConfirm();
+        await element.updateComplete;
 
         assert.deepEqual(fireActionStub.lastCall.args, [
           '/cherrypick',

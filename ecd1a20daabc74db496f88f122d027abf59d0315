@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c3bd9ee_8cfe1395",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-04-12T08:43:35Z",
+      "side": 1,
+      "message": "The build works on M1 Mac.\n\nSome tests are failing. Initially these four tests failed:\n\n//javatests/com/google/gerrit/acceptance:acceptance_framework_tests FAILED in 19.8s\n//javatests/com/google/gerrit/acceptance/rest:rest_bindings_collection FAILED in 86.3s\n//javatests/com/google/gerrit/acceptance/rest/binding:rest_bindings FAILED in 78.8s\n//plugins/delete-project:delete-project_tests FAILED in 139.2s\n\nAfter running again, only the //javatests/com/google/gerrit/acceptance/rest:rest_bindings_collection keeps failing with the following errors:\n\nThere were 4 failures:\n1) abortIfServerDeadlineExceeded_requestUriPatternAndExcludedRequestUriPattern(com.google.gerrit.acceptance.rest.CancellationIT)\nvalue of: getStatusCode()\nexpected: 408\nbut was : 201\n        at com.google.gerrit.acceptance.rest.CancellationIT.abortIfServerDeadlineExceeded_requestUriPatternAndExcludedRequestUriPattern(CancellationIT.java:260)\n2) clientProvidedDeadlineOverridesServerDeadline(com.google.gerrit.acceptance.rest.CancellationIT)\nvalue of: getStatusCode()\nexpected: 408\nbut was : 201\n        at com.google.gerrit.acceptance.rest.CancellationIT.clientProvidedDeadlineOverridesServerDeadline(CancellationIT.java:481)\n3) nonAdvisoryDeadlineIsAppliedIfStricterAdvisoryDeadlineExists(com.google.gerrit.acceptance.rest.CancellationIT)\nvalue of: getStatusCode()\nexpected: 408\nbut was : 201\n        at com.google.gerrit.acceptance.rest.CancellationIT.nonAdvisoryDeadlineIsAppliedIfStricterAdvisoryDeadlineExists(CancellationIT.java:359)\n4) abortIfClientProvidedDeadlineExceeded(com.google.gerrit.acceptance.rest.CancellationIT)\nvalue of: getStatusCode()\nexpected: 408\nbut was : 201\n        at com.google.gerrit.acceptance.rest.CancellationIT.abortIfClientProvidedDeadlineExceeded(CancellationIT.java:154)",
+      "revId": "ecd1a20daabc74db496f88f122d027abf59d0315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

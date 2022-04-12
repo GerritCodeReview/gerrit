@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24d465f8_e65f7ff7",
+        "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-12T06:22:22Z",
+      "side": 1,
+      "message": "My comment here was wrong, we should leave it here. Thinking to much, I assumed that this was mainly because we now had to use the whole node_modules folder as dependency. However, this rather refers to adding concatjs as a dependency. So we should leave the whole comment here. Sorry for that.",
+      "parentUuid": "16cf6909_7b21b052",
+      "revId": "a59fbe4efc09de9c68fa8ffb7ef4bc74845f97c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7f69a05_ccf8a9e2",
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "f7f69a05_ccf8a9e2",
+      "revId": "a59fbe4efc09de9c68fa8ffb7ef4bc74845f97c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "867a7b9c_b00d18e4",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-12T06:22:22Z",
+      "side": 1,
+      "message": "See my previous comment.",
+      "parentUuid": "86776c55_e597f0d6",
       "revId": "a59fbe4efc09de9c68fa8ffb7ef4bc74845f97c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

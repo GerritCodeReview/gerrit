@@ -31,10 +31,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {when} from 'lit/directives/when';
 import {fire} from '../../../utils/event-util';
-
-type PropertiesOfType<Source, Type> = {
-  [K in keyof Source]: Source[K] extends Type ? K : never;
-}[keyof Source];
+import {PropertiesOfType} from '../../../utils/type-util';
 
 type NotificationKey = PropertiesOfType<Required<ProjectWatchInfo>, boolean>;
 

@@ -14,13 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {
   page,
   PageContext,
   PageNextCallback,
 } from '../../../utils/page-wrapper-utils';
-import {htmlTemplate} from './gr-router_html';
 import {
   DashboardSection,
   GeneratedWebLink,
@@ -46,7 +44,6 @@ import {
 } from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {convertToPatchSetNum} from '../../../utils/patch-set-util';
-import {customElement, property} from '@polymer/decorators';
 import {assertNever} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
@@ -288,21 +285,13 @@ export interface PatchRangeParams {
   basePatchNum?: BasePatchSetNum;
 }
 
-@customElement('gr-router')
-export class GrRouter extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: Object})
+export class GrRouter {
   readonly _app = app;
 
-  @property({type: Boolean})
   _isRedirecting?: boolean;
 
   // This variable is to differentiate between internal navigation (false)
   // and for first navigation in app after loaded from server (true).
-  @property({type: Boolean})
   _isInitialLoad = true;
 
   private readonly reporting = getAppContext().reportingService;
@@ -315,19 +304,19 @@ export class GrRouter extends PolymerElement {
     if (!this._app) {
       return;
     }
-    this._startRouter();
+    this.startRouter();
   }
 
-  _setParams(params: AppElementParams | GenerateUrlParameters) {
+  setParams(params: AppElementParams | GenerateUrlParameters) {
     this.routerModel.updateState({
       view: params.view,
       changeNum: 'changeNum' in params ? params.changeNum : undefined,
       patchNum: 'patchNum' in params ? params.patchNum ?? undefined : undefined,
     });
-    this._appElement().params = params;
+    this.appElement().params = params;
   }
 
-  _appElement(): AppElement {
+  private appElement(): AppElement {
     // In Polymer2 you have to reach through the shadow root of the app
     // element. This obviously breaks encapsulation.
     // TODO(brohlfs): Make this more elegant, e.g. by exposing app-element
@@ -342,34 +331,34 @@ export class GrRouter extends PolymerElement {
         .shadowRoot!.getElementById('app-element')!) as AppElement;
   }
 
-  _redirect(url: string) {
+  redirect(url: string) {
     this._isRedirecting = true;
     page.redirect(url);
   }
 
-  _generateUrl(params: GenerateUrlParameters) {
+  generateUrl(params: GenerateUrlParameters) {
     const base = getBaseUrl();
     let url = '';
 
     if (params.view === GerritView.SEARCH) {
-      url = this._generateSearchUrl(params);
+      url = this.generateSearchUrl(params);
     } else if (params.view === GerritView.CHANGE) {
-      url = this._generateChangeUrl(params);
+      url = this.generateChangeUrl(params);
     } else if (params.view === GerritView.DASHBOARD) {
-      url = this._generateDashboardUrl(params);
+      url = this.generateDashboardUrl(params);
     } else if (
       params.view === GerritView.DIFF ||
       params.view === GerritView.EDIT
     ) {
-      url = this._generateDiffOrEditUrl(params);
+      url = this.generateDiffOrEditUrl(params);
     } else if (params.view === GerritView.GROUP) {
-      url = this._generateGroupUrl(params);
+      url = this.generateGroupUrl(params);
     } else if (params.view === GerritView.REPO) {
-      url = this._generateRepoUrl(params);
+      url = this.generateRepoUrl(params);
     } else if (params.view === GerritView.ROOT) {
       url = '/';
     } else if (params.view === GerritView.SETTINGS) {
-      url = this._generateSettingsUrl();
+      url = this.generateSettingsUrl();
     } else {
       assertNever(params, "Can't generate");
     }
@@ -377,33 +366,33 @@ export class GrRouter extends PolymerElement {
     return base + url;
   }
 
-  _generateWeblinks(
+  generateWeblinks(
     params: GenerateWebLinksParameters
   ): GeneratedWebLink[] | GeneratedWebLink {
     switch (params.type) {
       case WeblinkType.EDIT:
-        return this._getEditWebLinks(params);
+        return this.getEditWebLinks(params);
       case WeblinkType.FILE:
-        return this._getFileWebLinks(params);
+        return this.getFileWebLinks(params);
       case WeblinkType.CHANGE:
-        return this._getChangeWeblinks(params);
+        return this.getChangeWeblinks(params);
       case WeblinkType.PATCHSET:
-        return this._getPatchSetWeblink(params);
+        return this.getPatchSetWeblink(params);
       case WeblinkType.RESOLVE_CONFLICTS:
-        return this._getResolveConflictsWeblinks(params);
+        return this.getResolveConflictsWeblinks(params);
       default:
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         assertNever(params, `Unsupported weblink ${(params as any).type}!`);
     }
   }
 
-  _getPatchSetWeblink(
+  private getPatchSetWeblink(
     params: GenerateWebLinksPatchsetParameters
   ): GeneratedWebLink {
     const {commit, options} = params;
     const {weblinks, config} = options || {};
     const name = commit && commit.slice(0, 7);
-    const weblink = this._getBrowseCommitWeblink(weblinks, config);
+    const weblink = this.getBrowseCommitWeblink(weblinks, config);
     if (!weblink || !weblink.url) {
       return {name};
     } else {
@@ -411,13 +400,13 @@ export class GrRouter extends PolymerElement {
     }
   }
 
-  _getResolveConflictsWeblinks(
+  private getResolveConflictsWeblinks(
     params: GenerateWebLinksResolveConflictsParameters
   ): GeneratedWebLink[] {
     return params.options?.weblinks ?? [];
   }
 
-  _firstCodeBrowserWeblink(weblinks: GeneratedWebLink[]) {
+  firstCodeBrowserWeblink(weblinks: GeneratedWebLink[]) {
     // This is an ordered allowed list of web link types that provide direct
     // links to the commit in the url property.
     const codeBrowserLinks = ['gitiles', 'browse', 'gitweb'];
@@ -432,7 +421,10 @@ export class GrRouter extends PolymerElement {
     return null;
   }
 
-  _getBrowseCommitWeblink(weblinks?: GeneratedWebLink[], config?: ServerInfo) {
+  getBrowseCommitWeblink(
+    weblinks?: GeneratedWebLink[],
+    config?: ServerInfo
+  ) {
     if (!weblinks) {
       return null;
     }
@@ -443,7 +435,7 @@ export class GrRouter extends PolymerElement {
       weblink = weblinks.find(weblink => weblink.name === primaryWeblinkName);
     }
     if (!weblink) {
-      weblink = this._firstCodeBrowserWeblink(weblinks);
+      weblink = this.firstCodeBrowserWeblink(weblinks);
     }
     if (!weblink) {
       return null;
@@ -451,13 +443,13 @@ export class GrRouter extends PolymerElement {
     return weblink;
   }
 
-  _getChangeWeblinks(
+  getChangeWeblinks(
     params: GenerateWebLinksChangeParameters
   ): GeneratedWebLink[] {
     const weblinks = params.options?.weblinks;
     const config = params.options?.config;
     if (!weblinks || !weblinks.length) return [];
-    const commitWeblink = this._getBrowseCommitWeblink(weblinks, config);
+    const commitWeblink = this.getBrowseCommitWeblink(weblinks, config);
     return weblinks.filter(
       weblink =>
         !commitWeblink ||
@@ -466,15 +458,19 @@ export class GrRouter extends PolymerElement {
     );
   }
 
-  _getEditWebLinks(params: GenerateWebLinksEditParameters): GeneratedWebLink[] {
+  private getEditWebLinks(
+    params: GenerateWebLinksEditParameters
+  ): GeneratedWebLink[] {
     return params.options?.weblinks ?? [];
   }
 
-  _getFileWebLinks(params: GenerateWebLinksFileParameters): GeneratedWebLink[] {
+  private getFileWebLinks(
+    params: GenerateWebLinksFileParameters
+  ): GeneratedWebLink[] {
     return params.options?.weblinks ?? [];
   }
 
-  _generateSearchUrl(params: GenerateUrlSearchViewParameters) {
+  private generateSearchUrl(params: GenerateUrlSearchViewParameters) {
     let offsetExpr = '';
     if (params.offset && params.offset > 0) {
       offsetExpr = `,${params.offset}`;
@@ -529,8 +525,8 @@ export class GrRouter extends PolymerElement {
     return '/q/' + operators.join('+') + offsetExpr;
   }
 
-  _generateChangeUrl(params: GenerateUrlChangeViewParameters) {
-    let range = this._getPatchRangeExpression(params);
+  private generateChangeUrl(params: GenerateUrlChangeViewParameters) {
+    let range = this.getPatchRangeExpression(params);
     if (range.length) {
       range = '/' + range;
     }
@@ -559,11 +555,11 @@ export class GrRouter extends PolymerElement {
     }
   }
 
-  _generateDashboardUrl(params: GenerateUrlDashboardViewParameters) {
+  private generateDashboardUrl(params: GenerateUrlDashboardViewParameters) {
     const repoName = params.repo || params.project || undefined;
     if (params.sections) {
       // Custom dashboard.
-      const queryParams = this._sectionsToEncodedParams(
+      const queryParams = this.sectionsToEncodedParams(
         params.sections,
         repoName
       );
@@ -582,7 +578,10 @@ export class GrRouter extends PolymerElement {
     }
   }
 
-  _sectionsToEncodedParams(sections: DashboardSection[], repoName?: RepoName) {
+  private sectionsToEncodedParams(
+    sections: DashboardSection[],
+    repoName?: RepoName
+  ) {
     return sections.map(section => {
       // If there is a repo name provided, make sure to substitute it into the
       // ${repo} (or legacy ${project}) query tokens.
@@ -593,10 +592,10 @@ export class GrRouter extends PolymerElement {
     });
   }
 
-  _generateDiffOrEditUrl(
+  private generateDiffOrEditUrl(
     params: GenerateUrlDiffViewParameters | GenerateUrlEditViewParameters
   ) {
-    let range = this._getPatchRangeExpression(params);
+    let range = this.getPatchRangeExpression(params);
     if (range.length) {
       range = '/' + range;
     }
@@ -627,7 +626,7 @@ export class GrRouter extends PolymerElement {
     }
   }
 
-  _generateGroupUrl(params: GenerateUrlGroupViewParameters) {
+  private generateGroupUrl(params: GenerateUrlGroupViewParameters) {
     let url = `/admin/groups/${encodeURL(`${params.groupId}`, true)}`;
     if (params.detail === GroupDetailView.MEMBERS) {
       url += ',members';
@@ -637,7 +636,7 @@ export class GrRouter extends PolymerElement {
     return url;
   }
 
-  _generateRepoUrl(params: GenerateUrlRepoViewParameters) {
+  private generateRepoUrl(params: GenerateUrlRepoViewParameters) {
     let url = `/admin/repos/${encodeURL(`${params.repoName}`, true)}`;
     if (params.detail === RepoDetailView.GENERAL) {
       url += ',general';
@@ -655,7 +654,7 @@ export class GrRouter extends PolymerElement {
     return url;
   }
 
-  _generateSettingsUrl() {
+  private generateSettingsUrl() {
     return '/settings';
   }
 
@@ -664,7 +663,7 @@ export class GrRouter extends PolymerElement {
    * `basePatchNum` or both, return a string representation of that range. If
    * no range is indicated in the params, the empty string is returned.
    */
-  _getPatchRangeExpression(params: PatchRangeParams) {
+  getPatchRangeExpression(params: PatchRangeParams) {
     let range = '';
     if (params.patchNum) {
       range = `${params.patchNum}`;
@@ -680,7 +679,7 @@ export class GrRouter extends PolymerElement {
    * modified to fit the proper schema.
    *
    */
-  _normalizePatchRangeParams(params: PatchRangeParams) {
+  normalizePatchRangeParams(params: PatchRangeParams) {
     if (params.basePatchNum === undefined) {
       return false;
     }
@@ -705,7 +704,7 @@ export class GrRouter extends PolymerElement {
    * Redirect the user to login using the given return-URL for redirection
    * after authentication success.
    */
-  _redirectToLogin(returnUrl: string) {
+  redirectToLogin(returnUrl: string) {
     const basePath = getBaseUrl() || '';
     page('/login/' + encodeURIComponent(returnUrl.substring(basePath.length)));
   }
@@ -717,11 +716,11 @@ export class GrRouter extends PolymerElement {
    *
    * @return Everything after the first '#' ("a#b#c" -> "b#c").
    */
-  _getHashFromCanonicalPath(canonicalPath: string) {
+  getHashFromCanonicalPath(canonicalPath: string) {
     return canonicalPath.split('#').slice(1).join('#');
   }
 
-  _parseLineAddress(hash: string) {
+  parseLineAddress(hash: string) {
     const match = hash.match(LINE_ADDRESS_PATTERN);
     if (!match) {
       return null;
@@ -740,26 +739,26 @@ export class GrRouter extends PolymerElement {
    * @return A promise yielding the original route data
    * (if it resolves).
    */
-  _redirectIfNotLoggedIn(data: PageContext) {
+  redirectIfNotLoggedIn(data: PageContext) {
     return this.restApiService.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
         return Promise.resolve();
       } else {
-        this._redirectToLogin(data.canonicalPath);
+        this.redirectToLogin(data.canonicalPath);
         return Promise.reject(new Error());
       }
     });
   }
 
   /**  Page.js middleware that warms the REST API's logged-in cache line. */
-  _loadUserMiddleware(_: PageContext, next: PageNextCallback) {
+  private loadUserMiddleware(_: PageContext, next: PageNextCallback) {
     this.restApiService.getLoggedIn().then(() => {
       next();
     });
   }
 
   /**  Page.js middleware that try parse the querystring into queryMap. */
-  _queryStringMiddleware(ctx: PageContext, next: PageNextCallback) {
+  private queryStringMiddleware(ctx: PageContext, next: PageNextCallback) {
     (ctx as PageContextWithQueryMap).queryMap = this.createQueryMap(ctx);
     next();
   }
@@ -773,7 +772,7 @@ export class GrRouter extends PolymerElement {
         this.reporting.reportExecution(Execution.REACHABLE_CODE, {
           id: 'noURLSearchParams',
         });
-        return new Map(this._parseQueryString(ctx.querystring));
+        return new Map(this.parseQueryString(ctx.querystring));
       }
     }
     return new Map<string, string>();
@@ -792,34 +791,29 @@ export class GrRouter extends PolymerElement {
    * to the login flow and the handler will not be executed. The login
    * redirect specifies the matched URL to be used after successfull auth.
    */
-  _mapRoute(
+  mapRoute(
     pattern: string | RegExp,
-    handlerName: keyof GrRouter,
+    handlerName: string,
+    handler: (ctx: PageContextWithQueryMap) => void,
     authRedirect?: boolean
   ) {
-    if (!this[handlerName]) {
-      this.reporting.error(
-        new Error(`Attempted to map route to unknown method: ${handlerName}`)
-      );
-      return;
-    }
     page(
       pattern,
-      (ctx, next) => this._loadUserMiddleware(ctx, next),
-      (ctx, next) => this._queryStringMiddleware(ctx, next),
+      (ctx, next) => this.loadUserMiddleware(ctx, next),
+      (ctx, next) => this.queryStringMiddleware(ctx, next),
       ctx => {
         this.reporting.locationChanged(handlerName);
         const promise = authRedirect
-          ? this._redirectIfNotLoggedIn(ctx)
+          ? this.redirectIfNotLoggedIn(ctx)
           : Promise.resolve();
         promise.then(() => {
-          this[handlerName](ctx as PageContextWithQueryMap);
+          handler(ctx as PageContextWithQueryMap);
         });
       }
     );
   }
 
-  _startRouter() {
+  startRouter() {
     const base = getBaseUrl();
     if (base) {
       page.base(base);
@@ -833,8 +827,8 @@ export class GrRouter extends PolymerElement {
           page.show(url);
         }
       },
-      params => this._generateUrl(params),
-      params => this._generateWeblinks(params),
+      params => this.generateUrl(params),
+      params => this.generateWeblinks(params),
       x => x
     );
 
@@ -857,7 +851,7 @@ export class GrRouter extends PolymerElement {
           const usp = searchParams.get('usp');
           this.reporting.reportLifeCycle(LifeCycle.USER_REFERRED_FROM, {usp});
           searchParams.delete('usp');
-          this._redirect(toPath(pathname, searchParams));
+          this.redirect(toPath(pathname, searchParams));
           return;
         }
       }
@@ -872,7 +866,7 @@ export class GrRouter extends PolymerElement {
         // Redirect all urls using hash #/x/plugin/screen to /x/plugin/screen
         // This is needed to allow plugins to add basic #/x/ screen links to
         // any location.
-        this._redirect(ctx.hash);
+        this.redirect(ctx.hash);
         return;
       }
 
@@ -883,7 +877,7 @@ export class GrRouter extends PolymerElement {
           hash: window.location.hash,
           pathname: window.location.pathname,
         };
-        this.dispatchEvent(
+        window.dispatchEvent(
           new CustomEvent('location-change', {
             detail,
             composed: true,
@@ -894,225 +888,384 @@ export class GrRouter extends PolymerElement {
       next();
     });
 
-    this._mapRoute(RoutePattern.ROOT, '_handleRootRoute');
+    this.mapRoute(
+      RoutePattern.ROOT,
+      'handleRootRoute',
+      this.handleRootRoute.bind(this)
+    );
 
-    this._mapRoute(RoutePattern.DASHBOARD, '_handleDashboardRoute');
+    this.mapRoute(
+      RoutePattern.DASHBOARD,
+      'handleDashboardRoute',
+      this.handleDashboardRoute.bind(this)
+    );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.CUSTOM_DASHBOARD,
-      '_handleCustomDashboardRoute'
+      'handleCustomDashboardRoute',
+      this.handleCustomDashboardRoute.bind(this)
     );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.PROJECT_DASHBOARD,
-      '_handleProjectDashboardRoute'
+      'handleProjectDashboardRoute',
+      this.handleProjectDashboardRoute
     );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.LEGACY_PROJECT_DASHBOARD,
-      '_handleLegacyProjectDashboardRoute'
+      'handleLegacyProjectDashboardRoute',
+      this.handleLegacyProjectDashboardRoute.bind(this)
     );
 
-    this._mapRoute(RoutePattern.GROUP_INFO, '_handleGroupInfoRoute', true);
+    this.mapRoute(
+      RoutePattern.GROUP_INFO,
+      'handleGroupInfoRoute',
+      this.handleGroupInfoRoute.bind(this),
+      true
+    );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.GROUP_AUDIT_LOG,
-      '_handleGroupAuditLogRoute',
+      'handleGroupAuditLogRoute',
+      this.handleGroupAuditLogRoute.bind(this),
       true
     );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.GROUP_MEMBERS,
-      '_handleGroupMembersRoute',
+      'handleGroupMembersRoute',
+      this.handleGroupMembersRoute.bind(this),
       true
     );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.GROUP_LIST_OFFSET,
-      '_handleGroupListOffsetRoute',
+      'handleGroupListOffsetRoute',
+      this.handleGroupListOffsetRoute.bind(this),
       true
     );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.GROUP_LIST_FILTER_OFFSET,
-      '_handleGroupListFilterOffsetRoute',
+      'handleGroupListFilterOffsetRoute',
+      this.handleGroupListFilterOffsetRoute.bind(this),
       true
     );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.GROUP_LIST_FILTER,
-      '_handleGroupListFilterRoute',
+      'handleGroupListFilterRoute',
+      this.handleGroupListFilterRoute.bind(this),
       true
     );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.GROUP_SELF,
-      '_handleGroupSelfRedirectRoute',
+      'handleGroupSelfRedirectRoute',
+      this.handleGroupSelfRedirectRoute.bind(this),
       true
     );
 
-    this._mapRoute(RoutePattern.GROUP, '_handleGroupRoute', true);
+    this.mapRoute(
+      RoutePattern.GROUP,
+      'handleGroupRoute',
+      this.handleGroupRoute.bind(this),
+      true
+    );
 
-    this._mapRoute(RoutePattern.PROJECT_OLD, '_handleProjectsOldRoute');
+    this.mapRoute(
+      RoutePattern.PROJECT_OLD,
+      'handleProjectsOldRoute',
+      this.handleProjectsOldRoute.bind(this)
+    );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.REPO_COMMANDS,
-      '_handleRepoCommandsRoute',
+      'handleRepoCommandsRoute',
+      this.handleRepoCommandsRoute.bind(this),
       true
     );
 
-    this._mapRoute(RoutePattern.REPO_GENERAL, '_handleRepoGeneralRoute');
+    this.mapRoute(
+      RoutePattern.REPO_GENERAL,
+      'handleRepoGeneralRoute',
+      this.handleRepoGeneralRoute.bind(this)
+    );
 
-    this._mapRoute(RoutePattern.REPO_ACCESS, '_handleRepoAccessRoute');
+    this.mapRoute(
+      RoutePattern.REPO_ACCESS,
+      'handleRepoAccessRoute',
+      this.handleRepoAccessRoute.bind(this)
+    );
 
-    this._mapRoute(RoutePattern.REPO_DASHBOARDS, '_handleRepoDashboardsRoute');
+    this.mapRoute(
+      RoutePattern.REPO_DASHBOARDS,
+      'handleRepoDashboardsRoute',
+      this.handleRepoDashboardsRoute.bind(this)
+    );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.BRANCH_LIST_OFFSET,
-      '_handleBranchListOffsetRoute'
+      'handleBranchListOffsetRoute',
+      this.handleBranchListOffsetRoute.bind(this)
     );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.BRANCH_LIST_FILTER_OFFSET,
-      '_handleBranchListFilterOffsetRoute'
+      'handleBranchListFilterOffsetRoute',
+      this.handleBranchListFilterOffsetRoute.bind(this)
     );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.BRANCH_LIST_FILTER,
-      '_handleBranchListFilterRoute'
+      'handleBranchListFilterRoute',
+      this.handleBranchListFilterRoute.bind(this)
     );
 
-    this._mapRoute(RoutePattern.TAG_LIST_OFFSET, '_handleTagListOffsetRoute');
+    this.mapRoute(
+      RoutePattern.TAG_LIST_OFFSET,
+      'handleTagListOffsetRoute',
+      this.handleTagListOffsetRoute.bind(this)
+    );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.TAG_LIST_FILTER_OFFSET,
-      '_handleTagListFilterOffsetRoute'
+      'handleTagListFilterOffsetRoute',
+      this.handleTagListFilterOffsetRoute.bind(this)
     );
 
-    this._mapRoute(RoutePattern.TAG_LIST_FILTER, '_handleTagListFilterRoute');
+    this.mapRoute(
+      RoutePattern.TAG_LIST_FILTER,
+      'handleTagListFilterRoute',
+      this.handleTagListFilterRoute.bind(this)
+    );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.LEGACY_CREATE_GROUP,
-      '_handleCreateGroupRoute',
+      'handleCreateGroupRoute',
+      this.handleCreateGroupRoute.bind(this),
       true
     );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.LEGACY_CREATE_PROJECT,
-      '_handleCreateProjectRoute',
+      'handleCreateProjectRoute',
+      this.handleCreateProjectRoute.bind(this),
       true
     );
 
-    this._mapRoute(RoutePattern.REPO_LIST_OFFSET, '_handleRepoListOffsetRoute');
+    this.mapRoute(
+      RoutePattern.REPO_LIST_OFFSET,
+      'handleRepoListOffsetRoute',
+      this.handleRepoListOffsetRoute.bind(this)
+    );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.REPO_LIST_FILTER_OFFSET,
-      '_handleRepoListFilterOffsetRoute'
+      'handleRepoListFilterOffsetRoute',
+      this.handleRepoListFilterOffsetRoute.bind(this)
     );
 
-    this._mapRoute(RoutePattern.REPO_LIST_FILTER, '_handleRepoListFilterRoute');
+    this.mapRoute(
+      RoutePattern.REPO_LIST_FILTER,
+      'handleRepoListFilterRoute',
+      this.handleRepoListFilterRoute.bind(this)
+    );
 
-    this._mapRoute(RoutePattern.REPO, '_handleRepoRoute');
+    this.mapRoute(
+      RoutePattern.REPO,
+      'handleRepoRoute',
+      this.handleRepoRoute.bind(this)
+    );
 
-    this._mapRoute(RoutePattern.PLUGINS, '_handlePassThroughRoute');
+    this.mapRoute(
+      RoutePattern.PLUGINS,
+      'handlePassThroughRoute',
+      this.handlePassThroughRoute.bind(this)
+    );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.PLUGIN_LIST_OFFSET,
-      '_handlePluginListOffsetRoute',
+      'handlePluginListOffsetRoute',
+      this.handlePluginListOffsetRoute.bind(this),
       true
     );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.PLUGIN_LIST_FILTER_OFFSET,
-      '_handlePluginListFilterOffsetRoute',
+      'handlePluginListFilterOffsetRoute',
+      this.handlePluginListFilterOffsetRoute.bind(this),
       true
     );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.PLUGIN_LIST_FILTER,
-      '_handlePluginListFilterRoute',
+      'handlePluginListFilterRoute',
+      this.handlePluginListFilterRoute.bind(this),
       true
     );
 
-    this._mapRoute(RoutePattern.PLUGIN_LIST, '_handlePluginListRoute', true);
+    this.mapRoute(
+      RoutePattern.PLUGIN_LIST,
+      'handlePluginListRoute',
+      this.handlePluginListRoute.bind(this),
+      true
+    );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.QUERY_LEGACY_SUFFIX,
-      '_handleQueryLegacySuffixRoute'
+      'handleQueryLegacySuffixRoute',
+      this.handleQueryLegacySuffixRoute.bind(this)
     );
 
-    this._mapRoute(RoutePattern.QUERY, '_handleQueryRoute');
+    this.mapRoute(
+      RoutePattern.QUERY,
+      'handleQueryRoute',
+      this.handleQueryRoute.bind(this)
+    );
 
-    this._mapRoute(RoutePattern.CHANGE_ID_QUERY, '_handleChangeIdQueryRoute');
+    this.mapRoute(
+      RoutePattern.CHANGE_ID_QUERY,
+      'handleChangeIdQueryRoute',
+      this.handleChangeIdQueryRoute.bind(this)
+    );
 
-    this._mapRoute(RoutePattern.DIFF_LEGACY_LINENUM, '_handleLegacyLinenum');
+    this.mapRoute(
+      RoutePattern.DIFF_LEGACY_LINENUM,
+      'handleLegacyLinenum',
+      this.handleLegacyLinenum.bind(this)
+    );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.CHANGE_NUMBER_LEGACY,
-      '_handleChangeNumberLegacyRoute'
+      'handleChangeNumberLegacyRoute',
+      this.handleChangeNumberLegacyRoute.bind(this)
     );
 
-    this._mapRoute(RoutePattern.DIFF_EDIT, '_handleDiffEditRoute', true);
+    this.mapRoute(
+      RoutePattern.DIFF_EDIT,
+      'handleDiffEditRoute',
+      this.handleDiffEditRoute.bind(this),
+      true
+    );
 
-    this._mapRoute(RoutePattern.CHANGE_EDIT, '_handleChangeEditRoute', true);
+    this.mapRoute(
+      RoutePattern.CHANGE_EDIT,
+      'handleChangeEditRoute',
+      this.handleChangeEditRoute.bind(this),
+      true
+    );
 
-    this._mapRoute(RoutePattern.COMMENT, '_handleCommentRoute');
+    this.mapRoute(
+      RoutePattern.COMMENT,
+      'handleCommentRoute',
+      this.handleCommentRoute.bind(this)
+    );
 
-    this._mapRoute(RoutePattern.COMMENTS_TAB, '_handleCommentsRoute');
+    this.mapRoute(
+      RoutePattern.COMMENTS_TAB,
+      'handleCommentsRoute',
+      this.handleCommentsRoute.bind(this)
+    );
 
-    this._mapRoute(RoutePattern.DIFF, '_handleDiffRoute');
+    this.mapRoute(
+      RoutePattern.DIFF,
+      'handleDiffRoute',
+      this.handleDiffRoute.bind(this)
+    );
 
-    this._mapRoute(RoutePattern.CHANGE, '_handleChangeRoute');
+    this.mapRoute(
+      RoutePattern.CHANGE,
+      'handleChangeRoute',
+      this.handleChangeRoute.bind(this)
+    );
 
-    this._mapRoute(RoutePattern.CHANGE_LEGACY, '_handleChangeLegacyRoute');
+    this.mapRoute(
+      RoutePattern.CHANGE_LEGACY,
+      'handleChangeLegacyRoute',
+      this.handleChangeLegacyRoute.bind(this)
+    );
 
-    this._mapRoute(RoutePattern.AGREEMENTS, '_handleAgreementsRoute', true);
+    this.mapRoute(
+      RoutePattern.AGREEMENTS,
+      'handleAgreementsRoute',
+      this.handleAgreementsRoute.bind(this),
+      true
+    );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.NEW_AGREEMENTS,
-      '_handleNewAgreementsRoute',
+      'handleNewAgreementsRoute',
+      this.handleNewAgreementsRoute.bind(this),
       true
     );
 
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.SETTINGS_LEGACY,
-      '_handleSettingsLegacyRoute',
+      'handleSettingsLegacyRoute',
+      this.handleSettingsLegacyRoute.bind(this),
       true
     );
 
-    this._mapRoute(RoutePattern.SETTINGS, '_handleSettingsRoute', true);
-
-    this._mapRoute(RoutePattern.REGISTER, '_handleRegisterRoute');
-
-    this._mapRoute(RoutePattern.LOG_IN_OR_OUT, '_handlePassThroughRoute');
-
-    this._mapRoute(
-      RoutePattern.IMPROPERLY_ENCODED_PLUS,
-      '_handleImproperlyEncodedPlusRoute'
+    this.mapRoute(
+      RoutePattern.SETTINGS,
+      'handleSettingsRoute',
+      this.handleSettingsRoute.bind(this),
+      true
     );
 
-    this._mapRoute(RoutePattern.PLUGIN_SCREEN, '_handlePluginScreen');
+    this.mapRoute(
+      RoutePattern.REGISTER,
+      'handleRegisterRoute',
+      this.handleRegisterRoute.bind(this)
+    );
 
-    this._mapRoute(
+    this.mapRoute(
+      RoutePattern.LOG_IN_OR_OUT,
+      'handlePassThroughRoute',
+      this.handlePassThroughRoute.bind(this)
+    );
+
+    this.mapRoute(
+      RoutePattern.IMPROPERLY_ENCODED_PLUS,
+      'handleImproperlyEncodedPlusRoute',
+      this.handleImproperlyEncodedPlusRoute.bind(this)
+    );
+
+    this.mapRoute(
+      RoutePattern.PLUGIN_SCREEN,
+      'handlePluginScreen',
+      this.handlePluginScreen.bind(this)
+    );
+
+    this.mapRoute(
       RoutePattern.DOCUMENTATION_SEARCH_FILTER,
-      '_handleDocumentationSearchRoute'
+      'handleDocumentationSearchRoute',
+      this.handleDocumentationSearchRoute.bind(this)
     );
 
     // redirects /Documentation/q/* to /Documentation/q/filter:*
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.DOCUMENTATION_SEARCH,
-      '_handleDocumentationSearchRedirectRoute'
+      'handleDocumentationSearchRedirectRoute',
+      this.handleDocumentationSearchRedirectRoute.bind(this)
     );
 
     // Makes sure /Documentation/* links work (doin't return 404)
-    this._mapRoute(
+    this.mapRoute(
       RoutePattern.DOCUMENTATION,
-      '_handleDocumentationRedirectRoute'
+      'handleDocumentationRedirectRoute',
+      this.handleDocumentationRedirectRoute.bind(this)
     );
 
     // Note: this route should appear last so it only catches URLs unmatched
     // by other patterns.
-    this._mapRoute(RoutePattern.DEFAULT, '_handleDefaultRoute');
+    this.mapRoute(
+      RoutePattern.DEFAULT,
+      'handleDefaultRoute',
+      this.handleDefaultRoute.bind(this)
+    );
 
     page.start();
   }
@@ -1121,13 +1274,13 @@ export class GrRouter extends PolymerElement {
    * @return if handling the route involves asynchrony, then a
    * promise is returned. Otherwise, synchronous handling returns null.
    */
-  _handleRootRoute(data: PageContextWithQueryMap) {
+  handleRootRoute(data: PageContextWithQueryMap) {
     if (data.querystring.match(/^closeAfterLogin/)) {
       // Close child window on redirect after login.
       window.close();
       return null;
     }
-    let hash = this._getHashFromCanonicalPath(data.canonicalPath);
+    let hash = this.getHashFromCanonicalPath(data.canonicalPath);
     // For backward compatibility with GWT links.
     if (hash) {
       // In certain login flows the server may redirect to a hash without
@@ -1145,14 +1298,14 @@ export class GrRouter extends PolymerElement {
       if (hash.startsWith('/VE/')) {
         newUrl = base + '/settings' + hash;
       }
-      this._redirect(newUrl);
+      this.redirect(newUrl);
       return null;
     }
     return this.restApiService.getLoggedIn().then(loggedIn => {
       if (loggedIn) {
-        this._redirect('/dashboard/self');
+        this.redirect('/dashboard/self');
       } else {
-        this._redirect('/q/status:open+-is:wip');
+        this.redirect('/q/status:open+-is:wip');
       }
     });
   }
@@ -1163,7 +1316,7 @@ export class GrRouter extends PolymerElement {
    * @param qs The application/x-www-form-urlencoded string.
    * @return The decoded string.
    */
-  _decodeQueryString(qs: string) {
+  private decodeQueryString(qs: string) {
     return decodeURIComponent(qs.replace(PLUS_PATTERN, ' '));
   }
 
@@ -1175,7 +1328,7 @@ export class GrRouter extends PolymerElement {
    * @return An array of name/value pairs, where each
    * element is a 2-element array.
    */
-  _parseQueryString(qs: string): Array<QueryStringItem> {
+  parseQueryString(qs: string): Array<QueryStringItem> {
     qs = qs.replace(QUESTION_PATTERN, '');
     if (!qs) {
       return [];
@@ -1186,11 +1339,11 @@ export class GrRouter extends PolymerElement {
       let name;
       let value;
       if (idx < 0) {
-        name = this._decodeQueryString(param);
+        name = this.decodeQueryString(param);
         value = '';
       } else {
-        name = this._decodeQueryString(param.substring(0, idx));
-        value = this._decodeQueryString(param.substring(idx + 1));
+        name = this.decodeQueryString(param.substring(0, idx));
+        value = this.decodeQueryString(param.substring(idx + 1));
       }
       if (name) {
         params.push([name, value]);
@@ -1202,19 +1355,19 @@ export class GrRouter extends PolymerElement {
   /**
    * Handle dashboard routes. These may be user, or project dashboards.
    */
-  _handleDashboardRoute(data: PageContextWithQueryMap) {
+  handleDashboardRoute(data: PageContextWithQueryMap) {
     // User dashboard. We require viewing user to be logged in, else we
     // redirect to login for self dashboard or simple owner search for
     // other user dashboard.
     return this.restApiService.getLoggedIn().then(loggedIn => {
       if (!loggedIn) {
         if (data.params[0].toLowerCase() === 'self') {
-          this._redirectToLogin(data.canonicalPath);
+          this.redirectToLogin(data.canonicalPath);
         } else {
-          this._redirect('/q/owner:' + encodeURIComponent(data.params[0]));
+          this.redirect('/q/owner:' + encodeURIComponent(data.params[0]));
         }
       } else {
-        this._setParams({
+        this.setParams({
           view: GerritView.DASHBOARD,
           user: data.params[0],
         });
@@ -1228,11 +1381,11 @@ export class GrRouter extends PolymerElement {
    * @param qs Optional query string associated with the route.
    * If not given, window.location.search is used. (Used by tests).
    */
-  _handleCustomDashboardRoute(
+  handleCustomDashboardRoute(
     _: PageContextWithQueryMap,
     qs: string = window.location.search
   ) {
-    const queryParams = this._parseQueryString(qs);
+    const queryParams = this.parseQueryString(qs);
     let title = 'Custom Dashboard';
     const titleParam = queryParams.find(
       elem => elem[0].toLowerCase() === 'title'
@@ -1266,7 +1419,7 @@ export class GrRouter extends PolymerElement {
 
     if (sections.length > 0) {
       // Custom dashboard view.
-      this._setParams({
+      this.setParams({
         view: GerritView.DASHBOARD,
         user: 'self',
         sections,
@@ -1276,13 +1429,13 @@ export class GrRouter extends PolymerElement {
     }
 
     // Redirect /dashboard/ -> /dashboard/self.
-    this._redirect('/dashboard/self');
+    this.redirect('/dashboard/self');
     return Promise.resolve();
   }
 
-  _handleProjectDashboardRoute(data: PageContextWithQueryMap) {
+  handleProjectDashboardRoute(data: PageContextWithQueryMap) {
     const project = data.params[0] as RepoName;
-    this._setParams({
+    this.setParams({
       view: GerritView.DASHBOARD,
       project,
       dashboard: decodeURIComponent(data.params[1]) as DashboardId,
@@ -1290,43 +1443,43 @@ export class GrRouter extends PolymerElement {
     this.reporting.setRepoName(project);
   }
 
-  _handleLegacyProjectDashboardRoute(data: PageContextWithQueryMap) {
-    this._redirect('/p/' + data.params[0] + '/+/dashboard/' + data.params[1]);
+  handleLegacyProjectDashboardRoute(data: PageContextWithQueryMap) {
+    this.redirect('/p/' + data.params[0] + '/+/dashboard/' + data.params[1]);
   }
 
-  _handleGroupInfoRoute(data: PageContextWithQueryMap) {
-    this._redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
+  handleGroupInfoRoute(data: PageContextWithQueryMap) {
+    this.redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
   }
 
-  _handleGroupSelfRedirectRoute(_: PageContextWithQueryMap) {
-    this._redirect('/settings/#Groups');
+  handleGroupSelfRedirectRoute(_: PageContextWithQueryMap) {
+    this.redirect('/settings/#Groups');
   }
 
-  _handleGroupRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleGroupRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.GROUP,
       groupId: data.params[0] as GroupId,
     });
   }
 
-  _handleGroupAuditLogRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleGroupAuditLogRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.GROUP,
       detail: GroupDetailView.LOG,
       groupId: data.params[0] as GroupId,
     });
   }
 
-  _handleGroupMembersRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleGroupMembersRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.GROUP,
       detail: GroupDetailView.MEMBERS,
       groupId: data.params[0] as GroupId,
     });
   }
 
-  _handleGroupListOffsetRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleGroupListOffsetRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.ADMIN,
       adminView: 'gr-admin-group-list',
       offset: data.params[1] || 0,
@@ -1335,8 +1488,8 @@ export class GrRouter extends PolymerElement {
     });
   }
 
-  _handleGroupListFilterOffsetRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleGroupListFilterOffsetRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.ADMIN,
       adminView: 'gr-admin-group-list',
       offset: data.params['offset'],
@@ -1344,15 +1497,15 @@ export class GrRouter extends PolymerElement {
     });
   }
 
-  _handleGroupListFilterRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleGroupListFilterRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.ADMIN,
       adminView: 'gr-admin-group-list',
       filter: data.params['filter'] || null,
     });
   }
 
-  _handleProjectsOldRoute(data: PageContextWithQueryMap) {
+  handleProjectsOldRoute(data: PageContextWithQueryMap) {
     let params = '';
     if (data.params[1]) {
       params = encodeURIComponent(data.params[1]);
@@ -1361,12 +1514,12 @@ export class GrRouter extends PolymerElement {
       }
     }
 
-    this._redirect(`/admin/repos/${params}`);
+    this.redirect(`/admin/repos/${params}`);
   }
 
-  _handleRepoCommandsRoute(data: PageContextWithQueryMap) {
+  handleRepoCommandsRoute(data: PageContextWithQueryMap) {
     const repo = data.params[0] as RepoName;
-    this._setParams({
+    this.setParams({
       view: GerritView.REPO,
       detail: RepoDetailView.COMMANDS,
       repo,
@@ -1374,9 +1527,9 @@ export class GrRouter extends PolymerElement {
     this.reporting.setRepoName(repo);
   }
 
-  _handleRepoGeneralRoute(data: PageContextWithQueryMap) {
+  handleRepoGeneralRoute(data: PageContextWithQueryMap) {
     const repo = data.params[0] as RepoName;
-    this._setParams({
+    this.setParams({
       view: GerritView.REPO,
       detail: RepoDetailView.GENERAL,
       repo,
@@ -1384,9 +1537,9 @@ export class GrRouter extends PolymerElement {
     this.reporting.setRepoName(repo);
   }
 
-  _handleRepoAccessRoute(data: PageContextWithQueryMap) {
+  handleRepoAccessRoute(data: PageContextWithQueryMap) {
     const repo = data.params[0] as RepoName;
-    this._setParams({
+    this.setParams({
       view: GerritView.REPO,
       detail: RepoDetailView.ACCESS,
       repo,
@@ -1394,9 +1547,9 @@ export class GrRouter extends PolymerElement {
     this.reporting.setRepoName(repo);
   }
 
-  _handleRepoDashboardsRoute(data: PageContextWithQueryMap) {
+  handleRepoDashboardsRoute(data: PageContextWithQueryMap) {
     const repo = data.params[0] as RepoName;
-    this._setParams({
+    this.setParams({
       view: GerritView.REPO,
       detail: RepoDetailView.DASHBOARDS,
       repo,
@@ -1404,8 +1557,8 @@ export class GrRouter extends PolymerElement {
     this.reporting.setRepoName(repo);
   }
 
-  _handleBranchListOffsetRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleBranchListOffsetRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.REPO,
       detail: RepoDetailView.BRANCHES,
       repo: data.params[0] as RepoName,
@@ -1414,8 +1567,8 @@ export class GrRouter extends PolymerElement {
     });
   }
 
-  _handleBranchListFilterOffsetRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleBranchListFilterOffsetRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.REPO,
       detail: RepoDetailView.BRANCHES,
       repo: data.params['repo'] as RepoName,
@@ -1424,8 +1577,8 @@ export class GrRouter extends PolymerElement {
     });
   }
 
-  _handleBranchListFilterRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleBranchListFilterRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.REPO,
       detail: RepoDetailView.BRANCHES,
       repo: data.params['repo'] as RepoName,
@@ -1433,8 +1586,8 @@ export class GrRouter extends PolymerElement {
     });
   }
 
-  _handleTagListOffsetRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleTagListOffsetRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.REPO,
       detail: RepoDetailView.TAGS,
       repo: data.params[0] as RepoName,
@@ -1443,8 +1596,8 @@ export class GrRouter extends PolymerElement {
     });
   }
 
-  _handleTagListFilterOffsetRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleTagListFilterOffsetRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.REPO,
       detail: RepoDetailView.TAGS,
       repo: data.params['repo'] as RepoName,
@@ -1453,8 +1606,8 @@ export class GrRouter extends PolymerElement {
     });
   }
 
-  _handleTagListFilterRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleTagListFilterRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.REPO,
       detail: RepoDetailView.TAGS,
       repo: data.params['repo'] as RepoName,
@@ -1462,8 +1615,8 @@ export class GrRouter extends PolymerElement {
     });
   }
 
-  _handleRepoListOffsetRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleRepoListOffsetRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.ADMIN,
       adminView: 'gr-repo-list',
       offset: data.params[1] || 0,
@@ -1472,8 +1625,8 @@ export class GrRouter extends PolymerElement {
     });
   }
 
-  _handleRepoListFilterOffsetRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleRepoListFilterOffsetRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.ADMIN,
       adminView: 'gr-repo-list',
       offset: data.params['offset'],
@@ -1481,32 +1634,32 @@ export class GrRouter extends PolymerElement {
     });
   }
 
-  _handleRepoListFilterRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleRepoListFilterRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.ADMIN,
       adminView: 'gr-repo-list',
       filter: data.params['filter'] || null,
     });
   }
 
-  _handleCreateProjectRoute(_: PageContextWithQueryMap) {
+  handleCreateProjectRoute(_: PageContextWithQueryMap) {
     // Redirects the legacy route to the new route, which displays the project
     // list with a hash 'create'.
-    this._redirect('/admin/repos#create');
+    this.redirect('/admin/repos#create');
   }
 
-  _handleCreateGroupRoute(_: PageContextWithQueryMap) {
+  handleCreateGroupRoute(_: PageContextWithQueryMap) {
     // Redirects the legacy route to the new route, which displays the group
     // list with a hash 'create'.
-    this._redirect('/admin/groups#create');
+    this.redirect('/admin/groups#create');
   }
 
-  _handleRepoRoute(data: PageContextWithQueryMap) {
-    this._redirect(data.path + ',general');
+  handleRepoRoute(data: PageContextWithQueryMap) {
+    this.redirect(data.path + ',general');
   }
 
-  _handlePluginListOffsetRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handlePluginListOffsetRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.ADMIN,
       adminView: 'gr-plugin-list',
       offset: data.params[1] || 0,
@@ -1514,8 +1667,8 @@ export class GrRouter extends PolymerElement {
     });
   }
 
-  _handlePluginListFilterOffsetRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handlePluginListFilterOffsetRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.ADMIN,
       adminView: 'gr-plugin-list',
       offset: data.params['offset'],
@@ -1523,48 +1676,48 @@ export class GrRouter extends PolymerElement {
     });
   }
 
-  _handlePluginListFilterRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handlePluginListFilterRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.ADMIN,
       adminView: 'gr-plugin-list',
       filter: data.params['filter'] || null,
     });
   }
 
-  _handlePluginListRoute(_: PageContextWithQueryMap) {
-    this._setParams({
+  handlePluginListRoute(_: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.ADMIN,
       adminView: 'gr-plugin-list',
     });
   }
 
-  _handleQueryRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleQueryRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.SEARCH,
       query: data.params[0],
       offset: data.params[2],
     });
   }
 
-  _handleChangeIdQueryRoute(data: PageContextWithQueryMap) {
+  handleChangeIdQueryRoute(data: PageContextWithQueryMap) {
     // TODO(pcc): This will need to indicate that this was a change ID query if
     // standard queries gain the ability to search places like commit messages
     // for change IDs.
-    this._setParams({
+    this.setParams({
       view: GerritNav.View.SEARCH,
       query: data.params[0],
     });
   }
 
-  _handleQueryLegacySuffixRoute(ctx: PageContextWithQueryMap) {
-    this._redirect(ctx.path.replace(LEGACY_QUERY_SUFFIX_PATTERN, ''));
+  handleQueryLegacySuffixRoute(ctx: PageContextWithQueryMap) {
+    this.redirect(ctx.path.replace(LEGACY_QUERY_SUFFIX_PATTERN, ''));
   }
 
-  _handleChangeNumberLegacyRoute(ctx: PageContextWithQueryMap) {
-    this._redirect('/c/' + encodeURIComponent(ctx.params[0]));
+  handleChangeNumberLegacyRoute(ctx: PageContextWithQueryMap) {
+    this.redirect('/c/' + encodeURIComponent(ctx.params[0]));
   }
 
-  _handleChangeRoute(ctx: PageContextWithQueryMap) {
+  handleChangeRoute(ctx: PageContextWithQueryMap) {
     // Parameter order is based on the regex group number matched.
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     const params: GenerateUrlChangeViewParameters = {
@@ -1600,10 +1753,10 @@ export class GrRouter extends PolymerElement {
 
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);
-    this._redirectOrNavigate(params);
+    this.redirectOrNavigate(params);
   }
 
-  _handleCommentRoute(ctx: PageContextWithQueryMap) {
+  handleCommentRoute(ctx: PageContextWithQueryMap) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     const params: GenerateUrlDiffViewParameters = {
       project: ctx.params[0] as RepoName,
@@ -1614,10 +1767,10 @@ export class GrRouter extends PolymerElement {
     };
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);
-    this._redirectOrNavigate(params);
+    this.redirectOrNavigate(params);
   }
 
-  _handleCommentsRoute(ctx: PageContextWithQueryMap) {
+  handleCommentsRoute(ctx: PageContextWithQueryMap) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     const params: GenerateUrlChangeViewParameters = {
       project: ctx.params[0] as RepoName,
@@ -1627,10 +1780,10 @@ export class GrRouter extends PolymerElement {
     };
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);
-    this._redirectOrNavigate(params);
+    this.redirectOrNavigate(params);
   }
 
-  _handleDiffRoute(ctx: PageContextWithQueryMap) {
+  handleDiffRoute(ctx: PageContextWithQueryMap) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     // Parameter order is based on the regex group number matched.
     const params: GenerateUrlDiffViewParameters = {
@@ -1641,42 +1794,42 @@ export class GrRouter extends PolymerElement {
       path: ctx.params[8],
       view: GerritView.DIFF,
     };
-    const address = this._parseLineAddress(ctx.hash);
+    const address = this.parseLineAddress(ctx.hash);
     if (address) {
       params.leftSide = address.leftSide;
       params.lineNum = address.lineNum;
     }
     this.reporting.setRepoName(params.project);
     this.reporting.setChangeId(changeNum);
-    this._redirectOrNavigate(params);
+    this.redirectOrNavigate(params);
   }
 
-  _handleChangeLegacyRoute(ctx: PageContextWithQueryMap) {
+  handleChangeLegacyRoute(ctx: PageContextWithQueryMap) {
     const changeNum = Number(ctx.params[0]) as NumericChangeId;
     if (!changeNum) {
-      this._show404();
+      this.show404();
       return;
     }
     this.restApiService.getFromProjectLookup(changeNum).then(project => {
       // Show a 404 and terminate if the lookup request failed. Attempting
       // to redirect after failing to get the project loops infinitely.
       if (!project) {
-        this._show404();
+        this.show404();
         return;
       }
-      this._redirect(`/c/${project}/+/${changeNum}/${ctx.params[1]}`);
+      this.redirect(`/c/${project}/+/${changeNum}/${ctx.params[1]}`);
     });
   }
 
-  _handleLegacyLinenum(ctx: PageContextWithQueryMap) {
-    this._redirect(ctx.path.replace(LEGACY_LINENUM_PATTERN, '#$1'));
+  handleLegacyLinenum(ctx: PageContextWithQueryMap) {
+    this.redirect(ctx.path.replace(LEGACY_LINENUM_PATTERN, '#$1'));
   }
 
-  _handleDiffEditRoute(ctx: PageContextWithQueryMap) {
+  handleDiffEditRoute(ctx: PageContextWithQueryMap) {
     // Parameter order is based on the regex group number matched.
     const project = ctx.params[0] as RepoName;
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
-    this._redirectOrNavigate({
+    this.redirectOrNavigate({
       project,
       changeNum,
       // for edit view params, patchNum cannot be undefined
@@ -1689,7 +1842,7 @@ export class GrRouter extends PolymerElement {
     this.reporting.setChangeId(changeNum);
   }
 
-  _handleChangeEditRoute(ctx: PageContextWithQueryMap) {
+  handleChangeEditRoute(ctx: PageContextWithQueryMap) {
     // Parameter order is based on the regex group number matched.
     const project = ctx.params[0] as RepoName;
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
@@ -1709,7 +1862,7 @@ export class GrRouter extends PolymerElement {
         location.href.replace(/[?&]forceReload=true/, '')
       );
     }
-    this._redirectOrNavigate(params);
+    this.redirectOrNavigate(params);
 
     this.reporting.setRepoName(project);
     this.reporting.setChangeId(changeNum);
@@ -1719,42 +1872,42 @@ export class GrRouter extends PolymerElement {
    * Normalize the patch range params for a the change or diff view and
    * redirect if URL upgrade is needed.
    */
-  _redirectOrNavigate(params: GenerateUrlParameters & PatchRangeParams) {
-    const needsRedirect = this._normalizePatchRangeParams(params);
+  private redirectOrNavigate(params: GenerateUrlParameters & PatchRangeParams) {
+    const needsRedirect = this.normalizePatchRangeParams(params);
     if (needsRedirect) {
-      this._redirect(this._generateUrl(params));
+      this.redirect(this.generateUrl(params));
     } else {
-      this._setParams(params);
+      this.setParams(params);
     }
   }
 
-  _handleAgreementsRoute() {
-    this._redirect('/settings/#Agreements');
+  handleAgreementsRoute() {
+    this.redirect('/settings/#Agreements');
   }
 
-  _handleNewAgreementsRoute(data: PageContextWithQueryMap) {
+  handleNewAgreementsRoute(data: PageContextWithQueryMap) {
     data.params['view'] = GerritView.AGREEMENTS;
     // TODO(TS): create valid object
-    this._setParams(data.params as unknown as AppElementAgreementParam);
+    this.setParams(data.params as unknown as AppElementAgreementParam);
   }
 
-  _handleSettingsLegacyRoute(data: PageContextWithQueryMap) {
+  handleSettingsLegacyRoute(data: PageContextWithQueryMap) {
     // email tokens may contain '+' but no space.
     // The parameter parsing replaces all '+' with a space,
     // undo that to have valid tokens.
     const token = data.params[0].replace(/ /g, '+');
-    this._setParams({
+    this.setParams({
       view: GerritView.SETTINGS,
       emailToken: token,
     });
   }
 
-  _handleSettingsRoute(_: PageContextWithQueryMap) {
-    this._setParams({view: GerritView.SETTINGS});
+  handleSettingsRoute(_: PageContextWithQueryMap) {
+    this.setParams({view: GerritView.SETTINGS});
   }
 
-  _handleRegisterRoute(ctx: PageContextWithQueryMap) {
-    this._setParams({justRegistered: true});
+  handleRegisterRoute(ctx: PageContextWithQueryMap) {
+    this.setParams({justRegistered: true});
     let path = ctx.params[0] || '/';
 
     // Prevent redirect looping.
@@ -1765,14 +1918,14 @@ export class GrRouter extends PolymerElement {
     if (path[0] !== '/') {
       return;
     }
-    this._redirect(getBaseUrl() + path);
+    this.redirect(getBaseUrl() + path);
   }
 
   /**
    * Handler for routes that should pass through the router and not be caught
    * by the catchall _handleDefaultRoute handler.
    */
-  _handlePassThroughRoute() {
+  handlePassThroughRoute() {
     windowLocationReload();
   }
 
@@ -1780,66 +1933,60 @@ export class GrRouter extends PolymerElement {
    * URL may sometimes have /+/ encoded to / /.
    * Context: Issue 6888, Issue 7100
    */
-  _handleImproperlyEncodedPlusRoute(ctx: PageContextWithQueryMap) {
-    let hash = this._getHashFromCanonicalPath(ctx.canonicalPath);
+  handleImproperlyEncodedPlusRoute(ctx: PageContextWithQueryMap) {
+    let hash = this.getHashFromCanonicalPath(ctx.canonicalPath);
     if (hash.length) {
       hash = '#' + hash;
     }
-    this._redirect(`/c/${ctx.params[0]}/+/${ctx.params[1]}${hash}`);
+    this.redirect(`/c/${ctx.params[0]}/+/${ctx.params[1]}${hash}`);
   }
 
-  _handlePluginScreen(ctx: PageContextWithQueryMap) {
+  handlePluginScreen(ctx: PageContextWithQueryMap) {
     const view = GerritView.PLUGIN_SCREEN;
     const plugin = ctx.params[0];
     const screen = ctx.params[1];
-    this._setParams({view, plugin, screen});
+    this.setParams({view, plugin, screen});
   }
 
-  _handleDocumentationSearchRoute(data: PageContextWithQueryMap) {
-    this._setParams({
+  handleDocumentationSearchRoute(data: PageContextWithQueryMap) {
+    this.setParams({
       view: GerritView.DOCUMENTATION_SEARCH,
       filter: data.params['filter'] || null,
     });
   }
 
-  _handleDocumentationSearchRedirectRoute(data: PageContextWithQueryMap) {
-    this._redirect(
+  handleDocumentationSearchRedirectRoute(data: PageContextWithQueryMap) {
+    this.redirect(
       '/Documentation/q/filter:' + encodeURIComponent(data.params[0])
     );
   }
 
-  _handleDocumentationRedirectRoute(data: PageContextWithQueryMap) {
+  handleDocumentationRedirectRoute(data: PageContextWithQueryMap) {
     if (data.params[1]) {
       windowLocationReload();
     } else {
       // Redirect /Documentation to /Documentation/index.html
-      this._redirect('/Documentation/index.html');
+      this.redirect('/Documentation/index.html');
     }
   }
 
   /**
    * Catchall route for when no other route is matched.
    */
-  _handleDefaultRoute() {
+  handleDefaultRoute() {
     if (this._isInitialLoad) {
       // Server recognized this route as polygerrit, so we show 404.
-      this._show404();
+      this.show404();
     } else {
       // Route can be recognized by server, so we pass it to server.
-      this._handlePassThroughRoute();
+      this.handlePassThroughRoute();
     }
   }
 
-  _show404() {
+  private show404() {
     // Note: the app's 404 display is tightly-coupled with catching 404
     // network responses, so we simulate a 404 response status to display it.
     // TODO: Decouple the gr-app error view from network responses.
     firePageError(new Response('', {status: 404}));
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-router': GrRouter;
   }
 }

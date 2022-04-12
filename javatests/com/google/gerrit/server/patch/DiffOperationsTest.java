@@ -93,7 +93,7 @@ public class DiffOperationsTest {
   }
 
   @Test
-  public void diffAgainstAutoMergePersistsAutoMergeInRepo() throws Exception {
+  public void diffAgainstAutoMergeDoesNotPersistAutoMergeInRepo() throws Exception {
     ObjectId parent1 =
         createCommit(repo, null, ImmutableList.of(new FileEntity("file_1.txt", "file 1 content")));
     ObjectId parent2 =
@@ -117,8 +117,7 @@ public class DiffOperationsTest {
             testProjectName, merge, /* parentNum=*/ 0, DiffOptions.DEFAULTS);
     assertThat(changedFiles.keySet()).containsExactly("/COMMIT_MSG", "/MERGE_LIST", "file_3.txt");
 
-    // Requesting diff against auto-merge had the side effect of updating the auto-merge ref
-    assertThat(repo.getRefDatabase().exactRef(autoMergeRef)).isNotNull();
+    assertThat(repo.getRefDatabase().exactRef(autoMergeRef)).isNull();
   }
 
   @Test

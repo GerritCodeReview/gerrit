@@ -95,7 +95,6 @@ interface ErrorInfo {
 
 export interface GrAppElement {
   $: {
-    router: GrRouter;
     errorManager: GrErrorManager;
     errorView: HTMLDivElement;
     mainHeader: GrMainHeader;
@@ -209,6 +208,8 @@ export class GrAppElement extends base {
   @property({type: Boolean})
   _mainAriaHidden = false;
 
+  readonly router = new GrRouter();
+
   private reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
@@ -263,7 +264,7 @@ export class GrAppElement extends base {
     super.ready();
     this._updateLoginUrl();
     this.reporting.appStarted();
-    this.$.router.start();
+    this.router.start();
 
     this.restApiService.getAccount().then(account => {
       this._account = account;

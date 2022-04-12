@@ -26,7 +26,6 @@ import './change/gr-change-view/gr-change-view';
 import './core/gr-error-manager/gr-error-manager';
 import './core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog';
 import './core/gr-main-header/gr-main-header';
-import './core/gr-router/gr-router';
 import './core/gr-smart-search/gr-smart-search';
 import './diff/gr-diff-view/gr-diff-view';
 import './edit/gr-editor-view/gr-editor-view';
@@ -95,7 +94,6 @@ interface ErrorInfo {
 
 export interface GrAppElement {
   $: {
-    router: GrRouter;
     errorManager: GrErrorManager;
     errorView: HTMLDivElement;
     mainHeader: GrMainHeader;
@@ -209,6 +207,8 @@ export class GrAppElement extends base {
   @property({type: Boolean})
   _mainAriaHidden = false;
 
+  readonly router = new GrRouter();
+
   private reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
@@ -263,7 +263,7 @@ export class GrAppElement extends base {
     super.ready();
     this._updateLoginUrl();
     this.reporting.appStarted();
-    this.$.router.start();
+    this.router.start();
 
     this.restApiService.getAccount().then(account => {
       this._account = account;

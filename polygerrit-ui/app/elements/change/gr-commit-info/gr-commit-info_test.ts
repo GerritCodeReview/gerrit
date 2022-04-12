@@ -16,7 +16,6 @@
  */
 
 import '../../../test/common-test-setup-karma';
-import '../../core/gr-router/gr-router';
 import './gr-commit-info';
 import {GrCommitInfo} from './gr-commit-info';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -26,6 +25,7 @@ import {
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {CommitId, RepoName} from '../../../types/common';
+import {GrRouter} from '../../core/gr-router/gr-router';
 
 const basicFixture = fixtureFromElement('gr-commit-info');
 
@@ -56,10 +56,10 @@ suite('gr-commit-info tests', () => {
   });
 
   test('use web link when available', () => {
-    const router = document.createElement('gr-router');
+    const router = new GrRouter();
     sinon
       .stub(GerritNav, '_generateWeblinks')
-      .callsFake(router._generateWeblinks.bind(router));
+      .callsFake(router.generateWeblinks.bind(router));
 
     element.change = {...createChange(), labels: {}, project: '' as RepoName};
     element.commitInfo = {
@@ -74,10 +74,10 @@ suite('gr-commit-info tests', () => {
   });
 
   test('does not relativize web links that begin with scheme', () => {
-    const router = document.createElement('gr-router');
+    const router = new GrRouter();
     sinon
       .stub(GerritNav, '_generateWeblinks')
-      .callsFake(router._generateWeblinks.bind(router));
+      .callsFake(router.generateWeblinks.bind(router));
 
     element.change = {...createChange(), labels: {}, project: '' as RepoName};
     element.commitInfo = {
@@ -92,10 +92,10 @@ suite('gr-commit-info tests', () => {
   });
 
   test('ignore web links that are neither gitweb nor gitiles', () => {
-    const router = document.createElement('gr-router');
+    const router = new GrRouter();
     sinon
       .stub(GerritNav, '_generateWeblinks')
-      .callsFake(router._generateWeblinks.bind(router));
+      .callsFake(router.generateWeblinks.bind(router));
 
     element.change = {...createChange(), project: 'project-name' as RepoName};
     element.commitInfo = {

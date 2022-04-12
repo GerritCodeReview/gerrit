@@ -21,11 +21,14 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeDeletedListener;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 @Singleton
 public class ChangeDeleted {
@@ -44,12 +47,13 @@ public class ChangeDeleted {
     if (listeners.isEmpty()) {
       return;
     }
-    try {
-      Event event = new Event(util.changeInfo(change), util.accountInfo(deleter), when);
-      listeners.runEach(l -> l.onChangeDeleted(event));
+    Optional<Event> event = Optional.empty();
+    try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+      event = Optional.of(new Event(util.changeInfo(change), util.accountInfo(deleter), when));
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }
+    event.ifPresent(e -> listeners.runEach(l -> l.onChangeDeleted(e)));
   }
 
   private static class Event extends AbstractChangeEvent implements ChangeDeletedListener.Event {

@@ -22,6 +22,7 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {PaperListboxElement} from '@polymer/paper-listbox';
 import {Timestamp} from '../../../types/common';
+import {GrSelect} from '../gr-select/gr-select';
 
 const basicFixture = fixtureFromElement('gr-dropdown-list');
 
@@ -71,7 +72,7 @@ suite('gr-dropdown-list tests', () => {
     assert.equal(element._computeMobileText(item), item.mobileText);
   });
 
-  test('options are selected and laid out correctly', async () => {
+  test.only('options are selected and laid out correctly', async () => {
     element.value = 2;
     element.items = [
       {
@@ -171,6 +172,8 @@ suite('gr-dropdown-list tests', () => {
     // Select a new item.
     MockInteractions.tap(items[0]);
     flush();
+    await queryAndAssert<GrSelect>(element, 'gr-select').updateComplete;
+
     assert.equal(element.value, 1);
     assert.isTrue(items[0].classList.contains('iron-selected'));
     assert.isTrue(mobileItems[0].selected);

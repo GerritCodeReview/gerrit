@@ -440,7 +440,7 @@ public class StreamEventsApiListener
 
   @Override
   public void onChangeMerged(ChangeMergedListener.Event ev) {
-    try {
+    try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
       ChangeNotes notes = getNotes(ev.getChange());
       Change change = notes.getChange();
       ChangeMergedEvent event = new ChangeMergedEvent(change);

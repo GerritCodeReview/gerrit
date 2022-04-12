@@ -532,7 +532,7 @@ public class StreamEventsApiListener
 
   @Override
   public void onChangeDeleted(ChangeDeletedListener.Event ev) {
-    try {
+    try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
       ChangeNotes notes = getNotes(ev.getChange());
       Change change = notes.getChange();
       ChangeDeletedEvent event = new ChangeDeletedEvent(change);

@@ -21,6 +21,8 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeDeletedListener;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -45,7 +47,10 @@ public class ChangeDeleted {
       return;
     }
     try {
-      Event event = new Event(util.changeInfo(change), util.accountInfo(deleter), when);
+      Event event;
+      try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+        event = new Event(util.changeInfo(change), util.accountInfo(deleter), when);
+      }
       listeners.runEach(l -> l.onChangeDeleted(event));
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");

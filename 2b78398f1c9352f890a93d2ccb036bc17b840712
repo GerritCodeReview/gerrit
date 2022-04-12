@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91206f9d_685ed0e0",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-12T08:15:07Z",
+      "side": 1,
+      "message": "Doesn\u0027t need this `.` when using ${}?",
+      "range": {
+        "startLine": 233,
+        "startChar": 8,
+        "endLine": 233,
+        "endChar": 20
+      },
+      "revId": "2b78398f1c9352f890a93d2ccb036bc17b840712",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72390a11_33eacbf2",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-12T08:15:07Z",
+      "side": 1,
+      "message": "Interesting, thanks for introducing this",
+      "range": {
+        "startLine": 268,
+        "startChar": 12,
+        "endLine": 268,
+        "endChar": 18
+      },
+      "revId": "2b78398f1c9352f890a93d2ccb036bc17b840712",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eb6d6ae_852e8d3b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-12T08:15:07Z",
+      "side": 1,
+      "message": "Nit: `checked` would be enough",
+      "range": {
+        "startLine": 288,
+        "startChar": 11,
+        "endLine": 288,
+        "endChar": 20
+      },
+      "revId": "2b78398f1c9352f890a93d2ccb036bc17b840712",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

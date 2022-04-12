@@ -24,6 +24,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -33,6 +35,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 @Singleton
 public class ChangeMerged {
@@ -52,15 +55,17 @@ public class ChangeMerged {
     if (listeners.isEmpty()) {
       return;
     }
-    try {
-      Event event =
-          new Event(
-              util.changeInfo(change),
-              util.revisionInfo(change.getProject(), ps),
-              util.accountInfo(merger),
-              newRevisionId,
-              when);
-      listeners.runEach(l -> l.onChangeMerged(event));
+
+    Optional<Event> event = Optional.empty();
+    try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+      event =
+          Optional.of(
+              new Event(
+                  util.changeInfo(change),
+                  util.revisionInfo(change.getProject(), ps),
+                  util.accountInfo(merger),
+                  newRevisionId,
+                  when));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
     } catch (PatchListNotAvailableException
@@ -70,6 +75,7 @@ public class ChangeMerged {
         | PermissionBackendException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }
+    event.ifPresent(e -> listeners.runEach(l -> l.onChangeMerged(e)));
   }
 
   private static class Event extends AbstractRevisionEvent implements ChangeMergedListener.Event {

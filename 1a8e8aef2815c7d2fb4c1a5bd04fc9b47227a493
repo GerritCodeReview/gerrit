@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b060b38_a9ae38d3",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-12T16:28:50Z",
+      "side": 1,
+      "message": "Can we convert all functions/properties to drop _?",
+      "revId": "1a8e8aef2815c7d2fb4c1a5bd04fc9b47227a493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

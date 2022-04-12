@@ -24,6 +24,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -33,6 +35,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 @Singleton
 public class ChangeAbandoned {
@@ -57,16 +60,17 @@ public class ChangeAbandoned {
     if (listeners.isEmpty()) {
       return;
     }
-    try {
-      Event event =
-          new Event(
-              util.changeInfo(change),
-              util.revisionInfo(change.getProject(), ps),
-              util.accountInfo(abandoner),
-              reason,
-              when,
-              notifyHandling);
-      listeners.runEach(l -> l.onChangeAbandoned(event));
+    Optional<Event> event = Optional.empty();
+    try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+      event =
+          Optional.of(
+              new Event(
+                  util.changeInfo(change),
+                  util.revisionInfo(change.getProject(), ps),
+                  util.accountInfo(abandoner),
+                  reason,
+                  when,
+                  notifyHandling));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
     } catch (PatchListNotAvailableException
@@ -76,6 +80,7 @@ public class ChangeAbandoned {
         | PermissionBackendException e) {
       logger.atSevere().withCause(e).log("Couldn't fire event");
     }
+    event.ifPresent(e -> listeners.runEach(l -> l.onChangeAbandoned(e)));
   }
 
   private static class Event extends AbstractRevisionEvent

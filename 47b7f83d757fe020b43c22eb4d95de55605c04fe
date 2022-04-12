@@ -46,6 +46,30 @@
       },
       "revId": "47b7f83d757fe020b43c22eb4d95de55605c04fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d76eb00_f8e994ba",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-12T11:32:38Z",
+      "side": 1,
+      "message": "We do use this gson in the test already: https://gerrit-review.googlesource.com/c/gerrit/+/330519/5/javatests/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementJsonSerializerTest.java#136, no?\n\nAm I missing something?\n\n\u003e Thinking about this once more, if you just do a single change that changes the enum to append the NOT_EVALUATED state and let that sit for a while (so it\u0027s rollback safe) ...\n\nmmm, yes that should work too. I also think it\u0027s the better approach (to avoid the complexity as you mentioned). Thanks for suggesting!\nSince there is a TODO (see line 173) to remove this adapter anyway (we only need it during the rollout), so I\u0027ll keep as is.\n\nPlease resolve if nothing else is required.",
+      "parentUuid": "a28a5c1c_e69f5539",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 21
+      },
+      "revId": "47b7f83d757fe020b43c22eb4d95de55605c04fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,7 +16,6 @@
  */
 
 import '../../../test/common-test-setup-karma';
-import '../../core/gr-router/gr-router';
 import './gr-change-metadata';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -63,6 +62,7 @@ import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {ParsedChangeInfo} from '../../../types/types';
 import {GrLinkedChip} from '../../shared/gr-linked-chip/gr-linked-chip';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrRouter} from '../../core/gr-router/gr-router';
 
 const basicFixture = fixtureFromElement('gr-change-metadata');
 
@@ -278,7 +278,7 @@ suite('gr-change-metadata tests', () => {
   });
 
   test('weblinks are visible when other weblinks', () => {
-    const router = document.createElement('gr-router');
+    const router = new GrRouter();
     sinon
       .stub(GerritNav, '_generateWeblinks')
       .callsFake(router._generateWeblinks.bind(router));
@@ -303,7 +303,7 @@ suite('gr-change-metadata tests', () => {
   });
 
   test('weblinks are visible when gitiles and other weblinks', () => {
-    const router = document.createElement('gr-router');
+    const router = new GrRouter();
     sinon
       .stub(GerritNav, '_generateWeblinks')
       .callsFake(router._generateWeblinks.bind(router));

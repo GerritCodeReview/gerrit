@@ -63,13 +63,12 @@ import {
 } from '../../../test/test-data-generators';
 import {AppElementParams} from '../../gr-app-types';
 
-const basicFixture = fixtureFromElement('gr-router');
 
 suite('gr-router tests', () => {
   let element: GrRouter;
 
   setup(() => {
-    element = basicFixture.instantiate();
+    element = new GrRouter();
   });
 
   test('_firstCodeBrowserWeblink', () => {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03e6eb18_1d73a4cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-12T08:40:28Z",
+      "side": 1,
+      "message": "@Han-Wen: can you re-apply LC+1?",
+      "revId": "3e6ac135054a5df3cf6b3c48d0140300eb6d1da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

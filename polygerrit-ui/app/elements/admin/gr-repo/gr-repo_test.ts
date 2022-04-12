@@ -452,7 +452,7 @@ suite('gr-repo tests', () => {
       const sel = queryAndAssert<GrSelect>(element, '#submitTypeSelect');
       assert.equal(sel.bindValue, 'INHERIT');
       assert.equal(
-        sel.nativeSelect.options[0].text,
+        sel.nativeSelect!.options[0].text,
         'Inherit (Merge if necessary)'
       );
     });

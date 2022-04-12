@@ -541,12 +541,17 @@ public class StreamEventsApiListener
   @Override
   public void onChangeDeleted(ChangeDeletedListener.Event ev) {
     try {
-      ChangeNotes notes = getNotes(ev.getChange());
-      Change change = notes.getChange();
-      ChangeDeletedEvent event = new ChangeDeletedEvent(change);
+      Change change;
+      ChangeDeletedEvent event;
 
-      event.change = changeAttributeSupplier(change, notes);
-      event.deleter = accountAttributeSupplier(ev.getWho());
+      try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+        ChangeNotes notes = getNotes(ev.getChange());
+        change = notes.getChange();
+        event = new ChangeDeletedEvent(change);
+
+        event.change = changeAttributeSupplier(change, notes);
+        event.deleter = accountAttributeSupplier(ev.getWho());
+      }
 
       dispatcher.run(d -> d.postEvent(change, event));
     } catch (OrmException e) {

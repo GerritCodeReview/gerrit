@@ -84,6 +84,8 @@ import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -493,7 +495,8 @@ public class ChangeJson {
       ChangeData cd, Optional<PatchSet.Id> limitToPsId, Supplier<I> changeInfoSupplier)
       throws PatchListNotAvailableException, GpgException, OrmException, PermissionBackendException,
           IOException {
-    try (Timer0.Context ignored = metrics.toChangeInfoLatency.start()) {
+    try (Timer0.Context ignored = metrics.toChangeInfoLatency.start();
+        ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
       return toChangeInfoImpl(cd, limitToPsId, changeInfoSupplier);
     }
   }

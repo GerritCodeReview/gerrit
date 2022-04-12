@@ -14,13 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {
   page,
   PageContext,
   PageNextCallback,
 } from '../../../utils/page-wrapper-utils';
-import {htmlTemplate} from './gr-router_html';
 import {
   DashboardSection,
   GeneratedWebLink,
@@ -46,7 +44,6 @@ import {
 } from '../gr-navigation/gr-navigation';
 import {getAppContext} from '../../../services/app-context';
 import {convertToPatchSetNum} from '../../../utils/patch-set-util';
-import {customElement, property} from '@polymer/decorators';
 import {assertNever} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
@@ -77,6 +74,15 @@ import {
   toSearchParams,
 } from '../../../utils/url-util';
 import {Execution, LifeCycle, Timing} from '../../../constants/reporting';
+import {PropertiesOfType} from '../../../utils/type-util';
+
+// we must omit _mapRoute because it uses RouterHandles and therefore
+// RouterHandlers would reference itself infinitely and not compile.
+type RouterHandlers = PropertiesOfType<
+  Omit<Required<GrRouter>, '_mapRoute'>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (ctx: PageContextWithQueryMap) => any
+>;
 
 const RoutePattern = {
   ROOT: '/',
@@ -288,21 +294,13 @@ export interface PatchRangeParams {
   basePatchNum?: BasePatchSetNum;
 }
 
-@customElement('gr-router')
-export class GrRouter extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: Object})
+export class GrRouter {
   readonly _app = app;
 
-  @property({type: Boolean})
   _isRedirecting?: boolean;
 
   // This variable is to differentiate between internal navigation (false)
   // and for first navigation in app after loaded from server (true).
-  @property({type: Boolean})
   _isInitialLoad = true;
 
   private readonly reporting = getAppContext().reportingService;
@@ -794,7 +792,7 @@ export class GrRouter extends PolymerElement {
    */
   _mapRoute(
     pattern: string | RegExp,
-    handlerName: keyof GrRouter,
+    handlerName: RouterHandlers,
     authRedirect?: boolean
   ) {
     if (!this[handlerName]) {
@@ -883,7 +881,7 @@ export class GrRouter extends PolymerElement {
           hash: window.location.hash,
           pathname: window.location.pathname,
         };
-        this.dispatchEvent(
+        window.dispatchEvent(
           new CustomEvent('location-change', {
             detail,
             composed: true,
@@ -1835,11 +1833,5 @@ export class GrRouter extends PolymerElement {
     // network responses, so we simulate a 404 response status to display it.
     // TODO: Decouple the gr-app error view from network responses.
     firePageError(new Response('', {status: 404}));
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-router': GrRouter;
   }
 }

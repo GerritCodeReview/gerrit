@@ -316,7 +316,7 @@ suite('gr-rule-editor tests', () => {
       assert.isNotOk(element.rule.value!.modified);
       const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
       actionBindValue.bindValue = PermissionAction.DENY;
-      await element.updateComplete;
+      await actionBindValue.updateComplete;
       assert.isTrue(element.rule.value!.modified);
       element.editing = false;
       await element.updateComplete;
@@ -338,6 +338,7 @@ suite('gr-rule-editor tests', () => {
       assert.isNotOk(element.rule!.value!.modified);
       const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
       actionBindValue.bindValue = PermissionAction.DENY;
+      await actionBindValue.updateComplete;
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
@@ -482,6 +483,7 @@ suite('gr-rule-editor tests', () => {
       assert.isNotOk(element.rule!.value!.modified);
       const forceBindValue = queryAndAssert<GrSelect>(element, '#force');
       forceBindValue.bindValue = 'true';
+      await forceBindValue.updateComplete;
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
@@ -554,6 +556,7 @@ suite('gr-rule-editor tests', () => {
       assert.isNotOk(element.rule!.value!.modified);
       const labelMinBindValue = queryAndAssert<GrSelect>(element, '#labelMin');
       labelMinBindValue.bindValue = 1;
+      await labelMinBindValue.updateComplete;
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
       assert.isFalse(removeStub.called);
@@ -620,7 +623,8 @@ suite('gr-rule-editor tests', () => {
     test('modify value', async () => {
       assert.isNotOk(element.rule!.value!.modified);
       const labelMinBindValue = queryAndAssert<GrSelect>(element, '#labelMin');
-      labelMinBindValue.bindValue = 1;
+      labelMinBindValue.bindValue = "1";
+      await labelMinBindValue.updateComplete;
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
@@ -669,6 +673,7 @@ suite('gr-rule-editor tests', () => {
       assert.isNotOk(element.rule!.value!.modified);
       const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
       actionBindValue.bindValue = false;
+      await actionBindValue.updateComplete;
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
@@ -716,6 +721,7 @@ suite('gr-rule-editor tests', () => {
       assert.isNotOk(element.rule!.value!.modified);
       const forceBindValue = queryAndAssert<GrSelect>(element, '#force');
       forceBindValue.bindValue = true;
+      await forceBindValue.updateComplete;
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
@@ -764,6 +770,7 @@ suite('gr-rule-editor tests', () => {
       assert.isNotOk(element.rule!.value!.modified);
       const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
       actionBindValue.bindValue = false;
+      await actionBindValue.updateComplete;
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 

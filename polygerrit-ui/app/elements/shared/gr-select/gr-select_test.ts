@@ -33,56 +33,62 @@ suite('gr-select tests', () => {
         </select>
       </gr-select>
     `);
+    await element.updateComplete;
+    await element.updateComplete;
   });
 
-  test('bindValue must be set to the first option value', () => {
+  test('bindValue must be set to the first option value', async () => {
     assert.equal(element.bindValue, '1');
-    assert.equal(element.nativeSelect.value, '1');
+    assert.equal(element.nativeSelect?.value, '1');
   });
 
-  test('value of 0 should still trigger value updates', () => {
+  test('value of 0 should still trigger value updates', async () => {
     element.bindValue = '0';
-    assert.equal(element.nativeSelect.value, '');
+    await element.updateComplete;
+
+    assert.equal(element.nativeSelect?.value, '');
   });
 
-  test('bidirectional binding property-to-attribute', () => {
+  test('bidirectional binding bindValue-to-nativeSelect', async () => {
     const changeStub = sinon.stub();
     element.addEventListener('bind-value-changed', changeStub);
 
     // The selected element should be the first one by default.
-    assert.equal(element.nativeSelect.value, '1');
+    assert.equal(element.nativeSelect?.value, '1');
     assert.equal(element.bindValue, '1');
     assert.isFalse(changeStub.called);
 
     // Now change the value.
     element.bindValue = '2';
+    await element.updateComplete;
 
     // It should be updated.
-    assert.equal(element.nativeSelect.value, '2');
+    assert.equal(element.nativeSelect?.value, '2');
     assert.equal(element.bindValue, '2');
     assert.isTrue(changeStub.called);
   });
 
-  test('bidirectional binding attribute-to-property', () => {
+  test('bidirectional binding nativeSelect-to-bindValue', async () => {
     const changeStub = sinon.stub();
     element.addEventListener('bind-value-changed', changeStub);
 
     // The selected element should be the first one by default.
-    assert.equal(element.nativeSelect.value, '1');
+    assert.equal(element.nativeSelect?.value, '1');
     assert.equal(element.bindValue, '1');
     assert.isFalse(changeStub.called);
 
     // Now change the value.
-    element.nativeSelect.value = '3';
+    element.nativeSelect!.value = '3';
     element.dispatchEvent(
       new CustomEvent('change', {
         composed: true,
         bubbles: true,
       })
     );
+    await element.updateComplete;
 
     // It should be updated.
-    assert.equal(element.nativeSelect.value, '3');
+    assert.equal(element.nativeSelect?.value, '3');
     assert.equal(element.bindValue, '3');
     assert.isTrue(changeStub.called);
   });
@@ -98,7 +104,7 @@ suite('gr-select tests', () => {
       `);
     });
 
-    test('bindValue must not be changed', () => {
+    test('bindValue must not be changed', async () => {
       assert.isUndefined(element.bindValue);
     });
   });

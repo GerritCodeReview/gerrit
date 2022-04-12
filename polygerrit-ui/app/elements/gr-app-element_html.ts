@@ -221,7 +221,6 @@ export const htmlTemplate = html`
     id="errorManager"
     login-url="[[_loginUrl]]"
   ></gr-error-manager>
-  <gr-router id="router"></gr-router>
   <gr-plugin-host id="plugins" config="[[_serverConfig]]"> </gr-plugin-host>
   <gr-external-style
     id="externalStyleForAll"

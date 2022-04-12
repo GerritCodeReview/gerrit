@@ -63,18 +63,16 @@ import {
 } from '../../../test/test-data-generators';
 import {AppElementParams} from '../../gr-app-types';
 
-const basicFixture = fixtureFromElement('gr-router');
-
 suite('gr-router tests', () => {
-  let element: GrRouter;
+  let router: GrRouter;
 
   setup(() => {
-    element = basicFixture.instantiate();
+    router = new GrRouter();
   });
 
-  test('_firstCodeBrowserWeblink', () => {
+  test('firstCodeBrowserWeblink', () => {
     assert.deepEqual(
-      element._firstCodeBrowserWeblink([
+      router.firstCodeBrowserWeblink([
         {name: 'gitweb'},
         {name: 'gitiles'},
         {name: 'browse'},
@@ -84,12 +82,12 @@ suite('gr-router tests', () => {
     );
 
     assert.deepEqual(
-      element._firstCodeBrowserWeblink([{name: 'gitweb'}, {name: 'test'}]),
+      router.firstCodeBrowserWeblink([{name: 'gitweb'}, {name: 'test'}]),
       {name: 'gitweb'}
     );
   });
 
-  test('_getBrowseCommitWeblink', () => {
+  test('getBrowseCommitWeblink', () => {
     const browserLink = {name: 'browser', url: 'browser/url'};
     const link = {name: 'test', url: 'test/url'};
     const weblinks = [browserLink, link];
@@ -97,17 +95,17 @@ suite('gr-router tests', () => {
       ...createServerInfo(),
       gerrit: {...createGerritInfo(), primary_weblink_name: browserLink.name},
     };
-    sinon.stub(element, '_firstCodeBrowserWeblink').returns(link);
+    sinon.stub(router, 'firstCodeBrowserWeblink').returns(link);
 
     assert.deepEqual(
-      element._getBrowseCommitWeblink(weblinks, config),
+      router.getBrowseCommitWeblink(weblinks, config),
       browserLink
     );
 
-    assert.deepEqual(element._getBrowseCommitWeblink(weblinks), link);
+    assert.deepEqual(router.getBrowseCommitWeblink(weblinks), link);
   });
 
-  test('_getChangeWeblinks', () => {
+  test('getChangeWeblinks', () => {
     const link = {name: 'test', url: 'test/url'};
     const browserLink = {name: 'browser', url: 'browser/url'};
     const mapLinksToConfig = (weblinks: WebLinkInfo[]) => {
@@ -118,81 +116,81 @@ suite('gr-router tests', () => {
         options: {weblinks},
       };
     };
-    sinon.stub(element, '_getBrowseCommitWeblink').returns(browserLink);
+    sinon.stub(router, 'getBrowseCommitWeblink').returns(browserLink);
 
     assert.deepEqual(
-      element._getChangeWeblinks(mapLinksToConfig([link, browserLink]))[0],
+      router.getChangeWeblinks(mapLinksToConfig([link, browserLink]))[0],
       {name: 'test', url: 'test/url'}
     );
 
-    assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig([link]))[0], {
+    assert.deepEqual(router.getChangeWeblinks(mapLinksToConfig([link]))[0], {
       name: 'test',
       url: 'test/url',
     });
 
     link.url = `https://${link.url}`;
-    assert.deepEqual(element._getChangeWeblinks(mapLinksToConfig([link]))[0], {
+    assert.deepEqual(router.getChangeWeblinks(mapLinksToConfig([link]))[0], {
       name: 'test',
       url: 'https://test/url',
     });
   });
 
-  test('_getHashFromCanonicalPath', () => {
+  test('getHashFromCanonicalPath', () => {
     let url = '/foo/bar';
-    let hash = element._getHashFromCanonicalPath(url);
+    let hash = router.getHashFromCanonicalPath(url);
     assert.equal(hash, '');
 
     url = '';
-    hash = element._getHashFromCanonicalPath(url);
+    hash = router.getHashFromCanonicalPath(url);
     assert.equal(hash, '');
 
     url = '/foo#bar';
-    hash = element._getHashFromCanonicalPath(url);
+    hash = router.getHashFromCanonicalPath(url);
     assert.equal(hash, 'bar');
 
     url = '/foo#bar#baz';
-    hash = element._getHashFromCanonicalPath(url);
+    hash = router.getHashFromCanonicalPath(url);
     assert.equal(hash, 'bar#baz');
 
     url = '#foo#bar#baz';
-    hash = element._getHashFromCanonicalPath(url);
+    hash = router.getHashFromCanonicalPath(url);
     assert.equal(hash, 'foo#bar#baz');
   });
 
-  suite('_parseLineAddress', () => {
+  suite('parseLineAddress', () => {
     test('returns null for empty and invalid hashes', () => {
-      let actual = element._parseLineAddress('');
+      let actual = router.parseLineAddress('');
       assert.isNull(actual);
 
-      actual = element._parseLineAddress('foobar');
+      actual = router.parseLineAddress('foobar');
       assert.isNull(actual);
 
-      actual = element._parseLineAddress('foo123');
+      actual = router.parseLineAddress('foo123');
       assert.isNull(actual);
 
-      actual = element._parseLineAddress('123bar');
+      actual = router.parseLineAddress('123bar');
       assert.isNull(actual);
     });
 
     test('parses correctly', () => {
-      let actual = element._parseLineAddress('1234');
+      let actual = router.parseLineAddress('1234');
       assert.isOk(actual);
       assert.equal(actual!.lineNum, 1234);
       assert.isFalse(actual!.leftSide);
 
-      actual = element._parseLineAddress('a4');
+      actual = router.parseLineAddress('a4');
       assert.isOk(actual);
       assert.equal(actual!.lineNum, 4);
       assert.isTrue(actual!.leftSide);
 
-      actual = element._parseLineAddress('b77');
+      actual = router.parseLineAddress('b77');
       assert.isOk(actual);
       assert.equal(actual!.lineNum, 77);
       assert.isTrue(actual!.leftSide);
     });
   });
 
-  test('_startRouter requires auth for the right handlers', () => {
+  test('startRouter requires auth for the right handlers', () => {
     // This test encodes the lists of route handler methods that gr-router
     // automatically checks for authentication before triggering.
 
@@ -202,15 +200,15 @@ suite('gr-router tests', () => {
     sinon.stub(page, 'start');
     sinon.stub(page, 'base');
     sinon
-      .stub(element, '_mapRoute')
-      .callsFake((_pattern, methodName, usesAuth) => {
+      .stub(router, 'mapRoute')
+      .callsFake((_pattern, methodName, _method, usesAuth) => {
         if (usesAuth) {
           requiresAuth[methodName] = true;
         } else {
           doesNotRequireAuth[methodName] = true;
         }
       });
-    element._startRouter();
+    router.startRouter();
 
     const actualRequiresAuth = Object.keys(requiresAuth);
     actualRequiresAuth.sort();
@@ -218,73 +216,73 @@ suite('gr-router tests', () => {
     actualDoesNotRequireAuth.sort();
 
     const shouldRequireAutoAuth = [
-      '_handleAgreementsRoute',
-      '_handleChangeEditRoute',
-      '_handleCreateGroupRoute',
-      '_handleCreateProjectRoute',
-      '_handleDiffEditRoute',
-      '_handleGroupAuditLogRoute',
-      '_handleGroupInfoRoute',
-      '_handleGroupListFilterOffsetRoute',
-      '_handleGroupListFilterRoute',
-      '_handleGroupListOffsetRoute',
-      '_handleGroupMembersRoute',
-      '_handleGroupRoute',
-      '_handleGroupSelfRedirectRoute',
-      '_handleNewAgreementsRoute',
-      '_handlePluginListFilterOffsetRoute',
-      '_handlePluginListFilterRoute',
-      '_handlePluginListOffsetRoute',
-      '_handlePluginListRoute',
-      '_handleRepoCommandsRoute',
-      '_handleSettingsLegacyRoute',
-      '_handleSettingsRoute',
+      'handleAgreementsRoute',
+      'handleChangeEditRoute',
+      'handleCreateGroupRoute',
+      'handleCreateProjectRoute',
+      'handleDiffEditRoute',
+      'handleGroupAuditLogRoute',
+      'handleGroupInfoRoute',
+      'handleGroupListFilterOffsetRoute',
+      'handleGroupListFilterRoute',
+      'handleGroupListOffsetRoute',
+      'handleGroupMembersRoute',
+      'handleGroupRoute',
+      'handleGroupSelfRedirectRoute',
+      'handleNewAgreementsRoute',
+      'handlePluginListFilterOffsetRoute',
+      'handlePluginListFilterRoute',
+      'handlePluginListOffsetRoute',
+      'handlePluginListRoute',
+      'handleRepoCommandsRoute',
+      'handleSettingsLegacyRoute',
+      'handleSettingsRoute',
     ];
     assert.deepEqual(actualRequiresAuth, shouldRequireAutoAuth);
 
     const unauthenticatedHandlers = [
-      '_handleBranchListFilterOffsetRoute',
-      '_handleBranchListFilterRoute',
-      '_handleBranchListOffsetRoute',
-      '_handleChangeIdQueryRoute',
-      '_handleChangeNumberLegacyRoute',
-      '_handleChangeRoute',
-      '_handleCommentRoute',
-      '_handleCommentsRoute',
-      '_handleDiffRoute',
-      '_handleDefaultRoute',
-      '_handleChangeLegacyRoute',
-      '_handleDocumentationRedirectRoute',
-      '_handleDocumentationSearchRoute',
-      '_handleDocumentationSearchRedirectRoute',
-      '_handleLegacyLinenum',
-      '_handleImproperlyEncodedPlusRoute',
-      '_handlePassThroughRoute',
-      '_handleProjectDashboardRoute',
-      '_handleLegacyProjectDashboardRoute',
-      '_handleProjectsOldRoute',
-      '_handleRepoAccessRoute',
-      '_handleRepoDashboardsRoute',
-      '_handleRepoGeneralRoute',
-      '_handleRepoListFilterOffsetRoute',
-      '_handleRepoListFilterRoute',
-      '_handleRepoListOffsetRoute',
-      '_handleRepoRoute',
-      '_handleQueryLegacySuffixRoute',
-      '_handleQueryRoute',
-      '_handleRegisterRoute',
-      '_handleTagListFilterOffsetRoute',
-      '_handleTagListFilterRoute',
-      '_handleTagListOffsetRoute',
-      '_handlePluginScreen',
+      'handleBranchListFilterOffsetRoute',
+      'handleBranchListFilterRoute',
+      'handleBranchListOffsetRoute',
+      'handleChangeIdQueryRoute',
+      'handleChangeNumberLegacyRoute',
+      'handleChangeRoute',
+      'handleCommentRoute',
+      'handleCommentsRoute',
+      'handleDiffRoute',
+      'handleDefaultRoute',
+      'handleChangeLegacyRoute',
+      'handleDocumentationRedirectRoute',
+      'handleDocumentationSearchRoute',
+      'handleDocumentationSearchRedirectRoute',
+      'handleLegacyLinenum',
+      'handleImproperlyEncodedPlusRoute',
+      'handlePassThroughRoute',
+      'handleProjectDashboardRoute',
+      'handleLegacyProjectDashboardRoute',
+      'handleProjectsOldRoute',
+      'handleRepoAccessRoute',
+      'handleRepoDashboardsRoute',
+      'handleRepoGeneralRoute',
+      'handleRepoListFilterOffsetRoute',
+      'handleRepoListFilterRoute',
+      'handleRepoListOffsetRoute',
+      'handleRepoRoute',
+      'handleQueryLegacySuffixRoute',
+      'handleQueryRoute',
+      'handleRegisterRoute',
+      'handleTagListFilterOffsetRoute',
+      'handleTagListFilterRoute',
+      'handleTagListOffsetRoute',
+      'handlePluginScreen',
     ];
 
     // Handler names that check authentication themselves, and thus don't need
     // it performed for them.
     const selfAuthenticatingHandlers = [
-      '_handleDashboardRoute',
-      '_handleCustomDashboardRoute',
-      '_handleRootRoute',
+      'handleDashboardRoute',
+      'handleCustomDashboardRoute',
+      'handleRootRoute',
     ];
 
     const shouldNotRequireAuth = unauthenticatedHandlers.concat(
@@ -294,7 +292,7 @@ suite('gr-router tests', () => {
     assert.deepEqual(actualDoesNotRequireAuth, shouldNotRequireAuth);
   });
 
-  test('_redirectIfNotLoggedIn while logged in', () => {
+  test('redirectIfNotLoggedIn while logged in', () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(true));
     const data = {
       save() {},
@@ -308,15 +306,15 @@ suite('gr-router tests', () => {
       hash: '',
       params: {test: 'test'},
     };
-    const redirectStub = sinon.stub(element, '_redirectToLogin');
-    return element._redirectIfNotLoggedIn(data).then(() => {
+    const redirectStub = sinon.stub(router, 'redirectToLogin');
+    return router.redirectIfNotLoggedIn(data).then(() => {
       assert.isFalse(redirectStub.called);
     });
   });
 
-  test('_redirectIfNotLoggedIn while logged out', () => {
+  test('redirectIfNotLoggedIn while logged out', () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-    const redirectStub = sinon.stub(element, '_redirectToLogin');
+    const redirectStub = sinon.stub(router, 'redirectToLogin');
     const data = {
       save() {},
       handled: true,
@@ -330,8 +328,8 @@ suite('gr-router tests', () => {
       params: {test: 'test'},
     };
     return new Promise(resolve => {
-      element
-        ._redirectIfNotLoggedIn(data)
+      router
+        .redirectIfNotLoggedIn(data)
         .then(() => {
           assert.isTrue(false, 'Should never execute');
         })
@@ -353,14 +351,14 @@ suite('gr-router tests', () => {
         statuses: ['op%en'],
       };
       assert.equal(
-        element._generateUrl(params),
+        router.generateUrl(params),
         '/q/owner:a%2525b+project:c%2525d+branch:e%2525f+' +
           'topic:g%2525h+status:op%2525en'
       );
 
       params.offset = 100;
       assert.equal(
-        element._generateUrl(params),
+        router.generateUrl(params),
         '/q/owner:a%2525b+project:c%2525d+branch:e%2525f+' +
           'topic:g%2525h+status:op%2525en,100'
       );
@@ -368,17 +366,17 @@ suite('gr-router tests', () => {
 
       // The presence of the query param overrides other params.
       params.query = 'foo$bar';
-      assert.equal(element._generateUrl(params), '/q/foo%2524bar');
+      assert.equal(router.generateUrl(params), '/q/foo%2524bar');
 
       params.offset = 100;
-      assert.equal(element._generateUrl(params), '/q/foo%2524bar,100');
+      assert.equal(router.generateUrl(params), '/q/foo%2524bar,100');
 
       params = {
         view: GerritNav.View.SEARCH,
         statuses: ['a', 'b', 'c'],
       };
       assert.equal(
-        element._generateUrl(params),
+        router.generateUrl(params),
         '/q/(status:a OR status:b OR status:c)'
       );
 
@@ -386,17 +384,17 @@ suite('gr-router tests', () => {
         view: GerritNav.View.SEARCH,
         topic: 'test' as TopicName,
       };
-      assert.equal(element._generateUrl(params), '/q/topic:test');
+      assert.equal(router.generateUrl(params), '/q/topic:test');
       params = {
         view: GerritNav.View.SEARCH,
         topic: 'test test' as TopicName,
       };
-      assert.equal(element._generateUrl(params), '/q/topic:"test+test"');
+      assert.equal(router.generateUrl(params), '/q/topic:"test+test"');
       params = {
         view: GerritNav.View.SEARCH,
         topic: 'test:test' as TopicName,
       };
-      assert.equal(element._generateUrl(params), '/q/topic:"test:test"');
+      assert.equal(router.generateUrl(params), '/q/topic:"test:test"');
     });
 
     test('change', () => {
@@ -406,16 +404,16 @@ suite('gr-router tests', () => {
         project: 'test' as RepoName,
       };
 
-      assert.equal(element._generateUrl(params), '/c/test/+/1234');
+      assert.equal(router.generateUrl(params), '/c/test/+/1234');
 
       params.patchNum = 10 as PatchSetNum;
-      assert.equal(element._generateUrl(params), '/c/test/+/1234/10');
+      assert.equal(router.generateUrl(params), '/c/test/+/1234/10');
 
       params.basePatchNum = 5 as BasePatchSetNum;
-      assert.equal(element._generateUrl(params), '/c/test/+/1234/5..10');
+      assert.equal(router.generateUrl(params), '/c/test/+/1234/5..10');
 
       params.messageHash = '#123';
-      assert.equal(element._generateUrl(params), '/c/test/+/1234/5..10#123');
+      assert.equal(router.generateUrl(params), '/c/test/+/1234/5..10#123');
     });
 
     test('change with repo name encoding', () => {
@@ -425,7 +423,7 @@ suite('gr-router tests', () => {
         project: 'x+/y+/z+/w' as RepoName,
       };
       assert.equal(
-        element._generateUrl(params),
+        router.generateUrl(params),
         '/c/x%252B/y%252B/z%252B/w/+/1234'
       );
     });
@@ -438,17 +436,17 @@ suite('gr-router tests', () => {
         patchNum: 12 as PatchSetNum,
         project: '' as RepoName,
       };
-      assert.equal(element._generateUrl(params), '/c/42/12/x%252By/path.cpp');
+      assert.equal(router.generateUrl(params), '/c/42/12/x%252By/path.cpp');
 
       params.project = 'test' as RepoName;
       assert.equal(
-        element._generateUrl(params),
+        router.generateUrl(params),
         '/c/test/+/42/12/x%252By/path.cpp'
       );
 
       params.basePatchNum = 6 as BasePatchSetNum;
       assert.equal(
-        element._generateUrl(params),
+        router.generateUrl(params),
         '/c/test/+/42/6..12/x%252By/path.cpp'
       );
 
@@ -456,19 +454,16 @@ suite('gr-router tests', () => {
       params.patchNum = 2 as PatchSetNum;
       delete params.basePatchNum;
       assert.equal(
-        element._generateUrl(params),
+        router.generateUrl(params),
         '/c/test/+/42/2/foo+bar/my%252Bfile.txt%2525'
       );
 
       params.path = 'file.cpp';
       params.lineNum = 123;
-      assert.equal(element._generateUrl(params), '/c/test/+/42/2/file.cpp#123');
+      assert.equal(router.generateUrl(params), '/c/test/+/42/2/file.cpp#123');
 
       params.leftSide = true;
-      assert.equal(
-        element._generateUrl(params),
-        '/c/test/+/42/2/file.cpp#b123'
-      );
+      assert.equal(router.generateUrl(params), '/c/test/+/42/2/file.cpp#b123');
     });
 
     test('diff with repo name encoding', () => {
@@ -480,7 +475,7 @@ suite('gr-router tests', () => {
         project: 'x+/y' as RepoName,
       };
       assert.equal(
-        element._generateUrl(params),
+        router.generateUrl(params),
         '/c/x%252B/y/+/42/12/x%252By/path.cpp'
       );
     });
@@ -494,26 +489,26 @@ suite('gr-router tests', () => {
         patchNum: 'edit' as PatchSetNum,
       };
       assert.equal(
-        element._generateUrl(params),
+        router.generateUrl(params),
         '/c/test/+/42/edit/x%252By/path.cpp,edit'
       );
     });
 
-    test('_getPatchRangeExpression', () => {
+    test('getPatchRangeExpression', () => {
       const params: PatchRangeParams = {};
-      let actual = element._getPatchRangeExpression(params);
+      let actual = router.getPatchRangeExpression(params);
       assert.equal(actual, '');
 
       params.patchNum = 4 as PatchSetNum;
-      actual = element._getPatchRangeExpression(params);
+      actual = router.getPatchRangeExpression(params);
       assert.equal(actual, '4');
 
       params.basePatchNum = 2 as BasePatchSetNum;
-      actual = element._getPatchRangeExpression(params);
+      actual = router.getPatchRangeExpression(params);
       assert.equal(actual, '2..4');
 
       delete params.patchNum;
-      actual = element._getPatchRangeExpression(params);
+      actual = router.getPatchRangeExpression(params);
       assert.equal(actual, '2..');
     });
 
@@ -522,7 +517,7 @@ suite('gr-router tests', () => {
         const params: GenerateUrlDashboardViewParameters = {
           view: GerritView.DASHBOARD,
         };
-        assert.equal(element._generateUrl(params), '/dashboard/self');
+        assert.equal(router.generateUrl(params), '/dashboard/self');
       });
 
       test('user dashboard', () => {
@@ -530,7 +525,7 @@ suite('gr-router tests', () => {
           view: GerritView.DASHBOARD,
           user: 'user',
         };
-        assert.equal(element._generateUrl(params), '/dashboard/user');
+        assert.equal(router.generateUrl(params), '/dashboard/user');
       });
 
       test('custom self dashboard, no title', () => {
@@ -542,7 +537,7 @@ suite('gr-router tests', () => {
           ],
         };
         assert.equal(
-          element._generateUrl(params),
+          router.generateUrl(params),
           '/dashboard/?section%201=query%201&section%202=query%202'
         );
       });
@@ -557,7 +552,7 @@ suite('gr-router tests', () => {
           repo: 'repo-name' as RepoName,
         };
         assert.equal(
-          element._generateUrl(params),
+          router.generateUrl(params),
           '/dashboard/?section%201=query%201%20repo-name&' +
             'section%202=query%202%20repo-name'
         );
@@ -571,7 +566,7 @@ suite('gr-router tests', () => {
           title: 'custom dashboard',
         };
         assert.equal(
-          element._generateUrl(params),
+          router.generateUrl(params),
           '/dashboard/user?name=query&title=custom%20dashboard'
         );
       });
@@ -583,7 +578,7 @@ suite('gr-router tests', () => {
           dashboard: 'default:main' as DashboardId,
         };
         assert.equal(
-          element._generateUrl(params),
+          router.generateUrl(params),
           '/p/gerrit/repo/+/dashboard/default:main'
         );
       });
@@ -595,7 +590,7 @@ suite('gr-router tests', () => {
           dashboard: 'default:main' as DashboardId,
         };
         assert.equal(
-          element._generateUrl(params),
+          router.generateUrl(params),
           '/p/gerrit/project/+/dashboard/default:main'
         );
       });
@@ -607,7 +602,7 @@ suite('gr-router tests', () => {
           view: GerritView.GROUP,
           groupId: '1234' as GroupId,
         };
-        assert.equal(element._generateUrl(params), '/admin/groups/1234');
+        assert.equal(router.generateUrl(params), '/admin/groups/1234');
       });
 
       test('group members', () => {
@@ -616,10 +611,7 @@ suite('gr-router tests', () => {
           groupId: '1234' as GroupId,
           detail: 'members' as GroupDetailView,
         };
-        assert.equal(
-          element._generateUrl(params),
-          '/admin/groups/1234,members'
-        );
+        assert.equal(router.generateUrl(params), '/admin/groups/1234,members');
       });
 
       test('group audit log', () => {
@@ -629,7 +621,7 @@ suite('gr-router tests', () => {
           detail: 'log' as GroupDetailView,
         };
         assert.equal(
-          element._generateUrl(params),
+          router.generateUrl(params),
           '/admin/groups/1234,audit-log'
         );
       });
@@ -637,13 +629,13 @@ suite('gr-router tests', () => {
   });
 
   suite('param normalization', () => {
-    suite('_normalizePatchRangeParams', () => {
+    suite('normalizePatchRangeParams', () => {
       test('range n..n normalizes to n', () => {
         const params: PatchRangeParams = {
           basePatchNum: 4 as BasePatchSetNum,
           patchNum: 4 as PatchSetNum,
         };
-        const needsRedirect = element._normalizePatchRangeParams(params);
+        const needsRedirect = router.normalizePatchRangeParams(params);
         assert.isTrue(needsRedirect);
         assert.equal(params.basePatchNum, ParentPatchSetNum);
         assert.equal(params.patchNum, 4 as PatchSetNum);
@@ -651,7 +643,7 @@ suite('gr-router tests', () => {
 
       test('range n.. normalizes to n', () => {
         const params: PatchRangeParams = {basePatchNum: 4 as BasePatchSetNum};
-        const needsRedirect = element._normalizePatchRangeParams(params);
+        const needsRedirect = router.normalizePatchRangeParams(params);
         assert.isFalse(needsRedirect);
         assert.equal(params.basePatchNum, ParentPatchSetNum);
         assert.equal(params.patchNum, 4 as PatchSetNum);
@@ -672,7 +664,7 @@ suite('gr-router tests', () => {
       methodName: string,
       params: AppElementParams | GenerateUrlParameters
     ) {
-      (element as any)[methodName](data);
+      (router as any)[methodName](data);
       assert.deepEqual(setParamsStub.lastCall.args[0], params);
     }
 
@@ -693,17 +685,17 @@ suite('gr-router tests', () => {
     }
 
     setup(() => {
-      redirectStub = sinon.stub(element, '_redirect');
-      setParamsStub = sinon.stub(element, '_setParams');
-      handlePassThroughRoute = sinon.stub(element, '_handlePassThroughRoute');
+      redirectStub = sinon.stub(router, 'redirect');
+      setParamsStub = sinon.stub(router, 'setParams');
+      handlePassThroughRoute = sinon.stub(router, 'handlePassThroughRoute');
     });
 
-    test('_handleLegacyProjectDashboardRoute', () => {
+    test('handleLegacyProjectDashboardRoute', () => {
       const params = {
         ...createPageContext(),
         params: {0: 'gerrit/project', 1: 'dashboard:main'},
       };
-      element._handleLegacyProjectDashboardRoute(params);
+      router.handleLegacyProjectDashboardRoute(params);
       assert.isTrue(redirectStub.calledOnce);
       assert.equal(
         redirectStub.lastCall.args[0],
@@ -711,15 +703,15 @@ suite('gr-router tests', () => {
       );
     });
 
-    test('_handleAgreementsRoute', () => {
-      element._handleAgreementsRoute();
+    test('handleAgreementsRoute', () => {
+      router.handleAgreementsRoute();
       assert.isTrue(redirectStub.calledOnce);
       assert.equal(redirectStub.lastCall.args[0], '/settings/#Agreements');
     });
 
-    test('_handleNewAgreementsRoute', () => {
+    test('handleNewAgreementsRoute', () => {
       const params = createPageContext();
-      element._handleNewAgreementsRoute(params);
+      router.handleNewAgreementsRoute(params);
       assert.isTrue(setParamsStub.calledOnce);
       assert.equal(
         setParamsStub.lastCall.args[0].view,
@@ -727,38 +719,38 @@ suite('gr-router tests', () => {
       );
     });
 
-    test('_handleSettingsLegacyRoute', () => {
+    test('handleSettingsLegacyRoute', () => {
       const data = {...createPageContext(), params: {0: 'my-token'}};
-      assertDataToParams(data, '_handleSettingsLegacyRoute', {
+      assertDataToParams(data, 'handleSettingsLegacyRoute', {
         view: GerritNav.View.SETTINGS,
         emailToken: 'my-token',
       });
     });
 
-    test('_handleSettingsLegacyRoute with +', () => {
+    test('handleSettingsLegacyRoute with +', () => {
       const data = {...createPageContext(), params: {0: 'my-token test'}};
-      assertDataToParams(data, '_handleSettingsLegacyRoute', {
+      assertDataToParams(data, 'handleSettingsLegacyRoute', {
         view: GerritNav.View.SETTINGS,
         emailToken: 'my-token+test',
       });
     });
 
-    test('_handleSettingsRoute', () => {
+    test('handleSettingsRoute', () => {
       const data = createPageContext();
-      assertDataToParams(data, '_handleSettingsRoute', {
+      assertDataToParams(data, 'handleSettingsRoute', {
         view: GerritNav.View.SETTINGS,
       });
     });
 
-    test('_handleDefaultRoute on first load', () => {
+    test('handleDefaultRoute on first load', () => {
       const spy = sinon.spy();
       addListenerForTest(document, 'page-error', spy);
-      element._handleDefaultRoute();
+      router.handleDefaultRoute();
       assert.isTrue(spy.calledOnce);
       assert.equal(spy.lastCall.args[0].detail.response.status, 404);
     });
 
-    test('_handleDefaultRoute after internal navigation', () => {
+    test('handleDefaultRoute after internal navigation', () => {
       let onExit: Function | null = null;
       const onRegisteringExit = (
         _match: string | RegExp,
@@ -770,38 +762,38 @@ suite('gr-router tests', () => {
       sinon.stub(GerritNav, 'setup');
       sinon.stub(page, 'start');
       sinon.stub(page, 'base');
-      element._startRouter();
+      router.startRouter();
 
-      element._handleDefaultRoute();
+      router.handleDefaultRoute();
 
       onExit!('', () => {}); // we left page;
 
-      element._handleDefaultRoute();
+      router.handleDefaultRoute();
       assert.isTrue(handlePassThroughRoute.calledOnce);
     });
 
-    test('_handleImproperlyEncodedPlusRoute', () => {
+    test('handleImproperlyEncodedPlusRoute', () => {
       const params = {
         ...createPageContext(),
         canonicalPath: '/c/test/%20/42',
         params: {0: 'test', 1: '42'},
       };
       // Regression test for Issue 7100.
-      element._handleImproperlyEncodedPlusRoute(params);
+      router.handleImproperlyEncodedPlusRoute(params);
       assert.isTrue(redirectStub.calledOnce);
       assert.equal(redirectStub.lastCall.args[0], '/c/test/+/42');
 
-      sinon.stub(element, '_getHashFromCanonicalPath').returns('foo');
-      element._handleImproperlyEncodedPlusRoute(params);
+      sinon.stub(router, 'getHashFromCanonicalPath').returns('foo');
+      router.handleImproperlyEncodedPlusRoute(params);
       assert.equal(redirectStub.lastCall.args[0], '/c/test/+/42#foo');
     });
 
-    test('_handleQueryRoute', () => {
+    test('handleQueryRoute', () => {
       const data: PageContextWithQueryMap = {
         ...createPageContext(),
         params: {0: 'project:foo/bar/baz'},
       };
-      assertDataToParams(data, '_handleQueryRoute', {
+      assertDataToParams(data, 'handleQueryRoute', {
         view: GerritNav.View.SEARCH,
         query: 'project:foo/bar/baz',
         offset: undefined,
@@ -809,35 +801,35 @@ suite('gr-router tests', () => {
 
       data.params[1] = '123';
       data.params[2] = '123';
-      assertDataToParams(data, '_handleQueryRoute', {
+      assertDataToParams(data, 'handleQueryRoute', {
         view: GerritNav.View.SEARCH,
         query: 'project:foo/bar/baz',
         offset: '123',
       });
     });
 
-    test('_handleQueryLegacySuffixRoute', () => {
+    test('handleQueryLegacySuffixRoute', () => {
       const params = {...createPageContext(), path: '/q/foo+bar,n,z'};
-      element._handleQueryLegacySuffixRoute(params);
+      router.handleQueryLegacySuffixRoute(params);
       assert.isTrue(redirectStub.calledOnce);
       assert.equal(redirectStub.lastCall.args[0], '/q/foo+bar');
     });
 
-    test('_handleChangeIdQueryRoute', () => {
+    test('handleChangeIdQueryRoute', () => {
       const data = {
         ...createPageContext(),
         params: {0: 'I0123456789abcdef0123456789abcdef01234567'},
       };
-      assertDataToParams(data, '_handleChangeIdQueryRoute', {
+      assertDataToParams(data, 'handleChangeIdQueryRoute', {
         view: GerritNav.View.SEARCH,
         query: 'I0123456789abcdef0123456789abcdef01234567',
       });
     });
 
-    suite('_handleRegisterRoute', () => {
+    suite('handleRegisterRoute', () => {
       test('happy path', () => {
         const ctx = {...createPageContext(), params: {0: '/foo/bar'}};
-        element._handleRegisterRoute(ctx);
+        router.handleRegisterRoute(ctx);
         assert.isTrue(redirectStub.calledWithExactly('/foo/bar'));
         assert.isTrue(setParamsStub.calledOnce);
         assert.isTrue(setParamsStub.lastCall.args[0].justRegistered);
@@ -845,7 +837,7 @@ suite('gr-router tests', () => {
 
       test('no param', () => {
         const ctx = createPageContext();
-        element._handleRegisterRoute(ctx);
+        router.handleRegisterRoute(ctx);
         assert.isTrue(redirectStub.calledWithExactly('/'));
         assert.isTrue(setParamsStub.calledOnce);
         assert.isTrue(setParamsStub.lastCall.args[0].justRegistered);
@@ -853,18 +845,18 @@ suite('gr-router tests', () => {
 
       test('prevent redirect', () => {
         const ctx = {...createPageContext(), params: {0: '/register'}};
-        element._handleRegisterRoute(ctx);
+        router.handleRegisterRoute(ctx);
         assert.isTrue(redirectStub.calledWithExactly('/'));
         assert.isTrue(setParamsStub.calledOnce);
         assert.isTrue(setParamsStub.lastCall.args[0].justRegistered);
       });
     });
 
-    suite('_handleRootRoute', () => {
+    suite('handleRootRoute', () => {
       test('closes for closeAfterLogin', () => {
         const data = {...createPageContext(), querystring: 'closeAfterLogin'};
         const closeStub = sinon.stub(window, 'close');
-        const result = element._handleRootRoute(data);
+        const result = router.handleRootRoute(data);
         assert.isNotOk(result);
         assert.isTrue(closeStub.called);
         assert.isFalse(redirectStub.called);
@@ -872,7 +864,7 @@ suite('gr-router tests', () => {
 
       test('redirects to dashboard if logged in', () => {
         const data = {...createPageContext(), canonicalPath: '/', path: '/'};
-        const result = element._handleRootRoute(data);
+        const result = router.handleRootRoute(data);
         assert.isOk(result);
         return result!.then(() => {
           assert.isTrue(redirectStub.calledWithExactly('/dashboard/self'));
@@ -882,7 +874,7 @@ suite('gr-router tests', () => {
       test('redirects to open changes if not logged in', () => {
         stubRestApi('getLoggedIn').returns(Promise.resolve(false));
         const data = {...createPageContext(), canonicalPath: '/', path: '/'};
-        const result = element._handleRootRoute(data);
+        const result = router.handleRootRoute(data);
         assert.isOk(result);
         return result!.then(() => {
           assert.isTrue(
@@ -898,7 +890,7 @@ suite('gr-router tests', () => {
             canonicalPath: '/#/foo/bar/baz',
             hash: '/foo/bar/baz',
           };
-          const result = element._handleRootRoute(data);
+          const result = router.handleRootRoute(data);
           assert.isNotOk(result);
           assert.isTrue(redirectStub.called);
           assert.isTrue(redirectStub.calledWithExactly('/foo/bar/baz'));
@@ -910,7 +902,7 @@ suite('gr-router tests', () => {
             canonicalPath: '/#foo/bar/baz',
             hash: 'foo/bar/baz',
           };
-          const result = element._handleRootRoute(data);
+          const result = router.handleRootRoute(data);
           assert.isNotOk(result);
           assert.isTrue(redirectStub.called);
           assert.isTrue(redirectStub.calledWithExactly('/foo/bar/baz'));
@@ -922,7 +914,7 @@ suite('gr-router tests', () => {
             canonicalPath: '/#/foo/bar/+/123/4',
             hash: '/foo/bar/ /123/4',
           };
-          const result = element._handleRootRoute(data);
+          const result = router.handleRootRoute(data);
           assert.isNotOk(result);
           assert.isTrue(redirectStub.called);
           assert.isTrue(redirectStub.calledWithExactly('/foo/bar/+/123/4'));
@@ -935,7 +927,7 @@ suite('gr-router tests', () => {
             hash: '/foo/bar',
           };
           stubBaseUrl('/baz');
-          const result = element._handleRootRoute(data);
+          const result = router.handleRootRoute(data);
           assert.isNotOk(result);
           assert.isTrue(redirectStub.called);
           assert.isTrue(redirectStub.calledWithExactly('/baz/foo/bar'));
@@ -947,7 +939,7 @@ suite('gr-router tests', () => {
             canonicalPath: '/#/VE/foo/bar',
             hash: '/VE/foo/bar',
           };
-          const result = element._handleRootRoute(data);
+          const result = router.handleRootRoute(data);
           assert.isNotOk(result);
           assert.isTrue(redirectStub.called);
           assert.isTrue(redirectStub.calledWithExactly('/settings/VE/foo/bar'));
@@ -959,7 +951,7 @@ suite('gr-router tests', () => {
             canonicalPath: '/#/foo/bar#baz',
             hash: '/foo/bar',
           };
-          const result = element._handleRootRoute(data);
+          const result = router.handleRootRoute(data);
           assert.isNotOk(result);
           assert.isTrue(redirectStub.called);
           assert.isTrue(redirectStub.calledWithExactly('/foo/bar#baz'));
@@ -967,11 +959,11 @@ suite('gr-router tests', () => {
       });
     });
 
-    suite('_handleDashboardRoute', () => {
+    suite('handleDashboardRoute', () => {
       let redirectToLoginStub: sinon.SinonStub;
 
       setup(() => {
-        redirectToLoginStub = sinon.stub(element, '_redirectToLogin');
+        redirectToLoginStub = sinon.stub(router, 'redirectToLogin');
       });
 
       test('own dashboard but signed out redirects to login', () => {
@@ -981,7 +973,7 @@ suite('gr-router tests', () => {
           canonicalPath: '/dashboard/',
           params: {0: 'seLF'},
         };
-        return element._handleDashboardRoute(data).then(() => {
+        return router.handleDashboardRoute(data).then(() => {
           assert.isTrue(redirectToLoginStub.calledOnce);
           assert.isFalse(redirectStub.called);
           assert.isFalse(setParamsStub.called);
@@ -995,7 +987,7 @@ suite('gr-router tests', () => {
           canonicalPath: '/dashboard/',
           params: {0: 'foo'},
         };
-        return element._handleDashboardRoute(data).then(() => {
+        return router.handleDashboardRoute(data).then(() => {
           assert.isFalse(redirectToLoginStub.called);
           assert.isFalse(setParamsStub.called);
           assert.isTrue(redirectStub.calledOnce);
@@ -1009,7 +1001,7 @@ suite('gr-router tests', () => {
           canonicalPath: '/dashboard/',
           params: {0: 'foo'},
         };
-        return element._handleDashboardRoute(data).then(() => {
+        return router.handleDashboardRoute(data).then(() => {
           assert.isFalse(redirectToLoginStub.called);
           assert.isFalse(redirectStub.called);
           assert.isTrue(setParamsStub.calledOnce);
@@ -1021,11 +1013,11 @@ suite('gr-router tests', () => {
       });
     });
 
-    suite('_handleCustomDashboardRoute', () => {
+    suite('handleCustomDashboardRoute', () => {
       let redirectToLoginStub: sinon.SinonStub;
 
       setup(() => {
-        redirectToLoginStub = sinon.stub(element, '_redirectToLogin');
+        redirectToLoginStub = sinon.stub(router, 'redirectToLogin');
       });
 
       test('no user specified', () => {
@@ -1034,7 +1026,7 @@ suite('gr-router tests', () => {
           canonicalPath: '/dashboard/',
           params: {0: ''},
         };
-        return element._handleCustomDashboardRoute(data, '').then(() => {
+        return router.handleCustomDashboardRoute(data, '').then(() => {
           assert.isFalse(setParamsStub.called);
           assert.isTrue(redirectStub.called);
           assert.equal(redirectStub.lastCall.args[0], '/dashboard/self');
@@ -1047,8 +1039,8 @@ suite('gr-router tests', () => {
           canonicalPath: '/dashboard/',
           params: {0: ''},
         };
-        return element
-          ._handleCustomDashboardRoute(data, '?a=b&c&d=e')
+        return router
+          .handleCustomDashboardRoute(data, '?a=b&c&d=e')
           .then(() => {
             assert.isFalse(redirectStub.called);
             assert.isTrue(setParamsStub.calledOnce);
@@ -1070,8 +1062,8 @@ suite('gr-router tests', () => {
           canonicalPath: '/dashboard/',
           params: {0: ''},
         };
-        return element
-          ._handleCustomDashboardRoute(data, '?a=b&c&d=&=e&title=t')
+        return router
+          .handleCustomDashboardRoute(data, '?a=b&c&d=&=e&title=t')
           .then(() => {
             assert.isFalse(redirectToLoginStub.called);
             assert.isFalse(redirectStub.called);
@@ -1091,8 +1083,8 @@ suite('gr-router tests', () => {
           canonicalPath: '/dashboard/',
           params: {0: ''},
         };
-        return element
-          ._handleCustomDashboardRoute(data, '?a=b&c&d=&=e&foreach=is:open')
+        return router
+          .handleCustomDashboardRoute(data, '?a=b&c&d=&=e&foreach=is:open')
           .then(() => {
             assert.isFalse(redirectToLoginStub.called);
             assert.isFalse(redirectStub.called);
@@ -1108,34 +1100,34 @@ suite('gr-router tests', () => {
     });
 
     suite('group routes', () => {
-      test('_handleGroupInfoRoute', () => {
+      test('handleGroupInfoRoute', () => {
         const data = {...createPageContext(), params: {0: '1234'}};
-        element._handleGroupInfoRoute(data);
+        router.handleGroupInfoRoute(data);
         assert.isTrue(redirectStub.calledOnce);
         assert.equal(redirectStub.lastCall.args[0], '/admin/groups/1234');
       });
 
-      test('_handleGroupAuditLogRoute', () => {
+      test('handleGroupAuditLogRoute', () => {
         const data = {...createPageContext(), params: {0: '1234'}};
-        assertDataToParams(data, '_handleGroupAuditLogRoute', {
+        assertDataToParams(data, 'handleGroupAuditLogRoute', {
           view: GerritView.GROUP,
           detail: GroupDetailView.LOG,
           groupId: '1234' as GroupId,
         });
       });
 
-      test('_handleGroupMembersRoute', () => {
+      test('handleGroupMembersRoute', () => {
         const data = {...createPageContext(), params: {0: '1234'}};
-        assertDataToParams(data, '_handleGroupMembersRoute', {
+        assertDataToParams(data, 'handleGroupMembersRoute', {
           view: GerritView.GROUP,
           detail: GroupDetailView.MEMBERS,
           groupId: '1234' as GroupId,
         });
       });
 
-      test('_handleGroupListOffsetRoute', () => {
+      test('handleGroupListOffsetRoute', () => {
         const data = createPageContext();
-        assertDataToParams(data, '_handleGroupListOffsetRoute', {
+        assertDataToParams(data, 'handleGroupListOffsetRoute', {
           view: GerritView.ADMIN,
           adminView: 'gr-admin-group-list',
           offset: 0,
@@ -1144,7 +1136,7 @@ suite('gr-router tests', () => {
         });
 
         data.params[1] = '42';
-        assertDataToParams(data, '_handleGroupListOffsetRoute', {
+        assertDataToParams(data, 'handleGroupListOffsetRoute', {
           view: GerritView.ADMIN,
           adminView: 'gr-admin-group-list',
           offset: '42',
@@ -1153,7 +1145,7 @@ suite('gr-router tests', () => {
         });
 
         data.hash = 'create';
-        assertDataToParams(data, '_handleGroupListOffsetRoute', {
+        assertDataToParams(data, 'handleGroupListOffsetRoute', {
           view: GerritNav.View.ADMIN,
           adminView: 'gr-admin-group-list',
           offset: '42',
@@ -1162,12 +1154,12 @@ suite('gr-router tests', () => {
         });
       });
 
-      test('_handleGroupListFilterOffsetRoute', () => {
+      test('handleGroupListFilterOffsetRoute', () => {
         const data = {
           ...createPageContext(),
           params: {filter: 'foo', offset: '42'},
         };
-        assertDataToParams(data, '_handleGroupListFilterOffsetRoute', {
+        assertDataToParams(data, 'handleGroupListFilterOffsetRoute', {
           view: GerritView.ADMIN,
           adminView: 'gr-admin-group-list',
           offset: '42',
@@ -1175,18 +1167,18 @@ suite('gr-router tests', () => {
         });
       });
 
-      test('_handleGroupListFilterRoute', () => {
+      test('handleGroupListFilterRoute', () => {
         const data = {...createPageContext(), params: {filter: 'foo'}};
-        assertDataToParams(data, '_handleGroupListFilterRoute', {
+        assertDataToParams(data, 'handleGroupListFilterRoute', {
           view: GerritView.ADMIN,
           adminView: 'gr-admin-group-list',
           filter: 'foo',
         });
       });
 
-      test('_handleGroupRoute', () => {
+      test('handleGroupRoute', () => {
         const data = {...createPageContext(), params: {0: '4321'}};
-        assertDataToParams(data, '_handleGroupRoute', {
+        assertDataToParams(data, 'handleGroupRoute', {
           view: GerritView.GROUP,
           groupId: '4321' as GroupId,
         });
@@ -1194,23 +1186,23 @@ suite('gr-router tests', () => {
     });
 
     suite('repo routes', () => {
-      test('_handleProjectsOldRoute', () => {
+      test('handleProjectsOldRoute', () => {
         const data = {...createPageContext(), params: {}};
-        element._handleProjectsOldRoute(data);
+        router.handleProjectsOldRoute(data);
         assert.isTrue(redirectStub.calledOnce);
         assert.equal(redirectStub.lastCall.args[0], '/admin/repos/');
       });
 
-      test('_handleProjectsOldRoute test', () => {
+      test('handleProjectsOldRoute test', () => {
         const data = {...createPageContext(), params: {1: 'test'}};
-        element._handleProjectsOldRoute(data);
+        router.handleProjectsOldRoute(data);
         assert.isTrue(redirectStub.calledOnce);
         assert.equal(redirectStub.lastCall.args[0], '/admin/repos/test');
       });
 
-      test('_handleProjectsOldRoute test,branches', () => {
+      test('handleProjectsOldRoute test,branches', () => {
         const data = {...createPageContext(), params: {1: 'test,branches'}};
-        element._handleProjectsOldRoute(data);
+        router.handleProjectsOldRoute(data);
         assert.isTrue(redirectStub.calledOnce);
         assert.equal(
           redirectStub.lastCall.args[0],
@@ -1218,9 +1210,9 @@ suite('gr-router tests', () => {
         );
       });
 
-      test('_handleRepoRoute', () => {
+      test('handleRepoRoute', () => {
         const data = {...createPageContext(), path: '/admin/repos/test'};
-        element._handleRepoRoute(data);
+        router.handleRepoRoute(data);
         assert.isTrue(redirectStub.calledOnce);
         assert.equal(
           redirectStub.lastCall.args[0],
@@ -1228,27 +1220,27 @@ suite('gr-router tests', () => {
         );
       });
 
-      test('_handleRepoGeneralRoute', () => {
+      test('handleRepoGeneralRoute', () => {
         const data = {...createPageContext(), params: {0: '4321'}};
-        assertDataToParams(data, '_handleRepoGeneralRoute', {
+        assertDataToParams(data, 'handleRepoGeneralRoute', {
           view: GerritView.REPO,
           detail: GerritNav.RepoDetailView.GENERAL,
           repo: '4321' as RepoName,
         });
       });
 
-      test('_handleRepoCommandsRoute', () => {
+      test('handleRepoCommandsRoute', () => {
         const data = {...createPageContext(), params: {0: '4321'}};
-        assertDataToParams(data, '_handleRepoCommandsRoute', {
+        assertDataToParams(data, 'handleRepoCommandsRoute', {
           view: GerritView.REPO,
           detail: GerritNav.RepoDetailView.COMMANDS,
           repo: '4321' as RepoName,
         });
       });
 
-      test('_handleRepoAccessRoute', () => {
+      test('handleRepoAccessRoute', () => {
         const data = {...createPageContext(), params: {0: '4321'}};
-        assertDataToParams(data, '_handleRepoAccessRoute', {
+        assertDataToParams(data, 'handleRepoAccessRoute', {
           view: GerritView.REPO,
           detail: GerritNav.RepoDetailView.ACCESS,
           repo: '4321' as RepoName,
@@ -1256,12 +1248,12 @@ suite('gr-router tests', () => {
       });
 
       suite('branch list routes', () => {
-        test('_handleBranchListOffsetRoute', () => {
+        test('handleBranchListOffsetRoute', () => {
           const data: PageContextWithQueryMap = {
             ...createPageContext(),
             params: {0: '4321'},
           };
-          assertDataToParams(data, '_handleBranchListOffsetRoute', {
+          assertDataToParams(data, 'handleBranchListOffsetRoute', {
             view: GerritView.REPO,
             detail: GerritNav.RepoDetailView.BRANCHES,
             repo: '4321' as RepoName,
@@ -1270,7 +1262,7 @@ suite('gr-router tests', () => {
           });
 
           data.params[2] = '42';
-          assertDataToParams(data, '_handleBranchListOffsetRoute', {
+          assertDataToParams(data, 'handleBranchListOffsetRoute', {
             view: GerritView.REPO,
             detail: GerritNav.RepoDetailView.BRANCHES,
             repo: '4321' as RepoName,
@@ -1279,12 +1271,12 @@ suite('gr-router tests', () => {
           });
         });
 
-        test('_handleBranchListFilterOffsetRoute', () => {
+        test('handleBranchListFilterOffsetRoute', () => {
           const data = {
             ...createPageContext(),
             params: {repo: '4321', filter: 'foo', offset: '42'},
           };
-          assertDataToParams(data, '_handleBranchListFilterOffsetRoute', {
+          assertDataToParams(data, 'handleBranchListFilterOffsetRoute', {
             view: GerritView.REPO,
             detail: GerritNav.RepoDetailView.BRANCHES,
             repo: '4321' as RepoName,
@@ -1293,12 +1285,12 @@ suite('gr-router tests', () => {
           });
         });
 
-        test('_handleBranchListFilterRoute', () => {
+        test('handleBranchListFilterRoute', () => {
           const data = {
             ...createPageContext(),
             params: {repo: '4321', filter: 'foo'},
           };
-          assertDataToParams(data, '_handleBranchListFilterRoute', {
+          assertDataToParams(data, 'handleBranchListFilterRoute', {
             view: GerritView.REPO,
             detail: GerritNav.RepoDetailView.BRANCHES,
             repo: '4321' as RepoName,
@@ -1308,9 +1300,9 @@ suite('gr-router tests', () => {
       });
 
       suite('tag list routes', () => {
-        test('_handleTagListOffsetRoute', () => {
+        test('handleTagListOffsetRoute', () => {
           const data = {...createPageContext(), params: {0: '4321'}};
-          assertDataToParams(data, '_handleTagListOffsetRoute', {
+          assertDataToParams(data, 'handleTagListOffsetRoute', {
             view: GerritView.REPO,
             detail: GerritNav.RepoDetailView.TAGS,
             repo: '4321' as RepoName,
@@ -1319,12 +1311,12 @@ suite('gr-router tests', () => {
           });
         });
 
-        test('_handleTagListFilterOffsetRoute', () => {
+        test('handleTagListFilterOffsetRoute', () => {
           const data = {
             ...createPageContext(),
             params: {repo: '4321', filter: 'foo', offset: '42'},
           };
-          assertDataToParams(data, '_handleTagListFilterOffsetRoute', {
+          assertDataToParams(data, 'handleTagListFilterOffsetRoute', {
             view: GerritView.REPO,
             detail: GerritNav.RepoDetailView.TAGS,
             repo: '4321' as RepoName,
@@ -1333,12 +1325,12 @@ suite('gr-router tests', () => {
           });
         });
 
-        test('_handleTagListFilterRoute', () => {
+        test('handleTagListFilterRoute', () => {
           const data: PageContextWithQueryMap = {
             ...createPageContext(),
             params: {repo: '4321'},
           };
-          assertDataToParams(data, '_handleTagListFilterRoute', {
+          assertDataToParams(data, 'handleTagListFilterRoute', {
             view: GerritView.REPO,
             detail: GerritNav.RepoDetailView.TAGS,
             repo: '4321' as RepoName,
@@ -1346,7 +1338,7 @@ suite('gr-router tests', () => {
           });
 
           data.params.filter = 'foo';
-          assertDataToParams(data, '_handleTagListFilterRoute', {
+          assertDataToParams(data, 'handleTagListFilterRoute', {
             view: GerritView.REPO,
             detail: GerritNav.RepoDetailView.TAGS,
             repo: '4321' as RepoName,
@@ -1356,9 +1348,9 @@ suite('gr-router tests', () => {
       });
 
       suite('repo list routes', () => {
-        test('_handleRepoListOffsetRoute', () => {
+        test('handleRepoListOffsetRoute', () => {
           const data = createPageContext();
-          assertDataToParams(data, '_handleRepoListOffsetRoute', {
+          assertDataToParams(data, 'handleRepoListOffsetRoute', {
             view: GerritView.ADMIN,
             adminView: 'gr-repo-list',
             offset: 0,
@@ -1367,7 +1359,7 @@ suite('gr-router tests', () => {
           });
 
           data.params[1] = '42';
-          assertDataToParams(data, '_handleRepoListOffsetRoute', {
+          assertDataToParams(data, 'handleRepoListOffsetRoute', {
             view: GerritView.ADMIN,
             adminView: 'gr-repo-list',
             offset: '42',
@@ -1376,7 +1368,7 @@ suite('gr-router tests', () => {
           });
 
           data.hash = 'create';
-          assertDataToParams(data, '_handleRepoListOffsetRoute', {
+          assertDataToParams(data, 'handleRepoListOffsetRoute', {
             view: GerritView.ADMIN,
             adminView: 'gr-repo-list',
             offset: '42',
@@ -1385,12 +1377,12 @@ suite('gr-router tests', () => {
           });
         });
 
-        test('_handleRepoListFilterOffsetRoute', () => {
+        test('handleRepoListFilterOffsetRoute', () => {
           const data = {
             ...createPageContext(),
             params: {filter: 'foo', offset: '42'},
           };
-          assertDataToParams(data, '_handleRepoListFilterOffsetRoute', {
+          assertDataToParams(data, 'handleRepoListFilterOffsetRoute', {
             view: GerritView.ADMIN,
             adminView: 'gr-repo-list',
             offset: '42',
@@ -1398,16 +1390,16 @@ suite('gr-router tests', () => {
           });
         });
 
-        test('_handleRepoListFilterRoute', () => {
+        test('handleRepoListFilterRoute', () => {
           const data = createPageContext();
-          assertDataToParams(data, '_handleRepoListFilterRoute', {
+          assertDataToParams(data, 'handleRepoListFilterRoute', {
             view: GerritView.ADMIN,
             adminView: 'gr-repo-list',
             filter: null,
           });
 
           data.params.filter = 'foo';
-          assertDataToParams(data, '_handleRepoListFilterRoute', {
+          assertDataToParams(data, 'handleRepoListFilterRoute', {
             view: GerritView.ADMIN,
             adminView: 'gr-repo-list',
             filter: 'foo',
@@ -1417,9 +1409,9 @@ suite('gr-router tests', () => {
     });
 
     suite('plugin routes', () => {
-      test('_handlePluginListOffsetRoute', () => {
+      test('handlePluginListOffsetRoute', () => {
         const data = createPageContext();
-        assertDataToParams(data, '_handlePluginListOffsetRoute', {
+        assertDataToParams(data, 'handlePluginListOffsetRoute', {
           view: GerritView.ADMIN,
           adminView: 'gr-plugin-list',
           offset: 0,
@@ -1427,7 +1419,7 @@ suite('gr-router tests', () => {
         });
 
         data.params[1] = '42';
-        assertDataToParams(data, '_handlePluginListOffsetRoute', {
+        assertDataToParams(data, 'handlePluginListOffsetRoute', {
           view: GerritView.ADMIN,
           adminView: 'gr-plugin-list',
           offset: '42',
@@ -1435,12 +1427,12 @@ suite('gr-router tests', () => {
         });
       });
 
-      test('_handlePluginListFilterOffsetRoute', () => {
+      test('handlePluginListFilterOffsetRoute', () => {
         const data = {
           ...createPageContext(),
           params: {filter: 'foo', offset: '42'},
         };
-        assertDataToParams(data, '_handlePluginListFilterOffsetRoute', {
+        assertDataToParams(data, 'handlePluginListFilterOffsetRoute', {
           view: GerritView.ADMIN,
           adminView: 'gr-plugin-list',
           offset: '42',
@@ -1448,25 +1440,25 @@ suite('gr-router tests', () => {
         });
       });
 
-      test('_handlePluginListFilterRoute', () => {
+      test('handlePluginListFilterRoute', () => {
         const data = createPageContext();
-        assertDataToParams(data, '_handlePluginListFilterRoute', {
+        assertDataToParams(data, 'handlePluginListFilterRoute', {
           view: GerritView.ADMIN,
           adminView: 'gr-plugin-list',
           filter: null,
         });
 
         data.params.filter = 'foo';
-        assertDataToParams(data, '_handlePluginListFilterRoute', {
+        assertDataToParams(data, 'handlePluginListFilterRoute', {
           view: GerritView.ADMIN,
           adminView: 'gr-plugin-list',
           filter: 'foo',
         });
       });
 
-      test('_handlePluginListRoute', () => {
+      test('handlePluginListRoute', () => {
         const data = createPageContext();
-        assertDataToParams(data, '_handlePluginListRoute', {
+        assertDataToParams(data, 'handlePluginListRoute', {
           view: GerritView.ADMIN,
           adminView: 'gr-plugin-list',
         });
@@ -1474,14 +1466,14 @@ suite('gr-router tests', () => {
     });
 
     suite('change/diff routes', () => {
-      test('_handleChangeNumberLegacyRoute', () => {
+      test('handleChangeNumberLegacyRoute', () => {
         const data = {...createPageContext(), params: {0: '12345'}};
-        element._handleChangeNumberLegacyRoute(data);
+        router.handleChangeNumberLegacyRoute(data);
         assert.isTrue(redirectStub.calledOnce);
         assert.isTrue(redirectStub.calledWithExactly('/c/12345'));
       });
 
-      test('_handleChangeLegacyRoute', async () => {
+      test('handleChangeLegacyRoute', async () => {
         stubRestApi('getFromProjectLookup').returns(
           Promise.resolve('project' as RepoName)
         );
@@ -1489,32 +1481,32 @@ suite('gr-router tests', () => {
           ...createPageContext(),
           params: {0: '1234', 1: 'comment/6789'},
         };
-        element._handleChangeLegacyRoute(ctx);
+        router.handleChangeLegacyRoute(ctx);
         await flush();
         assert.isTrue(
           redirectStub.calledWithExactly('/c/project/+/1234' + '/comment/6789')
         );
       });
 
-      test('_handleLegacyLinenum w/ @321', () => {
+      test('handleLegacyLinenum w/ @321', () => {
         const ctx = {...createPageContext(), path: '/c/1234/3..8/foo/bar@321'};
-        element._handleLegacyLinenum(ctx);
+        router.handleLegacyLinenum(ctx);
         assert.isTrue(redirectStub.calledOnce);
         assert.isTrue(
           redirectStub.calledWithExactly('/c/1234/3..8/foo/bar#321')
         );
       });
 
-      test('_handleLegacyLinenum w/ @b123', () => {
+      test('handleLegacyLinenum w/ @b123', () => {
         const ctx = {...createPageContext(), path: '/c/1234/3..8/foo/bar@b123'};
-        element._handleLegacyLinenum(ctx);
+        router.handleLegacyLinenum(ctx);
         assert.isTrue(redirectStub.calledOnce);
         assert.isTrue(
           redirectStub.calledWithExactly('/c/1234/3..8/foo/bar#b123')
         );
       });
 
-      suite('_handleChangeRoute', () => {
+      suite('handleChangeRoute', () => {
         let normalizeRangeStub: sinon.SinonStub;
 
         function makeParams(
@@ -1536,18 +1528,15 @@ suite('gr-router tests', () => {
         }
 
         setup(() => {
-          normalizeRangeStub = sinon.stub(
-            element,
-            '_normalizePatchRangeParams'
-          );
+          normalizeRangeStub = sinon.stub(router, 'normalizePatchRangeParams');
           stubRestApi('setInProjectLookup');
         });
 
         test('needs redirect', () => {
           normalizeRangeStub.returns(true);
-          sinon.stub(element, '_generateUrl').returns('foo');
+          sinon.stub(router, 'generateUrl').returns('foo');
           const ctx = makeParams('', '');
-          element._handleChangeRoute(ctx);
+          router.handleChangeRoute(ctx);
           assert.isTrue(normalizeRangeStub.called);
           assert.isFalse(setParamsStub.called);
           assert.isTrue(redirectStub.calledOnce);
@@ -1556,9 +1545,9 @@ suite('gr-router tests', () => {
 
         test('change view', () => {
           normalizeRangeStub.returns(false);
-          sinon.stub(element, '_generateUrl').returns('foo');
+          sinon.stub(router, 'generateUrl').returns('foo');
           const ctx = makeParams('', '');
-          assertDataToParams(ctx, '_handleChangeRoute', {
+          assertDataToParams(ctx, 'handleChangeRoute', {
             view: GerritView.CHANGE,
             project: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
@@ -1571,13 +1560,13 @@ suite('gr-router tests', () => {
 
         test('params', () => {
           normalizeRangeStub.returns(false);
-          sinon.stub(element, '_generateUrl').returns('foo');
+          sinon.stub(router, 'generateUrl').returns('foo');
           const ctx = makeParams('', '');
           ctx.queryMap.set('tab', 'checks');
           ctx.queryMap.set('filter', 'fff');
           ctx.queryMap.set('select', 'sss');
           ctx.queryMap.set('attempt', '1');
-          assertDataToParams(ctx, '_handleChangeRoute', {
+          assertDataToParams(ctx, 'handleChangeRoute', {
             view: GerritView.CHANGE,
             project: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
@@ -1591,7 +1580,7 @@ suite('gr-router tests', () => {
         });
       });
 
-      suite('_handleDiffRoute', () => {
+      suite('handleDiffRoute', () => {
         let normalizeRangeStub: sinon.SinonStub;
 
         function makeParams(
@@ -1616,18 +1605,15 @@ suite('gr-router tests', () => {
         }
 
         setup(() => {
-          normalizeRangeStub = sinon.stub(
-            element,
-            '_normalizePatchRangeParams'
-          );
+          normalizeRangeStub = sinon.stub(router, 'normalizePatchRangeParams');
           stubRestApi('setInProjectLookup');
         });
 
         test('needs redirect', () => {
           normalizeRangeStub.returns(true);
-          sinon.stub(element, '_generateUrl').returns('foo');
+          sinon.stub(router, 'generateUrl').returns('foo');
           const ctx = makeParams('', '');
-          element._handleDiffRoute(ctx);
+          router.handleDiffRoute(ctx);
           assert.isTrue(normalizeRangeStub.called);
           assert.isFalse(setParamsStub.called);
           assert.isTrue(redirectStub.calledOnce);
@@ -1636,9 +1622,9 @@ suite('gr-router tests', () => {
 
         test('diff view', () => {
           normalizeRangeStub.returns(false);
-          sinon.stub(element, '_generateUrl').returns('foo');
+          sinon.stub(router, 'generateUrl').returns('foo');
           const ctx = makeParams('foo/bar/baz', 'b44');
-          assertDataToParams(ctx, '_handleDiffRoute', {
+          assertDataToParams(ctx, 'handleDiffRoute', {
             view: GerritView.DIFF,
             project: 'foo/bar' as RepoName,
             changeNum: 1234 as NumericChangeId,
@@ -1662,7 +1648,7 @@ suite('gr-router tests', () => {
           ]);
           assertDataToParams(
             {params: groups!.slice(1)} as any,
-            '_handleCommentRoute',
+            'handleCommentRoute',
             {
               project: 'gerrit' as RepoName,
               changeNum: 264833 as NumericChangeId,
@@ -1683,7 +1669,7 @@ suite('gr-router tests', () => {
           ]);
           assertDataToParams(
             {params: groups!.slice(1)} as any,
-            '_handleCommentsRoute',
+            'handleCommentsRoute',
             {
               project: 'gerrit' as RepoName,
               changeNum: 264833 as NumericChangeId,
@@ -1694,10 +1680,10 @@ suite('gr-router tests', () => {
         });
       });
 
-      test('_handleDiffEditRoute', () => {
+      test('handleDiffEditRoute', () => {
         const normalizeRangeSpy = sinon.spy(
-          element,
-          '_normalizePatchRangeParams'
+          router,
+          'normalizePatchRangeParams'
         );
         stubRestApi('setInProjectLookup');
         const ctx = {
@@ -1719,7 +1705,7 @@ suite('gr-router tests', () => {
           lineNum: '',
         };
 
-        element._handleDiffEditRoute(ctx);
+        router.handleDiffEditRoute(ctx);
         assert.isFalse(redirectStub.called);
         assert.isTrue(normalizeRangeSpy.calledOnce);
         assert.deepEqual(normalizeRangeSpy.lastCall.args[0], appParams);
@@ -1727,10 +1713,10 @@ suite('gr-router tests', () => {
         assert.deepEqual(setParamsStub.lastCall.args[0], appParams);
       });
 
-      test('_handleDiffEditRoute with lineNum', () => {
+      test('handleDiffEditRoute with lineNum', () => {
         const normalizeRangeSpy = sinon.spy(
-          element,
-          '_normalizePatchRangeParams'
+          router,
+          'normalizePatchRangeParams'
         );
         stubRestApi('setInProjectLookup');
         const ctx = {
@@ -1752,7 +1738,7 @@ suite('gr-router tests', () => {
           lineNum: '4',
         };
 
-        element._handleDiffEditRoute(ctx);
+        router.handleDiffEditRoute(ctx);
         assert.isFalse(redirectStub.called);
         assert.isTrue(normalizeRangeSpy.calledOnce);
         assert.deepEqual(normalizeRangeSpy.lastCall.args[0], appParams);
@@ -1760,10 +1746,10 @@ suite('gr-router tests', () => {
         assert.deepEqual(setParamsStub.lastCall.args[0], appParams);
       });
 
-      test('_handleChangeEditRoute', () => {
+      test('handleChangeEditRoute', () => {
         const normalizeRangeSpy = sinon.spy(
-          element,
-          '_normalizePatchRangeParams'
+          router,
+          'normalizePatchRangeParams'
         );
         stubRestApi('setInProjectLookup');
         const ctx = {
@@ -1784,7 +1770,7 @@ suite('gr-router tests', () => {
           tab: '',
         };
 
-        element._handleChangeEditRoute(ctx);
+        router.handleChangeEditRoute(ctx);
         assert.isFalse(redirectStub.called);
         assert.isTrue(normalizeRangeSpy.calledOnce);
         assert.deepEqual(normalizeRangeSpy.lastCall.args[0], appParams);
@@ -1793,9 +1779,9 @@ suite('gr-router tests', () => {
       });
     });
 
-    test('_handlePluginScreen', () => {
+    test('handlePluginScreen', () => {
       const ctx = {...createPageContext(), params: {0: 'foo', 1: 'bar'}};
-      assertDataToParams(ctx, '_handlePluginScreen', {
+      assertDataToParams(ctx, 'handlePluginScreen', {
         view: GerritNav.View.PLUGIN_SCREEN,
         plugin: 'foo',
         screen: 'bar',
@@ -1804,30 +1790,30 @@ suite('gr-router tests', () => {
     });
   });
 
-  suite('_parseQueryString', () => {
+  suite('parseQueryString', () => {
     test('empty queries', () => {
-      assert.deepEqual(element._parseQueryString(''), []);
-      assert.deepEqual(element._parseQueryString('?'), []);
-      assert.deepEqual(element._parseQueryString('??'), []);
-      assert.deepEqual(element._parseQueryString('&&&'), []);
+      assert.deepEqual(router.parseQueryString(''), []);
+      assert.deepEqual(router.parseQueryString('?'), []);
+      assert.deepEqual(router.parseQueryString('??'), []);
+      assert.deepEqual(router.parseQueryString('&&&'), []);
     });
 
     test('url decoding', () => {
-      assert.deepEqual(element._parseQueryString('+'), [[' ', '']]);
-      assert.deepEqual(element._parseQueryString('???+%3d+'), [[' = ', '']]);
+      assert.deepEqual(router.parseQueryString('+'), [[' ', '']]);
+      assert.deepEqual(router.parseQueryString('???+%3d+'), [[' = ', '']]);
       assert.deepEqual(
-        element._parseQueryString('%6e%61%6d%65=%76%61%6c%75%65'),
+        router.parseQueryString('%6e%61%6d%65=%76%61%6c%75%65'),
         [['name', 'value']]
       );
     });
 
     test('multiple parameters', () => {
-      assert.deepEqual(element._parseQueryString('a=b&c=d&e=f'), [
+      assert.deepEqual(router.parseQueryString('a=b&c=d&e=f'), [
         ['a', 'b'],
         ['c', 'd'],
         ['e', 'f'],
       ]);
-      assert.deepEqual(element._parseQueryString('&a=b&&&e=f&c'), [
+      assert.deepEqual(router.parseQueryString('&a=b&&&e=f&c'), [
         ['a', 'b'],
         ['e', 'f'],
         ['c', ''],

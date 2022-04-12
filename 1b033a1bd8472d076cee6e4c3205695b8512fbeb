@@ -16,6 +16,52 @@
       "message": "Can you guys have a look?",
       "revId": "1b033a1bd8472d076cee6e4c3205695b8512fbeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbb13619_e20f8e82",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-12T14:02:39Z",
+      "side": 1,
+      "message": "@Dmitrii the caching is limited to the generation of the event and its dispatching.",
+      "range": {
+        "startLine": 437,
+        "startChar": 0,
+        "endLine": 446,
+        "endChar": 54
+      },
+      "revId": "1b033a1bd8472d076cee6e4c3205695b8512fbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8ed26b3_0c03b15b",
+        "filename": "java/com/google/gerrit/server/extensions/events/ChangeMerged.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-12T14:02:39Z",
+      "side": 1,
+      "message": "@Dmitrii the caching is scoped to the generation of the Event object.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 25
+      },
+      "revId": "1b033a1bd8472d076cee6e4c3205695b8512fbeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

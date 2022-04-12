@@ -463,14 +463,18 @@ public class StreamEventsApiListener
   @Override
   public void onChangeAbandoned(ChangeAbandonedListener.Event ev) {
     try {
-      ChangeNotes notes = getNotes(ev.getChange());
-      Change change = notes.getChange();
-      ChangeAbandonedEvent event = new ChangeAbandonedEvent(change);
+      ChangeAbandonedEvent event;
+      Change change;
+      try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+        ChangeNotes notes = getNotes(ev.getChange());
+        change = notes.getChange();
+        event = new ChangeAbandonedEvent(change);
 
-      event.change = changeAttributeSupplier(change, notes);
-      event.abandoner = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
-      event.reason = ev.getReason();
+        event.change = changeAttributeSupplier(change, notes);
+        event.abandoner = accountAttributeSupplier(ev.getWho());
+        event.patchSet = patchSetAttributeSupplier(change, psUtil.current(db.get(), notes));
+        event.reason = ev.getReason();
+      }
 
       dispatcher.run(d -> d.postEvent(change, event));
     } catch (OrmException e) {

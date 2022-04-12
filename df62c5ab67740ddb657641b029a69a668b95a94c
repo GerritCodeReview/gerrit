@@ -16,6 +16,23 @@
       "message": "This is ready again for review (was on-hold for some time).",
       "revId": "df62c5ab67740ddb657641b029a69a668b95a94c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c416699f_2152691c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-12T10:56:34Z",
+      "side": 1,
+      "message": "LGTM. We need to wait for the predecessor change to roll out first. ",
+      "revId": "df62c5ab67740ddb657641b029a69a668b95a94c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

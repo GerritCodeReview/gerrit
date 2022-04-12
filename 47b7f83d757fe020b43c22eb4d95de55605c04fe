@@ -22,6 +22,30 @@
       },
       "revId": "47b7f83d757fe020b43c22eb4d95de55605c04fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a28a5c1c_e69f5539",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-12T10:55:13Z",
+      "side": 1,
+      "message": "Thinking about this once more, if you just do a single change that changes the enum to append the NOT_EVALUTED state and let that sit for a while (so it\u0027s rollback safe) and only then change the rest of the code, you\u0027d get the same (if not better) safety at a bit less complexity. Up to you.",
+      "parentUuid": "32364330_d8f7de27",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 21
+      },
+      "revId": "47b7f83d757fe020b43c22eb4d95de55605c04fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

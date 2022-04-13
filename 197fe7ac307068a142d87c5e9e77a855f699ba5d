@@ -107,6 +107,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2f767ae_ac18534a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-13T21:44:08Z",
+      "side": 1,
+      "message": "We have some results showing that when applied to stable-3.5 this fixes MissingObjectExceptions we saw during offline reindex and improves the performance of reindex (likely due to also fixing that double diff problem). Can you cherry-pick both of these fixes to 3.5 please?",
+      "parentUuid": "ebc653dd_5dd42d66",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e2f43d65_b53e3406",

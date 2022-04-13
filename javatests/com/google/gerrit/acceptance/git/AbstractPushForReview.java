@@ -1936,7 +1936,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushNewPatchsetOverridingStickyLabel() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType codeReview = TestLabels.codeReview().toBuilder().setCopyMaxScore(true).build();
+      LabelType codeReview = TestLabels.codeReview().toBuilder().setCopyCondition("is:MAX").build();
       u.getConfig().upsertLabelType(codeReview);
       u.save();
     }

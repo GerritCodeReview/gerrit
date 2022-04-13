@@ -52,6 +52,7 @@ import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ChangeEditDetailOption;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -810,7 +811,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
       LabelType codeReview = TestLabels.codeReview();
       u.getConfig().upsertLabelType(codeReview);
       u.getConfig()
-          .updateLabelType(codeReview.getName(), lt -> lt.setCopyAllScoresIfNoCodeChange(true));
+          .updateLabelType(
+              codeReview.getName(),
+              lt -> lt.setCopyCondition("changekind:" + ChangeKind.NO_CODE_CHANGE.name()));
       u.save();
     }
 

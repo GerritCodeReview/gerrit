@@ -23,6 +23,7 @@ import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.LabelValue;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -77,7 +78,11 @@ public class SchemaCreatorImplTest {
     assertThat(codeReview.getName()).isEqualTo("Code-Review");
     assertThat(codeReview.getDefaultValue()).isEqualTo(0);
     assertThat(codeReview.getFunction()).isEqualTo(LabelFunction.MAX_WITH_BLOCK);
-    assertThat(codeReview.isCopyMinScore()).isTrue();
+    assertThat(codeReview.getCopyCondition())
+        .hasValue(
+            String.format(
+                "changekind:%s OR changekind:%s OR is:MIN",
+                ChangeKind.NO_CHANGE, ChangeKind.TRIVIAL_REBASE.name()));
     assertValueRange(codeReview, -2, -1, 0, 1, 2);
   }
 

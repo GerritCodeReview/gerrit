@@ -184,21 +184,6 @@ public class ChangeIndexer {
   }
 
   /**
-   * Start indexing multiple changes in parallel.
-   *
-   * @param ids changes to index.
-   * @return future for completing indexing of all changes.
-   */
-  public ListenableFuture<List<ChangeData>> indexAsync(
-      Project.NameKey project, Collection<Change.Id> ids) {
-    List<ListenableFuture<ChangeData>> futures = new ArrayList<>(ids.size());
-    for (Change.Id id : ids) {
-      futures.add(indexAsync(project, id));
-    }
-    return Futures.allAsList(futures);
-  }
-
-  /**
    * Synchronously index a change, then check if the index is stale due to a race condition.
    *
    * @param cd change to index.

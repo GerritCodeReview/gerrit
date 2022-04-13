@@ -16,6 +16,24 @@
       "message": "is this needed? AFAICT from `Call Hierarchy` it is eventually either called from `init` or `send` (and `init` is called from `send`) or from `com.google.gerrit.server.mail.send.OutgoingEmail.add(RecipientType, UserIdentity)` which has no reference in the `Call Hierarchy`...",
       "revId": "0897d12b13b547f3537a3542dd33d1f04c341c9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "334b97c5_067a7273",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-13T09:20:51Z",
+      "side": 1,
+      "message": "You are correct, this isn\u0027t needed.",
+      "parentUuid": "a51fd99b_45247b58",
+      "revId": "0897d12b13b547f3537a3542dd33d1f04c341c9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

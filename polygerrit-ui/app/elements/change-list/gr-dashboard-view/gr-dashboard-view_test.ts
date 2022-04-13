@@ -80,7 +80,7 @@ suite('gr-dashboard-view tests', () => {
     const paramsChanged = element.paramsChanged.bind(element);
     sinon
       .stub(element, 'paramsChanged')
-      .callsFake(params => paramsChanged(params).then(() => resolver()));
+      .callsFake(() => paramsChanged().then(() => resolver()));
   });
 
   suite('bulk actions', () => {
@@ -111,11 +111,12 @@ suite('gr-dashboard-view tests', () => {
       getChangesStub.restore();
       getChangesStub.returns(Promise.resolve([[createChange()]]));
 
-      await element.reload({
+      element.params = {
         view: GerritView.DASHBOARD,
         user: 'notself',
         dashboard: '' as DashboardId,
-      });
+      };
+      await element.reload();
       await element.updateComplete;
       assert.isTrue(checkbox.checked);
     });
@@ -124,21 +125,23 @@ suite('gr-dashboard-view tests', () => {
   suite('drafts banner functionality', () => {
     suite('maybeShowDraftsBanner', () => {
       test('not dashboard/self', () => {
-        element.maybeShowDraftsBanner({
+        element.params = {
           view: GerritView.DASHBOARD,
           user: 'notself',
           dashboard: '' as DashboardId,
-        });
+        };
+        element.maybeShowDraftsBanner();
         assert.isFalse(element.showDraftsBanner);
       });
 
       test('no drafts at all', () => {
         element.results = [];
-        element.maybeShowDraftsBanner({
+        element.params = {
           view: GerritView.DASHBOARD,
           user: 'self',
           dashboard: '' as DashboardId,
-        });
+        };
+        element.maybeShowDraftsBanner();
         assert.isFalse(element.showDraftsBanner);
       });
 
@@ -147,11 +150,12 @@ suite('gr-dashboard-view tests', () => {
         element.results = [
           {countLabel: '', name: '', query: 'has:draft', results: [openChange]},
         ];
-        element.maybeShowDraftsBanner({
+        element.params = {
           view: GerritView.DASHBOARD,
           user: 'self',
           dashboard: '' as DashboardId,
-        });
+        };
+        element.maybeShowDraftsBanner();
         assert.isFalse(element.showDraftsBanner);
       });
 
@@ -166,11 +170,12 @@ suite('gr-dashboard-view tests', () => {
           },
         ];
         assert.isFalse(changeIsOpen(element.results[0].results[0]));
-        element.maybeShowDraftsBanner({
+        element.params = {
           view: GerritView.DASHBOARD,
           user: 'self',
           dashboard: '' as DashboardId,
-        });
+        };
+        element.maybeShowDraftsBanner();
         assert.isTrue(element.showDraftsBanner);
       });
     });

@@ -106,6 +106,41 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90011349_363d612f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-13T19:34:59Z",
+      "side": 1,
+      "message": "Thanks @Dmitrii for your time and the detailed analysis, see my comments below. ",
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a2aec9e_237b4994",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-13T19:34:59Z",
+      "side": 1,
+      "message": "\u003e IIUC, there are 2 main cases:\n\u003e 1. Read-only requests, without any database changes\n\u003e 2. Requests which updates NoteDB/index.\n\u003e \n\u003e For the first case, you have already submitted the change and in overall it looks good to me (some minor implementation details can be still discussed).\n\n+1\n\n\u003e As for the second case (seems all such changes is in the current relation chain): suggested solution is hard to maintain (from my point of view). I see the following issues with the solution:\n\u003e 1) It can be hard to understand which code is executed within a readonly window. (and nested windows make it even worse). As a developer, now I can\u0027t simply update a storage. Instead, I must ensure that my code can\u0027t be executed within readonly window. This is easy to forget and hard to test.\n\nTrue.\n\n\u003e 2) Even in this change there is unclear code. I spent some time in debugging to understand what is the difference (and still not sure - see my other comments). Compare: https://gerrit-review.googlesource.com/c/gerrit/+/334761/15/java/com/google/gerrit/server/extensions/events/CommentAdded.java#88 and https://gerrit-review.googlesource.com/c/gerrit/+/334761/15/java/com/google/gerrit/server/events/StreamEventsApiListener.java#410.\n\nI believe in StreamEventsApiListener.java#410 the code should be outside the readonly window as we don\u0027t know what the listener could do, similarly to what it is done at CommentAdded.java#88.\n\n\u003e Both looks similar, but in the first example events are fired outside of the readonly window, and in the second example - events are fired inside the window.\n\nYes, that is a mistake.\n\n\u003e 3) It is not easy to understand, why some methods are wrapped with openReadonlyRequestWindow, while other methods are not wrapped. Seems you wrapped it on case-by-case basis.\n\nYes, that is done on purpose for limiting the scope of each change.\n\n\u003e I am afraid that this makes code harder to understand/maintain (i.e. there is no good rule for what should be wrapped with openReadonlyRequestWindow, so it is another \"magic\" in our code).\n\nTrue, we should not rely on \"magic\" code constructs. Here overall the issue is that the open-source code-base didn\u0027t have any caching on the refs lookups, which is going to be fixed sometimes in the future, that we don\u0027t know yet.\n\n@Jacek developed a libModule [1] that can be used from Gerrit v3.2 onwards: so all this \"magic\" can be fully removed upon merging to stable-3.2 and it would never have to maintained on master.\n\n\u003e I researched a little bit the second case (requests which updates NoteDB/index). It seems, additional lookups can be avoided by fixing our code and collecting required data in advance/passing appropriate parameters. Please take a look at https://gerrit-review.googlesource.com/c/gerrit/+/334874 - I tried to fix the same issue as you fix here, but without adding PerThreadCacher. Instead, I passed changeNotes where needed. I might be wrong, but looks like other cases also can be fixed in a similar way.\n\nThe Change 334874 on master is unneeded because refs lookups are already cached from v3.2 onwards, thanks to [1] and to the JGit cache present in the Google-specific DFS implementation.\n\nThere problem here is on:\n- v2.16 /NoteDb\n- V3.0 and v3.1\n\n\u003e Summary: my suggestion is to avoid openReadonlyRequestWindow and instead fix each case one-by-one. Fixes should pass explicitly required data (ChangeNotes or maybe ids). This will make all dependencies between different parts clearer.\n\u003e \n\u003e WDYT?\n\nI believe that is the ideal solution, however it would involve a lot of moving parts and changes on EOL releases that are without a CI and a proper release cycle. My approach was also driven by minimising the moving parts: apart from that, I agree that refactoring the code would be idea, though not really preferable on a stable branch.\n\nWhere do we go from here? Any proposal?\n\n[1] https://gerrit.googlesource.com/modules/cached-refdb/",
+      "parentUuid": "9a3f1281_778feec2",
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b13f6a59_2bd2904c",
@@ -131,6 +166,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "735986ca_bd1fa8c2",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-13T19:34:59Z",
+      "side": 1,
+      "message": "No, you are correct. When using the read-only request window in the current thread, the thread needs to be 100% sure that no other mutations are happening *after* the readonly window, otherwise further mutations would results in a stale read.",
+      "parentUuid": "b13f6a59_2bd2904c",
+      "range": {
+        "startLine": 206,
+        "startChar": 38,
+        "endLine": 206,
+        "endChar": 63
+      },
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dd754811_b8f6e7ac",
         "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
         "patchSetId": 15
@@ -142,6 +201,30 @@
       "writtenOn": "2022-04-13T17:01:35Z",
       "side": 1,
       "message": "Not sure if this is allowed to postEvent here. Can an event handler update db?",
+      "range": {
+        "startLine": 410,
+        "startChar": 6,
+        "endLine": 410,
+        "endChar": 54
+      },
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2bcf5a9_3f7d6eb8",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-13T19:34:59Z",
+      "side": 1,
+      "message": "Agreed, it should be outside.",
+      "parentUuid": "dd754811_b8f6e7ac",
       "range": {
         "startLine": 410,
         "startChar": 6,

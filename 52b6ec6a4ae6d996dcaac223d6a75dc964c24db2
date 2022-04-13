@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86136c9e_dbf52224",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-13T12:42:33Z",
+      "side": 1,
+      "message": "nit: these can all just be `link` instead of `link\u003d\"\"`",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 23
+      },
+      "revId": "52b6ec6a4ae6d996dcaac223d6a75dc964c24db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a172437e_d7021597",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-13T12:42:33Z",
+      "side": 1,
+      "message": "this doesn\u0027t make sense anymore (\"third parameter?\"). Verify that it still does `permissions update after a new section is added.` and remove the comment",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 0
+      },
+      "revId": "52b6ec6a4ae6d996dcaac223d6a75dc964c24db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3591ea76_b2484001",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-13T12:42:33Z",
+      "side": 1,
+      "message": "won\u0027t update be handled automatically by setting permissions and originalId already?",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 25
+      },
+      "revId": "52b6ec6a4ae6d996dcaac223d6a75dc964c24db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f808237a_749710af",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-13T12:42:33Z",
+      "side": 1,
+      "message": "since this is the polymer [flush()](https://polymer-library.polymer-project.org/3.0/api/utils/flush#flush) it is not a promise that can be awaited.\nIn tests we use our [flush() wrapper](https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/test/common-test-setup-karma.ts;l\u003d81;drc\u003dbf65b8f9704d3a71eed99880b710a57f17af0c8b) from `common-test-setup-karma.ts` which returns a promise and can be awaited.",
+      "range": {
+        "startLine": 473,
+        "startChar": 0,
+        "endLine": 475,
+        "endChar": 0
+      },
+      "revId": "52b6ec6a4ae6d996dcaac223d6a75dc964c24db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

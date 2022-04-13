@@ -30,6 +30,7 @@ import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.RevisionJson;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -81,6 +82,10 @@ public class EventUtil {
 
   public ChangeInfo changeInfo(Change change) throws OrmException {
     return changeJsonFactory.create(CHANGE_OPTIONS).format(change);
+  }
+
+  public ChangeInfo changeInfo(ChangeNotes changeNotes) throws OrmException {
+    return changeJsonFactory.create(CHANGE_OPTIONS).format(changeNotes);
   }
 
   public RevisionInfo revisionInfo(Project project, PatchSet ps)

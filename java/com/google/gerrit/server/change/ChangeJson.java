@@ -275,6 +275,10 @@ public class ChangeJson {
     return format(changeDataFactory.create(db.get(), change));
   }
 
+  public ChangeInfo format(ChangeNotes changeNotes) throws OrmException {
+    return format(changeDataFactory.create(db.get(), changeNotes));
+  }
+
   public ChangeInfo format(Project.NameKey project, Change.Id id) throws OrmException {
     return format(project, id, ChangeInfo::new);
   }

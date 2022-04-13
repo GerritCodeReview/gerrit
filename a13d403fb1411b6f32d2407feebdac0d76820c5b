@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70e8b0fc_d3006ebe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-13T21:40:57Z",
+      "side": 1,
+      "message": "I think this is reintroducing part of the problem I15f9c951c addressed. If we\u0027re computing the diff for the first time as part of reindex with a new version of Gerrit with these new diff caches, now we won\u0027t *ever* save that result to the cache-automerge ref.\n\nIf you\u0027re worried about ref lock failures, retry the ref update?",
+      "range": {
+        "startLine": 25,
+        "startChar": 16,
+        "endLine": 25,
+        "endChar": 61
+      },
+      "revId": "a13d403fb1411b6f32d2407feebdac0d76820c5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

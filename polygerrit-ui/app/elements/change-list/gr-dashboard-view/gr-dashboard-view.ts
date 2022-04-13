@@ -119,7 +119,7 @@ export class GrDashboardView extends LitElement {
 
   constructor() {
     super();
-    this.addEventListener('reload', () => this.reload(this.params));
+    this.addEventListener('reload', () => this.reload());
   }
 
   private readonly visibilityChangeListener = () => {
@@ -311,7 +311,7 @@ export class GrDashboardView extends LitElement {
 
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('params')) {
-      this.paramsChanged(this.params);
+      this.paramsChanged();
     }
 
     if (changedProperties.has('selectedChangeIndex')) {
@@ -386,10 +386,15 @@ export class GrDashboardView extends LitElement {
   }
 
   // private but used in test
-  paramsChanged(params?: AppElementDashboardParams) {
-    if (params && this.isViewActive(params) && params.user && this.viewState)
-      this.selectedChangeIndex = this.viewState[params.user] || 0;
-    return this.reload(params);
+  paramsChanged() {
+    if (
+      this.params &&
+      this.isViewActive(this.params) &&
+      this.params.user &&
+      this.viewState
+    )
+      this.selectedChangeIndex = this.viewState[this.params.user] || 0;
+    return this.reload();
   }
 
   /**
@@ -397,12 +402,12 @@ export class GrDashboardView extends LitElement {
    *
    * private but used in test
    */
-  reload(params?: AppElementDashboardParams) {
-    if (!params || !this.isViewActive(params)) {
+  reload() {
+    if (!this.params || !this.isViewActive(this.params)) {
       return Promise.resolve();
     }
     this.loading = true;
-    const {project, dashboard, title, user, sections} = params;
+    const {project, dashboard, title, user, sections} = this.params;
     const dashboardPromise: Promise<UserDashboard | undefined> = project
       ? this.getProjectDashboard(project, dashboard)
       : Promise.resolve(
@@ -423,7 +428,7 @@ export class GrDashboardView extends LitElement {
         return this.fetchDashboardChanges(res, checkForNewUser);
       })
       .then(() => {
-        this.maybeShowDraftsBanner(params);
+        this.maybeShowDraftsBanner();
         this.reporting.dashboardDisplayed();
       })
       .catch(err => {
@@ -566,9 +571,9 @@ export class GrDashboardView extends LitElement {
    *
    * private but used in test
    */
-  maybeShowDraftsBanner(params: AppElementDashboardParams) {
+  maybeShowDraftsBanner() {
     this.showDraftsBanner = false;
-    if (!(params.user === 'self')) {
+    if (!(this.params?.user === 'self')) {
       return;
     }
 
@@ -605,7 +610,7 @@ export class GrDashboardView extends LitElement {
     this.confirmDeleteDialog.disabled = true;
     return this.restApiService.deleteDraftComments('-is:open').then(() => {
       this.closeConfirmDeleteOverlay();
-      this.reload(this.params);
+      this.reload();
     });
   }
 

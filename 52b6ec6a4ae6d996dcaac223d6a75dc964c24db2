@@ -72,6 +72,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fdf77664_6288537e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-13T12:43:47Z",
+      "side": 1,
+      "message": "can you convert this to open-wc fixture?",
+      "range": {
+        "startLine": 35,
+        "startChar": 14,
+        "endLine": 35,
+        "endChar": 36
+      },
+      "revId": "52b6ec6a4ae6d996dcaac223d6a75dc964c24db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f808237a_749710af",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.ts",
         "patchSetId": 5

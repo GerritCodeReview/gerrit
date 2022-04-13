@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "60b21565_3a8c7e2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-13T12:30:10Z",
+      "side": 1,
+      "message": "\u003e Can you briefly talk about the idempotency of the migration (running\n\u003e it more than once on a single repo produces exactly the same result as\n\u003e running it just once on that repo)?\n\nSure, added a paragraph about this.\n\n\u003e The case that looks interesting to talk about is:\n\u003e \n\u003e copyAllScoresIfNoChange is unset, hence true. So we go and add\n\u003e \"change-kind:NO_CHANGE OR ...existing...\". Now we run the migration\n\u003e again, will we add this once more?\n\nThis was already covered by the tests, but I reworked them a bit to make it clearer that this is covered.",
+      "parentUuid": "cd0df166_2b6b5def",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 44
+      },
+      "revId": "59bbe4b94791d0fd2476f92e167fc364b76250de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "170a5f54_b7c6ce37",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

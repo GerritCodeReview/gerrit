@@ -37,6 +37,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "361854ff_50f69265",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-13T18:35:34Z",
+      "side": 1,
+      "message": "why won\u0027t this path be taken care of by willUpdate() already?\n\nwhy do we need the same method/handling defined in firstUpdated and willUpdated?",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 24
+      },
+      "revId": "52ea25cd6d77ed7e8c4e866d944a2699febb8cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60224d62_c608b952",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-13T18:35:34Z",
+      "side": 1,
+      "message": "perhaps beyond the scope of this change but is this still an issue now that we are using lit and not dom-repeat of Polymer?",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 66
+      },
+      "revId": "52ea25cd6d77ed7e8c4e866d944a2699febb8cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0253c5e_5b34ebc8",
         "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select_test.ts",
         "patchSetId": 4

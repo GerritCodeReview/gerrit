@@ -97,6 +97,10 @@ public class EventUtil {
     ChangeData cd = changeDataFactory.create(project, ps.id().changeId());
     return revisionJsonFactory.create(changeOptions).getRevisionInfo(cd, ps);
   }
+  public RevisionInfo revisionInfo(ChangeData cd, PatchSet ps)
+      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
+    return revisionJsonFactory.create(changeOptions).getRevisionInfo(cd, ps);
+  }
 
   public AccountInfo accountInfo(AccountState accountState) {
     if (accountState == null || accountState.account().id() == null) {

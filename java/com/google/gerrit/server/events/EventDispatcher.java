@@ -17,10 +17,22 @@ package com.google.gerrit.server.events;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 
 /** Interface for posting (dispatching) Events */
 public interface EventDispatcher {
+  /**
+   * Post a stream event that is related to a change
+   *
+   * @param changeNotes The change notes of the change that the event is related to
+   * @param event The event to post
+   * @throws PermissionBackendException on failure of permission checks
+   */
+  default void postEvent(ChangeNotes changeNotes, ChangeEvent event) throws PermissionBackendException {
+    postEvent(changeNotes.getChange(), event);
+  }
+
   /**
    * Post a stream event that is related to a change
    *

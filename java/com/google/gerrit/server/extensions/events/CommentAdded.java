@@ -65,7 +65,7 @@ public class CommentAdded {
       Event event =
           new Event(
               util.changeInfo(changeData),
-              util.revisionInfo(changeData.project(), ps),
+              util.revisionInfo(changeData, ps),
               util.accountInfo(author),
               comment,
               util.approvals(author, approvals, when),

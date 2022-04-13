@@ -84,6 +84,10 @@ public class EventBroker implements EventDispatcher {
     this.notesFactory = notesFactory;
     this.gerritInstanceId = gerritInstanceId;
   }
+  @Override
+  public void postEvent(ChangeNotes changeNotes, ChangeEvent event) throws PermissionBackendException {
+    fireEvent(changeNotes, event);
+  }
 
   @Override
   public void postEvent(Change change, ChangeEvent event) throws PermissionBackendException {
@@ -115,6 +119,17 @@ public class EventBroker implements EventDispatcher {
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
       CurrentUser user = c.call(UserScopedEventListener::getUser);
       if (isVisibleTo(change, user)) {
+        c.run(l -> l.onEvent(event));
+      }
+    }
+    fireEventForUnrestrictedListeners(event);
+  }
+
+  protected void fireEvent(ChangeNotes changeNotes, ChangeEvent event) throws PermissionBackendException {
+    setInstanceIdWhenEmpty(event);
+    for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
+      CurrentUser user = c.call(UserScopedEventListener::getUser);
+      if (isVisibleTo(changeNotes, user)) {
         c.run(l -> l.onEvent(event));
       }
     }
@@ -186,6 +201,20 @@ public class EventBroker implements EventDispatcher {
     return permissionBackend
         .user(user)
         .change(notesFactory.createChecked(change))
+        .test(ChangePermission.READ);
+  }
+
+  protected boolean isVisibleTo(ChangeNotes changeNotes, CurrentUser user) throws PermissionBackendException {
+    if (changeNotes == null) {
+      return false;
+    }
+    Optional<ProjectState> pe = projectCache.get(changeNotes.getChange().getProject());
+    if (!pe.isPresent() || !pe.get().statePermitsRead()) {
+      return false;
+    }
+    return permissionBackend
+        .user(user)
+        .change(changeNotes)
         .test(ChangePermission.READ);
   }
 

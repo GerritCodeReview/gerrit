@@ -388,7 +388,7 @@ public class StreamEventsApiListener
       event.comment = ev.getComment();
       event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
 
-      dispatcher.run(d -> d.postEvent(change, event));
+      dispatcher.run(d -> d.postEvent(notes, event));
     } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }

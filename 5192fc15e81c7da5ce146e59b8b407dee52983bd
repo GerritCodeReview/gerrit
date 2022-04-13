@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0449bd6c_2b7be0d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-13T12:32:17Z",
+      "side": 1,
+      "message": "I guess since the stable-3.6 branch has been created now, this change needs to wait until the other planned migration has been added in the stable-3.6 branch, so that the schema migration don\u0027t conflict on the schema number.",
+      "revId": "5192fc15e81c7da5ce146e59b8b407dee52983bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

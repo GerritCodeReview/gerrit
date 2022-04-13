@@ -160,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c46282ef_69212dbb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-13T22:54:24Z",
+      "side": 1,
+      "message": "I\u0027ve started to follow your suggestion and created Change-Id: Id0fa4e0be1 that is attempting to achieve *THE SAME* level of optimisation of this change.\n\nAs I thought, there are two *MAJOR* issues:\n1) The amount of code change is significantly higher, touching multiple parts of Gerrit with a higher risk of regressions in other use-cases\n2) The additional ChangeNotes in the methods would eventually change some of the public interfaces, potentially breaking compatibility with existing plugins\n\nWhilst the 1) can be mitigated with more tests and work, the 2) is unpredictable because we don\u0027t know all the plugins that people have developed over the years.\n\nWhat we try NOT to do is to break binary compatibility with existing plugins, which the additional ChangeNotes as extra parameter would risk to do.\n\nThe use of the thread-local storage is a \"magic\" and should be used with extra care, I do agree with you and I would be the first to avoid that.\nDo you foresee other ways to achieve this improvement without introducing major code-base changes and without adding parameters to the method calls?\n\nI am happy to explore other options as well and to receive a different view and perspective on the problem.",
+      "parentUuid": "8a2aec9e_237b4994",
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b13f6a59_2bd2904c",
         "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
         "patchSetId": 15

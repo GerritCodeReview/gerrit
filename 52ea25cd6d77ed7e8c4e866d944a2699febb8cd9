@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a0db738_72f119b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-13T16:28:11Z",
+      "side": 1,
+      "message": "Should this be \u0027!\u0027 rather then \u0027?\u0027?",
+      "revId": "52ea25cd6d77ed7e8c4e866d944a2699febb8cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6050ea46_78c7dea8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-13T16:28:11Z",
+      "side": 1,
+      "message": "Seems above that you remove this one, should that be applied here as well as below?",
+      "revId": "52ea25cd6d77ed7e8c4e866d944a2699febb8cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0253c5e_5b34ebc8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-13T16:28:11Z",
+      "side": 1,
+      "message": "Does there need to be two? Also i think that this is handled within the fixture?",
+      "revId": "52ea25cd6d77ed7e8c4e866d944a2699febb8cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

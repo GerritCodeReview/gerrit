@@ -71,6 +71,69 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a3f1281_778feec2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-13T17:01:35Z",
+      "side": 1,
+      "message": "IIUC, there are 2 main cases:\n1. Read-only requests, without any database changes\n2. Requests which updates NoteDB/index.\n\nFor the first case, you have already submitted the change and in overall it looks good to me (some minor implementation details can be still discussed).\n\nAs for the second case (seems all such changes is in the current relation chain): suggested solution is hard to maintain (from my point of view). I see the following issues with the solution:\n1) It can be hard to understand which code is executed within a readonly window. (and nested windows make it even worse). As a developer, now I can\u0027t simply update a storage. Instead, I must ensure that my code can\u0027t be executed within readonly window. This is easy to forget and hard to test.\n\n2) Even in this change there is unclear code. I spent some time in debugging to understand what is the difference (and still not sure - see my other comments). Compare: https://gerrit-review.googlesource.com/c/gerrit/+/334761/15/java/com/google/gerrit/server/extensions/events/CommentAdded.java#88 and https://gerrit-review.googlesource.com/c/gerrit/+/334761/15/java/com/google/gerrit/server/events/StreamEventsApiListener.java#410.\nBoth looks similar, but in the first example events are fired outside of the readonly window, and in the second example - events are fired inside the window.\n\n3) It is not easy to understand, why some methods are wrapped with openReadonlyRequestWindow, while other methods are not wrapped. Seems you wrapped it on case-by-case basis. I am afraid that this makes code harder to understand/maintain (i.e. there is no good rule for what should be wrapped with openReadonlyRequestWindow, so it is another \"magic\" in our code).\n\nI researched a little bit the second case (requests which updates NoteDB/index). It seems, additional lookups can be avoided by fixing our code and collecting required data in advance/passing appropriate parameters. Please take a look at https://gerrit-review.googlesource.com/c/gerrit/+/334874 - I tried to fix the same issue as you fix here, but without adding PerThreadCacher. Instead, I passed changeNotes where needed. I might be wrong, but looks like other cases also can be fixed in a similar way.\n\nSummary: my suggestion is to avoid openReadonlyRequestWindow and instead fix each case one-by-one. Fixes should pass explicitly required data (ChangeNotes or maybe ids). This will make all dependencies between different parts clearer.\n\nWDYT?",
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b13f6a59_2bd2904c",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-13T17:01:35Z",
+      "side": 1,
+      "message": "IIUC, the following usage leads:\n\n  try (ReadonlyRequestWindow window \u003d PerThreadCache.openReadonlyRequestWindow()) {\n    // Put /ref/X in the cache (SHA_X1) \n  }\n  // Update /ref/X (now it is SHA_X2)\n  try (ReadonlyRequestWindow window \u003d PerThreadCache.openReadonlyRequestWindow()) {\n    // Get /ref/X -\u003e returns SHA_X1\n  }\n  \nAm I missing something?",
+      "range": {
+        "startLine": 206,
+        "startChar": 38,
+        "endLine": 206,
+        "endChar": 63
+      },
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd754811_b8f6e7ac",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-13T17:01:35Z",
+      "side": 1,
+      "message": "Not sure if this is allowed to postEvent here. Can an event handler update db?",
+      "range": {
+        "startLine": 410,
+        "startChar": 6,
+        "endLine": 410,
+        "endChar": 54
+      },
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "abda8164_21056849",

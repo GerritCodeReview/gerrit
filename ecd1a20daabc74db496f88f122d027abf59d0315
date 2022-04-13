@@ -34,6 +34,24 @@
       "parentUuid": "8c3bd9ee_8cfe1395",
       "revId": "ecd1a20daabc74db496f88f122d027abf59d0315",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8bb1b01_47fb33f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2022-04-13T10:53:45Z",
+      "side": 1,
+      "message": "I tried this specific test on this change on my M1 Mac and it passed:\nbazel test //javatests/com/google/gerrit/acceptance/rest:rest_bindings_collection\n[...]\nINFO: Build completed successfully, 7 total actions\n//javatests/com/google/gerrit/acceptance/rest:rest_bindings_collection   PASSED in 72.4s",
+      "parentUuid": "1b165381_12e32698",
+      "revId": "ecd1a20daabc74db496f88f122d027abf59d0315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

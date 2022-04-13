@@ -109,13 +109,12 @@ public class LabelConfigValidator implements CommitValidationListener {
         // Rejecting invalid configs is not the responsibility of this validator, hence ignore this
         // exception here.
         logger.atWarning().log(
-            String.format(
-                "cannot inspect the project config, because parsing %s from revision %s"
-                    + " in project %s failed: %s",
-                ProjectConfig.PROJECT_CONFIG,
-                receiveEvent.commit.name(),
-                receiveEvent.getProjectNameKey(),
-                e.getMessage()));
+            "cannot inspect the project config, because parsing %s from revision %s"
+                + " in project %s failed: %s",
+            ProjectConfig.PROJECT_CONFIG,
+            receiveEvent.commit.name(),
+            receiveEvent.getProjectNameKey(),
+            e.getMessage());
         return ImmutableList.of();
       }
 
@@ -235,13 +234,12 @@ public class LabelConfigValidator implements CommitValidationListener {
       // the old config is not parseable, treat this the same way as if an old config didn't exist
       // so that all parameters in the new config are validated
       logger.atWarning().log(
-          String.format(
-              "cannot inspect the old project config, because parsing %s from parent revision %s"
-                  + " in project %s failed: %s",
-              ProjectConfig.PROJECT_CONFIG,
-              receiveEvent.commit.name(),
-              receiveEvent.getProjectNameKey(),
-              e.getMessage()));
+          "cannot inspect the old project config, because parsing %s from parent revision %s"
+              + " in project %s failed: %s",
+          ProjectConfig.PROJECT_CONFIG,
+          receiveEvent.commit.name(),
+          receiveEvent.getProjectNameKey(),
+          e.getMessage());
       return Optional.empty();
     }
   }

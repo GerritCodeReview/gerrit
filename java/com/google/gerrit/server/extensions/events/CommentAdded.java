@@ -21,10 +21,10 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.CommentAddedListener;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -50,7 +50,7 @@ public class CommentAdded {
   }
 
   public void fire(
-      Change change,
+      ChangeNotes changeNotes,
       PatchSet ps,
       AccountState author,
       String comment,
@@ -63,8 +63,8 @@ public class CommentAdded {
     try {
       Event event =
           new Event(
-              util.changeInfo(change),
-              util.revisionInfo(change.getProject(), ps),
+              util.changeInfo(changeNotes),
+              util.revisionInfo(changeNotes, ps),
               util.accountInfo(author),
               comment,
               util.approvals(author, approvals, when),

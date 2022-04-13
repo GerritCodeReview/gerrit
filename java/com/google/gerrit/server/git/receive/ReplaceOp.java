@@ -631,13 +631,7 @@ public class ReplaceOp implements BatchUpdateOp {
     }
 
     commentAdded.fire(
-        notes.getChange(),
-        newPatchSet,
-        ctx.getAccount(),
-        null,
-        allApprovals,
-        oldApprovals,
-        ctx.getWhen());
+        notes, newPatchSet, ctx.getAccount(), null, allApprovals, oldApprovals, ctx.getWhen());
   }
 
   public PatchSet getPatchSet() {

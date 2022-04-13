@@ -931,13 +931,7 @@ public class PostReview
             .sendAsync();
       }
       commentAdded.fire(
-          notes.getChange(),
-          ps,
-          user.state(),
-          message.getMessage(),
-          approvals,
-          oldApprovals,
-          ctx.getWhen());
+          notes, ps, user.state(), message.getMessage(), approvals, oldApprovals, ctx.getWhen());
     }
 
     private boolean insertComments(ChangeContext ctx)

@@ -155,13 +155,13 @@ public class RevisionJson {
    * Returns a {@link RevisionInfo} based on a change and patch set. Reads from the repository
    * depending on the options provided when constructing this instance.
    */
-  public RevisionInfo getRevisionInfo(ChangeData cd, PatchSet in)
+  public RevisionInfo getRevisionInfo(ChangeData cd, ChangeNotes changeNotes, PatchSet in)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException,
           PermissionBackendException {
     AccountLoader accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    try (Repository repo = openRepoIfNecessary(cd.project());
+    try (Repository repo = openRepoIfNecessary(changeNotes.getProjectName());
         RevWalk rw = newRevWalk(repo)) {
-      RevisionInfo rev = toRevisionInfo(accountLoader, cd, in, repo, rw, true, null);
+      RevisionInfo rev = toRevisionInfo(accountLoader, cd, changeNotes, in, repo, rw, true, null);
       accountLoader.fill();
       return rev;
     }
@@ -211,13 +211,14 @@ public class RevisionJson {
   Map<String, RevisionInfo> getRevisions(
       AccountLoader accountLoader,
       ChangeData cd,
+      ChangeNotes changeNotes,
       Map<PatchSet.Id, PatchSet> map,
       Optional<Id> limitToPsId,
       ChangeInfo changeInfo)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException,
           PermissionBackendException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
-    try (Repository repo = openRepoIfNecessary(cd.project());
+    try (Repository repo = openRepoIfNecessary(changeNotes.getProjectName());
         RevWalk rw = newRevWalk(repo)) {
       for (PatchSet in : map.values()) {
         PatchSet.Id id = in.getId();
@@ -227,19 +228,19 @@ public class RevisionJson {
         } else if (limitToPsId.isPresent()) {
           want = id.equals(limitToPsId.get());
         } else {
-          want = id.equals(cd.change().currentPatchSetId());
+          want = id.equals(changeNotes.getChange().currentPatchSetId());
         }
         if (want) {
           res.put(
               in.getRevision().get(),
-              toRevisionInfo(accountLoader, cd, in, repo, rw, false, changeInfo));
+              toRevisionInfo(accountLoader, cd, changeNotes, in, repo, rw, false, changeInfo));
         }
       }
       return res;
     }
   }
 
-  private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in)
+  private Map<String, FetchInfo> makeFetchMap(ChangeData cd, ChangeNotes changeNotes, PatchSet in)
       throws PermissionBackendException, OrmException, IOException {
     Map<String, FetchInfo> r = new LinkedHashMap<>();
     for (Extension<DownloadScheme> e : downloadSchemes) {
@@ -249,11 +250,11 @@ public class RevisionJson {
           || (scheme.isAuthRequired() && !userProvider.get().isIdentifiedUser())) {
         continue;
       }
-      if (!scheme.isAuthSupported() && !isWorldReadable(cd)) {
+      if (!scheme.isAuthSupported() && !isWorldReadable(cd, changeNotes)) {
         continue;
       }
 
-      String projectName = cd.project().get();
+      String projectName = changeNotes.getProjectName().get();
       String url = scheme.getUrl(projectName);
       String refName = in.getRefName();
       FetchInfo fetchInfo = new FetchInfo(url, refName);
@@ -271,6 +272,7 @@ public class RevisionJson {
   private RevisionInfo toRevisionInfo(
       AccountLoader accountLoader,
       ChangeData cd,
+      ChangeNotes changeNotes,
       PatchSet in,
       @Nullable Repository repo,
       @Nullable RevWalk rw,
@@ -278,14 +280,14 @@ public class RevisionJson {
       @Nullable ChangeInfo changeInfo)
       throws PatchListNotAvailableException, GpgException, OrmException, IOException,
           PermissionBackendException {
-    Change c = cd.change();
+    Change c = changeNotes.getChange();
     RevisionInfo out = new RevisionInfo();
     out.isCurrent = in.getId().equals(c.currentPatchSetId());
     out._number = in.getId().get();
     out.ref = in.getRefName();
     out.created = in.getCreatedOn();
     out.uploader = accountLoader.get(in.getUploader());
-    out.fetch = makeFetchMap(cd, in);
+    out.fetch = makeFetchMap(cd, changeNotes, in);
     out.kind = changeKindCache.getChangeKind(rw, repo != null ? repo.getConfig() : null, cd, in);
     out.description = in.getDescription();
 
@@ -351,16 +353,17 @@ public class RevisionJson {
    *     lazyload}.
    */
   private PermissionBackend.ForChange permissionBackendForChange(
-      PermissionBackend.WithUser withUser, ChangeData cd) throws OrmException {
+      PermissionBackend.WithUser withUser, ChangeData cd, ChangeNotes changeNotes)
+      throws OrmException {
     return lazyLoad
-        ? withUser.change(cd)
-        : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
+        ? withUser.change(changeNotes)
+        : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(changeNotes.getChange()));
   }
 
-  private boolean isWorldReadable(ChangeData cd)
+  private boolean isWorldReadable(ChangeData cd, ChangeNotes changeNotes)
       throws OrmException, PermissionBackendException, IOException {
     try {
-      permissionBackendForChange(permissionBackend.user(anonymous), cd)
+      permissionBackendForChange(permissionBackend.user(anonymous), cd, changeNotes)
           .check(ChangePermission.READ);
     } catch (AuthException ae) {
       return false;

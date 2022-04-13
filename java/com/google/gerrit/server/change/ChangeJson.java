@@ -268,24 +268,30 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(ChangeResource rsrc) throws OrmException {
-    return format(changeDataFactory.create(db.get(), rsrc.getNotes()));
+    return format(changeDataFactory.create(db.get(), rsrc.getNotes()), rsrc.getNotes());
   }
 
   public ChangeInfo format(Change change) throws OrmException {
-    return format(changeDataFactory.create(db.get(), change));
+    return format(
+        changeDataFactory.create(db.get(), change), null); // FIXME: How to get ChangeNotes?
+  }
+
+  public ChangeInfo format(ChangeNotes changeNotes) throws OrmException {
+    return format(changeDataFactory.create(db.get(), changeNotes), changeNotes);
   }
 
   public ChangeInfo format(Project.NameKey project, Change.Id id) throws OrmException {
     return format(project, id, ChangeInfo::new);
   }
 
-  public ChangeInfo format(ChangeData cd) throws OrmException {
-    return format(cd, Optional.empty(), true, ChangeInfo::new);
+  public ChangeInfo format(ChangeData cd, ChangeNotes changeNotes) throws OrmException {
+    return format(cd, changeNotes, Optional.empty(), true, ChangeInfo::new);
   }
 
   public ChangeInfo format(RevisionResource rsrc) throws OrmException {
     ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
-    return format(cd, Optional.of(rsrc.getPatchSet().getId()), true, ChangeInfo::new);
+    return format(
+        cd, rsrc.getNotes(), Optional.of(rsrc.getPatchSet().getId()), true, ChangeInfo::new);
   }
 
   public List<List<ChangeInfo>> format(List<QueryResult<ChangeData>> in)
@@ -312,7 +318,13 @@ public class ChangeJson {
     ensureLoaded(in);
     List<ChangeInfo> out = new ArrayList<>(in.size());
     for (ChangeData cd : in) {
-      out.add(format(cd, Optional.empty(), false, ChangeInfo::new));
+      out.add(
+          format(
+              cd,
+              null,
+              Optional.empty(),
+              false,
+              ChangeInfo::new)); // FIXME: How to obtain changeNotes?
     }
     accountLoader.fill();
     return out;
@@ -330,7 +342,11 @@ public class ChangeJson {
       return checkOnly(changeDataFactory.create(db.get(), project, id), changeInfoSupplier);
     }
     return format(
-        changeDataFactory.create(db.get(), notes), Optional.empty(), true, changeInfoSupplier);
+        changeDataFactory.create(db.get(), notes),
+        notes,
+        Optional.empty(),
+        true,
+        changeInfoSupplier);
   }
 
   private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {
@@ -363,6 +379,7 @@ public class ChangeJson {
 
   private <I extends ChangeInfo> I format(
       ChangeData cd,
+      ChangeNotes changeNotes,
       Optional<PatchSet.Id> limitToPsId,
       boolean fillAccountLoader,
       Supplier<I> changeInfoSupplier)
@@ -370,11 +387,11 @@ public class ChangeJson {
     try {
       if (fillAccountLoader) {
         accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-        I res = toChangeInfo(cd, limitToPsId, changeInfoSupplier);
+        I res = toChangeInfo(cd, changeNotes, limitToPsId, changeInfoSupplier);
         accountLoader.fill();
         return res;
       }
-      return toChangeInfo(cd, limitToPsId, changeInfoSupplier);
+      return toChangeInfo(cd, changeNotes, limitToPsId, changeInfoSupplier);
     } catch (PatchListNotAvailableException
         | GpgException
         | OrmException
@@ -434,7 +451,13 @@ public class ChangeJson {
         // Compute and cache if possible
         try {
           ensureLoaded(Collections.singleton(cd));
-          info = format(cd, Optional.empty(), false, ChangeInfo::new);
+          info =
+              format(
+                  cd,
+                  null,
+                  Optional.empty(),
+                  false,
+                  ChangeInfo::new); // FIXME: How to get the ChangeNotes for all of them?
           changeInfos.add(info);
           if (isCacheable) {
             cache.put(new Change.Id(info._number), info);
@@ -490,16 +513,22 @@ public class ChangeJson {
   }
 
   private <I extends ChangeInfo> I toChangeInfo(
-      ChangeData cd, Optional<PatchSet.Id> limitToPsId, Supplier<I> changeInfoSupplier)
+      ChangeData cd,
+      ChangeNotes changeNotes,
+      Optional<PatchSet.Id> limitToPsId,
+      Supplier<I> changeInfoSupplier)
       throws PatchListNotAvailableException, GpgException, OrmException, PermissionBackendException,
           IOException {
     try (Timer0.Context ignored = metrics.toChangeInfoLatency.start()) {
-      return toChangeInfoImpl(cd, limitToPsId, changeInfoSupplier);
+      return toChangeInfoImpl(cd, changeNotes, limitToPsId, changeInfoSupplier);
     }
   }
 
   private <I extends ChangeInfo> I toChangeInfoImpl(
-      ChangeData cd, Optional<PatchSet.Id> limitToPsId, Supplier<I> changeInfoSupplier)
+      ChangeData cd,
+      ChangeNotes changeNotes,
+      Optional<PatchSet.Id> limitToPsId,
+      Supplier<I> changeInfoSupplier)
       throws PatchListNotAvailableException, GpgException, OrmException, PermissionBackendException,
           IOException {
     I out = changeInfoSupplier.get();
@@ -609,7 +638,8 @@ public class ChangeJson {
     // This block must come after the ChangeInfo is mostly populated, since
     // it will be passed to ActionVisitors as-is.
     if (needRevisions) {
-      out.revisions = revisionJson.getRevisions(accountLoader, cd, src, limitToPsId, out);
+      out.revisions =
+          revisionJson.getRevisions(accountLoader, cd, changeNotes, src, limitToPsId, out);
       if (out.revisions != null) {
         for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
           if (entry.getValue().isCurrent) {

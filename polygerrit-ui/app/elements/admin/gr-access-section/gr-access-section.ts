@@ -43,6 +43,8 @@ import {
 } from '../../../types/common';
 import {PolymerDomRepeatEvent} from '../../../types/types';
 import {fireEvent} from '../../../utils/event-util';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {IronInputElement} from '@polymer/iron-input/iron-input';
 
 /**
  * Fired when the section has been modified or removed.
@@ -66,7 +68,12 @@ const LABEL = 'Label';
 
 export interface GrAccessSection {
   $: {
+    addBtn: GrButton;
+    deleteBtn: GrButton;
+    editBtn: GrButton;
     permissionSelect: HTMLSelectElement;
+    section: HTMLFieldSetElement;
+    undoRemoveBtn: GrButton;
   };
 }
 
@@ -289,10 +296,8 @@ export class GrAccessSection extends PolymerElement {
 
   editRefInput() {
     return this.root!.querySelector(
-      PolymerElement
-        ? 'iron-input.editRefInput'
-        : 'input[is=iron-input].editRefInput'
-    ) as HTMLInputElement;
+      'iron-input.editRefInput'
+    ) as IronInputElement;
   }
 
   editReference() {

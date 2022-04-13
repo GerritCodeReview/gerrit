@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "11fb2c18_1252bb13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-13T12:38:10Z",
+      "side": 1,
+      "message": "Sure, let me know if you\u0027d like a Google Meet chat about it, as you may be missing some context here :-)\n\nThis fix doesn\u0027t apply to the Google use-case, because the refs are cached in that case. It applies specifically to the Open-Source branch of JGit (RefDirectory) when the repositories are on a shared NFS drive and therefore core.trustfolderstat is set to false.",
+      "parentUuid": "4bc7b94b_72c50865",
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "abda8164_21056849",

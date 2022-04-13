@@ -16,6 +16,24 @@
       "message": "Can we convert all functions/properties to drop _?",
       "revId": "1a8e8aef2815c7d2fb4c1a5bd04fc9b47227a493",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7807712e_25a3f9d7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-13T12:25:11Z",
+      "side": 1,
+      "message": "Done. Many can still be private but would need a real overhaul of the tests",
+      "parentUuid": "3b060b38_a9ae38d3",
+      "revId": "1a8e8aef2815c7d2fb4c1a5bd04fc9b47227a493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

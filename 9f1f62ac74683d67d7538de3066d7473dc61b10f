@@ -249,6 +249,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3ca8af2_02c51d46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-14T21:45:09Z",
+      "side": 1,
+      "message": "I\u0027ve addressed all points as discussed today:\n1. No merge to master (revert from 3.2 onwards)\n2. Cleanup the windows once closed + verify in test mode that nothing has been cached was changed\n3. Avoid triggering listeners in windows\n4. Provide the \"emergency break\" via system property\n5. Limit the window to the RepoRefCache typed entries only",
+      "parentUuid": "565a691e_4f497682",
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cde9104_e09afba2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-14T21:45:09Z",
+      "side": 1,
+      "message": "As agreed, we\u0027ll continue with the current approach and apply all the mitigation actions.\n\nThis refactoring will be undone in stable-3.2, because of @Jacek\u0027s cached-refdb libModule.",
+      "parentUuid": "c46282ef_69212dbb",
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b13f6a59_2bd2904c",
         "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
         "patchSetId": 15
@@ -308,6 +344,30 @@
       "side": 1,
       "message": "We can mitigate the problem by resetting the cache once the new read-only window is opened. In that way, the second block would get SHA_X2.\n\nHow does that sound to you?",
       "parentUuid": "735986ca_bd1fa8c2",
+      "range": {
+        "startLine": 206,
+        "startChar": 38,
+        "endLine": 206,
+        "endChar": 63
+      },
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ea28c84_8e8ea31f",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-14T21:45:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8846308c_277e3ce2",
       "range": {
         "startLine": 206,
         "startChar": 38,

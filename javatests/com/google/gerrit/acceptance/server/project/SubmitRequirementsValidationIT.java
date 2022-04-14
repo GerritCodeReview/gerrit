@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.entities.RefNames;
@@ -348,6 +349,42 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
             submitRequirementName,
             ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION,
             invalidExpression));
+  }
+
+  @Test
+  public void userDependentOperatorsAreRejected() throws Exception {
+    for (String submitExpr :
+        ImmutableList.of(
+            "has:draft",
+            "has:attention",
+            "has:edit",
+            "is:submittable",
+            "is:attention",
+            "is:owner",
+            "is:uploader",
+            "is:reviewer",
+            "is:cc")) {
+      fetchRefsMetaConfig();
+
+      String submitRequirementName = "Code-Review";
+      updateProjectConfig(
+          projectConfig ->
+              projectConfig.setString(
+                  ProjectConfig.SUBMIT_REQUIREMENT,
+                  /* subsection= */ submitRequirementName,
+                  /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+                  /* value= */ submitExpr));
+
+      PushResult r = pushRefsMetaConfig();
+      assertErrorStatus(
+          r,
+          "Invalid project configuration",
+          String.format(
+              "project.config: Expression '%s' of submit requirement 'Code-Review' "
+                  + "(parameter submit-requirement.Code-Review.submittableIf) is invalid: "
+                  + "Operator '%s' cannot be used in submit requirement expressions.",
+              submitExpr, submitExpr));
+    }
   }
 
   @Test

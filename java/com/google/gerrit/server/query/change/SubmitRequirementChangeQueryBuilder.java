@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
@@ -50,6 +51,12 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
 
   private final FileEditsPredicate.Factory fileEditsPredicateFactory;
 
+  private static final ImmutableSet<String> UNSUPPORTED_HAS_OPERANDS =
+      ImmutableSet.of("draft", "attention", "edit");
+
+  private static final ImmutableSet<String> UNSUPPORTED_IS_OPERANDS =
+      ImmutableSet.of("submittable", "attention", "owner", "uploader", "reviewer", "cc");
+
   @Inject
   SubmitRequirementChangeQueryBuilder(
       Arguments args,
@@ -68,15 +75,25 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
 
   @Override
   public Predicate<ChangeData> is(String value) throws QueryParseException {
-    if ("submittable".equalsIgnoreCase(value)) {
+    if (UNSUPPORTED_IS_OPERANDS.contains(value)) {
       throw new QueryParseException(
           String.format(
-              "Operator 'is:submittable' cannot be used in submit requirement expressions."));
+              "Operator 'is:%s' cannot be used in submit requirement expressions", value));
     }
     if ("true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value)) {
       return new ConstantPredicate(value);
     }
     return super.is(value);
+  }
+
+  @Override
+  public Predicate<ChangeData> has(String value) throws QueryParseException {
+    if (UNSUPPORTED_HAS_OPERANDS.contains(value)) {
+      throw new QueryParseException(
+          String.format(
+              "Operator 'has:%s' cannot be used in submit requirement expressions", value));
+    }
+    return super.has(value);
   }
 
   @Override

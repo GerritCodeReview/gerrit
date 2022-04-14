@@ -98,6 +98,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0fbada46_66318877",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-14T12:28:37Z",
+      "side": 1,
+      "message": "This should be fixed by the predecessor change [1] now.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/335043",
+      "parentUuid": "b79dc7e1_5abb9ddb",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 44
+      },
+      "revId": "59bbe4b94791d0fd2476f92e167fc364b76250de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "170a5f54_b7c6ce37",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

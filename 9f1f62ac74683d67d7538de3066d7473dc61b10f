@@ -213,6 +213,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c81e15a_447af674",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-14T08:36:06Z",
+      "side": 1,
+      "message": "The meeting is in BST (UK Time), for you it would be then at 2PM CEST",
+      "parentUuid": "f533cff6_428d83d6",
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b13f6a59_2bd2904c",
         "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
         "patchSetId": 15

@@ -16,6 +16,24 @@
       "message": "Should this be backported to stable-3.6?",
       "revId": "ecf033e5ef52eab3b0a8d4d6aef9d2799a467020",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f33cc079_4363ecff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-14T13:33:28Z",
+      "side": 1,
+      "message": "I think this makes sense. Thanks for suggesting\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/335079",
+      "parentUuid": "abaaa5d8_000a77f4",
+      "revId": "ecf033e5ef52eab3b0a8d4d6aef9d2799a467020",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

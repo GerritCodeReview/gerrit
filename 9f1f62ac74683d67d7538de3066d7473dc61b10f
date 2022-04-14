@@ -427,6 +427,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8abd6d2c_c21be8c3",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-14T21:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2bcf5a9_3f7d6eb8",
+      "range": {
+        "startLine": 410,
+        "startChar": 6,
+        "endLine": 410,
+        "endChar": 54
+      },
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "abda8164_21056849",
         "filename": "java/com/google/gerrit/server/extensions/events/CommentAdded.java",
         "patchSetId": 15

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53da9529_47db98f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-14T21:45:57Z",
+      "side": 1,
+      "message": "Resetting the -2 as we agreed a way forward. @Dmitrii @Jacek could you double-check?\n",
+      "revId": "ed2295928b6eed0ccae37b48d9ea44467746a49a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

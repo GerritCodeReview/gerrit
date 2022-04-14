@@ -306,6 +306,15 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
         /* error= */ "Operator 'has:edit' cannot be used in submit requirement expressions");
   }
 
+  @Test
+  public void query_isNotSupported() throws Exception {
+    Change.Id c1 = changeOperations.newChange().project(project).create();
+    assertNotSupported(
+        "query:myQuery",
+        c1,
+        /* error= */ "Operator 'query:myQuery' is not supported in submit requirement expressions");
+  }
+
   private void assertMatching(String requirement, Change.Id change) {
     assertThat(evaluate(requirement, change).status())
         .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);

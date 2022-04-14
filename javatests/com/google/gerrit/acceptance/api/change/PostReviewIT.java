@@ -39,6 +39,7 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
@@ -83,6 +84,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -633,8 +636,15 @@ public class PostReviewIT extends AbstractDaemonTest {
     assertThat(r.getChange().approvals().values()).hasSize(1);
 
     // Post without changing the vote.
+    ChangeNotes notes = notesFactory.create(project, r.getChange().getId());
+    ObjectId metaId = notes.getMetaId();
+    assertAttentionSet(notes.getAttentionSet(), user.id());
     input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
     gApi.changes().id(r.getChangeId()).current().review(input);
+    notes = notesFactory.create(project, r.getChange().getId());
+    // Change meta ID did not change since the update is No/Op. Attention set is same.
+    assertThat(notes.getMetaId()).isEqualTo(metaId);
+    assertAttentionSet(notes.getAttentionSet(), user.id());
 
     // Second vote replaced the original vote, so still only one vote.
     assertThat(r.getChange().approvals().values()).hasSize(1);
@@ -1085,5 +1095,11 @@ public class PostReviewIT extends AbstractDaemonTest {
           .map(accountInfo -> Account.id(accountInfo._accountId))
           .collect(toImmutableSet());
     }
+  }
+
+  private static void assertAttentionSet(
+      ImmutableSet<AttentionSetUpdate> attentionSet, Account.Id... accounts) {
+    assertThat(attentionSet.stream().map(AttentionSetUpdate::account).collect(Collectors.toList()))
+        .containsExactly(accounts);
   }
 }

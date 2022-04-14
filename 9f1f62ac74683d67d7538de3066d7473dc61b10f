@@ -178,6 +178,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "565a691e_4f497682",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-14T07:15:16Z",
+      "side": 1,
+      "message": "Sure, let me know what\u0027s the best for you to discuss today.",
+      "parentUuid": "6595dce7_1ee04223",
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b13f6a59_2bd2904c",
         "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
         "patchSetId": 15
@@ -213,6 +231,30 @@
       "side": 1,
       "message": "No, you are correct. When using the read-only request window in the current thread, the thread needs to be 100% sure that no other mutations are happening *after* the readonly window, otherwise further mutations would results in a stale read.",
       "parentUuid": "b13f6a59_2bd2904c",
+      "range": {
+        "startLine": 206,
+        "startChar": 38,
+        "endLine": 206,
+        "endChar": 63
+      },
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8846308c_277e3ce2",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-14T07:15:16Z",
+      "side": 1,
+      "message": "We can mitigate the problem by resetting the cache once the new read-only window is opened. In that way, the second block would get SHA_X2.\n\nHow does that sound to you?",
+      "parentUuid": "735986ca_bd1fa8c2",
       "range": {
         "startLine": 206,
         "startChar": 38,

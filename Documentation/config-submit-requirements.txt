@@ -194,6 +194,21 @@ is:submittable::
 +
 Cannot be used since it will result in recursive evaluation of expressions.
 
+[[operator_uploaderin]]
+uploaderin:'GROUP'::
++
+Group memberships is currently not supported.
+
+[[operator_ownerin]]
+ownerin:'GROUP'::
++
+Group memberships is currently not supported.
+
+[[operator_reviewerin]]
+reviewerin:'GROUP'::
++
+Group memberships is currently not supported.
+
 [[inheritance]]
 == Inheritance
 

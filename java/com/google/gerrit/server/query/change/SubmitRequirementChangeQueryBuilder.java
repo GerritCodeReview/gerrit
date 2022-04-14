@@ -79,6 +79,24 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
     return super.is(value);
   }
 
+  @Override
+  public Predicate<ChangeData> uploaderin(String value) throws QueryParseException {
+    throw new QueryParseException(
+        "Operator 'uploaderin' is not supported in submit requirement expressions (groups are not supported).");
+  }
+
+  @Override
+  public Predicate<ChangeData> ownerin(String value) throws QueryParseException {
+    throw new QueryParseException(
+        "Operator 'ownerin' is not supported in submit requirement expressions (groups are not supported).");
+  }
+
+  @Override
+  public Predicate<ChangeData> reviewerin(String value) throws QueryParseException {
+    throw new QueryParseException(
+        "Operator 'reviewerin' is not supported in submit requirement expressions (groups are not supported).");
+  }
+
   @Operator
   public Predicate<ChangeData> authoremail(String who) throws QueryParseException {
     return new RegexAuthorEmailPredicate(who);

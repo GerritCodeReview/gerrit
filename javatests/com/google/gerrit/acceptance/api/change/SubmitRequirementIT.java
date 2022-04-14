@@ -86,6 +86,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 @NoHttpd
@@ -2600,6 +2601,9 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
+  // TODO: remove @Ignore. Group predicates (i.e. ownerin) are currently disabled for submit
+  // requirements.
+  @Ignore
   public void submitRequirement_evaluatedWithInternalUserCredentials() throws Exception {
     GroupInput in = new GroupInput();
     in.name = "invisible-group";

@@ -225,6 +225,87 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
         /* error= */ "Operator 'reviewerin' is not supported in submit requirement expressions (groups are not supported).");
   }
 
+  @Test
+  public void isSubmittable_isNotSupported() throws Exception {
+    Change.Id c1 = changeOperations.newChange().project(project).create();
+    assertNotSupported(
+        "is:submittable",
+        c1,
+        /* error= */ "Operator 'is:submittable' cannot be used in submit requirement expressions");
+  }
+
+  @Test
+  public void isAttention_isNotSupported() throws Exception {
+    Change.Id c1 = changeOperations.newChange().project(project).create();
+    assertNotSupported(
+        "is:attention",
+        c1,
+        /* error= */ "Operator 'is:attention' cannot be used in submit requirement expressions");
+  }
+
+  @Test
+  public void isOwner_isNotSupported() throws Exception {
+    Change.Id c1 = changeOperations.newChange().project(project).create();
+    assertNotSupported(
+        "is:owner",
+        c1,
+        /* error= */ "Operator 'is:owner' cannot be used in submit requirement expressions");
+  }
+
+  @Test
+  public void isUploader_isNotSupported() throws Exception {
+    Change.Id c1 = changeOperations.newChange().project(project).create();
+    assertNotSupported(
+        "is:uploader",
+        c1,
+        /* error= */ "Operator 'is:uploader' cannot be used in submit requirement expressions");
+  }
+
+  @Test
+  public void isReviewer_isNotSupported() throws Exception {
+    Change.Id c1 = changeOperations.newChange().project(project).create();
+    assertNotSupported(
+        "is:reviewer",
+        c1,
+        /* error= */ "Operator 'is:reviewer' cannot be used in submit requirement expressions");
+  }
+
+  @Test
+  public void isCC_isNotSupported() throws Exception {
+    Change.Id c1 = changeOperations.newChange().project(project).create();
+    assertNotSupported(
+        "is:cc",
+        c1,
+        /* error= */ "Operator 'is:cc' cannot be used in submit requirement expressions");
+  }
+
+  @Test
+  public void hasAttention_isNotSupported() throws Exception {
+    Change.Id c1 = changeOperations.newChange().project(project).create();
+    assertNotSupported(
+        "has:attention",
+        c1,
+        /* error= */ "Operator 'has:attention' cannot be used in submit requirement expressions");
+  }
+
+  @Test
+  public void hasDraft_isNotSupported() throws Exception {
+    Change.Id c1 = changeOperations.newChange().project(project).create();
+    assertNotSupported(
+        "has:draft",
+        c1,
+        /* error= */ "Operator 'has:draft' cannot be used in submit requirement expressions");
+  }
+
+  @Test
+  public void hasEdit_isNotSupported() throws Exception {
+    Change.Id c1 = changeOperations.newChange().project(project).create();
+    assertNotSupported(
+        "has:edit",
+        c1,
+        /* error= */ "Operator 'has:edit' cannot be used in submit requirement expressions");
+  }
+
   private void assertMatching(String requirement, Change.Id change) {
     assertThat(evaluate(requirement, change).status())
         .isEqualTo(SubmitRequirementExpressionResult.Status.PASS);

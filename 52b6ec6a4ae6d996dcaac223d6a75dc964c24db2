@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63d2db79_23467a97",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-14T14:09:03Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "86136c9e_dbf52224",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 23
+      },
+      "revId": "52b6ec6a4ae6d996dcaac223d6a75dc964c24db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a172437e_d7021597",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-13T12:42:33Z",
       "side": 1,
       "message": "this doesn\u0027t make sense anymore (\"third parameter?\"). Verify that it still does `permissions update after a new section is added.` and remove the comment",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 0
+      },
+      "revId": "52b6ec6a4ae6d996dcaac223d6a75dc964c24db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de56a3ab_2bb54e45",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-14T14:09:03Z",
+      "side": 1,
+      "message": "I missed removing this. The third param was unused but was used to trigger updates using .*. Although i tested and appears to work.",
+      "parentUuid": "a172437e_d7021597",
       "range": {
         "startLine": 225,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eada5bb_e9a1553b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-14T14:09:03Z",
+      "side": 1,
+      "message": "Removed, thanks.",
+      "parentUuid": "3591ea76_b2484001",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 25
+      },
+      "revId": "52b6ec6a4ae6d996dcaac223d6a75dc964c24db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdf77664_6288537e",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c4cc09a_87332ccf",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-14T14:09:03Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "fdf77664_6288537e",
+      "range": {
+        "startLine": 35,
+        "startChar": 14,
+        "endLine": 35,
+        "endChar": 36
+      },
+      "revId": "52b6ec6a4ae6d996dcaac223d6a75dc964c24db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f808237a_749710af",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-04-13T12:42:33Z",
       "side": 1,
       "message": "since this is the polymer [flush()](https://polymer-library.polymer-project.org/3.0/api/utils/flush#flush) it is not a promise that can be awaited.\nIn tests we use our [flush() wrapper](https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/test/common-test-setup-karma.ts;l\u003d81;drc\u003dbf65b8f9704d3a71eed99880b710a57f17af0c8b) from `common-test-setup-karma.ts` which returns a promise and can be awaited.",
+      "range": {
+        "startLine": 473,
+        "startChar": 0,
+        "endLine": 475,
+        "endChar": 0
+      },
+      "revId": "52b6ec6a4ae6d996dcaac223d6a75dc964c24db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "796d7be7_c18e9a11",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-14T14:09:03Z",
+      "side": 1,
+      "message": "Ah ok, thanks, done.",
+      "parentUuid": "f808237a_749710af",
       "range": {
         "startLine": 473,
         "startChar": 0,

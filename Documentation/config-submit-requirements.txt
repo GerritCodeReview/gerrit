@@ -249,6 +249,11 @@ has:edit::
 +
 Operators that depend on the calling user are not allowed.
 
+[[operator_query]]
+query:'[name=]NAME[,user=USER]'::
++
+Named queries are not supported.
+
 [[inheritance]]
 == Inheritance
 

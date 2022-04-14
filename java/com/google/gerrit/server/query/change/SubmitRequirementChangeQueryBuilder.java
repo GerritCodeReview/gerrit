@@ -97,6 +97,13 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   }
 
   @Override
+  public Predicate<ChangeData> query(String value) throws QueryParseException {
+    throw new QueryParseException(
+        String.format(
+            "Operator 'query:%s' is not supported in submit requirement expressions", value));
+  }
+
+  @Override
   public Predicate<ChangeData> uploaderin(String value) throws QueryParseException {
     throw new QueryParseException(
         "Operator 'uploaderin' is not supported in submit requirement expressions (groups are not supported).");

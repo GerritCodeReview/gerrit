@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06ac9ace_9ecdfc52",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetObserver.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-04-14T12:09:50Z",
+      "side": 1,
+      "message": "Our coarse build structure is unfortunate :-( My primary concern is the extra data in AccountInfo that runs the risk of growing dependencies; using two sets for ADD and REMOVE LGTM, it seems unlikely that this would ever be extended at all.\n\nAccount IDs are integers, it\u0027s safe to just use Integer here to sidestep the dependency problem.",
+      "parentUuid": "1b3e3972_3bcd5089",
+      "revId": "e6a3f59d321f6e87420a64c277160c8582a8b109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de0d2b2f_01d3f04e",
         "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetObserver.java",
         "patchSetId": 12

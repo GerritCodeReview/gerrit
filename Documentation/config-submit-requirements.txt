@@ -265,6 +265,26 @@ is:submittable::
 +
 Cannot be used since it will result in recursive evaluation of expressions.
 
+[[operator_isattention]]
+is:attention::
++
+Operators that depend on the calling user are not allowed.
+
+[[operator_hasattention]]
+has:attention::
++
+Operators that depend on the calling user are not allowed.
+
+[[operator_hasdraft]]
+has:draft::
++
+Operators that depend on the calling user are not allowed.
+
+[[operator_hasedit]]
+has:edit::
++
+Operators that depend on the calling user are not allowed.
+
 [[inheritance]]
 == Inheritance
 

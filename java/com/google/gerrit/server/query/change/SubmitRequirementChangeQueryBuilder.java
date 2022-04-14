@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.Predicate;
@@ -66,6 +67,12 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   private final FileEditsPredicate.Factory fileEditsPredicateFactory;
   private final RegexUploaderEmailPredicateFactory regexUploaderEmailPredicateFactory;
 
+  private static final ImmutableSet<String> UNSUPPORTED_HAS_OPERANDS =
+      ImmutableSet.of("draft", "attention", "edit");
+
+  private static final ImmutableSet<String> UNSUPPORTED_IS_OPERANDS =
+      ImmutableSet.of("submittable", "attention");
+
   @Inject
   SubmitRequirementChangeQueryBuilder(
       Arguments args,
@@ -88,10 +95,10 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
 
   @Override
   public Predicate<ChangeData> is(String value) throws QueryParseException {
-    if ("submittable".equalsIgnoreCase(value)) {
+    if (UNSUPPORTED_IS_OPERANDS.contains(value)) {
       throw new QueryParseException(
           String.format(
-              "Operator 'is:submittable' cannot be used in submit requirement expressions."));
+              "Operator 'is:%s' cannot be used in submit requirement expressions.", value));
     }
     if ("true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value)) {
       return new ConstantPredicate(value);
@@ -101,6 +108,11 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
 
   @Override
   public Predicate<ChangeData> has(String value) throws QueryParseException {
+    if (UNSUPPORTED_HAS_OPERANDS.contains(value)) {
+      throw new QueryParseException(
+          String.format(
+              "Operator 'has:%s' cannot be used in submit requirement expressions.", value));
+    }
     if (value.toLowerCase(Locale.US).startsWith(SUBMODULE_UPDATE_HAS_ARG)) {
       List<String> args = SUBMODULE_UPDATE_SPLITTER.splitToList(value);
       if (args.size() > 2) {

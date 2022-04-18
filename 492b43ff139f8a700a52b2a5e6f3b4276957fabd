@@ -16,6 +16,23 @@
       "message": "I think you need to add output sample?",
       "revId": "492b43ff139f8a700a52b2a5e6f3b4276957fabd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5418a2a7_f187e20d",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectVisibilityCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2022-04-18T20:23:30Z",
+      "side": 1,
+      "message": "Maybe make this method return true false and make another method to handle the response? then this method becomes ifVisible(....), then we would not have duplicated returns with the only diff of \"true\" or \"false\"",
+      "revId": "492b43ff139f8a700a52b2a5e6f3b4276957fabd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

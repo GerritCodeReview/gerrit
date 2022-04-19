@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b7e44fc_14b6b075",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-19T14:32:40Z",
+      "side": 1,
+      "message": "Done. They are equivalent here, dunno what the team practice is",
+      "parentUuid": "2a0db738_72f119b7",
+      "revId": "52ea25cd6d77ed7e8c4e866d944a2699febb8cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6050ea46_78c7dea8",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c01fbb0e_75d421b1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-19T14:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6050ea46_78c7dea8",
+      "revId": "52ea25cd6d77ed7e8c4e866d944a2699febb8cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "361854ff_50f69265",
@@ -48,6 +84,30 @@
       "writtenOn": "2022-04-13T18:35:34Z",
       "side": 1,
       "message": "why won\u0027t this path be taken care of by willUpdate() already?\n\nwhy do we need the same method/handling defined in firstUpdated and willUpdated?",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 24
+      },
+      "revId": "52ea25cd6d77ed7e8c4e866d944a2699febb8cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e18c2d39_5d384237",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-19T14:32:40Z",
+      "side": 1,
+      "message": "As I understand: the first `willUpdate()` setting props happens before first render so slot contents will not be available yet to sync default value with native select. I tried to capture this in the comment, can you make a suggested change to the comment to clarify?\n\nThis behavior seems depended on by gr-dropdown-list based on it\u0027s own tests, and removing this line will fail them.\n\nI was thinking gr-select ought to just own the native select+options itself, but that refactor would be out of scope.",
+      "parentUuid": "361854ff_50f69265",
       "range": {
         "startLine": 69,
         "startChar": 6,
@@ -81,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd594ffe_afb36b57",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-19T14:32:40Z",
+      "side": 1,
+      "message": "Seems like it be addressed by my firstUpdated code, but I am not confident that all cases would be fixed so I will prefer to leave it. I will maintain the comment.",
+      "parentUuid": "60224d62_c608b952",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 66
+      },
+      "revId": "52ea25cd6d77ed7e8c4e866d944a2699febb8cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0253c5e_5b34ebc8",
@@ -94,6 +178,24 @@
       "writtenOn": "2022-04-13T16:28:11Z",
       "side": 1,
       "message": "Does there need to be two? Also i think that this is handled within the fixture?",
+      "revId": "52ea25cd6d77ed7e8c4e866d944a2699febb8cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30b3d894_178c3851",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-19T14:32:40Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c0253c5e_5b34ebc8",
       "revId": "52ea25cd6d77ed7e8c4e866d944a2699febb8cd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

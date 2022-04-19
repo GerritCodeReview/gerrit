@@ -52,6 +52,7 @@ import {paperStyles} from '../../../styles/gr-paper-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {when} from 'lit/directives/when';
+import {ValueChangedEvent} from '../../../types/events';
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;
 
@@ -286,6 +287,8 @@ export class GrPermission extends LitElement {
               <gr-autocomplete
                 id="groupAutocomplete"
                 .text=${this.groupFilter ?? ''}
+                @text-changed=${(e: ValueChangedEvent) =>
+                  (this.groupFilter = e.detail.value)}
                 .query=${this.query}
                 placeholder="Add group"
                 @commit=${this.handleAddRuleItem}

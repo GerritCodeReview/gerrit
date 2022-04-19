@@ -118,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86781e36_b872bd07",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-19T15:13:30Z",
+      "side": 1,
+      "message": "Changed to happen in every updated rather than `willUpdate`",
+      "parentUuid": "e18c2d39_5d384237",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 24
+      },
+      "revId": "52ea25cd6d77ed7e8c4e866d944a2699febb8cd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60224d62_c608b952",

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e64749ec_f875ca40",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-19T13:49:50Z",
+      "side": 1,
+      "message": "does this.inheritsFrom assignment trigger the update already?",
+      "range": {
+        "startLine": 408,
+        "startChar": 9,
+        "endLine": 408,
+        "endChar": 22
+      },
+      "revId": "2199a6bf4069a6c0bd305da614bace4d3ca744e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70654551_92c29819",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-19T13:49:50Z",
+      "side": 1,
+      "message": "move to @query property instead of queryAndAssert",
+      "range": {
+        "startLine": 641,
+        "startChar": 4,
+        "endLine": 641,
+        "endChar": 18
+      },
+      "revId": "2199a6bf4069a6c0bd305da614bace4d3ca744e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

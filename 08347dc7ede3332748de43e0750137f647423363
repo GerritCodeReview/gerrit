@@ -16,6 +16,41 @@
       "message": "LGTM. you might want to block this with a -2 until we ran the upgrade?",
       "revId": "08347dc7ede3332748de43e0750137f647423363",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9796a9d9_172bc251",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-19T06:46:56Z",
+      "side": 1,
+      "message": "We can only submit this after we performed the migration at Google, hence CR-2 to block the submission for now.",
+      "revId": "08347dc7ede3332748de43e0750137f647423363",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7629043c_9e704545",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-19T06:46:56Z",
+      "side": 1,
+      "message": "Yes, makes sense.",
+      "parentUuid": "60f365b6_25c44798",
+      "revId": "08347dc7ede3332748de43e0750137f647423363",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

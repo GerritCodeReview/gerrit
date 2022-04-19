@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "362192b5_c10df2df",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-19T13:37:53Z",
+      "side": 1,
+      "message": "why did this change from async/await?",
+      "range": {
+        "startLine": 671,
+        "startChar": 6,
+        "endLine": 674,
+        "endChar": 41
+      },
+      "revId": "4f23e9ee05ed332b5fa3264ee4c3078382a3a71c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "138ca45e_369319b3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list_test.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-19T13:37:53Z",
+      "side": 1,
+      "message": "why are some tests querying for `\u0027#entry\u0027` and some use `element.entry`?",
+      "range": {
+        "startLine": 416,
+        "startChar": 0,
+        "endLine": 416,
+        "endChar": 56
+      },
+      "revId": "4f23e9ee05ed332b5fa3264ee4c3078382a3a71c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "Should this be backported to stable-3.6 including the rest in the stack?",
       "revId": "a8914c240dec3860a11d27e90981251309fa3e2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14c4859d_9f86679d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-19T09:28:55Z",
+      "side": 1,
+      "message": "Not sure.\n\nI think this should only be in the release that also does the migration [1] and drops support for the deprecated flags [2].\n\nIt would have been nice if the new release was cut after these changes [1,2] landed, but once a release has been cut we usually do not want to add major changes like a schema migration in the stable branch, so I would not cherry-pick them.\n\nAlso [1,2] need to wait until we have done the schema migration at Google, and we do not want to delay the 3.6 release to wait on this.\n\nFWIW this particular change is only relevant for installations that do the migration while the system is online to prevent that the deprecated flags are reset for repos that have already been migrated. So this is mostly relevant for Google, but not for open source where Gerrit is offline when the schema migration is performed.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/334325\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/334467",
+      "parentUuid": "4080975b_290ccd46",
+      "revId": "a8914c240dec3860a11d27e90981251309fa3e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

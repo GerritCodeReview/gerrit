@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -40,7 +41,10 @@ import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * Migrates all label configurations of a project to copy conditions.
@@ -96,12 +100,14 @@ public class MigrateLabelConfigToCopyCondition {
         new ProjectLevelConfig.Bare(ProjectConfig.PROJECT_CONFIG);
     try (Repository repo = repoManager.openRepository(projectName);
         MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, repo)) {
+      boolean isAlreadyMigrated = hasMigrationAlreadyRun(repo);
+
       projectConfig.load(projectName, repo);
 
       Config cfg = projectConfig.getConfig();
       String orgConfigAsText = cfg.toText();
       for (String labelName : cfg.getSubsections(ProjectConfig.LABEL)) {
-        String newCopyCondition = computeCopyCondition(cfg, labelName);
+        String newCopyCondition = computeCopyCondition(isAlreadyMigrated, cfg, labelName);
         if (!Strings.isNullOrEmpty(newCopyCondition)) {
           cfg.setString(
               ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_CONDITION, newCopyCondition);
@@ -122,7 +128,8 @@ public class MigrateLabelConfigToCopyCondition {
     }
   }
 
-  private static String computeCopyCondition(Config cfg, String labelName) {
+  private static String computeCopyCondition(
+      boolean isAlreadyMigrated, Config cfg, String labelName) {
     List<String> copyConditions = new ArrayList<>();
 
     ifTrue(cfg, labelName, ProjectConfig.KEY_COPY_ANY_SCORE, () -> copyConditions.add("is:ANY"));
@@ -139,13 +146,27 @@ public class MigrateLabelConfigToCopyCondition {
         ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
         () -> copyConditions.add("changekind:" + ChangeKind.NO_CHANGE.name()));
 
-    // The default value for copyAllScoresIfNoChange is true, hence if this parameter is not set we
-    // need to include "changekind:NO_CHANGE" into the copy condition.
-    ifUnset(
-        cfg,
-        labelName,
-        ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
-        () -> copyConditions.add("changekind:" + ChangeKind.NO_CHANGE.name()));
+    // If the migration has already been run on this project we must no longer assume true as
+    // default value when copyAllScoresIfNoChange is unset. This is to ensure that the migration is
+    // idempotent when copyAllScoresIfNoChange is set to false:
+    //
+    // 1. migration run:
+    // Removes the copyAllScoresIfNoChange flag, but doesn't add anything to the copy condition.
+    //
+    // 2. migration run:
+    // Since the copyAllScoresIfNoChange flag is no longer set, we would wrongly assume true now and
+    // wrongly include "changekind:NO_CHANGE" into the copy condition. To prevent this we assume
+    // false as default for copyAllScoresIfNoChange once the migration has been run, so that the 2.
+    // migration run is a no-op.
+    if (!isAlreadyMigrated) {
+      // The default value for copyAllScoresIfNoChange is true, hence if this parameter is not set
+      // we need to include "changekind:NO_CHANGE" into the copy condition.
+      ifUnset(
+          cfg,
+          labelName,
+          ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+          () -> copyConditions.add("changekind:" + ChangeKind.NO_CHANGE.name()));
+    }
 
     ifTrue(
         cfg,
@@ -263,5 +284,22 @@ public class MigrateLabelConfigToCopyCondition {
       return "\"" + value + "\"";
     }
     return Integer.toString(value);
+  }
+
+  public static boolean hasMigrationAlreadyRun(Repository repo) throws IOException {
+    try (RevWalk revWalk = new RevWalk(repo)) {
+      Ref refsMetaConfig = repo.exactRef(RefNames.REFS_CONFIG);
+      if (refsMetaConfig == null) {
+        return false;
+      }
+      revWalk.markStart(revWalk.parseCommit(refsMetaConfig.getObjectId()));
+      RevCommit commit;
+      while ((commit = revWalk.next()) != null) {
+        if (COMMIT_MESSAGE.equals(commit.getShortMessage())) {
+          return true;
+        }
+      }
+      return false;
+    }
   }
 }

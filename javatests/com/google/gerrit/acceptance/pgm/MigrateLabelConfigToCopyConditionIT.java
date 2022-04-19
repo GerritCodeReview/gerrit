@@ -27,6 +27,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Project;
@@ -635,6 +636,67 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
         new TestRepository<>(repoManager.openRepository(project))) {
       assertThat(testRepo.getRepository().exactRef(RefNames.REFS_CONFIG)).isNull();
     }
+  }
+
+  @Test
+  public void migrationIsIdempotent_copyAllScoresIfNoChangeIsUnset() throws Exception {
+    testMigrationIsIdempotent(/* copyAllScoresIfNoChangeValue= */ null);
+  }
+
+  @Test
+  public void migrationIsIdempotent_copyAllScoresIfNoChangeIsFalse() throws Exception {
+    testMigrationIsIdempotent(/* copyAllScoresIfNoChangeValue= */ false);
+  }
+
+  @Test
+  public void migrationIsIdempotent_copyAllScoresIfNoChangeIsTrue() throws Exception {
+    testMigrationIsIdempotent(/* copyAllScoresIfNoChangeValue= */ true);
+  }
+
+  private void testMigrationIsIdempotent(@Nullable Boolean copyAllScoresIfNoChangeValue)
+      throws Exception {
+    updateProjectConfig(
+        cfg -> {
+          if (copyAllScoresIfNoChangeValue != null) {
+            cfg.setBoolean(
+                ProjectConfig.LABEL,
+                LabelId.CODE_REVIEW,
+                ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+                copyAllScoresIfNoChangeValue);
+            cfg.setBoolean(
+                ProjectConfig.LABEL,
+                LabelId.VERIFIED,
+                ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
+                copyAllScoresIfNoChangeValue);
+          } else {
+            cfg.unset(
+                ProjectConfig.LABEL,
+                LabelId.CODE_REVIEW,
+                ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
+            cfg.unset(
+                ProjectConfig.LABEL,
+                LabelId.VERIFIED,
+                ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE);
+          }
+        });
+
+    // Run the migration to update the label configuration.
+    runMigration();
+
+    assertDeprecatedFieldsUnset(LabelId.CODE_REVIEW);
+    assertDeprecatedFieldsUnset(LabelId.VERIFIED);
+
+    // default value for copyAllScoresIfNoChangeValue is true
+    if (copyAllScoresIfNoChangeValue == null || copyAllScoresIfNoChangeValue) {
+      assertThat(getCopyConditionOfCodeReviewLabel()).isEqualTo("changekind:NO_CHANGE");
+    } else {
+      assertThat(getCopyConditionOfCodeReviewLabel()).isNull();
+    }
+
+    // Running the migration again doesn't change anything.
+    RevCommit head = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
+    runMigration();
+    assertThat(projectOperations.project(project).getHead(RefNames.REFS_CONFIG)).isEqualTo(head);
   }
 
   private void testFlagMigration(String key, Consumer<String> copyConditionValidator)

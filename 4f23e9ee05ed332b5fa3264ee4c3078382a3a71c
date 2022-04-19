@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a8f4a1a_4ac8f5e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-19T23:24:27Z",
+      "side": 1,
+      "message": "I changed it back to how it was. This I16dc2fe017b921320e20682427eebbb1365fee71 allowed me to do this change a bit better (not using updateComplete).\n\nI\u0027ve tested it locally as well and saw no regression.",
+      "parentUuid": "362192b5_c10df2df",
+      "range": {
+        "startLine": 671,
+        "startChar": 6,
+        "endLine": 674,
+        "endChar": 41
+      },
+      "revId": "4f23e9ee05ed332b5fa3264ee4c3078382a3a71c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "138ca45e_369319b3",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-19T13:37:53Z",
       "side": 1,
       "message": "why are some tests querying for `\u0027#entry\u0027` and some use `element.entry`?",
+      "range": {
+        "startLine": 416,
+        "startChar": 0,
+        "endLine": 416,
+        "endChar": 56
+      },
+      "revId": "4f23e9ee05ed332b5fa3264ee4c3078382a3a71c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95223504_1ec71b15",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list_test.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-19T23:24:27Z",
+      "side": 1,
+      "message": "Fixed, thanks, done.",
+      "parentUuid": "138ca45e_369319b3",
       "range": {
         "startLine": 416,
         "startChar": 0,

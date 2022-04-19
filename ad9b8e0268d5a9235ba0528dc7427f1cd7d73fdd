@@ -82,6 +82,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb81f36a_25c974a3",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-19T22:20:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a3e16f6_54b57960",
+      "range": {
+        "startLine": 80,
+        "startChar": 33,
+        "endLine": 80,
+        "endChar": 58
+      },
+      "revId": "ad9b8e0268d5a9235ba0528dc7427f1cd7d73fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8e81dc6_2f7ae760",
@@ -143,6 +167,30 @@
       "side": 1,
       "message": "LGTM, I think IT tests is enough",
       "parentUuid": "6f7a2ca9_ad881bf9",
+      "range": {
+        "startLine": 204,
+        "startChar": 8,
+        "endLine": 204,
+        "endChar": 100
+      },
+      "revId": "ad9b8e0268d5a9235ba0528dc7427f1cd7d73fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18f0040b_30fa7b13",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-19T22:20:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0aac544_b1b035a2",
       "range": {
         "startLine": 204,
         "startChar": 8,
@@ -224,6 +272,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4b0cbc2_e9829814",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-19T22:20:16Z",
+      "side": 1,
+      "message": "I\u0027ve used the double-try, so that the overall catch() flow isn\u0027t impacted anymore.",
+      "parentUuid": "caae9fa8_afbddaca",
+      "range": {
+        "startLine": 398,
+        "startChar": 3,
+        "endLine": 418,
+        "endChar": 52
+      },
+      "revId": "ad9b8e0268d5a9235ba0528dc7427f1cd7d73fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3fb9889_6199eaac",
@@ -237,6 +309,30 @@
       "writtenOn": "2022-04-19T15:20:50Z",
       "side": 1,
       "message": "Same problem as with StreamEventsApiListener.\nI would prefer to use a solution with additional try... block, because it doesn\u0027t require additional returns.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 52
+      },
+      "revId": "ad9b8e0268d5a9235ba0528dc7427f1cd7d73fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98f9fcb7_a933cbd1",
+        "filename": "java/com/google/gerrit/server/extensions/events/CommentAdded.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-19T22:20:16Z",
+      "side": 1,
+      "message": "I\u0027ve used the double-try, so that the overall catch() flow isn\u0027t impacted anymore.",
+      "parentUuid": "a3fb9889_6199eaac",
       "range": {
         "startLine": 66,
         "startChar": 4,
@@ -318,6 +414,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5634236c_b9dfbbd1",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-19T22:20:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "620a855f_74038c47",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 3
+      },
+      "revId": "ad9b8e0268d5a9235ba0528dc7427f1cd7d73fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "909af225_a036de41",
@@ -379,6 +499,30 @@
       "side": 1,
       "message": "\u003e PerThreadCache isn\u0027t about Repositories but any object type. That\u0027s why I needed to introduce a generic interface.\n\nI understand. But because this is a temporary solution, placing everything in one place (PerThreadCache) adds less changes in other places.\nHowever, this is an optional suggest. But please add a clear comment about this part of code.",
       "parentUuid": "3a86d360_6064130e",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 3
+      },
+      "revId": "ad9b8e0268d5a9235ba0528dc7427f1cd7d73fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b0cd819_fc44a3f0",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-19T22:20:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd3a421_09bc11fe",
       "range": {
         "startLine": 73,
         "startChar": 2,

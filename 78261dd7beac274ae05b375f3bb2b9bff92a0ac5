@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80e707d5_b2ddfde1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-19T06:41:05Z",
+      "side": 1,
+      "message": "nice",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "78261dd7beac274ae05b375f3bb2b9bff92a0ac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1aa15482_90547346",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelConfigToCopyCondition.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-19T06:41:05Z",
+      "side": 1,
+      "message": "nice way to check that.",
+      "range": {
+        "startLine": 289,
+        "startChar": 24,
+        "endLine": 289,
+        "endChar": 46
+      },
+      "revId": "78261dd7beac274ae05b375f3bb2b9bff92a0ac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

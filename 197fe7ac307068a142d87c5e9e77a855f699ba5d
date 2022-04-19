@@ -133,6 +133,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d75b1c43_1fdccff5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-19T06:04:52Z",
+      "side": 1,
+      "message": "Nice. Done: https://gerrit-review.googlesource.com/c/gerrit/+/335194\n\nThanks for verifying!",
+      "parentUuid": "b2f767ae_ac18534a",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "197fe7ac307068a142d87c5e9e77a855f699ba5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e2f43d65_b53e3406",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

@@ -131,6 +131,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0aac544_b1b035a2",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-19T18:55:17Z",
+      "side": 1,
+      "message": "LGTM, I think IT tests is enough",
+      "parentUuid": "6f7a2ca9_ad881bf9",
+      "range": {
+        "startLine": 204,
+        "startChar": 8,
+        "endLine": 204,
+        "endChar": 100
+      },
+      "revId": "ad9b8e0268d5a9235ba0528dc7427f1cd7d73fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8acdddf4_32441dcd",
         "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
         "patchSetId": 21
@@ -166,6 +190,30 @@
       "side": 1,
       "message": "dispatcher.run() and postEvent() do not throw OrmException. Can they throw a checked Exception without declaring it?",
       "parentUuid": "8acdddf4_32441dcd",
+      "range": {
+        "startLine": 398,
+        "startChar": 3,
+        "endLine": 418,
+        "endChar": 52
+      },
+      "revId": "ad9b8e0268d5a9235ba0528dc7427f1cd7d73fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caae9fa8_afbddaca",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-19T18:55:17Z",
+      "side": 1,
+      "message": "\u003e dispatcher.run() and postEvent() do not throw OrmException. Can they throw a checked Exception without declaring it?\n\nSorry, you are right, they can\u0027t. I incorrectly checked the version 3 for this exception. The v3 uses StorageException instead of OrmException and StorageException extends RuntimeException (i.e. it is unchecked). \n\nCould you please verify/confirm that dispatcher.run and postEvent don\u0027t throw StorageException in v3, i.e. it is safe to move them outside of catch blaock?",
+      "parentUuid": "fdf4fab5_fce5cd54",
       "range": {
         "startLine": 398,
         "startChar": 3,
@@ -248,6 +296,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "620a855f_74038c47",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-19T18:55:17Z",
+      "side": 1,
+      "message": "Ok. Please add a comment in this file that the code must be in master.",
+      "parentUuid": "ccbaf077_55c1027f",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 3
+      },
+      "revId": "ad9b8e0268d5a9235ba0528dc7427f1cd7d73fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "909af225_a036de41",
         "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
         "patchSetId": 21
@@ -283,6 +355,30 @@
       "side": 1,
       "message": "PerThreadCache isn\u0027t about Repositories but any object type. That\u0027s why I needed to introduce a generic interface.",
       "parentUuid": "909af225_a036de41",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 3
+      },
+      "revId": "ad9b8e0268d5a9235ba0528dc7427f1cd7d73fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bd3a421_09bc11fe",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-19T18:55:17Z",
+      "side": 1,
+      "message": "\u003e PerThreadCache isn\u0027t about Repositories but any object type. That\u0027s why I needed to introduce a generic interface.\n\nI understand. But because this is a temporary solution, placing everything in one place (PerThreadCache) adds less changes in other places.\nHowever, this is an optional suggest. But please add a clear comment about this part of code.",
+      "parentUuid": "3a86d360_6064130e",
       "range": {
         "startLine": 73,
         "startChar": 2,

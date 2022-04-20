@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24a0e7a6_60da5fa6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1147625
+      },
+      "writtenOn": "2022-04-20T05:12:42Z",
+      "side": 1,
+      "message": "android 12",
+      "revId": "181c9b5fc6098ff57ce8e02dec612d4bc8558312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

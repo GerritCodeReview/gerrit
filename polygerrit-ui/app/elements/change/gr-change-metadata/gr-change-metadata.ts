@@ -33,9 +33,6 @@ import '../gr-change-requirements/gr-change-requirements';
 import '../gr-commit-info/gr-commit-info';
 import '../gr-reviewer-list/gr-reviewer-list';
 import '../../shared/gr-account-list/gr-account-list';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-change-metadata_html';
 import {
   GrReviewerSuggestionsProvider,
   SUGGESTIONS_PROVIDERS_USERS_TYPES,
@@ -47,7 +44,6 @@ import {
   SubmitType,
 } from '../../../constants/constants';
 import {changeIsOpen, isOwner} from '../../../utils/change-util';
-import {customElement, property, observe} from '@polymer/decorators';
 import {
   AccountDetailInfo,
   AccountInfo,
@@ -92,11 +88,17 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {Interaction} from '../../../constants/reporting';
-import {
+import { 
   getApprovalInfo,
   getCodeReviewLabel,
   showNewSubmitRequirements,
 } from '../../../utils/label-util';
+import {LitElement, css, html, nothing, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {changeMetadataStyles} from '../../../styles/gr-change-metadata-shared-styles';
+import {when} from 'lit/directives/when';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -129,23 +131,14 @@ interface PushCertificateValidationInfo {
   message: string;
 }
 
-export interface GrChangeMetadata {
-  $: {
-    webLinks: HTMLElement;
-  };
-}
-
 @customElement('gr-change-metadata')
-export class GrChangeMetadata extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrChangeMetadata extends LitElement {
   /**
    * Fired when the change topic is changed.
    *
    * @event topic-changed
    */
+  @query('#webLinks') webLinks?: HTMLElement;
 
   @property({type: Object})
   change?: ParsedChangeInfo;
@@ -207,12 +200,6 @@ export class GrChangeMetadata extends PolymerElement {
   @property({type: Array, computed: '_computeParents(change, revision)'})
   _currentParents: ParentCommitInfo[] = [];
 
-  @property({type: Object})
-  _CHANGE_ROLE = ChangeRole;
-
-  @property({type: Object})
-  _SECTION = Metadata;
-
   @property({type: Boolean})
   _showAllSections = false;
 
@@ -225,10 +212,543 @@ export class GrChangeMetadata extends PolymerElement {
 
   private readonly flagsService = getAppContext().flagsService;
 
-  override ready() {
-    super.ready();
+  constructor() {
+    super();
     this.queryTopic = (input: string) => this._getTopicSuggestions(input);
   }
+
+  static override styles = [
+    sharedStyles,
+    fontStyles,
+    changeMetadataStyles,
+    css`
+      :host {
+        display: table;
+      }
+      gr-change-requirements,
+      gr-submit-requirements {
+        --requirements-horizontal-padding: var(--metadata-horizontal-padding);
+      }
+      gr-editable-label {
+        max-width: 9em;
+      }
+      .webLink {
+        display: block;
+      }
+      gr-account-chip[disabled],
+      gr-linked-chip[disabled] {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .hashtagChip {
+        padding-bottom: var(--spacing-s);
+      }
+      /* consistent with section .title, .value */
+      .hashtagChip:not(last-of-type) {
+        padding-bottom: var(--spacing-s);
+      }
+      .hashtagChip:last-of-type {
+        display: inline;
+        vertical-align: top;
+      }
+      .parentList.merge {
+        list-style-type: decimal;
+        padding-left: var(--spacing-l);
+      }
+      .parentList gr-commit-info {
+        display: inline-block;
+      }
+      .hideDisplay,
+      #parentNotCurrentMessage {
+        display: none;
+      }
+      .icon {
+        margin: -3px 0;
+      }
+      .icon.help,
+      .icon.notTrusted {
+        color: var(--warning-foreground);
+      }
+      .icon.invalid {
+        color: var(--negative-red-text-color);
+      }
+      .icon.trusted {
+        color: var(--positive-green-text-color);
+      }
+      .parentList.notCurrent.nonMerge #parentNotCurrentMessage {
+        --arrow-color: var(--warning-foreground);
+        display: inline-block;
+      }
+      .oldSeparatedSection {
+        margin-top: var(--spacing-l);
+        padding: var(--spacing-m) 0;
+      }
+      .separatedSection {
+        padding: var(--spacing-m) 0;
+      }
+      .hashtag gr-linked-chip,
+      .topic gr-linked-chip {
+        --linked-chip-text-color: var(--link-color);
+      }
+      gr-reviewer-list {
+        --account-max-length: 100px;
+        max-width: 285px;
+      }
+      .metadata-title {
+        color: var(--deemphasized-text-color);
+        padding-left: var(--metadata-horizontal-padding);
+      }
+      .metadata-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        /* The goal is to achieve alignment of the owner account chip and the
+         commit message box. Their top border should be on the same line. */
+        margin-bottom: var(--spacing-s);
+      }
+      .show-all-button iron-icon {
+        color: inherit;
+        --iron-icon-height: 18px;
+        --iron-icon-width: 18px;
+      }
+      gr-vote-chip {
+        --gr-vote-chip-width: 14px;
+        --gr-vote-chip-height: 14px;
+      }
+    `,
+  ];
+
+  override render() {
+    const {change} = this;
+    if (!change) return nothing;
+    return html`<div>
+      <div class="metadata-header">
+        <h3 class="metadata-title heading-3">Change Info</h3>
+        ${this.renderShowAllButton()}
+      </div>
+      ${this.renderSubmitted()}
+      ${this.renderUpdated()}
+      ${this.renderOwner()}
+      ${this.renderNonOwner(ChangeRole.UPLOADER)}
+      ${this.renderNonOwner(ChangeRole.AUTHOR)}
+      ${this.renderNonOwner(ChangeRole.COMMITTER)}
+      ${this.renderReviewers()}
+      ${this.renderCCs()}
+      ${this.renderBranchParent()}
+      <section
+        class="${this._computeDisplayState(Metadata.PARENT)}"
+      >
+        <span class="title">${this._computeParentsLabel(_currentParents)}</span>
+        <span class="value">
+          <ol
+            class="${this._computeParentListClass(_currentParents, parentIsCurrent)}"
+          >
+            <template is="dom-repeat" items="${this._currentParents}" as="parent">
+              <li>
+                <gr-commit-info
+                  change="${change}"
+                  commit-info="${this.parent}"
+                  server-config="${this.serverConfig}"
+                ></gr-commit-info>
+                <gr-tooltip-content
+                  id="parentNotCurrentMessage"
+                  has-tooltip
+                  show-icon
+                  title$="${this._notCurrentMessage}"
+                ></gr-tooltip-content>
+              </li>
+            </template>
+          </ol>
+        </span>
+      </section>
+      <template is="dom-if" if="${this._isChangeMerged(change)}">
+        <section
+          class="${this._computeDisplayState(Metadata.MERGED_AS)}"
+        >
+          <span class="title">Merged As</span>
+          <span class="value">
+            <gr-commit-info
+              change="${change}"
+              commit-info="${this._computeMergedCommitInfo(change.current_revision, change.revisions)}"
+              server-config="${this.serverConfig}"
+            ></gr-commit-info>
+          </span>
+        </section>
+      </template>
+      <template is="dom-if" if="${this._showRevertCreatedAs(change)}">
+        <section
+          class="${this._computeDisplayState(Metadata.REVERT_CREATED_AS)}"
+        >
+          <span class="title"
+            >${this._getRevertSectionTitle(change, revertedChange)}</span
+          >
+          <span class="value">
+            <gr-commit-info
+              change="${change}"
+              commit-info="${this._computeRevertCommit(change, revertedChange)}"
+              server-config="${this.serverConfig}"
+            ></gr-commit-info>
+          </span>
+        </section>
+      </template>
+      <template is="dom-if" if="${this._showTopic(change, _topicReadOnly)}">
+        <section
+          class="topic ${this._computeDisplayState(Metadata.TOPIC, account)}"
+        >
+          <span class="title">Topic</span>
+          <span class="value">
+            <template
+              is="dom-if"
+              if="${this._showTopicChip()}"
+            >
+              <gr-linked-chip
+                text="${change.topic}"
+                limit="40"
+                href="${this._computeTopicUrl(change.topic)}"
+                removable="${!this._topicReadOnly}"
+                @remove="_handleTopicRemoved"
+              ></gr-linked-chip>
+            </template>
+            <template
+              is="dom-if"
+              if="${this._showAddTopic(change.*, _settingTopic, _topicReadOnly)}"
+            >
+              <gr-editable-label
+                class="topicEditableLabel"
+                labelText="Add a topic"
+                value="${change.topic}"
+                maxLength="1024"
+                placeholder="${this._computeTopicPlaceholder(_topicReadOnly)}"
+                read-only="${this._topicReadOnly}"
+                @changed="_handleTopicChanged"
+                showAsEditPencil
+                autocomplete="true"
+                query="${this.queryTopic}"
+              ></gr-editable-label>
+            </template>
+          </span>
+        </section>
+      </template>
+      <template is="dom-if" if="${this._showCherryPickOf(change.*)}">
+        <section
+          class="${this._computeDisplayState(Metadata.CHERRY_PICK_OF)}"
+        >
+          <span class="title">Cherry pick of</span>
+          <span class="value">
+            <a
+              href$="${this._computeCherryPickOfUrl(change.cherry_pick_of_change, change.cherry_pick_of_patch_set, change.project)}"
+            >
+              <gr-limited-text
+                text="${change.cherry_pick_of_change},${change.cherry_pick_of_patch_set}"
+                limit="40"
+              >
+              </gr-limited-text>
+            </a>
+          </span>
+        </section>
+      </template>
+      <section
+        class="strategy ${this._computeDisplayState(Metadata.STRATEGY)}"
+        hidden$="${this._computeHideStrategy(change)}"
+      >
+        <span class="title">Strategy</span>
+        <span class="value">${this._computeStrategy(change)}</span>
+      </section>
+      <section
+        class="hashtag ${this._computeDisplayState(Metadata.HASHTAGS)}"
+      >
+        <span class="title">Hashtags</span>
+        <span class="value">
+          <template is="dom-repeat" items="${change.hashtags}">
+            <gr-linked-chip
+              class="hashtagChip"
+              text="${this.item}"
+              href="${this._computeHashtagUrl(item)}"
+              removable="${!this._hashtagReadOnly}"
+              @remove="_handleHashtagRemoved"
+              limit="40"
+            >
+            </gr-linked-chip>
+          </template>
+          <template is="dom-if" if="${!this._hashtagReadOnly}">
+            <gr-editable-label
+              uppercase
+              labelText="Add a hashtag"
+              placeholder="${this._computeHashtagPlaceholder(_hashtagReadOnly)}"
+              read-only="${this._hashtagReadOnly}"
+              @changed="_handleHashtagChanged"
+              showAsEditPencil
+            ></gr-editable-label>
+          </template>
+        </span>
+      </section>
+      <template is="dom-if" if="${this._showNewSubmitRequirements()}">
+        <div class="separatedSection">
+          <gr-submit-requirements
+            change="${change}"
+            account="${this.account}"
+            mutable="${this._mutable}"
+          ></gr-submit-requirements>
+        </div>
+      </template>
+      <template is="dom-if" if="${!this._showNewSubmitRequirements()}">
+        <div class="oldSeparatedSection">
+          <gr-change-requirements
+            change="{{change}}"
+            account="${this.account}"
+            mutable="${this._mutable}"
+          ></gr-change-requirements>
+        </div>
+      </template>
+      <section
+        id="webLinks"
+        hidden$="${!this._computeWebLinks(commitInfo, serverConfig)}"
+      >
+        <span class="title">Links</span>
+        <span class="value">
+          <template
+            is="dom-repeat"
+            items="${this._computeWebLinks(commitInfo, serverConfig)}"
+            as="link"
+          >
+            <a
+              href="${this.link.url}"
+              class="webLink"
+              rel="noopener"
+              target="_blank"
+            >
+              ${this.link.name}
+            </a>
+          </template>
+        </span>
+      </section>
+      <gr-endpoint-decorator name="change-metadata-item">
+        <gr-endpoint-param name="labels" .value=${this.labels}></gr-endpoint-param>
+        <gr-endpoint-param name="change" .value=${change}></gr-endpoint-param>
+        <gr-endpoint-param
+          name="revision"
+          .value=${this.revision}
+        ></gr-endpoint-param>
+      </gr-endpoint-decorator>
+    </div>`;
+  }
+
+  private renderShowAllButton() {
+    return html`<gr-button link class="show-all-button" @click=${this._onShowAllClick}
+    >${this._showAllSections ? 'Show less' : 'Show all'}
+    <iron-icon
+      icon="gr-icons:expand-more"
+      ?hidden=${this._showAllSections}
+    ></iron-icon
+    ><iron-icon
+      icon="gr-icons:expand-less"
+      ?hidden=${!this._showAllSections}
+    ></iron-icon>
+  </gr-button>`
+  }
+
+  private renderSubmitted() {
+    return when(this.change!.submitted, () => 
+    html`<section
+      class="${this._computeDisplayState(Metadata.SUBMITTED)}"
+    >
+      <span class="title">Submitted</span>
+      <span class="value">
+        <gr-date-formatter
+          withTooltip
+          .dateStr=${this.change!.submitted}
+          showYesterday
+        ></gr-date-formatter>
+      </span>
+    </section>
+  `)
+  }
+
+  private renderUpdated() {
+    return html`<section
+    class="${this._computeDisplayState(Metadata.UPDATED)}"
+  >
+    <span class="title">
+      <gr-tooltip-content
+        has-tooltip
+        title="Last update of (meta)data for this change."
+      >
+        Updated
+      </gr-tooltip-content>
+    </span>
+    <span class="value">
+      <gr-date-formatter
+        withTooltip
+        .dateStr=${this.change!.updated}
+        showYesterday
+      ></gr-date-formatter>
+    </span>
+  </section>`;
+  }
+
+  private renderOwner() {
+    const change = this.change!;
+    return html`<section
+    class="${this._computeDisplayState(Metadata.OWNER)}"
+  >
+    <span class="title">
+      <gr-tooltip-content
+        has-tooltip
+        title="This user created or uploaded the first patchset of this change."
+      >
+        Owner
+      </gr-tooltip-content>
+    </span>
+    <span class="value">
+      <gr-account-chip
+        .account=${change.owner}
+        .change=${change}
+        highlightAttention
+        .vote=${this._computeVote(change.owner)}
+        .label=${this._computeCodeReviewLabel()}
+      >
+        <gr-vote-chip
+            slot="vote-chip"
+            .vote=${this._computeVote(change.owner)}
+            .label=${this._computeCodeReviewLabel()}
+            circle-shape
+          ></gr-vote-chip>
+      </gr-account-chip>
+      ${when(this._pushCertificateValidation, () => html`<gr-tooltip-content
+          has-tooltip
+          title="${this._pushCertificateValidation!.message}"
+        >
+          <iron-icon
+            class="icon ${this._pushCertificateValidation!.class}"
+            icon="${this._pushCertificateValidation!.icon}"
+          >
+          </iron-icon>
+        </gr-tooltip-content>`)}
+    </span>
+  </section>`;
+  }
+
+  private renderNonOwner(role: ChangeRole) {
+    let title = '';
+    let name = '';
+    if (role === ChangeRole.UPLOADER) {
+      title = "This user uploaded the patchset to Gerrit (typically by running the 'git push' command).";
+      name = 'Uploader';
+    } else if (role === ChangeRole.AUTHOR) {
+      title = "This user wrote the code change.";
+      name = 'Author';
+    } else if (role === ChangeRole.COMMITTER) {
+      title = "This user committed the code change to the Git repository (typically to the local Git repo before uploading).";
+      name = 'Committer';
+    }
+    return html`<section class="${this._computeShowRoleClass(role)}">
+    <span class="title">
+      <gr-tooltip-content
+        has-tooltip
+        .title=${title}
+      >
+        ${name}
+      </gr-tooltip-content>
+    </span>
+    <span class="value">
+      <gr-account-chip
+        .account="${this._getNonOwnerRole(role)}"
+        .change="${this.change}"
+        highlightAttention
+        .vote="${this._computeVoteForRole(role)}"
+        .label="${this._computeCodeReviewLabel()}"
+      >
+          <gr-vote-chip
+            slot="vote-chip"
+            .vote=${this._computeVoteForRole(role)}
+            .label=${this._computeCodeReviewLabel()}
+            circle-shape
+          ></gr-vote-chip>
+      </gr-account-chip>
+    </span>
+  </section>`;
+  }
+
+  private renderReviewers() {
+    return html`<section
+    class="${this._computeDisplayState(Metadata.REVIEWERS)}"
+  >
+    <span class="title">Reviewers</span>
+    <span class="value">
+      <gr-reviewer-list
+        .change=${this.change}
+        ?mutable="${this._mutable}"
+        reviewers-only
+        .account="${this.account}"
+      ></gr-reviewer-list>
+    </span>
+  </section>`;
+  }
+
+  private renderCCs() {
+    return html`<section
+    class="${this._computeDisplayState(Metadata.CC)}"
+  >
+    <span class="title">CC</span>
+    <span class="value">
+      <gr-reviewer-list
+        .change=${this.change}
+        ?mutable="${this._mutable}"
+        ccs-only
+        .account="${this.account}"
+      ></gr-reviewer-list>
+    </span>
+  </section>`;
+  }
+
+  private renderBranchParent() {
+    const change = this.change!;
+    return when(this._computeShowRepoBranchTogether(),
+    () =>
+    html`<section
+    class="${this._computeDisplayState(Metadata.REPO_BRANCH)}"
+  >
+    <span class="title">Repo | Branch</span>
+    <span class="value">
+      <a href="${this._computeProjectUrl(change.project)}"
+        >${change.project}</a
+      >
+      |
+      <a href="${this._computeBranchUrl(change.project, change.branch)}"
+        >${change.branch}</a
+      >
+    </span>
+  </section>`,
+
+  () => html` <section
+  class="${this._computeDisplayState(Metadata.REPO_BRANCH)}"
+>
+  <span class="title">Repo</span>
+  <span class="value">
+    <a href="${this._computeProjectUrl(change.project)}">
+      <gr-limited-text
+        limit="40"
+        .text="${change.project}"
+      ></gr-limited-text>
+    </a>
+  </span>
+</section>
+<section
+  class="${this._computeDisplayState(Metadata.REPO_BRANCH)}"
+>
+  <span class="title">Branch</span>
+  <span class="value">
+    <a href="${this._computeBranchUrl(change.project, change.branch)}">
+      <gr-limited-text
+        limit="40"
+        .text="${change.branch}"
+      ></gr-limited-text>
+    </a>
+  </span>
+</section>`
+    );
+  }
+
 
   @observe('change.labels')
   _labelsChanged(labels?: LabelNameToInfoMap) {
@@ -318,12 +838,9 @@ export class GrChangeMetadata extends PolymerElement {
     return hasTopic || !topicReadOnly;
   }
 
-  _showTopicChip(
-    changeRecord?: ElementPropertyDeepChange<GrChangeMetadata, 'change'>,
-    settingTopic?: boolean
-  ) {
-    const hasTopic = !!changeRecord?.base?.topic;
-    return hasTopic && !settingTopic;
+  _showTopicChip() {
+    const hasTopic = !!this.change?.topic;
+    return hasTopic && !this._settingTopic;
   }
 
   _showCherryPickOf(
@@ -444,8 +961,9 @@ export class GrChangeMetadata extends PolymerElement {
     return [msg + ':'].concat(key.problems).join('\n');
   }
 
-  _computeShowRepoBranchTogether(repo?: RepoName, branch?: BranchName) {
-    return !!repo && !!branch && repo.length + branch.length < 40;
+  _computeShowRepoBranchTogether() {
+    const {project, branch} = this.change!;
+    return !!project && !!branch && project.length + branch.length < 40;
   }
 
   _computeProjectUrl(project?: RepoName) {
@@ -523,22 +1041,20 @@ export class GrChangeMetadata extends PolymerElement {
     return !!change?.work_in_progress;
   }
 
-  _computeShowRoleClass(change?: ParsedChangeInfo, role?: ChangeRole) {
-    return this._getNonOwnerRole(change, role) ? '' : 'hideDisplay';
+  _computeShowRoleClass(role?: ChangeRole) {
+    return this._getNonOwnerRole(this.change, role) ? '' : 'hideDisplay';
   }
 
   _computeDisplayState(
-    showAllSections: boolean,
-    change: ParsedChangeInfo | undefined,
     section: Metadata,
     account?: AccountDetailInfo
   ) {
     // special case for Topic - show always for owners, others when set
     if (section === Metadata.TOPIC) {
       if (
-        showAllSections ||
-        isOwner(change, account) ||
-        isSectionSet(section, change)
+        this._showAllSections ||
+        isOwner(this.change, account) ||
+        isSectionSet(section, this.change)
       ) {
         return '';
       } else {
@@ -546,10 +1062,10 @@ export class GrChangeMetadata extends PolymerElement {
       }
     }
     if (
-      showAllSections ||
+      this._showAllSections ||
       DisplayRules.ALWAYS_SHOW.includes(section) ||
       (DisplayRules.SHOW_IF_SET.includes(section) &&
-        isSectionSet(section, change))
+        isSectionSet(section, this.change))
     ) {
       return '';
     }
@@ -599,14 +1115,6 @@ export class GrChangeMetadata extends PolymerElement {
     return {commit: getRevertCreatedChangeIds(change.messages)?.[0]};
   }
 
-  _computeShowAllLabelText(showAllSections: boolean) {
-    if (showAllSections) {
-      return 'Show less';
-    } else {
-      return 'Show all';
-    }
-  }
-
   _onShowAllClick() {
     this._showAllSections = !this._showAllSections;
     this.reporting.reportInteraction(Interaction.TOGGLE_SHOW_ALL_BUTTON, {
@@ -619,7 +1127,8 @@ export class GrChangeMetadata extends PolymerElement {
    * Get the user with the specified role on the change. Returns undefined if the
    * user with that role is the same as the owner.
    */
-  _getNonOwnerRole(change?: ParsedChangeInfo, role?: ChangeRole) {
+  _getNonOwnerRole(role: ChangeRole) {
+    const {change} = this;
     if (!change?.revisions?.[change.current_revision]) return undefined;
 
     const rev = change.revisions[change.current_revision];
@@ -733,12 +1242,12 @@ export class GrChangeMetadata extends PolymerElement {
       );
   }
 
-  _showNewSubmitRequirements(change?: ParsedChangeInfo) {
-    return showNewSubmitRequirements(this.flagsService, change);
+  _showNewSubmitRequirements() {
+    return showNewSubmitRequirements(this.flagsService, this.change);
   }
 
-  _computeVoteForRole(role?: ChangeRole, change?: ParsedChangeInfo) {
-    const reviewer = this._getNonOwnerRole(change, role);
+  _computeVoteForRole(role: ChangeRole) {
+    const reviewer = this._getNonOwnerRole(role);
     if (reviewer && isAccount(reviewer)) {
       return this._computeVote(reviewer, change);
     } else {
@@ -750,14 +1259,14 @@ export class GrChangeMetadata extends PolymerElement {
     reviewer: AccountInfo,
     change?: ParsedChangeInfo
   ): ApprovalInfo | undefined {
-    const codeReviewLabel = this._computeCodeReviewLabel(change);
+    const codeReviewLabel = this._computeCodeReviewLabel();
     if (!codeReviewLabel || !isDetailedLabelInfo(codeReviewLabel)) return;
     return getApprovalInfo(codeReviewLabel, reviewer);
   }
 
-  _computeCodeReviewLabel(change?: ParsedChangeInfo): LabelInfo | undefined {
-    if (!change || !change.labels) return;
-    return getCodeReviewLabel(change.labels);
+  _computeCodeReviewLabel(): LabelInfo | undefined {
+    if (!this.change?.labels) return;
+    return getCodeReviewLabel(this.change.labels);
   }
 }
 

@@ -33,9 +33,6 @@ import '../gr-change-requirements/gr-change-requirements';
 import '../gr-commit-info/gr-commit-info';
 import '../gr-reviewer-list/gr-reviewer-list';
 import '../../shared/gr-account-list/gr-account-list';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-change-metadata_html';
 import {
   GrReviewerSuggestionsProvider,
   SUGGESTIONS_PROVIDERS_USERS_TYPES,
@@ -47,7 +44,6 @@ import {
   SubmitType,
 } from '../../../constants/constants';
 import {changeIsOpen, isOwner} from '../../../utils/change-util';
-import {customElement, property, observe} from '@polymer/decorators';
 import {
   AccountDetailInfo,
   AccountInfo,
@@ -56,7 +52,6 @@ import {
   ChangeInfo,
   CommitId,
   CommitInfo,
-  ElementPropertyDeepChange,
   GpgKeyInfo,
   Hashtag,
   isAccount,
@@ -97,10 +92,18 @@ import {
   getCodeReviewLabel,
   showNewSubmitRequirements,
 } from '../../../utils/label-util';
+import {LitElement, css, html, nothing, PropertyValues} from 'lit';
+import {customElement, property, query} from 'lit/decorators';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {changeMetadataStyles} from '../../../styles/gr-change-metadata-shared-styles';
+import {when} from 'lit/directives/when';
+import {pluralize} from '../../../utils/string-util';
+import {ifDefined} from 'lit/directives/if-defined';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
-enum ChangeRole {
+export enum ChangeRole {
   OWNER = 'owner',
   UPLOADER = 'uploader',
   AUTHOR = 'author',
@@ -129,23 +132,14 @@ interface PushCertificateValidationInfo {
   message: string;
 }
 
-export interface GrChangeMetadata {
-  $: {
-    webLinks: HTMLElement;
-  };
-}
-
 @customElement('gr-change-metadata')
-export class GrChangeMetadata extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrChangeMetadata extends LitElement {
   /**
    * Fired when the change topic is changed.
    *
    * @event topic-changed
    */
+  @query('#webLinks') webLinks?: HTMLElement;
 
   @property({type: Object})
   change?: ParsedChangeInfo;
@@ -153,7 +147,8 @@ export class GrChangeMetadata extends PolymerElement {
   @property({type: Object})
   revertedChange?: ChangeInfo;
 
-  @property({type: Object, notify: true})
+  // TODO() here was notify, notify: true
+  @property({type: Object})
   labels?: LabelNameToInfoMap;
 
   @property({type: Object})
@@ -165,7 +160,7 @@ export class GrChangeMetadata extends PolymerElement {
   @property({type: Object})
   commitInfo?: CommitInfoWithRequiredCommit;
 
-  @property({type: Boolean, computed: '_computeIsMutable(account)'})
+  @property({type: Boolean})
   _mutable = false;
 
   @property({type: Object})
@@ -174,44 +169,35 @@ export class GrChangeMetadata extends PolymerElement {
   @property({type: Boolean})
   parentIsCurrent?: boolean;
 
-  @property({type: String})
+  @property()
   readonly _notCurrentMessage = NOT_CURRENT_MESSAGE;
 
   @property({
     type: Boolean,
-    computed: '_computeTopicReadOnly(_mutable, change)',
   })
   _topicReadOnly = true;
 
   @property({
     type: Boolean,
-    computed: '_computeHashtagReadOnly(_mutable, change)',
   })
   _hashtagReadOnly = true;
 
   @property({
     type: Object,
-    computed: '_computePushCertificateValidation(serverConfig, change)',
   })
   _pushCertificateValidation?: PushCertificateValidationInfo;
 
-  @property({type: Boolean, computed: '_computeShowRequirements(change)'})
+  @property({type: Boolean})
   _showRequirements = false;
 
-  @property({type: Boolean, computed: '_computeIsWip(change)'})
+  @property({type: Boolean})
   _isWip = false;
 
   @property({type: Boolean})
   _settingTopic = false;
 
-  @property({type: Array, computed: '_computeParents(change, revision)'})
+  @property({type: Array})
   _currentParents: ParentCommitInfo[] = [];
-
-  @property({type: Object})
-  _CHANGE_ROLE = ChangeRole;
-
-  @property({type: Object})
-  _SECTION = Metadata;
 
   @property({type: Boolean})
   _showAllSections = false;
@@ -225,19 +211,591 @@ export class GrChangeMetadata extends PolymerElement {
 
   private readonly flagsService = getAppContext().flagsService;
 
-  override ready() {
-    super.ready();
+  constructor() {
+    super();
     this.queryTopic = (input: string) => this._getTopicSuggestions(input);
   }
 
-  @observe('change.labels')
-  _labelsChanged(labels?: LabelNameToInfoMap) {
-    this.labels = {...labels};
+  static override styles = [
+    sharedStyles,
+    fontStyles,
+    changeMetadataStyles,
+    css`
+      :host {
+        display: table;
+      }
+      gr-change-requirements,
+      gr-submit-requirements {
+        --requirements-horizontal-padding: var(--metadata-horizontal-padding);
+      }
+      gr-editable-label {
+        max-width: 9em;
+      }
+      .webLink {
+        display: block;
+      }
+      gr-account-chip[disabled],
+      gr-linked-chip[disabled] {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .hashtagChip {
+        padding-bottom: var(--spacing-s);
+      }
+      /* consistent with section .title, .value */
+      .hashtagChip:not(last-of-type) {
+        padding-bottom: var(--spacing-s);
+      }
+      .hashtagChip:last-of-type {
+        display: inline;
+        vertical-align: top;
+      }
+      .parentList.merge {
+        list-style-type: decimal;
+        padding-left: var(--spacing-l);
+      }
+      .parentList gr-commit-info {
+        display: inline-block;
+      }
+      .hideDisplay,
+      #parentNotCurrentMessage {
+        display: none;
+      }
+      .icon {
+        margin: -3px 0;
+      }
+      .icon.help,
+      .icon.notTrusted {
+        color: var(--warning-foreground);
+      }
+      .icon.invalid {
+        color: var(--negative-red-text-color);
+      }
+      .icon.trusted {
+        color: var(--positive-green-text-color);
+      }
+      .parentList.notCurrent.nonMerge #parentNotCurrentMessage {
+        --arrow-color: var(--warning-foreground);
+        display: inline-block;
+      }
+      .oldSeparatedSection {
+        margin-top: var(--spacing-l);
+        padding: var(--spacing-m) 0;
+      }
+      .separatedSection {
+        padding: var(--spacing-m) 0;
+      }
+      .hashtag gr-linked-chip,
+      .topic gr-linked-chip {
+        --linked-chip-text-color: var(--link-color);
+      }
+      gr-reviewer-list {
+        --account-max-length: 100px;
+        max-width: 285px;
+      }
+      .metadata-title {
+        color: var(--deemphasized-text-color);
+        padding-left: var(--metadata-horizontal-padding);
+      }
+      .metadata-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        /* The goal is to achieve alignment of the owner account chip and the
+         commit message box. Their top border should be on the same line. */
+        margin-bottom: var(--spacing-s);
+      }
+      .show-all-button iron-icon {
+        color: inherit;
+        --iron-icon-height: 18px;
+        --iron-icon-width: 18px;
+      }
+      gr-vote-chip {
+        --gr-vote-chip-width: 14px;
+        --gr-vote-chip-height: 14px;
+      }
+    `,
+  ];
+
+  override render() {
+    const {change} = this;
+    if (!change) return nothing;
+    return html`<div>
+      <div class="metadata-header">
+        <h3 class="metadata-title heading-3">Change Info</h3>
+        ${this.renderShowAllButton()}
+      </div>
+      ${this.renderSubmitted()} ${this.renderUpdated()} ${this.renderOwner()}
+      ${this.renderNonOwner(ChangeRole.UPLOADER)}
+      ${this.renderNonOwner(ChangeRole.AUTHOR)}
+      ${this.renderNonOwner(ChangeRole.COMMITTER)} ${this.renderReviewers()}
+      ${this.renderCCs()} ${this.renderProjectBranch()} ${this.renderParent()}
+      ${this.renderMergedAs()} ${this.renderShowReverCreatedAs()}
+      ${this.renderTopic()} ${this.renderCherryPickOf()}
+      ${this.renderStrategy()} ${this.renderHashTags()}
+      ${this.renderSubmitRequirements()} ${this.renderWeblinks()}
+      <gr-endpoint-decorator name="change-metadata-item">
+        <gr-endpoint-param
+          name="labels"
+          .value=${this.labels}
+        ></gr-endpoint-param>
+        <gr-endpoint-param name="change" .value=${change}></gr-endpoint-param>
+        <gr-endpoint-param
+          name="revision"
+          .value=${this.revision}
+        ></gr-endpoint-param>
+      </gr-endpoint-decorator>
+    </div>`;
   }
 
-  @observe('change')
-  _changeChanged(_: ParsedChangeInfo) {
-    this._settingTopic = false;
+  private renderShowAllButton() {
+    return html`<gr-button
+      link
+      class="show-all-button"
+      @click=${this._onShowAllClick}
+      >${this._showAllSections ? 'Show less' : 'Show all'}
+      <iron-icon
+        icon="gr-icons:expand-more"
+        ?hidden=${this._showAllSections}
+      ></iron-icon
+      ><iron-icon
+        icon="gr-icons:expand-less"
+        ?hidden=${!this._showAllSections}
+      ></iron-icon>
+    </gr-button>`;
+  }
+
+  private renderSubmitted() {
+    return when(
+      this.change!.submitted,
+      () =>
+        html`<section class=${this._computeDisplayState(Metadata.SUBMITTED)}>
+          <span class="title">Submitted</span>
+          <span class="value">
+            <gr-date-formatter
+              withTooltip
+              .dateStr=${this.change!.submitted}
+              showYesterday
+            ></gr-date-formatter>
+          </span>
+        </section> `
+    );
+  }
+
+  private renderUpdated() {
+    return html`<section class=${this._computeDisplayState(Metadata.UPDATED)}>
+      <span class="title">
+        <gr-tooltip-content
+          has-tooltip
+          title="Last update of (meta)data for this change."
+        >
+          Updated
+        </gr-tooltip-content>
+      </span>
+      <span class="value">
+        <gr-date-formatter
+          withTooltip
+          .dateStr=${this.change!.updated}
+          showYesterday
+        ></gr-date-formatter>
+      </span>
+    </section>`;
+  }
+
+  private renderOwner() {
+    const change = this.change!;
+    return html`<section class=${this._computeDisplayState(Metadata.OWNER)}>
+      <span class="title">
+        <gr-tooltip-content
+          has-tooltip
+          title="This user created or uploaded the first patchset of this change."
+        >
+          Owner
+        </gr-tooltip-content>
+      </span>
+      <span class="value">
+        <gr-account-chip
+          .account=${change.owner}
+          .change=${change}
+          highlightAttention
+          .vote=${this._computeVote(change.owner)}
+          .label=${this._computeCodeReviewLabel()}
+        >
+          <gr-vote-chip
+            slot="vote-chip"
+            .vote=${this._computeVote(change.owner)}
+            .label=${this._computeCodeReviewLabel()}
+            circle-shape
+          ></gr-vote-chip>
+        </gr-account-chip>
+        ${when(
+          this._pushCertificateValidation,
+          () => html`<gr-tooltip-content
+            has-tooltip
+            title=${this._pushCertificateValidation!.message}
+          >
+            <iron-icon
+              class="icon ${this._pushCertificateValidation!.class}"
+              icon=${this._pushCertificateValidation!.icon}
+            >
+            </iron-icon>
+          </gr-tooltip-content>`
+        )}
+      </span>
+    </section>`;
+  }
+
+  renderNonOwner(role: ChangeRole) {
+    if (!this._getNonOwnerRole(role)) return nothing;
+    let title = '';
+    let name = '';
+    if (role === ChangeRole.UPLOADER) {
+      title =
+        "This user uploaded the patchset to Gerrit (typically by running the 'git push' command).";
+      name = 'Uploader';
+    } else if (role === ChangeRole.AUTHOR) {
+      title = 'This user wrote the code change.';
+      name = 'Author';
+    } else if (role === ChangeRole.COMMITTER) {
+      title =
+        'This user committed the code change to the Git repository (typically to the local Git repo before uploading).';
+      name = 'Committer';
+    }
+    return html`<section>
+      <span class="title">
+        <gr-tooltip-content has-tooltip .title=${title}>
+          ${name}
+        </gr-tooltip-content>
+      </span>
+      <span class="value">
+        <gr-account-chip
+          .account=${this._getNonOwnerRole(role)}
+          .change=${this.change}
+          ?highlightAttention=${role === ChangeRole.UPLOADER}
+          .vote=${this._computeVoteForRole(role)}
+          .label=${this._computeCodeReviewLabel()}
+        >
+          <gr-vote-chip
+            slot="vote-chip"
+            .vote=${this._computeVoteForRole(role)}
+            .label=${this._computeCodeReviewLabel()}
+            circle-shape
+          ></gr-vote-chip>
+        </gr-account-chip>
+      </span>
+    </section>`;
+  }
+
+  private renderReviewers() {
+    return html`<section class=${this._computeDisplayState(Metadata.REVIEWERS)}>
+      <span class="title">Reviewers</span>
+      <span class="value">
+        <gr-reviewer-list
+          .change=${this.change}
+          ?mutable=${this._mutable}
+          reviewers-only
+          .account=${this.account}
+        ></gr-reviewer-list>
+      </span>
+    </section>`;
+  }
+
+  private renderCCs() {
+    return html`<section class=${this._computeDisplayState(Metadata.CC)}>
+      <span class="title">CC</span>
+      <span class="value">
+        <gr-reviewer-list
+          .change=${this.change}
+          ?mutable=${this._mutable}
+          ccs-only
+          .account=${this.account}
+        ></gr-reviewer-list>
+      </span>
+    </section>`;
+  }
+
+  private renderProjectBranch() {
+    const change = this.change!;
+    return when(
+      this._computeShowRepoBranchTogether(),
+      () =>
+        html`<section class=${this._computeDisplayState(Metadata.REPO_BRANCH)}>
+          <span class="title">Repo | Branch</span>
+          <span class="value">
+            <a href=${this._computeProjectUrl(change.project)}
+              >${change.project}</a
+            >
+            |
+            <a href=${this._computeBranchUrl(change.project, change.branch)}
+              >${change.branch}</a
+            >
+          </span>
+        </section>`,
+
+      () => html` <section
+          class=${this._computeDisplayState(Metadata.REPO_BRANCH)}
+        >
+          <span class="title">Repo</span>
+          <span class="value">
+            <a href=${this._computeProjectUrl(change.project)}>
+              <gr-limited-text
+                limit="40"
+                .text=${change.project}
+              ></gr-limited-text>
+            </a>
+          </span>
+        </section>
+        <section class=${this._computeDisplayState(Metadata.REPO_BRANCH)}>
+          <span class="title">Branch</span>
+          <span class="value">
+            <a href=${this._computeBranchUrl(change.project, change.branch)}>
+              <gr-limited-text
+                limit="40"
+                .text=${change.branch}
+              ></gr-limited-text>
+            </a>
+          </span>
+        </section>`
+    );
+  }
+
+  private renderParent() {
+    return html`<section class=${this._computeDisplayState(Metadata.PARENT)}>
+      <span class="title"
+        >${pluralize(this._currentParents.length, 'Parent')}</span
+      >
+      <span class="value">
+        <ol class=${this._computeParentListClass()}>
+          ${this._currentParents.map(
+            parent => html` <li>
+              <gr-commit-info
+                .change=${this.change}
+                .commitInfo=${parent}
+                .serverConfig=${this.serverConfig}
+              ></gr-commit-info>
+              <gr-tooltip-content
+                id="parentNotCurrentMessage"
+                has-tooltip
+                show-icon
+                .title=${this._notCurrentMessage}
+              ></gr-tooltip-content>
+            </li>`
+          )}
+        </ol>
+      </span>
+    </section>`;
+  }
+
+  private renderMergedAs() {
+    const changeMerged = this.change?.status === ChangeStatus.MERGED;
+    if (!changeMerged) return nothing;
+    return html`<section class=${this._computeDisplayState(Metadata.MERGED_AS)}>
+      <span class="title">Merged As</span>
+      <span class="value">
+        <gr-commit-info
+          .change=${this.change}
+          .commitInfo=${this._computeMergedCommitInfo(
+            this.change?.current_revision,
+            this.change?.revisions
+          )}
+          .serverConfig=${this.serverConfig}
+        ></gr-commit-info>
+      </span>
+    </section>`;
+  }
+
+  private renderShowReverCreatedAs() {
+    if (!this._showRevertCreatedAs(this.change)) return nothing;
+
+    return html`<section
+      class=${this._computeDisplayState(Metadata.REVERT_CREATED_AS)}
+    >
+      <span class="title"
+        >${this._getRevertSectionTitle(this.change, this.revertedChange)}</span
+      >
+      <span class="value">
+        <gr-commit-info
+          .change=${this.change}
+          .commitInfo=${this._computeRevertCommit(
+            this.change,
+            this.revertedChange
+          )}
+          .serverConfig=${this.serverConfig}
+        ></gr-commit-info>
+      </span>
+    </section>`;
+  }
+
+  private renderTopic() {
+    const showTopic = this.change?.topic && !this._topicReadOnly;
+    if (!showTopic) return nothing;
+
+    return html`<section
+      class="topic ${this._computeDisplayState(Metadata.TOPIC, this.account)}"
+    >
+      <span class="title">Topic</span>
+      <span class="value">
+        ${when(
+          this._showTopicChip(),
+          () => html` <gr-linked-chip
+            .text=${this.change?.topic}
+            limit="40"
+            href=${GerritNav.getUrlForTopic(this.change!.topic!)}
+            .removable=${!this._topicReadOnly}
+            @remove=${this._handleTopicRemoved}
+          ></gr-linked-chip>`
+        )}
+        ${when(
+          this._showAddTopic(),
+          () =>
+            html` <gr-editable-label
+              class="topicEditableLabel"
+              labelText="Add a topic"
+              .value=${this.change?.topic}
+              maxLength="1024"
+              .placeholder=${this._computeTopicPlaceholder()}
+              ?readOnly=${this._topicReadOnly}
+              @changed=${this._handleTopicChanged}
+              showAsEditPencil
+              autocomplete
+              .query=${this.queryTopic}
+            ></gr-editable-label>`
+        )}
+      </span>
+    </section>`;
+  }
+
+  private renderCherryPickOf() {
+    if (!this._showCherryPickOf()) return nothing;
+    return html` <section
+      class=${this._computeDisplayState(Metadata.CHERRY_PICK_OF)}
+    >
+      <span class="title">Cherry pick of</span>
+      <span class="value">
+        <a
+          href=${this._computeCherryPickOfUrl(
+            this.change?.cherry_pick_of_change,
+            this.change?.cherry_pick_of_patch_set,
+            this.change?.project
+          )}
+        >
+          <gr-limited-text
+            text="${this.change?.cherry_pick_of_change},${this.change
+              ?.cherry_pick_of_patch_set}"
+            limit="40"
+          >
+          </gr-limited-text>
+        </a>
+      </span>
+    </section>`;
+  }
+
+  private renderStrategy() {
+    if (!changeIsOpen(this.change)) return nothing;
+    return html`<section
+      class="strategy ${this._computeDisplayState(Metadata.STRATEGY)}"
+    >
+      <span class="title">Strategy</span>
+      <span class="value">${this._computeStrategy(this.change)}</span>
+    </section>`;
+  }
+
+  private renderHashTags() {
+    return html`<section
+      class="hashtag ${this._computeDisplayState(Metadata.HASHTAGS)}"
+    >
+      <span class="title">Hashtags</span>
+      <span class="value">
+        ${(this.change?.hashtags ?? []).map(
+          hashtag => html`<gr-linked-chip
+            class="hashtagChip"
+            .text=${hashtag}
+            href=${this._computeHashtagUrl(hashtag)}
+            removable=${!this._hashtagReadOnly}
+            @remove=${this._handleHashtagRemoved}
+            limit="40"
+          >
+          </gr-linked-chip>`
+        )}
+        ${when(
+          !this._hashtagReadOnly,
+          () => html`
+            <gr-editable-label
+              uppercase
+              labelText="Add a hashtag"
+              .placeholder=${this._computeHashtagPlaceholder()}
+              .readOnly=${this._hashtagReadOnly}
+              @changed=${this._handleHashtagChanged}
+              showAsEditPencil
+            ></gr-editable-label>
+          `
+        )}
+      </span>
+    </section>`;
+  }
+
+  private renderSubmitRequirements() {
+    if (this._showNewSubmitRequirements()) {
+      return html`<div class="separatedSection">
+        <gr-submit-requirements
+          .change=${this.change}
+          .account=${this.account}
+          .mutable=${this._mutable}
+        ></gr-submit-requirements>
+      </div>`;
+    } else {
+      return html` <div class="oldSeparatedSection">
+        <gr-change-requirements
+          .change=${this.change}
+          .account=${this.account}
+          .mutable=${this._mutable}
+        ></gr-change-requirements>
+      </div>`;
+    }
+  }
+
+  private renderWeblinks() {
+    return html`<section id="webLinks" ?hidden=${!this._computeWebLinks()}>
+      <span class="title">Links</span>
+      <span class="value">
+        ${this._computeWebLinks().map(
+          link => html`<a
+            href=${ifDefined(link.url)}
+            class="webLink"
+            rel="noopener"
+            target="_blank"
+          >
+            ${link.name}
+          </a>`
+        )}
+      </span>
+    </section>`;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('account')) {
+      this._mutable = this._computeIsMutable();
+    }
+    if (changedProperties.has('_mutable') || changedProperties.has('change')) {
+      this._topicReadOnly = this._computeTopicReadOnly();
+      this._hashtagReadOnly = this._computeHashtagReadOnly();
+    }
+    if (changedProperties.has('change')) {
+      this._showRequirements = this._computeShowRequirements();
+      this._isWip = !!this.change?.work_in_progress;
+      this.labels = {...this.change!.labels};
+      this._settingTopic = false;
+    }
+    if (
+      changedProperties.has('serverConfig') ||
+      changedProperties.has('change')
+    ) {
+      this._pushCertificateValidation =
+        this._computePushCertificateValidation();
+    }
+    if (changedProperties.has('revision') || changedProperties.has('change')) {
+      this._currentParents = this._computeParents();
+    }
   }
 
   _computeHideStrategy(change?: ParsedChangeInfo) {
@@ -249,24 +807,17 @@ export class GrChangeMetadata extends PolymerElement {
    * an existential check can be used to hide or show the webLinks
    * section.
    */
-  _computeWebLinks(
-    commitInfo?: CommitInfoWithRequiredCommit,
-    serverConfig?: ServerInfo
-  ) {
-    if (!commitInfo) return undefined;
+  _computeWebLinks() {
+    if (!this.commitInfo) return [];
     const weblinks = GerritNav.getChangeWeblinks(
       this.change ? this.change.project : ('' as RepoName),
-      commitInfo.commit,
+      this.commitInfo.commit,
       {
-        weblinks: commitInfo.web_links,
-        config: serverConfig,
+        weblinks: this.commitInfo.web_links,
+        config: this.serverConfig,
       }
     );
-    return weblinks.length ? weblinks : undefined;
-  }
-
-  _isChangeMerged(change?: ParsedChangeInfo) {
-    return change?.status === ChangeStatus.MERGED;
+    return weblinks.length ? weblinks : [];
   }
 
   _computeStrategy(change?: ParsedChangeInfo) {
@@ -289,49 +840,35 @@ export class GrChangeMetadata extends PolymerElement {
     const topic = e.detail.length ? e.detail : undefined;
     this._settingTopic = true;
     const topicChangedForChangeNumber = this.change._number;
+    const change = this.change;
     this.restApiService
       .setChangeTopic(topicChangedForChangeNumber, topic)
       .then(newTopic => {
         if (this.change?._number !== topicChangedForChangeNumber) return;
         this._settingTopic = false;
-        this.set(['change', 'topic'], newTopic);
+        if (this.change === change) {
+          this.change.topic = newTopic as TopicName;
+        }
         if (newTopic !== lastTopic) {
           fireEvent(this, 'topic-changed');
         }
       });
   }
 
-  _showAddTopic(
-    changeRecord?: ElementPropertyDeepChange<GrChangeMetadata, 'change'>,
-    settingTopic?: boolean,
-    topicReadOnly?: boolean
-  ) {
-    const hasTopic = !!changeRecord?.base?.topic;
-    return !hasTopic && !settingTopic && topicReadOnly === false;
+  _showAddTopic() {
+    const hasTopic = !!this.change?.topic;
+    return !hasTopic && !this._settingTopic && this._topicReadOnly === false;
   }
 
-  _showTopic(
-    changeRecord?: ElementPropertyDeepChange<GrChangeMetadata, 'change'>,
-    topicReadOnly?: boolean
-  ) {
-    const hasTopic = !!changeRecord?.base?.topic;
-    return hasTopic || !topicReadOnly;
+  _showTopicChip() {
+    const hasTopic = !!this.change?.topic;
+    return hasTopic && !this._settingTopic;
   }
 
-  _showTopicChip(
-    changeRecord?: ElementPropertyDeepChange<GrChangeMetadata, 'change'>,
-    settingTopic?: boolean
-  ) {
-    const hasTopic = !!changeRecord?.base?.topic;
-    return hasTopic && !settingTopic;
-  }
-
-  _showCherryPickOf(
-    changeRecord?: ElementPropertyDeepChange<GrChangeMetadata, 'change'>
-  ) {
+  _showCherryPickOf() {
     const hasCherryPickOf =
-      !!changeRecord?.base?.cherry_pick_of_change &&
-      !!changeRecord?.base?.cherry_pick_of_patch_set;
+      !!this.change?.cherry_pick_of_change &&
+      !!this.change?.cherry_pick_of_patch_set;
     return hasCherryPickOf;
   }
 
@@ -343,36 +880,39 @@ export class GrChangeMetadata extends PolymerElement {
     if (!newHashtag?.length) {
       return;
     }
+    const change = this.change;
     this.restApiService
       .setChangeHashtag(this.change._number, {add: [newHashtag as Hashtag]})
       .then(newHashtag => {
-        this.set(['change', 'hashtags'], newHashtag);
-        fireEvent(this, 'hashtag-changed');
+        if (this.change === change) {
+          this.change.hashtags = newHashtag;
+          this.requestUpdate();
+          fireEvent(this, 'hashtag-changed');
+        }
       });
   }
 
-  _computeTopicReadOnly(mutable?: boolean, change?: ParsedChangeInfo) {
-    return !mutable || !change?.actions?.topic?.enabled;
+  _computeTopicReadOnly() {
+    return !this._mutable || !this.change?.actions?.topic?.enabled;
   }
 
-  _computeHashtagReadOnly(mutable?: boolean, change?: ParsedChangeInfo) {
-    return !mutable || !change?.actions?.hashtags?.enabled;
+  _computeHashtagReadOnly() {
+    return !this._mutable || !this.change?.actions?.hashtags?.enabled;
   }
 
-  _computeTopicPlaceholder(_topicReadOnly?: boolean) {
+  _computeTopicPlaceholder() {
     // Action items in Material Design are uppercase -- placeholder label text
     // is sentence case.
-    return _topicReadOnly ? 'No topic' : 'ADD TOPIC';
+    return this._topicReadOnly ? 'No topic' : 'ADD TOPIC';
   }
 
-  _computeHashtagPlaceholder(_hashtagReadOnly?: boolean) {
-    return _hashtagReadOnly ? '' : HASHTAG_ADD_MESSAGE;
+  _computeHashtagPlaceholder() {
+    return this._hashtagReadOnly ? '' : HASHTAG_ADD_MESSAGE;
   }
 
-  _computeShowRequirements(change?: ParsedChangeInfo) {
-    if (!change) {
-      return false;
-    }
+  _computeShowRequirements() {
+    const {change} = this;
+    if (!change) return false;
     if (change.status !== ChangeStatus.NEW) {
       // TODO(maximeg) change this to display the stored
       // requirements, once it is implemented server-side.
@@ -387,13 +927,13 @@ export class GrChangeMetadata extends PolymerElement {
   /**
    * @return object representing data for the push validation.
    */
-  _computePushCertificateValidation(
-    serverConfig?: ServerInfo,
-    change?: ParsedChangeInfo
-  ): PushCertificateValidationInfo | undefined {
-    if (!change || !serverConfig?.receive?.enable_signed_push) return undefined;
+  _computePushCertificateValidation():
+    | PushCertificateValidationInfo
+    | undefined {
+    if (!this.change || !this.serverConfig?.receive?.enable_signed_push)
+      return undefined;
 
-    const rev = change.revisions[change.current_revision];
+    const rev = this.change.revisions[this.change.current_revision];
     if (!rev.push_certificate?.key) {
       return {
         class: 'help',
@@ -444,8 +984,9 @@ export class GrChangeMetadata extends PolymerElement {
     return [msg + ':'].concat(key.problems).join('\n');
   }
 
-  _computeShowRepoBranchTogether(repo?: RepoName, branch?: BranchName) {
-    return !!repo && !!branch && repo.length + branch.length < 40;
+  _computeShowRepoBranchTogether() {
+    const {project, branch} = this.change!;
+    return !!project && !!branch && project.length + branch.length < 40;
   }
 
   _computeProjectUrl(project?: RepoName) {
@@ -475,10 +1016,6 @@ export class GrChangeMetadata extends PolymerElement {
     return GerritNav.getUrlForChangeById(change, project, patchset);
   }
 
-  _computeTopicUrl(topic: TopicName) {
-    return GerritNav.getUrlForTopic(topic);
-  }
-
   _computeHashtagUrl(hashtag: Hashtag) {
     return GerritNav.getUrlForHashtag(hashtag);
   }
@@ -489,12 +1026,16 @@ export class GrChangeMetadata extends PolymerElement {
     }
     const target = e.composedPath()[0] as GrLinkedChip;
     target.disabled = true;
+    const change = this.change;
     this.restApiService
       .setChangeTopic(this.change._number)
       .then(() => {
         target.disabled = false;
-        this.set(['change', 'topic'], '');
-        fireEvent(this, 'topic-changed');
+        if (this.change === change) {
+          this.change.topic = '' as TopicName;
+          this.requestUpdate();
+          fireEvent(this, 'topic-changed');
+        }
       })
       .catch(() => {
         target.disabled = false;
@@ -506,39 +1047,30 @@ export class GrChangeMetadata extends PolymerElement {
     if (!this.change) {
       throw new Error('change must be set');
     }
-    const target = (dom(e) as EventApi).rootTarget as GrLinkedChip;
+    const target = e.target as GrLinkedChip;
     target.disabled = true;
+    const change = this.change;
     this.restApiService
-      .setChangeHashtag(this.change._number, {remove: [target.text as Hashtag]})
+      .setChangeHashtag(change._number, {remove: [target.text as Hashtag]})
       .then(newHashtags => {
         target.disabled = false;
-        this.set(['change', 'hashtags'], newHashtags);
+        if (this.change === change) {
+          this.change.hashtags = newHashtags;
+          this.requestUpdate();
+        }
       })
       .catch(() => {
         target.disabled = false;
       });
   }
 
-  _computeIsWip(change?: ParsedChangeInfo) {
-    return !!change?.work_in_progress;
-  }
-
-  _computeShowRoleClass(change?: ParsedChangeInfo, role?: ChangeRole) {
-    return this._getNonOwnerRole(change, role) ? '' : 'hideDisplay';
-  }
-
-  _computeDisplayState(
-    showAllSections: boolean,
-    change: ParsedChangeInfo | undefined,
-    section: Metadata,
-    account?: AccountDetailInfo
-  ) {
+  _computeDisplayState(section: Metadata, account?: AccountDetailInfo) {
     // special case for Topic - show always for owners, others when set
     if (section === Metadata.TOPIC) {
       if (
-        showAllSections ||
-        isOwner(change, account) ||
-        isSectionSet(section, change)
+        this._showAllSections ||
+        isOwner(this.change, account) ||
+        isSectionSet(section, this.change)
       ) {
         return '';
       } else {
@@ -546,10 +1078,10 @@ export class GrChangeMetadata extends PolymerElement {
       }
     }
     if (
-      showAllSections ||
+      this._showAllSections ||
       DisplayRules.ALWAYS_SHOW.includes(section) ||
       (DisplayRules.SHOW_IF_SET.includes(section) &&
-        isSectionSet(section, change))
+        isSectionSet(section, this.change))
     ) {
       return '';
     }
@@ -557,13 +1089,12 @@ export class GrChangeMetadata extends PolymerElement {
   }
 
   _computeMergedCommitInfo(
-    current_revision: CommitId,
-    revisions: {[revisionId: string]: RevisionInfo}
-  ) {
+    current_revision?: CommitId,
+    revisions?: {[revisionId: string]: RevisionInfo | EditRevisionInfo}
+  ): CommitInfo | undefined {
+    if (!current_revision || !revisions) return;
     const rev = revisions[current_revision];
-    if (!rev || !rev.commit) {
-      return {};
-    }
+    if (!rev || !rev.commit) return;
     // CommitInfo.commit is optional. Set commit in all cases to avoid error
     // in <gr-commit-info>. @see Issue 5337
     if (!rev.commit.commit) {
@@ -586,25 +1117,24 @@ export class GrChangeMetadata extends PolymerElement {
     return getRevertCreatedChangeIds(change.messages).length > 0;
   }
 
-  _computeRevertCommit(change?: ParsedChangeInfo, revertedChange?: ChangeInfo) {
+  _computeRevertCommit(
+    change?: ParsedChangeInfo,
+    revertedChange?: ChangeInfo
+  ): CommitInfo | undefined {
     if (revertedChange?.current_revision && revertedChange?.revisions) {
+      // TODO(TS): Fix typing
       return {
         commit: this._computeMergedCommitInfo(
           revertedChange.current_revision,
           revertedChange.revisions
         ),
-      };
+      } as CommitInfo;
     }
     if (!change?.messages) return undefined;
-    return {commit: getRevertCreatedChangeIds(change.messages)?.[0]};
-  }
-
-  _computeShowAllLabelText(showAllSections: boolean) {
-    if (showAllSections) {
-      return 'Show less';
-    } else {
-      return 'Show all';
-    }
+    // TODO(TS): Fix typing
+    return {
+      commit: getRevertCreatedChangeIds(change.messages)?.[0],
+    } as unknown as CommitInfo;
   }
 
   _onShowAllClick() {
@@ -619,7 +1149,8 @@ export class GrChangeMetadata extends PolymerElement {
    * Get the user with the specified role on the change. Returns undefined if the
    * user with that role is the same as the owner.
    */
-  _getNonOwnerRole(change?: ParsedChangeInfo, role?: ChangeRole) {
+  _getNonOwnerRole(role: ChangeRole) {
+    const {change} = this;
     if (!change?.revisions?.[change.current_revision]) return undefined;
 
     const rev = change.revisions[change.current_revision];
@@ -655,44 +1186,30 @@ export class GrChangeMetadata extends PolymerElement {
     return undefined;
   }
 
-  _computeParents(
-    change?: ParsedChangeInfo,
-    revision?: RevisionInfo | EditRevisionInfo
-  ): ParentCommitInfo[] {
+  _computeParents(): ParentCommitInfo[] {
+    const {change, revision} = this;
     if (!revision || !revision.commit) {
       if (!change || !change.current_revision) {
         return [];
       }
-      revision = change.revisions[change.current_revision];
-      if (!revision || !revision.commit) {
+      const newRevision = change.revisions[change.current_revision];
+      if (!newRevision || !newRevision.commit) {
         return [];
       }
     }
-    return revision.commit.parents;
+    return revision?.commit?.parents ?? [];
   }
 
-  _computeParentsLabel(parents?: ParentCommitInfo[]) {
-    return parents && parents.length > 1 ? 'Parents' : 'Parent';
-  }
-
-  _computeParentListClass(
-    parents?: ParentCommitInfo[],
-    parentIsCurrent?: boolean
-  ) {
-    // Undefined check for polymer 2
-    if (parents === undefined || parentIsCurrent === undefined) {
-      return '';
-    }
-
+  _computeParentListClass() {
     return [
       'parentList',
-      parents && parents.length > 1 ? 'merge' : 'nonMerge',
-      parentIsCurrent ? 'current' : 'notCurrent',
+      this._currentParents.length > 1 ? 'merge' : 'nonMerge',
+      this.parentIsCurrent ? 'current' : 'notCurrent',
     ].join(' ');
   }
 
-  _computeIsMutable(account?: AccountDetailInfo) {
-    return account && !!Object.keys(account).length;
+  _computeIsMutable() {
+    return !!this.account && !!Object.keys(this.account).length;
   }
 
   editTopic() {
@@ -733,31 +1250,28 @@ export class GrChangeMetadata extends PolymerElement {
       );
   }
 
-  _showNewSubmitRequirements(change?: ParsedChangeInfo) {
-    return showNewSubmitRequirements(this.flagsService, change);
+  _showNewSubmitRequirements() {
+    return showNewSubmitRequirements(this.flagsService, this.change);
   }
 
-  _computeVoteForRole(role?: ChangeRole, change?: ParsedChangeInfo) {
-    const reviewer = this._getNonOwnerRole(change, role);
+  _computeVoteForRole(role: ChangeRole) {
+    const reviewer = this._getNonOwnerRole(role);
     if (reviewer && isAccount(reviewer)) {
-      return this._computeVote(reviewer, change);
+      return this._computeVote(reviewer);
     } else {
       return;
     }
   }
 
-  _computeVote(
-    reviewer: AccountInfo,
-    change?: ParsedChangeInfo
-  ): ApprovalInfo | undefined {
-    const codeReviewLabel = this._computeCodeReviewLabel(change);
+  _computeVote(reviewer: AccountInfo): ApprovalInfo | undefined {
+    const codeReviewLabel = this._computeCodeReviewLabel();
     if (!codeReviewLabel || !isDetailedLabelInfo(codeReviewLabel)) return;
     return getApprovalInfo(codeReviewLabel, reviewer);
   }
 
-  _computeCodeReviewLabel(change?: ParsedChangeInfo): LabelInfo | undefined {
-    if (!change || !change.labels) return;
-    return getCodeReviewLabel(change.labels);
+  _computeCodeReviewLabel(): LabelInfo | undefined {
+    if (!this.change?.labels) return;
+    return getCodeReviewLabel(this.change.labels);
   }
 }
 

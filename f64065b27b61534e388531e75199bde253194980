@@ -62,6 +62,54 @@
       },
       "revId": "f64065b27b61534e388531e75199bde253194980",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "093e07c3_d3f188f4",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-20T07:10:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "306533cf_b56875d9",
+      "range": {
+        "startLine": 267,
+        "startChar": 4,
+        "endLine": 269,
+        "endChar": 5
+      },
+      "revId": "f64065b27b61534e388531e75199bde253194980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9ee2b4a_1d9f1fb1",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-20T07:10:40Z",
+      "side": 1,
+      "message": "It is now called only on close.",
+      "parentUuid": "c12bf6c7_59dfeac8",
+      "range": {
+        "startLine": 267,
+        "startChar": 4,
+        "endLine": 269,
+        "endChar": 5
+      },
+      "revId": "f64065b27b61534e388531e75199bde253194980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

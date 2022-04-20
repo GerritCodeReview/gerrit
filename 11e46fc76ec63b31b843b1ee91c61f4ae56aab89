@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4089b779_35c0e7d2",
+        "filename": "java/com/google/gerrit/extensions/common/DirectFixInput.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-20T06:41:31Z",
+      "side": 1,
+      "message": "nit: remove. for the API fields must be public, so getters/setters are unnecessary",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 3
+      },
+      "revId": "11e46fc76ec63b31b843b1ee91c61f4ae56aab89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "013151d6_2a4f864d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyFix.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-20T06:41:31Z",
+      "side": 1,
+      "message": "leave existing generic typing\n\nRestModifyView\u003cFixResource, Input\u003e\n\nIf you can\u0027t implement both RestModifyView\u003cFixResource, Input\u003e and RestModifyView\u003cRevisionResource, DirectFixInput\u003e because Java doesn\u0027t let you, then just split the logic into two files (leaving ApplyFix as it was before and adding a new class ApplyDirectFix which implements RestModifyView\u003cRevisionResource, DirectFixInput\u003e",
+      "range": {
+        "startLine": 54,
+        "startChar": 46,
+        "endLine": 54,
+        "endChar": 48
+      },
+      "revId": "11e46fc76ec63b31b843b1ee91c61f4ae56aab89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65b2d947_146e5609",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyFix.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-20T06:41:31Z",
+      "side": 1,
+      "message": "nit: fix",
+      "range": {
+        "startLine": 137,
+        "startChar": 32,
+        "endLine": 137,
+        "endChar": 36
+      },
+      "revId": "11e46fc76ec63b31b843b1ee91c61f4ae56aab89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "625f34e3_9629dd6c",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyFix.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-20T06:41:31Z",
+      "side": 1,
+      "message": "nit: range",
+      "range": {
+        "startLine": 138,
+        "startChar": 16,
+        "endLine": 138,
+        "endChar": 26
+      },
+      "revId": "11e46fc76ec63b31b843b1ee91c61f4ae56aab89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "057f4161_e51f36e0",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyFix.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-20T06:41:31Z",
+      "side": 1,
+      "message": "fixReplacement",
+      "range": {
+        "startLine": 139,
+        "startChar": 25,
+        "endLine": 139,
+        "endChar": 29
+      },
+      "revId": "11e46fc76ec63b31b843b1ee91c61f4ae56aab89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

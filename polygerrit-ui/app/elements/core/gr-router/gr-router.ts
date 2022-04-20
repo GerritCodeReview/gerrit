@@ -906,7 +906,7 @@ export class GrRouter {
     this.mapRoute(
       RoutePattern.PROJECT_DASHBOARD,
       'handleProjectDashboardRoute',
-      this.handleProjectDashboardRoute
+      this.handleProjectDashboardRoute.bind(this)
     );
 
     this.mapRoute(

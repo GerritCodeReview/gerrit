@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9774c8ae_6632e4da",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-20T17:02:20Z",
+      "side": 1,
+      "message": "What version of karma supports nodejs 17? Although i think we have to move to https://modern-web.dev/docs/test-runner/overview/ per https://www.npmjs.com/package/@open-wc/karma-esm.",
+      "revId": "1c750fd91a03ab7e2a25a1ca98044ab219276b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

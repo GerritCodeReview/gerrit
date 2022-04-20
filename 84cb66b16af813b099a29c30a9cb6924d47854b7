@@ -16,6 +16,23 @@
       "message": "LGTM, except some minor comments.\n\n+ Add to Commit Message notes that this change is not required for the new version.",
       "revId": "84cb66b16af813b099a29c30a9cb6924d47854b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96c97fd8_82c789d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-20T08:33:15Z",
+      "side": 1,
+      "message": "LGTM, will let @Dmitrii to cast CR+2 (I will upvote if he has not +2 power once he approves).",
+      "revId": "84cb66b16af813b099a29c30a9cb6924d47854b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

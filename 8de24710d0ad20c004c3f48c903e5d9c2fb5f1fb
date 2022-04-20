@@ -87,6 +87,30 @@
       },
       "revId": "8de24710d0ad20c004c3f48c903e5d9c2fb5f1fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8df4c3ea_14508adc",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-20T15:07:20Z",
+      "side": 1,
+      "message": "Sorted out: look at L56 and L96: the registration and unregistration with the JGit\u0027s RepositoryCache would assure that the Repository objects aren\u0027t closed, even logically.",
+      "parentUuid": "ba334bd6_8657b397",
+      "range": {
+        "startLine": 106,
+        "startChar": 24,
+        "endLine": 106,
+        "endChar": 29
+      },
+      "revId": "8de24710d0ad20c004c3f48c903e5d9c2fb5f1fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

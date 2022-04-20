@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cee976f_910a5832",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-20T14:25:10Z",
+      "side": 1,
+      "message": "Let me address the Repository caching issue raised by Dmitrii",
+      "revId": "8de24710d0ad20c004c3f48c903e5d9c2fb5f1fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f8f886b_e6e36f87",
@@ -38,6 +55,30 @@
       "side": 1,
       "message": "\u003e How can we ensure that refdb is still open when checkStaleness is called?\n\u003e \n\u003e Gerrit actively reuses cached Repositories, so in the following code repo, repo2 and repo3 are the same instance:\n\u003e   try(Repository repo \u003d repoManager.openRepository(\"repoName\")) {\n\u003e     try(window \u003d PerThreadCache.openReadonlyWindow()) {\n\u003e       ...\n\u003e       try(Repository repo2 \u003d repoManager.openRepository(\"repoName\")) {      \n\u003e          RepoRefCache.getOptional(repo2) // returns cache for repo\n\u003e          ...\n\u003e       }      \n\u003e       try(Repository repo3 \u003d repoManager.openRepository(\"repoName\")) {      \n\u003e         RepoRefCache.getOptional(repo2) // returns cache for repo\n\u003e         ...\n\u003e       }\n\u003e     } // repo is still open\n\u003e   }\n\u003e   \n\u003e But after removing outer repo, the repo2 and repo3 are 2 different instenaces:\n\u003e   try(window \u003d PerThreadCache.openReadonlyWindow()) {\n\u003e     ...\n\u003e     try(Repository repo2 \u003d repoManager.openRepository(\"repoName\")) {\n\u003e       RepoRefCache.getOptional(repo2) // returns cache for repo2\n\u003e       ...\n\u003e     }      \n\u003e     try(Repository repo3 \u003d repoManager.openRepository(\"repoName\")) {\n\u003e       RepoRefCache.getOptional(repo3) // returns cache for repo3\n\u003e       ...\n\u003e     }\n\u003e   } // repo2 and repo3 are closed, checkStaleness result is unclear\n\u003e   \n\u003e The jgit code for repository.close() is:\n\u003e   ...\n\u003e   if (RepositoryCache.isCached(this)) {\n\u003e     closedAt.set(System.currentTimeMillis());\n\u003e   } else {\n\u003e     doClose();\n\u003e   }\n\u003e   \n\u003e I.e. if RepositoryCache.isCached is true, than Repository just set closedAt. So, checkStaleness can work with already closed repositories - and I can\u0027t predict what errors can we have.\n\nRepositories are kept at JGit level and are always kept open.\n\n\u003e Unfortunately, I don\u0027t have any idea what to do with it and how to avoid use of a closed repository.\n\u003e Do you have any suggestions about it? (i.e. ensure that closed repository are not used in checkStaleness)\n\nThis would be indeed a concern if we were NOT using cached repositories, but that isn\u0027t the case.\n\n\u003e One idea - checkStaleness must be called only from tests. I.e. it shouldn\u0027t based on System.getProperty. But even in this case - it would be good to have some protection against use after close. Without such protection we can get a flaky tests.\n\nWe do need to keep that check also for the running code, so that we can make E2E tests (using Gatling or other GUI testing) with the staleness check enabled.",
       "parentUuid": "4f8f886b_e6e36f87",
+      "range": {
+        "startLine": 106,
+        "startChar": 24,
+        "endLine": 106,
+        "endChar": 29
+      },
+      "revId": "8de24710d0ad20c004c3f48c903e5d9c2fb5f1fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba334bd6_8657b397",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-20T14:25:10Z",
+      "side": 1,
+      "message": "I had an idea: we can register the Repository object with the JGit\u0027s repository cache, so we make sure that their reference count won\u0027t go to zero until we close the window or the cache.",
+      "parentUuid": "23832f59_f6e45551",
       "range": {
         "startLine": 106,
         "startChar": 24,

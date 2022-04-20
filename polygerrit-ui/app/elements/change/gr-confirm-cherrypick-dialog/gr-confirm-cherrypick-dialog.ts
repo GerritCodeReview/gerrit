@@ -255,6 +255,8 @@ export class GrConfirmCherrypickDialog extends LitElement {
             placeholder="Destination branch"
             @commit=${(e: AutocompleteCommitEvent) =>
               (this.branch = e.detail.value as BranchName)}
+            @text-changed=${(e: BindValueChangeEvent) =>
+              (this.branch = e.detail.value as BranchName)}
           >
           </gr-autocomplete>
           ${when(

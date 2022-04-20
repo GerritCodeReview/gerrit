@@ -321,6 +321,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1fc9cd32_64981b6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-20T16:26:18Z",
+      "side": 1,
+      "message": "\u003e I reviewed one more time and noticed that our checkStaleness can try to read from a closed repository (see my comment for RepoRefCache).\n\nSorted with PS30.\n\n\u003e (as for other resolved comments - everything is OK)\n\nThanks a lot for all your feedback and review, much appreciated.",
+      "parentUuid": "80eaef90_fa7023e8",
+      "revId": "9f1f62ac74683d67d7538de3066d7473dc61b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b13f6a59_2bd2904c",
         "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
         "patchSetId": 15

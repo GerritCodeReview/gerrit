@@ -135,6 +135,30 @@
       },
       "revId": "8de24710d0ad20c004c3f48c903e5d9c2fb5f1fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72284372_a9278aa0",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-20T16:26:18Z",
+      "side": 1,
+      "message": "\u003e \u003e Repositories are kept at JGit level and are always kept open.\n\u003e We discussed this within the team and the logic is more complicated. Repositories are kept open for some time, but this is just an optimisation - they can be closed during the request after repository.close() at any time.\n\nIn PS29 the Repository object is registered in the JGit\u0027s repository cache and unregistered when it isn\u0027t used anymore. By looking at what Repository.close() does, as long as it is cached, the close() isn\u0027t doing anything other than recording a timestamp.\n\n```\n\tpublic void close() {\n\t\tint newCount \u003d useCnt.decrementAndGet();\n\t\tif (newCount \u003d\u003d 0) {\n\t\t\tif (RepositoryCache.isCached(this)) {\n\t\t\t\tclosedAt.set(System.currentTimeMillis());\n\t\t\t} else {\n\t\t\t\tdoClose();\n\t\t\t}\n\t\t} else if (newCount \u003d\u003d -1) {\n\t\t\t// should not happen, only log when useCnt became negative to\n\t\t\t// minimize number of log entries\n\t\t\tString message \u003d MessageFormat.format(JGitText.get().corruptUseCnt,\n\t\t\t\t\ttoString());\n\t\t\tif (LOG.isDebugEnabled()) {\n\t\t\t\tLOG.debug(message, new IllegalStateException());\n\t\t\t} else {\n\t\t\t\tLOG.warn(message);\n\t\t\t}\n\t\t\tif (RepositoryCache.isCached(this)) {\n\t\t\t\tclosedAt.set(System.currentTimeMillis());\n\t\t\t}\n\t\t}\n\t}\n```\n\nI\u0027ll also add the call do incrementOpen() and close() so that we make sure that the Repository object is always kept open and with the reference counting until the thread-local cache make references to it.\n \n\u003e Also, this a bad practice to use a resource after it is closed, because it breaks the contract for AutoClosable (a resource must not be used after close()).\n\nAgreed: the addition of incrementOpen() and close() would fix this issue.\n\n\u003e \u003e Sorted out: look at L56 and L96: the registration and unregistration with the JGit\u0027s RepositoryCache would assure that the Repository objects aren\u0027t closed, even logically.\n\u003e \n\u003e I checked jgit code - IIUC RepositoryCache.register(repository) doesn\u0027t change anything if repository is already in the cache. Also this doesn\u0027t solve problem \"use after close\".\n\nTrue, but the addition of incrementOpen() and close() would fix it.\n\n\u003e I also have and idea, but it requires slightly more work - we can pass a repo name when open cache window. The cacheWindow opens a repository and closes it.\n\nThe reference to the repository is taken when the RepoRefCache is created and needs to be removed when the RepoRefCache is closed/removed. That *may* or *may not* correspond with the cacheWindow. The right object to apply this logic is the RepoRefCache which is the one holding the reference to the Repository object. WDYT?\n\n\u003e Pros:\n\u003e 1) cacheWindow is the owner of opened repository.\n\nSee above: cacheWindow isn\u0027t the owner of the reference to the repository.\n\n\u003e 2) The repository is explicitly opened/closed together with window. \n\nUsing incrementOpen() and close() would achieve the same result.\n\n\u003e Cons: 1) We must now repoName when open window (seems not a problem)\n\nGerrit won\u0027t create a new Repository object anyway but just add a reference to it, which is exactly my proposed solution.\n\n\u003e 2) Unclear what to do with GET/HEAD requests. Your implementation doesn\u0027t check stale references for such requests - and we can\u0027t check them safely, because all repositories are already closed. At the same time, we don\u0027t know in advance which projects should be cached in GET/HEAD request.\n\nIn my solution, the close of the RepoRefCache would do the job, regardless of the read-only window. It will then work also for GET/HEAD requests.",
+      "parentUuid": "35f42fe8_5e4dabcb",
+      "range": {
+        "startLine": 106,
+        "startChar": 24,
+        "endLine": 106,
+        "endChar": 29
+      },
+      "revId": "8de24710d0ad20c004c3f48c903e5d9c2fb5f1fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "259820ee_7e362e8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-20T08:33:12Z",
+      "side": 1,
+      "message": "LGTM, except some minor comments.\n\n+ Add to Commit Message notes that this change is not required for the new version.",
+      "revId": "84cb66b16af813b099a29c30a9cb6924d47854b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

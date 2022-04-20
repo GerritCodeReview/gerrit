@@ -18,6 +18,162 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d02aaf1_d1237f93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-20T08:33:12Z",
+      "side": 1,
+      "message": "Yes, LGTM (I also added some minor comments)",
+      "parentUuid": "35f26958_6c217622",
+      "revId": "f64065b27b61534e388531e75199bde253194980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24ea4bfc_9bcdf134",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-20T08:33:12Z",
+      "side": 1,
+      "message": "Please restore the old value.",
+      "range": {
+        "startLine": 345,
+        "startChar": 4,
+        "endLine": 345,
+        "endChar": 94
+      },
+      "revId": "f64065b27b61534e388531e75199bde253194980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5160a3a_34f77f86",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-20T08:33:12Z",
+      "side": 1,
+      "message": "Please add explicitly - \"DO NOT MERGE INTO MASTER\".\nThis TODO is too polite :)\n(and the same for other comments)",
+      "range": {
+        "startLine": 67,
+        "startChar": 75,
+        "endLine": 68,
+        "endChar": 23
+      },
+      "revId": "f64065b27b61534e388531e75199bde253194980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd58cb89_c3330370",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-20T08:33:12Z",
+      "side": 1,
+      "message": "private final ImmutableSet\u003cString\u003e ... (I prefer to express explicitly that disabledTypes can\u0027t be changed)",
+      "range": {
+        "startLine": 205,
+        "startChar": 10,
+        "endLine": 205,
+        "endChar": 13
+      },
+      "revId": "f64065b27b61534e388531e75199bde253194980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9e22682_7327de8d",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-20T08:33:12Z",
+      "side": 1,
+      "message": "The name readOnlyRequestForRepositoryCache is not very clear for me and I can find several different senses in this name. May be rename\nreadOnlyRequestForRepositoryCache -\u003e smth like allow...Cache (for example, allowRepoRefsCache).",
+      "range": {
+        "startLine": 215,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 37
+      },
+      "revId": "f64065b27b61534e388531e75199bde253194980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdefb189_77a1ea5d",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-20T08:33:12Z",
+      "side": 1,
+      "message": "maybe alwaysCache... (like alwaysCacheRepoRefs) ?",
+      "range": {
+        "startLine": 216,
+        "startChar": 8,
+        "endLine": 216,
+        "endChar": 16
+      },
+      "revId": "f64065b27b61534e388531e75199bde253194980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eeb5b7de_effdca34",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-20T08:33:12Z",
+      "side": 1,
+      "message": "Maybe.allowRepoRefsCache() ?",
+      "range": {
+        "startLine": 243,
+        "startChar": 17,
+        "endLine": 243,
+        "endChar": 34
+      },
+      "revId": "f64065b27b61534e388531e75199bde253194980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "306533cf_b56875d9",

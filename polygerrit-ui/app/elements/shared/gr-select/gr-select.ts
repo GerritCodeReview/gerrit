@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {customElement, property, queryAssignedElements} from 'lit/decorators';
-import {html, LitElement} from 'lit';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {customElement, property, observe} from '@polymer/decorators';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -24,94 +25,59 @@ declare global {
 }
 
 /**
- * GrSelect `gr-select` component. Must be given a <select> child.
+ * GrSelect `gr-select` component.
  */
 @customElement('gr-select')
-export class GrSelect extends LitElement {
-  /**
-   * @event bind-value-changed
-   */
+export class GrSelect extends PolymerElement {
+  static get template() {
+    return html` <slot></slot> `;
+  }
 
-  @property({type: String})
+  @property({type: String, notify: true})
   bindValue?: string | number | boolean;
 
-  @queryAssignedElements({selector: 'select'})
-  private nativeSelectsInSlot?: HTMLSelectElement[];
-
-  get nativeSelect(): HTMLSelectElement | undefined {
-    return this.nativeSelectsInSlot?.[0];
+  get nativeSelect() {
+    // gr-select is not a shadow component
+    // TODO(taoalpha): maybe we should convert
+    // it into a shadow dom component instead
+    // TODO(TS): should warn if no `select` detected.
+    return this.querySelector('select')!;
   }
 
-  constructor() {
-    super();
-    this.addEventListener('change', () => this.valueChanged());
-    this.addEventListener('dom-change', () => this.updateValue());
-  }
-
-  override render() {
-    return html`<slot></slot>`;
-  }
-
-  override updated() {
-    if (!this.nativeSelect || this.nativeSelect.options.length === 0) {
-      return;
-    }
-    // If not set via the property, set bind-value to the element value.
-    if (this.bindValue === undefined) {
-      this.bindValue = this.convertToBindValueType(this.nativeSelect.value);
-    } else {
-      // once we render we can set the default. This can't happen earlier
-      // because the native select + options are owned by the parent.
-      this.updateValue();
-    }
-  }
-
-  override focus() {
-    this.nativeSelect?.focus();
-  }
-
-  private updateValue() {
+  @observe('bindValue')
+  _updateValue() {
     // It's possible to have a value of 0.
-    if (this.bindValue !== undefined && this.nativeSelect) {
+    if (this.bindValue !== undefined) {
       // Set for chrome/safari so it happens instantly
       this.nativeSelect.value = String(this.bindValue);
-      this.valueChanged();
       // Async needed for firefox to populate value. It was trying to do it
       // before options from a dom-repeat were rendered previously.
       // See https://bugs.chromium.org/p/gerrit/issues/detail?id=7735
       setTimeout(() => {
-        if (this.nativeSelect) {
-          this.nativeSelect.value = String(this.bindValue);
-        }
+        this.nativeSelect.value = String(this.bindValue);
       }, 1);
     }
   }
 
-  // HTMLOptionElement.value is typed string, but we want to accept and return
-  // other primitives as convenience for callers.
-  private convertToBindValueType(value?: string) {
-    if (value === undefined) {
-      return undefined;
-    } else if (typeof this.bindValue === 'boolean') {
-      // Boolean('false') === true, so can't use that
-      return value === 'true';
-    } else if (typeof this.bindValue === 'number') {
-      return Number(value);
-    }
-    // string case
-    return value;
+  _valueChanged() {
+    this.bindValue = this.nativeSelect.value;
   }
 
-  private valueChanged() {
-    this.bindValue = this.convertToBindValueType(this.nativeSelect?.value);
+  override focus() {
+    this.nativeSelect.focus();
+  }
 
-    // Relay the event.
-    this.dispatchEvent(
-      new CustomEvent('bind-value-changed', {
-        detail: {value: this.bindValue},
-        composed: true,
-        bubbles: true,
-      })
-    );
+  constructor() {
+    super();
+    this.addEventListener('change', () => this._valueChanged());
+    this.addEventListener('dom-change', () => this._updateValue());
+  }
+
+  override ready() {
+    super.ready();
+    // If not set via the property, set bind-value to the element value.
+    if (this.bindValue === undefined && this.nativeSelect.options.length > 0) {
+      this.bindValue = this.nativeSelect.value;
+    }
   }
 }

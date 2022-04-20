@@ -95,7 +95,7 @@ public class ApprovalsUtil {
     return Iterables.filter(psas, a -> Objects.equals(a.accountId(), accountId));
   }
 
-  private final ApprovalCopier approvalInference;
+  private final ApprovalCopier approvalCopier;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final LabelNormalizer labelNormalizer;
@@ -103,11 +103,11 @@ public class ApprovalsUtil {
   @VisibleForTesting
   @Inject
   public ApprovalsUtil(
-      ApprovalCopier approvalInference,
+      ApprovalCopier approvalCopier,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       LabelNormalizer labelNormalizer) {
-    this.approvalInference = approvalInference;
+    this.approvalCopier = approvalCopier;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.labelNormalizer = labelNormalizer;
@@ -353,7 +353,7 @@ public class ApprovalsUtil {
       RevWalk revWalk,
       Config repoConfig,
       ChangeUpdate changeUpdate) {
-    approvalInference
+    approvalCopier
         .forPatchSet(notes, patchSet, revWalk, repoConfig)
         .forEach(a -> changeUpdate.putCopiedApproval(a));
   }

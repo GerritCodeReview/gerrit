@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35f26958_6c217622",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-20T05:45:02Z",
+      "side": 1,
+      "message": "Apart from minors below it LGTM, @Dmitri WDYT?",
+      "revId": "f64065b27b61534e388531e75199bde253194980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "306533cf_b56875d9",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-20T05:45:02Z",
+      "side": 1,
+      "message": "nit: `setReadOnlyRequest` doesn\u0027t sound like method that performs any cleaning.\nI would probably move the flag check to the `clearPotentiallyStaleEntries` and call it directly from the place that requires it...",
+      "range": {
+        "startLine": 267,
+        "startChar": 4,
+        "endLine": 269,
+        "endChar": 5
+      },
+      "revId": "f64065b27b61534e388531e75199bde253194980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c12bf6c7_59dfeac8",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-20T05:45:02Z",
+      "side": 1,
+      "message": "Is this intentional to clear entries when window is opened and closed? `setReadOnlyRequest` is called when window is created and on close...",
+      "range": {
+        "startLine": 267,
+        "startChar": 4,
+        "endLine": 269,
+        "endChar": 5
+      },
+      "revId": "f64065b27b61534e388531e75199bde253194980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

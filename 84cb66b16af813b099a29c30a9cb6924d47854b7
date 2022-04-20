@@ -33,6 +33,24 @@
       "message": "LGTM, will let @Dmitrii to cast CR+2 (I will upvote if he has not +2 power once he approves).",
       "revId": "84cb66b16af813b099a29c30a9cb6924d47854b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79be4dda_08cf43b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-20T10:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "259820ee_7e362e8d",
+      "revId": "84cb66b16af813b099a29c30a9cb6924d47854b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

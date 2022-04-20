@@ -30,7 +30,6 @@ import {
 } from '../../../types/common';
 import {customElement, property, query, state} from 'lit/decorators';
 import {
-  AutocompleteCommitEvent,
   AutocompleteQuery,
   AutocompleteSuggestion,
   GrTypedAutocomplete,
@@ -253,7 +252,7 @@ export class GrConfirmCherrypickDialog extends LitElement {
             .text=${this.branch}
             .query=${this.query}
             placeholder="Destination branch"
-            @commit=${(e: AutocompleteCommitEvent) =>
+            @text-changed=${(e: BindValueChangeEvent) =>
               (this.branch = e.detail.value as BranchName)}
           >
           </gr-autocomplete>

@@ -111,6 +111,30 @@
       },
       "revId": "8de24710d0ad20c004c3f48c903e5d9c2fb5f1fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35f42fe8_5e4dabcb",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-20T16:03:16Z",
+      "side": 1,
+      "message": "\u003e Repositories are kept at JGit level and are always kept open.\nWe discussed this within the team and the logic is more complicated. Repositories are kept open for some time, but this is just an optimisation - they can be closed during the request after repository.close() at any time.\n\nAlso, this a bad practice to use a resource after it is closed, because it breaks the contract for AutoClosable (a resource must not be used after close()).\n\n\u003e Sorted out: look at L56 and L96: the registration and unregistration with the JGit\u0027s RepositoryCache would assure that the Repository objects aren\u0027t closed, even logically.\n\nI checked jgit code - IIUC RepositoryCache.register(repository) doesn\u0027t change anything if repository is already in the cache. Also this doesn\u0027t solve problem \"use after close\".\n\n--\n\nI also have and idea, but it requires slightly more work - we can pass a repo name when open cache window. The cacheWindow opens a repository and closes it.\n\nPros:\n1) cacheWindow is the owner of opened repository.\n2) The repository is explicitly opened/closed together with window. \nCons: 1) We must now repoName when open window (seems not a problem)\n2) Unclear what to do with GET/HEAD requests. Your implementation doesn\u0027t check stale references for such requests - and we can\u0027t check them safely, because all repositories are already closed. At the same time, we don\u0027t know in advance which projects should be cached in GET/HEAD request.\n\nMy prototype:\n  class SomeClass {\n    @Inject\n    SomeClass(..., RequestRepoRefCache refCache) {\n      this.refCache \u003d refCache;\n    }  \n    void someMethod() {\n     try(RequestCacheWindow window \u003d refCache.openCacheWindow(repoName)) {\n        ...// access to repoName refs are cached        \n     }\n    }\n  }\n  class RepoRefCache {\n    public static Optional\u003cRefCache\u003e getOptional(Repository repo) {\n        return RequestRepoRefCache.cacheForRepo(repo);\n    }\n    ...\n  }\n  class PerThreadCache {\n    ...\n    static class RequestRepoRefCache {\n     @Inject\n     RequestRepoRefCache(RepositoryManager repoManager) {..}\n     RequestCacheWindow openCacheWindow(NameKey repoKey) {\n        PerThreadCache cache \u003d PerThreadCache.get();\n        if(cache \u003d\u003d null) {\n         return emptyWindow;\n        }\n        // A little trick to create a key in advance:\n        Repository repo \u003d repoManager.open(repoKey);\n        Key key \u003d Key.create(RequestCacheWindowImpl.class, repo);\n        RequestCacheWindowImpl window \u003d cache.cache.get(key);\n        if (window !\u003d null) {\n          repo.close();\n        } else {\n          window \u003d new RequestCacheWindowImpl(repo);\n          cache.cache.put(key, window) ;// TODO: check cache size\n        }\n        window.open();\n     }\n     RequestRepoRefCache cacheForRepo(Repository repo) {\n       // Add check for null PerThreadCache;\n       return PerThreadCache.get(RequestCacheWindowImpl.class, repo).refCache;\n     }      \n    }\n    static class RequestCacheWindowImpl implements RequestCacheWindow {\n      Repository repo;\n      RepoRefCache refCache; //(lazy init)\n      void open() {\n        count++;\n      }\n      void close() {\n        count--;\n        if(count \u003d\u003d 0) {\n          // Any staleness check\n          repo.close();          \n          perThreadCache.remove(Key.create(RequestCacheWindowImpl.class, repo))\n          refCache \u003d null\n          repo \u003d null;\n        }\n      }\n    }\n  }",
+      "parentUuid": "23832f59_f6e45551",
+      "range": {
+        "startLine": 106,
+        "startChar": 24,
+        "endLine": 106,
+        "endChar": 29
+      },
+      "revId": "8de24710d0ad20c004c3f48c903e5d9c2fb5f1fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

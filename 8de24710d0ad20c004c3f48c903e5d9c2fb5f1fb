@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f8f886b_e6e36f87",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-20T12:19:53Z",
+      "side": 1,
+      "message": "How can we ensure that refdb is still open when checkStaleness is called?\n\nGerrit actively reuses cached Repositories, so in the following code repo, repo2 and repo3 are the same instance:\n  try(Repository repo \u003d repoManager.openRepository(\"repoName\")) {\n    try(window \u003d PerThreadCache.openReadonlyWindow()) {\n      ...\n      try(Repository repo2 \u003d repoManager.openRepository(\"repoName\")) {      \n         RepoRefCache.getOptional(repo2) // returns cache for repo\n         ...\n      }      \n      try(Repository repo3 \u003d repoManager.openRepository(\"repoName\")) {      \n        RepoRefCache.getOptional(repo2) // returns cache for repo\n        ...\n      }\n    } // repo is still open\n  }\n  \nBut after removing outer repo, the repo2 and repo3 are 2 different instenaces:\n  try(window \u003d PerThreadCache.openReadonlyWindow()) {\n    ...\n    try(Repository repo2 \u003d repoManager.openRepository(\"repoName\")) {\n      RepoRefCache.getOptional(repo2) // returns cache for repo2\n      ...\n    }      \n    try(Repository repo3 \u003d repoManager.openRepository(\"repoName\")) {\n      RepoRefCache.getOptional(repo3) // returns cache for repo3\n      ...\n    }\n  } // repo2 and repo3 are closed, checkStaleness result is unclear\n  \nThe jgit code for repository.close() is:\n  ...\n  if (RepositoryCache.isCached(this)) {\n    closedAt.set(System.currentTimeMillis());\n  } else {\n    doClose();\n  }\n  \nI.e. if RepositoryCache.isCached is true, than Repository just set closedAt. So, checkStaleness can work with already closed repositories - and I can\u0027t predict what errors can we have.\n\nUnfortunately, I don\u0027t have any idea what to do with it and how to avoid use of a closed repository.\nDo you have any suggestions about it? (i.e. ensure that closed repository are not used in checkStaleness)\n\nOne idea - checkStaleness must be called only from tests. I.e. it shouldn\u0027t based on System.getProperty. But even in this case - it would be good to have some protection against use after close. Without such protection we can get a flaky tests.",
+      "range": {
+        "startLine": 106,
+        "startChar": 24,
+        "endLine": 106,
+        "endChar": 29
+      },
+      "revId": "8de24710d0ad20c004c3f48c903e5d9c2fb5f1fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

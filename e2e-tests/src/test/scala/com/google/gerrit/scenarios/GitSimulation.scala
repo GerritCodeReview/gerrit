@@ -32,6 +32,9 @@ class GitSimulation extends GerritSimulation {
 
   override def replaceOverride(in: String): String = {
     var next = replaceKeyWith("_project", URLEncoder.encode(getFullProjectName(projectName), "UTF-8"), in)
+    val authenticated = getProperty("authenticated", false).toBoolean
+    val value = "CONTEXT_PATH" + (if (authenticated) "/a" else "")
+    next = replaceKeyWith("context_path", value, next)
     super.replaceOverride(next)
   }
 

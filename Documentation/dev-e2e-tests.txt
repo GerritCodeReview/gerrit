@@ -204,6 +204,12 @@ that use a context path in the URL. Its default is no context path and can be se
 
 * `-Dcom.google.gerrit.scenarios.context_path=/context`
 
+==== Authentication
+
+The `authenticated` property allows test scenarios to use authenticated HTTP clones. Its default is no authentication:
+
+* `-Dcom.google.gerrit.scenarios.authenticated=false`
+
 ==== Automatic properties
 
 The link:#_input_file[example keywords,role=external,window=_blank] also include `_PROJECT`,

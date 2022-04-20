@@ -108,7 +108,7 @@ class GerritSimulation extends Simulation {
     val property = packageName + "." + term
     var value = default
     default match {
-      case _: String | _: Double =>
+      case _: String | _: Double | _: Boolean =>
         val propertyValue = Option(System.getProperty(property))
         if (propertyValue.nonEmpty) {
           value = propertyValue.get

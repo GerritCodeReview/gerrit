@@ -16,6 +16,23 @@
       "message": "I can confirm that this backport does fix the fake \u0027pack file is corrupt\u0027 errors seen during offline reindexing on 3.5.",
       "revId": "fc75a64f36c931ec9d6e99ca19a753df1c53a70b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f95ba44d_5586cfa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-04-20T16:31:38Z",
+      "side": 1,
+      "message": "Thanks Patrick!",
+      "revId": "fc75a64f36c931ec9d6e99ca19a753df1c53a70b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

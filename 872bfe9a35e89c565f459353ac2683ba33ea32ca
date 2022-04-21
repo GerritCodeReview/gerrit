@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16713f0b_21291b60",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-04-21T06:30:30Z",
+      "side": 1,
+      "message": "Somehow this call is not raising the expected Exception. Is this test needed in ApplyDirectFix also?\nI was hoping inside applyFix/ApplyDirectFix the function \n`fixReplacementInterpreter.toCommitModification` or `changeEditModifier.combineWithModifiedPatchSetTree` should raise the exception but they are not doing it.\nShould I something different in the tests?",
+      "range": {
+        "startLine": 980,
+        "startChar": 22,
+        "endLine": 980,
+        "endChar": 92
+      },
+      "revId": "872bfe9a35e89c565f459353ac2683ba33ea32ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31bc0280_2de3cb21",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-04-21T06:30:30Z",
+      "side": 1,
+      "message": "If the added tests look good, then I can do the similar thing for all the remaining applyFix tests in this file.",
+      "range": {
+        "startLine": 985,
+        "startChar": 14,
+        "endLine": 985,
+        "endChar": 52
+      },
+      "revId": "872bfe9a35e89c565f459353ac2683ba33ea32ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

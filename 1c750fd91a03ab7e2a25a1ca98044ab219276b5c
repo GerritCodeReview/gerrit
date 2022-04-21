@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "cbb5b1c5_3eb539dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-21T09:11:50Z",
+      "side": 1,
+      "message": "Thanks for the review, I will wait for Ben or Chris in case there is some google-side concerns",
+      "revId": "1c750fd91a03ab7e2a25a1ca98044ab219276b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9774c8ae_6632e4da",
         "filename": "polygerrit-ui/app/package.json",
         "patchSetId": 1
@@ -14,6 +31,24 @@
       "writtenOn": "2022-04-20T17:02:20Z",
       "side": 1,
       "message": "What version of karma supports nodejs 17? Although i think we have to move to https://modern-web.dev/docs/test-runner/overview/ per https://www.npmjs.com/package/@open-wc/karma-esm.",
+      "revId": "1c750fd91a03ab7e2a25a1ca98044ab219276b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f806867_9ff765de",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-21T09:11:50Z",
+      "side": 1,
+      "message": "I don\u0027t know that there is one, it seems like an open issue? https://github.com/karma-runner/karma/issues/3730",
+      "parentUuid": "9774c8ae_6632e4da",
       "revId": "1c750fd91a03ab7e2a25a1ca98044ab219276b5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

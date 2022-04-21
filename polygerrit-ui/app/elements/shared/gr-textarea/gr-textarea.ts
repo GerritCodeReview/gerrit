@@ -32,6 +32,7 @@ import {
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {addShortcut, Key} from '../../../utils/dom-util';
 import {BindValueChangeEvent} from '../../../types/events';
+import {fire} from '../../../utils/event-util';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -319,14 +320,7 @@ export class GrTextarea extends PolymerElement {
    */
   _onValueChanged(e: BindValueChangeEvent) {
     // Relay the event.
-    this.dispatchEvent(
-      new CustomEvent('bind-value-changed', {
-        detail: e,
-        composed: true,
-        bubbles: true,
-      })
-    );
-
+    fire(this, 'bind-value-changed', {value: e.detail.value});
     // If cursor is not in textarea (just opened with colon as last char),
     // Don't do anything.
     if (

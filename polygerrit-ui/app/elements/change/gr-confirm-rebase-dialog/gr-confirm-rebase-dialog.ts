@@ -26,6 +26,7 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {ValueChangedEvent} from '../../../types/events';
 
 export interface RebaseChange {
   name: string;
@@ -201,6 +202,8 @@ export class GrConfirmRebaseDialog extends LitElement {
               .query=${this.query}
               no-debounce
               text=${this.text}
+              @text-changed=${(e: ValueChangedEvent) =>
+                (this.text = e.detail.value)}
               @click=${this.handleEnterChangeNumberClick}
               allow-non-suggested-values
               placeholder="Change number, ref, or commit hash"

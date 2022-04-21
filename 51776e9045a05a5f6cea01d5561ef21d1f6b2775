@@ -22,6 +22,30 @@
       },
       "revId": "51776e9045a05a5f6cea01d5561ef21d1f6b2775",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8fc371b_d3a3f808",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 51
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-21T12:29:05Z",
+      "side": 1,
+      "message": "I hoped the linter would do this. :(",
+      "parentUuid": "f2824cd5_ef219556",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 30
+      },
+      "revId": "51776e9045a05a5f6cea01d5561ef21d1f6b2775",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

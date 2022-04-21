@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6b3f3031_971cf500",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-21T13:00:06Z",
+      "side": 1,
+      "message": "Sorry, since this change was already submitting, it\u0027s not possible to fix this.",
+      "parentUuid": "63c0c762_c9a14d8f",
+      "range": {
+        "startLine": 23,
+        "startChar": 42,
+        "endLine": 23,
+        "endChar": 47
+      },
+      "revId": "fdd70abc9eda2041fc04d1093a9da69432c5f4d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "00bb2155_d1ed4281",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2022-04-21T12:48:04Z",
       "side": 1,
       "message": "you\u0027re in way too much of a hurry with the submit button as far as i\u0027m concerned. ^^\n",
+      "revId": "fdd70abc9eda2041fc04d1093a9da69432c5f4d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc119496_11de72be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-21T13:00:06Z",
+      "side": 1,
+      "message": "Maybe, FYI I intended to rebase another change series on top of this, so getting this submitted was kind of unblocking me (in the meantime I found another issue that\u0027s blocking me, but that\u0027s another story). That\u0027s why this was submitted quickly.\n\nFWIW, submitting small changes like this quickly, once they have been approved by another maintainer, is fine. We only have a 24h grace period for \"Features or API extensions\" changes [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#lightweight-contribution-process",
+      "parentUuid": "00bb2155_d1ed4281",
       "revId": "fdd70abc9eda2041fc04d1093a9da69432c5f4d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

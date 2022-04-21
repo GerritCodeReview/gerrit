@@ -22,6 +22,30 @@
       },
       "revId": "406fc325d1793d512fee95681a053dc7bb200bc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8c20c6b_eeb1fe7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2022-04-21T07:43:51Z",
+      "side": 1,
+      "message": "You would need to change the url in the json files for all the tests that use HTTP clones. With this change you only need to set the property authenticated. \nAlso just adding \"/a\" to the clone url:s break the tests for those that test non-authenticated clones.",
+      "parentUuid": "393693a3_84973a60",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "406fc325d1793d512fee95681a053dc7bb200bc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

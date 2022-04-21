@@ -23,6 +23,7 @@ import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-dialog/gr-dialog';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {addShortcut, Key, Modifier} from '../../../utils/dom-util';
+import {ValueChangedEvent} from '../../../types/events';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -125,6 +126,8 @@ export class GrConfirmMoveDialog extends LitElement {
           <gr-autocomplete
             id="branchInput"
             .text=${this.branch}
+            @text-changed=${(e: ValueChangedEvent) =>
+              (this.branch = e.detail.value as BranchName)}
             .query=${(text: string) => this.getProjectBranchesSuggestions(text)}
             placeholder="Destination branch"
           >

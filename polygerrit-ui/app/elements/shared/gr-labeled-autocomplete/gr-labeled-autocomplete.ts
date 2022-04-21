@@ -102,7 +102,7 @@ export class GrLabeledAutocomplete extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('text')) {
-      fire(this, 'text-changed', this.text);
+      fire(this, 'text-changed', {value: this.text});
     }
   }
 
@@ -126,9 +126,6 @@ export class GrLabeledAutocomplete extends LitElement {
 }
 
 declare global {
-  interface HTMLElementEventMap {
-    'text-changed': CustomEvent<string>;
-  }
   interface HTMLElementTagNameMap {
     'gr-labeled-autocomplete': GrLabeledAutocomplete;
   }

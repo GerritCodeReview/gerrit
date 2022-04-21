@@ -29,6 +29,7 @@ import {fireEvent} from '../../../utils/event-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {PropertyType} from '../../../types/common';
 import {modifierPressed} from '../../../utils/dom-util';
+import {ValueChangedEvent} from '../../../types/events';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -47,6 +48,10 @@ export type AutocompleteQuery<T = string> = (
 declare global {
   interface HTMLElementTagNameMap {
     'gr-autocomplete': GrAutocomplete;
+  }
+  interface HTMLElementEventMap {
+    'text-changed': ValueChangedEvent<string>;
+    'value-changed': ValueChangedEvent<string>;
   }
 }
 

@@ -25,7 +25,6 @@ import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.truth.Correspondence;
 import com.google.common.truth.FailureMetadata;
@@ -97,7 +96,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     ChangeData changeData = createChange().getChange();
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      Iterable<PatchSetApproval> approvals =
+      ImmutableSet<PatchSetApproval> approvals =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
       assertThat(approvals).isEmpty();
@@ -117,7 +116,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     ChangeData changeData = changeDataFactory.create(project, r.getChange().getId());
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      Iterable<PatchSetApproval> approvals =
+      ImmutableSet<PatchSetApproval> approvals =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
       assertThatList(approvals)
@@ -178,7 +177,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     assertThat(changeData.currentPatchSet().id().get()).isEqualTo(2);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      Iterable<PatchSetApproval> approvals =
+      ImmutableSet<PatchSetApproval> approvals =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
       assertThatList(approvals)
@@ -204,7 +203,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     assertThat(changeData.currentPatchSet().id().get()).isEqualTo(2);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      Iterable<PatchSetApproval> approvals =
+      ImmutableSet<PatchSetApproval> approvals =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
       assertThatList(approvals)
@@ -239,7 +238,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     assertThat(changeData.currentPatchSet().id().get()).isEqualTo(2);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      Iterable<PatchSetApproval> approvals =
+      ImmutableSet<PatchSetApproval> approvals =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
       assertThatList(approvals)
@@ -268,7 +267,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     assertThat(changeData.currentPatchSet().id().get()).isEqualTo(2);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      Iterable<PatchSetApproval> approvals =
+      ImmutableSet<PatchSetApproval> approvals =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
       assertThatList(approvals)
@@ -299,9 +298,8 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
       ImmutableSet<PatchSetApproval> approvals =
-          ImmutableSet.copyOf(
-              approvalCopier.forPatchSet(
-                  changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig()));
+          approvalCopier.forPatchSet(
+              changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
       assertThatList(filter(approvals, PatchSetApproval::copied))
           .comparingElementsUsing(hasTestId())
           .containsExactly(
@@ -336,8 +334,8 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     }
 
     public static ListSubject<PatchSetApprovalSubject, PatchSetApproval> assertThatList(
-        Iterable<PatchSetApproval> patchSetApprovals) {
-      return ListSubject.assertThat(ImmutableList.copyOf(patchSetApprovals), patchSetApprovals());
+        ImmutableSet<PatchSetApproval> patchSetApprovals) {
+      return ListSubject.assertThat(patchSetApprovals.asList(), patchSetApprovals());
     }
 
     private static Factory<PatchSetApprovalSubject, PatchSetApproval> patchSetApprovals() {

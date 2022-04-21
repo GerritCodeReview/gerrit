@@ -21,6 +21,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -103,7 +104,7 @@ public class ApprovalCopier {
    * patch-set.
    */
   @VisibleForTesting
-  public Iterable<PatchSetApproval> forPatchSet(
+  public ImmutableSet<PatchSetApproval> forPatchSet(
       ChangeNotes notes, PatchSet ps, RevWalk rw, Config repoConfig) {
     ProjectState project;
     try (TraceTimer traceTimer =

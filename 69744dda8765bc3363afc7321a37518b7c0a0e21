@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bb6aa06_3fe29f93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-21T09:26:06Z",
+      "side": 1,
+      "message": "why don\u0027t the listeners need to adapt to match your change?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 73
+      },
+      "revId": "69744dda8765bc3363afc7321a37518b7c0a0e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

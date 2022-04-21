@@ -365,7 +365,7 @@ export class GrLinkTextParser {
         linkInfo.html = html.replace(/<a href="#\//g, '<a href="/');
       } else if (link) {
         if (link[0] === '#') {
-          linkInfo.link = link.substr(1);
+          linkInfo.link = link.slice(1);
         }
       }
 
@@ -376,7 +376,7 @@ export class GrLinkTextParser {
       let susbtrIndex = 0;
 
       while ((match = pattern.exec(textToCheck))) {
-        textToCheck = textToCheck.substr(match.index + match[0].length);
+        textToCheck = textToCheck.slice(match.index + match[0].length);
         let result = match[0].replace(
           pattern,
           // Either html or link has a value. Otherwise an exception is thrown

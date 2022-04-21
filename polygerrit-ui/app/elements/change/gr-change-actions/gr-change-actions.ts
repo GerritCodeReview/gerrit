@@ -656,8 +656,7 @@ export class GrChangeActions
       enabled: true,
       label,
       __type: type,
-      __key:
-        ADDITIONAL_ACTION_KEY_PREFIX + Math.random().toString(36).substr(2),
+      __key: ADDITIONAL_ACTION_KEY_PREFIX + Math.random().toString(36).slice(2),
     };
     this.push('_additionalActions', action);
     return action.__key;

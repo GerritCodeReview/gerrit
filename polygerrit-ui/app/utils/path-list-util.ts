@@ -37,12 +37,12 @@ export function specialFilePathCompare(a: string, b: string) {
   }
 
   const aLastDotIndex = a.lastIndexOf('.');
-  const aExt = a.substr(aLastDotIndex + 1);
-  const aFile = a.substr(0, aLastDotIndex) || a;
+  const aExt = a.slice(aLastDotIndex + 1);
+  const aFile = a.slice(0, aLastDotIndex) || a;
 
   const bLastDotIndex = b.lastIndexOf('.');
-  const bExt = b.substr(bLastDotIndex + 1);
-  const bFile = b.substr(0, bLastDotIndex) || b;
+  const bExt = b.slice(bLastDotIndex + 1);
+  const bFile = b.slice(0, bLastDotIndex) || b;
 
   // Sort header files above others with the same base name.
   const headerExts = ['h', 'hh', 'hxx', 'hpp'];

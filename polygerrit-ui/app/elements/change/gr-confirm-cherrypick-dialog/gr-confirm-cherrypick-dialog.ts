@@ -532,7 +532,7 @@ export class GrConfirmCherrypickDialog extends LitElement {
   }
 
   private generateRandomCherryPickTopic(change: ChangeInfo) {
-    const randomString = Math.random().toString(36).substr(2, 10);
+    const randomString = Math.random().toString(36).slice(2, 10);
     const message = `cherrypick-${change.topic}-${randomString}`;
     return message;
   }

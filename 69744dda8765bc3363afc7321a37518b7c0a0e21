@@ -22,6 +22,30 @@
       },
       "revId": "69744dda8765bc3363afc7321a37518b7c0a0e21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "616ec748_b9340e5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-21T09:28:28Z",
+      "side": 1,
+      "message": "I mentioned that it\u0027s not using the event value but simply using the fact that the event was fired to resize itself.",
+      "parentUuid": "3bb6aa06_3fe29f93",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 73
+      },
+      "revId": "69744dda8765bc3363afc7321a37518b7c0a0e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

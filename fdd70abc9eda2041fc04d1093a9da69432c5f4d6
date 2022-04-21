@@ -153,6 +153,24 @@
       "parentUuid": "69da4f52_393d1016",
       "revId": "fdd70abc9eda2041fc04d1093a9da69432c5f4d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "602afdcd_8d64d443",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-04-21T14:45:13Z",
+      "side": 1,
+      "message": "\u003e \u003e which results in a lower quality than necessary.\n\u003e \n\u003e Not necessarily. If an issue is detected post submit, it can still be addressed or the change can be reverted easily.\n\nfrom a maintainer perspective, the git history is also part of the product. garbled language, fixup commits, reverts, etc. make it harder to work with. it\u0027s one thing if something is actually urgent, or the area is hot enough to be prone to conflicts, but i don\u0027t think sacrificing history quality for \"velocity\" alone is a good deal.",
+      "parentUuid": "b7b82301_14e22d77",
+      "revId": "fdd70abc9eda2041fc04d1093a9da69432c5f4d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

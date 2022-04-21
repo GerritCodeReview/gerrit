@@ -46,6 +46,47 @@
       },
       "revId": "406fc325d1793d512fee95681a053dc7bb200bc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44dbc37c_34774d19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-04-21T08:09:43Z",
+      "side": 1,
+      "message": "Ok, I see. It still sounds strange to me that we need to explicitly tell the scenario if a URL is authenticated or not. I think the nice thing about the JSON feeder is that you could potentially just drop a bunch of URLs in it and without changing the code you should be able to run your scenarios.",
+      "parentUuid": "a8c20c6b_eeb1fe7a",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "406fc325d1793d512fee95681a053dc7bb200bc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dded7bf2_2afe7ad0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-04-21T08:09:43Z",
+      "side": 1,
+      "message": "I still ",
+      "revId": "406fc325d1793d512fee95681a053dc7bb200bc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

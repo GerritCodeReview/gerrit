@@ -25,7 +25,10 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
+import com.google.gerrit.server.query.change.ChangeData;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,9 +38,11 @@ public abstract class NotificationEmail extends OutgoingEmail {
 
   protected BranchNameKey branch;
 
-  protected NotificationEmail(EmailArguments args, String messageClass, BranchNameKey branch) {
+  protected NotificationEmail(EmailArguments args, String messageClass, ChangeData cd) {
     super(args, messageClass);
-    this.branch = branch;
+    try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+      this.branch = cd.change().getDest();
+    }
   }
 
   @Override

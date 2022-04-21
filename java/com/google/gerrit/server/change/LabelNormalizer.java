@@ -15,13 +15,13 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
@@ -32,8 +32,9 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Normalizes votes on labels according to project config.
@@ -49,23 +50,25 @@ public class LabelNormalizer {
   public abstract static class Result {
     @VisibleForTesting
     static Result create(
-        List<PatchSetApproval> unchanged,
-        List<PatchSetApproval> updated,
-        List<PatchSetApproval> deleted) {
+        Set<PatchSetApproval> unchanged,
+        Set<PatchSetApproval> updated,
+        Set<PatchSetApproval> deleted) {
       return new AutoValue_LabelNormalizer_Result(
-          ImmutableList.copyOf(unchanged),
-          ImmutableList.copyOf(updated),
-          ImmutableList.copyOf(deleted));
+          ImmutableSet.copyOf(unchanged),
+          ImmutableSet.copyOf(updated),
+          ImmutableSet.copyOf(deleted));
     }
 
-    public abstract ImmutableList<PatchSetApproval> unchanged();
+    public abstract ImmutableSet<PatchSetApproval> unchanged();
 
-    public abstract ImmutableList<PatchSetApproval> updated();
+    public abstract ImmutableSet<PatchSetApproval> updated();
 
-    public abstract ImmutableList<PatchSetApproval> deleted();
+    public abstract ImmutableSet<PatchSetApproval> deleted();
 
-    public Iterable<PatchSetApproval> getNormalized() {
-      return Iterables.concat(unchanged(), updated());
+    public ImmutableSet<PatchSetApproval> getNormalized() {
+      return Streams.concat(unchanged().stream(), updated().stream())
+          .distinct()
+          .collect(toImmutableSet());
     }
   }
 
@@ -84,9 +87,9 @@ public class LabelNormalizer {
    * @param approvals list of approvals.
    */
   public Result normalize(ChangeNotes notes, Collection<PatchSetApproval> approvals) {
-    List<PatchSetApproval> unchanged = Lists.newArrayListWithCapacity(approvals.size());
-    List<PatchSetApproval> updated = Lists.newArrayListWithCapacity(approvals.size());
-    List<PatchSetApproval> deleted = Lists.newArrayListWithCapacity(approvals.size());
+    Set<PatchSetApproval> unchanged = new HashSet<>(approvals.size());
+    Set<PatchSetApproval> updated = new HashSet<>(approvals.size());
+    Set<PatchSetApproval> deleted = new HashSet<>(approvals.size());
     LabelTypes labelTypes =
         projectCache
             .get(notes.getProjectName())

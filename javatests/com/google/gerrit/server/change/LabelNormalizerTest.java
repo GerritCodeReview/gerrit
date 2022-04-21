@@ -21,7 +21,7 @@ import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static org.junit.Assert.assertEquals;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
@@ -50,7 +50,6 @@ import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import java.util.List;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
@@ -149,7 +148,7 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, LabelId.CODE_REVIEW, 2);
     PatchSetApproval v = psa(userId, LabelId.VERIFIED, 1);
-    assertEquals(Result.create(list(cr, v), list(), list()), norm.normalize(notes, list(cr, v)));
+    assertEquals(Result.create(set(cr, v), set(), set()), norm.normalize(notes, set(cr, v)));
   }
 
   @Test
@@ -167,15 +166,15 @@ public class LabelNormalizerTest {
     PatchSetApproval cr = psa(userId, LabelId.CODE_REVIEW, 5);
     PatchSetApproval v = psa(userId, LabelId.VERIFIED, 5);
     assertEquals(
-        Result.create(list(), list(copy(cr, 2), copy(v, 1)), list()),
-        norm.normalize(notes, list(cr, v)));
+        Result.create(set(), set(copy(cr, 2), copy(v, 1)), set()),
+        norm.normalize(notes, set(cr, v)));
   }
 
   @Test
   public void emptyPermissionRangeKeepsResult() throws Exception {
     PatchSetApproval cr = psa(userId, LabelId.CODE_REVIEW, 1);
     PatchSetApproval v = psa(userId, LabelId.VERIFIED, 1);
-    assertEquals(Result.create(list(cr, v), list(), list()), norm.normalize(notes, list(cr, v)));
+    assertEquals(Result.create(set(cr, v), set(), set()), norm.normalize(notes, set(cr, v)));
   }
 
   @Test
@@ -191,7 +190,7 @@ public class LabelNormalizerTest {
 
     PatchSetApproval cr = psa(userId, LabelId.CODE_REVIEW, 0);
     PatchSetApproval v = psa(userId, LabelId.VERIFIED, 0);
-    assertEquals(Result.create(list(cr, v), list(), list()), norm.normalize(notes, list(cr, v)));
+    assertEquals(Result.create(set(cr, v), set(), set()), norm.normalize(notes, set(cr, v)));
   }
 
   private ProjectConfig loadAllProjects() throws Exception {
@@ -221,7 +220,7 @@ public class LabelNormalizerTest {
     return src.toBuilder().value(newValue).build();
   }
 
-  private static List<PatchSetApproval> list(PatchSetApproval... psas) {
-    return ImmutableList.copyOf(psas);
+  private static ImmutableSet<PatchSetApproval> set(PatchSetApproval... psas) {
+    return ImmutableSet.copyOf(psas);
   }
 }

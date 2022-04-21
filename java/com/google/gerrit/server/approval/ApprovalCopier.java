@@ -18,8 +18,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -67,7 +69,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * <p>The result of a copy is stored in NoteDb when a new patch set is created.
  */
 @Singleton
-class ApprovalCopier {
+@VisibleForTesting
+public class ApprovalCopier {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DiffOperations diffOperations;
@@ -100,7 +103,8 @@ class ApprovalCopier {
    * Returns all approvals that apply to the given patch set. Honors copied approvals from previous
    * patch-set.
    */
-  Iterable<PatchSetApproval> forPatchSet(
+  @VisibleForTesting
+  public ImmutableSet<PatchSetApproval> forPatchSet(
       ChangeNotes notes, PatchSet ps, RevWalk rw, Config repoConfig) {
     ProjectState project;
     try (TraceTimer traceTimer =

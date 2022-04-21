@@ -59,9 +59,6 @@ const NOTHING_TO_SAVE = 'No changes to save.';
 const MAX_AUTOCOMPLETE_RESULTS = 50;
 
 declare global {
-  interface HTMLElementEventMap {
-    'text-changed': CustomEvent<string>;
-  }
   interface HTMLElementTagNameMap {
     'gr-repo-access': GrRepoAccess;
   }

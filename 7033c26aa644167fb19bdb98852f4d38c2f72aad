@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed44e675_2fbe30f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-21T07:17:16Z",
+      "side": 1,
+      "message": "Tested E2E with Gatling and stale check enabled",
+      "revId": "7033c26aa644167fb19bdb98852f4d38c2f72aad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

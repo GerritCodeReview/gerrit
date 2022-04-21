@@ -353,8 +353,8 @@ public class ApprovalsUtil {
       RevWalk revWalk,
       Config repoConfig,
       ChangeUpdate changeUpdate) {
-    approvalCopier
-        .forPatchSet(notes, patchSet, revWalk, repoConfig)
+    approvalCopier.forPatchSet(notes, patchSet, revWalk, repoConfig).stream()
+        .filter(PatchSetApproval::copied)
         .forEach(a -> changeUpdate.putCopiedApproval(a));
   }
 

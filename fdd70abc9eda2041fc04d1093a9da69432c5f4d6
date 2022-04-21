@@ -81,6 +81,24 @@
       "parentUuid": "00bb2155_d1ed4281",
       "revId": "fdd70abc9eda2041fc04d1093a9da69432c5f4d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeb708dd_7bddb1c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-04-21T13:36:41Z",
+      "side": 1,
+      "message": "that \"blocking\" thing seems fishy to me. maybe you need to start using tooling that supports a branchless workflow, like the git-gpush script i\u0027ve mentioned before? https://wiki.qt.io/Git-gpush-scripts",
+      "parentUuid": "fc119496_11de72be",
+      "revId": "fdd70abc9eda2041fc04d1093a9da69432c5f4d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

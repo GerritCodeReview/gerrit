@@ -62,11 +62,16 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
- * Computes approvals for a given patch set by looking at approvals applied to the given patch set
- * and by additionally copying approvals from the previous patch set. The latter is done by
- * asserting a change's kind and checking the project config for copy conditions.
+ * Computes copied approvals for a given patch set.
  *
- * <p>The result of a copy is stored in NoteDb when a new patch set is created.
+ * <p>Approvals are copied if:
+ *
+ * <ul>
+ *   <li>the approval on the previous patch set matches the copy condition of its label
+ *   <li>the approval is not overridden by a current approval on the patch set
+ * </ul>
+ *
+ * <p>Callers should store the copied approvals in NoteDb when a new patch set is created.
  */
 @Singleton
 @VisibleForTesting
@@ -100,8 +105,14 @@ public class ApprovalCopier {
   }
 
   /**
-   * Returns all approvals that apply to the given patch set. Honors copied approvals from previous
-   * patch-set.
+   * Returns all copied approvals that apply to the given patch set.
+   *
+   * <p>Approvals are copied if:
+   *
+   * <ul>
+   *   <li>the approval on the previous patch set matches the copy condition of its label
+   *   <li>the approval is not overridden by a current approval on the patch set
+   * </ul>
    */
   @VisibleForTesting
   public ImmutableSet<PatchSetApproval> forPatchSet(
@@ -357,10 +368,12 @@ public class ApprovalCopier {
     PatchSet.Id psId = patchSet.id();
     // Add approvals on the given patch set to the result
     Table<String, Account.Id, PatchSetApproval> resultByUser = HashBasedTable.create();
+
+    Table<String, Account.Id, PatchSetApproval> currentApprovalsByUser = HashBasedTable.create();
     ImmutableList<PatchSetApproval> nonCopiedApprovalsForGivenPatchSet =
         notes.load().getApprovals().get(patchSet.id());
     nonCopiedApprovalsForGivenPatchSet.forEach(
-        psa -> resultByUser.put(psa.label(), psa.accountId(), psa));
+        psa -> currentApprovalsByUser.put(psa.label(), psa.accountId(), psa));
 
     // Bail out immediately if this is the first patch set. Return only approvals granted on the
     // given patch set.
@@ -397,7 +410,8 @@ public class ApprovalCopier {
     Map<String, ModifiedFile> priorVsCurrent = null;
     LabelTypes labelTypes = project.getLabelTypes();
     for (PatchSetApproval psa : priorApprovalsIncludingCopied) {
-      if (resultByUser.contains(psa.label(), psa.accountId())) {
+      if (currentApprovalsByUser.contains(psa.label(), psa.accountId())
+          || resultByUser.contains(psa.label(), psa.accountId())) {
         continue;
       }
       Optional<LabelType> type = labelTypes.byLabel(psa.labelId());

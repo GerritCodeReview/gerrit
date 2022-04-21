@@ -25,6 +25,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -58,14 +60,17 @@ public class ChangeAbandoned {
       return;
     }
     try {
-      Event event =
-          new Event(
-              util.changeInfo(change),
-              util.revisionInfo(change.getProject(), ps),
-              util.accountInfo(abandoner),
-              reason,
-              when,
-              notifyHandling);
+      Event event;
+      try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+        event =
+            new Event(
+                util.changeInfo(change),
+                util.revisionInfo(change.getProject(), ps),
+                util.accountInfo(abandoner),
+                reason,
+                when,
+                notifyHandling);
+      }
       listeners.runEach(l -> l.onChangeAbandoned(event));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());

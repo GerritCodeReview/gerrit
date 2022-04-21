@@ -367,7 +367,7 @@ suite('gr-linked-text tests', () => {
     await element.updateComplete;
 
     assert.equal(
-      queryAndAssert(element, 'span#output').innerHTML.substr(0, 6),
+      queryAndAssert(element, 'span#output').innerHTML.slice(0, 6),
       'xx abc'
     );
     let links = queryAndAssert(element, 'span#output').querySelectorAll('a');
@@ -379,7 +379,7 @@ suite('gr-linked-text tests', () => {
     await element.updateComplete;
 
     assert.equal(
-      queryAndAssert(element, 'span#output').innerHTML.substr(0, 6),
+      queryAndAssert(element, 'span#output').innerHTML.slice(0, 6),
       'xx def'
     );
     links = queryAndAssert(element, 'span#output').querySelectorAll('a');
@@ -391,7 +391,7 @@ suite('gr-linked-text tests', () => {
     await element.updateComplete;
 
     assert.equal(
-      queryAndAssert(element, 'span#output').innerHTML.substr(0, 6),
+      queryAndAssert(element, 'span#output').innerHTML.slice(0, 6),
       'xx qwe'
     );
     links = queryAndAssert(element, 'span#output').querySelectorAll('a');
@@ -404,7 +404,7 @@ suite('gr-linked-text tests', () => {
     await element.updateComplete;
 
     assert.equal(
-      queryAndAssert(element, 'span#output').innerHTML.substr(0, 6),
+      queryAndAssert(element, 'span#output').innerHTML.slice(0, 6),
       'xx абв'
     );
     links = queryAndAssert(element, 'span#output').querySelectorAll('a');

@@ -63,7 +63,7 @@ export class GrLimitedText extends LitElement {
   // Should be private but used in tests.
   renderText() {
     if (this.tooLong()) {
-      return this.text.substr(0, this.limit - 1) + '…';
+      return this.text.slice(0, this.limit - 1) + '…';
     }
     return this.text;
   }

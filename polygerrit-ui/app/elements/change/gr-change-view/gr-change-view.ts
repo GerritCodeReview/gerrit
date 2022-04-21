@@ -1457,7 +1457,7 @@ export class GrChangeView extends base {
 
   _maybeScrollToMessage(hash: string) {
     if (hash.startsWith(PREFIX) && this.messagesList) {
-      this.messagesList.scrollToMessage(hash.substr(PREFIX.length));
+      this.messagesList.scrollToMessage(hash.slice(PREFIX.length));
     }
   }
 
@@ -1525,7 +1525,7 @@ export class GrChangeView extends base {
 
   private updateTitle(change?: ChangeInfo | ParsedChangeInfo) {
     if (!change) return;
-    const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
+    const title = change.subject + ' (' + change.change_id.slice(0, 9) + ')';
     fireTitleChange(this, title);
   }
 

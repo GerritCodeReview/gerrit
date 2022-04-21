@@ -287,9 +287,9 @@ export class GrTextarea extends PolymerElement {
   _getText(value: string) {
     if (!this.text) return '';
     return (
-      this.text.substr(0, this._colonIndex || 0) +
+      this.text.slice(0, this._colonIndex || 0) +
       value +
-      this.text.substr(this.$.textarea.selectionStart)
+      this.text.slice(this.$.textarea.selectionStart)
     );
   }
 
@@ -302,7 +302,7 @@ export class GrTextarea extends PolymerElement {
   _updateCaratPosition() {
     this._hideEmojiAutocomplete = false;
     if (typeof this.$.textarea.value === 'string') {
-      this.$.hiddenText.textContent = this.$.textarea.value.substr(
+      this.$.hiddenText.textContent = this.$.textarea.value.slice(
         0,
         this.$.textarea.selectionStart
       );
@@ -352,7 +352,7 @@ export class GrTextarea extends PolymerElement {
       return;
     }
 
-    this._currentSearchString = e.detail.value.substr(
+    this._currentSearchString = e.detail.value.slice(
       this._colonIndex + 1,
       this.$.textarea.selectionStart - this._colonIndex - 1
     );
@@ -434,7 +434,7 @@ export class GrTextarea extends PolymerElement {
     // the indentation level of the current line, not the end of the text which
     // may be different.
     const currentLine = this.$.textarea.textarea.value
-      .substr(0, this.$.textarea.selectionStart)
+      .slice(0, this.$.textarea.selectionStart)
       .split('\n')
       .pop();
     const currentLineIndentation = currentLine?.match(/^\s*/)?.[0];

@@ -592,7 +592,7 @@ export class GrDiffBuilderElement extends PolymerElement {
           // Normalize string positions in case there is unicode before or
           // within the match.
           const index = GrAnnotation.getStringLength(
-            line.text.substr(0, match.index)
+            line.text.slice(0, match.index)
           );
           const length = GrAnnotation.getStringLength(match[0]);
           GrAnnotation.annotateElement(

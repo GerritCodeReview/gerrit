@@ -309,7 +309,7 @@ export class GrDownloadDialog extends LitElement {
     }
 
     const rev = getRevisionKey(this.change, this.patchNum) ?? '';
-    const shortRev = rev.substr(0, 7);
+    const shortRev = rev.slice(0, 7);
 
     return shortRev + '.diff.' + (zip ? 'zip' : 'base64');
   }

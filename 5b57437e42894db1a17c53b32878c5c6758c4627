@@ -16,6 +16,23 @@
       "message": "Tested E2E with Gatling and stale check enabled",
       "revId": "5b57437e42894db1a17c53b32878c5c6758c4627",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5f8b564_cfdc1207",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-21T07:18:45Z",
+      "side": 1,
+      "message": "@Dmitrii I\u0027ve rebased the whole series and tested E2E with a suite of Gatling tests: all is fully working.\n\nDo we have a light at the end of the tunnel? Are we good? Any further feedback?",
+      "revId": "5b57437e42894db1a17c53b32878c5c6758c4627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

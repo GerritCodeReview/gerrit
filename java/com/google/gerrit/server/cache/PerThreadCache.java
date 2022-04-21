@@ -17,12 +17,18 @@ package com.google.gerrit.server.cache;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.git.RepoRefCache;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -60,10 +66,64 @@ public class PerThreadCache implements AutoCloseable {
   private static final int PER_THREAD_CACHE_SIZE = 25;
 
   /**
-   * Optional HTTP request associated with the per-thread cache, should the thread be associated
-   * with the incoming HTTP thread pool.
+   * System property for enabling the check for stale cache entries. TODO: DO NOT MERGE into
+   * stable-3.2 onwards.
    */
-  private final Optional<HttpServletRequest> httpRequest;
+  public static final String PER_THREAD_CACHE_CHECK_STALE_ENTRIES_PROPERTY =
+      "PerThreadCache_checkStaleEntries";
+
+  /**
+   * System property for disabling caching specific key types. TODO: DO NOT MERGE into stable-3.2
+   * onwards.
+   */
+  public static final String PER_THREAD_CACHE_DISABLED_TYPES_PROPERTY =
+      "PerThreadCache_disabledTypes";
+
+  /**
+   * True when the current thread is associated with an incoming API request that is not changing
+   * any repository /meta refs and therefore caching repo refs is safe. TODO: DO NOT MERGE into
+   * stable-3.2 onwards.
+   */
+  private boolean allowRepoRefsCache;
+
+  /** Allow to check if the cache entry is stale. TODO: DO NOT MERGE into stable-3.2 onwards. */
+  public interface CacheStalenessCheck {
+
+    /**
+     * Check if the cache entry is stale.
+     *
+     * @throws IllegalStateException if the entry is stale
+     */
+    void checkStaleness() throws IllegalStateException;
+  }
+
+  /**
+   * Sets the request status flag to read-only temporarily. TODO: DO NOT MERGE into stable-3.2
+   * onwards.
+   */
+  public interface ReadonlyRequestWindow extends AutoCloseable {
+
+    @Override
+    default void close() {}
+  }
+
+  private class ReadonlyRequestWindowImpl implements ReadonlyRequestWindow {
+    private final boolean oldAllowRepoRefsCache;
+
+    private ReadonlyRequestWindowImpl() {
+      oldAllowRepoRefsCache = allowRepoRefsCache();
+      allowRepoRefsCache(true);
+    }
+
+    @Override
+    public void close() {
+      allowRepoRefsCache(oldAllowRepoRefsCache);
+
+      if (!oldAllowRepoRefsCache) {
+        clearPotentiallyStaleEntries();
+      }
+    }
+  }
 
   /**
    * Unique key for key-value mappings stored in PerThreadCache. The key is based on the value's
@@ -110,9 +170,29 @@ public class PerThreadCache implements AutoCloseable {
     }
   }
 
+  /**
+   * Creates a thread-local cache associated to an incoming HTTP request.
+   *
+   * <p>The request is considered as read-only if the associated method is GET or HEAD.
+   *
+   * @param httpRequest HTTP request associated with the thread-local cache
+   * @return thread-local cache
+   */
   public static PerThreadCache create(@Nullable HttpServletRequest httpRequest) {
     checkState(CACHE.get() == null, "called create() twice on the same request");
-    PerThreadCache cache = new PerThreadCache(httpRequest);
+    PerThreadCache cache = new PerThreadCache(httpRequest, false);
+    CACHE.set(cache);
+    return cache;
+  }
+
+  /**
+   * Creates a thread-local cache associated to an incoming read-only request.
+   *
+   * @return thread-local cache
+   */
+  public static PerThreadCache createReadOnly() {
+    checkState(CACHE.get() == null, "called create() twice on the same request");
+    PerThreadCache cache = new PerThreadCache(null, true);
     CACHE.set(cache);
     return cache;
   }
@@ -128,9 +208,22 @@ public class PerThreadCache implements AutoCloseable {
   }
 
   private final Map<Key<?>, Object> cache = Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);
+  private final boolean checkStaleEntries;
+  private final ImmutableSet<String> disabledTypes;
 
-  private PerThreadCache(@Nullable HttpServletRequest req) {
-    httpRequest = Optional.ofNullable(req);
+  private PerThreadCache(@Nullable HttpServletRequest req, boolean alwaysCacheRepoRefs) {
+    checkStaleEntries =
+        Boolean.valueOf(System.getProperty(PER_THREAD_CACHE_CHECK_STALE_ENTRIES_PROPERTY, "false"));
+    disabledTypes =
+        ImmutableSet.copyOf(
+            Splitter.on(',')
+                .split(System.getProperty(PER_THREAD_CACHE_DISABLED_TYPES_PROPERTY, "")));
+
+    allowRepoRefsCache =
+        alwaysCacheRepoRefs
+            || (req != null
+                && (req.getMethod().equalsIgnoreCase("GET")
+                    || req.getMethod().equalsIgnoreCase("HEAD")));
   }
 
   /**
@@ -138,6 +231,10 @@ public class PerThreadCache implements AutoCloseable {
    * provided {@link Supplier}.
    */
   public <T> T get(Key<T> key, Supplier<T> loader) {
+    if (disabledTypes.contains(key.clazz.getCanonicalName())) {
+      return loader.get();
+    }
+
     @SuppressWarnings("unchecked")
     T value = (T) cache.get(key);
     if (value == null) {
@@ -149,21 +246,55 @@ public class PerThreadCache implements AutoCloseable {
     return value;
   }
 
-  /** Returns the optional HTTP request associated with the local thread cache. */
-  public Optional<HttpServletRequest> getHttpRequest() {
-    return httpRequest;
+  /**
+   * Returns true if the associated request is read-only and therefore the repo refs are safe to be
+   * cached
+   */
+  public boolean allowRepoRefsCache() {
+    return allowRepoRefsCache;
   }
 
-  /** Returns true if there is an HTTP request associated and is a GET or HEAD */
-  public boolean hasReadonlyRequest() {
-    return httpRequest
-        .map(HttpServletRequest::getMethod)
-        .filter(m -> m.equalsIgnoreCase("GET") || m.equalsIgnoreCase("HEAD"))
-        .isPresent();
+  /**
+   * Set the cache read-only request status temporarily for a specific key type entry.
+   *
+   * @return {@link ReadonlyRequestWindow} associated with the incoming request
+   */
+  public static ReadonlyRequestWindow openReadonlyRequestWindow() {
+    PerThreadCache perThreadCache = CACHE.get();
+    return perThreadCache == null
+        ? new ReadonlyRequestWindow() {}
+        : perThreadCache.new ReadonlyRequestWindowImpl();
   }
 
   @Override
   public void close() {
+    Optional.of(CACHE.get())
+        .map(v -> v.cache.values().stream())
+        .orElse(Stream.empty())
+        .filter(v -> v instanceof RepoRefCache)
+        .forEach(cache -> ((RepoRefCache) cache).close());
     CACHE.remove();
+  }
+
+  private void allowRepoRefsCache(boolean allowed) {
+    allowRepoRefsCache = allowed;
+  }
+
+  private void clearPotentiallyStaleEntries() {
+    List<Key<?>> keysToEvict =
+        cache.keySet().stream()
+            .filter(key -> CacheStalenessCheck.class.isAssignableFrom(key.clazz))
+            .collect(Collectors.toList());
+    for (Key<?> key : keysToEvict) {
+      if (checkStaleEntries) {
+        ((CacheStalenessCheck) cache.get(key)).checkStaleness();
+      }
+
+      Object value = cache.get(key);
+      if (value instanceof RepoRefCache) {
+        ((RepoRefCache) value).close();
+      }
+      cache.remove(key);
+    }
   }
 }

@@ -26,6 +26,9 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.index.Index;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.logging.Metadata;
@@ -359,7 +362,7 @@ public class ChangeIndexer {
     @Override
     public Void callImpl() throws Exception {
       remove();
-      try {
+      try (PerThreadCache perThreadCache = PerThreadCache.createReadOnly()) {
         ChangeNotes changeNotes = notesFactory.createChecked(project, id);
         doIndex(changeDataFactory.create(changeNotes));
       } catch (NoSuchChangeException e) {

@@ -135,6 +135,24 @@
       "parentUuid": "036fc794_b00467b7",
       "revId": "fdd70abc9eda2041fc04d1093a9da69432c5f4d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7b82301_14e22d77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-21T13:55:56Z",
+      "side": 1,
+      "message": "If we talk about this in general, needing to keep small changes open for a certain time affects the velocity of our team (e.g. it delays the rollout of fixes etc.), which is why we do not have a general grace period for submitting changes. \n\n\u003e which results in a lower quality than necessary.\n\nNot necessarily. If an issue is detected post submit, it can still be addressed or the change can be reverted easily.",
+      "parentUuid": "69da4f52_393d1016",
+      "revId": "fdd70abc9eda2041fc04d1093a9da69432c5f4d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

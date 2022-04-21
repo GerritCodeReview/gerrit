@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59601a53_f17ef958",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-21T09:17:18Z",
+      "side": 1,
+      "message": "please don\u0027t do that, you can link the source on github\nhttps://github.com/PolymerElements/iron-autogrow-textarea/blob/master/iron-autogrow-textarea.js#L301",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 67
+      },
+      "revId": "8fc2cb809790f4e39ecea6868e40d66424858324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

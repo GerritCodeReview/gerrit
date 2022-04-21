@@ -87,6 +87,24 @@
       "parentUuid": "3a938f58_f0221ee9",
       "revId": "492b43ff139f8a700a52b2a5e6f3b4276957fabd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "285f774d_f5fe0ab5",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectVisibilityCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1140732
+      },
+      "writtenOn": "2022-04-21T21:51:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e37b536_80dbd540",
+      "revId": "492b43ff139f8a700a52b2a5e6f3b4276957fabd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e638d6b8_2e2bff5e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 49
+      },
+      "lineNbr": 1438,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-21T12:07:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c63f2e17_500fa1a8",
+      "range": {
+        "startLine": 1438,
+        "startChar": 0,
+        "endLine": 1438,
+        "endChar": 40
+      },
+      "revId": "6244e761c4c45f61793a67a07d61b507a61d63dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0928a66b_1de41547",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-04-21T11:56:55Z",
       "side": 1,
       "message": "willUpdate",
+      "revId": "6244e761c4c45f61793a67a07d61b507a61d63dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "655d21e4_da9702e9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 49
+      },
+      "lineNbr": 1629,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-21T12:07:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0928a66b_1de41547",
       "revId": "6244e761c4c45f61793a67a07d61b507a61d63dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa44a1cb_233946d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 49
+      },
+      "lineNbr": 1644,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-21T12:07:48Z",
+      "side": 1,
+      "message": "Removed them. They should not be needed.",
+      "parentUuid": "b2e23244_51e6a40d",
+      "range": {
+        "startLine": 1644,
+        "startChar": 0,
+        "endLine": 1644,
+        "endChar": 33
+      },
+      "revId": "6244e761c4c45f61793a67a07d61b507a61d63dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b405631_4496d2ce",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-04-21T11:56:55Z",
       "side": 1,
       "message": "what is \u0027other field\u0027 at the beginning and end of this comment?",
+      "range": {
+        "startLine": 1770,
+        "startChar": 0,
+        "endLine": 1770,
+        "endChar": 79
+      },
+      "revId": "6244e761c4c45f61793a67a07d61b507a61d63dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "560a4808_c17496ed",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 49
+      },
+      "lineNbr": 1770,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-21T12:07:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b405631_4496d2ce",
       "range": {
         "startLine": 1770,
         "startChar": 0,

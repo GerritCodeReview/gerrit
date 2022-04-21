@@ -119,13 +119,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
       ImmutableSet<PatchSetApproval> approvals =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
-      assertThatList(approvals)
-          .comparingElementsUsing(hasTestId())
-          .containsExactly(
-              PatchSetApprovalTestId.create(r.getPatchSetId(), admin.id(), LabelId.CODE_REVIEW, 2),
-              PatchSetApprovalTestId.create(r.getPatchSetId(), admin.id(), LabelId.VERIFIED, 1),
-              PatchSetApprovalTestId.create(r.getPatchSetId(), user.id(), LabelId.CODE_REVIEW, -1),
-              PatchSetApprovalTestId.create(r.getPatchSetId(), user.id(), LabelId.VERIFIED, -1));
+      assertThatList(approvals).isEmpty();
     }
   }
 
@@ -206,13 +200,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
       ImmutableSet<PatchSetApproval> approvals =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
-      assertThatList(approvals)
-          .comparingElementsUsing(hasTestId())
-          .containsExactly(
-              PatchSetApprovalTestId.create(r.getPatchSetId(), admin.id(), LabelId.CODE_REVIEW, 2),
-              PatchSetApprovalTestId.create(r.getPatchSetId(), admin.id(), LabelId.VERIFIED, 1),
-              PatchSetApprovalTestId.create(r.getPatchSetId(), user.id(), LabelId.CODE_REVIEW, -1),
-              PatchSetApprovalTestId.create(r.getPatchSetId(), user.id(), LabelId.VERIFIED, -1));
+      assertThatList(approvals).isEmpty();
     }
   }
 
@@ -245,9 +233,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
           .comparingElementsUsing(hasTestId())
           .containsExactly(
               PatchSetApprovalTestId.create(r.getPatchSetId(), admin.id(), LabelId.CODE_REVIEW, -2),
-              PatchSetApprovalTestId.create(r.getPatchSetId(), user.id(), LabelId.CODE_REVIEW, -1),
-              PatchSetApprovalTestId.create(r.getPatchSetId(), user.id(), LabelId.VERIFIED, -1),
-              PatchSetApprovalTestId.create(r.getPatchSetId(), admin.id(), LabelId.VERIFIED, -1));
+              PatchSetApprovalTestId.create(r.getPatchSetId(), user.id(), LabelId.VERIFIED, -1));
     }
   }
 
@@ -270,10 +256,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
       ImmutableSet<PatchSetApproval> approvals =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
-      assertThatList(approvals)
-          .comparingElementsUsing(hasTestId())
-          .containsExactly(
-              PatchSetApprovalTestId.create(r.getPatchSetId(), admin.id(), LabelId.CODE_REVIEW, 1));
+      assertThatList(approvals).isEmpty();
     }
   }
 
@@ -304,11 +287,7 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
           .comparingElementsUsing(hasTestId())
           .containsExactly(
               PatchSetApprovalTestId.create(r.getPatchSetId(), user.id(), LabelId.VERIFIED, -1));
-      assertThatList(filter(approvals, psa -> !psa.copied()))
-          .comparingElementsUsing(hasTestId())
-          .containsExactly(
-              PatchSetApprovalTestId.create(r.getPatchSetId(), admin.id(), LabelId.CODE_REVIEW, 1),
-              PatchSetApprovalTestId.create(r.getPatchSetId(), admin.id(), LabelId.VERIFIED, 1));
+      assertThatList(filter(approvals, psa -> !psa.copied())).isEmpty();
     }
   }
 

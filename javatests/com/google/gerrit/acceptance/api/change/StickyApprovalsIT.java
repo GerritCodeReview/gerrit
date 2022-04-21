@@ -1172,15 +1172,68 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().review(input);
 
     // Make a new patchset, keeping the Code-Review +2 vote.
-    amendChange(r.getChangeId());
+    r = amendChange(r.getChangeId());
+
+    // Verify that the approval has been copied to patch set 2 (use the currentApprovals() method
+    // rather than the approvals() method since the latter one filters out copied approvals).
+    List<PatchSetApproval> approvalsPs2 = r.getChange().currentApprovals();
+    assertThat(approvalsPs2).hasSize(1);
+    assertThat(Iterables.getOnlyElement(approvalsPs2).copied()).isTrue();
 
     // Post without changing the vote.
     input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
     gApi.changes().id(r.getChangeId()).current().review(input);
 
-    // There is a vote both on patchset 1 and on patchset 2, although both votes are Code-Review +2.
+    // There is a vote both on patch set 1 and on patch set 2, although both votes are Code-Review
+    // +2. The approval on patch set 2 is no longer copied since it was reapplied.
     assertThat(r.getChange().approvals().get(PatchSet.id(r.getChange().getId(), 1))).hasSize(1);
-    assertThat(r.getChange().approvals().get(PatchSet.id(r.getChange().getId(), 2))).hasSize(1);
+    approvalsPs2 = r.getChange().currentApprovals();
+    assertThat(approvalsPs2).hasSize(1);
+    assertThat(Iterables.getOnlyElement(approvalsPs2).copied()).isFalse();
+  }
+
+  @Test
+  public void copiedVoteIsNotReapplied() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+
+    PushOneCommit.Result r = createChange();
+
+    // Add vote that will be copied.
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // Create a new patchset, the Code-Review +2 vote is copied.
+    r = amendChange(r.getChangeId());
+
+    // Verify that the approval has been copied to patch set 2 (use the currentApprovals() method
+    // rather than the approvals() method since the latter one filters out copied approvals).
+    List<PatchSetApproval> approvalsPs2 = r.getChange().currentApprovals();
+    assertThat(approvalsPs2).hasSize(1);
+    assertThat(Iterables.getOnlyElement(approvalsPs2).copied()).isTrue();
+
+    // Vote on another label. This shouldn't touch the copied approval.
+    input = new ReviewInput().label(LabelId.VERIFIED, 1);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    // Patch set 2 has 2 approvals now, one copied approval for the Code-Review label and one
+    // non-copied
+    // approval for the Verified label.
+    approvalsPs2 = r.getChange().currentApprovals();
+    assertThat(approvalsPs2).hasSize(2);
+    assertThat(
+            Iterables.getOnlyElement(
+                    approvalsPs2.stream()
+                        .filter(psa -> LabelId.CODE_REVIEW.equals(psa.label()))
+                        .collect(toImmutableList()))
+                .copied())
+        .isTrue();
+    assertThat(
+            Iterables.getOnlyElement(
+                    approvalsPs2.stream()
+                        .filter(psa -> LabelId.VERIFIED.equals(psa.label()))
+                        .collect(toImmutableList()))
+                .copied())
+        .isFalse();
   }
 
   @Test

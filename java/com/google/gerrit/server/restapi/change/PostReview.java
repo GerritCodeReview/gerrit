@@ -1454,7 +1454,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           // Only allow voting again if the vote is copied over from a past patch-set, or the
           // values are different.
         } else if (c != null
-            && (c.value() != ent.getValue() || isApprovalCopiedOver(c, ctx.getNotes()))) {
+            && (c.value() != ent.getValue()
+                || (inLabels.containsKey(c.label()) && isApprovalCopiedOver(c, ctx.getNotes())))) {
           PatchSetApproval.Builder b =
               c.toBuilder()
                   .value(ent.getValue())

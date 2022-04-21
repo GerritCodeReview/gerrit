@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31a58fe9_cd8d8993",
+        "filename": "Documentation/cmd-check-project-visibility.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2022-04-21T18:15:51Z",
+      "side": 1,
+      "message": "if possible check how it is done in other commands",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 16
+      },
+      "revId": "e6843949055ecd4bc727225715751199d366baf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6362a48_ef048e42",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectVisibilityCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2022-04-21T18:15:51Z",
+      "side": 1,
+      "message": "I think its regression, before it was providing list of user with the same name but different emails for example. Now it only returns First match, I think you should look at this again.",
+      "range": {
+        "startLine": 99,
+        "startChar": 25,
+        "endLine": 99,
+        "endChar": 32
+      },
+      "revId": "e6843949055ecd4bc727225715751199d366baf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

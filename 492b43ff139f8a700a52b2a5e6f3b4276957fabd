@@ -69,6 +69,24 @@
       "parentUuid": "5418a2a7_f187e20d",
       "revId": "492b43ff139f8a700a52b2a5e6f3b4276957fabd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e37b536_80dbd540",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectVisibilityCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2022-04-21T18:15:51Z",
+      "side": 1,
+      "message": "I am not sure about letting this method print, since before it was generating a string. I think it looks better.",
+      "parentUuid": "3a938f58_f0221ee9",
+      "revId": "492b43ff139f8a700a52b2a5e6f3b4276957fabd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

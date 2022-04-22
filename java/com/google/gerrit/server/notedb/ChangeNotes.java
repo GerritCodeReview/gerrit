@@ -569,8 +569,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   protected ObjectId readRef(Repository repo) throws IOException {
     Optional<RefCache> refsCache =
         Optional.ofNullable(refs).map(Optional::of).orElse(RepoRefCache.getOptional(repo));
-    return refsCache.isPresent()
-        ? refsCache.get().get(getRefName()).orElse(null)
-        : super.readRef(repo);
+
+    if (refsCache.isPresent()) {
+      try (RefCache cache = refsCache.get()) {
+        return cache.get(getRefName()).orElse(null);
+      }
+    }
+
+    return super.readRef(repo);
   }
 }

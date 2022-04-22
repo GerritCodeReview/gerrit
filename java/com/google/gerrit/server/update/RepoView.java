@@ -186,6 +186,7 @@ public class RepoView {
     if (closeRepo) {
       inserter.close();
       rw.close();
+      commands.close();
       repo.close();
     }
   }

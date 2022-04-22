@@ -85,7 +85,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected boolean emailOnlyAuthors;
 
   protected ChangeEmail(EmailArguments ea, String mc, ChangeData cd) {
-    super(ea, mc, cd.change().getDest());
+    super(ea, mc, cd);
     changeData = cd;
     change = cd.change();
     emailOnlyAuthors = false;

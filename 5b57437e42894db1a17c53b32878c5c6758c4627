@@ -284,6 +284,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d7e773a0_6c90bbb6",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-22T09:58:39Z",
+      "side": 1,
+      "message": "\u003e The problem of the repo being used after close was there already, because we are returning a cached RepoRefCache instance that holds a reference to a refDatabase which could have been closed already.\n\nI might be wrong, but as I can see in https://gerrit-review.git.corp.google.com/c/gerrit/+/334539, all RepoRefCache usages are local, i.e. the pattern is (simplified):\n  // local variable\n  Optional\u003cRepoRefCache\u003e repoRefCache \u003d RepoRefCache.getOptional(repo);\n  ...use repoRefCache if present, otherwise use repo\n  // end of method, forget about repoRefCache\n  \nThe repo is always open when RepoRefCache.getOptional(repo) is called, so we are 100% sure that repoRefCache uses opened repo here.\n\nAnd RepoRefCache is never used anywhere else (i.e. PerThreadCache doesn\u0027t clean it up later), so stable-2.16 shouldn\u0027t have this problem. The problem appears because here we are trying to check stale references later.\n\n\u003e Just to clarify *WHY* I want to address this as a separate issue\nWhat do you think about my idea with unloaders, which should solve both problems (ownership of Repository + this one)?\nIn overall, I\u0027m ok with fixing it as a separate issue, but I would like to have a full picture - parts depends on each other. I noticed this problem when I started to think about unloaders and I would say existing code is not easy to analyse because repo.incrementOpen and repo.close are processed differently (i.e. RepoRefCache is responsible for calling incrementOpen, but PerThreadCache is responsible for close).\nI am afraid that splitting fix into a different change makes it harder for review. So, if the fix is small - I would like to see it as a part of this change.",
+      "parentUuid": "2aad8fcb_2a6ddd99",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 244,
+        "endChar": 7
+      },
+      "revId": "5b57437e42894db1a17c53b32878c5c6758c4627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81520c0c_d5652de6",
         "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
         "patchSetId": 30

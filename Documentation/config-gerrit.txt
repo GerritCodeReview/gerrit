@@ -5264,11 +5264,7 @@ link:dev-plugins.html#performance-logger[PerformanceLogger] plugins.
 This means if performance logging is enabled, the memory footprint of
 requests is slightly increased.
 +
-This setting has no effect if no
-link:dev-plugins.html#performance-logger[PerformanceLogger] plugins are
-installed, because then performance logging is always disabled.
-+
-By default, true.
+By default, false.
 
 [[tracing.exportPerformanceMetrics]]tracing.exportPerformanceMetrics::
 +

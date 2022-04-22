@@ -201,7 +201,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     // submit.
     PatchSetApproval patchSetApprovals =
         Iterables.getLast(
-            r.getChange().notes().getApprovalsWithCopied().values().stream()
+            r.getChange().notes().getApprovals().all().values().stream()
                 .filter(a -> a.labelId().equals(LabelId.create(LabelId.CODE_REVIEW)))
                 .sorted(comparing(a -> a.patchSetId().get()))
                 .collect(toImmutableList()));

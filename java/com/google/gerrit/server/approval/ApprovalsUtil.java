@@ -336,7 +336,7 @@ public class ApprovalsUtil {
 
   public ListMultimap<PatchSet.Id, PatchSetApproval> byChangeExcludingCopiedApprovals(
       ChangeNotes notes) {
-    return notes.load().getApprovals();
+    return notes.load().getApprovals().onlyNonCopied();
   }
 
   /**
@@ -367,7 +367,7 @@ public class ApprovalsUtil {
    *     deleted labels.
    */
   public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {
-    List<PatchSetApproval> approvalsNotNormalized = notes.load().getApprovalsWithCopied().get(psId);
+    List<PatchSetApproval> approvalsNotNormalized = notes.load().getApprovals().all().get(psId);
     return labelNormalizer.normalize(notes, approvalsNotNormalized).getNormalized();
   }
 

@@ -163,7 +163,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
 
-    ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals = notes.getApprovalsWithCopied();
+    ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals = notes.getApprovals().all();
     assertThat(approvals).hasSize(1);
     assertThat(approvals.entries().asList().get(0).getValue().tag()).hasValue(tag2);
   }
@@ -209,7 +209,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
 
-    ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals = notes.getApprovalsWithCopied();
+    ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals = notes.getApprovals().all();
     assertThat(approvals).hasSize(1);
     PatchSetApproval approval = approvals.entries().asList().get(0).getValue();
     assertThat(approval.tag()).hasValue(integrationTag);
@@ -235,8 +235,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getApprovalsWithCopied().keySet()).containsExactly(c.currentPatchSetId());
-    List<PatchSetApproval> psas = notes.getApprovalsWithCopied().get(c.currentPatchSetId());
+    assertThat(notes.getApprovals().all().keySet()).containsExactly(c.currentPatchSetId());
+    List<PatchSetApproval> psas = notes.getApprovals().all().get(c.currentPatchSetId());
     assertThat(psas).hasSize(2);
 
     assertThat(psas.get(0).patchSetId()).isEqualTo(c.currentPatchSetId());
@@ -269,7 +269,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     PatchSet.Id ps2 = c.currentPatchSetId();
 
     ChangeNotes notes = newNotes(c);
-    ListMultimap<PatchSet.Id, PatchSetApproval> psas = notes.getApprovalsWithCopied();
+    ListMultimap<PatchSet.Id, PatchSetApproval> psas = notes.getApprovals().all();
     assertThat(psas).hasSize(2);
 
     PatchSetApproval psa1 = Iterables.getOnlyElement(psas.get(ps1));
@@ -298,7 +298,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     PatchSetApproval psa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
     assertThat(psa.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psa.value()).isEqualTo((short) -1);
     assertParsedUuid(psa);
@@ -308,7 +308,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    psa = Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+    psa = Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
     assertThat(psa.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psa.value()).isEqualTo((short) 1);
     assertParsedUuid(psa);
@@ -326,8 +326,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getApprovalsWithCopied().keySet()).containsExactly(c.currentPatchSetId());
-    List<PatchSetApproval> psas = notes.getApprovalsWithCopied().get(c.currentPatchSetId());
+    assertThat(notes.getApprovals().all().keySet()).containsExactly(c.currentPatchSetId());
+    List<PatchSetApproval> psas = notes.getApprovals().all().get(c.currentPatchSetId());
     assertThat(psas).hasSize(2);
 
     assertThat(psas.get(0).patchSetId()).isEqualTo(c.currentPatchSetId());
@@ -354,7 +354,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     PatchSetApproval psa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
     assertThat(psa.accountId().get()).isEqualTo(1);
     assertThat(psa.label()).isEqualTo("Not-For-Long");
     assertThat(psa.value()).isEqualTo((short) 1);
@@ -365,7 +365,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getApprovalsWithCopied())
+    assertThat(notes.getApprovals().all())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
                 psa.patchSetId(),
@@ -386,7 +386,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
       ChangeNotes notes = newNotes(c);
       PatchSetApproval psa =
-          Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+          Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
       assertThat(psa.accountId()).isEqualTo(changeOwner.getAccountId());
       assertThat(psa.label()).isEqualTo(LabelId.CODE_REVIEW);
       assertThat(psa.value()).isEqualTo((short) value);
@@ -403,7 +403,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     PatchSetApproval psa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
     assertThat(psa.accountId()).isEqualTo(changeOwner.getAccountId());
     assertThat(psa.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psa.value()).isEqualTo((short) -1);
@@ -415,7 +415,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     notes = newNotes(c);
     PatchSetApproval emptyPsa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(psa.patchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(psa.patchSetId()));
     assertThat(emptyPsa.key()).isEqualTo(psa.key());
     assertThat(emptyPsa.value()).isEqualTo((short) 0);
     assertThat(emptyPsa.label()).isEqualTo(psa.label());
@@ -431,7 +431,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     PatchSetApproval psa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
     assertThat(psa.accountId()).isEqualTo(changeOwner.getAccountId());
     assertThat(psa.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(psa.value()).isEqualTo((short) -1);
@@ -443,7 +443,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     notes = newNotes(c);
     PatchSetApproval removedPsa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(psa.patchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(psa.patchSetId()));
     assertThat(removedPsa.key()).isEqualTo(psa.key());
     assertThat(removedPsa.value()).isEqualTo((short) 0);
     assertThat(removedPsa.label()).isEqualTo(psa.label());
@@ -458,9 +458,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getApprovalsWithCopied().keySet()).containsExactly(c.currentPatchSetId());
+    assertThat(notes.getApprovals().all().keySet()).containsExactly(c.currentPatchSetId());
     PatchSetApproval originalPsa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
 
     assertThat(originalPsa.patchSetId()).isEqualTo(c.currentPatchSetId());
     assertThat(originalPsa.accountId()).isEqualTo(changeOwner.getAccountId());
@@ -474,9 +474,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getApprovalsWithCopied().keySet()).hasSize(1);
+    assertThat(notes.getApprovals().all().keySet()).hasSize(1);
     PatchSetApproval removedPsa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
     assertThat(removedPsa.key()).isEqualTo(originalPsa.key());
     assertThat(removedPsa.value()).isEqualTo(0);
     // Add approval with the same author, label, value to the current patch set
@@ -485,9 +485,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getApprovalsWithCopied().keySet()).hasSize(1);
+    assertThat(notes.getApprovals().all().keySet()).hasSize(1);
     PatchSetApproval reAddedPsa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
 
     assertThat(reAddedPsa.key()).isEqualTo(originalPsa.key());
     assertThat(reAddedPsa.value()).isEqualTo(originalPsa.value());
@@ -504,9 +504,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getApprovalsWithCopied().keySet()).containsExactly(c.currentPatchSetId());
+    assertThat(notes.getApprovals().all().keySet()).containsExactly(c.currentPatchSetId());
     PatchSetApproval originalPsa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
 
     assertThat(originalPsa.patchSetId()).isEqualTo(c.currentPatchSetId());
     assertThat(originalPsa.accountId().get()).isEqualTo(1);
@@ -521,11 +521,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getApprovalsWithCopied().keySet()).hasSize(2);
+    assertThat(notes.getApprovals().all().keySet()).hasSize(2);
     PatchSetApproval postUpdateOriginalPsa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(originalPsa.patchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(originalPsa.patchSetId()));
     PatchSetApproval reAddedPsa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
 
     // Same patch set approval for the original patch set is returned after the vote was re-issued
     // on the next patch set
@@ -549,9 +549,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getApprovalsWithCopied().keySet()).containsExactly(c.currentPatchSetId());
+    assertThat(notes.getApprovals().all().keySet()).containsExactly(c.currentPatchSetId());
     List<PatchSetApproval> patchSetApprovals =
-        notes.getApprovalsWithCopied().get(c.currentPatchSetId());
+        notes.getApprovals().all().get(c.currentPatchSetId());
     assertThat(patchSetApprovals).hasSize(2);
     assertThat(
             patchSetApprovals.stream()
@@ -574,9 +574,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getApprovalsWithCopied().keySet()).containsExactly(c.currentPatchSetId());
+    assertThat(notes.getApprovals().all().keySet()).containsExactly(c.currentPatchSetId());
     List<PatchSetApproval> patchSetApprovals =
-        notes.getApprovalsWithCopied().get(c.currentPatchSetId());
+        notes.getApprovals().all().get(c.currentPatchSetId());
     assertThat(patchSetApprovals).hasSize(2);
     assertThat(
             patchSetApprovals.stream()
@@ -608,10 +608,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes1 = newNotes(c1);
     PatchSetApproval psa1 =
-        Iterables.getOnlyElement(notes1.getApprovalsWithCopied().get(c1.currentPatchSetId()));
+        Iterables.getOnlyElement(notes1.getApprovals().all().get(c1.currentPatchSetId()));
     ChangeNotes notes2 = newNotes(c2);
     PatchSetApproval psa2 =
-        Iterables.getOnlyElement(notes2.getApprovalsWithCopied().get(c2.currentPatchSetId()));
+        Iterables.getOnlyElement(notes2.getApprovals().all().get(c2.currentPatchSetId()));
     assertThat(psa1.label()).isEqualTo(psa2.label());
     assertThat(psa1.accountId()).isEqualTo(psa2.accountId());
     assertThat(psa1.value()).isEqualTo(psa2.value());
@@ -629,7 +629,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     PatchSetApproval psa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
     assertThat(psa.accountId()).isEqualTo(otherUserId);
     assertThat(psa.label()).isEqualTo("Not-For-Long");
     assertThat(psa.value()).isEqualTo((short) 1);
@@ -641,7 +641,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     notes = newNotes(c);
     PatchSetApproval removedPsa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(psa.patchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(psa.patchSetId()));
     assertThat(removedPsa.key()).isEqualTo(psa.key());
     assertThat(removedPsa.value()).isEqualTo((short) 0);
     assertThat(removedPsa.label()).isEqualTo(psa.label());
@@ -653,7 +653,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    psa = Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+    psa = Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
     assertThat(psa.accountId()).isEqualTo(otherUserId);
     assertThat(psa.label()).isEqualTo("Not-For-Long");
     assertThat(psa.value()).isEqualTo((short) 2);
@@ -670,7 +670,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     ImmutableList<PatchSetApproval> approvals =
-        notes.getApprovalsWithCopied().get(c.currentPatchSetId()).stream()
+        notes.getApprovals().all().get(c.currentPatchSetId()).stream()
             .sorted(comparing(a -> a.accountId().get()))
             .collect(toImmutableList());
     assertThat(approvals).hasSize(2);
@@ -712,7 +712,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    List<PatchSetApproval> approvals = Lists.newArrayList(notes.getApprovalsWithCopied().values());
+    List<PatchSetApproval> approvals = Lists.newArrayList(notes.getApprovals().all().values());
     assertThat(approvals).hasSize(2);
     assertThat(approvals.get(0).label()).isEqualTo(LabelId.VERIFIED);
     assertThat(approvals.get(0).value()).isEqualTo((short) 1);
@@ -755,7 +755,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
 
-    List<PatchSetApproval> approvals = Lists.newArrayList(notes.getApprovalsWithCopied().values());
+    List<PatchSetApproval> approvals = Lists.newArrayList(notes.getApprovals().all().values());
     assertThat(approvals).hasSize(3);
     assertThat(approvals.get(0).accountId()).isEqualTo(ownerId);
     assertThat(approvals.get(0).label()).isEqualTo(LabelId.VERIFIED);
@@ -785,7 +785,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     PatchSetApproval originalPsa =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
     assertThat(originalPsa.accountId()).isEqualTo(changeOwner.getAccountId());
     assertThat(originalPsa.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(originalPsa.value()).isEqualTo(2);
@@ -799,15 +799,15 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     addCopiedApproval(c, changeOwner, originalPsa);
 
     notes = newNotes(c);
-    assertThat(notes.getApprovalsWithCopied().keySet()).hasSize(2);
+    assertThat(notes.getApprovals().all().keySet()).hasSize(2);
     PatchSetApproval copiedApproval =
         Iterables.getOnlyElement(
-            notes.getApprovalsWithCopied().get(c.currentPatchSetId()).stream()
+            notes.getApprovals().all().get(c.currentPatchSetId()).stream()
                 .filter(a -> a.copied())
                 .collect(toImmutableList()));
     PatchSetApproval nonCopiedApproval =
         Iterables.getOnlyElement(
-            notes.getApprovalsWithCopied().get(originalPsa.patchSetId()).stream()
+            notes.getApprovals().all().get(originalPsa.patchSetId()).stream()
                 .filter(a -> !a.copied())
                 .collect(toImmutableList()));
 
@@ -831,7 +831,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
       update.commit();
       ChangeNotes notes = newNotes(c);
       PatchSetApproval originalPsa =
-          Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+          Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
       assertThat(originalPsa.accountId()).isEqualTo(changeOwner.getAccountId());
       assertThat(originalPsa.label()).isEqualTo(LabelId.CODE_REVIEW);
       assertThat(originalPsa.value()).isEqualTo(2);
@@ -845,15 +845,15 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
       addCopiedApproval(c, changeOwner, originalPsa);
 
       notes = newNotes(c);
-      assertThat(notes.getApprovalsWithCopied().keySet()).hasSize(2);
+      assertThat(notes.getApprovals().all().keySet()).hasSize(2);
       PatchSetApproval copiedApproval =
           Iterables.getOnlyElement(
-              notes.getApprovalsWithCopied().get(c.currentPatchSetId()).stream()
+              notes.getApprovals().all().get(c.currentPatchSetId()).stream()
                   .filter(a -> a.copied())
                   .collect(toImmutableList()));
       PatchSetApproval nonCopiedApproval =
           Iterables.getOnlyElement(
-              notes.getApprovalsWithCopied().get(originalPsa.patchSetId()).stream()
+              notes.getApprovals().all().get(originalPsa.patchSetId()).stream()
                   .filter(a -> !a.copied())
                   .collect(toImmutableList()));
 
@@ -878,7 +878,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
       ChangeNotes notes = newNotes(c);
       PatchSetApproval originalPsa =
-          Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+          Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
       assertThat(originalPsa.accountId()).isEqualTo(changeOwner.getAccountId());
       assertThat(originalPsa.label()).isEqualTo(LabelId.CODE_REVIEW);
       assertThat(originalPsa.value()).isEqualTo(2);
@@ -891,15 +891,15 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
       addCopiedApproval(c, changeOwner, originalPsa);
 
       notes = newNotes(c);
-      assertThat(notes.getApprovalsWithCopied().keySet()).hasSize(2);
+      assertThat(notes.getApprovals().all().keySet()).hasSize(2);
       PatchSetApproval copiedApproval =
           Iterables.getOnlyElement(
-              notes.getApprovalsWithCopied().get(c.currentPatchSetId()).stream()
+              notes.getApprovals().all().get(c.currentPatchSetId()).stream()
                   .filter(a -> a.copied())
                   .collect(toImmutableList()));
       PatchSetApproval nonCopiedApproval =
           Iterables.getOnlyElement(
-              notes.getApprovalsWithCopied().get(originalPsa.patchSetId()).stream()
+              notes.getApprovals().all().get(originalPsa.patchSetId()).stream()
                   .filter(a -> !a.copied())
                   .collect(toImmutableList()));
 
@@ -931,18 +931,16 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.putApprovalFor(otherUserId, LabelId.CODE_REVIEW, (short) -1);
     update.commit();
 
-    // Only the non copied approval is reachable by getApprovals.
     ChangeNotes notes = newNotes(c);
     PatchSetApproval approval =
-        Iterables.getOnlyElement(notes.getApprovals().get(c.currentPatchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().onlyNonCopied().get(c.currentPatchSetId()));
     assertThat(approval.accountId()).isEqualTo(otherUser.getAccountId());
     assertThat(approval.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(approval.value()).isEqualTo((short) -1);
     assertThat(approval.copied()).isFalse();
 
-    // Get approvals with copied gets all of the approvals (including copied).
     ImmutableList<PatchSetApproval> approvals =
-        notes.getApprovalsWithCopied().get(c.currentPatchSetId()).stream()
+        notes.getApprovals().all().get(c.currentPatchSetId()).stream()
             .sorted(comparing(a -> a.accountId().get()))
             .collect(toImmutableList());
     assertThat(approvals).hasSize(2);
@@ -985,7 +983,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     PatchSetApproval approval =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
     assertThat(approval.accountId()).isEqualTo(changeOwner.getAccountId());
     assertThat(approval.label()).isEqualTo(LabelId.CODE_REVIEW);
     // The vote got removed since the latest patch-set only has one vote and it's "0". The copied
@@ -1016,7 +1014,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     PatchSetApproval approval =
-        Iterables.getOnlyElement(notes.getApprovalsWithCopied().get(c.currentPatchSetId()));
+        Iterables.getOnlyElement(notes.getApprovals().all().get(c.currentPatchSetId()));
     assertThat(approval.accountId()).isEqualTo(changeOwner.getAccountId());
     assertThat(approval.label()).isEqualTo(LabelId.CODE_REVIEW);
     assertThat(approval.value()).isEqualTo((short) 1);
@@ -1079,7 +1077,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    List<PatchSetApproval> approvals = Lists.newArrayList(notes.getApprovalsWithCopied().values());
+    List<PatchSetApproval> approvals = Lists.newArrayList(notes.getApprovals().all().values());
     assertThat(approvals).hasSize(2);
     assertThat(approvals.get(0).label()).isEqualTo(LabelId.VERIFIED);
     assertThat(approvals.get(0).value()).isEqualTo((short) 1);
@@ -1165,7 +1163,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    List<PatchSetApproval> psas = notes.getApprovalsWithCopied().get(c.currentPatchSetId());
+    List<PatchSetApproval> psas = notes.getApprovals().all().get(c.currentPatchSetId());
     assertThat(psas).hasSize(2);
     assertThat(psas.get(0).accountId()).isEqualTo(changeOwner.getAccount().id());
     assertThat(psas.get(1).accountId()).isEqualTo(otherUser.getAccount().id());
@@ -1175,7 +1173,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    psas = notes.getApprovalsWithCopied().get(c.currentPatchSetId());
+    psas = notes.getApprovals().all().get(c.currentPatchSetId());
     assertThat(psas).hasSize(1);
     assertThat(psas.get(0).accountId()).isEqualTo(changeOwner.getAccount().id());
   }
@@ -1897,7 +1895,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getPatchSets().keySet()).containsExactly(psId1, psId2);
-    assertThat(notes.getApprovalsWithCopied()).isNotEmpty();
+    assertThat(notes.getApprovals().all()).isNotEmpty();
     assertThat(notes.getChangeMessages()).isNotEmpty();
     assertThat(notes.getHumanComments()).isNotEmpty();
 
@@ -1913,7 +1911,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     notes = newNotes(c);
     assertThat(notes.getPatchSets().keySet()).containsExactly(psId1);
-    assertThat(notes.getApprovalsWithCopied()).isEmpty();
+    assertThat(notes.getApprovals().all()).isEmpty();
     assertThat(notes.getChangeMessages()).isEmpty();
     assertThat(notes.getHumanComments()).isEmpty();
   }
@@ -2026,7 +2024,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     }
 
     ChangeNotes notes = newNotes(c);
-    List<PatchSetApproval> psas = notes.getApprovalsWithCopied().get(c.currentPatchSetId());
+    List<PatchSetApproval> psas = notes.getApprovals().all().get(c.currentPatchSetId());
     assertThat(psas).hasSize(2);
 
     assertThat(psas.get(0).accountId()).isEqualTo(changeOwner.getAccount().id());
@@ -2132,11 +2130,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(ref2.getObjectId()).isNotEqualTo(initial2.getObjectId());
 
     PatchSetApproval approval1 =
-        newNotes(c1).getApprovalsWithCopied().get(c1.currentPatchSetId()).iterator().next();
+        newNotes(c1).getApprovals().all().get(c1.currentPatchSetId()).iterator().next();
     assertThat(approval1.label()).isEqualTo(LabelId.VERIFIED);
 
     PatchSetApproval approval2 =
-        newNotes(c2).getApprovalsWithCopied().get(c2.currentPatchSetId()).iterator().next();
+        newNotes(c2).getApprovals().all().get(c2.currentPatchSetId()).iterator().next();
     assertThat(approval2.label()).isEqualTo(LabelId.CODE_REVIEW);
   }
 
@@ -3530,7 +3528,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     int numMessages = notes.getChangeMessages().size();
     int numPatchSets = notes.getPatchSets().size();
-    int numApprovals = notes.getApprovalsWithCopied().size();
+    int numApprovals = notes.getApprovals().all().size();
     int numComments = notes.getHumanComments().size();
 
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -3558,7 +3556,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     notes = newNotes(c);
     assertThat(notes.getChangeMessages()).hasSize(numMessages);
     assertThat(notes.getPatchSets()).hasSize(numPatchSets);
-    assertThat(notes.getApprovalsWithCopied()).hasSize(numApprovals);
+    assertThat(notes.getApprovals().all()).hasSize(numApprovals);
     assertThat(notes.getHumanComments()).hasSize(numComments);
   }
 

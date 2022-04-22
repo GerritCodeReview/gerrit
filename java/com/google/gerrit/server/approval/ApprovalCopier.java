@@ -371,7 +371,7 @@ public class ApprovalCopier {
 
     Table<String, Account.Id, PatchSetApproval> currentApprovalsByUser = HashBasedTable.create();
     ImmutableList<PatchSetApproval> nonCopiedApprovalsForGivenPatchSet =
-        notes.load().getApprovals().get(patchSet.id());
+        notes.load().getApprovals().onlyNonCopied().get(patchSet.id());
     nonCopiedApprovalsForGivenPatchSet.forEach(
         psa -> currentApprovalsByUser.put(psa.label(), psa.accountId(), psa));
 
@@ -386,7 +386,7 @@ public class ApprovalCopier {
     }
 
     ImmutableList<PatchSetApproval> priorApprovalsIncludingCopied =
-        notes.load().getApprovalsWithCopied().get(priorPatchSet.getKey());
+        notes.load().getApprovals().all().get(priorPatchSet.getKey());
 
     // Add labels from the previous patch set to the result in case the label isn't already there
     // and settings as well as change kind allow copying.

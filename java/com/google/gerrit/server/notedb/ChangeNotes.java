@@ -16,7 +16,6 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static java.util.Comparator.comparing;
@@ -47,6 +46,7 @@ import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.PatchSetApprovals;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
@@ -390,8 +390,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   // Lazy defensive copies of mutable ReviewDb types, to avoid polluting the
   // ChangeNotesCache from handlers.
   private ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets;
-  private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvals;
-  private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvalsWithCopied;
+  private PatchSetApprovals approvals;
   private ImmutableSet<Comment.Key> commentKeys;
 
   public ChangeNotes(
@@ -429,26 +428,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return patchSets;
   }
 
-  /**
-   * Gets the approvals, not including the copied approvals. To get copied approvals as well, use
-   * {@link #getApprovalsWithCopied}, or use {@code ApprovalInference}.
-   */
-  public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> getApprovals() {
+  /** Gets the approvals of all patch sets. */
+  public PatchSetApprovals getApprovals() {
     if (approvals == null) {
-      approvals =
-          state.approvals().stream()
-              .filter(e -> !e.getValue().copied())
-              .collect(toImmutableListMultimap(e -> e.getKey(), e -> e.getValue()));
+      approvals = PatchSetApprovals.create(ImmutableListMultimap.copyOf(state.approvals()));
     }
     return approvals;
-  }
-
-  /** Gets all approvals, including copied approvals. */
-  public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> getApprovalsWithCopied() {
-    if (approvalsWithCopied == null) {
-      approvalsWithCopied = ImmutableListMultimap.copyOf(state.approvals());
-    }
-    return approvalsWithCopied;
   }
 
   public ReviewerSet getReviewers() {

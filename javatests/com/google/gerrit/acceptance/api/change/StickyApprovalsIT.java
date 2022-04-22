@@ -626,7 +626,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     // The code-review approval is copied for the second change between PS1 and PS2 since the only
     // modified file is due to rebase.
     List<PatchSetApproval> patchSetApprovals =
-        r2.getChange().notes().getApprovalsWithCopied().values().stream()
+        r2.getChange().notes().getApprovals().all().values().stream()
             .sorted(comparing(a -> a.patchSetId().get()))
             .collect(toImmutableList());
     PatchSetApproval nonCopied = patchSetApprovals.get(0);
@@ -1297,7 +1297,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     }
 
     List<PatchSetApproval> patchSetApprovals =
-        r.getChange().notes().getApprovalsWithCopied().values().stream()
+        r.getChange().notes().getApprovals().all().values().stream()
             .sorted(comparing(a -> a.patchSetId().get()))
             .collect(toImmutableList());
 
@@ -1347,7 +1347,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     gApi.changes().id(r2.getChangeId()).rebase();
 
     List<PatchSetApproval> patchSetApprovals =
-        r2.getChange().notes().getApprovalsWithCopied().values().stream()
+        r2.getChange().notes().getApprovals().all().values().stream()
             .sorted(comparing(a -> a.patchSetId().get()))
             .collect(toImmutableList());
     PatchSetApproval nonCopied = patchSetApprovals.get(0);
@@ -1393,7 +1393,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     amendChange(r.getChangeId());
 
     List<PatchSetApproval> patchSetApprovals =
-        r.getChange().notes().getApprovalsWithCopied().values().stream()
+        r.getChange().notes().getApprovals().all().values().stream()
             .sorted(comparing(a -> a.patchSetId().get()))
             .collect(toImmutableList());
 
@@ -1453,7 +1453,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     amendChange(r.getChangeId());
 
     List<PatchSetApproval> patchSetApprovals =
-        r.getChange().notes().getApprovalsWithCopied().values().stream()
+        r.getChange().notes().getApprovals().all().values().stream()
             .sorted(comparing(a -> a.patchSetId().get()))
             .collect(toImmutableList());
 
@@ -1505,7 +1505,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         Iterables.getOnlyElement(
             r.getChange()
                 .notes()
-                .getApprovalsWithCopied()
+                .getApprovals()
+                .all()
                 .get(r.getChange().change().currentPatchSetId()));
 
     assertThat(nonCopiedSecondPatchsetRemovedVote.patchSetId().get()).isEqualTo(2);
@@ -1542,7 +1543,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
     gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
 
-    assertThat(r.getChange().notes().getApprovalsWithCopied()).isEmpty();
+    assertThat(r.getChange().notes().getApprovals().all()).isEmpty();
 
     // Changes message has info about vote removed.
     assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).messages()).message)
@@ -1625,8 +1626,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       vote(admin, changeId, 2, 1);
 
       List<PatchSetApproval> patchSetApprovals =
-          notesFactory.create(project, r.getChange().getId()).getApprovalsWithCopied().values()
-              .stream()
+          notesFactory.create(project, r.getChange().getId()).getApprovals().all().values().stream()
               .sorted(comparing(a -> a.patchSetId().get()))
               .collect(toImmutableList());
 
@@ -1648,8 +1648,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
       gApi.changes().id(changeId).current().submit();
 
       patchSetApprovals =
-          notesFactory.create(project, r.getChange().getId()).getApprovalsWithCopied().values()
-              .stream()
+          notesFactory.create(project, r.getChange().getId()).getApprovals().all().values().stream()
               .sorted(comparing(a -> a.patchSetId().get()))
               .collect(toImmutableList());
 

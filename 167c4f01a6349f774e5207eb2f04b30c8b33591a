@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42dd8285_77748412",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T10:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d917556_53570fa2",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 81
+      },
+      "revId": "167c4f01a6349f774e5207eb2f04b30c8b33591a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1c06deb_b42f9857",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-22T10:22:11Z",
       "side": 1,
       "message": "It would be best to separate this change form the PerThreadCache logic: the two things are unrelated.",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 58
+      },
+      "revId": "167c4f01a6349f774e5207eb2f04b30c8b33591a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71909e5a_b9a67fce",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T10:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1c06deb_b42f9857",
       "range": {
         "startLine": 194,
         "startChar": 0,

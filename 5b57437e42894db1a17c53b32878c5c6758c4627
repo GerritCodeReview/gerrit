@@ -236,6 +236,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2aad8fcb_2a6ddd99",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T09:19:59Z",
+      "side": 1,
+      "message": "The problem of the repo being used after close was there already, because we are returning a cached RepoRefCache instance that holds a reference to a refDatabase which could have been closed already.\n\nWith the *currently merged code* in stable-2.16:\n\n1. RepoRefCache object is created, holding a reference to the refDatabase of a Repository\n```\n  public RepoRefCache(Repository repo) {\n    this.refdb \u003d repo.getRefDatabase();\n    this.ids \u003d new HashMap\u003c\u003e();\n  }\n```\n\n2. The method RepoRefCache.get() can be called at any time, even when the underlying Repository has been already closed.\n\n```\n  @Override\n  public Optional\u003cObjectId\u003e get(String refName) throws IOException {\n    Optional\u003cObjectId\u003e id \u003d ids.get(refName);\n    if (id !\u003d null) {\n      return id;\n    }\n    Ref ref \u003d refdb.exactRef(refName);\n    id \u003d Optional.ofNullable(ref).map(Ref::getObjectId);\n    ids.put(refName, id);\n    return id;\n  }\n```\n\nThe refdb used in the above code could use an already closed Repository.\n\nHence, we have this issue already now in stable-2.16 and we need to fix it regardless of this change.",
+      "parentUuid": "134bbac5_856aa09d",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 244,
+        "endChar": 7
+      },
+      "revId": "5b57437e42894db1a17c53b32878c5c6758c4627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81520c0c_d5652de6",
         "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
         "patchSetId": 30

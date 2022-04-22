@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d917556_53570fa2",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T10:22:11Z",
+      "side": 1,
+      "message": "Unrelated change",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 81
+      },
+      "revId": "167c4f01a6349f774e5207eb2f04b30c8b33591a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1c06deb_b42f9857",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T10:22:11Z",
+      "side": 1,
+      "message": "It would be best to separate this change form the PerThreadCache logic: the two things are unrelated.",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 58
+      },
+      "revId": "167c4f01a6349f774e5207eb2f04b30c8b33591a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e3837a3_bdd59d32",
+        "filename": "javatests/com/google/gerrit/server/cache/PerThreadCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T10:22:11Z",
+      "side": 1,
+      "message": "This test doesn\u0027t belong here: we should create a RepoRefCache test.",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 3
+      },
+      "revId": "167c4f01a6349f774e5207eb2f04b30c8b33591a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

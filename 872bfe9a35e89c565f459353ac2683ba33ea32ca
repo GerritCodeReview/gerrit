@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c1dfbd0f_bd109bcc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-22T13:08:21Z",
+      "side": 1,
+      "message": "Please document the new API in rest-api-changes.txt",
+      "revId": "872bfe9a35e89c565f459353ac2683ba33ea32ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a4ffe12f_3b96dcbf",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyDirectFix.java",
         "patchSetId": 13

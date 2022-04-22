@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1bf631f_f3b04057",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T15:57:49Z",
+      "side": 1,
+      "message": "@Dmitrii let\u0027s continue the discussion about the consistency of the reference counts of Repositories pointed by the RepoRefCache.\n\nThis change should fully document the problem with tests and resolve it.\n\nP.S. RepoRefCache was fully uncovered, so this change at least gives a decent coverage of the use-case.",
+      "revId": "d5cf4692b624ffaf8d7f6a65f0b3e69dff9e26dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36526129_d74cbf48",
+        "filename": "javatests/com/google/gerrit/server/git/RepoRefCacheTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T15:57:49Z",
+      "side": 1,
+      "message": "@Dmitrii this test shows that the repository is kept open even outside its try-with-resource block because there was a cached entry keeping a reference to it.",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 26
+      },
+      "revId": "d5cf4692b624ffaf8d7f6a65f0b3e69dff9e26dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "453e50d0_e3f88c38",
+        "filename": "javatests/com/google/gerrit/server/git/RepoRefCacheTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T15:57:49Z",
+      "side": 1,
+      "message": "@Dmitrii this line shows that the cache close cleanup is working as expected when the thread-local cache is closed.",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 63
+      },
+      "revId": "d5cf4692b624ffaf8d7f6a65f0b3e69dff9e26dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0b34d02_7f01b1ec",
+        "filename": "javatests/com/google/gerrit/server/git/RepoRefCacheTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T15:57:49Z",
+      "side": 1,
+      "message": "@Dmitrii this is the use-case you were referring to in Change-Id: I1b71bfcff08 can be reproduced here as well when the cache is full.\n\nIn this case, this specific test makes sure that when the cache is full, the repository reference is decremented as expected.",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 3
+      },
+      "revId": "d5cf4692b624ffaf8d7f6a65f0b3e69dff9e26dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

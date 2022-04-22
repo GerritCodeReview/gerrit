@@ -212,6 +212,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "134bbac5_856aa09d",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-22T08:39:32Z",
+      "side": 1,
+      "message": "\u003e True but that is independent from this change isn\u0027t it? The problem is already in stable-2.16\n\nNot sure, that it is already in stable-2.16. repo.incrementOpen/repo.close are added to RepoRefCache in this change (and IIUC repo.incrementOpen/repo.close are required only for staleness check)",
+      "parentUuid": "e91d6bf3_e0698b65",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 244,
+        "endChar": 7
+      },
+      "revId": "5b57437e42894db1a17c53b32878c5c6758c4627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81520c0c_d5652de6",
         "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
         "patchSetId": 30

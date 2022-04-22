@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4ffe12f_3b96dcbf",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyDirectFix.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-22T13:07:50Z",
+      "side": 1,
+      "message": "nit: add javadoc (can be a single sentence)",
+      "revId": "872bfe9a35e89c565f459353ac2683ba33ea32ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e096487_ccb0f1bd",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetFixPreview.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-22T13:07:50Z",
+      "side": 1,
+      "message": "Please do ;-)",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 16
+      },
+      "revId": "872bfe9a35e89c565f459353ac2683ba33ea32ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16713f0b_21291b60",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 13
@@ -26,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "715bd61e_2399b7b2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-22T13:07:50Z",
+      "side": 1,
+      "message": "Yes I think it is. I think we want to detect overlaps of edit ranges.",
+      "parentUuid": "16713f0b_21291b60",
+      "range": {
+        "startLine": 980,
+        "startChar": 22,
+        "endLine": 980,
+        "endChar": 92
+      },
+      "revId": "872bfe9a35e89c565f459353ac2683ba33ea32ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31bc0280_2de3cb21",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 13
@@ -37,6 +101,30 @@
       "writtenOn": "2022-04-21T06:30:30Z",
       "side": 1,
       "message": "If the added tests look good, then I can do the similar thing for all the remaining applyFix tests in this file.",
+      "range": {
+        "startLine": 985,
+        "startChar": 14,
+        "endLine": 985,
+        "endChar": 52
+      },
+      "revId": "872bfe9a35e89c565f459353ac2683ba33ea32ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "265d8438_31cb36d8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-22T13:07:50Z",
+      "side": 1,
+      "message": "They do (they are just c\u0026p for the existing tests which is fine since existing coverage is good).",
+      "parentUuid": "31bc0280_2de3cb21",
       "range": {
         "startLine": 985,
         "startChar": 14,

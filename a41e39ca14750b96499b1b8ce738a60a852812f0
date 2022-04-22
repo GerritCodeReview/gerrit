@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddfa43ee_0b9e352d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-22T14:24:32Z",
+      "side": 1,
+      "message": "This cannot be in css. You will neeed https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/edit/gr-edit-file-controls/gr-edit-file-controls.ts;l\u003d67?q\u003dcustomStyle%20%3D%20html%60\u0026ss\u003dgerrit",
+      "range": {
+        "startLine": 246,
+        "startChar": 7,
+        "endLine": 249,
+        "endChar": 9
+      },
+      "revId": "a41e39ca14750b96499b1b8ce738a60a852812f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

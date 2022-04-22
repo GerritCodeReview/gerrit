@@ -20,7 +20,11 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.config.GerritConfig;
@@ -46,6 +50,10 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.permissions.PermissionDeniedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
@@ -64,6 +72,7 @@ public class RevertIT extends AbstractDaemonTest {
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Test
   public void pureRevertFactBlocksSubmissionOfNonReverts() throws Exception {
@@ -510,6 +519,24 @@ public class RevertIT extends AbstractDaemonTest {
     AuthException thrown =
         assertThrows(AuthException.class, () -> gApi.changes().id(result.getChangeId()).revert());
     assertThat(thrown).hasMessageThat().contains("revert not permitted");
+  }
+
+  @Test
+  public void revertWithValidationOptions() throws Exception {
+    PushOneCommit.Result result = createChange();
+    approve(result.getChangeId());
+    gApi.changes().id(result.getChangeId()).current().submit();
+
+    RevertInput revertInput = new RevertInput();
+    revertInput.validationOptions = ImmutableMap.of("key", "value");
+
+    TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testCommitValidationListener)) {
+      gApi.changes().id(result.getChangeId()).revert(revertInput);
+      assertThat(testCommitValidationListener.receiveEvent.pushOptions)
+          .containsExactly("key", "value");
+    }
   }
 
   @Test
@@ -1460,5 +1487,16 @@ public class RevertIT extends AbstractDaemonTest {
     RevertInput input = new RevertInput();
     input.workInProgress = true;
     return input;
+  }
+
+  private static class TestCommitValidationListener implements CommitValidationListener {
+    public CommitReceivedEvent receiveEvent;
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      this.receiveEvent = receiveEvent;
+      return ImmutableList.of();
+    }
   }
 }

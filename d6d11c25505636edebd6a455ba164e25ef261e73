@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "151cc8bc_58801482",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T07:58:50Z",
+      "side": 1,
+      "message": "@Dmitrii with this revert on stable-3.2, the thread-local ref-caching is completely wiped out from stable-3.2 onwards. All other pending changes have been nulled by the \"ours\" merge strategy. This one was already merged and therefore is being reverted here. ",
+      "revId": "d6d11c25505636edebd6a455ba164e25ef261e73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

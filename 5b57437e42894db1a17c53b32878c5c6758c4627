@@ -122,6 +122,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7acc3e58_7d529e02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T08:32:10Z",
+      "side": 1,
+      "message": "@Dmitrii good catch, but that\u0027s a current problem we already have on stable-2.16 and is unrelated to this change. Let me address that as a separate change.",
+      "revId": "5b57437e42894db1a17c53b32878c5c6758c4627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c2a53b0_dac27dd7",
@@ -158,6 +175,30 @@
       "writtenOn": "2022-04-22T08:21:20Z",
       "side": 1,
       "message": "Testing, please ignore.",
+      "parentUuid": "2c2a53b0_dac27dd7",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 244,
+        "endChar": 7
+      },
+      "revId": "5b57437e42894db1a17c53b32878c5c6758c4627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e91d6bf3_e0698b65",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T08:32:10Z",
+      "side": 1,
+      "message": "True but that is independent from this change isn\u0027t it? The problem is already in stable-2.16. Let me address that as a separate change: one change \u003d one thing :-)",
       "parentUuid": "2c2a53b0_dac27dd7",
       "range": {
         "startLine": 241,

@@ -147,6 +147,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2e8c1846_80500075",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-22T08:21:20Z",
+      "side": 1,
+      "message": "Testing, please ignore.",
+      "parentUuid": "2c2a53b0_dac27dd7",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 244,
+        "endChar": 7
+      },
+      "revId": "5b57437e42894db1a17c53b32878c5c6758c4627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81520c0c_d5652de6",
         "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
         "patchSetId": 30

@@ -28,7 +28,7 @@ import org.eclipse.jgit.lib.ObjectId;
  * <p><strong>Note:</strong> Implementations of this class are only appropriate for short-term
  * caching, and do not support invalidation. It is also not threadsafe.
  */
-public interface RefCache {
+public interface RefCache extends AutoCloseable {
   /**
    * Get the possibly-cached value of a ref.
    *
@@ -37,4 +37,7 @@ public interface RefCache {
    *     present with a value of {@link ObjectId#zeroId()}.
    */
   Optional<ObjectId> get(String refName) throws IOException;
+
+  @Override
+  void close();
 }

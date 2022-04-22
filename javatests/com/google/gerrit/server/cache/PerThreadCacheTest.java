@@ -18,6 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.gerrit.server.cache.PerThreadCache.Key;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import java.util.function.Supplier;
 import javax.servlet.http.HttpServletRequest;
@@ -89,8 +91,7 @@ public class PerThreadCacheTest {
   public void isAssociatedWithHttpReadonlyRequest() {
     HttpServletRequest getRequest = new FakeHttpServletRequest();
     try (PerThreadCache cache = PerThreadCache.create(getRequest)) {
-      assertThat(cache.getHttpRequest()).hasValue(getRequest);
-      assertThat(cache.hasReadonlyRequest()).isTrue();
+      assertThat(cache.allowRepoRefsCache()).isTrue();
     }
   }
 
@@ -104,16 +105,165 @@ public class PerThreadCacheTest {
           }
         };
     try (PerThreadCache cache = PerThreadCache.create(putRequest)) {
-      assertThat(cache.getHttpRequest()).hasValue(putRequest);
-      assertThat(cache.hasReadonlyRequest()).isFalse();
+      assertThat(cache.allowRepoRefsCache()).isFalse();
     }
   }
 
   @Test
   public void isNotAssociatedWithHttpRequest() {
     try (PerThreadCache cache = PerThreadCache.create(null)) {
-      assertThat(cache.getHttpRequest()).isEmpty();
-      assertThat(cache.hasReadonlyRequest()).isFalse();
+      assertThat(cache.allowRepoRefsCache()).isFalse();
+    }
+  }
+
+  @Test
+  public void isAssociatedWithReadonlyRequest() {
+    try (PerThreadCache cache = PerThreadCache.createReadOnly()) {
+      assertThat(cache.allowRepoRefsCache()).isTrue();
+    }
+  }
+
+  @Test
+  public void openNestedTemporaryReadonlyWindows() throws Exception {
+
+    try (PerThreadCache cache = PerThreadCache.create(null)) {
+      assertThat(cache.allowRepoRefsCache()).isFalse();
+
+      try (ReadonlyRequestWindow outerWindow = PerThreadCache.openReadonlyRequestWindow()) {
+        assertThat(cache.allowRepoRefsCache()).isTrue();
+
+        try (ReadonlyRequestWindow innerWindow = PerThreadCache.openReadonlyRequestWindow()) {
+          assertThat(cache.allowRepoRefsCache()).isTrue();
+        }
+
+        assertThat(cache.allowRepoRefsCache()).isTrue();
+      }
+
+      assertThat(cache.allowRepoRefsCache()).isFalse();
+    }
+  }
+
+  static class TestCacheValue implements PerThreadCache.CacheStalenessCheck {
+    public static final String STALENESS_FAILED_MESSAGE = "Staleness check failed";
+
+    private final String value;
+
+    public TestCacheValue(String value) {
+      this.value = value;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      return obj != null
+          && (obj instanceof TestCacheValue)
+          && ((TestCacheValue) obj).value.equals(value);
+    }
+
+    @Override
+    public int hashCode() {
+      return value.hashCode();
+    }
+
+    @Override
+    public void checkStaleness() throws IllegalStateException {
+      throw new IllegalStateException(STALENESS_FAILED_MESSAGE);
+    }
+  }
+
+  @Test
+  public void clearOutStaleEntriesAfterReadonlyWindow() throws Exception {
+    Key<TestCacheValue> key = PerThreadCache.Key.create(TestCacheValue.class, "key");
+    TestCacheValue cachedValue = new TestCacheValue("cached value");
+    TestCacheValue updatedValue = new TestCacheValue("updated value");
+
+    try (PerThreadCache cache = PerThreadCache.create(null)) {
+      try (ReadonlyRequestWindow outerWindow = PerThreadCache.openReadonlyRequestWindow()) {
+        assertThat(PerThreadCache.getOrCompute(key, () -> cachedValue)).isEqualTo(cachedValue);
+        assertThat(PerThreadCache.getOrCompute(key, () -> updatedValue)).isEqualTo(cachedValue);
+      }
+
+      assertThat(PerThreadCache.getOrCompute(key, () -> updatedValue)).isEqualTo(updatedValue);
+    }
+  }
+
+  @Test
+  public void checkForStaleEntriesAfterReadonlyWindow() {
+    try {
+      System.setProperty(PerThreadCache.PER_THREAD_CACHE_CHECK_STALE_ENTRIES_PROPERTY, "true");
+      Key<TestCacheValue> key = PerThreadCache.Key.create(TestCacheValue.class, "key");
+
+      try (PerThreadCache cache = PerThreadCache.create(null)) {
+        IllegalStateException thrown =
+            assertThrows(
+                IllegalStateException.class,
+                () -> {
+                  try (ReadonlyRequestWindow outerWindow =
+                      PerThreadCache.openReadonlyRequestWindow()) {
+                    PerThreadCache.getOrCompute(key, () -> new TestCacheValue(""));
+                  }
+                });
+        assertThat(thrown).hasMessageThat().isEqualTo(TestCacheValue.STALENESS_FAILED_MESSAGE);
+      }
+    } finally {
+      System.setProperty(PerThreadCache.PER_THREAD_CACHE_CHECK_STALE_ENTRIES_PROPERTY, "false");
+    }
+  }
+
+  @Test
+  public void allowStaleEntriesAfterReadonlyWindow() {
+    Key<TestCacheValue> key = PerThreadCache.Key.create(TestCacheValue.class, "key");
+    TestCacheValue value = new TestCacheValue("");
+    TestCacheValue cachedValue;
+
+    try (PerThreadCache cache = PerThreadCache.create(null)) {
+      try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+
+        cachedValue = PerThreadCache.getOrCompute(key, () -> value);
+      }
+    }
+
+    assertThat(cachedValue).isSameInstanceAs(value);
+  }
+
+  @Test
+  public void disableCachingForSpecificTypes() {
+    System.setProperty(
+        PerThreadCache.PER_THREAD_CACHE_DISABLED_TYPES_PROPERTY,
+        String.class.getCanonicalName() + "," + Integer.class.getCanonicalName());
+    try {
+      try (PerThreadCache cache = PerThreadCache.createReadOnly()) {
+        assertThat(
+                PerThreadCache.getOrCompute(
+                    PerThreadCache.Key.create(String.class, "key"), () -> "oldValue"))
+            .isEqualTo("oldValue");
+        assertThat(
+                PerThreadCache.getOrCompute(
+                    PerThreadCache.Key.create(String.class, "key"), () -> "newValue"))
+            .isEqualTo("newValue");
+
+        assertThat(
+                PerThreadCache.getOrCompute(
+                    PerThreadCache.Key.create(Integer.class, "key"), () -> 1))
+            .isEqualTo(1);
+        assertThat(
+                PerThreadCache.getOrCompute(
+                    PerThreadCache.Key.create(Integer.class, "key"), () -> 2))
+            .isEqualTo(2);
+
+        assertThat(
+                PerThreadCache.getOrCompute(PerThreadCache.Key.create(Long.class, "key"), () -> 1L))
+            .isEqualTo(1L);
+        assertThat(
+                PerThreadCache.getOrCompute(PerThreadCache.Key.create(Long.class, "key"), () -> 2L))
+            .isEqualTo(1L);
+      }
+    } finally {
+      System.setProperty(PerThreadCache.PER_THREAD_CACHE_DISABLED_TYPES_PROPERTY, "");
     }
   }
 

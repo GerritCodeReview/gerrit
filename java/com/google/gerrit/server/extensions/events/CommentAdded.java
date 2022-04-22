@@ -26,6 +26,8 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -61,15 +63,18 @@ public class CommentAdded {
       return;
     }
     try {
-      Event event =
-          new Event(
-              util.changeInfo(change),
-              util.revisionInfo(change.getProject(), ps),
-              util.accountInfo(author),
-              comment,
-              util.approvals(author, approvals, when),
-              util.approvals(author, oldApprovals, when),
-              when);
+      Event event;
+      try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+        event =
+            new Event(
+                util.changeInfo(change),
+                util.revisionInfo(change.getProject(), ps),
+                util.accountInfo(author),
+                comment,
+                util.approvals(author, approvals, when),
+                util.approvals(author, oldApprovals, when),
+                when);
+      }
       listeners.runEach(l -> l.onCommentAdded(event));
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Couldn't fire event: %s", e.getMessage());

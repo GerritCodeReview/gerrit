@@ -1100,6 +1100,6 @@ public class PostReviewIT extends AbstractDaemonTest {
   private static void assertAttentionSet(
       ImmutableSet<AttentionSetUpdate> attentionSet, Account.Id... accounts) {
     assertThat(attentionSet.stream().map(AttentionSetUpdate::account).collect(Collectors.toList()))
-        .containsExactly(accounts);
+        .containsExactlyElementsIn(accounts);
   }
 }

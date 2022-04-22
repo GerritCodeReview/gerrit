@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f918e10_82a5b8d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T14:28:52Z",
+      "side": 1,
+      "message": "There is still a bug and therefore a missing test.",
+      "revId": "e302190346d8857c8115a785f376a5dad56dfd2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c51b11d_2648b2d4",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T14:28:52Z",
+      "side": 1,
+      "message": "This needs extra testing in the two scenarios:\n- RepoRefCache has been effectively cached by L44\n- RepoRefCache has not been cached and therefore a new RepoRefCache() is returned",
+      "range": {
+        "startLine": 39,
+        "startChar": 35,
+        "endLine": 39,
+        "endChar": 46
+      },
+      "revId": "e302190346d8857c8115a785f376a5dad56dfd2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1f5ec36_60bfa157",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T14:28:52Z",
+      "side": 1,
+      "message": "This should be set to true.",
+      "range": {
+        "startLine": 56,
+        "startChar": 44,
+        "endLine": 56,
+        "endChar": 49
+      },
+      "revId": "e302190346d8857c8115a785f376a5dad56dfd2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

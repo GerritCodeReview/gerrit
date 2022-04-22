@@ -332,6 +332,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e20ea70_d82497eb",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T11:29:13Z",
+      "side": 1,
+      "message": "Change-Id: I7193952483b3 is ready for review and shows the issue even without this change, hence it should be addressed separately.",
+      "parentUuid": "35064c3b_84aea144",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 244,
+        "endChar": 7
+      },
+      "revId": "5b57437e42894db1a17c53b32878c5c6758c4627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81520c0c_d5652de6",
         "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
         "patchSetId": 30
@@ -343,6 +367,30 @@
       "writtenOn": "2022-04-22T08:07:54Z",
       "side": 1,
       "message": "The thing which worries me here is that the ownership of the repo is unclear.\nI.e. repo.incrementOpen is called in the RepoRefCache, but refCache.close is called from the PerThreadCache.\nAt the same time, RepoRefCache doesn\u0027t implement AutoClosable - so, we can\u0027t expect that close() will be called.\n\nI don\u0027t think that we should add \"implements AutoClosable\" to RepoRefCache. Without merging to master this can lead to more divergence between master and old-branches.\n\nAnother idea (which I like more): allow to add unloader for cached elements.\nI.e.\n  public static Optional\u003cRefCache\u003e getOptional(Repository repo) {\n    ...\n    return cache.tryGet(PerThreadCache.Key.create(RepoRefCache.class, repo),\n      // Loader\n      () -\u003e { repo.incrementOpen(); new RepoRefCache(repo); },\n      // Unloader\n      (repoRefCache) -\u003e {\n        repoRefCache.checkStaleness();\n        repoRefCache.repo.close(); \n      } );\n     }\n    ...\n  }\nHere repo.incrementOpen/close are isolated and RepoRefCache object is not responsible for a Repository lifetime.\n\n\nAnd PerThreadCache can be updated with additional unloaders cache and tryGet method:\n  class PerThreadCache {\n    private final Map\u003cKey\u003c?\u003e, Consumer\u003c?\u003e\u003e unloaders \u003d\n      Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);\n    ...\n    public \u003cT\u003e Optional\u003cT\u003e tryGet(Key\u003cT\u003e key, Supplier\u003cT\u003e loader, Consumer\u003cT\u003e unloader) {\n      if (disabledTypes.contains(key.clazz.getCanonicalName())) {\n        return loader.get();\n      }\n      @SuppressWarnings(\"unchecked\")\n      T value \u003d (T) cache.get(key);\n      if (value \u003d\u003d null \u0026\u0026 cache.size() \u003c PER_THREAD_CACHE_SIZE) {\n        // Call loader only if there is enough space in cache.\n        // Otherwise, cache can\u0027t call unloader\n        value \u003d loader.get();\n        cache.put(key, value);\n        unloaders.put(key, unloader);\n      }\n      return Optional.ofNullable(value);\n    }\n    private void removeKey(Key key) {\n      Consumer\u003cT\u003e unloader \u003d unloaders.get(key);\n      if(unloader !\u003d null) unloader(cache.get(key))\n    }\n    public void close() {\n      // Call removeKey for each key in dictionary\n      ...\n      CACHE.remove();\n    }           \n    private void removeRepoRefsCaches() {   \n      for(...) {//Iterate over all entries in cache\n        if (entry.value instanceof RepoRefCache) {\n         removeKey(key);\n        }\n      }\n    }\n  }\n  \nWith this solution, CacheStalenessCheck interface is not required - we can call required method from the unloader. Also, we can remove CacheStalenessCheck code from the PerThreadCache.",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 25
+      },
+      "revId": "5b57437e42894db1a17c53b32878c5c6758c4627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db72163b_1ea1fb54",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T11:29:13Z",
+      "side": 1,
+      "message": "\u003e The thing which worries me here is that the ownership of the repo is unclear.\n\u003e I.e. repo.incrementOpen is called in the RepoRefCache, but refCache.close is called from the PerThreadCache.\n\nYou are right, that\u0027s not good and leads to errors in the future.\n\n\u003e At the same time, RepoRefCache doesn\u0027t implement AutoClosable - so, we can\u0027t expect that close() will be called.\n\nThat\u0027s a mistake IMHO, because the RepoRefCache is actually opening a session of work with the repository and that must be traced as resource to be closed.\n\nChange-Id: I7193952483b3 is resolving the issue making RepoRefCache AutoCloseable.\n\n\u003e I don\u0027t think that we should add \"implements AutoClosable\" to RepoRefCache. Without merging to master this can lead to more divergence between master and old-branches.\n\nChange-Id: I7193952483b3 is tied to just RepoRefCache and is a useful fix to be merged up to master IMHO.\n\n\u003e Another idea (which I like more): allow to add unloader for cached elements.\n\u003e I.e.\n\u003e   public static Optional\u003cRefCache\u003e getOptional(Repository repo) {\n\u003e     ...\n\u003e     return cache.tryGet(PerThreadCache.Key.create(RepoRefCache.class, repo),\n\u003e       // Loader\n\u003e       () -\u003e { repo.incrementOpen(); new RepoRefCache(repo); },\n\u003e       // Unloader\n\u003e       (repoRefCache) -\u003e {\n\u003e         repoRefCache.checkStaleness();\n\u003e         repoRefCache.repo.close(); \n\u003e       } );\n\u003e      }\n\u003e     ...\n\u003e   }\n\u003e Here repo.incrementOpen/close are isolated and RepoRefCache object is not responsible for a Repository lifetime.\n\nIt is basically creating two lambdas that are wrapping the creation and closure of RepoRefCache, which is basically wrapping it. However, when the number of. caches are over the PER_THREAD_CACHE_SIZE the unloader won\u0027t be called isn\u0027t it?\n\nHowever, because the issue exists also without the PerThreadCache, then it should be resolved in the RepoRefCache otherwise we\u0027re just fixing half of the problem.\n\n\u003e And PerThreadCache can be updated with additional unloaders cache and tryGet method:\n\u003e   class PerThreadCache {\n\u003e     private final Map\u003cKey\u003c?\u003e, Consumer\u003c?\u003e\u003e unloaders \u003d\n\u003e       Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);\n\u003e     ...\n\u003e     public \u003cT\u003e Optional\u003cT\u003e tryGet(Key\u003cT\u003e key, Supplier\u003cT\u003e loader, Consumer\u003cT\u003e unloader) {\n\u003e       if (disabledTypes.contains(key.clazz.getCanonicalName())) {\n\u003e         return loader.get();\n\u003e       }\n\u003e       @SuppressWarnings(\"unchecked\")\n\u003e       T value \u003d (T) cache.get(key);\n\u003e       if (value \u003d\u003d null \u0026\u0026 cache.size() \u003c PER_THREAD_CACHE_SIZE) {\n\u003e         // Call loader only if there is enough space in cache.\n\u003e         // Otherwise, cache can\u0027t call unloader\n\u003e         value \u003d loader.get();\n\u003e         cache.put(key, value);\n\u003e         unloaders.put(key, unloader);\n\u003e       }\n\u003e       return Optional.ofNullable(value);\n\u003e     }\n\u003e     private void removeKey(Key key) {\n\u003e       Consumer\u003cT\u003e unloader \u003d unloaders.get(key);\n\u003e       if(unloader !\u003d null) unloader(cache.get(key))\n\u003e     }\n\u003e     public void close() {\n\u003e       // Call removeKey for each key in dictionary\n\u003e       ...\n\u003e       CACHE.remove();\n\u003e     }           \n\u003e     private void removeRepoRefsCaches() {   \n\u003e       for(...) {//Iterate over all entries in cache\n\u003e         if (entry.value instanceof RepoRefCache) {\n\u003e          removeKey(key);\n\u003e         }\n\u003e       }\n\u003e     }\n\u003e   }\n\u003e   \n\u003e With this solution, CacheStalenessCheck interface is not required - we can call required method from the unloader. Also, we can remove CacheStalenessCheck code from the PerThreadCache.\n\nThat won\u0027t solve the problem that lies on RepoRefCache anyway and it looks a lot more complex to me. Can we continue the discussion on Change-Id: I7193952483b3 and deal with this problem as a separate discussion? \n\nI believe that \"divide et impera\" would help us nailing down this monster change :-) and breaking it down into separate self-contained fixes that make sense by themselves.",
+      "parentUuid": "81520c0c_d5652de6",
       "range": {
         "startLine": 55,
         "startChar": 4,

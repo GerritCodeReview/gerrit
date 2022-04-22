@@ -355,7 +355,7 @@ public class CommitRewriter {
   private ImmutableSet<AccountState> collectAccounts(ChangeNotes changeNotes) {
     Set<Account.Id> accounts = new HashSet<>();
     accounts.add(changeNotes.getChange().getOwner());
-    for (PatchSetApproval patchSetApproval : changeNotes.getApprovals().values()) {
+    for (PatchSetApproval patchSetApproval : changeNotes.getApprovalsWithCopied().values()) {
       if (patchSetApproval.accountId() != null) {
         accounts.add(patchSetApproval.accountId());
       }

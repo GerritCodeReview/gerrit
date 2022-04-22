@@ -95,6 +95,11 @@ public abstract class SubmitRequirementExpressionResult {
         ImmutableList.of());
   }
 
+  public static SubmitRequirementExpressionResult notEvaluated(SubmitRequirementExpression expr) {
+    return SubmitRequirementExpressionResult.create(
+        expr, Status.NOT_EVALUATED, ImmutableList.of(), ImmutableList.of());
+  }
+
   public static TypeAdapter<SubmitRequirementExpressionResult> typeAdapter(Gson gson) {
     return new AutoValue_SubmitRequirementExpressionResult.GsonTypeAdapter(gson);
   }
@@ -124,7 +129,10 @@ public abstract class SubmitRequirementExpressionResult {
     FAIL,
 
     /** Submit requirement expression contains invalid syntax and is not parsable. */
-    ERROR
+    ERROR,
+
+    /** Submit requirement expression was not evaluated. */
+    NOT_EVALUATED
   }
 
   /**

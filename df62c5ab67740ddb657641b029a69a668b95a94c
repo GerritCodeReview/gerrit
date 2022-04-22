@@ -86,6 +86,24 @@
       "parentUuid": "21b9ae6f_0de89bed",
       "revId": "df62c5ab67740ddb657641b029a69a668b95a94c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0529847f_54e72364",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-22T06:21:34Z",
+      "side": 1,
+      "message": "Done. Please mark the internal release that rolled out the predecessor change as not rollback safe in bad_changes. Thanks!",
+      "parentUuid": "a95197ed_bd91e4ec",
+      "revId": "df62c5ab67740ddb657641b029a69a668b95a94c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

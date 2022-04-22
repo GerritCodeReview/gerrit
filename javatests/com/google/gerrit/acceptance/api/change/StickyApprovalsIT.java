@@ -1193,7 +1193,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void copiedVoteIsNotReapplied() throws Exception {
+  public void copiedVoteIsNotReapplied_onVoteOnOtherLabel() throws Exception {
     updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
 
     PushOneCommit.Result r = createChange();
@@ -1234,6 +1234,42 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
                         .collect(toImmutableList()))
                 .copied())
         .isFalse();
+  }
+
+  @Test
+  public void copiedVoteIsNotReapplied_onRebase() throws Exception {
+    updateCodeReviewLabel(b -> b.setCopyCondition("is:ANY"));
+
+    PushOneCommit.Result r = createChange();
+
+    // Create a sibling change
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+
+    // Add vote that will be copied.
+    approve(r2.getChangeId());
+
+    // Verify that that the approval exists and is not copied.
+    List<PatchSetApproval> approvalsPs2 = r2.getChange().currentApprovals();
+    assertThat(approvalsPs2).hasSize(1);
+    assertThat(Iterables.getOnlyElement(approvalsPs2).copied()).isFalse();
+
+    // Approve, verify and submit the first change.
+    approve(r.getChangeId());
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.VERIFIED, 1));
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    // Rebase the second change, this approval should be sticky.
+    gApi.changes().id(r2.getChangeId()).rebase();
+
+    // Verify that the approval has been copied to patch set 2 (use the currentApprovals() method
+    // rather than the approvals() method since the latter one filters out copied approvals).
+    approvalsPs2 = changeDataFactory.create(project, r2.getChange().getId()).currentApprovals();
+    assertThat(approvalsPs2).hasSize(1);
+    assertThat(Iterables.getOnlyElement(approvalsPs2).copied()).isTrue();
   }
 
   @Test

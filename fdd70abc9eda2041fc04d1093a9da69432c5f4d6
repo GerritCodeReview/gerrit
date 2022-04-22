@@ -171,6 +171,24 @@
       "parentUuid": "b7b82301_14e22d77",
       "revId": "fdd70abc9eda2041fc04d1093a9da69432c5f4d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3901dc5_7c95ba2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-22T06:38:50Z",
+      "side": 1,
+      "message": "We have a well defined criteria for when changes can be submitted. This criteria is that another maintainer approved the change. Sure, in order to reach higher quality, we could always make this stricter (e.g. require at least 2 approvals, leave it open for more than X days), but this comes at a price (longer turnaround times, more effort for additional reviews, more context switches for developers). The question is if the additional quality that can be archived by making the submit criteria more strict outweighs these cost. Let\u0027s move this discussion to mailing list, if you feel this needs to be discussed further and you want to propose to make the submit criteria more strict than it is today.",
+      "parentUuid": "602afdcd_8d64d443",
+      "revId": "fdd70abc9eda2041fc04d1093a9da69432c5f4d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

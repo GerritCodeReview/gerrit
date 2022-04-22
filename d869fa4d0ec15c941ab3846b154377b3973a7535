@@ -34,6 +34,24 @@
       "parentUuid": "d8fb75a7_38793743",
       "revId": "d869fa4d0ec15c941ab3846b154377b3973a7535",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14563aff_26d89f4d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-22T12:21:39Z",
+      "side": 1,
+      "message": "This effect looks similar, but I \u0027m not sure if it\u0027s related. That issue is about the vote being reapplied on rebase, but the fix here is done in PostReview, and rebase shouldn\u0027t trigger PostReview (unless some plugin does this, but I\u0027m not aware of any such plugin). So I can\u0027t confirm that this is related. FWIW I tried to reproduce this from a test too (see [1]) but the test succeeds with and without this fix.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/335621",
+      "parentUuid": "0c827562_3ae1ba5f",
+      "revId": "d869fa4d0ec15c941ab3846b154377b3973a7535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

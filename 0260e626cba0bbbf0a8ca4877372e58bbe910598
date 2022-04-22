@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3455aedf_49b8f5a9",
+        "filename": "javatests/com/google/gerrit/server/git/RepoRefCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T10:43:50Z",
+      "side": 1,
+      "message": "We should also check that the underlying repository has a reference counting updated",
+      "revId": "0260e626cba0bbbf0a8ca4877372e58bbe910598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

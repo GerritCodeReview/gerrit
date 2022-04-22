@@ -21,9 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Supplier;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Caches object instances for a request as {@link ThreadLocal} in the serving thread.
@@ -58,12 +56,6 @@ public class PerThreadCache implements AutoCloseable {
    * this class from accumulating an unbound number of objects, we enforce this limit.
    */
   private static final int PER_THREAD_CACHE_SIZE = 25;
-
-  /**
-   * Optional HTTP request associated with the per-thread cache, should the thread be associated
-   * with the incoming HTTP thread pool.
-   */
-  private final Optional<HttpServletRequest> httpRequest;
 
   /**
    * Unique key for key-value mappings stored in PerThreadCache. The key is based on the value's
@@ -110,9 +102,9 @@ public class PerThreadCache implements AutoCloseable {
     }
   }
 
-  public static PerThreadCache create(@Nullable HttpServletRequest httpRequest) {
+  public static PerThreadCache create() {
     checkState(CACHE.get() == null, "called create() twice on the same request");
-    PerThreadCache cache = new PerThreadCache(httpRequest);
+    PerThreadCache cache = new PerThreadCache();
     CACHE.set(cache);
     return cache;
   }
@@ -129,9 +121,7 @@ public class PerThreadCache implements AutoCloseable {
 
   private final Map<Key<?>, Object> cache = Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);
 
-  private PerThreadCache(@Nullable HttpServletRequest req) {
-    httpRequest = Optional.ofNullable(req);
-  }
+  private PerThreadCache() {}
 
   /**
    * Returns an instance of {@code T} that was either loaded from the cache or obtained from the
@@ -147,19 +137,6 @@ public class PerThreadCache implements AutoCloseable {
       }
     }
     return value;
-  }
-
-  /** Returns the optional HTTP request associated with the local thread cache. */
-  public Optional<HttpServletRequest> getHttpRequest() {
-    return httpRequest;
-  }
-
-  /** Returns true if there is an HTTP request associated and is a GET or HEAD */
-  public boolean hasReadonlyRequest() {
-    return httpRequest
-        .map(HttpServletRequest::getMethod)
-        .filter(m -> m.equalsIgnoreCase("GET") || m.equalsIgnoreCase("HEAD"))
-        .isPresent();
   }
 
   @Override

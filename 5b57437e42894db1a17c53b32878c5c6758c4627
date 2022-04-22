@@ -308,6 +308,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "35064c3b_84aea144",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-22T10:17:41Z",
+      "side": 1,
+      "message": "\u003e \u003e The problem of the repo being used after close was there already, because we are returning a cached RepoRefCache instance that holds a reference to a refDatabase which could have been closed already.\n\u003e \n\u003e I might be wrong, but as I can see in https://gerrit-review.git.corp.google.com/c/gerrit/+/334539, all RepoRefCache usages are local, i.e. the pattern is (simplified):\n\u003e   // local variable\n\u003e   Optional\u003cRepoRefCache\u003e repoRefCache \u003d RepoRefCache.getOptional(repo);\n\u003e   ...use repoRefCache if present, otherwise use repo\n\u003e   // end of method, forget about repoRefCache\n\u003e   \n\u003e The repo is always open when RepoRefCache.getOptional(repo) is called, so we are 100% sure that repoRefCache uses opened repo here.\n\nCorrect, but that doesn\u0027t deny the fact that the current code could lead to this problem, isn\u0027t it?\n\n\u003e And RepoRefCache is never used anywhere else (i.e. PerThreadCache doesn\u0027t clean it up later), so stable-2.16 shouldn\u0027t have this problem. The problem appears because here we are trying to check stale references later.\n\nThe same apply for stale reference check that is triggered by the auto-close in a local context. The cached objects are not long running and never last for longer than the current scope of the block.\n\nThe issue is more about the fragility of holding a reference to a Repository that *may be later closed*. I\u0027m uploading a simple test with the fix that shows the issue.\n\nAll these problems are theoretical of course, because none of them are actually happening at the moment, the get() or staleness check after close.\n\n\u003e \u003e Just to clarify *WHY* I want to address this as a separate issue\n\n\u003e What do you think about my idea with unloaders, which should solve both problems (ownership of Repository + this one)?\n\n\u003e In overall, I\u0027m ok with fixing it as a separate issue, but I would like to have a full picture - parts depends on each other. I noticed this problem when I started to think about unloaders and I would say existing code is not easy to analyse because repo.incrementOpen and repo.close are processed differently (i.e. RepoRefCache is responsible for calling incrementOpen, but PerThreadCache is responsible for close).\n\u003e I am afraid that splitting fix into a different change makes it harder for review. So, if the fix is small - I would like to see it as a part of this change.\n\nIt is actually easier to review because is more focused on the context and objective: see Change-Id: I7193952483b3",
+      "parentUuid": "d7e773a0_6c90bbb6",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 244,
+        "endChar": 7
+      },
+      "revId": "5b57437e42894db1a17c53b32878c5c6758c4627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81520c0c_d5652de6",
         "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
         "patchSetId": 30

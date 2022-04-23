@@ -42,80 +42,96 @@ suite('gr-plugin-config-array-editor tests', () => {
     };
   });
 
-  test('_computeShowInputRow', () => {
-    assert.equal(element._computeShowInputRow(true), 'hide');
-    assert.equal(element._computeShowInputRow(false), '');
-  });
-
   suite('adding', () => {
     setup(() => {
-      dispatchStub = sinon.stub(element, '_dispatchChanged');
+      dispatchStub = sinon.stub(element, 'dispatchChanged');
     });
 
-    test('with enter', () => {
-      element._newValue = '';
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
-      assert.isFalse(element.$.input.hasAttribute('disabled'));
-      flush();
+    test('with enter', async () => {
+      element.newValue = '';
+      await element.updateComplete;
+      MockInteractions.pressAndReleaseKeyOn(
+        queryAndAssert<HTMLInputElement>(element, '#input'),
+        13
+      ); // Enter
+      await element.updateComplete;
+      assert.isFalse(
+        queryAndAssert<HTMLInputElement>(element, '#input').hasAttribute(
+          'disabled'
+        )
+      );
+      await element.updateComplete;
 
       assert.isFalse(dispatchStub.called);
-      element._newValue = 'test';
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
-      assert.isFalse(element.$.input.hasAttribute('disabled'));
-      flush();
+      element.newValue = 'test';
+      await element.updateComplete;
+
+      MockInteractions.pressAndReleaseKeyOn(
+        queryAndAssert<HTMLInputElement>(element, '#input'),
+        13
+      ); // Enter
+      await element.updateComplete;
+      assert.isFalse(
+        queryAndAssert<HTMLInputElement>(element, '#input').hasAttribute(
+          'disabled'
+        )
+      );
+      await element.updateComplete;
 
       assert.isTrue(dispatchStub.called);
       assert.equal(dispatchStub.lastCall.args[0], 'test');
-      assert.equal(element._newValue, '');
+      assert.equal(element.newValue, '');
     });
 
-    test('with add btn', () => {
-      element._newValue = '';
-      MockInteractions.tap(element.$.addButton);
-      flush();
+    test('with add btn', async () => {
+      element.newValue = '';
+      queryAndAssert<GrButton>(element, '#addButton').click();
+      await element.updateComplete;
 
       assert.isFalse(dispatchStub.called);
-      element._newValue = 'test';
-      MockInteractions.tap(element.$.addButton);
-      flush();
+
+      element.newValue = 'test';
+      await element.updateComplete;
+
+      queryAndAssert<GrButton>(element, '#addButton').click();
+      await element.updateComplete;
 
       assert.isTrue(dispatchStub.called);
       assert.equal(dispatchStub.lastCall.args[0], 'test');
-      assert.equal(element._newValue, '');
+      assert.equal(element.newValue, '');
     });
   });
 
   test('deleting', async () => {
-    dispatchStub = sinon.stub(element, '_dispatchChanged');
+    dispatchStub = sinon.stub(element, 'dispatchChanged');
     element.pluginOption = {
       _key: '',
       info: {type: ConfigParameterInfoType.ARRAY, values: ['test', 'test2']},
     };
     element.disabled = true;
-    await flush();
+    await element.updateComplete;
 
     const rows = queryAll(element, '.existingItems .row');
     assert.equal(rows.length, 2);
     const button = queryAndAssert<GrButton>(rows[0], 'gr-button');
 
     MockInteractions.tap(button);
-    await flush();
+    await element.updateComplete;
 
     assert.isFalse(dispatchStub.called);
     element.disabled = false;
-    element.notifyPath('pluginOption.info.editable');
-    await flush();
+    await element.updateComplete;
 
-    MockInteractions.tap(button);
-    await flush();
+    button.click();
+    await element.updateComplete;
 
     assert.isTrue(dispatchStub.called);
     assert.deepEqual(dispatchStub.lastCall.args[0], ['test2']);
   });
 
-  test('_dispatchChanged', () => {
+  test('dispatchChanged', () => {
     const eventStub = sinon.stub(element, 'dispatchEvent');
-    element._dispatchChanged(['new-test-value']);
+    element.dispatchChanged(['new-test-value']);
 
     assert.isTrue(eventStub.called);
     const {detail} = eventStub.lastCall.args[0] as CustomEvent;

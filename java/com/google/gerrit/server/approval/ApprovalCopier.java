@@ -15,7 +15,6 @@
 package com.google.gerrit.server.approval;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -129,13 +128,13 @@ public class ApprovalCopier {
               .get(notes.getProjectName())
               .orElseThrow(illegalState(notes.getProjectName()));
       ImmutableSet<PatchSetApproval> approvals =
-          getForPatchSetWithoutNormalization(notes, project, ps, rw, repoConfig);
+          getForPatchSetWithoutNormalization(project.getLabelTypes(), notes, ps, rw, repoConfig);
       return labelNormalizer.normalize(notes, approvals).getNormalized();
     }
   }
 
   private boolean canCopyBasedOnBooleanLabelConfigs(
-      ProjectState project,
+      Project.NameKey projectName,
       PatchSetApproval psa,
       PatchSet.Id psId,
       ChangeKind kind,
@@ -156,7 +155,7 @@ public class ApprovalCopier {
           n,
           psa.key().patchSetId().changeId().get(),
           psId.get(),
-          project.getName());
+          projectName);
       return true;
     } else if (type.isCopyMaxScore() && type.isMaxPositive(psa)) {
       logger.atFine().log(
@@ -167,7 +166,7 @@ public class ApprovalCopier {
           n,
           psa.key().patchSetId().changeId().get(),
           psId.get(),
-          project.getName());
+          projectName);
       return true;
     } else if (type.isCopyAnyScore()) {
       logger.atFine().log(
@@ -178,7 +177,7 @@ public class ApprovalCopier {
           n,
           psa.key().patchSetId().changeId().get(),
           psId.get(),
-          project.getName());
+          projectName);
       return true;
     } else if (type.getCopyValues().contains(psa.value())) {
       logger.atFine().log(
@@ -190,7 +189,7 @@ public class ApprovalCopier {
           psa.key().patchSetId().changeId().get(),
           psId.get(),
           psa.value(),
-          project.getName());
+          projectName);
       return true;
     } else if (type.isCopyAllScoresIfListOfFilesDidNotChange()
         && listOfFilesUnchangedPredicate.match(
@@ -206,7 +205,7 @@ public class ApprovalCopier {
           n,
           psa.key().patchSetId().changeId().get(),
           psId.get(),
-          project.getName());
+          projectName);
       return true;
     }
     switch (kind) {
@@ -222,7 +221,7 @@ public class ApprovalCopier {
               psa.key().patchSetId().changeId().get(),
               psId.get(),
               kind,
-              project.getName());
+              projectName);
           return true;
         }
         return false;
@@ -238,7 +237,7 @@ public class ApprovalCopier {
               psa.key().patchSetId().changeId().get(),
               psId.get(),
               kind,
-              project.getName());
+              projectName);
           return true;
         }
         return false;
@@ -254,7 +253,7 @@ public class ApprovalCopier {
               psa.key().patchSetId().changeId().get(),
               psId.get(),
               kind,
-              project.getName());
+              projectName);
           return true;
         }
         return false;
@@ -270,7 +269,7 @@ public class ApprovalCopier {
               psa.key().patchSetId().changeId().get(),
               psId.get(),
               kind,
-              project.getName());
+              projectName);
           return true;
         }
         if (type.isCopyAllScoresOnTrivialRebase()) {
@@ -284,7 +283,7 @@ public class ApprovalCopier {
               psa.key().patchSetId().changeId().get(),
               psId.get(),
               kind,
-              project.getName());
+              projectName);
           return true;
         }
         if (isMerge && type.isCopyAllScoresOnMergeFirstParentUpdate()) {
@@ -298,7 +297,7 @@ public class ApprovalCopier {
               psa.key().patchSetId().changeId().get(),
               psId.get(),
               kind,
-              project.getName());
+              projectName);
           return true;
         }
         if (type.isCopyAllScoresIfNoCodeChange()) {
@@ -312,7 +311,7 @@ public class ApprovalCopier {
               psa.key().patchSetId().changeId().get(),
               psId.get(),
               kind,
-              project.getName());
+              projectName);
           return true;
         }
         return false;
@@ -357,13 +356,8 @@ public class ApprovalCopier {
   }
 
   private ImmutableSet<PatchSetApproval> getForPatchSetWithoutNormalization(
-      ChangeNotes notes, ProjectState project, PatchSet patchSet, RevWalk rw, Config repoConfig) {
-    checkState(
-        project.getNameKey().equals(notes.getProjectName()),
-        "project must match %s, %s",
-        project.getNameKey(),
-        notes.getProjectName());
-
+      LabelTypes labelTypes, ChangeNotes notes, PatchSet patchSet, RevWalk rw, Config repoConfig) {
+    Project.NameKey projectName = notes.getProjectName();
     PatchSet.Id psId = patchSet.id();
 
     // Bail out immediately if this is the first patch set. Return only approvals granted on the
@@ -391,12 +385,8 @@ public class ApprovalCopier {
     // and settings as well as change kind allow copying.
     ChangeKind changeKind =
         changeKindCache.getChangeKind(
-            project.getNameKey(),
-            rw,
-            repoConfig,
-            priorPatchSet.getValue().commitId(),
-            patchSet.commitId());
-    boolean isMerge = isMerge(project.getNameKey(), rw, patchSet);
+            projectName, rw, repoConfig, priorPatchSet.getValue().commitId(), patchSet.commitId());
+    boolean isMerge = isMerge(projectName, rw, patchSet);
     logger.atFine().log(
         "change kind for patch set %d of change %d against prior patch set %s is %s",
         patchSet.id().get(),
@@ -407,7 +397,6 @@ public class ApprovalCopier {
     Map<String, ModifiedFile> baseVsCurrent = null;
     Map<String, ModifiedFile> baseVsPrior = null;
     Map<String, ModifiedFile> priorVsCurrent = null;
-    LabelTypes labelTypes = project.getLabelTypes();
     for (PatchSetApproval psa : priorApprovalsIncludingCopied) {
       if (currentApprovalsByUser.contains(psa.label(), psa.accountId())
           || resultByUser.contains(psa.label(), psa.accountId())) {
@@ -418,11 +407,15 @@ public class ApprovalCopier {
       if (baseVsCurrent == null
           && type.isPresent()
           && type.get().isCopyAllScoresIfListOfFilesDidNotChange()) {
-        baseVsCurrent = listModifiedFiles(project, patchSet, rw, repoConfig);
-        baseVsPrior = listModifiedFiles(project, priorPatchSet.getValue(), rw, repoConfig);
+        baseVsCurrent = listModifiedFiles(projectName, patchSet, rw, repoConfig);
+        baseVsPrior = listModifiedFiles(projectName, priorPatchSet.getValue(), rw, repoConfig);
         priorVsCurrent =
             listModifiedFiles(
-                project, priorPatchSet.getValue().commitId(), patchSet.commitId(), rw, repoConfig);
+                projectName,
+                priorPatchSet.getValue().commitId(),
+                patchSet.commitId(),
+                rw,
+                repoConfig);
       }
       if (!type.isPresent()) {
         logger.atFine().log(
@@ -433,11 +426,11 @@ public class ApprovalCopier {
             psa.key().patchSetId().get(),
             psa.key().patchSetId().changeId().get(),
             psId.get(),
-            project.getName());
+            projectName);
         continue;
       }
       if (!canCopyBasedOnBooleanLabelConfigs(
-              project,
+              projectName,
               psa,
               patchSet.id(),
               changeKind,
@@ -472,19 +465,12 @@ public class ApprovalCopier {
    * files between those two patch-sets .
    */
   private Map<String, ModifiedFile> listModifiedFiles(
-      ProjectState project, PatchSet ps, RevWalk revWalk, Config repoConfig) {
+      Project.NameKey projectName, PatchSet ps, RevWalk revWalk, Config repoConfig) {
     try {
       Integer parentNum =
-          listOfFilesUnchangedPredicate.isInitialCommit(project.getNameKey(), ps.commitId())
-              ? 0
-              : 1;
+          listOfFilesUnchangedPredicate.isInitialCommit(projectName, ps.commitId()) ? 0 : 1;
       return diffOperations.loadModifiedFilesAgainstParent(
-          project.getNameKey(),
-          ps.commitId(),
-          parentNum,
-          DiffOptions.DEFAULTS,
-          revWalk,
-          repoConfig);
+          projectName, ps.commitId(), parentNum, DiffOptions.DEFAULTS, revWalk, repoConfig);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"
@@ -499,19 +485,14 @@ public class ApprovalCopier {
    * change.
    */
   private Map<String, ModifiedFile> listModifiedFiles(
-      ProjectState project,
+      Project.NameKey projectName,
       ObjectId sourceCommit,
       ObjectId targetCommit,
       RevWalk revWalk,
       Config repoConfig) {
     try {
       return diffOperations.loadModifiedFiles(
-          project.getNameKey(),
-          sourceCommit,
-          targetCommit,
-          DiffOptions.DEFAULTS,
-          revWalk,
-          repoConfig);
+          projectName, sourceCommit, targetCommit, DiffOptions.DEFAULTS, revWalk, repoConfig);
     } catch (DiffNotAvailableException ex) {
       throw new StorageException(
           "failed to compute difference in files, so won't copy"

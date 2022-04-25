@@ -176,21 +176,34 @@ export class GrDiffSelection extends PolymerElement {
 
   _handleCopy(e: ClipboardEvent) {
     let commentSelected = false;
+    console.log('handleCopy 0');
     const target = this._getCopyEventTarget(e);
     if (!(target instanceof Element)) return;
     if (target instanceof HTMLTextAreaElement) return;
-    if (!this._elementDescendedFromClass(target, 'diff-row')) return;
+    console.log('handleCopy 1');
+    if (!this.diffBuilder.diffElement.contains(target)) return;
+    console.log('handleCopy 2');
     if (this.classList.contains(SelectionClass.COMMENT)) {
       commentSelected = true;
     }
-    const lineEl = getLineElByChild(target);
-    if (!lineEl) return;
-    const side = getSideByLineEl(lineEl);
+    const side = this._getSide();
+    if (!side) return;
     const text = this._getSelectedText(side, commentSelected);
+    console.log(`handleCopy 3 ${text}`);
     if (text && e.clipboardData) {
       e.clipboardData.setData('Text', text);
       e.preventDefault();
     }
+  }
+
+  _getSide() {
+    if (this.classList.contains(SelectionClass.RIGHT)) {
+      return Side.RIGHT;
+    }
+    if (this.classList.contains(SelectionClass.LEFT)) {
+      return Side.LEFT;
+    }
+    return undefined;
   }
 
   _getSelection() {

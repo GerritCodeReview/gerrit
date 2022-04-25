@@ -54,8 +54,6 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
@@ -130,7 +128,7 @@ public class ApprovalCopier {
           projectCache
               .get(notes.getProjectName())
               .orElseThrow(illegalState(notes.getProjectName()));
-      Collection<PatchSetApproval> approvals =
+      ImmutableSet<PatchSetApproval> approvals =
           getForPatchSetWithoutNormalization(notes, project, ps, rw, repoConfig);
       return labelNormalizer.normalize(notes, approvals).getNormalized();
     }
@@ -358,7 +356,7 @@ public class ApprovalCopier {
     }
   }
 
-  private Collection<PatchSetApproval> getForPatchSetWithoutNormalization(
+  private ImmutableSet<PatchSetApproval> getForPatchSetWithoutNormalization(
       ChangeNotes notes, ProjectState project, PatchSet patchSet, RevWalk rw, Config repoConfig) {
     checkState(
         project.getNameKey().equals(notes.getProjectName()),
@@ -371,11 +369,11 @@ public class ApprovalCopier {
     // Bail out immediately if this is the first patch set. Return only approvals granted on the
     // given patch set.
     if (psId.get() == 1) {
-      return Collections.emptyList();
+      return ImmutableSet.of();
     }
     Map.Entry<PatchSet.Id, PatchSet> priorPatchSet = notes.load().getPatchSets().lowerEntry(psId);
     if (priorPatchSet == null) {
-      return Collections.emptyList();
+      return ImmutableSet.of();
     }
 
     Table<String, Account.Id, PatchSetApproval> currentApprovalsByUser = HashBasedTable.create();
@@ -454,7 +452,7 @@ public class ApprovalCopier {
       }
       resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(patchSet.id()));
     }
-    return resultByUser.values();
+    return ImmutableSet.copyOf(resultByUser.values());
   }
 
   private boolean isMerge(Project.NameKey project, RevWalk rw, PatchSet patchSet) {

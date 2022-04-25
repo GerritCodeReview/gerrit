@@ -170,6 +170,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private DeleteCommentRewriter deleteCommentRewriter;
   private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
 
+  @SuppressWarnings("UnusedMethod")
   @AssistedInject
   private ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,

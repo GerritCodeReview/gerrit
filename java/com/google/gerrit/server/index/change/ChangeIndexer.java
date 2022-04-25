@@ -528,7 +528,7 @@ public class ChangeIndexer {
   // less-contentious rebuild.
   private ChangeData newChangeData(ReviewDb db, Change change) throws OrmException {
     if (!notesMigration.readChanges()) {
-      ChangeNotes notes = changeNotesFactory.createWithAutoRebuildingDisabled(change, null);
+      ChangeNotes notes = changeNotesFactory.createWithAutoRebuildingDisabled(change);
       return changeDataFactory.create(db, notes);
     }
     return changeDataFactory.create(db, change);

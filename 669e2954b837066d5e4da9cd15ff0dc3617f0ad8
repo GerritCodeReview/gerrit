@@ -33,6 +33,29 @@
       "message": "Let\u0027s get this submitted since it\u0027s already live in production.",
       "revId": "669e2954b837066d5e4da9cd15ff0dc3617f0ad8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abcbfa43_c0970904",
+        "filename": "java/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementExpressionResultSerializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-25T17:29:17Z",
+      "side": 1,
+      "message": "This fix is fine (and certainly an improvement for setups like ours as we have seen today), but I wonder what it means for NOT_APPLICABLE to be translated to ERROR when read back? Are there cases where we\u0027d run into issues?",
+      "range": {
+        "startLine": 35,
+        "startChar": 56,
+        "endLine": 35,
+        "endChar": 61
+      },
+      "revId": "669e2954b837066d5e4da9cd15ff0dc3617f0ad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

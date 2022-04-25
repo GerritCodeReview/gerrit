@@ -32,10 +32,10 @@ import {
   ChangeActionsPluginApi,
   PrimaryActionKey,
 } from '../../../api/change-actions';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrButton} from '../gr-button/gr-button';
 import {IronIconElement} from '@polymer/iron-icon';
 import {ChangeViewChangeInfo} from '../../../types/common';
+import {GrDropdown} from '../gr-dropdown/gr-dropdown';
 
 suite('gr-change-actions-js-api-interface tests', () => {
   let element: GrChangeActions;
@@ -77,7 +77,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
       element = await fixture<GrChangeActions>(html`
         <gr-change-actions></gr-change-actions>
       `);
-      sinon.stub(element, '_editStatusChanged');
+      sinon.stub(element, 'editStatusChanged');
       element.change = {} as ChangeViewChangeInfo;
       element._hasKnownChainState = false;
       window.Gerrit.install(
@@ -118,22 +118,21 @@ suite('gr-change-actions-js-api-interface tests', () => {
       assert.deepEqual(element.primaryActionKeys, []);
     });
 
-    test('action buttons', () => {
+    test('action buttons', async () => {
       const key = changeActions.add(ActionType.REVISION, 'Bork!');
       const handler = sinon.spy();
       changeActions.addTapListener(key, handler);
-      flush();
-      MockInteractions.tap(
-        queryAndAssert<GrButton>(element, `[data-action-key="${key}"]`)
-      );
+      await element.updateComplete;
+      queryAndAssert<GrButton>(element, `[data-action-key="${key}"]`).click();
+      await element.updateComplete;
       assert(handler.calledOnce);
       changeActions.removeTapListener(key, handler);
-      MockInteractions.tap(
-        queryAndAssert<GrButton>(element, `[data-action-key="${key}"]`)
-      );
+      await element.updateComplete;
+      queryAndAssert<GrButton>(element, `[data-action-key="${key}"]`).click();
+      await element.updateComplete;
       assert(handler.calledOnce);
       changeActions.remove(key);
-      flush();
+      await element.updateComplete;
       assert.isUndefined(
         query<GrButton>(element, `[data-action-key="${key}"]`)
       );
@@ -141,7 +140,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
 
     test('action button properties', async () => {
       const key = changeActions.add(ActionType.REVISION, 'Bork!');
-      flush();
+      await element.updateComplete;
       const button = queryAndAssert<GrButton>(
         element,
         `[data-action-key="${key}"]`
@@ -153,7 +152,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
       changeActions.setTitle(key, 'Yo hint');
       changeActions.setEnabled(key, false);
       changeActions.setIcon(key, 'pupper');
-      await flush();
+      await element.updateComplete;
       assert.equal(button.getAttribute('data-label'), 'Yo');
       assert.equal(button.parentElement!.getAttribute('title'), 'Yo hint');
       assert.isTrue(button.disabled);
@@ -165,39 +164,44 @@ suite('gr-change-actions-js-api-interface tests', () => {
 
     test('hide action buttons', async () => {
       const key = changeActions.add(ActionType.REVISION, 'Bork!');
-      await flush();
+      await element.updateComplete;
       let button = query<GrButton>(element, `[data-action-key="${key}"]`);
       assert.isOk(button);
       assert.isFalse(button!.hasAttribute('hidden'));
       changeActions.setActionHidden(ActionType.REVISION, key, true);
-      flush();
+      await element.updateComplete;
       button = query<GrButton>(element, `[data-action-key="${key}"]`);
       assert.isNotOk(button);
     });
 
     test('move action button to overflow', async () => {
       const key = changeActions.add(ActionType.REVISION, 'Bork!');
-      await flush();
-      assert.isTrue(element.$.moreActions.hidden);
+      await element.updateComplete;
+      assert.isTrue(queryAndAssert<GrDropdown>(element, '#moreActions').hidden);
       assert.isOk(
         queryAndAssert<GrButton>(element, `[data-action-key="${key}"]`)
       );
       changeActions.setActionOverflow(ActionType.REVISION, key, true);
-      await flush();
+      await element.updateComplete;
       assert.isNotOk(query<GrButton>(element, `[data-action-key="${key}"]`));
-      assert.isFalse(element.$.moreActions.hidden);
-      assert.strictEqual(element.$.moreActions.items![0].name, 'Bork!');
+      assert.isFalse(
+        queryAndAssert<GrDropdown>(element, '#moreActions').hidden
+      );
+      assert.strictEqual(
+        queryAndAssert<GrDropdown>(element, '#moreActions').items![0].name,
+        'Bork!'
+      );
     });
 
-    test('change actions priority', () => {
+    test('change actions priority', async () => {
       const key1 = changeActions.add(ActionType.REVISION, 'Bork!');
       const key2 = changeActions.add(ActionType.CHANGE, 'Squanch?');
-      flush();
+      await element.updateComplete;
       let buttons = queryAll<GrButton>(element, '[data-action-key]');
       assert.equal(buttons[0].getAttribute('data-action-key'), key1);
       assert.equal(buttons[1].getAttribute('data-action-key'), key2);
       changeActions.setActionPriority(ActionType.REVISION, key1, 10);
-      flush();
+      await element.updateComplete;
       buttons = queryAll<GrButton>(element, '[data-action-key]');
       assert.equal(buttons[0].getAttribute('data-action-key'), key2);
       assert.equal(buttons[1].getAttribute('data-action-key'), key1);

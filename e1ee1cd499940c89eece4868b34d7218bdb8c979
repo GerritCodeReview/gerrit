@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ef022d0_1e7ee4bd",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-25T10:42:54Z",
+      "side": 1,
+      "message": "This boolean is in the RepoRefCache that can be used in a single or multi-threaded scenario. The use from the PerThreadCache is one of the use-cases.",
+      "parentUuid": "6583c91d_cac54ad8",
+      "revId": "e1ee1cd499940c89eece4868b34d7218bdb8c979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b65b0e72_0c042372",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3efeb548_de830ddc",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-25T10:42:54Z",
+      "side": 1,
+      "message": "Same answer as above.",
+      "parentUuid": "b65b0e72_0c042372",
+      "revId": "e1ee1cd499940c89eece4868b34d7218bdb8c979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c12708e4_e87aff5d",
@@ -48,6 +84,30 @@
       "writtenOn": "2022-04-25T06:36:11Z",
       "side": 1,
       "message": "wouldn\u0027t `this.refs` get closed in case when it wasn\u0027t `null`?",
+      "range": {
+        "startLine": 767,
+        "startChar": 11,
+        "endLine": 769,
+        "endChar": 25
+      },
+      "revId": "e1ee1cd499940c89eece4868b34d7218bdb8c979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c2e4df8_3e1381d5",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-25T10:42:54Z",
+      "side": 1,
+      "message": "You are right, even though I could not find any place where this is called with a non-null parameter.\n\nI\u0027ve removed the `this.refs` field in Change-Id: I729ad8738f and rebased.",
+      "parentUuid": "c12708e4_e87aff5d",
       "range": {
         "startLine": 767,
         "startChar": 11,

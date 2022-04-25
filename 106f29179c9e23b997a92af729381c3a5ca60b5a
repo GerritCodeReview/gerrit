@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3c43cc7_fcb90252",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-25T10:53:19Z",
+      "side": 1,
+      "message": "@Jacek: good catches in your review, addressed all of them. I actually even realise that refs wasn\u0027t used at all in ChangeNotes, which is a very nice discovery.",
+      "revId": "106f29179c9e23b997a92af729381c3a5ca60b5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

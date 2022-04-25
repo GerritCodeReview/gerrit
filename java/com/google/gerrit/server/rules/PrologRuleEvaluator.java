@@ -98,6 +98,7 @@ public class PrologRuleEvaluator {
   private final PrologOptions opts;
   private Term submitRule;
 
+  @SuppressWarnings("UnusedMethod")
   @AssistedInject
   private PrologRuleEvaluator(
       AccountCache accountCache,

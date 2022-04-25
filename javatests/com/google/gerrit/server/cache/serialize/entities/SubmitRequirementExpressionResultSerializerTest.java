@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
+import com.google.gerrit.server.cache.proto.Cache.SubmitRequirementExpressionResultProto;
 import java.util.Optional;
 import org.junit.Test;
 
@@ -49,5 +50,13 @@ public class SubmitRequirementExpressionResultSerializerTest {
   @Test
   public void roundTrip_withErrorMessage() throws Exception {
     assertThat(deserialize(serialize(r2))).isEqualTo(r2);
+  }
+
+  @Test
+  public void deserializeUnknownStatus() throws Exception {
+    SubmitRequirementExpressionResultProto proto =
+        serialize(r1).toBuilder().setStatus("unknown").build();
+    assertThat(deserialize(proto).status())
+        .isEqualTo(SubmitRequirementExpressionResult.Status.ERROR);
   }
 }

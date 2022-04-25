@@ -28,9 +28,15 @@ import java.util.Optional;
 public class SubmitRequirementExpressionResultSerializer {
   public static SubmitRequirementExpressionResult deserialize(
       SubmitRequirementExpressionResultProto proto) {
+    SubmitRequirementExpressionResult.Status status;
+    try {
+      status = SubmitRequirementExpressionResult.Status.valueOf(proto.getStatus());
+    } catch (IllegalArgumentException e) {
+      status = SubmitRequirementExpressionResult.Status.ERROR;
+    }
     return SubmitRequirementExpressionResult.create(
         SubmitRequirementExpression.create(proto.getExpression()),
-        SubmitRequirementExpressionResult.Status.valueOf(proto.getStatus()),
+        status,
         proto.getPassingAtomsList().stream().collect(ImmutableList.toImmutableList()),
         proto.getFailingAtomsList().stream().collect(ImmutableList.toImmutableList()),
         Optional.ofNullable(Strings.emptyToNull(proto.getErrorMessage())));

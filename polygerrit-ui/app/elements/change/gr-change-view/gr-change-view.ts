@@ -2635,6 +2635,12 @@ export class GrChangeView extends base {
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {
     return this.shortcuts.createTitle(shortcutName, section);
   }
+
+  _handleRevisionActionsChanged(
+    e: CustomEvent<{value: ActionNameToActionInfoMap}>
+  ) {
+    this._currentRevisionActions = e.detail.value;
+  }
 }
 
 declare global {

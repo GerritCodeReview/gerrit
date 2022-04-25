@@ -363,7 +363,7 @@ export const htmlTemplate = html`
             disable-edit="[[disableEdit]]"
             has-parent="[[hasParent]]"
             actions="[[_change.actions]]"
-            revision-actions="{{_currentRevisionActions}}"
+            revision-actions="[[_currentRevisionActions]]"
             account="[[_account]]"
             change-num="[[_changeNum]]"
             change-status="[[_change.status]]"
@@ -379,6 +379,7 @@ export const htmlTemplate = html`
             on-stop-edit-tap="_handleStopEditTap"
             on-download-tap="_handleOpenDownloadDialog"
             on-included-tap="_handleOpenIncludedInDialog"
+            on-revision-actions-changed="_handleRevisionActionsChanged"
           ></gr-change-actions>
         </div>
         <!-- end commit actions -->

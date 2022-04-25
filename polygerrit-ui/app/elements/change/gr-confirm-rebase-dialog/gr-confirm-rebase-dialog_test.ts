@@ -20,7 +20,7 @@ import './gr-confirm-rebase-dialog';
 import {GrConfirmRebaseDialog, RebaseChange} from './gr-confirm-rebase-dialog';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {NumericChangeId} from '../../../types/common';
+import {NumericChangeId, BranchName} from '../../../types/common';
 import {createChangeViewChange} from '../../../test/test-data-generators';
 import {fixture, html} from '@open-wc/testing-helpers';
 
@@ -34,36 +34,23 @@ suite('gr-confirm-rebase-dialog tests', () => {
   });
 
   test('render', async () => {
-    expect(element).shadowDom.to.equal(/* HTML*/ `
-      <gr-dialog
-        id="confirmDialog"
-        confirm-label="Rebase"
-        role="dialog"
-      >
+    element.branch = 'test' as BranchName;
+    await element.updateComplete;
+
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-dialog id="confirmDialog" confirm-label="Rebase" role="dialog">
         <div class="header" slot="header">Confirm rebase</div>
         <div class="main" slot="main">
-          <div
-            id="rebaseOnParent"
-            class="rebaseOption"
-            hidden=""
-          >
+          <div id="rebaseOnParent" class="rebaseOption" hidden="">
             <input id="rebaseOnParentInput" name="rebaseOptions" type="radio" />
             <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
               Rebase on parent change
             </label>
           </div>
-          <div
-            id="parentUpToDateMsg"
-            class="message"
-            hidden=""
-          >
+          <div id="parentUpToDateMsg" class="message" hidden="">
             This change is up to date with its parent.
           </div>
-          <div
-            id="rebaseOnTip"
-            class="rebaseOption"
-            hidden=""
-          >
+          <div id="rebaseOnTip" class="rebaseOption" hidden="">
             <input
               disabled=""
               id="rebaseOnTipInput"
@@ -71,24 +58,16 @@ suite('gr-confirm-rebase-dialog tests', () => {
               type="radio"
             />
             <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
-              Rebase on top of the  branch<span hidden=""
-              >
+              Rebase on top of the test branch<span hidden="">
                 (breaks relation chain)
               </span>
             </label>
           </div>
-          <div
-            id="tipUpToDateMsg"
-            class="message"
-          >
-            Change is up to date with the target branch already ()
+          <div id="tipUpToDateMsg" class="message">
+            Change is up to date with the target branch already (test)
           </div>
           <div id="rebaseOnOther" class="rebaseOption">
-            <input
-              id="rebaseOnOtherInput"
-              name="rebaseOptions"
-              type="radio"
-            />
+            <input id="rebaseOnOtherInput" name="rebaseOptions" type="radio" />
             <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
               Rebase on a specific change, ref, or commit
               <span hidden=""> (breaks relation chain) </span>

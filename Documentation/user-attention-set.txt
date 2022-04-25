@@ -47,6 +47,9 @@ changing the attention set:
   an unresolved comment.
 * If another user removed a user's vote, the user with the deleted vote will be
   added to the attention set.
+* If a vote becomes outdated by uploading a new patch set (vote is not sticky),
+  the user whose vote has been removed is added to the attention set, as they
+  need to re-review the change and vote newly.
 * Only owner, uploader, reviewers and ccs can be in the attention set.
 * The rules for service accounts are different, see link:#bots[Bots].
 * Users are not added by automatic rules when the change is work in progress.

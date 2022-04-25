@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68b986d6_608bf3d0",
+        "filename": "java/com/google/gerrit/entities/PatchSetApprovals.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-25T07:08:35Z",
+      "side": 1,
+      "message": "Nice API!",
+      "range": {
+        "startLine": 24,
+        "startChar": 22,
+        "endLine": 24,
+        "endChar": 39
+      },
+      "revId": "7e22f76db75bcc7c03807b0f5f7a991aa2be5fb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

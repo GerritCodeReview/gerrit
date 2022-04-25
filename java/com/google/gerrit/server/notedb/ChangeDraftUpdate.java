@@ -92,6 +92,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   private List<HumanComment> put = new ArrayList<>();
   private Map<Key, DeleteReason> delete = new HashMap<>();
 
+  @SuppressWarnings("UnusedMethod")
   @AssistedInject
   private ChangeDraftUpdate(
       @GerritPersonIdent PersonIdent serverIdent,

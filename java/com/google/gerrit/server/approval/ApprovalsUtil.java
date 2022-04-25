@@ -345,11 +345,16 @@ public class ApprovalsUtil {
    * <p>Computes the approvals of the prior patch set that should be copied to the new patch set and
    * stores them in NoteDb.
    *
+   * <p>For outdated approvals (approvals on the prior patch set which are outdated by the new patch
+   * set and hence not copied) the approvers are added to the attention set since they need to
+   * re-review the change and renew their approvals.
+   *
    * @param notes the change notes
    * @param patchSet the newly created patch set
    * @param revWalk {@link RevWalk} that can see the new patch set revision
    * @param repoConfig the repo config
-   * @param changeUpdate changeUpdate that is used to persist the copied approvals
+   * @param changeUpdate changeUpdate that is used to persist the copied approvals and update the
+   *     attention set
    */
   public void copyApprovalsToNewPatchSet(
       ChangeNotes notes,
@@ -357,8 +362,10 @@ public class ApprovalsUtil {
       RevWalk revWalk,
       Config repoConfig,
       ChangeUpdate changeUpdate) {
-    approvalCopier.forPatchSet(notes, patchSet, revWalk, repoConfig).copiedApprovals().stream()
-        .forEach(a -> changeUpdate.putCopiedApproval(a));
+    ApprovalCopier.Result approvalCopierResult =
+        approvalCopier.forPatchSet(notes, patchSet, revWalk, repoConfig);
+    approvalCopierResult.copiedApprovals().forEach(a -> changeUpdate.putCopiedApproval(a));
+    approvalCopierResult.outdatedApprovals().forEach(a -> changeUpdate.putOutdatedApproval(a));
   }
 
   /**

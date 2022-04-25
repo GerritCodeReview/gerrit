@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "81d6e41b_0c054eda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-25T14:18:33Z",
+      "side": 1,
+      "message": "Should we add a test for this?\n\nE.g. in SubmitRequirementExpressionResultSerializerTest:\n\n@Test\n  public void deserializeUnknownStatus() throws Exception {\n    SubmitRequirementExpressionResultProto proto \u003d serialize(r1).toBuilder().setStatus(\"unknown\").build();\n    assertThat(deserialize(proto).status()).isEqualTo(SubmitRequirementExpressionResult.Status.ERROR);\n  }",
+      "revId": "45d2bc3795603c1a1a7df638a0f9209985ed7eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3cb745f3_31d63e97",
         "filename": "java/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementExpressionResultSerializer.java",
         "patchSetId": 1

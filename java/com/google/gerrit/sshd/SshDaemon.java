@@ -643,7 +643,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           msg.append(avail[i].getName());
         }
         msg.append(" is supported");
-        logger.atSevere().log(msg.toString());
+        logger.atSevere().log("%s", msg);
       } else if (add) {
         if (!def.contains(n)) {
           def.add(n);

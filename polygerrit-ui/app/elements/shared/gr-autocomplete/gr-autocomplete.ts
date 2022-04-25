@@ -217,6 +217,39 @@ export class GrAutocomplete extends LitElement {
         border: none;
         padding: 0;
       }
+      paper-input {
+        background-color: var(--view-background-color);
+        color: var(--primary-text-color);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        padding: var(--spacing-s);
+        --paper-input-container_-_padding: 0;
+        --paper-input-container-input_-_font-size: var(--font-size-normal);
+        --paper-input-container-input_-_line-height: var(--line-height-normal);
+        /* This is a hack for not being able to set height:0 on the underline
+            of a paper-input 2.2.3 element. All the underline fixes below only
+            actually work in 3.x.x, so the height must be adjusted directly as
+            a workaround until we are on Polymer 3. */
+        height: var(--line-height-normal);
+        --paper-input-container-underline-height: 0;
+        --paper-input-container-underline-wrapper-height: 0;
+        --paper-input-container-underline-focus-height: 0;
+        --paper-input-container-underline-legacy-height: 0;
+        --paper-input-container-underline_-_height: 0;
+        --paper-input-container-underline_-_display: none;
+        --paper-input-container-underline-focus_-_height: 0;
+        --paper-input-container-underline-focus_-_display: none;
+        --paper-input-container-underline-disabled_-_height: 0;
+        --paper-input-container-underline-disabled_-_display: none;
+        /* Hide label for input. The label is still visible for
+           screen readers. Workaround found at:
+           https://github.com/PolymerElements/paper-input/issues/478 */
+        --paper-input-container-label_-_display: none;
+      }
+      paper-input.warnUncommitted {
+        --paper-input-container-input_-_color: var(--error-text-color);
+        --paper-input-container-input_-_font-size: inherit;
+      }
     `,
   ];
 
@@ -254,65 +287,9 @@ export class GrAutocomplete extends LitElement {
   }
 
   override render() {
-    // To pass CSS mixins for @apply to Polymer components, they need to appear
-    // in <style> inside the template.
-    /* eslint-disable lit/prefer-static-styles */
-    const customStyle = html`
-      <style>
-        paper-input {
-          background-color: var(--view-background-color);
-          color: var(--primary-text-color);
-          border: 1px solid var(--border-color);
-          border-radius: var(--border-radius);
-          padding: var(--spacing-s);
-          --paper-input-container: {
-            padding: 0;
-          }
-          --paper-input-container-input: {
-            font-size: var(--font-size-normal);
-            line-height: var(--line-height-normal);
-          }
-          /* This is a hack for not being able to set height:0 on the underline
-            of a paper-input 2.2.3 element. All the underline fixes below only
-            actually work in 3.x.x, so the height must be adjusted directly as
-            a workaround until we are on Polymer 3. */
-          height: var(--line-height-normal);
-          --paper-input-container-underline-height: 0;
-          --paper-input-container-underline-wrapper-height: 0;
-          --paper-input-container-underline-focus-height: 0;
-          --paper-input-container-underline-legacy-height: 0;
-          --paper-input-container-underline: {
-            height: 0;
-            display: none;
-          }
-          --paper-input-container-underline-focus: {
-            height: 0;
-            display: none;
-          }
-          --paper-input-container-underline-disabled: {
-            height: 0;
-            display: none;
-          }
-          /*
-            TODO(dhruvsri): fix workaround
-            Hide label for input. The label is still visible for
-            screen readers. Workaround found at:
-            https://github.com/PolymerElements/paper-input/issues/478 */
-          --paper-input-container-label: {
-            display: none;
-          }
-        }
-        paper-input.warnUncommitted {
-          --paper-input-container-input: {
-            color: var(--error-text-color);
-            font-size: inherit;
-          }
-        }
-      </style>
-    `;
-    return html`${customStyle}
+    return html`
       <paper-input
-        ?noLabelFloat=${true}
+        .noLabelFloat=${true}
         id="input"
         class=${this._computeClass(this.borderless)}
         ?disabled=${this.disabled}
@@ -352,7 +329,8 @@ export class GrAutocomplete extends LitElement {
         .index=${this.index}
         .positionTarget=${this.input}
       >
-      </gr-autocomplete-dropdown> `;
+      </gr-autocomplete-dropdown>
+    `;
   }
 
   get focusStart() {
@@ -487,6 +465,7 @@ export class GrAutocomplete extends LitElement {
 
   maybeOpenDropdown() {
     if (this.suggestions.length > 0 && this.focused) {
+      console.log(`maybeOpenDropdown ${this.suggestions.length}`);
       this.suggestionsDropdown?.open();
       return;
     }

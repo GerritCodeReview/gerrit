@@ -136,9 +136,7 @@ export class GrAutocompleteDropdown extends base {
 
   open() {
     this.isHidden = false;
-    this._resetCursorStops();
-    // Refit should run after we call Polymer.flush inside _resetCursorStops
-    this.refit();
+    this.onSuggestionsChanged();
   }
 
   getCurrentText() {
@@ -223,7 +221,7 @@ export class GrAutocompleteDropdown extends base {
   }
 
   @observe('suggestions')
-  _resetCursorStops() {
+  private onSuggestionsChanged() {
     if (this.suggestions.length > 0) {
       if (!this.isHidden) {
         flush();
@@ -235,6 +233,7 @@ export class GrAutocompleteDropdown extends base {
     } else {
       this.cursor.stops = [];
     }
+    this.refit();
   }
 
   @observe('index')

@@ -17,6 +17,7 @@ package com.google.gerrit.server.approval;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
@@ -76,6 +77,43 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class ApprovalCopier {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  @AutoValue
+  public abstract static class Result {
+    /**
+     * Approvals that have been copied from the previous patch set.
+     *
+     * <p>An approval is copied if:
+     *
+     * <ul>
+     *   <li>the approval on the previous patch set matches the copy condition of its label
+     *   <li>the approval is not overridden by a current approval on the patch set
+     * </ul>
+     */
+    public abstract ImmutableSet<PatchSetApproval> copiedApprovals();
+
+    /**
+     * Approvals on the previous patch set that have not been copied to the patch set.
+     *
+     * <p>These approvals didn't match the copy condition of their labels and hence haven't been
+     * copied.
+     *
+     * <p>Only returns non-copied approvals of the previous patch set. Approvals from earlier patch
+     * sets that were outdated before are not included.
+     */
+    public abstract ImmutableSet<PatchSetApproval> outdatedApprovals();
+
+    static Result empty() {
+      return create(
+          /* copiedApprovals= */ ImmutableSet.of(), /* outdatedApprovals= */ ImmutableSet.of());
+    }
+
+    static Result create(
+        ImmutableSet<PatchSetApproval> copiedApprovals,
+        ImmutableSet<PatchSetApproval> outdatedApprovals) {
+      return new AutoValue_ApprovalCopier_Result(copiedApprovals, outdatedApprovals);
+    }
+  }
+
   private final DiffOperations diffOperations;
   private final ProjectCache projectCache;
   private final ChangeKindCache changeKindCache;
@@ -113,8 +151,7 @@ public class ApprovalCopier {
    * </ul>
    */
   @VisibleForTesting
-  public ImmutableSet<PatchSetApproval> forPatchSet(
-      ChangeNotes notes, PatchSet ps, RevWalk rw, Config repoConfig) {
+  public Result forPatchSet(ChangeNotes notes, PatchSet ps, RevWalk rw, Config repoConfig) {
     ProjectState project;
     try (TraceTimer traceTimer =
         TraceContext.newTimer(
@@ -353,7 +390,7 @@ public class ApprovalCopier {
     }
   }
 
-  private ImmutableSet<PatchSetApproval> computeForPatchSet(
+  private Result computeForPatchSet(
       LabelTypes labelTypes, ChangeNotes notes, PatchSet patchSet, RevWalk rw, Config repoConfig) {
     Project.NameKey projectName = notes.getProjectName();
     PatchSet.Id psId = patchSet.id();
@@ -361,11 +398,11 @@ public class ApprovalCopier {
     // Bail out immediately if this is the first patch set. Return only approvals granted on the
     // given patch set.
     if (psId.get() == 1) {
-      return ImmutableSet.of();
+      return Result.empty();
     }
     Map.Entry<PatchSet.Id, PatchSet> priorPatchSet = notes.load().getPatchSets().lowerEntry(psId);
     if (priorPatchSet == null) {
-      return ImmutableSet.of();
+      return Result.empty();
     }
 
     Table<String, Account.Id, PatchSetApproval> currentApprovalsByUser = HashBasedTable.create();
@@ -374,9 +411,10 @@ public class ApprovalCopier {
     nonCopiedApprovalsForGivenPatchSet.forEach(
         psa -> currentApprovalsByUser.put(psa.label(), psa.accountId(), psa));
 
-    Table<String, Account.Id, PatchSetApproval> resultByUser = HashBasedTable.create();
+    Table<String, Account.Id, PatchSetApproval> copiedApprovalsByUser = HashBasedTable.create();
+    ImmutableSet.Builder<PatchSetApproval> outdatedApprovalsBuilder = ImmutableSet.builder();
 
-    ImmutableList<PatchSetApproval> priorApprovalsIncludingCopied =
+    ImmutableList<PatchSetApproval> priorApprovals =
         notes.load().getApprovals().all().get(priorPatchSet.getKey());
 
     // Add labels from the previous patch set to the result in case the label isn't already there
@@ -395,11 +433,7 @@ public class ApprovalCopier {
     Map<String, ModifiedFile> baseVsCurrent = null;
     Map<String, ModifiedFile> baseVsPrior = null;
     Map<String, ModifiedFile> priorVsCurrent = null;
-    for (PatchSetApproval psa : priorApprovalsIncludingCopied) {
-      if (currentApprovalsByUser.contains(psa.label(), psa.accountId())
-          || resultByUser.contains(psa.label(), psa.accountId())) {
-        continue;
-      }
+    for (PatchSetApproval psa : priorApprovals) {
       Optional<LabelType> type = labelTypes.byLabel(psa.labelId());
       // Only compute modified files if there is a relevant label, since this is expensive.
       if (baseVsCurrent == null
@@ -425,6 +459,7 @@ public class ApprovalCopier {
             psa.key().patchSetId().changeId().get(),
             psId.get(),
             projectName);
+        outdatedApprovalsBuilder.add(psa);
         continue;
       }
       if (!canCopyBasedOnBooleanLabelConfigs(
@@ -439,12 +474,18 @@ public class ApprovalCopier {
               priorVsCurrent)
           && !canCopyBasedOnCopyCondition(
               notes, psa, patchSet, type.get(), changeKind, isMerge, rw, repoConfig)) {
+        outdatedApprovalsBuilder.add(psa);
         continue;
       }
-      resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(patchSet.id()));
+      if (!currentApprovalsByUser.contains(psa.label(), psa.accountId())) {
+        copiedApprovalsByUser.put(
+            psa.label(), psa.accountId(), psa.copyWithPatchSet(patchSet.id()));
+      }
     }
 
-    return labelNormalizer.normalize(notes, resultByUser.values()).getNormalized();
+    ImmutableSet<PatchSetApproval> copiedApprovals =
+        labelNormalizer.normalize(notes, copiedApprovalsByUser.values()).getNormalized();
+    return Result.create(copiedApprovals, outdatedApprovalsBuilder.build());
   }
 
   private boolean isMerge(Project.NameKey project, RevWalk rw, PatchSet patchSet) {

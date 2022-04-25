@@ -210,7 +210,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
           buf.append("\nResolve above errors before continuing.");
           buf.append("\nComplete stack trace follows:");
         }
-        logger.atSevere().withCause(first.getCause()).log(buf.toString());
+        logger.atSevere().withCause(first.getCause()).log("%s", buf);
         throw new CreationException(Collections.singleton(first));
       }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddfc98d5_59b5d7a9",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-25T11:37:03Z",
+      "side": 1,
+      "message": "Maybe make this a link to Documentation/user-named-queries.html?",
+      "range": {
+        "startLine": 255,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 13
+      },
+      "revId": "75c936e091ac275bff3208d824d0de86997d8ba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

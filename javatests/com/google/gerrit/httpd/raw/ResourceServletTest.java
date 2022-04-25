@@ -72,16 +72,6 @@ public class ResourceServletTest {
       this.fs = fs;
     }
 
-    private Servlet(
-        FileSystem fs,
-        Cache<Path, Resource> cache,
-        boolean refresh,
-        boolean cacheOnClient,
-        int cacheFileSizeLimitBytes) {
-      super(cache, refresh, cacheOnClient, cacheFileSizeLimitBytes);
-      this.fs = fs;
-    }
-
     @Override
     protected Path getResourcePath(String pathInfo) {
       return fs.getPath("/" + CharMatcher.is('/').trimLeadingFrom(pathInfo));

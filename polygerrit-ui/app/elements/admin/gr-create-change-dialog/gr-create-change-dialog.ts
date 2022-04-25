@@ -65,7 +65,8 @@ export class GrCreateChangeDialog extends LitElement {
   // private but used in test
   @state() topic?: string;
 
-  @state() private baseChange?: ChangeId;
+  @property({type: String})
+  baseChange?: ChangeId;
 
   @state() private baseCommit?: string;
 

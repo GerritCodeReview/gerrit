@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cb745f3_31d63e97",
+        "filename": "java/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementExpressionResultSerializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-25T13:55:33Z",
+      "side": 1,
+      "message": "Not the best possible fallback, since some SRs might show incorrect results (applicability_result\u003dfalse, submit/override results\u003dNOT_EVALUATED -\u003e error -\u003e whole SR is error). But this is anyway\n1) Better than the 500s responses.\n2) Temporary since all tasks will be able to read new values once all updated.",
+      "revId": "45d2bc3795603c1a1a7df638a0f9209985ed7eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

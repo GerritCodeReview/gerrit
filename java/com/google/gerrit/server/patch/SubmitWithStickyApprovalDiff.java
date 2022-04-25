@@ -294,7 +294,7 @@ public class SubmitWithStickyApprovalDiff {
     ProjectState projectState =
         projectCache.get(notes.getProjectName()).orElseThrow(illegalState(notes.getProjectName()));
     PatchSet.Id maxPatchSetId = PatchSet.id(notes.getChangeId(), 1);
-    for (PatchSetApproval patchSetApproval : notes.getApprovals().values()) {
+    for (PatchSetApproval patchSetApproval : notes.getApprovals().onlyNonCopied().values()) {
       if (!patchSetApproval.label().equals(LabelId.CODE_REVIEW)) {
         continue;
       }

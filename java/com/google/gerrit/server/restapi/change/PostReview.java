@@ -1501,7 +1501,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     /** Approval is copied over if it doesn't exist in the approvals of the current patch-set. */
     private boolean isApprovalCopiedOver(
         PatchSetApproval patchSetApproval, ChangeNotes changeNotes) {
-      return !changeNotes.getApprovals().get(changeNotes.getChange().currentPatchSetId()).stream()
+      return !changeNotes.getApprovals().onlyNonCopied()
+          .get(changeNotes.getChange().currentPatchSetId()).stream()
           .anyMatch(p -> p.equals(patchSetApproval));
     }
 

@@ -127,9 +127,7 @@ public class ApprovalCopier {
           projectCache
               .get(notes.getProjectName())
               .orElseThrow(illegalState(notes.getProjectName()));
-      ImmutableSet<PatchSetApproval> approvals =
-          getForPatchSetWithoutNormalization(project.getLabelTypes(), notes, ps, rw, repoConfig);
-      return labelNormalizer.normalize(notes, approvals).getNormalized();
+      return computeForPatchSet(project.getLabelTypes(), notes, ps, rw, repoConfig);
     }
   }
 
@@ -355,7 +353,7 @@ public class ApprovalCopier {
     }
   }
 
-  private ImmutableSet<PatchSetApproval> getForPatchSetWithoutNormalization(
+  private ImmutableSet<PatchSetApproval> computeForPatchSet(
       LabelTypes labelTypes, ChangeNotes notes, PatchSet patchSet, RevWalk rw, Config repoConfig) {
     Project.NameKey projectName = notes.getProjectName();
     PatchSet.Id psId = patchSet.id();
@@ -445,7 +443,8 @@ public class ApprovalCopier {
       }
       resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(patchSet.id()));
     }
-    return ImmutableSet.copyOf(resultByUser.values());
+
+    return labelNormalizer.normalize(notes, resultByUser.values()).getNormalized();
   }
 
   private boolean isMerge(Project.NameKey project, RevWalk rw, PatchSet patchSet) {

@@ -139,6 +139,30 @@
       },
       "revId": "e1ee1cd499940c89eece4868b34d7218bdb8c979",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96a3b940_a34df24a",
+        "filename": "java/com/google/gerrit/server/update/ChainedReceiveCommands.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-25T10:52:34Z",
+      "side": 1,
+      "message": "True, let me add a condition for that.",
+      "parentUuid": "dab4358d_9d663f8b",
+      "range": {
+        "startLine": 128,
+        "startChar": 4,
+        "endLine": 128,
+        "endChar": 21
+      },
+      "revId": "e1ee1cd499940c89eece4868b34d7218bdb8c979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

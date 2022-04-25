@@ -7745,30 +7745,38 @@ change.
 The `RevertInput` entity contains information for reverting a change.
 
 [options="header",cols="1,^1,5"]
-|=============================
-|Field Name      ||Description
-|`message`       |optional|
+|=================================
+|Field Name          ||Description
+|`message`           |optional|
 Message to be added as review comment to the change when reverting the
 change.
-|`notify`        |optional|
+|`notify`            |optional|
 Notify handling that defines to whom email notifications should be sent
 for reverting the change. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
-|`notify_details`|optional|
+|`notify_details`    |optional|
 Additional information about whom to notify about the revert as a map
 of link:user-notify.html#recipient-types[recipient type] to
 link:#notify-info[NotifyInfo] entity.
-|`topic`         |optional|
+|`topic`             |optional|
 Name of the topic for the revert change. If not set, the default for Revert
 endpoint is the topic of the change being reverted, and the default for the
 RevertSubmission endpoint is `revert-{submission_id}-{timestamp.now}`.
 Topic can't contain quotation marks.
-|`work_in_progress` |optional|
+|`work_in_progress`  |optional|
 When present, change is marked as Work In Progress. The `notify` input is
 used if it's present, otherwise it will be overridden to `OWNER`. +
 If not set, the default is false.
-|=============================
+|`validation_options`|optional|
+Map with key-value pairs that are forwarded as options to the commit validation
+listeners (e.g. can be used to skip certain validations). Which validation
+options are supported depends on the installed commit validation listeners.
+Gerrit core doesn't support any validation options, but commit validation
+listeners that are implemented in plugins may. Please refer to the
+documentation of the installed plugins to learn whether they support validation
+options. Unknown validation options are silently ignored.
+|=================================
 
 [[revert-submission-info]]
 === RevertSubmissionInfo

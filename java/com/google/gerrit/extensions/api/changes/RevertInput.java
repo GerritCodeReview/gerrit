@@ -36,4 +36,6 @@ public class RevertInput {
    * {@link NotifyHandling#OWNER}
    */
   public boolean workInProgress;
+
+  public Map<String, String> validationOptions;
 }

@@ -109,7 +109,7 @@ export class GrConfirmCherrypickDialog extends LitElement {
   private query: AutocompleteQuery;
 
   @state()
-  private showCherryPickTopic = false;
+  showCherryPickTopic = false;
 
   @state()
   private changesCount?: number;

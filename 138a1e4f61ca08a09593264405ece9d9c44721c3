@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3bd53af_a6bbc936",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-04-25T14:07:08Z",
+      "side": 1,
+      "message": "other than https://gerrit-review.googlesource.com/c/gerrit/+/334551 this fix works without requiring an additional local configuration in .bazelrc",
+      "revId": "138a1e4f61ca08a09593264405ece9d9c44721c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

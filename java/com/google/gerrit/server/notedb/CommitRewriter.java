@@ -23,6 +23,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WI
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE_PATTERN;
 import static com.google.gerrit.server.util.AccountTemplateUtil.ACCOUNT_TEMPLATE_REGEX;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
@@ -1251,7 +1252,7 @@ public class CommitRewriter {
       fmt.setContext(0);
       fmt.format(diff, oldBody, newBody);
       fmt.flush();
-      return out.toString();
+      return out.toString(UTF_8);
     }
   }
 

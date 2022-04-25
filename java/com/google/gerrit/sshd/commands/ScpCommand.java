@@ -147,7 +147,7 @@ final class ScpCommand extends BaseCommand {
     for (; ; ) {
       int c = in.read();
       if (c == '\n') {
-        return baos.toString();
+        return baos.toString(UTF_8);
       } else if (c == -1) {
         throw new IOException("End of stream");
       } else {

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -135,7 +136,7 @@ public class GetArchiveIT extends AbstractDaemonTest {
               bufferedOut.write(data, 0, count);
             }
             bufferedOut.flush();
-            archiveEntries.put(entry.getName(), out.toString());
+            archiveEntries.put(entry.getName(), out.toString(UTF_8));
           }
         }
       }

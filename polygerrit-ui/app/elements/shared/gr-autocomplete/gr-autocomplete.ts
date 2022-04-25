@@ -287,7 +287,7 @@ export class GrAutocomplete extends LitElement {
   override render() {
     return html`
       <paper-input
-        ?noLabelFloat=${true}
+        .noLabelFloat=${true}
         id="input"
         class=${this._computeClass(this.borderless)}
         ?disabled=${this.disabled}
@@ -469,6 +469,7 @@ export class GrAutocomplete extends LitElement {
 
   maybeOpenDropdown() {
     if (this.suggestions.length > 0 && this.focused) {
+      console.log(`maybeOpenDropdown ${this.suggestions.length}`);
       this.suggestionsDropdown?.open();
       return;
     }

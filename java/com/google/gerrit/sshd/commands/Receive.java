@@ -110,7 +110,7 @@ final class Receive extends AbstractGitCommand {
         msg.append(currentUser.getAccountId());
         msg.append("): ");
         msg.append(badStream.getCause().getMessage());
-        logger.atInfo().log(msg.toString());
+        logger.atInfo().log("%s", msg);
         throw new UnloggedFailure(128, "error: " + badStream.getCause().getMessage());
       }
       StringBuilder msg = new StringBuilder();

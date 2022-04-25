@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3de97fda_05ae18ae",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-config-array-editor/gr-plugin-config-array-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-25T15:10:42Z",
+      "side": 1,
+      "message": "nit: when the `if` + contents goes beyond one line it\u0027s hard for me to read without the `{` `}`",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 49
+      },
+      "revId": "3217b379b04fbfa2fe4bd38520c06b3b541613aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -38,6 +38,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "77d0933a_11d309c6",
+        "filename": "java/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementExpressionResultSerializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-04-25T15:09:35Z",
+      "side": 1,
+      "message": "I couldn\u0027t depend on FluentLogger from the cache.serialize.entities package, hence removing.",
+      "revId": "45d2bc3795603c1a1a7df638a0f9209985ed7eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3cb745f3_31d63e97",
         "filename": "java/com/google/gerrit/server/cache/serialize/entities/SubmitRequirementExpressionResultSerializer.java",
         "patchSetId": 1

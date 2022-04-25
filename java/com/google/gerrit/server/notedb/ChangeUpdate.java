@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
@@ -45,14 +46,17 @@ import static com.google.gerrit.server.notedb.NoteDbUtil.sanitizeFooter;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 import com.google.common.collect.TreeBasedTable;
@@ -143,6 +147,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final List<PatchSetApproval> copiedApprovals = new ArrayList<>();
+  private final List<PatchSetApproval> outdatedApprovals = new ArrayList<>();
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
   private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
   private final List<HumanComment> comments = new ArrayList<>();
@@ -299,6 +304,21 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public void putCopiedApproval(PatchSetApproval copiedPatchSetApproval) {
     checkArgument(copiedPatchSetApproval.copied(), "Approval that should be copied is not copied.");
     copiedApprovals.add(copiedPatchSetApproval);
+  }
+
+  /**
+   * Must be invoked on patch set creation for any approval that gets outdated by the creation of
+   * the new patch set (i.e. for each approval of the prior patch set that is no copied to the new
+   * patch set).
+   *
+   * @param outdatedApproval an outdated approval that is not copied to the new patch set
+   */
+  public void putOutdatedApproval(PatchSetApproval outdatedApproval) {
+    if (outdatedApproval.value() == 0) {
+      // if the vote is 0, the approval is not relevant
+      return;
+    }
+    outdatedApprovals.add(outdatedApproval);
   }
 
   public void merge(SubmissionId submissionId, Iterable<SubmitRecord> submitRecords) {
@@ -653,6 +673,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && reviewers.isEmpty()
         && reviewersByEmail.isEmpty()
         && approvals.isEmpty()
+        && outdatedApprovals.isEmpty()
         && workInProgress == null;
   }
 
@@ -913,11 +934,58 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       // be submitted or when the caller is a robot.
       return;
     }
+
+    Set<AttentionSetUpdate> updates = new HashSet<>();
+
+    Multimap<Account.Id, PatchSetApproval> outdatedApprovalsByUser = ArrayListMultimap.create();
+    outdatedApprovals.forEach(psa -> outdatedApprovalsByUser.put(psa.accountId(), psa));
+    for (Map.Entry<Account.Id, Collection<PatchSetApproval>> e :
+        outdatedApprovalsByUser.asMap().entrySet()) {
+      Account.Id approverId = e.getKey();
+      Collection<PatchSetApproval> outdatedUserApprovals = e.getValue();
+
+      String message;
+      if (outdatedApprovalsByUser.size() == 1) {
+        PatchSetApproval outdatedUserApproval = Iterables.getOnlyElement(outdatedUserApprovals);
+        message =
+            String.format(
+                "Vote got outdated and was removed: %s",
+                LabelVote.create(outdatedUserApproval.label(), outdatedUserApproval.value())
+                    .format());
+      } else {
+        message =
+            String.format(
+                "Votes got outdated and were removed: %s",
+                outdatedUserApprovals.stream()
+                    .map(
+                        outdatedUserApproval ->
+                            LabelVote.create(
+                                    outdatedUserApproval.label(), outdatedUserApproval.value())
+                                .format())
+                    .sorted()
+                    .collect(joining(", ")));
+      }
+
+      updates.add(
+          AttentionSetUpdate.createForWrite(approverId, AttentionSetUpdate.Operation.ADD, message));
+    }
+
+    ImmutableSet<Account.Id> usersWithAttentionSetUpdates =
+        updates.stream().map(AttentionSetUpdate::account).distinct().collect(toImmutableSet());
     Set<Account.Id> currentReviewers =
         getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER);
-    Set<AttentionSetUpdate> updates = new HashSet<>();
     for (Map.Entry<Account.Id, ReviewerStateInternal> reviewer : reviewers.entrySet()) {
       Account.Id reviewerId = reviewer.getKey();
+
+      if (usersWithAttentionSetUpdates.contains(reviewerId)) {
+        // There can be only 1 attention set update per user (addToPlannedAttentionSetUpdates throws
+        // an IllegalArgumentException if there are multiple updates for a single user).
+        // If we already have an attention set update for a user due to an outdated approval, this
+        // attention set update should take precedence over attention set updates due to
+        // added/removed reviewers which are handled here. Hence just continue in this case.
+        continue;
+      }
+
       ReviewerStateInternal reviewerState = reviewer.getValue();
       // Only add new reviewers to the attention set. Also, don't add the owner because the owner
       // can only be a "dummy" reviewer for legacy reasons.
@@ -938,6 +1006,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                 reviewerId, AttentionSetUpdate.Operation.REMOVE, "Reviewer/Cc was removed"));
       }
     }
+
     addToPlannedAttentionSetUpdates(updates);
   }
 
@@ -1100,6 +1169,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return commitSubject == null
         && approvals.isEmpty()
         && copiedApprovals.isEmpty()
+        && outdatedApprovals.isEmpty()
         && changeMessage == null
         && comments.isEmpty()
         && reviewers.isEmpty()

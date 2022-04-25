@@ -398,7 +398,7 @@ public abstract class BaseCommand implements Command {
       isZeroLength = Arrays.stream(stackTrace).anyMatch(s -> s.toString().contains(zeroLength));
     }
     if (!isZeroLength) {
-      logger.atSevere().withCause(e).log(message.toString());
+      logger.atSevere().withCause(e).log("%s", message);
     }
   }
 

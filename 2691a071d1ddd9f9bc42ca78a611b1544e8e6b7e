@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2021e38_4c904b09",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-25T22:13:58Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this need to have requestUpdate because it\u0027s an object (and set triggered the recompution in polymer but directly doing it won\u0027t in lit).",
+      "revId": "2691a071d1ddd9f9bc42ca78a611b1544e8e6b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6b867ab_e085d976",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-25T22:13:58Z",
+      "side": 1,
+      "message": "Think this should be element.updateComplete;",
+      "range": {
+        "startLine": 976,
+        "startChar": 12,
+        "endLine": 976,
+        "endChar": 20
+      },
+      "revId": "2691a071d1ddd9f9bc42ca78a611b1544e8e6b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

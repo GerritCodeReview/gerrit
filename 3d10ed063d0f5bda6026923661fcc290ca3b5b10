@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f03e0f39_ff4d7821",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-25T11:33:21Z",
+      "side": 1,
+      "message": "Can you mention how this impacts existing submit requirements that use any of these predicates (e.g. behavior so far vs. behavior now)?",
+      "revId": "3d10ed063d0f5bda6026923661fcc290ca3b5b10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2427ee20_a8ea92b5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementPredicateIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-25T11:33:21Z",
+      "side": 1,
+      "message": "Should we also have a test in SubmitRequirementsValidationIT to verify that trying to use any of these unsupported predicates is rejected?",
+      "range": {
+        "startLine": 46,
+        "startChar": 13,
+        "endLine": 46,
+        "endChar": 41
+      },
+      "revId": "3d10ed063d0f5bda6026923661fcc290ca3b5b10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

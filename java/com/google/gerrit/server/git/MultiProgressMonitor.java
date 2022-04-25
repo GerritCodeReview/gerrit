@@ -252,6 +252,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
    * @param out stream for writing progress messages.
    * @param taskName name of the overall task.
    */
+  @SuppressWarnings("UnusedMethod")
   @AssistedInject
   private MultiProgressMonitor(
       CancellationMetrics cancellationMetrics,

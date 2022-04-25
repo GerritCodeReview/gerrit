@@ -181,6 +181,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
   private List<SubmitRequirementResult> submitRequirementResults;
 
+  @SuppressWarnings("UnusedMethod")
   @AssistedInject
   private ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,

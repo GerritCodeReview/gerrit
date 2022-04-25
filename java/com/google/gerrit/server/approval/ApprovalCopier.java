@@ -55,6 +55,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
@@ -366,8 +367,16 @@ public class ApprovalCopier {
         notes.getProjectName());
 
     PatchSet.Id psId = patchSet.id();
-    // Add approvals on the given patch set to the result
-    Table<String, Account.Id, PatchSetApproval> resultByUser = HashBasedTable.create();
+
+    // Bail out immediately if this is the first patch set. Return only approvals granted on the
+    // given patch set.
+    if (psId.get() == 1) {
+      return Collections.emptyList();
+    }
+    Map.Entry<PatchSet.Id, PatchSet> priorPatchSet = notes.load().getPatchSets().lowerEntry(psId);
+    if (priorPatchSet == null) {
+      return Collections.emptyList();
+    }
 
     Table<String, Account.Id, PatchSetApproval> currentApprovalsByUser = HashBasedTable.create();
     ImmutableList<PatchSetApproval> nonCopiedApprovalsForGivenPatchSet =
@@ -375,15 +384,7 @@ public class ApprovalCopier {
     nonCopiedApprovalsForGivenPatchSet.forEach(
         psa -> currentApprovalsByUser.put(psa.label(), psa.accountId(), psa));
 
-    // Bail out immediately if this is the first patch set. Return only approvals granted on the
-    // given patch set.
-    if (psId.get() == 1) {
-      return resultByUser.values();
-    }
-    Map.Entry<PatchSet.Id, PatchSet> priorPatchSet = notes.load().getPatchSets().lowerEntry(psId);
-    if (priorPatchSet == null) {
-      return resultByUser.values();
-    }
+    Table<String, Account.Id, PatchSetApproval> resultByUser = HashBasedTable.create();
 
     ImmutableList<PatchSetApproval> priorApprovalsIncludingCopied =
         notes.load().getApprovals().all().get(priorPatchSet.getKey());

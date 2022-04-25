@@ -28,6 +28,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
@@ -1446,7 +1447,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       fmt.setRepository(repo);
       fmt.format(oldTreeId, newTreeId);
       fmt.flush();
-      return out.toString();
+      return out.toString(UTF_8);
     }
   }
 

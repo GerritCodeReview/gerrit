@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6583c91d_cac54ad8",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-25T06:36:11Z",
+      "side": 1,
+      "message": "Is AtomicBoolean needed? AFAIU each thread has its own wrapper hence they don\u0027t need to synchronise on it.",
+      "revId": "e1ee1cd499940c89eece4868b34d7218bdb8c979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b65b0e72_0c042372",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-25T06:36:11Z",
+      "side": 1,
+      "message": "same here - each thread has its own version of RepoRefCache",
+      "revId": "e1ee1cd499940c89eece4868b34d7218bdb8c979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c12708e4_e87aff5d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-25T06:36:11Z",
+      "side": 1,
+      "message": "wouldn\u0027t `this.refs` get closed in case when it wasn\u0027t `null`?",
+      "range": {
+        "startLine": 767,
+        "startChar": 11,
+        "endLine": 769,
+        "endChar": 25
+      },
+      "revId": "e1ee1cd499940c89eece4868b34d7218bdb8c979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dab4358d_9d663f8b",
+        "filename": "java/com/google/gerrit/server/update/ChainedReceiveCommands.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-25T06:36:11Z",
+      "side": 1,
+      "message": "IIUIC if `ChainedReceiveCommands(RepoRefCache refCache)` is used then `refsCache` shouldn\u0027t be closed here...",
+      "range": {
+        "startLine": 128,
+        "startChar": 4,
+        "endLine": 128,
+        "endChar": 21
+      },
+      "revId": "e1ee1cd499940c89eece4868b34d7218bdb8c979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

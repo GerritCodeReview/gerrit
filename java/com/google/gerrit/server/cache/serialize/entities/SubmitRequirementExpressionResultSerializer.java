@@ -16,6 +16,7 @@ package com.google.gerrit.server.cache.serialize.entities;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.server.cache.proto.Cache.SubmitRequirementExpressionResultProto;
@@ -26,11 +27,20 @@ import java.util.Optional;
  * SubmitRequirementExpressionResultProto}.
  */
 public class SubmitRequirementExpressionResultSerializer {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static SubmitRequirementExpressionResult deserialize(
       SubmitRequirementExpressionResultProto proto) {
+    SubmitRequirementExpressionResult.Status status;
+    try {
+      status = SubmitRequirementExpressionResult.Status.valueOf(proto.getStatus());
+    } catch (IllegalArgumentException e) {
+      logger.atWarning().withCause(e).log("Value %s not found", proto.getStatus());
+      status = SubmitRequirementExpressionResult.Status.ERROR;
+    }
     return SubmitRequirementExpressionResult.create(
         SubmitRequirementExpression.create(proto.getExpression()),
-        SubmitRequirementExpressionResult.Status.valueOf(proto.getStatus()),
+        status,
         proto.getPassingAtomsList().stream().collect(ImmutableList.toImmutableList()),
         proto.getFailingAtomsList().stream().collect(ImmutableList.toImmutableList()),
         Optional.ofNullable(Strings.emptyToNull(proto.getErrorMessage())));

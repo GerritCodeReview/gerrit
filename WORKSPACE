@@ -33,6 +33,15 @@ load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 load("//tools:nongoogle.bzl", "TESTCONTAINERS_VERSION", "declare_nongoogle_deps")
 
 http_archive(
+    name = "platforms",
+    sha256 = "379113459b0feaf6bfbb584a91874c065078aa673222846ac765f86661c27407",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/0.0.5/platforms-0.0.5.tar.gz",
+        "https://github.com/bazelbuild/platforms/releases/download/0.0.5/platforms-0.0.5.tar.gz",
+    ],
+)
+
+http_archive(
     name = "rbe_jdk11",
     sha256 = "5939e2a4e56d1fc53b6c44c6db97ee068c9f4bd18e86c762f6ab8b4fff5e294b",
     strip_prefix = "rbe_autoconfig-3.0.0",
@@ -174,8 +183,8 @@ maven_jar(
 
 maven_jar(
     name = "servlet-api",
-    artifact = "org.apache.tomcat:tomcat-servlet-api:8.5.23",
-    sha1 = "021a212688ec94fe77aff74ab34cc74f6f940e60",
+    artifact = "javax.servlet:javax.servlet-api:3.1.0",
+    sha1 = "3cd63d075497751784b2fa84be59432f4905bf7c",
 )
 
 maven_jar(

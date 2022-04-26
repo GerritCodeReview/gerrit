@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2621c5fc_da6249a8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-26T11:21:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16427b87_b5d94b28",
+      "revId": "40164464deba4eab0b8c295949efef486004a3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67a55994_b6a0e39a",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-04-26T10:54:01Z",
       "side": 1,
       "message": "I find this a bit weird for just one property, but up to you.",
+      "revId": "40164464deba4eab0b8c295949efef486004a3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e6ffd6e_e3e6a713",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-26T11:21:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67a55994_b6a0e39a",
       "revId": "40164464deba4eab0b8c295949efef486004a3da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

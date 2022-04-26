@@ -16,6 +16,24 @@
       "message": "CI is broken, verifying manually.",
       "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96ee9b4d_927422dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-26T11:44:24Z",
+      "side": 1,
+      "message": "The only change on master from yesterday was:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/335398\n\nThat is the only possibly cause of the breakage.\n\nHow did you verify this change? Did you simulate a merge with master?",
+      "parentUuid": "23144f71_4a08b8f4",
+      "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

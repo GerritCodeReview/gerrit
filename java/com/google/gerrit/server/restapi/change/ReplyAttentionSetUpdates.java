@@ -284,9 +284,8 @@ public class ReplyAttentionSetUpdates {
    */
   private void addToAttentionSet(
       BatchUpdate bu, ChangeNotes changeNotes, Account.Id user, String reason, boolean notify) {
-    AddToAttentionSetOp addOwnerToAttentionSet =
-        addToAttentionSetOpFactory.create(user, reason, notify);
-    bu.addOp(changeNotes.getChangeId(), addOwnerToAttentionSet);
+    AddToAttentionSetOp addToAttentionSet = addToAttentionSetOpFactory.create(user, reason, notify);
+    bu.addOp(changeNotes.getChangeId(), addToAttentionSet);
   }
 
   /**

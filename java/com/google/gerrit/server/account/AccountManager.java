@@ -525,7 +525,7 @@ public class AccountManager {
             "Unlink External ID" + (extIds.size() > 1 ? "s" : ""),
             from,
             (a, u) -> {
-              u.deleteExternalIds(extIds);
+              u.deleteExternalIdsWithRewrite(extIds);
               if (a.account().preferredEmail() != null
                   && extIds.stream()
                       .anyMatch(e -> a.account().preferredEmail().equals(e.email()))) {

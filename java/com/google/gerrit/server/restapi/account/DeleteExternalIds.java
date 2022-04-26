@@ -48,7 +48,7 @@ import java.util.function.Function;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
- * REST endpoint to delete external IDs from an account.
+ * REST endpoint to delete external IDs permanently from an account.
  *
  * <p>This REST endpoint handles {@code POST /accounts/<account-identifier>/external.ids:delete}
  * requests.

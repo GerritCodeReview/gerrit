@@ -16,6 +16,8 @@ package com.google.gerrit.server.api.accounts;
 
 import com.google.gerrit.extensions.api.accounts.Accounts;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.account.DeleteSshKeyRewriter;
+import com.google.gerrit.server.account.externalids.DeleteExternalIdRewriter;
 
 public class AccountsModule extends FactoryModule {
   @Override
@@ -24,5 +26,7 @@ public class AccountsModule extends FactoryModule {
 
     factory(AccountApiImpl.Factory.class);
     factory(EmailApiImpl.Factory.class);
+    factory(DeleteSshKeyRewriter.Factory.class);
+    factory(DeleteExternalIdRewriter.Factory.class);
   }
 }

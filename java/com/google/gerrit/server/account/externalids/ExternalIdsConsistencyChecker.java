@@ -44,6 +44,7 @@ public class ExternalIdsConsistencyChecker {
   private final AccountCache accountCache;
   private final OutgoingEmailValidator validator;
   private final ExternalIdFactory externalIdFactory;
+  private final DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory;
 
   @Inject
   ExternalIdsConsistencyChecker(
@@ -51,24 +52,30 @@ public class ExternalIdsConsistencyChecker {
       AllUsersName allUsers,
       AccountCache accountCache,
       OutgoingEmailValidator validator,
-      ExternalIdFactory externalIdFactory) {
+      ExternalIdFactory externalIdFactory,
+      DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.accountCache = accountCache;
     this.validator = validator;
     this.externalIdFactory = externalIdFactory;
+    this.deleteExternalIdRewriterFactory = deleteExternalIdRewriterFactory;
   }
 
   public List<ConsistencyProblemInfo> check() throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      return check(ExternalIdNotes.loadReadOnly(allUsers, repo, null, externalIdFactory, false));
+      return check(
+          ExternalIdNotes.loadReadOnly(
+              allUsers, repo, null, externalIdFactory, deleteExternalIdRewriterFactory, false));
     }
   }
 
   public List<ConsistencyProblemInfo> check(ObjectId rev)
       throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      return check(ExternalIdNotes.loadReadOnly(allUsers, repo, rev, externalIdFactory, false));
+      return check(
+          ExternalIdNotes.loadReadOnly(
+              allUsers, repo, rev, externalIdFactory, deleteExternalIdRewriterFactory, false));
     }
   }
 

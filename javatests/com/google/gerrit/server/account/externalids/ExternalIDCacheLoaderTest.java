@@ -33,6 +33,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
+import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.function.Consumer;
 import org.eclipse.jgit.lib.Config;
@@ -59,6 +60,7 @@ public class ExternalIDCacheLoaderTest {
   private ExternalIdReader externalIdReaderSpy;
 
   private ExternalIdFactory externalIdFactory;
+  @Inject private DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory;
   @Mock private AuthConfig authConfig;
 
   @Before
@@ -68,7 +70,12 @@ public class ExternalIDCacheLoaderTest {
     repoManager.createRepository(ALL_USERS).close();
     externalIdReader =
         new ExternalIdReader(
-            repoManager, ALL_USERS, new DisabledMetricMaker(), externalIdFactory, authConfig);
+            repoManager,
+            ALL_USERS,
+            new DisabledMetricMaker(),
+            externalIdFactory,
+            deleteExternalIdRewriterFactory,
+            authConfig);
     externalIdReaderSpy = Mockito.spy(externalIdReader);
     loader = createLoader();
   }
@@ -266,7 +273,9 @@ public class ExternalIDCacheLoaderTest {
   private ObjectId performExternalIdUpdate(Consumer<ExternalIdNotes> update) throws Exception {
     try (Repository repo = repoManager.openRepository(ALL_USERS)) {
       PersonIdent updater = new PersonIdent("Foo bar", "foo@bar.com");
-      ExternalIdNotes extIdNotes = ExternalIdNotes.load(ALL_USERS, repo, externalIdFactory, false);
+      ExternalIdNotes extIdNotes =
+          ExternalIdNotes.load(
+              ALL_USERS, repo, externalIdFactory, deleteExternalIdRewriterFactory, false);
       update.accept(extIdNotes);
       try (MetaDataUpdate metaDataUpdate =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {

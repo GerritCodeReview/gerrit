@@ -32,6 +32,7 @@ import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes.ExternalIdNotesLoader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -402,7 +403,8 @@ public class AccountsUpdate {
           Iterables.concat(
               delta.getCreatedExternalIds(),
               delta.getUpdatedExternalIds(),
-              delta.getDeletedExternalIds()),
+              delta.getDeletedExternalIds(),
+              delta.getWithRewriteDeletedExternalIds()),
           updateArguments.accountId);
 
       if (externalIdNotes == null) {
@@ -412,6 +414,7 @@ public class AccountsUpdate {
       }
       externalIdNotes.replace(delta.getDeletedExternalIds(), delta.getCreatedExternalIds());
       externalIdNotes.upsert(delta.getUpdatedExternalIds());
+      externalIdNotes.deleteWithRewrite(delta.getWithRewriteDeletedExternalIds());
 
       CachedPreferences cachedDefaultPreferences =
           CachedPreferences.fromConfig(VersionedDefaultPreferences.get(repo, allUsersName));
@@ -500,7 +503,7 @@ public class AccountsUpdate {
   }
 
   private void commit(Repository allUsersRepo, List<UpdatedAccount> updatedAccounts)
-      throws IOException {
+      throws IOException, DuplicateExternalIdKeyException, ConfigInvalidException {
     if (updatedAccounts.isEmpty()) {
       return;
     }
@@ -526,10 +529,10 @@ public class AccountsUpdate {
       // When creating a new account we must allow empty commits so that the user branch gets
       // created with an empty commit when no account properties are set and hence no
       // 'account.config' file will be created.
-
       // These update the same ref, so they need to be stacked on top of one another using the same
       // ExternalIdNotes instance.
-      commitExternalIdUpdates(externalIdUpdateMessage, allUsersRepo, batchRefUpdate);
+      commitExternalIdUpdatesAndExecuteRewrites(
+          externalIdUpdateMessage, allUsersRepo, batchRefUpdate);
     }
 
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
@@ -562,18 +565,27 @@ public class AccountsUpdate {
     }
   }
 
-  private void commitExternalIdUpdates(
-      String message, Repository allUsersRepo, BatchRefUpdate batchRefUpdate) throws IOException {
+  private void commitExternalIdUpdatesAndExecuteRewrites(
+      String message, Repository allUsersRepo, BatchRefUpdate batchRefUpdate)
+      throws IOException, DuplicateExternalIdKeyException, ConfigInvalidException {
     try (MetaDataUpdate md = createMetaDataUpdate(message, allUsersRepo, batchRefUpdate)) {
       externalIdNotes.commit(md);
     }
+    try (MetaDataUpdate md = createMetaDataUpdate(allUsersRepo, batchRefUpdate)) {
+      externalIdNotes.executeRewrites(md);
+    }
+  }
+
+  private MetaDataUpdate createMetaDataUpdate(
+      Repository allUsersRepo, BatchRefUpdate batchRefUpdate) {
+    return createMetaDataUpdate(null, allUsersRepo, batchRefUpdate);
   }
 
   private MetaDataUpdate createMetaDataUpdate(
       String message, Repository allUsersRepo, BatchRefUpdate batchRefUpdate) {
     MetaDataUpdate metaDataUpdate =
         metaDataUpdateInternalFactory.get().create(allUsersName, allUsersRepo, batchRefUpdate);
-    if (!message.endsWith("\n")) {
+    if (message != null && !message.endsWith("\n")) {
       message = message + "\n";
     }
 

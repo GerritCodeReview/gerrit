@@ -559,7 +559,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       // We need names rather than account ids / emails to make it user readable.
       soyContext.put(
           "attentionSet",
-          currentAttentionSet.stream().map(this::getNameFor).collect(toImmutableSet()));
+          currentAttentionSet.stream().map(this::getNameFor).sorted().collect(toImmutableSet()));
     }
   }
 

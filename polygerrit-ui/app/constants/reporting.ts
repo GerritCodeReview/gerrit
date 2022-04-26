@@ -33,6 +33,7 @@ export enum Execution {
   METHOD_USED = 'method used',
   CHECKS_API_NOT_LOGGED_IN = 'checks-api not-logged-in',
   CHECKS_API_ERROR = 'checks-api error',
+  USER_PREFERENCES_COLUMNS = 'user-preferences-columns',
 }
 
 export enum Timing {

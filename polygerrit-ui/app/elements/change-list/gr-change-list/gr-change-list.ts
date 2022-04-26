@@ -47,6 +47,7 @@ import {queryAll} from '../../../utils/common-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
+import {Execution} from '../../../constants/reporting';
 
 export const columnNames = [
   'Subject',
@@ -163,6 +164,8 @@ export class GrChangeList extends LitElement {
   private readonly flagsService = getAppContext().flagsService;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly reporting = getAppContext().reportingService;
 
   private readonly shortcuts = new ShortcutController(this);
 
@@ -317,9 +320,18 @@ export class GrChangeList extends LitElement {
         this.preferences?.change_table &&
         this.preferences.change_table.length > 0
       ) {
-        const prefColumns = this.preferences.change_table.map(column =>
-          column === 'Project' ? 'Repo' : column
-        );
+        const prefColumns = this.preferences.change_table
+          .map(column => (column === 'Project' ? 'Repo' : column))
+          .map(column =>
+            this.flagsService.isEnabled(
+              KnownExperimentId.SUBMIT_REQUIREMENTS_UI
+            ) && column === 'Status'
+              ? ' Status '
+              : column
+          );
+        this.reporting.reportExecution(Execution.USER_PREFERENCES_COLUMNS, {
+          statusColumn: prefColumns.includes(' Status '),
+        });
         this.visibleChangeTableColumns = prefColumns.filter(col =>
           this._isColumnEnabled(col, this.config)
         );

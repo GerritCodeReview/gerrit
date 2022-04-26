@@ -492,4 +492,24 @@ suite('gr-change-list basic tests', () => {
       assert.isNotOk(query<HTMLElement>(element, '.bad'));
     });
   });
+
+  test('Show new status with feature flag', async () => {
+    stubFlags('isEnabled').returns(true);
+    element = basicFixture.instantiate();
+    element.sections = [{results: [{...createChange()}]}];
+    element.account = {_account_id: 1001 as AccountId};
+    element.preferences = {
+      change_table: [
+        'Status', // old status
+      ],
+    };
+    element.config = createServerInfo();
+    await element.updateComplete;
+    assert.isTrue(
+      element.visibleChangeTableColumns?.includes(' Status '),
+      'Show new status'
+    );
+    const section = queryAndAssert(element, 'gr-change-list-section');
+    queryAndAssert<HTMLElement>(section, '.status');
+  });
 });

@@ -213,6 +213,24 @@
       "parentUuid": "7a04c307_3ae653e7",
       "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f956c6e_6c04a2aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-26T14:07:08Z",
+      "side": 1,
+      "message": "\u003e Yes, but how much money would that cost?\n\nDon\u0027t know, but seems you\u0027re not concerned about this :)  \n\n\u003e For that verification flow, you need to disable the direct submit and\n\u003e delegate submission to the CI job, pretty much like Zuul does.\n\nOh yes, then this would no be an issue.\n\n\u003e Are we ready to delegate the submissions to the CI?\n\nI think this should be fine. \nThe only thing which we would need to think about is how to preserve our rule to keep changes that add new feature / touch the API open for 24h. So the CI would need to be able to recognise those (one suggestion I brought up in the CM meeting about this was to just say these are all changes that have a Release-Notes footer, but this wasn\u0027t discussed further yet).",
+      "parentUuid": "40754e12_40b81215",
+      "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

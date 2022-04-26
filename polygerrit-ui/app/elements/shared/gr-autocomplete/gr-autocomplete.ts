@@ -186,8 +186,8 @@ export class GrAutocomplete extends PolymerElement {
   @property({type: Boolean})
   _disableSuggestions = false;
 
-  @property({type: Boolean})
-  _focused = false;
+  // private but used in tests
+  focused = false;
 
   /**
    * Invisible label for input element. This label is exposed to
@@ -256,7 +256,7 @@ export class GrAutocomplete extends PolymerElement {
         e.preventDefault();
         this.focus();
       } else {
-        this._focused = false;
+        this.setFocus(false);
       }
     }
   }
@@ -278,7 +278,7 @@ export class GrAutocomplete extends PolymerElement {
   }
 
   _onInputFocus() {
-    this._focused = true;
+    this.setFocus(true);
     this._updateSuggestions(this.text, this.threshold, this.noDebounce);
     this.$.input.classList.remove('warnUncommitted');
     // Needed so that --paper-input-container-input updated style is applied.
@@ -288,7 +288,7 @@ export class GrAutocomplete extends PolymerElement {
   _onInputBlur() {
     this.$.input.classList.toggle(
       'warnUncommitted',
-      this.warnUncommitted && !!this.text.length && !this._focused
+      this.warnUncommitted && !!this.text.length && !this.focused
     );
     // Needed so that --paper-input-container-input updated style is applied.
     this.updateStyles();
@@ -324,7 +324,7 @@ export class GrAutocomplete extends PolymerElement {
       return;
     }
 
-    if (!this._focused) {
+    if (!this.focused) {
       return;
     }
 
@@ -356,9 +356,15 @@ export class GrAutocomplete extends PolymerElement {
     }
   }
 
-  @observe('_suggestions', '_focused')
-  _maybeOpenDropdown(suggestions: AutocompleteSuggestion[], focused: boolean) {
-    if (suggestions.length > 0 && focused) {
+  setFocus(focused: boolean) {
+    if (focused === this.focused) return;
+    this.focused = focused;
+    this._maybeOpenDropdown(this._suggestions);
+  }
+
+  @observe('_suggestions')
+  _maybeOpenDropdown(suggestions: AutocompleteSuggestion[]) {
+    if (suggestions.length > 0 && this.focused) {
       this.$.suggestions.open();
       return;
     }
@@ -373,7 +379,7 @@ export class GrAutocomplete extends PolymerElement {
    * _handleKeydown used for key handling in the this.$.input.
    */
   _handleKeydown(e: KeyboardEvent) {
-    this._focused = true;
+    this.setFocus(true);
     switch (e.keyCode) {
       case 38: // Up
         e.preventDefault();
@@ -393,7 +399,7 @@ export class GrAutocomplete extends PolymerElement {
           this._handleInputCommit(true);
           this.focus();
         } else {
-          this._focused = false;
+          this.setFocus(false);
         }
         break;
       case 13: // Enter
@@ -473,7 +479,7 @@ export class GrAutocomplete extends PolymerElement {
         return;
       }
     }
-    this._focused = false;
+    this.setFocus(false);
   };
 
   /**

@@ -872,13 +872,6 @@ export class GrReplyDialog extends LitElement {
             .rows=${4}
             .text=${this.draft}
             @bind-value-changed=${(e: BindValueChangeEvent) => {
-              // Setting the value of this.draft in ReplyDialog triggers the
-              // bind-value-changed observer which ends up calling draftChanged
-              // with the same oldValue as the current oldValue messing up the
-              // debounced storage clearence as the first call with the correct
-              // oldValue is ignored in favor of this second call.
-              // TODO(dhruvsri): find a better solution to this
-              if (this.draft === e.detail.value) return;
               this.draft = e.detail.value;
               this.handleHeightChanged;
             }}

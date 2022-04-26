@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cfff9d2_318ebe47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-26T11:50:22Z",
+      "side": 1,
+      "message": "@Chris it looks like that skipping Gerrit build on PolyGerrit changes wasn\u0027t a good idea after all :-(\n\nThis change on PolyGerrit broke the Gerrit build without noticing it.",
+      "revId": "28b2743e1a38473669ccb40786e6f4db79f38742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -87,6 +87,42 @@
       "message": "The build is actually failing because of https://gerrit-review.googlesource.com/c/gerrit/+/335398. Needs to be rebased on https://gerrit-review.googlesource.com/c/gerrit/+/335774)",
       "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0abf21b7_efb82384",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-26T12:01:41Z",
+      "side": 1,
+      "message": "\u003e How did you verify this change? Did you simulate a merge with master?\n\nI just run the tests on this commit. \n\nI\u0027m actually not sure whether it\u0027s good to fail the build for all changes, just because master is broken. I know we are doing this to verify the merge, but I found this less confusing when we just verified the commit that is in review. But no need to change anything :)",
+      "parentUuid": "c4ce9877_0bdc4a88",
+      "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e1a75d8_bd5b3f6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-26T12:01:41Z",
+      "side": 1,
+      "message": "Thanks for looking into this. Will do the rebase.",
+      "parentUuid": "a2faab08_3b6a5502",
+      "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -25,6 +25,8 @@ import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateRes
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
@@ -48,6 +50,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private final PluginSetContext<SubmitRequirement> globalSubmitRequirements;
   private final SubmitRequirementsUtil submitRequirementsUtil;
   private final OneOffRequestContext requestContext;
+  private final ExperimentFeatures experimentFeatures;
 
   public static Module module() {
     return new AbstractModule() {
@@ -66,12 +69,14 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       ProjectCache projectCache,
       PluginSetContext<SubmitRequirement> globalSubmitRequirements,
       SubmitRequirementsUtil submitRequirementsUtil,
-      OneOffRequestContext requestContext) {
+      OneOffRequestContext requestContext,
+      ExperimentFeatures experimentFeatures) {
     this.queryBuilder = queryBuilder;
     this.projectCache = projectCache;
     this.globalSubmitRequirements = globalSubmitRequirements;
     this.submitRequirementsUtil = submitRequirementsUtil;
     this.requestContext = requestContext;
+    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
@@ -105,14 +110,23 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
           sr.applicabilityExpression().isPresent()
               ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
               : Optional.empty();
-      Optional<SubmitRequirementExpressionResult> submittabilityResult =
-          Optional.of(
-              SubmitRequirementExpressionResult.notEvaluated(sr.submittabilityExpression()));
-      Optional<SubmitRequirementExpressionResult> overrideResult =
-          sr.overrideExpression().isPresent()
-              ? Optional.of(
-                  SubmitRequirementExpressionResult.notEvaluated(sr.overrideExpression().get()))
-              : Optional.empty();
+      Optional<SubmitRequirementExpressionResult> submittabilityResult;
+      Optional<SubmitRequirementExpressionResult> overrideResult;
+      if (experimentFeatures.isFeatureEnabled(
+          ExperimentFeaturesConstants
+              .GERRIT_BACKEND_REQUEST_FEATURE_SR_EXPRESSIONS_NOT_EVALUATED)) {
+        submittabilityResult =
+            Optional.of(
+                SubmitRequirementExpressionResult.notEvaluated(sr.submittabilityExpression()));
+        overrideResult =
+            sr.overrideExpression().isPresent()
+                ? Optional.of(
+                    SubmitRequirementExpressionResult.notEvaluated(sr.overrideExpression().get()))
+                : Optional.empty();
+      } else {
+        submittabilityResult = Optional.empty();
+        overrideResult = Optional.empty();
+      }
       if (!sr.applicabilityExpression().isPresent()
           || SubmitRequirementResult.assertPass(applicabilityResult)) {
         submittabilityResult = Optional.of(evaluateExpression(sr.submittabilityExpression(), cd));

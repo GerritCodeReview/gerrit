@@ -301,7 +301,7 @@ public final class GerritLauncher {
     move(jars, "javax.inject-1.jar", extapi);
     move(jars, "aopalliance-1.0.jar", extapi);
     move(jars, "guice-servlet-", extapi);
-    move(jars, "tomcat-servlet-api-", extapi);
+    move(jars, "servlet-api-", extapi);
 
     ClassLoader parent = ClassLoader.getSystemClassLoader();
     if (!extapi.isEmpty()) {

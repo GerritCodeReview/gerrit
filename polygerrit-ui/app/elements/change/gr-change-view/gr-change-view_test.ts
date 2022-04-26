@@ -2127,7 +2127,7 @@ suite('gr-change-view tests', () => {
     element._change = {
       ...createChangeViewChange(),
     };
-    sinon.stub(element.$.metadata, '_computeLabelNames');
+    sinon.stub(element.$.metadata, 'computeLabelNames');
     navigateToChangeStub.restore();
     const promise = mockPromise();
     sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {

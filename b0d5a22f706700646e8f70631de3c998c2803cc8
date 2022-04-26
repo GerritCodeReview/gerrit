@@ -123,6 +123,42 @@
       "parentUuid": "a2faab08_3b6a5502",
       "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "946627c3_abc41ef5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-26T12:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e1a75d8_bd5b3f6a",
+      "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b48161a6_788c40d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-26T12:06:42Z",
+      "side": 1,
+      "message": "Actually what we are testing is not the merge that will be created in the end, but only the merge with the current head of the target branch at the moment when the CI is running. At the moment when the submit is being done, the situation can already look different. So not sure how much we gain by doing the verification on the merge.\n\nSo I guess just retriggering the CI after the fix on master was submitted would have also fix this, even without rebase.",
+      "parentUuid": "0abf21b7_efb82384",
+      "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

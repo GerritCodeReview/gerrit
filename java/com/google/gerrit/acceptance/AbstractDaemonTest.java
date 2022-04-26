@@ -180,15 +180,20 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -1523,6 +1528,41 @@ public abstract class AbstractDaemonTest {
     assertThat(res).isEqualTo(expectedContent);
   }
 
+  protected void assertNotContainedInAnyCommitAfterRewrite(
+      List<RevCommit> commitsBeforeDelete, ExternalId.Key deleted)
+      throws RepositoryNotFoundException, IOException {
+    List<RevCommit> commitsAfterDelete = getExternalIdRefCommitsInReverseOrder();
+    ObjectId deletedObjectId = deleted.sha1();
+    assertThat(commitsAfterDelete).hasSize(commitsBeforeDelete.size());
+
+    boolean containedBefore = false;
+    try (Repository repo = repoManager.openRepository(allUsers);
+        ObjectReader reader = repo.newObjectReader()) {
+      for (int i = 0; i < commitsBeforeDelete.size(); i++) {
+        RevCommit commitBefore = commitsBeforeDelete.get(i);
+        RevCommit commitAfter = commitsAfterDelete.get(i);
+
+        NoteMap noteMapBefore = NoteMap.read(reader, commitBefore);
+        containedBefore |= noteMapBefore.contains(deletedObjectId);
+
+        if (containedBefore) {
+          // should be in every commit after it as been inserted
+          assertThat(noteMapBefore.contains(deletedObjectId)).isTrue();
+        }
+
+        NoteMap noteMapAfter = NoteMap.read(reader, commitAfter);
+        assertThat(noteMapAfter).doesNotContain(deletedObjectId);
+
+        assertThat(commitAfter.getFullMessage()).isEqualTo(commitBefore.getFullMessage());
+        assertThat(commitAfter.getCommitterIdent()).isEqualTo(commitBefore.getCommitterIdent());
+        assertThat(commitAfter.getAuthorIdent()).isEqualTo(commitBefore.getAuthorIdent());
+        assertThat(commitAfter.getEncoding()).isEqualTo(commitBefore.getEncoding());
+        assertThat(commitAfter.getEncodingName()).isEqualTo(commitBefore.getEncodingName());
+      }
+      assertThat(containedBefore).isTrue();
+    }
+  }
+
   protected RevCommit createNewCommitWithoutChangeId(String branch, String file, String content)
       throws Exception {
     try (Repository repo = repoManager.openRepository(project);
@@ -1648,11 +1688,27 @@ public abstract class AbstractDaemonTest {
 
   protected List<RevCommit> getChangeMetaCommitsInReverseOrder(Change.Id changeId)
       throws IOException {
+    return getCommitsInReverseOrder(project, RefNames.changeMetaRef(changeId));
+  }
+
+  protected List<RevCommit> getExternalIdRefCommitsInReverseOrder() throws IOException {
+    return getCommitsInReverseOrder(allUsers, RefNames.REFS_EXTERNAL_IDS);
+  }
+
+  protected List<RevCommit> getAccountRefCommitsInReversOrder(Account.Id id)
+      throws RepositoryNotFoundException, MissingObjectException, IncorrectObjectTypeException,
+          IOException {
+    return getCommitsInReverseOrder(allUsers, RefNames.refsUsers(id));
+  }
+
+  private List<RevCommit> getCommitsInReverseOrder(Project.NameKey project, String ref)
+      throws IOException, MissingObjectException, IncorrectObjectTypeException,
+          RepositoryNotFoundException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
       revWalk.sort(RevSort.TOPO);
       revWalk.sort(RevSort.REVERSE);
-      Ref metaRef = repo.exactRef(RefNames.changeMetaRef(changeId));
+      Ref metaRef = repo.exactRef(ref);
       revWalk.markStart(revWalk.parseCommit(metaRef.getObjectId()));
       return Lists.newArrayList(revWalk);
     }

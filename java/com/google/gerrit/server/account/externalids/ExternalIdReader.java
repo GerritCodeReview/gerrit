@@ -72,6 +72,7 @@ public class ExternalIdReader {
   private final Timer0 readSingleLatency;
   private final ExternalIdFactory externalIdFactory;
   private final AuthConfig authConfig;
+  private final DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory;
 
   @Inject
   ExternalIdReader(
@@ -79,6 +80,7 @@ public class ExternalIdReader {
       AllUsersName allUsersName,
       MetricMaker metricMaker,
       ExternalIdFactory externalIdFactory,
+      DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory,
       AuthConfig authConfig) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
@@ -95,6 +97,7 @@ public class ExternalIdReader {
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS));
     this.externalIdFactory = externalIdFactory;
+    this.deleteExternalIdRewriterFactory = deleteExternalIdRewriterFactory;
     this.authConfig = authConfig;
   }
 
@@ -126,6 +129,7 @@ public class ExternalIdReader {
               repo,
               null,
               externalIdFactory,
+              deleteExternalIdRewriterFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode())
           .all();
     }
@@ -151,6 +155,7 @@ public class ExternalIdReader {
               repo,
               rev,
               externalIdFactory,
+              deleteExternalIdRewriterFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode())
           .all();
     }
@@ -167,6 +172,7 @@ public class ExternalIdReader {
               repo,
               null,
               externalIdFactory,
+              deleteExternalIdRewriterFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode())
           .get(key);
     }
@@ -184,6 +190,7 @@ public class ExternalIdReader {
               repo,
               rev,
               externalIdFactory,
+              deleteExternalIdRewriterFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode())
           .get(key);
     }

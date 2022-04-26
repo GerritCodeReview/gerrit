@@ -40,6 +40,7 @@ import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.ServiceUserClassifierImpl;
+import com.google.gerrit.server.account.externalids.DeleteExternalIdRewriter;
 import com.google.gerrit.server.account.externalids.ExternalIdCacheModule;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
@@ -194,6 +195,7 @@ public class BatchProgramModule extends FactoryModule {
     factory(ChangeIsVisibleToPredicate.Factory.class);
     factory(DistinctVotersPredicate.Factory.class);
     factory(ProjectState.Factory.class);
+    factory(DeleteExternalIdRewriter.Factory.class);
 
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeHasOperandFactory.class);

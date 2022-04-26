@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.server.account.externalids.DeleteExternalIdRewriter;
 import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdCaseSensitivityMigrator;
@@ -84,6 +85,7 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
                     new FactoryModuleBuilder()
                         .build(ExternalIdCaseSensitivityMigrator.Factory.class));
                 factory(MetaDataUpdate.InternalFactory.class);
+                factory(DeleteExternalIdRewriter.Factory.class);
                 DynamicMap.mapOf(binder(), ExternalIdUpsertPreprocessor.class);
 
                 // The ChangeExternalIdCaseSensitivity program needs to access all external IDs only

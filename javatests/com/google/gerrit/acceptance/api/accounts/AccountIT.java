@@ -125,10 +125,13 @@ import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountProperties;
+import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.DeleteSshKeyRewriter;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.account.externalids.DeleteExternalIdRewriter;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
@@ -183,6 +186,7 @@ import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -235,6 +239,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private PluginSetContext<ExceptionHook> exceptionHooks;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
   @Inject private ExternalIdFactory externalIdFactory;
+  @Inject private DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory;
   @Inject private AuthConfig authConfig;
 
   @Inject protected Emails emails;
@@ -1204,19 +1209,63 @@ public class AccountIT extends AbstractDaemonTest {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      String email = "foo.bar@example.com";
-      EmailInput input = newEmailInput(email);
-      gApi.accounts().self().addEmail(input);
+      String firstEmail = "foo.bar@example.com";
+      EmailInput inputFirstEmail = newEmailInput(firstEmail);
+      gApi.accounts().self().addEmail(inputFirstEmail);
 
       requestScopeOperations.resetCurrentApiUser();
-      assertThat(getEmails()).contains(email);
+      assertThat(getEmails()).contains(firstEmail);
+
+      String secondEmail = "bar.baz@example.com";
+      EmailInput inputSecondEmail = newEmailInput(secondEmail);
+      gApi.accounts().self().addEmail(inputSecondEmail);
+
+      requestScopeOperations.resetCurrentApiUser();
+      assertThat(getEmails()).contains(firstEmail);
+      assertThat(getEmails()).contains(secondEmail);
 
       accountIndexedCounter.clear();
-      gApi.accounts().self().deleteEmail(input.email);
+      gApi.accounts().self().deleteEmail(inputFirstEmail.email);
       accountIndexedCounter.assertReindexOf(admin);
 
       requestScopeOperations.resetCurrentApiUser();
-      assertThat(getEmails()).doesNotContain(email);
+      assertThat(getEmails()).doesNotContain(firstEmail);
+      assertThat(getEmails()).contains(secondEmail);
+    }
+  }
+
+  @Test
+  public void deleteEmail_emailNotFoundInAnyCommitAfterRewrite() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+      String firstEmail = "foo.bar@example.com";
+      EmailInput inputFirstEmail = newEmailInput(firstEmail);
+      gApi.accounts().self().addEmail(inputFirstEmail);
+
+      requestScopeOperations.resetCurrentApiUser();
+      assertThat(getEmails()).contains(firstEmail);
+
+      String secondEmail = "bar.baz@example.com";
+      EmailInput inputSecondEmail = newEmailInput(secondEmail);
+      gApi.accounts().self().addEmail(inputSecondEmail);
+
+      requestScopeOperations.resetCurrentApiUser();
+      assertThat(getEmails()).contains(firstEmail);
+      assertThat(getEmails()).contains(secondEmail);
+
+      List<RevCommit> commitsBeforeDelete = getExternalIdRefCommitsInReverseOrder();
+
+      accountIndexedCounter.clear();
+      gApi.accounts().self().deleteEmail(inputFirstEmail.email);
+      accountIndexedCounter.assertReindexOf(admin);
+
+      requestScopeOperations.resetCurrentApiUser();
+      assertThat(getEmails()).doesNotContain(firstEmail);
+      assertThat(getEmails()).contains(secondEmail);
+
+      assertNotContainedInAnyCommitAfterRewrite(
+          commitsBeforeDelete, ExternalId.Key.create("mailto", firstEmail, true));
     }
   }
 
@@ -2000,6 +2049,64 @@ public class AccountIT extends AbstractDaemonTest {
         () -> gApi.accounts().id(admin.username()).deleteSshKey(0));
   }
 
+  @Test
+  @UseSsh
+  public void sshKeyDeleteWithRewrite() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+      // The test account should initially have exactly one ssh key
+      List<SshKeyInfo> info = gApi.accounts().self().listSshKeys();
+      assertThat(info).hasSize(1);
+      assertSequenceNumbers(info);
+      SshKeyInfo key = info.get(0);
+      KeyPair keyPair = sshKeys.getKeyPair(admin);
+      String initial = TestSshKeys.publicKey(keyPair, admin.email());
+      assertThat(key.sshPublicKey).isEqualTo(initial);
+      accountIndexedCounter.assertNoReindex();
+
+      // Add a new key
+      sender.clear();
+      String newKey = TestSshKeys.publicKey(SshSessionFactory.genSshKey(), admin.email());
+      gApi.accounts().self().addSshKey(newKey);
+      info = gApi.accounts().self().listSshKeys();
+      assertThat(info).hasSize(2);
+      assertSequenceNumbers(info);
+      accountIndexedCounter.assertReindexOf(admin);
+      assertThat(sender.getMessages()).hasSize(1);
+      assertThat(sender.getMessages().get(0).body()).contains("new SSH keys have been added");
+
+      // Add another new key
+      sender.clear();
+      String newKey2 = TestSshKeys.publicKey(SshSessionFactory.genSshKey(), admin.email());
+      gApi.accounts().self().addSshKey(newKey2);
+      info = gApi.accounts().self().listSshKeys();
+      assertThat(info).hasSize(3);
+      assertSequenceNumbers(info);
+      accountIndexedCounter.assertReindexOf(admin);
+      assertThat(sender.getMessages()).hasSize(1);
+      assertThat(sender.getMessages().get(0).body()).contains("new SSH keys have been added");
+
+      List<RevCommit> commitsBeforeDelete = getAccountRefCommitsInReversOrder(admin.id());
+
+      // Delete second key
+      sender.clear();
+      int seq = 2;
+      gApi.accounts().self().deleteSshKey(seq);
+      info = gApi.accounts().self().listSshKeys();
+      assertThat(info).hasSize(2);
+      assertThat(info.get(0).seq).isEqualTo(1);
+      assertThat(info.get(1).seq).isEqualTo(3);
+      accountIndexedCounter.assertReindexOf(admin);
+
+      assertThat(sender.getMessages()).hasSize(1);
+      assertThat(sender.getMessages().get(0).body()).contains("SSH keys have been deleted");
+
+      assertNotContainedInAnyCommitAfterRewrite(
+          commitsBeforeDelete, AccountSshKey.create(admin.id(), seq, newKey));
+    }
+  }
+
   // reindex is tested by {@link AbstractQueryAccountsTest#reindex}
   @Test
   public void reindexPermissions() throws Exception {
@@ -2423,6 +2530,7 @@ public class AccountIT extends AbstractDaemonTest {
                         accountId,
                         u -> u.replaceExternalId(extIdA1, extIdA2));
               } catch (IOException | ConfigInvalidException | StorageException e) {
+                e.printStackTrace();
                 // Ignore, the expected exception is asserted later
               }
             });
@@ -2506,6 +2614,7 @@ public class AccountIT extends AbstractDaemonTest {
               allUsers,
               repo,
               externalIdFactory,
+              deleteExternalIdRewriterFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode());
 
       ExternalId.Key key = externalIdKeyFactory.create("foo", "foo");
@@ -2520,6 +2629,7 @@ public class AccountIT extends AbstractDaemonTest {
               allUsers,
               repo,
               externalIdFactory,
+              deleteExternalIdRewriterFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode());
       extIdNotes.upsert(externalIdFactory.createWithEmail(key, accountId, "foo@example.com"));
       try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
@@ -2532,6 +2642,7 @@ public class AccountIT extends AbstractDaemonTest {
               allUsers,
               repo,
               externalIdFactory,
+              deleteExternalIdRewriterFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode());
       extIdNotes.delete(accountId, key);
       try (MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
@@ -3136,6 +3247,48 @@ public class AccountIT extends AbstractDaemonTest {
     HttpGet httpGet = new HttpGet(canonicalWebUrl.get() + urlPath);
     HttpResponse loginResponse = httpclient.execute(httpGet);
     assertThat(loginResponse.getStatusLine().getStatusCode()).isEqualTo(expectedHttpStatus);
+  }
+
+  private void assertNotContainedInAnyCommitAfterRewrite(
+      List<RevCommit> commitsBeforeDelete, AccountSshKey deleted)
+      throws RepositoryNotFoundException, IOException {
+    List<RevCommit> commitsAfterDelete = getAccountRefCommitsInReversOrder(deleted.accountId());
+    assertThat(commitsAfterDelete).hasSize(commitsBeforeDelete.size());
+
+    int seq = deleted.seq() - 1; // seq is 1 instead of 0 based
+    boolean containedBefore = false;
+    try (Repository repo = repoManager.openRepository(allUsers);
+        ObjectReader reader = repo.newObjectReader()) {
+      for (int i = 0; i < commitsBeforeDelete.size(); i++) {
+        RevCommit commitBefore = commitsBeforeDelete.get(i);
+        RevCommit commitAfter = commitsAfterDelete.get(i);
+
+        List<Optional<AccountSshKey>> keysBefore =
+            DeleteSshKeyRewriter.loadKeys(reader, commitBefore, deleted.accountId());
+        containedBefore |=
+            keysBefore.size() > seq
+                && keysBefore.get(seq).isPresent()
+                && deleted.equals(keysBefore.get(seq).get());
+
+        if (containedBefore) {
+          // should be in every commit after it as been added
+          assertThat(deleted).isEqualTo(keysBefore.get(seq).get());
+        }
+
+        List<Optional<AccountSshKey>> keysAfter =
+            DeleteSshKeyRewriter.loadKeys(reader, commitAfter, deleted.accountId());
+        if (keysAfter.size() > seq) {
+          assertThat(keysAfter.get(seq)).isEmpty();
+        }
+
+        assertThat(commitAfter.getFullMessage()).isEqualTo(commitBefore.getFullMessage());
+        assertThat(commitAfter.getCommitterIdent()).isEqualTo(commitBefore.getCommitterIdent());
+        assertThat(commitAfter.getAuthorIdent()).isEqualTo(commitBefore.getAuthorIdent());
+        assertThat(commitAfter.getEncoding()).isEqualTo(commitBefore.getEncoding());
+        assertThat(commitAfter.getEncodingName()).isEqualTo(commitBefore.getEncodingName());
+      }
+      assertThat(containedBefore).isTrue();
+    }
   }
 
   private static class RefUpdateCounter implements GitReferenceUpdatedListener {

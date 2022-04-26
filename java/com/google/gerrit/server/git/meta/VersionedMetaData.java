@@ -20,6 +20,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.git.GitUpdateFailureException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.ObjectIds;
@@ -113,6 +114,16 @@ public abstract class VersionedMetaData {
    */
   protected abstract boolean onSave(CommitBuilder commit)
       throws IOException, ConfigInvalidException;
+
+  /**
+   * Reload the metadata, parsing any state from the rewritten revision.
+   *
+   * @throws IOException placeholder
+   * @throws ConfigInvalidException placeholder
+   */
+  protected void onRewrite(RevCommit newRevision) throws IOException, ConfigInvalidException {
+    throw new NotImplementedException(newRevision.getFullMessage());
+  }
 
   /** Returns revision of the metadata that was loaded. */
   @Nullable
@@ -246,12 +257,36 @@ public abstract class VersionedMetaData {
     }
   }
 
+  /**
+   * Rewrites history and updates the ref. This method mutates its receiver.
+   *
+   * @param update helper information to define the update that will occur.
+   * @param rewriter executes the history rewrite
+   * @return the RevCommit of the ref's new tip commit.
+   * @throws IOException if there is a storage problem and the update cannot be executed as
+   *     requested or if it failed because of a concurrent update to the same reference
+   */
+  public RevCommit rewrite(MetaDataUpdate update, VersionedMetaDataRewriter rewriter)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException,
+          ConfigInvalidException {
+    try (BatchMetaDataUpdate batchUpdate = openUpdate(update)) {
+      batchUpdate.rewrite(rewriter);
+      return batchUpdate.commit();
+    }
+  }
+
   public interface BatchMetaDataUpdate extends AutoCloseable {
     void write(CommitBuilder commit) throws IOException;
+
+    void rewrite(VersionedMetaDataRewriter rewriter)
+        throws MissingObjectException, IncorrectObjectTypeException, IOException,
+            ConfigInvalidException;
 
     void write(VersionedMetaData config, CommitBuilder commit) throws IOException;
 
     RevCommit createRef(String refName) throws IOException;
+
+    RevCommit updateRef(AnyObjectId oldId, AnyObjectId newId, String refName) throws IOException;
 
     RevCommit commit() throws IOException;
 
@@ -315,6 +350,11 @@ public abstract class VersionedMetaData {
     return new BatchMetaDataUpdate() {
       RevCommit src = revision;
       AnyObjectId srcTree = tree;
+      /**
+       * Tracks if any rewrites have been applied. In that case the ref update has to be forced.
+       * Get's reset on {@link #commit()}, after the ref has been updated.
+       */
+      boolean hasRewritesApplied = false;
 
       @Override
       public void write(CommitBuilder commit) throws IOException {
@@ -414,7 +454,10 @@ public abstract class VersionedMetaData {
         if (Objects.equals(src, expected)) {
           return revision;
         }
-        return updateRef(MoreObjects.firstNonNull(expected, ObjectId.zeroId()), src, getRefName());
+        RevCommit newRevision =
+            updateRef(MoreObjects.firstNonNull(expected, ObjectId.zeroId()), src, getRefName());
+        hasRewritesApplied = false;
+        return newRevision;
       }
 
       @Override
@@ -436,11 +479,15 @@ public abstract class VersionedMetaData {
         }
       }
 
-      private RevCommit updateRef(AnyObjectId oldId, AnyObjectId newId, String refName)
+      @Override
+      public RevCommit updateRef(AnyObjectId oldId, AnyObjectId newId, String refName)
           throws IOException {
         BatchRefUpdate bru = update.getBatch();
         if (bru != null) {
           bru.addCommand(new ReceiveCommand(oldId.toObjectId(), newId.toObjectId(), refName));
+          if (hasRewritesApplied) {
+            bru.setAllowNonFastForwards(true);
+          }
           if (objInserter == null) {
             inserter.flush();
           }
@@ -452,6 +499,7 @@ public abstract class VersionedMetaData {
         ru.setExpectedOldObjectId(oldId);
         ru.setNewObjectId(newId);
         ru.setRefLogIdent(update.getCommitBuilder().getAuthor());
+        ru.setForceUpdate(hasRewritesApplied);
         String message = update.getCommitBuilder().getMessage();
         if (message == null) {
           message = "meta data update";
@@ -475,6 +523,12 @@ public abstract class VersionedMetaData {
           case LOCK_FAILURE:
             throw new LockFailureException(errorMsg(ru, db.getDirectory()), ru);
           case FORCED:
+            revision = rw.parseCommit(ru.getNewObjectId());
+            update.fireGitRefUpdatedEvent(ru);
+            logger.atFine().log(
+                "Saved commit '%s' as revision '%s' on project '%s' with a forced update",
+                message.trim(), revision.name(), projectName);
+            return revision;
           case IO_FAILURE:
           case NOT_ATTEMPTED:
           case NO_CHANGE:
@@ -485,6 +539,19 @@ public abstract class VersionedMetaData {
           case REJECTED_OTHER_REASON:
           default:
             throw new GitUpdateFailureException(errorMsg(ru, db.getDirectory()), ru);
+        }
+      }
+
+      @Override
+      public void rewrite(VersionedMetaDataRewriter rewriter)
+          throws MissingObjectException, IncorrectObjectTypeException, ConfigInvalidException,
+              IOException {
+        RevCommit newSrc = rw.parseCommit(rewriter.rewriteCommitHistory(rw, inserter, src.getId()));
+        if (!Objects.equals(src, newSrc)) {
+          src = newSrc;
+          srcTree = src.getTree();
+          hasRewritesApplied = true;
+          onRewrite(src);
         }
       }
     };
@@ -526,11 +593,15 @@ public abstract class VersionedMetaData {
   }
 
   protected String readUTF8(String fileName) throws IOException {
-    byte[] raw = readFile(fileName);
+    return readUTF8(revision, fileName);
+  }
+
+  protected String readUTF8(RevCommit revision, String fileName) throws IOException {
+    byte[] raw = readFile(revision, fileName);
     return raw.length != 0 ? RawParseUtils.decode(raw) : "";
   }
 
-  protected byte[] readFile(String fileName) throws IOException {
+  protected byte[] readFile(RevCommit revision, String fileName) throws IOException {
     if (revision == null) {
       return new byte[] {};
     }

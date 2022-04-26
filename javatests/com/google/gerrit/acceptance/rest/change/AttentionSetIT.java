@@ -2246,6 +2246,221 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"));
   }
 
+  @Test
+  public void ownerAndUploaderAreAddedToAttentionSetWhenChangeBecomesUnsubmittable_approvalRemoved()
+      throws Exception {
+    // Allow all users to approve.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 2))
+        .update();
+
+    // Create change with admin as the owner and upload a new patch set with user as uploader.
+    PushOneCommit.Result r = createChange();
+    r = amendChangeWithUploader(r, project, user);
+    r.assertOkStatus();
+
+    // Attention set is empty.
+    assertThat(r.getChange().attentionSet()).isEmpty();
+
+    // Approve the change.
+    TestAccount approver = accountCreator.user2();
+    requestScopeOperations.setApiUser(approver.id());
+    approve(r.getChangeId());
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Voting added the owner (admin) and the uploader (user) to the attention set.
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                admin.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"),
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                user.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"));
+
+    // Remove the owner (admin) and the uploader (user) from the attention set.
+    change(r).attention(admin.id().toString()).remove(new AttentionSetInput("removed"));
+    change(r).attention(user.id().toString()).remove(new AttentionSetInput("removed"));
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"),
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(), user.id(), AttentionSetUpdate.Operation.REMOVE, "removed"));
+
+    // Revoke the approval
+    requestScopeOperations.setApiUser(approver.id());
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.noScore());
+
+    // Removing the approval added the owner (admin) and the uploader (user) to the attention set.
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                admin.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"),
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                user.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"));
+  }
+
+  @Test
+  public void
+      ownerAndUploaderAreAddedToAttentionSetWhenChangeBecomesUnsubmittable_approvalDowngraded()
+          throws Exception {
+    // Allow all users to approve.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 2))
+        .update();
+
+    // Create change with admin as the owner and upload a new patch set with user as uploader.
+    PushOneCommit.Result r = createChange();
+    r = amendChangeWithUploader(r, project, user);
+    r.assertOkStatus();
+
+    // Attention set is empty.
+    assertThat(r.getChange().attentionSet()).isEmpty();
+
+    // Approve the change.
+    TestAccount approver = accountCreator.user2();
+    requestScopeOperations.setApiUser(approver.id());
+    approve(r.getChangeId());
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Voting added the owner (admin) and the uploader (user) to the attention set.
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                admin.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"),
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                user.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"));
+
+    // Remove the owner (admin) and the uploader (user) from the attention set.
+    change(r).attention(admin.id().toString()).remove(new AttentionSetInput("removed"));
+    change(r).attention(user.id().toString()).remove(new AttentionSetInput("removed"));
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"),
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(), user.id(), AttentionSetUpdate.Operation.REMOVE, "removed"));
+
+    // Downgrade the approval
+    requestScopeOperations.setApiUser(approver.id());
+    recommend(r.getChangeId());
+
+    // Changing the approval added the owner (admin) and the uploader (user) to the attention set.
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                admin.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"),
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                user.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"));
+  }
+
+  @Test
+  public void ownerAndUploaderAreAddedToAttentionSetWhenChangeBecomesUnsubmittable_vetoApplied()
+      throws Exception {
+    // Allow all users to approve and veto.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .update();
+
+    // Create change with admin as the owner and upload a new patch set with user as uploader.
+    PushOneCommit.Result r = createChange();
+    r = amendChangeWithUploader(r, project, user);
+    r.assertOkStatus();
+
+    // Attention set is empty.
+    assertThat(r.getChange().attentionSet()).isEmpty();
+
+    // Approve the change.
+    TestAccount approver = accountCreator.user2();
+    requestScopeOperations.setApiUser(approver.id());
+    approve(r.getChangeId());
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Voting added the owner (admin) and the uploader (user) to the attention set.
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                admin.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"),
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                user.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"));
+
+    // Remove the owner (admin) and the uploader (user) from the attention set.
+    change(r).attention(admin.id().toString()).remove(new AttentionSetInput("removed"));
+    change(r).attention(user.id().toString()).remove(new AttentionSetInput("removed"));
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"),
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(), user.id(), AttentionSetUpdate.Operation.REMOVE, "removed"));
+
+    // Revoke the approval
+    TestAccount approver2 = accountCreator.user2();
+    requestScopeOperations.setApiUser(approver2.id());
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.noScore());
+
+    // Removing the approval added the owner (admin) and the uploader (user) to the attention set.
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                admin.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"),
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                user.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"));
+  }
+
   private void setEmailStrategyForUser(EmailStrategy es) throws Exception {
     requestScopeOperations.setApiUser(user.id());
     GeneralPreferencesInfo prefs = gApi.accounts().self().getPreferences();

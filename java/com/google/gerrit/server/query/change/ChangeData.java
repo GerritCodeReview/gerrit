@@ -942,7 +942,7 @@ public class ChangeData {
   }
 
   /**
-   * Similar to {@link #submitRequirements}, except that it also converts submit records resulting
+   * Similar to {@link #submitRequirements()}, except that it also converts submit records resulting
    * from the evaluation of legacy submit rules to submit requirements.
    */
   public Map<SubmitRequirement, SubmitRequirementResult> submitRequirementsIncludingLegacy() {

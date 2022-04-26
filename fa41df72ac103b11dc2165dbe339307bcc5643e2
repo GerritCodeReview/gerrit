@@ -16,6 +16,23 @@
       "message": "@Thomas is this really dependent on the replication plugin change? Can this be included in stable-3.6?",
       "revId": "fa41df72ac103b11dc2165dbe339307bcc5643e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "323244ff_90e0d95a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-26T08:20:31Z",
+      "side": 1,
+      "message": "@Thomas can we merge this to master and cherry-pick to stable-3.6 later?",
+      "revId": "fa41df72ac103b11dc2165dbe339307bcc5643e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

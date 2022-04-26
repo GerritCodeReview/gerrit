@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a599324_d5eb88cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-04-26T13:31:34Z",
+      "side": 1,
+      "message": "title is a bit misleading because it sounds like you\u0027d do X in a method called notX (but you renamed that).",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 70
+      },
+      "revId": "0f29a3882c5fb684f10f1f44c37dec3516103220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

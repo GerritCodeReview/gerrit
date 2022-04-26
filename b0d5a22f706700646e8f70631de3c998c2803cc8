@@ -195,6 +195,24 @@
       "parentUuid": "e243c730_b8c57dd7",
       "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40754e12_40b81215",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-26T13:54:15Z",
+      "side": 1,
+      "message": "\u003e \u003e yes, you are right. Basically whenever a change is merged in master, all the\n\u003e \u003e verified flags should be cleared out. Not sure if that is feasible with Gerrit?\n\u003e \n\u003e I\u0027m not sure that\u0027s the most important question here. I would rather ask:\n\u003e \n\u003e - Could the CI scale to handle such many builds (rebuild\u0026test all open changes whenever a change is submitted)?\n\nYes, but how much money would that cost?\n\n\u003e - Would this have a negative impact on the UX? E.g. imagine you want to submit your change, but right before you can click submit, the verified flag is removed because someone else has submitted a change. Now you have to wait until the CI for your change is newly done and if you\u0027re not quick enough to submit, maybe someone else is again faster with submitting another change.\n\nFor that verification flow, you need to disable the direct submit and delegate submission to the CI job, pretty much like Zuul does. Are we ready to delegate the submissions to the CI?",
+      "parentUuid": "7a04c307_3ae653e7",
+      "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

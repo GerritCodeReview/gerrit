@@ -159,6 +159,24 @@
       "parentUuid": "0abf21b7_efb82384",
       "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e243c730_b8c57dd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-26T12:28:34Z",
+      "side": 1,
+      "message": "\u003e Actually what we are testing is not the merge that will be created in the end, but only the merge with the current head of the target branch at the moment when the CI is running. At the moment when the submit is being done, the situation can already look different. So not sure how much we gain by doing the verification on the merge.\n\nyes, you are right. Basically whenever a change is merged in master, all the verified flags should be cleared out. Not sure if that is feasible with Gerrit?\n\n\u003e \n\u003e So I guess just retriggering the CI after the fix on master was submitted would have also fix this, even without rebase.\n\nsure, that would also work.",
+      "parentUuid": "b48161a6_788c40d6",
+      "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

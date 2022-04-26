@@ -34,6 +34,24 @@
       "parentUuid": "23144f71_4a08b8f4",
       "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8942dd9_f99fbc1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-26T11:47:31Z",
+      "side": 1,
+      "message": "Gerrit master has a red build, that\u0027s why all the changes associated with the master branch are failing:\nhttps://gerrit-ci.gerritforge.com/job/Gerrit-bazel-master/",
+      "parentUuid": "96ee9b4d_927422dd",
+      "revId": "b0d5a22f706700646e8f70631de3c998c2803cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

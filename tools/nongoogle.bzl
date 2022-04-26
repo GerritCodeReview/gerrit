@@ -1,4 +1,5 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
+load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
 GUAVA_VERSION = "30.1-jre"
 
@@ -67,18 +68,24 @@ def declare_nongoogle_deps():
         sha1 = "cb2f351bf4463751201f43bb99865235d5ba07ca",
     )
 
-    SSHD_VERS = "2.8.0"
+    SSHD_VERS = "2.9.0"
 
-    maven_jar(
+    java_import_external(
         name = "sshd-osgi",
-        artifact = "org.apache.sshd:sshd-osgi:" + SSHD_VERS,
-        sha1 = "b2a59b73c045f40d5722b9160d4f909a646d86c9",
+        jar_sha256 = "12e0a0882f3c5d2e03ef733ad04fed9a9c7e3e1021afa1f913a90a33be1ebaf9",
+        jar_urls = [
+            "https://github.com/davido/mina-sshd/releases/download/sshd-2.9.0/sshd-osgi-2.9.0.jar",
+        ],
+        licenses = ["unencumbered"],  # public domain
     )
 
-    maven_jar(
+    java_import_external(
         name = "sshd-sftp",
-        artifact = "org.apache.sshd:sshd-sftp:" + SSHD_VERS,
-        sha1 = "d3cd9bc8d335b3ed1a86d2965deb4d202de27442",
+        jar_sha256 = "60f608461882403b74fc03a51174e7c5bf84cba993493863718b941230143677",
+        jar_urls = [
+            "https://github.com/davido/mina-sshd/releases/download/sshd-2.9.0/sshd-sftp-2.9.0.jar",
+        ],
+        licenses = ["unencumbered"],  # public domain
     )
 
     maven_jar(
@@ -93,10 +100,13 @@ def declare_nongoogle_deps():
         sha1 = "e1a317689ecd438f54e863747e832f741ef8e092",
     )
 
-    maven_jar(
+    java_import_external(
         name = "sshd-mina",
-        artifact = "org.apache.sshd:sshd-mina:" + SSHD_VERS,
-        sha1 = "02f78100cce376198be798a37c84aaf945e8a0f7",
+        jar_sha256 = "5ce33403b3b7b72a745fc0df8987fc676eca52d2fb76d9b616e242736d6ca95d",
+        jar_urls = [
+            "https://github.com/davido/mina-sshd/releases/download/sshd-2.9.0/sshd-mina-2.9.0.jar",
+        ],
+        licenses = ["unencumbered"],  # public domain
     )
 
     maven_jar(

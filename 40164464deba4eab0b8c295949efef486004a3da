@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16427b87_b5d94b28",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-26T10:54:01Z",
+      "side": 1,
+      "message": "At the beginning of a render method I personally like guard statements better than `when()`, but no need to argue about it. :-)",
+      "revId": "40164464deba4eab0b8c295949efef486004a3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67a55994_b6a0e39a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1111,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-26T10:54:01Z",
+      "side": 1,
+      "message": "I find this a bit weird for just one property, but up to you.",
+      "revId": "40164464deba4eab0b8c295949efef486004a3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -33,6 +33,23 @@
       "message": "Should this merge be re-done?",
       "revId": "5fed745c745ec5547d920a8f64bae44162e1d1d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c44e1b6_e1b691bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-26T08:54:44Z",
+      "side": 1,
+      "message": "Let me redo this merge with the updated parent.",
+      "revId": "5fed745c745ec5547d920a8f64bae44162e1d1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

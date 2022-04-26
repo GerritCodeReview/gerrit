@@ -33,6 +33,42 @@
       "message": "@Thomas can we merge this to master and cherry-pick to stable-3.6 later?",
       "revId": "fa41df72ac103b11dc2165dbe339307bcc5643e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c400d74a_bf711e97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-26T08:53:27Z",
+      "side": 1,
+      "message": "The dependency should now only be the other way around. This was not originally the case. I can verify that quickly by running the tests without the changes in the replication plugin.",
+      "parentUuid": "07229905_e301c9cd",
+      "revId": "fa41df72ac103b11dc2165dbe339307bcc5643e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb675639_68d45cc3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-26T08:53:27Z",
+      "side": 1,
+      "message": "Should be possible. I am not too familiar in how master and 3.6 are differing at the moment, but let me run a quick check on what conflicts I get when doing a cherry-pick.",
+      "parentUuid": "323244ff_90e0d95a",
+      "revId": "fa41df72ac103b11dc2165dbe339307bcc5643e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

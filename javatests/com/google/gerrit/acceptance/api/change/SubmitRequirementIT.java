@@ -34,6 +34,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -67,6 +68,7 @@ import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.TestLabels;
@@ -1901,6 +1903,10 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value =
+          ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_SR_EXPRESSIONS_NOT_EVALUATED)
   public void submitRequirement_nonApplicable_submittabilityAndOverrideNotEvaluated()
       throws Exception {
     configSubmitRequirement(

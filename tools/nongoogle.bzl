@@ -1,4 +1,5 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
+load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
 GUAVA_VERSION = "30.1-jre"
 
@@ -67,18 +68,18 @@ def declare_nongoogle_deps():
         sha1 = "cb2f351bf4463751201f43bb99865235d5ba07ca",
     )
 
-    SSHD_VERS = "2.9.1"
+    SSHD_VERS = "2.9.2"
 
     maven_jar(
         name = "sshd-osgi",
         artifact = "org.apache.sshd:sshd-osgi:" + SSHD_VERS,
-        sha1 = "9ed1a653da98a1aabe3ae092ee8310299718e914",
+        sha1 = "bac0415734519b2fe433fea196017acf7ed32660",
     )
 
     maven_jar(
         name = "sshd-sftp",
         artifact = "org.apache.sshd:sshd-sftp:" + SSHD_VERS,
-        sha1 = "6d01cb8138e60e97e3de08e96cc5a094c8ce2cac",
+        sha1 = "7f9089c87b3b44f19998252fd3b68637e3322920",
     )
 
     maven_jar(
@@ -89,14 +90,14 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "mina-core",
-        artifact = "org.apache.mina:mina-core:2.0.21",
-        sha1 = "e1a317689ecd438f54e863747e832f741ef8e092",
+        artifact = "org.apache.mina:mina-core:2.0.23",
+        sha1 = "391228b25d3a24434b205444cd262780a9ea61e7",
     )
 
     maven_jar(
         name = "sshd-mina",
         artifact = "org.apache.sshd:sshd-mina:" + SSHD_VERS,
-        sha1 = "5ab797b99630bb0c3e9ebcd8a3a6cad46408a79a",
+        sha1 = "765dced3a2b4069bb0c550e18bda057bad8de26f",
     )
 
     maven_jar(

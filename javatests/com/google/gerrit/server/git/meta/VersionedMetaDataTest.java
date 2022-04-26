@@ -23,9 +23,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.git.RefUpdateUtil;
+import com.google.gerrit.server.InvalidConfigFileException;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.VersionedMetaData.BatchMetaDataUpdate;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.io.IOException;
@@ -34,12 +39,28 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
+import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -47,6 +68,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -198,6 +221,89 @@ public class VersionedMetaDataTest {
         d2.getRefName(), 6000, "Increment conf.value by 2000", "Increment conf.value by 4000");
   }
 
+  @Test
+  public void batchRefUpdateWithRewrites() throws Exception {
+    MyMetaData d1 = load("refs/meta/1", 0);
+
+    try (BatchMetaDataUpdate batchUpdate = d1.openUpdate(newMetaDataUpdate(null))) {
+      d1.setIncrement(1);
+      batchUpdate.write(d1, newCommitBuilder());
+      batchUpdate.commit();
+    }
+
+    assertMyMetaData(d1.getRefName(), 1, "Increment conf.value by 1");
+
+    try (BatchMetaDataUpdate batchUpdate = d1.openUpdate(newMetaDataUpdate(null))) {
+      d1.setIncrement(3);
+      batchUpdate.write(d1, newCommitBuilder());
+      batchUpdate.commit();
+    }
+
+    assertMyMetaData(d1.getRefName(), 4, "Increment conf.value by 1", "Increment conf.value by 3");
+
+    BatchRefUpdate bru1 = repo.getRefDatabase().newBatchUpdate();
+    MetaDataUpdate update = newMetaDataUpdate(bru1);
+    try (BatchMetaDataUpdate batchUpdate = d1.openUpdate(update)) {
+      d1.setIncrement(1);
+      batchUpdate.write(d1, newCommitBuilder());
+
+      batchUpdate.rewrite(new IncrementingRewriter(project, d1));
+
+      d1.setIncrement(3);
+      batchUpdate.write(d1, newCommitBuilder());
+
+      assertThat(bru1.isAllowNonFastForwards()).isFalse();
+      batchUpdate.commit();
+    }
+
+    assertThat(bru1.isAllowNonFastForwards()).isTrue();
+    assertMyMetaData(d1.getRefName(), 4, "Increment conf.value by 1", "Increment conf.value by 3");
+    assertThat(bru1.getCommands().stream().map(ReceiveCommand::getRefName))
+        .containsExactly("refs/meta/1");
+    RefUpdateUtil.executeChecked(bru1, repo);
+
+    assertMyMetaData(
+        d1.getRefName(),
+        10,
+        "Increment conf.value by 1",
+        "Increment conf.value by 4",
+        "Increment conf.value by 2",
+        "Increment conf.value by 3");
+
+    BatchRefUpdate bru2 = repo.getRefDatabase().newBatchUpdate();
+    try (BatchMetaDataUpdate batch = d1.openUpdate(newMetaDataUpdate(bru2))) {
+      d1.setIncrement(1);
+      batch.write(d1, newCommitBuilder());
+
+      d1.setIncrement(3);
+      batch.write(d1, newCommitBuilder());
+
+      batch.commit();
+    }
+
+    assertThat(bru2.isAllowNonFastForwards()).isFalse();
+    assertMyMetaData(
+        d1.getRefName(),
+        10,
+        "Increment conf.value by 1",
+        "Increment conf.value by 4",
+        "Increment conf.value by 2",
+        "Increment conf.value by 3");
+    assertThat(bru2.getCommands().stream().map(ReceiveCommand::getRefName))
+        .containsExactly("refs/meta/1");
+    RefUpdateUtil.executeChecked(bru2, repo);
+
+    assertMyMetaData(
+        d1.getRefName(),
+        14,
+        "Increment conf.value by 1",
+        "Increment conf.value by 4",
+        "Increment conf.value by 2",
+        "Increment conf.value by 3",
+        "Increment conf.value by 1",
+        "Increment conf.value by 3");
+  }
+
   private MyMetaData load(int expectedValue) throws Exception {
     return load(DEFAULT_REF, expectedValue);
   }
@@ -259,9 +365,9 @@ public class VersionedMetaDataTest {
   }
 
   private static class MyMetaData extends VersionedMetaData {
-    private static final String CONFIG_FILE = "my.config";
-    private static final String SECTION = "conf";
-    private static final String NAME = "value";
+    static final String CONFIG_FILE = "my.config";
+    static final String SECTION = "conf";
+    static final String NAME = "value";
 
     private final String ref;
 
@@ -283,6 +389,14 @@ public class VersionedMetaDataTest {
       curr = cfg.getInt(SECTION, null, NAME, 0);
     }
 
+    @Override
+    protected void onRewrite(RevCommit newRevision) throws IOException, ConfigInvalidException {
+      RevCommit backupRevision = revision;
+      revision = newRevision;
+      onLoad();
+      revision = backupRevision;
+    }
+
     int getValue() {
       return curr;
     }
@@ -299,11 +413,174 @@ public class VersionedMetaDataTest {
         return false;
       }
       Config cfg = readConfig(CONFIG_FILE);
-      cfg.setInt(SECTION, null, NAME, cfg.getInt(SECTION, null, NAME, 0) + increment.get());
+      int incrementedValue = curr + increment.get();
+      cfg.setInt(SECTION, null, NAME, incrementedValue);
       cb.setMessage(String.format("Increment %s.%s by %d", SECTION, NAME, increment.get()));
       saveConfig(CONFIG_FILE, cfg);
       increment = Optional.empty();
+      curr = incrementedValue;
       return true;
+    }
+  }
+
+  static class IncrementingRewriter implements VersionedMetaDataRewriter {
+
+    private MyMetaData metaData;
+    private NameKey project;
+
+    public IncrementingRewriter(Project.NameKey project, MyMetaData metaData) {
+      this.project = project;
+      this.metaData = metaData;
+    }
+
+    private final Pattern PATTERN = Pattern.compile("Increment .*\\..* by (?<increment>\\d+).*");
+
+    private ObjectReader reader;
+    private ObjectInserter inserter;
+    int increment = 1;
+
+    @Override
+    public ObjectId rewriteCommitHistory(
+        RevWalk revWalk, ObjectInserter inserter, ObjectId currentTip)
+        throws MissingObjectException, IncorrectObjectTypeException, IOException,
+            ConfigInvalidException {
+      this.inserter = inserter;
+      checkArgument(!currentTip.equals(ObjectId.zeroId()));
+
+      // Walk from the first commit of the branch.
+      revWalk.reset();
+      revWalk.markStart(revWalk.parseCommit(currentTip));
+      revWalk.sort(RevSort.REVERSE);
+
+      reader = revWalk.getObjectReader();
+
+      RevCommit newTipCommit = revWalk.next(); // Don't rewrite the first commit.
+      RevCommit originalCommit;
+      while ((originalCommit = revWalk.next()) != null) {
+
+        Config cfg;
+        try {
+          cfg = readConfig(originalCommit, MyMetaData.CONFIG_FILE);
+        } catch (ConfigInvalidException e) {
+          throw new IOException(e);
+        }
+        int curr = cfg.getInt(MyMetaData.SECTION, null, MyMetaData.NAME, 0);
+        curr += increment;
+        increment++;
+        cfg.setInt(MyMetaData.SECTION, null, MyMetaData.NAME, curr);
+        newTipCommit =
+            revWalk.parseCommit(rewriteCommit(originalCommit, newTipCommit, inserter, cfg));
+      }
+
+      return newTipCommit;
+    }
+
+    private AnyObjectId rewriteCommit(
+        RevCommit originalCommit, RevCommit parentCommit, ObjectInserter inserter, Config cfg)
+        throws IOException {
+      DirCache newTree = metaData.readTree(originalCommit.getTree());
+      saveConfig(newTree, MyMetaData.CONFIG_FILE, cfg);
+
+      CommitBuilder cb = new CommitBuilder();
+      cb.setParentId(parentCommit);
+      cb.setTreeId(newTree.writeTree(inserter));
+      Matcher matcher = PATTERN.matcher(originalCommit.getFullMessage());
+      matcher.matches();
+      cb.setMessage(
+          String.format(
+              "Increment %s.%s by %d",
+              MyMetaData.SECTION,
+              MyMetaData.NAME,
+              Integer.valueOf(matcher.group("increment")) + 1));
+      cb.setCommitter(originalCommit.getCommitterIdent());
+      cb.setAuthor(originalCommit.getAuthorIdent());
+      cb.setEncoding(originalCommit.getEncoding());
+
+      return inserter.insert(cb);
+    }
+
+    protected Config readConfig(RevCommit revision, String fileName)
+        throws IOException, ConfigInvalidException {
+      return readConfig(revision, fileName, Optional.empty());
+    }
+
+    protected Config readConfig(
+        RevCommit revision, String fileName, Optional<? extends Config> baseConfig)
+        throws IOException, ConfigInvalidException {
+      Config rc = new Config(baseConfig.isPresent() ? baseConfig.get() : null);
+      String text = readUTF8(revision, fileName);
+      if (!text.isEmpty()) {
+        try {
+          rc.fromText(text);
+        } catch (ConfigInvalidException err) {
+          throw new InvalidConfigFileException(
+              project, metaData.getRefName(), revision, fileName, err);
+        }
+      }
+      return rc;
+    }
+
+    protected String readUTF8(RevCommit revision, String fileName) throws IOException {
+      byte[] raw = readFile(revision, fileName);
+      return raw.length != 0 ? RawParseUtils.decode(raw) : "";
+    }
+
+    protected byte[] readFile(RevCommit revision, String fileName) throws IOException {
+      if (revision == null) {
+        return new byte[] {};
+      }
+
+      try (TraceTimer timer =
+              TraceContext.newTimer(
+                  "Read file",
+                  Metadata.builder()
+                      .projectName(project.get())
+                      .noteDbRefName(metaData.getRefName())
+                      .revision(revision.name())
+                      .noteDbFilePath(fileName)
+                      .build());
+          TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree())) {
+        if (tw != null) {
+          ObjectLoader obj = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
+          return obj.getCachedBytes(Integer.MAX_VALUE);
+        }
+      }
+      return new byte[] {};
+    }
+
+    protected void saveConfig(DirCache newTree, String fileName, Config cfg) throws IOException {
+      saveUTF8(newTree, fileName, cfg.toText());
+    }
+
+    protected void saveUTF8(DirCache newTree, String fileName, String text) throws IOException {
+      saveFile(newTree, fileName, text != null ? Constants.encode(text) : null);
+    }
+
+    protected void saveFile(DirCache newTree, String fileName, byte[] raw) throws IOException {
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "Save file",
+              Metadata.builder()
+                  .projectName(project.get())
+                  .noteDbRefName(metaData.getRefName())
+                  .noteDbFilePath(fileName)
+                  .build())) {
+        DirCacheEditor editor = newTree.editor();
+        if (raw != null && 0 < raw.length) {
+          final ObjectId blobId = inserter.insert(Constants.OBJ_BLOB, raw);
+          editor.add(
+              new PathEdit(fileName) {
+                @Override
+                public void apply(DirCacheEntry ent) {
+                  ent.setFileMode(FileMode.REGULAR_FILE);
+                  ent.setObjectId(blobId);
+                }
+              });
+        } else {
+          editor.add(new DeletePath(fileName));
+        }
+        editor.finish();
+      }
     }
   }
 }

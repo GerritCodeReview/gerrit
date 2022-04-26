@@ -37,7 +37,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 /**
- * REST endpoint to delete an SSH key of an account.
+ * REST endpoint to permanently delete an SSH key of an account.
  *
  * <p>This REST endpoint handles {@code DELETE
  * /accounts/<account-identifier>/sshkeys/<ssh-key-identifier>} requests.

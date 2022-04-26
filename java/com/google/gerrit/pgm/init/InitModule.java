@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
+import com.google.gerrit.server.account.externalids.DeleteExternalIdRewriter;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.internal.UniqueAnnotations;
@@ -36,6 +37,7 @@ public class InitModule extends FactoryModule {
     bind(SitePaths.class);
     factory(Section.Factory.class);
     factory(VersionedAuthorizedKeysOnInit.Factory.class);
+    factory(DeleteExternalIdRewriter.Factory.class);
 
     // Steps are executed in the order listed here.
     //

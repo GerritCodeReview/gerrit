@@ -56,6 +56,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.externalids.DeleteExternalIdRewriter;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
@@ -82,6 +83,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -101,6 +103,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
+  @Inject private DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory;
   @Inject private ExternalIdFactory externalIdFactory;
 
   @Test
@@ -173,6 +176,54 @@ public class ExternalIdIT extends AbstractDaemonTest {
     // "mailto:user@example.com" can be deleted while "username:user" can't.
     assertThat(results).hasSize(1);
     assertThat(results).containsExactlyElementsIn(expectedIds);
+  }
+
+  @Test
+  public void deleteExternalIds_externalIdNotFoundInAnyCommitAfterRewrite() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+
+    MutableInteger i = new MutableInteger();
+    String scheme = "valid";
+
+    insertExtId(
+        externalIdFactory.createWithPassword(
+            externalIdKeyFactory.parse(nextId(scheme, i)),
+            user.id(),
+            "foo.bar@example.com",
+            "secret-password"));
+    insertExtId(externalIdFactory.createEmail(user.id(), "bar.baz@example.com"));
+
+    List<AccountExternalIdInfo> externalIds = gApi.accounts().self().getExternalIds();
+
+    List<AccountExternalIdInfo> deletable = new ArrayList<>();
+    List<AccountExternalIdInfo> expectedIds = new ArrayList<>();
+    for (AccountExternalIdInfo id : externalIds) {
+      if (id.canDelete != null && id.canDelete) {
+        deletable.add(id);
+        continue;
+      }
+      expectedIds.add(id);
+    }
+
+    assertThat(deletable).hasSize(3);
+
+    List<RevCommit> commitsBeforeDelete = getExternalIdRefCommitsInReverseOrder();
+
+    expectedIds.add(deletable.get(0));
+    expectedIds.add(deletable.get(2));
+    String identityToDelete = deletable.get(1).identity;
+    RestResponse response =
+        userRestSession.post(
+            "/accounts/self/external.ids:delete", ImmutableList.of(identityToDelete));
+    response.assertNoContent();
+    List<AccountExternalIdInfo> results = gApi.accounts().self().getExternalIds();
+    // The external ID in WebSession will not be set for tests, resulting that
+    // "mailto:user@example.com" can be deleted while "username:user" can't.
+    assertThat(results).hasSize(3);
+    assertThat(results).containsExactlyElementsIn(expectedIds);
+
+    assertNotContainedInAnyCommitAfterRewrite(
+        commitsBeforeDelete, ExternalId.Key.parse(identityToDelete, true));
   }
 
   @Test
@@ -1006,7 +1057,11 @@ public class ExternalIdIT extends AbstractDaemonTest {
       // Inserting an external ID "behind Gerrit's back" means that the caches are not updated.
       ExternalIdNotes extIdNotes =
           ExternalIdNotes.load(
-              allUsers, repo, externalIdFactory, IS_USER_NAME_CASE_INSENSITIVE_MIGRATION_MODE);
+              allUsers,
+              repo,
+              externalIdFactory,
+              deleteExternalIdRewriterFactory,
+              IS_USER_NAME_CASE_INSENSITIVE_MIGRATION_MODE);
       extIdNotes.insert(extId);
       try (MetaDataUpdate metaDataUpdate =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, repo)) {

@@ -40,8 +40,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
  * 'authorized_keys' file in the refs/users/CD/ABCD branches of the All-Users repository.
@@ -106,8 +109,15 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
     public synchronized void deleteKey(Account.Id accountId, int seq)
         throws IOException, ConfigInvalidException {
       VersionedAuthorizedKeys authorizedKeys = read(accountId);
-      if (authorizedKeys.deleteKey(seq)) {
-        commit(authorizedKeys);
+      if (authorizedKeys.keys.size() < seq) {
+        return;
+      }
+
+      try (MetaDataUpdate md =
+          metaDataUpdateFactory
+              .get()
+              .create(allUsersName, userFactory.create(authorizedKeys.accountId)); ) {
+        authorizedKeys.deleteKeyWithRewrite(md, accountId, seq);
       }
     }
 
@@ -150,13 +160,18 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   }
 
   private final SshKeyCreator sshKeyCreator;
+  private final DeleteSshKeyRewriter.Factory deleteSshKeyRewriterFactory;
   private final Account.Id accountId;
   private final String ref;
   private List<Optional<AccountSshKey>> keys;
 
   @Inject
-  public VersionedAuthorizedKeys(SshKeyCreator sshKeyCreator, @Assisted Account.Id accountId) {
+  public VersionedAuthorizedKeys(
+      SshKeyCreator sshKeyCreator,
+      DeleteSshKeyRewriter.Factory deleteSshKeyRewriterFactory,
+      @Assisted Account.Id accountId) {
     this.sshKeyCreator = sshKeyCreator;
+    this.deleteSshKeyRewriterFactory = deleteSshKeyRewriterFactory;
     this.accountId = accountId;
     this.ref = RefNames.refsUsers(accountId);
   }
@@ -179,6 +194,11 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
 
     saveUTF8(AuthorizedKeys.FILE_NAME, AuthorizedKeys.serialize(keys));
     return true;
+  }
+
+  @Override
+  protected void onRewrite(RevCommit newRevision) throws IOException, ConfigInvalidException {
+    keys = AuthorizedKeys.parse(accountId, readUTF8(newRevision, AuthorizedKeys.FILE_NAME));
   }
 
   /** Returns all SSH keys. */
@@ -223,19 +243,18 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   }
 
   /**
-   * Deletes the SSH key with the given sequence number.
+   * Deletes the provided SSH key through history rewrite. This method mutates it's receiver.
    *
-   * @param seq the sequence number
-   * @return <code>true</code> if a key with this sequence number was found and deleted, <code>false
-   *     </code> if no key with the given sequence number exists
+   * @return <code>true</code> if the key was found and deleted, <code>false
+   *     </code> if the key was not found and no rewrite happened
    */
-  private boolean deleteKey(int seq) {
+  public boolean deleteKeyWithRewrite(MetaDataUpdate md, Account.Id accountId, int seq)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException,
+          ConfigInvalidException {
     checkLoaded();
-    if (seq <= keys.size() && keys.get(seq - 1).isPresent()) {
-      keys.set(seq - 1, Optional.empty());
-      return true;
-    }
-    return false;
+    RevCommit oldRevision = revision;
+    RevCommit newRevision = rewrite(md, deleteSshKeyRewriterFactory.create(accountId, seq));
+    return oldRevision.equals(newRevision);
   }
 
   /**

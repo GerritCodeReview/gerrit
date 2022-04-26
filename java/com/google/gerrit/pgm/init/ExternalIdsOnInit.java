@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.account.externalids.DeleteExternalIdRewriter;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
@@ -43,6 +44,7 @@ public class ExternalIdsOnInit {
   private final AllUsersName allUsers;
   private final ExternalIdFactory externalIdFactory;
   private final AuthConfig authConfig;
+  private final DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory;
 
   @Inject
   public ExternalIdsOnInit(
@@ -50,11 +52,13 @@ public class ExternalIdsOnInit {
       SitePaths site,
       AllUsersNameOnInitProvider allUsers,
       ExternalIdFactory externalIdFactory,
+      DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory,
       AuthConfig authConfig) {
     this.flags = flags;
     this.site = site;
     this.allUsers = new AllUsersName(allUsers.get());
     this.externalIdFactory = externalIdFactory;
+    this.deleteExternalIdRewriterFactory = deleteExternalIdRewriterFactory;
     this.authConfig = authConfig;
   }
 
@@ -68,6 +72,7 @@ public class ExternalIdsOnInit {
                 allUsers,
                 allUsersRepo,
                 externalIdFactory,
+                deleteExternalIdRewriterFactory,
                 authConfig.isUserNameCaseInsensitiveMigrationMode());
         extIdNotes.insert(extIds);
         try (MetaDataUpdate metaDataUpdate =

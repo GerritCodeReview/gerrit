@@ -118,6 +118,13 @@ public abstract class AccountDelta {
   public abstract ImmutableSet<ExternalId> getDeletedExternalIds();
 
   /**
+   * Returns external IDs that should be permanently deleted through rewrite.
+   *
+   * @return external IDs that should be permanently deleted for the account
+   */
+  public abstract ImmutableSet<ExternalId> getWithRewriteDeletedExternalIds();
+
+  /**
    * Returns external IDs that should be updated for the account.
    *
    * @return external IDs that should be updated for the account
@@ -297,6 +304,13 @@ public abstract class AccountDelta {
     abstract ImmutableSet.Builder<ExternalId> deletedExternalIdsBuilder();
 
     /**
+     * Returns a builder for the set of external IDs permanently deleted through rewrite.
+     *
+     * @return builder for the set of permanently deleted external IDs.
+     */
+    abstract ImmutableSet.Builder<ExternalId> withRewriteDeletedExternalIdsBuilder();
+
+    /**
      * Deletes an external ID for the account.
      *
      * <p>The account ID of the external ID must match the account ID of the account that is
@@ -324,6 +338,22 @@ public abstract class AccountDelta {
      */
     public Builder deleteExternalIds(Collection<ExternalId> extIds) {
       deletedExternalIdsBuilder().addAll(extIds);
+      return this;
+    }
+
+    /**
+     * Permanently deletes external IDs through rewrite.
+     *
+     * <p>The account IDs of the external IDs must match the account ID of the account that is
+     * updated.
+     *
+     * <p>For non-existing external IDs this is a no-op.
+     *
+     * @param extIds external IDs that should be deleted
+     * @return the builder
+     */
+    public Builder deleteExternalIdsWithRewrite(Collection<ExternalId> extIds) {
+      withRewriteDeletedExternalIdsBuilder().addAll(extIds);
       return this;
     }
 
@@ -596,6 +626,11 @@ public abstract class AccountDelta {
       public Builder setEditPreferences(EditPreferencesInfo editPreferences) {
         delegate.setEditPreferences(editPreferences);
         return this;
+      }
+
+      @Override
+      public ImmutableSet.Builder<ExternalId> withRewriteDeletedExternalIdsBuilder() {
+        return delegate.withRewriteDeletedExternalIdsBuilder();
       }
     }
   }

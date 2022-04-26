@@ -40,6 +40,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
+import com.google.gerrit.server.git.meta.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.update.RetryHelper;
@@ -102,6 +103,7 @@ public class ExternalIdNotes extends VersionedMetaData {
     protected final AllUsersName allUsersName;
     protected final DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors;
     protected final ExternalIdFactory externalIdFactory;
+    protected final DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory;
     protected final AuthConfig authConfig;
 
     protected ExternalIdNotesLoader(
@@ -110,12 +112,14 @@ public class ExternalIdNotes extends VersionedMetaData {
         AllUsersName allUsersName,
         DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
         ExternalIdFactory externalIdFactory,
+        DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory,
         AuthConfig authConfig) {
       this.externalIdCache = externalIdCache;
       this.metricMaker = metricMaker;
       this.allUsersName = allUsersName;
       this.upsertPreprocessors = upsertPreprocessors;
       this.externalIdFactory = externalIdFactory;
+      this.deleteExternalIdRewriterFactory = deleteExternalIdRewriterFactory;
       this.authConfig = authConfig;
     }
 
@@ -198,6 +202,7 @@ public class ExternalIdNotes extends VersionedMetaData {
         AllUsersName allUsersName,
         DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
         ExternalIdFactory externalIdFactory,
+        DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory,
         AuthConfig authConfig) {
       super(
           externalIdCache,
@@ -205,6 +210,7 @@ public class ExternalIdNotes extends VersionedMetaData {
           allUsersName,
           upsertPreprocessors,
           externalIdFactory,
+          deleteExternalIdRewriterFactory,
           authConfig);
       this.accountIndexer = accountIndexer;
     }
@@ -218,6 +224,7 @@ public class ExternalIdNotes extends VersionedMetaData {
               allUsersRepo,
               upsertPreprocessors,
               externalIdFactory,
+              deleteExternalIdRewriterFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode())
           .load();
     }
@@ -231,6 +238,7 @@ public class ExternalIdNotes extends VersionedMetaData {
               allUsersRepo,
               upsertPreprocessors,
               externalIdFactory,
+              deleteExternalIdRewriterFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode())
           .load(rev);
     }
@@ -251,6 +259,7 @@ public class ExternalIdNotes extends VersionedMetaData {
         AllUsersName allUsersName,
         DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
         ExternalIdFactory externalIdFactory,
+        DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory,
         AuthConfig authConfig) {
       super(
           externalIdCache,
@@ -258,6 +267,7 @@ public class ExternalIdNotes extends VersionedMetaData {
           allUsersName,
           upsertPreprocessors,
           externalIdFactory,
+          deleteExternalIdRewriterFactory,
           authConfig);
     }
 
@@ -270,6 +280,7 @@ public class ExternalIdNotes extends VersionedMetaData {
               allUsersRepo,
               upsertPreprocessors,
               externalIdFactory,
+              deleteExternalIdRewriterFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode())
           .setNoReindex()
           .load();
@@ -284,6 +295,7 @@ public class ExternalIdNotes extends VersionedMetaData {
               allUsersRepo,
               upsertPreprocessors,
               externalIdFactory,
+              deleteExternalIdRewriterFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode())
           .setNoReindex()
           .load(rev);
@@ -310,6 +322,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       Repository allUsersRepo,
       @Nullable ObjectId rev,
       ExternalIdFactory externalIdFactory,
+      DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory,
       boolean isUserNameCaseInsensitiveMigrationMode)
       throws IOException, ConfigInvalidException {
     return new ExternalIdNotes(
@@ -318,6 +331,7 @@ public class ExternalIdNotes extends VersionedMetaData {
             allUsersRepo,
             DynamicMap.emptyMap(),
             externalIdFactory,
+            deleteExternalIdRewriterFactory,
             isUserNameCaseInsensitiveMigrationMode)
         .setReadOnly()
         .setNoReindex()
@@ -338,6 +352,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       AllUsersName allUsersName,
       Repository allUsersRepo,
       ExternalIdFactory externalIdFactory,
+      DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory,
       boolean isUserNameCaseInsensitiveMigrationMode)
       throws IOException, ConfigInvalidException {
     return new ExternalIdNotes(
@@ -346,6 +361,7 @@ public class ExternalIdNotes extends VersionedMetaData {
             allUsersRepo,
             DynamicMap.emptyMap(),
             externalIdFactory,
+            deleteExternalIdRewriterFactory,
             isUserNameCaseInsensitiveMigrationMode)
         .setNoReindex()
         .load();
@@ -357,6 +373,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   private final DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors;
   private final CallerFinder callerFinder;
   private final ExternalIdFactory externalIdFactory;
+  private final DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory;
 
   private NoteMap noteMap;
   private ObjectId oldRev;
@@ -366,6 +383,9 @@ public class ExternalIdNotes extends VersionedMetaData {
 
   /** Staged cache updates that should be executed after external ID changes have been committed. */
   private final List<CacheUpdate> cacheUpdates = new ArrayList<>();
+
+  /** Staged rewrites that should be executed after commit. */
+  private final List<ExternalIdNotesRewrite> externalIdNotesRewrites = new ArrayList<>();
 
   /**
    * When performing batch updates (cf. {@link AccountsUpdate#updateBatch(List)} we need to ensure
@@ -401,7 +421,9 @@ public class ExternalIdNotes extends VersionedMetaData {
       Repository allUsersRepo,
       DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
       ExternalIdFactory externalIdFactory,
+      DeleteExternalIdRewriter.Factory deleteExternalIdRewriterFactory,
       boolean isUserNameCaseInsensitiveMigrationMode) {
+    this.deleteExternalIdRewriterFactory = deleteExternalIdRewriterFactory;
     this.updateCount =
         metricMaker.newCounter(
             "notedb/external_id_update_count",
@@ -843,6 +865,28 @@ public class ExternalIdNotes extends VersionedMetaData {
         accountId, toDelete.stream().map(ExternalId::key).collect(toSet()), toAdd, noteIdResolver);
   }
 
+  /**
+   * Deletes external ids permanently through a rewrite. Rewrites are queued up into {@link
+   * #externalIdNotesRewrites} and run by calling {@link #executeRewrites(MetaDataUpdate)}.
+   *
+   * @param toDelete Collection of external ids to delete
+   */
+  public void deleteWithRewrite(Collection<ExternalId> toDelete) {
+    Account.Id accountId = checkSameAccount(toDelete);
+    if (accountId == null) {
+      // toDelete is empty -> nothing to do
+      return;
+    }
+
+    externalIdNotesRewrites.add(
+        (batchUpdate, revWalk, noteMap) -> {
+          batchUpdate.rewrite(
+              deleteExternalIdRewriterFactory.create(
+                  toDelete, isUserNameCaseInsensitiveMigrationMode));
+        });
+    cacheUpdates.add(cu -> cu.remove(toDelete));
+  }
+
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     if (revision != null) {
@@ -859,11 +903,42 @@ public class ExternalIdNotes extends VersionedMetaData {
   }
 
   @Override
+  protected void onRewrite(RevCommit newRevision) throws IOException, ConfigInvalidException {
+    checkState(!readOnly, "Updating external IDs is disabled");
+
+    noteMap = NoteMap.read(reader, newRevision);
+  }
+
+  @Override
   public RevCommit commit(MetaDataUpdate update) throws IOException {
     oldRev = ObjectIds.copyOrZero(revision);
     RevCommit commit = super.commit(update);
     updateCount.increment();
     return commit;
+  }
+
+  /**
+   * Applies all rewrites in {@link #externalIdNotesRewrites} and updates the ref once. This method
+   * mutates it's receiver.
+   *
+   * @param md Update to open the necessary {@link BatchMetaDataUpdate} to batch the rewrites
+   * @return the rewritten revision
+   */
+  public RevCommit executeRewrites(MetaDataUpdate md)
+      throws DuplicateExternalIdKeyException, IOException, ConfigInvalidException {
+    if (externalIdNotesRewrites.isEmpty()) {
+      return revision;
+    }
+
+    try (BatchMetaDataUpdate batch = openUpdate(md)) {
+      oldRev = ObjectIds.copyOrZero(revision);
+      for (ExternalIdNotesRewrite rewrite : externalIdNotesRewrites) {
+        rewrite.execute(batch, rw, noteMap);
+      }
+      RevCommit newRef = batch.commit();
+      updateCount.increment();
+      return newRef;
+    }
   }
 
   @Override
@@ -1078,6 +1153,12 @@ public class ExternalIdNotes extends VersionedMetaData {
   @FunctionalInterface
   private interface NoteMapUpdate {
     void execute(RevWalk rw, NoteMap noteMap)
+        throws IOException, ConfigInvalidException, DuplicateExternalIdKeyException;
+  }
+
+  @FunctionalInterface
+  private interface ExternalIdNotesRewrite {
+    void execute(BatchMetaDataUpdate batchUpdate, RevWalk rw, NoteMap noteMap)
         throws IOException, ConfigInvalidException, DuplicateExternalIdKeyException;
   }
 

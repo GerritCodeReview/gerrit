@@ -69,6 +69,24 @@
       "parentUuid": "323244ff_90e0d95a",
       "revId": "fa41df72ac103b11dc2165dbe339307bcc5643e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecf647fb_308971b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-26T09:01:38Z",
+      "side": 1,
+      "message": "You can merge this change to master now and then we can work on the cherry-pick. Master and stable-3.6 are pretty similar right now.",
+      "parentUuid": "bb675639_68d45cc3",
+      "revId": "fa41df72ac103b11dc2165dbe339307bcc5643e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

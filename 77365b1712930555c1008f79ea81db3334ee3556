@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "064f60e1_a92537e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-04-26T10:05:11Z",
+      "side": 1,
+      "message": "I think we should also test that results are empty / not set when the experiment flag is not set (e.g. add back the assertions that have been removed by change Idfe76d3ed).",
+      "revId": "77365b1712930555c1008f79ea81db3334ee3556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

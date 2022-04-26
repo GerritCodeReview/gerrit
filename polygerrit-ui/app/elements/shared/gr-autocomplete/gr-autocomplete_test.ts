@@ -64,7 +64,7 @@ suite('gr-autocomplete tests', () => {
     element.text = 'blah';
 
     assert.isTrue(queryStub.called);
-    element._focused = true;
+    element.setFocus();
 
     assertIsDefined(promise);
     return promise.then(() => {
@@ -105,7 +105,7 @@ suite('gr-autocomplete tests', () => {
 
     assert.isTrue(suggestionsEl().isHidden);
 
-    element._focused = true;
+    element.setFocus();
     element.text = 'blah';
 
     return promise.then(() => {
@@ -140,7 +140,7 @@ suite('gr-autocomplete tests', () => {
 
     assert.isTrue(suggestionsEl().isHidden);
     assert.equal(suggestionsEl().cursor.index, -1);
-    element._focused = true;
+    element.setFocus();
     element.text = 'blah';
 
     return promise.then(() => {
@@ -169,7 +169,7 @@ suite('gr-autocomplete tests', () => {
       assert.isTrue(commitHandler.called);
       assert.equal(commitHandler.getCall(0).args[0].detail.value, 1);
       assert.isTrue(suggestionsEl().isHidden);
-      assert.isTrue(element._focused);
+      assert.isTrue(element.focused);
     });
   });
 
@@ -274,7 +274,7 @@ suite('gr-autocomplete tests', () => {
     element.query = queryStub;
     focusOnInput();
     element.text = 'bla';
-    assert.equal(element._focused, true);
+    assert.equal(element.focused, true);
     flush();
     return promise.then(() => {
       assert.equal(element._suggestions.length, 1);
@@ -293,7 +293,7 @@ suite('gr-autocomplete tests', () => {
       );
     element.query = queryStub;
     element.text = 'bla';
-    assert.equal(element._focused, false);
+    assert.equal(element.focused, false);
     flush();
     return promise.then(() => {
       assert.equal(element._suggestions.length, 0);
@@ -351,32 +351,32 @@ suite('gr-autocomplete tests', () => {
     const commitHandler = sinon.spy();
     element.addEventListener('commit', commitHandler);
     const commitSpy = sinon.spy(element, '_commit');
-    element._focused = true;
+    element.setFocus();
 
     element._suggestions = [{text: 'tunnel snakes rule!'}];
     element.tabComplete = false;
     MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'tab');
     assert.isFalse(commitHandler.called);
     assert.isFalse(commitSpy.called);
-    assert.isFalse(element._focused);
+    assert.isFalse(element.focused);
 
     element.tabComplete = true;
-    element._focused = true;
+    element.setFocus();
     MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'tab');
     assert.isFalse(commitHandler.called);
     assert.isTrue(commitSpy.called);
-    assert.isTrue(element._focused);
+    assert.isTrue(element.focused);
   });
 
-  test('_focused flag properly triggered', () => {
+  test('focused flag properly triggered', () => {
     flush();
-    assert.isFalse(element._focused);
+    assert.isFalse(element.focused);
     const input = queryAndAssert<PaperInputElement>(
       element,
       'paper-input'
     ).inputElement;
     MockInteractions.focus(input);
-    assert.isTrue(element._focused);
+    assert.isTrue(element.focused);
   });
 
   test('search icon shows with showSearchIcon property', () => {
@@ -398,13 +398,13 @@ suite('gr-autocomplete tests', () => {
     assert.equal(suggestionsEl().verticalOffset, 30);
   });
 
-  test('_focused flag shows/hides the suggestions', () => {
+  test('focused flag shows/hides the suggestions', () => {
     const openStub = sinon.stub(suggestionsEl(), 'open');
     const closedStub = sinon.stub(suggestionsEl(), 'close');
     element._suggestions = [{text: 'hello'}, {text: 'its me'}];
     assert.isFalse(openStub.called);
     assert.isTrue(closedStub.calledOnce);
-    element._focused = true;
+    element.setFocus();
     assert.isTrue(openStub.calledOnce);
     element._suggestions = [];
     assert.isTrue(closedStub.calledTwice);
@@ -516,7 +516,7 @@ suite('gr-autocomplete tests', () => {
 
     test('tab on suggestion, tabComplete = false', async () => {
       element._suggestions = [{name: 'sugar bombs'}];
-      element._focused = true;
+      element.setFocus();
       // When tabComplete is false, do not focus.
       element.tabComplete = false;
       focusSpy = sinon.spy(element, 'focus');
@@ -531,12 +531,12 @@ suite('gr-autocomplete tests', () => {
       );
       await flush();
       assert.isFalse(commitSpy.called);
-      assert.isFalse(element._focused);
+      assert.isFalse(element.focused);
     });
 
     test('tab on suggestion, tabComplete = true', async () => {
       element._suggestions = [{name: 'sugar bombs'}];
-      element._focused = true;
+      element.setFocus();
       // When tabComplete is true, focus.
       element.tabComplete = true;
       focusSpy = sinon.spy(element, 'focus');
@@ -552,12 +552,12 @@ suite('gr-autocomplete tests', () => {
       await flush();
 
       assert.isTrue(commitSpy.called);
-      assert.isTrue(element._focused);
+      assert.isTrue(element.focused);
     });
 
     test('tap on suggestion commits, does not call focus', () => {
       focusSpy = sinon.spy(element, 'focus');
-      element._focused = true;
+      element.setFocus();
       element._suggestions = [{name: 'first suggestion'}];
       flush();
       assert.isFalse(suggestionsEl().isHidden);

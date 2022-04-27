@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "495fe08d_0cca41a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-27T12:21:02Z",
+      "side": 1,
+      "message": "I\u0027ve also uploaded the cleanup based on unloaders that you\u0027ve proposed:\nChange-Id: Id201d4a9379",
+      "parentUuid": "30cd0c8d_20fd2204",
+      "revId": "ca9cfeede4705accaae208e59646865ae4f31b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58578bf5_e1d1c1b9",
         "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
         "patchSetId": 11

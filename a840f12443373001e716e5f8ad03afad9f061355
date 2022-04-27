@@ -64,6 +64,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abc85110_9769c83a",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectVisibilityCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1140732
+      },
+      "writtenOn": "2022-04-27T16:25:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95effe26_a80bd1a2",
+      "range": {
+        "startLine": 86,
+        "startChar": 18,
+        "endLine": 86,
+        "endChar": 27
+      },
+      "revId": "a840f12443373001e716e5f8ad03afad9f061355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3036404d_9a1a1284",
@@ -77,6 +101,30 @@
       "writtenOn": "2022-04-27T06:55:24Z",
       "side": 1,
       "message": "Use #test instead of #check?\n\n    try {\n      return permissionBackend\n          .user(userName)\n          .project(Project.nameKey(projectName))\n          .test(ProjectPermission.READ);\n    } catch (PermissionBackendException e) {\n      return false;\n    }",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 5
+      },
+      "revId": "a840f12443373001e716e5f8ad03afad9f061355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd737f48_7c38f30e",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectVisibilityCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1140732
+      },
+      "writtenOn": "2022-04-27T16:25:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3036404d_9a1a1284",
       "range": {
         "startLine": 87,
         "startChar": 0,

@@ -3,28 +3,28 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma.js';
-import 'lodash/lodash.js';
-import './gr-diff-processor.js';
-import {GrDiffLineType, FILE} from '../gr-diff/gr-diff-line.js';
-import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
+import '../../../test/common-test-setup-karma';
+import 'lodash/lodash';
+import './gr-diff-processor';
+import {GrDiffLineType, FILE, GrDiffLine} from '../gr-diff/gr-diff-line';
+import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
+import {GrDiffProcessor, State} from './gr-diff-processor';
+import {DiffContent} from '../../../types/diff';
 
 const basicFixture = fixtureFromElement('gr-diff-processor');
 
 suite('gr-diff-processor tests', () => {
   const WHOLE_FILE = -1;
   const loremIpsum =
-      'Lorem ipsum dolor sit amet, ei nonumes vituperata ius. ' +
-      'Duo  animal omnesque fabellas et. Id has phaedrum dignissim ' +
-      'deterruisset, pro ei petentium comprehensam, ut vis solum dicta. ' +
-      'Eos cu aliquam labores qualisque, usu postea inermis te, et solum ' +
-      'fugit assum per.';
+    'Lorem ipsum dolor sit amet, ei nonumes vituperata ius. ' +
+    'Duo  animal omnesque fabellas et. Id has phaedrum dignissim ' +
+    'deterruisset, pro ei petentium comprehensam, ut vis solum dicta. ' +
+    'Eos cu aliquam labores qualisque, usu postea inermis te, et solum ' +
+    'fugit assum per.';
 
-  let element;
+  let element: GrDiffProcessor;
 
-  setup(() => {
-
-  });
+  setup(() => {});
 
   suite('not logged in', () => {
     setup(() => {
@@ -34,21 +34,13 @@ suite('gr-diff-processor tests', () => {
     });
 
     test('process loaded content', () => {
-      const content = [
+      const content: DiffContent[] = [
         {
-          ab: [
-            '<!DOCTYPE html>',
-            '<meta charset="utf-8">',
-          ],
+          ab: ['<!DOCTYPE html>', '<meta charset="utf-8">'],
         },
         {
-          a: [
-            '  Welcome ',
-            '  to the wooorld of tomorrow!',
-          ],
-          b: [
-            '  Hello, world!',
-          ],
+          a: ['  Welcome ', '  to the wooorld of tomorrow!'],
+          b: ['  Hello, world!'],
         },
         {
           ab: [
@@ -59,7 +51,7 @@ suite('gr-diff-processor tests', () => {
         },
       ];
 
-      return element.process(content).then(() => {
+      return element.process(content, false).then(() => {
         const groups = element.groups;
         groups.shift(); // remove portedThreadsWithoutRangeGroup
         assert.equal(groups.length, 4);
@@ -75,9 +67,15 @@ suite('gr-diff-processor tests', () => {
         assert.equal(group.type, GrDiffGroupType.BOTH);
         assert.equal(group.lines.length, 2);
 
-        function beforeNumberFn(l) { return l.beforeNumber; }
-        function afterNumberFn(l) { return l.afterNumber; }
-        function textFn(l) { return l.text; }
+        function beforeNumberFn(l: GrDiffLine) {
+          return l.beforeNumber;
+        }
+        function afterNumberFn(l: GrDiffLine) {
+          return l.afterNumber;
+        }
+        function textFn(l: GrDiffLine) {
+          return l.text;
+        }
 
         assert.deepEqual(group.lines.map(beforeNumberFn), [1, 2]);
         assert.deepEqual(group.lines.map(afterNumberFn), [1, 2]);
@@ -97,9 +95,7 @@ suite('gr-diff-processor tests', () => {
           '  Welcome ',
           '  to the wooorld of tomorrow!',
         ]);
-        assert.deepEqual(group.adds.map(textFn), [
-          '  Hello, world!',
-        ]);
+        assert.deepEqual(group.adds.map(textFn), ['  Hello, world!']);
 
         group = groups[3];
         assert.equal(group.type, GrDiffGroupType.BOTH);
@@ -115,11 +111,9 @@ suite('gr-diff-processor tests', () => {
     });
 
     test('first group is for file', () => {
-      const content = [
-        {b: ['foo']},
-      ];
+      const content = [{b: ['foo']}];
 
-      return element.process(content).then(() => {
+      return element.process(content, false).then(() => {
         const groups = element.groups;
         groups.shift(); // remove portedThreadsWithoutRangeGroup
 
@@ -135,12 +129,15 @@ suite('gr-diff-processor tests', () => {
       test('at the beginning, larger than context', () => {
         element.context = 10;
         const content = [
-          {ab: new Array(100)
-              .fill('all work and no play make jack a dull boy')},
+          {
+            ab: new Array(100).fill(
+              'all work and no play make jack a dull boy'
+            ),
+          },
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return element.process(content).then(() => {
+        return element.process(content, false).then(() => {
           const groups = element.groups;
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
@@ -164,15 +161,13 @@ suite('gr-diff-processor tests', () => {
       test('at the beginning with skip chunks', async () => {
         element.context = 10;
         const content = [
-          {ab: new Array(20)
-              .fill('all work and no play make jack a dull boy')},
+          {ab: new Array(20).fill('all work and no play make jack a dull boy')},
           {skip: 43900},
-          {ab: new Array(30)
-              .fill('some other content')},
+          {ab: new Array(30).fill('some other content')},
           {a: ['some other content']},
         ];
 
-        await element.process(content);
+        await element.process(content, false);
 
         const groups = element.groups;
         groups.shift(); // remove portedThreadsWithoutRangeGroup
@@ -215,12 +210,11 @@ suite('gr-diff-processor tests', () => {
       test('at the beginning, smaller than context', () => {
         element.context = 10;
         const content = [
-          {ab: new Array(5)
-              .fill('all work and no play make jack a dull boy')},
+          {ab: new Array(5).fill('all work and no play make jack a dull boy')},
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return element.process(content).then(() => {
+        return element.process(content, false).then(() => {
           const groups = element.groups;
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
@@ -238,11 +232,14 @@ suite('gr-diff-processor tests', () => {
         element.context = 10;
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
-          {ab: new Array(100)
-              .fill('all work and no play make jill a dull girl')},
+          {
+            ab: new Array(100).fill(
+              'all work and no play make jill a dull girl'
+            ),
+          },
         ];
 
-        return element.process(content).then(() => {
+        return element.process(content, false).then(() => {
           const groups = element.groups;
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
@@ -252,16 +249,14 @@ suite('gr-diff-processor tests', () => {
           assert.equal(groups[2].type, GrDiffGroupType.BOTH);
           assert.equal(groups[2].lines.length, 10);
           for (const l of groups[2].lines) {
-            assert.equal(
-                l.text, 'all work and no play make jill a dull girl');
+            assert.equal(l.text, 'all work and no play make jill a dull girl');
           }
 
           assert.equal(groups[3].type, GrDiffGroupType.CONTEXT_CONTROL);
           assert.instanceOf(groups[3].contextGroups[0], GrDiffGroup);
           assert.equal(groups[3].contextGroups[0].lines.length, 90);
           for (const l of groups[3].contextGroups[0].lines) {
-            assert.equal(
-                l.text, 'all work and no play make jill a dull girl');
+            assert.equal(l.text, 'all work and no play make jill a dull girl');
           }
         });
       });
@@ -270,11 +265,10 @@ suite('gr-diff-processor tests', () => {
         element.context = 10;
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
-          {ab: new Array(5)
-              .fill('all work and no play make jill a dull girl')},
+          {ab: new Array(5).fill('all work and no play make jill a dull girl')},
         ];
 
-        return element.process(content).then(() => {
+        return element.process(content, false).then(() => {
           const groups = element.groups;
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
@@ -284,8 +278,7 @@ suite('gr-diff-processor tests', () => {
           assert.equal(groups[2].type, GrDiffGroupType.BOTH);
           assert.equal(groups[2].lines.length, 5);
           for (const l of groups[2].lines) {
-            assert.equal(
-                l.text, 'all work and no play make jill a dull girl');
+            assert.equal(l.text, 'all work and no play make jill a dull girl');
           }
         });
       });
@@ -294,29 +287,26 @@ suite('gr-diff-processor tests', () => {
         element.context = 10;
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
-          {ab: new Array(3)
-              .fill('all work and no play make jill a dull girl')},
+          {ab: new Array(3).fill('all work and no play make jill a dull girl')},
           {
-            a: new Array(3).fill(
-                'all work and no play make jill a dull girl'),
+            a: new Array(3).fill('all work and no play make jill a dull girl'),
             b: new Array(3).fill(
-                '  all work and no play make jill a dull girl'),
+              '  all work and no play make jill a dull girl'
+            ),
             common: true,
           },
-          {ab: new Array(3)
-              .fill('all work and no play make jill a dull girl')},
+          {ab: new Array(3).fill('all work and no play make jill a dull girl')},
           {
-            a: new Array(3).fill(
-                'all work and no play make jill a dull girl'),
+            a: new Array(3).fill('all work and no play make jill a dull girl'),
             b: new Array(3).fill(
-                '  all work and no play make jill a dull girl'),
+              '  all work and no play make jill a dull girl'
+            ),
             common: true,
           },
-          {ab: new Array(3)
-              .fill('all work and no play make jill a dull girl')},
+          {ab: new Array(3).fill('all work and no play make jill a dull girl')},
         ];
 
-        return element.process(content).then(() => {
+        return element.process(content, false).then(() => {
           const groups = element.groups;
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
@@ -329,8 +319,7 @@ suite('gr-diff-processor tests', () => {
           assert.equal(groups[2].type, GrDiffGroupType.BOTH);
           assert.equal(groups[2].lines.length, 3);
           for (const l of groups[2].lines) {
-            assert.equal(
-                l.text, 'all work and no play make jill a dull girl');
+            assert.equal(l.text, 'all work and no play make jill a dull girl');
           }
 
           assert.equal(groups[3].type, GrDiffGroupType.DELTA);
@@ -338,19 +327,19 @@ suite('gr-diff-processor tests', () => {
           assert.equal(groups[3].adds.length, 3);
           assert.equal(groups[3].removes.length, 3);
           for (const l of groups[3].removes) {
-            assert.equal(
-                l.text, 'all work and no play make jill a dull girl');
+            assert.equal(l.text, 'all work and no play make jill a dull girl');
           }
           for (const l of groups[3].adds) {
             assert.equal(
-                l.text, '  all work and no play make jill a dull girl');
+              l.text,
+              '  all work and no play make jill a dull girl'
+            );
           }
 
           assert.equal(groups[4].type, GrDiffGroupType.BOTH);
           assert.equal(groups[4].lines.length, 3);
           for (const l of groups[4].lines) {
-            assert.equal(
-                l.text, 'all work and no play make jill a dull girl');
+            assert.equal(l.text, 'all work and no play make jill a dull girl');
           }
 
           // The next chunk is partially shown, so it results in two groups
@@ -360,12 +349,13 @@ suite('gr-diff-processor tests', () => {
           assert.equal(groups[5].adds.length, 1);
           assert.equal(groups[5].removes.length, 1);
           for (const l of groups[5].removes) {
-            assert.equal(
-                l.text, 'all work and no play make jill a dull girl');
+            assert.equal(l.text, 'all work and no play make jill a dull girl');
           }
           for (const l of groups[5].adds) {
             assert.equal(
-                l.text, '  all work and no play make jill a dull girl');
+              l.text,
+              '  all work and no play make jill a dull girl'
+            );
           }
 
           assert.equal(groups[6].type, GrDiffGroupType.CONTEXT_CONTROL);
@@ -375,22 +365,20 @@ suite('gr-diff-processor tests', () => {
           assert.equal(groups[6].contextGroups[0].removes.length, 2);
           assert.equal(groups[6].contextGroups[0].adds.length, 2);
           for (const l of groups[6].contextGroups[0].removes) {
-            assert.equal(
-                l.text, 'all work and no play make jill a dull girl');
+            assert.equal(l.text, 'all work and no play make jill a dull girl');
           }
           for (const l of groups[6].contextGroups[0].adds) {
             assert.equal(
-                l.text, '  all work and no play make jill a dull girl');
+              l.text,
+              '  all work and no play make jill a dull girl'
+            );
           }
 
           // The final chunk is completely hidden
-          assert.equal(
-              groups[6].contextGroups[1].type,
-              GrDiffGroupType.BOTH);
+          assert.equal(groups[6].contextGroups[1].type, GrDiffGroupType.BOTH);
           assert.equal(groups[6].contextGroups[1].lines.length, 3);
           for (const l of groups[6].contextGroups[1].lines) {
-            assert.equal(
-                l.text, 'all work and no play make jill a dull girl');
+            assert.equal(l.text, 'all work and no play make jill a dull girl');
           }
         });
       });
@@ -399,12 +387,15 @@ suite('gr-diff-processor tests', () => {
         element.context = 10;
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
-          {ab: new Array(100)
-              .fill('all work and no play make jill a dull girl')},
+          {
+            ab: new Array(100).fill(
+              'all work and no play make jill a dull girl'
+            ),
+          },
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return element.process(content).then(() => {
+        return element.process(content, false).then(() => {
           const groups = element.groups;
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
@@ -414,23 +405,20 @@ suite('gr-diff-processor tests', () => {
           assert.equal(groups[2].type, GrDiffGroupType.BOTH);
           assert.equal(groups[2].lines.length, 10);
           for (const l of groups[2].lines) {
-            assert.equal(
-                l.text, 'all work and no play make jill a dull girl');
+            assert.equal(l.text, 'all work and no play make jill a dull girl');
           }
 
           assert.equal(groups[3].type, GrDiffGroupType.CONTEXT_CONTROL);
           assert.instanceOf(groups[3].contextGroups[0], GrDiffGroup);
           assert.equal(groups[3].contextGroups[0].lines.length, 80);
           for (const l of groups[3].contextGroups[0].lines) {
-            assert.equal(
-                l.text, 'all work and no play make jill a dull girl');
+            assert.equal(l.text, 'all work and no play make jill a dull girl');
           }
 
           assert.equal(groups[4].type, GrDiffGroupType.BOTH);
           assert.equal(groups[4].lines.length, 10);
           for (const l of groups[4].lines) {
-            assert.equal(
-                l.text, 'all work and no play make jill a dull girl');
+            assert.equal(l.text, 'all work and no play make jill a dull girl');
           }
         });
       });
@@ -439,12 +427,11 @@ suite('gr-diff-processor tests', () => {
         element.context = 10;
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
-          {ab: new Array(5)
-              .fill('all work and no play make jill a dull girl')},
+          {ab: new Array(5).fill('all work and no play make jill a dull girl')},
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return element.process(content).then(() => {
+        return element.process(content, false).then(() => {
           const groups = element.groups;
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
@@ -454,8 +441,7 @@ suite('gr-diff-processor tests', () => {
           assert.equal(groups[2].type, GrDiffGroupType.BOTH);
           assert.equal(groups[2].lines.length, 5);
           for (const l of groups[2].lines) {
-            assert.equal(
-                l.text, 'all work and no play make jill a dull girl');
+            assert.equal(l.text, 'all work and no play make jill a dull girl');
           }
         });
       });
@@ -465,15 +451,13 @@ suite('gr-diff-processor tests', () => {
       element.context = 10;
       const content = [
         {a: ['all work and no play make andybons a dull boy']},
-        {ab: new Array(20)
-            .fill('all work and no play make jill a dull girl')},
+        {ab: new Array(20).fill('all work and no play make jill a dull girl')},
         {skip: 60},
-        {ab: new Array(20)
-            .fill('all work and no play make jill a dull girl')},
+        {ab: new Array(20).fill('all work and no play make jill a dull girl')},
         {a: ['all work and no play make andybons a dull boy']},
       ];
 
-      await element.process(content);
+      await element.process(content, false);
 
       const groups = element.groups;
       groups.shift(); // remove portedThreadsWithoutRangeGroup
@@ -489,8 +473,7 @@ suite('gr-diff-processor tests', () => {
       assert.instanceOf(commonGroup.contextGroups[0], GrDiffGroup);
       assert.equal(commonGroup.contextGroups[0].lines.length, 10);
       for (const l of commonGroup.contextGroups[0].lines) {
-        assert.equal(
-            l.text, 'all work and no play make jill a dull girl');
+        assert.equal(l.text, 'all work and no play make jill a dull girl');
       }
 
       // Skipped group
@@ -505,8 +488,7 @@ suite('gr-diff-processor tests', () => {
       // Hidden context after
       assert.equal(commonGroup.contextGroups[2].lines.length, 10);
       for (const l of commonGroup.contextGroups[2].lines) {
-        assert.equal(
-            l.text, 'all work and no play make jill a dull girl');
+        assert.equal(l.text, 'all work and no play make jill a dull girl');
       }
       // group[4] is the displayed part of the second ab
     });
@@ -524,7 +506,7 @@ suite('gr-diff-processor tests', () => {
             '',
             'Licensed under the Apache License, Version 2.0 (the "License");',
             'you may not use this file except in compliance with the ' +
-                'License.',
+              'License.',
             'You may obtain a copy of the License at',
             '',
             'http://www.apache.org/licenses/LICENSE-2.0',
@@ -534,12 +516,11 @@ suite('gr-diff-processor tests', () => {
             '"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, ',
             'either express or implied. See the License for the specific ',
             'language governing permissions and limitations under the ' +
-                'License.',
+              'License.',
           ],
         },
       ];
-      const result =
-          element.splitCommonChunksWithKeyLocations(content);
+      const result = element.splitCommonChunksWithKeyLocations(content);
       assert.deepEqual(result, [
         {
           ab: ['Copyright (C) 2015 The Android Open Source Project'],
@@ -550,7 +531,7 @@ suite('gr-diff-processor tests', () => {
             '',
             'Licensed under the Apache License, Version 2.0 (the "License");',
             'you may not use this file except in compliance with the ' +
-                'License.',
+              'License.',
             'You may obtain a copy of the License at',
             '',
             'http://www.apache.org/licenses/LICENSE-2.0',
@@ -560,8 +541,7 @@ suite('gr-diff-processor tests', () => {
           keyLocation: false,
         },
         {
-          ab: [
-            'software distributed under the License is distributed on an '],
+          ab: ['software distributed under the License is distributed on an '],
           keyLocation: true,
         },
         {
@@ -569,7 +549,7 @@ suite('gr-diff-processor tests', () => {
             '"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, ',
             'either express or implied. See the License for the specific ',
             'language governing permissions and limitations under the ' +
-                'License.',
+              'License.',
           ],
           keyLocation: false,
         },
@@ -579,9 +559,11 @@ suite('gr-diff-processor tests', () => {
     test('breaks down shared chunks w/ whole-file', () => {
       const maxGroupSize = 128;
       const size = maxGroupSize * 2 + 5;
-      const content = [{
-        ab: _.times(size, () => `${Math.random()}`),
-      }];
+      const content = [
+        {
+          ab: _.times(size, () => `${Math.random()}`),
+        },
+      ];
       element.context = -1;
       const result = element.splitLargeChunks(content);
       assert.equal(result.length, 2);
@@ -594,8 +576,9 @@ suite('gr-diff-processor tests', () => {
       const size = maxGroupSize * 2 + 5;
       const content = _.times(size, () => `${Math.random()}`);
       element.context = 5;
-      const splitContent = element.splitLargeChunks([{a: [], b: content}])
-          .map(r => r.b);
+      const splitContent = element
+        .splitLargeChunks([{a: [], b: content}])
+        .map(r => r.b);
       assert.equal(splitContent.length, 3);
       assert.deepEqual(splitContent[0], content.slice(0, 5));
       assert.deepEqual(splitContent[1], content.slice(5, maxGroupSize + 5));
@@ -607,8 +590,9 @@ suite('gr-diff-processor tests', () => {
       const size = maxGroupSize * 2 + 5;
       const content = _.times(size, () => `${Math.random()}`);
       element.context = 5;
-      const splitContent = element.splitLargeChunks([{a: content, b: []}])
-          .map(r => r.a);
+      const splitContent = element
+        .splitLargeChunks([{a: content, b: []}])
+        .map(r => r.a);
       assert.equal(splitContent.length, 3);
       assert.deepEqual(splitContent[0], content.slice(0, 5));
       assert.deepEqual(splitContent[1], content.slice(5, maxGroupSize + 5));
@@ -619,22 +603,27 @@ suite('gr-diff-processor tests', () => {
       const size = 120 * 2 + 5;
       const content = _.times(size, () => `${Math.random()}`);
       element.context = 5;
-      const splitContent = element.splitLargeChunks([{
-        a: content,
-        b: [],
-        move_details: {changed: false},
-      }]).map(r => r.a);
+      const splitContent = element
+        .splitLargeChunks([
+          {
+            a: content,
+            b: [],
+            move_details: {changed: false, range: {start: 1, end: 1}},
+          },
+        ])
+        .map(r => r.a);
       assert.equal(splitContent.length, 1);
       assert.deepEqual(splitContent[0], content);
     });
 
     test('does not break-down common chunks w/ context', () => {
-      const content = [{
-        ab: _.times(75, () => `${Math.random()}`),
-      }];
+      const content = [
+        {
+          ab: _.times(75, () => `${Math.random()}`),
+        },
+      ];
       element.context = 4;
-      const result =
-          element.splitCommonChunksWithKeyLocations(content);
+      const result = element.splitCommonChunksWithKeyLocations(content);
       assert.equal(result.length, 1);
       assert.deepEqual(result[0].ab, content[0].ab);
       assert.isFalse(result[0].keyLocation);
@@ -646,15 +635,15 @@ suite('gr-diff-processor tests', () => {
       let content = [
         '      <section class="summary">',
         '        <gr-linked-text content="' +
-            '[[_computeCurrentRevisionMessage(change)]]"></gr-linked-text>',
+          '[[_computeCurrentRevisionMessage(change)]]"></gr-linked-text>',
         '      </section>',
       ];
       let highlights = [
-        [31, 34], [42, 26],
+        [31, 34],
+        [42, 26],
       ];
 
-      let results = element.convertIntralineInfos(content,
-          highlights);
+      let results = element.convertIntralineInfos(content, highlights);
       assert.deepEqual(results, [
         {
           contentIndex: 0,
@@ -676,7 +665,11 @@ suite('gr-diff-processor tests', () => {
         },
       ]);
       const lines = element.linesFromRows(
-          GrDiffGroupType.BOTH, content, 0, highlights);
+        GrDiffLineType.BOTH,
+        content,
+        0,
+        highlights
+      );
       assert.equal(lines.length, 3);
       assert.isTrue(lines[0].hasIntralineInfo);
       assert.equal(lines[0].highlights.length, 1);
@@ -735,29 +728,23 @@ suite('gr-diff-processor tests', () => {
 
     test('scrolling pauses rendering', () => {
       const contentRow = {
-        ab: [
-          '',
-          '',
-        ],
+        ab: ['', ''],
       };
       const content = _.times(200, _.constant(contentRow));
       element.isScrolling = true;
-      element.process(content);
+      element.process(content, false);
       // Just the files group - no more processing during scrolling.
       assert.equal(element.groups.length, 2);
 
       element.isScrolling = false;
-      element.process(content);
+      element.process(content, false);
       // More groups have been processed. How many does not matter here.
       assert.isAtLeast(element.groups.length, 3);
     });
 
     test('image diffs', () => {
       const contentRow = {
-        ab: [
-          '',
-          '',
-        ],
+        ab: ['', ''],
       };
       const content = _.times(200, _.constant(contentRow));
       element.process(content, true);
@@ -768,7 +755,7 @@ suite('gr-diff-processor tests', () => {
     });
 
     suite('processNext', () => {
-      let rows;
+      let rows: string[];
 
       setup(() => {
         rows = loremIpsum.split(' ');
@@ -776,15 +763,11 @@ suite('gr-diff-processor tests', () => {
 
       test('WHOLE_FILE', () => {
         element.context = WHOLE_FILE;
-        const state = {
+        const state: State = {
           lineNums: {left: 10, right: 100},
           chunkIndex: 1,
         };
-        const chunks = [
-          {a: ['foo']},
-          {ab: rows},
-          {a: ['bar']},
-        ];
+        const chunks = [{a: ['foo']}, {ab: rows}, {a: ['bar']}];
         const result = element.processNext(state, chunks);
 
         // Results in one, uncollapsed group with all rows.
@@ -794,16 +777,22 @@ suite('gr-diff-processor tests', () => {
 
         // Line numbers are set correctly.
         assert.equal(
-            result.groups[0].lines[0].beforeNumber,
-            state.lineNums.left + 1);
+          result.groups[0].lines[0].beforeNumber,
+          state.lineNums.left + 1
+        );
         assert.equal(
-            result.groups[0].lines[0].afterNumber,
-            state.lineNums.right + 1);
+          result.groups[0].lines[0].afterNumber,
+          state.lineNums.right + 1
+        );
 
-        assert.equal(result.groups[0].lines[rows.length - 1].beforeNumber,
-            state.lineNums.left + rows.length);
-        assert.equal(result.groups[0].lines[rows.length - 1].afterNumber,
-            state.lineNums.right + rows.length);
+        assert.equal(
+          result.groups[0].lines[rows.length - 1].beforeNumber,
+          state.lineNums.left + rows.length
+        );
+        assert.equal(
+          result.groups[0].lines[rows.length - 1].afterNumber,
+          state.lineNums.right + rows.length
+        );
       });
 
       test('WHOLE_FILE with skip chunks still get collapsed', () => {
@@ -814,12 +803,7 @@ suite('gr-diff-processor tests', () => {
           chunkIndex: 1,
         };
         const skip = 10000;
-        const chunks = [
-          {a: ['foo']},
-          {skip},
-          {ab: rows},
-          {a: ['bar']},
-        ];
+        const chunks = [{a: ['foo']}, {skip}, {ab: rows}, {a: ['bar']}];
         const result = element.processNext(state, chunks);
         // Results in one, uncollapsed group with all rows.
         assert.equal(result.groups.length, 1);
@@ -830,31 +814,27 @@ suite('gr-diff-processor tests', () => {
         const [skippedGroup, abGroup] = result.groups[0].contextGroups;
 
         // Line numbers are set correctly.
-        assert.deepEqual(
-            skippedGroup.lineRange,
-            {
-              left: {
-                start_line: lineNums.left + 1,
-                end_line: lineNums.left + skip,
-              },
-              right: {
-                start_line: lineNums.right + 1,
-                end_line: lineNums.right + skip,
-              },
-            });
+        assert.deepEqual(skippedGroup.lineRange, {
+          left: {
+            start_line: lineNums.left + 1,
+            end_line: lineNums.left + skip,
+          },
+          right: {
+            start_line: lineNums.right + 1,
+            end_line: lineNums.right + skip,
+          },
+        });
 
-        assert.deepEqual(
-            abGroup.lineRange,
-            {
-              left: {
-                start_line: lineNums.left + skip + 1,
-                end_line: lineNums.left + skip + rows.length,
-              },
-              right: {
-                start_line: lineNums.right + skip + 1,
-                end_line: lineNums.right + skip + rows.length,
-              },
-            });
+        assert.deepEqual(abGroup.lineRange, {
+          left: {
+            start_line: lineNums.left + skip + 1,
+            end_line: lineNums.left + skip + rows.length,
+          },
+          right: {
+            start_line: lineNums.right + skip + 1,
+            end_line: lineNums.right + skip + rows.length,
+          },
+        });
       });
 
       test('with context', () => {
@@ -863,11 +843,7 @@ suite('gr-diff-processor tests', () => {
           lineNums: {left: 10, right: 100},
           chunkIndex: 1,
         };
-        const chunks = [
-          {a: ['foo']},
-          {ab: rows},
-          {a: ['bar']},
-        ];
+        const chunks = [{a: ['foo']}, {ab: rows}, {a: ['bar']}];
         const result = element.processNext(state, chunks);
         const expectedCollapseSize = rows.length - 2 * element.context;
 
@@ -879,8 +855,10 @@ suite('gr-diff-processor tests', () => {
         assert.equal(result.groups[2].lines.length, element.context);
 
         // The collapsed group has the hidden lines as its context group.
-        assert.equal(result.groups[1].contextGroups[0].lines.length,
-            expectedCollapseSize);
+        assert.equal(
+          result.groups[1].contextGroups[0].lines.length,
+          expectedCollapseSize
+        );
       });
 
       test('first', () => {
@@ -889,11 +867,7 @@ suite('gr-diff-processor tests', () => {
           lineNums: {left: 10, right: 100},
           chunkIndex: 0,
         };
-        const chunks = [
-          {ab: rows},
-          {a: ['foo']},
-          {a: ['bar']},
-        ];
+        const chunks = [{ab: rows}, {a: ['foo']}, {a: ['bar']}];
         const result = element.processNext(state, chunks);
         const expectedCollapseSize = rows.length - element.context;
 
@@ -903,8 +877,10 @@ suite('gr-diff-processor tests', () => {
         assert.equal(result.groups[1].lines.length, element.context);
 
         // The collapsed group has the hidden lines as its context group.
-        assert.equal(result.groups[0].contextGroups[0].lines.length,
-            expectedCollapseSize);
+        assert.equal(
+          result.groups[0].contextGroups[0].lines.length,
+          expectedCollapseSize
+        );
       });
 
       test('few-rows', () => {
@@ -915,11 +891,7 @@ suite('gr-diff-processor tests', () => {
           lineNums: {left: 10, right: 100},
           chunkIndex: 0,
         };
-        const chunks = [
-          {ab: rows},
-          {a: ['foo']},
-          {a: ['bar']},
-        ];
+        const chunks = [{ab: rows}, {a: ['foo']}, {a: ['bar']}];
         const result = element.processNext(state, chunks);
 
         // Results in one uncollapsed group with all rows.
@@ -934,11 +906,7 @@ suite('gr-diff-processor tests', () => {
           lineNums: {left: 10, right: 100},
           chunkIndex: 1,
         };
-        const chunks = [
-          {a: ['foo']},
-          {ab: rows},
-          {a: ['bar']},
-        ];
+        const chunks = [{a: ['foo']}, {ab: rows}, {a: ['bar']}];
         const result = element.processNext(state, chunks);
 
         // Results in one uncollapsed group with all rows.
@@ -947,19 +915,16 @@ suite('gr-diff-processor tests', () => {
       });
 
       suite('with key location', () => {
-        let state;
-        let chunks;
+        let state: State;
+        let chunks: DiffContent[];
 
         setup(() => {
           state = {
             lineNums: {left: 10, right: 100},
+            chunkIndex: 0,
           };
           element.context = 10;
-          chunks = [
-            {ab: rows},
-            {ab: ['foo'], keyLocation: true},
-            {ab: rows},
-          ];
+          chunks = [{ab: rows}, {ab: ['foo'], keyLocation: true}, {ab: rows}];
         });
 
         test('context before', () => {
@@ -973,8 +938,10 @@ suite('gr-diff-processor tests', () => {
           // The key location is not processed in this call to processNext
           assert.equal(result.groups.length, 2);
           // The collapsed group has the hidden lines as its context group.
-          assert.equal(result.groups[0].contextGroups[0].lines.length,
-              rows.length - element.context);
+          assert.equal(
+            result.groups[0].contextGroups[0].lines.length,
+            rows.length - element.context
+          );
           assert.equal(result.groups[1].lines.length, element.context);
         });
 
@@ -1001,14 +968,16 @@ suite('gr-diff-processor tests', () => {
           assert.equal(result.groups.length, 2);
           assert.equal(result.groups[0].lines.length, element.context);
           // The collapsed group has the hidden lines as its context group.
-          assert.equal(result.groups[1].contextGroups[0].lines.length,
-              rows.length - element.context);
+          assert.equal(
+            result.groups[1].contextGroups[0].lines.length,
+            rows.length - element.context
+          );
         });
       });
     });
 
     suite('gr-diff-processor helpers', () => {
-      let rows;
+      let rows: string[];
 
       setup(() => {
         rows = loremIpsum.split(' ');
@@ -1016,54 +985,64 @@ suite('gr-diff-processor tests', () => {
 
       test('linesFromRows', () => {
         const startLineNum = 10;
-        let result = element.linesFromRows(GrDiffLineType.ADD, rows,
-            startLineNum + 1);
+        let result = element.linesFromRows(
+          GrDiffLineType.ADD,
+          rows,
+          startLineNum + 1
+        );
 
         assert.equal(result.length, rows.length);
         assert.equal(result[0].type, GrDiffLineType.ADD);
         assert.notOk(result[0].hasIntralineInfo);
         assert.equal(result[0].afterNumber, startLineNum + 1);
         assert.notOk(result[0].beforeNumber);
-        assert.equal(result[result.length - 1].afterNumber,
-            startLineNum + rows.length);
+        assert.equal(
+          result[result.length - 1].afterNumber,
+          startLineNum + rows.length
+        );
         assert.notOk(result[result.length - 1].beforeNumber);
 
-        result = element.linesFromRows(GrDiffLineType.REMOVE, rows,
-            startLineNum + 1);
+        result = element.linesFromRows(
+          GrDiffLineType.REMOVE,
+          rows,
+          startLineNum + 1
+        );
 
         assert.equal(result.length, rows.length);
         assert.equal(result[0].type, GrDiffLineType.REMOVE);
         assert.notOk(result[0].hasIntralineInfo);
         assert.equal(result[0].beforeNumber, startLineNum + 1);
         assert.notOk(result[0].afterNumber);
-        assert.equal(result[result.length - 1].beforeNumber,
-            startLineNum + rows.length);
+        assert.equal(
+          result[result.length - 1].beforeNumber,
+          startLineNum + rows.length
+        );
         assert.notOk(result[result.length - 1].afterNumber);
       });
     });
 
     suite('breakdown*', () => {
       test('breakdownChunk breaks down additions', () => {
-        sinon.spy(element, 'breakdown');
+        const breakdownSpy = sinon.spy(element, 'breakdown');
         const chunk = {b: ['blah', 'blah', 'blah']};
         const result = element.breakdownChunk(chunk);
         assert.deepEqual(result, [chunk]);
-        assert.isTrue(element.breakdown.called);
+        assert.isTrue(breakdownSpy.called);
       });
 
-      test('breakdownChunk keeps due_to_rebase for broken down additions',
-          () => {
-            sinon.spy(element, 'breakdown');
-            const chunk = {b: ['blah', 'blah', 'blah'], due_to_rebase: true};
-            const result = element.breakdownChunk(chunk);
-            for (const subResult of result) {
-              assert.isTrue(subResult.due_to_rebase);
-            }
-          });
+      test('breakdownChunk keeps due_to_rebase for broken down additions', () => {
+        sinon.spy(element, 'breakdown');
+        const chunk = {b: ['blah', 'blah', 'blah'], due_to_rebase: true};
+        const result = element.breakdownChunk(chunk);
+        for (const subResult of result) {
+          assert.isTrue(subResult.due_to_rebase);
+        }
+      });
 
       test('breakdown common case', () => {
-        const array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'
-            .split(' ');
+        const array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'.split(
+          ' '
+        );
         const size = 3;
 
         const result = element.breakdown(array, size);
@@ -1071,14 +1050,14 @@ suite('gr-diff-processor tests', () => {
         for (const subResult of result) {
           assert.isAtMost(subResult.length, size);
         }
-        const flattened = result
-            .reduce((a, b) => a.concat(b), []);
+        const flattened = result.reduce((a, b) => a.concat(b), []);
         assert.deepEqual(flattened, array);
       });
 
       test('breakdown smaller than size', () => {
-        const array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'
-            .split(' ');
+        const array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'.split(
+          ' '
+        );
         const size = 10;
         const expected = [array];
 
@@ -1088,9 +1067,9 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('breakdown empty', () => {
-        const array = [];
+        const array: string[] = [];
         const size = 10;
-        const expected = [];
+        const expected: string[][] = [];
 
         const result = element.breakdown(array, size);
 
@@ -1101,9 +1080,8 @@ suite('gr-diff-processor tests', () => {
 
   test('detaching cancels', () => {
     element = basicFixture.instantiate();
-    sinon.stub(element, 'cancel');
+    const cancelStub = sinon.stub(element, 'cancel');
     element.disconnectedCallback();
-    assert(element.cancel.called);
+    assert(cancelStub.called);
   });
 });
-

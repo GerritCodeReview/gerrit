@@ -248,4 +248,30 @@ public class FixCalculatorVariousTest {
     assertThat(edit).internalEdits().element(0).isReplace(6, 12, 6, 9);
     assertThat(edit).internalEdits().element(1).isReplace(18, 10, 15, 7);
   }
+
+  @Test
+  public void overlappingChangesInMiddleOfLineRaisesException() throws Exception {
+    FixReplacement firstReplace =
+        new FixReplacement("path", new Range(2, 0, 3, 5), "First modification\n");
+    FixReplacement secondReplace =
+        new FixReplacement("path", new Range(3, 4, 4, 0), "Some other modified content\n");
+    assertThrows(
+        ResourceConflictException.class,
+        () ->
+            FixCalculator.calculateFix(
+                multilineContent, ImmutableList.of(firstReplace, secondReplace)));
+  }
+
+  @Test
+  public void overlappingChangesInBeginningOfLineRaisesException() throws Exception {
+    FixReplacement firstReplace =
+        new FixReplacement("path", new Range(2, 0, 3, 1), "First modification\n");
+    FixReplacement secondReplace =
+        new FixReplacement("path", new Range(3, 0, 4, 0), "Some other modified content\n");
+    assertThrows(
+        ResourceConflictException.class,
+        () ->
+            FixCalculator.calculateFix(
+                multilineContent, ImmutableList.of(firstReplace, secondReplace)));
+  }
 }

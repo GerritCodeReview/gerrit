@@ -96,10 +96,11 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     ChangeData changeData = createChange().getChange();
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      ImmutableSet<PatchSetApproval> approvals =
+      ApprovalCopier.Result approvalCopierResult =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
-      assertThat(approvals).isEmpty();
+      assertThat(approvalCopierResult.copiedApprovals()).isEmpty();
+      assertThat(approvalCopierResult.outdatedApprovals()).isEmpty();
     }
   }
 
@@ -116,10 +117,11 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     ChangeData changeData = changeDataFactory.create(project, r.getChange().getId());
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      ImmutableSet<PatchSetApproval> approvals =
+      ApprovalCopier.Result approvalCopierResult =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
-      assertThatList(approvals).isEmpty();
+      assertThatList(approvalCopierResult.copiedApprovals()).isEmpty();
+      assertThatList(approvalCopierResult.outdatedApprovals()).isEmpty();
     }
   }
 
@@ -131,16 +133,18 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     assertThat(changeData.currentPatchSet().id().get()).isEqualTo(2);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      Iterable<PatchSetApproval> approvals =
+      ApprovalCopier.Result approvalCopierResult =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
-      assertThat(approvals).isEmpty();
+      assertThat(approvalCopierResult.copiedApprovals()).isEmpty();
+      assertThat(approvalCopierResult.outdatedApprovals()).isEmpty();
     }
   }
 
   @Test
-  public void forPatchSet_noneCopiedApprovals() throws Exception {
+  public void forPatchSet_outdatedApprovals() throws Exception {
     PushOneCommit.Result r = createChange();
+    PatchSet.Id patchSet1Id = r.getPatchSetId();
 
     // Add some approvals that are not copied.
     vote(r.getChangeId(), admin, LabelId.CODE_REVIEW, 2);
@@ -151,10 +155,15 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     assertThat(changeData.currentPatchSet().id().get()).isEqualTo(2);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      Iterable<PatchSetApproval> approvals =
+      ApprovalCopier.Result approvalCopierResult =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
-      assertThat(approvals).isEmpty();
+      assertThat(approvalCopierResult.copiedApprovals()).isEmpty();
+      assertThat(approvalCopierResult.outdatedApprovals())
+          .comparingElementsUsing(hasTestId())
+          .containsExactly(
+              PatchSetApprovalTestId.create(patchSet1Id, admin.id(), LabelId.CODE_REVIEW, 2),
+              PatchSetApprovalTestId.create(patchSet1Id, user.id(), LabelId.VERIFIED, 1));
     }
   }
 
@@ -166,19 +175,23 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     vote(r.getChangeId(), admin, LabelId.CODE_REVIEW, -2);
     vote(r.getChangeId(), user, LabelId.VERIFIED, -1);
 
-    amendChange(r.getChangeId(), "refs/for/master", admin, testRepo).assertOkStatus();
+    r = amendChange(r.getChangeId(), "refs/for/master", admin, testRepo);
+    r.assertOkStatus();
+    PatchSet.Id patchSet2Id = r.getPatchSetId();
+
     ChangeData changeData = changeDataFactory.create(project, r.getChange().getId());
     assertThat(changeData.currentPatchSet().id().get()).isEqualTo(2);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      ImmutableSet<PatchSetApproval> approvals =
+      ApprovalCopier.Result approvalCopierResult =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
-      assertThatList(approvals)
+      assertThatList(approvalCopierResult.copiedApprovals())
           .comparingElementsUsing(hasTestId())
           .containsExactly(
-              PatchSetApprovalTestId.create(r.getPatchSetId(), admin.id(), LabelId.CODE_REVIEW, -2),
-              PatchSetApprovalTestId.create(r.getPatchSetId(), user.id(), LabelId.VERIFIED, -1));
+              PatchSetApprovalTestId.create(patchSet2Id, admin.id(), LabelId.CODE_REVIEW, -2),
+              PatchSetApprovalTestId.create(patchSet2Id, user.id(), LabelId.VERIFIED, -1));
+      assertThatList(approvalCopierResult.outdatedApprovals()).isEmpty();
     }
   }
 
@@ -197,16 +210,18 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     assertThat(changeData.currentPatchSet().id().get()).isEqualTo(2);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      ImmutableSet<PatchSetApproval> approvals =
+      ApprovalCopier.Result approvalCopierResult =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
-      assertThatList(approvals).isEmpty();
+      assertThatList(approvalCopierResult.copiedApprovals()).isEmpty();
+      assertThatList(approvalCopierResult.outdatedApprovals()).isEmpty();
     }
   }
 
   @Test
   public void forPatchSet_allKindOfApprovals() throws Exception {
     PushOneCommit.Result r = createChange();
+    PatchSet.Id patchSet1Id = r.getPatchSetId();
 
     // Add some approvals that are copied.
     vote(r.getChangeId(), admin, LabelId.CODE_REVIEW, -2);
@@ -216,7 +231,9 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     vote(r.getChangeId(), user, LabelId.CODE_REVIEW, 1);
     vote(r.getChangeId(), admin, LabelId.VERIFIED, 1);
 
-    amendChange(r.getChangeId(), "refs/for/master", admin, testRepo).assertOkStatus();
+    r = amendChange(r.getChangeId(), "refs/for/master", admin, testRepo);
+    r.assertOkStatus();
+    PatchSet.Id patchSet2Id = r.getPatchSetId();
 
     // Add some current approvals.
     vote(r.getChangeId(), user, LabelId.CODE_REVIEW, -1);
@@ -226,14 +243,19 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     assertThat(changeData.currentPatchSet().id().get()).isEqualTo(2);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      ImmutableSet<PatchSetApproval> approvals =
+      ApprovalCopier.Result approvalCopierResult =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
-      assertThatList(approvals)
+      assertThatList(approvalCopierResult.copiedApprovals())
           .comparingElementsUsing(hasTestId())
           .containsExactly(
-              PatchSetApprovalTestId.create(r.getPatchSetId(), admin.id(), LabelId.CODE_REVIEW, -2),
-              PatchSetApprovalTestId.create(r.getPatchSetId(), user.id(), LabelId.VERIFIED, -1));
+              PatchSetApprovalTestId.create(patchSet2Id, admin.id(), LabelId.CODE_REVIEW, -2),
+              PatchSetApprovalTestId.create(patchSet2Id, user.id(), LabelId.VERIFIED, -1));
+      assertThatList(approvalCopierResult.outdatedApprovals())
+          .comparingElementsUsing(hasTestId())
+          .containsExactly(
+              PatchSetApprovalTestId.create(patchSet1Id, user.id(), LabelId.CODE_REVIEW, 1),
+              PatchSetApprovalTestId.create(patchSet1Id, admin.id(), LabelId.VERIFIED, 1));
     }
   }
 
@@ -253,10 +275,42 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     assertThat(changeData.currentPatchSet().id().get()).isEqualTo(2);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      ImmutableSet<PatchSetApproval> approvals =
+      ApprovalCopier.Result approvalCopierResult =
           approvalCopier.forPatchSet(
               changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
-      assertThatList(approvals).isEmpty();
+      assertThatList(approvalCopierResult.copiedApprovals()).isEmpty();
+      assertThatList(approvalCopierResult.outdatedApprovals()).isEmpty();
+    }
+  }
+
+  @Test
+  public void forPatchSet_approvalForNonExistingLabel() throws Exception {
+    PushOneCommit.Result r = createChange();
+    PatchSet.Id patchSet1Id = r.getPatchSetId();
+
+    // Add approval that could be copied.
+    vote(r.getChangeId(), admin, LabelId.CODE_REVIEW, -2);
+
+    // Delete the Code-Review label (override it with an empty label definition).
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().upsertLabelType(labelBuilder(LabelId.CODE_REVIEW).build());
+      u.save();
+    }
+
+    amendChange(r.getChangeId(), "refs/for/master", admin, testRepo).assertOkStatus();
+
+    ChangeData changeData = changeDataFactory.create(project, r.getChange().getId());
+    assertThat(changeData.currentPatchSet().id().get()).isEqualTo(2);
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk revWalk = new RevWalk(repo)) {
+      ApprovalCopier.Result approvalCopierResult =
+          approvalCopier.forPatchSet(
+              changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
+      assertThatList(approvalCopierResult.copiedApprovals()).isEmpty();
+      assertThatList(approvalCopierResult.outdatedApprovals())
+          .comparingElementsUsing(hasTestId())
+          .containsExactly(
+              PatchSetApprovalTestId.create(patchSet1Id, admin.id(), LabelId.CODE_REVIEW, -2));
     }
   }
 
@@ -268,7 +322,9 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     vote(r.getChangeId(), admin, LabelId.CODE_REVIEW, -2);
     vote(r.getChangeId(), user, LabelId.VERIFIED, -1);
 
-    amendChange(r.getChangeId(), "refs/for/master", admin, testRepo).assertOkStatus();
+    r = amendChange(r.getChangeId(), "refs/for/master", admin, testRepo);
+    r.assertOkStatus();
+    PatchSet.Id patchSet2Id = r.getPatchSetId();
 
     // Override copied approval.
     vote(r.getChangeId(), admin, LabelId.CODE_REVIEW, 1);
@@ -280,14 +336,16 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
     assertThat(changeData.currentPatchSet().id().get()).isEqualTo(2);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk revWalk = new RevWalk(repo)) {
-      ImmutableSet<PatchSetApproval> approvals =
-          approvalCopier.forPatchSet(
-              changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig());
-      assertThatList(filter(approvals, PatchSetApproval::copied))
+      ImmutableSet<PatchSetApproval> copiedApprovals =
+          approvalCopier
+              .forPatchSet(
+                  changeData.notes(), changeData.currentPatchSet(), revWalk, repo.getConfig())
+              .copiedApprovals();
+      assertThatList(filter(copiedApprovals, PatchSetApproval::copied))
           .comparingElementsUsing(hasTestId())
           .containsExactly(
-              PatchSetApprovalTestId.create(r.getPatchSetId(), user.id(), LabelId.VERIFIED, -1));
-      assertThatList(filter(approvals, psa -> !psa.copied())).isEmpty();
+              PatchSetApprovalTestId.create(patchSet2Id, user.id(), LabelId.VERIFIED, -1));
+      assertThatList(filter(copiedApprovals, psa -> !psa.copied())).isEmpty();
     }
   }
 

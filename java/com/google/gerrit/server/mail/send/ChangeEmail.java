@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 
 import com.google.common.base.Splitter;
@@ -559,7 +559,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       // We need names rather than account ids / emails to make it user readable.
       soyContext.put(
           "attentionSet",
-          currentAttentionSet.stream().map(this::getNameFor).collect(toImmutableSet()));
+          currentAttentionSet.stream().map(this::getNameFor).sorted().collect(toImmutableList()));
     }
   }
 

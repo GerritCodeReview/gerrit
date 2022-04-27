@@ -340,21 +340,32 @@ public class ApprovalsUtil {
   }
 
   /**
-   * This method should only be used when we want to dynamically compute the approvals. Generally,
-   * the copied approvals are available in {@link ChangeNotes}. However, if the patch-set is just
-   * being created, we need to dynamically compute the approvals so that we can persist them in
-   * storage. The {@link RevWalk} and {@link Config} objects that are being used to create the new
-   * patch-set are required for this method. Here we also add those votes to the provided {@link
-   * ChangeUpdate} object.
+   * Copies approvals to a new patch set.
+   *
+   * <p>Computes the approvals of the prior patch set that should be copied to the new patch set and
+   * stores them in NoteDb.
+   *
+   * <p>For outdated approvals (approvals on the prior patch set which are outdated by the new patch
+   * set and hence not copied) the approvers are added to the attention set since they need to
+   * re-review the change and renew their approvals.
+   *
+   * @param notes the change notes
+   * @param patchSet the newly created patch set
+   * @param revWalk {@link RevWalk} that can see the new patch set revision
+   * @param repoConfig the repo config
+   * @param changeUpdate changeUpdate that is used to persist the copied approvals and update the
+   *     attention set
    */
-  public void persistCopiedApprovals(
+  public void copyApprovalsToNewPatchSet(
       ChangeNotes notes,
       PatchSet patchSet,
       RevWalk revWalk,
       Config repoConfig,
       ChangeUpdate changeUpdate) {
-    approvalCopier.forPatchSet(notes, patchSet, revWalk, repoConfig).stream()
-        .forEach(a -> changeUpdate.putCopiedApproval(a));
+    ApprovalCopier.Result approvalCopierResult =
+        approvalCopier.forPatchSet(notes, patchSet, revWalk, repoConfig);
+    approvalCopierResult.copiedApprovals().forEach(a -> changeUpdate.putCopiedApproval(a));
+    approvalCopierResult.outdatedApprovals().forEach(a -> changeUpdate.putOutdatedApproval(a));
   }
 
   /**

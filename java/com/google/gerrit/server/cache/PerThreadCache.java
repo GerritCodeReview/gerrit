@@ -21,7 +21,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -63,6 +67,9 @@ public class PerThreadCache implements AutoCloseable {
    * any state.
    */
   private final boolean readOnlyRequest;
+
+  private final Map<Key<?>, Consumer<Object>> unloaders =
+      Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);
 
   /**
    * Unique key for key-value mappings stored in PerThreadCache. The key is based on the value's
@@ -141,6 +148,39 @@ public class PerThreadCache implements AutoCloseable {
     return CACHE.get();
   }
 
+  /**
+   * Return a cached value associated with a key fetched with a loader and released with an unloader
+   * function.
+   *
+   * @param <T> The data type of the cached value
+   * @param key the key associated with the value
+   * @param loader the loader function for fetching the value from the key
+   * @param unloader the unloader function for releasing the value when unloaded from the cache
+   * @return the cached value or null if the value could not be cached for any reason (e.g. cache
+   *     full)
+   */
+  public static <T> T get(Key<T> key, Supplier<T> loader, Consumer<T> unloader) {
+    PerThreadCache cache = get();
+    return cache != null ? cache.getWithLoader(key, loader, unloader) : loader.get();
+  }
+
+  /**
+   * Legacy way for retrieving a cached element through a loader.
+   *
+   * <p>This method is deprecated because it was error-prone due to the unclear ownership of the
+   * objects created through the loader. When the cache has space available, the entries are loaded
+   * and cached, hence owned and reused by the cache.
+   *
+   * <p>When the cache is full, this method just short-circuit to the invocation of the loader and
+   * the objects created aren't owned or stored by the cache, leaving the space for potential memory
+   * and resources leaks.
+   *
+   * <p>Because of the unclear semantics of the method (who owns the instances? are they reused?)
+   * this is now deprecated the the caller should use instead the {@link PerThreadCache#get(Key,
+   * Supplier, Consumer)} which has a clear ownership policy.
+   *
+   * @deprecated use {@link PerThreadCache#get(Key, Supplier, Consumer)}
+   */
   public static <T> T getOrCompute(Key<T> key, Supplier<T> loader) {
     PerThreadCache cache = get();
     return cache != null ? cache.get(key, loader) : loader.get();
@@ -157,16 +197,36 @@ public class PerThreadCache implements AutoCloseable {
   }
 
   /**
-   * Returns an instance of {@code T} that was either loaded from the cache or obtained from the
-   * provided {@link Supplier}.
+   * Legacy way of retrieving an instance of {@code T} that was either loaded from the cache or
+   * obtained from the provided {@link Supplier}.
+   *
+   * <p>This method is deprecated because it was error-prone due to the unclear ownership of the
+   * objects created through the loader. When the cache has space available, the entries are loaded
+   * and cached, hence owned and reused by the cache.
+   *
+   * <p>When the cache is full, this method just short-circuit to the invocation of the loader and
+   * the objects created aren't owned or stored by the cache, leaving the space for potential memory
+   * and resources leaks.
+   *
+   * <p>Because of the unclear semantics of the method (who owns the instances? are they reused?)
+   * this is now deprecated the the caller should use instead the {@link PerThreadCache#get(Key,
+   * Supplier, Consumer)} which has a clear ownership policy.
+   *
+   * @deprecated use {@link PerThreadCache#getWithLoader(Key, Supplier, Consumer)}
    */
   public <T> T get(Key<T> key, Supplier<T> loader) {
-    @SuppressWarnings("unchecked")
+    T value = getWithLoader(key, loader, null);
+    return value == null ? loader.get() : value;
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T> T getWithLoader(Key<T> key, Supplier<T> loader, @Nullable Consumer<T> unloader) {
     T value = (T) cache.get(key);
-    if (value == null) {
+    if (value == null && cache.size() < PER_THREAD_CACHE_SIZE) {
       value = loader.get();
-      if (cache.size() < PER_THREAD_CACHE_SIZE) {
-        cache.put(key, value);
+      cache.put(key, value);
+      if (unloader != null) {
+        unloaders.put(key, (Consumer<Object>) unloader);
       }
     }
     return value;
@@ -179,6 +239,15 @@ public class PerThreadCache implements AutoCloseable {
 
   @Override
   public void close() {
+    Optional.of(CACHE.get())
+        .map(v -> v.unloaders.entrySet().stream())
+        .orElse(Stream.empty())
+        .forEach(this::unload);
+
     CACHE.remove();
+  }
+
+  private <T> void unload(Entry<Key<?>, Consumer<Object>> unloaderEntry) {
+    unloaderEntry.getValue().accept(cache.get(unloaderEntry.getKey()));
   }
 }

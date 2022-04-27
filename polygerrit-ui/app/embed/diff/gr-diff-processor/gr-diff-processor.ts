@@ -25,7 +25,8 @@ import {RenderPreferences} from '../../../api/diff';
 
 const WHOLE_FILE = -1;
 
-interface State {
+// visible for testing
+export interface State {
   lineNums: {
     left: number;
     right: number;
@@ -103,7 +104,8 @@ export class GrDiffProcessor extends PolymerElement {
 
   private processPromise: CancelablePromise<void> | null = null;
 
-  private isScrolling?: boolean;
+  // visible for testing
+  isScrolling?: boolean;
 
   private resetIsScrollingTask?: DelayedTask;
 
@@ -216,7 +218,8 @@ export class GrDiffProcessor extends PolymerElement {
   /**
    * Process the next uncollapsible chunk, or the next collapsible chunks.
    */
-  private processNext(state: State, chunks: DiffContent[]) {
+  // visible for testing
+  processNext(state: State, chunks: DiffContent[]) {
     const firstUncollapsibleChunkIndex = this.firstUncollapsibleChunkIndex(
       chunks,
       state.chunkIndex
@@ -416,7 +419,8 @@ export class GrDiffProcessor extends PolymerElement {
     return lines;
   }
 
-  private linesFromRows(
+  // visible for testing
+  linesFromRows(
     lineType: GrDiffLineType,
     rows: string[],
     offset: number,
@@ -473,7 +477,8 @@ export class GrDiffProcessor extends PolymerElement {
    * @param chunks Chunks as returned from the server
    * @return Finer grained chunks.
    */
-  private splitLargeChunks(chunks: DiffContent[]): DiffContent[] {
+  // visible for testing
+  splitLargeChunks(chunks: DiffContent[]): DiffContent[] {
     const newChunks = [];
 
     for (const chunk of chunks) {
@@ -509,9 +514,8 @@ export class GrDiffProcessor extends PolymerElement {
    * @param chunks DiffContents as returned from server.
    * @return Finer grained DiffContents.
    */
-  private splitCommonChunksWithKeyLocations(
-    chunks: DiffContent[]
-  ): DiffContent[] {
+  // visible for testing
+  splitCommonChunksWithKeyLocations(chunks: DiffContent[]): DiffContent[] {
     const result = [];
     let leftLineNum = 1;
     let rightLineNum = 1;
@@ -634,7 +638,8 @@ export class GrDiffProcessor extends PolymerElement {
    * Converts `IntralineInfo`s return by the API to `GrLineHighlights` used
    * for rendering.
    */
-  private convertIntralineInfos(
+  // visible for testing
+  convertIntralineInfos(
     rows: string[],
     intralineInfos: number[][]
   ): Highlights[] {
@@ -684,7 +689,8 @@ export class GrDiffProcessor extends PolymerElement {
    * of that type using the MAX_GROUP_SIZE. If the group is a shared chunk
    * or a delta it is returned as the single element of the result array.
    */
-  private breakdownChunk(chunk: DiffContent): DiffContent[] {
+  // visible for testing
+  breakdownChunk(chunk: DiffContent): DiffContent[] {
     let key: 'a' | 'b' | 'ab' | null = null;
     const {a, b, ab, move_details} = chunk;
     if (a?.length && !b?.length) {
@@ -719,7 +725,8 @@ export class GrDiffProcessor extends PolymerElement {
    * Given an array and a size, return an array of arrays where no inner array
    * is larger than that size, preserving the original order.
    */
-  private breakdown<T>(array: T[], size: number): T[][] {
+  // visible for testing
+  breakdown<T>(array: T[], size: number): T[][] {
     if (!array.length) {
       return [];
     }

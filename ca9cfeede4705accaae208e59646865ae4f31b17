@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "23980d2b_771a997f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-27T08:00:14Z",
+      "side": 1,
+      "message": "OK, let me remove the PerThreadCache side of things. The problem exists even without the PerThreadCache, as shown in the test.\n\nI\u0027ll first upload a failing test *without* the use of PerThreadCache and then resolve the problem leaving the PerThreadCache outside the scope.\n\nAbandoning this change for now.",
+      "parentUuid": "39f5d3ae_fafafcb0",
+      "revId": "ca9cfeede4705accaae208e59646865ae4f31b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58578bf5_e1d1c1b9",
         "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
         "patchSetId": 11

@@ -15,9 +15,9 @@
 package com.google.gerrit.server.cache;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -50,14 +50,14 @@ public class PerThreadCacheTest {
       PerThreadCache cache = PerThreadCache.get();
       PerThreadCache.Key<String> key1 = PerThreadCache.Key.create(String.class);
 
-      String value1 = cache.get(key1, () -> "value1");
+      String value1 = cache.getWithLoader(key1, () -> "value1", null);
       assertThat(value1).isEqualTo("value1");
 
       Supplier<String> neverCalled =
           () -> {
             throw new IllegalStateException("this method must not be called");
           };
-      assertThat(cache.get(key1, neverCalled)).isEqualTo("value1");
+      assertThat(cache.getWithLoader(key1, neverCalled, null)).isEqualTo("value1");
     }
   }
 
@@ -66,7 +66,7 @@ public class PerThreadCacheTest {
     PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class);
     try (PerThreadCache ignored = PerThreadCache.create(null)) {
       PerThreadCache cache = PerThreadCache.get();
-      String value1 = cache.get(key, () -> "value1");
+      String value1 = cache.getWithLoader(key, () -> "value1", null);
       assertThat(value1).isEqualTo("value1");
     }
 
@@ -74,9 +74,21 @@ public class PerThreadCacheTest {
     // This ensures that the cleanup is actually working.
     try (PerThreadCache ignored = PerThreadCache.create(null)) {
       PerThreadCache cache = PerThreadCache.get();
-      String value1 = cache.get(key, () -> "value2");
+      String value1 = cache.getWithLoader(key, () -> "value2", null);
       assertThat(value1).isEqualTo("value2");
     }
+  }
+
+  @Test
+  public void unloaderCalledUponCleanup() {
+    AtomicBoolean unloaderCalled = new AtomicBoolean();
+    PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class);
+    try (PerThreadCache ignored = PerThreadCache.create(null)) {
+      PerThreadCache cache = PerThreadCache.get();
+      cache.getWithLoader(key, () -> "value1", v -> unloaderCalled.set(true));
+      assertThat(unloaderCalled.get()).isFalse();
+    }
+    assertThat(unloaderCalled.get()).isTrue();
   }
 
   @Test
@@ -124,19 +136,47 @@ public class PerThreadCacheTest {
     }
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   public void enforceMaxSize() {
     try (PerThreadCache cache = PerThreadCache.create(null)) {
-      // Fill the cache
-      for (int i = 0; i < 50; i++) {
-        PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class, i);
-        cache.get(key, () -> "cached value");
-      }
+      fillTheCache(cache);
+
       // Assert that the value was not persisted
       PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class, 1000);
       cache.get(key, () -> "new value");
       String value = cache.get(key, () -> "directly served");
       assertThat(value).isEqualTo("directly served");
+    }
+  }
+
+  @Test
+  public void returnNullWhenCacheIsFull() {
+    try (PerThreadCache cache = PerThreadCache.create(null)) {
+      fillTheCache(cache);
+
+      PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class, 1000);
+      assertThat(cache.getWithLoader(key, () -> "new value", null)).isNull();
+    }
+  }
+
+  @Test
+  public void unloaderNotCalledUponCleanupIfCacheWasFull() {
+    AtomicBoolean unloaderCalled = new AtomicBoolean();
+    PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class);
+    try (PerThreadCache ignored = PerThreadCache.create(null)) {
+      PerThreadCache cache = PerThreadCache.get();
+      fillTheCache(cache);
+
+      cache.getWithLoader(key, () -> "value1", v -> unloaderCalled.set(true));
+    }
+    assertThat(unloaderCalled.get()).isFalse();
+  }
+
+  private void fillTheCache(PerThreadCache cache) {
+    for (int i = 0; i < 50; i++) {
+      PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class, i);
+      cache.getWithLoader(key, () -> "cached value", null);
     }
   }
 }

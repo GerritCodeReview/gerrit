@@ -21,7 +21,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -63,6 +67,9 @@ public class PerThreadCache implements AutoCloseable {
    * any state.
    */
   private final boolean readOnlyRequest;
+
+  private final Map<Key<?>, Consumer<Object>> unloaders =
+      Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);
 
   /**
    * Unique key for key-value mappings stored in PerThreadCache. The key is based on the value's
@@ -141,9 +148,26 @@ public class PerThreadCache implements AutoCloseable {
     return CACHE.get();
   }
 
+  /**
+   * Return a cached value associated with a key fetched with a loader and released with an unloader
+   * function.
+   *
+   * @param <T> The data type of the cached value
+   * @param key the key associated with the value
+   * @param loader the loader function for fetching the value from the key
+   * @param unloader the unloader function for releasing the value when unloaded from the cache
+   * @return the cached value or null if the value could not be cached for any reason (e.g. cache
+   *     full)
+   */
+  public static <T> T get(Key<T> key, Supplier<T> loader, Consumer<T> unloader) {
+    PerThreadCache cache = get();
+    return cache != null ? cache.getWithLoader(key, loader, unloader) : loader.get();
+  }
+
+  /** @deprecated use {@link PerThreadCache#get(Key, Supplier)} */
   public static <T> T getOrCompute(Key<T> key, Supplier<T> loader) {
     PerThreadCache cache = get();
-    return cache != null ? cache.get(key, loader) : loader.get();
+    return cache != null ? cache.getWithLoader(key, loader, null) : loader.get();
   }
 
   private final Map<Key<?>, Object> cache = Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);
@@ -159,14 +183,22 @@ public class PerThreadCache implements AutoCloseable {
   /**
    * Returns an instance of {@code T} that was either loaded from the cache or obtained from the
    * provided {@link Supplier}.
+   *
+   * @deprecated use {@link PerThreadCache#getWithLoader(Key, Supplier, Consumer)}
    */
   public <T> T get(Key<T> key, Supplier<T> loader) {
-    @SuppressWarnings("unchecked")
+    T value = getWithLoader(key, loader, null);
+    return value == null ? loader.get() : value;
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T> T getWithLoader(Key<T> key, Supplier<T> loader, @Nullable Consumer<T> unloader) {
     T value = (T) cache.get(key);
-    if (value == null) {
+    if (value == null && cache.size() < PER_THREAD_CACHE_SIZE) {
       value = loader.get();
-      if (cache.size() < PER_THREAD_CACHE_SIZE) {
-        cache.put(key, value);
+      cache.put(key, value);
+      if (unloader != null) {
+        unloaders.put(key, (Consumer<Object>) unloader);
       }
     }
     return value;
@@ -179,6 +211,18 @@ public class PerThreadCache implements AutoCloseable {
 
   @Override
   public void close() {
+    Optional.of(CACHE.get())
+        .map(v -> v.unloaders.entrySet().stream())
+        .orElse(Stream.empty())
+        .forEach(this::unload);
+
     CACHE.remove();
+  }
+
+  private <T> void unload(Entry<Key<?>, Consumer<Object>> unloaderEntry) {
+    Consumer<Object> unloader = unloaderEntry.getValue();
+    if (unloader != null) {
+      unloader.accept(cache.get(unloaderEntry.getKey()));
+    }
   }
 }

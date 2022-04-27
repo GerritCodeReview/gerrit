@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4d968e6_32bbb432",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-04-27T09:19:45Z",
+      "side": 1,
+      "message": "https://imgur.com/a/ctiHjjX \n\n* use the same styling as the topic dropdown menu in the change page (grey lines between topic name instead of black)\n\n* add 4px radius corner to the dialog",
+      "revId": "8583e223969b04a3a4e41a81522d1d9786b1bf29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

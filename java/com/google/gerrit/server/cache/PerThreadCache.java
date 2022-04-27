@@ -21,7 +21,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -63,6 +67,9 @@ public class PerThreadCache implements AutoCloseable {
    * any state.
    */
   private final boolean readOnlyRequest;
+
+  private final Map<Key<?>, Consumer<?>> unloaders =
+      Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);
 
   /**
    * Unique key for key-value mappings stored in PerThreadCache. The key is based on the value's
@@ -141,9 +148,9 @@ public class PerThreadCache implements AutoCloseable {
     return CACHE.get();
   }
 
-  public static <T> T getOrCompute(Key<T> key, Supplier<T> loader) {
+  public static <T> T getOrCompute(Key<T> key, Supplier<T> loader, Consumer<T> unloader) {
     PerThreadCache cache = get();
-    return cache != null ? cache.get(key, loader) : loader.get();
+    return cache != null ? cache.get(key, loader, unloader) : loader.get();
   }
 
   private final Map<Key<?>, Object> cache = Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);
@@ -160,13 +167,14 @@ public class PerThreadCache implements AutoCloseable {
    * Returns an instance of {@code T} that was either loaded from the cache or obtained from the
    * provided {@link Supplier}.
    */
-  public <T> T get(Key<T> key, Supplier<T> loader) {
+  public <T> T get(Key<T> key, Supplier<T> loader, Consumer<T> unloader) {
     @SuppressWarnings("unchecked")
     T value = (T) cache.get(key);
     if (value == null) {
       value = loader.get();
       if (cache.size() < PER_THREAD_CACHE_SIZE) {
         cache.put(key, value);
+        unloaders.put(key, unloader);
       }
     }
     return value;
@@ -179,6 +187,19 @@ public class PerThreadCache implements AutoCloseable {
 
   @Override
   public void close() {
+    Optional.of(CACHE.get())
+        .map(v -> v.cache.entrySet().stream())
+        .orElse(Stream.empty())
+        .forEach(this::remove);
+
     CACHE.remove();
+  }
+
+  @SuppressWarnings("unchecked")
+  private <T> void remove(Entry<Key<?>, Object> entry) {
+    Consumer<T> unloader = (Consumer<T>) unloaders.get(entry.getKey());
+    if (unloader != null) {
+      unloader.accept((T) entry.getValue());
+    }
   }
 }

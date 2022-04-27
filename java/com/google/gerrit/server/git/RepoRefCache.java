@@ -36,7 +36,9 @@ public class RepoRefCache implements RefCache {
     if (cache != null && cache.hasReadonlyRequest()) {
       return Optional.of(
           cache.get(
-              PerThreadCache.Key.create(RepoRefCache.class, repo), () -> new RepoRefCache(repo)));
+              PerThreadCache.Key.create(RepoRefCache.class, repo),
+              () -> new RepoRefCache(repo),
+              RepoRefCache::close));
     }
 
     return Optional.empty();

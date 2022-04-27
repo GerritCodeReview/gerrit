@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "30cd0c8d_20fd2204",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-27T10:23:34Z",
+      "side": 1,
+      "message": "@Dmitrii I\u0027ve uploaded Change-Id: I4b2c43ea430a0 for sorting out the issue of the RepoRefCache in allowing to access a closed repository.\n\nWith regards with the unloaders approach for the PerThreadCache, let\u0027s explore it but outside the scope of Change-Id: I4b2c43ea430a0 and as a separate change.\n\nWe are not aiming of resolving all Gerrit problems with a single change, otherwise we\u0027ll get stuck with it for the next days, weeks, months or years to come.",
+      "parentUuid": "23980d2b_771a997f",
+      "revId": "ca9cfeede4705accaae208e59646865ae4f31b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58578bf5_e1d1c1b9",
         "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
         "patchSetId": 11

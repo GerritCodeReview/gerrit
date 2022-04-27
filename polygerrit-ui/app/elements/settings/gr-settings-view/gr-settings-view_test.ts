@@ -128,6 +128,436 @@ suite('gr-settings-view tests', () => {
       await element._testOnly_loadingPromise;
   });
 
+  test('renders', () => {
+    // this cannot be formatted with /* HTML */, because it breaks test
+    expect(element).shadowDom.to.equal(/* HTML*/ `<div
+        class="loading"
+        hidden="true"
+      >
+        Loading...
+      </div>
+      <div>
+        <gr-page-nav class="navStyles">
+          <ul>
+            <li><a href="#Profile"> Profile </a></li>
+            <li><a href="#Preferences"> Preferences </a></li>
+            <li><a href="#DiffPreferences"> Diff Preferences </a></li>
+            <li><a href="#EditPreferences"> Edit Preferences </a></li>
+            <li><a href="#Menu"> Menu </a></li>
+            <li><a href="#ChangeTableColumns"> Change Table Columns </a></li>
+            <li><a href="#Notifications"> Notifications </a></li>
+            <li><a href="#EmailAddresses"> Email Addresses </a></li>
+            <dom-if style="display: none;">
+              <template is="dom-if"> </template>
+            </dom-if>
+            <li hidden="true"><a href="#SSHKeys"> SSH Keys </a></li>
+            <li hidden="true"><a href="#GPGKeys"> GPG Keys </a></li>
+            <li><a href="#Groups"> Groups </a></li>
+            <li><a href="#Identities"> Identities </a></li>
+            <dom-if style="display: none;">
+              <template is="dom-if"> </template>
+            </dom-if>
+            <li><a href="#MailFilters"> Mail Filters </a></li>
+            <gr-endpoint-decorator name="settings-menu-item">
+            </gr-endpoint-decorator>
+          </ul>
+        </gr-page-nav>
+        <div class="gr-form-styles main">
+          <h1 class="heading-1">User Settings</h1>
+          <h2 id="Theme">Theme</h2>
+          <section class="darkToggle">
+            <div class="toggle">
+              <paper-toggle-button
+                aria-disabled="false"
+                aria-labelledby="darkThemeToggleLabel"
+                aria-pressed="false"
+                role="button"
+                style="touch-action: none;"
+                tabindex="0"
+                toggles=""
+              >
+              </paper-toggle-button>
+              <div id="darkThemeToggleLabel">
+                Dark theme (the toggle reloads the page)
+              </div>
+            </div>
+          </section>
+          <h2 id="Profile">Profile</h2>
+          <fieldset id="profile">
+            <gr-account-info id="accountInfo"> </gr-account-info>
+            <gr-button
+              aria-disabled="true"
+              disabled=""
+              role="button"
+              tabindex="-1"
+            >
+              Save changes
+            </gr-button>
+          </fieldset>
+          <h2 id="Preferences">Preferences</h2>
+          <fieldset id="preferences">
+            <section>
+              <label class="title" for="changesPerPageSelect">
+                Changes per page
+              </label>
+              <span class="value">
+                <gr-select>
+                  <select id="changesPerPageSelect">
+                    <option value="10">10 rows per page</option>
+                    <option value="25">25 rows per page</option>
+                    <option value="50">50 rows per page</option>
+                    <option value="100">100 rows per page</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <label class="title" for="dateTimeFormatSelect">
+                Date/time format
+              </label>
+              <span class="value">
+                <gr-select>
+                  <select id="dateTimeFormatSelect">
+                    <option value="STD">Jun 3 ; Jun 3, 2016</option>
+                    <option value="US">06/03 ; 06/03/16</option>
+                    <option value="ISO">06-03 ; 2016-06-03</option>
+                    <option value="EURO">3. Jun ; 03.06.2016</option>
+                    <option value="UK">03/06 ; 03/06/2016</option>
+                  </select>
+                </gr-select>
+                <gr-select aria-label="Time Format">
+                  <select id="timeFormatSelect">
+                    <option value="HHMM_12">4:10 PM</option>
+                    <option value="HHMM_24">16:10</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <label class="title" for="emailNotificationsSelect">
+                Email notifications
+              </label>
+              <span class="value">
+                <gr-select>
+                  <select id="emailNotificationsSelect">
+                    <option value="CC_ON_OWN_COMMENTS">Every comment</option>
+                    <option value="ENABLED">
+                      Only comments left by others
+                    </option>
+                    <option value="ATTENTION_SET_ONLY">
+                      Only when I am in the attention set
+                    </option>
+                    <option value="DISABLED">None</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <label class="title" for="emailFormatSelect">
+                Email format
+              </label>
+              <span class="value">
+                <gr-select>
+                  <select id="emailFormatSelect">
+                    <option value="HTML_PLAINTEXT">HTML and plaintext</option>
+                    <option value="PLAINTEXT">Plaintext only</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <span class="title"> Default Base For Merges </span>
+              <span class="value">
+                <gr-select>
+                  <select id="defaultBaseForMergesSelect">
+                    <option value="AUTO_MERGE">Auto Merge</option>
+                    <option value="FIRST_PARENT">First Parent</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <label class="title" for="relativeDateInChangeTable">
+                Show Relative Dates In Changes Table
+              </label>
+              <span class="value">
+                <input id="relativeDateInChangeTable" type="checkbox" />
+              </span>
+            </section>
+            <section>
+              <span class="title"> Diff view </span>
+              <span class="value">
+                <gr-select>
+                  <select id="diffViewSelect">
+                    <option value="SIDE_BY_SIDE">Side by side</option>
+                    <option value="UNIFIED_DIFF">Unified diff</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <label class="title" for="showSizeBarsInFileList">
+                Show size bars in file list
+              </label>
+              <span class="value">
+                <input
+                  checked="true"
+                  id="showSizeBarsInFileList"
+                  type="checkbox"
+                />
+              </span>
+            </section>
+            <section>
+              <label class="title" for="publishCommentsOnPush">
+                Publish comments on push
+              </label>
+              <span class="value">
+                <input id="publishCommentsOnPush" type="checkbox" />
+              </span>
+            </section>
+            <section>
+              <label class="title" for="workInProgressByDefault">
+                Set new changes to "work in progress" by default
+              </label>
+              <span class="value">
+                <input id="workInProgressByDefault" type="checkbox" />
+              </span>
+            </section>
+            <section>
+              <label class="title" for="disableKeyboardShortcuts">
+                Disable all keyboard shortcuts
+              </label>
+              <span class="value">
+                <input id="disableKeyboardShortcuts" type="checkbox" />
+              </span>
+            </section>
+            <section>
+              <label class="title" for="disableTokenHighlighting">
+                Disable token highlighting on hover
+              </label>
+              <span class="value">
+                <input id="disableTokenHighlighting" type="checkbox" />
+              </span>
+            </section>
+            <section>
+              <label class="title" for="insertSignedOff">
+                Insert Signed-off-by Footer For Inline Edit Changes
+              </label>
+              <span class="value">
+                <input id="insertSignedOff" type="checkbox" />
+              </span>
+            </section>
+            <gr-button
+              aria-disabled="true"
+              disabled=""
+              id="savePrefs"
+              role="button"
+              tabindex="-1"
+            >
+              Save changes
+            </gr-button>
+          </fieldset>
+          <h2 id="DiffPreferences">Diff Preferences</h2>
+          <fieldset id="diffPreferences">
+            <gr-diff-preferences id="diffPrefs"> </gr-diff-preferences>
+            <gr-button
+              aria-disabled="true"
+              disabled=""
+              id="saveDiffPrefs"
+              role="button"
+              tabindex="-1"
+            >
+              Save changes
+            </gr-button>
+          </fieldset>
+          <gr-edit-preferences id="editPrefs"> </gr-edit-preferences>
+          <gr-menu-editor> </gr-menu-editor>
+          <h2 id="ChangeTableColumns">Change Table Columns</h2>
+          <fieldset id="changeTableColumns">
+            <gr-change-table-editor> </gr-change-table-editor>
+            <gr-button
+              aria-disabled="true"
+              disabled=""
+              id="saveChangeTable"
+              role="button"
+              tabindex="-1"
+            >
+              Save changes
+            </gr-button>
+          </fieldset>
+          <h2 id="Notifications">Notifications</h2>
+          <fieldset id="watchedProjects">
+            <gr-watched-projects-editor id="watchedProjectsEditor">
+            </gr-watched-projects-editor>
+            <gr-button
+              aria-disabled="true"
+              disabled=""
+              id="_handleSaveWatchedProjects"
+              role="button"
+              tabindex="-1"
+            >
+              Save changes
+            </gr-button>
+          </fieldset>
+          <h2 id="EmailAddresses">Email Addresses</h2>
+          <fieldset id="email">
+            <gr-email-editor id="emailEditor"> </gr-email-editor>
+            <gr-button
+              aria-disabled="true"
+              disabled=""
+              role="button"
+              tabindex="-1"
+            >
+              Save changes
+            </gr-button>
+          </fieldset>
+          <fieldset id="newEmail">
+            <section>
+              <span class="title"> New email address </span>
+              <span class="value">
+                <iron-input
+                  class="newEmailInput"
+                  placeholder="email@example.com"
+                  type="text"
+                >
+                  <input
+                    class="newEmailInput"
+                    placeholder="email@example.com"
+                    type="text"
+                  />
+                </iron-input>
+              </span>
+            </section>
+            <section hidden="true" id="verificationSentMessage">
+              <p>
+                A verification email was sent to <em> </em> . Please check your inbox.
+              </p>
+            </section>
+            <gr-button
+              aria-disabled="true"
+              disabled=""
+              role="button"
+              tabindex="-1"
+            >
+              Send verification
+            </gr-button>
+          </fieldset>
+          <dom-if style="display: none;">
+            <template is="dom-if"> </template>
+          </dom-if>
+          <div hidden="true">
+            <h2 id="SSHKeys">SSH keys</h2>
+            <gr-ssh-editor
+              has-unsaved-changes-changed="handleUnsavedChangesChanged"
+              id="sshEditor"
+            >
+            </gr-ssh-editor>
+          </div>
+          <div hidden="true">
+            <h2 id="GPGKeys">GPG keys</h2>
+            <gr-gpg-editor id="gpgEditor"> </gr-gpg-editor>
+          </div>
+          <h2 id="Groups">Groups</h2>
+          <fieldset><gr-group-list id="groupList"> </gr-group-list></fieldset>
+          <h2 id="Identities">Identities</h2>
+          <fieldset>
+            <gr-identities id="identities"> </gr-identities>
+          </fieldset>
+          <dom-if style="display: none;">
+            <template is="dom-if"> </template>
+          </dom-if>
+          <h2 id="MailFilters">Mail Filters</h2>
+          <fieldset class="filters">
+            <p>
+              Gerrit emails include metadata about the change to support writing
+          mail filters.
+            </p>
+            <p>
+            Here are some example Gmail queries that can be used for filters or
+          for searching through archived messages. View the
+              <a
+                href="https://gerrit-review.googlesource.com/Documentation/user-notify.html"
+                rel="nofollow"
+                target="_blank"
+              >
+                Gerrit documentation
+              </a>
+              for the complete set of footers.
+            </p>
+            <table>
+              <tbody>
+                <tr>
+                  <th>Name</th>
+                  <th>Query</th>
+                </tr>
+                <tr>
+                  <td>Changes requesting my review</td>
+                  <td>
+                    <code class="queryExample">
+                      "Gerrit-Reviewer: <em> Your Name </em> <
+                      <em> your.email@example.com </em> >"
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Changes requesting my attention</td>
+                  <td>
+                    <code class="queryExample">
+                      "Gerrit-Attention: <em> Your Name </em> <
+                      <em> your.email@example.com </em> >"
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Changes from a specific owner</td>
+                  <td>
+                    <code class="queryExample">
+                      "Gerrit-Owner: <em> Owner name </em> <
+                      <em> owner.email@example.com </em> >"
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Changes targeting a specific branch</td>
+                  <td>
+                    <code class="queryExample">
+                      "Gerrit-Branch: <em> branch-name </em> "
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Changes in a specific project</td>
+                  <td>
+                    <code class="queryExample">
+                      "Gerrit-Project: <em> project-name </em> "
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Messages related to a specific Change ID</td>
+                  <td>
+                    <code class="queryExample">
+                      "Gerrit-Change-Id: <em> Change ID </em> "
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Messages related to a specific change number</td>
+                  <td>
+                    <code class="queryExample">
+                      "Gerrit-Change-Number: <em> change number </em> "
+                    </code>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
+          <gr-endpoint-decorator name="settings-screen">
+          </gr-endpoint-decorator>
+        </div>
+      </div>`);
+  });
+
   test('theme changing', async () => {
     const reloadStub = sinon.stub(element, 'reloadPage');
 

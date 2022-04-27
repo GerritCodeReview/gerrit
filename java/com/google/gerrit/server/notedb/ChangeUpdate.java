@@ -17,7 +17,6 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ATTENTION;
@@ -946,6 +945,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     Set<AttentionSetUpdate> updates = new HashSet<>();
 
+    // Add attention set updates for outdated approvals first, as these should take precedence.
     Multimap<Account.Id, PatchSetApproval> outdatedApprovalsByUser = ArrayListMultimap.create();
     outdatedApprovals.forEach(psa -> outdatedApprovalsByUser.put(psa.accountId(), psa));
     for (Map.Entry<Account.Id, Collection<PatchSetApproval>> e :
@@ -978,22 +978,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       updates.add(
           AttentionSetUpdate.createForWrite(approverId, AttentionSetUpdate.Operation.ADD, message));
     }
+    addToPlannedAttentionSetUpdates(updates);
 
-    ImmutableSet<Account.Id> usersWithAttentionSetUpdates =
-        updates.stream().map(AttentionSetUpdate::account).distinct().collect(toImmutableSet());
+    // Add attention set updates for reviewers. If for a user an attention set update has already
+    // been added above, adding another attention set update for the same user has no effect and is
+    // ignored (the attention set update that is added first takes precedence).
+    updates.clear();
     Set<Account.Id> currentReviewers =
         getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER);
     for (Map.Entry<Account.Id, ReviewerStateInternal> reviewer : reviewers.entrySet()) {
       Account.Id reviewerId = reviewer.getKey();
-
-      if (usersWithAttentionSetUpdates.contains(reviewerId)) {
-        // There can be only 1 attention set update per user (addToPlannedAttentionSetUpdates throws
-        // an IllegalArgumentException if there are multiple updates for a single user).
-        // If we already have an attention set update for a user due to an outdated approval, this
-        // attention set update should take precedence over attention set updates due to
-        // added/removed reviewers which are handled here. Hence just continue in this case.
-        continue;
-      }
 
       ReviewerStateInternal reviewerState = reviewer.getValue();
       // Only add new reviewers to the attention set. Also, don't add the owner because the owner
@@ -1015,7 +1009,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                 reviewerId, AttentionSetUpdate.Operation.REMOVE, "Reviewer/Cc was removed"));
       }
     }
-
     addToPlannedAttentionSetUpdates(updates);
   }
 

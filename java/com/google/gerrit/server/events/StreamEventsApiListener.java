@@ -290,7 +290,7 @@ public class StreamEventsApiListener
 
   @Override
   public void onRevisionCreated(RevisionCreatedListener.Event ev) {
-    try {
+    try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
       ChangeNotes notes = getNotes(ev.getChange());
       Change change = notes.getChange();
       PatchSet patchSet = getPatchSet(notes, ev.getRevision());

@@ -446,12 +446,21 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   /**
-   * All updates must have a timestamp of null since we use the commit's timestamp. There also must
-   * not be multiple updates for a single user. Only the first update takes place because of the
-   * different priorities: e.g, if we want to add someone to the attention set but also want to
-   * remove someone from the attention set, we should ensure to add/remove that user based on the
-   * priority of the addition and removal. If most importantly we want to remove the user, then we
-   * must first create the removal, and the addition will not take effect.
+   * Adds attention set updates that should be stored in NoteDb.
+   *
+   * <p>If invoked multiple times with attention set updates for the same user, only the attention
+   * set update of the first invocation is stored for this user and further attention set updates
+   * for this user are silently ignored. This means if callers invoke this method multiple times
+   * with attention set updates for the same user, they must ensure that the first call is being
+   * done with the attention set update that should take precedence.
+   *
+   * @param updates Attention set updates that should be performed. The updates must not have any
+   *     timestamp set ({@link AttentionSetUpdate#timestamp()} must return {@code null}). This is
+   *     because the timestamp of all performed updates is always the timestamp of when the NoteDb
+   *     commit is created. Each of the provided updates must be for a different user, if there are
+   *     multiple updates for the same user the update is rejected.
+   * @throws IllegalArgumentException thrown if any of the provided updates has a timestamp set, or
+   *     if the provided set of updates contains multiple updates for the same user
    */
   public void addToPlannedAttentionSetUpdates(Set<AttentionSetUpdate> updates) {
     if (updates == null || updates.isEmpty() || ignoreFurtherAttentionSetUpdates) {

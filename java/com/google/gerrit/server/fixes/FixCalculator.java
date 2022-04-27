@@ -355,6 +355,11 @@ public class FixCalculator {
     }
 
     void processLineToColumn(int to, boolean append) throws IndexOutOfBoundsException {
+      int from = srcPosition.column;
+      if (from > to) {
+        throw new IndexOutOfBoundsException(
+            String.format("The parameter from is greater than to. from: %d, to: %d", from, to));
+      }
       if (to == 0) {
         return;
       }
@@ -366,7 +371,6 @@ public class FixCalculator {
           throw new IndexOutOfBoundsException("The processLineToColumn shouldn't add end of line");
         }
       }
-      int from = srcPosition.column;
       int charCount = to - from;
       srcPosition.appendStringWithoutEOLMark(charCount);
       if (append) {

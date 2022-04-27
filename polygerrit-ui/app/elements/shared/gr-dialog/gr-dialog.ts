@@ -20,6 +20,7 @@ import {GrButton} from '../gr-button/gr-button';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
+import {when} from 'lit/directives/when';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -50,6 +51,12 @@ export class GrDialog extends LitElement {
   // Supplying an empty cancel label will hide the button completely.
   @property({type: String, attribute: 'cancel-label'})
   cancelLabel = 'Cancel';
+
+  @property({type: Boolean, attribute: 'loading'})
+  loading = false;
+
+  @property({type: String, attribute: 'loading-label'})
+  loadingLabel = 'Loading...';
 
   // TODO: Add consistent naming after Lit conversion of the codebase
   @property({type: Boolean})
@@ -105,14 +112,23 @@ export class GrDialog extends LitElement {
         footer {
           display: flex;
           flex-shrink: 0;
-          justify-content: flex-end;
           padding-top: var(--spacing-xl);
+        }
+        .flex-space {
+          flex-grow: 1;
         }
         gr-button {
           margin-left: var(--spacing-l);
         }
         .hidden {
           display: none;
+        }
+        .loadingSpin {
+          width: 18px;
+          height: 18px;
+        }
+        .loadingLabel {
+          color: var(--gray-700);
         }
       `,
     ];
@@ -134,6 +150,14 @@ export class GrDialog extends LitElement {
           </div>
         </main>
         <footer>
+          ${when(
+            this.loading,
+            () => html`
+              <span class="loadingSpin"></span>
+              <span class="loadingLabel"> ${this.loadingLabel} </span>
+            `
+          )}
+          <div class="flex-space"></div>
           <gr-button
             id="cancel"
             class=${this.cancelLabel.length ? '' : 'hidden'}

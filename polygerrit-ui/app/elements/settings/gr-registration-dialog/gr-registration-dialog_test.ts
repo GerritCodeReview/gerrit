@@ -106,6 +106,74 @@ suite('gr-registration-dialog tests', () => {
     return promise;
   }
 
+  test('renders', () => {
+    // cannot format with /* HTML */, because it breaks test
+    expect(element).shadowDom.to.equal(/* HTML*/ `<div
+      class="container gr-form-styles"
+    >
+      <header>Please confirm your contact information</header>
+      <div class="loadingMessage">Loading...</div>
+      <main>
+        <p>
+        The following contact information was automatically obtained when you
+        signed in to the site. This information is used to display who you are
+        to others, and to send updates to code reviews you have either started
+        or subscribed to.
+        </p>
+        <hr />
+        <section>
+          <span class="title"> Full Name </span>
+          <span class="value" hidden="true"> name </span>
+          <span class="value">
+            <iron-input> <input id="name" /> </iron-input>
+          </span>
+        </section>
+        <section>
+          <span class="title"> Display Name </span>
+          <span class="value">
+            <iron-input> <input id="displayName" /> </iron-input>
+          </span>
+        </section>
+        <section>
+          <span class="title"> Username </span>
+          <span class="value" hidden="true"> </span>
+          <span class="value">
+            <iron-input> <input id="username" /> </iron-input>
+          </span>
+        </section>
+        <dom-if style="display: none;">
+          <template is="dom-if"> </template>
+        </dom-if>
+        <hr />
+        <p>
+          More configuration options for Gerrit may be found in the
+          <a> settings </a> .
+        </p>
+      </main>
+      <footer>
+        <gr-button
+          aria-disabled="false"
+          id="closeButton"
+          link=""
+          role="button"
+          tabindex="0"
+        >
+          Close
+        </gr-button>
+        <gr-button
+          aria-disabled="false"
+          id="saveButton"
+          link=""
+          primary=""
+          role="button"
+          tabindex="0"
+        >
+          Save
+        </gr-button>
+      </footer>
+    </div>`);
+  });
+
   test('fires the close event on close', async () => {
     await close();
   });

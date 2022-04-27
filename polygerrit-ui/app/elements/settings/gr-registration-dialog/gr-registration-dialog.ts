@@ -17,22 +17,17 @@
 import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-form-styles';
 import '../../shared/gr-button/gr-button';
-import '../../../styles/shared-styles';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-registration-dialog_html';
-import {customElement, property, observe} from '@polymer/decorators';
 import {ServerInfo, AccountDetailInfo} from '../../../types/common';
 import {EditableAccountField} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {fireEvent} from '../../../utils/event-util';
-
-export interface GrRegistrationDialog {
-  $: {
-    name: HTMLInputElement;
-    username: HTMLInputElement;
-    displayName: HTMLInputElement;
-  };
-}
+import {LitElement, css, html, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
+import {when} from 'lit/directives/when';
+import {ifDefined} from 'lit/directives/if-defined';
+import {BindValueChangeEvent} from '../../../types/events';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -41,11 +36,7 @@ declare global {
 }
 
 @customElement('gr-registration-dialog')
-export class GrRegistrationDialog extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrRegistrationDialog extends LitElement {
   /**
    * Fired when account details are changed.
    *
@@ -57,51 +48,199 @@ export class GrRegistrationDialog extends PolymerElement {
    *
    * @event close
    */
-  @property({type: String})
-  settingsUrl?: string;
+  @query('#name') name?: HTMLInputElement;
 
-  @property({type: Object})
-  _account: Partial<AccountDetailInfo> = {};
+  @query('#username') username?: HTMLInputElement;
 
-  @property({type: Boolean})
-  _loading = true;
+  @query('#displayName') displayName?: HTMLInputElement;
 
-  @property({type: Boolean})
-  _saving = false;
+  @property() settingsUrl?: string;
 
-  @property({type: Object})
-  _serverConfig?: ServerInfo;
+  @state() _account: Partial<AccountDetailInfo> = {};
 
-  @property({
-    computed: '_computeUsernameMutable(_account.username)',
-    type: Boolean,
-  })
-  _usernameMutable = false;
+  @state() _loading = true;
 
-  @property({type: Boolean})
-  _hasUsernameChange?: boolean;
+  @state() _saving = false;
 
-  @property({type: String, observer: '_usernameChanged'})
-  _username?: string;
+  @state() _serverConfig?: ServerInfo;
 
-  @property({
-    type: Boolean,
-    notify: true,
-    computed: '_computeNameMutable(_serverConfig)',
-  })
-  _nameMutable?: boolean;
+  @state() _usernameMutable = false;
 
-  @property({type: Boolean})
-  _hasNameChange?: boolean;
+  @state() _hasUsernameChange?: boolean;
 
-  @property({type: Boolean})
-  _hasDisplayNameChange?: boolean;
+  @state() _username?: string;
+
+  @state() _nameMutable?: boolean;
+
+  @state() _hasNameChange?: boolean;
+
+  @state() _hasDisplayNameChange?: boolean;
 
   private readonly restApiService = getAppContext().restApiService;
 
-  override ready() {
-    super.ready();
-    this._ensureAttribute('role', 'dialog');
+  override connectedCallback() {
+    super.connectedCallback();
+    if (!this.getAttribute('role')) {
+      this.setAttribute('role', 'dialog');
+    }
+  }
+
+  static override styles = [
+    sharedStyles,
+    formStyles,
+    css`
+      :host {
+        display: block;
+      }
+      main {
+        max-width: 46em;
+      }
+      :host(.loading) main {
+        display: none;
+      }
+      .loadingMessage {
+        display: none;
+        font-style: italic;
+      }
+      :host(.loading) .loadingMessage {
+        display: block;
+      }
+      hr {
+        margin-top: var(--spacing-l);
+        margin-bottom: var(--spacing-l);
+      }
+      header {
+        border-bottom: 1px solid var(--border-color);
+        font-weight: var(--font-weight-bold);
+        margin-bottom: var(--spacing-l);
+      }
+      .container {
+        padding: var(--spacing-m) var(--spacing-xl);
+      }
+      footer {
+        display: flex;
+        justify-content: flex-end;
+      }
+      footer gr-button {
+        margin-left: var(--spacing-l);
+      }
+      input {
+        width: 20em;
+      }
+    `,
+  ];
+
+  override render() {
+    return html`<div class="container gr-form-styles">
+      <header>Please confirm your contact information</header>
+      <div class="loadingMessage">Loading...</div>
+      <main>
+        <p>
+          The following contact information was automatically obtained when you
+          signed in to the site. This information is used to display who you are
+          to others, and to send updates to code reviews you have either started
+          or subscribed to.
+        </p>
+        <hr />
+        <section>
+          <span class="title">Full Name</span>
+          ${when(
+            this._nameMutable,
+            () => html`<span class="value">${this._account.name}</span>`,
+            () => html`<span class="value">
+              <iron-input
+                .bindValue=${this._account.name}
+                @bind-value-changed=${(e: BindValueChangeEvent) => {
+                  const oldAccount = this._account;
+                  if (!oldAccount || oldAccount.name === e.detail.value) return;
+                  this._account = {...oldAccount, name: e.detail.value};
+                  this._hasNameChange = true;
+                }}
+              >
+                <input id="name" ?disabled=${this._saving} />
+              </iron-input>
+            </span>`
+          )}
+        </section>
+        <section>
+          <span class="title">Display Name</span>
+          <span class="value">
+            <iron-input
+              .bindValue=${this._account.display_name}
+              @bind-value-changed=${(e: BindValueChangeEvent) => {
+                const oldAccount = this._account;
+                if (!oldAccount || oldAccount.display_name === e.detail.value) {
+                  return;
+                }
+                this._account = {...oldAccount, display_name: e.detail.value};
+                this._hasDisplayNameChange = true;
+              }}
+            >
+              <input id="displayName" ?disabled=${this._saving} />
+            </iron-input>
+          </span>
+        </section>
+        ${when(
+          this._computeUsernameEditable(),
+          () => html`<section>
+            <span class="title">Username</span>
+            ${when(
+              this._usernameMutable,
+              () => html`<span class="value">${this._username}</span>`,
+              () => html` <span class="value">
+                <iron-input
+                  .bindValue=${this._username}
+                  @bind-value-changed=${(e: BindValueChangeEvent) => {
+                    if (!this.username || this._username === e.detail.value)
+                      return;
+                    this._username = e.detail.value;
+                    this._hasUsernameChange = true;
+                  }}
+                >
+                  <input id="username" ?disabled=${this._saving} />
+                </iron-input>
+              </span>`
+            )}
+          </section>`
+        )}
+        <hr />
+        <p>
+          More configuration options for Gerrit may be found in the
+          <a @click=${this.close} href=${ifDefined(this.settingsUrl)}
+            >settings</a
+          >.
+        </p>
+      </main>
+      <footer>
+        <gr-button
+          id="closeButton"
+          link=""
+          ?disabled=${this._saving}
+          @click=${this._handleClose}
+          >Close</gr-button
+        >
+        <gr-button
+          id="saveButton"
+          primary=""
+          link=""
+          ?disabled=${this._computeSaveDisabled()}
+          @click=${this._handleSave}
+          >Save</gr-button
+        >
+      </footer>
+    </div>`;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('_account')) {
+      this._usernameMutable = !this._account.username;
+    }
+    if (changedProperties.has('_serverConfig')) {
+      this._nameMutable = this._computeNameMutable();
+    }
+    if (changedProperties.has('_loading')) {
+      this.classList.toggle('loading', this._loading);
+    }
   }
 
   loadData() {
@@ -129,43 +268,15 @@ export class GrRegistrationDialog extends PolymerElement {
     });
   }
 
-  _usernameChanged() {
-    if (this._loading || !this._account) {
-      return;
-    }
-    this._hasUsernameChange =
-      (this._account.username || '') !== (this._username || '');
-  }
-
-  @observe('_account.display_name')
-  _displayNameChanged() {
-    if (this._loading || !this._account) {
-      return;
-    }
-    this._hasDisplayNameChange = true;
-  }
-
-  @observe('_account.name')
-  _nameChanged() {
-    if (this._loading || !this._account) {
-      return;
-    }
-    this._hasNameChange = true;
-  }
-
-  _computeUsernameMutable(username?: string) {
-    // Username may not be changed once it is set.
-    return !username;
-  }
-
-  _computeUsernameEditable(config?: ServerInfo) {
-    return !!config?.auth.editable_account_fields.includes(
+  _computeUsernameEditable() {
+    return !!this._serverConfig?.auth.editable_account_fields.includes(
       EditableAccountField.USER_NAME
     );
   }
 
-  _computeNameMutable(config: ServerInfo) {
-    return config.auth.editable_account_fields.includes(
+  _computeNameMutable() {
+    if (!this._serverConfig) return false;
+    return this._serverConfig.auth.editable_account_fields.includes(
       EditableAccountField.FULL_NAME
     );
   }
@@ -211,17 +322,10 @@ export class GrRegistrationDialog extends PolymerElement {
     fireEvent(this, 'close');
   }
 
-  _computeSaveDisabled(
-    displayName?: string,
-    name?: string,
-    username?: string,
-    saving?: boolean
-  ) {
-    return saving || (!displayName && !name && !username);
-  }
-
-  @observe('_loading')
-  _loadingChanged() {
-    this.classList.toggle('loading', this._loading);
+  _computeSaveDisabled() {
+    return (
+      this._saving ||
+      (!this._account?.display_name && !this._account.name && !this._username)
+    );
   }
 }

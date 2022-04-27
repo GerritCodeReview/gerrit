@@ -92,6 +92,7 @@ const change2: ChangeInfo = {
 suite('gr-change-list-bulk-vote-flow tests', () => {
   let element: GrChangeListBulkVoteFlow;
   let model: BulkActionsModel;
+  let dispatchEventStub: sinon.SinonStub;
   let getChangesStub: SinonStubbedMember<
     RestApiService['getDetailedChangesWithActions']
   >;
@@ -107,7 +108,6 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
   setup(async () => {
     model = new BulkActionsModel(getAppContext().restApiService);
     getChangesStub = stubRestApi('getDetailedChangesWithActions');
-
     element = (
       await fixture(
         wrapInProvider(
@@ -118,6 +118,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       )
     ).querySelector('gr-change-list-bulk-vote-flow')!;
     await element.updateComplete;
+    dispatchEventStub = sinon.stub(element, 'dispatchEvent');
   });
 
   test('renders', async () => {
@@ -278,14 +279,19 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       element.progressByChange.get(1 as NumericChangeId),
       ProgressStatus.SUCCESSFUL
     );
+
+    // reload event is fired automatically when all requests succeed
+    assert.equal(dispatchEventStub.lastCall.args[0].type, 'reload');
+    assert.equal(
+      dispatchEventStub.firstCall.args[0].detail.message,
+      'Votes added'
+    );
   });
 
   suite('closing dialog triggers reloads', () => {
     test('closing dialog triggers a reload', async () => {
       const changes: ChangeInfo[] = [change1, change2];
       getChangesStub.returns(Promise.resolve(changes));
-
-      const fireStub = sinon.stub(element, 'dispatchEvent');
 
       stubRestApi('saveChangeReview').callsFake(
         (_changeNum, _patchNum, _review, errFn) =>
@@ -312,19 +318,18 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
           ProgressStatus.FAILED
       );
 
-      assert.isFalse(fireStub.called);
+      // Dialog does not autoclose and fire reload event if some request fails
+      assert.isFalse(dispatchEventStub.called);
 
       queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').click();
 
-      await waitUntil(() => fireStub.called);
-      assert.equal(fireStub.lastCall.args[0].type, 'reload');
+      await waitUntil(() => dispatchEventStub.called);
+      assert.equal(dispatchEventStub.lastCall.args[0].type, 'reload');
     });
 
     test('closing dialog does not trigger reload if no request made', async () => {
       const changes: ChangeInfo[] = [change1, change2];
       getChangesStub.returns(Promise.resolve(changes));
-
-      const fireStub = sinon.stub(element, 'dispatchEvent');
 
       model.sync(changes);
       await waitUntilObserved(
@@ -337,7 +342,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
 
       queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').click();
 
-      assert.isFalse(fireStub.called);
+      assert.isFalse(dispatchEventStub.called);
     });
   });
 

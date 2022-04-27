@@ -873,7 +873,7 @@ export class GrReplyDialog extends LitElement {
             .text=${this.draft}
             @bind-value-changed=${(e: BindValueChangeEvent) => {
               this.draft = e.detail.value;
-              this.handleHeightChanged;
+              this.handleHeightChanged();
             }}
           >
           </gr-textarea>

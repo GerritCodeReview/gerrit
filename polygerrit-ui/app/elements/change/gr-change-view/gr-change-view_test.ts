@@ -34,8 +34,6 @@ import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plug
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {EventType, PluginApi} from '../../../api/plugin';
-
-import 'lodash/lodash';
 import {
   mockPromise,
   queryAndAssert,

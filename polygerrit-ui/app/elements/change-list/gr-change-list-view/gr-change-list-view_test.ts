@@ -20,7 +20,6 @@ import './gr-change-list-view';
 import {GrChangeListView} from './gr-change-list-view';
 import {page} from '../../../utils/page-wrapper-utils';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import 'lodash/lodash';
 import {
   mockPromise,
   query,
@@ -140,7 +139,9 @@ suite('gr-change-list-view tests', () => {
   });
 
   test('prevArrow', async () => {
-    element.changes = _.times(25, _.constant(createChange()));
+    element.changes = Array(25)
+      .fill(0)
+      .map(_ => createChange());
     element.offset = 0;
     element.loading = false;
     await element.updateComplete;
@@ -152,32 +153,34 @@ suite('gr-change-list-view tests', () => {
   });
 
   test('nextArrow', async () => {
-    element.changes = _.times(
-      25,
-      _.constant({...createChange(), _more_changes: true})
-    ) as ChangeInfo[];
+    element.changes = Array(25)
+      .fill(0)
+      .map(_ => ({...createChange(), _more_changes: true} as ChangeInfo));
     element.loading = false;
     await element.updateComplete;
     assert.isOk(query(element, '#nextArrow'));
 
-    element.changes = _.times(25, _.constant(createChange()));
+    element.changes = Array(25)
+      .fill(0)
+      .map(_ => createChange());
     await element.updateComplete;
     assert.isNotOk(query(element, '#nextArrow'));
   });
 
   test('handleNextPage', async () => {
     const showStub = sinon.stub(page, 'show');
-    element.changes = _.times(25, _.constant(createChange()));
+    element.changes = Array(25)
+      .fill(0)
+      .map(_ => createChange());
     element.changesPerPage = 10;
     element.loading = false;
     await element.updateComplete;
     element.handleNextPage();
     assert.isFalse(showStub.called);
 
-    element.changes = _.times(
-      25,
-      _.constant({...createChange(), _more_changes: true})
-    ) as ChangeInfo[];
+    element.changes = Array(25)
+      .fill(0)
+      .map(_ => ({...createChange(), _more_changes: true} as ChangeInfo));
     element.loading = false;
     await element.updateComplete;
     element.handleNextPage();
@@ -187,7 +190,9 @@ suite('gr-change-list-view tests', () => {
   test('handlePreviousPage', async () => {
     const showStub = sinon.stub(page, 'show');
     element.offset = 0;
-    element.changes = _.times(25, _.constant(createChange()));
+    element.changes = Array(25)
+      .fill(0)
+      .map(_ => createChange());
     element.changesPerPage = 10;
     element.loading = false;
     await element.updateComplete;

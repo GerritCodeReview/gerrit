@@ -211,6 +211,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
 
   test('progress updates as request is resolved', async () => {
     const changes: ChangeInfo[] = [{...change1}];
+    const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
     getChangesStub.returns(Promise.resolve(changes));
     model.sync(changes);
     await waitUntilObserved(
@@ -278,6 +279,9 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       element.progressByChange.get(1 as NumericChangeId),
       ProgressStatus.SUCCESSFUL
     );
+
+    // reload event is fired automatically when all requests succeed
+    assert.equal(dispatchEventStub.lastCall.args[0].type, 'reload');
   });
 
   suite('closing dialog triggers reloads', () => {
@@ -312,6 +316,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
           ProgressStatus.FAILED
       );
 
+      // Dialog does not autoclose and fire reload event if some request fails
       assert.isFalse(fireStub.called);
 
       queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#cancel').click();

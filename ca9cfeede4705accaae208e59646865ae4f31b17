@@ -16,6 +16,92 @@
       "message": "@Dmitrii what do you think?",
       "revId": "ca9cfeede4705accaae208e59646865ae4f31b17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39f5d3ae_fafafcb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-27T07:50:18Z",
+      "side": 1,
+      "message": "Sorry, I think this solution is overcomplicated and uses unobvious approaches/assumptions.\n\nMaybe let\u0027s discuss again my suggestion with unloaders (https://gerrit-review.googlesource.com/c/gerrit/+/334761/comments/81520c0c_d5652de6)?\n\nIn overall, I would like to have a clear responsibilities for increment/close Repository. In this change the responsibility is splitted between PerThreadCache and callers of getOptional + depends on the implementation of PerThreadCache (see my other comments)",
+      "revId": "ca9cfeede4705accaae208e59646865ae4f31b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58578bf5_e1d1c1b9",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-27T07:50:18Z",
+      "side": 1,
+      "message": "I had hard time when I was trying to understand how it works.\n\nIIUC, this code works in the following way:\n1. If this condition is false (i.e. cache.get(refCacheKey) \u003d\u003d null) \u003d\u003e loader has been called, but newly created RepoRefCache is not added in the cache.\nI.e. the returned RefCache must be closed explicitly.\nProblem 1: the following method in ChangeNotes\n  protected ObjectId readRef(Repository repo) throws IOException {\ndoesn\u0027t close it.\n\n2. If this condition is true \u003d\u003e 2 options:\n1) Loader has been called, new RepoRefCache has beed added to the PerThreadCache.\nIn this case, we can\u0027t call close on the created RepoRefCache. As a workaround, the RepoRefCache is wrapped into another RefCache and the first call to wrapper.close() doesn\u0027t do anything, but second does.\nProblem 2: This is very unclear logic. \n\n2) The PerThreadCache already contain RepoRefCache for the repo. In this case, only a new wrapper is returned for the same RepoRef.\nProblem 3: if wrapper.close() is called 2 times, the RepoRefCache becomes closed.",
+      "range": {
+        "startLine": 44,
+        "startChar": 10,
+        "endLine": 44,
+        "endChar": 40
+      },
+      "revId": "ca9cfeede4705accaae208e59646865ae4f31b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caa5e0b9_fd26346e",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-27T07:50:18Z",
+      "side": 1,
+      "message": "Another notice: we assume, that PerThreadCache stores all instances forever. I.e.\nbetween these 2 lines\n  RepoRefCache refCache \u003d cache.get(refCacheKey, () -\u003e new RepoRefCache(repo));\n  if (cache.get(refCacheKey) !\u003d null)\n  \nthe entry for refCacheKey can\u0027t be evicted from the dictionary. This is unexpected assumption for the cache (the current implementation doesn\u0027t evict anything, but we can\u0027t be sure about the future)",
+      "range": {
+        "startLine": 44,
+        "startChar": 10,
+        "endLine": 44,
+        "endChar": 40
+      },
+      "revId": "ca9cfeede4705accaae208e59646865ae4f31b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a792a5b_a0389dc2",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-27T07:50:18Z",
+      "side": 1,
+      "message": "The first call to the close does nothing, but the second call closes refCache.\nBreaks the expectations for AutoCloseable: the expectation is that the first close() call does something, and all subsequent call just do nothing (in other word: calling close() one time is equal to multiple close() calls.)",
+      "range": {
+        "startLine": 56,
+        "startChar": 16,
+        "endLine": 56,
+        "endChar": 52
+      },
+      "revId": "ca9cfeede4705accaae208e59646865ae4f31b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

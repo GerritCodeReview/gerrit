@@ -114,6 +114,8 @@ export class GrChangeListBulkVoteFlow extends LitElement {
         <gr-dialog
           .disableCancel=${!this.isCancelEnabled()}
           .disabled=${!this.isConfirmEnabled()}
+          ?loading=${this.isLoading()}
+          .loadingLabel=${'Voting in progress...'}
           @confirm=${() => this.handleConfirm()}
           @cancel=${() => this.handleClose()}
           .cancelLabel=${'Close'}
@@ -170,6 +172,10 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     );
   }
 
+  private isLoading() {
+    return getOverallStatus(this.progressByChange) === ProgressStatus.RUNNING;
+  }
+
   private isConfirmEnabled() {
     // Action is allowed if none of the changes have any bulk action performed
     // on them. In case an error happens then we keep the button disabled.
@@ -186,7 +192,6 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     this.actionOverlay.close();
     if (getOverallStatus(this.progressByChange) === ProgressStatus.NOT_STARTED)
       return;
-    fireAlert(this, 'Reloading page..');
     fireReload(this, true);
   }
 
@@ -213,6 +218,13 @@ export class GrChangeListBulkVoteFlow extends LitElement {
         })
         .finally(() => {
           this.requestUpdate();
+          if (
+            getOverallStatus(this.progressByChange) ===
+            ProgressStatus.SUCCESSFUL
+          ) {
+            fireAlert(this, 'Votes added');
+            this.handleClose();
+          }
         });
     }
   }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a6f2f7b_616ea361",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-27T18:36:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af7508f5_2fc75403",
+      "range": {
+        "startLine": 217,
+        "startChar": 14,
+        "endLine": 217,
+        "endChar": 17
+      },
+      "revId": "1dc92866b604521659442e72bdb6afde62819207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fab6a030_89e51715",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-27T15:56:12Z",
       "side": 1,
       "message": "Can this not just be this.serverConfig?.auth....?",
+      "range": {
+        "startLine": 280,
+        "startChar": 11,
+        "endLine": 280,
+        "endChar": 28
+      },
+      "revId": "1dc92866b604521659442e72bdb6afde62819207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac0b2a88_09a1f9b1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-27T18:36:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fab6a030_89e51715",
       "range": {
         "startLine": 280,
         "startChar": 11,

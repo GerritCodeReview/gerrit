@@ -25,6 +25,9 @@ import {ServerInfo, AccountDetailInfo} from '../../../types/common';
 import {EditableAccountField} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {fireEvent} from '../../../utils/event-util';
+import {css, html} from 'lit';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
 
 export interface GrRegistrationDialog {
   $: {
@@ -102,6 +105,121 @@ export class GrRegistrationDialog extends PolymerElement {
   override ready() {
     super.ready();
     this._ensureAttribute('role', 'dialog');
+  }
+
+  static styles = [
+    sharedStyles,
+    formStyles,
+    css`
+      :host {
+        display: block;
+      }
+      main {
+        max-width: 46em;
+      }
+      :host(.loading) main {
+        display: none;
+      }
+      .loadingMessage {
+        display: none;
+        font-style: italic;
+      }
+      :host(.loading) .loadingMessage {
+        display: block;
+      }
+      hr {
+        margin-top: var(--spacing-l);
+        margin-bottom: var(--spacing-l);
+      }
+      header {
+        border-bottom: 1px solid var(--border-color);
+        font-weight: var(--font-weight-bold);
+        margin-bottom: var(--spacing-l);
+      }
+      .container {
+        padding: var(--spacing-m) var(--spacing-xl);
+      }
+      footer {
+        display: flex;
+        justify-content: flex-end;
+      }
+      footer gr-button {
+        margin-left: var(--spacing-l);
+      }
+      input {
+        width: 20em;
+      }
+    `,
+  ];
+
+  render() {
+    return html`<div class="container gr-form-styles">
+      <header>Please confirm your contact information</header>
+      <div class="loadingMessage">Loading...</div>
+      <main>
+        <p>
+          The following contact information was automatically obtained when you
+          signed in to the site. This information is used to display who you are
+          to others, and to send updates to code reviews you have either started
+          or subscribed to.
+        </p>
+        <hr />
+        <section>
+          <span class="title">Full Name</span>
+          <span hidden$="[[_nameMutable]]" class="value"
+            >[[_account.name]]</span
+          >
+          <span hidden$="[[!_nameMutable]]" class="value">
+            <iron-input bind-value="{{_account.name}}">
+              <input id="name" disabled="[[_saving]]" />
+            </iron-input>
+          </span>
+        </section>
+        <section>
+          <span class="title">Display Name</span>
+          <span class="value">
+            <iron-input bind-value="{{_account.display_name}}">
+              <input id="displayName" disabled="[[_saving]]" />
+            </iron-input>
+          </span>
+        </section>
+        <template is="dom-if" if="[[_computeUsernameEditable(_serverConfig)]]">
+          <section>
+            <span class="title">Username</span>
+            <span hidden$="[[_usernameMutable]]" class="value"
+              >[[_username]]</span
+            >
+            <span hidden$="[[!_usernameMutable]]" class="value">
+              <iron-input bind-value="{{_username}}">
+                <input id="username" disabled="[[_saving]]" />
+              </iron-input>
+            </span>
+          </section>
+        </template>
+        <hr />
+        <p>
+          More configuration options for Gerrit may be found in the
+          <a on-click="close" href$="[[settingsUrl]]">settings</a>.
+        </p>
+      </main>
+      <footer>
+        <gr-button
+          id="closeButton"
+          link=""
+          disabled="[[_saving]]"
+          on-click="_handleClose"
+          >Close</gr-button
+        >
+        <gr-button
+          id="saveButton"
+          primary=""
+          link=""
+          disabled="[[_computeSaveDisabled(_account.display_name, _account.name, _username, _saving)]]"
+          on-click="_handleSave"
+          >Save</gr-button
+        >
+      </footer>
+    </div>`;
   }
 
   loadData() {

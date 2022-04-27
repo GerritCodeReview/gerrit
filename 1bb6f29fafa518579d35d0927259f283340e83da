@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52d941b9_8b8ca4ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-27T10:20:47Z",
+      "side": 1,
+      "message": "The code is now working, because the RepoRefCache increments and decrements the repository reference number, allowing it to be reused outside its scope.",
+      "revId": "1bb6f29fafa518579d35d0927259f283340e83da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

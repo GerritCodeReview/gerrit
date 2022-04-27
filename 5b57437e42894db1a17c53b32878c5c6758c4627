@@ -465,6 +465,30 @@
       },
       "revId": "5b57437e42894db1a17c53b32878c5c6758c4627",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5c09f8a_be0b66a9",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-27T12:33:23Z",
+      "side": 1,
+      "message": "The unloader is implemented with Change-Id: Id201d4a937",
+      "parentUuid": "ee1da7c0_350ef220",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 25
+      },
+      "revId": "5b57437e42894db1a17c53b32878c5c6758c4627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -19,11 +19,13 @@ import './gr-registration-dialog';
 import {GrRegistrationDialog} from './gr-registration-dialog';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {AccountDetailInfo, Timestamp} from '../../../types/common';
-import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {AuthType, EditableAccountField} from '../../../constants/constants';
-import {createServerInfo} from '../../../test/test-data-generators';
-
-const basicFixture = fixtureFromElement('gr-registration-dialog');
+import {
+  createAccountWithId,
+  createServerInfo,
+} from '../../../test/test-data-generators';
+import {fixture, html} from '@open-wc/testing-helpers';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 suite('gr-registration-dialog tests', () => {
   let element: GrRegistrationDialog;
@@ -31,7 +33,7 @@ suite('gr-registration-dialog tests', () => {
 
   let _listeners: {[key: string]: EventListenerOrEventListenerObject};
 
-  setup(() => {
+  setup(async () => {
     _listeners = {};
 
     account = {
@@ -70,9 +72,12 @@ suite('gr-registration-dialog tests', () => {
       })
     );
 
-    element = basicFixture.instantiate();
+    element = await fixture<GrRegistrationDialog>(
+      html`<gr-registration-dialog></gr-registration-dialog>`
+    );
 
-    return element.loadData();
+    await element.loadData();
+    await element.updateComplete;
   });
 
   teardown(() => {
@@ -92,7 +97,7 @@ suite('gr-registration-dialog tests', () => {
 
   function save() {
     const promise = listen('account-detail-update');
-    MockInteractions.tap(queryAndAssert(element, '#saveButton'));
+    queryAndAssert<GrButton>(element, '#saveButton').click();
     return promise;
   }
 
@@ -101,31 +106,95 @@ suite('gr-registration-dialog tests', () => {
     if (opt_action) {
       opt_action();
     } else {
-      MockInteractions.tap(queryAndAssert(element, '#closeButton'));
+      queryAndAssert<GrButton>(element, '#closeButton').click();
     }
     return promise;
   }
+
+  test('renders', () => {
+    // cannot format with /* HTML */, because it breaks test
+    expect(element).shadowDom.to.equal(/* HTML*/ `<div
+      class="container gr-form-styles"
+    >
+      <header>Please confirm your contact information</header>
+      <div class="loadingMessage">Loading...</div>
+      <main>
+        <p>
+        The following contact information was automatically obtained when you
+          signed in to the site. This information is used to display who you are
+          to others, and to send updates to code reviews you have either started
+          or subscribed to.
+        </p>
+        <hr />
+        <section>
+          <span class="title"> Full Name </span>
+          <span class="value">name</span>
+        </section>
+        <section>
+          <span class="title"> Display Name </span>
+          <span class="value">
+            <iron-input> <input id="displayName" /> </iron-input>
+          </span>
+        </section>
+        <section>
+          <span class="title"> Username </span>
+          <span class="value"></span>
+        </section>
+        <hr />
+        <p>
+          More configuration options for Gerrit may be found in the
+          <a> settings </a> .
+        </p>
+      </main>
+      <footer>
+        <gr-button
+          aria-disabled="false"
+          id="closeButton"
+          link=""
+          role="button"
+          tabindex="0"
+        >
+          Close
+        </gr-button>
+        <gr-button
+          aria-disabled="false"
+          id="saveButton"
+          link=""
+          primary=""
+          role="button"
+          tabindex="0"
+        >
+          Save
+        </gr-button>
+      </footer>
+    </div>`);
+  });
 
   test('fires the close event on close', async () => {
     await close();
   });
 
   test('fires the close event on save', async () => {
-    await close(() =>
-      MockInteractions.tap(queryAndAssert(element, '#saveButton'))
-    );
+    await close(() => {
+      queryAndAssert<GrButton>(element, '#saveButton').click();
+    });
   });
 
   test('saves account details', async () => {
-    await flush();
+    await element.updateComplete;
 
-    element.set('_account.username', '');
-    element._hasUsernameChange = false;
-    assert.isTrue(element._usernameMutable);
+    element.account.username = '';
+    element.hasUsernameChange = false;
+    await element.updateComplete;
+    assert.isTrue(element.usernameMutable);
 
-    element.set('_username', 'new username');
-    element.set('_account.name', 'new name');
-    element.set('_account.display_name', 'new display name');
+    element.username = 'new username';
+    element.hasUsernameChange = true;
+    element.account.name = 'new name';
+    element.hasNameChange = true;
+    element.account.display_name = 'new display name';
+    element.hasDisplayNameChange = true;
+    await element.updateComplete;
 
     // Nothing should be committed yet.
     assert.equal(account.name, 'name');
@@ -139,39 +208,43 @@ suite('gr-registration-dialog tests', () => {
     assert.equal(account.display_name, 'new display name');
   });
 
-  test('save btn disabled', () => {
-    const compute = element._computeSaveDisabled;
-    assert.isTrue(compute('', '', '', false));
-    assert.isFalse(compute('', '', 'test', false));
-    assert.isFalse(compute('', 'test', '', false));
-    assert.isFalse(compute('test', '', '', false));
-    assert.isTrue(compute('test', 'test', 'test', true));
-    assert.isFalse(compute('test', 'test', 'test', false));
+  test('save btn disabled', async () => {
+    element.account = {};
+    element.saving = false;
+    await element.updateComplete;
+    assert.isTrue(element.computeSaveDisabled());
+    element.account = {
+      ...createAccountWithId(),
+      display_name: 'test',
+      name: 'test',
+    };
+    element.username = 'test';
+    element.saving = true;
+    await element.updateComplete;
+    assert.isTrue(element.computeSaveDisabled());
+    element.saving = false;
+    await element.updateComplete;
+    assert.isFalse(element.computeSaveDisabled());
   });
 
-  test('_computeUsernameMutable', () => {
-    assert.isTrue(element._computeUsernameMutable(undefined));
-    assert.isFalse(element._computeUsernameMutable('abc'));
-  });
-
-  test('_computeUsernameEditable', () => {
-    assert.isTrue(
-      element._computeUsernameEditable({
-        ...createServerInfo(),
-        auth: {
-          auth_type: AuthType.HTTP,
-          editable_account_fields: [EditableAccountField.USER_NAME],
-        },
-      })
-    );
-    assert.isFalse(
-      element._computeUsernameEditable({
-        ...createServerInfo(),
-        auth: {
-          auth_type: AuthType.HTTP,
-          editable_account_fields: [],
-        },
-      })
-    );
+  test('_computeUsernameEditable', async () => {
+    element.serverConfig = {
+      ...createServerInfo(),
+      auth: {
+        auth_type: AuthType.HTTP,
+        editable_account_fields: [EditableAccountField.USER_NAME],
+      },
+    };
+    await element.updateComplete;
+    assert.isTrue(element.computeUsernameEditable());
+    element.serverConfig = {
+      ...createServerInfo(),
+      auth: {
+        auth_type: AuthType.HTTP,
+        editable_account_fields: [],
+      },
+    };
+    await element.updateComplete;
+    assert.isFalse(element.computeUsernameEditable());
   });
 });

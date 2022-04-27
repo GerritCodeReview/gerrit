@@ -45,17 +45,14 @@ import static com.google.gerrit.server.notedb.NoteDbUtil.sanitizeFooter;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.joining;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 import com.google.common.collect.TreeBasedTable;
@@ -146,7 +143,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final List<PatchSetApproval> copiedApprovals = new ArrayList<>();
-  private final List<PatchSetApproval> outdatedApprovals = new ArrayList<>();
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
   private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
   private final List<HumanComment> comments = new ArrayList<>();
@@ -303,21 +299,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public void putCopiedApproval(PatchSetApproval copiedPatchSetApproval) {
     checkArgument(copiedPatchSetApproval.copied(), "Approval that should be copied is not copied.");
     copiedApprovals.add(copiedPatchSetApproval);
-  }
-
-  /**
-   * Must be invoked on patch set creation for any approval that gets outdated by the creation of
-   * the new patch set (i.e. for each approval of the prior patch set that is no copied to the new
-   * patch set).
-   *
-   * @param outdatedApproval an outdated approval that is not copied to the new patch set
-   */
-  public void putOutdatedApproval(PatchSetApproval outdatedApproval) {
-    if (outdatedApproval.value() == 0) {
-      // if the vote is 0, the approval is not relevant
-      return;
-    }
-    outdatedApprovals.add(outdatedApproval);
   }
 
   public void merge(SubmissionId submissionId, Iterable<SubmitRecord> submitRecords) {
@@ -681,7 +662,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && reviewers.isEmpty()
         && reviewersByEmail.isEmpty()
         && approvals.isEmpty()
-        && outdatedApprovals.isEmpty()
         && workInProgress == null;
   }
 
@@ -944,46 +924,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     Set<AttentionSetUpdate> updates = new HashSet<>();
-
-    // Add attention set updates for outdated approvals first, as these should take precedence.
-    Multimap<Account.Id, PatchSetApproval> outdatedApprovalsByUser = ArrayListMultimap.create();
-    outdatedApprovals.forEach(psa -> outdatedApprovalsByUser.put(psa.accountId(), psa));
-    for (Map.Entry<Account.Id, Collection<PatchSetApproval>> e :
-        outdatedApprovalsByUser.asMap().entrySet()) {
-      Account.Id approverId = e.getKey();
-      Collection<PatchSetApproval> outdatedUserApprovals = e.getValue();
-
-      String message;
-      if (outdatedApprovalsByUser.size() == 1) {
-        PatchSetApproval outdatedUserApproval = Iterables.getOnlyElement(outdatedUserApprovals);
-        message =
-            String.format(
-                "Vote got outdated and was removed: %s",
-                LabelVote.create(outdatedUserApproval.label(), outdatedUserApproval.value())
-                    .format());
-      } else {
-        message =
-            String.format(
-                "Votes got outdated and were removed: %s",
-                outdatedUserApprovals.stream()
-                    .map(
-                        outdatedUserApproval ->
-                            LabelVote.create(
-                                    outdatedUserApproval.label(), outdatedUserApproval.value())
-                                .format())
-                    .sorted()
-                    .collect(joining(", ")));
-      }
-
-      updates.add(
-          AttentionSetUpdate.createForWrite(approverId, AttentionSetUpdate.Operation.ADD, message));
-    }
-    addToPlannedAttentionSetUpdates(updates);
-
-    // Add attention set updates for reviewers. If for a user an attention set update has already
-    // been added above, adding another attention set update for the same user has no effect and is
-    // ignored (the attention set update that is added first takes precedence).
-    updates.clear();
     Set<Account.Id> currentReviewers =
         getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER);
     for (Map.Entry<Account.Id, ReviewerStateInternal> reviewer : reviewers.entrySet()) {
@@ -1171,7 +1111,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return commitSubject == null
         && approvals.isEmpty()
         && copiedApprovals.isEmpty()
-        && outdatedApprovals.isEmpty()
         && changeMessage == null
         && comments.isEmpty()
         && reviewers.isEmpty()

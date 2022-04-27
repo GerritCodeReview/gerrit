@@ -291,14 +291,18 @@ public class StreamEventsApiListener
   @Override
   public void onRevisionCreated(RevisionCreatedListener.Event ev) {
     try {
-      ChangeNotes notes = getNotes(ev.getChange());
-      Change change = notes.getChange();
-      PatchSet patchSet = getPatchSet(notes, ev.getRevision());
-      PatchSetCreatedEvent event = new PatchSetCreatedEvent(change);
+      Change change;
+      PatchSetCreatedEvent event;
+      try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+        ChangeNotes notes = getNotes(ev.getChange());
+        change = notes.getChange();
+        PatchSet patchSet = getPatchSet(notes, ev.getRevision());
+        event = new PatchSetCreatedEvent(change);
 
-      event.change = changeAttributeSupplier(change, notes);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
-      event.uploader = accountAttributeSupplier(ev.getWho());
+        event.change = changeAttributeSupplier(change, notes);
+        event.patchSet = patchSetAttributeSupplier(change, patchSet);
+        event.uploader = accountAttributeSupplier(ev.getWho());
+      }
 
       dispatcher.run(d -> d.postEvent(change, event));
     } catch (OrmException e) {

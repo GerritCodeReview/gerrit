@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
-import 'lodash/lodash';
 import './gr-diff-processor';
 import {GrDiffLineType, FILE, GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
@@ -559,11 +558,10 @@ suite('gr-diff-processor tests', () => {
     test('breaks down shared chunks w/ whole-file', () => {
       const maxGroupSize = 128;
       const size = maxGroupSize * 2 + 5;
-      const content = [
-        {
-          ab: _.times(size, () => `${Math.random()}`),
-        },
-      ];
+      const ab = Array(size)
+        .fill(0)
+        .map(() => `${Math.random()}`);
+      const content = [{ab}];
       element.context = -1;
       const result = element.splitLargeChunks(content);
       assert.equal(result.length, 2);
@@ -574,7 +572,9 @@ suite('gr-diff-processor tests', () => {
     test('breaks down added chunks', () => {
       const maxGroupSize = 128;
       const size = maxGroupSize * 2 + 5;
-      const content = _.times(size, () => `${Math.random()}`);
+      const content = Array(size)
+        .fill(0)
+        .map(() => `${Math.random()}`);
       element.context = 5;
       const splitContent = element
         .splitLargeChunks([{a: [], b: content}])
@@ -588,7 +588,9 @@ suite('gr-diff-processor tests', () => {
     test('breaks down removed chunks', () => {
       const maxGroupSize = 128;
       const size = maxGroupSize * 2 + 5;
-      const content = _.times(size, () => `${Math.random()}`);
+      const content = Array(size)
+        .fill(0)
+        .map(() => `${Math.random()}`);
       element.context = 5;
       const splitContent = element
         .splitLargeChunks([{a: content, b: []}])
@@ -601,7 +603,9 @@ suite('gr-diff-processor tests', () => {
 
     test('does not break down moved chunks', () => {
       const size = 120 * 2 + 5;
-      const content = _.times(size, () => `${Math.random()}`);
+      const content = Array(size)
+        .fill(0)
+        .map(() => `${Math.random()}`);
       element.context = 5;
       const splitContent = element
         .splitLargeChunks([
@@ -617,11 +621,10 @@ suite('gr-diff-processor tests', () => {
     });
 
     test('does not break-down common chunks w/ context', () => {
-      const content = [
-        {
-          ab: _.times(75, () => `${Math.random()}`),
-        },
-      ];
+      const ab = Array(75)
+        .fill(0)
+        .map(() => `${Math.random()}`);
+      const content = [{ab}];
       element.context = 4;
       const result = element.splitCommonChunksWithKeyLocations(content);
       assert.equal(result.length, 1);
@@ -727,10 +730,7 @@ suite('gr-diff-processor tests', () => {
     });
 
     test('scrolling pauses rendering', () => {
-      const contentRow = {
-        ab: ['', ''],
-      };
-      const content = _.times(200, _.constant(contentRow));
+      const content = Array(200).fill({ab: ['', '']});
       element.isScrolling = true;
       element.process(content, false);
       // Just the files group - no more processing during scrolling.
@@ -743,10 +743,7 @@ suite('gr-diff-processor tests', () => {
     });
 
     test('image diffs', () => {
-      const contentRow = {
-        ab: ['', ''],
-      };
-      const content = _.times(200, _.constant(contentRow));
+      const content = Array(200).fill({ab: ['', '']});
       element.process(content, true);
       assert.equal(element.groups.length, 2);
 

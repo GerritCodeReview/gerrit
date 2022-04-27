@@ -179,8 +179,8 @@ export class GrEditableContent extends LitElement {
           box-shadow: none;
           border: 1px solid var(--border-color);
         }
-        .show-all-container .show-all-button {
-          margin-right: auto;
+        .flex-space {
+          flex-grow: 1;
         }
         .show-all-container iron-icon {
           color: inherit;
@@ -275,6 +275,7 @@ export class GrEditableContent extends LitElement {
               )}
               ${this.commitCollapsed ? 'Show all' : 'Show less'}
             </gr-button>
+            <div class="flex-space"></div>
           `
         )}
         ${when(

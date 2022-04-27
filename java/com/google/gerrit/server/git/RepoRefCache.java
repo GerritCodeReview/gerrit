@@ -29,6 +29,7 @@ import org.eclipse.jgit.lib.Repository;
 public class RepoRefCache implements RefCache {
   private final RefDatabase refdb;
   private final Map<String, Optional<ObjectId>> ids;
+  private final Repository repo;
 
   public static Optional<RefCache> getOptional(Repository repo) {
     PerThreadCache cache = PerThreadCache.get();
@@ -42,6 +43,8 @@ public class RepoRefCache implements RefCache {
   }
 
   public RepoRefCache(Repository repo) {
+    repo.incrementOpen();
+    this.repo = repo;
     this.refdb = repo.getRefDatabase();
     this.ids = new HashMap<>();
   }
@@ -61,5 +64,10 @@ public class RepoRefCache implements RefCache {
   /** @return an unmodifiable view of the refs that have been cached by this instance. */
   public Map<String, Optional<ObjectId>> getCachedRefs() {
     return Collections.unmodifiableMap(ids);
+  }
+
+  @Override
+  public void close() {
+    repo.close();
   }
 }

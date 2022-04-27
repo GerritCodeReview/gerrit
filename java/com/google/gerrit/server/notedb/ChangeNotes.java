@@ -752,9 +752,25 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         // ReviewDb claims NoteDb state exists, but meta ref isn't present: fall through and
         // auto-rebuild if necessary.
       }
-      RefCache refs = RepoRefCache.getOptional(repo).orElse(new RepoRefCache(repo));
-      if (!NoteDbChangeState.isChangeUpToDate(state, refs, getChangeId())) {
-        return rebuildAndOpen(repo, id);
+      RefCache refs;
+      RepoRefCache newRefCache = null;
+      Optional<RefCache> cachedRefCache = RepoRefCache.getOptional(repo);
+
+      if (cachedRefCache.isPresent()) {
+        refs = cachedRefCache.get();
+      } else {
+        newRefCache = new RepoRefCache(repo);
+        refs = newRefCache;
+      }
+
+      try {
+        if (!NoteDbChangeState.isChangeUpToDate(state, refs, getChangeId())) {
+          return rebuildAndOpen(repo, id);
+        }
+      } finally {
+        if (newRefCache != null) {
+          newRefCache.close();
+        }
       }
     }
     return super.openHandle(repo);

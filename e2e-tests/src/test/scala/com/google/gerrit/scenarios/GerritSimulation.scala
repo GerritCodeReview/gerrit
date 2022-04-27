@@ -87,7 +87,7 @@ class GerritSimulation extends Simulation {
       replaceProperty("ssh_port", 29418, in)
   }
 
-  protected def getFullProjectName(projectName: String) {
+  protected def getFullProjectName(projectName: String): String = {
     getProperty("project_prefix", "") + projectName
   }
 

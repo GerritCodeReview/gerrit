@@ -38,9 +38,9 @@
     regenerator-runtime "^0.13.4"
 
 "@bazel/concatjs@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@bazel/concatjs/-/concatjs-5.1.0.tgz#f4321dec4a225c3ceac41b2dc7ec7c3dd3dd5e21"
-  integrity sha512-sj+vxHVB/swh7awOfQ37h3p/gxSPgLSnUkDt6POrj26qkfi7HrLB1ZkWAPFIIxjEhsBp1LchoHiezjw2GylZQg==
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@bazel/concatjs/-/concatjs-5.4.0.tgz#04e752a6ea3e684f00879e6683657c4ede72df6e"
+  integrity sha512-jlupaDKxqFS3B1lttOIgkKxirP7v5Qx7KCFtOXO7JxtvYJD/qKtKXEQggTrGKJqLPyiZlNiYimHHGICLSWIZcQ==
   dependencies:
     protobufjs "6.8.8"
     source-map-support "0.5.9"

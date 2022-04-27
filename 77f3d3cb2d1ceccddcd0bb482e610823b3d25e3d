@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecceb102_dfdf90e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-27T10:01:03Z",
+      "side": 1,
+      "message": "@Dmitrii this is the change that shows the issue without having any reference to the PerThreadCache.",
+      "revId": "77f3d3cb2d1ceccddcd0bb482e610823b3d25e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

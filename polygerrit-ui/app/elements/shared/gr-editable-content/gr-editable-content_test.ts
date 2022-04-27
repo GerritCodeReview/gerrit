@@ -50,6 +50,7 @@ suite('gr-editable-content tests', () => {
           <iron-icon icon="gr-icons:expand-more"> </iron-icon>
           Show all
         </gr-button>
+        <div class="flex-space"></div>
         <gr-button
           aria-disabled="false"
           class="edit-commit-message"

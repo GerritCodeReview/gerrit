@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3767508_c48f9cd2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-27T10:12:15Z",
+      "side": 1,
+      "message": "The test is failing with:\n1) repositoryUseShouldBeTrackedByRepoRefCache(com.google.gerrit.server.git.RepoRefCacheTest)\nexpected: 1\nbut was : 0\n\tat com.google.gerrit.server.git.RepoRefCacheTest.repositoryUseShouldBeTrackedByRepoRefCache(RepoRefCacheTest.java:57)\n\t\nEven by removing the assertion at L57, the test would fail anyway with:\n1) repositoryUseShouldBeTrackedByRepoRefCache(com.google.gerrit.server.git.RepoRefCacheTest)\njava.lang.IllegalStateException: Repository is not open (refCounter\u003d0)\n\tat com.google.gerrit.server.git.RepoRefCacheTest$TestRepositoryWithRefCounting.checkIsOpen(RepoRefCacheTest.java:272)\n\tat com.google.gerrit.server.git.RepoRefCacheTest$TestRepositoryWithRefCounting.access$000(RepoRefCacheTest.java:61)\n\tat com.google.gerrit.server.git.RepoRefCacheTest$TestRepositoryWithRefCounting$1.exactRef(RepoRefCacheTest.java:178)\n\tat com.google.gerrit.server.git.RepoRefCache.get(RepoRefCache.java:55)\n\n\nThe reason behind the failure is that RepoRefCache is holding a reference to the Repository object outside its scope.",
+      "revId": "95117c6bb4987b95bfaca2472f9dcfb3d925cfd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

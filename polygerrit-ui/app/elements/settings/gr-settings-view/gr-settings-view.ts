@@ -16,12 +16,6 @@
  */
 import '@polymer/iron-input/iron-input';
 import '@polymer/paper-toggle-button/paper-toggle-button';
-import '../../../styles/gr-font-styles';
-import '../../../styles/gr-form-styles';
-import '../../../styles/gr-menu-page-styles';
-import '../../../styles/gr-page-nav-styles';
-import '../../../styles/gr-paper-styles';
-import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../gr-change-table-editor/gr-change-table-editor';
 import '../../shared/gr-button/gr-button';
@@ -39,10 +33,7 @@ import '../gr-identities/gr-identities';
 import '../gr-menu-editor/gr-menu-editor';
 import '../gr-ssh-editor/gr-ssh-editor';
 import '../gr-watched-projects-editor/gr-watched-projects-editor';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-settings-view_html';
 import {getDocsBaseUrl} from '../../../utils/url-util';
-import {customElement, property, observe} from '@polymer/decorators';
 import {AppElementParams} from '../../gr-app-types';
 import {GrAccountInfo} from '../gr-account-info/gr-account-info';
 import {GrWatchedProjectsEditor} from '../gr-watched-projects-editor/gr-watched-projects-editor';
@@ -66,24 +57,16 @@ import {
 } from '../../../constants/constants';
 import {columnNames} from '../../change-list/gr-change-list/gr-change-list';
 import {windowLocationReload} from '../../../utils/dom-util';
-import {ValueChangedEvent} from '../../../types/events';
-
-const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
-  'changes_per_page',
-  'date_format',
-  'time_format',
-  'email_strategy',
-  'diff_view',
-  'publish_comments_on_push',
-  'disable_keyboard_shortcuts',
-  'disable_token_highlighting',
-  'work_in_progress_by_default',
-  'default_base_for_merges',
-  'signed_off_by',
-  'email_format',
-  'size_bar_in_change_table',
-  'relative_date_in_change_table',
-];
+import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {LitElement, css, html} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {paperStyles} from '../../../styles/gr-paper-styles';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {when} from 'lit/directives/when';
+import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
+import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
+import {formStyles} from '../../../styles/gr-form-styles';
 
 const GERRIT_DOCS_BASE_URL =
   'https://gerrit-review.googlesource.com/' + 'Documentation';
@@ -98,39 +81,8 @@ enum CopyPrefsDirection {
   LocalPrefsToPrefs,
 }
 
-export interface GrSettingsView {
-  $: {
-    accountInfo: GrAccountInfo;
-    watchedProjectsEditor: GrWatchedProjectsEditor;
-    groupList: GrGroupList;
-    identities: GrIdentities;
-    diffPrefs: GrDiffPreferences;
-    sshEditor: GrSshEditor;
-    gpgEditor: GrGpgEditor;
-    emailEditor: GrEmailEditor;
-    insertSignedOff: HTMLInputElement;
-    workInProgressByDefault: HTMLInputElement;
-    showSizeBarsInFileList: HTMLInputElement;
-    publishCommentsOnPush: HTMLInputElement;
-    disableKeyboardShortcuts: HTMLInputElement;
-    disableTokenHighlighting: HTMLInputElement;
-    relativeDateInChangeTable: HTMLInputElement;
-    changesPerPageSelect: HTMLInputElement;
-    dateTimeFormatSelect: HTMLInputElement;
-    timeFormatSelect: HTMLInputElement;
-    emailNotificationsSelect: HTMLInputElement;
-    emailFormatSelect: HTMLInputElement;
-    defaultBaseForMergesSelect: HTMLInputElement;
-    diffViewSelect: HTMLInputElement;
-  };
-}
-
 @customElement('gr-settings-view')
-export class GrSettingsView extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrSettingsView extends LitElement {
   /**
    * Fired when the title of the page should change.
    *
@@ -143,65 +95,95 @@ export class GrSettingsView extends PolymerElement {
    * @event show-alert
    */
 
-  @property({type: Object})
-  prefs: PreferencesInput = {};
+  @query('#accountInfo', true) accountInfo!: GrAccountInfo;
 
-  @property({type: Object})
-  params?: AppElementParams;
+  @query('#watchedProjectsEditor', true)
+  watchedProjectsEditor!: GrWatchedProjectsEditor;
 
-  @property({type: Boolean})
-  _accountInfoChanged = false;
+  @query('#groupList', true) groupList!: GrGroupList;
 
-  @property({type: Object})
-  _localPrefs: PreferencesInput = {};
+  @query('#identities', true) identities!: GrIdentities;
 
-  @property({type: Array})
-  _localChangeTableColumns: string[] = [];
+  @query('#diffPrefs') diffPrefs!: GrDiffPreferences;
 
-  @property({type: Boolean})
-  _loading = true;
+  @query('#sshEditor') sshEditor?: GrSshEditor;
 
-  @property({type: Boolean})
-  _changeTableChanged = false;
+  @query('#gpgEditor') gpgEditor?: GrGpgEditor;
 
-  @property({type: Boolean})
-  _prefsChanged = false;
+  @query('#emailEditor', true) emailEditor!: GrEmailEditor;
 
-  @property({type: Boolean})
-  _diffPrefsChanged = false;
+  @query('#insertSignedOff') insertSignedOff!: HTMLInputElement;
 
-  @property({type: Boolean})
-  _watchedProjectsChanged = false;
+  @query('#workInProgressByDefault') workInProgressByDefault!: HTMLInputElement;
 
-  @property({type: Boolean})
-  _keysChanged = false;
+  @query('#showSizeBarsInFileList') showSizeBarsInFileList!: HTMLInputElement;
 
-  @property({type: Boolean})
-  _gpgKeysChanged = false;
+  @query('#publishCommentsOnPush') publishCommentsOnPush!: HTMLInputElement;
 
-  @property({type: String})
-  _newEmail?: string;
+  @query('#disableKeyboardShortcuts')
+  disableKeyboardShortcuts!: HTMLInputElement;
 
-  @property({type: Boolean})
-  _addingEmail = false;
+  @query('#disableTokenHighlighting')
+  disableTokenHighlighting!: HTMLInputElement;
 
-  @property({type: String})
-  _lastSentVerificationEmail?: string | null = null;
+  @query('#relativeDateInChangeTable')
+  relativeDateInChangeTable!: HTMLInputElement;
 
-  @property({type: Object})
-  _serverConfig?: ServerInfo;
+  @query('#changesPerPageSelect') changesPerPageSelect!: HTMLInputElement;
 
-  @property({type: String})
-  _docsBaseUrl?: string | null;
+  @query('#dateTimeFormatSelect') dateTimeFormatSelect!: HTMLInputElement;
 
-  @property({type: Boolean})
-  _emailsChanged = false;
+  @query('#timeFormatSelect') timeFormatSelect!: HTMLInputElement;
 
-  @property({type: Boolean})
-  _showNumber?: boolean;
+  @query('#emailNotificationsSelect')
+  emailNotificationsSelect!: HTMLInputElement;
 
-  @property({type: Boolean})
-  _isDark = false;
+  @query('#emailFormatSelect') emailFormatSelect!: HTMLInputElement;
+
+  @query('#defaultBaseForMergesSelect')
+  defaultBaseForMergesSelect!: HTMLInputElement;
+
+  @query('#diffViewSelect') diffViewSelect!: HTMLInputElement;
+
+  @state() prefs: PreferencesInput = {};
+
+  @property({type: Object}) params?: AppElementParams;
+
+  @state() _accountInfoChanged = false;
+
+  @state() _localPrefs: PreferencesInput = {};
+
+  @state() _localChangeTableColumns: string[] = [];
+
+  @state() _loading = true;
+
+  @state() _changeTableChanged = false;
+
+  @state() _prefsChanged = false;
+
+  @state() _diffPrefsChanged = false;
+
+  @state() _watchedProjectsChanged = false;
+
+  @state() _keysChanged = false;
+
+  @state() _gpgKeysChanged = false;
+
+  @state() _newEmail?: string;
+
+  @state() _addingEmail = false;
+
+  @state() _lastSentVerificationEmail?: string | null = null;
+
+  @state() _serverConfig?: ServerInfo;
+
+  @state() _docsBaseUrl?: string | null;
+
+  @state() _emailsChanged = false;
+
+  @state() _showNumber?: boolean;
+
+  @state() _isDark = false;
 
   public _testOnly_loadingPromise?: Promise<void>;
 
@@ -213,14 +195,16 @@ export class GrSettingsView extends PolymerElement {
     // we need to manually calling scrollIntoView when hash changed
     window.addEventListener('location-change', this.handleLocationChange);
     fireTitleChange(this, 'Settings');
+  }
 
+  override firstUpdated() {
     this._isDark = !!window.localStorage.getItem('dark-theme');
 
     const promises: Array<Promise<unknown>> = [
-      this.$.accountInfo.loadData(),
-      this.$.watchedProjectsEditor.loadData(),
-      this.$.groupList.loadData(),
-      this.$.identities.loadData(),
+      this.accountInfo.loadData(),
+      this.watchedProjectsEditor.loadData(),
+      this.groupList.loadData(),
+      this.identities.loadData(),
     ];
 
     // TODO(dhruvsri): move this to the service
@@ -246,16 +230,12 @@ export class GrSettingsView extends PolymerElement {
         this._serverConfig = config;
         const configPromises: Array<Promise<void>> = [];
 
-        if (this._serverConfig && this._serverConfig.sshd) {
-          configPromises.push(this.$.sshEditor.loadData());
+        if (this._serverConfig?.sshd && this.sshEditor) {
+          configPromises.push(this.sshEditor.loadData());
         }
 
-        if (
-          this._serverConfig &&
-          this._serverConfig.receive &&
-          this._serverConfig.receive.enable_signed_push
-        ) {
-          configPromises.push(this.$.gpgEditor.loadData());
+        if (this._serverConfig?.receive?.enable_signed_push && this.gpgEditor) {
+          configPromises.push(this.gpgEditor.loadData());
         }
 
         configPromises.push(
@@ -280,11 +260,11 @@ export class GrSettingsView extends PolymerElement {
             if (message) {
               fireAlert(this, message);
             }
-            this.$.emailEditor.loadData();
+            this.emailEditor.loadData();
           })
       );
     } else {
-      promises.push(this.$.emailEditor.loadData());
+      promises.push(this.emailEditor.loadData());
     }
 
     this._testOnly_loadingPromise = Promise.all(promises).then(() => {
@@ -295,17 +275,713 @@ export class GrSettingsView extends PolymerElement {
     });
   }
 
+  static override styles = [
+    sharedStyles,
+    paperStyles,
+    fontStyles,
+    formStyles,
+    menuPageStyles,
+    pageNavStyles,
+    css`
+      :host {
+        color: var(--primary-text-color);
+      }
+      h2 {
+        font-family: var(--header-font-family);
+        font-size: var(--font-size-h2);
+        font-weight: var(--font-weight-h2);
+        line-height: var(--line-height-h2);
+      }
+      .newEmailInput {
+        width: 20em;
+      }
+      #email {
+        margin-bottom: var(--spacing-l);
+      }
+      .main section.darkToggle {
+        display: block;
+      }
+      .filters p,
+      .darkToggle p {
+        margin-bottom: var(--spacing-l);
+      }
+      .queryExample em {
+        color: violet;
+      }
+      .toggle {
+        align-items: center;
+        display: flex;
+        margin-bottom: var(--spacing-l);
+        margin-right: var(--spacing-l);
+      }
+    `,
+  ];
+
+  override render() {
+    const isLoading = this._loading || this._loading === undefined;
+    return html`<div class="loading" ?hidden=${!isLoading}>Loading...</div>
+      <div ?hidden=${isLoading}>
+        <gr-page-nav class="navStyles">
+          <ul>
+            <li><a href="#Profile">Profile</a></li>
+            <li><a href="#Preferences">Preferences</a></li>
+            <li><a href="#DiffPreferences">Diff Preferences</a></li>
+            <li><a href="#EditPreferences">Edit Preferences</a></li>
+            <li><a href="#Menu">Menu</a></li>
+            <li><a href="#ChangeTableColumns">Change Table Columns</a></li>
+            <li><a href="#Notifications">Notifications</a></li>
+            <li><a href="#EmailAddresses">Email Addresses</a></li>
+            ${when(
+              this._showHttpAuth(),
+              () =>
+                html`<li><a href="#HTTPCredentials">HTTP Credentials</a></li>`
+            )}
+            ${when(
+              this._serverConfig?.sshd,
+              () => html`<li><a href="#SSHKeys"> SSH Keys </a></li>`
+            )}
+            ${when(
+              this._serverConfig?.receive?.enable_signed_push,
+              () => html`<li><a href="#GPGKeys"> GPG Keys </a></li>`
+            )}
+            <li><a href="#Groups">Groups</a></li>
+            <li><a href="#Identities">Identities</a></li>
+            ${when(
+              this._serverConfig?.auth.use_contributor_agreements,
+              () => html`<li><a href="#Agreements">Agreements</a></li>`
+            )}
+            <li><a href="#MailFilters">Mail Filters</a></li>
+            <gr-endpoint-decorator name="settings-menu-item">
+            </gr-endpoint-decorator>
+          </ul>
+        </gr-page-nav>
+        <div class="main gr-form-styles">
+          <h1 class="heading-1">User Settings</h1>
+          <h2 id="Theme">Theme</h2>
+          <section class="darkToggle">
+            <div class="toggle">
+              <paper-toggle-button
+                aria-labelledby="darkThemeToggleLabel"
+                ?checked=${this._isDark}
+                @change=${this._handleToggleDark}
+                @click=${this._onTapDarkToggle}
+              ></paper-toggle-button>
+              <div id="darkThemeToggleLabel">
+                Dark theme (the toggle reloads the page)
+              </div>
+            </div>
+          </section>
+          <h2
+            id="Profile"
+            class=${this._computeHeaderClass(this._accountInfoChanged)}
+          >
+            Profile
+          </h2>
+          <fieldset id="profile">
+            <gr-account-info
+              id="accountInfo"
+              ?hasUnsavedChanges=${this._accountInfoChanged}
+              @unsaved-changes-changed=${(e: ValueChangedEvent<boolean>) => {
+                this._accountInfoChanged = e.detail.value;
+              }}
+            ></gr-account-info>
+            <gr-button
+              @click=${() => {
+                this.accountInfo.save();
+              }}
+              ?disabled=${!this._accountInfoChanged}
+              >Save changes</gr-button
+            >
+          </fieldset>
+          <h2
+            id="Preferences"
+            class=${this._computeHeaderClass(this._prefsChanged)}
+          >
+            Preferences
+          </h2>
+          <fieldset id="preferences">
+            <section>
+              <label class="title" for="changesPerPageSelect"
+                >Changes per page</label
+              >
+              <span class="value">
+                <gr-select
+                  .bindValue=${this._convertToString(
+                    this._localPrefs.changes_per_page
+                  )}
+                  @change=${() => {
+                    this._localPrefs.changes_per_page = Number(
+                      this.changesPerPageSelect.value
+                    ) as 10 | 25 | 50 | 100;
+                    this._prefsChanged = true;
+                  }}
+                >
+                  <select id="changesPerPageSelect">
+                    <option value="10">10 rows per page</option>
+                    <option value="25">25 rows per page</option>
+                    <option value="50">50 rows per page</option>
+                    <option value="100">100 rows per page</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <label class="title" for="dateTimeFormatSelect"
+                >Date/time format</label
+              >
+              <span class="value">
+                <gr-select
+                  .bindValue=${this._convertToString(
+                    this._localPrefs.date_format
+                  )}
+                  @change=${() => {
+                    this._localPrefs.date_format = this.dateTimeFormatSelect
+                      .value as DateFormat;
+                    this._prefsChanged = true;
+                  }}
+                >
+                  <select id="dateTimeFormatSelect">
+                    <option value="STD">Jun 3 ; Jun 3, 2016</option>
+                    <option value="US">06/03 ; 06/03/16</option>
+                    <option value="ISO">06-03 ; 2016-06-03</option>
+                    <option value="EURO">3. Jun ; 03.06.2016</option>
+                    <option value="UK">03/06 ; 03/06/2016</option>
+                  </select>
+                </gr-select>
+                <gr-select
+                  .bindValue=${this._convertToString(
+                    this._localPrefs.time_format
+                  )}
+                  aria-label="Time Format"
+                  @change=${() => {
+                    this._localPrefs.time_format = this.timeFormatSelect
+                      .value as TimeFormat;
+                    this._prefsChanged = true;
+                  }}
+                >
+                  <select id="timeFormatSelect">
+                    <option value="HHMM_12">4:10 PM</option>
+                    <option value="HHMM_24">16:10</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <label class="title" for="emailNotificationsSelect"
+                >Email notifications</label
+              >
+              <span class="value">
+                <gr-select
+                  .bindValue=${this._convertToString(
+                    this._localPrefs.email_strategy
+                  )}
+                  @change=${() => {
+                    this._localPrefs.email_strategy = this
+                      .emailNotificationsSelect.value as EmailStrategy;
+                    this._prefsChanged = true;
+                  }}
+                >
+                  <select id="emailNotificationsSelect">
+                    <option value="CC_ON_OWN_COMMENTS">Every comment</option>
+                    <option value="ENABLED">
+                      Only comments left by others
+                    </option>
+                    <option value="ATTENTION_SET_ONLY">
+                      Only when I am in the attention set
+                    </option>
+                    <option value="DISABLED">None</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section
+              ?hidden=${!this._convertToString(this._localPrefs.email_format)}
+            >
+              <label class="title" for="emailFormatSelect">Email format</label>
+              <span class="value">
+                <gr-select
+                  .bindValue=${this._convertToString(
+                    this._localPrefs.email_format
+                  )}
+                  @change=${() => {
+                    this._localPrefs.email_format = this.emailFormatSelect
+                      .value as EmailFormat;
+                    this._prefsChanged = true;
+                  }}
+                >
+                  <select id="emailFormatSelect">
+                    <option value="HTML_PLAINTEXT">HTML and plaintext</option>
+                    <option value="PLAINTEXT">Plaintext only</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section ?hidden=${!this._localPrefs.default_base_for_merges}>
+              <span class="title">Default Base For Merges</span>
+              <span class="value">
+                <gr-select
+                  .bindValue=${this._convertToString(
+                    this._localPrefs.default_base_for_merges
+                  )}
+                  @change=${() => {
+                    this._localPrefs.default_base_for_merges = this
+                      .defaultBaseForMergesSelect.value as DefaultBase;
+                    this._prefsChanged = true;
+                  }}
+                >
+                  <select id="defaultBaseForMergesSelect">
+                    <option value="AUTO_MERGE">Auto Merge</option>
+                    <option value="FIRST_PARENT">First Parent</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <label class="title" for="relativeDateInChangeTable"
+                >Show Relative Dates In Changes Table</label
+              >
+              <span class="value">
+                <input
+                  id="relativeDateInChangeTable"
+                  type="checkbox"
+                  ?checked=${this._localPrefs.relative_date_in_change_table}
+                  @change=${() => {
+                    this._localPrefs.relative_date_in_change_table =
+                      this.relativeDateInChangeTable.checked;
+                    this._prefsChanged = true;
+                  }}
+                />
+              </span>
+            </section>
+            <section>
+              <span class="title">Diff view</span>
+              <span class="value">
+                <gr-select
+                  .bindValue=${this._convertToString(
+                    this._localPrefs.diff_view
+                  )}
+                  @change=${() => {
+                    this._localPrefs.diff_view = this.diffViewSelect
+                      .value as DiffViewMode;
+                    this._prefsChanged = true;
+                  }}
+                >
+                  <select id="diffViewSelect">
+                    <option value="SIDE_BY_SIDE">Side by side</option>
+                    <option value="UNIFIED_DIFF">Unified diff</option>
+                  </select>
+                </gr-select>
+              </span>
+            </section>
+            <section>
+              <label for="showSizeBarsInFileList" class="title"
+                >Show size bars in file list</label
+              >
+              <span class="value">
+                <input
+                  id="showSizeBarsInFileList"
+                  type="checkbox"
+                  ?checked=${this._localPrefs.size_bar_in_change_table}
+                  @change=${() => {
+                    this._localPrefs.size_bar_in_change_table =
+                      this.showSizeBarsInFileList.checked;
+                    this._prefsChanged = true;
+                  }}
+                />
+              </span>
+            </section>
+            <section>
+              <label for="publishCommentsOnPush" class="title"
+                >Publish comments on push</label
+              >
+              <span class="value">
+                <input
+                  id="publishCommentsOnPush"
+                  type="checkbox"
+                  ?checked=${this._localPrefs.publish_comments_on_push}
+                  @change=${() => {
+                    this._localPrefs.publish_comments_on_push =
+                      this.publishCommentsOnPush.checked;
+                    this._prefsChanged = true;
+                  }}
+                />
+              </span>
+            </section>
+            <section>
+              <label for="workInProgressByDefault" class="title"
+                >Set new changes to "work in progress" by default</label
+              >
+              <span class="value">
+                <input
+                  id="workInProgressByDefault"
+                  type="checkbox"
+                  ?checked=${this._localPrefs.work_in_progress_by_default}
+                  @change=${() => {
+                    this._localPrefs.work_in_progress_by_default =
+                      this.workInProgressByDefault.checked;
+                    this._prefsChanged = true;
+                  }}
+                />
+              </span>
+            </section>
+            <section>
+              <label for="disableKeyboardShortcuts" class="title"
+                >Disable all keyboard shortcuts</label
+              >
+              <span class="value">
+                <input
+                  id="disableKeyboardShortcuts"
+                  type="checkbox"
+                  ?checked=${this._localPrefs.disable_keyboard_shortcuts}
+                  @change=${() => {
+                    this._localPrefs.disable_keyboard_shortcuts =
+                      this.disableKeyboardShortcuts.checked;
+                    this._prefsChanged = true;
+                  }}
+                />
+              </span>
+            </section>
+            <section>
+              <label for="disableTokenHighlighting" class="title"
+                >Disable token highlighting on hover</label
+              >
+              <span class="value">
+                <input
+                  id="disableTokenHighlighting"
+                  type="checkbox"
+                  ?checked=${this._localPrefs.disable_token_highlighting}
+                  @change=${() => {
+                    this._localPrefs.disable_token_highlighting =
+                      this.disableTokenHighlighting.checked;
+                    this._prefsChanged = true;
+                  }}
+                />
+              </span>
+            </section>
+            <section>
+              <label for="insertSignedOff" class="title">
+                Insert Signed-off-by Footer For Inline Edit Changes
+              </label>
+              <span class="value">
+                <input
+                  id="insertSignedOff"
+                  type="checkbox"
+                  ?checked=${this._localPrefs.signed_off_by}
+                  @change=${() => {
+                    this._localPrefs.signed_off_by =
+                      this.insertSignedOff.checked;
+                    this._prefsChanged = true;
+                  }}
+                />
+              </span>
+            </section>
+            <gr-button
+              id="savePrefs"
+              @click=${this._handleSavePreferences}
+              ?disabled=${!this._prefsChanged}
+              >Save changes</gr-button
+            >
+          </fieldset>
+          <h2
+            id="DiffPreferences"
+            class=${this._computeHeaderClass(this._diffPrefsChanged)}
+          >
+            Diff Preferences
+          </h2>
+          <fieldset id="diffPreferences">
+            <gr-diff-preferences
+              id="diffPrefs"
+              @has-unsaved-changes-changed=${(
+                e: ValueChangedEvent<boolean>
+              ) => {
+                this._diffPrefsChanged = e.detail.value;
+              }}
+            ></gr-diff-preferences>
+            <gr-button
+              id="saveDiffPrefs"
+              @click=${() => {
+                this.diffPrefs.save();
+              }}
+              ?disabled=${!this._diffPrefsChanged}
+              >Save changes</gr-button
+            >
+          </fieldset>
+          <gr-edit-preferences id="editPrefs"></gr-edit-preferences>
+          <gr-menu-editor></gr-menu-editor>
+          <h2
+            id="ChangeTableColumns"
+            class=${this._computeHeaderClass(this._changeTableChanged)}
+          >
+            Change Table Columns
+          </h2>
+          <fieldset id="changeTableColumns">
+            <gr-change-table-editor
+              .showNumber=${this._showNumber}
+              @show-number-changed=${(e: ValueChangedEvent<boolean>) => {
+                this._showNumber = e.detail.value;
+                this._changeTableChanged = true;
+              }}
+              .serverConfig=${this._serverConfig}
+              .defaultColumns=${this._localChangeTableColumns}
+              @displayed-columns-changed=${(e: ValueChangedEvent<string[]>) => {
+                this._localChangeTableColumns = e.detail.value;
+                this._changeTableChanged = true;
+              }}
+            >
+            </gr-change-table-editor>
+            <gr-button
+              id="saveChangeTable"
+              @click=${this._handleSaveChangeTable}
+              ?disabled=${!this._changeTableChanged}
+              >Save changes</gr-button
+            >
+          </fieldset>
+          <h2
+            id="Notifications"
+            class=${this._computeHeaderClass(this._watchedProjectsChanged)}
+          >
+            Notifications
+          </h2>
+          <fieldset id="watchedProjects">
+            <gr-watched-projects-editor
+              ?hasUnsavedChanges=${this._watchedProjectsChanged}
+              @has-unsaved-changes-changed=${(
+                e: ValueChangedEvent<boolean>
+              ) => {
+                this._watchedProjectsChanged = e.detail.value;
+              }}
+              id="watchedProjectsEditor"
+            ></gr-watched-projects-editor>
+            <gr-button
+              @click=${() => {
+                this.watchedProjectsEditor.save();
+              }}
+              ?disabled=${!this._watchedProjectsChanged}
+              id="_handleSaveWatchedProjects"
+              >Save changes</gr-button
+            >
+          </fieldset>
+          <h2
+            id="EmailAddresses"
+            class=${this._computeHeaderClass(this._emailsChanged)}
+          >
+            Email Addresses
+          </h2>
+          <fieldset id="email">
+            <gr-email-editor
+              id="emailEditor"
+              ?hasUnsavedChanges=${this._emailsChanged}
+              @has-unsaved-changes-changed=${(
+                e: ValueChangedEvent<boolean>
+              ) => {
+                this._emailsChanged = e.detail.value;
+              }}
+            ></gr-email-editor>
+            <gr-button
+              @click=${() => {
+                this.emailEditor.save();
+              }}
+              ?disabled=${!this._emailsChanged}
+              >Save changes</gr-button
+            >
+          </fieldset>
+          <fieldset id="newEmail">
+            <section>
+              <span class="title">New email address</span>
+              <span class="value">
+                <iron-input
+                  class="newEmailInput"
+                  .bindValue=${this._newEmail}
+                  @bind-value-changed=${(e: BindValueChangeEvent) => {
+                    this._newEmail = e.detail.value;
+                  }}
+                  @keydown=${this._handleNewEmailKeydown}
+                >
+                  <input
+                    class="newEmailInput"
+                    type="text"
+                    ?disabled=${this._addingEmail}
+                    @keydown=${this._handleNewEmailKeydown}
+                    placeholder="email@example.com"
+                  />
+                </iron-input>
+              </span>
+            </section>
+            <section
+              id="verificationSentMessage"
+              ?hidden=${!this._lastSentVerificationEmail}
+            >
+              <p>
+                A verification email was sent to
+                <em>${this._lastSentVerificationEmail}</em>. Please check your
+                inbox.
+              </p>
+            </section>
+            <gr-button
+              ?disabled=${!this._computeAddEmailButtonEnabled()}
+              @click=${this._handleAddEmailButton}
+              >Send verification</gr-button
+            >
+          </fieldset>
+          ${when(
+            this._showHttpAuth(),
+            () => html` <div>
+              <h2 id="HTTPCredentials">HTTP Credentials</h2>
+              <fieldset>
+                <gr-http-password id="httpPass"></gr-http-password>
+              </fieldset>
+            </div>`
+          )}
+          ${when(
+            this._serverConfig?.sshd,
+            () => html`<h2
+                id="SSHKeys"
+                class=${this._computeHeaderClass(this._keysChanged)}
+              >
+                SSH keys
+              </h2>
+              <gr-ssh-editor
+                id="sshEditor"
+                ?hasUnsavedChanges=${this._keysChanged}
+                @has-unsaved-changes-changed=${(
+                  e: ValueChangedEvent<boolean>
+                ) => {
+                  this._keysChanged = e.detail.value;
+                }}
+              ></gr-ssh-editor>`
+          )}
+          ${when(
+            this._serverConfig?.receive?.enable_signed_push,
+            () => html`<div>
+              <h2
+                id="GPGKeys"
+                class=${this._computeHeaderClass(this._gpgKeysChanged)}
+              >
+                GPG keys
+              </h2>
+              <gr-gpg-editor
+                id="gpgEditor"
+                ?hasUnsavedChanges=${this._gpgKeysChanged}
+                @has-unsaved-changes-changed=${(
+                  e: ValueChangedEvent<boolean>
+                ) => {
+                  this._gpgKeysChanged = e.detail.value;
+                }}
+              ></gr-gpg-editor>
+            </div>`
+          )}
+          <h2 id="Groups">Groups</h2>
+          <fieldset>
+            <gr-group-list id="groupList"></gr-group-list>
+          </fieldset>
+          <h2 id="Identities">Identities</h2>
+          <fieldset>
+            <gr-identities
+              id="identities"
+              .serverConfig=${this._serverConfig}
+            ></gr-identities>
+          </fieldset>
+          ${when(
+            this._serverConfig?.auth.use_contributor_agreements,
+            () => html`<h2 id="Agreements">Agreements</h2>
+              <fieldset>
+                <gr-agreements-list id="agreementsList"></gr-agreements-list>
+              </fieldset>`
+          )}
+          <h2 id="MailFilters">Mail Filters</h2>
+          <fieldset class="filters">
+            <p>
+              Gerrit emails include metadata about the change to support writing
+              mail filters.
+            </p>
+            <p>
+              Here are some example Gmail queries that can be used for filters
+              or for searching through archived messages. View the
+              <a
+                href=${this._getFilterDocsLink(this._docsBaseUrl)}
+                target="_blank"
+                rel="nofollow"
+                >Gerrit documentation</a
+              >
+              for the complete set of footers.
+            </p>
+            <table>
+              <tbody>
+                <tr>
+                  <th>Name</th>
+                  <th>Query</th>
+                </tr>
+                <tr>
+                  <td>Changes requesting my review</td>
+                  <td>
+                    <code class="queryExample">
+                      "Gerrit-Reviewer: <em>Your Name</em>
+                      &lt;<em>your.email@example.com</em>&gt;"
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Changes requesting my attention</td>
+                  <td>
+                    <code class="queryExample">
+                      "Gerrit-Attention: <em>Your Name</em>
+                      &lt;<em>your.email@example.com</em>&gt;"
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Changes from a specific owner</td>
+                  <td>
+                    <code class="queryExample">
+                      "Gerrit-Owner: <em>Owner name</em>
+                      &lt;<em>owner.email@example.com</em>&gt;"
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Changes targeting a specific branch</td>
+                  <td>
+                    <code class="queryExample">
+                      "Gerrit-Branch: <em>branch-name</em>"
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Changes in a specific project</td>
+                  <td>
+                    <code class="queryExample">
+                      "Gerrit-Project: <em>project-name</em>"
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Messages related to a specific Change ID</td>
+                  <td>
+                    <code class="queryExample">
+                      "Gerrit-Change-Id: <em>Change ID</em>"
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Messages related to a specific change number</td>
+                  <td>
+                    <code class="queryExample">
+                      "Gerrit-Change-Number: <em>change number</em>"
+                    </code>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
+          <gr-endpoint-decorator name="settings-screen">
+          </gr-endpoint-decorator>
+        </div>
+      </div>`;
+  }
+
   override disconnectedCallback() {
     window.removeEventListener('location-change', this.handleLocationChange);
     super.disconnectedCallback();
-  }
-
-  handleUnsavedChangesChanged(e: ValueChangedEvent) {
-    this._keysChanged = !!e.detail.value;
-  }
-
-  _handleGpgEditorHasSavedChanges(e: ValueChangedEvent<boolean>) {
-    this._gpgKeysChanged = e.detail.value;
   }
 
   private readonly handleLocationChange = () => {
@@ -321,92 +997,19 @@ export class GrSettingsView extends PolymerElement {
   };
 
   reloadAccountDetail() {
-    Promise.all([this.$.accountInfo.loadData(), this.$.emailEditor.loadData()]);
-  }
-
-  _isLoading() {
-    return this._loading || this._loading === undefined;
+    Promise.all([this.accountInfo.loadData(), this.emailEditor.loadData()]);
   }
 
   _copyPrefs(direction: CopyPrefsDirection) {
-    let to;
-    let from;
     if (direction === CopyPrefsDirection.LocalPrefsToPrefs) {
-      from = this._localPrefs;
-      to = 'prefs';
+      this.prefs = {
+        ...this._localPrefs,
+      };
     } else {
-      from = this.prefs;
-      to = '_localPrefs';
+      this._localPrefs = {
+        ...this.prefs,
+      };
     }
-    for (let i = 0; i < PREFS_SECTION_FIELDS.length; i++) {
-      this.set([to, PREFS_SECTION_FIELDS[i]], from[PREFS_SECTION_FIELDS[i]]);
-    }
-  }
-
-  @observe('_localChangeTableColumns', '_showNumber')
-  _handleChangeTableChanged() {
-    if (this._isLoading()) {
-      return;
-    }
-    this._changeTableChanged = true;
-  }
-
-  @observe('_localPrefs.*')
-  _handlePrefsChanged() {
-    if (this._isLoading()) {
-      return;
-    }
-    this._prefsChanged = true;
-  }
-
-  _handleRelativeDateInChangeTable() {
-    this.set(
-      '_localPrefs.relative_date_in_change_table',
-      this.$.relativeDateInChangeTable.checked
-    );
-  }
-
-  _handleShowSizeBarsInFileListChanged() {
-    this.set(
-      '_localPrefs.size_bar_in_change_table',
-      this.$.showSizeBarsInFileList.checked
-    );
-  }
-
-  _handlePublishCommentsOnPushChanged() {
-    this.set(
-      '_localPrefs.publish_comments_on_push',
-      this.$.publishCommentsOnPush.checked
-    );
-  }
-
-  _handleDisableKeyboardShortcutsChanged() {
-    this.set(
-      '_localPrefs.disable_keyboard_shortcuts',
-      this.$.disableKeyboardShortcuts.checked
-    );
-  }
-
-  _handleDisableTokenHighlightingChanged() {
-    this.set(
-      '_localPrefs.disable_token_highlighting',
-      this.$.disableTokenHighlighting.checked
-    );
-  }
-
-  _handleWorkInProgressByDefault() {
-    this.set(
-      '_localPrefs.work_in_progress_by_default',
-      this.$.workInProgressByDefault.checked
-    );
-  }
-
-  _handleInsertSignedOff() {
-    this.set('_localPrefs.signed_off_by', this.$.insertSignedOff.checked);
-  }
-
-  _handleSaveAccountInfo() {
-    this.$.accountInfo.save();
   }
 
   _handleSavePreferences() {
@@ -418,27 +1021,15 @@ export class GrSettingsView extends PolymerElement {
   }
 
   _handleSaveChangeTable() {
-    this.set('prefs.change_table', this._localChangeTableColumns);
-    this.set('prefs.legacycid_in_change_table', this._showNumber);
+    this.prefs.change_table = this._localChangeTableColumns;
+    this.prefs.legacycid_in_change_table = this._showNumber;
     return this.restApiService.savePreferences(this.prefs).then(() => {
       this._changeTableChanged = false;
     });
   }
 
-  _handleSaveDiffPreferences() {
-    this.$.diffPrefs.save();
-  }
-
-  _handleSaveWatchedProjects() {
-    this.$.watchedProjectsEditor.save();
-  }
-
   _computeHeaderClass(changed?: boolean) {
     return changed ? 'edited' : '';
-  }
-
-  _handleSaveEmails() {
-    this.$.emailEditor.save();
   }
 
   _handleNewEmailKeydown(e: KeyboardEvent) {
@@ -453,8 +1044,8 @@ export class GrSettingsView extends PolymerElement {
     return !!newEmail && newEmail.includes('@');
   }
 
-  _computeAddEmailButtonEnabled(newEmail?: string, addingEmail?: boolean) {
-    return this._isNewEmailValid(newEmail) && !addingEmail;
+  _computeAddEmailButtonEnabled() {
+    return this._isNewEmailValid(this._newEmail) && !this._addingEmail;
   }
 
   _handleAddEmailButton() {
@@ -472,26 +1063,6 @@ export class GrSettingsView extends PolymerElement {
       this._lastSentVerificationEmail = this._newEmail;
       this._newEmail = '';
     });
-  }
-
-  _handleAccountInfoUnsavedChanges(e: ValueChangedEvent<boolean>) {
-    this._accountInfoChanged = e.detail.value;
-  }
-
-  _handleShowNumberChanged(e: ValueChangedEvent<boolean>) {
-    this._showNumber = e.detail.value;
-  }
-
-  _handleDisplayedColumnsChanged(e: ValueChangedEvent<string[]>) {
-    this._localChangeTableColumns = e.detail.value;
-  }
-
-  _handleHasEmailsChanged(e: ValueChangedEvent<boolean>) {
-    this._emailsChanged = e.detail.value;
-  }
-
-  _handleHasProjectsChanged(e: ValueChangedEvent<boolean>) {
-    this._watchedProjectsChanged = e.detail.value;
   }
 
   _getFilterDocsLink(docsBaseUrl?: string | null) {
@@ -519,10 +1090,10 @@ export class GrSettingsView extends PolymerElement {
     windowLocationReload();
   }
 
-  _showHttpAuth(config?: ServerInfo) {
-    if (config && config.auth && config.auth.git_basic_auth_policy) {
+  _showHttpAuth() {
+    if (this._serverConfig?.auth?.git_basic_auth_policy) {
       return HTTP_AUTH.includes(
-        config.auth.git_basic_auth_policy.toUpperCase()
+        this._serverConfig.auth.git_basic_auth_policy.toUpperCase()
       );
     }
 
@@ -534,46 +1105,6 @@ export class GrSettingsView extends PolymerElement {
    */
   _onTapDarkToggle(e: Event) {
     e.preventDefault();
-  }
-
-  _handleChangesPerPage() {
-    this.set(
-      '_localPrefs.changes_per_page',
-      Number(this.$.changesPerPageSelect.value)
-    );
-  }
-
-  _handleDateFormat() {
-    this.set('_localPrefs.date_format', this.$.dateTimeFormatSelect.value);
-  }
-
-  _handleTimeFormat() {
-    this.set('_localPrefs.time_format', this.$.timeFormatSelect.value);
-  }
-
-  _handleEmailStrategy() {
-    this.set(
-      '_localPrefs.email_strategy',
-      this.$.emailNotificationsSelect.value
-    );
-  }
-
-  _handleEmailFormat() {
-    this.set('_localPrefs.email_format', this.$.emailFormatSelect.value);
-  }
-
-  _handleDefaultBaseForMerges() {
-    this.set(
-      '_localPrefs.default_base_for_merges',
-      this.$.defaultBaseForMergesSelect.value
-    );
-  }
-
-  _handleDiffView() {
-    this.set(
-      '_localPrefs.diff_view',
-      this.$.diffViewSelect.value as DiffViewMode
-    );
   }
 
   /**
@@ -593,10 +1124,6 @@ export class GrSettingsView extends PolymerElement {
       | number
   ) {
     return key !== undefined ? String(key) : '';
-  }
-
-  _handleHasUnsavedChangesChanged(e: ValueChangedEvent<boolean>) {
-    this._diffPrefsChanged = e.detail.value;
   }
 }
 

@@ -1231,8 +1231,9 @@ export class GrReplyDialog extends LitElement {
   }
 
   computeHasDrafts() {
-    if (this.draftCommentThreads === undefined) return false;
-    return this.draft.length > 0 || this.draftCommentThreads.length > 0;
+    if (this.draftCommentThreads === undefined) return;
+    this.hasDrafts =
+      this.draft.length > 0 || this.draftCommentThreads.length > 0;
   }
 
   override focus() {

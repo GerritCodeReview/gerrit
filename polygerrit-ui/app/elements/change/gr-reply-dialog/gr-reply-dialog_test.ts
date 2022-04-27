@@ -906,6 +906,18 @@ suite('gr-reply-dialog tests', () => {
     assert.sameMembers(actualAccounts, [1, 2, 4]);
   });
 
+  test('adding draft adds owner to the Attention Set', async () => {
+    element.draft = '';
+    element.draftCommentThreads = [];
+    await element.updateComplete;
+
+    assert.isEmpty(element.newAttentionSet);
+
+    element.draft = 'abcd';
+    await element.updateComplete;
+    assert.sameMembers([...element.newAttentionSet], [999]);
+  });
+
   test('toggle resolved checkbox', async () => {
     const checkboxEl = queryAndAssert(
       element,

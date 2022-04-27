@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "391497bc_83bd43eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-27T11:56:48Z",
+      "side": 1,
+      "message": "thats a lot of textareas 😂",
+      "range": {
+        "startLine": 507,
+        "startChar": 23,
+        "endLine": 507,
+        "endChar": 51
+      },
+      "revId": "8f3a229c5ca23b31399d0f9793a042e0bee3469c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69bda702_805090ab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-27T11:56:48Z",
+      "side": 1,
+      "message": "can you migrate all the fixtures to to open-wc fixtures? It should be a drop in replacement and you can even inline them in the setup methods.\nExample: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.ts;l\u003d129;drc\u003da6c0589600c33b1e8495760001bd1802e155e5ee",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 0
+      },
+      "revId": "8f3a229c5ca23b31399d0f9793a042e0bee3469c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

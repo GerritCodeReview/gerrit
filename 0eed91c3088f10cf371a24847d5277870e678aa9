@@ -93,6 +93,30 @@
       },
       "revId": "0eed91c3088f10cf371a24847d5277870e678aa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "122bf655_5ceeb821",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectVisibilityCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-04-28T15:05:58Z",
+      "side": 1,
+      "message": "sorry ,  I didn\u0027t look in much detail when I said that.\n\nIn some installations, users can change their own name. In an adversarial setting (eg. server on the internet), this means that random users can spoof their way into the output of this command. Because the permission check could be used in security-relevant settings, I think it\u0027s best to avoid using attacker controlled data. \n\nThe REST API returns 422 for ambiguous account data (but it would probably better to disable the account lookup based on full name in this case.)",
+      "parentUuid": "5af9c14c_8cea6930",
+      "range": {
+        "startLine": 58,
+        "startChar": 37,
+        "endLine": 58,
+        "endChar": 58
+      },
+      "revId": "0eed91c3088f10cf371a24847d5277870e678aa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

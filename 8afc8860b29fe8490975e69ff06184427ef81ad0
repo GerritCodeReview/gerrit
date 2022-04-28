@@ -137,6 +137,29 @@
       },
       "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "284cd44a_60f439a5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-28T11:16:47Z",
+      "side": 1,
+      "message": "GrReviewerflow and GrVotingFlow uses the ProgressStatus enum so perhaps remain consistent?",
+      "range": {
+        "startLine": 292,
+        "startChar": 14,
+        "endLine": 292,
+        "endChar": 34
+      },
+      "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

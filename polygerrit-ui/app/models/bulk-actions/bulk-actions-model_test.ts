@@ -126,6 +126,37 @@ suite('bulk actions model test', () => {
     assert.equal(totalChangeCount, 2);
   });
 
+  test('selects all changes', async () => {
+    const c1 = createChange();
+    c1._number = 1 as NumericChangeId;
+    const c2 = createChange();
+    c2._number = 2 as NumericChangeId;
+    bulkActionsModel.sync([c1, c2]);
+    let selectedChangeNums = await waitUntilObserved(
+      bulkActionsModel!.selectedChangeNums$,
+      s => s.length === 0
+    );
+    let totalChangeCount = await waitUntilObserved(
+      bulkActionsModel.totalChangeCount$,
+      totalChangeCount => totalChangeCount === 2
+    );
+    assert.isEmpty(selectedChangeNums);
+    assert.equal(totalChangeCount, 2);
+
+    bulkActionsModel.selectAll();
+    selectedChangeNums = await waitUntilObserved(
+      bulkActionsModel!.selectedChangeNums$,
+      s => s.length === 2
+    );
+    totalChangeCount = await waitUntilObserved(
+      bulkActionsModel.totalChangeCount$,
+      totalChangeCount => totalChangeCount === 2
+    );
+
+    assert.sameMembers(selectedChangeNums, [c1._number, c2._number]);
+    assert.equal(totalChangeCount, 2);
+  });
+
   suite('abandon changes', () => {
     let detailedActionsStub: SinonStubbedMember<
       RestApiService['getDetailedChangesWithActions']

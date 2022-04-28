@@ -156,6 +156,40 @@ suite('gr-change-list section', () => {
       );
       assert.isTrue(element.showBulkActionsHeader);
     });
+
+    test('select all checkbox checks all when empty', async () => {
+      element.changeSection = {
+        name: 'test',
+        query: 'test',
+        results: [
+          {
+            ...createChange(),
+            _number: 1 as NumericChangeId,
+            id: '1' as ChangeInfoId,
+          },
+          {
+            ...createChange(),
+            _number: 2 as NumericChangeId,
+            id: '2' as ChangeInfoId,
+          },
+        ],
+        emptyStateSlotName: 'test',
+      };
+      await element.updateComplete;
+
+      const checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
+      checkbox.click();
+      await waitUntilObserved(
+        element.bulkActionsModel.selectedChangeNums$,
+        s => s.length === 2
+      );
+      await element.updateComplete;
+
+      const rows = queryAll(element, 'gr-change-list-item');
+      assert.lengthOf(rows, 2);
+      assert.isTrue(queryAndAssert<HTMLInputElement>(rows[0], 'input').checked);
+      assert.isTrue(queryAndAssert<HTMLInputElement>(rows[1], 'input').checked);
+    });
   });
 
   test('colspans', async () => {

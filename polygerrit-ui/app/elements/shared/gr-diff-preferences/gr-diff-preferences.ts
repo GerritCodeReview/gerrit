@@ -307,14 +307,14 @@ export class GrDiffPreferences extends LitElement {
       this.originalDiffPrefs?.line_length !== this.diffPrefs?.line_length ||
       this.originalDiffPrefs?.tab_size !== this.diffPrefs?.tab_size ||
       this.originalDiffPrefs?.font_size !== this.diffPrefs?.font_size ||
+      this.originalDiffPrefs?.ignore_whitespace !==
+        this.diffPrefs?.ignore_whitespace ||
       Boolean(this.originalDiffPrefs?.show_tabs) !==
         Boolean(this.diffPrefs?.show_tabs) ||
       Boolean(this.originalDiffPrefs?.show_whitespace_errors) !==
         Boolean(this.diffPrefs?.show_whitespace_errors) ||
       Boolean(this.originalDiffPrefs?.manual_review) !==
-        Boolean(this.diffPrefs?.manual_review) ||
-      Boolean(this.originalDiffPrefs?.ignore_whitespace) !==
-        Boolean(this.diffPrefs?.ignore_whitespace)
+        Boolean(this.diffPrefs?.manual_review)
     );
   }
 

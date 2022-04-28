@@ -20,7 +20,7 @@ import '../gr-diff/gr-diff.js';
 import './gr-diff-cursor.js';
 import {fixture, html} from '@open-wc/testing-helpers';
 import {listenOnce, mockPromise} from '../../../test/test-utils.js';
-import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
+import {createDiff} from '../../../test/test-data-generators.js';
 import {createDefaultDiffPrefs} from '../../../constants/constants.js';
 import {GrDiffCursor} from './gr-diff-cursor.js';
 
@@ -52,7 +52,7 @@ suite('gr-diff-cursor tests', () => {
     };
     diffElement.addEventListener('render', setupDone);
 
-    diff = getMockDiffResponse();
+    diff = createDiff();
     diffElement.prefs = createDefaultDiffPrefs();
     diffElement.diff = diff;
     await promise;
@@ -468,7 +468,7 @@ suite('gr-diff-cursor tests', () => {
       promise.resolve();
     }
     diffElement.addEventListener('render', renderHandler);
-    diffElement._diffChanged(getMockDiffResponse());
+    diffElement._diffChanged(createDiff());
     await promise;
   });
 
@@ -495,7 +495,7 @@ suite('gr-diff-cursor tests', () => {
     cursor.initialLineNumber = 10;
     cursor.side = 'right';
 
-    diffElement._diffChanged(getMockDiffResponse());
+    diffElement._diffChanged(createDiff());
     await promise;
   });
 
@@ -661,8 +661,8 @@ suite('gr-diff-cursor tests', () => {
       const diffRenderedPromises =
           diffElements.map(diffEl => listenOnce(diffEl, 'render'));
 
-      diffElements[0].diff = getMockDiffResponse();
-      diffElements[2].diff = getMockDiffResponse();
+      diffElements[0].diff = createDiff();
+      diffElements[2].diff = createDiff();
       await Promise.all([diffRenderedPromises[0], diffRenderedPromises[2]]);
 
       const lastLine = diffElements[0].diff.meta_b.lines;
@@ -683,7 +683,7 @@ suite('gr-diff-cursor tests', () => {
       assert.equal(cursor.getTargetLineElement().textContent, lastLine);
 
       // Diff 1 finishing to load
-      diffElements[1].diff = getMockDiffResponse();
+      diffElements[1].diff = createDiff();
       await diffRenderedPromises[1];
 
       // Now we can go down

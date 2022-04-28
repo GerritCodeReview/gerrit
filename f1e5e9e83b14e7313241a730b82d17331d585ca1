@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cacaedf_e76450e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-28T13:13:33Z",
+      "side": 1,
+      "message": "Done, merged change 335926 into this one.",
+      "parentUuid": "36b0fba5_84953720",
+      "revId": "f1e5e9e83b14e7313241a730b82d17331d585ca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "056e6aa4_286635fa",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-04-27T17:45:10Z",
       "side": 1,
       "message": "would we also want error text/icons here? If so then maybe this should just be a slot for caller to control.",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 0
+      },
+      "revId": "f1e5e9e83b14e7313241a730b82d17331d585ca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c626f155_762b7c0f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-28T13:13:33Z",
+      "side": 1,
+      "message": "We can add it in the future if required.\nFor now the confirm/cancel buttons are also not in a slot so I would propose moving forward with this change.",
+      "parentUuid": "056e6aa4_286635fa",
       "range": {
         "startLine": 153,
         "startChar": 0,

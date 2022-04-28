@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {
   GrDiffLine,
   GrDiffLineType,
@@ -17,11 +16,11 @@ import {
   hideInContextControl,
 } from '../gr-diff/gr-diff-group';
 import {CancelablePromise, util} from '../../../scripts/util';
-import {customElement, property} from '@polymer/decorators';
 import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {RenderPreferences} from '../../../api/diff';
+import {assertIsDefined} from '../../../utils/common-util';
 
 const WHOLE_FILE = -1;
 
@@ -57,6 +56,12 @@ function calcMaxGroupSize(asyncThreshold?: number): number {
   return asyncThreshold * 2;
 }
 
+/** Interface for listening to the output of the processor. */
+export interface GroupConsumer {
+  addGroup(group: GrDiffGroup): void;
+  clearGroups(): void;
+}
+
 /**
  * Converts the API's `DiffContent`s  to `GrDiffGroup`s for rendering.
  *
@@ -82,19 +87,10 @@ function calcMaxGroupSize(asyncThreshold?: number): number {
  *    that the part that is within the context or has comments is shown, while
  *    the rest is not.
  */
-@customElement('gr-diff-processor')
-export class GrDiffProcessor extends PolymerElement {
+export class GrDiffProcessor {
   context = 3;
 
-  /**
-   * The builder elements watches this (two-way data binding and @observe) and
-   * thus passes each added group on to the renderer (i.e. gr-diff-builder).
-   * You must only add to this array and not modify it later (only when
-   * resetting). The source of truth is then held by gr-diff-builder, which also
-   * reflects expanding and collapsing of groups.
-   */
-  @property({type: Array, notify: true})
-  groups: GrDiffGroup[] = [];
+  consumer?: GroupConsumer;
 
   keyLocations: KeyLocations = {left: {}, right: {}};
 
@@ -108,18 +104,6 @@ export class GrDiffProcessor extends PolymerElement {
   isScrolling?: boolean;
 
   private resetIsScrollingTask?: DelayedTask;
-
-  override connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('scroll', this.handleWindowScroll);
-  }
-
-  override disconnectedCallback() {
-    this.resetIsScrollingTask?.cancel();
-    this.cancel();
-    window.removeEventListener('scroll', this.handleWindowScroll);
-    super.disconnectedCallback();
-  }
 
   private readonly handleWindowScroll = () => {
     this.isScrolling = true;
@@ -141,10 +125,12 @@ export class GrDiffProcessor extends PolymerElement {
     // Cancel any still running process() calls, because they append to the
     // same groups field.
     this.cancel();
+    window.addEventListener('scroll', this.handleWindowScroll);
 
-    this.groups = [];
-    this.push('groups', this.makeGroup('LOST'));
-    this.push('groups', this.makeGroup(FILE));
+    assertIsDefined(this.consumer, 'consumer');
+    this.consumer.clearGroups();
+    this.consumer.addGroup(this.makeGroup('LOST'));
+    this.consumer.addGroup(this.makeGroup(FILE));
 
     // If it's a binary diff, we won't be rendering hunks of text differences
     // so finish processing.
@@ -178,7 +164,8 @@ export class GrDiffProcessor extends PolymerElement {
           // Process the next chunk and incorporate the result.
           const stateUpdate = this.processNext(state, chunks);
           for (const group of stateUpdate.groups) {
-            this.push('groups', group);
+            assertIsDefined(this.consumer, 'consumer');
+            this.consumer.addGroup(group);
             currentBatch += group.lines.length;
           }
           state.lineNums.left += stateUpdate.lineDelta.left;
@@ -199,6 +186,7 @@ export class GrDiffProcessor extends PolymerElement {
     );
     return this.processPromise.finally(() => {
       this.processPromise = null;
+      window.removeEventListener('scroll', this.handleWindowScroll);
     });
   }
 
@@ -213,6 +201,7 @@ export class GrDiffProcessor extends PolymerElement {
     if (this.processPromise) {
       this.processPromise.cancel();
     }
+    window.removeEventListener('scroll', this.handleWindowScroll);
   }
 
   /**
@@ -744,11 +733,5 @@ export class GrDiffProcessor extends PolymerElement {
     if (renderPrefs.num_lines_rendered_at_once) {
       this.asyncThreshold = renderPrefs.num_lines_rendered_at_once;
     }
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-diff-processor': GrDiffProcessor;
   }
 }

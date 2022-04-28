@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68ce27bf_f53ffeee",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-28T21:16:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bce06f2_cb09c370",
+      "revId": "ad53bfd1005066ba65efadda7a5eb2df81a5995e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e04e13e8_7f8f3845",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-04-28T18:56:35Z",
       "side": 1,
       "message": "From the name (allowRepoRefsCache) I expect that only RepoRefs entry should be unloaded here, not everything with unloaders.\nMaybe be make a method\nvoid unload(Stream entriesToUnload) {...}\nand here call it after filtering for RepoRefs and in the close() method pass all entries.",
+      "range": {
+        "startLine": 324,
+        "startChar": 4,
+        "endLine": 326,
+        "endChar": 5
+      },
+      "revId": "ad53bfd1005066ba65efadda7a5eb2df81a5995e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6770ae3a_69534430",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-28T21:16:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e04e13e8_7f8f3845",
       "range": {
         "startLine": 324,
         "startChar": 4,

@@ -1,39 +1,23 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../styles/shared-styles';
-import {addListener} from '@polymer/polymer/lib/utils/gestures';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-diff-selection_html';
 import {
   normalize,
   NormalizedRange,
 } from '../gr-diff-highlight/gr-range-normalizer';
 import {descendedFromClass, querySelectorAll} from '../../../utils/dom-util';
-import {customElement, property, observe} from '@polymer/decorators';
 import {DiffInfo} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
-import {GrDiffBuilderElement} from '../gr-diff-builder/gr-diff-builder-element';
 import {
   getLineElByChild,
   getSide,
   getSideByLineEl,
   isThreadEl,
 } from '../gr-diff/gr-diff-utils';
+import {assertIsDefined} from '../../../utils/common-util';
 
 /**
  * Possible CSS classes indicating the state of selection. Dynamically added/
@@ -55,44 +39,23 @@ function getNewCache(): LinesCache {
   return {left: null, right: null};
 }
 
-@customElement('gr-diff-selection')
-export class GrDiffSelection extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: Object})
+export class GrDiffSelection {
+  // visible for testing
   diff?: DiffInfo;
 
-  @property({type: Object})
-  _cachedDiffBuilder?: GrDiffBuilderElement;
+  // visible for testing
+  diffTable?: HTMLElement;
 
-  @property({type: Object})
-  _linesCache: LinesCache = {left: null, right: null};
+  // visible for testing
+  linesCache: LinesCache = getNewCache();
 
-  constructor() {
-    super();
-    this.addEventListener('copy', e => this._handleCopy(e));
-    addListener(this, 'down', e => this._handleDown(e));
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.classList.add(SelectionClass.RIGHT);
-  }
-
-  get diffBuilder() {
-    if (!this._cachedDiffBuilder) {
-      this._cachedDiffBuilder = this.querySelector(
-        'gr-diff-builder'
-      ) as GrDiffBuilderElement;
-    }
-    return this._cachedDiffBuilder;
-  }
-
-  @observe('diff')
-  _diffChanged() {
-    this._linesCache = getNewCache();
+  init(diff: DiffInfo, diffTable: HTMLElement) {
+    this.diff = diff;
+    this.diffTable = diffTable;
+    this.diffTable.classList.add(SelectionClass.RIGHT);
+    this.diffTable.addEventListener('copy', e => this._handleCopy(e));
+    this.diffTable.addEventListener('mousedown', e => this._handleDown(e));
+    this.linesCache = getNewCache();
   }
 
   _handleDownOnRangeComment(node: Element) {
@@ -111,7 +74,6 @@ export class GrDiffSelection extends PolymerElement {
   _handleDown(e: Event) {
     const target = e.target;
     if (!(target instanceof Element)) return;
-    // Handle the down event on comment thread in Polymer 2
     const handled = this._handleDownOnRangeComment(target);
     if (handled) return;
     const lineEl = getLineElByChild(target);
@@ -148,22 +110,19 @@ export class GrDiffSelection extends PolymerElement {
    * other SelectionClass values.
    */
   _setClasses(targetClasses: string[]) {
+    if (!this.diffTable) return;
     // Remove any selection classes that do not belong.
     for (const className of Object.values(SelectionClass)) {
       if (!targetClasses.includes(className)) {
-        this.classList.remove(className);
+        this.diffTable.classList.remove(className);
       }
     }
     // Add new selection classes iff they are not already present.
     for (const _class of targetClasses) {
-      if (!this.classList.contains(_class)) {
-        this.classList.add(_class);
+      if (!this.diffTable.classList.contains(_class)) {
+        this.diffTable.classList.add(_class);
       }
     }
-  }
-
-  _getCopyEventTarget(e: Event) {
-    return (dom(e) as EventApi).rootTarget;
   }
 
   /**
@@ -171,16 +130,17 @@ export class GrDiffSelection extends PolymerElement {
    * another element with the particular className.
    */
   _elementDescendedFromClass(element: Element, className: string) {
-    return descendedFromClass(element, className, this.diffBuilder.diffElement);
+    return descendedFromClass(element, className, this.diffTable);
   }
 
   _handleCopy(e: ClipboardEvent) {
     let commentSelected = false;
-    const target = this._getCopyEventTarget(e);
+    const target = e.composedPath()[0];
     if (!(target instanceof Element)) return;
     if (target instanceof HTMLTextAreaElement) return;
     if (!this._elementDescendedFromClass(target, 'diff-row')) return;
-    if (this.classList.contains(SelectionClass.COMMENT)) {
+    if (!this.diffTable) return;
+    if (this.diffTable.classList.contains(SelectionClass.COMMENT)) {
       commentSelected = true;
     }
     const lineEl = getLineElByChild(target);
@@ -289,8 +249,8 @@ export class GrDiffSelection extends PolymerElement {
    * @return An array of strings indexed by line number.
    */
   _getDiffLines(side: Side): string[] {
-    if (this._linesCache[side]) {
-      return this._linesCache[side]!;
+    if (this.linesCache[side]) {
+      return this.linesCache[side]!;
     }
     if (!this.diff) return [];
     let lines: string[] = [];
@@ -303,7 +263,7 @@ export class GrDiffSelection extends PolymerElement {
         lines = lines.concat(chunk.b);
       }
     }
-    this._linesCache[side] = lines;
+    this.linesCache[side] = lines;
     return lines;
   }
 
@@ -318,8 +278,8 @@ export class GrDiffSelection extends PolymerElement {
   _getCommentLines(sel: Selection, side: Side) {
     const range = normalize(sel.getRangeAt(0));
     const content = [];
-    // Query the diffElement for comments.
-    const messages = this.diffBuilder.diffElement.querySelectorAll(
+    assertIsDefined(this.diffTable, 'diffTable');
+    const messages = this.diffTable.querySelectorAll(
       `.side-by-side [data-side="${side}"] .message *, .unified .message *`
     );
 
@@ -383,11 +343,5 @@ export class GrDiffSelection extends PolymerElement {
       }
     }
     return text;
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-diff-selection': GrDiffSelection;
   }
 }

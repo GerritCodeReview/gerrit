@@ -80,6 +80,7 @@ import {
 import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
 
 const NO_NEWLINE_LEFT = 'No newline at end of left file.';
 const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
@@ -293,6 +294,8 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   isAttached = false;
 
   private renderDiffTableTask?: DelayedTask;
+
+  private diffSelection = new GrDiffSelection();
 
   constructor() {
     super();
@@ -812,6 +815,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     if (newValue) {
       this._diffLength = this.getDiffLength(newValue);
       this._debounceRenderDiffTable();
+    }
+    if (this.diff) {
+      this.diffSelection.init(this.diff, this.$.diffTable);
     }
   }
 

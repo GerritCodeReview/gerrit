@@ -686,44 +686,42 @@ export const htmlTemplate = html`
     class$="[[_computeContainerClass(loggedIn, viewMode, displayLine)]]"
     on-click="_handleTap"
   >
-    <gr-diff-selection diff="[[diff]]">
-      <gr-diff-highlight
-        id="highlights"
-        logged-in="[[loggedIn]]"
-        comment-ranges="{{_commentRanges}}"
+    <gr-diff-highlight
+      id="highlights"
+      logged-in="[[loggedIn]]"
+      comment-ranges="{{_commentRanges}}"
+    >
+      <gr-diff-builder
+        id="diffBuilder"
+        comment-ranges="[[_commentRanges]]"
+        coverage-ranges="[[coverageRanges]]"
+        diff="[[diff]]"
+        path="[[path]]"
+        view-mode="[[viewMode]]"
+        is-image-diff="[[isImageDiff]]"
+        base-image="[[baseImage]]"
+        layers="[[layers]]"
+        revision-image="[[revisionImage]]"
+        use-new-image-diff-ui="[[useNewImageDiffUi]]"
       >
-        <gr-diff-builder
-          id="diffBuilder"
-          comment-ranges="[[_commentRanges]]"
-          coverage-ranges="[[coverageRanges]]"
-          diff="[[diff]]"
-          path="[[path]]"
-          view-mode="[[viewMode]]"
-          is-image-diff="[[isImageDiff]]"
-          base-image="[[baseImage]]"
-          layers="[[layers]]"
-          revision-image="[[revisionImage]]"
-          use-new-image-diff-ui="[[useNewImageDiffUi]]"
-        >
-          <table
-            id="diffTable"
-            class$="[[_diffTableClass]]"
-            role="presentation"
-            contenteditable$="[[isContentEditable]]"
-          ></table>
+        <table
+          id="diffTable"
+          class$="[[_diffTableClass]]"
+          role="presentation"
+          contenteditable$="[[isContentEditable]]"
+        ></table>
 
-          <template
-            is="dom-if"
-            if="[[showNoChangeMessage(_loading, prefs, _diffLength, diff)]]"
-          >
-            <div class="whitespace-change-only-message">
-              This file only contains whitespace changes. Modify the whitespace
-              setting to see the changes.
-            </div>
-          </template>
-        </gr-diff-builder>
-      </gr-diff-highlight>
-    </gr-diff-selection>
+        <template
+          is="dom-if"
+          if="[[showNoChangeMessage(_loading, prefs, _diffLength, diff)]]"
+        >
+          <div class="whitespace-change-only-message">
+            This file only contains whitespace changes. Modify the whitespace
+            setting to see the changes.
+          </div>
+        </template>
+      </gr-diff-builder>
+    </gr-diff-highlight>
   </div>
   <div class$="[[_computeNewlineWarningClass(_newlineWarning, _loading)]]">
     [[_newlineWarning]]

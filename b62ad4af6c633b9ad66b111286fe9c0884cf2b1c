@@ -70,6 +70,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a561f3d_c32e60c0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-28T14:29:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdae371_40b87711",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 0
+      },
+      "revId": "b62ad4af6c633b9ad66b111286fe9c0884cf2b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d4a8bfe_09f8c718",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-28T14:29:40Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/336077.",
+      "parentUuid": "9e111aa7_4d5aebf0",
+      "range": {
+        "startLine": 19,
+        "startChar": 21,
+        "endLine": 19,
+        "endChar": 40
+      },
+      "revId": "b62ad4af6c633b9ad66b111286fe9c0884cf2b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "269ce457_6b1f2f76",
@@ -93,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5bbc9d5_efd35166",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-28T14:29:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "269ce457_6b1f2f76",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 27
+      },
+      "revId": "b62ad4af6c633b9ad66b111286fe9c0884cf2b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "194477b9_40fdc355",
@@ -106,6 +178,30 @@
       "writtenOn": "2022-04-28T12:33:22Z",
       "side": 1,
       "message": "unrelated to the review but any idea what is this doing?\nMockinteractions.down is pressing the down key on that element?",
+      "range": {
+        "startLine": 180,
+        "startChar": 4,
+        "endLine": 180,
+        "endChar": 25
+      },
+      "revId": "b62ad4af6c633b9ad66b111286fe9c0884cf2b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "066c55d2_fba074ef",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-28T14:29:40Z",
+      "side": 1,
+      "message": "It is dispatching \u0027mousedown\u0027 on the element.\n\nUltimately we want to just write our own helpers for these, because `MockInteractions` is a Polymer helper. So I have just done that in https://gerrit-review.googlesource.com/c/gerrit/+/336077 and removed the dep on MockInteractions.",
+      "parentUuid": "194477b9_40fdc355",
       "range": {
         "startLine": 180,
         "startChar": 4,

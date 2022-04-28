@@ -58,12 +58,6 @@ const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
 const COMMIT_MSG_LINE_LENGTH = 72;
 
-export interface GrDiffBuilderElement {
-  $: {
-    processor: GrDiffProcessor;
-  };
-}
-
 export function getLineNumberCellWidth(prefs: DiffPreferencesInfo) {
   return prefs.font_size * 4;
 }
@@ -200,6 +194,8 @@ export class GrDiffBuilderElement extends PolymerElement {
 
   private rangeLayer = new GrRangedCommentLayer();
 
+  private processor = new GrDiffProcessor();
+
   constructor() {
     super();
     afterNextRender(this, () => {
@@ -215,6 +211,7 @@ export class GrDiffBuilderElement extends PolymerElement {
   }
 
   override disconnectedCallback() {
+    this.processor.cancel();
     if (this._builder) {
       this._builder.clear();
     }
@@ -264,8 +261,8 @@ export class GrDiffBuilderElement extends PolymerElement {
     }
     this._builder = this._getDiffBuilder();
 
-    this.$.processor.context = this.prefs.context;
-    this.$.processor.keyLocations = keyLocations;
+    this.processor.context = this.prefs.context;
+    this.processor.keyLocations = keyLocations;
 
     this._clearDiffContent();
     this._builder.addColumns(
@@ -277,7 +274,7 @@ export class GrDiffBuilderElement extends PolymerElement {
 
     fireEvent(this, 'render-start');
     this._cancelableRenderPromise = util.makeCancelable(
-      this.$.processor.process(this.diff.content, isBinary).then(() => {
+      this.processor.process(this.diff.content, isBinary).then(() => {
         if (this.isImageDiff) {
           (this._builder as GrDiffBuilderImage).renderDiff();
         }
@@ -414,7 +411,7 @@ export class GrDiffBuilderElement extends PolymerElement {
   }
 
   cancel() {
-    this.$.processor.cancel();
+    this.processor.cancel();
     if (this._cancelableRenderPromise) {
       this._cancelableRenderPromise.cancel();
       this._cancelableRenderPromise = null;
@@ -490,28 +487,20 @@ export class GrDiffBuilderElement extends PolymerElement {
   }
 
   /**
-   * Forward groups added by the processor to the builder for rendering.
+   * Called when the processor starts converting the diff information from the
+   * server into chunks.
    */
-  @observe('_groups.splices')
-  _groupsChanged(changeRecord: PolymerSpliceChange<GrDiffGroup[]>) {
-    if (!changeRecord || !this._builder) return;
+  clearGroups() {
+    if (!this._builder) return;
+    this._builder.clearGroups();
+  }
 
-    // The processor either removes all groups or adds new ones to the end,
-    // so let's simplify the Polymer splices.
-    const isRemoval = changeRecord.indexSplices.find(
-      splice => splice.removed.length > 0
-    );
-    if (isRemoval) {
-      this._builder.clearGroups();
-      return;
-    }
-    for (const splice of changeRecord.indexSplices) {
-      const added = splice.object.slice(
-        splice.index,
-        splice.index + splice.addedCount
-      );
-      this._builder.addGroups(added);
-    }
+  /**
+   * Called when the processor is done converting a chunk of the diff.
+   */
+  addGroup(group: GrDiffGroup) {
+    if (!this._builder) return;
+    this._builder.addGroups([group]);
     fireEvent(this, 'render-progress');
   }
 
@@ -613,7 +602,7 @@ export class GrDiffBuilderElement extends PolymerElement {
 
   updateRenderPrefs(renderPrefs: RenderPreferences) {
     this._builder?.updateRenderPrefs(renderPrefs);
-    this.$.processor.updateRenderPrefs(renderPrefs);
+    this.processor.updateRenderPrefs(renderPrefs);
   }
 }
 

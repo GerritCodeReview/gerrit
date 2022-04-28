@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {
   GrDiffLine,
   GrDiffLineType,
@@ -17,7 +16,6 @@ import {
   hideInContextControl,
 } from '../gr-diff/gr-diff-group';
 import {CancelablePromise, util} from '../../../scripts/util';
-import {customElement, property} from '@polymer/decorators';
 import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';
@@ -82,8 +80,7 @@ function calcMaxGroupSize(asyncThreshold?: number): number {
  *    that the part that is within the context or has comments is shown, while
  *    the rest is not.
  */
-@customElement('gr-diff-processor')
-export class GrDiffProcessor extends PolymerElement {
+export class GrDiffProcessor {
   context = 3;
 
   /**
@@ -93,7 +90,6 @@ export class GrDiffProcessor extends PolymerElement {
    * resetting). The source of truth is then held by gr-diff-builder, which also
    * reflects expanding and collapsing of groups.
    */
-  @property({type: Array, notify: true})
   groups: GrDiffGroup[] = [];
 
   keyLocations: KeyLocations = {left: {}, right: {}};
@@ -108,18 +104,6 @@ export class GrDiffProcessor extends PolymerElement {
   isScrolling?: boolean;
 
   private resetIsScrollingTask?: DelayedTask;
-
-  override connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('scroll', this.handleWindowScroll);
-  }
-
-  override disconnectedCallback() {
-    this.resetIsScrollingTask?.cancel();
-    this.cancel();
-    window.removeEventListener('scroll', this.handleWindowScroll);
-    super.disconnectedCallback();
-  }
 
   private readonly handleWindowScroll = () => {
     this.isScrolling = true;
@@ -141,6 +125,7 @@ export class GrDiffProcessor extends PolymerElement {
     // Cancel any still running process() calls, because they append to the
     // same groups field.
     this.cancel();
+    window.addEventListener('scroll', this.handleWindowScroll);
 
     this.groups = [];
     this.push('groups', this.makeGroup('LOST'));
@@ -199,6 +184,7 @@ export class GrDiffProcessor extends PolymerElement {
     );
     return this.processPromise.finally(() => {
       this.processPromise = null;
+      window.removeEventListener('scroll', this.handleWindowScroll);
     });
   }
 
@@ -213,6 +199,7 @@ export class GrDiffProcessor extends PolymerElement {
     if (this.processPromise) {
       this.processPromise.cancel();
     }
+    window.removeEventListener('scroll', this.handleWindowScroll);
   }
 
   /**
@@ -744,11 +731,5 @@ export class GrDiffProcessor extends PolymerElement {
     if (renderPrefs.num_lines_rendered_at_once) {
       this.asyncThreshold = renderPrefs.num_lines_rendered_at_once;
     }
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-diff-processor': GrDiffProcessor;
   }
 }

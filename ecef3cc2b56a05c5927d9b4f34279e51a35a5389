@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ff88083_c1ad1797",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-28T14:56:56Z",
+      "side": 1,
+      "message": "True, let me do that.",
+      "parentUuid": "e06fc27e_a69e4492",
+      "revId": "ecef3cc2b56a05c5927d9b4f34279e51a35a5389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "693c3219_76a05a07",
         "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
         "patchSetId": 3
@@ -31,6 +49,30 @@
       "writtenOn": "2022-04-28T05:44:43Z",
       "side": 1,
       "message": "Not sure this is correct: even though we did not cache the value, the RepoRefCache was created and therefore we need to make sure that it is effectively closed when the thread finishes and the PerThread is closed.",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 37
+      },
+      "revId": "ecef3cc2b56a05c5927d9b4f34279e51a35a5389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fcf2ce1_8f252414",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-28T14:56:56Z",
+      "side": 1,
+      "message": "I believe there is a general contract issue with this method call: the scope of the object created is unclear.\n\n1) If the object gets created and owned by the cache, then it should be unloaded by the cache, regardless of the PER_THREAD_CACHE_SIZE\n2) If the cache was full and the object created wasn\u0027t cached, then the owner of the cache is the caller.\n\nI believe we should separate the two concerns: there must be a get with loader that either gets the cached value and load it if the cache is full should return null.\n\nThis is a stable branch though and we *MUST* avoid changing methods\u0027 signature. So we should deprecate this and introduce two explicit methods (the legacy and the new one).",
+      "parentUuid": "693c3219_76a05a07",
       "range": {
         "startLine": 177,
         "startChar": 0,

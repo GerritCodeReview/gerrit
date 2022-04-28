@@ -225,7 +225,9 @@ suite('gr-reply-dialog tests', () => {
         ],
       },
       reviewers: [],
-      add_to_attention_set: [],
+      add_to_attention_set: [
+        {reason: '<GERRIT_ACCOUNT_1> replied on the change', user: 999},
+      ],
       remove_from_attention_set: [],
       ignore_automatic_attention_set_rules: true,
     });
@@ -347,7 +349,6 @@ suite('gr-reply-dialog tests', () => {
     element.ccs = [];
     element.draftCommentThreads = draftThreads;
     element.includeComments = includeComments;
-    element.hasDrafts = draftThreads.length > 0;
 
     await element.updateComplete;
 
@@ -942,7 +943,9 @@ suite('gr-reply-dialog tests', () => {
         ],
       },
       reviewers: [],
-      add_to_attention_set: [],
+      add_to_attention_set: [
+        {reason: '<GERRIT_ACCOUNT_1> replied on the change', user: 999},
+      ],
       remove_from_attention_set: [],
       ignore_automatic_attention_set_rules: true,
     });
@@ -1033,7 +1036,9 @@ suite('gr-reply-dialog tests', () => {
         ],
       },
       reviewers: [],
-      add_to_attention_set: [],
+      add_to_attention_set: [
+        {reason: '<GERRIT_ACCOUNT_1> replied on the change', user: 999},
+      ],
       remove_from_attention_set: [],
       ignore_automatic_attention_set_rules: true,
     });

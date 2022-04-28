@@ -20,15 +20,91 @@ import '../../../test/common-test-setup-karma';
 import './gr-dialog';
 import {GrDialog} from './gr-dialog';
 import {isHidden, queryAndAssert} from '../../../test/test-utils';
-
-const basicFixture = fixtureFromElement('gr-dialog');
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-dialog tests', () => {
   let element: GrDialog;
 
   setup(async () => {
-    element = basicFixture.instantiate();
+    element = await fixture<GrDialog>(html` <gr-dialog></gr-dialog> `);
     await element.updateComplete;
+  });
+
+  test('renders', async () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `<div class="container">
+      <header class="heading-3">
+        <slot name="header"> </slot>
+      </header>
+      <main>
+        <div class="overflow-container">
+          <slot name="main"> </slot>
+        </div>
+      </main>
+      <footer>
+        <div class="flex-space"></div>
+        <gr-button
+          aria-disabled="false"
+          id="cancel"
+          link=""
+          role="button"
+          tabindex="0"
+        >
+          Cancel
+        </gr-button>
+        <gr-button
+          aria-disabled="false"
+          id="confirm"
+          link=""
+          primary=""
+          role="button"
+          tabindex="0"
+          title=""
+        >
+          Confirm
+        </gr-button>
+      </footer>
+    </div> `);
+  });
+
+  test('renders with loading state', async () => {
+    element.loading = true;
+    element.loadingLabel = 'Loading!!';
+    await element.updateComplete;
+    expect(element).shadowDom.to.equal(/* HTML */ `<div class="container">
+      <header class="heading-3">
+        <slot name="header"> </slot>
+      </header>
+      <main>
+        <div class="overflow-container">
+          <slot name="main"> </slot>
+        </div>
+      </main>
+      <footer>
+        <span class="loadingSpin"> </span>
+        <span class="loadingLabel"> Loading!! </span>
+        <div class="flex-space"></div>
+        <gr-button
+          aria-disabled="false"
+          id="cancel"
+          link=""
+          role="button"
+          tabindex="0"
+        >
+          Cancel
+        </gr-button>
+        <gr-button
+          aria-disabled="false"
+          id="confirm"
+          link=""
+          primary=""
+          role="button"
+          tabindex="0"
+          title=""
+        >
+          Confirm
+        </gr-button>
+      </footer>
+    </div> `);
   });
 
   test('events', () => {

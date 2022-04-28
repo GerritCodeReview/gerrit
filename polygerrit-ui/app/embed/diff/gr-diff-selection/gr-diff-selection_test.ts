@@ -17,7 +17,6 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-diff-selection.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
 // Splitting long lines in html into shorter rows breaks tests:
 // zero-length text nodes and new lines are not expected in some places
 /* eslint-disable max-len */
@@ -97,10 +96,8 @@ const basicFixture = fixtureFromTemplate(html`
     </gr-diff-selection>
 `);
 /* eslint-enable max-len */
-
 suite('gr-diff-selection', () => {
   let element;
-
   const emulateCopyOn = function(target) {
     const fakeEvent = {
       target,
@@ -113,10 +110,8 @@ suite('gr-diff-selection', () => {
     element._handleCopy(fakeEvent);
     return fakeEvent;
   };
-
   setup(() => {
     element = basicFixture.instantiate();
-
     sinon.stub(element, '_getCopyEventTarget');
     element._cachedDiffBuilder = {
       getLineElByChild: sinon.stub().returns({}),
@@ -140,7 +135,6 @@ suite('gr-diff-selection', () => {
       ],
     };
   });
-
   test('applies selected-left on left side click', () => {
     element.classList.add('selected-right');
     const lineNumberEl = element.querySelector('.lineNum.left');
@@ -151,7 +145,6 @@ suite('gr-diff-selection', () => {
         element.classList.contains('selected-right'),
         'removes selected-right');
   });
-
   test('applies selected-right on right side click', () => {
     element.classList.add('selected-left');
     const lineNumberEl = element.querySelector('.lineNum.right');
@@ -161,7 +154,6 @@ suite('gr-diff-selection', () => {
     assert.isFalse(
         element.classList.contains('selected-left'), 'removes selected-left');
   });
-
   test('applies selected-blame on blame click', () => {
     element.classList.add('selected-left');
     element.diffBuilder.getLineElByChild.returns(null);
@@ -173,26 +165,22 @@ suite('gr-diff-selection', () => {
     assert.isFalse(
         element.classList.contains('selected-left'), 'removes selected-left');
   });
-
   test('ignores copy for non-content Element', () => {
     sinon.stub(element, '_getSelectedText');
     emulateCopyOn(element.querySelector('.not-diff-row'));
     assert.isFalse(element._getSelectedText.called);
   });
-
   test('asks for text for left side Elements', () => {
     element._cachedDiffBuilder.getSideByLineEl.returns('left');
     sinon.stub(element, '_getSelectedText');
     emulateCopyOn(element.querySelector('div.contentText'));
     assert.deepEqual(['left', false], element._getSelectedText.lastCall.args);
   });
-
   test('reacts to copy for content Elements', () => {
     sinon.stub(element, '_getSelectedText');
     emulateCopyOn(element.querySelector('div.contentText'));
     assert.isTrue(element._getSelectedText.called);
   });
-
   test('copy event is prevented for content Elements', () => {
     sinon.stub(element, '_getSelectedText');
     element._cachedDiffBuilder.getSideByLineEl.returns('left');
@@ -200,14 +188,12 @@ suite('gr-diff-selection', () => {
     const event = emulateCopyOn(element.querySelector('div.contentText'));
     assert.isTrue(event.preventDefault.called);
   });
-
   test('inserts text into clipboard on copy', () => {
     sinon.stub(element, '_getSelectedText').returns('the text');
     const event = emulateCopyOn(element.querySelector('div.contentText'));
     assert.deepEqual(
         ['Text', 'the text'], event.clipboardData.setData.lastCall.args);
   });
-
   test('_setClasses adds given SelectionClass values, removes others', () => {
     element.classList.add('selected-right');
     element._setClasses(['selected-comment', 'selected-left']);
@@ -215,14 +201,12 @@ suite('gr-diff-selection', () => {
     assert.isTrue(element.classList.contains('selected-left'));
     assert.isFalse(element.classList.contains('selected-right'));
     assert.isFalse(element.classList.contains('selected-blame'));
-
     element._setClasses(['selected-blame']);
     assert.isFalse(element.classList.contains('selected-comment'));
     assert.isFalse(element.classList.contains('selected-left'));
     assert.isFalse(element.classList.contains('selected-right'));
     assert.isTrue(element.classList.contains('selected-blame'));
   });
-
   test('_setClasses removes before it ads', () => {
     element.classList.add('selected-right');
     const addStub = sinon.stub(element.classList, 'add');
@@ -234,7 +218,6 @@ suite('gr-diff-selection', () => {
     assert.isTrue(addStub.called);
     assert.isTrue(removeStub.called);
   });
-
   test('copies content correctly', () => {
     // Fetch the line number.
     element._cachedDiffBuilder.getLineElByChild = function(child) {
@@ -243,10 +226,8 @@ suite('gr-diff-selection', () => {
       }
       return child.previousElementSibling;
     };
-
     element.classList.add('selected-left');
     element.classList.remove('selected-right');
-
     const selection = document.getSelection();
     selection.removeAllRanges();
     const range = document.createRange();
@@ -256,7 +237,6 @@ suite('gr-diff-selection', () => {
     selection.addRange(range);
     assert.equal(element._getSelectedText('left'), 'ba\nzin\nga');
   });
-
   test('copies comments', () => {
     element.classList.add('selected-left');
     element.classList.add('selected-comment');
@@ -272,7 +252,6 @@ suite('gr-diff-selection', () => {
     assert.equal('s is a comment\nThis is a differ',
         element._getSelectedText('left', true));
   });
-
   test('respects astral chars in comments', () => {
     element.classList.add('selected-left');
     element.classList.add('selected-comment');
@@ -287,7 +266,6 @@ suite('gr-diff-selection', () => {
     assert.equal('mment 💩 u',
         element._getSelectedText('left', true));
   });
-
   test('defers to default behavior for textarea', () => {
     element.classList.add('selected-left');
     element.classList.remove('selected-right');
@@ -295,7 +273,6 @@ suite('gr-diff-selection', () => {
     emulateCopyOn(element.querySelector('textarea'));
     assert.isFalse(selectedTextSpy.called);
   });
-
   test('regression test for 4794', () => {
     element._cachedDiffBuilder.getLineElByChild = function(child) {
       while (!child.classList.contains('content') && child.parentElement) {
@@ -303,10 +280,8 @@ suite('gr-diff-selection', () => {
       }
       return child.previousElementSibling;
     };
-
     element.classList.add('selected-right');
     element.classList.remove('selected-left');
-
     const selection = document.getSelection();
     selection.removeAllRanges();
     const range = document.createRange();
@@ -317,7 +292,6 @@ suite('gr-diff-selection', () => {
     selection.addRange(range);
     assert.equal(element._getSelectedText('right'), ' other');
   });
-
   test('copies to end of side (issue 7895)', () => {
     element._cachedDiffBuilder.getLineElByChild = function(child) {
       // Return null for the end container.
@@ -338,12 +312,10 @@ suite('gr-diff-selection', () => {
     selection.addRange(range);
     assert.equal(element._getSelectedText('left'), 'ba\nzin\nga');
   });
-
   suite('_getTextContentForRange', () => {
     let selection;
     let range;
     let nodes;
-
     setup(() => {
       element.classList.add('selected-left');
       element.classList.add('selected-comment');
@@ -353,7 +325,6 @@ suite('gr-diff-selection', () => {
       range = document.createRange();
       nodes = element.querySelectorAll('.gr-formatted-text *');
     });
-
     test('multi level element contained in range', () => {
       range.setStart(nodes[2].childNodes[0], 1);
       range.setEnd(nodes[2].childNodes[2], 7);
@@ -361,7 +332,6 @@ suite('gr-diff-selection', () => {
       assert.equal(element._getTextContentForRange(element, selection, range),
           'his is a differ');
     });
-
     test('multi level element as startContainer of range', () => {
       range.setStart(nodes[2].childNodes[1], 0);
       range.setEnd(nodes[2].childNodes[2], 7);
@@ -369,7 +339,6 @@ suite('gr-diff-selection', () => {
       assert.equal(element._getTextContentForRange(element, selection, range),
           'a differ');
     });
-
     test('startContainer === endContainer', () => {
       range.setStart(nodes[0].firstChild, 2);
       range.setEnd(nodes[0].firstChild, 12);
@@ -378,7 +347,6 @@ suite('gr-diff-selection', () => {
           'is is a co');
     });
   });
-
   test('cache is reset when diff changes', () => {
     element._linesCache = {left: 'test', right: 'test'};
     element.diff = {};
@@ -386,4 +354,3 @@ suite('gr-diff-selection', () => {
     assert.deepEqual(element._linesCache, {left: null, right: null});
   });
 });
-

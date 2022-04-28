@@ -1062,6 +1062,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(Iterables.getLast(ci.messages).message)
         .isEqualTo("Uploaded patch set 1: Code-Review+1.");
 
+    // Check that the user who pushed the change was added as a reviewer since they added a vote.
+    assertThatUserIsOnlyReviewer(ci, admin);
+
     PushOneCommit push =
         pushFactory.create(
             admin.newIdent(),
@@ -1071,12 +1074,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "anotherContent",
             r.getChangeId());
     r = push.to("refs/for/master%l=Code-Review+2");
+    r.assertOkStatus();
 
     ci = get(r.getChangeId(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
     cr = ci.labels.get(LabelId.CODE_REVIEW);
     assertThat(Iterables.getLast(ci.messages).message)
         .isEqualTo("Uploaded patch set 2: Code-Review+2.");
-    // Check that the user who pushed the change was added as a reviewer since they added a vote
+    // Check that the user who pushed the change was added as a reviewer since they added a vote.
     assertThatUserIsOnlyReviewer(ci, admin);
 
     assertThat(cr.all).hasSize(1);
@@ -1092,6 +1096,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "moreContent",
             r.getChangeId());
     r = push.to("refs/for/master%l=Code-Review+2");
+    r.assertOkStatus();
     ci = get(r.getChangeId(), MESSAGES);
     assertThat(Iterables.getLast(ci.messages).message).isEqualTo("Uploaded patch set 3.");
   }
@@ -1110,6 +1115,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "anotherContent",
             r.getChangeId());
     r = push.to("refs/for/master%l=Code-Review+2");
+    r.assertOkStatus();
 
     ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
     LabelInfo cr = ci.labels.get(LabelId.CODE_REVIEW);
@@ -1117,7 +1123,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .isEqualTo("Uploaded patch set 2: Code-Review+2.");
 
     // Check that the user who pushed the new patch set was added as a reviewer since they added
-    // a vote
+    // a vote.
     assertThatUserIsOnlyReviewer(ci, admin);
 
     assertThat(cr.all).hasSize(1);
@@ -1244,7 +1250,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cr.all).hasSize(1);
     cr = ci.labels.get("Custom-Label");
     assertThat(cr.all).hasSize(1);
-    // Check that the user who pushed the change was added as a reviewer since they added a vote
+    // Check that the user who pushed the change was added as a reviewer since they added a vote.
     assertThatUserIsOnlyReviewer(ci, admin);
   }
 

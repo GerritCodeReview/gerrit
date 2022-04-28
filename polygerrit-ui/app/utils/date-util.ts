@@ -44,7 +44,10 @@ export function fromNow(date: Date, noAgo = false) {
 export function durationString(from: Date, to: Date, noAgo = false) {
   const ago = noAgo ? '' : ' ago';
   const secondsAgo = Math.floor((to.valueOf() - from.valueOf()) / 1000);
-  if (secondsAgo <= 59) return 'just now';
+  if (secondsAgo <= 59) {
+    if (noAgo) return `${secondsAgo} seconds`;
+    return 'just now';
+  }
   if (secondsAgo <= 119) return `1 minute${ago}`;
   const minutesAgo = Math.floor(secondsAgo / 60);
   if (minutesAgo <= 59) return `${minutesAgo} minutes${ago}`;

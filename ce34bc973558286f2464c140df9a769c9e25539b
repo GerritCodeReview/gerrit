@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c47d9ccd_3d889f81",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-28T11:55:50Z",
+      "side": 1,
+      "message": "That\u0027s nice simplification.",
+      "range": {
+        "startLine": 497,
+        "startChar": 0,
+        "endLine": 507,
+        "endChar": 37
+      },
+      "revId": "ce34bc973558286f2464c140df9a769c9e25539b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a3b78b6_a5f1979e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-28T11:55:50Z",
+      "side": 1,
+      "message": "I am surprised no tests checking integration, but luckily no need to change test here.",
+      "revId": "ce34bc973558286f2464c140df9a769c9e25539b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

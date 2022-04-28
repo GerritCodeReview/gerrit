@@ -354,8 +354,13 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
     output.labels = input.labels;
 
+    // Notify based on ReviewInput, ignoring the notify settings from any ReviewerInputs.
+    NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
+
     try (BatchUpdate bu =
         updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {
+      bu.setNotify(notify);
+
       Account account = revision.getUser().asIdentifiedUser().getAccount();
       boolean ccOrReviewer = false;
       if (input.labels != null && !input.labels.isEmpty()) {
@@ -430,26 +435,22 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       bu.addOp(
           revision.getChange().getId(), new Op(projectState, revision.getPatchSet().id(), input));
 
-      // Notify based on ReviewInput, ignoring the notify settings from any ReviewerInputs.
-      NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
-      bu.setNotify(notify);
-
       // Adjust the attention set based on the input
       replyAttentionSetUpdates.updateAttentionSet(
           bu, revision.getNotes(), input, revision.getUser());
       bu.execute();
-
-      // Re-read change to take into account results of the update.
-      ChangeData cd = changeDataFactory.create(revision.getProject(), revision.getChange().getId());
-      for (ReviewerModification reviewerResult : reviewerResults) {
-        reviewerResult.gatherResults(cd);
-      }
-
-      // Sending emails and events from ReviewersOps was suppressed so we can send a single batch
-      // email/event here.
-      batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
-      batchReviewerEvents(revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts);
     }
+
+    // Re-read change to take into account results of the update.
+    ChangeData cd = changeDataFactory.create(revision.getProject(), revision.getChange().getId());
+    for (ReviewerModification reviewerResult : reviewerResults) {
+      reviewerResult.gatherResults(cd);
+    }
+
+    // Sending emails and events from ReviewersOps was suppressed so we can send a single batch
+    // email/event here.
+    batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
+    batchReviewerEvents(revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts);
 
     return Response.ok(output);
   }

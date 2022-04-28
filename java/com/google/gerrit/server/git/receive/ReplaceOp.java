@@ -338,8 +338,9 @@ public class ReplaceOp implements BatchUpdateOp {
     }
     reviewerAdditions.updateChange(ctx, newPatchSet);
 
-    // Check if approvals are changing in with this update. If so, add current user to reviewers.
-    // Note that this is done separately as addReviewers is filtering out the change owner as
+    // Check if approvals are changing with this update. If so, add the current user (aka the
+    // approver) as a reviewers because all approvers must also be reviewers.
+    // Note that this is done separately as addReviewers is filtering out the change owner as a
     // reviewer which is needed in several other code paths.
     if (magicBranch != null && !magicBranch.labels.isEmpty()) {
       update.putReviewer(ctx.getAccountId(), REVIEWER);

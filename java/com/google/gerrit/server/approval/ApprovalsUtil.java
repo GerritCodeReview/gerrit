@@ -18,15 +18,19 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static java.util.stream.Collectors.joining;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
@@ -57,6 +61,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -365,7 +370,51 @@ public class ApprovalsUtil {
     ApprovalCopier.Result approvalCopierResult =
         approvalCopier.forPatchSet(notes, patchSet, revWalk, repoConfig);
     approvalCopierResult.copiedApprovals().forEach(a -> changeUpdate.putCopiedApproval(a));
-    approvalCopierResult.outdatedApprovals().forEach(a -> changeUpdate.putOutdatedApproval(a));
+
+    // Add attention set updates for outdated approvals.
+    if (notes.getChange().isWorkInProgress()) {
+      // The attention set should not be updated when the change is work-in-progress.
+      return;
+    }
+
+    Set<AttentionSetUpdate> updates = new HashSet<>();
+
+    // Add attention set updates for outdated approvals first, as these should take precedence.
+    Multimap<Account.Id, PatchSetApproval> outdatedApprovalsByUser = ArrayListMultimap.create();
+    approvalCopierResult
+        .outdatedApprovals()
+        .forEach(psa -> outdatedApprovalsByUser.put(psa.accountId(), psa));
+    for (Map.Entry<Account.Id, Collection<PatchSetApproval>> e :
+        outdatedApprovalsByUser.asMap().entrySet()) {
+      Account.Id approverId = e.getKey();
+      Collection<PatchSetApproval> outdatedUserApprovals = e.getValue();
+
+      String message;
+      if (outdatedApprovalsByUser.size() == 1) {
+        PatchSetApproval outdatedUserApproval = Iterables.getOnlyElement(outdatedUserApprovals);
+        message =
+            String.format(
+                "Vote got outdated and was removed: %s",
+                LabelVote.create(outdatedUserApproval.label(), outdatedUserApproval.value())
+                    .format());
+      } else {
+        message =
+            String.format(
+                "Votes got outdated and were removed: %s",
+                outdatedUserApprovals.stream()
+                    .map(
+                        outdatedUserApproval ->
+                            LabelVote.create(
+                                    outdatedUserApproval.label(), outdatedUserApproval.value())
+                                .format())
+                    .sorted()
+                    .collect(joining(", ")));
+      }
+
+      updates.add(
+          AttentionSetUpdate.createForWrite(approverId, AttentionSetUpdate.Operation.ADD, message));
+    }
+    changeUpdate.addToPlannedAttentionSetUpdates(updates);
   }
 
   /**

@@ -22,6 +22,30 @@
       },
       "revId": "b12ca40deb6c27e2810da671707edaeb90244b49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bcc3f68_152ff5ff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-28T14:39:41Z",
+      "side": 1,
+      "message": "The color is what\u0027s changing on focus. There is [already a border](https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_html.ts;l\u003d38;drc\u003dbe1d4b5369b7ec5ee33de88ada85baa5c8906c34) regardless of focus that follows `var(--border-color)`.",
+      "parentUuid": "a3d929d8_a71ec535",
+      "range": {
+        "startLine": 178,
+        "startChar": 2,
+        "endLine": 178,
+        "endChar": 21
+      },
+      "revId": "b12ca40deb6c27e2810da671707edaeb90244b49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

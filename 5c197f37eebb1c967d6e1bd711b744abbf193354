@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ade1af59_e32d7ac0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-28T21:38:04Z",
+      "side": 1,
+      "message": "Why not aligning to 5.0.0 like to other more recent branches?",
+      "revId": "5c197f37eebb1c967d6e1bd711b744abbf193354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -26,7 +26,6 @@ import {customElement, property} from '@polymer/decorators';
 import {Side} from '../../../constants/constants';
 import {CommentRange} from '../../../types/common';
 import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
-import {GrDiffBuilderElement} from '../gr-diff-builder/gr-diff-builder-element';
 import {FILE} from '../gr-diff/gr-diff-line';
 import {
   getLineElByChild,
@@ -56,6 +55,14 @@ interface NormalizedRange {
   end: NormalizedPosition | null;
 }
 
+/**
+ * The methods that we actually want to call on the builder. We don't want a
+ * fully blown dependency on GrDiffBuilderElement.
+ */
+export interface DiffBuilderInterface {
+  getContentTdByLineEl(lineEl?: Element): Element | null;
+}
+
 @customElement('gr-diff-highlight')
 export class GrDiffHighlight extends PolymerElement {
   static get template() {
@@ -69,7 +76,7 @@ export class GrDiffHighlight extends PolymerElement {
   loggedIn?: boolean;
 
   @property({type: Object})
-  _cachedDiffBuilder?: GrDiffBuilderElement;
+  _cachedDiffBuilder?: DiffBuilderInterface;
 
   @property({type: Object, notify: true})
   selectedRange?: SidedRange;
@@ -94,11 +101,11 @@ export class GrDiffHighlight extends PolymerElement {
     super.disconnectedCallback();
   }
 
-  get diffBuilder() {
+  get diffBuilder(): DiffBuilderInterface {
     if (!this._cachedDiffBuilder) {
       this._cachedDiffBuilder = this.querySelector(
         'gr-diff-builder'
-      ) as GrDiffBuilderElement;
+      ) as DiffBuilderInterface;
     }
     return this._cachedDiffBuilder;
   }
@@ -576,8 +583,16 @@ export class GrDiffHighlight extends PolymerElement {
   }
 }
 
+export interface CreateRangeCommentEventDetail {
+  side: Side;
+  range: CommentRange;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     'gr-diff-highlight': GrDiffHighlight;
+  }
+  interface HTMLElementEventMap {
+    'create-range-comment': CustomEvent<CreateRangeCommentEventDetail>;
   }
 }

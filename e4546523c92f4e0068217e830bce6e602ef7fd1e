@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6180b57_f089cf1e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 48
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-28T12:27:06Z",
+      "side": 1,
+      "message": "Can we make this a state seeing as it\u0027s private? Same for the rest that had _?",
+      "revId": "e4546523c92f4e0068217e830bce6e602ef7fd1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "758f371a_36f6bd32",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 48
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-28T12:27:06Z",
+      "side": 1,
+      "message": "Think we can get rid of nativeInput (think this was kept during the polymer 1 -\u003e 2 migration?)?",
+      "revId": "e4546523c92f4e0068217e830bce6e602ef7fd1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

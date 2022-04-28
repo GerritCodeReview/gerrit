@@ -73,6 +73,17 @@ export const htmlTemplate = html`
         display: none;
       }
     }
+    paper-input.showBlueFocusBorder:focus {
+      border: 2px solid var(--focus-border-color);
+      /*
+       * The goal is to have a thicker blue border when focused and a thinner
+       * gray border when blurred. To avoid shifting neighboring elements around
+       * when the border size changes, a negative margin is added to compensate.
+       * box-sizing: border-box; will not work since there is important padding
+       * to add around the content.
+       */
+      margin: -1px;
+    }
     paper-input.warnUncommitted {
       --paper-input-container-input: {
         color: var(--error-text-color);
@@ -83,7 +94,7 @@ export const htmlTemplate = html`
   <paper-input
     no-label-float=""
     id="input"
-    class$="[[_computeClass(borderless)]]"
+    class$="[[_computeClass(borderless, showBlueFocusBorder)]]"
     disabled$="[[disabled]]"
     value="{{text}}"
     placeholder="[[placeholder]]"

@@ -46,6 +46,30 @@
       },
       "revId": "b12ca40deb6c27e2810da671707edaeb90244b49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9a1d4d4_40a63774",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-28T14:40:45Z",
+      "side": 1,
+      "message": "Ohh then the var names makes sense.\nThanks for clarifying.",
+      "parentUuid": "5bcc3f68_152ff5ff",
+      "range": {
+        "startLine": 178,
+        "startChar": 2,
+        "endLine": 178,
+        "endChar": 21
+      },
+      "revId": "b12ca40deb6c27e2810da671707edaeb90244b49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

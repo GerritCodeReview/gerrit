@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e92df52_bbaafa41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-04-28T12:14:38Z",
+      "side": 1,
+      "message": "Seems that in 3.4 the shared-styles module was dropped hence why avatars were shown even with hidden. Wikimedia is experence this bug (didn\u0027t realise at the time it affected 3.4).",
+      "revId": "42a72e7f255265f73f48f87fa412d00ec0964f7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

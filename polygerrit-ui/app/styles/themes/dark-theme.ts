@@ -155,6 +155,7 @@ const darkThemeCss = safeStyleSheet`
 
     /* misc colors */
     --border-color: var(--gray-700);
+    --input-focus-border-color: var(--blue-200);
     --comment-separator-color: var(--border-color);
 
     /* checks tag colors */

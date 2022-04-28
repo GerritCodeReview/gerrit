@@ -122,6 +122,7 @@ import {
 } from '../api/rest-api';
 import {RunResult} from '../models/checks/checks-model';
 import {Category, RunStatus} from '../api/checks';
+import {DiffInfo} from '../api/diff';
 
 const TEST_DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
 export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;
@@ -464,6 +465,122 @@ export function createGetDiffCommentsOutput(): GetDiffCommentsOutput {
   return {
     baseComments: [],
     comments: [],
+  };
+}
+
+export function createDiff(): DiffInfo {
+  return {
+    meta_a: {
+      name: 'lorem-ipsum.txt',
+      content_type: 'text/plain',
+      lines: 45,
+    },
+    meta_b: {
+      name: 'lorem-ipsum.txt',
+      content_type: 'text/plain',
+      lines: 48,
+    },
+    intraline_status: 'OK',
+    change_type: 'MODIFIED',
+    diff_header: [
+      'diff --git a/lorem-ipsum.txt b/lorem-ipsum.txt',
+      'index b2adcf4..554ae49 100644',
+      '--- a/lorem-ipsum.txt',
+      '+++ b/lorem-ipsum.txt',
+    ],
+    content: [
+      {
+        ab: [
+          'Lorem ipsum dolor sit amet, suspendisse inceptos vehicula, ' +
+            'nulla phasellus.',
+          'Mattis lectus.',
+          'Sodales duis.',
+          'Orci a faucibus.',
+        ],
+      },
+      {
+        b: [
+          'Nullam neque, ligula ac, id blandit.',
+          'Sagittis tincidunt torquent, tempor nunc amet.',
+          'At rhoncus id.',
+        ],
+      },
+      {
+        ab: [
+          'Sem nascetur, erat ut, non in.',
+          'A donec, venenatis pellentesque dis.',
+          'Mauris mauris.',
+          'Quisque nisl duis, facilisis viverra.',
+          'Justo purus, semper eget et.',
+        ],
+      },
+      {
+        a: [
+          'Est amet, vestibulum pellentesque.',
+          'Erat ligula.',
+          'Justo eros.',
+          'Fringilla quisque.',
+        ],
+      },
+      {
+        ab: [
+          'Arcu eget, rhoncus amet cursus, ipsum elementum.',
+          'Eros suspendisse.',
+        ],
+      },
+      {
+        a: ['Rhoncus tempor, ultricies aliquam ipsum.'],
+        b: ['Rhoncus tempor, ultricies praesent ipsum.'],
+        edit_a: [[26, 7]],
+        edit_b: [[26, 8]],
+      },
+      {
+        ab: [
+          'Sollicitudin duis.',
+          'Blandit blandit, ante nisl fusce.',
+          'Felis ac at, tellus consectetuer.',
+          'Sociis ligula sapien, egestas leo.',
+          'Cum pulvinar, sed mauris, cursus neque velit.',
+          'Augue porta lobortis.',
+          'Nibh lorem, amet fermentum turpis, vel pulvinar diam.',
+          'Id quam ipsum, id urna et, massa suspendisse.',
+          'Ac nec, nibh praesent.',
+          'Rutrum vestibulum.',
+          'Est tellus, bibendum habitasse.',
+          'Justo facilisis, vel nulla.',
+          'Donec eu, vulputate neque aliquam, nulla dui.',
+          'Risus adipiscing in.',
+          'Lacus arcu arcu.',
+          'Urna velit.',
+          'Urna a dolor.',
+          'Lectus magna augue, convallis mattis tortor, sed tellus ' +
+            'consequat.',
+          'Etiam dui, blandit wisi.',
+          'Mi nec.',
+          'Vitae eget vestibulum.',
+          'Ullamcorper nunc ante, nec imperdiet felis, consectetur in.',
+          'Ac eget.',
+          'Vel fringilla, interdum pellentesque placerat, proin ante.',
+        ],
+      },
+      {
+        b: [
+          'Eu congue risus.',
+          'Enim ac, quis elementum.',
+          'Non et elit.',
+          'Etiam aliquam, diam vel nunc.',
+        ],
+      },
+      {
+        ab: [
+          'Nec at.',
+          'Arcu mauris, venenatis lacus fermentum, praesent duis.',
+          'Pellentesque amet et, tellus duis.',
+          'Ipsum arcu vitae, justo elit, sed libero tellus.',
+          'Metus rutrum euismod, vivamus sodales, vel arcu nisl.',
+        ],
+      },
+    ],
   };
 }
 

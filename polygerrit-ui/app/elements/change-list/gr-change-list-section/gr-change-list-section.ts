@@ -111,6 +111,20 @@ export class GrChangeListSection extends LitElement {
           font-weight: var(--font-weight-normal);
           line-height: var(--line-height-small);
         }
+        /*
+       * checkbox styles match checkboxes in <gr-change-list-item> rows to
+       * vertically align with them.
+       */
+        input {
+          background-color: var(--background-color-primary);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          box-sizing: border-box;
+          color: var(--primary-text-color);
+          margin: 0px;
+          padding: var(--spacing-s);
+          vertical-align: middle;
+        }
       `,
     ];
   }
@@ -187,7 +201,6 @@ export class GrChangeListSection extends LitElement {
       <tbody>
         <tr class="groupHeader">
           <td aria-hidden="true" class="leftPadding"></td>
-          ${this.renderSelectionHeader()}
           <td aria-hidden="true" class="star" ?hidden=${!this.showStar}></td>
           <td class="cell" colspan=${colSpan}>
             <h2 class="heading-3">
@@ -234,7 +247,14 @@ export class GrChangeListSection extends LitElement {
 
   private renderSelectionHeader() {
     if (!this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) return;
-    return html`<td aria-hidden="true" class="selection"></td>`;
+    return html`
+      <td aria-hidden="true" class="selection">
+        <input
+          type="checkbox"
+          @click=${() => this.bulkActionsModel.selectAll()}
+        />
+      </td>
+    `;
   }
 
   private renderHeaderCell(item: string) {

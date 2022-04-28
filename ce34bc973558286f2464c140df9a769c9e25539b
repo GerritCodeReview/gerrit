@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac5392b1_9c48763b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-28T12:12:13Z",
+      "side": 1,
+      "message": "groupsCleared is calling clearGroups?\n\nperhaps keep the naming consistent?",
+      "range": {
+        "startLine": 497,
+        "startChar": 2,
+        "endLine": 497,
+        "endChar": 15
+      },
+      "revId": "ce34bc973558286f2464c140df9a769c9e25539b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c47d9ccd_3d889f81",

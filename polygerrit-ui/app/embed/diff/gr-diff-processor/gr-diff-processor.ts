@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {
@@ -36,7 +25,8 @@ import {RenderPreferences} from '../../../api/diff';
 
 const WHOLE_FILE = -1;
 
-interface State {
+// visible for testing
+export interface State {
   lineNums: {
     left: number;
     right: number;
@@ -59,7 +49,7 @@ export interface KeyLocations {
  * into a series of chunks that are this size at most.
  *
  * Note: The value of 120 is chosen so that it is larger than the default
- * _asyncThreshold of 64, but feel free to tune this constant to your
+ * asyncThreshold of 64, but feel free to tune this constant to your
  * performance needs.
  */
 function calcMaxGroupSize(asyncThreshold?: number): number {
@@ -94,7 +84,6 @@ function calcMaxGroupSize(asyncThreshold?: number): number {
  */
 @customElement('gr-diff-processor')
 export class GrDiffProcessor extends PolymerElement {
-  @property({type: Number})
   context = 3;
 
   /**
@@ -107,20 +96,16 @@ export class GrDiffProcessor extends PolymerElement {
   @property({type: Array, notify: true})
   groups: GrDiffGroup[] = [];
 
-  @property({type: Object})
   keyLocations: KeyLocations = {left: {}, right: {}};
 
-  @property({type: Number})
-  _asyncThreshold = 64;
+  private asyncThreshold = 64;
 
-  @property({type: Number})
-  _nextStepHandle: number | null = null;
+  private nextStepHandle: number | null = null;
 
-  @property({type: Object})
-  _processPromise: CancelablePromise<void> | null = null;
+  private processPromise: CancelablePromise<void> | null = null;
 
-  @property({type: Boolean})
-  _isScrolling?: boolean;
+  // visible for testing
+  isScrolling?: boolean;
 
   private resetIsScrollingTask?: DelayedTask;
 
@@ -137,10 +122,10 @@ export class GrDiffProcessor extends PolymerElement {
   }
 
   private readonly handleWindowScroll = () => {
-    this._isScrolling = true;
+    this.isScrolling = true;
     this.resetIsScrollingTask = debounce(
       this.resetIsScrollingTask,
-      () => (this._isScrolling = false),
+      () => (this.isScrolling = false),
       50
     );
   };
@@ -158,8 +143,8 @@ export class GrDiffProcessor extends PolymerElement {
     this.cancel();
 
     this.groups = [];
-    this.push('groups', this._makeGroup('LOST'));
-    this.push('groups', this._makeGroup(FILE));
+    this.push('groups', this.makeGroup('LOST'));
+    this.push('groups', this.makeGroup(FILE));
 
     // If it's a binary diff, we won't be rendering hunks of text differences
     // so finish processing.
@@ -167,31 +152,31 @@ export class GrDiffProcessor extends PolymerElement {
       return Promise.resolve();
     }
 
-    this._processPromise = util.makeCancelable(
+    this.processPromise = util.makeCancelable(
       new Promise(resolve => {
         const state = {
           lineNums: {left: 0, right: 0},
           chunkIndex: 0,
         };
 
-        chunks = this._splitLargeChunks(chunks);
-        chunks = this._splitCommonChunksWithKeyLocations(chunks);
+        chunks = this.splitLargeChunks(chunks);
+        chunks = this.splitCommonChunksWithKeyLocations(chunks);
 
         let currentBatch = 0;
         const nextStep = () => {
-          if (this._isScrolling) {
-            this._nextStepHandle = window.setTimeout(nextStep, 100);
+          if (this.isScrolling) {
+            this.nextStepHandle = window.setTimeout(nextStep, 100);
             return;
           }
           // If we are done, resolve the promise.
           if (state.chunkIndex >= chunks.length) {
             resolve();
-            this._nextStepHandle = null;
+            this.nextStepHandle = null;
             return;
           }
 
           // Process the next chunk and incorporate the result.
-          const stateUpdate = this._processNext(state, chunks);
+          const stateUpdate = this.processNext(state, chunks);
           for (const group of stateUpdate.groups) {
             this.push('groups', group);
             currentBatch += group.lines.length;
@@ -201,9 +186,9 @@ export class GrDiffProcessor extends PolymerElement {
 
           // Increment the index and recurse.
           state.chunkIndex = stateUpdate.newChunkIndex;
-          if (currentBatch >= this._asyncThreshold) {
+          if (currentBatch >= this.asyncThreshold) {
             currentBatch = 0;
-            this._nextStepHandle = window.setTimeout(nextStep, 1);
+            this.nextStepHandle = window.setTimeout(nextStep, 1);
           } else {
             nextStep.call(this);
           }
@@ -212,8 +197,8 @@ export class GrDiffProcessor extends PolymerElement {
         nextStep.call(this);
       })
     );
-    return this._processPromise.finally(() => {
-      this._processPromise = null;
+    return this.processPromise.finally(() => {
+      this.processPromise = null;
     });
   }
 
@@ -221,20 +206,21 @@ export class GrDiffProcessor extends PolymerElement {
    * Cancel any jobs that are running.
    */
   cancel() {
-    if (this._nextStepHandle !== null) {
-      window.clearTimeout(this._nextStepHandle);
-      this._nextStepHandle = null;
+    if (this.nextStepHandle !== null) {
+      window.clearTimeout(this.nextStepHandle);
+      this.nextStepHandle = null;
     }
-    if (this._processPromise) {
-      this._processPromise.cancel();
+    if (this.processPromise) {
+      this.processPromise.cancel();
     }
   }
 
   /**
    * Process the next uncollapsible chunk, or the next collapsible chunks.
    */
-  _processNext(state: State, chunks: DiffContent[]) {
-    const firstUncollapsibleChunkIndex = this._firstUncollapsibleChunkIndex(
+  // visible for testing
+  processNext(state: State, chunks: DiffContent[]) {
+    const firstUncollapsibleChunkIndex = this.firstUncollapsibleChunkIndex(
       chunks,
       state.chunkIndex
     );
@@ -242,11 +228,11 @@ export class GrDiffProcessor extends PolymerElement {
       const chunk = chunks[state.chunkIndex];
       return {
         lineDelta: {
-          left: this._linesLeft(chunk).length,
-          right: this._linesRight(chunk).length,
+          left: this.linesLeft(chunk).length,
+          right: this.linesRight(chunk).length,
         },
         groups: [
-          this._chunkToGroup(
+          this.chunkToGroup(
             chunk,
             state.lineNums.left + 1,
             state.lineNums.right + 1
@@ -256,33 +242,33 @@ export class GrDiffProcessor extends PolymerElement {
       };
     }
 
-    return this._processCollapsibleChunks(
+    return this.processCollapsibleChunks(
       state,
       chunks,
       firstUncollapsibleChunkIndex
     );
   }
 
-  _linesLeft(chunk: DiffContent) {
+  private linesLeft(chunk: DiffContent) {
     return chunk.ab || chunk.a || [];
   }
 
-  _linesRight(chunk: DiffContent) {
+  private linesRight(chunk: DiffContent) {
     return chunk.ab || chunk.b || [];
   }
 
-  _firstUncollapsibleChunkIndex(chunks: DiffContent[], offset: number) {
+  private firstUncollapsibleChunkIndex(chunks: DiffContent[], offset: number) {
     let chunkIndex = offset;
     while (
       chunkIndex < chunks.length &&
-      this._isCollapsibleChunk(chunks[chunkIndex])
+      this.isCollapsibleChunk(chunks[chunkIndex])
     ) {
       chunkIndex++;
     }
     return chunkIndex;
   }
 
-  _isCollapsibleChunk(chunk: DiffContent) {
+  private isCollapsibleChunk(chunk: DiffContent) {
     return (chunk.ab || chunk.common || chunk.skip) && !chunk.keyLocation;
   }
 
@@ -296,7 +282,7 @@ export class GrDiffProcessor extends PolymerElement {
    * 3) Visible context after the hidden common code, unless it's the very
    * end of the file.
    */
-  _processCollapsibleChunks(
+  private processCollapsibleChunks(
     state: State,
     chunks: DiffContent[],
     firstUncollapsibleChunkIndex: number
@@ -306,11 +292,11 @@ export class GrDiffProcessor extends PolymerElement {
       firstUncollapsibleChunkIndex
     );
     const lineCount = collapsibleChunks.reduce(
-      (sum, chunk) => sum + this._commonChunkLength(chunk),
+      (sum, chunk) => sum + this.commonChunkLength(chunk),
       0
     );
 
-    let groups = this._chunksToGroups(
+    let groups = this.chunksToGroups(
       collapsibleChunks,
       state.lineNums.left + 1,
       state.lineNums.right + 1
@@ -336,7 +322,7 @@ export class GrDiffProcessor extends PolymerElement {
     };
   }
 
-  _commonChunkLength(chunk: DiffContent) {
+  private commonChunkLength(chunk: DiffContent) {
     if (chunk.skip) {
       return chunk.skip;
     }
@@ -347,31 +333,31 @@ export class GrDiffProcessor extends PolymerElement {
       'common chunk needs same number of a and b lines: ',
       chunk
     );
-    return this._linesLeft(chunk).length;
+    return this.linesLeft(chunk).length;
   }
 
-  _chunksToGroups(
+  private chunksToGroups(
     chunks: DiffContent[],
     offsetLeft: number,
     offsetRight: number
   ): GrDiffGroup[] {
     return chunks.map(chunk => {
-      const group = this._chunkToGroup(chunk, offsetLeft, offsetRight);
-      const chunkLength = this._commonChunkLength(chunk);
+      const group = this.chunkToGroup(chunk, offsetLeft, offsetRight);
+      const chunkLength = this.commonChunkLength(chunk);
       offsetLeft += chunkLength;
       offsetRight += chunkLength;
       return group;
     });
   }
 
-  _chunkToGroup(
+  private chunkToGroup(
     chunk: DiffContent,
     offsetLeft: number,
     offsetRight: number
   ): GrDiffGroup {
     const type =
       chunk.ab || chunk.skip ? GrDiffGroupType.BOTH : GrDiffGroupType.DELTA;
-    const lines = this._linesFromChunk(chunk, offsetLeft, offsetRight);
+    const lines = this.linesFromChunk(chunk, offsetLeft, offsetRight);
     const options = {
       moveDetails: chunk.move_details,
       dueToRebase: !!chunk.due_to_rebase,
@@ -395,10 +381,14 @@ export class GrDiffProcessor extends PolymerElement {
     }
   }
 
-  _linesFromChunk(chunk: DiffContent, offsetLeft: number, offsetRight: number) {
+  private linesFromChunk(
+    chunk: DiffContent,
+    offsetLeft: number,
+    offsetRight: number
+  ) {
     if (chunk.ab) {
       return chunk.ab.map((row, i) =>
-        this._lineFromRow(GrDiffLineType.BOTH, offsetLeft, offsetRight, row, i)
+        this.lineFromRow(GrDiffLineType.BOTH, offsetLeft, offsetRight, row, i)
       );
     }
     let lines: GrDiffLine[] = [];
@@ -406,7 +396,7 @@ export class GrDiffProcessor extends PolymerElement {
       // Avoiding a.push(...b) because that causes callstack overflows for
       // large b, which can occur when large files are added removed.
       lines = lines.concat(
-        this._linesFromRows(
+        this.linesFromRows(
           GrDiffLineType.REMOVE,
           chunk.a,
           offsetLeft,
@@ -418,7 +408,7 @@ export class GrDiffProcessor extends PolymerElement {
       // Avoiding a.push(...b) because that causes callstack overflows for
       // large b, which can occur when large files are added removed.
       lines = lines.concat(
-        this._linesFromRows(
+        this.linesFromRows(
           GrDiffLineType.ADD,
           chunk.b,
           offsetRight,
@@ -429,21 +419,22 @@ export class GrDiffProcessor extends PolymerElement {
     return lines;
   }
 
-  _linesFromRows(
+  // visible for testing
+  linesFromRows(
     lineType: GrDiffLineType,
     rows: string[],
     offset: number,
     intralineInfos?: number[][]
   ): GrDiffLine[] {
     const grDiffHighlights = intralineInfos
-      ? this._convertIntralineInfos(rows, intralineInfos)
+      ? this.convertIntralineInfos(rows, intralineInfos)
       : undefined;
     return rows.map((row, i) =>
-      this._lineFromRow(lineType, offset, offset, row, i, grDiffHighlights)
+      this.lineFromRow(lineType, offset, offset, row, i, grDiffHighlights)
     );
   }
 
-  _lineFromRow(
+  private lineFromRow(
     type: GrDiffLineType,
     offsetLeft: number,
     offsetRight: number,
@@ -464,7 +455,7 @@ export class GrDiffProcessor extends PolymerElement {
     return line;
   }
 
-  _makeGroup(number: LineNumber) {
+  private makeGroup(number: LineNumber) {
     const line = new GrDiffLine(GrDiffLineType.BOTH);
     line.beforeNumber = number;
     line.afterNumber = number;
@@ -486,12 +477,13 @@ export class GrDiffProcessor extends PolymerElement {
    * @param chunks Chunks as returned from the server
    * @return Finer grained chunks.
    */
-  _splitLargeChunks(chunks: DiffContent[]): DiffContent[] {
+  // visible for testing
+  splitLargeChunks(chunks: DiffContent[]): DiffContent[] {
     const newChunks = [];
 
     for (const chunk of chunks) {
       if (!chunk.ab) {
-        for (const subChunk of this._breakdownChunk(chunk)) {
+        for (const subChunk of this.breakdownChunk(chunk)) {
           newChunks.push(subChunk);
         }
         continue;
@@ -501,7 +493,7 @@ export class GrDiffProcessor extends PolymerElement {
       // chunks so they can be rendered incrementally. Note: this is not
       // enabled for any other context preference because manipulating the
       // chunks in this way violates assumptions by the context grouper logic.
-      const MAX_GROUP_SIZE = calcMaxGroupSize(this._asyncThreshold);
+      const MAX_GROUP_SIZE = calcMaxGroupSize(this.asyncThreshold);
       if (this.context === -1 && chunk.ab.length > MAX_GROUP_SIZE * 2) {
         // Split large shared chunks in two, where the first is the maximum
         // group size.
@@ -522,7 +514,8 @@ export class GrDiffProcessor extends PolymerElement {
    * @param chunks DiffContents as returned from server.
    * @return Finer grained DiffContents.
    */
-  _splitCommonChunksWithKeyLocations(chunks: DiffContent[]): DiffContent[] {
+  // visible for testing
+  splitCommonChunksWithKeyLocations(chunks: DiffContent[]): DiffContent[] {
     const result = [];
     let leftLineNum = 1;
     let rightLineNum = 1;
@@ -545,8 +538,8 @@ export class GrDiffProcessor extends PolymerElement {
           'DiffContent with common=true must always have equal length'
         );
       }
-      const numLines = this._commonChunkLength(chunk);
-      const chunkEnds = this._findChunkEndsAtKeyLocations(
+      const numLines = this.commonChunkLength(chunk);
+      const chunkEnds = this.findChunkEndsAtKeyLocations(
         numLines,
         leftLineNum,
         rightLineNum
@@ -562,7 +555,7 @@ export class GrDiffProcessor extends PolymerElement {
         });
       } else if (chunk.ab) {
         result.push(
-          ...this._splitAtChunkEnds(chunk.ab, chunkEnds).map(
+          ...this.splitAtChunkEnds(chunk.ab, chunkEnds).map(
             ({lines, keyLocation}) => {
               return {
                 ...chunk,
@@ -573,8 +566,8 @@ export class GrDiffProcessor extends PolymerElement {
           )
         );
       } else if (chunk.common) {
-        const aChunks = this._splitAtChunkEnds(chunk.a!, chunkEnds);
-        const bChunks = this._splitAtChunkEnds(chunk.b!, chunkEnds);
+        const aChunks = this.splitAtChunkEnds(chunk.a!, chunkEnds);
+        const bChunks = this.splitAtChunkEnds(chunk.b!, chunkEnds);
         result.push(
           ...aChunks.map(({lines, keyLocation}, i) => {
             return {
@@ -595,7 +588,7 @@ export class GrDiffProcessor extends PolymerElement {
    * @return Offsets of the new chunk ends, including whether it's a key
    * location.
    */
-  _findChunkEndsAtKeyLocations(
+  private findChunkEndsAtKeyLocations(
     numLines: number,
     leftOffset: number,
     rightOffset: number
@@ -628,7 +621,7 @@ export class GrDiffProcessor extends PolymerElement {
     return result;
   }
 
-  _splitAtChunkEnds(lines: string[], chunkEnds: ChunkEnd[]) {
+  private splitAtChunkEnds(lines: string[], chunkEnds: ChunkEnd[]) {
     const result = [];
     let lastChunkEndOffset = 0;
     for (const {offset, keyLocation} of chunkEnds) {
@@ -645,7 +638,8 @@ export class GrDiffProcessor extends PolymerElement {
    * Converts `IntralineInfo`s return by the API to `GrLineHighlights` used
    * for rendering.
    */
-  _convertIntralineInfos(
+  // visible for testing
+  convertIntralineInfos(
     rows: string[],
     intralineInfos: number[][]
   ): Highlights[] {
@@ -695,7 +689,8 @@ export class GrDiffProcessor extends PolymerElement {
    * of that type using the MAX_GROUP_SIZE. If the group is a shared chunk
    * or a delta it is returned as the single element of the result array.
    */
-  _breakdownChunk(chunk: DiffContent): DiffContent[] {
+  // visible for testing
+  breakdownChunk(chunk: DiffContent): DiffContent[] {
     let key: 'a' | 'b' | 'ab' | null = null;
     const {a, b, ab, move_details} = chunk;
     if (a?.length && !b?.length) {
@@ -712,8 +707,8 @@ export class GrDiffProcessor extends PolymerElement {
       return [chunk];
     }
 
-    const MAX_GROUP_SIZE = calcMaxGroupSize(this._asyncThreshold);
-    return this._breakdown(chunk[key]!, MAX_GROUP_SIZE).map(subChunkLines => {
+    const MAX_GROUP_SIZE = calcMaxGroupSize(this.asyncThreshold);
+    return this.breakdown(chunk[key]!, MAX_GROUP_SIZE).map(subChunkLines => {
       const subChunk: DiffContent = {};
       subChunk[key!] = subChunkLines;
       if (chunk.due_to_rebase) {
@@ -730,7 +725,8 @@ export class GrDiffProcessor extends PolymerElement {
    * Given an array and a size, return an array of arrays where no inner array
    * is larger than that size, preserving the original order.
    */
-  _breakdown<T>(array: T[], size: number): T[][] {
+  // visible for testing
+  breakdown<T>(array: T[], size: number): T[][] {
     if (!array.length) {
       return [];
     }
@@ -741,12 +737,12 @@ export class GrDiffProcessor extends PolymerElement {
     const head = array.slice(0, array.length - size);
     const tail = array.slice(array.length - size);
 
-    return this._breakdown(head, size).concat([tail]);
+    return this.breakdown(head, size).concat([tail]);
   }
 
   updateRenderPrefs(renderPrefs: RenderPreferences) {
     if (renderPrefs.num_lines_rendered_at_once) {
-      this._asyncThreshold = renderPrefs.num_lines_rendered_at_once;
+      this.asyncThreshold = renderPrefs.num_lines_rendered_at_once;
     }
   }
 }

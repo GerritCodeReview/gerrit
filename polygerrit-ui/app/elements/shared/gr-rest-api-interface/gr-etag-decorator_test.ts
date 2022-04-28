@@ -16,7 +16,6 @@
  */
 
 import '../../../test/common-test-setup-karma';
-import 'lodash/lodash';
 import {GrEtagDecorator} from './gr-etag-decorator';
 
 suite('gr-etag-decorator', () => {
@@ -61,9 +60,9 @@ suite('gr-etag-decorator', () => {
 
   test('discards etags in order used', () => {
     etag.collect('/foo', fakeRequest('bar'), '');
-    _.times(29, i => {
+    for (let i = 0; i < 29; i++) {
       etag.collect(`/qaz/${i}`, fakeRequest('qaz'), '');
-    });
+    }
     let options = etag.getOptions('/foo');
     assert.strictEqual(options!.headers!.get('If-None-Match'), 'bar');
     etag.collect('/zaq', fakeRequest('zaq'), '');

@@ -16,6 +16,75 @@
       "message": "@Jacek @Dmitrii can you re-check 🙏?",
       "revId": "3c58c204adde45ed923c669e81284a0ae64abcfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79da0fce_f88b6444",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-28T16:14:49Z",
+      "side": 1,
+      "message": "Explain *WHY* this is deprecated and how to change the implementation when moving to the get() method.",
+      "range": {
+        "startLine": 167,
+        "startChar": 7,
+        "endLine": 167,
+        "endChar": 63
+      },
+      "revId": "3c58c204adde45ed923c669e81284a0ae64abcfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8288f3e7_c50b3dd5",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-28T16:14:49Z",
+      "side": 1,
+      "message": "This is wrong: it should call the equivalent deprecated get() method",
+      "range": {
+        "startLine": 170,
+        "startChar": 27,
+        "endLine": 170,
+        "endChar": 65
+      },
+      "revId": "3c58c204adde45ed923c669e81284a0ae64abcfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17090994_7aa64b02",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-28T16:14:49Z",
+      "side": 1,
+      "message": "Explain *WHY* this is deprecated and how to change the implementation when moving to the get() method.",
+      "range": {
+        "startLine": 187,
+        "startChar": 5,
+        "endLine": 187,
+        "endChar": 82
+      },
+      "revId": "3c58c204adde45ed923c669e81284a0ae64abcfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

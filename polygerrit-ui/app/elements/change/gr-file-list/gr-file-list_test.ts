@@ -14,10 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import '../../../test/common-test-setup-karma';
 import '../../shared/gr-date-formatter/gr-date-formatter';
-import {getMockDiffResponse} from '../../../test/mocks/diff-response';
 import './gr-file-list';
 import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api';
 import {FilesExpandedState} from '../gr-file-list-constants';
@@ -47,6 +45,7 @@ import {createCommentThreads} from '../../../utils/comment-util';
 import {
   createChangeComments,
   createCommit,
+  createDiff,
   createParsedChange,
   createRevision,
 } from '../../../test/test-data-generators';
@@ -1754,7 +1753,7 @@ suite('gr-file-list tests', () => {
         syntax_highlighting: true,
         ignore_whitespace: 'IGNORE_NONE',
       };
-      diff.diff = getMockDiffResponse();
+      diff.diff = createDiff();
       await listenOnce(diff, 'render');
     }
 

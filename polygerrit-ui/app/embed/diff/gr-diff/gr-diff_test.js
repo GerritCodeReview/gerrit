@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import '../../../test/common-test-setup-karma.js';
-import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
+import {createDiff} from '../../../test/test-data-generators.js';
 import './gr-diff.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {getComputedStyleValue} from '../../../utils/dom-util.js';
@@ -191,7 +190,7 @@ suite('gr-diff tests', () => {
       element.changeNum = 123;
       element.patchRange = {basePatchNum: 1, patchNum: 2};
       element.path = 'file.txt';
-      element.$.diffBuilder.diff = getMockDiffResponse();
+      element.$.diffBuilder.diff = createDiff();
       element.$.diffBuilder.prefs = {...MINIMAL_PREFS};
       element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder();
 
@@ -526,7 +525,7 @@ suite('gr-diff tests', () => {
 
     suite('getCursorStops', () => {
       function setupDiff() {
-        element.diff = getMockDiffResponse();
+        element.diff = createDiff();
         element.prefs = {
           context: 10,
           tab_size: 8,
@@ -807,7 +806,7 @@ suite('gr-diff tests', () => {
             return Promise.resolve({});
           });
       sinon.stub(element, 'getDiffLength').returns(10000);
-      element.diff = getMockDiffResponse();
+      element.diff = createDiff();
       element.noRenderOnPrefsChange = true;
     });
 
@@ -1217,7 +1216,7 @@ suite('gr-diff tests', () => {
   });
 
   test('getDiffLength', () => {
-    const diff = getMockDiffResponse();
+    const diff = createDiff();
     assert.equal(element.getDiffLength(diff), 52);
   });
 

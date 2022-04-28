@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6abeb7e5_0351b95d",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectVisibilityCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1140732
+      },
+      "writtenOn": "2022-04-28T02:39:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76d75b51_792a0fd0",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 38
+      },
+      "revId": "0eed91c3088f10cf371a24847d5277870e678aa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b8f80b2_a70fb84e",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-27T16:55:49Z",
       "side": 1,
       "message": "Lastname/firstname doesn\u0027t have to be unique, so better not use that.",
+      "range": {
+        "startLine": 58,
+        "startChar": 37,
+        "endLine": 58,
+        "endChar": 58
+      },
+      "revId": "0eed91c3088f10cf371a24847d5277870e678aa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5af9c14c_8cea6930",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectVisibilityCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1140732
+      },
+      "writtenOn": "2022-04-28T02:39:49Z",
+      "side": 1,
+      "message": "It was actually intended to return the full list of all users with the same name. Would you suggest excluding this functionality of searching non-unique parameters?",
+      "parentUuid": "6b8f80b2_a70fb84e",
       "range": {
         "startLine": 58,
         "startChar": 37,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c16fdba_6a7d5a72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1140732
+      },
+      "writtenOn": "2022-04-28T02:39:49Z",
+      "side": 1,
+      "message": "Also updated command description and commit message.",
+      "revId": "048041418aaedcc91b0993ad0589b24d91850ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -51,6 +51,24 @@
       "message": "I need it for 3.5 anyway.",
       "revId": "59c90f207ee742fdb46e0b544bc9a63c3ad4a0c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44437764_1a69d49e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-28T14:26:16Z",
+      "side": 1,
+      "message": "Just use Bazelisk and that would find the right version for you :-)",
+      "parentUuid": "fd63f388_c31ec101",
+      "revId": "59c90f207ee742fdb46e0b544bc9a63c3ad4a0c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

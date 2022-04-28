@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84a7fc1c_2e73aa92",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-28T18:43:52Z",
+      "side": 1,
+      "message": "loader.get() shouldn\u0027t be called if cache is null because unloader will not be called.\nI would refer to return Optional.empty() in this case (i.e. for caller 2 situations(cache\u003d\u003dnull and cache.size() \u003e\u003d PER_THREAD_CACHE_SIZE) looks exactly the same)",
+      "range": {
+        "startLine": 164,
+        "startChar": 72,
+        "endLine": 164,
+        "endChar": 84
+      },
+      "revId": "6abc5432413d64273c5ab77a94453167a33514cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44c0fff4_16346826",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-28T18:43:52Z",
+      "side": 1,
+      "message": "please use Optional\u003cT\u003e to express explicitly that get always returns a value, but getWithLoader can return empty/nothing.",
+      "range": {
+        "startLine": 223,
+        "startChar": 2,
+        "endLine": 223,
+        "endChar": 14
+      },
+      "revId": "6abc5432413d64273c5ab77a94453167a33514cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -105,6 +105,14 @@ export class BulkActionsModel
     this.setState({...this.subject$.getValue(), selectedChangeNums: []});
   }
 
+  selectAll() {
+    const current = this.subject$.getValue();
+    this.setState({
+      ...current,
+      selectedChangeNums: Array.from(current.allChanges.keys()),
+    });
+  }
+
   abandonChanges(
     reason?: string,
     // errorFn is needed to avoid showing an error dialog

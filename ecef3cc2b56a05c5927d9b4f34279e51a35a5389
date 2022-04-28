@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e06fc27e_a69e4492",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-28T06:22:04Z",
+      "side": 1,
+      "message": "We need unloaders for objects with Repo hence it probable makes sense to create versions of `getOrCompute` and `get` methods that doesn\u0027t require caller to provide the empty lambdas but rather add them... WDYT?",
+      "revId": "ecef3cc2b56a05c5927d9b4f34279e51a35a5389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "693c3219_76a05a07",
         "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
         "patchSetId": 3

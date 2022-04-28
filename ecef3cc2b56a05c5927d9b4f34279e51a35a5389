@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "693c3219_76a05a07",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-28T05:44:43Z",
+      "side": 1,
+      "message": "Not sure this is correct: even though we did not cache the value, the RepoRefCache was created and therefore we need to make sure that it is effectively closed when the thread finishes and the PerThread is closed.",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 37
+      },
+      "revId": "ecef3cc2b56a05c5927d9b4f34279e51a35a5389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a7634de_0d49c4dd",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-28T05:44:43Z",
+      "side": 1,
+      "message": "This should be on the unloaders",
+      "range": {
+        "startLine": 191,
+        "startChar": 18,
+        "endLine": 191,
+        "endChar": 36
+      },
+      "revId": "ecef3cc2b56a05c5927d9b4f34279e51a35a5389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7249bdd_fd4844fb",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-28T05:44:43Z",
+      "side": 1,
+      "message": "unload?",
+      "range": {
+        "startLine": 199,
+        "startChar": 19,
+        "endLine": 199,
+        "endChar": 25
+      },
+      "revId": "ecef3cc2b56a05c5927d9b4f34279e51a35a5389",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

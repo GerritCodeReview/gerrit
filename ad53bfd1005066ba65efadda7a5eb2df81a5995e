@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bce06f2_cb09c370",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-28T18:56:35Z",
+      "side": 1,
+      "message": "Remove empty line?",
+      "revId": "ad53bfd1005066ba65efadda7a5eb2df81a5995e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e04e13e8_7f8f3845",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-28T18:56:35Z",
+      "side": 1,
+      "message": "From the name (allowRepoRefsCache) I expect that only RepoRefs entry should be unloaded here, not everything with unloaders.\nMaybe be make a method\nvoid unload(Stream entriesToUnload) {...}\nand here call it after filtering for RepoRefs and in the close() method pass all entries.",
+      "range": {
+        "startLine": 324,
+        "startChar": 4,
+        "endLine": 326,
+        "endChar": 5
+      },
+      "revId": "ad53bfd1005066ba65efadda7a5eb2df81a5995e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35f3d551_975999d7",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 39
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-04-28T18:56:35Z",
+      "side": 1,
+      "message": "Please add isClosed to the RepoRefCache and call repo.close and checkStaleness only if it hasn\u0027t been closed yet (AutoCloseable.close() should allow multiple calls)",
+      "range": {
+        "startLine": 93,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 21
+      },
+      "revId": "ad53bfd1005066ba65efadda7a5eb2df81a5995e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

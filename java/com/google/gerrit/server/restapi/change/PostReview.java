@@ -356,6 +356,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     try (BatchUpdate bu =
         updateFactory.create(revision.getChange().getProject(), revision.getUser(), ts)) {
+      // Notify based on ReviewInput, ignoring the notify settings from any ReviewerInputs.
+      NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
+      bu.setNotify(notify);
+
       Account account = revision.getUser().asIdentifiedUser().getAccount();
       boolean ccOrReviewer = false;
       if (input.labels != null && !input.labels.isEmpty()) {
@@ -429,10 +433,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       logger.atFine().log("posting review");
       bu.addOp(
           revision.getChange().getId(), new Op(projectState, revision.getPatchSet().id(), input));
-
-      // Notify based on ReviewInput, ignoring the notify settings from any ReviewerInputs.
-      NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
-      bu.setNotify(notify);
 
       // Adjust the attention set based on the input
       replyAttentionSetUpdates.updateAttentionSet(

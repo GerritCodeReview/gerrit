@@ -20,5 +20,4 @@ export const htmlTemplate = html`
   <div class="contentWrapper">
     <slot></slot>
   </div>
-  <gr-diff-processor id="processor" groups="{{_groups}}"></gr-diff-processor>
 `;

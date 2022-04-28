@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import '../../../test/common-test-setup-karma.js';
-import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
+import {createDiff} from '../../../test/test-data-generators.js';
 import './gr-diff-builder-element.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
@@ -554,7 +554,7 @@ suite('gr-diff-builder tests', () => {
     setup(() => {
       element = basicFixture.instantiate();
       element.viewMode = 'SIDE_BY_SIDE';
-      processStub = sinon.stub(element.$.processor, 'process')
+      processStub = sinon.stub(element.processor, 'process')
           .returns(Promise.resolve());
       keyLocations = {left: {}, right: {}};
       element.prefs = {
@@ -668,7 +668,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('cancel cancels the processor', () => {
-      const processorCancelStub = sinon.stub(element.$.processor, 'cancel');
+      const processorCancelStub = sinon.stub(element.processor, 'cancel');
       element.cancel();
       assert.isTrue(processorCancelStub.called);
     });
@@ -775,7 +775,7 @@ suite('gr-diff-builder tests', () => {
 
     setup(async () => {
       element = mockDiffFixture.instantiate();
-      diff = getMockDiffResponse();
+      diff = createDiff();
       element.diff = diff;
 
       keyLocations = {left: {}, right: {}};

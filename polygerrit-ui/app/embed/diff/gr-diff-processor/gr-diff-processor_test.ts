@@ -10,8 +10,6 @@ import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiffProcessor, State} from './gr-diff-processor';
 import {DiffContent} from '../../../types/diff';
 
-const basicFixture = fixtureFromElement('gr-diff-processor');
-
 suite('gr-diff-processor tests', () => {
   const WHOLE_FILE = -1;
   const loremIpsum =
@@ -22,13 +20,22 @@ suite('gr-diff-processor tests', () => {
     'fugit assum per.';
 
   let element: GrDiffProcessor;
+  let groups: GrDiffGroup[];
 
   setup(() => {});
 
   suite('not logged in', () => {
     setup(() => {
-      element = basicFixture.instantiate();
-
+      groups = [];
+      element = new GrDiffProcessor();
+      element.consumer = {
+        addGroup(group: GrDiffGroup) {
+          groups.push(group);
+        },
+        clearGroups() {
+          groups = [];
+        },
+      };
       element.context = 4;
     });
 
@@ -51,7 +58,6 @@ suite('gr-diff-processor tests', () => {
       ];
 
       return element.process(content, false).then(() => {
-        const groups = element.groups;
         groups.shift(); // remove portedThreadsWithoutRangeGroup
         assert.equal(groups.length, 4);
 
@@ -113,7 +119,6 @@ suite('gr-diff-processor tests', () => {
       const content = [{b: ['foo']}];
 
       return element.process(content, false).then(() => {
-        const groups = element.groups;
         groups.shift(); // remove portedThreadsWithoutRangeGroup
 
         assert.equal(groups[0].type, GrDiffGroupType.BOTH);
@@ -137,7 +142,6 @@ suite('gr-diff-processor tests', () => {
         ];
 
         return element.process(content, false).then(() => {
-          const groups = element.groups;
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -168,7 +172,6 @@ suite('gr-diff-processor tests', () => {
 
         await element.process(content, false);
 
-        const groups = element.groups;
         groups.shift(); // remove portedThreadsWithoutRangeGroup
 
         // group[0] is the file group
@@ -214,7 +217,6 @@ suite('gr-diff-processor tests', () => {
         ];
 
         return element.process(content, false).then(() => {
-          const groups = element.groups;
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -239,7 +241,6 @@ suite('gr-diff-processor tests', () => {
         ];
 
         return element.process(content, false).then(() => {
-          const groups = element.groups;
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -268,7 +269,6 @@ suite('gr-diff-processor tests', () => {
         ];
 
         return element.process(content, false).then(() => {
-          const groups = element.groups;
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -306,7 +306,6 @@ suite('gr-diff-processor tests', () => {
         ];
 
         return element.process(content, false).then(() => {
-          const groups = element.groups;
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -395,7 +394,6 @@ suite('gr-diff-processor tests', () => {
         ];
 
         return element.process(content, false).then(() => {
-          const groups = element.groups;
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -431,7 +429,6 @@ suite('gr-diff-processor tests', () => {
         ];
 
         return element.process(content, false).then(() => {
-          const groups = element.groups;
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -458,7 +455,6 @@ suite('gr-diff-processor tests', () => {
 
       await element.process(content, false);
 
-      const groups = element.groups;
       groups.shift(); // remove portedThreadsWithoutRangeGroup
 
       // group[0] is the file group
@@ -734,21 +730,21 @@ suite('gr-diff-processor tests', () => {
       element.isScrolling = true;
       element.process(content, false);
       // Just the files group - no more processing during scrolling.
-      assert.equal(element.groups.length, 2);
+      assert.equal(groups.length, 2);
 
       element.isScrolling = false;
       element.process(content, false);
       // More groups have been processed. How many does not matter here.
-      assert.isAtLeast(element.groups.length, 3);
+      assert.isAtLeast(groups.length, 3);
     });
 
     test('image diffs', () => {
       const content = Array(200).fill({ab: ['', '']});
       element.process(content, true);
-      assert.equal(element.groups.length, 2);
+      assert.equal(groups.length, 2);
 
       // Image diffs don't process content, just the 'FILE' line.
-      assert.equal(element.groups[0].lines.length, 1);
+      assert.equal(groups[0].lines.length, 1);
     });
 
     suite('processNext', () => {
@@ -1073,12 +1069,5 @@ suite('gr-diff-processor tests', () => {
         assert.deepEqual(result, expected);
       });
     });
-  });
-
-  test('detaching cancels', () => {
-    element = basicFixture.instantiate();
-    const cancelStub = sinon.stub(element, 'cancel');
-    element.disconnectedCallback();
-    assert(cancelStub.called);
   });
 });

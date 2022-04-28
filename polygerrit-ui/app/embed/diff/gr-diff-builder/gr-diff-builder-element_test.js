@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import '../../../test/common-test-setup-karma.js';
-import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
+import {createDiff} from '../../../test/test-data-generators.js';
 import './gr-diff-builder-element.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
@@ -775,7 +775,7 @@ suite('gr-diff-builder tests', () => {
 
     setup(async () => {
       element = mockDiffFixture.instantiate();
-      diff = getMockDiffResponse();
+      diff = createDiff();
       element.diff = diff;
 
       keyLocations = {left: {}, right: {}};

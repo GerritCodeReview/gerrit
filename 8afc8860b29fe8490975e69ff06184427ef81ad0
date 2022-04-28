@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f800717_f11b8fab",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-28T15:13:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3fc192b_7b456e03",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a265e49_3bce587f",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-28T09:19:35Z",
       "side": 1,
       "message": "I thought we were using the pattern of `?:` with @query since render() isn\u0027t guaranteed to be have been run at this point.",
+      "range": {
+        "startLine": 44,
+        "startChar": 42,
+        "endLine": 44,
+        "endChar": 44
+      },
+      "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6310a670_c41fc975",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-28T15:13:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a265e49_3bce587f",
       "range": {
         "startLine": 44,
         "startChar": 42,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "adc3d16f_1cda3a33",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-28T15:13:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fed24342_f4af8aba",
+      "range": {
+        "startLine": 116,
+        "startChar": 50,
+        "endLine": 116,
+        "endChar": 77
+      },
+      "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77fb4871_fa46e23b",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-04-28T09:19:35Z",
       "side": 1,
       "message": "this comparison to imply the flow is in loading state is a bit non-ideal.\n\nI would move this to a method isLoading() and then maintain the state properly.\nOtherwise leave a TODO on the method isLoading().",
+      "range": {
+        "startLine": 158,
+        "startChar": 12,
+        "endLine": 158,
+        "endChar": 42
+      },
+      "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c011c11_aec93419",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-28T15:13:47Z",
+      "side": 1,
+      "message": "Done. Switched to `ProgressStatus` enum.",
+      "parentUuid": "77fb4871_fa46e23b",
       "range": {
         "startLine": 158,
         "startChar": 12,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14f5d197_df846d8a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-28T15:13:47Z",
+      "side": 1,
+      "message": "Done. Inlining to render method as a const.",
+      "parentUuid": "2b9ce3af_839309e9",
+      "range": {
+        "startLine": 218,
+        "startChar": 12,
+        "endLine": 218,
+        "endChar": 42
+      },
+      "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6cfccd88_c1362c14",
@@ -139,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3570844_7d7f7c3c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-28T15:13:47Z",
+      "side": 1,
+      "message": "For `addTopic` it depends on which button is pushed, I could re-infer which button was pushed but I don\u0027t think it\u0027s worth it just to make the functions more symmetric.",
+      "parentUuid": "6cfccd88_c1362c14",
+      "range": {
+        "startLine": 275,
+        "startChar": 10,
+        "endLine": 275,
+        "endChar": 38
+      },
+      "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "284cd44a_60f439a5",
@@ -152,6 +296,30 @@
       "writtenOn": "2022-04-28T11:16:47Z",
       "side": 1,
       "message": "GrReviewerflow and GrVotingFlow uses the ProgressStatus enum so perhaps remain consistent?",
+      "range": {
+        "startLine": 292,
+        "startChar": 14,
+        "endLine": 292,
+        "endChar": 34
+      },
+      "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40d72191_c26dbbe2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-28T15:13:47Z",
+      "side": 1,
+      "message": "Done. I may introduce a `Map\u003cChange,Progress\u003e` and `overallStatus` computations if needed once I am adding error text.",
+      "parentUuid": "284cd44a_60f439a5",
       "range": {
         "startLine": 292,
         "startChar": 14,

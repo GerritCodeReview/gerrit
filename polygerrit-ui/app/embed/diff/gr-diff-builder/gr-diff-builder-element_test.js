@@ -554,7 +554,7 @@ suite('gr-diff-builder tests', () => {
     setup(() => {
       element = basicFixture.instantiate();
       element.viewMode = 'SIDE_BY_SIDE';
-      processStub = sinon.stub(element.$.processor, 'process')
+      processStub = sinon.stub(element.processor, 'process')
           .returns(Promise.resolve());
       keyLocations = {left: {}, right: {}};
       element.prefs = {
@@ -668,7 +668,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('cancel cancels the processor', () => {
-      const processorCancelStub = sinon.stub(element.$.processor, 'cancel');
+      const processorCancelStub = sinon.stub(element.processor, 'cancel');
       element.cancel();
       assert.isTrue(processorCancelStub.called);
     });

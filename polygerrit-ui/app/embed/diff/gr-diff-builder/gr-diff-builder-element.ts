@@ -32,6 +32,7 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {CoverageRange, DiffLayer} from '../../../types/types';
 import {
   GrDiffProcessor,
+  GroupConsumer,
   KeyLocations,
 } from '../gr-diff-processor/gr-diff-processor';
 import {
@@ -47,7 +48,6 @@ import {
   GrDiffGroupType,
   hideInContextControl,
 } from '../gr-diff/gr-diff-group';
-import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {getLineNumber, getSideByLineEl} from '../gr-diff/gr-diff-utils';
 import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
@@ -57,12 +57,6 @@ const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 // https://gerrit.googlesource.com/gerrit/+/234616a8627334686769f1de989d286039f4d6a5/polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js#740
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
 const COMMIT_MSG_LINE_LENGTH = 72;
-
-export interface GrDiffBuilderElement {
-  $: {
-    processor: GrDiffProcessor;
-  };
-}
 
 export function getLineNumberCellWidth(prefs: DiffPreferencesInfo) {
   return prefs.font_size * 4;
@@ -94,7 +88,10 @@ function annotateSymbols(
 }
 
 @customElement('gr-diff-builder')
-export class GrDiffBuilderElement extends PolymerElement {
+export class GrDiffBuilderElement
+  extends PolymerElement
+  implements GroupConsumer
+{
   static get template() {
     return htmlTemplate;
   }
@@ -200,6 +197,8 @@ export class GrDiffBuilderElement extends PolymerElement {
 
   private rangeLayer = new GrRangedCommentLayer();
 
+  private processor = new GrDiffProcessor();
+
   constructor() {
     super();
     afterNextRender(this, () => {
@@ -212,9 +211,11 @@ export class GrDiffBuilderElement extends PolymerElement {
         }
       );
     });
+    this.processor.consumer = this;
   }
 
   override disconnectedCallback() {
+    this.processor.cancel();
     if (this._builder) {
       this._builder.clear();
     }
@@ -264,8 +265,8 @@ export class GrDiffBuilderElement extends PolymerElement {
     }
     this._builder = this._getDiffBuilder();
 
-    this.$.processor.context = this.prefs.context;
-    this.$.processor.keyLocations = keyLocations;
+    this.processor.context = this.prefs.context;
+    this.processor.keyLocations = keyLocations;
 
     this._clearDiffContent();
     this._builder.addColumns(
@@ -277,7 +278,7 @@ export class GrDiffBuilderElement extends PolymerElement {
 
     fireEvent(this, 'render-start');
     this._cancelableRenderPromise = util.makeCancelable(
-      this.$.processor.process(this.diff.content, isBinary).then(() => {
+      this.processor.process(this.diff.content, isBinary).then(() => {
         if (this.isImageDiff) {
           (this._builder as GrDiffBuilderImage).renderDiff();
         }
@@ -414,7 +415,7 @@ export class GrDiffBuilderElement extends PolymerElement {
   }
 
   cancel() {
-    this.$.processor.cancel();
+    this.processor.cancel();
     if (this._cancelableRenderPromise) {
       this._cancelableRenderPromise.cancel();
       this._cancelableRenderPromise = null;
@@ -490,28 +491,20 @@ export class GrDiffBuilderElement extends PolymerElement {
   }
 
   /**
-   * Forward groups added by the processor to the builder for rendering.
+   * Called when the processor starts converting the diff information from the
+   * server into chunks.
    */
-  @observe('_groups.splices')
-  _groupsChanged(changeRecord: PolymerSpliceChange<GrDiffGroup[]>) {
-    if (!changeRecord || !this._builder) return;
+  groupsCleared() {
+    if (!this._builder) return;
+    this._builder.clearGroups();
+  }
 
-    // The processor either removes all groups or adds new ones to the end,
-    // so let's simplify the Polymer splices.
-    const isRemoval = changeRecord.indexSplices.find(
-      splice => splice.removed.length > 0
-    );
-    if (isRemoval) {
-      this._builder.clearGroups();
-      return;
-    }
-    for (const splice of changeRecord.indexSplices) {
-      const added = splice.object.slice(
-        splice.index,
-        splice.index + splice.addedCount
-      );
-      this._builder.addGroups(added);
-    }
+  /**
+   * Called when the processor is done converting a chunk of the diff.
+   */
+  groupAdded(group: GrDiffGroup) {
+    if (!this._builder) return;
+    this._builder.addGroups([group]);
     fireEvent(this, 'render-progress');
   }
 
@@ -613,7 +606,7 @@ export class GrDiffBuilderElement extends PolymerElement {
 
   updateRenderPrefs(renderPrefs: RenderPreferences) {
     this._builder?.updateRenderPrefs(renderPrefs);
-    this.$.processor.updateRenderPrefs(renderPrefs);
+    this.processor.updateRenderPrefs(renderPrefs);
   }
 }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06fcabd9_b0e2b874",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-28T14:22:05Z",
+      "side": 1,
+      "message": "Gerrit v3.2 is EOL, what\u0027s the rationale behind the update?",
+      "revId": "59c90f207ee742fdb46e0b544bc9a63c3ad4a0c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

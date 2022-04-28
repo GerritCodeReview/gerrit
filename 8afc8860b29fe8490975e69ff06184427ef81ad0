@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3fc192b_7b456e03",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-28T09:19:35Z",
+      "side": 1,
+      "message": "merge into top import from \u0027lit\u0027",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 28
+      },
+      "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a265e49_3bce587f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-28T09:19:35Z",
+      "side": 1,
+      "message": "I thought we were using the pattern of `?:` with @query since render() isn\u0027t guaranteed to be have been run at this point.",
+      "range": {
+        "startLine": 44,
+        "startChar": 42,
+        "endLine": 44,
+        "endChar": 44
+      },
+      "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fed24342_f4af8aba",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-28T09:19:35Z",
+      "side": 1,
+      "message": "this.toggleDropdown?",
+      "range": {
+        "startLine": 116,
+        "startChar": 50,
+        "endLine": 116,
+        "endChar": 77
+      },
+      "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77fb4871_fa46e23b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-28T09:19:35Z",
+      "side": 1,
+      "message": "this comparison to imply the flow is in loading state is a bit non-ideal.\n\nI would move this to a method isLoading() and then maintain the state properly.\nOtherwise leave a TODO on the method isLoading().",
+      "range": {
+        "startLine": 158,
+        "startChar": 12,
+        "endLine": 158,
+        "endChar": 42
+      },
+      "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b9ce3af_839309e9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-28T09:19:35Z",
+      "side": 1,
+      "message": "should be merged into isCreateNewTopicDisabled() I think.",
+      "range": {
+        "startLine": 218,
+        "startChar": 12,
+        "endLine": 218,
+        "endChar": 42
+      },
+      "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cfccd88_c1362c14",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-28T09:19:35Z",
+      "side": 1,
+      "message": "removeTopics doesn\u0027t take loadingText as argument but addTopic does?\n\nI would remove sending the argument and setting in the method directly.",
+      "range": {
+        "startLine": 275,
+        "startChar": 10,
+        "endLine": 275,
+        "endChar": 38
+      },
+      "revId": "8afc8860b29fe8490975e69ff06184427ef81ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

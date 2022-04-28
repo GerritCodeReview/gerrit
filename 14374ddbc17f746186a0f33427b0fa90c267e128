@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc68bb34_cad9870e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-04-28T12:27:50Z",
+      "side": 1,
+      "message": "Diff looks large, but this is just removing `\u003cgr-diff-selection diff\u003d\"[[diff]]\"\u003e`.",
+      "revId": "14374ddbc17f746186a0f33427b0fa90c267e128",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

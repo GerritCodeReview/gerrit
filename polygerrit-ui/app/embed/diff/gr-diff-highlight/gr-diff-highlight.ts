@@ -30,8 +30,6 @@ import {FILE} from '../gr-diff/gr-diff-line';
 import {
   getLineElByChild,
   getLineNumberByChild,
-  getRange,
-  getSide,
   getSideByLineEl,
   GrDiffThreadElement,
 } from '../gr-diff/gr-diff-utils';
@@ -68,12 +66,6 @@ export class GrDiffHighlight extends PolymerElement {
   static get template() {
     return htmlTemplate;
   }
-
-  @property({type: Array, notify: true})
-  commentRanges: SidedRange[] = [];
-
-  @property({type: Boolean})
-  loggedIn?: boolean;
 
   @property({type: Object})
   _cachedDiffBuilder?: DiffBuilderInterface;
@@ -159,9 +151,10 @@ export class GrDiffHighlight extends PolymerElement {
   }
 
   _toggleRangeElHighlight(
-    threadEl: GrDiffThreadElement,
+    threadEl: GrDiffThreadElement | null,
     highlightRange = false
   ) {
+    if (!threadEl) return;
     // We don't want to re-create the line just for highlighting the range which
     // is creating annoying bugs: @see Issue 12934
     // As gr-ranged-comment-layer now does not notify the layer re-render and
@@ -213,53 +206,12 @@ export class GrDiffHighlight extends PolymerElement {
 
   _handleCommentThreadMouseenter(e: Event) {
     const threadEl = this._getThreadEl(e)!;
-    const index = this._indexForThreadEl(threadEl);
-
-    if (index !== undefined) {
-      this.set(['commentRanges', index, 'hovering'], true);
-    }
-
     this._toggleRangeElHighlight(threadEl, /* highlightRange= */ true);
   }
 
   _handleCommentThreadMouseleave(e: Event) {
-    const threadEl = this._getThreadEl(e)!;
-    const index = this._indexForThreadEl(threadEl);
-
-    if (index !== undefined) {
-      this.set(['commentRanges', index, 'hovering'], false);
-    }
-
+    const threadEl = this._getThreadEl(e);
     this._toggleRangeElHighlight(threadEl, /* highlightRange= */ false);
-  }
-
-  _indexForThreadEl(threadEl: HTMLElement) {
-    const side = getSide(threadEl);
-    const range = getRange(threadEl);
-    if (!side || !range) return undefined;
-    return this._indexOfCommentRange(side, range);
-  }
-
-  _indexOfCommentRange(side: Side, range: CommentRange) {
-    function rangesEqual(a: CommentRange, b: CommentRange) {
-      if (!a && !b) {
-        return true;
-      }
-      if (!a || !b) {
-        return false;
-      }
-      return (
-        a.start_line === b.start_line &&
-        a.start_character === b.start_character &&
-        a.end_line === b.end_line &&
-        a.end_character === b.end_character
-      );
-    }
-
-    return this.commentRanges.findIndex(
-      commentRange =>
-        commentRange.side === side && rangesEqual(commentRange.range, range)
-    );
   }
 
   /**

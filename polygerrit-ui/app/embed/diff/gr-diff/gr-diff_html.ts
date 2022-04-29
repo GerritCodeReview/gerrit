@@ -487,6 +487,10 @@ export const htmlTemplate = html`
       color: var(--link-color);
       padding: var(--spacing-m) 0 var(--spacing-m) 48px;
     }
+    #diffTable {
+      /* for gr-selection-action-box positioning */
+      position: relative;
+    }
     #diffTable:focus {
       outline: none;
     }
@@ -670,6 +674,14 @@ export const htmlTemplate = html`
     .token-highlight {
       background-color: var(--token-highlighting-color, #fffd54);
     }
+
+    gr-selection-action-box {
+      /**
+       * Needs z-index to appear above wrapped content, since it's inserted
+       * into DOM before it.
+       */
+      z-index: 10;
+    }
   </style>
   <style include="gr-syntax-theme">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
@@ -686,38 +698,36 @@ export const htmlTemplate = html`
     class$="[[_computeContainerClass(loggedIn, viewMode, displayLine)]]"
     on-click="_handleTap"
   >
-    <gr-diff-highlight id="highlights">
-      <gr-diff-builder
-        id="diffBuilder"
-        comment-ranges="[[_commentRanges]]"
-        coverage-ranges="[[coverageRanges]]"
-        diff="[[diff]]"
-        path="[[path]]"
-        view-mode="[[viewMode]]"
-        is-image-diff="[[isImageDiff]]"
-        base-image="[[baseImage]]"
-        layers="[[layers]]"
-        revision-image="[[revisionImage]]"
-        use-new-image-diff-ui="[[useNewImageDiffUi]]"
-      >
-        <table
-          id="diffTable"
-          class$="[[_diffTableClass]]"
-          role="presentation"
-          contenteditable$="[[isContentEditable]]"
-        ></table>
+    <gr-diff-builder
+      id="diffBuilder"
+      comment-ranges="[[_commentRanges]]"
+      coverage-ranges="[[coverageRanges]]"
+      diff="[[diff]]"
+      path="[[path]]"
+      view-mode="[[viewMode]]"
+      is-image-diff="[[isImageDiff]]"
+      base-image="[[baseImage]]"
+      layers="[[layers]]"
+      revision-image="[[revisionImage]]"
+      use-new-image-diff-ui="[[useNewImageDiffUi]]"
+    >
+      <table
+        id="diffTable"
+        class$="[[_diffTableClass]]"
+        role="presentation"
+        contenteditable$="[[isContentEditable]]"
+      ></table>
 
-        <template
-          is="dom-if"
-          if="[[showNoChangeMessage(_loading, prefs, _diffLength, diff)]]"
-        >
-          <div class="whitespace-change-only-message">
-            This file only contains whitespace changes. Modify the whitespace
-            setting to see the changes.
-          </div>
-        </template>
-      </gr-diff-builder>
-    </gr-diff-highlight>
+      <template
+        is="dom-if"
+        if="[[showNoChangeMessage(_loading, prefs, _diffLength, diff)]]"
+      >
+        <div class="whitespace-change-only-message">
+          This file only contains whitespace changes. Modify the whitespace
+          setting to see the changes.
+        </div>
+      </template>
+    </gr-diff-builder>
   </div>
   <div class$="[[_computeNewlineWarningClass(_newlineWarning, _loading)]]">
     [[_newlineWarning]]

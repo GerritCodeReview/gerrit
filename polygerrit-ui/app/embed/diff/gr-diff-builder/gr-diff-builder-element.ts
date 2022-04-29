@@ -100,19 +100,22 @@ export class GrDiffBuilderElement extends PolymerElement {
   }
 
   /**
-   * Fired when the diff begins rendering.
+   * Fired when the diff begins rendering - both for full renders and for
+   * partial rerenders.
    *
    * @event render-start
    */
 
   /**
-   * Fired whenever a new chunk of lines has been rendered synchronously.
+   * Fired whenever a new chunk of lines has been rendered synchronously - this
+   * only happens for full renders.
    *
    * @event render-progress
    */
 
   /**
-   * Fired when the diff finishes rendering text content.
+   * Fired when the diff finishes rendering text content - both for full
+   * renders and for partial rerenders.
    *
    * @event render-content
    */
@@ -369,6 +372,7 @@ export class GrDiffBuilderElement extends PolymerElement {
     if (!group) return;
     // If it's already visible, great!
     if (group.type !== GrDiffGroupType.CONTEXT_CONTROL) return;
+    fireEvent(this, 'render-start');
     const lineRange = group.lineRange[side];
     const lineOffset = lineNum - lineRange.start_line;
     const newGroups = [];
@@ -409,6 +413,7 @@ export class GrDiffBuilderElement extends PolymerElement {
     newGroups: readonly GrDiffGroup[]
   ) {
     if (!this._builder) return;
+    fireEvent(this, 'render-start');
     this._builder.replaceGroup(contextGroup, newGroups);
     setTimeout(() => fireEvent(this, 'render-content'), 1);
   }

@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.config;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -27,6 +28,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.config.IndexChanges.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -36,6 +39,7 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
 
   public static class Input {
     public Set<String> changes;
+    boolean deleteMissing;
   }
 
   private final ChangeFinder changeFinder;
@@ -57,7 +61,21 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
     }
 
     for (String id : input.changes) {
-      for (ChangeNotes n : changeFinder.find(id)) {
+      List<ChangeNotes> notes = changeFinder.find(id);
+
+      if (notes.isEmpty()) {
+        logger.atWarning().log("Change %s missing in NoteDb", id);
+        if (input.deleteMissing) {
+          Optional<Change.Id> changeId = Change.Id.tryParse(id);
+          if (changeId.isPresent()) {
+            logger.atWarning().log("Deleting change %s from index", changeId.get());
+            indexer.delete(changeId.get());
+          }
+        }
+        continue;
+      }
+
+      for (ChangeNotes n : notes) {
         indexer.index(changeDataFactory.create(n));
         logger.atFine().log("Indexed change %s", id);
       }

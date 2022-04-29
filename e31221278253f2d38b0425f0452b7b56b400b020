@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0cc7248_66faf4a1",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-29T06:45:33Z",
+      "side": 1,
+      "message": "AFAIU this can be only `null` when loader would return `null` (it eventually ends up here https://gerrit-review.googlesource.com/c/gerrit/+/335920/8/java/com/google/gerrit/server/cache/PerThreadCache.java#217).\nAFAICT there is the same loader used in line 111 and if that produced `null` then it will produce `null` again IOW doesn\u0027t protect from it and IMHO should be rather checked against `null` than called again...",
+      "range": {
+        "startLine": 112,
+        "startChar": 8,
+        "endLine": 115,
+        "endChar": 0
+      },
+      "revId": "e31221278253f2d38b0425f0452b7b56b400b020",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

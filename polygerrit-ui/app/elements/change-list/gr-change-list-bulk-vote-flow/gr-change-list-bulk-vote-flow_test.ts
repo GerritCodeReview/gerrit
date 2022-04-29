@@ -174,6 +174,75 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       </gr-overlay> `);
   });
 
+  test('renders with errors', async () => {
+    const changes: ChangeInfo[] = [change1];
+    getChangesStub.returns(Promise.resolve(changes));
+    model.sync(changes);
+    await waitUntilObserved(
+      model.loadingState$,
+      state => state === LoadingState.LOADED
+    );
+    stubRestApi('saveChangeReview').callsFake(
+      (_changeNum, _patchNum, _review, errFn) =>
+        Promise.resolve(new Response()).then(res => {
+          errFn && errFn();
+          return res;
+        })
+    );
+    await selectChange(change1);
+    await element.updateComplete;
+
+    queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').click();
+
+    await waitUntil(
+      () =>
+        element.progressByChange.get(1 as NumericChangeId) ===
+        ProgressStatus.FAILED
+    );
+
+    expect(element).shadowDom.to.equal(/* HTML */ `<gr-button
+        aria-disabled="false"
+        flatten=""
+        id="voteFlowButton"
+        role="button"
+        tabindex="0"
+      >
+        Vote
+      </gr-button>
+      <gr-overlay
+        aria-hidden="true"
+        id="actionOverlay"
+        style="outline: none; display: none;"
+        tabindex="-1"
+        with-backdrop=""
+      >
+        <gr-dialog role="dialog">
+          <div slot="header">
+            <span class="main-heading"> Vote on selected changes </span>
+          </div>
+          <div slot="main">
+            <div class="newSubmitRequirements scoresTable">
+              <h3 class="heading-4 vote-type">Submit requirements votes</h3>
+              <gr-label-score-row name="A"> </gr-label-score-row>
+              <gr-label-score-row name="B"> </gr-label-score-row>
+              <gr-label-score-row name="C"> </gr-label-score-row>
+              <gr-label-score-row name="change1OnlyLabelD">
+              </gr-label-score-row>
+            </div>
+            <div class="newSubmitRequirements scoresTable">
+              <h3 class="heading-4 vote-type">Trigger Votes</h3>
+              <gr-label-score-row name="change1OnlyTriggerLabelE">
+              </gr-label-score-row>
+            </div>
+            <div class="error-container">
+              <iron-icon icon="gr-icons:error"> </iron-icon>
+              <span> Failed to vote on 1 change </span>
+            </div>
+          </div>
+        </gr-dialog>
+      </gr-overlay> `);
+  });
+
   test('button state updates as changes are updated', async () => {
     const changes: ChangeInfo[] = [change1];
     getChangesStub.returns(Promise.resolve(changes));

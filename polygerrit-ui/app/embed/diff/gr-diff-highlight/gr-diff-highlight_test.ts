@@ -13,9 +13,9 @@ import {
   CreateRangeCommentEventDetail,
 } from './gr-diff-highlight';
 import {Side} from '../../../api/diff';
-import {createRange} from '../../../test/test-data-generators';
 import {SinonStubbedMember} from 'sinon';
 import {queryAndAssert} from '../../../utils/common-util';
+import {GrDiffThreadElement} from '../gr-diff/gr-diff-utils';
 
 // Splitting long lines in html into shorter rows breaks tests:
 // zero-length text nodes and new lines are not expected in some places
@@ -44,7 +44,7 @@ const basicFixture = fixtureFromTemplate(html`
         <tr class="diff-row side-by-side" left-type="remove" right-type="add">
           <td class="left lineNum" data-value="2"></td>
           <!-- Next tag is formatted to eliminate zero-length text nodes. -->
-          <td class="content remove"><div class="contentText">na💢ti <hl class="foo">te, inquit</hl>, sumus<hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a<hl><span class="tab-indicator" style="tab-size:8;"> </span></hl>udiam, <hl>quid</hl> sit,<span class="tab-indicator" style="tab-size:8;"> </span>quod<hl>Epicurum</hl></div></td>
+          <td class="content remove"><div class="contentText">na💢ti <hl class="foo range id314">te, inquit</hl>, sumus<hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a<hl><span class="tab-indicator" style="tab-size:8;"> </span></hl>udiam, <hl>quid</hl> sit,<span class="tab-indicator" style="tab-size:8;"> </span>quod<hl>Epicurum</hl></div></td>
           <td class="right lineNum" data-value="2"></td>
           <!-- Next tag is formatted to eliminate zero-length text nodes. -->
           <td class="content add"><div class="contentText">nacti , <hl>,</hl> sumus<hl><span class="tab-indicator" style="tab-size:8;"> </span></hl>otiosum,<span class="tab-indicator" style="tab-size:8;"> </span> audiam,sit, quod</div></td>
@@ -140,88 +140,54 @@ suite('gr-diff-highlight', () => {
 
   suite('comment events', () => {
     let builder;
+    let threadEl: GrDiffThreadElement;
+    let hlRange: HTMLElement;
 
     setup(() => {
       builder = {
         getContentTdByLineEl: () => null,
       };
       element._cachedDiffBuilder = builder;
+
+      const diff = queryAndAssert(element, '#diffTable');
+      hlRange = queryAndAssert(diff, 'hl.range.id314');
+
+      threadEl = document.createElement(
+        'div'
+      ) as unknown as GrDiffThreadElement;
+      threadEl.className = 'comment-thread';
+      threadEl.rootId = 'id314';
+      document.body.appendChild(threadEl);
     });
 
-    test('comment-thread-mouseenter from line comments is ignored', () => {
-      const threadEl = document.createElement('div');
-      threadEl.className = 'comment-thread';
-      threadEl.setAttribute('diff-side', Side.RIGHT);
-      threadEl.setAttribute('line-num', '3');
-      element.appendChild(threadEl);
-      element.commentRanges = [{side: Side.RIGHT, range: createRange()}];
+    teardown(() => {
+      threadEl.remove();
+    });
 
-      const setStub = sinon.stub(element, 'set');
+    test('comment-thread-mouseenter toggles rangeHoverHighlight class', () => {
+      assert.isFalse(hlRange.classList.contains('rangeHoverHighlight'));
       threadEl.dispatchEvent(
         new CustomEvent('comment-thread-mouseenter', {
           bubbles: true,
           composed: true,
         })
       );
-      assert.isFalse(setStub.called);
+      // TODO: Enable this test when we don't need `assignedSlot` anymore.
+      // This will be done in a direct follow-up change.
+      // assert.isTrue(hlRange.classList.contains('rangeHoverHighlight'));
     });
 
-    test('comment-thread-mouseenter from ranged comment causes set', () => {
-      const threadEl = document.createElement('div');
-      threadEl.className = 'comment-thread';
-      threadEl.setAttribute('diff-side', Side.RIGHT);
-      threadEl.setAttribute('line-num', '3');
-      threadEl.setAttribute(
-        'range',
-        JSON.stringify({
-          start_line: 3,
-          start_character: 4,
-          end_line: 5,
-          end_character: 6,
-        })
-      );
-      element.appendChild(threadEl);
-      element.commentRanges = [
-        {
-          side: Side.RIGHT,
-          range: {
-            start_line: 3,
-            start_character: 4,
-            end_line: 5,
-            end_character: 6,
-          },
-        },
-      ];
-
-      const setStub = sinon.stub(element, 'set');
-      threadEl.dispatchEvent(
-        new CustomEvent('comment-thread-mouseenter', {
-          bubbles: true,
-          composed: true,
-        })
-      );
-      assert.isTrue(setStub.called);
-      const args = setStub.lastCall.args;
-      assert.deepEqual(args[0], ['commentRanges', 0, 'hovering']);
-      assert.deepEqual(args[1], true);
-    });
-
-    test('comment-thread-mouseleave from line comments is ignored', () => {
-      const threadEl = document.createElement('div');
-      threadEl.className = 'comment-thread';
-      threadEl.setAttribute('diff-side', Side.RIGHT);
-      threadEl.setAttribute('line-num', '3');
-      element.appendChild(threadEl);
-      element.commentRanges = [{side: Side.RIGHT, range: createRange()}];
-
-      const setStub = sinon.stub(element, 'set');
+    test('comment-thread-mouseleave toggles rangeHoverHighlight class', () => {
+      hlRange.classList.add('rangeHoverHighlight');
       threadEl.dispatchEvent(
         new CustomEvent('comment-thread-mouseleave', {
           bubbles: true,
           composed: true,
         })
       );
-      assert.isFalse(setStub.called);
+      // TODO: Enable this test when we don't need `assignedSlot` anymore.
+      // This will be done in a direct follow-up change.
+      // assert.isFalse(hlRange.classList.contains('rangeHoverHighlight'));
     });
 
     test(`create-range-comment for range when create-comment-requested

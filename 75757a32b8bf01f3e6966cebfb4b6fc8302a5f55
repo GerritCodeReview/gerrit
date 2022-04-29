@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f925bb35_cc60e798",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-04-29T12:28:13Z",
+      "side": 1,
+      "message": "I\u0027m guessing you\u0027d want a warning if the performance log-records is non-empty.",
+      "revId": "75757a32b8bf01f3e6966cebfb4b6fc8302a5f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

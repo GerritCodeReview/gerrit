@@ -245,9 +245,6 @@ export class GrReplyDialog extends LitElement {
   reviewerConfirmationOverlay?: GrOverlay;
 
   @state()
-  hasDrafts = false;
-
-  @state()
   draft = '';
 
   @state()
@@ -596,12 +593,6 @@ export class GrReplyDialog extends LitElement {
   ];
 
   override willUpdate(changedProperties: PropertyValues) {
-    if (
-      changedProperties.has('draft') ||
-      changedProperties.has('draftCommentThreads')
-    ) {
-      this.computeHasDrafts();
-    }
     if (changedProperties.has('draft')) {
       this.draftChanged(changedProperties.get('draft') as string);
     }
@@ -642,7 +633,7 @@ export class GrReplyDialog extends LitElement {
       changedProperties.has('draftCommentThreads') ||
       changedProperties.has('includeComments') ||
       changedProperties.has('labelsChanged') ||
-      changedProperties.has('hasDrafts')
+      changedProperties.has('draft')
     ) {
       this.computeNewAttention();
     }
@@ -1230,7 +1221,7 @@ export class GrReplyDialog extends LitElement {
     }
   }
 
-  computeHasDrafts() {
+  hasDrafts() {
     if (this.draftCommentThreads === undefined) return false;
     return this.draft.length > 0 || this.draftCommentThreads.length > 0;
   }
@@ -1647,7 +1638,7 @@ export class GrReplyDialog extends LitElement {
       const notIsReviewerAndHasDraftOrLabel = (r: AccountInfo) =>
         !(
           r._account_id === this.account!._account_id &&
-          (this.hasDrafts || hasVote)
+          (this.hasDrafts() || hasVote)
         );
       this.reviewers
         .filter(r => isAccount(r))
@@ -1655,7 +1646,7 @@ export class GrReplyDialog extends LitElement {
         .filter(notIsReviewerAndHasDraftOrLabel)
         .forEach(r => newAttention.add((r as AccountInfo)._account_id!));
       // Add owner and uploader, if someone else replies.
-      if (this.hasDrafts || hasVote) {
+      if (this.hasDrafts() || hasVote) {
         if (this.uploader?._account_id && !isUploader) {
           newAttention.add(this.uploader._account_id);
         }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c953bb49_3283febe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-29T09:30:06Z",
+      "side": 1,
+      "message": "Thanks, Sven. I\u0027ll prepare a v3.5.2 after. this change is merged.",
+      "revId": "033892d164b75b57fab625a2e9ccb50da1777a76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89aab870_74a06cfd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5265,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-29T09:30:06Z",
+      "side": 1,
+      "message": "@Sven as you have now the numbers, can you also amend this statement by giving some more precise indication on the impact? \"slightly\" was an understatement, as you experienced production issues.",
+      "range": {
+        "startLine": 5265,
+        "startChar": 12,
+        "endLine": 5265,
+        "endChar": 31
+      },
+      "revId": "033892d164b75b57fab625a2e9ccb50da1777a76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

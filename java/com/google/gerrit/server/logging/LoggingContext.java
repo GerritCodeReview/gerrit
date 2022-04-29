@@ -91,7 +91,7 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
         && forceLogging.get() == null
         && performanceLogging.get() == null
         && aclLogging.get() == null
-        && aclLogRecords.get() == null;
+        && (aclLogRecords.get() == null || aclLogRecords.get().isEmpty());
   }
 
   public void clear() {

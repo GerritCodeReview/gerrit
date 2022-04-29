@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23b27816_7f4da95f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-29T13:33:48Z",
+      "side": 1,
+      "message": "alignment of stars in the comment is off",
+      "range": {
+        "startLine": 114,
+        "startChar": 8,
+        "endLine": 117,
+        "endChar": 9
+      },
+      "revId": "04633d1bae5dd3e72be2accebfe2bf0d59e66ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5759cfe8_c8203a75",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-29T13:33:48Z",
+      "side": 1,
+      "message": "what is empty here?",
+      "range": {
+        "startLine": 160,
+        "startChar": 41,
+        "endLine": 160,
+        "endChar": 51
+      },
+      "revId": "04633d1bae5dd3e72be2accebfe2bf0d59e66ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da1a01fa_8ae2052b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-29T13:33:48Z",
+      "side": 1,
+      "message": "maybe assert they aren\u0027t checked before clicking the checkbox?",
+      "range": {
+        "startLine": 181,
+        "startChar": 6,
+        "endLine": 181,
+        "endChar": 23
+      },
+      "revId": "04633d1bae5dd3e72be2accebfe2bf0d59e66ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

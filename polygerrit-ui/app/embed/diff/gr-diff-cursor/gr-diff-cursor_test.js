@@ -23,6 +23,7 @@ import {listenOnce, mockPromise} from '../../../test/test-utils.js';
 import {createDiff} from '../../../test/test-data-generators.js';
 import {createDefaultDiffPrefs} from '../../../constants/constants.js';
 import {GrDiffCursor} from './gr-diff-cursor.js';
+import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 
 suite('gr-diff-cursor tests', () => {
   let cursor;
@@ -159,7 +160,7 @@ suite('gr-diff-cursor tests', () => {
     };
 
     diffElement.diff = diff;
-    await flush();
+    await new Promise(resolve => afterNextRender(diffElement, resolve));
     cursor._updateStops();
 
     const chunks = Array.from(diffElement.root.querySelectorAll(
@@ -618,7 +619,7 @@ suite('gr-diff-cursor tests', () => {
     MockInteractions.tap(diffElement.shadowRoot
         .querySelector('gr-context-controls').shadowRoot
         .querySelector('.showContext'));
-    await flush();
+    await new Promise(resolve => afterNextRender(diffElement, resolve));
     assert.isTrue(cursor._updateStops.called);
   });
 
@@ -664,6 +665,7 @@ suite('gr-diff-cursor tests', () => {
       diffElements[0].diff = createDiff();
       diffElements[2].diff = createDiff();
       await Promise.all([diffRenderedPromises[0], diffRenderedPromises[2]]);
+      await new Promise(resolve => afterNextRender(diffElements[0], resolve));
 
       const lastLine = diffElements[0].diff.meta_b.lines;
 

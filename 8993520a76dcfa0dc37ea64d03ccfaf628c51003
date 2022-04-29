@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e3d8caf_be62b74c",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-29T12:36:33Z",
+      "side": 1,
+      "message": "AFAIR we agreed that posting events should happen outside of the read-only window see for instance here:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/334761/43/java/com/google/gerrit/server/events/StreamEventsApiListener.java#417",
+      "revId": "8993520a76dcfa0dc37ea64d03ccfaf628c51003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

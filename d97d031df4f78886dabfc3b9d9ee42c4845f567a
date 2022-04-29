@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca450936_38250a5a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-29T09:04:51Z",
+      "side": 1,
+      "message": "I like the idea, but it can be dangerous when the underlying filesystem is NFS. Because of caching issues, the reindexing could fail temporarily but then succeed later on.\n\nIn the HA plugin we had this delete logic in the past and, after issues seen in production, we reverted and introduced a retry mechanism.\n\nI know you don\u0027t use NFS and you won\u0027t be impacted by it, however, other users may be impacted.\n\nIs there any other option for dealing with this case?",
+      "revId": "d97d031df4f78886dabfc3b9d9ee42c4845f567a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

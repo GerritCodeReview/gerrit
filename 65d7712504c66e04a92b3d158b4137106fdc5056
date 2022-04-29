@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e841db47_1b2272bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-04-29T13:39:27Z",
+      "side": 1,
+      "message": "Missing Google bug ID\nIt looks like it is b/216478680",
+      "revId": "65d7712504c66e04a92b3d158b4137106fdc5056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc31ba1d_3cc0d1e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-04-29T13:39:27Z",
+      "side": 1,
+      "message": "Thank you for sending this change. \n\nCould you please provide more details about which basic style I should review? Is it only spacing changes at the moment?\n\nI don\u0027t see the code-review info message at the moment, will it be in a follow-up change? Also vote failure and progress?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "65d7712504c66e04a92b3d158b4137106fdc5056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "344395e7_f3f5831a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-04-29T13:39:27Z",
+      "side": 1,
+      "message": "It looks like there is a padding of `--spacing-xl` between \u0027Vote on selected changes\u0027 and \u0027Submit requirements\u0027. I added a comment with other spacing changes in b/216478680",
+      "revId": "65d7712504c66e04a92b3d158b4137106fdc5056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6a0a85e_70ae9fea",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-04-29T13:39:27Z",
+      "side": 1,
+      "message": "`Cancel` for consistency across dialogs and to follow UX writing patterns as discuss in our UX/Eng sync",
+      "range": {
+        "startLine": 135,
+        "startChar": 26,
+        "endLine": 135,
+        "endChar": 31
+      },
+      "revId": "65d7712504c66e04a92b3d158b4137106fdc5056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

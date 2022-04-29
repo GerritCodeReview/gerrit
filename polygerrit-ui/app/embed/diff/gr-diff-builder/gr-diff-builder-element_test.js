@@ -661,10 +661,13 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('render-start and render-content are fired', async () => {
-      const firedEventTypes = element.dispatchEvent.getCalls()
-          .map(c => c.args[0].type);
-      assert.include(firedEventTypes, 'render-start');
-      assert.include(firedEventTypes, 'render-content');
+      requestAnimationFrame(() => {
+        flush();
+        const firedEventTypes = element.dispatchEvent.getCalls()
+            .map(c => c.args[0].type);
+        assert.include(firedEventTypes, 'render-start');
+        assert.include(firedEventTypes, 'render-content');
+      });
     });
 
     test('cancel cancels the processor', () => {

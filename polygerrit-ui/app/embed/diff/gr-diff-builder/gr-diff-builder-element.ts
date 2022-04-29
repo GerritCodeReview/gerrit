@@ -284,7 +284,9 @@ export class GrDiffBuilderElement extends PolymerElement {
         if (this.isImageDiff) {
           (this._builder as GrDiffBuilderImage).renderDiff();
         }
-        fireEvent(this, 'render-content');
+        requestAnimationFrame(() =>
+          setTimeout(() => fireEvent(this, 'render-content'))
+        );
       })
     );
     return (
@@ -397,7 +399,9 @@ export class GrDiffBuilderElement extends PolymerElement {
       )
     );
     this._builder.replaceGroup(group, newGroups);
-    setTimeout(() => fireEvent(this, 'render-content'), 1);
+    requestAnimationFrame(() =>
+      setTimeout(() => fireEvent(this, 'render-content'))
+    );
   }
 
   /**
@@ -415,7 +419,9 @@ export class GrDiffBuilderElement extends PolymerElement {
     if (!this._builder) return;
     fireEvent(this, 'render-start');
     this._builder.replaceGroup(contextGroup, newGroups);
-    setTimeout(() => fireEvent(this, 'render-content'), 1);
+    requestAnimationFrame(() =>
+      setTimeout(() => fireEvent(this, 'render-content'))
+    );
   }
 
   cancel() {

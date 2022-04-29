@@ -46,6 +46,10 @@ public class MutablePerformanceLogRecords {
     return ImmutableList.copyOf(performanceLogRecords);
   }
 
+  public boolean isEmtpy() {
+    return performanceLogRecords.isEmpty();
+  }
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)

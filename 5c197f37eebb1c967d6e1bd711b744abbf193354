@@ -34,6 +34,24 @@
       "parentUuid": "ade1af59_e32d7ac0",
       "revId": "5c197f37eebb1c967d6e1bd711b744abbf193354",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7d0fbc2_2d78180c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-04-29T06:15:55Z",
+      "side": 1,
+      "message": "Latest Bazel relese in 4.2.x release line is 4.2.2: [1].\n\n[1] https://github.com/bazelbuild/bazel/releases/tag/4.2.2",
+      "parentUuid": "af150658_7e286d5a",
+      "revId": "5c197f37eebb1c967d6e1bd711b744abbf193354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

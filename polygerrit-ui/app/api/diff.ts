@@ -334,6 +334,10 @@ export declare interface LineNumberEventDetail {
   lineNum: LineNumber;
 }
 
+export declare interface RenderProgressEventDetail {
+  linesRendered: number;
+}
+
 export declare interface DisplayLine {
   side: Side;
   lineNum: LineNumber;

@@ -40,7 +40,11 @@ import {
   GrRangedCommentLayer,
 } from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
-import {DiffViewMode, RenderPreferences} from '../../../api/diff';
+import {
+  DiffViewMode,
+  RenderPreferences,
+  RenderProgressEventDetail,
+} from '../../../api/diff';
 import {createDefaultDiffPrefs, Side} from '../../../constants/constants';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {
@@ -49,7 +53,7 @@ import {
   hideInContextControl,
 } from '../gr-diff/gr-diff-group';
 import {getLineNumber, getSideByLineEl} from '../gr-diff/gr-diff-utils';
-import {fireAlert, fireEvent} from '../../../utils/event-util';
+import {fireAlert, fireEvent, fire} from '../../../utils/event-util';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
@@ -57,6 +61,12 @@ const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 // https://gerrit.googlesource.com/gerrit/+/234616a8627334686769f1de989d286039f4d6a5/polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js#740
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
 const COMMIT_MSG_LINE_LENGTH = 72;
+
+declare global {
+  interface HTMLElementEventMap {
+    'render-progress': CustomEvent<RenderProgressEventDetail>;
+  }
+}
 
 export function getLineNumberCellWidth(prefs: DiffPreferencesInfo) {
   return prefs.font_size * 4;
@@ -412,8 +422,15 @@ export class GrDiffBuilderElement
   ) {
     if (!this._builder) return;
     fireEvent(this, 'render-start');
+    const linesRendered = newGroups.reduce(
+      (sum, group) => sum + group.lines.length,
+      0
+    );
     this._builder.replaceGroup(contextGroup, newGroups);
-    afterNextRender(this, () => fireEvent(this, 'render-content'));
+    afterNextRender(this, () => {
+      fire(this, 'render-progress', {linesRendered});
+      fireEvent(this, 'render-content');
+    });
   }
 
   cancel() {
@@ -507,7 +524,9 @@ export class GrDiffBuilderElement
   addGroup(group: GrDiffGroup) {
     if (!this._builder) return;
     this._builder.addGroups([group]);
-    afterNextRender(this, () => fireEvent(this, 'render-progress'));
+    afterNextRender(this, () =>
+      fire(this, 'render-progress', {linesRendered: group.lines.length})
+    );
   }
 
   _createIntralineLayer(): DiffLayer {

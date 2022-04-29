@@ -1380,7 +1380,16 @@ Using this endpoint Gerrit admins can also index change(s) which are not visible
   POST /config/server/index.changes HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
-  {changes: ["foo~101", "bar~202"]}
+  {
+    "changes": [
+      "foo~101",
+      "bar~202",
+      "303"
+    ],
+    "options": {
+      "delete_if_not_found": "true"
+    }
+  }
 ----
 
 .Response
@@ -1388,6 +1397,9 @@ Using this endpoint Gerrit admins can also index change(s) which are not visible
   HTTP/1.1 200 OK
   Content-Disposition: attachment
 ----
+
+The `delete_if_not_found` can be used the not found changes from the index. By default, this option
+is `false`.
 
 
 [[ids]]
@@ -1876,6 +1888,21 @@ The `IndexChangesInput` contains a list of numerical changes IDs to index.
 |Field Name         ||Description
 |`changes`   ||
 List of link:rest-api-changes.html#change-id[change-ids]
+|`options`   |optional|
+A set of options for indexing as link:#index-changes-options-input[IndexChangesOptionsInput]
+entity.
+|================================
+
+[[index-changes-options-input]]
+=== IndexChangesOptionsInput
+The `IndexChangesOptionsInput` contains a set of options for indexing.
+
+[options="header",cols="1,^2,4"]
+|================================
+|Field Name         ||Description
+|`delete_if_not_found`  |optional|
+Delete non found changes from the index. Possible values are `true` and `false`.
+By default set to `false`.
 |================================
 
 [[jvm-summary-info]]

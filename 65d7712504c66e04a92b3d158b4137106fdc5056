@@ -58,6 +58,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7c00e36_9721605a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1098466
+      },
+      "writtenOn": "2022-04-29T16:10:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "344395e7_f3f5831a",
+      "revId": "65d7712504c66e04a92b3d158b4137106fdc5056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6a0a85e_70ae9fea",
@@ -71,6 +89,30 @@
       "writtenOn": "2022-04-29T13:39:27Z",
       "side": 1,
       "message": "`Cancel` for consistency across dialogs and to follow UX writing patterns as discuss in our UX/Eng sync",
+      "range": {
+        "startLine": 135,
+        "startChar": 26,
+        "endLine": 135,
+        "endChar": 31
+      },
+      "revId": "65d7712504c66e04a92b3d158b4137106fdc5056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3504c0e_5aaf34f6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1098466
+      },
+      "writtenOn": "2022-04-29T16:10:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6a0a85e_70ae9fea",
       "range": {
         "startLine": 135,
         "startChar": 26,

@@ -148,6 +148,27 @@ while test $# -gt 0 ; do
     GERRIT_SITE=${1##--site-path=}
     shift
     ;;
+  --debug)
+    JVM_DEBUG=true
+    shift
+    ;;
+  --suspend)
+    JVM_DEBUG_SUSPEND=true
+    shift
+    ;;
+  --debug-port=*)
+    ADDRESS=${1##--debug-port=}
+    shift
+    ;;
+  --address=*)
+    ADDRESS=${1##--address=}
+    shift
+    ;;
+  --debug-port|--address)
+    shift
+    ADDRESS=$1
+    shift
+    ;;
 
   *)
     usage
@@ -315,6 +336,20 @@ fi
 GERRIT_MEMORY=`get_config --get container.heapLimit`
 if test -n "$GERRIT_MEMORY" ; then
   JAVA_OPTIONS="$JAVA_OPTIONS -Xmx$GERRIT_MEMORY"
+fi
+
+if test -n "$JVM_DEBUG" ; then
+  if test -z "$ADDRESS" ; then
+    ADDRESS=8000
+  fi
+  echo "Put JVM in debug mode, debugger listens to: $ADDRESS"
+  if test -n "$JVM_DEBUG_SUSPEND" ; then
+    SUSPEND=y
+    echo "JVM will await for a debugger to attach"
+  else
+    SUSPEND=n
+  fi
+  JAVA_OPTIONS="$JAVA_OPTIONS -agentlib:jdwp=transport=dt_socket,server=y,suspend=$SUSPEND,address=$ADDRESS"
 fi
 
 GERRIT_FDS=`get_config --int core.packedGitOpenFiles`

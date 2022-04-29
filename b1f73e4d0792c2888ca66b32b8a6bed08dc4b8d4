@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73d796ec_04cbada0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-29T08:36:36Z",
+      "side": 1,
+      "message": "inline this method?\nName is quite confusing.\n\nDescendedFromClass is a bit unclear.",
+      "range": {
+        "startLine": 139,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 27
+      },
+      "revId": "b1f73e4d0792c2888ca66b32b8a6bed08dc4b8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "979f6332_7015e4f2",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-29T08:36:36Z",
+      "side": 1,
+      "message": "where did you get the definition of this method?\njust curious about the `eventOptions` and if this needs a closer look.",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 299,
+        "endChar": 25
+      },
+      "revId": "b1f73e4d0792c2888ca66b32b8a6bed08dc4b8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

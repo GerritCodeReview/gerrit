@@ -24,7 +24,6 @@ const rangeA: CommentRangeLayer = {
     start_line: 36,
   },
   rootId: 'a',
-  hovering: false,
 };
 
 const rangeB: CommentRangeLayer = {
@@ -36,7 +35,6 @@ const rangeB: CommentRangeLayer = {
     start_line: 10,
   },
   rootId: 'b',
-  hovering: false,
 };
 
 const rangeC: CommentRangeLayer = {
@@ -47,7 +45,6 @@ const rangeC: CommentRangeLayer = {
     start_character: 5,
     start_line: 100,
   },
-  hovering: false,
 };
 
 const rangeD: CommentRangeLayer = {
@@ -59,7 +56,6 @@ const rangeD: CommentRangeLayer = {
     start_line: 55,
   },
   rootId: 'd',
-  hovering: false,
 };
 
 const rangeE: CommentRangeLayer = {
@@ -70,7 +66,6 @@ const rangeE: CommentRangeLayer = {
     start_character: 1,
     start_line: 60,
   },
-  hovering: false,
 };
 
 suite('gr-ranged-comment-layer', () => {

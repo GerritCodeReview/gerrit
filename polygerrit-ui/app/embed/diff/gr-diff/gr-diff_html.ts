@@ -686,11 +686,7 @@ export const htmlTemplate = html`
     class$="[[_computeContainerClass(loggedIn, viewMode, displayLine)]]"
     on-click="_handleTap"
   >
-    <gr-diff-highlight
-      id="highlights"
-      logged-in="[[loggedIn]]"
-      comment-ranges="{{_commentRanges}}"
-    >
+    <gr-diff-highlight id="highlights">
       <gr-diff-builder
         id="diffBuilder"
         comment-ranges="[[_commentRanges]]"

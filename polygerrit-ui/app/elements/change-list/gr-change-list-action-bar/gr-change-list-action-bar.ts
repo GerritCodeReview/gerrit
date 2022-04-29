@@ -11,7 +11,6 @@ import {resolve} from '../../../models/dependency';
 import {pluralize} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
-import '../gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow';
 import '../gr-change-list-reviewer-flow/gr-change-list-reviewer-flow';
 import '../gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow';
 
@@ -111,8 +110,6 @@ export class GrChangeListActionBar extends LitElement {
           <div class="actionButtons">
             <gr-change-list-bulk-vote-flow></gr-change-list-bulk-vote-flow>
             <gr-change-list-reviewer-flow></gr-change-list-reviewer-flow>
-            <gr-change-list-bulk-abandon-flow>
-            </gr-change-list-bulk-abandon-flow>
           </div>
         </div>
       </td>

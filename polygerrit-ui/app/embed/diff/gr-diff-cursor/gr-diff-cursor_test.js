@@ -23,6 +23,7 @@ import {listenOnce, mockPromise} from '../../../test/test-utils.js';
 import {createDiff} from '../../../test/test-data-generators.js';
 import {createDefaultDiffPrefs} from '../../../constants/constants.js';
 import {GrDiffCursor} from './gr-diff-cursor.js';
+import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 
 suite('gr-diff-cursor tests', () => {
   let cursor;
@@ -159,7 +160,7 @@ suite('gr-diff-cursor tests', () => {
     };
 
     diffElement.diff = diff;
-    await flush();
+    await new Promise(resolve => afterNextRender(diffElement, resolve));
     cursor._updateStops();
 
     const chunks = Array.from(diffElement.root.querySelectorAll(
@@ -213,16 +214,10 @@ suite('gr-diff-cursor tests', () => {
 
   suite('unified diff', () => {
     setup(async () => {
-      const promise = mockPromise();
-      // We must allow the diff to re-render after setting the viewMode.
-      const renderHandler = function() {
-        diffElement.removeEventListener('render', renderHandler);
-        cursor.reInitCursor();
-        promise.resolve();
-      };
-      diffElement.addEventListener('render', renderHandler);
       diffElement.viewMode = 'UNIFIED_DIFF';
-      await promise;
+      // We must allow the diff to re-render after setting the viewMode.
+      await new Promise(resolve => afterNextRender(diffElement, resolve));
+      cursor.reInitCursor();
     });
 
     test('diff cursor functionality (unified)', () => {
@@ -457,19 +452,13 @@ suite('gr-diff-cursor tests', () => {
           scrollBehaviorDuringMove = cursor.cursorManager.scrollMode;
         });
 
-    const promise = mockPromise();
-    function renderHandler() {
-      diffElement.removeEventListener('render', renderHandler);
-      cursor.reInitCursor();
-      assert.isFalse(moveToNumStub.called);
-      assert.isTrue(moveToChunkStub.called);
-      assert.equal(scrollBehaviorDuringMove, 'never');
-      assert.equal(cursor.cursorManager.scrollMode, 'keep-visible');
-      promise.resolve();
-    }
-    diffElement.addEventListener('render', renderHandler);
     diffElement._diffChanged(createDiff());
-    await promise;
+    await new Promise(resolve => afterNextRender(diffElement, resolve));
+    cursor.reInitCursor();
+    assert.isFalse(moveToNumStub.called);
+    assert.isTrue(moveToChunkStub.called);
+    assert.equal(scrollBehaviorDuringMove, 'never');
+    assert.equal(cursor.cursorManager.scrollMode, 'keep-visible');
   });
 
   test('initialLineNumber provided', async () => {
@@ -479,24 +468,18 @@ suite('gr-diff-cursor tests', () => {
           scrollBehaviorDuringMove = cursor.cursorManager.scrollMode;
         });
     const moveToChunkStub = sinon.stub(cursor, 'moveToFirstChunk');
-    const promise = mockPromise();
-    function renderHandler() {
-      diffElement.removeEventListener('render', renderHandler);
-      cursor.reInitCursor();
-      assert.isFalse(moveToChunkStub.called);
-      assert.isTrue(moveToNumStub.called);
-      assert.equal(moveToNumStub.lastCall.args[0], 10);
-      assert.equal(moveToNumStub.lastCall.args[1], 'right');
-      assert.equal(scrollBehaviorDuringMove, 'keep-visible');
-      assert.equal(cursor.cursorManager.scrollMode, 'keep-visible');
-      promise.resolve();
-    }
-    diffElement.addEventListener('render', renderHandler);
     cursor.initialLineNumber = 10;
     cursor.side = 'right';
 
     diffElement._diffChanged(createDiff());
-    await promise;
+    await new Promise(resolve => afterNextRender(diffElement, resolve));
+    cursor.reInitCursor();
+    assert.isFalse(moveToChunkStub.called);
+    assert.isTrue(moveToNumStub.called);
+    assert.equal(moveToNumStub.lastCall.args[0], 10);
+    assert.equal(moveToNumStub.lastCall.args[1], 'right');
+    assert.equal(scrollBehaviorDuringMove, 'keep-visible');
+    assert.equal(cursor.cursorManager.scrollMode, 'keep-visible');
   });
 
   test('getTargetDiffElement', () => {
@@ -618,7 +601,7 @@ suite('gr-diff-cursor tests', () => {
     MockInteractions.tap(diffElement.shadowRoot
         .querySelector('gr-context-controls').shadowRoot
         .querySelector('.showContext'));
-    await flush();
+    await new Promise(resolve => afterNextRender(diffElement, resolve));
     assert.isTrue(cursor._updateStops.called);
   });
 
@@ -664,6 +647,7 @@ suite('gr-diff-cursor tests', () => {
       diffElements[0].diff = createDiff();
       diffElements[2].diff = createDiff();
       await Promise.all([diffRenderedPromises[0], diffRenderedPromises[2]]);
+      await new Promise(resolve => afterNextRender(diffElements[0], resolve));
 
       const lastLine = diffElements[0].diff.meta_b.lines;
 
@@ -685,6 +669,7 @@ suite('gr-diff-cursor tests', () => {
       // Diff 1 finishing to load
       diffElements[1].diff = createDiff();
       await diffRenderedPromises[1];
+      await new Promise(resolve => afterNextRender(diffElements[0], resolve));
 
       // Now we can go down
       cursor.moveDown();

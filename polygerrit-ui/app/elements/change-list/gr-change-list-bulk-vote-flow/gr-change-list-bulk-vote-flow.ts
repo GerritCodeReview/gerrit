@@ -88,6 +88,17 @@ export class GrChangeListBulkVoteFlow extends LitElement {
         .container {
           padding-bottom: var(--spacing-m);
         }
+        .error-container {
+          background-color: var(--red-50);
+          margin-top: var(--spacing-l);
+        }
+        iron-icon {
+          --iron-icon-height: 20px;
+          --iron-icon-width: 20px;
+        }
+        .error-container iron-icon {
+          padding: 10px var(--spacing-xl);
+        }
       `,
     ];
   }
@@ -148,10 +159,29 @@ export class GrChangeListBulkVoteFlow extends LitElement {
               'Trigger Votes',
               permittedLabels
             )}
+            ${this.renderErrors()}
           </div>
           <!-- TODO: Add error handling status if something fails -->
         </gr-dialog>
       </gr-overlay>
+    `;
+  }
+
+  private renderErrors() {
+    if (getOverallStatus(this.progressByChange) !== ProgressStatus.FAILED) {
+      return nothing;
+    }
+    return html`
+      <div class="error-container">
+        <iron-icon icon="gr-icons:error"></iron-icon>
+        <span
+          >Failed to vote on
+          ${Array.from(this.progressByChange.values()).filter(
+            status => status === ProgressStatus.FAILED
+          ).length}
+          changes</span
+        >
+      <div>
     `;
   }
 
@@ -184,7 +214,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     this.progressByChange = new Map(
       this.selectedChanges.map(change => [
         change._number,
-        ProgressStatus.NOT_STARTED,
+        ProgressStatus.FAILED,
       ])
     );
   }

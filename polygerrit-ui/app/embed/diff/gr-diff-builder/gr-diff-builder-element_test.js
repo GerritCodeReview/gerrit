@@ -661,6 +661,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('render-start and render-content are fired', async () => {
+      await new Promise(resolve => afterNextRender(element, resolve));
       const firedEventTypes = element.dispatchEvent.getCalls()
           .map(c => c.args[0].type);
       assert.include(firedEventTypes, 'render-start');
@@ -738,7 +739,6 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('unhideLine shows the line with context', async () => {
-      const clock = sinon.useFakeTimers();
       element.dispatchEvent.reset();
       element.unhideLine(4, Side.LEFT);
 
@@ -759,8 +759,7 @@ suite('gr-diff-builder tests', () => {
       assert.include(diffRows[8].textContent, 'after');
       assert.include(diffRows[9].textContent, 'unchanged 11');
 
-      clock.tick(1);
-      await flush();
+      await new Promise(resolve => afterNextRender(element, resolve));
       const firedEventTypes = element.dispatchEvent.getCalls()
           .map(c => c.args[0].type);
       assert.include(firedEventTypes, 'render-content');

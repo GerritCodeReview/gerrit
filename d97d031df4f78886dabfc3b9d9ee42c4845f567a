@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ee910bde_00b58cd4",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-04-29T10:24:43Z",
+      "side": 1,
+      "message": "It is a user error, maybe just a typo... so I think a warning is good.\n\nYes, we can enhance the response body to differentiate between:\n* indexed changes\n* not found changes",
+      "parentUuid": "6292f039_c22fbf90",
+      "range": {
+        "startLine": 66,
+        "startChar": 15,
+        "endLine": 66,
+        "endChar": 24
+      },
+      "revId": "d97d031df4f78886dabfc3b9d9ee42c4845f567a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e5665c0a_2ddbc1ba",
         "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
         "patchSetId": 1
@@ -54,6 +78,24 @@
       "writtenOn": "2022-04-29T09:58:09Z",
       "side": 1,
       "message": "What if the changeId isn\u0027t present ?\nCan this happen at all ?",
+      "revId": "d97d031df4f78886dabfc3b9d9ee42c4845f567a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fef158ea_e27afb78",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-04-29T10:24:43Z",
+      "side": 1,
+      "message": "Yes, it can happen when the provided id is not parseable.",
+      "parentUuid": "e5665c0a_2ddbc1ba",
       "revId": "d97d031df4f78886dabfc3b9d9ee42c4845f567a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

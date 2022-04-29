@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1396e30_c629396d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-29T13:27:46Z",
+      "side": 1,
+      "message": "you can do ?? [] here and then you don\u0027t need the `?.` modifier later.",
+      "range": {
+        "startLine": 200,
+        "startChar": 37,
+        "endLine": 202,
+        "endChar": 5
+      },
+      "revId": "4f26342ee1b406fe1ccb9eb6ae5da68f933d0708",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f2a7e74_5fa239ab",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-29T13:27:46Z",
+      "side": 1,
+      "message": "why ?. if we know the index \u003e\u003d 0?",
+      "range": {
+        "startLine": 208,
+        "startChar": 29,
+        "endLine": 208,
+        "endChar": 31
+      },
+      "revId": "4f26342ee1b406fe1ccb9eb6ae5da68f933d0708",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0169b5ae_0cf24a52",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-29T13:27:46Z",
+      "side": 1,
+      "message": "here the account is `detail.value.account` but onAccountAdded accesses it as `detail.account`?",
+      "range": {
+        "startLine": 262,
+        "startChar": 8,
+        "endLine": 264,
+        "endChar": 20
+      },
+      "revId": "4f26342ee1b406fe1ccb9eb6ae5da68f933d0708",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

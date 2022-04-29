@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1940c77_cb5feb79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-29T08:16:18Z",
+      "side": 1,
+      "message": "Good catch @Jacek, fixed.",
+      "revId": "e31221278253f2d38b0425f0452b7b56b400b020",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0cc7248_66faf4a1",
@@ -38,6 +55,30 @@
       "side": 1,
       "message": "Good catch: I should use the `get` here, which returns an Optional which could be empty.",
       "parentUuid": "d0cc7248_66faf4a1",
+      "range": {
+        "startLine": 112,
+        "startChar": 8,
+        "endLine": 115,
+        "endChar": 0
+      },
+      "revId": "e31221278253f2d38b0425f0452b7b56b400b020",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "522dabe0_dc9084d0",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-29T08:16:18Z",
+      "side": 1,
+      "message": "Actually here it would still make sense to use the old method, because the project control doesn\u0027t really need any unloading and therefore there is no need to manage the resource ownership and cleanup.",
+      "parentUuid": "0f7992c2_1dedd22a",
       "range": {
         "startLine": 112,
         "startChar": 8,

@@ -50,21 +50,21 @@ suite('gr-diff tests', () => {
 
     setup(() => {
       element = basicFixture.instantiate();
-      sinon.stub(element.$.highlights, 'handleSelectionChange');
+      sinon.stub(element.highlights, 'handleSelectionChange');
     });
 
     test('enabled if logged in', async () => {
       element.loggedIn = true;
       emulateSelection();
       await flush();
-      assert.isTrue(element.$.highlights.handleSelectionChange.called);
+      assert.isTrue(element.highlights.handleSelectionChange.called);
     });
 
     test('ignored if logged out', async () => {
       element.loggedIn = false;
       emulateSelection();
       await flush();
-      assert.isFalse(element.$.highlights.handleSelectionChange.called);
+      assert.isFalse(element.highlights.handleSelectionChange.called);
     });
   });
 

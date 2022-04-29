@@ -22,6 +22,30 @@
       },
       "revId": "feb98cf02f95711b3de1f827da3d50f39e74594b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e36b2724_df2913e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-29T14:21:34Z",
+      "side": 1,
+      "message": "Good point, that would be nicer, left a refactor TODO.",
+      "parentUuid": "68fe06d3_62a0ca98",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "feb98cf02f95711b3de1f827da3d50f39e74594b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

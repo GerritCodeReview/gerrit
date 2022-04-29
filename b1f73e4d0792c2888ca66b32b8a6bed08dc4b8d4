@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b92227ef_2a845959",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-29T14:20:00Z",
+      "side": 1,
+      "message": "It\u0027s very cool migration. But I am curious how gr-diff-highlight will be changed. I would assumed that gr-diff-selection will have diff-highlight and that one will have gr-diff-table.",
+      "revId": "b1f73e4d0792c2888ca66b32b8a6bed08dc4b8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cf90108_f429764b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-04-29T14:20:00Z",
+      "side": 1,
+      "message": "I would prefer, if adding EventListener is in diffTable, but I understand that would need a big refactor.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 66
+      },
+      "revId": "b1f73e4d0792c2888ca66b32b8a6bed08dc4b8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73d796ec_04cbada0",

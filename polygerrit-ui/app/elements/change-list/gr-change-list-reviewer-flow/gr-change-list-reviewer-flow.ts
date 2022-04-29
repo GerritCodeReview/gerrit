@@ -21,6 +21,7 @@ import {
 } from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import '../../shared/gr-account-list/gr-account-list';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
+import {AccountInputDetail} from '../../shared/gr-account-list/gr-account-list';
 
 const SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE: Record<
   ReviewerState,
@@ -146,6 +147,8 @@ export class GrChangeListReviewerFlow extends LitElement {
         .removableValues=${[]}
         .suggestionsProvider=${suggestionsProvider}
         .placeholder=${placeholder}
+        @account-added=${(e: CustomEvent<AccountInputDetail>) =>
+          this.onAccountAdded(reviewerState, e)}
       >
       </gr-account-list>
     `;
@@ -180,6 +183,32 @@ export class GrChangeListReviewerFlow extends LitElement {
           this.createSuggestionsProvider(state)
         );
       }
+    }
+    this.requestUpdate();
+  }
+
+  /* Removes accounts from one list when they are added to the other */
+  private onAccountAdded(
+    reviewerState: ReviewerState,
+    event: CustomEvent<AccountInputDetail>
+  ) {
+    const account = event.detail.account as AccountInfo;
+    const oppositeReviewerState =
+      reviewerState === ReviewerState.CC
+        ? ReviewerState.REVIEWER
+        : ReviewerState.CC;
+    const oppositeUpdatedAccounts = this.updatedAccountsByReviewerState.get(
+      oppositeReviewerState
+    );
+    if (!oppositeUpdatedAccounts) {
+      // Not actually possible. Map will always have CC and Reviewer lists.
+      return;
+    }
+    const oppositeUpdatedAccountIndex = oppositeUpdatedAccounts.findIndex(
+      acc => acc._account_id === account._account_id
+    );
+    if (oppositeUpdatedAccountIndex >= 0) {
+      oppositeUpdatedAccounts.splice(oppositeUpdatedAccountIndex, 1);
     }
     this.requestUpdate();
   }

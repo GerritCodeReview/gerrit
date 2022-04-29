@@ -22,6 +22,30 @@
       },
       "revId": "c5fcca0dfafe309099ffb8f0adabbed094ed4337",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa660856_e96ca7db",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5266,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-04-29T10:40:16Z",
+      "side": 1,
+      "message": "I don\u0027t feel comfortable generalizing that the heap increase with the metrics-reporter-graphite _is_ 40% in all cases or even that the large heap increase was in fact caused by the metrics-reporter-graphite plugin (even though it\u0027s highly likely IMO).\nLet\u0027s revisit this statement in a follow-up commit when/if we have more facts.",
+      "parentUuid": "52b45226_cf1385d0",
+      "range": {
+        "startLine": 5266,
+        "startChar": 0,
+        "endLine": 5266,
+        "endChar": 35
+      },
+      "revId": "c5fcca0dfafe309099ffb8f0adabbed094ed4337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

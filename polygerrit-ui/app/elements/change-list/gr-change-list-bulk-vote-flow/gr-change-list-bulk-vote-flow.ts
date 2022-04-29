@@ -36,6 +36,7 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../change/gr-label-score-row/gr-label-score-row';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
 import {allSettled} from '../../../utils/async-util';
+import {pluralize} from '../../../utils/string-util';
 
 @customElement('gr-change-list-bulk-vote-flow')
 export class GrChangeListBulkVoteFlow extends LitElement {
@@ -85,6 +86,17 @@ export class GrChangeListBulkVoteFlow extends LitElement {
         .main-heading {
           margin-bottom: var(--spacing-m);
           font-weight: var(--font-weight-h2);
+        }
+        .error-container {
+          background-color: var(--red-50);
+          margin-top: var(--spacing-l);
+        }
+        .error-container iron-icon {
+          padding: 10px var(--spacing-xl);
+          color: var(--red-700);
+          --iron-icon-height: 20px;
+          --iron-icon-width: 20px;
+          top: -1px;
         }
       `,
     ];
@@ -146,10 +158,30 @@ export class GrChangeListBulkVoteFlow extends LitElement {
               'Trigger Votes',
               permittedLabels
             )}
+            ${this.renderErrors()}
           </div>
-          <!-- TODO: Add error handling status if something fails -->
         </gr-dialog>
       </gr-overlay>
+    `;
+  }
+
+  private renderErrors() {
+    if (getOverallStatus(this.progressByChange) !== ProgressStatus.FAILED) {
+      return nothing;
+    }
+    return html`
+      <div class="error-container">
+        <iron-icon icon="gr-icons:error"></iron-icon>
+        <span>
+          <!-- prettier-ignore -->
+          Failed to vote on ${pluralize(
+            Array.from(this.progressByChange.values()).filter(
+              status => status === ProgressStatus.FAILED
+            ).length,
+            'change'
+          )}
+        </span>
+      </div>
     `;
   }
 

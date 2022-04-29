@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2742db82_35aa1e63",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-29T14:12:49Z",
+      "side": 1,
+      "message": "Done. Populating the Map in the constructor is for completeness but was not actually an issue.",
+      "parentUuid": "db8848d4_dc3fee25",
+      "range": {
+        "startLine": 200,
+        "startChar": 37,
+        "endLine": 202,
+        "endChar": 5
+      },
+      "revId": "4f26342ee1b406fe1ccb9eb6ae5da68f933d0708",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f2a7e74_5fa239ab",
@@ -180,6 +204,30 @@
       "side": 1,
       "message": "Do you think it\u0027s worth merging the event types?\nIf not in this change then maybe leave a TODO?",
       "parentUuid": "149f3e4d_5d34614a",
+      "range": {
+        "startLine": 262,
+        "startChar": 8,
+        "endLine": 264,
+        "endChar": 20
+      },
+      "revId": "4f26342ee1b406fe1ccb9eb6ae5da68f933d0708",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "431ba1ad_27b30745",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-29T14:12:49Z",
+      "side": 1,
+      "message": "I will look deeper when I am adding group support to reviewer flow, but for now I am not sure enough to leave a TODO.",
+      "parentUuid": "fd6cf432_49968d43",
       "range": {
         "startLine": 262,
         "startChar": 8,

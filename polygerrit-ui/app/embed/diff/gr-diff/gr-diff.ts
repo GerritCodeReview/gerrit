@@ -408,7 +408,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       const range = getRange(threadEl);
       if (!range) return undefined;
 
-      return {side, range, hovering: false, rootId: threadEl.rootId};
+      return {side, range, rootId: threadEl.rootId};
     }
 
     // TODO(brohlfs): Rewrite `.map().filter() as ...` with `.reduce()` instead.
@@ -434,7 +434,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       this.push('_commentRanges', {
         side: Side.RIGHT,
         range: this.highlightRange,
-        hovering: true,
         rootId: '',
       });
     }

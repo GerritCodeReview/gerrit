@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e5af07c_fef50768",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-diff-highlight.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-29T08:56:54Z",
+      "side": 1,
+      "message": "this event is defined in `gr-diff-highlight`?\nHighlighting isn\u0027t really the proper owner of comment creation I think.",
+      "range": {
+        "startLine": 596,
+        "startChar": 5,
+        "endLine": 596,
+        "endChar": 25
+      },
+      "revId": "dbaf06b159ccc33804fcafe5f2bb28330f3d6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40d4a740_a3dacc41",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-diff-highlight_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-29T08:56:54Z",
+      "side": 1,
+      "message": "complicated type.",
+      "range": {
+        "startLine": 253,
+        "startChar": 8,
+        "endLine": 257,
+        "endChar": 6
+      },
+      "revId": "dbaf06b159ccc33804fcafe5f2bb28330f3d6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "075013e4_be57ca16",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-diff-highlight_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-04-29T08:56:54Z",
+      "side": 1,
+      "message": "nit: add `not found`?",
+      "range": {
+        "startLine": 328,
+        "startChar": 38,
+        "endLine": 328,
+        "endChar": 46
+      },
+      "revId": "dbaf06b159ccc33804fcafe5f2bb28330f3d6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

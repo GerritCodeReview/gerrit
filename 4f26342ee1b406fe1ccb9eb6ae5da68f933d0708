@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78bd9952_b9b10c9c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-29T13:52:47Z",
+      "side": 1,
+      "message": "added an explicit check to simplify. Thinking more about it, it seems better than running a bunch of inert code that may accidentally have non-inert parts. For example this way the requestUpdate won\u0027t fire. On the other hand this will always be defined and TS just doesn\u0027t know it so maybe just an `!` would be better \u003dP",
+      "parentUuid": "b1396e30_c629396d",
+      "range": {
+        "startLine": 200,
+        "startChar": 37,
+        "endLine": 202,
+        "endChar": 5
+      },
+      "revId": "4f26342ee1b406fe1ccb9eb6ae5da68f933d0708",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f2a7e74_5fa239ab",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac5294b3_9ac32a84",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-29T13:52:47Z",
+      "side": 1,
+      "message": "TS doesn\u0027t infer from number comparisons ([example](https://tsplay.dev/w8oD9W)) so it doesn\u0027t figure out that oppositeUpdatedAccounts is defined. Anyway, I added a explicit defined check so the optional chain not needed.",
+      "parentUuid": "7f2a7e74_5fa239ab",
+      "range": {
+        "startLine": 208,
+        "startChar": 29,
+        "endLine": 208,
+        "endChar": 31
+      },
+      "revId": "4f26342ee1b406fe1ccb9eb6ae5da68f933d0708",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0169b5ae_0cf24a52",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-04-29T13:27:46Z",
       "side": 1,
       "message": "here the account is `detail.value.account` but onAccountAdded accesses it as `detail.account`?",
+      "range": {
+        "startLine": 262,
+        "startChar": 8,
+        "endLine": 264,
+        "endChar": 20
+      },
+      "revId": "4f26342ee1b406fe1ccb9eb6ae5da68f933d0708",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "149f3e4d_5d34614a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-04-29T13:52:47Z",
+      "side": 1,
+      "message": "this is the `add` event from `gr-account-entry` to `gr-account-list`, then `gr-account-list` will naturally emit the `account-added` event into `gr-change-list-reviewer-flow` for `onAccountAdded` handler. I did it this way because thats how I saw it in `gr-account-list_test`",
+      "parentUuid": "0169b5ae_0cf24a52",
       "range": {
         "startLine": 262,
         "startChar": 8,

@@ -55,7 +55,7 @@ sudo apt-get install nodejs
 sudo apt-get install npm
 
 # OS X with Homebrew
-brew install node
+brew install node@16
 brew install npm
 ```
 
@@ -96,7 +96,7 @@ yarn remove @bazel/...
 
 ## Setup typescript support in the IDE
 
-Modern IDE should automatically handle typescript settings from the 
+Modern IDE should automatically handle typescript settings from the
 `pollygerrit-ui/app/tsconfig.json` files. IDE places compiled files in the
 `.ts-out/pg` directory at the root of gerrit workspace and you can configure IDE
 to exclude the whole .ts-out directory. To do it in the IntelliJ IDEA click on
@@ -288,7 +288,7 @@ The converted template usually quite straightforward, but in some cases
 additional functions are added. For example, `<element x=[[y.a]]>` converts into
 `el.x = y!.a` if y is a simple type. However, if y has a union type, like - `y:A|B`,
 then the generated code looks like `el.x=__f(y)!.a` (`y!.a` may result in a TS error
-if `a` is defined only in one type of a union). 
+if `a` is defined only in one type of a union).
 
 ## Style guide
 
@@ -354,7 +354,7 @@ You can use the following steps for migrating tests to Typescript:
    ```
    // Before:
    import ... from 'x/y/z.js`
- 
+
    // After
    import .. from 'x/y/z'
    ```
@@ -423,16 +423,16 @@ const rows = element
 ...
 // The _robotCommentThreads declared as _robotCommentThreads?: CommentThread
 assert.equal(element._robotCommentThreads.length, 2);
-  
+
 // Fix with non-null assertion operator:
 const rows = element
   .shadowRoot!.querySelector('table')! // '!' after shadowRoot and querySelector
   .querySelectorAll('tbody tr');
 
-assert.equal(element._robotCommentThreads!.length, 2); 
+assert.equal(element._robotCommentThreads!.length, 2);
 
 // Fix with nullish coalescing operator:
- assert.equal(element._robotCommentThreads?.length, 2); 
+ assert.equal(element._robotCommentThreads?.length, 2);
 ```
 Usually the fix with `!` is preferable, because it gives more clear error
 when an intermediate property is `null/undefined`. If the _robotComments is
@@ -529,7 +529,7 @@ handle automatically.
 
 * If a test imports a library from `polygerrit_ui/node_modules` - update
 `paths` in `polygerrit-ui/app/tsconfig_bazel_test.json`.
- 
+
 ## Contributing
 
 Our users report bugs / feature requests related to the UI through [Monorail Issues - PolyGerrit](https://bugs.chromium.org/p/gerrit/issues/list?q=component%3APolyGerrit).

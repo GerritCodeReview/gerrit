@@ -49,7 +49,7 @@ suite('gr-app tests', () => {
     stubRestApi('probePath').returns(Promise.resolve(false));
 
     grApp = await fixture<GrApp>(html`<gr-app id="app"></gr-app>`);
-    await flush();
+    await grApp.updateComplete;
   });
 
   test('reporting', () => {

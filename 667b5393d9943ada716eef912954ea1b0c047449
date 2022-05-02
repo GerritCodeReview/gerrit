@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "985f5f34_3d15a28e",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-05-02T09:04:55Z",
+      "side": 1,
+      "message": "This should not be required considering line 347.",
+      "revId": "667b5393d9943ada716eef912954ea1b0c047449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e5c34ea_ece2db41",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-05-02T09:04:55Z",
+      "side": 1,
+      "message": "It might make sense to allow to reduce the scope of IP-addresses allowed to access the debug port. This way, everybody with access to the Gerrit instance could also debug it. This might not be an issue for every instance, e.g. a local test instance, but in some cases this might not be desired for security reasons.\nCould also be added in a later change.",
+      "range": {
+        "startLine": 348,
+        "startChar": 99,
+        "endLine": 348,
+        "endChar": 100
+      },
+      "revId": "667b5393d9943ada716eef912954ea1b0c047449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

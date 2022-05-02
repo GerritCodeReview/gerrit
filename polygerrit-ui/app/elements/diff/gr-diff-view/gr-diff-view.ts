@@ -105,8 +105,17 @@ import {
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
 import {AppElementParams, AppElementDiffViewParam} from '../../gr-app-types';
-import {EventType, OpenFixPreviewEvent} from '../../../types/events';
-import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
+import {
+  EventType,
+  OpenFixPreviewEvent,
+  ValueChangedEvent,
+} from '../../../types/events';
+import {
+  fire,
+  fireAlert,
+  fireEvent,
+  fireTitleChange,
+} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {addGlobalShortcut, Key, toggleClass} from '../../../utils/dom-util';
@@ -177,7 +186,7 @@ export class GrDiffView extends base {
   @property({type: Object, observer: '_paramsChanged'})
   params?: AppElementParams;
 
-  @property({type: Object, notify: true})
+  @property({type: Object})
   changeViewState: Partial<ChangeViewState> = {};
 
   @property({type: Object})
@@ -767,6 +776,9 @@ export class GrDiffView extends base {
       }
 
       this.set('changeViewState.showReplyDialog', true);
+      fire(this, 'view-state-change-view-changed', {
+        value: this.changeViewState as ChangeViewState,
+      });
       this._navToChangeView();
     });
   }
@@ -1251,6 +1263,9 @@ export class GrDiffView extends base {
     if (!this._fileList || this._fileList.length === 0) return;
 
     this.set('changeViewState.selectedFileIndex', this._fileList.indexOf(path));
+    fire(this, 'view-state-change-view-changed', {
+      value: this.changeViewState as ChangeViewState,
+    });
   }
 
   _getDiffUrl(
@@ -1813,6 +1828,9 @@ export class GrDiffView extends base {
 }
 
 declare global {
+  interface HTMLElementEventMap {
+    'view-state-change-view-changed': ValueChangedEvent<ChangeViewState>;
+  }
   interface HTMLElementTagNameMap {
     'gr-diff-view': GrDiffView;
   }

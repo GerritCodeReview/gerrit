@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../styles/shared-styles';
+
 import '../styles/themes/app-theme';
 import '../styles/themes/dark-theme';
 import {applyTheme as applyDarkTheme} from '../styles/themes/dark-theme';
@@ -37,24 +37,12 @@ import './plugins/gr-plugin-host/gr-plugin-host';
 import './settings/gr-cla-view/gr-cla-view';
 import './settings/gr-registration-dialog/gr-registration-dialog';
 import './settings/gr-settings-view/gr-settings-view';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-app-element_html';
 import {getBaseUrl} from '../utils/url-util';
-import {
-  KeyboardShortcutMixin,
-  Shortcut,
-  ShortcutListener,
-} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {Shortcut} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GerritNav} from './core/gr-navigation/gr-navigation';
 import {getAppContext} from '../services/app-context';
-import {flush} from '@polymer/polymer/lib/utils/flush';
-import {customElement, observe, property} from '@polymer/decorators';
 import {GrRouter} from './core/gr-router/gr-router';
-import {
-  AccountDetailInfo,
-  ElementPropertyDeepChange,
-  ServerInfo,
-} from '../types/common';
+import {AccountDetailInfo, ServerInfo} from '../types/common';
 import {
   constructServerErrorMsg,
   GrErrorManager,
@@ -64,6 +52,8 @@ import {GrRegistrationDialog} from './settings/gr-registration-dialog/gr-registr
 import {
   AppElementJustRegisteredParams,
   AppElementParams,
+  AppElementPluginScreenParams,
+  AppElementSearchParam,
   isAppElementJustRegisteredParams,
 } from './gr-app-types';
 import {GrMainHeader} from './core/gr-main-header/gr-main-header';
@@ -77,14 +67,19 @@ import {
   TitleChangeEventDetail,
   ValueChangedEvent,
 } from '../types/events';
-import {ChangeListViewState, ViewState} from '../types/types';
+import {ChangeListViewState, ChangeViewState, ViewState} from '../types/types';
 import {GerritView} from '../services/router/router-model';
 import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
-import {assertIsDefined} from '../utils/common-util';
-import {listen} from '../services/shortcuts/shortcuts-service';
-import {resolve, DIPolymerElement} from '../models/dependency';
+import {resolve} from '../models/dependency';
 import {browserModelToken} from '../models/browser/browser-model';
+import {sharedStyles} from '../styles/shared-styles';
+import {LitElement, PropertyValues, html, css, nothing} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {ShortcutController} from './lit/shortcut-controller';
+import {cache} from 'lit/directives/cache';
+import {assertIsDefined} from '../utils/common-util';
+import './gr-css-mixins';
 
 interface ErrorInfo {
   text: string;
@@ -92,120 +87,92 @@ interface ErrorInfo {
   moreInfo?: string;
 }
 
-export interface GrAppElement {
-  $: {
-    errorManager: GrErrorManager;
-    errorView: HTMLDivElement;
-    mainHeader: GrMainHeader;
-  };
-}
-
-type DomIf = PolymerElement & {
-  restamp: boolean;
-};
-
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(DIPolymerElement);
-
 // TODO(TS): implement AppElement interface from gr-app-types.ts
 @customElement('gr-app-element')
-export class GrAppElement extends base {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrAppElement extends LitElement {
   /**
    * Fired when the URL location changes.
    *
    * @event location-change
    */
 
+  @query('#errorManager') errorManager?: GrErrorManager;
+
+  @query('#errorView') errorView?: HTMLDivElement;
+
+  @query('#mainHeader') mainHeader?: GrMainHeader;
+
+  @query('#registrationOverlay') registrationOverlay?: GrOverlay;
+
+  @query('#registrationDialog') registrationDialog?: GrRegistrationDialog;
+
+  @query('#keyboardShortcuts') keyboardShortcuts?: GrOverlay;
+
+  @query('gr-settings-view') settingdView?: GrSettingsView;
+
   @property({type: Object})
   params?: AppElementParams;
 
-  @property({type: Object, observer: '_accountChanged'})
-  _account?: AccountDetailInfo;
+  @state() private account?: AccountDetailInfo;
 
-  @property({type: Number})
-  _lastGKeyPressTimestamp: number | null = null;
+  @state() private serverConfig?: ServerInfo;
 
-  @property({type: Object})
-  _serverConfig?: ServerInfo;
+  @state() private version?: string;
 
-  @property({type: String})
-  _version?: string;
+  @state() private showChangeListView?: boolean;
 
-  @property({type: Boolean})
-  _showChangeListView?: boolean;
+  @state() private showDashboardView?: boolean;
 
-  @property({type: Boolean})
-  _showDashboardView?: boolean;
+  @state() private showChangeView?: boolean;
 
-  @property({type: Boolean})
-  _showChangeView?: boolean;
+  @state() private showDiffView?: boolean;
 
-  @property({type: Boolean})
-  _showDiffView?: boolean;
+  @state() private showSettingsView?: boolean;
 
-  @property({type: Boolean})
-  _showSettingsView?: boolean;
+  @state() private showAdminView?: boolean;
 
-  @property({type: Boolean})
-  _showAdminView?: boolean;
+  @state() private showCLAView?: boolean;
 
-  @property({type: Boolean})
-  _showCLAView?: boolean;
+  @state() private showEditorView?: boolean;
 
-  @property({type: Boolean})
-  _showEditorView?: boolean;
+  @state() private showPluginScreen?: boolean;
 
-  @property({type: Boolean})
-  _showPluginScreen?: boolean;
+  @state() private showDocumentationSearch?: boolean;
 
-  @property({type: Boolean})
-  _showDocumentationSearch?: boolean;
+  @state() private viewState?: ViewState;
 
-  @property({type: Object})
-  _viewState?: ViewState;
+  @state() private lastError?: ErrorInfo;
 
-  @property({type: Object})
-  _lastError?: ErrorInfo;
+  // private but used in test
+  @state() lastSearchPage?: string;
 
-  @property({type: String})
-  _lastSearchPage?: string;
+  @state() private path?: string;
 
-  @property({type: String})
-  _path?: string;
+  @state() private settingsUrl?: string;
 
-  @property({type: String, computed: '_computePluginScreenName(params)'})
-  _pluginScreenName?: string;
+  @state() private mobileSearch = false;
 
-  @property({type: String})
-  _settingsUrl?: string;
+  @state() private loginUrl = '/login';
 
-  @property({type: Boolean})
-  mobileSearch = false;
+  @state() private loadRegistrationDialog = false;
 
-  @property({type: String})
-  _loginUrl = '/login';
-
-  @property({type: Boolean})
-  loadRegistrationDialog = false;
-
-  @property({type: Boolean})
-  loadKeyboardShortcutsDialog = false;
+  @state() private loadKeyboardShortcutsDialog = false;
 
   // TODO(milutin) - remove once new gr-dialog will do it out of the box
   // This removes footer, header from a11y tree, when a dialog on view
   // (e.g. reply dialog) is open
-  @property({type: Boolean})
-  _footerHeaderAriaHidden = false;
+  @state() private footerHeaderAriaHidden = false;
 
   // TODO(milutin) - remove once new gr-dialog will do it out of the box
   // This removes main page from a11y tree, when a dialog on gr-app-element
   // (e.g. shortcut dialog) is open
-  @property({type: Boolean})
-  _mainAriaHidden = false;
+  @state() private mainAriaHidden = false;
+
+  // Triggers dom-if unsetting/setting restamp behaviour in lit
+  @state() private invalidateChangeViewCache = false;
+
+  // Triggers dom-if unsetting/setting restamp behaviour in lit
+  @state() private invalidateDiffViewCache = false;
 
   readonly router = new GrRouter();
 
@@ -215,58 +182,60 @@ export class GrAppElement extends base {
 
   private readonly getBrowserModel = resolve(this, browserModelToken);
 
-  override keyboardShortcuts(): ShortcutListener[] {
-    return [
-      listen(Shortcut.OPEN_SHORTCUT_HELP_DIALOG, _ =>
-        this._showKeyboardShortcuts()
-      ),
-      listen(Shortcut.GO_TO_USER_DASHBOARD, _ => this._goToUserDashboard()),
-      listen(Shortcut.GO_TO_OPENED_CHANGES, _ => this._goToOpenedChanges()),
-      listen(Shortcut.GO_TO_MERGED_CHANGES, _ => this._goToMergedChanges()),
-      listen(Shortcut.GO_TO_ABANDONED_CHANGES, _ =>
-        this._goToAbandonedChanges()
-      ),
-      listen(Shortcut.GO_TO_WATCHED_CHANGES, _ => this._goToWatchedChanges()),
-    ];
-  }
+  private readonly shortcuts = new ShortcutController(this);
 
   constructor() {
     super();
     document.addEventListener(EventType.PAGE_ERROR, e => {
-      this._handlePageError(e);
+      this.handlePageError(e);
     });
     this.addEventListener(EventType.TITLE_CHANGE, e => {
-      this._handleTitleChange(e);
+      this.handleTitleChange(e);
     });
     this.addEventListener(EventType.DIALOG_CHANGE, e => {
-      this._handleDialogChange(e as CustomEvent<DialogChangeEventDetail>);
+      this.handleDialogChange(e as CustomEvent<DialogChangeEventDetail>);
     });
     this.addEventListener(EventType.LOCATION_CHANGE, e =>
-      this._handleLocationChange(e)
+      this.handleLocationChange(e)
     );
     this.addEventListener(EventType.RECREATE_CHANGE_VIEW, () =>
-      this.handleRecreateView(GerritView.CHANGE)
+      this.handleRecreateView()
     );
     this.addEventListener(EventType.RECREATE_DIFF_VIEW, () =>
-      this.handleRecreateView(GerritView.DIFF)
+      this.handleRecreateView()
     );
-    document.addEventListener(EventType.GR_RPC_LOG, e => this._handleRpcLog(e));
+    document.addEventListener(EventType.GR_RPC_LOG, e => this.handleRpcLog(e));
+    this.shortcuts.addAbstract(Shortcut.OPEN_SHORTCUT_HELP_DIALOG, () =>
+      this.showKeyboardShortcuts()
+    );
+    this.shortcuts.addAbstract(Shortcut.GO_TO_USER_DASHBOARD, () =>
+      this.goToUserDashboard()
+    );
+    this.shortcuts.addAbstract(Shortcut.GO_TO_OPENED_CHANGES, () =>
+      this.goToOpenedChanges()
+    );
+    this.shortcuts.addAbstract(Shortcut.GO_TO_MERGED_CHANGES, () =>
+      this.goToMergedChanges()
+    );
+    this.shortcuts.addAbstract(Shortcut.GO_TO_ABANDONED_CHANGES, () =>
+      this.goToAbandonedChanges()
+    );
+    this.shortcuts.addAbstract(Shortcut.GO_TO_WATCHED_CHANGES, () =>
+      this.goToWatchedChanges()
+    );
   }
 
   override connectedCallback() {
     super.connectedCallback();
     const resizeObserver = this.getBrowserModel().observeWidth();
     resizeObserver.observe(this);
-  }
 
-  override ready() {
-    super.ready();
-    this._updateLoginUrl();
+    this.updateLoginUrl();
     this.reporting.appStarted();
     this.router.start();
 
     this.restApiService.getAccount().then(account => {
-      this._account = account;
+      this.account = account;
       if (account) {
         this.reporting.reportLifeCycle(LifeCycle.STARTED_AS_USER);
       } else {
@@ -274,11 +243,11 @@ export class GrAppElement extends base {
       }
     });
     this.restApiService.getConfig().then(config => {
-      this._serverConfig = config;
+      this.serverConfig = config;
     });
     this.restApiService.getVersion().then(version => {
-      this._version = version;
-      this._logWelcome();
+      this.version = version;
+      this.logWelcome();
     });
 
     const isDarkTheme = !!window.localStorage.getItem('dark-theme');
@@ -288,9 +257,9 @@ export class GrAppElement extends base {
 
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
-    this._settingsUrl = GerritNav.getUrlForSettings();
+    this.settingsUrl = GerritNav.getUrlForSettings();
 
-    this._viewState = {
+    this.viewState = {
       changeView: {
         changeNum: null,
         patchRange: null,
@@ -308,85 +277,372 @@ export class GrAppElement extends base {
     };
   }
 
-  _accountChanged(account?: AccountDetailInfo) {
-    if (!account) return;
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          background-color: var(--background-color-tertiary);
+          display: flex;
+          flex-direction: column;
+          min-height: 100%;
+        }
+        gr-main-header,
+        footer {
+          color: var(--primary-text-color);
+        }
+        gr-main-header {
+          background: var(
+            --header-background,
+            var(--header-background-color, #eee)
+          );
+          padding: var(--header-padding);
+          border-bottom: var(--header-border-bottom);
+          border-image: var(--header-border-image);
+          border-right: 0;
+          border-left: 0;
+          border-top: 0;
+          box-shadow: var(--header-box-shadow);
+          /* Make sure the header is above the main content, to preserve box-shadow
+            visibility. We need 2 here instead of 1, because dropdowns in the
+            header should be shown on top of the sticky diff header, which has a
+            z-index of 1. */
+          z-index: 2;
+        }
+        footer {
+          background: var(
+            --footer-background,
+            var(--footer-background-color, #eee)
+          );
+          border-top: var(--footer-border-top);
+          display: flex;
+          justify-content: space-between;
+          padding: var(--spacing-m) var(--spacing-l);
+          z-index: 100;
+        }
+        main {
+          flex: 1;
+          padding-bottom: var(--spacing-xxl);
+          position: relative;
+        }
+        .errorView {
+          align-items: center;
+          display: none;
+          flex-direction: column;
+          justify-content: center;
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+        }
+        .errorView.show {
+          display: flex;
+        }
+        .errorEmoji {
+          font-size: 2.6rem;
+        }
+        .errorText,
+        .errorMoreInfo {
+          margin-top: var(--spacing-m);
+        }
+        .errorText {
+          font-family: var(--header-font-family);
+          font-size: var(--font-size-h3);
+          font-weight: var(--font-weight-h3);
+          line-height: var(--line-height-h3);
+        }
+        .errorMoreInfo {
+          color: var(--deemphasized-text-color);
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <gr-css-mixins></gr-css-mixins>
+      <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
+      <gr-main-header
+        id="mainHeader"
+        .searchQuery=${(this.params as AppElementSearchParam)?.query}
+        @mobile-search=${this.mobileSearchToggle}
+        @show-keyboard-shortcuts=${this.handleShowKeyboardShortcuts}
+        .mobileSearchHidden=${!this.mobileSearch}
+        .loginUrl=${this.loginUrl}
+        ?aria-hidden=${this.footerHeaderAriaHidden}
+      >
+      </gr-main-header>
+      <main ?aria-hidden=${this.mainAriaHidden}>
+        ${this.renderMobileSearch()} ${this.renderChangeListView()}
+        ${this.renderDashboardView()} ${this.renderChangeView()}
+        ${this.renderEditorView()} ${this.renderDiffView()}
+        ${this.renderSettingsView()} ${this.renderAdminView()}
+        ${this.renderPluginScreen()} ${this.renderCLAView()}
+        ${this.renderDocumentationSearch()}
+        <div id="errorView" class="errorView">
+          <div class="errorEmoji">${this.lastError?.emoji}</div>
+          <div class="errorText">${this.lastError?.text}</div>
+          <div class="errorMoreInfo">${this.lastError?.moreInfo}</div>
+        </div>
+      </main>
+      <footer ?aria-hidden=${this.footerHeaderAriaHidden}>
+        <div>
+          Powered by
+          <a
+            href="https://www.gerritcodereview.com/"
+            rel="noopener"
+            target="_blank"
+            >Gerrit Code Review</a
+          >
+          (${this.version})
+          <gr-endpoint-decorator name="footer-left"></gr-endpoint-decorator>
+        </div>
+        <div>
+          Press “?” for keyboard shortcuts
+          <gr-endpoint-decorator name="footer-right"></gr-endpoint-decorator>
+        </div>
+      </footer>
+      ${this.renderKeyboardShortcutsDialog()} ${this.renderRegistrationDialog()}
+      <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
+      <gr-error-manager
+        id="errorManager"
+        .loginUrl=${this.loginUrl}
+      ></gr-error-manager>
+      <gr-plugin-host id="plugins" .config=${this.serverConfig}>
+      </gr-plugin-host>
+      <gr-external-style
+        id="externalStyleForAll"
+        name="app-theme"
+      ></gr-external-style>
+      <gr-external-style
+        id="externalStyleForTheme"
+        .name=${this.getThemeEndpoint()}
+      ></gr-external-style>
+    `;
+  }
+
+  private renderMobileSearch() {
+    if (!this.mobileSearch) return nothing;
+    return html`
+      <gr-smart-search
+        id="search"
+        label="Search for changes"
+        .searchQuery=${(this.params as AppElementSearchParam)?.query}
+        .serverConfig=${this.serverConfig}
+      >
+      </gr-smart-search>
+    `;
+  }
+
+  private renderChangeListView() {
+    if (!this.showChangeListView) return nothing;
+    return html`
+      <gr-change-list-view
+        .params=${this.params}
+        .account=${this.account}
+        .viewState=${this.viewState?.changeListView}
+        @view-state-change-list-view-changed=${this.handleViewStateChanged}
+      ></gr-change-list-view>
+    `;
+  }
+
+  private renderDashboardView() {
+    if (!this.showDashboardView) return nothing;
+    return html`
+      <gr-dashboard-view
+        .account=${this.account}
+        .params=${this.params}
+        .viewState=${this.viewState?.dashboardView}
+      ></gr-dashboard-view>
+    `;
+  }
+
+  private renderChangeView() {
+    if (this.invalidateChangeViewCache) {
+      this.updateComplete.then(() => (this.invalidateChangeViewCache = false));
+      return nothing;
+    }
+    return cache(this.showChangeView ? this.changeViewTemplate() : nothing);
+  }
+
+  // Template as not to create duplicates, for renderChangeView() only.
+  private changeViewTemplate() {
+    return html`
+      <gr-change-view
+        .params=${this.params}
+        .viewState=${this.viewState?.changeView}
+        .backPage=${this.lastSearchPage}
+        @view-state-change-view-changed=${this.handleViewStateChangeViewChanged}
+      ></gr-change-view>
+    `;
+  }
+
+  private renderEditorView() {
+    if (!this.showEditorView) return nothing;
+    return html`<gr-editor-view .params=${this.params}></gr-editor-view>`;
+  }
+
+  private renderDiffView() {
+    if (this.invalidateDiffViewCache) {
+      this.updateComplete.then(() => (this.invalidateDiffViewCache = false));
+      return nothing;
+    }
+    return cache(this.showDiffView ? this.diffViewTemplate() : nothing);
+  }
+
+  private diffViewTemplate() {
+    return html`
+      <gr-diff-view
+        .params=${this.params}
+        .changeViewState=${this.viewState?.changeView}
+        @view-state-change-view-changed=${this.handleViewStateChangeViewChanged}
+      ></gr-diff-view>
+    `;
+  }
+
+  private renderSettingsView() {
+    if (!this.showSettingsView) return nothing;
+    return html`
+      <gr-settings-view
+        .params=${this.params}
+        @account-detail-update=${this.handleAccountDetailUpdate}
+      >
+      </gr-settings-view>
+    `;
+  }
+
+  private renderAdminView() {
+    if (!this.showAdminView) return nothing;
+    return html`<gr-admin-view
+      .path=${this.path}
+      .params=${this.params}
+    ></gr-admin-view>`;
+  }
+
+  private renderPluginScreen() {
+    if (!this.showPluginScreen) return nothing;
+    return html`
+      <gr-endpoint-decorator .name=${this.computePluginScreenName()}>
+        <gr-endpoint-param
+          name="token"
+          .value=${(this.params as AppElementPluginScreenParams).screen}
+        ></gr-endpoint-param>
+      </gr-endpoint-decorator>
+    `;
+  }
+
+  private renderCLAView() {
+    if (!this.showCLAView) return nothing;
+    return html`<gr-cla-view></gr-cla-view>`;
+  }
+
+  private renderDocumentationSearch() {
+    if (!this.showDocumentationSearch) return nothing;
+    return html`
+      <gr-documentation-search .params=${this.params}></gr-documentation-search>
+    `;
+  }
+
+  private renderKeyboardShortcutsDialog() {
+    if (!this.loadKeyboardShortcutsDialog) return nothing;
+    return html`
+      <gr-overlay
+        id="keyboardShortcuts"
+        with-backdrop=""
+        @iron-overlay-canceled=${this.onOverlayCanceled}
+      >
+        <gr-keyboard-shortcuts-dialog
+          @close=${this.handleKeyboardShortcutDialogClose}
+        ></gr-keyboard-shortcuts-dialog>
+      </gr-overlay>
+    `;
+  }
+
+  private renderRegistrationDialog() {
+    if (!this.loadRegistrationDialog) return nothing;
+    return html`
+      <gr-overlay id="registrationOverlay" with-backdrop="">
+        <gr-registration-dialog
+          id="registrationDialog"
+          .settingsUrl=${this.settingsUrl}
+          @account-detail-update=${this.handleAccountDetailUpdate}
+          @close=${this.handleRegistrationDialogClose}
+        >
+        </gr-registration-dialog>
+      </gr-overlay>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('account')) {
+      this.accountChanged();
+    }
+
+    if (changedProperties.has('params')) {
+      this.viewChanged();
+
+      this.paramsChanged();
+    }
+  }
+
+  private accountChanged() {
+    if (!this.account) return;
 
     // Preferences are cached when a user is logged in; warm them.
     this.restApiService.getPreferences();
     this.restApiService.getDiffPreferences();
     this.restApiService.getEditPreferences();
-    this.$.errorManager.knownAccountId =
-      (this._account && this._account._account_id) || null;
+    if (this.errorManager)
+      this.errorManager.knownAccountId =
+        (this.account && this.account._account_id) || null;
   }
 
   /**
    * Throws away the view and re-creates it. The view itself fires an event, if
    * it wants to be re-created.
    */
-  private handleRecreateView(view: GerritView.DIFF | GerritView.CHANGE) {
-    const isDiff = view === GerritView.DIFF;
-    const domId = isDiff ? '#dom-if-diff-view' : '#dom-if-change-view';
-    const domIf = this.root!.querySelector(domId) as DomIf;
-    assertIsDefined(domIf, '<dom-if> for the view');
-    // The rendering of DomIf is debounced, so just changing _show...View and
-    // restamp properties back and forth won't work. That is why we are using
-    // timeouts.
-    // The first timeout is needed, because the _viewChanged() observer also
-    // affects _show...View and would change _show...View=false directly back to
-    // _show...View=true.
-    setTimeout(() => {
-      this._showChangeView = false;
-      this._showDiffView = false;
-      domIf.restamp = true;
-      setTimeout(() => {
-        this._showChangeView = this.params?.view === GerritView.CHANGE;
-        this._showDiffView = this.params?.view === GerritView.DIFF;
-        domIf.restamp = false;
-      }, 1);
-    }, 1);
+  private handleRecreateView() {
+    this.invalidateChangeViewCache = true;
+    this.invalidateDiffViewCache = true;
   }
 
-  @observe('params.*')
-  _viewChanged() {
+  private async viewChanged() {
     const view = this.params?.view;
-    this.$.errorView.classList.remove('show');
-    this._showChangeListView = view === GerritView.SEARCH;
-    this._showDashboardView = view === GerritView.DASHBOARD;
-    this._showChangeView = view === GerritView.CHANGE;
-    this._showDiffView = view === GerritView.DIFF;
-    this._showSettingsView = view === GerritView.SETTINGS;
-    // _showAdminView must be in sync with the gr-admin-view AdminViewParams type
-    this._showAdminView =
+    this.errorView?.classList.remove('show');
+    this.showChangeListView = view === GerritView.SEARCH;
+    this.showDashboardView = view === GerritView.DASHBOARD;
+    this.showChangeView = view === GerritView.CHANGE;
+    this.showDiffView = view === GerritView.DIFF;
+    this.showSettingsView = view === GerritView.SETTINGS;
+    // showAdminView must be in sync with the gr-admin-view AdminViewParams type
+    this.showAdminView =
       view === GerritView.ADMIN ||
       view === GerritView.GROUP ||
       view === GerritView.REPO;
-    this._showCLAView = view === GerritView.AGREEMENTS;
-    this._showEditorView = view === GerritView.EDIT;
+    this.showCLAView = view === GerritView.AGREEMENTS;
+    this.showEditorView = view === GerritView.EDIT;
     const isPluginScreen = view === GerritView.PLUGIN_SCREEN;
-    this._showPluginScreen = false;
+    this.showPluginScreen = false;
     // Navigation within plugin screens does not restamp gr-endpoint-decorator
-    // because _showPluginScreen value does not change. To force restamp,
-    // change _showPluginScreen value between true and false.
+    // because showPluginScreen value does not change. To force restamp,
+    // change showPluginScreen value between true and false.
     if (isPluginScreen) {
-      setTimeout(() => (this._showPluginScreen = true), 1);
+      setTimeout(() => (this.showPluginScreen = true), 1);
     }
-    this._showDocumentationSearch = view === GerritView.DOCUMENTATION_SEARCH;
+    this.showDocumentationSearch = view === GerritView.DOCUMENTATION_SEARCH;
     if (
       this.params &&
       isAppElementJustRegisteredParams(this.params) &&
       this.params.justRegistered
     ) {
       this.loadRegistrationDialog = true;
-      flush();
-      const registrationOverlay = this.shadowRoot!.querySelector(
-        '#registrationOverlay'
-      ) as GrOverlay;
-      const registrationDialog = this.shadowRoot!.querySelector(
-        '#registrationDialog'
-      ) as GrRegistrationDialog;
-      registrationOverlay.open();
-      registrationDialog.loadData().then(() => {
-        registrationOverlay.refit();
+      await this.updateComplete;
+      assertIsDefined(this.registrationOverlay, 'registrationOverlay');
+      assertIsDefined(this.registrationDialog, 'registrationDialog');
+      this.registrationOverlay.open();
+      this.registrationDialog.loadData().then(() => {
+        this.registrationOverlay!.refit();
       });
     }
     // To fix bug announce read after each new view, we reset announce with
@@ -394,27 +650,28 @@ export class GrAppElement extends base {
     fireIronAnnounce(this, ' ');
   }
 
-  _handlePageError(e: CustomEvent<PageErrorEventDetail>) {
+  private handlePageError(e: CustomEvent<PageErrorEventDetail>) {
     const props = [
-      '_showChangeListView',
-      '_showDashboardView',
-      '_showChangeView',
-      '_showDiffView',
-      '_showSettingsView',
-      '_showAdminView',
+      'showChangeListView',
+      'showDashboardView',
+      'showChangeView',
+      'showDiffView',
+      'showSettingsView',
+      'showAdminView',
     ];
     for (const showProp of props) {
-      this.set(showProp, false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (this as any)[showProp as any] = false;
     }
 
-    this.$.errorView.classList.add('show');
+    this.errorView?.classList.add('show');
     const response = e.detail.response;
     const err: ErrorInfo = {
       text: [response?.status, response?.statusText].join(' '),
     };
     if (response?.status === 404) {
       err.emoji = '¯\\_(ツ)_/¯';
-      this._lastError = err;
+      this.lastError = err;
     } else {
       err.emoji = 'o_O';
       if (response) {
@@ -428,29 +685,29 @@ export class GrAppElement extends base {
             errorText: text,
             trace,
           });
-          this._lastError = err;
+          this.lastError = err;
         });
       }
     }
   }
 
-  _handleLocationChange(e: LocationChangeEvent) {
-    this._updateLoginUrl();
+  private handleLocationChange(e: LocationChangeEvent) {
+    this.updateLoginUrl();
 
     const hash = e.detail.hash.substring(1);
     let pathname = e.detail.pathname;
     if (pathname.startsWith('/c/') && Number(hash) > 0) {
       pathname += '@' + hash;
     }
-    this._path = pathname;
+    this.path = pathname;
   }
 
-  _updateLoginUrl() {
+  private updateLoginUrl() {
     const baseUrl = getBaseUrl();
     if (baseUrl) {
       // Strip the canonical path from the path since needing canonical in
       // the path is unneeded and breaks the url.
-      this._loginUrl =
+      this.loginUrl =
         baseUrl +
         '/login/' +
         encodeURIComponent(
@@ -460,7 +717,7 @@ export class GrAppElement extends base {
             window.location.hash
         );
     } else {
-      this._loginUrl =
+      this.loginUrl =
         '/login/' +
         encodeURIComponent(
           window.location.pathname +
@@ -470,18 +727,15 @@ export class GrAppElement extends base {
     }
   }
 
-  @observe('params.*')
-  _paramsChanged(
-    paramsRecord: ElementPropertyDeepChange<GrAppElement, 'params'>
-  ) {
-    const params = paramsRecord.base;
+  // private but used in test
+  paramsChanged() {
     const viewsToCheck = [GerritView.SEARCH, GerritView.DASHBOARD];
-    if (params?.view && viewsToCheck.includes(params.view)) {
-      this._lastSearchPage = location.pathname;
+    if (this.params?.view && viewsToCheck.includes(this.params.view)) {
+      this.lastSearchPage = location.pathname;
     }
   }
 
-  _handleTitleChange(e: CustomEvent<TitleChangeEventDetail>) {
+  private handleTitleChange(e: CustomEvent<TitleChangeEventDetail>) {
     if (e.detail.title) {
       document.title = e.detail.title + ' · Gerrit Code Review';
     } else {
@@ -489,98 +743,93 @@ export class GrAppElement extends base {
     }
   }
 
-  _handleDialogChange(e: CustomEvent<DialogChangeEventDetail>) {
+  private handleDialogChange(e: CustomEvent<DialogChangeEventDetail>) {
     if (e.detail.canceled) {
-      this._footerHeaderAriaHidden = false;
+      this.footerHeaderAriaHidden = false;
     } else if (e.detail.opened) {
-      this._footerHeaderAriaHidden = true;
+      this.footerHeaderAriaHidden = true;
     }
   }
 
-  handleShowKeyboardShortcuts() {
+  private async handleShowKeyboardShortcuts() {
     this.loadKeyboardShortcutsDialog = true;
-    flush();
-    (this.shadowRoot!.querySelector('#keyboardShortcuts') as GrOverlay).open();
+    await this.updateComplete;
+    assertIsDefined(this.keyboardShortcuts, 'keyboardShortcuts');
+    this.keyboardShortcuts.open();
   }
 
-  _showKeyboardShortcuts() {
+  private async showKeyboardShortcuts() {
     // same shortcut should close the dialog if pressed again
     // when dialog is open
     this.loadKeyboardShortcutsDialog = true;
-    flush();
-    const keyboardShortcuts = this.shadowRoot!.querySelector(
-      '#keyboardShortcuts'
-    ) as GrOverlay;
-    if (!keyboardShortcuts) return;
-    if (keyboardShortcuts.opened) {
-      keyboardShortcuts.cancel();
+    await this.updateComplete;
+    if (!this.keyboardShortcuts) return;
+    if (this.keyboardShortcuts.opened) {
+      this.keyboardShortcuts.cancel();
       return;
     }
-    keyboardShortcuts.open();
-    this._footerHeaderAriaHidden = true;
-    this._mainAriaHidden = true;
+    this.keyboardShortcuts.open();
+    this.footerHeaderAriaHidden = true;
+    this.mainAriaHidden = true;
   }
 
-  _handleKeyboardShortcutDialogClose() {
-    (
-      this.shadowRoot!.querySelector('#keyboardShortcuts') as GrOverlay
-    ).cancel();
+  private handleKeyboardShortcutDialogClose() {
+    assertIsDefined(this.keyboardShortcuts, 'keyboardShortcuts');
+    this.keyboardShortcuts.close();
   }
 
   onOverlayCanceled() {
-    this._footerHeaderAriaHidden = false;
-    this._mainAriaHidden = false;
+    this.footerHeaderAriaHidden = false;
+    this.mainAriaHidden = false;
   }
 
-  _handleAccountDetailUpdate() {
-    this.$.mainHeader.reload();
+  private handleAccountDetailUpdate() {
+    this.mainHeader?.reload();
     if (this.params?.view === GerritView.SETTINGS) {
-      (
-        this.shadowRoot!.querySelector('gr-settings-view') as GrSettingsView
-      ).reloadAccountDetail();
+      assertIsDefined(this.settingdView, 'settingdView');
+      this.settingdView.reloadAccountDetail();
     }
   }
 
-  _handleRegistrationDialogClose() {
+  private handleRegistrationDialogClose() {
     // The registration dialog is visible only if this.params is
     // instanceof AppElementJustRegisteredParams
     (this.params as AppElementJustRegisteredParams).justRegistered = false;
-    (
-      this.shadowRoot!.querySelector('#registrationOverlay') as GrOverlay
-    ).close();
+    assertIsDefined(this.registrationOverlay, 'registrationOverlay');
+    this.registrationOverlay.close();
   }
 
-  _goToOpenedChanges() {
+  private goToOpenedChanges() {
     GerritNav.navigateToStatusSearch('open');
   }
 
-  _goToUserDashboard() {
+  private goToUserDashboard() {
     GerritNav.navigateToUserDashboard();
   }
 
-  _goToMergedChanges() {
+  private goToMergedChanges() {
     GerritNav.navigateToStatusSearch('merged');
   }
 
-  _goToAbandonedChanges() {
+  private goToAbandonedChanges() {
     GerritNav.navigateToStatusSearch('abandoned');
   }
 
-  _goToWatchedChanges() {
+  private goToWatchedChanges() {
     // The query is hardcoded, and doesn't respect custom menu entries
     GerritNav.navigateToSearchQuery('is:watched is:open');
   }
 
-  _computePluginScreenName(params: AppElementParams) {
-    if (params.view !== GerritView.PLUGIN_SCREEN) return '';
-    if (!params.plugin || !params.screen) return '';
-    return `${params.plugin}-screen-${params.screen}`;
+  private computePluginScreenName() {
+    if (this.params?.view !== GerritView.PLUGIN_SCREEN) return '';
+    if (!this.params.plugin || !this.params.screen) return '';
+    return `${this.params.plugin}-screen-${this.params.screen}`;
   }
 
-  _logWelcome() {
+  private logWelcome() {
     console.group('Runtime Info');
     console.info('Gerrit UI (PolyGerrit)');
-    console.info(`Gerrit Server Version: ${this._version}`);
+    console.info(`Gerrit Server Version: ${this.version}`);
     if (window.VERSION_INFO) {
       console.info(`UI Version Info: ${window.VERSION_INFO}`);
     }
@@ -592,11 +841,11 @@ export class GrAppElement extends base {
    * Note: the REST API interface cannot use gr-reporting directly because
    * that would create a cyclic dependency.
    */
-  _handleRpcLog(e: RpcLogEvent) {
+  private handleRpcLog(e: RpcLogEvent) {
     this.reporting.reportRpcTiming(e.detail.anonymizedUrl, e.detail.elapsed);
   }
 
-  _mobileSearchToggle() {
+  private mobileSearchToggle() {
     this.mobileSearch = !this.mobileSearch;
   }
 
@@ -607,10 +856,20 @@ export class GrAppElement extends base {
       : 'app-theme-light';
   }
 
-  _handleViewStateChanged(e: ValueChangedEvent<ChangeListViewState>) {
-    if (!this._viewState) return;
-    this._viewState.changeListView = {
-      ...this._viewState.changeListView,
+  private handleViewStateChanged(e: ValueChangedEvent<ChangeListViewState>) {
+    if (!this.viewState) return;
+    this.viewState.changeListView = {
+      ...this.viewState.changeListView,
+      ...e.detail.value,
+    };
+  }
+
+  private handleViewStateChangeViewChanged(
+    e: ValueChangedEvent<ChangeViewState>
+  ) {
+    if (!this.viewState) return;
+    this.viewState.changeView = {
+      ...this.viewState.changeView,
       ...e.detail.value,
     };
   }

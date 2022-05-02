@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0764dddb_bb2ae35c",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-02T12:44:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "985f5f34_3d15a28e",
+      "revId": "667b5393d9943ada716eef912954ea1b0c047449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e5c34ea_ece2db41",
@@ -55,6 +73,30 @@
       "side": 1,
       "message": "OK, then I suggest that we have both --debug_port and --address options where these options are actually synonyms. One can use any of these:\n\n --debug_port\u003d5005\n --address\u003dlocalhost:5005\n --debug_port\u003d*:5005\n --address\u003d8000",
       "parentUuid": "6e5c34ea_ece2db41",
+      "range": {
+        "startLine": 348,
+        "startChar": 99,
+        "endLine": 348,
+        "endChar": 100
+      },
+      "revId": "667b5393d9943ada716eef912954ea1b0c047449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ddb855b_7fb42833",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-02T12:44:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83b306e8_141ed794",
       "range": {
         "startLine": 348,
         "startChar": 99,

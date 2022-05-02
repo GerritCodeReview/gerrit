@@ -25,6 +25,7 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -155,6 +156,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private PatchSet newPatchSet;
   private ChangeKind changeKind;
   private String mailMessage;
+  private ImmutableSet<PatchSetApproval> outdatedApprovals;
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
   private RequestScopePropagator requestScopePropagator;
@@ -346,8 +348,9 @@ public class ReplaceOp implements BatchUpdateOp {
       update.putReviewer(ctx.getAccountId(), REVIEWER);
     }
 
-    approvalsUtil.copyApprovalsToNewPatchSet(
-        ctx.getNotes(), newPatchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
+    outdatedApprovals =
+        approvalsUtil.copyApprovalsToNewPatchSet(
+            ctx.getNotes(), newPatchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
 
     mailMessage = insertChangeMessage(update, ctx, reviewMessage);
     if (mergedByPushOp == null) {
@@ -540,6 +543,7 @@ public class ReplaceOp implements BatchUpdateOp {
                     oldRecipients.getCcOnly().stream(),
                     reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCs).stream())
                 .collect(toImmutableSet()));
+        emailSender.addOutdatedApproval(outdatedApprovals);
         emailSender.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSetId));
         // TODO(dborowitz): Support byEmail

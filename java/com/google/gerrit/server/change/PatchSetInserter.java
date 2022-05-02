@@ -21,9 +21,11 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -114,6 +116,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private String mailMessage;
   private ReviewerSet oldReviewers;
   private boolean oldWorkInProgressState;
+  private ImmutableSet<PatchSetApproval> outdatedApprovals;
 
   @Inject
   public PatchSetInserter(
@@ -307,8 +310,9 @@ public class PatchSetInserter implements BatchUpdateOp {
     }
 
     if (storeCopiedVotes) {
-      approvalsUtil.copyApprovalsToNewPatchSet(
-          ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
+      outdatedApprovals =
+          approvalsUtil.copyApprovalsToNewPatchSet(
+              ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
     }
 
     return true;
@@ -327,6 +331,7 @@ public class PatchSetInserter implements BatchUpdateOp {
         emailSender.setChangeMessage(mailMessage, ctx.getWhen());
         emailSender.addReviewers(oldReviewers.byState(REVIEWER));
         emailSender.addExtraCC(oldReviewers.byState(CC));
+        emailSender.addOutdatedApproval(outdatedApprovals);
         emailSender.setNotify(notify);
         emailSender.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));

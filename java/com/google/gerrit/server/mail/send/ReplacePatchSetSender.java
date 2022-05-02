@@ -20,10 +20,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
 
   private final Set<Account.Id> reviewers = new HashSet<>();
   private final Set<Account.Id> extraCC = new HashSet<>();
+  private final Set<PatchSetApproval> outdatedApprovals = new HashSet<>();
 
   @Inject
   public ReplacePatchSetSender(
@@ -53,6 +56,10 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
 
   public void addExtraCC(Collection<Account.Id> cc) {
     extraCC.addAll(cc);
+  }
+
+  public void addOutdatedApproval(Collection<PatchSetApproval> outdatedApprovals) {
+    this.outdatedApprovals.addAll(outdatedApprovals);
   }
 
   @Override
@@ -99,9 +106,20 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     return names.stream().sorted().collect(toImmutableList());
   }
 
+  private ImmutableList<String> formatOutdatedApprovals() {
+    return outdatedApprovals.stream()
+        .map(
+            outdatedUserApproval ->
+                LabelVote.create(outdatedUserApproval.label(), outdatedUserApproval.value())
+                    .format())
+        .sorted()
+        .collect(toImmutableList());
+  }
+
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
     soyContextEmailData.put("reviewerNames", getReviewerNames());
+    soyContextEmailData.put("outdatedApprovals", formatOutdatedApprovals());
   }
 }

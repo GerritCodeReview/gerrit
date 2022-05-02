@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31b9b851_420e3bb6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-02T20:42:49Z",
+      "side": 1,
+      "message": "`_-_` why this format?",
+      "range": {
+        "startLine": 150,
+        "startChar": 34,
+        "endLine": 150,
+        "endChar": 37
+      },
+      "revId": "9856d10cb3d7a0a0025359e0787339446a5a4671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

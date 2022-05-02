@@ -2154,6 +2154,82 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void multipleApproverOfOutdatedApprovalsAddedToAttentionSet() throws Exception {
+    // Create Verify label and allow voting on it.
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType.Builder verified =
+          labelBuilder(
+              LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+      u.getConfig().upsertLabelType(verified.build());
+      u.save();
+    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.VERIFIED)
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    assertThat(r.getChange().attentionSet()).isEmpty();
+
+    // Add approvals from multiple users that gets outdated when a new patch set is created (i.e.
+    // approvals that are not copied).
+    requestScopeOperations.setApiUser(user.id());
+    recommend(r.getChangeId());
+    TestAccount user2 = accountCreator.user2();
+    requestScopeOperations.setApiUser(user2.id());
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.VERIFIED, 1));
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Voting added the admin user to the attention set.
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                admin.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"));
+
+    // Remove admin user from attention set.
+    change(r).attention(admin.id().toString()).remove(new AttentionSetInput("removed"));
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"));
+
+    // Amend the change, this removes the vote from user, as it is not copied to the new patch set.
+    r = amendChange(r.getChangeId(), "refs/for/master", admin, testRepo);
+    r.assertOkStatus();
+
+    // Verify that the approvals have been removed.
+    assertThat(r.getChange().currentApprovals()).isEmpty();
+
+    // User got added to the attention set because users approvals got outdated and were removed and
+    // user now needs to re-review the change and renew the approvals.
+    assertThat(r.getChange().attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"),
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                user.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Vote got outdated and was removed: Code-Review+1"),
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                user2.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Vote got outdated and was removed: Verified+1"));
+  }
+
+  @Test
   public void robotApproverOfOutdatedApprovalIsNotAddedToAttentionSet() throws Exception {
     // Create robot account
     TestAccount robot =

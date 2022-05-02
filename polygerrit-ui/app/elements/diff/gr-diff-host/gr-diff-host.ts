@@ -277,8 +277,6 @@ export class GrDiffHost extends DIPolymerElement {
 
   private readonly getChecksModel = resolve(this, checksModelToken);
 
-  private readonly flagService = getAppContext().flagsService;
-
   private readonly reporting = getAppContext().reportingService;
 
   private readonly flags = getAppContext().flagsService;
@@ -493,9 +491,6 @@ export class GrDiffHost extends DIPolymerElement {
       this.checksSubscription = undefined;
       this.checksChanged([]);
     }
-
-    const experiment = KnownExperimentId.CHECK_RESULTS_IN_DIFFS;
-    if (!this.flagService.isEnabled(experiment)) return;
 
     const path = this.path;
     const patchNum = this.patchRange?.patchNum;

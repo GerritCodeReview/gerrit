@@ -305,7 +305,9 @@ export class GrChangeListView extends LitElement {
       this.viewState.selectedChangeIndex = 0;
       this.viewState.query = this.query;
       this.viewState.offset = this.offset;
-      fire(this, 'view-state-changed', {value: this.viewState});
+      fire(this, 'view-state-change-list-view-changed', {
+        value: this.viewState,
+      });
     }
 
     // NOTE: This method may be called before attachment. Fire title-change
@@ -430,13 +432,13 @@ export class GrChangeListView extends LitElement {
   private handleSelectedIndexChanged(e: ValueChangedEvent<number>) {
     if (!this.viewState) return;
     this.viewState.selectedChangeIndex = e.detail.value;
-    fire(this, 'view-state-changed', {value: this.viewState});
+    fire(this, 'view-state-change-list-view-changed', {value: this.viewState});
   }
 }
 
 declare global {
   interface HTMLElementEventMap {
-    'view-state-changed': ValueChangedEvent<ChangeListViewState>;
+    'view-state-change-list-view-changed': ValueChangedEvent<ChangeListViewState>;
   }
   interface HTMLElementTagNameMap {
     'gr-change-list-view': GrChangeListView;

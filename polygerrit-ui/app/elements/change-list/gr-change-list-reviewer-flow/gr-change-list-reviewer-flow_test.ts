@@ -24,6 +24,7 @@ import {
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {ChangeInfo, NumericChangeId} from '../../../types/common';
+import {ValueChangedEvent} from '../../../types/events';
 import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -244,6 +245,58 @@ suite('gr-change-list-reviewer-flow tests', () => {
           ],
         },
       ]);
+    });
+
+    test('removes from reviewer list when added to cc', async () => {
+      const ccList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#cc-list'
+      );
+      const reviewerList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#reviewer-list'
+      );
+      assert.sameOrderedMembers(reviewerList.accounts, [accounts[0]]);
+
+      ccList.handleAdd(
+        new CustomEvent('add', {
+          detail: {
+            value: {
+              account: accounts[0],
+              count: 1,
+            },
+          },
+        }) as unknown as ValueChangedEvent<string>
+      );
+      await flush();
+
+      assert.isEmpty(reviewerList.accounts);
+    });
+
+    test('removes from cc list when added to reviewer', async () => {
+      const ccList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#cc-list'
+      );
+      const reviewerList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#reviewer-list'
+      );
+      assert.sameOrderedMembers(ccList.accounts, [accounts[3]]);
+
+      reviewerList.handleAdd(
+        new CustomEvent('add', {
+          detail: {
+            value: {
+              account: accounts[3],
+              count: 1,
+            },
+          },
+        }) as unknown as ValueChangedEvent<string>
+      );
+      await flush();
+
+      assert.isEmpty(ccList.accounts);
     });
 
     test('confirm button text updates', async () => {

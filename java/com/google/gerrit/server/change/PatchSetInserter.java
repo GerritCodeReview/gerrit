@@ -15,15 +15,21 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -58,6 +64,7 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -114,6 +121,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private String mailMessage;
   private ReviewerSet oldReviewers;
   private boolean oldWorkInProgressState;
+  private ImmutableSet<PatchSetApproval> outdatedApprovals;
 
   @Inject
   public PatchSetInserter(
@@ -307,8 +315,9 @@ public class PatchSetInserter implements BatchUpdateOp {
     }
 
     if (storeCopiedVotes) {
-      approvalsUtil.copyApprovalsToNewPatchSet(
-          ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
+      outdatedApprovals =
+          approvalsUtil.copyApprovalsToNewPatchSet(
+              ctx.getNotes(), patchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
     }
 
     return true;
@@ -319,22 +328,27 @@ public class PatchSetInserter implements BatchUpdateOp {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
     if (notify.shouldNotify() && sendEmail) {
       requireNonNull(mailMessage);
-      try {
-        ReplacePatchSetSender emailSender =
-            replacePatchSetFactory.create(ctx.getProject(), change.getId());
-        emailSender.setFrom(ctx.getAccountId());
-        emailSender.setPatchSet(patchSet, patchSetInfo);
-        emailSender.setChangeMessage(mailMessage, ctx.getWhen());
-        emailSender.addReviewers(oldReviewers.byState(REVIEWER));
-        emailSender.addExtraCC(oldReviewers.byState(CC));
-        emailSender.setNotify(notify);
-        emailSender.setMessageId(
-            messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-        emailSender.send();
-      } catch (Exception err) {
-        logger.atSevere().withCause(err).log(
-            "Cannot send email for new patch set on change %s", change.getId());
+
+      Multimap<Account.Id, PatchSetApproval> outdatedApprovalsByUser = ArrayListMultimap.create();
+
+      // Send one individual email to each reviewer for whom an approval got outdated.
+      if (outdatedApprovals != null) {
+        outdatedApprovals.forEach(psa -> outdatedApprovalsByUser.put(psa.accountId(), psa));
+        outdatedApprovalsByUser
+            .asMap()
+            .forEach(
+                (accountId, patchSetApproval) ->
+                    sendEmailToReviewerWithOutdatedApprovals(
+                        ctx, notify, accountId, patchSetApproval));
       }
+
+      // Send one batch email to all reviewers for whom no approvals got outdated.
+      ImmutableSet<Account.Id> reviewersWithoutOutdatedApprovals =
+          oldReviewers.byState(REVIEWER).stream()
+              .filter(accountId -> !outdatedApprovalsByUser.containsKey(accountId))
+              .collect(toImmutableSet());
+      sendEmailToReviewersWithoutOutdatedApprovals(
+          ctx, notify, reviewersWithoutOutdatedApprovals, oldReviewers.byState(CC));
     }
 
     if (fireRevisionCreated) {
@@ -344,6 +358,52 @@ public class PatchSetInserter implements BatchUpdateOp {
 
     if (workInProgress != null && oldWorkInProgressState != workInProgress) {
       wipStateChanged.fire(ctx.getChangeData(change), patchSet, ctx.getAccount(), ctx.getWhen());
+    }
+  }
+
+  private void sendEmailToReviewersWithoutOutdatedApprovals(
+      PostUpdateContext ctx,
+      NotifyResolver.Result notify,
+      ImmutableSet<Account.Id> reviewers,
+      ImmutableSet<Account.Id> ccs) {
+    try {
+      ReplacePatchSetSender emailSender =
+          replacePatchSetFactory.create(ctx.getProject(), change.getId());
+      emailSender.setFrom(ctx.getAccountId());
+      emailSender.setPatchSet(patchSet, patchSetInfo);
+      emailSender.setChangeMessage(mailMessage, ctx.getWhen());
+      emailSender.addReviewers(reviewers);
+      emailSender.addExtraCC(ccs);
+      emailSender.setNotify(notify);
+      emailSender.setMessageId(
+          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
+      emailSender.send();
+    } catch (Exception err) {
+      logger.atSevere().withCause(err).log(
+          "Cannot send email for new patch set on change %s", change.getId());
+    }
+  }
+
+  private void sendEmailToReviewerWithOutdatedApprovals(
+      PostUpdateContext ctx,
+      NotifyResolver.Result notify,
+      Account.Id reviewer,
+      Collection<PatchSetApproval> outdatedApprovalsOfReviewer) {
+    try {
+      ReplacePatchSetSender emailSender =
+          replacePatchSetFactory.create(ctx.getProject(), change.getId());
+      emailSender.setFrom(ctx.getAccountId());
+      emailSender.setPatchSet(patchSet, patchSetInfo);
+      emailSender.setChangeMessage(mailMessage, ctx.getWhen());
+      emailSender.addReviewers(ImmutableSet.of(reviewer));
+      emailSender.addOutdatedApproval(ImmutableSet.copyOf(outdatedApprovalsOfReviewer));
+      emailSender.setNotify(notify);
+      emailSender.setMessageId(
+          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
+      emailSender.send();
+    } catch (Exception err) {
+      logger.atSevere().withCause(err).log(
+          "Cannot send email for new patch set on change %s", change.getId());
     }
   }
 

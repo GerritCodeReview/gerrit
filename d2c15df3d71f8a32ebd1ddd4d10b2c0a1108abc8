@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75ba5873_37b69053",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-02T09:45:25Z",
+      "side": 1,
+      "message": "Maybe move one line up inside the if?",
+      "revId": "d2c15df3d71f8a32ebd1ddd4d10b2c0a1108abc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

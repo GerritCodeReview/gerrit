@@ -34,6 +34,26 @@
     {/for}{\n}
     {\n}
     I'd like you to reexamine a change.
+    {if $email.outdatedApprovals}
+      {if length($email.outdatedApprovals) == 1}
+        {sp}Your{sp}
+        {$email.outdatedApprovals[0]}{sp}
+        vote got outdated and was removed.
+      {elseif length($email.outdatedApprovals) > 1}
+        {sp}Your{sp}
+        {for $outdatedApproval, $index in $email.outdatedApprovals}
+          {if $index > 0}
+            {if $index == length($email.outdatedApprovals) - 1}
+              {sp}and{sp}
+            {else}
+              ,{sp}
+            {/if}
+          {/if}
+          {$outdatedApproval}
+        {/for}
+        {sp}votes got outdated and were removed.
+      {/if}
+    {/if}
     {if $email.changeUrl}
       {sp}Please visit
       {\n}

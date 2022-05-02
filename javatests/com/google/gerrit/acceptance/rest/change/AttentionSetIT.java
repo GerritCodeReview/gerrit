@@ -73,6 +73,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.GetAttentionSet;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
@@ -2065,6 +2066,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"));
 
     // Amend the change, this removes the vote from user, as it is not copied to the new patch set.
+    sender.clear();
     r = amendChange(r.getChangeId(), "refs/for/master", admin, testRepo);
     r.assertOkStatus();
 
@@ -2082,23 +2084,57 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 user.id(),
                 AttentionSetUpdate.Operation.ADD,
                 "Vote got outdated and was removed: Code-Review+1"));
+
+    // Expect that the email notification contains the outdated vote.
+    Message message = Iterables.getOnlyElement(sender.getMessages());
+    assertThat(message.body())
+        .contains(
+            String.format(
+                "Attention is currently required from: %s.\n"
+                    + "\n"
+                    + "Hello %s, \n"
+                    + "\n"
+                    + "I'd like you to reexamine a change."
+                    + " Your Code-Review+1 vote got outdated and was removed."
+                    + " Please visit",
+                user.fullName(), user.fullName()));
+    assertThat(message.htmlBody())
+        .contains(
+            String.format(
+                "<p> Attention is currently required from: %s. </p>\n"
+                    + "<p>%s <strong>uploaded patch set #2</strong> to this change.</p>",
+                user.fullName(), admin.fullName()));
+    assertThat(message.htmlBody())
+        .contains(
+            "View Change</a></p>\n"
+                + "<p>Your <em>Code-Review+1</em> vote got outdated and was removed.</p>");
   }
 
   @Test
   public void approverOfMultipleOutdatedApprovalsAddedToAttentionSet() throws Exception {
-    // Create Verify label and allow voting on it.
+    // Create a Verify and a Foo-Var label and allow voting on it.
     try (ProjectConfigUpdate u = updateProject(project)) {
       LabelType.Builder verified =
           labelBuilder(
               LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
       u.getConfig().upsertLabelType(verified.build());
+
+      LabelType.Builder fooBar =
+          labelBuilder("Foo-Bar", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+      u.getConfig().upsertLabelType(fooBar.build());
+
       u.save();
     }
     projectOperations
         .project(project)
         .forUpdate()
         .add(
-            allowLabel(TestLabels.verified().getName())
+            allowLabel(LabelId.VERIFIED)
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .add(
+            allowLabel("Foo-Bar")
                 .ref(RefNames.REFS_HEADS + "*")
                 .group(REGISTERED_USERS)
                 .range(-1, 1))
@@ -2111,6 +2147,105 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // approvals that are not copied).
     requestScopeOperations.setApiUser(user.id());
     recommend(r.getChangeId());
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.VERIFIED, 1));
+    gApi.changes().id(r.getChangeId()).current().review(new ReviewInput().label("Foo-Bar", -1));
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Voting added the admin user to the attention set.
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                admin.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"));
+
+    // Remove admin user from attention set.
+    change(r).attention(admin.id().toString()).remove(new AttentionSetInput("removed"));
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"));
+
+    // Amend the change, this removes the vote from user, as it is not copied to the new patch set.
+    sender.clear();
+    r = amendChange(r.getChangeId(), "refs/for/master", admin, testRepo);
+    r.assertOkStatus();
+
+    // Verify that the approvals have been removed.
+    assertThat(r.getChange().currentApprovals()).isEmpty();
+
+    // User got added to the attention set because users approvals got outdated and were removed and
+    // user now needs to re-review the change and renew the approvals.
+    assertThat(r.getChange().attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"),
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                user.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Votes got outdated and were removed: Code-Review+1, Foo-Bar-1, Verified+1"));
+
+    // Expect that the email notification contains the outdated votes.
+    Message message = Iterables.getOnlyElement(sender.getMessages());
+    assertThat(message.body())
+        .contains(
+            String.format(
+                "Attention is currently required from: %s.\n"
+                    + "\n"
+                    + "Hello %s, \n"
+                    + "\n"
+                    + "I'd like you to reexamine a change."
+                    + " Your Code-Review+1, Foo-Bar-1 and Verified+1 votes got outdated and were"
+                    + " removed."
+                    + " Please visit",
+                user.fullName(), user.fullName()));
+    assertThat(message.htmlBody())
+        .contains(
+            String.format(
+                "<p> Attention is currently required from: %s. </p>\n"
+                    + "<p>%s <strong>uploaded patch set #2</strong> to this change.</p>",
+                user.fullName(), admin.fullName()));
+    assertThat(message.htmlBody())
+        .contains(
+            "View Change</a></p>\n"
+                + "<p>Your <em>Code-Review+1</em>, <em>Foo-Bar-1</em> and <em>Verified+1</em> votes"
+                + " got outdated and were removed.</p>");
+  }
+
+  @Test
+  public void multipleApproverOfOutdatedApprovalsAddedToAttentionSet() throws Exception {
+    // Create Verify label and allow voting on it.
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType.Builder verified =
+          labelBuilder(
+              LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+      u.getConfig().upsertLabelType(verified.build());
+      u.save();
+    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.VERIFIED)
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    assertThat(r.getChange().attentionSet()).isEmpty();
+
+    // Add approvals from multiple users that gets outdated when a new patch set is created (i.e.
+    // approvals that are not copied).
+    requestScopeOperations.setApiUser(user.id());
+    recommend(r.getChangeId());
+    TestAccount user2 = accountCreator.user2();
+    requestScopeOperations.setApiUser(user2.id());
     gApi.changes()
         .id(r.getChangeId())
         .current()
@@ -2134,6 +2269,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"));
 
     // Amend the change, this removes the vote from user, as it is not copied to the new patch set.
+    sender.clear();
     r = amendChange(r.getChangeId(), "refs/for/master", admin, testRepo);
     r.assertOkStatus();
 
@@ -2150,7 +2286,69 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 fakeClock.now(),
                 user.id(),
                 AttentionSetUpdate.Operation.ADD,
-                "Votes got outdated and were removed: Code-Review+1, Verified+1"));
+                "Vote got outdated and was removed: Code-Review+1"),
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                user2.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Vote got outdated and was removed: Verified+1"));
+
+    // Expect that the email notification contains the outdated votes.
+    assertThat(sender.getMessages()).hasSize(2);
+    Message userMessage =
+        sender.getMessages().stream()
+            .filter(
+                message -> user.email().equals(Iterables.getOnlyElement(message.rcpt()).email()))
+            .findAny()
+            .get();
+    assertThat(userMessage.body())
+        .contains(
+            String.format(
+                "Attention is currently required from: %s, %s.\n"
+                    + "\n"
+                    + "Hello %s, \n"
+                    + "\n"
+                    + "I'd like you to reexamine a change."
+                    + " Your Code-Review+1 vote got outdated and was removed."
+                    + " Please visit",
+                user.fullName(), user2.fullName(), user.fullName()));
+    assertThat(userMessage.htmlBody())
+        .contains(
+            String.format(
+                "<p> Attention is currently required from: %s, %s. </p>\n"
+                    + "<p>%s <strong>uploaded patch set #2</strong> to this change.</p>",
+                user.fullName(), user2.fullName(), admin.fullName()));
+    assertThat(userMessage.htmlBody())
+        .contains(
+            "View Change</a></p>\n"
+                + "<p>Your <em>Code-Review+1</em> vote got outdated and was removed.</p>");
+    Message user2Message =
+        sender.getMessages().stream()
+            .filter(
+                message -> user2.email().equals(Iterables.getOnlyElement(message.rcpt()).email()))
+            .findAny()
+            .get();
+    assertThat(user2Message.body())
+        .contains(
+            String.format(
+                "Attention is currently required from: %s, %s.\n"
+                    + "\n"
+                    + "Hello %s, \n"
+                    + "\n"
+                    + "I'd like you to reexamine a change."
+                    + " Your Verified+1 vote got outdated and was removed."
+                    + " Please visit",
+                user.fullName(), user2.fullName(), user2.fullName()));
+    assertThat(user2Message.htmlBody())
+        .contains(
+            String.format(
+                "<p> Attention is currently required from: %s, %s. </p>\n"
+                    + "<p>%s <strong>uploaded patch set #2</strong> to this change.</p>",
+                user.fullName(), user2.fullName(), admin.fullName()));
+    assertThat(user2Message.htmlBody())
+        .contains(
+            "View Change</a></p>\n"
+                + "<p>Your <em>Verified+1</em> vote got outdated and was removed.</p>");
   }
 
   @Test
@@ -2255,6 +2453,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     // Amend the change, this removes the vote from the robot, as it is not copied to the new patch
     // set.
+    sender.clear();
     r = amendChange(r.getChangeId(), "refs/for/master", admin, testRepo);
     r.assertOkStatus();
 
@@ -2264,6 +2463,34 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // The robot was not added to the attention set because users service users are never added to
     // the attention set.
     assertThat(r.getChange().attentionSet()).isEmpty();
+
+    // Verify the email for the new patch set.
+    Message message = Iterables.getOnlyElement(sender.getMessages());
+    String emailBody = message.body();
+    assertThat(emailBody)
+        .doesNotContain(
+            String.format("Attention is currently required from: %s", robot.fullName()));
+    assertThat(emailBody)
+        .contains(
+            String.format(
+                "Hello %s, \n"
+                    + "\n"
+                    + "I'd like you to reexamine a change."
+                    + " Your Code-Review+1 vote got outdated and was removed."
+                    + " Please visit",
+                robot.fullName()));
+    assertThat(message.htmlBody())
+        .doesNotContain(
+            String.format("Attention is currently required from: %s", robot.fullName()));
+    assertThat(message.htmlBody())
+        .contains(
+            String.format(
+                "<p>%s <strong>uploaded patch set #2</strong> to this change.</p>",
+                admin.fullName()));
+    assertThat(message.htmlBody())
+        .contains(
+            "View Change</a></p>\n"
+                + "<p>Your <em>Code-Review+1</em> vote got outdated and was removed.</p>");
   }
 
   @Test
@@ -2307,6 +2534,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"));
 
     // Amend the change, this copies the vote from user to the new patch set.
+    sender.clear();
     r = amendChange(r.getChangeId(), "refs/for/master", admin, testRepo);
     r.assertOkStatus();
 
@@ -2320,6 +2548,123 @@ public class AttentionSetIT extends AbstractDaemonTest {
         .containsExactly(
             AttentionSetUpdate.createFromRead(
                 fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"));
+
+    // Verify the email for the new patch set.
+    Message message = Iterables.getOnlyElement(sender.getMessages());
+    assertThat(message.body())
+        .doesNotContain(String.format("Attention is currently required from: %s", user.fullName()));
+    assertThat(message.body())
+        .contains(
+            String.format(
+                "Hello %s, \n\nI'd like you to reexamine a change. Please visit", user.fullName()));
+    assertThat(message.body())
+        .doesNotContain("Your Code-Review-2 vote got outdated and was removed.");
+    assertThat(message.htmlBody())
+        .doesNotContain(String.format("Attention is currently required from: %s", user.fullName()));
+    assertThat(message.htmlBody())
+        .contains(
+            String.format(
+                "<p>%s <strong>uploaded patch set #2</strong> to this change.</p>",
+                admin.fullName()));
+    assertThat(message.htmlBody())
+        .doesNotContain("Your <em>Code-Review+2</em> vote got outdated and was removed.");
+  }
+
+  @Test
+  public void reviewersWithoutOutdatedApprovalsGetBatchEmail() throws Exception {
+    // Allow user to make veto votes.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-2, 1))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    assertThat(r.getChange().attentionSet()).isEmpty();
+
+    // Add a veto vote that will be copied over to a new patch set.
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.CODE_REVIEW, -2));
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Voting and added the admin user to the attention set.
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(),
+                admin.id(),
+                AttentionSetUpdate.Operation.ADD,
+                "Someone else replied on the change"));
+
+    // Remove admin user from attention set.
+    change(r).attention(admin.id().toString()).remove(new AttentionSetInput("removed"));
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"));
+
+    // Add some reviewers that don't have a vote.
+    TestAccount reviewer1 = accountCreator.user2();
+    TestAccount reviewer2 =
+        accountCreator.create("user3", "user3@example.com", "User3", /* displayName= */ null);
+    change(r)
+        .current()
+        .review(
+            new ReviewInput()
+                .blockAutomaticAttentionSetRules()
+                .reviewer(reviewer1.email())
+                .reviewer(reviewer2.email()));
+
+    // Check that the attention set was not updated.
+    assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"));
+
+    // Amend the change, this removes the vote from user, as it is not copied to the new patch set.
+    sender.clear();
+    r = amendChange(r.getChangeId(), "refs/for/master", admin, testRepo);
+    r.assertOkStatus();
+
+    // Verify that the approval has been copied.
+    List<PatchSetApproval> approvalsPs2 = r.getChange().currentApprovals();
+    assertThat(approvalsPs2).hasSize(1);
+    assertThat(Iterables.getOnlyElement(approvalsPs2).copied()).isTrue();
+
+    // Attention set wasn't changed.
+    assertThat(r.getChange().attentionSet())
+        .containsExactly(
+            AttentionSetUpdate.createFromRead(
+                fakeClock.now(), admin.id(), AttentionSetUpdate.Operation.REMOVE, "removed"));
+
+    // Verify the email for the new patch set.
+    Message message = Iterables.getOnlyElement(sender.getMessages());
+    String emailBody = message.body();
+    assertThat(emailBody)
+        .doesNotContain(String.format("Attention is currently required from: %s", user.fullName()));
+    assertThat(emailBody)
+        .contains(
+            String.format(
+                "Hello %s, %s, %s, \n\nI'd like you to reexamine a change. Please visit",
+                user.fullName(), reviewer1.fullName(), reviewer2.fullName()));
+    assertThat(emailBody).doesNotContain("Your Code-Review-2 vote got outdated and was removed.");
+    assertThat(message.htmlBody())
+        .doesNotContain(String.format("Attention is currently required from: %s", user.fullName()));
+    assertThat(message.htmlBody())
+        .contains(
+            String.format(
+                "<p>%s <strong>uploaded patch set #2</strong> to this change.</p>",
+                admin.fullName()));
+    assertThat(message.htmlBody()).contains("View Change</a></p>");
+    assertThat(message.htmlBody())
+        .doesNotContain("Your Code-Review-2 vote got outdated and was removed.");
   }
 
   @Test

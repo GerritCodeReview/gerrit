@@ -174,6 +174,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {
+  fire,
   fireAlert,
   fireDialogChange,
   fireEvent,
@@ -283,7 +284,7 @@ export class GrChangeView extends base {
   @property({type: Object, observer: '_paramsChanged'})
   params?: AppElementChangeViewParams;
 
-  @property({type: Object, notify: true, observer: '_viewStateChanged'})
+  @property({type: Object, observer: '_viewStateChanged'})
   viewState: Partial<ChangeViewState> = {};
 
   @property({type: String})
@@ -1507,6 +1508,9 @@ export class GrChangeView extends base {
       if (this.viewState.showReplyDialog) {
         this._openReplyDialog(FocusTarget.ANY);
         this.set('viewState.showReplyDialog', false);
+        fire(this, 'view-state-change-view-changed', {
+          value: this.viewState as ChangeViewState,
+        });
       }
     });
   }
@@ -1521,6 +1525,9 @@ export class GrChangeView extends base {
     }
     this.set('viewState.changeNum', this._changeNum);
     this.set('viewState.patchRange', this._patchRange);
+    fire(this, 'view-state-change-view-changed', {
+      value: this.viewState as ChangeViewState,
+    });
   }
 
   private updateTitle(change?: ChangeInfo | ParsedChangeInfo) {
@@ -2640,6 +2647,7 @@ export class GrChangeView extends base {
 declare global {
   interface HTMLElementEventMap {
     'toggle-star': CustomEvent<ChangeStarToggleStarDetail>;
+    'view-state-change-view-changed': ValueChangedEvent<ChangeViewState>;
   }
   interface HTMLElementTagNameMap {
     'gr-change-view': GrChangeView;

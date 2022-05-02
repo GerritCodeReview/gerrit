@@ -16,6 +16,24 @@
       "message": "This requires a request body like:\n\n  {\n    \"changes\": [\n      \"1\",\n      \"21\",\n      \"3\"\n    ],\n     \"options\": {\n      \"delete_if_not_found\": true\n    }\n  }\n\nwhich looks more complex than necessary. Moving the \"delete_if_not_found\" to the outer Map would result in a smaller request body:\n\n  {\n    \"changes\": [\n      \"1\",\n      \"21\",\n      \"3\"\n    ],\n    \"delete_if_not_found\": true\n  }",
       "revId": "172688da7215b42adc60cbfa11cbd08ea4e57576",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77d779c5_c82ebd19",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-02T09:42:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe4c773d_5c5b0164",
+      "revId": "172688da7215b42adc60cbfa11cbd08ea4e57576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

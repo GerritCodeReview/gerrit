@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fa06d1e_1981859e",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-02T09:42:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee910bde_00b58cd4",
+      "range": {
+        "startLine": 66,
+        "startChar": 15,
+        "endLine": 66,
+        "endChar": 24
+      },
+      "revId": "d97d031df4f78886dabfc3b9d9ee42c4845f567a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5665c0a_2ddbc1ba",
@@ -150,6 +174,24 @@
       "side": 1,
       "message": "Yes, it can happen when the provided id is not parseable.",
       "parentUuid": "e5665c0a_2ddbc1ba",
+      "revId": "d97d031df4f78886dabfc3b9d9ee42c4845f567a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "184d1f54_768c7a3d",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-02T09:42:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fef158ea_e27afb78",
       "revId": "d97d031df4f78886dabfc3b9d9ee42c4845f567a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

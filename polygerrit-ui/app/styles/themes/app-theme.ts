@@ -8,14 +8,14 @@ import {safeStyleSheet, safeStyleEl} from '../../utils/inner-html-util';
 const appThemeCss = safeStyleSheet`
   html {
     /**
-       * When adding a new color variable make sure to also add it to the other
-       * theme files in the same directory.
-       *
-       * For colors prefer lower case hex colors.
-       *
-       * Note that plugins might be using these variables, so removing a variable
-       * can be a breaking change that should go into the release notes.
-       */
+      * When adding a new color variable make sure to also add it to the other
+      * theme files in the same directory.
+      *
+      * For colors prefer lower case hex colors.
+      *
+      * Note that plugins might be using these variables, so removing a variable
+      * can be a breaking change that should go into the release notes.
+      */
 
     /* color palette */
     --gerrit-blue-light: #1565c0;
@@ -238,7 +238,7 @@ const appThemeCss = safeStyleSheet`
     /* unique background colors */
     --assignee-highlight-color: #fcfad6;
     /* TODO: Find a nicer way to combine the --assignee-highlight-color and the
-       --selection-background-color than to just invent another unique color. */
+      --selection-background-color than to just invent another unique color. */
     --assignee-highlight-selection-color: #f6f4d0;
     --chip-selected-background-color: var(--blue-50);
     --edit-mode-background-color: #ebf5fb;
@@ -285,7 +285,6 @@ const appThemeCss = safeStyleSheet`
 
     /* misc colors */
     --border-color: var(--gray-300);
-    --input-focus-border-color: var(--blue-800);
     --comment-separator-color: var(--gray-300);
 
     /* checks tag colors */

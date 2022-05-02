@@ -16,6 +16,24 @@
       "message": "Should this and the rest in the stack be backported to 3.6?",
       "revId": "6a330c6a9638e314a91989dc9819bb8847ce8d76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ae1e299_cb3c272c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-02T11:59:53Z",
+      "side": 1,
+      "message": "IMO only relevant bug fixes should be backported, not all the small improvenets/cleanup/litmigration stuff, but I think that should be up to you/community since google doesn\u0027t rely on the released version ourselves",
+      "parentUuid": "a191f4f0_1e9454d7",
+      "revId": "6a330c6a9638e314a91989dc9819bb8847ce8d76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

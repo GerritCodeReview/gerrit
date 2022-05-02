@@ -16,6 +16,24 @@
       "message": "Instead of one huge render() method WDYT about one render method per h2 section?",
       "revId": "b4a3a9ddf504a027851aec853a1f10d3f2de122e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "802e30e7_5f6defb4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-02T09:28:01Z",
+      "side": 1,
+      "message": "I actually like this huge render. everything is easy to read here.",
+      "parentUuid": "a31fde1a_b457391a",
+      "revId": "b4a3a9ddf504a027851aec853a1f10d3f2de122e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

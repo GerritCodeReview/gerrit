@@ -22,6 +22,30 @@
       },
       "revId": "ec34a34322bf704ff280914e39506e76b47a293b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8405b005_04125f7d",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-02T11:09:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b47d1f47_a1ec41d6",
+      "range": {
+        "startLine": 193,
+        "startChar": 11,
+        "endLine": 193,
+        "endChar": 28
+      },
+      "revId": "ec34a34322bf704ff280914e39506e76b47a293b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

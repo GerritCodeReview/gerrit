@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bafe92ee_0d53eb24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-02T09:39:35Z",
+      "side": 1,
+      "message": "A few words about \"why\" would have been nice, but feel free to just submit.",
+      "revId": "74e058c52ef2b23a0326b0514f2be44ab925ce89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

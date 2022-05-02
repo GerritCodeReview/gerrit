@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a31fde1a_b457391a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-02T09:25:11Z",
+      "side": 1,
+      "message": "Instead of one huge render() method WDYT about one render method per h2 section?",
+      "revId": "b4a3a9ddf504a027851aec853a1f10d3f2de122e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

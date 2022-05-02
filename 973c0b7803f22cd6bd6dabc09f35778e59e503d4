@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af5fc15b_0750bad2",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-05-02T12:57:12Z",
+      "side": 1,
+      "message": "Isn\u0027t the `start` or `run` missing?\nAlso in below code snippets",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 17
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "133710f1_9ceb4c4a",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-05-02T12:57:12Z",
+      "side": 1,
+      "message": "typo: --debug-port",
+      "range": {
+        "startLine": 216,
+        "startChar": 82,
+        "endLine": 216,
+        "endChar": 94
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "769aa63c_36a29197",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-05-02T12:57:12Z",
+      "side": 1,
+      "message": "I am not sure, if we should document that --debug-port can be also used to set the hostname prominently before --address or even at all. I would at least document --address first, since there the option name more clearly reflects the expected value.",
+      "range": {
+        "startLine": 215,
+        "startChar": 85,
+        "endLine": 218,
+        "endChar": 0
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d664728_f406c9ff",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-05-02T12:57:12Z",
+      "side": 1,
+      "message": "typo: --debug-port",
+      "range": {
+        "startLine": 223,
+        "startChar": 60,
+        "endLine": 223,
+        "endChar": 73
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "867dc924_6baf20f5",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-05-02T12:57:12Z",
+      "side": 1,
+      "message": "It would be a bit lengthy, but --debug-address would make it clear for what the address is really used. Alternatively, we could also make debug an action like start instead of a flag.",
+      "range": {
+        "startLine": 226,
+        "startChar": 26,
+        "endLine": 226,
+        "endChar": 35
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe5af70d_2a8fa705",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-05-02T12:57:12Z",
+      "side": 1,
+      "message": "So --address will always win, if both are set. This should maybe documented explicitly to avoid confusion.",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 167,
+        "endChar": 25
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

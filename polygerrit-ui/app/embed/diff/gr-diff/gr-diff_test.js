@@ -25,6 +25,7 @@ import '@polymer/paper-button/paper-button.js';
 import {Side} from '../../../api/diff.js';
 import {mockPromise, stubRestApi} from '../../../test/test-utils.js';
 import {AbortStop} from '../../../api/core.js';
+import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 
 const basicFixture = fixtureFromElement('gr-diff');
 
@@ -627,6 +628,7 @@ suite('gr-diff tests', () => {
         ab: Array(13).fill('text'),
       }];
       setupSampleDiff({content});
+      await new Promise(resolve => afterNextRender(element, resolve));
 
       element.appendChild(threadEl);
       await flush();

@@ -138,6 +138,8 @@ export const sharedStyles = css`
       box-sizing: border-box;
       padding: var(--spacing-s);
     }
+    --iron-autogrow-textarea_-_box-sizing: border-box;
+    --iron-autogrow-textarea_-_padding: var(--spacing-s);
   }
   a {
     color: var(--link-color);

@@ -2542,6 +2542,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     // Revoke the approval
     requestScopeOperations.setApiUser(approver.id());
+    sender.clear();
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.noScore());
 
     // Removing the approval added the owner (admin) and the uploader (user) to the attention set.
@@ -2557,6 +2558,17 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 user.id(),
                 AttentionSetUpdate.Operation.ADD,
                 "Someone else replied on the change"));
+
+    // Verify the email notification that has been sent for removing the approval.
+    Message message = Iterables.getOnlyElement(sender.getMessages());
+    assertThat(message.body())
+        .contains(
+            String.format(
+                "Attention is currently required from: %s, %s.\n"
+                    + "\n"
+                    + "%s has posted comments on this change.",
+                admin.fullName(), user.fullName(), approver.fullName()));
+    assertThat(message.body()).doesNotContain("\nPatch Set 2: Code-Review+2\n");
   }
 
   @Test
@@ -2614,6 +2626,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     // Downgrade the approval
     requestScopeOperations.setApiUser(approver.id());
+    sender.clear();
     recommend(r.getChangeId());
 
     // Changing the approval added the owner (admin) and the uploader (user) to the attention set.
@@ -2629,6 +2642,18 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 user.id(),
                 AttentionSetUpdate.Operation.ADD,
                 "Someone else replied on the change"));
+
+    // Verify the email notification that has been sent for downgrading the approval.
+    Message message = Iterables.getOnlyElement(sender.getMessages());
+    assertThat(message.body())
+        .contains(
+            String.format(
+                "Attention is currently required from: %s, %s.\n"
+                    + "\n"
+                    + "%s has posted comments on this change.",
+                admin.fullName(), user.fullName(), approver.fullName()));
+    assertThat(message.body()).doesNotContain("\nPatch Set 2: Code-Review+2\n");
+    assertThat(message.body()).contains("\nPatch Set 2: Code-Review+1\n");
   }
 
   @Test
@@ -2685,6 +2710,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     // Apply veto by another user.
     TestAccount approver2 = accountCreator.user2();
+    sender.clear();
     requestScopeOperations.setApiUser(approver2.id());
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.reject());
 
@@ -2702,6 +2728,17 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 user.id(),
                 AttentionSetUpdate.Operation.ADD,
                 "Someone else replied on the change"));
+
+    // Verify the email notification that has been sent for adding the veto.
+    Message message = Iterables.getOnlyElement(sender.getMessages());
+    assertThat(message.body())
+        .contains(
+            String.format(
+                "Attention is currently required from: %s, %s.\n"
+                    + "\n"
+                    + "%s has posted comments on this change.",
+                admin.fullName(), user.fullName(), approver.fullName()));
+    assertThat(message.body()).contains("\nPatch Set 2: Code-Review-2\n");
   }
 
   private void setEmailStrategyForUser(EmailStrategy es) throws Exception {

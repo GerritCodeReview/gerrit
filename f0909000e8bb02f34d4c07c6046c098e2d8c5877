@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4e5d137_18375e85",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-02T12:51:53Z",
+      "side": 0,
+      "message": "This is removed, because it was twice. in column headers and section headers.",
+      "range": {
+        "startLine": 190,
+        "startChar": 9,
+        "endLine": 190,
+        "endChar": 41
+      },
+      "revId": "f0909000e8bb02f34d4c07c6046c098e2d8c5877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

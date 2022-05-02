@@ -41,6 +41,30 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
     </p>
   {/if}
 
+  {if $email.outdatedApprovals}
+    {\n}
+    <p>
+      {if length($email.outdatedApprovals) == 1}
+        Your{sp}
+        <em>{$email.outdatedApprovals[0]}</em>{sp}
+        vote got outdated and was removed.
+      {elseif length($email.outdatedApprovals) > 1}
+        Your{sp}
+        {for $outdatedApproval, $index in $email.outdatedApprovals}
+          {if $index > 0}
+            {if $index == length($email.outdatedApprovals) - 1}
+              {sp}and{sp}
+            {else}
+              ,{sp}
+            {/if}
+          {/if}
+          <em>{$outdatedApproval}</em>
+        {/for}
+        {sp}votes got outdated and were removed.
+      {/if}
+    </p>
+  {/if}
+
   {call mailTemplate.Pre}
     {param content: $email.changeDetail /}
   {/call}

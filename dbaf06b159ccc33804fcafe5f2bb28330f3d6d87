@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2e4247c4_75b14b43",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-diff-highlight.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-02T11:29:49Z",
+      "side": 1,
+      "message": "This is requesting comment creation, not handling it.\n\nEvents should be defined by the components that fire them. That is gr-diff-highlight in this case.\n\nI am just migrating the test from js to ts in this change. :-)",
+      "parentUuid": "4e5af07c_fef50768",
+      "range": {
+        "startLine": 596,
+        "startChar": 5,
+        "endLine": 596,
+        "endChar": 25
+      },
+      "revId": "dbaf06b159ccc33804fcafe5f2bb28330f3d6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "40d4a740_a3dacc41",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-diff-highlight_test.ts",
         "patchSetId": 4
@@ -60,6 +84,30 @@
       "writtenOn": "2022-04-29T08:56:54Z",
       "side": 1,
       "message": "nit: add `not found`?",
+      "range": {
+        "startLine": 328,
+        "startChar": 38,
+        "endLine": 328,
+        "endChar": 46
+      },
+      "revId": "dbaf06b159ccc33804fcafe5f2bb28330f3d6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08051274_c34c78df",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-diff-highlight_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-02T11:29:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "075013e4_be57ca16",
       "range": {
         "startLine": 328,
         "startChar": 38,

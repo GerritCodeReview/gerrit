@@ -191,6 +191,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "259065e2_89e2a1dc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 54
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-02T14:49:37Z",
+      "side": 1,
+      "message": "Think that\u0027s because it\u0027s polymer, https://github.com/PolymerElements/paper-input/blob/4ba1883c17aef4274e434ef696d9a10199cf9e94/paper-input-behavior.js#L137\n\nIsn\u0027t an attribute so how Dhruv has done it is correct.",
+      "parentUuid": "775be6df_7fc0022a",
+      "range": {
+        "startLine": 288,
+        "startChar": 8,
+        "endLine": 288,
+        "endChar": 29
+      },
+      "revId": "ded405001c85a13a30ff29741048404fe40457ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5beaa319_d48c6d43",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
         "patchSetId": 54

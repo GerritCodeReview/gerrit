@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c99710fd_961c6209",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 54
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-02T13:25:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc71fb9d_3eebbe88",
+      "range": {
+        "startLine": 203,
+        "startChar": 15,
+        "endLine": 203,
+        "endChar": 33
+      },
+      "revId": "ded405001c85a13a30ff29741048404fe40457ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94863330_b217e4ea",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d53c076b_2fdb07e0",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 54
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-02T13:25:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94863330_b217e4ea",
+      "range": {
+        "startLine": 208,
+        "startChar": 15,
+        "endLine": 208,
+        "endChar": 38
+      },
+      "revId": "ded405001c85a13a30ff29741048404fe40457ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ebf5fe4_12ce9274",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-05-02T12:34:23Z",
       "side": 1,
       "message": "I would introduce:\n`attribute: allow-non-suggested-values\u0027\n\nSo you doesn\u0027t need to change attributes in callers. And it it easier to read.\n\nI would suggest same for other boolean attributes",
+      "range": {
+        "startLine": 110,
+        "startChar": 5,
+        "endLine": 110,
+        "endChar": 28
+      },
+      "revId": "ded405001c85a13a30ff29741048404fe40457ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb8f0377_54c68882",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 54
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-02T13:25:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ebf5fe4_12ce9274",
       "range": {
         "startLine": 110,
         "startChar": 5,
@@ -95,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "775be6df_7fc0022a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 54
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-02T13:25:58Z",
+      "side": 1,
+      "message": "It\u0027s breaking the alignment of the search icon when I make that change.",
+      "parentUuid": "3e0d17dc_aeb061c7",
+      "range": {
+        "startLine": 288,
+        "startChar": 8,
+        "endLine": 288,
+        "endChar": 29
+      },
+      "revId": "ded405001c85a13a30ff29741048404fe40457ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5beaa319_d48c6d43",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
         "patchSetId": 54
@@ -118,6 +214,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "459ad590_0e64b784",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 54
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-02T13:25:58Z",
+      "side": 1,
+      "message": "`Set the text of the input without triggering the suggestion dropdown`.\n\nI guess it\u0027s set to false so that the suggestion dropdown is not triggered?",
+      "parentUuid": "5beaa319_d48c6d43",
+      "range": {
+        "startLine": 380,
+        "startChar": 4,
+        "endLine": 382,
+        "endChar": 36
+      },
+      "revId": "ded405001c85a13a30ff29741048404fe40457ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb65207d_18d8e971",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
         "patchSetId": 54
@@ -129,6 +249,30 @@
       "writtenOn": "2022-05-02T12:34:23Z",
       "side": 1,
       "message": "Do you know why there is this style?",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 120
+      },
+      "revId": "ded405001c85a13a30ff29741048404fe40457ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98b335ff_938628c7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 54
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-02T13:25:58Z",
+      "side": 1,
+      "message": "Not sure but I did find other occurrences such as \n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts;l\u003d286?q\u003dpolygerrit-ui%2Fapp%2Felements%2Fshared%2Fgr-comment-thread%2Fgr-comment-thread_test.ts",
+      "parentUuid": "bb65207d_18d8e971",
       "range": {
         "startLine": 41,
         "startChar": 0,

@@ -374,6 +374,7 @@ public class TraceIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "tracing.performanceLogging", value = "true")
   public void performanceLoggingForRestCall() throws Exception {
     PerformanceLogger testPerformanceLogger = mock(PerformanceLogger.class);
     try (Registration registration =
@@ -385,6 +386,7 @@ public class TraceIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "tracing.performanceLogging", value = "true")
   public void performanceLoggingForPush() throws Exception {
     PerformanceLogger testPerformanceLogger = mock(PerformanceLogger.class);
     try (Registration registration =
@@ -397,8 +399,7 @@ public class TraceIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "tracing.performanceLogging", value = "false")
-  public void noPerformanceLoggingIfDisabled() throws Exception {
+  public void noPerformanceLoggingByDefault() throws Exception {
     PerformanceLogger testPerformanceLogger = mock(PerformanceLogger.class);
     try (Registration registration =
         extensionRegistry.newRegistration().add(testPerformanceLogger)) {

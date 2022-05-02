@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b18ccdff_ee482898",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-02T23:01:54Z",
+      "side": 1,
+      "message": "this would be e982de3fc, either change this to this commit-id or update the submodule to v6.1.0.202203080745-r",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "faa87362fc7ea91fe0590fca63337676855c48af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

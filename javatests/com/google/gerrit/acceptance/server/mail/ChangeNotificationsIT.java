@@ -56,7 +56,7 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
-import com.google.gerrit.server.restapi.change.PostReview;
+import com.google.gerrit.server.restapi.change.PostReviewOp;
 import com.google.inject.Inject;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
@@ -952,13 +952,13 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     // TODO(logan): Remove this test check once PolyGerrit workaround is rolled back.
     StagedChange sc = stageWipChange();
     ReviewInput in =
-        ReviewInput.noScore().message(PostReview.START_REVIEW_MESSAGE).setWorkInProgress(false);
+        ReviewInput.noScore().message(PostReviewOp.START_REVIEW_MESSAGE).setWorkInProgress(false);
     gApi.changes().id(sc.changeId).current().review(in);
     Truth.assertThat(sender.getMessages()).isNotEmpty();
     String body = sender.getMessages().get(0).body();
-    int idx = body.indexOf(PostReview.START_REVIEW_MESSAGE);
+    int idx = body.indexOf(PostReviewOp.START_REVIEW_MESSAGE);
     Truth.assertThat(idx).isAtLeast(0);
-    Truth.assertThat(body.indexOf(PostReview.START_REVIEW_MESSAGE, idx + 1)).isEqualTo(-1);
+    Truth.assertThat(body.indexOf(PostReviewOp.START_REVIEW_MESSAGE, idx + 1)).isEqualTo(-1);
   }
 
   private void review(TestAccount account, String changeId, EmailStrategy strategy)

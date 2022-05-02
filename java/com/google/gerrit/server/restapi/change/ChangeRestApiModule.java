@@ -213,6 +213,7 @@ public class ChangeRestApiModule extends RestApiModule {
     factory(EmailReviewComments.Factory.class);
     factory(PatchSetInserter.Factory.class);
     factory(AddReviewersOp.Factory.class);
+    factory(PostReviewOp.Factory.class);
     factory(RebaseChangeOp.Factory.class);
     factory(ReviewerResource.Factory.class);
     factory(SetAssigneeOp.Factory.class);

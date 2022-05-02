@@ -97,19 +97,22 @@ export class GrDiffBuilderElement
   }
 
   /**
-   * Fired when the diff begins rendering.
+   * Fired when the diff begins rendering - both for full renders and for
+   * partial rerenders.
    *
    * @event render-start
    */
 
   /**
-   * Fired whenever a new chunk of lines has been rendered synchronously.
+   * Fired whenever a new chunk of lines has been rendered synchronously - this
+   * only happens for full renders.
    *
    * @event render-progress
    */
 
   /**
-   * Fired when the diff finishes rendering text content.
+   * Fired when the diff finishes rendering text content - both for full
+   * renders and for partial rerenders.
    *
    * @event render-content
    */
@@ -393,8 +396,7 @@ export class GrDiffBuilderElement
         lineRange.end_line - lineRange.start_line + 1
       )
     );
-    this._builder.replaceGroup(group, newGroups);
-    setTimeout(() => fireEvent(this, 'render-content'), 1);
+    this.replaceGroup(group, newGroups);
   }
 
   /**
@@ -410,6 +412,7 @@ export class GrDiffBuilderElement
     newGroups: readonly GrDiffGroup[]
   ) {
     if (!this._builder) return;
+    fireEvent(this, 'render-start');
     this._builder.replaceGroup(contextGroup, newGroups);
     setTimeout(() => fireEvent(this, 'render-content'), 1);
   }

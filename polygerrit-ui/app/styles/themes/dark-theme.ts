@@ -3,13 +3,14 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {safeStyleSheet, safeStyleEl} from '../../utils/inner-html-util';
+
+import {css} from 'lit';
 
 // TODO: Replace `html` with `html.darkTheme`. But before we can do that we have
 // to ensure that all plugins also use `.darkTheme`, otherwise we would trump
 // their sepcificity here. When we do that we can also always execute
 // applyTheme() below (similar to app-theme).
-const darkThemeCss = safeStyleSheet`
+const darkThemeCss = css`
   html {
     /**
        * Sections and variables must stay consistent with app-theme.js.
@@ -278,6 +279,6 @@ const darkThemeCss = safeStyleSheet`
 export function applyTheme() {
   const styleEl = document.createElement('style');
   styleEl.setAttribute('id', 'dark-theme');
-  safeStyleEl.setTextContent(styleEl, darkThemeCss);
+  styleEl.innerHTML = darkThemeCss.cssText;
   document.head.appendChild(styleEl);
 }

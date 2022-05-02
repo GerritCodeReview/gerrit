@@ -49,7 +49,7 @@ suite('gr-app tests', () => {
     stubRestApi('probePath').returns(Promise.resolve(false));
 
     grApp = await fixture<GrApp>(html`<gr-app id="app"></gr-app>`);
-    await flush();
+    await grApp.updateComplete;
   });
 
   test('reporting', () => {
@@ -60,29 +60,22 @@ suite('gr-app tests', () => {
     sinon.assert.callOrder(appStartedStub, routerStartStub);
   });
 
-  test('passes config to gr-plugin-host', () => {
+  test('passes config to gr-plugin-host', async () => {
     const grAppElement = queryAndAssert<GrAppElement>(grApp, '#app-element');
+    await grAppElement.updateComplete;
     const pluginHost = queryAndAssert<GrPluginHost>(grAppElement, '#plugins');
     assert.deepEqual(pluginHost.config, config);
   });
 
-  test('_paramsChanged sets search page', () => {
+  test('_paramsChanged sets search page', async () => {
     const grAppElement = queryAndAssert<GrAppElement>(grApp, '#app-element');
-    const paramsForChangeView = createAppElementChangeViewParams();
-    const paramsForSearchView = createAppElementSearchViewParams();
 
-    grAppElement._paramsChanged({
-      base: paramsForChangeView,
-      value: paramsForChangeView,
-      path: '',
-    });
-    assert.notOk(grAppElement._lastSearchPage);
+    grAppElement.params = createAppElementChangeViewParams();
+    grAppElement.paramsChanged();
+    assert.notOk(grAppElement.lastSearchPage);
 
-    grAppElement._paramsChanged({
-      base: paramsForSearchView,
-      value: paramsForSearchView,
-      path: '',
-    });
-    assert.ok(grAppElement._lastSearchPage);
+    grAppElement.params = createAppElementSearchViewParams();
+    grAppElement.paramsChanged();
+    assert.ok(grAppElement.lastSearchPage);
   });
 });

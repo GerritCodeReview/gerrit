@@ -223,6 +223,30 @@
       },
       "revId": "b1f73e4d0792c2888ca66b32b8a6bed08dc4b8d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca2745ac_ec71f6dd",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-02T12:01:01Z",
+      "side": 1,
+      "message": "In case we want to keep the method in sync in the future.\nIt\u0027s fine without it as well.",
+      "parentUuid": "646e1b67_41807ff0",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 299,
+        "endChar": 25
+      },
+      "revId": "b1f73e4d0792c2888ca66b32b8a6bed08dc4b8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

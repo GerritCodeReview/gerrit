@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b5fd013_bcf679e8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-02T12:46:21Z",
+      "side": 1,
+      "message": "NIT:Does this work on dark mode as well?",
+      "range": {
+        "startLine": 66,
+        "startChar": 30,
+        "endLine": 66,
+        "endChar": 40
+      },
+      "revId": "91e7e092e40dae0692efac4d90bea5e479f6a094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9e914a1_b852c1b2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-02T12:46:21Z",
+      "side": 1,
+      "message": "NIT: Maybe spacing-l + spacing-m?",
+      "range": {
+        "startLine": 82,
+        "startChar": 15,
+        "endLine": 82,
+        "endChar": 18
+      },
+      "revId": "91e7e092e40dae0692efac4d90bea5e479f6a094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c9dd94b_4e41b3e0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-02T12:46:21Z",
+      "side": 1,
+      "message": "NIT:  --spacing-xxs",
+      "range": {
+        "startLine": 96,
+        "startChar": 18,
+        "endLine": 96,
+        "endChar": 21
+      },
+      "revId": "91e7e092e40dae0692efac4d90bea5e479f6a094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1084a585_d701dcd7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-02T12:46:21Z",
+      "side": 1,
+      "message": "I think `showBlueFocusBorder` would be enough without ${true}",
+      "range": {
+        "startLine": 226,
+        "startChar": 8,
+        "endLine": 226,
+        "endChar": 36
+      },
+      "revId": "91e7e092e40dae0692efac4d90bea5e479f6a094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

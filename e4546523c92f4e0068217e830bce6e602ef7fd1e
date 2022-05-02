@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d04dcff0_746bdb5a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 48
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-02T09:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6180b57_f089cf1e",
+      "revId": "e4546523c92f4e0068217e830bce6e602ef7fd1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "758f371a_36f6bd32",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-04-28T12:27:06Z",
       "side": 1,
       "message": "Think we can get rid of nativeInput (think this was kept during the polymer 1 -\u003e 2 migration?)?",
+      "revId": "e4546523c92f4e0068217e830bce6e602ef7fd1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51ac8160_f82c1589",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 48
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-02T09:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "758f371a_36f6bd32",
       "revId": "e4546523c92f4e0068217e830bce6e602ef7fd1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

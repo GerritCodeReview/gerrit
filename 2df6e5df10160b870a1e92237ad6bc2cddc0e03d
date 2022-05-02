@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f1089ad_d0c52ac3",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog_test.ts",
+        "patchSetId": 53
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-02T09:47:55Z",
+      "side": 0,
+      "message": "I don\u0027t understand why this is being reformatted now.\n\nI\u0027m looking at the whitespaced trimmed diff here\nhttps://www.diffchecker.com/ssBjmtVe\n\nIt looks like the content is mainly the same but there is some formatting happening which I didn\u0027t really trigger.",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 0
+      },
+      "revId": "2df6e5df10160b870a1e92237ad6bc2cddc0e03d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

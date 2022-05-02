@@ -2786,12 +2786,13 @@ public class AttentionSetIT extends AbstractDaemonTest {
             AttentionSetUpdate.createFromRead(
                 fakeClock.now(), user.id(), AttentionSetUpdate.Operation.REMOVE, "removed"));
 
-    // Revoke the approval
+    // Apply veto by another user.
     TestAccount approver2 = accountCreator.user2();
     requestScopeOperations.setApiUser(approver2.id());
-    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.noScore());
+    gApi.changes().id(r.getChangeId()).current().review(ReviewInput.reject());
 
-    // Removing the approval added the owner (admin) and the uploader (user) to the attention set.
+    // Adding the veto approval added the owner (admin) and the uploader (user) to the attention
+    // set.
     assertThat(changeDataFactory.create(project, r.getChange().getId()).attentionSet())
         .containsExactly(
             AttentionSetUpdate.createFromRead(

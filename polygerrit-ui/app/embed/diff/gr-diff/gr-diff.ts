@@ -80,6 +80,7 @@ import {
 import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
+import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
 
 const NO_NEWLINE_LEFT = 'No newline at end of left file.';
 const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
@@ -99,7 +100,6 @@ const COMMIT_MSG_LINE_LENGTH = 72;
 
 export interface GrDiff {
   $: {
-    highlights: GrDiffHighlight;
     diffBuilder: GrDiffBuilderElement;
     diffTable: HTMLTableElement;
   };
@@ -294,6 +294,10 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   private renderDiffTableTask?: DelayedTask;
 
+  private diffSelection = new GrDiffSelection();
+
+  private highlights = new GrDiffHighlight();
+
   constructor() {
     super();
     this._setLoading(true);
@@ -315,6 +319,8 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     this.renderDiffTableTask?.cancel();
     this._unobserveIncrementalNodes();
     this._unobserveNodes();
+    this.diffSelection.cleanup();
+    this.highlights.cleanup();
     super.disconnectedCallback();
   }
 
@@ -357,7 +363,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     // and pass the shadow DOM selection into gr-diff-highlight, where the
     // corresponding range is determined and normalized.
     const selection = this._getShadowOrDocumentSelection();
-    this.$.highlights.handleSelectionChange(selection, false);
+    this.highlights.handleSelectionChange(selection, false);
   };
 
   private readonly handleMouseUp = () => {
@@ -365,7 +371,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     // mouse-up if there's a selection that just covers a line change. We
     // can't do that on selection change since the user may still be dragging.
     const selection = this._getShadowOrDocumentSelection();
-    this.$.highlights.handleSelectionChange(selection, true);
+    this.highlights.handleSelectionChange(selection, true);
   };
 
   /** Gets the current selection, preferring the shadow DOM selection. */
@@ -404,7 +410,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       const range = getRange(threadEl);
       if (!range) return undefined;
 
-      return {side, range, hovering: false, rootId: threadEl.rootId};
+      return {side, range, rootId: threadEl.rootId};
     }
 
     // TODO(brohlfs): Rewrite `.map().filter() as ...` with `.reduce()` instead.
@@ -430,7 +436,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       this.push('_commentRanges', {
         side: Side.RIGHT,
         range: this.highlightRange,
-        hovering: true,
         rootId: '',
       });
     }
@@ -498,7 +503,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   isRangeSelected() {
-    return !!this.$.highlights.selectedRange;
+    return !!this.highlights.selectedRange;
   }
 
   toggleLeftDiff() {
@@ -590,7 +595,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     if (!this.isRangeSelected()) {
       throw Error('Selection is needed for new range comment');
     }
-    const selectedRange = this.$.highlights.selectedRange;
+    const selectedRange = this.highlights.selectedRange;
     if (!selectedRange) throw Error('selected range not set');
     const {side, range} = selectedRange;
     this._createCommentForSelection(side, range);
@@ -812,6 +817,10 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     if (newValue) {
       this._diffLength = this.getDiffLength(newValue);
       this._debounceRenderDiffTable();
+    }
+    if (this.diff) {
+      this.diffSelection.init(this.diff, this.$.diffTable);
+      this.highlights.init(this.$.diffTable, this.$.diffBuilder);
     }
   }
 

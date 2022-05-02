@@ -531,7 +531,7 @@ suite('gr-diff-cursor tests', () => {
         end_line: 6,
         end_character: 1,
       };
-      diffElement.$.highlights.selectedRange = {
+      diffElement.highlights.selectedRange = {
         side: 'right',
         range: someRange,
       };

@@ -1,43 +1,25 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../styles/shared-styles';
 import '../gr-selection-action-box/gr-selection-action-box';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-diff-highlight_html';
 import {GrAnnotation} from './gr-annotation';
 import {normalize} from './gr-range-normalizer';
 import {strToClassName} from '../../../utils/dom-util';
-import {customElement, property} from '@polymer/decorators';
 import {Side} from '../../../constants/constants';
 import {CommentRange} from '../../../types/common';
 import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
-import {GrDiffBuilderElement} from '../gr-diff-builder/gr-diff-builder-element';
 import {FILE} from '../gr-diff/gr-diff-line';
 import {
   getLineElByChild,
   getLineNumberByChild,
-  getRange,
-  getSide,
   getSideByLineEl,
   GrDiffThreadElement,
 } from '../gr-diff/gr-diff-utils';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-import {queryAndAssert} from '../../../utils/common-util';
+import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 
 interface SidedRange {
   side: Side;
@@ -56,51 +38,65 @@ interface NormalizedRange {
   end: NormalizedPosition | null;
 }
 
-@customElement('gr-diff-highlight')
-export class GrDiffHighlight extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+/**
+ * The methods that we actually want to call on the builder. We don't want a
+ * fully blown dependency on GrDiffBuilderElement.
+ */
+export interface DiffBuilderInterface {
+  getContentTdByLineEl(lineEl?: Element): Element | null;
+}
 
-  @property({type: Array, notify: true})
-  commentRanges: SidedRange[] = [];
-
-  @property({type: Boolean})
-  loggedIn?: boolean;
-
-  @property({type: Object})
-  _cachedDiffBuilder?: GrDiffBuilderElement;
-
-  @property({type: Object, notify: true})
+/**
+ * Handles showing, positioning and interacting with <gr-selection-action-box>.
+ *
+ * Toggles a css class for highlighting comment ranges when the mouse leaves or
+ * enters a comment thread element.
+ */
+export class GrDiffHighlight {
   selectedRange?: SidedRange;
+
+  private diffBuilder?: DiffBuilderInterface;
+
+  private diffTable?: HTMLElement;
 
   private selectionChangeTask?: DelayedTask;
 
-  constructor() {
-    super();
-    this.addEventListener('comment-thread-mouseleave', e =>
-      this._handleCommentThreadMouseleave(e)
+  init(diffTable: HTMLElement, diffBuilder: DiffBuilderInterface) {
+    this.cleanup();
+
+    this.diffTable = diffTable;
+    this.diffBuilder = diffBuilder;
+
+    diffTable.addEventListener(
+      'comment-thread-mouseleave',
+      this.handleCommentThreadMouseleave
     );
-    this.addEventListener('comment-thread-mouseenter', e =>
-      this._handleCommentThreadMouseenter(e)
+    diffTable.addEventListener(
+      'comment-thread-mouseenter',
+      this.handleCommentThreadMouseenter
     );
-    this.addEventListener('create-comment-requested', e =>
-      this._handleRangeCommentRequest(e)
+    diffTable.addEventListener(
+      'create-comment-requested',
+      this.handleRangeCommentRequest
     );
   }
 
-  override disconnectedCallback() {
+  cleanup() {
     this.selectionChangeTask?.cancel();
-    super.disconnectedCallback();
-  }
-
-  get diffBuilder() {
-    if (!this._cachedDiffBuilder) {
-      this._cachedDiffBuilder = this.querySelector(
-        'gr-diff-builder'
-      ) as GrDiffBuilderElement;
+    if (this.diffTable) {
+      this.diffTable.removeEventListener(
+        'comment-thread-mouseleave',
+        this.handleCommentThreadMouseleave
+      );
+      this.diffTable.removeEventListener(
+        'comment-thread-mouseenter',
+        this.handleCommentThreadMouseenter
+      );
+      this.diffTable.removeEventListener(
+        'create-comment-requested',
+        this.handleRangeCommentRequest
+      );
     }
-    return this._cachedDiffBuilder;
   }
 
   /**
@@ -129,18 +125,17 @@ export class GrDiffHighlight extends PolymerElement {
     // removed.
     // If you wait longer than 50 ms, then you don't properly catch a very
     // quick 'c' press after the selection change. If you wait less than 10
-    // ms, then you will have about 50 _handleSelection calls when doing a
+    // ms, then you will have about 50 handleSelection() calls when doing a
     // simple drag for select.
     this.selectionChangeTask = debounce(
       this.selectionChangeTask,
-      () => this._handleSelection(selection, isMouseUp),
+      () => this.handleSelection(selection, isMouseUp),
       10
     );
   }
 
-  _getThreadEl(e: Event): GrDiffThreadElement | null {
-    const path = (dom(e) as EventApi).path || [];
-    for (const pathEl of path) {
+  private getThreadEl(e: Event): GrDiffThreadElement | null {
+    for (const pathEl of e.composedPath()) {
       if (
         pathEl instanceof HTMLElement &&
         pathEl.classList.contains('comment-thread')
@@ -151,109 +146,53 @@ export class GrDiffHighlight extends PolymerElement {
     return null;
   }
 
-  _toggleRangeElHighlight(
-    threadEl: GrDiffThreadElement,
+  private toggleRangeElHighlight(
+    threadEl: GrDiffThreadElement | null,
     highlightRange = false
   ) {
-    // We don't want to re-create the line just for highlighting the range which
-    // is creating annoying bugs: @see Issue 12934
-    // As gr-ranged-comment-layer now does not notify the layer re-render and
-    // lack of access to the thread or the lineEl from the ranged-comment-layer,
-    // need to update range class for styles here.
-    let curNode: HTMLElement | null = threadEl.assignedSlot;
-    while (curNode) {
-      if (curNode.nodeName === 'TABLE') break;
-      curNode = curNode.parentElement;
-    }
-    if (curNode?.querySelectorAll) {
-      if (highlightRange) {
-        const rangeNodes = curNode.querySelectorAll(
-          `.range.${strToClassName(threadEl.rootId)}`
-        );
-        rangeNodes.forEach(rangeNode => {
-          rangeNode.classList.add('rangeHoverHighlight');
-        });
-        const hintNode = threadEl.parentElement?.querySelector(
-          `gr-ranged-comment-hint[threadElRootId="${threadEl.rootId}"]`
-        );
-        if (hintNode) {
-          hintNode.shadowRoot
-            ?.querySelectorAll('.rangeHighlight')
-            .forEach(highlightNode =>
-              highlightNode.classList.add('rangeHoverHighlight')
-            );
-        }
-      } else {
-        const rangeNodes = curNode.querySelectorAll(
-          `.rangeHoverHighlight.${strToClassName(threadEl.rootId)}`
-        );
-        rangeNodes.forEach(rangeNode => {
-          rangeNode.classList.remove('rangeHoverHighlight');
-        });
-        const hintNode = threadEl.parentElement?.querySelector(
-          `gr-ranged-comment-hint[threadElRootId="${threadEl.rootId}"]`
-        );
-        if (hintNode) {
-          hintNode.shadowRoot
-            ?.querySelectorAll('.rangeHoverHighlight')
-            .forEach(highlightNode =>
-              highlightNode.classList.remove('rangeHoverHighlight')
-            );
-        }
-      }
-    }
-  }
-
-  _handleCommentThreadMouseenter(e: Event) {
-    const threadEl = this._getThreadEl(e)!;
-    const index = this._indexForThreadEl(threadEl);
-
-    if (index !== undefined) {
-      this.set(['commentRanges', index, 'hovering'], true);
-    }
-
-    this._toggleRangeElHighlight(threadEl, /* highlightRange= */ true);
-  }
-
-  _handleCommentThreadMouseleave(e: Event) {
-    const threadEl = this._getThreadEl(e)!;
-    const index = this._indexForThreadEl(threadEl);
-
-    if (index !== undefined) {
-      this.set(['commentRanges', index, 'hovering'], false);
-    }
-
-    this._toggleRangeElHighlight(threadEl, /* highlightRange= */ false);
-  }
-
-  _indexForThreadEl(threadEl: HTMLElement) {
-    const side = getSide(threadEl);
-    const range = getRange(threadEl);
-    if (!side || !range) return undefined;
-    return this._indexOfCommentRange(side, range);
-  }
-
-  _indexOfCommentRange(side: Side, range: CommentRange) {
-    function rangesEqual(a: CommentRange, b: CommentRange) {
-      if (!a && !b) {
-        return true;
-      }
-      if (!a || !b) {
-        return false;
-      }
-      return (
-        a.start_line === b.start_line &&
-        a.start_character === b.start_character &&
-        a.end_line === b.end_line &&
-        a.end_character === b.end_character
+    const rootId = threadEl?.rootId;
+    if (!rootId) return;
+    if (!this.diffTable) return;
+    if (highlightRange) {
+      const selector = `.range.${strToClassName(rootId)}`;
+      const rangeNodes = this.diffTable.querySelectorAll(selector);
+      rangeNodes.forEach(rangeNode => {
+        rangeNode.classList.add('rangeHoverHighlight');
+      });
+      const hintNode = this.diffTable.querySelector(
+        `gr-ranged-comment-hint[threadElRootId="${rootId}"]`
       );
+      hintNode?.shadowRoot
+        ?.querySelectorAll('.rangeHighlight')
+        .forEach(highlightNode =>
+          highlightNode.classList.add('rangeHoverHighlight')
+        );
+    } else {
+      const selector = `.rangeHoverHighlight.${strToClassName(rootId)}`;
+      const rangeNodes = this.diffTable.querySelectorAll(selector);
+      rangeNodes.forEach(rangeNode => {
+        rangeNode.classList.remove('rangeHoverHighlight');
+      });
+      const hintNode = this.diffTable.querySelector(
+        `gr-ranged-comment-hint[threadElRootId="${rootId}"]`
+      );
+      hintNode?.shadowRoot
+        ?.querySelectorAll('.rangeHoverHighlight')
+        .forEach(highlightNode =>
+          highlightNode.classList.remove('rangeHoverHighlight')
+        );
     }
-
-    return this.commentRanges.findIndex(
-      commentRange =>
-        commentRange.side === side && rangesEqual(commentRange.range, range)
-    );
   }
+
+  private handleCommentThreadMouseenter = (e: Event) => {
+    const threadEl = this.getThreadEl(e);
+    this.toggleRangeElHighlight(threadEl, /* highlightRange= */ true);
+  };
+
+  private handleCommentThreadMouseleave = (e: Event) => {
+    const threadEl = this.getThreadEl(e);
+    this.toggleRangeElHighlight(threadEl, /* highlightRange= */ false);
+  };
 
   /**
    * Get current normalized selection.
@@ -261,20 +200,20 @@ export class GrDiffHighlight extends PolymerElement {
    * syntax highligh, convert native DOM Range objects to Gerrit concepts
    * (line, side, etc).
    */
-  _getNormalizedRange(selection: Selection | Range) {
+  private getNormalizedRange(selection: Selection | Range) {
     /* On Safari the ShadowRoot.getSelection() isn't there and the only thing
        we can get is a single Range */
     if (selection instanceof Range) {
-      return this._normalizeRange(selection);
+      return this.normalizeRange(selection);
     }
     const rangeCount = selection.rangeCount;
     if (rangeCount === 0) {
       return null;
     } else if (rangeCount === 1) {
-      return this._normalizeRange(selection.getRangeAt(0));
+      return this.normalizeRange(selection.getRangeAt(0));
     } else {
-      const startRange = this._normalizeRange(selection.getRangeAt(0));
-      const endRange = this._normalizeRange(
+      const startRange = this.normalizeRange(selection.getRangeAt(0));
+      const endRange = this.normalizeRange(
         selection.getRangeAt(rangeCount - 1)
       );
       return {
@@ -289,15 +228,15 @@ export class GrDiffHighlight extends PolymerElement {
    *
    * @return fixed normalized range
    */
-  _normalizeRange(domRange: Range): NormalizedRange {
+  private normalizeRange(domRange: Range): NormalizedRange {
     const range = normalize(domRange);
-    return this._fixTripleClickSelection(
+    return this.fixTripleClickSelection(
       {
-        start: this._normalizeSelectionSide(
+        start: this.normalizeSelectionSide(
           range.startContainer,
           range.startOffset
         ),
-        end: this._normalizeSelectionSide(range.endContainer, range.endOffset),
+        end: this.normalizeSelectionSide(range.endContainer, range.endOffset),
       },
       domRange
     );
@@ -313,7 +252,7 @@ export class GrDiffHighlight extends PolymerElement {
    * @param domRange DOM Range object
    * @return fixed normalized range
    */
-  _fixTripleClickSelection(range: NormalizedRange, domRange: Range) {
+  private fixTripleClickSelection(range: NormalizedRange, domRange: Range) {
     if (!range.start) {
       // Selection outside of current diff.
       return range;
@@ -334,7 +273,7 @@ export class GrDiffHighlight extends PolymerElement {
       end.column === 0 &&
       end.line === start.line + 1;
     const content = domRange.cloneContents().querySelector('.contentText');
-    const lineLength = (content && this._getLength(content)) || 0;
+    const lineLength = (content && this.getLength(content)) || 0;
     if (lineLength && (endsAtBeginningOfNextLine || endsAtOtherEmptySide)) {
       // Move the selection to the end of the previous line.
       range.end = {
@@ -355,12 +294,14 @@ export class GrDiffHighlight extends PolymerElement {
    * @param node td.content child
    * @param offset offset within node
    */
-  _normalizeSelectionSide(
+  private normalizeSelectionSide(
     node: Node | null,
     offset: number
   ): NormalizedPosition | null {
     let column;
-    if (!node || !this.contains(node)) return null;
+    if (!this.diffTable) return null;
+    if (!this.diffBuilder) return null;
+    if (!node || !this.diffTable.contains(node)) return null;
     const lineEl = getLineElByChild(node);
     if (!lineEl) return null;
     const side = getSideByLineEl(lineEl);
@@ -376,10 +317,10 @@ export class GrDiffHighlight extends PolymerElement {
     } else {
       const thread = contentTd.querySelector('.comment-thread');
       if (thread?.contains(node)) {
-        column = this._getLength(contentText);
+        column = this.getLength(contentText);
         node = contentText;
       } else {
-        column = this._convertOffsetToColumn(node, offset);
+        column = this.convertOffsetToColumn(node, offset);
       }
     }
 
@@ -398,7 +339,8 @@ export class GrDiffHighlight extends PolymerElement {
    * collapsed section, so don't need to worry about this case for
    * positioning the tooltip.
    */
-  _positionActionBox(
+  // visible for testing
+  positionActionBox(
     actionBox: GrSelectionActionBox,
     startLine: number,
     range: Text | Element | Range
@@ -412,7 +354,7 @@ export class GrDiffHighlight extends PolymerElement {
     actionBox.placeBelow(range);
   }
 
-  _isRangeValid(range: NormalizedRange | null) {
+  private isRangeValid(range: NormalizedRange | null) {
     if (!range || !range.start || !range.start.node || !range.end) {
       return false;
     }
@@ -425,15 +367,16 @@ export class GrDiffHighlight extends PolymerElement {
     );
   }
 
-  _handleSelection(selection: Selection | Range, isMouseUp: boolean) {
+  // visible for testing
+  handleSelection(selection: Selection | Range, isMouseUp: boolean) {
     /* On Safari, the selection events may return a null range that should
        be ignored */
-    if (!selection) {
-      return;
-    }
-    const normalizedRange = this._getNormalizedRange(selection);
-    if (!this._isRangeValid(normalizedRange)) {
-      this._removeActionBox();
+    if (!selection) return;
+    if (!this.diffTable) return;
+
+    const normalizedRange = this.getNormalizedRange(selection);
+    if (!this.isRangeValid(normalizedRange)) {
+      this.removeActionBox();
       return;
     }
     /* On Safari the ShadowRoot.getSelection() isn't there and the only thing
@@ -463,8 +406,8 @@ export class GrDiffHighlight extends PolymerElement {
       // start.column with the content length), we just check if the selection
       // is empty to see that it's at the end of a line.
       const content = domRange.cloneContents().querySelector('.contentText');
-      if (isMouseUp && this._getLength(content) === 0) {
-        this._fireCreateRangeComment(start.side, {
+      if (isMouseUp && this.getLength(content) === 0) {
+        this.fireCreateRangeComment(start.side, {
           start_line: start.line,
           start_character: 0,
           end_line: start.line,
@@ -474,10 +417,10 @@ export class GrDiffHighlight extends PolymerElement {
       return;
     }
 
-    let actionBox = this.shadowRoot!.querySelector('gr-selection-action-box');
+    let actionBox = this.diffTable.querySelector('gr-selection-action-box');
     if (!actionBox) {
       actionBox = document.createElement('gr-selection-action-box');
-      this.root!.insertBefore(actionBox, this.root!.firstElementChild);
+      this.diffTable.appendChild(actionBox);
     }
     this.selectedRange = {
       range: {
@@ -489,10 +432,10 @@ export class GrDiffHighlight extends PolymerElement {
       side: start.side,
     };
     if (start.line === end.line) {
-      this._positionActionBox(actionBox, start.line, domRange);
+      this.positionActionBox(actionBox, start.line, domRange);
     } else if (start.node instanceof Text) {
       if (start.column) {
-        this._positionActionBox(
+        this.positionActionBox(
           actionBox,
           start.line,
           start.node.splitText(start.column)
@@ -505,44 +448,41 @@ export class GrDiffHighlight extends PolymerElement {
       (start.node.firstChild instanceof Element ||
         start.node.firstChild instanceof Text)
     ) {
-      this._positionActionBox(actionBox, start.line, start.node.firstChild);
+      this.positionActionBox(actionBox, start.line, start.node.firstChild);
     } else if (start.node instanceof Element || start.node instanceof Text) {
-      this._positionActionBox(actionBox, start.line, start.node);
+      this.positionActionBox(actionBox, start.line, start.node);
     } else {
       console.warn('Failed to position comment action box.');
-      this._removeActionBox();
+      this.removeActionBox();
     }
   }
 
-  _fireCreateRangeComment(side: Side, range: CommentRange) {
-    this.dispatchEvent(
+  private fireCreateRangeComment(side: Side, range: CommentRange) {
+    this.diffTable?.dispatchEvent(
       new CustomEvent('create-range-comment', {
         detail: {side, range},
         composed: true,
         bubbles: true,
       })
     );
-    this._removeActionBox();
+    this.removeActionBox();
   }
 
-  _handleRangeCommentRequest(e: Event) {
+  private handleRangeCommentRequest = (e: Event) => {
     e.stopPropagation();
-    if (!this.selectedRange) {
-      throw Error('Selected Range is needed for new range comment!');
-    }
+    assertIsDefined(this.selectedRange, 'selectedRange');
     const {side, range} = this.selectedRange;
-    this._fireCreateRangeComment(side, range);
-  }
+    this.fireCreateRangeComment(side, range);
+  };
 
-  _removeActionBox() {
+  // visible for testing
+  removeActionBox() {
     this.selectedRange = undefined;
-    const actionBox = this.shadowRoot!.querySelector('gr-selection-action-box');
-    if (actionBox) {
-      this.root!.removeChild(actionBox);
-    }
+    const actionBox = this.diffTable?.querySelector('gr-selection-action-box');
+    if (actionBox) actionBox.remove();
   }
 
-  _convertOffsetToColumn(el: Node, offset: number) {
+  private convertOffsetToColumn(el: Node, offset: number) {
     if (el instanceof Element && el.classList.contains('content')) {
       return offset;
     }
@@ -552,7 +492,7 @@ export class GrDiffHighlight extends PolymerElement {
     ) {
       if (el.previousSibling) {
         el = el.previousSibling;
-        offset += this._getLength(el);
+        offset += this.getLength(el);
       } else {
         el = el.parentElement!;
       }
@@ -566,18 +506,24 @@ export class GrDiffHighlight extends PolymerElement {
    *
    * @param node this is sometimes passed as null.
    */
-  _getLength(node: Node | null): number {
+  // visible for testing
+  getLength(node: Node | null): number {
     if (node === null) return 0;
     if (node instanceof Element && node.classList.contains('content')) {
-      return this._getLength(queryAndAssert(node, '.contentText'));
+      return this.getLength(queryAndAssert(node, '.contentText'));
     } else {
       return GrAnnotation.getLength(node);
     }
   }
 }
 
+export interface CreateRangeCommentEventDetail {
+  side: Side;
+  range: CommentRange;
+}
+
 declare global {
-  interface HTMLElementTagNameMap {
-    'gr-diff-highlight': GrDiffHighlight;
+  interface HTMLElementEventMap {
+    'create-range-comment': CustomEvent<CreateRangeCommentEventDetail>;
   }
 }

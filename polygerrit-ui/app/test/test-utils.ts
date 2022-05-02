@@ -296,6 +296,19 @@ export function pressKey(
   element.dispatchEvent(new KeyboardEvent('keydown', eventOptions));
 }
 
+export function mouseDown(element: HTMLElement) {
+  const rect = element.getBoundingClientRect();
+  const eventOptions = {
+    bubbles: true,
+    composed: true,
+    clientX: (rect.left + rect.right) / 2,
+    clientY: (rect.top + rect.bottom) / 2,
+    screenX: (rect.left + rect.right) / 2,
+    screenY: (rect.top + rect.bottom) / 2,
+  };
+  element.dispatchEvent(new MouseEvent('mousedown', eventOptions));
+}
+
 export function assertFails(promise: Promise<unknown>, error?: unknown) {
   promise
     .then((_v: unknown) => {

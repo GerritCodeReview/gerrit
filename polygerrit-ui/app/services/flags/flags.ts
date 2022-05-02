@@ -30,6 +30,5 @@ export enum KnownExperimentId {
   CHECKS_DEVELOPER = 'UiFeature__checks_developer',
   SUBMIT_REQUIREMENTS_UI = 'UiFeature__submit_requirements_ui',
   BULK_ACTIONS = 'UiFeature__bulk_actions_dashboard',
-  CHECK_RESULTS_IN_DIFFS = 'UiFeature__check_results_in_diffs',
   DIFF_RENDERING_LIT = 'UiFeature__diff_rendering_lit',
 }

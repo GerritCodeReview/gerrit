@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c513aba5_534358f4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 60
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-03T10:18:18Z",
+      "side": 1,
+      "message": "rewrap for new indent. I like this extension: https://marketplace.visualstudio.com/items?itemName\u003dstkb.rewrap",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 0
+      },
+      "revId": "d1859f5c8ae13ff6927dda8b347a2bdfd54572be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

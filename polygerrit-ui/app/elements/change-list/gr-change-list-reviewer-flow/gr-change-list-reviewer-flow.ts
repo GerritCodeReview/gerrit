@@ -22,6 +22,7 @@ import {
 import '../../shared/gr-account-list/gr-account-list';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
 import {AccountInputDetail} from '../../shared/gr-account-list/gr-account-list';
+import '@polymer/iron-icon/iron-icon';
 
 const SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE: Record<
   ReviewerState,
@@ -77,6 +78,20 @@ export class GrChangeListReviewerFlow extends LitElement {
         display: flex;
         flex-wrap: wrap;
       }
+      .warning {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xl);
+        padding: var(--spacing-l);
+        padding-left: var(--spacing-xl);
+        margin: var(--spacing-l) 0;
+        background-color: var(--yellow-50);
+      }
+      iron-icon {
+        color: var(--orange-800);
+        --iron-icon-height: 16px;
+        --iron-icon-width: 16px;
+      }
     `;
   }
 
@@ -117,15 +132,18 @@ export class GrChangeListReviewerFlow extends LitElement {
         .disabled=${overallStatus === ProgressStatus.RUNNING}
       >
         <div slot="header">Add Reviewer / CC</div>
-        <div slot="main" class="grid">
-          <span>Reviewers</span>
-          ${this.renderAccountList(
-            ReviewerState.REVIEWER,
-            'reviewer-list',
-            'Add reviewer'
-          )}
-          <span>CC</span>
-          ${this.renderAccountList(ReviewerState.CC, 'cc-list', 'Add CC')}
+        <div slot="main">
+          <div class="grid">
+            <span>Reviewers</span>
+            ${this.renderAccountList(
+              ReviewerState.REVIEWER,
+              'reviewer-list',
+              'Add reviewer'
+            )}
+            <span>CC</span>
+            ${this.renderAccountList(ReviewerState.CC, 'cc-list', 'Add CC')}
+          </div>
+          ${this.maybeRenderOverwriteWarnings()}
         </div>
       </gr-dialog>
     `;
@@ -154,6 +172,51 @@ export class GrChangeListReviewerFlow extends LitElement {
           this.onAccountAdded(reviewerState, e)}
       >
       </gr-account-list>
+    `;
+  }
+
+  private maybeRenderOverwriteWarnings() {
+    return html`
+      ${this.maybeRenderOverwriteWarning(ReviewerState.REVIEWER)}
+      ${this.maybeRenderOverwriteWarning(ReviewerState.CC)}
+    `;
+  }
+
+  private maybeRenderOverwriteWarning(reviewerState: ReviewerState) {
+    const otherReviewerState =
+      reviewerState === ReviewerState.CC
+        ? ReviewerState.REVIEWER
+        : ReviewerState.CC;
+    const existingInState = this.selectedChanges
+      .flatMap(change => change.reviewers[reviewerState] ?? [])
+      .filter(account => account?._account_id !== undefined);
+    const updatedOtherState = this.updatedAccountsByReviewerState
+      .get(otherReviewerState)!
+      .filter(account => account._account_id !== undefined);
+    const overwrittenInState = updatedOtherState.filter(account =>
+      existingInState.some(
+        otherAccount => otherAccount._account_id === account._account_id
+      )
+    );
+    if (overwrittenInState.length === 0) {
+      return nothing;
+    }
+    const overwrittenNames = overwrittenInState.map(
+      reviewer => reviewer.display_name
+    );
+    const pluralizedVerb = overwrittenNames.length === 1 ? 'is a' : 'are';
+    const updatedLabel =
+      otherReviewerState === ReviewerState.CC ? 'CC' : 'Reviewer';
+    const currentLabel = `${
+      reviewerState === ReviewerState.CC ? 'CC' : 'Reviewer'
+    }${overwrittenNames.length > 1 ? 's' : ''}`;
+    return html`
+      <div class="warning">
+        <iron-icon icon="gr-icons:warning"></iron-icon>
+        ${overwrittenNames.join(', ')}${' '}${pluralizedVerb} ${currentLabel} on
+        some selected changes and will be moved to ${updatedLabel} on all
+        changes.
+      </div>
     `;
   }
 
@@ -208,8 +271,10 @@ export class GrChangeListReviewerFlow extends LitElement {
     );
     if (oppositeUpdatedAccountIndex >= 0) {
       oppositeUpdatedAccounts.splice(oppositeUpdatedAccountIndex, 1);
-      this.requestUpdate();
     }
+    // Even if no Reviewer<-->CC transfers occurred, we still need to update
+    // overwrite warnings
+    this.requestUpdate();
   }
 
   private onConfirm(overallStatus: ProgressStatus) {

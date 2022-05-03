@@ -128,7 +128,11 @@ suite('gr-registration-dialog tests', () => {
         <hr />
         <section>
           <span class="title"> Full Name </span>
-          <span class="value">name</span>
+          <span class="value">
+            <iron-input>
+              <input id="name">
+            </iron-input>
+          </span>
         </section>
         <section>
           <span class="title"> Display Name </span>
@@ -138,7 +142,11 @@ suite('gr-registration-dialog tests', () => {
         </section>
         <section>
           <span class="title"> Username </span>
-          <span class="value"></span>
+          <span class="value">
+            <iron-input>
+              <input id="username">
+            </iron-input>
+          </span>
         </section>
         <hr />
         <p>

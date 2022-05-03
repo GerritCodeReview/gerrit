@@ -10,6 +10,10 @@ _java_ -jar gerrit.war _daemon_
   -d <SITE_PATH>
   [--enable-httpd | --disable-httpd]
   [--enable-sshd | --disable-sshd]
+  [--debug]
+  [--debug-port]
+  [--debug_address]
+  [--suspend]
   [--console-log]
   [--replica]
   [--headless]
@@ -38,6 +42,17 @@ per the local copy of link:config-gerrit.html[gerrit.config] located under
 --disable-sshd::
 	Enable (or disable) the internal SSH daemon, answering SSH
 	clients and remotely executed commands.  Enabled by default.
+
+--debug::
+	Start JVM in debug mode.
+
+--debug-port::
+--debug_address:
+	Specify which JVM debug port/address to use. The default debug address is 8000.
+
+--suspend::
+	Start JVM debug in suspended mode. The JVM will await for a debugger
+	to attach before proceeding with the start.
 
 --replica::
 	Run in replica mode, permitting only read operations

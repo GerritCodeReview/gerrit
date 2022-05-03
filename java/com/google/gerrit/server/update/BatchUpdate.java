@@ -354,6 +354,12 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     @Override
+    public ChangeData getChangeData(Project.NameKey projectName, Change.Id changeId) {
+      return changeDatas.computeIfAbsent(
+          changeId, id -> changeDataFactory.create(projectName, changeId));
+    }
+
+    @Override
     public ChangeData getChangeData(Change change) {
       return changeDatas.computeIfAbsent(change.getId(), id -> changeDataFactory.create(change));
     }

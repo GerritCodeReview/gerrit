@@ -80,6 +80,7 @@ const nativeSetTimeout = window.setTimeout;
 
 function flushImpl(): Promise<void>;
 function flushImpl(callback: () => void): void;
+
 /**
  * Triggers a flush of any pending events, observations, etc and calls you back
  * after they have been processed if callback is passed; otherwise returns

@@ -48,13 +48,15 @@ public class IndexServlet extends HttpServlet {
   private final ExperimentFeatures experimentFeatures;
   private final SoySauce soySauce;
   private final Function<String, SanitizedContent> urlOrdainer;
+  private final PrivateToPublicHostMapProvider privateToPublicHostMapProvider;
 
   IndexServlet(
       @Nullable String canonicalUrl,
       @Nullable String cdnPath,
       @Nullable String faviconPath,
       GerritApi gerritApi,
-      ExperimentFeatures experimentFeatures) {
+      ExperimentFeatures experimentFeatures,
+      PrivateToPublicHostMapProvider privateToPublicHostMapProvider) {
     this.canonicalUrl = canonicalUrl;
     this.cdnPath = cdnPath;
     this.faviconPath = faviconPath;
@@ -69,6 +71,7 @@ public class IndexServlet extends HttpServlet {
         (s) ->
             UnsafeSanitizedContentOrdainer.ordainAsSafe(
                 s, SanitizedContent.ContentKind.TRUSTED_RESOURCE_URI);
+    this.privateToPublicHostMapProvider = privateToPublicHostMapProvider;
   }
 
   @Override
@@ -86,7 +89,8 @@ public class IndexServlet extends HttpServlet {
               faviconPath,
               parameterMap,
               urlOrdainer,
-              getRequestUrl(req));
+              getRequestUrl(req),
+              privateToPublicHostMapProvider.getMapForRequest(req));
       renderer = soySauce.renderTemplate("com.google.gerrit.httpd.raw.Index").setData(templateData);
     } catch (URISyntaxException | RestApiException e) {
       throw new IOException(e);

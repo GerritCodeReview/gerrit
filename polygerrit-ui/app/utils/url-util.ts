@@ -121,3 +121,22 @@ export function toPath(pathname: string, searchParams: URLSearchParams) {
 export function generateAbsoluteUrl(url: string) {
   return new URL(url, window.location.href).toString();
 }
+
+/**
+ * Converts an internal URL to a public available url.
+ *
+ * See {@link window.PRIVATE_TO_PUBLIC_HOST_MAP} for details.
+ */
+export function getPublicAvailableUrl(url: string): string {
+  try {
+    const result = new URL(url);
+    const publicHost = window.PRIVATE_TO_PUBLIC_HOST_MAP?.[result.host];
+    if (!publicHost) {
+      return url;
+    }
+    result.host = publicHost;
+    return result.toString();
+  } catch {
+    return url;
+  }
+}

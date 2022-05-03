@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d75b0f11_16952e52",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-03T08:58:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "af5fc15b_0750bad2",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 17
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "133710f1_9ceb4c4a",
@@ -116,6 +140,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ff9293b_ec452c21",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-03T08:58:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "867dc924_6baf20f5",
+      "range": {
+        "startLine": 226,
+        "startChar": 26,
+        "endLine": 226,
+        "endChar": 35
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe5af70d_2a8fa705",
@@ -129,6 +177,30 @@
       "writtenOn": "2022-05-02T12:57:12Z",
       "side": 1,
       "message": "So --address will always win, if both are set. This should maybe documented explicitly to avoid confusion.",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 167,
+        "endChar": 25
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2110d2bb_962a15f4",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-03T08:58:58Z",
+      "side": 1,
+      "message": "Actually the last one would always win regardless if it is --debug-port of --address or multiple occurrences of the same option. This is just a consequence of parsing options left to right",
+      "parentUuid": "fe5af70d_2a8fa705",
       "range": {
         "startLine": 167,
         "startChar": 2,

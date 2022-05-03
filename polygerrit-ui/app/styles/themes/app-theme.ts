@@ -46,6 +46,7 @@ const appThemeCss = safeStyleSheet`
     --blue-50: #e8f0fe;
     --blue-tonal: #314972;
     --orange-900: #b06000;
+    --orange-800: #c26401;
     --orange-700: #d56e0c;
     --orange-700-04: #d56e0c0a;
     --orange-700-10: #d56e0c1a;

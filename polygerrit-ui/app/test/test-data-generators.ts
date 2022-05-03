@@ -33,6 +33,7 @@ import {
   CommentInfo,
   CommentLinkInfo,
   CommentLinks,
+  CommentRange,
   CommitId,
   CommitInfo,
   ConfigInfo,
@@ -649,6 +650,15 @@ export function createWebLinkInfo(): WebLinkInfo {
     name: 'gitiles',
     url: '#',
     image_url: 'gitiles.jpg',
+  };
+}
+
+export function createRange(): CommentRange {
+  return {
+    start_line: 1,
+    start_character: 0,
+    end_line: 1,
+    end_character: 1,
   };
 }
 

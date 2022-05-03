@@ -184,7 +184,9 @@ public class PostReviewOp implements BatchUpdateOp {
     }
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
     if (notify.shouldNotify()) {
-      email.create(ctx, ps, mailMessage, comments, in.message, labelDelta).sendAsync();
+      email
+          .create(ctx, ps, notes.getMetaId(), mailMessage, comments, in.message, labelDelta)
+          .sendAsync();
     }
     String comment = mailMessage;
     if (publishPatchSetLevelComment) {

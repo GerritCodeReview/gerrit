@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "acf68499_fef4f5c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 61
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-03T21:50:19Z",
+      "side": 1,
+      "message": "Oh this only happens if gr-app-element is using lit.",
+      "parentUuid": "51b5f839_63bea1f9",
+      "revId": "80229b501809fff0cb5a908f648f98a7f1637bde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07166790_367df2fe",

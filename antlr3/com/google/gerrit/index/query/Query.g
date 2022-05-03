@@ -142,9 +142,9 @@ fieldValue
   | EXACT_PHRASE
   ;
 
-AND: 'AND' ;
-OR:  'OR'  ;
-NOT: 'NOT' ;
+AND: 'AND' | 'and';
+OR:  'OR' | 'or'  ;
+NOT: 'NOT' | 'not' ;
 
 COLON: ':' ;
 

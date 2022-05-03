@@ -354,6 +354,18 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byStatusOr() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.NEW);
+    Change change1 = insert(repo, ins1);
+    ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.MERGED);
+    Change change2 = insert(repo, ins2);
+
+    assertQuery("status:new OR status:merged", change2, change1);
+    assertQuery("status:new or status:merged", change2, change1);
+  }
+
+  @Test
   public void byStatusOpen() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.NEW);

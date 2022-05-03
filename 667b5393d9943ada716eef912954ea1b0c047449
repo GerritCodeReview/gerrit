@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "951477cf_1fd97817",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-03T10:21:20Z",
+      "side": 1,
+      "message": "with",
+      "range": {
+        "startLine": 216,
+        "startChar": 43,
+        "endLine": 216,
+        "endChar": 47
+      },
+      "revId": "667b5393d9943ada716eef912954ea1b0c047449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6abc09b_444fba3c",
+        "filename": "Documentation/pgm-daemon.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-03T10:21:20Z",
+      "side": 1,
+      "message": "I think we use imperative style:\n\nSpecify",
+      "range": {
+        "startLine": 49,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 10
+      },
+      "revId": "667b5393d9943ada716eef912954ea1b0c047449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "985f5f34_3d15a28e",
         "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
         "patchSetId": 1

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9a1d5b1_07c8e4d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-03T10:21:20Z",
+      "side": 1,
+      "message": "works like a charm, thanks",
+      "revId": "c0209b92f8526ab8c2d21dd04e1cf7a26b75dc2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6255d67a_860a813e",
+        "filename": "Documentation/pgm-daemon.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-03T10:21:20Z",
+      "side": 1,
+      "message": "I think we should also advertise all options in the help displayed by usage() in gerrit.sh to simplify finding the available options",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 6
+      },
+      "revId": "c0209b92f8526ab8c2d21dd04e1cf7a26b75dc2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

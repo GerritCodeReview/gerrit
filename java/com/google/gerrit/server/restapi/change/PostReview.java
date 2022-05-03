@@ -77,6 +77,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
+import com.google.gerrit.server.change.ChangeNoLongerSubmittableOp;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ModifyReviewersEmail;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -89,6 +90,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.ReviewerAdded;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.mail.send.ChangeNoLongerSubmittableSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
@@ -170,9 +172,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final WorkInProgressOp.Factory workInProgressOpFactory;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
-
   private final ReplyAttentionSetUpdates replyAttentionSetUpdates;
   private final ReviewerAdded reviewerAdded;
+  private final ChangeNoLongerSubmittableOp.Factory changeNoLongerSubmittableOpFactory;
   private final boolean strictLabels;
 
   @Inject
@@ -195,7 +197,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
       ReplyAttentionSetUpdates replyAttentionSetUpdates,
-      ReviewerAdded reviewerAdded) {
+      ReviewerAdded reviewerAdded,
+      ChangeNoLongerSubmittableOp.Factory changeNoLongerSubmittableOpFactory) {
     this.updateFactory = updateFactory;
     this.postReviewOpFactory = postReviewOpFactory;
     this.changeResourceFactory = changeResourceFactory;
@@ -214,6 +217,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.permissionBackend = permissionBackend;
     this.replyAttentionSetUpdates = replyAttentionSetUpdates;
     this.reviewerAdded = reviewerAdded;
+    this.changeNoLongerSubmittableOpFactory = changeNoLongerSubmittableOpFactory;
     this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
   }
 
@@ -385,6 +389,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       // Adjust the attention set based on the input
       replyAttentionSetUpdates.updateAttentionSet(
           bu, revision.getNotes(), input, revision.getUser());
+
+      // Send an email to the change owner and uploader if this reply made the change become
+      // non-submittable.
+      bu.addOp(
+          revision.getChange().getId(),
+          changeNoLongerSubmittableOpFactory.create(
+              ChangeNoLongerSubmittableSender.UpdateKind.REPLY_POSTED));
+
       bu.execute();
     }
 

@@ -16,6 +16,24 @@
       "message": "Think it may need requestUpdate since `this.set` triggered an update?",
       "revId": "2f0086c249f68b477e01f314529ac1164e727925",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "938ad015_0077d38d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 56
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-03T08:19:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53c513c7_ba396005",
+      "revId": "2f0086c249f68b477e01f314529ac1164e727925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

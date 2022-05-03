@@ -712,17 +712,20 @@ Any operator can be negated by prefixing it with `-`, for example
 `-is:starred` is the exact opposite of `is:starred` and will
 therefore return changes that are *not* starred by the current user.
 
-The operator `NOT` (in all caps) is a synonym.
+The operator `NOT` (in all caps) or `not` (all lower case) is a
+synonym.
 
 === AND
-The boolean operator `AND` (in all caps) can be used to join two
-other operators together.  This results in a restriction of the
-results, returning only changes that match both operators.
+The boolean operator `AND` (in all caps) or `and` (all lower case)
+can be used to join two other operators together.  This results in
+a restriction of the results, returning only changes that match both
+operators.
 
 === OR
-The boolean operator `OR` (in all caps) can be used to find changes
-that match either operator.  This increases the number of results
-that are returned, as more changes are considered.
+The boolean operator `OR` (in all caps) or `or` (all lower case)
+can be used to find changes that match either operator. This
+increases the number of results that are returned, as more changes
+are considered.
 
 
 [[labels]]

@@ -35,6 +35,8 @@ import {
   getFocusableElements,
   getFocusableElementsReverse,
 } from '../../utils/focusable';
+import {getAppContext} from '../../services/app-context';
+import {ReportingService, Timer} from '../../services/gr-reporting/gr-reporting';
 
 interface ReloadEventDetail {
   clearPatchset?: boolean;
@@ -146,6 +148,10 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
     isScheduledToHide?: boolean;
 
     openedByKeyboard = false;
+
+    reporting: ReportingService = getAppContext().reportingService;
+
+    reportingTimer?: Timer;
 
     private targetCleanups: Array<() => void> = [];
 
@@ -426,6 +432,10 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         this.container.removeChild(this);
       }
       document.removeEventListener('click', this.documentClickListener);
+      this.reportingTimer?.end({
+        targetId: this._target?.id,
+        tagName: this.tagName,
+      });
     };
 
     /**
@@ -520,6 +530,7 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
         this.focus();
       }
       document.addEventListener('click', this.documentClickListener);
+      this.reportingTimer = this.reporting.getTimer('Show Hovercard');
     };
 
     updatePosition() {

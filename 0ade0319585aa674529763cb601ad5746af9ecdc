@@ -16,6 +16,154 @@
       "message": "@Ben for some reason when going to change list then back it doesn\u0027t seem to be fast (i.e it\u0027s doing a full reload). I\u0027m not sure where to look / or if you know why? \n\nApart from that it appears to be working (tested locally).",
       "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a4ed0ab_d921e9cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-03T07:52:03Z",
+      "side": 1,
+      "message": "Thanks for taking on this very difficult migration.",
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3da3538_7e4efe7d",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-03T07:52:03Z",
+      "side": 1,
+      "message": "For fixed string values prefer the setting the attribute instead of the property:\n```\nname\u003d\"footer-left\"\n```\nThat is more readable and idiomatic.\n\nSame for setting boolean properties. You can just do\n```\nboolpropname\n```\ninstead of\n```\n.boolPropName\u003d${true}\n```\n\nNote that attribute names are case insensitive. That is why I have intentionally used `boolpropname` in the example, and not `boolPropName`.",
+      "range": {
+        "startLine": 381,
+        "startChar": 33,
+        "endLine": 381,
+        "endChar": 38
+      },
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0470fa7_c49b6af0",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-03T07:52:03Z",
+      "side": 1,
+      "message": "Here, using `.name` instead of `name` is fine.",
+      "range": {
+        "startLine": 404,
+        "startChar": 8,
+        "endLine": 404,
+        "endChar": 40
+      },
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b26c51cc_b55a981d",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-03T07:52:03Z",
+      "side": 1,
+      "message": "In Polymer the change view and the diff view did not have `restamp\u003d\"true\"`, because they are supposed to be cached. We should try to do the same in Lit. I think for this to work we can use the `cache` directive:\n\nhttps://lit.dev/docs/templates/directives/#cache\n\nDid not try, but maybe this could work:\n```\n  private renderChangeView() {\n    return cache(!this.showChangeView ? nothing: html`\n      \u003cgr-change-view\n        .params\u003d${this.params}\n        .viewState\u003d${this.viewState?.changeView}\n        .backPage\u003d${this.lastSearchPage}\n        @view-state-changed\u003d${this.handleViewStateChangeViewChanged}\n      \u003e\u003c/gr-change-view\u003e\n    `);\n  }\n```\n\nDo the same for the diff view.",
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5562ed28_23c6a386",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-03T07:52:03Z",
+      "side": 1,
+      "message": "The reason for this method to exist is the caching I wrote about above. So we want to cache the change and the diff view as long as the change number does not change, so we can easily and quickly switch back and forth between the two. But as soon as the change number changes, we have to destroy and re-create the views. They don\u0027t work with changed change numbers. There is too much caching happening inside those two views.\n\nMaybe we can do something like this:\n```\n  private renderChangeView() {\n    return cache(!this.showChangeView ? nothing: html`\n      \u003cgr-change-view\n        artificial-attribute-forcing-caching-invalidation\u003d${this.params?.changeNum}\n        .params\u003d${this.params}\n        .viewState\u003d${this.viewState?.changeView}\n        .backPage\u003d${this.lastSearchPage}\n        @view-state-changed\u003d${this.handleViewStateChangeViewChanged}\n      \u003e\u003c/gr-change-view\u003e\n    `);\n  }\n```\n\nAgain, we need to try and test this a fair bit.",
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6138867_03ba74f4",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-03T07:52:03Z",
+      "side": 1,
+      "message": "We are not observing sub-properties anymore, but just `params` instead of `params.*`. I am not sure whether that is problematic, but could be. Please test carefully. The remedy would be that whoever is changing sub-properties of `params` should not be going that, but instead copy/clone the entire `params` and update that instead.",
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd6b00b5_8fa358eb",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-03T07:52:03Z",
+      "side": 1,
+      "message": "Just removing the `flush` here will probably break the intended logic. Did you try this? I would assume that `registrationOverlay` and `registrationDialog` are `null` until the next rendering update cycle.\n\nInstead of `this.shadowRoot!.querySelector` we should probably use the `@query` decorator.\n\nNot sure what the best solution is here, but one option would be to move the `waitUntil` function from `test-utils.ts` to `common-util.ts`. Then you could just wait until the elements appear calling them.",
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e709bfd_29f556a2",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-03T07:52:03Z",
+      "side": 1,
+      "message": "We cannot set innerHTML directly for security reasons. Can we keep the existing code?",
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

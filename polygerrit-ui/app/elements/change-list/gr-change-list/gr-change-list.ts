@@ -332,9 +332,11 @@ export class GrChangeList extends LitElement {
         this.reporting.reportExecution(Execution.USER_PREFERENCES_COLUMNS, {
           statusColumn: prefColumns.includes(' Status '),
         });
-        this.visibleChangeTableColumns = prefColumns.filter(col =>
-          this._isColumnEnabled(col, this.config)
-        );
+        // Order visible column names by columnNames, filter only one that
+        // are in prefColumns and enabled by config
+        this.visibleChangeTableColumns = columnNames
+          .filter(col => prefColumns.includes(col))
+          .filter(col => this._isColumnEnabled(col, this.config));
       }
     }
   }

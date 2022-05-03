@@ -22,6 +22,7 @@ export {};
 declare global {
   interface Window {
     CANONICAL_PATH?: string;
+    PRIVATE_TO_PUBLIC_HOST_MAP?: {[privateHostName: string]: string};
     INITIAL_DATA?: {[key: string]: ParsedJSON};
     HTMLImports?: {whenReady: (cb: () => void) => void};
     linkify(

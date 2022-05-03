@@ -21,7 +21,7 @@ import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-icons/gr-icons';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
-import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util';
+import {getBaseUrl, getDocsBaseUrl, getPublicAvailableUrl} from '../../../utils/url-util';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAdminLinks, NavLink} from '../../../utils/admin-nav-util';
 import {
@@ -137,6 +137,8 @@ export class GrMainHeader extends LitElement {
 
   @state() private topMenus?: TopMenuEntryInfo[] = [];
 
+  @state() private publicPageUrl = '';
+
   // private but used in test
   @state() registerText = 'Sign up';
 
@@ -159,9 +161,18 @@ export class GrMainHeader extends LitElement {
 
   private subscriptions: Subscription[] = [];
 
+  constructor() {
+    super();
+    this.addEventListener('location-change', () => {
+      this.publicPageUrl = getPublicAvailableUrl(window.location.href);
+    });
+  }
+
   override connectedCallback() {
     super.connectedCallback();
     this.loadAccount();
+    this.updatePublicPageUrl();
+    window.addEventListener('location-change', this.updatePublicPageUrl);
 
     this.subscriptions.push(
       this.userModel.preferences$
@@ -187,6 +198,7 @@ export class GrMainHeader extends LitElement {
   }
 
   override disconnectedCallback() {
+    window.removeEventListener('location-change', this.updatePublicPageUrl);
     for (const s of this.subscriptions) {
       s.unsubscribe();
     }
@@ -269,6 +281,9 @@ export class GrMainHeader extends LitElement {
           --gr-dropdown-item-color: var(--primary-text-color);
         }
         .settingsButton {
+          margin-left: var(--spacing-m);
+        }
+        .copyPublicUrlButton {
           margin-left: var(--spacing-m);
         }
         .feedbackButton {
@@ -389,6 +404,7 @@ export class GrMainHeader extends LitElement {
       <gr-endpoint-decorator class="feedbackButton" name="header-feedback">
         ${this.renderFeedback()}
       </gr-endpoint-decorator>
+      ${this.renderCopyPublicUrlButton(this.publicPageUrl)}
       </div>
       ${this.renderAccount()}
     </div>
@@ -427,6 +443,27 @@ export class GrMainHeader extends LitElement {
         <iron-icon icon="gr-icons:bug"></iron-icon>
       </a>
     `;
+  }
+
+  private renderCopyPublicUrlButton(publicUrl: string) {
+    // if (!window.PRIVATE_TO_PUBLIC_HOST_MAP) return;
+    console.log('Render is calledd!!!');
+    return html`
+      <a
+        href=${publicUrl}
+        class="copyPublicUrlButton"
+        @click=${this.handleCopyLink}
+        title="Copy"
+        aria-label="Click to copy to clipboard"
+        role="button"
+      >
+        <iron-icon id="icon" icon="gr-icons:link"></iron-icon>
+      </a>
+    `;
+  }
+
+  private handleCopyLink() {
+    // fireEvent(this, 'copy-comment-link');
   }
 
   private renderAccount() {
@@ -645,5 +682,12 @@ export class GrMainHeader extends LitElement {
     e.preventDefault();
     e.stopPropagation();
     fireEvent(this, 'mobile-search');
+  }
+
+  private updatePublicPageUrl() {
+
+    this.publicPageUrl = getPublicAvailableUrl(window.location.href);
+    console.log("Location updated!!!");
+    console.log(this.publicPageUrl);
   }
 }

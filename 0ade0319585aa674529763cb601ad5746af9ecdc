@@ -60,6 +60,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f2e2b6fb_0a491237",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-03T19:02:08Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e3da3538_7e4efe7d",
+      "range": {
+        "startLine": 381,
+        "startChar": 33,
+        "endLine": 381,
+        "endChar": 38
+      },
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b0470fa7_c49b6af0",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 4
@@ -71,6 +95,30 @@
       "writtenOn": "2022-05-03T07:52:03Z",
       "side": 1,
       "message": "Here, using `.name` instead of `name` is fine.",
+      "range": {
+        "startLine": 404,
+        "startChar": 8,
+        "endLine": 404,
+        "endChar": 40
+      },
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d059a3b3_1675f924",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-03T19:02:08Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "b0470fa7_c49b6af0",
       "range": {
         "startLine": 404,
         "startChar": 8,
@@ -94,6 +142,24 @@
       "writtenOn": "2022-05-03T07:52:03Z",
       "side": 1,
       "message": "In Polymer the change view and the diff view did not have `restamp\u003d\"true\"`, because they are supposed to be cached. We should try to do the same in Lit. I think for this to work we can use the `cache` directive:\n\nhttps://lit.dev/docs/templates/directives/#cache\n\nDid not try, but maybe this could work:\n```\n  private renderChangeView() {\n    return cache(!this.showChangeView ? nothing: html`\n      \u003cgr-change-view\n        .params\u003d${this.params}\n        .viewState\u003d${this.viewState?.changeView}\n        .backPage\u003d${this.lastSearchPage}\n        @view-state-changed\u003d${this.handleViewStateChangeViewChanged}\n      \u003e\u003c/gr-change-view\u003e\n    `);\n  }\n```\n\nDo the same for the diff view.",
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc50fc9f_7588b6f1",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-03T19:02:08Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b26c51cc_b55a981d",
       "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -129,6 +195,24 @@
       "side": 1,
       "message": "It appears that doesn\u0027t trigger the dom to recreate rather it just changes artificial-attribute-forcing-caching-invalidation.",
       "parentUuid": "5562ed28_23c6a386",
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "115d3b59_a3de2705",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-03T19:02:08Z",
+      "side": 1,
+      "message": "I found a way, thanks, done.",
+      "parentUuid": "50e041e7_2c39024f",
       "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -180,6 +264,24 @@
       "writtenOn": "2022-05-03T07:52:03Z",
       "side": 1,
       "message": "We cannot set innerHTML directly for security reasons. Can we keep the existing code?",
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "831ee9b8_79743395",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-03T19:02:08Z",
+      "side": 1,
+      "message": "Reverted, thanks.",
+      "parentUuid": "4e709bfd_29f556a2",
       "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

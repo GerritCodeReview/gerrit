@@ -117,6 +117,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "50e041e7_2c39024f",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-03T13:04:46Z",
+      "side": 1,
+      "message": "It appears that doesn\u0027t trigger the dom to recreate rather it just changes artificial-attribute-forcing-caching-invalidation.",
+      "parentUuid": "5562ed28_23c6a386",
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a6138867_03ba74f4",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 4

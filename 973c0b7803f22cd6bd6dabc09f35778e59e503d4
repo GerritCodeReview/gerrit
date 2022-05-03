@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "380bf04d_07a4fd09",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-03T09:47:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d75b0f11_16952e52",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 17
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "133710f1_9ceb4c4a",
@@ -61,6 +85,30 @@
       "writtenOn": "2022-05-02T12:57:12Z",
       "side": 1,
       "message": "typo: --debug-port",
+      "range": {
+        "startLine": 216,
+        "startChar": 82,
+        "endLine": 216,
+        "endChar": 94
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56578fe5_0fbe00c4",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-03T09:47:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "133710f1_9ceb4c4a",
       "range": {
         "startLine": 216,
         "startChar": 82,
@@ -94,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50155504_12839b20",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-03T09:47:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "769aa63c_36a29197",
+      "range": {
+        "startLine": 215,
+        "startChar": 85,
+        "endLine": 218,
+        "endChar": 0
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d664728_f406c9ff",
@@ -107,6 +179,30 @@
       "writtenOn": "2022-05-02T12:57:12Z",
       "side": 1,
       "message": "typo: --debug-port",
+      "range": {
+        "startLine": 223,
+        "startChar": 60,
+        "endLine": 223,
+        "endChar": 73
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c81180a_9e974dd3",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-03T09:47:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d664728_f406c9ff",
       "range": {
         "startLine": 223,
         "startChar": 60,
@@ -164,6 +260,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ec42dea_2f05b4ac",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-03T09:47:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ff9293b_ec452c21",
+      "range": {
+        "startLine": 226,
+        "startChar": 26,
+        "endLine": 226,
+        "endChar": 35
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe5af70d_2a8fa705",
@@ -201,6 +321,30 @@
       "side": 1,
       "message": "Actually the last one would always win regardless if it is --debug-port of --address or multiple occurrences of the same option. This is just a consequence of parsing options left to right",
       "parentUuid": "fe5af70d_2a8fa705",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 167,
+        "endChar": 25
+      },
+      "revId": "973c0b7803f22cd6bd6dabc09f35778e59e503d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acf226d9_e27a874d",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-03T09:47:16Z",
+      "side": 1,
+      "message": "Btw it is the same effect for other options. For example if one specifies the --site-path multiple times, the last one will win. This is nothing specific to this change.",
+      "parentUuid": "2110d2bb_962a15f4",
       "range": {
         "startLine": 167,
         "startChar": 2,

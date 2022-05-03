@@ -146,7 +146,6 @@ export class GrRegistrationDialog extends LitElement {
           <span class="title">Full Name</span>
           ${when(
             this.nameMutable,
-            () => html`<span class="value">${this.account.name}</span>`,
             () => html`<span class="value">
               <iron-input
                 .bindValue=${this.account.name}
@@ -159,7 +158,8 @@ export class GrRegistrationDialog extends LitElement {
               >
                 <input id="name" ?disabled=${this.saving} />
               </iron-input>
-            </span>`
+            </span>`,
+            () => html`<span class="value">${this.account.name}</span>`
           )}
         </section>
         <section>
@@ -186,7 +186,6 @@ export class GrRegistrationDialog extends LitElement {
             <span class="title">Username</span>
             ${when(
               this.usernameMutable,
-              () => html`<span class="value">${this.username}</span>`,
               () => html` <span class="value">
                 <iron-input
                   .bindValue=${this.username}
@@ -199,7 +198,8 @@ export class GrRegistrationDialog extends LitElement {
                 >
                   <input id="username" ?disabled=${this.saving} />
                 </iron-input>
-              </span>`
+              </span>`,
+              () => html`<span class="value">${this.username}</span>`
             )}
           </section>`
         )}

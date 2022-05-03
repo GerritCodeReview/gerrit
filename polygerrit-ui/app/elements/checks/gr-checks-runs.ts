@@ -317,6 +317,8 @@ export class GrChecksRun extends LitElement {
   renderETA() {
     if (this.run.status !== RunStatus.RUNNING) return;
     if (!this.run.finishedTimestamp) return;
+    const now = new Date();
+    if (this.run.finishedTimestamp.getTime() < now.getTime()) return;
     const eta = durationString(new Date(), this.run.finishedTimestamp, true);
     return html`<span class="eta">ETA: ${eta}</span>`;
   }

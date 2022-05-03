@@ -111,6 +111,8 @@ public class SitePathInitializer {
     extractMailExample("AddToAttentionSetHtml.soy");
     extractMailExample("ChangeFooter.soy");
     extractMailExample("ChangeFooterHtml.soy");
+    extractMailExample("ChangeNoLongerSubmittable.soy");
+    extractMailExample("ChangeNoLongerSubmittableHtml.soy");
     extractMailExample("ChangeSubject.soy");
     extractMailExample("Comment.soy");
     extractMailExample("CommentHtml.soy");

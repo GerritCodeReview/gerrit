@@ -22,6 +22,30 @@
       },
       "revId": "e104fac0e95cbd8cbfa810028101f6ab9016b792",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c80d2bb2_9e459770",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-runs.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-03T10:00:28Z",
+      "side": 1,
+      "message": "Fixing the underlying issue is not high enough priority for me at the moment.",
+      "parentUuid": "c3d47ada_80d3c4b6",
+      "range": {
+        "startLine": 321,
+        "startChar": 8,
+        "endLine": 321,
+        "endChar": 45
+      },
+      "revId": "e104fac0e95cbd8cbfa810028101f6ab9016b792",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

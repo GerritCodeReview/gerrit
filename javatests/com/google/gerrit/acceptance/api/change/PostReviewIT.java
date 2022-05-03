@@ -73,12 +73,14 @@ import com.google.gerrit.server.restapi.change.OnPostReview;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.CommentsRejectedException;
+import com.google.gerrit.server.util.ChangeNoLongerSubmittableEmail;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -1060,8 +1062,16 @@ public class PostReviewIT extends AbstractDaemonTest {
 
     @Override
     public Optional<SubmitRecord> evaluate(ChangeData changeData) {
-      count++;
+      if (!isAsyncCallForSendingChangeNoLongerSubmittableEmail()) {
+        count++;
+      }
       return Optional.empty();
+    }
+
+    private boolean isAsyncCallForSendingChangeNoLongerSubmittableEmail() {
+      return Arrays.stream(Thread.currentThread().getStackTrace())
+          .map(StackTraceElement::getClassName)
+          .anyMatch(className -> ChangeNoLongerSubmittableEmail.class.getName().equals(className));
     }
   }
 

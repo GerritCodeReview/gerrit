@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
@@ -42,6 +43,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
@@ -2559,16 +2561,44 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 AttentionSetUpdate.Operation.ADD,
                 "Someone else replied on the change"));
 
-    // Verify the email notification that has been sent for removing the approval.
-    Message message = Iterables.getOnlyElement(sender.getMessages());
-    assertThat(message.body())
+    // Verify the email notifications that have been sent for removing the approval.
+    assertThat(sender.getMessages()).hasSize(2);
+    Message postReviewMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("has posted comments on this change"))
+            .findAny()
+            .get();
+    assertThat(postReviewMessage.body())
         .contains(
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
                     + "%s has posted comments on this change.",
                 admin.fullName(), user.fullName(), approver.fullName()));
-    assertThat(message.body()).doesNotContain("\nPatch Set 2: Code-Review+2\n");
+    assertThat(postReviewMessage.body()).doesNotContain("\nPatch Set 2: Code-Review+2\n");
+    Message changeNotSubmittableMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("the change is no longer submittable"))
+            .findAny()
+            .get();
+    // check that the email was sent to the change owner (admin) and the uploader (user)
+    assertThat(
+            changeNotSubmittableMessage.rcpt().stream()
+                .map(Address::email)
+                .collect(toImmutableSet()))
+        .containsExactly(admin.email(), user.email());
+    assertThat(changeNotSubmittableMessage.body())
+        .contains(
+            String.format(
+                "%s has replied on patch set #2 and the change is no longer submittable.",
+                approver.fullName()));
+    assertThat(changeNotSubmittableMessage.body())
+        .contains(
+            "Old submit requirements:\n"
+                + "* Code-Review: SATISFIED\n"
+                + "\n"
+                + "New submit requirements:\n"
+                + "* Code-Review: UNSATISFIED\n");
   }
 
   @Test
@@ -2644,16 +2674,44 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 "Someone else replied on the change"));
 
     // Verify the email notification that has been sent for downgrading the approval.
-    Message message = Iterables.getOnlyElement(sender.getMessages());
-    assertThat(message.body())
+    assertThat(sender.getMessages()).hasSize(2);
+    Message postReviewMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("has posted comments on this change"))
+            .findAny()
+            .get();
+    assertThat(postReviewMessage.body())
         .contains(
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
                     + "%s has posted comments on this change.",
                 admin.fullName(), user.fullName(), approver.fullName()));
-    assertThat(message.body()).doesNotContain("\nPatch Set 2: Code-Review+2\n");
-    assertThat(message.body()).contains("\nPatch Set 2: Code-Review+1\n");
+    assertThat(postReviewMessage.body()).doesNotContain("\nPatch Set 2: Code-Review+2\n");
+    assertThat(postReviewMessage.body()).contains("\nPatch Set 2: Code-Review+1\n");
+    Message changeNotSubmittableMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("the change is no longer submittable"))
+            .findAny()
+            .get();
+    // check that the email was sent to the change owner (admin) and the uploader (user)
+    assertThat(
+            changeNotSubmittableMessage.rcpt().stream()
+                .map(Address::email)
+                .collect(toImmutableSet()))
+        .containsExactly(admin.email(), user.email());
+    assertThat(changeNotSubmittableMessage.body())
+        .contains(
+            String.format(
+                "%s has replied on patch set #2 and the change is no longer submittable.",
+                approver.fullName()));
+    assertThat(changeNotSubmittableMessage.body())
+        .contains(
+            "Old submit requirements:\n"
+                + "* Code-Review: SATISFIED\n"
+                + "\n"
+                + "New submit requirements:\n"
+                + "* Code-Review: UNSATISFIED\n");
   }
 
   @Test
@@ -2730,15 +2788,43 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 "Someone else replied on the change"));
 
     // Verify the email notification that has been sent for adding the veto.
-    Message message = Iterables.getOnlyElement(sender.getMessages());
-    assertThat(message.body())
+    assertThat(sender.getMessages()).hasSize(2);
+    Message postReviewMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("has posted comments on this change"))
+            .findAny()
+            .get();
+    assertThat(postReviewMessage.body())
         .contains(
             String.format(
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
                     + "%s has posted comments on this change.",
                 admin.fullName(), user.fullName(), approver.fullName()));
-    assertThat(message.body()).contains("\nPatch Set 2: Code-Review-2\n");
+    assertThat(postReviewMessage.body()).contains("\nPatch Set 2: Code-Review-2\n");
+    Message changeNotSubmittableMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("the change is no longer submittable"))
+            .findAny()
+            .get();
+    // check that the email was sent to the change owner (admin) and the uploader (user)
+    assertThat(
+            changeNotSubmittableMessage.rcpt().stream()
+                .map(Address::email)
+                .collect(toImmutableSet()))
+        .containsExactly(admin.email(), user.email());
+    assertThat(changeNotSubmittableMessage.body())
+        .contains(
+            String.format(
+                "%s has replied on patch set #2 and the change is no longer submittable.",
+                approver.fullName()));
+    assertThat(changeNotSubmittableMessage.body())
+        .contains(
+            "Old submit requirements:\n"
+                + "* Code-Review: SATISFIED\n"
+                + "\n"
+                + "New submit requirements:\n"
+                + "* Code-Review: UNSATISFIED\n");
   }
 
   private void setEmailStrategyForUser(EmailStrategy es) throws Exception {

@@ -16,6 +16,24 @@
       "message": "Why this removal?",
       "revId": "65f5f5968fd3d42e550fde16506f443a09adbd71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c75b8169_31aa5f19",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-03T09:46:09Z",
+      "side": 0,
+      "message": "+1, this is in use",
+      "parentUuid": "a8abf66e_4cbc99cf",
+      "revId": "65f5f5968fd3d42e550fde16506f443a09adbd71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

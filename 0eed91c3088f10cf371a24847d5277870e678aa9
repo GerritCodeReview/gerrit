@@ -117,6 +117,30 @@
       },
       "revId": "0eed91c3088f10cf371a24847d5277870e678aa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58cfcb14_40c1389a",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectVisibilityCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1140732
+      },
+      "writtenOn": "2022-05-03T18:54:00Z",
+      "side": 1,
+      "message": "Acknowledged, thank you for the detailed explanation! I have released new patch set so that only admin or user who has view access capability can have access to the command, so that it can solve the security-relevant issues.",
+      "parentUuid": "122bf655_5ceeb821",
+      "range": {
+        "startLine": 58,
+        "startChar": 37,
+        "endLine": 58,
+        "endChar": 58
+      },
+      "revId": "0eed91c3088f10cf371a24847d5277870e678aa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -51,3 +51,21 @@ export function convertToString(key?: unknown) {
 export function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+/**
+ * Converts the items into a sentence-friendly format. Examples:
+ * listForSentence(["Foo", "Bar", "Baz"])
+ * => 'Foo, Bar, and Baz'
+ * listForSentence(["Foo", "Bar"])
+ * => 'Foo and Bar'
+ * listForSentence(["Foo"])
+ * => 'Foo'
+ */
+export function listForSentence(items: string[]): string {
+  if (items.length < 2) return items.join('');
+  if (items.length === 2) return items.join(' and ');
+
+  const firstItems = items.slice(0, items.length - 1);
+  const lastItem = items.at(-1);
+  return `${firstItems.join(', ')}, and ${lastItem}`;
+}

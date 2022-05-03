@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2eb47a5b_e45a971f",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-03T11:56:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "951477cf_1fd97817",
+      "range": {
+        "startLine": 216,
+        "startChar": 43,
+        "endLine": 216,
+        "endChar": 47
+      },
+      "revId": "667b5393d9943ada716eef912954ea1b0c047449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6abc09b_444fba3c",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-03T10:21:20Z",
       "side": 1,
       "message": "I think we use imperative style:\n\nSpecify",
+      "range": {
+        "startLine": 49,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 10
+      },
+      "revId": "667b5393d9943ada716eef912954ea1b0c047449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a91e620a_ed961626",
+        "filename": "Documentation/pgm-daemon.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-03T11:56:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6abc09b_444fba3c",
       "range": {
         "startLine": 49,
         "startChar": 1,

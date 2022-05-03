@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e108f731_86006f9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 61
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-03T18:49:23Z",
+      "side": 1,
+      "message": "Seems the gr-textarea test fails on mac:\n\n```\n  gr-textarea tests\n    ✖ renders\n      Chrome Headless 100.0.4896.127 (Mac OS 10.15.7)\n    AssertionError: expected \u0027\u003cdiv id\u003d\"hiddenText\"\u003e\\n\u003c/div\u003e\\n\u003cspan id\u003d\"caratSpan\"\u003e\\n\u003c/span\u003e\\n\u003cgr-autocomplete-dropdown\\n  id\u003d\"emojiSuggestions\"\\n  is-hidden\u003d\"\"\\n  style\u003d\"position: fixed; top: 150px; left: 400px; box-sizing: border-box; max-height: 300px; max-width: 800px;\"\\n\u003e\\n\u003c/gr-autocomplete-dropdown\u003e\\n\u003ciron-autogrow-textarea\\n  aria-disabled\u003d\"false\"\\n  id\u003d\"textarea\"\\n\u003e\\n\u003c/iron-autogrow-textarea\u003e\\n\u0027 to equal \u0027\u003cdiv id\u003d\"hiddenText\"\u003e\\n\u003c/div\u003e\\n\u003cspan id\u003d\"caratSpan\"\u003e\\n\u003c/span\u003e\\n\u003cgr-autocomplete-dropdown\\n  id\u003d\"emojiSuggestions\"\\n  is-hidden\u003d\"\"\\n  style\u003d\"position: fixed; top: 150px; left: 392.5px; box-sizing: border-box; max-height: 300px; max-width: 785px;\"\\n\u003e\\n\u003c/gr-autocomplete-dropdown\u003e\\n\u003ciron-autogrow-textarea\\n  aria-disabled\u003d\"false\"\\n  id\u003d\"textarea\"\\n\u003e\\n\u003c/iron-autogrow-textarea\u003e\\n\u0027\n\n      + expected - actual\n\n       \u003c/span\u003e\n       \u003cgr-autocomplete-dropdown\n         id\u003d\"emojiSuggestions\"\n         is-hidden\u003d\"\"\n      -  style\u003d\"position: fixed; top: 150px; left: 400px; box-sizing: border-box; max-height: 300px; max-width: 800px;\"\n      +  style\u003d\"position: fixed; top: 150px; left: 392.5px; box-sizing: border-box; max-height: 300px; max-width: 785px;\"\n       \u003e\n       \u003c/gr-autocomplete-dropdown\u003e\n       \u003ciron-autogrow-textarea\n         aria-disabled\u003d\"false\"\n      \n    at assertHtmlEquals (external/ui_dev_npm/node_modules/@open-wc/semantic-dom-diff/chai-dom-diff.js:76:17)\n    at Proxy.handleDom (external/ui_dev_npm/node_modules/@open-wc/semantic-dom-diff/chai-dom-diff.js:100:9)\n    at Proxy.overwritingMethodWrapper (external/ui_dev_npm/node_modules/chai/chai.js:9164:33)\n    at Context.\u003canonymous\u003e (polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts:36:34)\n\n\n```",
+      "revId": "80229b501809fff0cb5a908f648f98a7f1637bde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

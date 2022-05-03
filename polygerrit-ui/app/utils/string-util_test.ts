@@ -16,7 +16,7 @@
  */
 
 import '../test/common-test-setup-karma';
-import {pluralize, ordinal} from './string-util';
+import {pluralize, ordinal, listForSentence} from './string-util';
 
 suite('formatter util tests', () => {
   test('pluralize', () => {
@@ -38,5 +38,14 @@ suite('formatter util tests', () => {
     assert.equal(ordinal(13), '13th');
     assert.equal(ordinal(44413), '44413th');
     assert.equal(ordinal(44451), '44451st');
+  });
+
+  test('listForSentence', () => {
+    assert.equal(
+      listForSentence(['Frank', 'Ben', 'Chris']),
+      'Frank, Ben, and Chris'
+    );
+    assert.equal(listForSentence(['Frank', 'Ben']), 'Frank and Ben');
+    assert.equal(listForSentence(['Frank']), 'Frank');
   });
 });

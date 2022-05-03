@@ -16,6 +16,24 @@
       "message": "teset?",
       "revId": "7ed998125d576d9a5984c186211df8c28704d6ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "408795ab_33406782",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-03T14:26:04Z",
+      "side": 1,
+      "message": "Sorry, I meant \"test\". :-)",
+      "parentUuid": "38388ce2_b6c87e21",
+      "revId": "7ed998125d576d9a5984c186211df8c28704d6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

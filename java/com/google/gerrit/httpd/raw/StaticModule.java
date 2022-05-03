@@ -36,6 +36,7 @@ import com.google.inject.Key;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
+import com.google.inject.multibindings.OptionalBinder;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
@@ -44,6 +45,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
+import java.util.Map;
+import java.util.Optional;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -217,6 +220,8 @@ public class StaticModule extends ServletModule {
         filter(p).through(XsrfCookieFilter.class);
       }
       filter("/*").through(PolyGerritFilter.class);
+      OptionalBinder.newOptionalBinder(binder(), PrivateToPublicHostMapProvider.class)
+          .setDefault().toInstance(request -> Optional.empty());
     }
 
     @Provides
@@ -226,10 +231,11 @@ public class StaticModule extends ServletModule {
         @CanonicalWebUrl @Nullable String canonicalUrl,
         @GerritServerConfig Config cfg,
         GerritApi gerritApi,
-        ExperimentFeatures experimentFeatures) {
+        ExperimentFeatures experimentFeatures,
+        PrivateToPublicHostMapProvider privateToPublicHostMapProvider) {
       String cdnPath = options.devCdn().orElse(cfg.getString("gerrit", null, "cdnPath"));
       String faviconPath = cfg.getString("gerrit", null, "faviconPath");
-      return new IndexServlet(canonicalUrl, cdnPath, faviconPath, gerritApi, experimentFeatures);
+      return new IndexServlet(canonicalUrl, cdnPath, faviconPath, gerritApi, experimentFeatures, privateToPublicHostMapProvider);
     }
 
     @Provides

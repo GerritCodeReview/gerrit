@@ -61,7 +61,10 @@ import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
 import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {getUserName} from '../../../utils/display-name-util';
-import {generateAbsoluteUrl} from '../../../utils/url-util';
+import {
+  getPublicAvailableUrl,
+  generateAbsoluteUrl,
+} from '../../../utils/url-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {subscribe} from '../../lit/subscription-controller';
@@ -732,7 +735,8 @@ export class GrCommentThread extends LitElement {
       GerritNav.getUrlForCommentsTab(this.changeNum, this.repoName, comment.id)
     );
     assertIsDefined(url, 'url for comment');
-    navigator.clipboard.writeText(generateAbsoluteUrl(url)).then(() => {
+    const publicUrl = getPublicAvailableUrl(generateAbsoluteUrl(url));
+    navigator.clipboard.writeText(publicUrl).then(() => {
       fireAlert(this, 'Link copied to clipboard');
     });
   }

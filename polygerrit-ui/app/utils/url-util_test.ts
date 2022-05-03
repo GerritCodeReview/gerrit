@@ -26,7 +26,7 @@ import {
   singleDecodeURL,
   toPath,
   toPathname,
-  toSearchParams,
+  toSearchParams, getPublicAvailableUrl,
 } from './url-util';
 import {getAppContext, AppContext} from '../services/app-context';
 import {stubRestApi} from '../test/test-utils';
@@ -139,6 +139,93 @@ suite('url-util tests', () => {
       test('converts + to space', () => {
         assert.equal(singleDecodeURL('ghi+jkl'), 'ghi jkl');
       });
+    });
+  });
+
+  suite('getPublicAvailableUrl tests', () => {
+    let oldPrivateToPublicHostMap: typeof window.PRIVATE_TO_PUBLIC_HOST_MAP;
+    setup(() => {
+      oldPrivateToPublicHostMap = window.PRIVATE_TO_PUBLIC_HOST_MAP;
+    });
+    teardown(() => {
+      window.PRIVATE_TO_PUBLIC_HOST_MAP = oldPrivateToPublicHostMap;
+    });
+
+    test('PRIVATE_TO_PUBLIC_HOST_MAP not set - url not changed', () => {
+      assert.equal(
+        getPublicAvailableUrl('https://gerrit-review.private.corp'),
+        'https://gerrit-review.private.corp'
+      );
+      assert.equal(
+        getPublicAvailableUrl('https://gerrit-review.private.corp/'),
+        'https://gerrit-review.private.corp/'
+      );
+      assert.equal(
+        getPublicAvailableUrl('https://gerrit-review.private.corp/a/b#c'),
+        'https://gerrit-review.private.corp/a/b#c'
+      );
+      assert.equal(
+          getPublicAvailableUrl('relative/url#x'),
+          'relative/url#x'
+      );
+      assert.equal(
+        getPublicAvailableUrl('https://gerrit-review.private.corp/a/b?var=x#c'),
+        'https://gerrit-review.private.corp/a/b?var=x#c'
+      );
+      assert.equal(getPublicAvailableUrl('relative/url#x'), 'relative/url#x');
+    });
+
+    test('PRIVATE_TO_PUBLIC_HOST_MAP set - absolute url are updated', () => {
+      window.PRIVATE_TO_PUBLIC_HOST_MAP = {
+        'gerrit-review.private.corp': 'gerrit-review.googlesource.com',
+        'ho.ho.ho.corp': 'santa.claus',
+      };
+      assert.equal(
+        getPublicAvailableUrl('https://gerrit-review.private.corp'),
+        'https://gerrit-review.googlesource.com/'
+      );
+      assert.equal(
+        getPublicAvailableUrl('https://gerrit-review.private.corp/'),
+        'https://gerrit-review.googlesource.com/'
+      );
+      assert.equal(
+        getPublicAvailableUrl('https://ho.ho.ho.corp/a/b#c'),
+        'https://santa.claus/a/b#c'
+      );
+      assert.equal(
+        getPublicAvailableUrl('https://ho.ho.ho.corp/a/b?var=x#c'),
+        'https://santa.claus/a/b?var=x#c'
+      );
+    });
+
+    test('PRIVATE_TO_PUBLIC_HOST_MAP set - hosts not in map are not updated', () => {
+      window.PRIVATE_TO_PUBLIC_HOST_MAP = {
+        'gerrit-review.private.corp': 'gerrit-review.googlesource.com',
+        'ho.ho.ho.corp': 'santa.claus',
+      };
+      assert.equal(
+        getPublicAvailableUrl('https://gerrit-review.googlesource.com'),
+        'https://gerrit-review.googlesource.com'
+      );
+      assert.equal(
+        getPublicAvailableUrl('https://android-review.googlesource.com/a/b#c'),
+        'https://android-review.googlesource.com/a/b#c'
+      );
+    });
+    test('PRIVATE_TO_PUBLIC_HOST_MAP set - relative url are not updated', () => {
+      window.PRIVATE_TO_PUBLIC_HOST_MAP = {
+        'gerrit-review.private.corp': 'gerrit-review.googlesource.com',
+        'ho.ho.ho.corp': 'santa.claus',
+      };
+      assert.equal(getPublicAvailableUrl('./a/b/c'), './a/b/c');
+      assert.equal(
+          getPublicAvailableUrl('a/b/c#d'),
+          'a/b/c#d'
+      );
+      assert.equal(
+          getPublicAvailableUrl('/a/b/c#d'),
+          '/a/b/c#d'
+      );
     });
   });
 

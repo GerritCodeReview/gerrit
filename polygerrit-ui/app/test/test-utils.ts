@@ -31,6 +31,7 @@ import {Key, Modifier} from '../utils/dom-util';
 import {Observable} from 'rxjs';
 import {filter, take, timeout} from 'rxjs/operators';
 import {HighlightService} from '../services/highlight/highlight-service';
+import { ReactiveElement } from 'lit';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
 
 export interface MockPromise<T> extends Promise<T> {
@@ -319,4 +320,22 @@ export function assertFails(promise: Promise<unknown>, error?: unknown) {
         assert.equal(e, error);
       }
     });
+}
+
+/**
+ * Wait until all updates are completed
+ *
+ * The element.updateComplete resolves to false if the update triggering another
+ * update. For tests, we usually want to wait until all updates are completed.
+ */
+export async function fullElementUpdateComplete(
+  element: ReactiveElement,
+  maxWaitAttempt = 10
+) {
+  for (let i = 0; i < maxWaitAttempt; i++) {
+    if (await element.updateComplete) return;
+  }
+  throw new Error(
+    "Element's update chain is very long. Try to increase maxWaitAttempt or simplify component"
+  );
 }

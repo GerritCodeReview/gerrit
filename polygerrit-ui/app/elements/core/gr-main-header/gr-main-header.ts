@@ -21,7 +21,11 @@ import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-icons/gr-icons';
 import '../gr-account-dropdown/gr-account-dropdown';
 import '../gr-smart-search/gr-smart-search';
-import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util';
+import {
+  getBaseUrl,
+  getDocsBaseUrl,
+  getPublicAvailableUrl,
+} from '../../../utils/url-util';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAdminLinks, NavLink} from '../../../utils/admin-nav-util';
 import {
@@ -37,7 +41,7 @@ import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
-import {fireEvent} from '../../../utils/event-util';
+import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 
@@ -138,6 +142,9 @@ export class GrMainHeader extends LitElement {
   @state() private topMenus?: TopMenuEntryInfo[] = [];
 
   // private but used in test
+  @state() publicAvailableUrl = '';
+
+  // private but used in test
   @state() registerText = 'Sign up';
 
   // Empty string means that the register <div> will be hidden.
@@ -159,9 +166,18 @@ export class GrMainHeader extends LitElement {
 
   private subscriptions: Subscription[] = [];
 
+  constructor() {
+    super();
+    this.addEventListener('location-change', () => {
+      this.publicAvailableUrl = getPublicAvailableUrl(window.location.href);
+    });
+  }
+
   override connectedCallback() {
     super.connectedCallback();
     this.loadAccount();
+    this.updatePublicAvailableUrl();
+    window.addEventListener('location-change', this.updatePublicAvailableUrl);
 
     this.subscriptions.push(
       this.userModel.preferences$
@@ -187,6 +203,10 @@ export class GrMainHeader extends LitElement {
   }
 
   override disconnectedCallback() {
+    window.removeEventListener(
+      'location-change',
+      this.updatePublicAvailableUrl
+    );
     for (const s of this.subscriptions) {
       s.unsubscribe();
     }
@@ -269,6 +289,9 @@ export class GrMainHeader extends LitElement {
           --gr-dropdown-item-color: var(--primary-text-color);
         }
         .settingsButton {
+          margin-left: var(--spacing-m);
+        }
+        .copyPublicAvailableUrlButton {
           margin-left: var(--spacing-m);
         }
         .feedbackButton {
@@ -389,6 +412,7 @@ export class GrMainHeader extends LitElement {
       <gr-endpoint-decorator class="feedbackButton" name="header-feedback">
         ${this.renderFeedback()}
       </gr-endpoint-decorator>
+      ${this.renderCopyPublicAvailableUrlButton(this.publicAvailableUrl)}
       </div>
       ${this.renderAccount()}
     </div>
@@ -427,6 +451,30 @@ export class GrMainHeader extends LitElement {
         <iron-icon icon="gr-icons:bug"></iron-icon>
       </a>
     `;
+  }
+
+  private renderCopyPublicAvailableUrlButton(publicUrl: string) {
+    if (window.location.href === publicUrl) return;
+    return html`
+      <a
+        href=${publicUrl}
+        class="copyPublicAvailableUrlButton"
+        @click=${this.handleCopyPublicAvailableUrlLink}
+        title="Copy public available url to the current page"
+        aria-label="Copy public available url to the current page"
+        role="button"
+      >
+        <iron-icon id="icon" icon="gr-icons:link"></iron-icon>
+      </a>
+    `;
+  }
+
+  private handleCopyPublicAvailableUrlLink(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(this.publicAvailableUrl).then(() => {
+      fireAlert(this, 'Link copied to clipboard');
+    });
   }
 
   private renderAccount() {
@@ -646,4 +694,8 @@ export class GrMainHeader extends LitElement {
     e.stopPropagation();
     fireEvent(this, 'mobile-search');
   }
+
+  private updatePublicAvailableUrl = () => {
+    this.publicAvailableUrl = getPublicAvailableUrl(window.location.href);
+  };
 }

@@ -50,6 +50,8 @@ class MailSoySauceLoader {
     "ChangeFooterHtml.soy",
     "ChangeHeader.soy",
     "ChangeHeaderHtml.soy",
+    "ChangeNoLongerSubmittable.soy",
+    "ChangeNoLongerSubmittableHtml.soy",
     "ChangeSubject.soy",
     "Comment.soy",
     "CommentHtml.soy",

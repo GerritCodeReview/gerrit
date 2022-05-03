@@ -1,0 +1,52 @@
+/**
+ * Copyright (C) 2022 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+{namespace com.google.gerrit.server.mail.template.ChangeNoLongerSubmittable}
+
+/**
+ * The .ChangeNoLongerSubmittable template will determine the contents of the email related to a
+ * change being no longer submittable.
+ */
+{template ChangeNoLongerSubmittable kind="text"}
+  {@param change: ?}
+  {@param email: ?}
+  {@param fromName: ?}
+  {@param patchSet: ?}
+  {switch $email.updateKind}
+    {case 'REPLY_POSTED'}
+      {$fromName} has replied on patch set #{$patchSet.patchSetId}{sp}
+      and the change is no longer submittable.
+    {default}
+      {$fromName} updated change {$change.changeNumber}{sp}
+      and this change is no longer submittable.
+  {/switch}
+  {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
+  {\n}
+  Old submit requirements:{\n}
+  {for $oldSubmitRequirement in $email.oldSubmitRequirements}
+    * {$oldSubmitRequirement}{\n}
+  {/for}
+  {\n}
+  New submit requirements:{\n}
+  {for $newSubmitRequirement in $email.newSubmitRequirements}
+    * {$newSubmitRequirement}{\n}
+  {/for}
+  {\n}
+  Change subject: {$change.subject}{\n}
+  ......................................................................{\n}
+  {\n}
+  {$email.changeDetail}{\n}
+{/template}

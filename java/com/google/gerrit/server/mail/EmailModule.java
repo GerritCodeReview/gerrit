@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.mail.send.AbandonedSender;
 import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
+import com.google.gerrit.server.mail.send.ChangeNoLongerSubmittableSender;
 import com.google.gerrit.server.mail.send.CommentSender;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.mail.send.DeleteKeySender;
@@ -53,5 +54,6 @@ public class EmailModule extends FactoryModule {
     factory(SetAssigneeSender.Factory.class);
     factory(AddToAttentionSetSender.Factory.class);
     factory(RemoveFromAttentionSetSender.Factory.class);
+    factory(ChangeNoLongerSubmittableSender.Factory.class);
   }
 }

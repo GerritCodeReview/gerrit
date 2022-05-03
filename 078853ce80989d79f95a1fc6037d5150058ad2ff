@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9537028c_0cb52b08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-05-03T09:23:18Z",
+      "side": 1,
+      "message": "for clarity, i\u0027d add \"in the greeting\". then it becomes more obvious that this isn\u0027t about the low-level mail sending machinery.",
+      "range": {
+        "startLine": 10,
+        "startChar": 36,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "078853ce80989d79f95a1fc6037d5150058ad2ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -30,6 +30,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import org.eclipse.jgit.lib.ObjectId;
 
 /* Set work in progress or ready for review state on a change */
 public class WorkInProgressOp implements BatchUpdateOp {
@@ -57,6 +58,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
   private final WorkInProgressStateChanged stateChanged;
 
   private boolean sendEmail = true;
+  private ObjectId preUpdateMetaId;
   private Change change;
   private PatchSet ps;
   private String mailMessage;
@@ -83,6 +85,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx) {
+    preUpdateMetaId = ctx.getNotes().getMetaId();
     change = ctx.getChange();
     ps = psUtil.get(ctx.getNotes(), change.currentPatchSetId());
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
@@ -126,7 +129,14 @@ public class WorkInProgressOp implements BatchUpdateOp {
       return;
     }
     email
-        .create(ctx, ps, mailMessage, ImmutableList.of(), mailMessage, ImmutableList.of())
+        .create(
+            ctx,
+            ps,
+            preUpdateMetaId,
+            mailMessage,
+            ImmutableList.of(),
+            mailMessage,
+            ImmutableList.of())
         .sendAsync();
   }
 }

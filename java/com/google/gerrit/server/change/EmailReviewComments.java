@@ -23,6 +23,8 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
@@ -40,8 +42,10 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class EmailReviewComments {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -54,6 +58,7 @@ public class EmailReviewComments {
      *
      * @param postUpdateContext the post update context from the calling BatchUpdateOp
      * @param patchSet patch set corresponding to the top-level op
+     * @param preUpdateMetaId the SHA1 to which the notes branch pointed before the update
      * @param message used by text template only. The contents of this message typically include the
      *     "Patch set N" header and "(M comments)".
      * @param comments inline comments.
@@ -65,6 +70,7 @@ public class EmailReviewComments {
     EmailReviewComments create(
         PostUpdateContext postUpdateContext,
         PatchSet patchSet,
+        ObjectId preUpdateMetaId,
         @Assisted("message") String message,
         List<? extends Comment> comments,
         @Nullable @Assisted("patchSetComment") String patchSetComment,
@@ -83,6 +89,7 @@ public class EmailReviewComments {
       MessageIdGenerator messageIdGenerator,
       @Assisted PostUpdateContext postUpdateContext,
       @Assisted PatchSet patchSet,
+      @Assisted ObjectId preUpdateMetaId,
       @Assisted("message") String message,
       @Assisted List<? extends Comment> comments,
       @Nullable @Assisted("patchSetComment") String patchSetComment,
@@ -99,6 +106,15 @@ public class EmailReviewComments {
     }
 
     Change.Id changeId = patchSet.id().changeId();
+
+    // Getting the change data from PostUpdateContext retrieves a cached ChangeData
+    // instance. This ChangeData instance has been created when the change was (re)indexed
+    // due to the update, and hence has submit requirement results already cached (since
+    // (re)indexing triggers the evaluation of the submit requirements).
+    Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults =
+        postUpdateContext
+            .getChangeData(postUpdateContext.getProject(), changeId)
+            .submitRequirementsIncludingLegacy();
     this.asyncSender =
         new AsyncSender(
             requestContext,
@@ -110,11 +126,13 @@ public class EmailReviewComments {
             postUpdateContext.getProject(),
             changeId,
             patchSet,
+            preUpdateMetaId,
             message,
             postUpdateContext.getWhen(),
             ImmutableList.copyOf(COMMENT_ORDER.sortedCopy(comments)),
             patchSetComment,
-            ImmutableList.copyOf(labels));
+            ImmutableList.copyOf(labels),
+            postUpdateSubmitRequirementResults);
   }
 
   public void sendAsync() {
@@ -139,11 +157,14 @@ public class EmailReviewComments {
     private final Project.NameKey projectName;
     private final Change.Id changeId;
     private final PatchSet patchSet;
+    private final ObjectId preUpdateMetaId;
     private final String message;
     private final Instant timestamp;
     private final ImmutableList<? extends Comment> comments;
     @Nullable private final String patchSetComment;
     private final ImmutableList<LabelVote> labels;
+    private final Map<SubmitRequirement, SubmitRequirementResult>
+        postUpdateSubmitRequirementResults;
 
     AsyncSender(
         ThreadLocalRequestContext requestContext,
@@ -155,11 +176,13 @@ public class EmailReviewComments {
         Project.NameKey projectName,
         Change.Id changeId,
         PatchSet patchSet,
+        ObjectId preUpdateMetaId,
         String message,
         Instant timestamp,
         ImmutableList<? extends Comment> comments,
         @Nullable String patchSetComment,
-        ImmutableList<LabelVote> labels) {
+        ImmutableList<LabelVote> labels,
+        Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
       this.requestContext = requestContext;
       this.commentSenderFactory = commentSenderFactory;
       this.patchSetInfoFactory = patchSetInfoFactory;
@@ -169,18 +192,22 @@ public class EmailReviewComments {
       this.projectName = projectName;
       this.changeId = changeId;
       this.patchSet = patchSet;
+      this.preUpdateMetaId = preUpdateMetaId;
       this.message = message;
       this.timestamp = timestamp;
       this.comments = comments;
       this.patchSetComment = patchSetComment;
       this.labels = labels;
+      this.postUpdateSubmitRequirementResults = postUpdateSubmitRequirementResults;
     }
 
     @Override
     public void run() {
       RequestContext old = requestContext.setContext(this);
       try {
-        CommentSender emailSender = commentSenderFactory.create(projectName, changeId);
+        CommentSender emailSender =
+            commentSenderFactory.create(
+                projectName, changeId, preUpdateMetaId, postUpdateSubmitRequirementResults);
         emailSender.setFrom(user.getAccountId());
         emailSender.setPatchSet(patchSet, patchSetInfoFactory.get(projectName, patchSet));
         emailSender.setChangeMessage(message, timestamp);

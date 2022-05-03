@@ -83,6 +83,11 @@ public abstract class ChangeEmail extends NotificationEmail {
     return ea.changeDataFactory.create(project, id);
   }
 
+  protected static ChangeData newChangeData(
+      EmailArguments ea, Project.NameKey project, Change.Id id, ObjectId metaId) {
+    return ea.changeDataFactory.create(ea.changeNotesFactory.createChecked(project, id, metaId));
+  }
+
   private final Set<Account.Id> currentAttentionSet;
   protected final Change change;
   protected final ChangeData changeData;

@@ -22,7 +22,7 @@ import org.junit.Test;
 public class CommentSenderTest {
   private static class TestSender extends CommentSender {
     TestSender() {
-      super(null, null, null, null, null);
+      super(null, null, null, null, null, null, null);
     }
   }
 

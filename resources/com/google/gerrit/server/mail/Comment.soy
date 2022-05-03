@@ -26,8 +26,24 @@
   {@param email: ?}
   {@param fromName: ?}
   {@param commentFiles: ?}
+  {@param oldSubmitRequirements: ?}
+  {@param newSubmitRequirements: ?}
   {$fromName} has posted comments on this change.
   {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
+  {if $oldSubmitRequirements and $newSubmitRequirements}
+    {\n}
+    Due to the reply the change is no longer submittable:{\n}
+    {\n}
+    Old submit requirements:{\n}
+    {for $oldSubmitRequirement in $oldSubmitRequirements}
+      * {$oldSubmitRequirement}{\n}
+    {/for}
+    {\n}
+    New submit requirements:{\n}
+    {for $newSubmitRequirement in $newSubmitRequirements}
+      * {$newSubmitRequirement}{\n}
+    {/for}
+  {/if}
   {\n}
   Change subject: {$change.subject}{\n}
   ......................................................................{\n}

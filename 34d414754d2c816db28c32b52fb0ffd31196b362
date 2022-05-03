@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9c5654d_6fcc10ff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 59
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-03T10:08:46Z",
+      "side": 1,
+      "message": "are the styles for this added over from the polymer html?",
+      "range": {
+        "startLine": 482,
+        "startChar": 43,
+        "endLine": 482,
+        "endChar": 62
+      },
+      "revId": "34d414754d2c816db28c32b52fb0ffd31196b362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

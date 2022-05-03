@@ -262,6 +262,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a999b098_39830ac2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 54
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-03T10:14:04Z",
+      "side": 1,
+      "message": "So when you select an entry from the dropdown such as `owner:` then we don\u0027t want to keep the new suggestions open since the new suggestions are shown only when something new is typed.\n\nThis unfortunately means we need to `await updateComplete` otherwise disableSuggestions is immediately set to false and the expected behaviour does not occur.",
+      "parentUuid": "459ad590_0e64b784",
+      "range": {
+        "startLine": 380,
+        "startChar": 4,
+        "endLine": 382,
+        "endChar": 36
+      },
+      "revId": "ded405001c85a13a30ff29741048404fe40457ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb65207d_18d8e971",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
         "patchSetId": 54

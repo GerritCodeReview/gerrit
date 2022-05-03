@@ -26,8 +26,34 @@
   {@param email: ?}
   {@param fromName: ?}
   {@param commentFiles: ?}
+  {@param unsatisfiedSubmitRequirements: ?}
+  {@param oldSubmitRequirements: ?}
+  {@param newSubmitRequirements: ?}
   {$fromName} has posted comments on this change.
   {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
+  {if $unsatisfiedSubmitRequirements}
+    {\n}
+    The change is no longer submittable:{sp}
+    {if length($unsatisfiedSubmitRequirements) > 0}
+      {for $unsatisfiedSubmitRequirement, $index in $unsatisfiedSubmitRequirements}
+        {if $index > 0}
+          {if $index == length($unsatisfiedSubmitRequirements) - 1}
+            {sp}and{sp}
+          {else}
+            ,{sp}
+          {/if}
+        {/if}
+        {$unsatisfiedSubmitRequirement}
+      {/for}
+      {sp}
+      {if length($unsatisfiedSubmitRequirements) == 1}
+        is
+      {else}
+        are
+      {/if}
+      {sp}unsatisfied now.{\n}
+    {/if}
+  {/if}
   {\n}
   Change subject: {$change.subject}{\n}
   ......................................................................{\n}

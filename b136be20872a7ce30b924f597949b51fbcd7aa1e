@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35ce7639_0b51d366",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-03T10:53:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a541e978_8a83ff0e",
+      "range": {
+        "startLine": 18,
+        "startChar": 32,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "b136be20872a7ce30b924f597949b51fbcd7aa1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31b829eb_290b340e",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-03T09:27:05Z",
       "side": 1,
       "message": "dodgy grammar (single just doesn\u0027t mix with plural).",
+      "range": {
+        "startLine": 19,
+        "startChar": 15,
+        "endLine": 19,
+        "endChar": 45
+      },
+      "revId": "b136be20872a7ce30b924f597949b51fbcd7aa1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "546a7ca4_7c781108",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-03T10:53:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31b829eb_290b340e",
       "range": {
         "startLine": 19,
         "startChar": 15,

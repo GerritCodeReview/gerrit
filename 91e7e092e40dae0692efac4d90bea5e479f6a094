@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb72df4c_ffd195ac",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-03T08:44:31Z",
+      "side": 1,
+      "message": "No, I have another task for dark-mode styles.",
+      "parentUuid": "6b5fd013_bcf679e8",
+      "range": {
+        "startLine": 66,
+        "startChar": 30,
+        "endLine": 66,
+        "endChar": 40
+      },
+      "revId": "91e7e092e40dae0692efac4d90bea5e479f6a094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9e914a1_b852c1b2",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-05-02T12:46:21Z",
       "side": 1,
       "message": "NIT: Maybe spacing-l + spacing-m?",
+      "range": {
+        "startLine": 82,
+        "startChar": 15,
+        "endLine": 82,
+        "endChar": 18
+      },
+      "revId": "91e7e092e40dae0692efac4d90bea5e479f6a094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6c28835_45839286",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-03T08:44:31Z",
+      "side": 1,
+      "message": "It would be nice to have a real spacing since 6px comes up a bunch, but I would rather not add L+M together",
+      "parentUuid": "d9e914a1_b852c1b2",
       "range": {
         "startLine": 82,
         "startChar": 15,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34393512_adf190b2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-03T08:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c9dd94b_4e41b3e0",
+      "range": {
+        "startLine": 96,
+        "startChar": 18,
+        "endLine": 96,
+        "endChar": 21
+      },
+      "revId": "91e7e092e40dae0692efac4d90bea5e479f6a094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1084a585_d701dcd7",
@@ -100,6 +172,30 @@
       "writtenOn": "2022-05-02T12:46:21Z",
       "side": 1,
       "message": "I think `showBlueFocusBorder` would be enough without ${true}",
+      "range": {
+        "startLine": 226,
+        "startChar": 8,
+        "endLine": 226,
+        "endChar": 36
+      },
+      "revId": "91e7e092e40dae0692efac4d90bea5e479f6a094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67deee5b_c947afb1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-03T08:44:31Z",
+      "side": 1,
+      "message": "Done. Casing needed to switch and I verified it.",
+      "parentUuid": "1084a585_d701dcd7",
       "range": {
         "startLine": 226,
         "startChar": 8,

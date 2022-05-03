@@ -213,6 +213,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "513a70ed_2102ba0c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 54
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-03T11:47:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "259065e2_89e2a1dc",
+      "range": {
+        "startLine": 288,
+        "startChar": 8,
+        "endLine": 288,
+        "endChar": 29
+      },
+      "revId": "ded405001c85a13a30ff29741048404fe40457ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5beaa319_d48c6d43",
@@ -284,6 +308,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3a7d8a3_44448d1b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 54
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-03T11:47:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a999b098_39830ac2",
+      "range": {
+        "startLine": 380,
+        "startChar": 4,
+        "endLine": 382,
+        "endChar": 36
+      },
+      "revId": "ded405001c85a13a30ff29741048404fe40457ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb65207d_18d8e971",
@@ -321,6 +369,30 @@
       "side": 1,
       "message": "Not sure but I did find other occurrences such as \n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts;l\u003d286?q\u003dpolygerrit-ui%2Fapp%2Felements%2Fshared%2Fgr-comment-thread%2Fgr-comment-thread_test.ts",
       "parentUuid": "bb65207d_18d8e971",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 120
+      },
+      "revId": "ded405001c85a13a30ff29741048404fe40457ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab7a7aca_4886646d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea_test.ts",
+        "patchSetId": 54
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-03T11:47:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98b335ff_938628c7",
       "range": {
         "startLine": 41,
         "startChar": 0,

@@ -37,6 +37,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * A {@link BatchUpdateOp} that can be used to publish draft comments
@@ -55,6 +56,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
   private final PublishCommentUtil publishCommentUtil;
   private final ChangeMessagesUtil changeMessagesUtil;
 
+  private ObjectId preUpdateMetaId;
   private List<HumanComment> comments = new ArrayList<>();
   private String mailMessage;
 
@@ -88,6 +90,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
   public boolean updateChange(ChangeContext ctx)
       throws ResourceConflictException, UnprocessableEntityException, IOException,
           PatchListNotAvailableException, CommentsRejectedException {
+    preUpdateMetaId = ctx.getNotes().getMetaId();
     comments = commentsUtil.draftByChangeAuthor(ctx.getNotes(), ctx.getUser().getAccountId());
 
     // PublishCommentsOp should update a separate ChangeUpdate Object than the one used by other ops
@@ -115,6 +118,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
           .create(
               ctx,
               ps,
+              preUpdateMetaId,
               mailMessage,
               comments,
               /* patchSetComment= */ null,

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static java.util.stream.Collectors.toList;
 
@@ -30,6 +31,8 @@ import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.NoSuchEntityException;
 import com.google.gerrit.exceptions.StorageException;
@@ -57,6 +60,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
@@ -66,7 +70,11 @@ public class CommentSender extends ReplyToChangeSender {
 
   public interface Factory {
 
-    CommentSender create(Project.NameKey project, Change.Id changeId);
+    CommentSender create(
+        Project.NameKey project,
+        Change.Id changeId,
+        ObjectId preUpdateMetaId,
+        Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults);
   }
 
   private class FileCommentGroup {
@@ -113,6 +121,8 @@ public class CommentSender extends ReplyToChangeSender {
   private final CommentsUtil commentsUtil;
   private final boolean incomingEmailEnabled;
   private final String replyToAddress;
+  private final Map<SubmitRequirement, SubmitRequirementResult> preUpdateSubmitRequirementResults;
+  private final Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults;
 
   @Inject
   public CommentSender(
@@ -120,13 +130,23 @@ public class CommentSender extends ReplyToChangeSender {
       CommentsUtil commentsUtil,
       @GerritServerConfig Config cfg,
       @Assisted Project.NameKey project,
-      @Assisted Change.Id changeId) {
+      @Assisted Change.Id changeId,
+      @Assisted ObjectId preUpdateMetaId,
+      @Assisted
+          Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
     super(args, "comment", newChangeData(args, project, changeId));
     this.commentsUtil = commentsUtil;
     this.incomingEmailEnabled =
         cfg.getEnum("receiveemail", null, "protocol", Protocol.NONE).ordinal()
             > Protocol.NONE.ordinal();
     this.replyToAddress = cfg.getString("sendemail", null, "replyToAddress");
+
+    // Triggers an (expensive) evaluation of the submit requirements. This is OK since all callers
+    // sent this email asynchronously, see EmailReviewComments.
+    this.preUpdateSubmitRequirementResults =
+        newChangeData(args, project, changeId, preUpdateMetaId).submitRequirementsIncludingLegacy();
+
+    this.postUpdateSubmitRequirementResults = postUpdateSubmitRequirementResults;
   }
 
   public void setComments(List<? extends Comment> comments) {
@@ -508,6 +528,13 @@ public class CommentSender extends ReplyToChangeSender {
     soyContext.put(
         "coverLetterBlocks", commentBlocksToSoyData(CommentFormatter.parse(getCoverLetter())));
 
+    if (isChangeNoLongerSubmittable()) {
+      soyContext.put(
+          "oldSubmitRequirements", formatSubmitRequirments(preUpdateSubmitRequirementResults));
+      soyContext.put(
+          "newSubmitRequirements", formatSubmitRequirments(postUpdateSubmitRequirementResults));
+    }
+
     footers.add(MailHeader.COMMENT_DATE.withDelimiter() + getCommentTimestamp());
     footers.add(MailHeader.HAS_COMMENTS.withDelimiter() + (hasComments ? "Yes" : "No"));
     footers.add(MailHeader.HAS_LABELS.withDelimiter() + (labels.isEmpty() ? "No" : "Yes"));
@@ -515,6 +542,50 @@ public class CommentSender extends ReplyToChangeSender {
     for (Account.Id account : getReplyAccounts()) {
       footers.add(MailHeader.COMMENT_IN_REPLY_TO.withDelimiter() + getNameEmailFor(account));
     }
+  }
+
+  /**
+   * Checks whether the change is no longer submittable.
+   *
+   * @return {@code true} if the change has been submittable before the update and is no longer
+   *     submittable after the update has been applied, otherwise {@code false}
+   */
+  private boolean isChangeNoLongerSubmittable() {
+    boolean isSubmittablePreUpdate =
+        preUpdateSubmitRequirementResults.values().stream()
+            .allMatch(SubmitRequirementResult::fulfilled);
+    logger.atFine().log(
+        "the submitability of change %s before the update is %s",
+        change.getId(), isSubmittablePreUpdate);
+    if (!isSubmittablePreUpdate) {
+      return false;
+    }
+
+    boolean isSubmittablePostUpdate =
+        postUpdateSubmitRequirementResults.values().stream()
+            .allMatch(SubmitRequirementResult::fulfilled);
+    logger.atFine().log(
+        "the submitability of change %s after the update is %s",
+        change.getId(), isSubmittablePostUpdate);
+    return !isSubmittablePostUpdate;
+  }
+
+  private static ImmutableList<String> formatSubmitRequirments(
+      Map<SubmitRequirement, SubmitRequirementResult> submitRequirementResults) {
+    return submitRequirementResults.entrySet().stream()
+        .map(
+            e -> {
+              if (e.getValue().errorMessage().isPresent()) {
+                return String.format(
+                    "%s: %s (%s)",
+                    e.getKey().name(),
+                    e.getValue().status().name(),
+                    e.getValue().errorMessage().get());
+              }
+              return String.format("%s: %s", e.getKey().name(), e.getValue().status().name());
+            })
+        .sorted()
+        .collect(toImmutableList());
   }
 
   private String getLine(PatchFile fileInfo, short side, int lineNbr) {

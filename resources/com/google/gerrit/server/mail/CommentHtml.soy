@@ -25,6 +25,8 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
   {@param labels: ?}
   {@param patchSet: ?}
   {@param patchSetCommentBlocks: ?}
+  {@param oldSubmitRequirements: ?}
+  {@param newSubmitRequirements: ?}
   {let $commentHeaderStyle kind="css"}
     margin-bottom: 4px;
   {/let}
@@ -96,6 +98,26 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
           </span>
         {/if}
       {/for}
+    </p>
+  {/if}
+
+  {if $oldSubmitRequirements and $newSubmitRequirements}
+    <p>
+      Due to the reply the change is no longer submittable:{\n}
+      {\n}
+      Old submit requirements:{\n}
+      <ul>
+        {for $oldSubmitRequirement in $oldSubmitRequirements}
+          <li>{$oldSubmitRequirement}</li>
+        {/for}
+      </ul>{\n}
+      {\n}
+      New submit requirements:{\n}
+      <ul>
+        {for $newSubmitRequirement in $newSubmitRequirements}
+          <li>{$newSubmitRequirement}</li>
+        {/for}
+      </ul>
     </p>
   {/if}
 

@@ -187,12 +187,14 @@ suite('gr-change-list-reviewer-flow tests', () => {
           style="outline: none; display: none;"
         >
           <gr-dialog role="dialog">
-            <div slot="header">Add Reviewer / CC</div>
-            <div slot="main" class="grid">
-              <span>Reviewers</span>
-              <gr-account-list id="reviewer-list"></gr-account-list>
-              <span>CC</span>
-              <gr-account-list id="cc-list"></gr-account-list>
+            <div slot="header">Add reviewer / CC</div>
+            <div slot="main">
+              <div class="grid">
+                <span>Reviewers</span>
+                <gr-account-list id="reviewer-list"></gr-account-list>
+                <span>CC</span>
+                <gr-account-list id="cc-list"></gr-account-list>
+              </div>
             </div>
           </gr-dialog>
         </gr-overlay>
@@ -321,6 +323,83 @@ suite('gr-change-list-reviewer-flow tests', () => {
       await element.updateComplete;
 
       assert.equal(dialog.confirmLabel, 'Close');
+    });
+
+    test('renders warnings when reviewer/cc are overwritten', async () => {
+      const ccList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#cc-list'
+      );
+      const reviewerList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#reviewer-list'
+      );
+
+      reviewerList.handleAdd(
+        new CustomEvent('add', {
+          detail: {
+            value: {
+              account: accounts[4],
+              count: 1,
+            },
+          },
+        }) as unknown as ValueChangedEvent<string>
+      );
+      ccList.handleAdd(
+        new CustomEvent('add', {
+          detail: {
+            value: {
+              account: accounts[1],
+              count: 1,
+            },
+          },
+        }) as unknown as ValueChangedEvent<string>
+      );
+      await flush();
+
+      // prettier and shadoDom string don't agree on long text in divs
+      expect(element).shadowDom.to.equal(
+        /* prettier-ignore */
+        /* HTML */ `
+          <gr-button
+            id="start-flow"
+            flatten=""
+            aria-disabled="false"
+            role="button"
+            tabindex="0"
+            >add reviewer/cc</gr-button
+          >
+          <gr-overlay with-backdrop="" tabindex="-1">
+            <gr-dialog role="dialog">
+              <div slot="header">Add reviewer / CC</div>
+              <div slot="main">
+                <div class="grid">
+                  <span>Reviewers</span>
+                  <gr-account-list id="reviewer-list"></gr-account-list>
+                  <span>CC</span>
+                  <gr-account-list id="cc-list"></gr-account-list>
+                </div>
+                <div class="warning">
+                  <iron-icon icon="gr-icons:warning"></iron-icon>
+                  User-1 is a reviewer
+        on some selected changes and will be moved to CC on all
+        changes.
+                </div>
+                <div class="warning">
+                  <iron-icon icon="gr-icons:warning"></iron-icon>
+                  User-4 is a CC
+        on some selected changes and will be moved to reviewer on all
+        changes.
+                </div>
+              </div>
+            </gr-dialog>
+          </gr-overlay>
+        `,
+        {
+          // gr-overlay sizing seems to vary between local & CI
+          ignoreAttributes: [{tags: ['gr-overlay'], attributes: ['style']}],
+        }
+      );
     });
   });
 });

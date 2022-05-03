@@ -55,6 +55,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73fd0db0_e7ca7a9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-03T13:17:12Z",
+      "side": 1,
+      "message": "Do you plan on adding the dark theme colors in a follow-up change?",
+      "revId": "2ece56d7ce735afbc3c71a48b65306aeb7f69e9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cdcda3c3_683f2ac7",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
         "patchSetId": 8
@@ -66,6 +83,29 @@
       "writtenOn": "2022-05-02T14:07:18Z",
       "side": 1,
       "message": "`import \u0027@polymer/iron-icon/iron-icon\u0027;`",
+      "revId": "2ece56d7ce735afbc3c71a48b65306aeb7f69e9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6e2a9fa_226887b2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-03T13:17:12Z",
+      "side": 1,
+      "message": "The error icon and the text looks slightly misaligned by 1 or 2px in the screenshot.",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 9
+      },
       "revId": "2ece56d7ce735afbc3c71a48b65306aeb7f69e9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

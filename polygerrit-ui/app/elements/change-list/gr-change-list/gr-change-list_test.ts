@@ -419,6 +419,18 @@ suite('gr-change-list basic tests', () => {
         }
       }
     });
+
+    test('show default order not preferences order', async () => {
+      element.preferences = {
+        legacycid_in_change_table: true,
+        time_format: TimeFormat.HHMM_12,
+        change_table: ['Owner', 'Subject'],
+      };
+      element.config = createServerInfo();
+      await element.updateComplete;
+      assert.equal(element.visibleChangeTableColumns?.[0], 'Subject');
+      assert.equal(element.visibleChangeTableColumns?.[1], 'Owner');
+    });
   });
 
   test('obsolete column in preferences not visible', () => {

@@ -13,6 +13,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
 import '../gr-change-list-reviewer-flow/gr-change-list-reviewer-flow';
 import '../gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow';
+import '../gr-change-list-topic-flow/gr-change-list-topic-flow';
 
 /**
  * An action bar for the top of a <gr-change-list-section> element. Assumes it
@@ -109,6 +110,7 @@ export class GrChangeListActionBar extends LitElement {
           </div>
           <div class="actionButtons">
             <gr-change-list-bulk-vote-flow></gr-change-list-bulk-vote-flow>
+            <gr-change-list-topic-flow></gr-change-list-topic-flow>
             <gr-change-list-reviewer-flow></gr-change-list-reviewer-flow>
           </div>
         </div>

@@ -2976,6 +2976,16 @@ execution times into a performance log for further analysis.
 `com.google.gerrit.server.RequestListener` is an extension point that is
 invoked each time the server executes a request from a user.
 
+[[private-to-public-host-mapper]]
+== Private to public host mapper
+
+`com.google.gerrit.httpd.raw.PrivateToPublicHostMapProvider` is an extension
+point for simplifying copy public url on internal hosts. This can be useful
+if a Gerrit host is available on a different host-name inside the corporate
+(internal) network (due to some internal policies). The extension point can
+be used for providing a mapping between internal and a public url, which is
+then used by the Gerrit frontend.
+
 == SEE ALSO
 
 * link:pg-plugin-dev.html[JavaScript Plugin API]

@@ -16,7 +16,14 @@
  */
 
 import '../../../test/common-test-setup-karma';
-import {isHidden, query, stubRestApi} from '../../../test/test-utils';
+import {
+  fullElementUpdateComplete,
+  isHidden,
+  isVisible,
+  query,
+  queryAndAssert,
+  stubRestApi,
+} from '../../../test/test-utils';
 import './gr-main-header';
 import {GrMainHeader} from './gr-main-header';
 import {
@@ -27,6 +34,8 @@ import {
 import {NavLink} from '../../../utils/admin-nav-util';
 import {ServerInfo, TopMenuItemInfo} from '../../../types/common';
 import {AuthType} from '../../../constants/constants';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {EventType} from '../../../types/events';
 
 const basicFixture = fixtureFromElement('gr-main-header');
 
@@ -533,5 +542,54 @@ suite('gr-main-header tests', () => {
     assert.equal(element.registerURL, '');
     assert.equal(element.registerText, 'Sign up');
     assert.isTrue(isHidden(query(element, '.registerDiv')));
+  });
+
+  test('copyPublicAvailableUrlButton rendering', async () => {
+    await fullElementUpdateComplete(element);
+    // publicAvailableUrl is equal to window.location.href because
+    // PRIVATE_TO_PUBLIC_HOST_MAP is not set in the test.
+    // It shouldn't be visible
+    assert.isTrue(isHidden(query(element, '.copyPublicAvailableUrlButton')));
+    assert.equal(element.publicAvailableUrl, window.location.href);
+
+    // The button becomes visible if publicAvailableUrl is different from
+    // window.location.href
+    element.publicAvailableUrl = 'https://test-host.googlesource.com/a/b';
+    await fullElementUpdateComplete(element);
+    const copyBtn = queryAndAssert<HTMLAnchorElement>(
+      element,
+      '.copyPublicAvailableUrlButton'
+    );
+    assert.isTrue(isVisible(copyBtn));
+    assert.equal(copyBtn.href, 'https://test-host.googlesource.com/a/b');
+
+    // The button is hidden again if publicAvailableUrl is equal to
+    // window.location.href
+    element.publicAvailableUrl = window.location.href;
+    await fullElementUpdateComplete(element);
+    assert.isTrue(isHidden(query(element, '.copyPublicAvailableUrlButton')));
+  });
+
+  test('copyPublicAvailableUrlButton copies link on click', async () => {
+    element.publicAvailableUrl = 'https://test-host.googlesource.com/a/b';
+    await fullElementUpdateComplete(element);
+    const copyBtn = queryAndAssert<HTMLAnchorElement>(
+      element,
+      '.copyPublicAvailableUrlButton'
+    );
+    const clipboardSpy = sinon.spy(navigator.clipboard, 'writeText');
+    MockInteractions.click(copyBtn);
+    assert.isTrue(
+      clipboardSpy.calledOnceWith('https://test-host.googlesource.com/a/b')
+    );
+  });
+
+  test('publicAvailableUrl updates on location-changed event', async () => {
+    const url = new URL(window.location.href);
+    await fullElementUpdateComplete(element);
+    window.PRIVATE_TO_PUBLIC_HOST_MAP = {[url.host]: 'test-host.abc'};
+    element.dispatchEvent(new CustomEvent(EventType.LOCATION_CHANGE));
+    await fullElementUpdateComplete(element);
+    assert.isTrue(element.publicAvailableUrl.indexOf('test-host.abc') >= 0);
   });
 });

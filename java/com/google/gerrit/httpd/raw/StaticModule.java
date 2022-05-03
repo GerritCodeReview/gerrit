@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.XsrfCookieFilter;
 import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.launcher.GerritLauncher;
@@ -44,6 +45,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
+import java.util.Map;
+import java.util.Optional;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -210,13 +213,26 @@ public class StaticModule extends ServletModule {
     }
   }
 
+  @Singleton
+  private static class DefaultPrivateToPublicHostMapProvider
+      implements PrivateToPublicHostMapProvider {
+    @Override
+    public Optional<Map<String, String>> getMapForRequest(HttpServletRequest request) {
+      return Optional.empty();
+    }
+  }
+
   private class PolyGerritModule extends ServletModule {
+
     @Override
     public void configureServlets() {
       for (String p : POLYGERRIT_INDEX_PATHS) {
         filter(p).through(XsrfCookieFilter.class);
       }
       filter("/*").through(PolyGerritFilter.class);
+      DynamicItem.itemOf(binder(), PrivateToPublicHostMapProvider.class);
+      DynamicItem.bind(binder(), PrivateToPublicHostMapProvider.class)
+          .to(DefaultPrivateToPublicHostMapProvider.class);
     }
 
     @Provides
@@ -226,10 +242,17 @@ public class StaticModule extends ServletModule {
         @CanonicalWebUrl @Nullable String canonicalUrl,
         @GerritServerConfig Config cfg,
         GerritApi gerritApi,
-        ExperimentFeatures experimentFeatures) {
+        ExperimentFeatures experimentFeatures,
+        PrivateToPublicHostMapProvider privateToPublicHostMapProvider) {
       String cdnPath = options.devCdn().orElse(cfg.getString("gerrit", null, "cdnPath"));
       String faviconPath = cfg.getString("gerrit", null, "faviconPath");
-      return new IndexServlet(canonicalUrl, cdnPath, faviconPath, gerritApi, experimentFeatures);
+      return new IndexServlet(
+          canonicalUrl,
+          cdnPath,
+          faviconPath,
+          gerritApi,
+          experimentFeatures,
+          privateToPublicHostMapProvider);
     }
 
     @Provides

@@ -637,13 +637,10 @@ export class GrAutocomplete extends LitElement {
     }
 
     this.suggestions = [];
-    // we need willUpdate to send text-changed event before we can send the
-    // 'commit' event
-    await this.updateComplete;
     if (!silent) {
       this.dispatchEvent(
         new CustomEvent('commit', {
-          detail: {value} as AutocompleteCommitEventDetail,
+          detail: {value, text: this.text} as AutocompleteCommitEventDetail,
           composed: true,
           bubbles: true,
         })

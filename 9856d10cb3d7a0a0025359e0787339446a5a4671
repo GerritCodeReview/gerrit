@@ -22,6 +22,30 @@
       },
       "revId": "9856d10cb3d7a0a0025359e0787339446a5a4671",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64170c0b_7031d641",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-03T06:57:58Z",
+      "side": 1,
+      "message": "That is the format for how ApplyShim translates mixins into variables.",
+      "parentUuid": "31b9b851_420e3bb6",
+      "range": {
+        "startLine": 150,
+        "startChar": 34,
+        "endLine": 150,
+        "endChar": 37
+      },
+      "revId": "9856d10cb3d7a0a0025359e0787339446a5a4671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

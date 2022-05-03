@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d199cad8_53af0d5c",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1389,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-03T09:50:10Z",
+      "side": 1,
+      "message": "maybe rename this option to delete_missing ?",
+      "range": {
+        "startLine": 1389,
+        "startChar": 5,
+        "endLine": 1389,
+        "endChar": 24
+      },
+      "revId": "6b7c9ea01bffec2c2b36587704aaf33a85c39516",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81018f43_f8b5ea51",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1399,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-03T09:50:10Z",
+      "side": 1,
+      "message": "incomplete sentence:\n\nIf `delete_if_not_found \u003d true` changes to be reindexed which are missing in noteDB will be deleted.",
+      "range": {
+        "startLine": 1399,
+        "startChar": 26,
+        "endLine": 1399,
+        "endChar": 74
+      },
+      "revId": "6b7c9ea01bffec2c2b36587704aaf33a85c39516",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6e28aef_dc004a8e",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1890,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-03T09:50:10Z",
+      "side": 1,
+      "message": "this could be misunderstood, maybe more precise:\n\nDelete changes to be deleted which are missing in noteDB from the index. This can be used to get rid of stale index entries.",
+      "range": {
+        "startLine": 1890,
+        "startChar": 7,
+        "endLine": 1890,
+        "endChar": 24
+      },
+      "revId": "6b7c9ea01bffec2c2b36587704aaf33a85c39516",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

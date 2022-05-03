@@ -33,6 +33,23 @@
       "message": "Oh this appears to have broke re-alignment of the search icon (including the help icon) on the box and it shows the aria text \"Search for changes\" which i think should be hidden from display?",
       "revId": "80229b501809fff0cb5a908f648f98a7f1637bde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07166790_367df2fe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 61
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-03T21:01:35Z",
+      "side": 1,
+      "message": "Should have done _-_ as well and for the rest. Missed this, tried it locally and it didn\u0027t fix the realignment issue but it still correct to fix the typo.",
+      "revId": "80229b501809fff0cb5a908f648f98a7f1637bde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -19,6 +19,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
@@ -33,12 +34,15 @@ import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import org.junit.Before;
 import org.junit.Test;
 
 public class IndexServletTest {
+  private GerritApi gerritApi;
 
-  @Test
-  public void renderTemplate() throws Exception {
+  @Before
+  public void setUp() throws Exception {
     Accounts accountsApi = mock(Accounts.class);
     when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
 
@@ -52,10 +56,13 @@ public class IndexServletTest {
     Config configApi = mock(Config.class);
     when(configApi.server()).thenReturn(serverApi);
 
-    GerritApi gerritApi = mock(GerritApi.class);
+    gerritApi = mock(GerritApi.class);
     when(gerritApi.accounts()).thenReturn(accountsApi);
     when(gerritApi.config()).thenReturn(configApi);
+  }
 
+  @Test
+  public void renderTemplate() throws Exception {
     String testCanonicalUrl = "foo-url";
     String testCdnPath = "bar-cdn";
     String testFaviconURL = "zaz-url";
@@ -72,7 +79,12 @@ public class IndexServletTest {
     ExperimentFeatures experimentFeatures = new ConfigExperimentFeatures(serverConfig);
     IndexServlet servlet =
         new IndexServlet(
-            testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi, experimentFeatures);
+            testCanonicalUrl,
+            testCdnPath,
+            testFaviconURL,
+            gerritApi,
+            experimentFeatures,
+            req -> Optional.empty());
 
     FakeHttpServletResponse response = new FakeHttpServletResponse();
 
@@ -107,5 +119,46 @@ public class IndexServletTest {
             "window.ENABLED_EXPERIMENTS = JSON.parse('\\x5b\\x22"
                 + String.join("\\x22,", expectedEnabled)
                 + "\\x22\\x5d');</script>");
+    assertThat(output).doesNotContain("window.PRIVATE_TO_PUBLIC_HOST_MAP");
+  }
+
+  @Test
+  public void renderTemplateWithPrivateToPublicHostMap() throws Exception {
+    ExperimentFeatures experimentFeatures =
+        new ExperimentFeatures() {
+          @Override
+          public boolean isFeatureEnabled(String featureFlag) {
+            return false;
+          }
+
+          @Override
+          public ImmutableSet<String> getEnabledExperimentFeatures() {
+            return ImmutableSet.of();
+          }
+        };
+
+    IndexServlet servlet =
+        new IndexServlet(
+            null,
+            null,
+            null,
+            gerritApi,
+            experimentFeatures,
+            req ->
+                Optional.of(
+                    ImmutableMap.of(
+                        "gerrit-review.private.com",
+                        "gerrit-review.googlesource.com",
+                        "chrome-review.private.com",
+                        "chrome-review.googlesource.com")));
+    FakeHttpServletResponse response = new FakeHttpServletResponse();
+    servlet.doGet(new FakeHttpServletRequest(), response);
+    String output = response.getActualBodyString();
+    assertThat(output)
+        .contains(
+            "window.PRIVATE_TO_PUBLIC_HOST_MAP = JSON.parse('\\x7b"
+                + "\\x22gerrit-review.private.com\\x22:\\x22gerrit-review.googlesource.com\\x22,"
+                + "\\x22chrome-review.private.com\\x22:\\x22chrome-review.googlesource.com\\x22"
+                + "\\x7d');");
   }
 }

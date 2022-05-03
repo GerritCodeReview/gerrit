@@ -40,6 +40,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -61,7 +62,8 @@ public class IndexHtmlUtil {
       String faviconPath,
       Map<String, String[]> urlParameterMap,
       Function<String, SanitizedContent> urlInScriptTagOrdainer,
-      String requestedURL)
+      String requestedURL,
+      Optional<Map<String, String>> privateToPublicHostMap)
       throws URISyntaxException, RestApiException {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     data.putAll(
@@ -73,6 +75,8 @@ public class IndexHtmlUtil {
     if (!enabledExperiments.isEmpty()) {
       data.put("enabledExperiments", serializeObject(GSON, enabledExperiments).toString());
     }
+    privateToPublicHostMap.ifPresent(
+        map -> data.put("privateToPublicHostMap", serializeObject(GSON, map).toString()));
     return data.build();
   }
 

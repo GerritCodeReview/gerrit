@@ -298,7 +298,7 @@ export class GrAutocomplete extends LitElement {
       <paper-input
         .noLabelFloat=${true}
         id="input"
-        class=${this._computeClass(this.borderless)}
+        class=${this.computeClass()}
         ?disabled=${this.disabled}
         .value=${this.text}
         @value-changed=${(e: CustomEvent) => {
@@ -487,10 +487,10 @@ export class GrAutocomplete extends LitElement {
     this.suggestionsDropdown?.close();
   }
 
-  _computeClass(borderless?: boolean, showBlueFocusBorder?: boolean) {
+  computeClass() {
     const classes = [];
-    if (borderless) classes.push('borderless');
-    if (showBlueFocusBorder) classes.push('showBlueFocusBorder');
+    if (this.borderless) classes.push('borderless');
+    if (this.showBlueFocusBorder) classes.push('showBlueFocusBorder');
     return classes.join(' ');
   }
 

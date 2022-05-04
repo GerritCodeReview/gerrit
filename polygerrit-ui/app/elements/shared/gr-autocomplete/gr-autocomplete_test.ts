@@ -273,10 +273,13 @@ suite('gr-autocomplete tests', () => {
     await waitUntil(() => queryStub.called);
   });
 
-  test('_computeClass respects border property', () => {
-    assert.equal(element._computeClass(), '');
-    assert.equal(element._computeClass(false), '');
-    assert.equal(element._computeClass(true), 'borderless');
+  test('computeClass respects border property', () => {
+    element.borderless = false;
+    assert.equal(element.computeClass(), '');
+    element.borderless = true;
+    assert.equal(element.computeClass(), 'borderless');
+    element.showBlueFocusBorder = true;
+    assert.equal(element.computeClass(), 'borderless showBlueFocusBorder');
   });
 
   test('empty text results in no suggestions', async () => {

@@ -121,7 +121,7 @@ import {
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../api/rest-api';
-import {RunResult} from '../models/checks/checks-model';
+import {CheckResult, RunResult} from '../models/checks/checks-model';
 import {Category, RunStatus} from '../api/checks';
 import {DiffInfo} from '../api/diff';
 
@@ -939,6 +939,14 @@ export function createRunResult(): RunResult {
     status: RunStatus.COMPLETED,
     summary: 'This is the test summary.',
     message: 'This is the test message.',
+  };
+}
+
+export function createCheckResult(): CheckResult {
+  return {
+    category: Category.ERROR,
+    summary: 'error',
+    internalResultId: 'test-internal-result-id',
   };
 }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5bbe6b3_70892382",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-04T18:32:40Z",
+      "side": 1,
+      "message": "Isn\u0027t this expected behavior? i.e. how often would uploading a new patch set leave my change submittable?\n\nI\u0027m worried this is going to be very spammy.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 121
+      },
+      "revId": "4ed499e58a904992d49620a12c21e78883b0ad3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

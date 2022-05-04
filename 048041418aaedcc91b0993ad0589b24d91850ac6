@@ -110,6 +110,30 @@
       },
       "revId": "048041418aaedcc91b0993ad0589b24d91850ac6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4848dd80_5ae55bc0",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectAccessCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-05-04T06:02:05Z",
+      "side": 1,
+      "message": "When PermissionBackendException is thrown it means that the permission backend has malfunctioned it says nothing about whether the user has access or not. If we report it\u0027s presence as though the queried user doesn\u0027t have access we potentially report a false negative.\nThe correct way to handle it is to let the calling user know that \"it\u0027s currently not working, try again later\" by propagating the excption to where the other fatal exceptions are handled and call die().",
+      "parentUuid": "ded57166_85a5dc5d",
+      "range": {
+        "startLine": 92,
+        "startChar": 13,
+        "endLine": 92,
+        "endChar": 41
+      },
+      "revId": "048041418aaedcc91b0993ad0589b24d91850ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

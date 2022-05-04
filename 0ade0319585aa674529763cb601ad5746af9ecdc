@@ -251,6 +251,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b157fcb_d49c7448",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-04T17:02:50Z",
+      "side": 1,
+      "message": "Yeh i found a work around either using the timeout function or await this.updateComplete (i\u0027m not sure which you prefer?). I\u0027ll go with the this.updateComplete for now.",
+      "parentUuid": "bd6b00b5_8fa358eb",
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e709bfd_29f556a2",

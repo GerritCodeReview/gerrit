@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d4d06ed_eb805f9b",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-04T17:02:50Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "55a26fb1_22a40272",
+      "revId": "9ddb8feb8e0df2a23f07f287bee0544391bc9bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a43bfee_550fdf87",
@@ -92,6 +110,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc76cf3e_63afa30e",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-04T17:02:50Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6d045041_ebb36d56",
+      "revId": "9ddb8feb8e0df2a23f07f287bee0544391bc9bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11e200fd_2423ec78",
@@ -105,6 +141,30 @@
       "writtenOn": "2022-05-04T08:16:13Z",
       "side": 1,
       "message": "Replace the content of this method with:\n```\nthis.invalidateChangeViewCache \u003d true;\nthis.invalidateDiffViewCache \u003d true;\n```\nNo need for code comments.\nSee also my other comments.",
+      "range": {
+        "startLine": 627,
+        "startChar": 2,
+        "endLine": 643,
+        "endChar": 3
+      },
+      "revId": "9ddb8feb8e0df2a23f07f287bee0544391bc9bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af0dca1f_0ff0346a",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-04T17:02:50Z",
+      "side": 1,
+      "message": "I\u0027ve removed this function, instead doing this in the irrespective events.",
+      "parentUuid": "11e200fd_2423ec78",
       "range": {
         "startLine": 627,
         "startChar": 2,

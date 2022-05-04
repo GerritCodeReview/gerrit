@@ -22,6 +22,30 @@
       },
       "revId": "6041054ef191f789e1c152dd617f3796095324bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7584bb68_3e49e7f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-04T15:12:55Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nRewrote it to be clearer as well.",
+      "parentUuid": "a9838c39_7247aed5",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 10,
+        "endChar": 73
+      },
+      "revId": "6041054ef191f789e1c152dd617f3796095324bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

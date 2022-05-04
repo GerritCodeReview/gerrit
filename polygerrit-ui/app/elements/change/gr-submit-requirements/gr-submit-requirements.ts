@@ -197,11 +197,7 @@ export class GrSubmitRequirements extends LitElement {
           ></gr-limited-text>
         </td>
         <td>
-          ${this.renderEndpoint(
-            requirement,
-            html`${this.renderVotesAndChecksChips(requirement)}
-            ${this.renderOverrideLabels(requirement)}`
-          )}
+          ${this.renderEndpoint(requirement, this.renderVoteCell(requirement))}
         </td>
       </tr>
     `;
@@ -252,6 +248,11 @@ export class GrSubmitRequirements extends LitElement {
       role="img"
       aria-label=${status.toLowerCase()}
     ></iron-icon>`;
+  }
+
+  renderVoteCell(requirement: SubmitRequirementResultInfo) {
+    return html`${this.renderVotesAndChecksChips(requirement)}
+    ${this.renderOverrideLabels(requirement)}`;
   }
 
   renderVotesAndChecksChips(requirement: SubmitRequirementResultInfo) {

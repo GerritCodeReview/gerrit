@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1d910097_16938c87",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-04T10:54:47Z",
+      "side": 1,
+      "message": "Yeah I see what you mean, whichever way you like it is fine with me. I always end up reading the source anyway to see what exactly is emitted and when.",
+      "parentUuid": "547cdc80_98aa3360",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 14
+      },
+      "revId": "34552d7a8e962b2bade65655e3f3be637eb80646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0a9da28c_2cfc52ab",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
         "patchSetId": 1

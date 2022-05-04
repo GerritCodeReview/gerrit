@@ -28,8 +28,13 @@ import {
   createSubmitRequirementExpressionInfo,
   createSubmitRequirementResultInfo,
   createNonApplicableSubmitRequirementResultInfo,
+  createRunResult,
+  createCheckResult,
 } from '../../../test/test-data-generators';
-import {SubmitRequirementResultInfo} from '../../../api/rest-api';
+import {
+  SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
+} from '../../../api/rest-api';
 import {ParsedChangeInfo} from '../../../types/types';
 
 suite('gr-submit-requirements tests', () => {
@@ -152,6 +157,98 @@ suite('gr-submit-requirements tests', () => {
       expect(votesCell?.[0]).dom.equal(/* HTML */ `
         <div class="votes-cell">Satisfied</div>
       `);
+    });
+
+    test('checks', async () => {
+      element.runs = [
+        {
+          ...createRunResult(),
+          labelName: 'Verified',
+          results: [createCheckResult()],
+        },
+      ];
+      await element.updateComplete;
+      const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
+      expect(votesCell?.[0]).dom.equal(/* HTML */ `
+        <div class="votes-cell">
+          <gr-vote-chip></gr-vote-chip>
+          <gr-checks-chip></gr-checks-chip>
+        </div>
+      `);
+    });
+
+    test('with override label', async () => {
+      const modifiedChange = {...change};
+      modifiedChange.labels = {
+        Override: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createApproval(),
+              value: 2,
+            },
+          ],
+        },
+      };
+      modifiedChange.submit_requirements = [
+        {
+          ...createSubmitRequirementResultInfo(),
+          status: SubmitRequirementStatus.OVERRIDDEN,
+          override_expression_result: createSubmitRequirementExpressionInfo(
+            'label:Override=MAX -label:Override=MIN'
+          ),
+        },
+      ];
+      element.change = modifiedChange;
+      await element.updateComplete;
+      const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
+      expect(votesCell?.[0]).dom.equal(/* HTML */ `<div class="votes-cell">
+        <gr-vote-chip> </gr-vote-chip>
+        <span class="overrideLabel"> Override </span>
+      </div>`);
+    });
+
+    test('with override with 2 labels', async () => {
+      const modifiedChange = {...change};
+      modifiedChange.labels = {
+        Override: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createApproval(),
+              value: 2,
+            },
+          ],
+        },
+        Override2: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createApproval(),
+              value: 2,
+            },
+          ],
+        },
+      };
+      modifiedChange.submit_requirements = [
+        {
+          ...createSubmitRequirementResultInfo(),
+          status: SubmitRequirementStatus.OVERRIDDEN,
+          override_expression_result: createSubmitRequirementExpressionInfo(
+            'label:Override=MAX label:Override2=MAX'
+          ),
+        },
+      ];
+      element.change = modifiedChange;
+      await element.updateComplete;
+      const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
+      expect(votesCell?.[0]).dom.equal(/* HTML */ `<div class="votes-cell">
+        <gr-vote-chip> </gr-vote-chip>
+        <span class="overrideLabel"> Override </span>
+        <span class="separator">|</span>
+        <gr-vote-chip> </gr-vote-chip>
+        <span class="overrideLabel"> Override2 </span>
+      </div>`);
     });
   });
 

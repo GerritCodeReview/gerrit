@@ -23,14 +23,14 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.query.change.ChangeData;
 
-class ReadOnlyChangeIndex implements ChangeIndex {
+public class ReadOnlyChangeIndex implements ChangeIndex {
   private final ChangeIndex index;
 
-  ReadOnlyChangeIndex(ChangeIndex index) {
+  public ReadOnlyChangeIndex(ChangeIndex index) {
     this.index = index;
   }
 
-  ChangeIndex unwrap() {
+  public ChangeIndex unwrap() {
     return index;
   }
 

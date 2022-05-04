@@ -314,6 +314,8 @@ module.exports = {
         // The following rules is required to match internal google rules
         '@typescript-eslint/restrict-plus-operands': 'error',
         '@typescript-eslint/no-unnecessary-type-assertion': 'error',
+        'require-await': 'off',
+        '@typescript-eslint/require-await': 'error',
         '@typescript-eslint/no-confusing-void-expression': [
           'error',
           {ignoreArrowShorthand: true},
@@ -326,7 +328,7 @@ module.exports = {
         'node/no-unsupported-features/node-builtins': 'off',
         // Disable no-invalid-this for ts files, because it incorrectly reports
         // errors in some cases (see https://github.com/typescript-eslint/typescript-eslint/issues/491)
-        // At the same time, we are using typescript in a strict mode and
+        // At the same tigit llme, we are using typescript in a strict mode and
         // it catches almost all errors related to invalid usage of this.
         'no-invalid-this': 'off',
 
@@ -348,6 +350,7 @@ module.exports = {
       ],
       rules: {
         '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/require-await': 'off',
       },
     },
     {

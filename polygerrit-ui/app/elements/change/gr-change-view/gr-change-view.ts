@@ -1802,7 +1802,7 @@ export class GrChangeView extends base {
   _openReplyDialog(focusTarget?: FocusTarget, quote?: string) {
     if (!this._change) return;
     const overlay = this.$.replyOverlay;
-    overlay.open().finally(async () => {
+    overlay.open().finally(() => {
       // the following code should be executed no matter open succeed or not
       const dialog = query<GrReplyDialog>(this, '#replyDialog');
       assertIsDefined(dialog, 'reply dialog');

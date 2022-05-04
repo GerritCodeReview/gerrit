@@ -623,7 +623,7 @@ export class GrRepoAccess extends LitElement {
     return addRemoveObj;
   }
 
-  private async handleCreateSection() {
+  private handleCreateSection() {
     if (!this.local) return;
     let newRef = 'refs/for/*';
     // Avoid using an already used key for the placeholder, since it

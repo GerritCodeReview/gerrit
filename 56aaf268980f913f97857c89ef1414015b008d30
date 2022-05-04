@@ -16,6 +16,29 @@
       "message": "Nice!! Thanks for fixing this!",
       "revId": "56aaf268980f913f97857c89ef1414015b008d30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29856e6f_93bf7f3b",
+        "filename": "antlr3/com/google/gerrit/index/query/Query.g",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-04T07:02:14Z",
+      "side": 1,
+      "message": "Why not fully case insensitive, i.e.\nAND: (\u0027A\u0027|\u0027a\u0027)(\u0027N\u0027|\u0027n\u0027)(\u0027D\u0027|\u0027d\u0027)\n?\n(Solution is recommended here for antlr3:\nhttps://theantlrguy.atlassian.net/wiki/spaces/ANTLR3/pages/2687342/How+do+I+get+case+insensitivity#:~:text\u003dHandle%20case%20insensitivity%20directly%20in%20a%20grammar )",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 19
+      },
+      "revId": "56aaf268980f913f97857c89ef1414015b008d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -22,22 +22,18 @@ import static java.util.stream.Collectors.toCollection;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TagMatcher;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -60,7 +56,6 @@ class DefaultRefFilter {
   }
 
   private final TagCache tagCache;
-  private final ChangeNotes.Factory changeNotesFactory;
   private final PermissionBackend permissionBackend;
   private final RefVisibilityControl refVisibilityControl;
   private final ProjectControl projectControl;
@@ -77,7 +72,6 @@ class DefaultRefFilter {
   @Inject
   DefaultRefFilter(
       TagCache tagCache,
-      ChangeNotes.Factory changeNotesFactory,
       PermissionBackend permissionBackend,
       RefVisibilityControl refVisibilityControl,
       @GerritServerConfig Config config,
@@ -85,7 +79,6 @@ class DefaultRefFilter {
       VisibleChangesCache.Factory visibleChangesCacheFactory,
       @Assisted ProjectControl projectControl) {
     this.tagCache = tagCache;
-    this.changeNotesFactory = changeNotesFactory;
     this.permissionBackend = permissionBackend;
     this.refVisibilityControl = refVisibilityControl;
     this.skipFullRefEvaluationIfAllRefsAreVisible =
@@ -113,7 +106,15 @@ class DefaultRefFilter {
   /** Filters given refs and tags by visibility. */
   ImmutableList<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
-    visibleChangesCache = visibleChangesCacheFactory.create(projectControl, repo);
+    long numberOfChangesToBeFiltered =
+        refs.stream()
+            .filter(
+                r ->
+                    r.getName().startsWith(RefNames.REFS_CHANGES)
+                        && r.getName().endsWith(RefNames.META_SUFFIX))
+            .count();
+    visibleChangesCache =
+        visibleChangesCacheFactory.create(projectControl, repo, numberOfChangesToBeFiltered);
     logger.atFinest().log(
         "Filter refs for repository %s by visibility (options = %s, refs = %s)",
         projectState.getNameKey(), opts, refs);
@@ -125,24 +126,6 @@ class DefaultRefFilter {
     logger.atFinest().log(
         "Project state %s permits read = %s",
         projectState.getProject().getState(), projectState.statePermitsRead());
-
-    // See if we can get away with a single, cheap ref evaluation.
-    if (refs.size() == 1) {
-      String refName = Iterables.getOnlyElement(refs).getName();
-      if (opts.filterMeta() && isMetadata(refName)) {
-        logger.atFinest().log("Filter out metadata ref %s", refName);
-        return ImmutableList.of();
-      }
-      if (RefNames.isRefsChanges(refName)) {
-        boolean isChangeRefVisisble = canSeeSingleChangeRef(repo, refName);
-        if (isChangeRefVisisble) {
-          logger.atFinest().log("Change ref %s is visible", refName);
-          return ImmutableList.copyOf(refs);
-        }
-        logger.atFinest().log("Filter out non-visible change ref %s", refName);
-        return ImmutableList.of();
-      }
-    }
 
     // Perform an initial ref filtering with all the refs the caller asked for. If we find tags that
     // we have to investigate separately (deferred tags) then perform a reachability check starting
@@ -321,7 +304,7 @@ class DefaultRefFilter {
       // Default to READ_PRIVATE_CHANGES as there is no special permission for reading edits.
       boolean canRead =
           permissionBackendForProject
-              .ref(visibleChangesCache.getBranchNameKey(id).branch())
+              .ref(visibleChangesCache.getDestination(id).branch())
               .test(RefPermission.READ_PRIVATE_CHANGES);
       logger.atFinest().log(
           "Foreign change edit ref is " + (canRead ? "visible" : "invisible") + ": %s", name);
@@ -351,37 +334,6 @@ class DefaultRefFilter {
       PermissionBackend.ForProject forProject, ProjectPermission perm)
       throws PermissionBackendException {
     return forProject.test(perm);
-  }
-
-  /**
-   * Returns true if the user can see the provided change ref. Uses NoteDb for evaluation, hence
-   * does not suffer from the limitations documented in {@link SearchingChangeCacheImpl}.
-   *
-   * <p>This code lets users fetch changes that are not among the fraction of most recently modified
-   * changes that {@link SearchingChangeCacheImpl} returns. This works only when Git Protocol v2
-   * with refs-in-wants is used as that enables Gerrit to skip traditional advertisement of all
-   * visible refs.
-   */
-  private boolean canSeeSingleChangeRef(Repository repo, String refName)
-      throws PermissionBackendException {
-    // We are treating just a single change ref. We are therefore not going through regular ref
-    // filtering, but use NoteDb directly. This makes it so that we can always serve this ref
-    // even if the change is not part of the set of most recent changes that
-    // SearchingChangeCacheImpl returns.
-    Change.Id cId = Change.Id.fromRef(refName);
-    if (cId == null) {
-      // The ref is not a valid change ref. Treat it as non-visible since it's not representing a
-      // change.
-      logger.atWarning().log("invalid change ref %s is not visible", refName);
-      return false;
-    }
-    ChangeNotes notes;
-    try {
-      notes = changeNotesFactory.create(repo, projectState.getNameKey(), cId);
-    } catch (StorageException e) {
-      throw new PermissionBackendException("can't construct change notes", e);
-    }
-    return permissionBackendForProject.change(notes).test(ChangePermission.READ);
   }
 
   @AutoValue

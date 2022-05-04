@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5e7b00bc_51a0d518",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-04T09:03:34Z",
+      "side": 1,
+      "message": "Spacing between spinner and \"Voting in progress\" text should be 4px (it looks like 2px at the moment, is it the case?)",
+      "parentUuid": "56a0ff1c_2a10f584",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "65d7712504c66e04a92b3d158b4137106fdc5056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "344395e7_f3f5831a",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
         "patchSetId": 8

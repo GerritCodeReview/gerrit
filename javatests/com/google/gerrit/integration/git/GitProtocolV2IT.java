@@ -17,6 +17,8 @@ package com.google.gerrit.integration.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
@@ -27,6 +29,7 @@ import com.google.gerrit.acceptance.GitClientVersion;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -43,7 +46,10 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import java.io.File;
+import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -69,6 +75,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
   @Inject private @TestSshServerAddress InetSocketAddress sshAddress;
   @Inject private @GerritServerConfig Config config;
   @Inject private AllProjectsName allProjectsName;
+  @Inject private IndexOperations.Change changeIndexOperations;
 
   @BeforeClass
   public static void assertGitClientVersion() throws Exception {
@@ -295,6 +302,15 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       Change.Id changeId = Change.id(visibleChangeNumber);
       String visibleChangeNumberRef = RefNames.patchSetRef(PatchSet.id(changeId, 1));
 
+      // Create new change and retrieve refs for the created patch set. We'll use this to make sure
+      // refs-in-wants only sends us changes we asked for.
+      ChangeInput changeWeDidNotAskForIn =
+          new ChangeInput(privateProject.get(), "stable", "Test private change 2");
+      changeWeDidNotAskForIn.newBranch = true;
+      int changeWeDidNotAskForNumber = gApi.changes().create(changeWeDidNotAskForIn).info()._number;
+      Change.Id changeWeDidNotAskFor = Change.id(changeWeDidNotAskForNumber);
+      String changeWeDidNotAskForRef = RefNames.patchSetRef(PatchSet.id(changeWeDidNotAskFor, 1));
+
       // Fetch a single ref using git wire protocol v2 over HTTP with authentication
       execute(GIT_INIT);
 
@@ -309,6 +325,238 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
 
       assertThat(outFetchRef).contains("git< version 2");
       assertThat(outFetchRef).contains(visibleChangeNumberRef);
+      // refs-in-wants should not advertise changes we did not ask for
+      assertThat(outFetchRef).doesNotContain(changeWeDidNotAskForRef);
+    }
+  }
+
+  @Test
+  public void testGitWireProtocolV2FetchIndividualRef_doesNotNeedChangeIndex() throws Exception {
+    try (ServerContext ctx = startServer()) {
+      ctx.getInjector().injectMembers(this);
+
+      // Setup admin password
+      gApi.accounts().id(admin.username()).setHttpPassword(ADMIN_PASSWORD);
+
+      // Get authenticated Git/HTTP URL
+      String urlWithCredentials =
+          config
+              .getString("gerrit", null, "canonicalweburl")
+              .replace("http://", "http://" + admin.username() + ":" + ADMIN_PASSWORD + "@");
+
+      // Create project
+      Project.NameKey privateProject = Project.nameKey("private-project");
+      gApi.projects().create(privateProject.get());
+
+      // Disallow general read permissions for anonymous users
+      projectOperations
+          .project(allProjectsName)
+          .forUpdate()
+          .add(deny(Permission.READ).ref("refs/*").group(SystemGroupBackend.ANONYMOUS_USERS))
+          .add(
+              allow(Permission.READ)
+                  .ref("refs/heads/master")
+                  .group(SystemGroupBackend.REGISTERED_USERS))
+          .update();
+
+      // Create new change and retrieve refs for the created patch set
+      ChangeInput visibleChangeIn =
+          new ChangeInput(privateProject.get(), "master", "Test private change");
+      visibleChangeIn.newBranch = true;
+      int visibleChangeNumber = gApi.changes().create(visibleChangeIn).info()._number;
+      Change.Id changeId = Change.id(visibleChangeNumber);
+      String visibleChangeNumberRef = RefNames.patchSetRef(PatchSet.id(changeId, 1));
+
+      // Create new change and retrieve refs for the created patch set. We'll use this to make sure
+      // refs-in-wants only sends us changes we asked for.
+      ChangeInput changeWeDidNotAskForIn =
+          new ChangeInput(privateProject.get(), "stable", "Test private change 2");
+      changeWeDidNotAskForIn.newBranch = true;
+      int changeWeDidNotAskForNumber = gApi.changes().create(changeWeDidNotAskForIn).info()._number;
+      Change.Id changeWeDidNotAskFor = Change.id(changeWeDidNotAskForNumber);
+      String changeWeDidNotAskForRef = RefNames.patchSetRef(PatchSet.id(changeWeDidNotAskFor, 1));
+
+      // Fetch a single ref using git wire protocol v2 over HTTP with authentication
+      execute(GIT_INIT);
+
+      String outFetchRef;
+      try (AutoCloseable ignored = changeIndexOperations.disableReadsAndWrites()) {
+        outFetchRef =
+            execute(
+                ImmutableList.<String>builder()
+                    .add(GIT_FETCH)
+                    .add(urlWithCredentials + "/" + privateProject.get())
+                    .add(visibleChangeNumberRef)
+                    .build(),
+                ImmutableMap.of("GIT_TRACE_PACKET", "1"));
+      }
+
+      assertThat(outFetchRef).contains("git< version 2");
+      assertThat(outFetchRef).contains(visibleChangeNumberRef);
+      // refs-in-wants should not advertise changes we did not ask for
+      assertThat(outFetchRef).doesNotContain(changeWeDidNotAskForRef);
+    }
+  }
+
+  @Test
+  public void testGitWireProtocolV2FetchIndividualRef_doesNotNeedNoteDbWhenAskedForManyChanges()
+      throws Exception {
+    try (ServerContext ctx = startServer()) {
+      ctx.getInjector().injectMembers(this);
+
+      // Setup admin password
+      gApi.accounts().id(admin.username()).setHttpPassword(ADMIN_PASSWORD);
+
+      // Get authenticated Git/HTTP URL
+      String urlWithCredentials =
+          config
+              .getString("gerrit", null, "canonicalweburl")
+              .replace("http://", "http://" + admin.username() + ":" + ADMIN_PASSWORD + "@");
+
+      // Create project
+      Project.NameKey privateProject = Project.nameKey("private-project");
+      gApi.projects().create(privateProject.get());
+
+      // Disallow general read permissions for anonymous users
+      projectOperations
+          .project(allProjectsName)
+          .forUpdate()
+          .add(deny(Permission.READ).ref("refs/*").group(SystemGroupBackend.ANONYMOUS_USERS))
+          .add(
+              allow(Permission.READ)
+                  .ref("refs/heads/master")
+                  .group(SystemGroupBackend.REGISTERED_USERS))
+          .update();
+
+      // Set up project permission to allow registered users fetching changes/*
+      projectOperations
+          .project(privateProject)
+          .forUpdate()
+          .add(
+              allow(Permission.READ)
+                  .ref("refs/changes/*")
+                  .group(SystemGroupBackend.REGISTERED_USERS))
+          .update();
+
+      List<String> changeRefs = new ArrayList<>();
+      for (int i = 0; i < 10; i++) {
+        // Create new change and retrieve refs for the created patch set
+        ChangeInput visibleChangeIn =
+            new ChangeInput(privateProject.get(), "master", "Test private change");
+        visibleChangeIn.newBranch = true;
+        int visibleChangeNumber = gApi.changes().create(visibleChangeIn).info()._number;
+        Change.Id changeId = Change.id(visibleChangeNumber);
+        changeRefs.add(RefNames.patchSetRef(PatchSet.id(changeId, 1)));
+      }
+
+      // Fetch a single ref using git wire protocol v2 over HTTP with authentication
+      execute(GIT_INIT);
+
+      try (AutoCloseable ignored = changeIndexOperations.disableReadsAndWrites()) {
+        // Since we ask for many changes at once, the server will use the change index to speed up
+        // filtering. Having that disabled fails.
+        assertThrows(
+            IOException.class,
+            () ->
+                execute(
+                    ImmutableList.<String>builder()
+                        .add(GIT_FETCH)
+                        .add(urlWithCredentials + "/" + privateProject.get())
+                        .addAll(changeRefs)
+                        .build(),
+                    ImmutableMap.of("GIT_TRACE_PACKET", "1")));
+      }
+
+      // The same call succeeds if the change index is enabled.
+      String outFetchRef =
+          execute(
+              ImmutableList.<String>builder()
+                  .add(GIT_FETCH)
+                  .add(urlWithCredentials + "/" + privateProject.get())
+                  .addAll(changeRefs)
+                  .build(),
+              ImmutableMap.of("GIT_TRACE_PACKET", "1"));
+      assertThat(outFetchRef).contains("git< version 2");
+      assertThat(outFetchRef).contains(changeRefs.get(0));
+    }
+  }
+
+  @Test
+  public void testGitWireProtocolV2FetchIndividualRef_anonymousCantSeeInvisibleChange()
+      throws Exception {
+    try (ServerContext ctx = startServer()) {
+      ctx.getInjector().injectMembers(this);
+
+      // Setup admin password
+      gApi.accounts().id(admin.username()).setHttpPassword(ADMIN_PASSWORD);
+
+      String url = config.getString("gerrit", null, "canonicalweburl");
+
+      // Create project
+      Project.NameKey privateProject = Project.nameKey("private-project");
+      gApi.projects().create(privateProject.get());
+
+      // Disallow general read permissions for anonymous users except on master
+      projectOperations
+          .project(allProjectsName)
+          .forUpdate()
+          .removeAllAccessSections()
+          .add(
+              allow(Permission.READ)
+                  .ref("refs/heads/master")
+                  .group(SystemGroupBackend.ANONYMOUS_USERS))
+          .add(
+              allow(Permission.READ).ref("refs/heads/*").group(SystemGroupBackend.REGISTERED_USERS))
+          .add(allow(Permission.CREATE).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
+          .add(allow(Permission.PUSH).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
+          .update();
+
+      // Create new change and retrieve refs for the created patch set
+      ChangeInput visibleChangeIn = new ChangeInput(privateProject.get(), "master", "Visible");
+      visibleChangeIn.newBranch = true;
+      int visibleChangeNumber = gApi.changes().create(visibleChangeIn).info()._number;
+      Change.Id changeId = Change.id(visibleChangeNumber);
+      String visibleChangeNumberRef = RefNames.patchSetRef(PatchSet.id(changeId, 1));
+
+      // Create new change and retrieve refs for the created patch set. We'll use this to make sure
+      // refs-in-wants only sends us changes we asked for.
+      ChangeInput invisibleChangeIn = new ChangeInput(privateProject.get(), "stable", "Invisible");
+      invisibleChangeIn.newBranch = true;
+      int invisibleChangeNumber = gApi.changes().create(invisibleChangeIn).info()._number;
+      Change.Id invisibleChange = Change.id(invisibleChangeNumber);
+      String invisibleChangeRef = RefNames.patchSetRef(PatchSet.id(invisibleChange, 1));
+
+      // Fetch a single ref using git wire protocol v2 over HTTP with authentication
+      execute(GIT_INIT);
+
+      String outFetchRef;
+      try (AutoCloseable ignored = changeIndexOperations.disableReadsAndWrites()) {
+        outFetchRef =
+            execute(
+                ImmutableList.<String>builder()
+                    .add(GIT_FETCH)
+                    .add(url + "/" + privateProject.get())
+                    .add(visibleChangeNumberRef)
+                    .build(),
+                ImmutableMap.of("GIT_TRACE_PACKET", "1"));
+      }
+
+      assertThat(outFetchRef).contains("git< version 2");
+      assertThat(outFetchRef).contains(visibleChangeNumberRef);
+
+      try (AutoCloseable ignored = changeIndexOperations.disableReadsAndWrites()) {
+        // Fetching invisible ref fails
+        assertThrows(
+            IOException.class,
+            () ->
+                execute(
+                    ImmutableList.<String>builder()
+                        .add(GIT_FETCH)
+                        .add(url + "/" + privateProject.get())
+                        .add(invisibleChangeRef)
+                        .build(),
+                    ImmutableMap.of("GIT_TRACE_PACKET", "1")));
+      }
     }
   }
 

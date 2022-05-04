@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bf0fb8f_db38ffe8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 5388,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-04T08:13:19Z",
+      "side": 1,
+      "message": "I tried this request on my local server\n\n```\n~/sharad_exper/test_gerrit/SharadFirstEverRepo$ curl -X POST -v --user admin:CwwKrDtQmlxHfGNTCuG1jP4nTTinP7SobSrvhma6pw -H \"Content-Type: application/json\" --http1.0 -d \u0027{\"fixReplacementInfos\":[{\"path\":\"abcd.txt\",\"range\":{\"startLine\":2,\"startCharacter\":2,\"endLine\":2,\"endCharacter\":5},\"replacement\":\"abcdefg\"}]}\u0027  http://localhost:8080/a/changes/SharadFirstEverRepo~master~Ib7fad5ad5a9e19e755b521fbbb14a04cf4bf2b18/revisions/6/apply_direct_fix?pp\u003d1\nNote: Unnecessary use of -X or --request, POST is already inferred.\n*   Trying 127.0.0.1:8080...\n* Connected to localhost (127.0.0.1) port 8080 (#0)\n* Server auth using Basic with user \u0027admin\u0027\n\u003e POST /a/changes/SharadFirstEverRepo~master~Ib7fad5ad5a9e19e755b521fbbb14a04cf4bf2b18/revisions/6/apply_direct_fix?pp\u003d1 HTTP/1.0\n\u003e Host: localhost:8080\n\u003e Authorization: Basic YWRtaW46Q3d3S3JEdFFtbHhIZkdOVEN1RzFqUDRuVFRpblA3U29iU3J2aG1hNnB3\n\u003e User-Agent: curl/7.81.0\n\u003e Accept: */*\n\u003e Content-Type: application/json\n\u003e Content-Length: 141\n\u003e \n* Mark bundle as not supporting multiuse\n\u003c HTTP/1.1 500 Server Error\n\u003c Cache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\n\u003c Pragma: no-cache\n\u003c Expires: Mon, 01 Jan 1990 00:00:00 GMT\n\u003c Date: Wed, 04 May 2022 07:24:15 GMT\n\u003c Content-Type: text/plain;charset\u003dutf-8\n\u003c Content-Length: 22\n\u003c \nInternal server error\n* Connection #0 to host localhost left intact\n```\n\nAny suggestion on how I debug what exactly is causing the `Internal server error`. I have tried other POST requests using the same syntax and they have worked, so I don\u0027t think it is problem in calling POST wrongly or some other connection issues etc.",
+      "range": {
+        "startLine": 5388,
+        "startChar": 0,
+        "endLine": 5388,
+        "endChar": 8
+      },
+      "revId": "40c99a57581a88e73cda0ee0af4afc23a293c4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

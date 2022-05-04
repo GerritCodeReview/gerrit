@@ -33,6 +33,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -42,14 +43,41 @@ import org.eclipse.jgit.lib.Repository;
 class VisibleChangesCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  // If asked for this number of changes or less, we filter visibility by loading ChangeNotes.
+  private static final int CHANGE_LIMIT_FOR_DIRECT_FILTERING = 5;
+
   interface Factory {
-    VisibleChangesCache create(ProjectControl projectControl, Repository repository);
+    VisibleChangesCache create(
+        ProjectControl projectControl, Repository repository, long hintNumberOfChangesToBeFiltered);
+  }
+
+  /**
+   * Depending on the expected amount of visibility checks, this class will decide how visibility is
+   * checked.
+   */
+  enum FilteringStrategy {
+    /**
+     * Query the change index for the N most recent changes. This is fast, but the change needs to
+     * be recent to be declared visible or the repo must have less changes than the index query
+     * limit.
+     */
+    INDEX_BACKED_FILTERING,
+    /**
+     * Fallback in case the index is not available and we need to filter many changes. This is slow.
+     */
+    SCAN_ENTIRE_REPOSITORY,
+    /**
+     * In case we do not need to filter many changes, just check visibility for each change. This
+     * means we can also check visibility for old changes.
+     */
+    PER_CHANGE_EVALUATION
   }
 
   @Nullable private final SearchingChangeCacheImpl changeCache;
   private final ProjectState projectState;
   private final ChangeNotes.Factory changeNotesFactory;
   private final PermissionBackend.ForProject permissionBackendForProject;
+  private final FilteringStrategy filteringStrategy;
 
   private final Repository repository;
   private Map<Change.Id, BranchNameKey> visibleChanges;
@@ -60,38 +88,38 @@ class VisibleChangesCache {
       PermissionBackend permissionBackend,
       ChangeNotes.Factory changeNotesFactory,
       @Assisted ProjectControl projectControl,
-      @Assisted Repository repository) {
+      @Assisted Repository repository,
+      @Assisted long hintNumberOfChangesToBeFiltered) {
     this.changeCache = changeCache;
     this.projectState = projectControl.getProjectState();
     this.permissionBackendForProject =
         permissionBackend.user(projectControl.getUser()).project(projectState.getNameKey());
     this.changeNotesFactory = changeNotesFactory;
     this.repository = repository;
+
+    if (hintNumberOfChangesToBeFiltered < CHANGE_LIMIT_FOR_DIRECT_FILTERING) {
+      this.filteringStrategy = FilteringStrategy.PER_CHANGE_EVALUATION;
+    } else if (changeCache != null) {
+      this.filteringStrategy = FilteringStrategy.INDEX_BACKED_FILTERING;
+    } else {
+      this.filteringStrategy = FilteringStrategy.SCAN_ENTIRE_REPOSITORY;
+    }
   }
 
   /**
-   * Returns {@code true} if the {@code changeId} in repository {@code repo} is visible to the user,
-   * by looking at the cached visible changes.
+   * Returns {@code true} if the {@code changeId} in repository {@code repo} is visible to the user.
    */
   public boolean isVisible(Change.Id changeId) throws PermissionBackendException {
-    cachedVisibleChanges();
-    return visibleChanges.containsKey(changeId);
-  }
-
-  /**
-   * Returns the visible changes in the repository {@code repo}. If not cached, computes the visible
-   * changes and caches them.
-   */
-  public Map<Change.Id, BranchNameKey> cachedVisibleChanges() throws PermissionBackendException {
-    if (visibleChanges == null) {
-      if (changeCache == null) {
-        visibleChangesByScan();
-      } else {
-        visibleChangesBySearch();
+    if (filteringStrategy == FilteringStrategy.PER_CHANGE_EVALUATION) {
+      Optional<ChangeNotes> notes = notes(changeId);
+      if (!notes.isPresent()) {
+        return false;
       }
-      logger.atFinest().log("Visible changes: %s", visibleChanges.keySet());
+      return permissionBackendForProject.change(notes.get()).test(ChangePermission.READ);
     }
-    return visibleChanges;
+
+    cacheVisibleChanges();
+    return visibleChanges.containsKey(changeId);
   }
 
   /**
@@ -100,10 +128,42 @@ class VisibleChangesCache {
    * returns {@code null}.
    */
   @Nullable
-  public BranchNameKey getBranchNameKey(Change.Id changeId) throws PermissionBackendException {
-    return cachedVisibleChanges().get(changeId);
+  public BranchNameKey getDestination(Change.Id changeId) throws PermissionBackendException {
+    if (filteringStrategy == FilteringStrategy.PER_CHANGE_EVALUATION) {
+      Optional<ChangeNotes> notes = notes(changeId);
+      return notes.isPresent() ? notes.get().getChange().getDest() : null;
+    }
+
+    cacheVisibleChanges();
+    return visibleChanges.get(changeId);
   }
 
+  /**
+   * Caches visible changes in the repository {@code repo}. If not cached yet, computes the visible
+   * changes and caches them.
+   */
+  private void cacheVisibleChanges() throws PermissionBackendException {
+    if (visibleChanges != null) {
+      return;
+    }
+    if (filteringStrategy == FilteringStrategy.INDEX_BACKED_FILTERING) {
+      visibleChangesBySearch();
+    } else if (filteringStrategy == FilteringStrategy.SCAN_ENTIRE_REPOSITORY) {
+      visibleChangesByFullScan();
+    }
+    logger.atFinest().log("Visible changes: %s", visibleChanges.keySet());
+  }
+
+  /**
+   * Performs a search on the secondary change index. The number of results is sorted by updated
+   * timestamp and is capped. This means this method will populate a list of the N most recent
+   * changes visible by the user. It pretends older changes are not visible without checking them.
+   *
+   * <p>This is necessary because for repositories with >10k changes we can't efficiently filter and
+   * advertise all refs. Using Git Protocol V2 with refs-in-wants is the proper way to not run into
+   * this issue. If refs-in-wants is used, Gerrit only has to filter refs/changes that are of
+   * interest to the user.
+   */
   private void visibleChangesBySearch() throws PermissionBackendException {
     visibleChanges = new HashMap<>();
     Project.NameKey project = projectState.getNameKey();
@@ -122,7 +182,8 @@ class VisibleChangesCache {
     }
   }
 
-  private void visibleChangesByScan() throws PermissionBackendException {
+  /** Get a list of all changes by scanning the repo. This is extremely slow. */
+  private void visibleChangesByFullScan() throws PermissionBackendException {
     visibleChanges = new HashMap<>();
     Project.NameKey p = projectState.getNameKey();
     ImmutableList<ChangeNotesResult> changes;
@@ -158,5 +219,14 @@ class VisibleChangesCache {
       return r.notes();
     }
     return null;
+  }
+
+  private Optional<ChangeNotes> notes(Change.Id cId) {
+    try {
+      return Optional.of(changeNotesFactory.createChecked(projectState.getNameKey(), cId));
+    } catch (Exception e) {
+      logger.atFinest().withCause(e).log("Can't load Change notes for %s", cId);
+    }
+    return Optional.empty();
   }
 }

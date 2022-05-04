@@ -26,6 +26,9 @@
   {@param fromName: ?}
   {@param patchSet: ?}
   {switch $email.updateKind}
+    {case 'PATCH_SET_UPLOADED'}
+      {$fromName} has uploaded a new patch set (#{$patchSet.patchSetId}){sp}
+      and the change is no longer submittable.
     {case 'REPLY_POSTED'}
       {$fromName} has replied on patch set #{$patchSet.patchSetId}{sp}
       and the change is no longer submittable.

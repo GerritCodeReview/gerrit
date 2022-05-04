@@ -63,6 +63,7 @@ import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.receive.ReceiveCommits.MagicBranchInput;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
+import com.google.gerrit.server.mail.send.ChangeNoLongerSubmittableSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -76,6 +77,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.util.ChangeNoLongerSubmittableEmail;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -122,8 +124,10 @@ public class ReplaceOp implements BatchUpdateOp {
   private final AccountResolver accountResolver;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeData.Factory changeDataFactory;
+  private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
+  private final ChangeNoLongerSubmittableEmail.Factory changeNoLongerSubmittableEmailFactory;
   private final ExecutorService sendEmailExecutor;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
@@ -162,14 +166,17 @@ public class ReplaceOp implements BatchUpdateOp {
   private RequestScopePropagator requestScopePropagator;
   private ReviewerModificationList reviewerAdditions;
   private MailRecipients oldRecipients;
+  private ChangeData preUpdateChangeData;
 
   @Inject
   ReplaceOp(
       AccountResolver accountResolver,
       ApprovalsUtil approvalsUtil,
       ChangeData.Factory changeDataFactory,
+      ChangeNotes.Factory changeNotesFactory,
       ChangeKindCache changeKindCache,
       ChangeMessagesUtil cmUtil,
+      ChangeNoLongerSubmittableEmail.Factory changeNoLongerSubmittableEmailFactory,
       RevisionCreated revisionCreated,
       CommentAdded commentAdded,
       MergedByPushOp.Factory mergedByPushOpFactory,
@@ -196,8 +203,10 @@ public class ReplaceOp implements BatchUpdateOp {
     this.accountResolver = accountResolver;
     this.approvalsUtil = approvalsUtil;
     this.changeDataFactory = changeDataFactory;
+    this.changeNotesFactory = changeNotesFactory;
     this.changeKindCache = changeKindCache;
     this.cmUtil = cmUtil;
+    this.changeNoLongerSubmittableEmailFactory = changeNoLongerSubmittableEmailFactory;
     this.revisionCreated = revisionCreated;
     this.commentAdded = commentAdded;
     this.mergedByPushOpFactory = mergedByPushOpFactory;
@@ -258,6 +267,14 @@ public class ReplaceOp implements BatchUpdateOp {
       throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException,
           ValidationException {
     notes = ctx.getNotes();
+
+    // Create change notes newly (defensive copy) as change notes contains a mutable Change
+    // instance.
+    preUpdateChangeData =
+        changeDataFactory.create(
+            changeNotesFactory.createChecked(
+                notes.getProjectName(), notes.getChangeId(), notes.getMetaId()));
+
     Change change = notes.getChange();
     if (change == null || change.isClosed()) {
       rejectMessage = CHANGE_IS_CLOSED;
@@ -503,6 +520,12 @@ public class ReplaceOp implements BatchUpdateOp {
         e.run();
       }
     }
+
+    changeNoLongerSubmittableEmailFactory
+        .create(
+            ctx, ChangeNoLongerSubmittableSender.UpdateKind.PATCH_SET_UPLOADED, preUpdateChangeData)
+        .sendIfNeededAsync();
+
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
     revisionCreated.fire(
         ctx.getChangeData(notes), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);

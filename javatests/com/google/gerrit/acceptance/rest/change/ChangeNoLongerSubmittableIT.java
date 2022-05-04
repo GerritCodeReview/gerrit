@@ -23,6 +23,7 @@ import static com.google.gerrit.server.project.testing.TestLabels.value;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -35,6 +36,8 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
 
 /**
@@ -596,5 +599,615 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                     + "\n"
                     + "%s has posted comments on this change.",
                 admin.fullName(), user.fullName(), approver.fullName()));
+  }
+
+  @Test
+  public void pushNewPatchSet_changeBecomesUnsubmittable_approvalNotCopied() throws Exception {
+    // Overwrite "Code-Review" label that is inherited from All-Projects so that approvals are not
+    // copied on trivial rebase.
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType.Builder codeReview =
+          labelBuilder(
+              LabelId.CODE_REVIEW,
+              value(2, "Looks good to me, approved"),
+              value(1, "Looks good to me, but someone else must approve"),
+              value(0, "No score"),
+              value(-1, "I would prefer this is not submitted as is"),
+              value(-2, "This shall not be submitted"));
+      codeReview.setCopyAllScoresIfNoChange(false);
+      u.getConfig().upsertLabelType(codeReview.build());
+      u.save();
+    }
+
+    // Allow all users to approve.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 2))
+        .update();
+
+    // Create change with admin as the owner and upload a new patch set with user as uploader.
+    PushOneCommit.Result r = createChange();
+    r = amendChangeWithUploader(r, project, user);
+    r.assertOkStatus();
+
+    // Approve the change.
+    TestAccount approver = accountCreator.user2();
+    requestScopeOperations.setApiUser(approver.id());
+    approve(r.getChangeId());
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Upload a new patch set that removes the approval.
+    TestAccount uploaderPs3 =
+        accountCreator.create("user3", "user3@email.com", "User3", /* displayName= */ null);
+    sender.clear();
+    r = amendChangeWithUploader(r, project, uploaderPs3);
+    r.assertOkStatus();
+
+    // Verify the email notifications that have been sent for removing the approval.
+    assertThat(sender.getMessages()).hasSize(2);
+    Message newPatchSetMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("has uploaded a new patch set"))
+            .findAny()
+            .get();
+    assertThat(newPatchSetMessage.body())
+        .contains(
+            String.format(
+                "Attention is currently required from: %s, %s, %s.\n"
+                    + "\n"
+                    + "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                admin.fullName(),
+                user.fullName(),
+                approver.fullName(),
+                uploaderPs3.fullName(),
+                admin.fullName()));
+    Message changeNotSubmittableMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("the change is no longer submittable"))
+            .findAny()
+            .get();
+    // check that the email was sent to the change owner (admin)
+    assertThat(
+            changeNotSubmittableMessage.rcpt().stream()
+                .map(Address::email)
+                .collect(toImmutableSet()))
+        .containsExactly(admin.email());
+    assertThat(changeNotSubmittableMessage.body())
+        .contains(
+            String.format(
+                "%s has uploaded a new patch set (#3) and the change is no longer submittable.",
+                uploaderPs3.fullName()));
+    assertThat(changeNotSubmittableMessage.body())
+        .contains(
+            "Old submit requirements:\n"
+                + "* Code-Review: SATISFIED\n"
+                + "\n"
+                + "New submit requirements:\n"
+                + "* Code-Review: UNSATISFIED\n");
+    assertThat(changeNotSubmittableMessage.htmlBody())
+        .contains(
+            String.format(
+                "<p>%s has uploaded a new patch set (#3) and the change is no longer submittable.</p>",
+                uploaderPs3.fullName()));
+    assertThat(changeNotSubmittableMessage.htmlBody())
+        .contains(
+            "<p>Old submit requirements:\n"
+                + "<ul>\n"
+                + "<li>Code-Review: SATISFIED\n"
+                + "</ul>\n"
+                + "\n"
+                + "New submit requirements:\n"
+                + "<ul>\n"
+                + "<li>Code-Review: UNSATISFIED\n"
+                + "</ul>\n"
+                + "</p>");
+  }
+
+  @Test
+  public void pushNewPatchSet_changeBecomesUnsubmittable_approvalCopiedAndRevoked()
+      throws Exception {
+    // Allow all users to veto and approve.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .update();
+
+    // Create change with admin as the owner and upload a new patch set with user as uploader.
+    PushOneCommit.Result r = createChange();
+    r = amendChangeWithUploader(r, project, user);
+    r.assertOkStatus();
+
+    // Approve the change.
+    TestAccount approver = accountCreator.user2();
+    requestScopeOperations.setApiUser(approver.id());
+    approve(r.getChangeId());
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Upload a new patch set that copies the approval, but revoke it on push.
+    sender.clear();
+    TestRepository<InMemoryRepository> repo = cloneProject(project, approver);
+    GitUtil.fetch(repo, "refs/*:refs/*");
+    repo.reset(r.getCommit());
+    r =
+        amendChange(
+            r.getChangeId(),
+            "refs/for/master%l=-Code-Review",
+            approver,
+            repo,
+            "new subject",
+            "new file",
+            "new content");
+    r.assertOkStatus();
+
+    // Verify the email notifications that have been sent for uploading the new patch set.
+    assertThat(sender.getMessages()).hasSize(2);
+    Message newPatchSetMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("has uploaded a new patch set"))
+            .findAny()
+            .get();
+    assertThat(newPatchSetMessage.body())
+        .contains(
+            String.format(
+                "Attention is currently required from: %s, %s.\n"
+                    + "\n"
+                    + "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+    Message changeNotSubmittableMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("the change is no longer submittable"))
+            .findAny()
+            .get();
+    // check that the email was sent to the change owner (admin)
+    assertThat(
+            changeNotSubmittableMessage.rcpt().stream()
+                .map(Address::email)
+                .collect(toImmutableSet()))
+        .containsExactly(admin.email());
+    assertThat(changeNotSubmittableMessage.body())
+        .contains(
+            String.format(
+                "%s has uploaded a new patch set (#3) and the change is no longer submittable.",
+                approver.fullName()));
+    assertThat(changeNotSubmittableMessage.body())
+        .contains(
+            "Old submit requirements:\n"
+                + "* Code-Review: SATISFIED\n"
+                + "\n"
+                + "New submit requirements:\n"
+                + "* Code-Review: UNSATISFIED\n");
+    assertThat(changeNotSubmittableMessage.htmlBody())
+        .contains(
+            String.format(
+                "<p>%s has uploaded a new patch set (#3) and the change is no longer submittable.</p>",
+                approver.fullName()));
+    assertThat(changeNotSubmittableMessage.htmlBody())
+        .contains(
+            "<p>Old submit requirements:\n"
+                + "<ul>\n"
+                + "<li>Code-Review: SATISFIED\n"
+                + "</ul>\n"
+                + "\n"
+                + "New submit requirements:\n"
+                + "<ul>\n"
+                + "<li>Code-Review: UNSATISFIED\n"
+                + "</ul>\n"
+                + "</p>");
+  }
+
+  @Test
+  public void pushNewPatchSet_changeBecomesUnsubmittable_approvalCopiedAndDowngraded()
+      throws Exception {
+    // Allow all users to veto and approve.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .update();
+
+    // Create change with admin as the owner and upload a new patch set with user as uploader.
+    PushOneCommit.Result r = createChange();
+    r = amendChangeWithUploader(r, project, user);
+    r.assertOkStatus();
+
+    // Approve the change.
+    TestAccount approver = accountCreator.user2();
+    requestScopeOperations.setApiUser(approver.id());
+    approve(r.getChangeId());
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Upload a new patch set that copies the approval, but downgrade it on push.
+    sender.clear();
+    TestRepository<InMemoryRepository> repo = cloneProject(project, approver);
+    GitUtil.fetch(repo, "refs/*:refs/*");
+    repo.reset(r.getCommit());
+    r =
+        amendChange(
+            r.getChangeId(),
+            "refs/for/master%l=Code-Review+1",
+            approver,
+            repo,
+            "new subject",
+            "new file",
+            "new content");
+    r.assertOkStatus();
+
+    // Verify the email notifications that have been sent for uploading the new patch set.
+    assertThat(sender.getMessages()).hasSize(2);
+    Message newPatchSetMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("has uploaded a new patch set"))
+            .findAny()
+            .get();
+    assertThat(newPatchSetMessage.body())
+        .contains(
+            String.format(
+                "Attention is currently required from: %s, %s.\n"
+                    + "\n"
+                    + "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+    Message changeNotSubmittableMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("the change is no longer submittable"))
+            .findAny()
+            .get();
+    // check that the email was sent to the change owner (admin)
+    assertThat(
+            changeNotSubmittableMessage.rcpt().stream()
+                .map(Address::email)
+                .collect(toImmutableSet()))
+        .containsExactly(admin.email());
+    assertThat(changeNotSubmittableMessage.body())
+        .contains(
+            String.format(
+                "%s has uploaded a new patch set (#3) and the change is no longer submittable.",
+                approver.fullName()));
+    assertThat(changeNotSubmittableMessage.body())
+        .contains(
+            "Old submit requirements:\n"
+                + "* Code-Review: SATISFIED\n"
+                + "\n"
+                + "New submit requirements:\n"
+                + "* Code-Review: UNSATISFIED\n");
+    assertThat(changeNotSubmittableMessage.htmlBody())
+        .contains(
+            String.format(
+                "<p>%s has uploaded a new patch set (#3) and the change is no longer submittable.</p>",
+                approver.fullName()));
+    assertThat(changeNotSubmittableMessage.htmlBody())
+        .contains(
+            "<p>Old submit requirements:\n"
+                + "<ul>\n"
+                + "<li>Code-Review: SATISFIED\n"
+                + "</ul>\n"
+                + "\n"
+                + "New submit requirements:\n"
+                + "<ul>\n"
+                + "<li>Code-Review: UNSATISFIED\n"
+                + "</ul>\n"
+                + "</p>");
+  }
+
+  @Test
+  public void pushNewPatchSet_changeBecomesUnsubmittable_approvalCopiedVetoApplied()
+      throws Exception {
+    // Allow all users to veto and approve.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .update();
+
+    // Create change with admin as the owner and upload a new patch set with user as uploader.
+    PushOneCommit.Result r = createChange();
+    r = amendChangeWithUploader(r, project, user);
+    r.assertOkStatus();
+
+    // Approve the change.
+    TestAccount approver = accountCreator.user2();
+    requestScopeOperations.setApiUser(approver.id());
+    approve(r.getChangeId());
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Upload a new patch set that copies the approval, but apply a new veto on push.
+    TestAccount uploaderPs3 =
+        accountCreator.create("user3", "user3@email.com", "User3", /* displayName= */ null);
+    sender.clear();
+    TestRepository<InMemoryRepository> repo = cloneProject(project, uploaderPs3);
+    GitUtil.fetch(repo, "refs/*:refs/*");
+    repo.reset(r.getCommit());
+    r =
+        amendChange(
+            r.getChangeId(),
+            "refs/for/master%l=Code-Review-2",
+            uploaderPs3,
+            repo,
+            "new subject",
+            "new file",
+            "new content");
+    r.assertOkStatus();
+
+    // Verify the email notifications that have been sent for uploading the new patch set.
+    assertThat(sender.getMessages()).hasSize(2);
+    Message newPatchSetMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("has uploaded a new patch set"))
+            .findAny()
+            .get();
+    assertThat(newPatchSetMessage.body())
+        .contains(
+            String.format(
+                "Attention is currently required from: %s, %s, %s.\n"
+                    + "\n"
+                    + "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                admin.fullName(),
+                user.fullName(),
+                uploaderPs3.fullName(),
+                uploaderPs3.fullName(),
+                admin.fullName()));
+    Message changeNotSubmittableMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("the change is no longer submittable"))
+            .findAny()
+            .get();
+    // check that the email was sent to the change owner (admin)
+    assertThat(
+            changeNotSubmittableMessage.rcpt().stream()
+                .map(Address::email)
+                .collect(toImmutableSet()))
+        .containsExactly(admin.email());
+    assertThat(changeNotSubmittableMessage.body())
+        .contains(
+            String.format(
+                "%s has uploaded a new patch set (#3) and the change is no longer submittable.",
+                uploaderPs3.fullName()));
+    assertThat(changeNotSubmittableMessage.body())
+        .contains(
+            "Old submit requirements:\n"
+                + "* Code-Review: SATISFIED\n"
+                + "\n"
+                + "New submit requirements:\n"
+                + "* Code-Review: UNSATISFIED\n");
+    assertThat(changeNotSubmittableMessage.htmlBody())
+        .contains(
+            String.format(
+                "<p>%s has uploaded a new patch set (#3) and the change is no longer submittable.</p>",
+                uploaderPs3.fullName()));
+    assertThat(changeNotSubmittableMessage.htmlBody())
+        .contains(
+            "<p>Old submit requirements:\n"
+                + "<ul>\n"
+                + "<li>Code-Review: SATISFIED\n"
+                + "</ul>\n"
+                + "\n"
+                + "New submit requirements:\n"
+                + "<ul>\n"
+                + "<li>Code-Review: UNSATISFIED\n"
+                + "</ul>\n"
+                + "</p>");
+  }
+
+  @Test
+  public void pushNewPatchSet_changeStaysSubmittable_approvalCopied() throws Exception {
+    // Allow all users to approve.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 2))
+        .update();
+
+    // Create change with admin as the owner and upload a new patch set with user as uploader.
+    PushOneCommit.Result r = createChange();
+    r = amendChangeWithUploader(r, project, user);
+    r.assertOkStatus();
+
+    // Approve the change.
+    TestAccount approver = accountCreator.user2();
+    requestScopeOperations.setApiUser(approver.id());
+    approve(r.getChangeId());
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Upload a new patch set, the approval is copied since this is a trivial rebase.
+    TestAccount uploaderPs3 =
+        accountCreator.create("user3", "user3@email.com", "User3", /* displayName= */ null);
+    sender.clear();
+    r = amendChangeWithUploader(r, project, uploaderPs3);
+    r.assertOkStatus();
+
+    // Verify that only an email about the new patch set has been sent, but not about the change
+    // being no longer submittable (since the change is still submittable).
+    assertThat(sender.getMessages()).hasSize(1);
+    Message newPatchSetMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("has uploaded a new patch set"))
+            .findAny()
+            .get();
+    assertThat(newPatchSetMessage.body())
+        .contains(
+            String.format(
+                "Attention is currently required from: %s, %s.\n"
+                    + "\n"
+                    + "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                admin.fullName(), user.fullName(), uploaderPs3.fullName(), admin.fullName()));
+  }
+
+  @Test
+  public void pushNewPatchSet_changeStaysSubmittable_approvalReapplied() throws Exception {
+    // Overwrite "Code-Review" label that is inherited from All-Projects so that approvals are not
+    // copied on trivial rebase.
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType.Builder codeReview =
+          labelBuilder(
+              LabelId.CODE_REVIEW,
+              value(2, "Looks good to me, approved"),
+              value(1, "Looks good to me, but someone else must approve"),
+              value(0, "No score"),
+              value(-1, "I would prefer this is not submitted as is"),
+              value(-2, "This shall not be submitted"));
+      codeReview.setCopyAllScoresIfNoChange(false);
+      u.getConfig().upsertLabelType(codeReview.build());
+      u.save();
+    }
+
+    // Allow all users to approve.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 2))
+        .update();
+
+    // Create change with admin as the owner and upload a new patch set with user as uploader.
+    PushOneCommit.Result r = createChange();
+    r = amendChangeWithUploader(r, project, user);
+    r.assertOkStatus();
+
+    // Approve the change.
+    TestAccount approver = accountCreator.user2();
+    requestScopeOperations.setApiUser(approver.id());
+    approve(r.getChangeId());
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Upload a new patch set that removes the approval, but re-apply a new approval on push.
+    TestAccount uploaderPs3 =
+        accountCreator.create("user3", "user3@email.com", "User3", /* displayName= */ null);
+    sender.clear();
+    TestRepository<InMemoryRepository> repo = cloneProject(project, uploaderPs3);
+    GitUtil.fetch(repo, "refs/*:refs/*");
+    repo.reset(r.getCommit());
+    r =
+        amendChange(
+            r.getChangeId(),
+            "refs/for/master%l=Code-Review+2",
+            uploaderPs3,
+            repo,
+            "new subject",
+            "new file",
+            "new content");
+    r.assertOkStatus();
+
+    // Verify that only an email about the new patch set has been sent, but not about the change
+    // being no longer submittable (since the change is still submittable).
+    assertThat(sender.getMessages()).hasSize(1);
+    Message newPatchSetMessage =
+        sender.getMessages().stream()
+            .filter(message -> message.body().contains("has uploaded a new patch set"))
+            .findAny()
+            .get();
+    // uploaderPs3 gets added to the attention set because this user is a new reviewer on the change
+    assertThat(newPatchSetMessage.body())
+        .contains(
+            String.format(
+                "Attention is currently required from: %s, %s, %s, %s.\n"
+                    + "\n"
+                    + "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                admin.fullName(),
+                user.fullName(),
+                approver.fullName(),
+                uploaderPs3.fullName(),
+                uploaderPs3.fullName(),
+                admin.fullName()));
+  }
+
+  @Test
+  public void pushNewPatchSet_changeStaysUnsubmittable() throws Exception {
+    // Create change with admin as the owner and upload a new patch set with user as uploader.
+    PushOneCommit.Result r = createChange();
+    r = amendChangeWithUploader(r, project, user);
+    r.assertOkStatus();
+
+    // Upload a new patch set.
+    TestAccount uploaderPs3 =
+        accountCreator.create("user3", "user3@email.com", "User3", /* displayName= */ null);
+    sender.clear();
+    r = amendChangeWithUploader(r, project, uploaderPs3);
+    r.assertOkStatus();
+
+    // Verify that only an email about the new patch set has been sent, but not about the change
+    // being no
+    // longer submittable (since the change is still unsubmittable).
+    assertThat(sender.getMessages()).hasSize(1);
+    Message newPatchSetMessage = Iterables.getOnlyElement(sender.getMessages());
+    assertThat(newPatchSetMessage.body())
+        .contains(
+            String.format(
+                "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                uploaderPs3.fullName(), admin.fullName()));
+  }
+
+  @Test
+  public void pushNewPatchSet_changeBecomesSsubmittable() throws Exception {
+    // Allow all users to approve.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 2))
+        .update();
+
+    // Create change with admin as the owner and upload a new patch set with user as uploader.
+    PushOneCommit.Result r = createChange();
+    r = amendChangeWithUploader(r, project, user);
+    r.assertOkStatus();
+
+    // Upload a new patch set and approve it.
+    TestAccount uploaderPs3 =
+        accountCreator.create("user3", "user3@email.com", "User3", /* displayName= */ null);
+    sender.clear();
+    TestRepository<InMemoryRepository> repo = cloneProject(project, uploaderPs3);
+    GitUtil.fetch(repo, "refs/*:refs/*");
+    repo.reset(r.getCommit());
+    r =
+        amendChange(
+            r.getChangeId(),
+            "refs/for/master%l=Code-Review+2",
+            uploaderPs3,
+            repo,
+            "new subject",
+            "new file",
+            "new content");
+    r.assertOkStatus();
+
+    // Verify that only an email about the new patch set has been sent, but not about the change
+    // being no
+    // longer submittable (since the change became submittable).
+    assertThat(sender.getMessages()).hasSize(1);
+    Message newPatchSetMessage = Iterables.getOnlyElement(sender.getMessages());
+    // uploaderPs3 gets added to the attention set because this user is a new reviewer on the change
+    assertThat(newPatchSetMessage.body())
+        .contains(
+            String.format(
+                "Attention is currently required from: %s.\n"
+                    + "\n"
+                    + "%s has uploaded a new patch set (#3) to the change originally created by %s.",
+                uploaderPs3.fullName(), uploaderPs3.fullName(), admin.fullName()));
   }
 }

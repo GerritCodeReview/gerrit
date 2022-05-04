@@ -20,7 +20,7 @@ import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {LitElement, html, css, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators';
 import {ChangeInfo, CommitId} from '../../../types/common';
-import {fireAlert} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {BindValueChangeEvent} from '../../../types/events';
@@ -40,20 +40,23 @@ export interface ConfirmRevertEventDetail {
   message?: string;
 }
 
+export interface CancelRevertEventDetail {
+  revertType: RevertType;
+}
+
+declare global {
+  interface HTMLElementEventMap {
+    /** Fired when the confirm button is pressed. */
+    // prettier-ignore
+    'confirm': CustomEvent<ConfirmRevertEventDetail>;
+    /** Fired when the cancel button is pressed. */
+    // prettier-ignore
+    'cancel': CustomEvent<CancelRevertEventDetail>;
+  }
+}
+
 @customElement('gr-confirm-revert-dialog')
 export class GrConfirmRevertDialog extends LitElement {
-  /**
-   * Fired when the confirm button is pressed.
-   *
-   * @event confirm
-   */
-
-  /**
-   * Fired when the cancel button is pressed.
-   *
-   * @event cancel
-   */
-
   /* The revert message updated by the user
       The default value is set by the dialog */
   @state()
@@ -311,25 +314,16 @@ export class GrConfirmRevertDialog extends LitElement {
       revertType: this.revertType,
       message: this.message,
     };
-    this.dispatchEvent(
-      new CustomEvent('confirm', {
-        detail,
-        composed: true,
-        bubbles: false,
-      })
-    );
+    fire(this, 'confirm', detail);
   }
 
   private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(
-      new CustomEvent('cancel', {
-        detail: {revertType: this.revertType},
-        composed: true,
-        bubbles: false,
-      })
-    );
+    const detail: ConfirmRevertEventDetail = {
+      revertType: this.revertType,
+    };
+    fire(this, 'cancel', detail);
   }
 }
 

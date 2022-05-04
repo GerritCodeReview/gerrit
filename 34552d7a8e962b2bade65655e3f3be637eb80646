@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d8d04ee_b6b54e6a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-04T10:32:37Z",
+      "side": 1,
+      "message": "nit: consider merging into the existing `declare global` at the bottom of the file.",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 14
+      },
+      "revId": "34552d7a8e962b2bade65655e3f3be637eb80646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a9da28c_2cfc52ab",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-04T10:32:37Z",
+      "side": 1,
+      "message": "Aside: It would be great if this map could be scoped just to this element since I think we have seen event type clashes in other situations, but I don\u0027t think scoped eventmaps are exposed by lit: https://43081j.com/2020/11/typed-events-in-typescript#defining-your-own-event-maps",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 33
+      },
+      "revId": "34552d7a8e962b2bade65655e3f3be637eb80646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

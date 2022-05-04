@@ -37,6 +37,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec33c304_20c3b23a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-04T14:52:35Z",
+      "side": 1,
+      "message": "I don\u0027t think we use \"maybe\" in the render() methods even if sometimes we return `nothing`.\nI would recommend removing \"maybe\" from all method names.",
+      "range": {
+        "startLine": 164,
+        "startChar": 17,
+        "endLine": 164,
+        "endChar": 45
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3d689e6_91d62f54",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-04T14:52:35Z",
+      "side": 1,
+      "message": "create a string util for this? looks useful in general.",
+      "range": {
+        "startLine": 216,
+        "startChar": 4,
+        "endLine": 216,
+        "endChar": 74
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c3b5dfc_ecf593a7",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
         "patchSetId": 6
@@ -60,6 +106,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de22bfa3_ec289f35",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-04T14:52:35Z",
+      "side": 1,
+      "message": "I think you can use `pluralize` from `string-util` for this.",
+      "range": {
+        "startLine": 219,
+        "startChar": 5,
+        "endLine": 219,
+        "endChar": 48
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78513c8e_01118393",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
         "patchSetId": 6
@@ -76,6 +145,29 @@
         "startChar": 58,
         "endLine": 221,
         "endChar": 66
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49d49cf6_fb4e145e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-04T14:52:35Z",
+      "side": 1,
+      "message": "getAccountName is returning getDisplayName?\nperhaps rename to `getOverwrittenDisplayNames`?",
+      "range": {
+        "startLine": 232,
+        "startChar": 10,
+        "endLine": 232,
+        "endChar": 36
       },
       "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

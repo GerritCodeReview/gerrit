@@ -95,7 +95,7 @@ export class GrDialog extends LitElement {
         }
         header {
           flex-shrink: 0;
-          padding-bottom: var(--spacing-xl);
+          padding-bottom: var(--spacing-l);
         }
         main {
           display: flex;
@@ -112,7 +112,7 @@ export class GrDialog extends LitElement {
         footer {
           display: flex;
           flex-shrink: 0;
-          padding-top: var(--spacing-xl);
+          padding-top: var(--spacing-m);
         }
         .flex-space {
           flex-grow: 1;

@@ -147,15 +147,7 @@ export class GrEditableContent extends LitElement {
           background-color: var(--view-background-color);
           width: 100%;
           display: block;
-
-          /* You have to also repeat everything from shared-styles here, because
-              you can only *replace* --iron-autogrow-textarea vars as a whole. */
-          --iron-autogrow-textarea: {
-            box-sizing: border-box;
-            padding: var(--spacing-m);
-            overflow-y: hidden;
-            white-space: pre;
-          }
+          --iron-autogrow-textarea_-_padding: var(--spacing-m);
         }
         .editButtons {
           display: flex;

@@ -52,6 +52,9 @@ public class ChangeNoLongerSubmittableSender extends ReplyToChangeSender {
 
   /** The kind of update kind that triggered the email sending. */
   public enum UpdateKind {
+    // The current user uploaded a new patch set.
+    PATCH_SET_UPLOADED,
+
     // The current user posted a reply on the change.
     REPLY_POSTED;
   }

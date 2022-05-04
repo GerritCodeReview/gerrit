@@ -94,6 +94,7 @@ import com.google.gerrit.server.rules.IgnoreSelfApprovalRule.IgnoreSelfApprovalR
 import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.util.ChangeNoLongerSubmittableEmail;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
@@ -151,6 +152,7 @@ public class BatchProgramModule extends FactoryModule {
     bind(Realm.class).to(FakeRealm.class);
     bind(IdentifiedUser.class).toProvider(Providers.of(null));
     bind(ReplacePatchSetSender.Factory.class).toProvider(Providers.of(null));
+    bind(ChangeNoLongerSubmittableEmail.Factory.class).toProvider(Providers.of(null));
     bind(CurrentUser.class).to(IdentifiedUser.class);
     factory(MergeUtil.Factory.class);
     factory(PatchSetInserter.Factory.class);

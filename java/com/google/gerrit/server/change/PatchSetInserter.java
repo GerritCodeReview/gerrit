@@ -41,6 +41,7 @@ import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.mail.send.ChangeNoLongerSubmittableSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -56,6 +57,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.util.ChangeNoLongerSubmittableEmail;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -75,6 +77,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   // Injected fields.
   private final PermissionBackend permissionBackend;
+  private final ChangeNoLongerSubmittableEmail.Factory changeNoLongerSubmittableEmailFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
@@ -117,12 +120,14 @@ public class PatchSetInserter implements BatchUpdateOp {
   private ReviewerSet oldReviewers;
   private boolean oldWorkInProgressState;
   private ImmutableSet<PatchSetApproval> outdatedApprovals;
+  private ObjectId preUpdateMetaId;
 
   @Inject
   public PatchSetInserter(
       PermissionBackend permissionBackend,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
+      ChangeNoLongerSubmittableEmail.Factory changeNoLongerSubmittableEmailFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       CommitValidators.Factory commitValidatorsFactory,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
@@ -138,6 +143,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     this.permissionBackend = permissionBackend;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
+    this.changeNoLongerSubmittableEmailFactory = changeNoLongerSubmittableEmailFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
@@ -255,6 +261,8 @@ public class PatchSetInserter implements BatchUpdateOp {
   @Override
   public boolean updateChange(ChangeContext ctx)
       throws ResourceConflictException, IOException, BadRequestException {
+    preUpdateMetaId = ctx.getNotes().getMetaId();
+
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(psId);
     update.setSubjectForCommit("Create patch set " + psId.get());
@@ -340,6 +348,14 @@ public class PatchSetInserter implements BatchUpdateOp {
         logger.atSevere().withCause(err).log(
             "Cannot send email for new patch set on change %s", change.getId());
       }
+
+      changeNoLongerSubmittableEmailFactory
+          .create(
+              ctx,
+              change.getId(),
+              ChangeNoLongerSubmittableSender.UpdateKind.PATCH_SET_UPLOADED,
+              preUpdateMetaId)
+          .sendIfNeededAsync();
     }
 
     if (fireRevisionCreated) {

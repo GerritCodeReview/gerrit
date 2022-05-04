@@ -63,6 +63,7 @@ import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.receive.ReceiveCommits.MagicBranchInput;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
+import com.google.gerrit.server.mail.send.ChangeNoLongerSubmittableSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -76,6 +77,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.util.ChangeNoLongerSubmittableEmail;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -124,6 +126,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
+  private final ChangeNoLongerSubmittableEmail.Factory changeNoLongerSubmittableEmailFactory;
   private final ExecutorService sendEmailExecutor;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
@@ -170,6 +173,7 @@ public class ReplaceOp implements BatchUpdateOp {
       ChangeData.Factory changeDataFactory,
       ChangeKindCache changeKindCache,
       ChangeMessagesUtil cmUtil,
+      ChangeNoLongerSubmittableEmail.Factory changeNoLongerSubmittableEmailFactory,
       RevisionCreated revisionCreated,
       CommentAdded commentAdded,
       MergedByPushOp.Factory mergedByPushOpFactory,
@@ -198,6 +202,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.changeDataFactory = changeDataFactory;
     this.changeKindCache = changeKindCache;
     this.cmUtil = cmUtil;
+    this.changeNoLongerSubmittableEmailFactory = changeNoLongerSubmittableEmailFactory;
     this.revisionCreated = revisionCreated;
     this.commentAdded = commentAdded;
     this.mergedByPushOpFactory = mergedByPushOpFactory;
@@ -503,6 +508,15 @@ public class ReplaceOp implements BatchUpdateOp {
         e.run();
       }
     }
+
+    changeNoLongerSubmittableEmailFactory
+        .create(
+            ctx,
+            notes.getChangeId(),
+            ChangeNoLongerSubmittableSender.UpdateKind.PATCH_SET_UPLOADED,
+            notes.getMetaId())
+        .sendIfNeededAsync();
+
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
     revisionCreated.fire(
         ctx.getChangeData(notes), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);

@@ -22,6 +22,30 @@
       },
       "revId": "c4e41a4638b6f635984e6dbbfb3c95a8a29add70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c35c12df_3fb054f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-04T10:26:38Z",
+      "side": 1,
+      "message": "This is also possible and actually easier. I don\u0027t mind much. Done. Let me know if you like this better now.\n\nI thought telling the user specifically only about their outdated approvals makes it clearer that they need to take action to renew these approvals. Listing all outdated approvals including those of other users is more noisy, especially since user names are repeated if multiple approvals of the same user get outdated and removed.",
+      "parentUuid": "a9a317a5_f3a7aada",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 54
+      },
+      "revId": "c4e41a4638b6f635984e6dbbfb3c95a8a29add70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

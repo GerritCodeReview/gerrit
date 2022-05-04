@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.util;
 
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeNoLongerSubmittableOp;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -98,6 +100,7 @@ public class ChangeNoLongerSubmittableEmail {
               updateKind,
               preUpdateMetaId,
               postUpdateChangeData.submitRequirementsIncludingLegacy(),
+              postUpdateChangeData.currentPatchSet().uploader(),
               messageIdGenerator.fromChangeUpdate(
                   ctx.getRepoView(), postUpdateChangeData.currentPatchSet().id()));
     } catch (IOException e) {
@@ -127,6 +130,7 @@ public class ChangeNoLongerSubmittableEmail {
     private final ObjectId preUpdateMetaId;
     private final Map<SubmitRequirement, SubmitRequirementResult>
         postUpdateSubmitRequirementResults;
+    private final Account.Id uploaderId;
     private final MessageId messageId;
 
     AsyncSender(
@@ -138,6 +142,7 @@ public class ChangeNoLongerSubmittableEmail {
         ChangeNoLongerSubmittableSender.UpdateKind updateKind,
         ObjectId preUpdateMetaId,
         Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults,
+        Account.Id uploaderId,
         MessageId messageId) {
       this.senderFactory = senderFactory;
       this.currentUser = currentUser;
@@ -151,6 +156,7 @@ public class ChangeNoLongerSubmittableEmail {
       this.updateKind = updateKind;
       this.preUpdateMetaId = preUpdateMetaId;
       this.postUpdateSubmitRequirementResults = postUpdateSubmitRequirementResults;
+      this.uploaderId = uploaderId;
       this.messageId = messageId;
     }
 
@@ -165,8 +171,22 @@ public class ChangeNoLongerSubmittableEmail {
                 preUpdateMetaId,
                 postUpdateSubmitRequirementResults);
         currentUserId.ifPresent(sender::setFrom);
-        sender.setNotify(notify);
         sender.setMessageId(messageId);
+
+        // If the email is triggered due to the upload of a new patch set, include the uploader of
+        // the
+        // new patch set explicitly. This makes the uploader receive the email even if they do not
+        // have their email strategy set to CC_ON_OWN_COMMENTS (otherwise the uploader would be
+        // dropped from the recipients since they are also the sender).
+        if (ChangeNoLongerSubmittableSender.UpdateKind.PATCH_SET_UPLOADED.equals(updateKind)) {
+          ImmutableSetMultimap.Builder<RecipientType, Account.Id> recipientsMultimapBuilder =
+              ImmutableSetMultimap.builder();
+          notify.accounts().entries().forEach(recipientsMultimapBuilder::put);
+          recipientsMultimapBuilder.put(RecipientType.TO, uploaderId);
+          sender.setNotify(
+              NotifyResolver.Result.create(notify.handling(), recipientsMultimapBuilder.build()));
+        }
+
         sender.send();
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email update for change %s", changeId);

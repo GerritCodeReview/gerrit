@@ -671,12 +671,13 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             .filter(message -> message.body().contains("the change is no longer submittable"))
             .findAny()
             .get();
-    // check that the email was sent to the change owner (admin)
+    // check that the email was sent to the change owner (admin) and the uploader of PS3
+    // (uploaderPs3)
     assertThat(
             changeNotSubmittableMessage.rcpt().stream()
                 .map(Address::email)
                 .collect(toImmutableSet()))
-        .containsExactly(admin.email());
+        .containsExactly(admin.email(), uploaderPs3.email());
     assertThat(changeNotSubmittableMessage.body())
         .contains(
             String.format(
@@ -768,12 +769,12 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             .filter(message -> message.body().contains("the change is no longer submittable"))
             .findAny()
             .get();
-    // check that the email was sent to the change owner (admin)
+    // check that the email was sent to the change owner (admin) and the uploader of PS3 (approver)
     assertThat(
             changeNotSubmittableMessage.rcpt().stream()
                 .map(Address::email)
                 .collect(toImmutableSet()))
-        .containsExactly(admin.email());
+        .containsExactly(admin.email(), approver.email());
     assertThat(changeNotSubmittableMessage.body())
         .contains(
             String.format(
@@ -865,12 +866,12 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             .filter(message -> message.body().contains("the change is no longer submittable"))
             .findAny()
             .get();
-    // check that the email was sent to the change owner (admin)
+    // check that the email was sent to the change owner (admin) and the uploader of PS3 (approver)
     assertThat(
             changeNotSubmittableMessage.rcpt().stream()
                 .map(Address::email)
                 .collect(toImmutableSet()))
-        .containsExactly(admin.email());
+        .containsExactly(admin.email(), approver.email());
     assertThat(changeNotSubmittableMessage.body())
         .contains(
             String.format(
@@ -968,12 +969,13 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
             .filter(message -> message.body().contains("the change is no longer submittable"))
             .findAny()
             .get();
-    // check that the email was sent to the change owner (admin)
+    // check that the email was sent to the change owner (admin) and the uploader of PS3
+    // (uploaderPs3)
     assertThat(
             changeNotSubmittableMessage.rcpt().stream()
                 .map(Address::email)
                 .collect(toImmutableSet()))
-        .containsExactly(admin.email());
+        .containsExactly(admin.email(), uploaderPs3.email());
     assertThat(changeNotSubmittableMessage.body())
         .contains(
             String.format(

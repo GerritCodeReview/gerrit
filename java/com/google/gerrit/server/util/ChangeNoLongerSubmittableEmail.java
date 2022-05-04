@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.util;
 
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.ChangeNoLongerSubmittableSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
@@ -106,7 +109,22 @@ public class ChangeNoLongerSubmittableEmail implements Runnable, RequestContext 
       if (accountId.isPresent()) {
         sender.setFrom(accountId.get());
       }
-      sender.setNotify(ctx.getNotify(postUpdateChangeData.getId()));
+
+      // If the email is triggered due to the upload of a new patch set, include the uploader of the
+      // new patch set explicitly. This makes the uploader receive the email even if they do not
+      // have their email strategy set to CC_ON_OWN_COMMENTS (otherwise the uploader would be
+      // dropped from the recipients since they are also the sender).
+      if (ChangeNoLongerSubmittableSender.UpdateKind.PATCH_SET_UPLOADED.equals(updateKind)) {
+        NotifyResolver.Result notify = ctx.getNotify(postUpdateChangeData.getId());
+        ImmutableSetMultimap.Builder<RecipientType, Account.Id> recipientsMultimapBuilder =
+            ImmutableSetMultimap.builder();
+        notify.accounts().entries().forEach(recipientsMultimapBuilder::put);
+        recipientsMultimapBuilder.put(
+            RecipientType.TO, postUpdateChangeData.currentPatchSet().uploader());
+        sender.setNotify(
+            NotifyResolver.Result.create(notify.handling(), recipientsMultimapBuilder.build()));
+      }
+
       sender.setMessageId(
           messageIdGenerator.fromChangeUpdate(
               ctx.getRepoView(), postUpdateChangeData.currentPatchSet().id()));

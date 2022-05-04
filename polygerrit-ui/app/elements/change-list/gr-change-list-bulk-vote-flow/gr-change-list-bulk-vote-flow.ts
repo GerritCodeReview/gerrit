@@ -214,45 +214,37 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     this.requestUpdate();
     const promises = this.getBulkActionsModel().voteChanges(reviewInput);
 
-    for (let index = 0; index < promises.length; index++) {
-      const changeNum = this.selectedChanges[index]._number;
-      promises[index]
-        .then(() => {
-          this.progressByChange.set(changeNum, ProgressStatus.SUCCESSFUL);
-        })
-        .catch(() => {
-          this.progressByChange.set(changeNum, ProgressStatus.FAILED);
-        })
-        .finally(() => {
-          this.requestUpdate();
-          if (
-            getOverallStatus(this.progressByChange) ===
-            ProgressStatus.SUCCESSFUL
-          ) {
-            fireAlert(this, 'Votes added');
-            this.handleClose();
-          }
-        });
-    }
-
     // TODO: replace with Promise.allSettled once we upgrade to ES2020 or higher
     // The names and types here match Promise.allSettled.
     await Promise.all(
-      promises.map(promise =>
-        promise
+      promises.map((promise, index) => {
+        const changeNum = this.selectedChanges[index]._number;
+        return promise
           .then(value => {
+            this.progressByChange.set(changeNum, ProgressStatus.SUCCESSFUL);
             return {
               status: 'fulfilled',
               value,
             };
           })
           .catch(reason => {
+            this.progressByChange.set(changeNum, ProgressStatus.FAILED);
             return {
               status: 'rejected',
               reason,
             };
           })
-      )
+          .finally(() => {
+            this.requestUpdate();
+            if (
+              getOverallStatus(this.progressByChange) ===
+              ProgressStatus.SUCCESSFUL
+            ) {
+              fireAlert(this, 'Votes added');
+              this.handleClose();
+            }
+          });
+      })
     );
     if (getOverallStatus(this.progressByChange) === ProgressStatus.FAILED) {
       this.reportingService.reportInteraction('bulk-action-failure', {

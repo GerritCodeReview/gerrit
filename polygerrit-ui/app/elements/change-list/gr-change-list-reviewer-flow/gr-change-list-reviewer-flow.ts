@@ -243,40 +243,34 @@ export class GrChangeListReviewerFlow extends LitElement {
     const inFlightActions = this.getBulkActionsModel().addReviewers(
       this.updatedAccountsByReviewerState
     );
-    for (let index = 0; index < this.selectedChanges.length; index++) {
-      const change = this.selectedChanges[index];
-      inFlightActions[index]
-        .then(() => {
-          this.progressByChangeNum.set(
-            change._number,
-            ProgressStatus.SUCCESSFUL
-          );
-          this.requestUpdate();
-        })
-        .catch(() => {
-          this.progressByChangeNum.set(change._number, ProgressStatus.FAILED);
-          this.requestUpdate();
-        });
-    }
 
     // TODO: replace with Promise.allSettled once we upgrade to ES2020 or higher
     // The names and types here match Promise.allSettled.
     await Promise.all(
-      inFlightActions.map(promise =>
-        promise
+      inFlightActions.map((promise, index) => {
+        const change = this.selectedChanges[index];
+
+        return promise
           .then(value => {
+            this.progressByChangeNum.set(
+              change._number,
+              ProgressStatus.SUCCESSFUL
+            );
+            this.requestUpdate();
             return {
               status: 'fulfilled',
               value,
             };
           })
           .catch(reason => {
+            this.progressByChangeNum.set(change._number, ProgressStatus.FAILED);
+            this.requestUpdate();
             return {
               status: 'rejected',
               reason,
             };
-          })
-      )
+          });
+      })
     );
     if (getOverallStatus(this.progressByChangeNum) === ProgressStatus.FAILED) {
       this.reportingService.reportInteraction('bulk-action-failure', {

@@ -621,7 +621,7 @@ export class GrAutocomplete extends LitElement {
 
     // Value and text are mirrors of each other in multi mode.
     if (this.multi) {
-      this.setText(this.value);
+      await this.setText(this.value);
     } else {
       if (!this.clearOnCommit && this.selected) {
         const dataSet = this.selected.dataset;
@@ -629,7 +629,7 @@ export class GrAutocomplete extends LitElement {
         if (dataSet) {
           const index = Number(dataSet['index']!);
           if (isNaN(index)) return;
-          this.setText(this.suggestions[index]?.name || '');
+          await this.setText(this.suggestions[index]?.name || '');
         }
       } else {
         this.clear();

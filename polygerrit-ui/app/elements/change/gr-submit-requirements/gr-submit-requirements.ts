@@ -52,6 +52,8 @@ import {PrimaryTab} from '../../../constants/constants';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
+import {join} from 'lit/directives/join';
+import {map} from 'lit/directives/map';
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
@@ -119,9 +121,15 @@ export class GrSubmitRequirements extends LitElement {
         td {
           padding: var(--spacing-s);
           white-space: nowrap;
+          vertical-align: top;
         }
         .votes-cell {
           display: flex;
+          flex-flow: wrap;
+        }
+        .votes-cell .separator {
+          width: 100%;
+          margin-top: var(--spacing-s);
         }
         gr-vote-chip {
           margin-right: var(--spacing-s);
@@ -197,11 +205,7 @@ export class GrSubmitRequirements extends LitElement {
           ></gr-limited-text>
         </td>
         <td>
-          ${this.renderEndpoint(
-            requirement,
-            html`${this.renderVotesAndChecksChips(requirement)}
-            ${this.renderOverrideLabels(requirement)}`
-          )}
+          ${this.renderEndpoint(requirement, this.renderVoteCell(requirement))}
         </td>
       </tr>
     `;
@@ -254,36 +258,44 @@ export class GrSubmitRequirements extends LitElement {
     ></iron-icon>`;
   }
 
-  renderVotesAndChecksChips(requirement: SubmitRequirementResultInfo) {
+  renderVoteCell(requirement: SubmitRequirementResultInfo) {
     if (requirement.status === SubmitRequirementStatus.ERROR) {
       return html`<span class="error">Error</span>`;
     }
+
     const requirementLabels = extractAssociatedLabels(requirement);
     const allLabels = this.change?.labels ?? {};
     const associatedLabels = Object.keys(allLabels).filter(label =>
       requirementLabels.includes(label)
     );
 
-    const everyAssociatedLabelsIsWithoutVotes = associatedLabels.every(
-      label => !hasVotes(allLabels[label])
-    );
-
-    const checksChips = this.renderChecks(requirement);
-
     const requirementWithoutLabelToVoteOn = associatedLabels.length === 0;
     if (requirementWithoutLabelToVoteOn) {
       const status = capitalizeFirstLetter(requirement.status.toLowerCase());
-      return checksChips || html`${status}`;
+      return this.renderChecks(requirement) || html`${status}`;
     }
 
+    const everyAssociatedLabelsIsWithoutVotes = associatedLabels.every(
+      label => !hasVotes(allLabels[label])
+    );
     if (everyAssociatedLabelsIsWithoutVotes) {
-      return checksChips || html`No votes`;
+      return this.renderChecks(requirement) || html`No votes`;
     }
 
-    return html`${associatedLabels.map(label =>
-      this.renderLabelVote(label, allLabels)
+    const associatedLabelsWithVotes = associatedLabels.filter(label =>
+      hasVotes(allLabels[label])
+    );
+
+    return html`${join(
+      map(
+        associatedLabelsWithVotes,
+        label =>
+          html`${this.renderLabelVote(label, allLabels)}
+          ${this.renderOverrideLabels(requirement, label)}`
+      ),
+      html`<span class="separator"></span>`
     )}
-    ${checksChips}`;
+    ${this.renderChecks(requirement)}`;
   }
 
   renderLabelVote(label: string, labels: LabelNameToInfoMap) {
@@ -307,6 +319,25 @@ export class GrSubmitRequirements extends LitElement {
     } else {
       return html``;
     }
+  }
+
+  renderOverrideLabels(
+    requirement: SubmitRequirementResultInfo,
+    forLabel: string
+  ) {
+    if (requirement.status !== SubmitRequirementStatus.OVERRIDDEN) return;
+    const requirementLabels = extractAssociatedLabels(
+      requirement,
+      'onlyOverride'
+    )
+      .filter(label => label === forLabel)
+      .filter(label => {
+        const allLabels = this.change?.labels ?? {};
+        return allLabels[label] && hasVotes(allLabels[label]);
+      });
+    return requirementLabels.map(
+      label => html`<span class="overrideLabel">${label}</span>`
+    );
   }
 
   renderChecks(requirement: SubmitRequirementResultInfo) {
@@ -337,20 +368,6 @@ export class GrSubmitRequirements extends LitElement {
         });
       }}
     ></gr-checks-chip>`;
-  }
-
-  renderOverrideLabels(requirement: SubmitRequirementResultInfo) {
-    if (requirement.status !== SubmitRequirementStatus.OVERRIDDEN) return;
-    const requirementLabels = extractAssociatedLabels(
-      requirement,
-      'onlyOverride'
-    ).filter(label => {
-      const allLabels = this.change?.labels ?? {};
-      return allLabels[label] && hasVotes(allLabels[label]);
-    });
-    return requirementLabels.map(
-      label => html`<span class="overrideLabel">${label}</span>`
-    );
   }
 
   renderTriggerVotes() {

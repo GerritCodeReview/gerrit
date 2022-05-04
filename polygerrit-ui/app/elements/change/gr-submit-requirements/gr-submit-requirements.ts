@@ -197,11 +197,7 @@ export class GrSubmitRequirements extends LitElement {
           ></gr-limited-text>
         </td>
         <td>
-          ${this.renderEndpoint(
-            requirement,
-            html`${this.renderVotesAndChecksChips(requirement)}
-            ${this.renderOverrideLabels(requirement)}`
-          )}
+          ${this.renderEndpoint(requirement, this.renderVoteCell(requirement))}
         </td>
       </tr>
     `;
@@ -254,10 +250,16 @@ export class GrSubmitRequirements extends LitElement {
     ></iron-icon>`;
   }
 
-  renderVotesAndChecksChips(requirement: SubmitRequirementResultInfo) {
+  renderVoteCell(requirement: SubmitRequirementResultInfo) {
     if (requirement.status === SubmitRequirementStatus.ERROR) {
       return html`<span class="error">Error</span>`;
     }
+
+    return html`${this.renderVotesAndChecksChips(requirement)}
+    ${this.renderOverrideLabels(requirement)}`;
+  }
+
+  renderVotesAndChecksChips(requirement: SubmitRequirementResultInfo) {
     const requirementLabels = extractAssociatedLabels(requirement);
     const allLabels = this.change?.labels ?? {};
     const associatedLabels = Object.keys(allLabels).filter(label =>

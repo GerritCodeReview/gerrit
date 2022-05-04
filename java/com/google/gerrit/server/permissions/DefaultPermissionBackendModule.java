@@ -31,7 +31,6 @@ public class DefaultPermissionBackendModule extends AbstractModule {
       // TODO(hiesel) Hide ProjectControl, RefControl, ChangeControl related bindings.
       factory(ProjectControl.Factory.class);
       factory(DefaultRefFilter.Factory.class);
-      factory(VisibleChangesCache.Factory.class);
     }
   }
 }

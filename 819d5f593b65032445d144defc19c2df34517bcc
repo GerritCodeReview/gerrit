@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df9e64f4_23f5f709",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-04T18:35:01Z",
+      "side": 1,
+      "message": "I commented on a later change in this series, but I think this concept needs further discussion. One of the biggest ongoing complaints I hear about Gerrit is the # of emails. If we\u0027re adding more emails, we really need to scrutinize the intended effect and consequences.",
+      "revId": "819d5f593b65032445d144defc19c2df34517bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

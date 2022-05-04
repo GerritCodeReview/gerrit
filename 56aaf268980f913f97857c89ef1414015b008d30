@@ -39,6 +39,30 @@
       },
       "revId": "56aaf268980f913f97857c89ef1414015b008d30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0e1cc9a_e9e95e93",
+        "filename": "antlr3/com/google/gerrit/index/query/Query.g",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-04T07:08:47Z",
+      "side": 1,
+      "message": "I didn\u0027t want to allow mixed case (aNd) to stay opinionated, but we could of course.",
+      "parentUuid": "29856e6f_93bf7f3b",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 19
+      },
+      "revId": "56aaf268980f913f97857c89ef1414015b008d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

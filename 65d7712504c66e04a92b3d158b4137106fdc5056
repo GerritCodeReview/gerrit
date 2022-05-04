@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91f8f911_377c78c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-04T08:33:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e841db47_1b2272bd",
+      "revId": "65d7712504c66e04a92b3d158b4137106fdc5056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc31ba1d_3cc0d1e5",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-04-29T13:39:27Z",
       "side": 1,
       "message": "Thank you for sending this change. \n\nCould you please provide more details about which basic style I should review? Is it only spacing changes at the moment?\n\nI don\u0027t see the code-review info message at the moment, will it be in a follow-up change? Also vote failure and progress?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "65d7712504c66e04a92b3d158b4137106fdc5056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56a0ff1c_2a10f584",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-04T08:33:17Z",
+      "side": 1,
+      "message": "Voting in progress is part of this change as well.\nhttps://imgur.com/a/DH1K1cC\n\nScreenshots here.\n\nI updated the commit message.",
+      "parentUuid": "dc31ba1d_3cc0d1e5",
       "range": {
         "startLine": 7,
         "startChar": 0,
@@ -76,6 +118,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74433096_5ad17249",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-04T08:33:17Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c7c00e36_9721605a",
+      "revId": "65d7712504c66e04a92b3d158b4137106fdc5056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6a0a85e_70ae9fea",
@@ -113,6 +173,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "e6a0a85e_70ae9fea",
+      "range": {
+        "startLine": 135,
+        "startChar": 26,
+        "endLine": 135,
+        "endChar": 31
+      },
+      "revId": "65d7712504c66e04a92b3d158b4137106fdc5056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "730fd9ce_d56437ad",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-04T08:33:17Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c3504c0e_5aaf34f6",
       "range": {
         "startLine": 135,
         "startChar": 26,

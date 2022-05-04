@@ -390,7 +390,7 @@ public class ApprovalsUtil {
       Collection<PatchSetApproval> outdatedUserApprovals = e.getValue();
 
       String message;
-      if (outdatedApprovalsByUser.size() == 1) {
+      if (outdatedUserApprovals.size() == 1) {
         PatchSetApproval outdatedUserApproval = Iterables.getOnlyElement(outdatedUserApprovals);
         message =
             String.format(

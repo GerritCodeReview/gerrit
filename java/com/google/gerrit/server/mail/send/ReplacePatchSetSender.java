@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.mail.send;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
@@ -82,7 +85,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     }
   }
 
-  public List<String> getReviewerNames() {
+  public ImmutableList<String> getReviewerNames() {
     List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {
       if (id.equals(fromId)) {
@@ -93,7 +96,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     if (names.isEmpty()) {
       return null;
     }
-    return names;
+    return names.stream().sorted().collect(toImmutableList());
   }
 
   @Override

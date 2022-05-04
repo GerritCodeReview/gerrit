@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d08a3f2_401de321",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-04T14:40:53Z",
+      "side": 1,
+      "message": "A few comment on making reviewer lowercase, I did not update them in the mocks but this was a piece of feedback from the UX writer. ",
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9125df77_39899ee9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-04T14:40:53Z",
+      "side": 1,
+      "message": "Does this file also include the use case of 2 messages as discussed in the specs?",
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c3b5dfc_ecf593a7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-04T14:40:53Z",
+      "side": 1,
+      "message": "We should keep `reviewer` in lower case when it is in the middle of a sentence.\n\n(I assume you are setting this up in this line)",
+      "range": {
+        "startLine": 218,
+        "startChar": 58,
+        "endLine": 218,
+        "endChar": 66
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78513c8e_01118393",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-04T14:40:53Z",
+      "side": 1,
+      "message": "`reviewer`",
+      "range": {
+        "startLine": 221,
+        "startChar": 58,
+        "endLine": 221,
+        "endChar": 66
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7758ea13_23bd093d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-04T14:40:53Z",
+      "side": 1,
+      "message": "lowercase `reviewer`",
+      "range": {
+        "startLine": 190,
+        "startChar": 35,
+        "endLine": 190,
+        "endChar": 44
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

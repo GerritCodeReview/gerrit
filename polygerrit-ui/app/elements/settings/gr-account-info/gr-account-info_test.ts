@@ -166,7 +166,8 @@ suite('gr-account-info tests', () => {
     const displaySpan = section.querySelectorAll('.value')[0];
     const inputSpan = section.querySelectorAll('.value')[1];
 
-    assert.isFalse(element.usernameMutable);
+    assert.equal(account.username, '');
+    assert.isFalse(element.computeUsernameEditable());
     assert.isFalse(displaySpan.hasAttribute('hidden'));
     assert.equal(displaySpan.textContent, account.username);
     assert.isUndefined(inputSpan);
@@ -188,7 +189,7 @@ suite('gr-account-info tests', () => {
     const section = query<HTMLElement>(element, '#usernameSection')!;
     const inputSpan = section.querySelectorAll('.value')[0];
 
-    assert.isTrue(element.usernameMutable);
+    assert.isTrue(element.computeUsernameEditable());
     assert.equal(
       queryIronInput('#usernameIronInput').bindValue,
       account.username
@@ -250,7 +251,7 @@ suite('gr-account-info tests', () => {
         },
       };
       await element.updateComplete;
-      assert.isTrue(element.usernameMutable);
+      assert.isTrue(element.computeUsernameEditable());
 
       const statusInputEl = queryIronInput('#usernameIronInput');
       statusInputEl.bindValue = 'new username';

@@ -16,15 +16,19 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.CommentSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.RepoView;
@@ -38,7 +42,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-public class EmailReviewComments implements Runnable, RequestContext {
+public class EmailReviewComments {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
@@ -74,21 +78,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   }
 
   private final ExecutorService sendEmailsExecutor;
-  private final PatchSetInfoFactory patchSetInfoFactory;
-  private final CommentSender.Factory commentSenderFactory;
-  private final ThreadLocalRequestContext requestContext;
-  private final MessageIdGenerator messageIdGenerator;
-
-  private final NotifyResolver.Result notify;
-  private final ChangeNotes notes;
-  private final PatchSet patchSet;
-  private final IdentifiedUser user;
-  private final String message;
-  private final Instant timestamp;
-  private final List<? extends Comment> comments;
-  private final String patchSetComment;
-  private final List<LabelVote> labels;
-  private final RepoView repoView;
+  private final AsyncSender asyncSender;
 
   @Inject
   EmailReviewComments(
@@ -108,58 +98,113 @@ public class EmailReviewComments implements Runnable, RequestContext {
       @Assisted List<LabelVote> labels,
       @Assisted RepoView repoView) {
     this.sendEmailsExecutor = executor;
-    this.patchSetInfoFactory = patchSetInfoFactory;
-    this.commentSenderFactory = commentSenderFactory;
-    this.requestContext = requestContext;
-    this.messageIdGenerator = messageIdGenerator;
-    this.notify = notify;
-    this.notes = notes;
-    this.patchSet = patchSet;
-    this.user = user;
-    this.message = message;
-    this.timestamp = timestamp;
-    this.comments = COMMENT_ORDER.sortedCopy(comments);
-    this.patchSetComment = patchSetComment;
-    this.labels = labels;
-    this.repoView = repoView;
+    this.asyncSender =
+        new AsyncSender(
+            requestContext,
+            commentSenderFactory,
+            patchSetInfoFactory,
+            user,
+            messageIdGenerator.fromChangeUpdateAndReason(
+                repoView, patchSet.id(), "EmailReviewComments"),
+            notify,
+            notes.getProjectName(),
+            notes.getChangeId(),
+            patchSet,
+            message,
+            timestamp,
+            ImmutableList.copyOf(COMMENT_ORDER.sortedCopy(comments)),
+            patchSetComment,
+            ImmutableList.copyOf(labels));
   }
 
   public void sendAsync() {
     @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(this);
+    Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(asyncSender);
   }
 
-  @Override
-  public void run() {
-    RequestContext old = requestContext.setContext(this);
-    try {
-      CommentSender emailSender =
-          commentSenderFactory.create(notes.getProjectName(), notes.getChangeId());
-      emailSender.setFrom(user.getAccountId());
-      emailSender.setPatchSet(patchSet, patchSetInfoFactory.get(notes.getProjectName(), patchSet));
-      emailSender.setChangeMessage(message, timestamp);
-      emailSender.setComments(comments);
-      emailSender.setPatchSetComment(patchSetComment);
-      emailSender.setLabels(labels);
-      emailSender.setNotify(notify);
-      emailSender.setMessageId(
-          messageIdGenerator.fromChangeUpdateAndReason(
-              repoView, patchSet.id(), "EmailReviewComments"));
-      emailSender.send();
-    } catch (Exception e) {
-      logger.atSevere().withCause(e).log("Cannot email comments for %s", patchSet.id());
-    } finally {
-      requestContext.setContext(old);
+  /**
+   * {@link Runnable} that sends the email asynchonously.
+   *
+   * <p>Only pass objects into this class that are thread-safe (e.g. immutable) so that they can be
+   * safely accessed from the background thread.
+   */
+  // TODO: The passed in Comment class is not thread-safe, replace it with an AutoValue type.
+  private static class AsyncSender implements Runnable, RequestContext {
+    private final ThreadLocalRequestContext requestContext;
+    private final CommentSender.Factory commentSenderFactory;
+    private final PatchSetInfoFactory patchSetInfoFactory;
+    private final IdentifiedUser user;
+    private final MessageId messageId;
+    private final NotifyResolver.Result notify;
+    private final Project.NameKey projectName;
+    private final Change.Id changeId;
+    private final PatchSet patchSet;
+    private final String message;
+    private final Instant timestamp;
+    private final ImmutableList<? extends Comment> comments;
+    @Nullable private final String patchSetComment;
+    private final ImmutableList<LabelVote> labels;
+
+    AsyncSender(
+        ThreadLocalRequestContext requestContext,
+        CommentSender.Factory commentSenderFactory,
+        PatchSetInfoFactory patchSetInfoFactory,
+        IdentifiedUser user,
+        MessageId messageId,
+        NotifyResolver.Result notify,
+        Project.NameKey projectName,
+        Change.Id changeId,
+        PatchSet patchSet,
+        String message,
+        Instant timestamp,
+        ImmutableList<? extends Comment> comments,
+        @Nullable String patchSetComment,
+        ImmutableList<LabelVote> labels) {
+      this.requestContext = requestContext;
+      this.commentSenderFactory = commentSenderFactory;
+      this.patchSetInfoFactory = patchSetInfoFactory;
+      this.user = user;
+      this.messageId = messageId;
+      this.notify = notify;
+      this.projectName = projectName;
+      this.changeId = changeId;
+      this.patchSet = patchSet;
+      this.message = message;
+      this.timestamp = timestamp;
+      this.comments = comments;
+      this.patchSetComment = patchSetComment;
+      this.labels = labels;
     }
-  }
 
-  @Override
-  public String toString() {
-    return "send-email comments";
-  }
+    @Override
+    public void run() {
+      RequestContext old = requestContext.setContext(this);
+      try {
+        CommentSender emailSender = commentSenderFactory.create(projectName, changeId);
+        emailSender.setFrom(user.getAccountId());
+        emailSender.setPatchSet(patchSet, patchSetInfoFactory.get(projectName, patchSet));
+        emailSender.setChangeMessage(message, timestamp);
+        emailSender.setComments(comments);
+        emailSender.setPatchSetComment(patchSetComment);
+        emailSender.setLabels(labels);
+        emailSender.setNotify(notify);
+        emailSender.setMessageId(messageId);
+        emailSender.send();
+      } catch (Exception e) {
+        logger.atSevere().withCause(e).log("Cannot email comments for %s", patchSet.id());
+      } finally {
+        requestContext.setContext(old);
+      }
+    }
 
-  @Override
-  public CurrentUser getUser() {
-    return user.getRealUser();
+    @Override
+    public String toString() {
+      return "send-email comments";
+    }
+
+    @Override
+    public CurrentUser getUser() {
+      return user.getRealUser();
+    }
   }
 }

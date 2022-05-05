@@ -593,6 +593,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4e9ce08_9261d15f",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-05T14:48:49Z",
+      "side": 1,
+      "message": "Maybe more important for reviewing than for reading code in the IDE. At least during this review I didn\u0027t know what this parameter was and I was too lazy to switch to my IDE to look it up.",
+      "parentUuid": "aa773296_4ec7e498",
+      "range": {
+        "startLine": 592,
+        "startChar": 86,
+        "endLine": 592,
+        "endChar": 91
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d972e753_45cfb844",

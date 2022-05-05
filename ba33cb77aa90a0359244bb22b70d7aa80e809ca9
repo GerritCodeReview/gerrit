@@ -64,6 +64,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b23856a_e16c630b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-05T10:50:51Z",
+      "side": 1,
+      "message": "I was also wondering the same: Maybe we should just remove `_cancelableRenderPromise`, because it does not do much. We already do `processor.cancel()`. That should be sufficient. Also cancelling the promise probably has not effect.\n\nBut I don\u0027t want to do this in this change and take some time later looking more into cancelling the rendering.",
+      "parentUuid": "c955077e_c23944f8",
+      "range": {
+        "startLine": 293,
+        "startChar": 41,
+        "endLine": 293,
+        "endChar": 55
+      },
+      "revId": "ba33cb77aa90a0359244bb22b70d7aa80e809ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4014b6f7_6d5d7f21",
@@ -77,6 +101,30 @@
       "writtenOn": "2022-05-05T10:44:45Z",
       "side": 1,
       "message": "Is this still true? Is anyone relying on this? I believe render-content will only be fired when actual rendering happens, because otherwise the function returns early?",
+      "range": {
+        "startLine": 137,
+        "startChar": 67,
+        "endLine": 138,
+        "endChar": 76
+      },
+      "revId": "ba33cb77aa90a0359244bb22b70d7aa80e809ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71de0f50_58f480ad",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-05T10:50:51Z",
+      "side": 1,
+      "message": "Still true. See `fireEvent(this, \u0027render\u0027);` in `_renderDiffTable()`.",
+      "parentUuid": "4014b6f7_6d5d7f21",
       "range": {
         "startLine": 137,
         "startChar": 67,

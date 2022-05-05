@@ -1583,7 +1583,8 @@ suite('gr-reply-dialog tests', () => {
     assert.deepEqual(element.ccs, [cc2]);
   });
 
-  test('update attention section when reviewers and ccs change', async () => {
+  test.only('update attention section when reviewers and ccs change', async () => {
+    debugger;
     element.account = makeAccount();
     element.reviewers = [makeAccount(), makeAccount()];
     element.ccs = [makeAccount(), makeAccount()];

@@ -590,6 +590,17 @@ export class GrReplyDialog extends LitElement {
         padding-left: var(--spacing-m);
         padding-bottom: var(--spacing-m);
       }
+      .warningBeforeReplying {
+        color: var(--warning-foreground);
+        vertical-align: top;
+        margin-right: var(--spacing-s);
+        top: 2px;
+      }
+      .warningContainer {
+        background-color: var(--orange-50);
+        display: inline-flex;
+        padding: var(--spacing-s) var(--spacing-m);
+      }
     `,
   ];
 
@@ -936,6 +947,29 @@ export class GrReplyDialog extends LitElement {
     `;
   }
 
+  private renderAttentionModifyButton() {
+    return html` <gr-tooltip-content
+      has-tooltip
+      title=${this.computeAttentionButtonTitle()}
+    >
+      <gr-button
+        class="edit-attention-button"
+        @click=${this.handleAttentionModify}
+        ?disabled=${this.sendDisabled}
+        link
+        position-below
+        data-label="Edit"
+        data-action-type="change"
+        data-action-key="edit"
+        role="button"
+        tabindex="0"
+      >
+        <iron-icon icon="gr-icons:edit"></iron-icon>
+        Modify
+      </gr-button>
+    </gr-tooltip-content>`;
+  }
+
   private renderAttentionSummarySection() {
     if (this.attentionExpanded) return;
     return html`
@@ -943,47 +977,41 @@ export class GrReplyDialog extends LitElement {
         <div class="attentionSummary">
           <div>
             ${when(
-              this.computeShowNoAttentionUpdate(),
-              () => html` <span>${this.computeDoNotUpdateMessage()}</span> `
-            )}
-            ${when(
-              !this.computeShowNoAttentionUpdate(),
+              this.showEmptyAttentionWarning(),
               () => html`
-                <span>Bring to attention of</span>
-                ${this.computeNewAttentionAccounts().map(
-                  account => html`
-                    <gr-account-label
-                      .account=${account}
-                      .forceAttention=${this.computeHasNewAttention(account)}
-                      .selected=${this.computeHasNewAttention(account)}
-                      .hideHovercard=${true}
-                      .selectionChipStyle=${true}
-                      @click=${this.handleAttentionClick}
-                    ></gr-account-label>
-                  `
-                )}
-              `
+                <div class="warningContainer">
+                  <iron-icon
+                    icon="gr-icons:warning"
+                    class="warningBeforeReplying"
+                  ></iron-icon>
+                  <span> Attention Set will become empty </span>
+                  ${this.renderAttentionModifyButton()}
+                </div>
+              `,
+              () => html` ${when(
+                this.computeShowNoAttentionUpdate(),
+                () => html` <span>${this.computeDoNotUpdateMessage()}</span>  ${this.renderAttentionModifyButton()}`
+              )}
+              ${when(
+                !this.computeShowNoAttentionUpdate(),
+                () => html`
+                  <span>Bring to attention of</span>
+                  ${this.computeNewAttentionAccounts().map(
+                    account => html`
+                      <gr-account-label
+                        .account=${account}
+                        .forceAttention=${this.computeHasNewAttention(account)}
+                        .selected=${this.computeHasNewAttention(account)}
+                        .hideHovercard=${true}
+                        .selectionChipStyle=${true}
+                        @click=${this.handleAttentionClick}
+                      ></gr-account-label>
+                    `
+                  )}
+                  ${this.renderAttentionModifyButton()}
+                `
+              )}`
             )}
-            <gr-tooltip-content
-              has-tooltip
-              title=${this.computeAttentionButtonTitle()}
-            >
-              <gr-button
-                class="edit-attention-button"
-                @click=${this.handleAttentionModify}
-                ?disabled=${this.sendDisabled}
-                link
-                position-below
-                data-label="Edit"
-                data-action-type="change"
-                data-action-key="edit"
-                role="button"
-                tabindex="0"
-              >
-                <iron-icon icon="gr-icons:edit"></iron-icon>
-                Modify
-              </gr-button>
-            </gr-tooltip-content>
           </div>
           <div>
             <a
@@ -1565,6 +1593,13 @@ export class GrReplyDialog extends LitElement {
     // If the attention-detail section is expanded without dispatching this
     // event, then the dialog may expand beyond the screen's bottom border.
     fireEvent(this, 'iron-resize');
+  }
+
+  private showEmptyAttentionWarning() {
+    return (
+      this.newAttentionSet.size === 0 &&
+      Object.keys(this.change?.attention_set ?? {}).length > 0
+    );
   }
 
   computeAttentionButtonTitle(sendDisabled?: boolean) {

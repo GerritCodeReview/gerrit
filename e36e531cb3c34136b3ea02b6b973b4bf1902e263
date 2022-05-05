@@ -1,0 +1,262 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7be8b703_464f7e44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-05T11:52:17Z",
+      "side": 1,
+      "message": "Did upstream also do this? I thought this was a Google-only thing?",
+      "range": {
+        "startLine": 15,
+        "startChar": 62,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03bb1854_438c6a52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-05T11:52:17Z",
+      "side": 1,
+      "message": "nit: number of changes",
+      "range": {
+        "startLine": 34,
+        "startChar": 44,
+        "endLine": 34,
+        "endChar": 58
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9524c7cb_a17ad90b",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-05T11:52:17Z",
+      "side": 1,
+      "message": "nit: should these vars be renamed so that the name matches the new types?",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 53
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6f79d82_8be3a5ca",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-05T11:52:17Z",
+      "side": 1,
+      "message": "2022? Or this because it\u0027s rather a rename + rework of the pre-existing VisibleChangesCache class?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "046735b7_3ccbcc86",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-05T11:52:17Z",
+      "side": 1,
+      "message": "[optional] Have you considered having an interface and one implementation per strategy instead of this enum? I wonder if this would make this code easier to read.",
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3479b47_5fe74438",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-05T11:52:17Z",
+      "side": 1,
+      "message": "nit: should this be part of the previous block that lists final fields?",
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62439d5d_81f0fdd2",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-05T11:52:17Z",
+      "side": 1,
+      "message": "Not true if FilteringStrategy is PER_CHANGE_EVALUATION?",
+      "range": {
+        "startLine": 143,
+        "startChar": 61,
+        "endLine": 144,
+        "endChar": 67
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9f9c029_423b1357",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-05T11:52:17Z",
+      "side": 1,
+      "message": "[optional] would it be better to return Optional\u003cBranchNameKey\u003e then so that callers are forced to handle this case?",
+      "range": {
+        "startLine": 144,
+        "startChar": 68,
+        "endLine": 145,
+        "endChar": 25
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdfdc4f0_a00f5e1a",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-05T11:52:17Z",
+      "side": 1,
+      "message": "[optional] IIUC this method should never be called if FilteringStrategy is PER_CHANGE_EVALUATION, maybe check this via checkState",
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "093034f8_60e8c5fe",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-05T11:52:17Z",
+      "side": 1,
+      "message": "Maybe use Optional instead.",
+      "range": {
+        "startLine": 224,
+        "startChar": 2,
+        "endLine": 224,
+        "endChar": 11
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c7a16fb_3a3b84c8",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-05T11:52:17Z",
+      "side": 1,
+      "message": "Would it be better to move this into the visibleChangesByFullScan() method. It\u0027s a bit unexpected that a method that is named \"toNotes\" does more than the conversion from ChangeNotesResult to ChangeNotes.",
+      "range": {
+        "startLine": 232,
+        "startChar": 4,
+        "endLine": 234,
+        "endChar": 5
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18f96823_903c63be",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-05T11:52:17Z",
+      "side": 1,
+      "message": "nit: please add a comment for better readability",
+      "range": {
+        "startLine": 592,
+        "startChar": 86,
+        "endLine": 592,
+        "endChar": 91
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

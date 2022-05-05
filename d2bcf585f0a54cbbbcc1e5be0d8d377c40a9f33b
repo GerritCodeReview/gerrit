@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb9432b7_8f064740",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-05T18:43:11Z",
+      "side": 0,
+      "message": "Thanks a lot for removing this hack!",
+      "range": {
+        "startLine": 143,
+        "startChar": 7,
+        "endLine": 143,
+        "endChar": 72
+      },
+      "revId": "d2bcf585f0a54cbbbcc1e5be0d8d377c40a9f33b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

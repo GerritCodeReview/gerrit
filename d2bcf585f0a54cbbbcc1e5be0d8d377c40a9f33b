@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c333640a_c8690a7d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-account-info/gr-account-info.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-05T18:38:53Z",
+      "side": 0,
+      "message": "the commit message said this change is disabling username input when username is set, but to be honest, it looks that it was already done by this condition. \n\nMy understanding is that this change just refactor/clean/simplify code.",
+      "range": {
+        "startLine": 352,
+        "startChar": 11,
+        "endLine": 352,
+        "endChar": 34
+      },
+      "revId": "d2bcf585f0a54cbbbcc1e5be0d8d377c40a9f33b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

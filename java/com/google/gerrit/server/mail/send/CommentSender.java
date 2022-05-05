@@ -18,6 +18,7 @@ import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.FilenameComparator;
@@ -108,7 +109,7 @@ public class CommentSender extends ReplyToChangeSender {
 
   private List<? extends Comment> inlineComments = Collections.emptyList();
   @Nullable private String patchSetComment;
-  private List<LabelVote> labels = Collections.emptyList();
+  private ImmutableList<LabelVote> labels = ImmutableList.of();
   private final CommentsUtil commentsUtil;
   private final boolean incomingEmailEnabled;
   private final String replyToAddress;
@@ -136,7 +137,7 @@ public class CommentSender extends ReplyToChangeSender {
     this.patchSetComment = comment;
   }
 
-  public void setLabels(List<LabelVote> labels) {
+  public void setLabels(ImmutableList<LabelVote> labels) {
     this.labels = labels;
   }
 
@@ -536,8 +537,8 @@ public class CommentSender extends ReplyToChangeSender {
     }
   }
 
-  private List<Map<String, Object>> getLabelVoteSoyData(List<LabelVote> votes) {
-    List<Map<String, Object>> result = new ArrayList<>();
+  private ImmutableList<Map<String, Object>> getLabelVoteSoyData(ImmutableList<LabelVote> votes) {
+    ImmutableList.Builder<Map<String, Object>> result = ImmutableList.builder();
     for (LabelVote vote : votes) {
       Map<String, Object> data = new HashMap<>();
       data.put("label", vote.label());
@@ -547,7 +548,7 @@ public class CommentSender extends ReplyToChangeSender {
       data.put("value", (int) vote.value());
       result.add(data);
     }
-    return result;
+    return result.build();
   }
 
   private String getCommentTimestamp() {

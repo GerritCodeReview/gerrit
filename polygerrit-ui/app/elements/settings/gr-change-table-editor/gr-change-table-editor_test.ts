@@ -20,6 +20,7 @@ import {GrChangeTableEditor} from './gr-change-table-editor';
 import {queryAndAssert} from '../../../test/test-utils';
 import {createServerInfo} from '../../../test/test-data-generators';
 import {fixture, html} from '@open-wc/testing-helpers';
+import {ColumnNames} from '../../../constants/constants';
 
 suite('gr-change-table-editor tests', () => {
   let element: GrChangeTableEditor;
@@ -37,8 +38,8 @@ suite('gr-change-table-editor tests', () => {
       'Reviewers',
       'Comments',
       'Repo',
-      'Branch',
-      'Updated',
+      ColumnNames.BRANCH,
+      ColumnNames.UPDATED,
     ];
 
     element.displayedColumns = columns;
@@ -150,7 +151,13 @@ suite('gr-change-table-editor tests', () => {
   });
 
   test('show item', async () => {
-    element.displayedColumns = ['Status', 'Owner', 'Repo', 'Branch', 'Updated'];
+    element.displayedColumns = [
+      ColumnNames.STATUS,
+      ColumnNames.OWNER,
+      ColumnNames.REPO,
+      ColumnNames.BRANCH,
+      ColumnNames.UPDATED,
+    ];
     // trigger computation of enabled displayed columns
     element.serverConfig = createServerInfo();
     await element.updateComplete;

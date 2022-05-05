@@ -47,7 +47,6 @@ import {
 } from '../../../types/common';
 import {StandardLabels} from '../../../utils/label-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {columnNames} from '../gr-change-list/gr-change-list';
 import './gr-change-list-item';
 import {GrChangeListItem, LabelCategory} from './gr-change-list-item';
 import {
@@ -60,6 +59,7 @@ import {
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {createTestAppContext} from '../../../test/test-app-context-init';
 import {tap} from '@polymer/iron-test-helpers/mock-interactions';
+import {ColumnNames} from '../../../constants/constants';
 
 suite('gr-change-list-item tests', () => {
   const account = createAccountWithId();
@@ -311,7 +311,7 @@ suite('gr-change-list-item tests', () => {
 
     await element.updateComplete;
 
-    for (const column of columnNames) {
+    for (const column of Object.values(ColumnNames)) {
       const elementClass = '.' + column.trim().toLowerCase();
       assert.isFalse(
         queryAndAssert(element, elementClass).hasAttribute('hidden')
@@ -401,7 +401,7 @@ suite('gr-change-list-item tests', () => {
 
     await element.updateComplete;
 
-    for (const column of columnNames) {
+    for (const column of Object.values(ColumnNames)) {
       const elementClass = '.' + column.trim().toLowerCase();
       if (column === 'Repo') {
         assert.isNotOk(query(element, elementClass));

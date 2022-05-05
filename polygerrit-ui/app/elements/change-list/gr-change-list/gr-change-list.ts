@@ -32,7 +32,7 @@ import {
   PreferencesInput,
 } from '../../../types/common';
 import {fire, fireEvent, fireReload} from '../../../utils/event-util';
-import {ScrollMode} from '../../../constants/constants';
+import {ColumnNames, ScrollMode} from '../../../constants/constants';
 import {getRequirements} from '../../../utils/label-util';
 import {addGlobalShortcut, Key} from '../../../utils/dom-util';
 import {unique} from '../../../utils/common-util';
@@ -48,20 +48,6 @@ import {ValueChangedEvent} from '../../../types/events';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 import {Execution} from '../../../constants/reporting';
-
-export const columnNames = [
-  'Subject',
-  // TODO(milutin) - remove once Submit Requirements are rolled out.
-  'Status',
-  'Owner',
-  'Reviewers',
-  'Comments',
-  'Repo',
-  'Branch',
-  'Updated',
-  'Size',
-  ' Status ', // spaces to differentiate from old 'Status'
-];
 
 export interface ChangeListSection {
   countLabel?: string;
@@ -309,7 +295,7 @@ export class GrChangeList extends LitElement {
   private computePreferences() {
     if (!this.config) return;
 
-    this.changeTableColumns = columnNames;
+    this.changeTableColumns = Object.values(ColumnNames);
     this.showNumber = false;
     this.visibleChangeTableColumns = this.changeTableColumns.filter(col =>
       this._isColumnEnabled(col, this.config)
@@ -321,12 +307,12 @@ export class GrChangeList extends LitElement {
         this.preferences.change_table.length > 0
       ) {
         const prefColumns = this.preferences.change_table
-          .map(column => (column === 'Project' ? 'Repo' : column))
+          .map(column => (column === 'Project' ? ColumnNames.REPO : column))
           .map(column =>
             this.flagsService.isEnabled(
               KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-            ) && column === 'Status'
-              ? ' Status '
+            ) && column === ColumnNames.STATUS
+              ? ColumnNames.STATUS2
               : column
           );
         this.reporting.reportExecution(Execution.USER_PREFERENCES_COLUMNS, {
@@ -334,7 +320,7 @@ export class GrChangeList extends LitElement {
         });
         // Order visible column names by columnNames, filter only one that
         // are in prefColumns and enabled by config
-        this.visibleChangeTableColumns = columnNames
+        this.visibleChangeTableColumns = Object.values(ColumnNames)
           .filter(col => prefColumns.includes(col))
           .filter(col => this._isColumnEnabled(col, this.config));
       }
@@ -345,7 +331,7 @@ export class GrChangeList extends LitElement {
    * Is the column disabled by a server config or experiment?
    */
   _isColumnEnabled(column: string, config?: ServerInfo) {
-    if (!columnNames.includes(column)) return false;
+    if (!(column in ColumnNames)) return false;
     if (!config || !config.change) return true;
     if (column === 'Comments')
       return this.flagsService.isEnabled('comments-column');

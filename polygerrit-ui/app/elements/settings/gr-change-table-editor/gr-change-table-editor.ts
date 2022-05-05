@@ -17,7 +17,6 @@
 import '../../shared/gr-button/gr-button';
 import {ServerInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
-import {columnNames} from '../../change-list/gr-change-list/gr-change-list';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
@@ -26,6 +25,7 @@ import {formStyles} from '../../../styles/gr-form-styles';
 import {PropertyValues} from 'lit';
 import {fire} from '../../../utils/event-util';
 import {ValueChangedEvent} from '../../../types/events';
+import {ColumnNames} from '../../../constants/constants';
 
 @customElement('gr-change-table-editor')
 export class GrChangeTableEditor extends LitElement {
@@ -119,7 +119,7 @@ export class GrChangeTableEditor extends LitElement {
   }
 
   private configChanged() {
-    this.defaultColumns = columnNames.filter(column =>
+    this.defaultColumns = Object.values(ColumnNames).filter(column =>
       this.isColumnEnabled(column)
     );
     if (!this.displayedColumns) return;

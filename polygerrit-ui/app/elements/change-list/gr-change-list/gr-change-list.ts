@@ -320,8 +320,9 @@ export class GrChangeList extends LitElement {
         });
         // Order visible column names by columnNames, filter only one that
         // are in prefColumns and enabled by config
+        // TODO(dhruvsri): Remove check once Topic is a user setting
         this.visibleChangeTableColumns = Object.values(ColumnNames)
-          .filter(col => prefColumns.includes(col))
+          .filter(col => prefColumns.includes(col) || col === ColumnNames.TOPIC)
           .filter(col => this._isColumnEnabled(col, this.config));
       }
     }
@@ -334,9 +335,11 @@ export class GrChangeList extends LitElement {
     if (!Object.values(ColumnNames).includes(column as unknown as ColumnNames))
       return false;
     if (!config || !config.change) return true;
-    if (column === 'Comments')
+    // TODO(dhruvsri): Remove once Topic is a user setting
+    if (column === ColumnNames.TOPIC) return true;
+    if (column === ColumnNames.COMMENTS)
       return this.flagsService.isEnabled('comments-column');
-    if (column === 'Status') {
+    if (column === ColumnNames.STATUS) {
       return !this.flagsService.isEnabled(
         KnownExperimentId.SUBMIT_REQUIREMENTS_UI
       );

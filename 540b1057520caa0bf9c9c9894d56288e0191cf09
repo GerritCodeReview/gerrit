@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe9fdcbb_1b8c5d40",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-05T13:07:58Z",
+      "side": 1,
+      "message": "I think we should invalidate *both* right away. We could actually just use one event instead of two, but I am fine, if we keep using two events.",
+      "revId": "540b1057520caa0bf9c9c9894d56288e0191cf09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

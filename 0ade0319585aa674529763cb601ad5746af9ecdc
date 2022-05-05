@@ -234,6 +234,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8486a5c_bb419c46",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-05T14:33:23Z",
+      "side": 1,
+      "message": "We don\u0027t trigger any params changea within this file, rather it\u0027s done via router, see https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/elements/core/gr-router/gr-router.ts#L316.\n\nI\u0027ve tested quite a big and i have seen no issue (i could have missed something but everything is working as far as i can tell, repos, groups, plugins, settings page, change screen)",
+      "parentUuid": "a6138867_03ba74f4",
+      "revId": "0ade0319585aa674529763cb601ad5746af9ecdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd6b00b5_8fa358eb",

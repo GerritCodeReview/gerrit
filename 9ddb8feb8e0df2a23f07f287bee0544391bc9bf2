@@ -76,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "509c611e_da1fe66e",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-05T14:33:23Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4a43bfee_550fdf87",
+      "range": {
+        "startLine": 276,
+        "startChar": 10,
+        "endLine": 305,
+        "endChar": 11
+      },
+      "revId": "9ddb8feb8e0df2a23f07f287bee0544391bc9bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b24e4dad_77ce82be",
@@ -89,6 +113,24 @@
       "writtenOn": "2022-05-04T08:16:13Z",
       "side": 1,
       "message": "Replace with:\n```\n  private renderChangeView() {\n    if (this.invalidateChangeViewCache) {\n      this.updateComplete.then(() \u003d\u003e (this.invalidateChangeViewCache \u003d false));\n      return nothing;\n    }\n    return cache(this.showChangeView ? this.changeViewTemplate() : nothing);\n  }\n```\nSee also my other comments.",
+      "revId": "9ddb8feb8e0df2a23f07f287bee0544391bc9bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3398c4d8_ccfddd92",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-05T14:33:23Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b24e4dad_77ce82be",
       "revId": "9ddb8feb8e0df2a23f07f287bee0544391bc9bf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

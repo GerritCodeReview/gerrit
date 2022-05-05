@@ -116,7 +116,12 @@ export const changeListStyles = css`
   @media only screen and (max-width: 150em) {
     .branch {
       overflow: hidden;
-      max-width: 18rem;
+      max-width: 15rem;
+      text-overflow: ellipsis;
+    }
+    .topic {
+      overflow: hidden;
+      max-width: 15rem;
       text-overflow: ellipsis;
     }
     .truncatedRepo {
@@ -128,6 +133,9 @@ export const changeListStyles = css`
   }
   @media only screen and (max-width: 100em) {
     .branch {
+      max-width: 10rem;
+    }
+    .topic {
       max-width: 10rem;
     }
   }

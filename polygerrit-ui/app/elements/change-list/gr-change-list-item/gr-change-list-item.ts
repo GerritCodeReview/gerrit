@@ -233,7 +233,7 @@ export class GrChangeListItem extends LitElement {
           background-color: var(--dashboard-size-xl);
           color: var(--dashboard-size-xl-text);
         }
-        a {
+        a:not(.topicLink) {
           color: inherit;
           cursor: pointer;
           text-decoration: none;
@@ -296,9 +296,9 @@ export class GrChangeListItem extends LitElement {
       ${this.renderCellStatus()} ${this.renderCellOwner()}
       ${this.renderCellReviewers()} ${this.renderCellComments()}
       ${this.renderCellRepo()} ${this.renderCellBranch()}
-      ${this.renderCellUpdated()} ${this.renderCellSubmitted()}
-      ${this.renderCellWaiting()} ${this.renderCellSize()}
-      ${this.renderCellRequirements()}
+      ${this.renderCellTopic()} ${this.renderCellUpdated()}
+      ${this.renderCellSubmitted()} ${this.renderCellWaiting()}
+      ${this.renderCellSize()} ${this.renderCellRequirements()}
       ${this.labelNames?.map(labelNames => this.renderChangeLabels(labelNames))}
       ${this.dynamicCellEndpoints?.map(pluginEndpointName =>
         this.renderChangePluginEndpoint(pluginEndpointName)
@@ -511,22 +511,20 @@ export class GrChangeListItem extends LitElement {
     return html`
       <td class="cell branch">
         <a href=${this.computeRepoBranchURL()}> ${this.change?.branch} </a>
-        ${this.renderChangeBranch()}
       </td>
     `;
   }
 
-  private renderChangeBranch() {
-    if (!this.change?.topic) return;
+  private renderCellTopic() {
+    if (!this.change?.topic) return html`<td class="cell topic"></td>`;
 
     return html`
-      (<a href=${this.computeTopicURL()}
-        ><!--
-      --><gr-limited-text .limit=${50} .text=${this.change.topic}>
-        </gr-limited-text
-        ><!--
-    --></a
-      >)
+      <td class="cell topic">
+        <a class="topicLink" href=${this.computeTopicURL()}
+          ><gr-limited-text .limit=${50} .text=${this.change.topic}>
+          </gr-limited-text
+        ></a>
+      </td>
     `;
   }
 

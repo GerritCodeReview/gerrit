@@ -68,7 +68,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
         @Assisted("message") String message,
         Instant timestamp,
         List<? extends Comment> comments,
-        @Assisted("patchSetComment") String patchSetComment,
+        @Nullable @Assisted("patchSetComment") String patchSetComment,
         List<LabelVote> labels,
         RepoView repoView);
   }

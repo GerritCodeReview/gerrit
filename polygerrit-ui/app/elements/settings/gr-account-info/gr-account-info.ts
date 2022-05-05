@@ -39,9 +39,6 @@ export class GrAccountInfo extends LitElement {
    */
 
   // private but used in test
-  @state() usernameMutable?: boolean;
-
-  // private but used in test
   @state() nameMutable?: boolean;
 
   @property({type: Boolean}) hasUnsavedChanges = false;
@@ -130,13 +127,13 @@ export class GrAccountInfo extends LitElement {
       <section id="usernameSection">
         <span class="title">Username</span>
         ${when(
-          this.usernameMutable,
+          this.computeUsernameEditable(),
           () => html`<span class="value">
             <iron-input
               @keydown=${this.handleKeydown}
               .bindValue=${this.username}
               @bind-value-changed=${(e: BindValueChangeEvent) => {
-                if (!this.username || this.username === e.detail.value) return;
+                if (this.username === e.detail.value) return;
                 this.username = e.detail.value;
                 this.hasUsernameChange = true;
               }}
@@ -228,9 +225,9 @@ export class GrAccountInfo extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('serverConfig')) {
-      this.usernameMutable = this.computeUsernameMutable();
       this.nameMutable = this.computeNameMutable();
     }
+
     if (
       changedProperties.has('hasNameChange') ||
       changedProperties.has('hasUsernameChange') ||
@@ -299,6 +296,7 @@ export class GrAccountInfo extends LitElement {
       .then(() => this.maybeSetStatus())
       .then(() => {
         this.hasNameChange = false;
+        this.hasUsernameChange = false;
         this.hasDisplayNameChange = false;
         this.hasStatusChange = false;
         this.saving = false;
@@ -317,7 +315,9 @@ export class GrAccountInfo extends LitElement {
   private maybeSetUsername() {
     // Note that we are intentionally not acting on this._username being the
     // empty string (which is falsy).
-    return this.hasUsernameChange && this.usernameMutable && this.username
+    return this.hasUsernameChange &&
+      this.computeUsernameEditable() &&
+      this.username
       ? this.restApiService.setAccountUsername(this.username)
       : Promise.resolve();
   }
@@ -343,19 +343,17 @@ export class GrAccountInfo extends LitElement {
     );
   }
 
-  private computeUsernameMutable() {
-    if (!this.serverConfig) return false;
-    // Username may not be changed once it is set.
+  // private but used in test
+  computeUsernameEditable() {
     return (
-      this.serverConfig.auth.editable_account_fields.includes(
+      !!this.serverConfig?.auth.editable_account_fields.includes(
         EditableAccountField.USER_NAME
       ) && !this.account?.username
     );
   }
 
   private computeNameMutable() {
-    if (!this.serverConfig) return false;
-    return this.serverConfig.auth.editable_account_fields.includes(
+    return !!this.serverConfig?.auth.editable_account_fields.includes(
       EditableAccountField.FULL_NAME
     );
   }

@@ -868,9 +868,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     const keyLocations = this._computeKeyLocations();
     this.$.diffBuilder.prefs = this._getBypassPrefs(this.prefs);
     this.$.diffBuilder.renderPrefs = this.renderPrefs;
-    this.$.diffBuilder.render(keyLocations).then(() => {
-      fireEvent(this, 'render');
-    });
+    this.$.diffBuilder.render(keyLocations);
   }
 
   _handleRenderContent() {
@@ -879,6 +877,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     );
     this._setLoading(false);
     this._unobserveIncrementalNodes();
+    // We are just converting 'render-content' into 'render' here. Maybe we
+    // should retire the 'render' event in favor of 'render-content'?
+    fireEvent(this, 'render');
     this._incrementalNodeObserver = (
       dom(this) as PolymerDomWrapper
     ).observeNodes(info => {

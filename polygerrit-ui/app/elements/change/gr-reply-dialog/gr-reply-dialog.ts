@@ -589,6 +589,17 @@ export class GrReplyDialog extends LitElement {
         padding-left: var(--spacing-m);
         padding-bottom: var(--spacing-m);
       }
+      .warningBeforeReplying {
+        color: var(--warning-foreground);
+        vertical-align: top;
+        margin-right: var(--spacing-s);
+        top: 2px;
+      }
+      .warningContainer {
+        background-color: var(--orange-50);
+        display: inline-flex;
+        padding: 0 var(--spacing-m);
+      }
     `,
   ];
 
@@ -937,27 +948,40 @@ export class GrReplyDialog extends LitElement {
         <div class="attentionSummary">
           <div>
             ${when(
-              this.computeShowNoAttentionUpdate(),
-              () => html` <span>${this.computeDoNotUpdateMessage()}</span> `
-            )}
-            ${when(
-              !this.computeShowNoAttentionUpdate(),
+              this.attentionSetEmpty(),
               () => html`
-                <span>Bring to attention of</span>
-                ${this.computeNewAttentionAccounts().map(
-                  account => html`
-                    <gr-account-label
-                      .account=${account}
-                      .forceAttention=${this.computeHasNewAttention(account)}
-                      .selected=${this.computeHasNewAttention(account)}
-                      .hideHovercard=${true}
-                      .selectionChipStyle=${true}
-                      @click=${this.handleAttentionClick}
-                    ></gr-account-label>
-                  `
-                )}
-              `
+                <div class="warningContainer">
+                  <iron-icon
+                    icon="gr-icons:warning"
+                    class="warningBeforeReplying"
+                  ></iron-icon>
+                  <span> Attention Set will become empty </span>
+                </div>
+              `,
+              () => html` ${when(
+                this.computeShowNoAttentionUpdate(),
+                () => html` <span>${this.computeDoNotUpdateMessage()}</span> `
+              )}
+              ${when(
+                !this.computeShowNoAttentionUpdate(),
+                () => html`
+                  <span>Bring to attention of</span>
+                  ${this.computeNewAttentionAccounts().map(
+                    account => html`
+                      <gr-account-label
+                        .account=${account}
+                        .forceAttention=${this.computeHasNewAttention(account)}
+                        .selected=${this.computeHasNewAttention(account)}
+                        .hideHovercard=${true}
+                        .selectionChipStyle=${true}
+                        @click=${this.handleAttentionClick}
+                      ></gr-account-label>
+                    `
+                  )}
+                `
+              )}`
             )}
+
             <gr-tooltip-content
               has-tooltip
               title=${this.computeAttentionButtonTitle()}
@@ -1559,6 +1583,10 @@ export class GrReplyDialog extends LitElement {
     // If the attention-detail section is expanded without dispatching this
     // event, then the dialog may expand beyond the screen's bottom border.
     fireEvent(this, 'iron-resize');
+  }
+
+  private attentionSetEmpty() {
+    return this.newAttentionSet.size === 0;
   }
 
   computeAttentionButtonTitle(sendDisabled?: boolean) {

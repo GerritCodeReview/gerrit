@@ -24,8 +24,9 @@ import {
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
-import {columnNames, ChangeListSection} from '../gr-change-list/gr-change-list';
+import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import {fixture, html} from '@open-wc/testing-helpers';
+import {ColumnNames} from '../../../constants/constants';
 
 suite('gr-change-list section', () => {
   let element: GrChangeListSection;
@@ -52,7 +53,7 @@ suite('gr-change-list section', () => {
       html`<gr-change-list-section
         .account=${createAccountDetailWithId(1)}
         .config=${createServerInfo()}
-        .visibleChangeTableColumns=${columnNames}
+        .visibleChangeTableColumns=${Object.values(ColumnNames)}
         .changeSection=${changeSection}
       ></gr-change-list-section> `
     );

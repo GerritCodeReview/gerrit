@@ -27,7 +27,7 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {Key} from '../../../utils/dom-util';
-import {TimeFormat} from '../../../constants/constants';
+import {ColumnNames, TimeFormat} from '../../../constants/constants';
 import {AccountId, NumericChangeId} from '../../../types/common';
 import {
   createChange,
@@ -207,7 +207,7 @@ suite('gr-change-list basic tests', () => {
         'Branch',
         'Updated',
         'Size',
-        ' Status ',
+        ColumnNames.STATUS2,
       ],
     };
     element.config = createServerInfo();
@@ -331,7 +331,8 @@ suite('gr-change-list basic tests', () => {
       assert.isTrue(element.showNumber);
     });
 
-    test('all columns visible', () => {
+    test.only('all columns visible', () => {
+      debugger;
       for (const column of element.changeTableColumns!) {
         const elementClass = '.' + column.trim().toLowerCase();
         const section = queryAndAssert(element, 'gr-change-list-section');
@@ -363,7 +364,7 @@ suite('gr-change-list basic tests', () => {
           'Branch',
           'Updated',
           'Size',
-          ' Status ',
+          ColumnNames.STATUS2,
         ],
       };
       element.config = createServerInfo();
@@ -401,7 +402,7 @@ suite('gr-change-list basic tests', () => {
           'Branch',
           'Updated',
           'Size',
-          ' Status ',
+          ColumnNames.STATUS2,
         ],
       };
       element.config = createServerInfo();
@@ -454,7 +455,7 @@ suite('gr-change-list basic tests', () => {
         'Branch',
         'Updated',
         'Size',
-        ' Status ',
+        ColumnNames.STATUS2,
       ],
     };
     element.config = createServerInfo();
@@ -518,7 +519,7 @@ suite('gr-change-list basic tests', () => {
     element.config = createServerInfo();
     await element.updateComplete;
     assert.isTrue(
-      element.visibleChangeTableColumns?.includes(' Status '),
+      element.visibleChangeTableColumns?.includes(ColumnNames.STATUS2),
       'Show new status'
     );
     const section = queryAndAssert(element, 'gr-change-list-section');

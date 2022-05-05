@@ -53,7 +53,7 @@ import {customElement, property, state} from 'lit/decorators';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {WAITING} from '../../../constants/constants';
+import {ColumnNames, WAITING} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
@@ -346,7 +346,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellSubject(changeUrl: string) {
-    if (this.computeIsColumnHidden('Subject', this.visibleChangeTableColumns))
+    if (
+      this.computeIsColumnHidden(
+        ColumnNames.SUBJECT,
+        this.visibleChangeTableColumns
+      )
+    )
       return;
 
     return html`
@@ -367,7 +372,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellStatus() {
-    if (this.computeIsColumnHidden('Status', this.visibleChangeTableColumns))
+    if (
+      this.computeIsColumnHidden(
+        ColumnNames.STATUS,
+        this.visibleChangeTableColumns
+      )
+    )
       return;
 
     return html` <td class="cell status">${this.renderChangeStatus()}</td> `;
@@ -387,7 +397,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellOwner() {
-    if (this.computeIsColumnHidden('Owner', this.visibleChangeTableColumns))
+    if (
+      this.computeIsColumnHidden(
+        ColumnNames.OWNER,
+        this.visibleChangeTableColumns
+      )
+    )
       return;
 
     return html`
@@ -403,7 +418,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellReviewers() {
-    if (this.computeIsColumnHidden('Reviewers', this.visibleChangeTableColumns))
+    if (
+      this.computeIsColumnHidden(
+        ColumnNames.REVIEWERS,
+        this.visibleChangeTableColumns
+      )
+    )
       return;
 
     return html`
@@ -455,7 +475,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellRepo() {
-    if (this.computeIsColumnHidden('Repo', this.visibleChangeTableColumns))
+    if (
+      this.computeIsColumnHidden(
+        ColumnNames.REPO,
+        this.visibleChangeTableColumns
+      )
+    )
       return;
 
     return html`
@@ -475,7 +500,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellBranch() {
-    if (this.computeIsColumnHidden('Branch', this.visibleChangeTableColumns))
+    if (
+      this.computeIsColumnHidden(
+        ColumnNames.BRANCH,
+        this.visibleChangeTableColumns
+      )
+    )
       return;
 
     return html`
@@ -567,7 +597,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellRequirements() {
-    if (this.computeIsColumnHidden(' Status ', this.visibleChangeTableColumns))
+    if (
+      this.computeIsColumnHidden(
+        ColumnNames.STATUS2,
+        this.visibleChangeTableColumns
+      )
+    )
       return;
 
     return html`

@@ -28,12 +28,16 @@ import {
   GroupBaseInfo,
   GroupId,
   GroupName,
+  SuggestedReviewerInfo,
   Suggestion,
 } from '../../../types/common';
 import {queryAll, queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {GrAutocomplete} from '../gr-autocomplete/gr-autocomplete';
+import {
+  AutocompleteSuggestion,
+  GrAutocomplete,
+} from '../gr-autocomplete/gr-autocomplete';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 
 const basicFixture = fixtureFromElement('gr-account-list');
@@ -45,7 +49,9 @@ class MockSuggestionsProvider implements ReviewerSuggestionsProvider {
     return Promise.resolve([]);
   }
 
-  makeSuggestionItem(_: Suggestion) {
+  makeSuggestionItem(
+    _: Suggestion
+  ): AutocompleteSuggestion<SuggestedReviewerInfo> {
     return {
       name: 'test',
       value: {
@@ -53,7 +59,7 @@ class MockSuggestionsProvider implements ReviewerSuggestionsProvider {
           _account_id: 1 as AccountId,
         } as AccountInfo,
         count: 1,
-      } as unknown as string,
+      },
     };
   }
 }
@@ -234,7 +240,7 @@ suite('gr-account-list tests', () => {
           value: {
             account: suggestion as AccountInfo,
             count: 1,
-          } as unknown as string,
+          },
         };
       });
 
@@ -259,7 +265,7 @@ suite('gr-account-list tests', () => {
             value: {
               account: originalSuggestions[0] as AccountInfo,
               count: 1,
-            } as unknown as string,
+            },
           },
         ]);
       });

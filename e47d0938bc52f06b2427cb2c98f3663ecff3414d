@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8da83e0_f7de16f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-05T11:20:52Z",
+      "side": 1,
+      "message": "Hi,\nMilutin - please review FE part\nEdwin - please review BE part",
+      "revId": "e47d0938bc52f06b2427cb2c98f3663ecff3414d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

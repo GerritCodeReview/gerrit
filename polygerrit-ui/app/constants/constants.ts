@@ -107,6 +107,20 @@ export enum ProgressStatus {
   SUCCESSFUL = 'SUCCESSFUL',
 }
 
+export enum ColumnNames {
+  SUBJECT = 'Subject',
+  // TODO(milutin) - remove once Submit Requirements are rolled out.
+  STATUS = 'Status',
+  OWNER = 'Owner',
+  REVIEWERS = 'Reviewers',
+  COMMENTS = 'Comments',
+  REPO = 'Repo',
+  BRANCH = 'Branch',
+  UPDATED = 'Updated',
+  SIZE = 'Size',
+  STATUS2 = ' Status ', // spaces to differentiate from old 'Status'
+}
+
 /**
  * @description Modes for gr-diff-cursor
  * The scroll behavior for the cursor. Values are 'never' and

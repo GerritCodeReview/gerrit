@@ -48,6 +48,7 @@ import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
 import {
+  ColumnNames,
   DateFormat,
   DefaultBase,
   DiffViewMode,
@@ -55,7 +56,6 @@ import {
   EmailStrategy,
   TimeFormat,
 } from '../../../constants/constants';
-import {columnNames} from '../../change-list/gr-change-list/gr-change-list';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {LitElement, css, html} from 'lit';
@@ -228,7 +228,7 @@ export class GrSettingsView extends LitElement {
         this.copyPrefs(CopyPrefsDirection.PrefsToLocalPrefs);
         this.localChangeTableColumns =
           prefs.change_table.length === 0
-            ? columnNames
+            ? Object.values(ColumnNames)
             : prefs.change_table.map(column =>
                 column === 'Project' ? 'Repo' : column
               );

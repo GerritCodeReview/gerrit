@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da8b7429_667f4349",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-05T17:59:02Z",
+      "side": 1,
+      "message": "This is prep work because I want to generalize GrReviewerSuggestionsProvider to suggest for multiple changes (for bulk action reviewer flow) and I noticed the test is still in js",
+      "revId": "75ad97ba5ec5517e5cbef2f43ee5c406d1686874",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebc69f4b_367cfe7b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-05T17:59:02Z",
+      "side": 1,
+      "message": "this line is still a lit error because there\u0027s no way to set the \u003cT\u003e of GrAutocomplete from the template, so it assumes the default T\u003dstring and doesn\u0027t like me passing in query with type T\u003dSuggestedReviewerInfo.",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 39
+      },
+      "revId": "75ad97ba5ec5517e5cbef2f43ee5c406d1686874",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "441792ec_4a0efc0e",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-05T17:59:02Z",
+      "side": 1,
+      "message": "changes in this file are:\n- fill in types\n- cast to Brand types\n- fill in test data (\u0027count\u0027 fields, change/config test data from generator)\n- convert string concatenation to template literals after eslintfix yelled at me",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 5
+      },
+      "revId": "75ad97ba5ec5517e5cbef2f43ee5c406d1686874",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

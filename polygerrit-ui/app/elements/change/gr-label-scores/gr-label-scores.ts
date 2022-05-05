@@ -70,7 +70,7 @@ export class GrLabelScores extends LitElement {
         .permissionMessage {
           width: 100%;
           color: var(--deemphasized-text-color);
-          padding-left: var(--spacing-xl);
+          padding-left: var(--label-score-padding-left, 0);
         }
         gr-label-score-row:hover {
           background-color: var(--hover-background-color);
@@ -79,7 +79,7 @@ export class GrLabelScores extends LitElement {
           display: table-row;
         }
         .heading-3 {
-          padding-left: var(--spacing-xl);
+          padding-left: var(--label-score-padding-left, 0);
           margin-bottom: var(--spacing-m);
           margin-top: var(--spacing-l);
         }

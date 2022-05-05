@@ -283,7 +283,7 @@ export class GrAutocomplete extends LitElement {
       changedProperties.has('suggestions') ||
       changedProperties.has('focused')
     ) {
-      this.maybeOpenDropdown();
+      this.updateDropdownVisibility();
     }
     if (changedProperties.has('text')) {
       fire(this, 'text-changed', {value: this.text});
@@ -476,10 +476,10 @@ export class GrAutocomplete extends LitElement {
   setFocus(focused: boolean) {
     if (focused === this.focused) return;
     this.focused = focused;
-    this.maybeOpenDropdown();
+    this.updateDropdownVisibility();
   }
 
-  maybeOpenDropdown() {
+  updateDropdownVisibility() {
     if (this.suggestions.length > 0 && this.focused) {
       this.suggestionsDropdown?.open();
       return;

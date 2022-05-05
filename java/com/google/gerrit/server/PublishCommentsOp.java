@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
@@ -33,7 +34,6 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoView;
-import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -52,7 +52,6 @@ public class PublishCommentsOp implements BatchUpdateOp {
   private final CommentAdded commentAdded;
   private final CommentsUtil commentsUtil;
   private final EmailReviewComments.Factory email;
-  private final List<LabelVote> labelDelta = new ArrayList<>();
   private final Project.NameKey projectNameKey;
   private final PatchSet.Id psId;
   private final PublishCommentUtil publishCommentUtil;
@@ -133,7 +132,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
               ctx.getWhen(),
               comments,
               /* patchSetComment= */ null,
-              labelDelta,
+              /* labels= */ ImmutableList.of(),
               repoView)
           .sendAsync();
     }

@@ -22,6 +22,69 @@
       },
       "revId": "ba33cb77aa90a0359244bb22b70d7aa80e809ca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b80a0826_0803e870",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-05T10:44:45Z",
+      "side": 1,
+      "message": "Sorry for the breakage, and thanks for the fix. I agree with the general analysis and direction, but I found two cases that do not seem ideal yet (though we may decide to fix them as a follow up).",
+      "revId": "ba33cb77aa90a0359244bb22b70d7aa80e809ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c955077e_c23944f8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-05T10:44:45Z",
+      "side": 1,
+      "message": "I wonder if this now still makes sense: The cancel will reject the promise - but this promise is now no longer exposed anywhere - so why does it matter if it\u0027s cancelled? I think when you cancel a render, it should probably not send the \u0027render-content\u0027 (and more \u0027render-progress\u0027) events. This would require making the promise returned from process cancelable, no? Because I suspect cnaceling the promise returned from the `then` in line 296, does not affect whether the `then` intself is executed?",
+      "range": {
+        "startLine": 293,
+        "startChar": 41,
+        "endLine": 293,
+        "endChar": 55
+      },
+      "revId": "ba33cb77aa90a0359244bb22b70d7aa80e809ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4014b6f7_6d5d7f21",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-05T10:44:45Z",
+      "side": 1,
+      "message": "Is this still true? Is anyone relying on this? I believe render-content will only be fired when actual rendering happens, because otherwise the function returns early?",
+      "range": {
+        "startLine": 137,
+        "startChar": 67,
+        "endLine": 138,
+        "endChar": 76
+      },
+      "revId": "ba33cb77aa90a0359244bb22b70d7aa80e809ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

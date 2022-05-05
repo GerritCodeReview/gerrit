@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e7b69d6_1337589a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-05T14:49:45Z",
+      "side": 1,
+      "message": "Nice! Thanks for all the work.",
+      "revId": "58e55a64ee56b85d7c364dc1680587fdccf1a326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45174e3e_b8a0a726",
+        "filename": "polygerrit-ui/app/elements/gr-css-mixins.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-05T14:49:45Z",
+      "side": 1,
+      "message": "typo: css\n\nThis is also the reason for Code-Style to fail.",
+      "range": {
+        "startLine": 67,
+        "startChar": 8,
+        "endLine": 67,
+        "endChar": 10
+      },
+      "revId": "58e55a64ee56b85d7c364dc1680587fdccf1a326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -25,6 +25,7 @@ import {
   EmailAddress,
   SuggestedReviewerGroupInfo,
   SuggestedReviewerAccountInfo,
+  SuggestedReviewerInfo,
 } from '../../../types/common';
 import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
@@ -172,7 +173,7 @@ export class GrAccountList extends LitElement {
   /**
    * Returns suggestion items
    */
-  @state() private querySuggestions: AutocompleteQuery;
+  @state() private querySuggestions: AutocompleteQuery<SuggestedReviewerInfo>;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -265,7 +266,9 @@ export class GrAccountList extends LitElement {
     return this.entry?.focusStart;
   }
 
-  getSuggestions(input: string): Promise<AutocompleteSuggestion[]> {
+  getSuggestions(
+    input: string
+  ): Promise<AutocompleteSuggestion<SuggestedReviewerInfo>[]> {
     const provider = this.suggestionsProvider;
     if (!provider) return Promise.resolve([]);
     return provider.getSuggestions(input).then(suggestions => {

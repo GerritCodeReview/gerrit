@@ -36,7 +36,6 @@ import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RobotComment;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
@@ -185,24 +184,7 @@ public class PostReviewOp implements BatchUpdateOp {
     }
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
     if (notify.shouldNotify()) {
-      try {
-        email
-            .create(
-                notify,
-                notes,
-                ps,
-                user,
-                mailMessage,
-                ctx.getWhen(),
-                comments,
-                in.message,
-                labelDelta,
-                ctx.getRepoView())
-            .sendAsync();
-      } catch (IOException ex) {
-        throw new StorageException(
-            String.format("Repository %s not found", ctx.getProject().get()), ex);
-      }
+      email.create(ctx, ps, mailMessage, comments, in.message, labelDelta).sendAsync();
     }
     String comment = mailMessage;
     if (publishPatchSetLevelComment) {

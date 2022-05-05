@@ -357,6 +357,7 @@ export class GrReplyDialog extends LitElement {
         background-color: var(--dialog-background-color);
         display: block;
         max-height: 90vh;
+        --label-score-padding-left: var(--spacing-xl);
       }
       :host([disabled]) {
         pointer-events: none;

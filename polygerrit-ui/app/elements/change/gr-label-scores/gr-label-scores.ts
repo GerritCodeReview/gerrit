@@ -79,7 +79,7 @@ export class GrLabelScores extends LitElement {
           display: table-row;
         }
         .heading-3 {
-          padding-left: var(--spacing-xl);
+          padding-left: var(--label-score-padding-left, 0);
           margin-bottom: var(--spacing-m);
           margin-top: var(--spacing-l);
         }

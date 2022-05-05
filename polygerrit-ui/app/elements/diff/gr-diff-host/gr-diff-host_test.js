@@ -21,11 +21,12 @@ import './gr-diff-host.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {createDefaultDiffPrefs, Side} from '../../../constants/constants.js';
 import {createChange, createComment, createCommentThread} from '../../../test/test-data-generators.js';
-import {addListenerForTest, mockPromise, stubRestApi} from '../../../test/test-utils.js';
+import {addListenerForTest, mockPromise, stubRestApi, waitUntil} from '../../../test/test-utils.js';
 import {EditPatchSetNum, ParentPatchSetNum} from '../../../types/common.js';
 import {CoverageType} from '../../../types/types.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {GrDiffBuilderImage} from '../../../embed/diff/gr-diff-builder/gr-diff-builder-image.js';
+import {waitForEventOnce} from '../../../utils/event-util.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 
@@ -79,8 +80,7 @@ suite('gr-diff-host tests', () => {
       // Multiple cascading microtasks are scheduled.
       await flush();
       notifySyntaxProcessed();
-      // Multiple cascading microtasks are scheduled.
-      await flush();
+      await waitUntil(() => element.reporting.timeEnd.callCount === 4);
       const calls = element.reporting.timeEnd.getCalls();
       assert.equal(calls.length, 4);
       assert.equal(calls[0].args[0], 'Diff Load Render');
@@ -109,8 +109,7 @@ suite('gr-diff-host tests', () => {
       await flush();
       assert.isFalse(reloadComplete);
       notifySyntaxProcessed();
-      // Assert after the notification task is processed.
-      await flush();
+      await waitUntil(() => reloadComplete);
       assert.isTrue(reloadComplete);
     });
   });
@@ -307,64 +306,41 @@ suite('gr-diff-host tests', () => {
         },
       }));
 
-      const promise = mockPromise();
-      const rendered = () => {
-        // Recognizes that it should be an image diff.
-        assert.isTrue(element.isImageDiff);
-        assert.instanceOf(
-            element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
-
-        // Left image rendered with the parent commit's version of the file.
-        const leftImage =
-            element.$.diff.$.diffTable.querySelector('td.left img');
-        const leftLabel =
-            element.$.diff.$.diffTable.querySelector('td.left label');
-        const leftLabelContent = leftLabel.querySelector('.label');
-        const leftLabelName = leftLabel.querySelector('.name');
-
-        const rightImage =
-            element.$.diff.$.diffTable.querySelector('td.right img');
-        const rightLabel = element.$.diff.$.diffTable.querySelector(
-            'td.right label');
-        const rightLabelContent = rightLabel.querySelector('.label');
-        const rightLabelName = rightLabel.querySelector('.name');
-
-        assert.isNotOk(rightLabelName);
-        assert.isNotOk(leftLabelName);
-
-        let leftLoaded = false;
-        let rightLoaded = false;
-
-        leftImage.addEventListener('load', () => {
-          assert.isOk(leftImage);
-          assert.equal(leftImage.getAttribute('src'),
-              'data:image/bmp;base64,' + mockFile1.body);
-          assert.equal(leftLabelContent.textContent, '1×1 image/bmp');
-          leftLoaded = true;
-          if (rightLoaded) {
-            element.removeEventListener('render', rendered);
-            promise.resolve();
-          }
-        });
-
-        rightImage.addEventListener('load', () => {
-          assert.isOk(rightImage);
-          assert.equal(rightImage.getAttribute('src'),
-              'data:image/bmp;base64,' + mockFile2.body);
-          assert.equal(rightLabelContent.textContent, '1×1 image/bmp');
-
-          rightLoaded = true;
-          if (leftLoaded) {
-            element.removeEventListener('render', rendered);
-            promise.resolve();
-          }
-        });
-      };
-
-      element.addEventListener('render', rendered);
       element.prefs = createDefaultDiffPrefs();
       element.reload();
-      await promise;
+      await waitForEventOnce(element, 'render');
+
+      // Recognizes that it should be an image diff.
+      assert.isTrue(element.isImageDiff);
+      assert.instanceOf(
+          element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
+
+      // Left image rendered with the parent commit's version of the file.
+      const leftImage =
+          element.$.diff.$.diffTable.querySelector('td.left img');
+      const leftLabel =
+          element.$.diff.$.diffTable.querySelector('td.left label');
+      const leftLabelContent = leftLabel.querySelector('.label');
+      const leftLabelName = leftLabel.querySelector('.name');
+
+      const rightImage =
+          element.$.diff.$.diffTable.querySelector('td.right img');
+      const rightLabel = element.$.diff.$.diffTable.querySelector(
+          'td.right label');
+      const rightLabelContent = rightLabel.querySelector('.label');
+      const rightLabelName = rightLabel.querySelector('.name');
+
+      assert.isOk(leftImage);
+      assert.equal(leftImage.getAttribute('src'),
+          'data:image/bmp;base64,' + mockFile1.body);
+      assert.equal(leftLabelContent.textContent, '1×1 image/bmp');
+      assert.isNotOk(leftLabelName);
+
+      assert.isOk(rightImage);
+      assert.equal(rightImage.getAttribute('src'),
+          'data:image/bmp;base64,' + mockFile2.body);
+      assert.equal(rightLabelContent.textContent, '1×1 image/bmp');
+      assert.isNotOk(rightLabelName);
     });
 
     test('renders image diffs with a different file name', async () => {
@@ -398,66 +374,44 @@ suite('gr-diff-host tests', () => {
         },
       }));
 
-      const promise = mockPromise();
-      const rendered = () => {
-        // Recognizes that it should be an image diff.
-        assert.isTrue(element.isImageDiff);
-        assert.instanceOf(
-            element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
-
-        // Left image rendered with the parent commit's version of the file.
-        const leftImage =
-            element.$.diff.$.diffTable.querySelector('td.left img');
-        const leftLabel =
-            element.$.diff.$.diffTable.querySelector('td.left label');
-        const leftLabelContent = leftLabel.querySelector('.label');
-        const leftLabelName = leftLabel.querySelector('.name');
-
-        const rightImage =
-            element.$.diff.$.diffTable.querySelector('td.right img');
-        const rightLabel = element.$.diff.$.diffTable.querySelector(
-            'td.right label');
-        const rightLabelContent = rightLabel.querySelector('.label');
-        const rightLabelName = rightLabel.querySelector('.name');
-
-        assert.isOk(rightLabelName);
-        assert.isOk(leftLabelName);
-        assert.equal(leftLabelName.textContent, mockDiff.meta_a.name);
-        assert.equal(rightLabelName.textContent, mockDiff.meta_b.name);
-
-        let leftLoaded = false;
-        let rightLoaded = false;
-
-        leftImage.addEventListener('load', () => {
-          assert.isOk(leftImage);
-          assert.equal(leftImage.getAttribute('src'),
-              'data:image/bmp;base64,' + mockFile1.body);
-          assert.equal(leftLabelContent.textContent, '1×1 image/bmp');
-          leftLoaded = true;
-          if (rightLoaded) {
-            element.removeEventListener('render', rendered);
-            promise.resolve();
-          }
-        });
-
-        rightImage.addEventListener('load', () => {
-          assert.isOk(rightImage);
-          assert.equal(rightImage.getAttribute('src'),
-              'data:image/bmp;base64,' + mockFile2.body);
-          assert.equal(rightLabelContent.textContent, '1×1 image/bmp');
-
-          rightLoaded = true;
-          if (leftLoaded) {
-            element.removeEventListener('render', rendered);
-            promise.resolve();
-          }
-        });
-      };
-
-      element.addEventListener('render', rendered);
       element.prefs = createDefaultDiffPrefs();
       element.reload();
-      await promise;
+      await waitForEventOnce(element, 'render');
+
+      // Recognizes that it should be an image diff.
+      assert.isTrue(element.isImageDiff);
+      assert.instanceOf(
+          element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
+
+      // Left image rendered with the parent commit's version of the file.
+      const leftImage =
+          element.$.diff.$.diffTable.querySelector('td.left img');
+      const leftLabel =
+          element.$.diff.$.diffTable.querySelector('td.left label');
+      const leftLabelContent = leftLabel.querySelector('.label');
+      const leftLabelName = leftLabel.querySelector('.name');
+
+      const rightImage =
+          element.$.diff.$.diffTable.querySelector('td.right img');
+      const rightLabel = element.$.diff.$.diffTable.querySelector(
+          'td.right label');
+      const rightLabelContent = rightLabel.querySelector('.label');
+      const rightLabelName = rightLabel.querySelector('.name');
+
+      assert.isOk(rightLabelName);
+      assert.isOk(leftLabelName);
+      assert.equal(leftLabelName.textContent, mockDiff.meta_a.name);
+      assert.equal(rightLabelName.textContent, mockDiff.meta_b.name);
+
+      assert.isOk(leftImage);
+      assert.equal(leftImage.getAttribute('src'),
+          'data:image/bmp;base64,' + mockFile1.body);
+      assert.equal(leftLabelContent.textContent, '1×1 image/bmp');
+
+      assert.isOk(rightImage);
+      assert.equal(rightImage.getAttribute('src'),
+          'data:image/bmp;base64,' + mockFile2.body);
+      assert.equal(rightLabelContent.textContent, '1×1 image/bmp');
     });
 
     test('renders added image', async () => {

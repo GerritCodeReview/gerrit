@@ -26,6 +26,7 @@ import {Side} from '../../../api/diff.js';
 import {mockPromise, stubRestApi} from '../../../test/test-utils.js';
 import {AbortStop} from '../../../api/core.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
+import {waitForEventOnce} from '../../../utils/event-util.js';
 
 const basicFixture = fixtureFromElement('gr-diff');
 
@@ -239,51 +240,6 @@ suite('gr-diff tests', () => {
       });
 
       test('renders image diffs with same file name', async () => {
-        const leftRendered = mockPromise();
-        const rightRendered = mockPromise();
-        const rendered = () => {
-          // Recognizes that it should be an image diff.
-          assert.isTrue(element.isImageDiff);
-          assert.instanceOf(
-              element.$.diffBuilder._builder, GrDiffBuilderImage);
-
-          // Left image rendered with the parent commit's version of the file.
-          const leftImage = element.$.diffTable.querySelector('td.left img');
-          const leftLabel =
-              element.$.diffTable.querySelector('td.left label');
-          const leftLabelContent = leftLabel.querySelector('.label');
-          const leftLabelName = leftLabel.querySelector('.name');
-
-          const rightImage =
-              element.$.diffTable.querySelector('td.right img');
-          const rightLabel = element.$.diffTable.querySelector(
-              'td.right label');
-          const rightLabelContent = rightLabel.querySelector('.label');
-          const rightLabelName = rightLabel.querySelector('.name');
-
-          assert.isNotOk(rightLabelName);
-          assert.isNotOk(leftLabelName);
-
-          leftImage.addEventListener('load', () => {
-            assert.isOk(leftImage);
-            assert.equal(leftImage.getAttribute('src'),
-                'data:image/bmp;base64,' + mockFile1.body);
-            assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
-            leftRendered.resolve();
-          });
-
-          rightImage.addEventListener('load', () => {
-            assert.isOk(rightImage);
-            assert.equal(rightImage.getAttribute('src'),
-                'data:image/bmp;base64,' + mockFile2.body);
-            assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
-
-            rightRendered.resolve();
-          });
-        };
-
-        element.addEventListener('render', rendered);
-
         element.baseImage = mockFile1;
         element.revisionImage = mockFile2;
         element.diff = {
@@ -302,8 +258,39 @@ suite('gr-diff tests', () => {
           content: [{skip: 66}],
           binary: true,
         };
-        await Promise.all([leftRendered, rightRendered]);
-        element.removeEventListener('render', rendered);
+        await waitForEventOnce(element, 'render');
+
+        // Recognizes that it should be an image diff.
+        assert.isTrue(element.isImageDiff);
+        assert.instanceOf(
+            element.$.diffBuilder._builder, GrDiffBuilderImage);
+
+        // Left image rendered with the parent commit's version of the file.
+        const leftImage = element.$.diffTable.querySelector('td.left img');
+        const leftLabel =
+              element.$.diffTable.querySelector('td.left label');
+        const leftLabelContent = leftLabel.querySelector('.label');
+        const leftLabelName = leftLabel.querySelector('.name');
+
+        const rightImage =
+              element.$.diffTable.querySelector('td.right img');
+        const rightLabel = element.$.diffTable.querySelector(
+            'td.right label');
+        const rightLabelContent = rightLabel.querySelector('.label');
+        const rightLabelName = rightLabel.querySelector('.name');
+
+        assert.isNotOk(rightLabelName);
+        assert.isNotOk(leftLabelName);
+
+        assert.isOk(leftImage);
+        assert.equal(leftImage.getAttribute('src'),
+            'data:image/bmp;base64,' + mockFile1.body);
+        assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
+
+        assert.isOk(rightImage);
+        assert.equal(rightImage.getAttribute('src'),
+            'data:image/bmp;base64,' + mockFile2.body);
+        assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
       });
 
       test('renders image diffs with a different file name', async () => {
@@ -323,60 +310,47 @@ suite('gr-diff tests', () => {
           content: [{skip: 66}],
           binary: true,
         };
-        const leftRendered = mockPromise();
-        const rightRendered = mockPromise();
-        const rendered = () => {
-          // Recognizes that it should be an image diff.
-          assert.isTrue(element.isImageDiff);
-          assert.instanceOf(
-              element.$.diffBuilder._builder, GrDiffBuilderImage);
-
-          // Left image rendered with the parent commit's version of the file.
-          const leftImage = element.$.diffTable.querySelector('td.left img');
-          const leftLabel =
-              element.$.diffTable.querySelector('td.left label');
-          const leftLabelContent = leftLabel.querySelector('.label');
-          const leftLabelName = leftLabel.querySelector('.name');
-
-          const rightImage =
-              element.$.diffTable.querySelector('td.right img');
-          const rightLabel = element.$.diffTable.querySelector(
-              'td.right label');
-          const rightLabelContent = rightLabel.querySelector('.label');
-          const rightLabelName = rightLabel.querySelector('.name');
-
-          assert.isOk(rightLabelName);
-          assert.isOk(leftLabelName);
-          assert.equal(leftLabelName.textContent, mockDiff.meta_a.name);
-          assert.equal(rightLabelName.textContent, mockDiff.meta_b.name);
-
-          leftImage.addEventListener('load', () => {
-            assert.isOk(leftImage);
-            assert.equal(leftImage.getAttribute('src'),
-                'data:image/bmp;base64,' + mockFile1.body);
-            assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
-            leftRendered.resolve();
-          });
-
-          rightImage.addEventListener('load', () => {
-            assert.isOk(rightImage);
-            assert.equal(rightImage.getAttribute('src'),
-                'data:image/bmp;base64,' + mockFile2.body);
-            assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
-
-            rightRendered.resolve();
-          });
-        };
-
-        element.addEventListener('render', rendered);
 
         element.baseImage = mockFile1;
         element.baseImage._name = mockDiff.meta_a.name;
         element.revisionImage = mockFile2;
         element.revisionImage._name = mockDiff.meta_b.name;
         element.diff = mockDiff;
-        await Promise.all([leftRendered, rightRendered]);
-        element.removeEventListener('render', rendered);
+        await waitForEventOnce(element, 'render');
+
+        // Recognizes that it should be an image diff.
+        assert.isTrue(element.isImageDiff);
+        assert.instanceOf(
+            element.$.diffBuilder._builder, GrDiffBuilderImage);
+
+        // Left image rendered with the parent commit's version of the file.
+        const leftImage = element.$.diffTable.querySelector('td.left img');
+        const leftLabel =
+              element.$.diffTable.querySelector('td.left label');
+        const leftLabelContent = leftLabel.querySelector('.label');
+        const leftLabelName = leftLabel.querySelector('.name');
+
+        const rightImage =
+              element.$.diffTable.querySelector('td.right img');
+        const rightLabel = element.$.diffTable.querySelector(
+            'td.right label');
+        const rightLabelContent = rightLabel.querySelector('.label');
+        const rightLabelName = rightLabel.querySelector('.name');
+
+        assert.isOk(rightLabelName);
+        assert.isOk(leftLabelName);
+        assert.equal(leftLabelName.textContent, mockDiff.meta_a.name);
+        assert.equal(rightLabelName.textContent, mockDiff.meta_b.name);
+
+        assert.isOk(leftImage);
+        assert.equal(leftImage.getAttribute('src'),
+            'data:image/bmp;base64,' + mockFile1.body);
+        assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
+
+        assert.isOk(rightImage);
+        assert.equal(rightImage.getAttribute('src'),
+            'data:image/bmp;base64,' + mockFile2.body);
+        assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
       });
 
       test('renders added image', async () => {

@@ -247,7 +247,7 @@ export class GrDiffBuilderElement
     this.coverageLayerRight.setRanges(rightRanges);
   }
 
-  render(keyLocations: KeyLocations) {
+  render(keyLocations: KeyLocations): void {
     // Setting up annotation layers must happen after plugins are
     // installed, and |render| satisfies the requirement, however,
     // |attached| doesn't because in the diff view page, the element is
@@ -281,24 +281,23 @@ export class GrDiffBuilderElement
 
     fireEvent(this, 'render-start');
     this._cancelableRenderPromise = util.makeCancelable(
-      this.processor.process(this.diff.content, isBinary).then(() => {
-        if (this.isImageDiff) {
-          (this._builder as GrDiffBuilderImage).renderDiff();
-        }
-        afterNextRender(this, () => fireEvent(this, 'render-content'));
-      })
-    );
-    return (
-      this._cancelableRenderPromise
-        .finally(() => {
-          this._cancelableRenderPromise = null;
+      this.processor
+        .process(this.diff.content, isBinary)
+        .then(() => {
+          if (this.isImageDiff) {
+            (this._builder as GrDiffBuilderImage).renderDiff();
+          }
+          afterNextRender(this, () => fireEvent(this, 'render-content'));
         })
-        // Mocca testing does not like uncaught rejections, so we catch
+        // Mocha testing does not like uncaught rejections, so we catch
         // the cancels which are expected and should not throw errors in
         // tests.
         .catch(e => {
           if (!e.isCanceled) return Promise.reject(e);
           return;
+        })
+        .finally(() => {
+          this._cancelableRenderPromise = null;
         })
     );
   }

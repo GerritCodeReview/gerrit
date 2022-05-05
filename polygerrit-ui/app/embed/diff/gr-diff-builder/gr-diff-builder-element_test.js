@@ -26,6 +26,7 @@ import {DiffViewMode, Side} from '../../../api/diff.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {GrDiffBuilderLegacy} from './gr-diff-builder-legacy.js';
+import {waitForEventOnce} from '../../../utils/event-util.js';
 
 const basicFixture = fixtureFromTemplate(html`
     <gr-diff-builder>
@@ -573,29 +574,29 @@ suite('gr-diff-builder tests', () => {
       }];
     });
 
-    test('text', () => {
+    test('text', async () => {
       element.diff = {content};
-      return element.render(keyLocations).then(() => {
-        assert.isTrue(processStub.calledOnce);
-        assert.isFalse(processStub.lastCall.args[1]);
-      });
+      element.render(keyLocations);
+      await waitForEventOnce(element, 'render-content');
+      assert.isTrue(processStub.calledOnce);
+      assert.isFalse(processStub.lastCall.args[1]);
     });
 
-    test('image', () => {
+    test('image', async () => {
       element.diff = {content, binary: true};
       element.isImageDiff = true;
-      return element.render(keyLocations).then(() => {
-        assert.isTrue(processStub.calledOnce);
-        assert.isTrue(processStub.lastCall.args[1]);
-      });
+      element.render(keyLocations);
+      await waitForEventOnce(element, 'render-content');
+      assert.isTrue(processStub.calledOnce);
+      assert.isTrue(processStub.lastCall.args[1]);
     });
 
-    test('binary', () => {
+    test('binary', async () => {
       element.diff = {content, binary: true};
-      return element.render(keyLocations).then(() => {
-        assert.isTrue(processStub.calledOnce);
-        assert.isTrue(processStub.lastCall.args[1]);
-      });
+      element.render(keyLocations);
+      await waitForEventOnce(element, 'render-content');
+      assert.isTrue(processStub.calledOnce);
+      assert.isTrue(processStub.lastCall.args[1]);
     });
   });
 

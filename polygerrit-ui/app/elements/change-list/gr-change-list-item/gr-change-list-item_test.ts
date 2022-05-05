@@ -575,31 +575,32 @@ suite('gr-change-list-item tests', () => {
     element.showNumber = true;
     element.account = createAccountWithId(1);
     element.config = createServerInfo();
-    element.change = createChange();
+    element.change = {...createChange(), topic: 'abcd' as TopicName};
+
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(`
-      <gr-change-star></gr-change-star>
-      <a href="">42</a>
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <gr-change-star> </gr-change-star>
+      <a href=""> 42 </a>
       <a href="" title="Test subject">
         <div class="container">
-          <div class="content"> Test subject </div>
-          <div class="spacer"> Test subject </div>
-          <span></span>
+          <div class="content">Test subject</div>
+          <div class="spacer">Test subject</div>
+          <span> </span>
         </div>
       </a>
       <span class="placeholder"> -- </span>
-      <gr-account-label
-        deselected=""
-        clickable=""
-        highlightattention=""
-      ></gr-account-label>
+      <gr-account-label clickable="" deselected="" highlightattention="">
+      </gr-account-label>
       <div></div>
-      <span></span>
+      <span> </span>
       <a class="fullRepo" href=""> test-project </a>
       <a class="truncatedRepo" href="" title="test-project"> test-project </a>
       <a href=""> test-branch </a>
-      <gr-date-formatter withtooltip=""></gr-date-formatter>
-      <gr-date-formatter withtooltip=""></gr-date-formatter>
+      <a class="topicLink" href="">
+        <gr-limited-text> </gr-limited-text>
+      </a>
+      <gr-date-formatter withtooltip=""> </gr-date-formatter>
+      <gr-date-formatter withtooltip=""> </gr-date-formatter>
       <gr-date-formatter forcerelative="" relativeoptionnoago="" withtooltip="">
       </gr-date-formatter>
       <gr-tooltip-content has-tooltip="" title="Size unknown">

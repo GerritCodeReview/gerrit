@@ -16,6 +16,24 @@
       "message": "Maybe this as well?",
       "revId": "3c25ff80ecc662a0657ee5311bf71729b2907560",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "076d316d_7214f875",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-05T09:53:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b5fdbc8_d55b71e3",
+      "revId": "3c25ff80ecc662a0657ee5311bf71729b2907560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -81,15 +81,11 @@ export class GrLabelScoreRow extends LitElement {
         .labelNameCell,
         .buttonsCell,
         .selectedValueCell {
-          padding: var(--spacing-s) var(--spacing-m);
+          padding: var(--spacing-s) var(--spacing-m) var(--spacing-s) 0;
           display: table-cell;
         }
-        /* We want the :hover highlight to extend to the border of the dialog. */
-        .labelNameCell {
-          padding-left: var(--spacing-xl);
-        }
         .labelNameCell.newSubmitRequirements {
-          width: 160px;
+          width: 144px;
         }
         .selectedValueCell {
           padding-right: var(--spacing-xl);

@@ -589,6 +589,9 @@ export class GrReplyDialog extends LitElement {
         padding-left: var(--spacing-m);
         padding-bottom: var(--spacing-m);
       }
+      .labels-container {
+        padding-left: var(--spacing-xl);
+      }
     `,
   ];
 
@@ -824,20 +827,22 @@ export class GrReplyDialog extends LitElement {
   private renderLabels() {
     if (!this.change || !this.account || !this.permittedLabels) return;
     return html`
-      <gr-endpoint-decorator name="reply-label-scores">
-        <gr-label-scores
-          id="labelScores"
-          .account=${this.account}
-          .change=${this.change}
-          @labels-changed=${this._handleLabelsChanged}
-          .permittedLabels=${this.permittedLabels}
-        ></gr-label-scores>
-        <gr-endpoint-param
-          .name=${'change'}
-          .value=${this.change}
-        ></gr-endpoint-param>
-      </gr-endpoint-decorator>
-      <div id="pluginMessage">${this.pluginMessage}</div>
+      <div class="labels-container">
+        <gr-endpoint-decorator name="reply-label-scores">
+          <gr-label-scores
+            id="labelScores"
+            .account=${this.account}
+            .change=${this.change}
+            @labels-changed=${this._handleLabelsChanged}
+            .permittedLabels=${this.permittedLabels}
+          ></gr-label-scores>
+          <gr-endpoint-param
+            .name=${'change'}
+            .value=${this.change}
+          ></gr-endpoint-param>
+        </gr-endpoint-decorator>
+        <div id="pluginMessage">${this.pluginMessage}</div>
+      </div>
     `;
   }
 

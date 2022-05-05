@@ -116,6 +116,7 @@ export enum ColumnNames {
   COMMENTS = 'Comments',
   REPO = 'Repo',
   BRANCH = 'Branch',
+  TOPIC = 'Topic',
   UPDATED = 'Updated',
   SIZE = 'Size',
   STATUS2 = ' Status ', // spaces to differentiate from old 'Status'

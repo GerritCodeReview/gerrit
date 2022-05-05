@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0579b5e_820dd268",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-05T19:12:09Z",
+      "side": 1,
+      "message": "I\u0027m going to wait a few days before merging this.",
+      "revId": "620c25adbf4308479d8a375e8b2a0ae2221e1f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

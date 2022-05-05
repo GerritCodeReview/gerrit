@@ -936,7 +936,17 @@ export class GrReplyDialog extends LitElement {
       <section class="attention">
         <div class="attentionSummary">
           <div>
-            ${when(
+            ${(when(
+              this.attentionSetEmpty(),
+              () => html`
+                <iron-icon
+                  icon="gr-icons:warning"
+                  class="warningBeforeSubmit"
+                ></iron-icon>
+                <span> Attention Set will become empty </span>
+              `
+            ),
+            () => html` ${when(
               this.computeShowNoAttentionUpdate(),
               () => html` <span>${this.computeDoNotUpdateMessage()}</span> `
             )}
@@ -957,7 +967,8 @@ export class GrReplyDialog extends LitElement {
                   `
                 )}
               `
-            )}
+            )}`)}
+
             <gr-tooltip-content
               has-tooltip
               title=${this.computeAttentionButtonTitle()}
@@ -1559,6 +1570,10 @@ export class GrReplyDialog extends LitElement {
     // If the attention-detail section is expanded without dispatching this
     // event, then the dialog may expand beyond the screen's bottom border.
     fireEvent(this, 'iron-resize');
+  }
+
+  private attentionSetEmpty() {
+    return this.newAttentionSet.size === 0;
   }
 
   computeAttentionButtonTitle(sendDisabled?: boolean) {

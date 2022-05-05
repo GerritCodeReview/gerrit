@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3da293dd_b371df08",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-05T14:52:47Z",
+      "side": 1,
+      "message": "Ok I think we should go for 4px spacing between the 2 messages, even though I first suggested 2px.",
+      "parentUuid": "4297310e_55599d70",
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec33c304_20c3b23a",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
         "patchSetId": 6
@@ -184,6 +202,30 @@
       "side": 1,
       "message": "Done. do you want CC lowercase as well?",
       "parentUuid": "4c3b5dfc_ecf593a7",
+      "range": {
+        "startLine": 218,
+        "startChar": 58,
+        "endLine": 218,
+        "endChar": 66
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da9e1e90_08d0ce37",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-05T14:52:47Z",
+      "side": 1,
+      "message": "No let\u0027s keep it uppercase.",
+      "parentUuid": "b8258238_1304a574",
       "range": {
         "startLine": 218,
         "startChar": 58,
@@ -372,6 +414,30 @@
       "side": 1,
       "message": "This is the header text at the top of the dialog. Is that correct to lowercase?",
       "parentUuid": "7758ea13_23bd093d",
+      "range": {
+        "startLine": 190,
+        "startChar": 35,
+        "endLine": 190,
+        "endChar": 44
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a1cb3ff_7d0f684b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-05T14:52:47Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "71954127_d3050a17",
       "range": {
         "startLine": 190,
         "startChar": 35,

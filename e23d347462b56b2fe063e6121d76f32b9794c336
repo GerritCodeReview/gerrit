@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6110173b_eefbcc77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-05T17:03:27Z",
+      "side": 1,
+      "message": "Thanks for the fix! Would like Milutin to also have a look. So just +1 from me.",
+      "revId": "e23d347462b56b2fe063e6121d76f32b9794c336",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfd72fa4_741c6a70",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-05T15:21:14Z",
+      "side": 0,
+      "message": "Do old tests also pass without this lines? For me looks suspicious, that now permissions are not required.",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 223,
+        "endChar": 20
+      },
+      "revId": "d478483fbe377c8222ed320e90e550834cdc36d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abd3e4bb_51883670",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-05T15:21:14Z",
+      "side": 0,
+      "message": "Do old tests also pass without this lines? For me looks suspicious, that now permissions are not required",
+      "range": {
+        "startLine": 279,
+        "startChar": 5,
+        "endLine": 287,
+        "endChar": 20
+      },
+      "revId": "d478483fbe377c8222ed320e90e550834cdc36d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

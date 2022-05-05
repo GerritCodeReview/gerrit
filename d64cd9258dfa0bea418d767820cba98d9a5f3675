@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4e4e3e8_f968ed89",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-05T15:21:14Z",
+      "side": 1,
+      "message": "Could you please add a comment, why do you count only refs/changes/.../meta, but not refs/changes/... ? Does any fetch always require metadata? (I am not familiar with this code path, but I don\u0027t see where in old code META_SUFFIX was checked)\n\nOr maybe can we filter by Change.Id.fromRef(r.getName()) !\u003d null and collect different change id into a set?",
+      "range": {
+        "startLine": 122,
+        "startChar": 27,
+        "endLine": 122,
+        "endChar": 70
+      },
+      "revId": "d64cd9258dfa0bea418d767820cba98d9a5f3675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fccaeb4_328c673e",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-05T15:21:14Z",
+      "side": 1,
+      "message": "The old code doesn\u0027t check this state for All-Users repository. If All-Users doesn\u0027t permit reads somehow - can we block ourselves from accessing a repo?",
+      "range": {
+        "startLine": 190,
+        "startChar": 9,
+        "endLine": 190,
+        "endChar": 38
+      },
+      "revId": "d64cd9258dfa0bea418d767820cba98d9a5f3675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

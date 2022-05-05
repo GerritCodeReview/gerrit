@@ -1740,7 +1740,10 @@ suite('gr-reply-dialog tests', () => {
     element.ccs = [makeAccount(), makeAccount()];
     element.draftCommentThreads = [];
 
-    const modifyButton = queryAndAssert(element, '.edit-attention-button');
+    let modifyButton = queryAndAssert<GrButton>(
+      element,
+      '.edit-attention-button'
+    );
     tap(modifyButton);
 
     await element.updateComplete;
@@ -1750,6 +1753,7 @@ suite('gr-reply-dialog tests', () => {
     element.draft = 'a test comment';
     await element.updateComplete;
 
+    modifyButton = queryAndAssert<GrButton>(element, '.edit-attention-button');
     tap(modifyButton);
 
     await element.updateComplete;

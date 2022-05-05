@@ -29,14 +29,15 @@ import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.CommentSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.update.RepoView;
+import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -51,13 +52,10 @@ public class EmailReviewComments {
     /**
      * Creates handle for sending email
      *
-     * @param notify setting for handling notification.
-     * @param notes change notes.
+     * @param postUpdateContext the post update context from the calling BatchUpdateOp
      * @param patchSet patch set corresponding to the top-level op
-     * @param user user the email should come from.
      * @param message used by text template only. The contents of this message typically include the
      *     "Patch set N" header and "(M comments)".
-     * @param timestamp timestamp when the comments were added.
      * @param comments inline comments.
      * @param patchSetComment used by HTML template only: some quasi-human-generated text. The
      *     contents should *not* include a "Patch set N" header or "(M comments)" footer, as these
@@ -65,16 +63,12 @@ public class EmailReviewComments {
      * @param labels labels applied as part of this review operation.
      */
     EmailReviewComments create(
-        NotifyResolver.Result notify,
-        ChangeNotes notes,
+        PostUpdateContext postUpdateContext,
         PatchSet patchSet,
-        IdentifiedUser user,
         @Assisted("message") String message,
-        Instant timestamp,
         List<? extends Comment> comments,
         @Nullable @Assisted("patchSetComment") String patchSetComment,
-        List<LabelVote> labels,
-        RepoView repoView);
+        List<LabelVote> labels);
   }
 
   private final ExecutorService sendEmailsExecutor;
@@ -87,31 +81,37 @@ public class EmailReviewComments {
       CommentSender.Factory commentSenderFactory,
       ThreadLocalRequestContext requestContext,
       MessageIdGenerator messageIdGenerator,
-      @Assisted NotifyResolver.Result notify,
-      @Assisted ChangeNotes notes,
+      @Assisted PostUpdateContext postUpdateContext,
       @Assisted PatchSet patchSet,
-      @Assisted IdentifiedUser user,
       @Assisted("message") String message,
-      @Assisted Instant timestamp,
       @Assisted List<? extends Comment> comments,
       @Nullable @Assisted("patchSetComment") String patchSetComment,
-      @Assisted List<LabelVote> labels,
-      @Assisted RepoView repoView) {
+      @Assisted List<LabelVote> labels) {
     this.sendEmailsExecutor = executor;
+
+    MessageId messageId;
+    try {
+      messageId =
+          messageIdGenerator.fromChangeUpdateAndReason(
+              postUpdateContext.getRepoView(), patchSet.id(), "EmailReviewComments");
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+
+    Change.Id changeId = patchSet.id().changeId();
     this.asyncSender =
         new AsyncSender(
             requestContext,
             commentSenderFactory,
             patchSetInfoFactory,
-            user,
-            messageIdGenerator.fromChangeUpdateAndReason(
-                repoView, patchSet.id(), "EmailReviewComments"),
-            notify,
-            notes.getProjectName(),
-            notes.getChangeId(),
+            postUpdateContext.getUser().asIdentifiedUser(),
+            messageId,
+            postUpdateContext.getNotify(changeId),
+            postUpdateContext.getProject(),
+            changeId,
             patchSet,
             message,
-            timestamp,
+            postUpdateContext.getWhen(),
             ImmutableList.copyOf(COMMENT_ORDER.sortedCopy(comments)),
             patchSetComment,
             ImmutableList.copyOf(labels));

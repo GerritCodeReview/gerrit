@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f7f8cc8_7fe913d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-05T09:09:52Z",
+      "side": 1,
+      "message": "-1 as Nassers comment isn\u0027t addressed yet.",
+      "revId": "b6e398606bbc01969d23ab1fd173a0061f2cc7f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

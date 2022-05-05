@@ -226,6 +226,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "192ada4e_2bdfb6ba",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-05T14:45:56Z",
+      "side": 1,
+      "message": "+1, and this is not an optional from my point of view - the current implementation is very hard to read/review.",
+      "parentUuid": "046735b7_3ccbcc86",
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3479b47_5fe74438",
         "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
         "patchSetId": 3
@@ -390,6 +408,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "89a558a9_c83a282c",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-05T14:45:56Z",
+      "side": 1,
+      "message": "Maybe clear visibleChanges here (or collect to a local variable and assign visibleChanges field at the end of try block)? I am not sure at which method can throw StorageException and it is very hard to validate it, because StorageException is a RuntimeException.",
+      "range": {
+        "startLine": 199,
+        "startChar": 11,
+        "endLine": 199,
+        "endChar": 78
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2ba7d6e_26f4e8c2",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-05T14:45:56Z",
+      "side": 1,
+      "message": "Is it possible collect directly into visibleChanges?",
+      "range": {
+        "startLine": 209,
+        "startChar": 54,
+        "endLine": 209,
+        "endChar": 81
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "093034f8_60e8c5fe",
         "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
         "patchSetId": 3
@@ -524,6 +588,29 @@
         "startChar": 86,
         "endLine": 592,
         "endChar": 91
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d972e753_45cfb844",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-05T14:45:56Z",
+      "side": 1,
+      "message": "Seems this is a copy-paste from AbstractDaemonTest, please extract it into a separate class",
+      "range": {
+        "startLine": 588,
+        "startChar": 0,
+        "endLine": 619,
+        "endChar": 3
       },
       "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

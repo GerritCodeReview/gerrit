@@ -23,6 +23,7 @@ import {
 import '../../shared/gr-account-list/gr-account-list';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
 import {AccountInputDetail} from '../../shared/gr-account-list/gr-account-list';
+import {allSettled} from '../../../utils/async-util';
 
 const SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE: Record<
   ReviewerState,
@@ -244,31 +245,20 @@ export class GrChangeListReviewerFlow extends LitElement {
       this.updatedAccountsByReviewerState
     );
 
-    // TODO: replace with Promise.allSettled once we upgrade to ES2020 or higher
-    // The names and types here match Promise.allSettled.
-    await Promise.all(
+    await allSettled(
       inFlightActions.map((promise, index) => {
         const change = this.selectedChanges[index];
-
         return promise
-          .then(value => {
+          .then(() => {
             this.progressByChangeNum.set(
               change._number,
               ProgressStatus.SUCCESSFUL
             );
             this.requestUpdate();
-            return {
-              status: 'fulfilled',
-              value,
-            };
           })
-          .catch(reason => {
+          .catch(() => {
             this.progressByChangeNum.set(change._number, ProgressStatus.FAILED);
             this.requestUpdate();
-            return {
-              status: 'rejected',
-              reason,
-            };
           });
       })
     );

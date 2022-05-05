@@ -23,6 +23,7 @@ import {classMap} from 'lit/directives/class-map';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {pluralize} from '../../../utils/string-util';
 import {ProgressStatus} from '../../../constants/constants';
+import {allSettled} from '../../../utils/async-util';
 
 @customElement('gr-change-list-topic-flow')
 export class GrChangeListTopicFlow extends LitElement {
@@ -302,25 +303,7 @@ export class GrChangeListTopicFlow extends LitElement {
 
   private async trackPromises(promises: Promise<string>[]) {
     this.overallProgress = ProgressStatus.RUNNING;
-    // TODO: replace with Promise.allSettled once we upgrade to ES2020 or higher
-    // The names and types here match Promise.allSettled.
-    const results = await Promise.all(
-      promises.map(promise =>
-        promise
-          .then(value => {
-            return {
-              status: 'fulfilled',
-              value,
-            };
-          })
-          .catch(reason => {
-            return {
-              status: 'rejected',
-              reason,
-            };
-          })
-      )
-    );
+    const results = await allSettled(promises);
     if (results.every(result => result.status === 'fulfilled')) {
       this.overallProgress = ProgressStatus.SUCCESSFUL;
       this.dropdown?.close();

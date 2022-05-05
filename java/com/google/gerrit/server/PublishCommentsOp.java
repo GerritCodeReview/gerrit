@@ -103,7 +103,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
     //   2. Each ChangeUpdate results in 1 commit in NoteDb
     // We do it this way so that the execution results in 2 different commits in NoteDb
     ChangeUpdate changeUpdate = ctx.getDistinctUpdate(psId);
-    publishCommentUtil.publish(ctx, changeUpdate, comments, null);
+    publishCommentUtil.publish(ctx, changeUpdate, comments, /* tag= */ null);
     return insertMessage(changeUpdate);
   }
 
@@ -132,7 +132,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
               mailMessage,
               ctx.getWhen(),
               comments,
-              null,
+              /* patchSetComment= */ null,
               labelDelta,
               repoView)
           .sendAsync();
@@ -159,7 +159,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
     }
     mailMessage =
         changeMessagesUtil.setChangeMessage(
-            changeUpdate, "Patch Set " + psId.get() + ":" + buf, null);
+            changeUpdate, "Patch Set " + psId.get() + ":" + buf, /* tag= */ null);
     return true;
   }
 }

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4297310e_55599d70",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-05T10:36:43Z",
+      "side": 1,
+      "message": "Done. Added screenshot",
+      "parentUuid": "9125df77_39899ee9",
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec33c304_20c3b23a",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c0bf86d_67400aa0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-05T10:36:43Z",
+      "side": 1,
+      "message": "Removed on request. We use \"maybe\" prefix other ways and it\u0027s a useful naming convention. Maybe those other places should do it too? I don\u0027t think it would confuse the reader to see it here even if it\u0027s not used on other render methods.",
+      "parentUuid": "ec33c304_20c3b23a",
+      "range": {
+        "startLine": 164,
+        "startChar": 17,
+        "endLine": 164,
+        "endChar": 45
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3d689e6_91d62f54",
@@ -71,6 +113,30 @@
       "writtenOn": "2022-05-04T14:52:35Z",
       "side": 1,
       "message": "create a string util for this? looks useful in general.",
+      "range": {
+        "startLine": 216,
+        "startChar": 4,
+        "endLine": 216,
+        "endChar": 74
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4e1893a_40aed3bb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-05T10:36:43Z",
+      "side": 1,
+      "message": "I think it\u0027s not worth it. The util would drop the \u0027a\u0027 from \u0027is a\u0027 since it will not always be used (ex: \u0027Frank is reviewing\u0027, \u0027Frank and Dhruv are reviewing\u0027) so it would be:\n`export const isAre \u003d (count: number) \u003d\u003e count \u003e 1 ? \u0027is\u0027 : \u0027are\u0027;`\n\nBut now my code needs to check the count again anyway to maybe add the \u0027a\u0027 back:\n`const puralizedVerb \u003d \u0027${isAre(overwrittenNames.length)}${overwrittenNames.length \u003d\u003d\u003d 1 ? \u0027 a\u0027 : \u0027\u0027}\u0027`",
+      "parentUuid": "c3d689e6_91d62f54",
       "range": {
         "startLine": 216,
         "startChar": 4,
@@ -106,6 +172,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b8258238_1304a574",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-05T10:36:43Z",
+      "side": 1,
+      "message": "Done. do you want CC lowercase as well?",
+      "parentUuid": "4c3b5dfc_ecf593a7",
+      "range": {
+        "startLine": 218,
+        "startChar": 58,
+        "endLine": 218,
+        "endChar": 66
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de22bfa3_ec289f35",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
         "patchSetId": 6
@@ -117,6 +207,30 @@
       "writtenOn": "2022-05-04T14:52:35Z",
       "side": 1,
       "message": "I think you can use `pluralize` from `string-util` for this.",
+      "range": {
+        "startLine": 219,
+        "startChar": 5,
+        "endLine": 219,
+        "endChar": 48
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f2e9904_d12af235",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-05T10:36:43Z",
+      "side": 1,
+      "message": "`pluralize` includes the count. `pluralize(5, \u0027book\u0027)` \u003d\u003e `\u00275 books\u0027` so it cannot be used in this case. We are listing the reviewers instead of counting them.",
+      "parentUuid": "de22bfa3_ec289f35",
       "range": {
         "startLine": 219,
         "startChar": 5,
@@ -150,6 +264,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22a52613_dd68f2e4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-05T10:36:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78513c8e_01118393",
+      "range": {
+        "startLine": 221,
+        "startChar": 58,
+        "endLine": 221,
+        "endChar": 66
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49d49cf6_fb4e145e",
@@ -173,6 +311,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "907e90ef_6d6d4b3e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-05T10:36:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49d49cf6_fb4e145e",
+      "range": {
+        "startLine": 232,
+        "startChar": 10,
+        "endLine": 232,
+        "endChar": 36
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7758ea13_23bd093d",
@@ -186,6 +348,30 @@
       "writtenOn": "2022-05-04T14:40:53Z",
       "side": 1,
       "message": "lowercase `reviewer`",
+      "range": {
+        "startLine": 190,
+        "startChar": 35,
+        "endLine": 190,
+        "endChar": 44
+      },
+      "revId": "aadc6eaaefba9c97a9efec48067c580d5547b404",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71954127_d3050a17",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-05T10:36:43Z",
+      "side": 1,
+      "message": "This is the header text at the top of the dialog. Is that correct to lowercase?",
+      "parentUuid": "7758ea13_23bd093d",
       "range": {
         "startLine": 190,
         "startChar": 35,

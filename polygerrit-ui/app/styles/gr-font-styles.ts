@@ -45,6 +45,12 @@ export const fontStyles = css`
     font-weight: var(--font-weight-h3);
     line-height: var(--line-height-h3);
   }
+  .heading-4 {
+    font-family: var(--header-font-family);
+    font-size: var(--font-size-normal);
+    font-weight: var(--font-weight-h4);
+    line-height: var(--font-size-normal);
+  }
   strong {
     font-weight: var(--font-weight-bold);
   }

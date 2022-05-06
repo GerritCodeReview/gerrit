@@ -370,6 +370,38 @@ export class GrSubmitRequirements extends LitElement {
     ></gr-checks-chip>`;
   }
 
+  renderChecksChip(
+    requirement: SubmitRequirementResultInfo,
+    category: Category
+  ) {
+    const requirementLabels = extractAssociatedLabels(requirement);
+    const requirementRuns = this.runs
+      .filter(run => hasResultsOf(run, category))
+      .filter(
+        run => run.labelName && requirementLabels.includes(run.labelName)
+      );
+    const runsCount = requirementRuns.reduce(
+      (sum, run) => sum + getResultsOf(run, category).length,
+      0
+    );
+    const links = [];
+    if (requirementRuns.length === 1 && requirementRuns[0].statusLink) {
+      links.push(requirementRuns[0].statusLink);
+    }
+    return html`<gr-checks-chip
+      .text=${`${runsCount}`}
+      .links=${links}
+      .statusOrCategory=${category}
+      @click=${() => {
+        fireShowPrimaryTab(this, PrimaryTab.CHECKS, false, {
+          checksTab: {
+            statusOrCategory: category,
+          },
+        });
+      }}
+    ></gr-checks-chip>`;
+  }
+
   renderTriggerVotes() {
     const labels = this.change?.labels ?? {};
     const triggerVotes = getTriggerVotes(this.change).filter(label =>

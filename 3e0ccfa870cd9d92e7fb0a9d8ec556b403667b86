@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c3bc628_999dcd43",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdKeyFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-06T10:42:11Z",
+      "side": 1,
+      "message": "Comment removed by: Dmitrii Filippov; Reason: Test",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 42
+      },
+      "revId": "3e0ccfa870cd9d92e7fb0a9d8ec556b403667b86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

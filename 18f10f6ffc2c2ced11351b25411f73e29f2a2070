@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6b4f637_27f4ac28",
+        "filename": "java/com/google/gerrit/httpd/raw/PrivateToPublicHostMapProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-06T14:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e9209cb_5b3a3672",
+      "revId": "18f10f6ffc2c2ced11351b25411f73e29f2a2070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a6ec515_f72f646f",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-05-06T09:50:50Z",
       "side": 1,
       "message": "Annotate with @ExtensionPoint to mark this as an interface that can be implemented by plugins.",
+      "revId": "18f10f6ffc2c2ced11351b25411f73e29f2a2070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50241f31_e036abbc",
+        "filename": "java/com/google/gerrit/httpd/raw/PrivateToPublicHostMapProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-06T14:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a6ec515_f72f646f",
       "revId": "18f10f6ffc2c2ced11351b25411f73e29f2a2070",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +111,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37916e04_7a81706c",
+        "filename": "java/com/google/gerrit/httpd/raw/PrivateToPublicHostMapProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-06T14:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32eff516_5343ea6d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 77
+      },
+      "revId": "18f10f6ffc2c2ced11351b25411f73e29f2a2070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cc8fee5_ad422eb2",
@@ -88,6 +148,30 @@
       "writtenOn": "2022-05-06T09:50:50Z",
       "side": 1,
       "message": "Plugin extensions are usually bound via DynamicItem, DynamicSet or DynamicMap.\n\nShould this rather be something like:\n\n  DynamicItem.itemOf(binder(), PrivateToPublicHostMapProvider.class);",
+      "range": {
+        "startLine": 222,
+        "startChar": 5,
+        "endLine": 224,
+        "endChar": 51
+      },
+      "revId": "18f10f6ffc2c2ced11351b25411f73e29f2a2070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "628e0e62_de7a712a",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-06T14:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cc8fee5_ad422eb2",
       "range": {
         "startLine": 222,
         "startChar": 5,

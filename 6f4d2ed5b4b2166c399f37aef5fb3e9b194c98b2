@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18355473_f440b8e3",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3193,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-06T10:47:00Z",
+      "side": 1,
+      "message": "nit: superfluous when also passing a Change",
+      "range": {
+        "startLine": 3193,
+        "startChar": 19,
+        "endLine": 3193,
+        "endChar": 48
+      },
+      "revId": "6f4d2ed5b4b2166c399f37aef5fb3e9b194c98b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

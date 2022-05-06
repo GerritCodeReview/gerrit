@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f7c08e7_dc91bcb4",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-06T15:31:18Z",
+      "side": 1,
+      "message": "Consider extracting this as a function to the top of the file instead of rewriting many times.\n```\nfunction fillFilesByPath(element GrFileList, count: number) {\n  return element._filesByPath \u003d Array(count)\n    .fill(0)\n    .reduce((_filesByPath, _, idx) \u003d\u003e {\n      _filesByPath[`\u0027/file${idx}`] \u003d {lines_inserted: 9};\n      return _filesByPath;\n    }, {});\n}\n```",
+      "range": {
+        "startLine": 215,
+        "startChar": 6,
+        "endLine": 220,
+        "endChar": 15
+      },
+      "revId": "b81f8c07eafba25e3f01ee9aa36fa41c6c27b771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6127dc07_2e56acc7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-06T15:31:18Z",
+      "side": 1,
+      "message": "Consider only filling _filesByPath with 1 row since you are only testing 1 row",
+      "range": {
+        "startLine": 223,
+        "startChar": 24,
+        "endLine": 223,
+        "endChar": 26
+      },
+      "revId": "b81f8c07eafba25e3f01ee9aa36fa41c6c27b771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

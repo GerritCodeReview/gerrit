@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07ab4d6f_7398f4aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 19
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-06T13:30:05Z",
+      "side": 0,
+      "message": "This is removing 12 px gap between trigger vote and requirements vote.",
+      "range": {
+        "startLine": 84,
+        "startChar": 7,
+        "endLine": 86,
+        "endChar": 34
+      },
+      "revId": "8e9897f1f038a5ba5280be1d38f7a93ec6e19451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

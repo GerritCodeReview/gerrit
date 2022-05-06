@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1198fb34_f725820e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-06T06:42:52Z",
+      "side": 1,
+      "message": "Thanks for checking, I somehow thought that this was a problem specifically with out index backend.",
+      "parentUuid": "20702680_8e73a025",
+      "range": {
+        "startLine": 15,
+        "startChar": 62,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03bb1854_438c6a52",
@@ -109,6 +133,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "03bb1854_438c6a52",
+      "range": {
+        "startLine": 34,
+        "startChar": 44,
+        "endLine": 34,
+        "endChar": 58
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b0124b2_76de2083",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-06T06:42:52Z",
+      "side": 1,
+      "message": "Looks like not done yet?",
+      "parentUuid": "5d1bd4c8_492a3ec3",
       "range": {
         "startLine": 34,
         "startChar": 44,

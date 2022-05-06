@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e9209cb_5b3a3672",
+        "filename": "java/com/google/gerrit/httpd/raw/PrivateToPublicHostMapProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-06T09:50:50Z",
+      "side": 1,
+      "message": "nit: missing license header",
+      "revId": "18f10f6ffc2c2ced11351b25411f73e29f2a2070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a6ec515_f72f646f",
+        "filename": "java/com/google/gerrit/httpd/raw/PrivateToPublicHostMapProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-06T09:50:50Z",
+      "side": 1,
+      "message": "Annotate with @ExtensionPoint to mark this as an interface that can be implemented by plugins.",
+      "revId": "18f10f6ffc2c2ced11351b25411f73e29f2a2070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32eff516_5343ea6d",
+        "filename": "java/com/google/gerrit/httpd/raw/PrivateToPublicHostMapProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-06T09:50:50Z",
+      "side": 1,
+      "message": "Please add javadoc for both the class and the method and also add documentation for this extension point in dev-plugins.txt.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 77
+      },
+      "revId": "18f10f6ffc2c2ced11351b25411f73e29f2a2070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cc8fee5_ad422eb2",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-06T09:50:50Z",
+      "side": 1,
+      "message": "Plugin extensions are usually bound via DynamicItem, DynamicSet or DynamicMap.\n\nShould this rather be something like:\n\n  DynamicItem.itemOf(binder(), PrivateToPublicHostMapProvider.class);",
+      "range": {
+        "startLine": 222,
+        "startChar": 5,
+        "endLine": 224,
+        "endChar": 51
+      },
+      "revId": "18f10f6ffc2c2ced11351b25411f73e29f2a2070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

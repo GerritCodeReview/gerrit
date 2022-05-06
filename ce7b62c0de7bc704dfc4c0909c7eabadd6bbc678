@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a5daf08_4fd2de87",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-06T10:09:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca364a7c_b8113edc",
+      "range": {
+        "startLine": 132,
+        "startChar": 22,
+        "endLine": 132,
+        "endChar": 25
+      },
+      "revId": "ce7b62c0de7bc704dfc4c0909c7eabadd6bbc678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c920c49_4a381a7a",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-06T08:33:35Z",
       "side": 1,
       "message": "move this to #270 after `associatedLabels` is computed so that the method returns early if it is true.\nHelps with readability and `everyAssociatedLabelsIsWithoutVotes` doesn\u0027t need to be computed if this is true.",
+      "range": {
+        "startLine": 278,
+        "startChar": 4,
+        "endLine": 281,
+        "endChar": 5
+      },
+      "revId": "ce7b62c0de7bc704dfc4c0909c7eabadd6bbc678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d90a35ac_ca4ab0c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-06T10:09:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c920c49_4a381a7a",
       "range": {
         "startLine": 278,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d6ddb39_b5cc2920",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-06T10:09:12Z",
+      "side": 1,
+      "message": "There are different blocks in .votes-cell like checksChips. They should be on same line as last line.",
+      "parentUuid": "200348ee_5116129e",
+      "range": {
+        "startLine": 295,
+        "startChar": 0,
+        "endLine": 295,
+        "endChar": 43
+      },
+      "revId": "ce7b62c0de7bc704dfc4c0909c7eabadd6bbc678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca78a151_13d79261",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-05-06T08:33:35Z",
       "side": 1,
       "message": "perhaps an Enum for this? Not sure what type this is representing.",
+      "range": {
+        "startLine": 339,
+        "startChar": 6,
+        "endLine": 339,
+        "endChar": 20
+      },
+      "revId": "ce7b62c0de7bc704dfc4c0909c7eabadd6bbc678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86093654_3b98f727",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-06T10:09:12Z",
+      "side": 1,
+      "message": "There is a type: \u0027all\u0027 | \u0027onlyOverride\u0027 | \u0027onlySubmittability\u0027 \u003d \u0027all\u0027\n\nso it\u0027s checked by typescript. It\u0027s not used much, so I think we don\u0027t need to introduce new name for new enum.",
+      "parentUuid": "ca78a151_13d79261",
       "range": {
         "startLine": 339,
         "startChar": 6,

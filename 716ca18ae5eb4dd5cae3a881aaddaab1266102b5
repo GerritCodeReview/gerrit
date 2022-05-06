@@ -16,6 +16,23 @@
       "message": "Nice!!",
       "revId": "716ca18ae5eb4dd5cae3a881aaddaab1266102b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c11a5bb_9069e2cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-06T19:06:22Z",
+      "side": 1,
+      "message": "Dmitrii, do you know what was the reason to introduce these scripts in https://gerrit-review.googlesource.com/c/gerrit/+/235445 ?",
+      "revId": "716ca18ae5eb4dd5cae3a881aaddaab1266102b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -129,6 +129,30 @@
       },
       "revId": "e6a3f59d321f6e87420a64c277160c8582a8b109",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6261efc_27eb413b",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetObserver.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-05-06T23:38:21Z",
+      "side": 1,
+      "message": "Similar pattern to other events, that also seems to help with untangling some dependencies.",
+      "parentUuid": "de0d2b2f_01d3f04e",
+      "range": {
+        "startLine": 87,
+        "startChar": 68,
+        "endLine": 87,
+        "endChar": 95
+      },
+      "revId": "e6a3f59d321f6e87420a64c277160c8582a8b109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

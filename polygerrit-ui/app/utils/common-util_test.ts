@@ -16,7 +16,12 @@
  */
 
 import '../test/common-test-setup-karma';
-import {hasOwnProperty, areSetsEqual, containsAll} from './common-util';
+import {
+  hasOwnProperty,
+  areSetsEqual,
+  containsAll,
+  intersection,
+} from './common-util';
 
 suite('common-util tests', () => {
   suite('hasOwnProperty', () => {
@@ -67,5 +72,29 @@ suite('common-util tests', () => {
     assert.isFalse(containsAll(new Set([1]), new Set([2])));
     assert.isFalse(containsAll(new Set([1, 2, 3, 4]), new Set([5])));
     assert.isFalse(containsAll(new Set([1, 2, 3, 4]), new Set([1, 2, 3, 5])));
+  });
+
+  test('intersections', () => {
+    assert.sameDeepMembers(intersection([]), []);
+    assert.sameDeepMembers(intersection([[1, 2, 3]]), [1, 2, 3]);
+    assert.sameDeepMembers(
+      intersection([
+        [1, 2, 3],
+        [2, 3, 4],
+        [5, 3, 2],
+      ]),
+      [2, 3]
+    );
+
+    const foo1 = {value: 5};
+    const foo2 = {value: 5};
+
+    // these foo's will fail strict equality with each other, but a comparator
+    // can make them intersect.
+    assert.sameDeepMembers(intersection([[foo1], [foo2]]), []);
+    assert.sameDeepMembers(
+      intersection([[foo1], [foo2]], (a, b) => a.value === b.value),
+      [foo1]
+    );
   });
 });

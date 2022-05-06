@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
@@ -43,6 +44,8 @@ import org.junit.Test;
 public class RulesIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private SubmitRuleEvaluator.Factory evaluatorFactory;
+  @Inject private IndexOperations.Change changeIndexOperations;
+  @Inject private IndexOperations.Account accountIndexOperations;
 
   @Test
   public void testUnresolvedCommentsCountPredicate() throws Exception {
@@ -240,8 +243,8 @@ public class RulesIT extends AbstractDaemonTest {
     ChangeData cd = result.getChange();
 
     Collection<SubmitRecord> records;
-    try (AutoCloseable ignored1 = disableChangeIndex();
-        AutoCloseable ignored2 = disableAccountIndex()) {
+    try (AutoCloseable ignored1 = changeIndexOperations.disableReadsAndWrites();
+        AutoCloseable ignored2 = accountIndexOperations.disableReadsAndWrites()) {
       SubmitRuleEvaluator ruleEvaluator = evaluatorFactory.create(SubmitRuleOptions.defaults());
       records = ruleEvaluator.evaluate(cd);
     }

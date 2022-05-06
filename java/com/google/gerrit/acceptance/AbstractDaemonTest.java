@@ -100,8 +100,6 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.index.project.ProjectIndex;
-import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -128,11 +126,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.index.account.AccountIndex;
-import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexer;
-import com.google.gerrit.server.index.change.ChangeIndex;
-import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
@@ -315,14 +309,11 @@ public abstract class AbstractDaemonTest {
   protected BlockStrategy noSleepBlockStrategy = t -> {}; // Don't sleep in tests.
 
   @Inject private AbstractChangeNotes.Args changeNotesArgs;
-  @Inject private AccountIndexCollection accountIndexes;
   @Inject private AccountIndexer accountIndexer;
-  @Inject private ChangeIndexCollection changeIndexes;
   @Inject private EventRecorder.Factory eventRecorderFactory;
   @Inject private InProcessProtocol inProcessProtocol;
   @Inject private PluginGuiceEnvironment pluginGuiceEnvironment;
   @Inject private PluginUser.Factory pluginUserFactory;
-  @Inject private ProjectIndexCollection projectIndexes;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private SitePaths sitePaths;
   @Inject private ProjectOperations projectOperations;
@@ -1070,87 +1061,6 @@ public abstract class AbstractDaemonTest {
       changeNotesArgs.failOnLoadForTest.set(false);
       atrScope.set(oldContext);
     };
-  }
-
-  protected void disableChangeIndexWrites() {
-    for (ChangeIndex i : changeIndexes.getWriteIndexes()) {
-      if (!(i instanceof ReadOnlyChangeIndex)) {
-        changeIndexes.addWriteIndex(new ReadOnlyChangeIndex(i));
-      }
-    }
-  }
-
-  protected void enableChangeIndexWrites() {
-    for (ChangeIndex i : changeIndexes.getWriteIndexes()) {
-      if (i instanceof ReadOnlyChangeIndex) {
-        changeIndexes.addWriteIndex(((ReadOnlyChangeIndex) i).unwrap());
-      }
-    }
-  }
-
-  protected AutoCloseable disableChangeIndex() {
-    disableChangeIndexWrites();
-    ChangeIndex maybeDisabledSearchIndex = changeIndexes.getSearchIndex();
-    if (!(maybeDisabledSearchIndex instanceof DisabledChangeIndex)) {
-      changeIndexes.setSearchIndex(new DisabledChangeIndex(maybeDisabledSearchIndex), false);
-    }
-
-    return () -> {
-      enableChangeIndexWrites();
-      ChangeIndex maybeEnabledSearchIndex = changeIndexes.getSearchIndex();
-      if (maybeEnabledSearchIndex instanceof DisabledChangeIndex) {
-        changeIndexes.setSearchIndex(
-            ((DisabledChangeIndex) maybeEnabledSearchIndex).unwrap(), false);
-      }
-    };
-  }
-
-  protected AutoCloseable disableAccountIndex() {
-    AccountIndex maybeDisabledSearchIndex = accountIndexes.getSearchIndex();
-    if (!(maybeDisabledSearchIndex instanceof DisabledAccountIndex)) {
-      accountIndexes.setSearchIndex(new DisabledAccountIndex(maybeDisabledSearchIndex), false);
-    }
-
-    return () -> {
-      AccountIndex maybeEnabledSearchIndex = accountIndexes.getSearchIndex();
-      if (maybeEnabledSearchIndex instanceof DisabledAccountIndex) {
-        accountIndexes.setSearchIndex(
-            ((DisabledAccountIndex) maybeEnabledSearchIndex).unwrap(), false);
-      }
-    };
-  }
-
-  protected AutoCloseable disableProjectIndex() {
-    disableProjectIndexWrites();
-    ProjectIndex maybeDisabledSearchIndex = projectIndexes.getSearchIndex();
-    if (!(maybeDisabledSearchIndex instanceof DisabledProjectIndex)) {
-      projectIndexes.setSearchIndex(new DisabledProjectIndex(maybeDisabledSearchIndex), false);
-    }
-
-    return () -> {
-      enableProjectIndexWrites();
-      ProjectIndex maybeEnabledSearchIndex = projectIndexes.getSearchIndex();
-      if (maybeEnabledSearchIndex instanceof DisabledProjectIndex) {
-        projectIndexes.setSearchIndex(
-            ((DisabledProjectIndex) maybeEnabledSearchIndex).unwrap(), false);
-      }
-    };
-  }
-
-  protected void disableProjectIndexWrites() {
-    for (ProjectIndex i : projectIndexes.getWriteIndexes()) {
-      if (!(i instanceof DisabledProjectIndex)) {
-        projectIndexes.addWriteIndex(new DisabledProjectIndex(i));
-      }
-    }
-  }
-
-  protected void enableProjectIndexWrites() {
-    for (ProjectIndex i : projectIndexes.getWriteIndexes()) {
-      if (i instanceof DisabledProjectIndex) {
-        projectIndexes.addWriteIndex(((DisabledProjectIndex) i).unwrap());
-      }
-    }
   }
 
   protected static Gson newGson() {

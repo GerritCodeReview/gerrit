@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -53,6 +54,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Inject private ProjectOperations projectOperations;
+  @Inject private IndexOperations.Change changeIndexOperations;
+  @Inject private IndexOperations.Account accountIndexOperations;
   @Inject private SubmitRuleEvaluator.Factory evaluatorFactory;
 
   @Test
@@ -747,12 +750,10 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   private String getStatus(ChangeData cd) throws Exception {
-
-    try (AutoCloseable changeIndex = disableChangeIndex()) {
-      try (AutoCloseable accountIndex = disableAccountIndex()) {
-        SubmitRuleEvaluator ruleEvaluator = evaluatorFactory.create(SubmitRuleOptions.defaults());
-        return ruleEvaluator.evaluate(cd).iterator().next().status.toString();
-      }
+    try (AutoCloseable ignored = changeIndexOperations.disableReadsAndWrites();
+        AutoCloseable accountIndex = accountIndexOperations.disableReadsAndWrites()) {
+      SubmitRuleEvaluator ruleEvaluator = evaluatorFactory.create(SubmitRuleOptions.defaults());
+      return ruleEvaluator.evaluate(cd).iterator().next().status.toString();
     }
   }
 

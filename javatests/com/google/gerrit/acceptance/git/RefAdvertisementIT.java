@@ -32,6 +32,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
@@ -82,6 +83,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject private PermissionBackend permissionBackend;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private IndexOperations.Change changeIndexOperations;
 
   private AccountGroup.UUID admins;
   private AccountGroup.UUID nonInteractiveUsers;
@@ -1395,7 +1397,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void fetchSingleChangeWithoutIndexAccess() throws Exception {
     PushOneCommit.Result change = createChange();
     String patchSetRef = change.getPatchSetId().toRefName();
-    try (AutoCloseable ignored = disableChangeIndex();
+    try (AutoCloseable ignored = changeIndexOperations.disableReadsAndWrites();
         Repository repo = repoManager.openRepository(project)) {
       ImmutableList<Ref> singleRef = ImmutableList.of(repo.exactRef(patchSetRef));
       ImmutableList<Ref> filteredRefs =

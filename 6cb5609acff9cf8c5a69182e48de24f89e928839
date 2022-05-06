@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d170ef0a_607cea43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-06T09:26:45Z",
+      "side": 1,
+      "message": "seems not to be the case?",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "6cb5609acff9cf8c5a69182e48de24f89e928839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c6989c6_65ddbd43",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-06T09:26:45Z",
+      "side": 1,
+      "message": "I think flex column w/ gap is less fragile than `:first-of-type`/`:not(:first-of-type)`. If scoresTable gets wrapped it will break your styles. It seems like thats what happened with heading-3.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 42
+      },
+      "revId": "6cb5609acff9cf8c5a69182e48de24f89e928839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed3355a8_fd364b73",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-06T09:26:45Z",
+      "side": 1,
+      "message": "consider a semantic class name",
+      "range": {
+        "startLine": 77,
+        "startChar": 9,
+        "endLine": 77,
+        "endChar": 18
+      },
+      "revId": "6cb5609acff9cf8c5a69182e48de24f89e928839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7529604_74234776",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-06T09:26:45Z",
+      "side": 1,
+      "message": "if it\u0027s just a plain `span` then margin-top will be 0 by default?",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 24
+      },
+      "revId": "6cb5609acff9cf8c5a69182e48de24f89e928839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0260bcd_de96b233",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-06T09:26:45Z",
+      "side": 1,
+      "message": "aren\u0027t all h3\u0027s first-of-type? If so, just merge into the main .heading-3 style block",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 34
+      },
+      "revId": "6cb5609acff9cf8c5a69182e48de24f89e928839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3901efd8_569ec691",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-06T09:26:45Z",
+      "side": 1,
+      "message": "where is the element with this class?",
+      "range": {
+        "startLine": 91,
+        "startChar": 9,
+        "endLine": 91,
+        "endChar": 18
+      },
+      "revId": "6cb5609acff9cf8c5a69182e48de24f89e928839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

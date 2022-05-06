@@ -365,17 +365,7 @@ public class MailProcessor {
       }
       // Send email notifications
       outgoingMailFactory
-          .create(
-              ctx.getNotify(notes.getChangeId()),
-              notes,
-              patchSet,
-              ctx.getUser().asIdentifiedUser(),
-              mailMessage,
-              ctx.getWhen(),
-              comments,
-              patchSetComment,
-              ImmutableList.of(),
-              ctx.getRepoView())
+          .create(ctx, patchSet, mailMessage, comments, patchSetComment, ImmutableList.of())
           .sendAsync();
       // Get previous approvals from this user
       Map<String, Short> approvals = new HashMap<>();

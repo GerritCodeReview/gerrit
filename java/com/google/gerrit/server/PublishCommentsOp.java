@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.change.EmailReviewComments;
@@ -33,7 +32,6 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.server.update.PostUpdateContext;
-import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -59,7 +57,6 @@ public class PublishCommentsOp implements BatchUpdateOp {
 
   private List<HumanComment> comments = new ArrayList<>();
   private String mailMessage;
-  private IdentifiedUser user;
 
   public interface Factory {
     PublishCommentsOp create(PatchSet.Id psId, Project.NameKey projectNameKey);
@@ -91,7 +88,6 @@ public class PublishCommentsOp implements BatchUpdateOp {
   public boolean updateChange(ChangeContext ctx)
       throws ResourceConflictException, UnprocessableEntityException, IOException,
           PatchListNotAvailableException, CommentsRejectedException {
-    user = ctx.getIdentifiedUser();
     comments = commentsUtil.draftByChangeAuthor(ctx.getNotes(), ctx.getUser().getAccountId());
 
     // PublishCommentsOp should update a separate ChangeUpdate Object than the one used by other ops
@@ -115,25 +111,14 @@ public class PublishCommentsOp implements BatchUpdateOp {
     PatchSet ps = psUtil.get(changeNotes, psId);
     NotifyResolver.Result notify = ctx.getNotify(changeNotes.getChangeId());
     if (notify.shouldNotify()) {
-      RepoView repoView;
-      try {
-        repoView = ctx.getRepoView();
-      } catch (IOException ex) {
-        throw new StorageException(
-            String.format("Repository %s not found", ctx.getProject().get()), ex);
-      }
       email
           .create(
-              notify,
-              changeNotes,
+              ctx,
               ps,
-              user,
               mailMessage,
-              ctx.getWhen(),
               comments,
               /* patchSetComment= */ null,
-              /* labels= */ ImmutableList.of(),
-              repoView)
+              /* labels= */ ImmutableList.of())
           .sendAsync();
     }
     commentAdded.fire(

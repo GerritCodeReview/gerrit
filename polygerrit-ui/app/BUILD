@@ -3,6 +3,7 @@ load("//tools/js:eslint.bzl", "eslint")
 load("//tools/js:template_checker.bzl", "transform_polymer_templates")
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary", "nodejs_test", "npm_package_bin")
 load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_project")
+load("@npm//@bazel/concatjs:index.bzl", "ts_library")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -49,6 +50,23 @@ ts_project(
     out_dir = "_pg_ts_out",
     tsc = "//tools/node_tools:tsc-bin",
     tsconfig = ":ts_config_bazel",
+    deps = [
+        "@ui_npm//:node_modules",
+    ],
+)
+
+ts_library(
+    name = "compile_pg_with_tsetse",
+    srcs = glob(
+        [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
+            ".ts",
+        ]],
+        exclude = [
+            "**/*_test.ts",
+        ],
+    ),
+    compiler = "//tools/node_tools:tsc_wrapped-bin",
+    tsconfig = "tsconfig_bazel.json",
     deps = [
         "@ui_npm//:node_modules",
     ],

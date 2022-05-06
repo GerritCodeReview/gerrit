@@ -57,6 +57,9 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     return [
       fontStyles,
       css`
+        gr-dialog {
+          width: 840px;
+        }
         .scoresTable {
           display: table;
         }
@@ -69,14 +72,19 @@ export class GrChangeListBulkVoteFlow extends LitElement {
         gr-label-score-row {
           display: table-row;
         }
-        .heading-3 {
-          padding-left: var(--spacing-xl);
-          margin-bottom: var(--spacing-m);
-          margin-top: var(--spacing-l);
-          display: table-caption;
+        /* TODO(dhruvsri): Consider using flex column with gap */
+        .scoresTable:not(:first-of-type) {
+          margin-top: var(--spacing-m);
         }
-        .heading-3:first-of-type {
+        .vote-type {
+          margin-bottom: var(--spacing-m);
           margin-top: 0;
+          display: table-caption;
+          font-weight: 600; /* TODO: create css variable for it */
+        }
+        .main-heading {
+          margin-bottom: var(--spacing-m);
+          font-weight: var(--font-weight-h2);
         }
       `,
     ];
@@ -121,8 +129,12 @@ export class GrChangeListBulkVoteFlow extends LitElement {
           .loadingLabel=${'Voting in progress...'}
           @confirm=${() => this.handleConfirm()}
           @cancel=${() => this.handleClose()}
-          .cancelLabel=${'Close'}
+          .confirmLabel=${'Vote'}
+          .cancelLabel=${'Cancel'}
         >
+          <div slot="header">
+            <span class="main-heading"> Vote on selected changes </span>
+          </div>
           <div slot="main">
             ${this.renderLabels(
               nonTriggerLabels,
@@ -147,7 +159,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     permittedLabels?: LabelNameToValuesMap
   ) {
     return html` <div class="scoresTable newSubmitRequirements">
-      <h3 class="heading-3">${labels.length ? heading : nothing}</h3>
+      <h3 class="vote-type">${labels.length ? heading : nothing}</h3>
       ${labels
         .filter(
           label =>

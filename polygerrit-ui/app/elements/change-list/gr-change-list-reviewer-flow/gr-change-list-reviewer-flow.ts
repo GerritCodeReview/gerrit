@@ -7,8 +7,14 @@ import {css, html, LitElement, nothing} from 'lit';
 import {customElement, query, state} from 'lit/decorators';
 import {ProgressStatus, ReviewerState} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
+import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
-import {AccountInfo, ChangeInfo, NumericChangeId} from '../../../types/common';
+import {
+  AccountInfo,
+  ChangeInfo,
+  NumericChangeId,
+  ServerInfo,
+} from '../../../types/common';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-dialog/gr-dialog';
@@ -22,8 +28,11 @@ import {
 } from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import '../../shared/gr-account-list/gr-account-list';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
-import {AccountInputDetail} from '../../shared/gr-account-list/gr-account-list';
 import {allSettled} from '../../../utils/async-util';
+import {listForSentence} from '../../../utils/string-util';
+import {getDisplayName} from '../../../utils/display-name-util';
+import {AccountInputDetail} from '../../shared/gr-account-list/gr-account-list';
+import '@polymer/iron-icon/iron-icon';
 
 const SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE: Record<
   ReviewerState,
@@ -59,11 +68,15 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   @state() private isOverlayOpen = false;
 
+  @state() private serverConfig?: ServerInfo;
+
   @query('gr-overlay') private overlay!: GrOverlay;
 
   private readonly reportingService = getAppContext().reportingService;
 
   private getBulkActionsModel = resolve(this, bulkActionsModelToken);
+
+  private getConfigModel = resolve(this, configModelToken);
 
   private restApiService = getAppContext().restApiService;
 
@@ -81,6 +94,25 @@ export class GrChangeListReviewerFlow extends LitElement {
         display: flex;
         flex-wrap: wrap;
       }
+      .warning {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xl);
+        padding: var(--spacing-l);
+        padding-left: var(--spacing-xl);
+        background-color: var(--yellow-50);
+      }
+      .grid + .warning {
+        margin-top: var(--spacing-l);
+      }
+      .warning + .warning {
+        margin-top: var(--spacing-s);
+      }
+      iron-icon {
+        color: var(--orange-800);
+        --iron-icon-height: 18px;
+        --iron-icon-width: 18px;
+      }
     `;
   }
 
@@ -89,9 +121,12 @@ export class GrChangeListReviewerFlow extends LitElement {
     subscribe(
       this,
       this.getBulkActionsModel().selectedChanges$,
-      selectedChanges => {
-        this.selectedChanges = selectedChanges;
-      }
+      selectedChanges => (this.selectedChanges = selectedChanges)
+    );
+    subscribe(
+      this,
+      this.getConfigModel().serverConfig$,
+      serverConfig => (this.serverConfig = serverConfig)
     );
   }
 
@@ -120,16 +155,19 @@ export class GrChangeListReviewerFlow extends LitElement {
         .confirmLabel=${this.getConfirmLabel(overallStatus)}
         .disabled=${overallStatus === ProgressStatus.RUNNING}
       >
-        <div slot="header">Add Reviewer / CC</div>
-        <div slot="main" class="grid">
-          <span>Reviewers</span>
-          ${this.renderAccountList(
-            ReviewerState.REVIEWER,
-            'reviewer-list',
-            'Add reviewer'
-          )}
-          <span>CC</span>
-          ${this.renderAccountList(ReviewerState.CC, 'cc-list', 'Add CC')}
+        <div slot="header">Add reviewer / CC</div>
+        <div slot="main">
+          <div class="grid">
+            <span>Reviewers</span>
+            ${this.renderAccountList(
+              ReviewerState.REVIEWER,
+              'reviewer-list',
+              'Add reviewer'
+            )}
+            <span>CC</span>
+            ${this.renderAccountList(ReviewerState.CC, 'cc-list', 'Add CC')}
+          </div>
+          ${this.renderAnyOverwriteWarnings()}
         </div>
       </gr-dialog>
     `;
@@ -147,6 +185,8 @@ export class GrChangeListReviewerFlow extends LitElement {
     if (!updatedAccounts || !suggestionsProvider) {
       return;
     }
+    // @accounts-changed will notify us when an account is added or removed, so
+    // we need to re-render to update warning messages.
     return html`
       <gr-account-list
         id=${id}
@@ -154,11 +194,67 @@ export class GrChangeListReviewerFlow extends LitElement {
         .removableValues=${[]}
         .suggestionsProvider=${suggestionsProvider}
         .placeholder=${placeholder}
+        @accounts-changed=${() => this.requestUpdate()}
         @account-added=${(e: CustomEvent<AccountInputDetail>) =>
           this.onAccountAdded(reviewerState, e)}
       >
       </gr-account-list>
     `;
+  }
+
+  private renderAnyOverwriteWarnings() {
+    return html`
+      ${this.renderAnyOverwriteWarning(ReviewerState.REVIEWER)}
+      ${this.renderAnyOverwriteWarning(ReviewerState.CC)}
+    `;
+  }
+
+  private renderAnyOverwriteWarning(currentReviewerState: ReviewerState) {
+    const updatedReviewerState =
+      currentReviewerState === ReviewerState.CC
+        ? ReviewerState.REVIEWER
+        : ReviewerState.CC;
+    const overwrittenNames =
+      this.getOverwrittenDisplayNames(currentReviewerState);
+    if (overwrittenNames.length === 0) {
+      return nothing;
+    }
+    const pluralizedVerb = overwrittenNames.length === 1 ? 'is a' : 'are';
+    const currentLabel = `${
+      currentReviewerState === ReviewerState.CC ? 'CC' : 'reviewer'
+    }${overwrittenNames.length > 1 ? 's' : ''}`;
+    const updatedLabel =
+      updatedReviewerState === ReviewerState.CC ? 'CC' : 'reviewer';
+    return html`
+      <div class="warning">
+        <iron-icon icon="gr-icons:warning"></iron-icon>
+        ${listForSentence(overwrittenNames)} ${pluralizedVerb} ${currentLabel}
+        on some selected changes and will be moved to ${updatedLabel} on all
+        changes.
+      </div>
+    `;
+  }
+
+  private getOverwrittenDisplayNames(
+    currentReviewerState: ReviewerState
+  ): string[] {
+    const updatedReviewerState =
+      currentReviewerState === ReviewerState.CC
+        ? ReviewerState.REVIEWER
+        : ReviewerState.CC;
+    const accountsInCurrentState = this.selectedChanges
+      .flatMap(change => change.reviewers[currentReviewerState] ?? [])
+      .filter(account => account?._account_id !== undefined);
+    return this.updatedAccountsByReviewerState
+      .get(updatedReviewerState)!
+      .filter(
+        account =>
+          account._account_id !== undefined &&
+          accountsInCurrentState.some(
+            otherAccount => otherAccount._account_id === account._account_id
+          )
+      )
+      .map(reviewer => getDisplayName(this.serverConfig, reviewer));
   }
 
   private openOverlay() {

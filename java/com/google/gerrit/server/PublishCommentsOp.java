@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
@@ -33,7 +34,6 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoView;
-import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -52,7 +52,6 @@ public class PublishCommentsOp implements BatchUpdateOp {
   private final CommentAdded commentAdded;
   private final CommentsUtil commentsUtil;
   private final EmailReviewComments.Factory email;
-  private final List<LabelVote> labelDelta = new ArrayList<>();
   private final Project.NameKey projectNameKey;
   private final PatchSet.Id psId;
   private final PublishCommentUtil publishCommentUtil;
@@ -103,7 +102,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
     //   2. Each ChangeUpdate results in 1 commit in NoteDb
     // We do it this way so that the execution results in 2 different commits in NoteDb
     ChangeUpdate changeUpdate = ctx.getDistinctUpdate(psId);
-    publishCommentUtil.publish(ctx, changeUpdate, comments, null);
+    publishCommentUtil.publish(ctx, changeUpdate, comments, /* tag= */ null);
     return insertMessage(changeUpdate);
   }
 
@@ -132,8 +131,8 @@ public class PublishCommentsOp implements BatchUpdateOp {
               mailMessage,
               ctx.getWhen(),
               comments,
-              null,
-              labelDelta,
+              /* patchSetComment= */ null,
+              /* labels= */ ImmutableList.of(),
               repoView)
           .sendAsync();
     }
@@ -159,7 +158,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
     }
     mailMessage =
         changeMessagesUtil.setChangeMessage(
-            changeUpdate, "Patch Set " + psId.get() + ":" + buf, null);
+            changeUpdate, "Patch Set " + psId.get() + ":" + buf, /* tag= */ null);
     return true;
   }
 }

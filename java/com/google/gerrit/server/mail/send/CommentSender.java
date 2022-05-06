@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.FilenameComparator;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -106,7 +107,7 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   private List<? extends Comment> inlineComments = Collections.emptyList();
-  private String patchSetComment;
+  @Nullable private String patchSetComment;
   private List<LabelVote> labels = Collections.emptyList();
   private final CommentsUtil commentsUtil;
   private final boolean incomingEmailEnabled;
@@ -131,7 +132,7 @@ public class CommentSender extends ReplyToChangeSender {
     inlineComments = comments;
   }
 
-  public void setPatchSetComment(String comment) {
+  public void setPatchSetComment(@Nullable String comment) {
     this.patchSetComment = comment;
   }
 

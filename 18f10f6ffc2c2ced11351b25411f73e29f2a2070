@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dd7b409_15e075ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-06T11:11:57Z",
+      "side": 1,
+      "message": "+2 for front-end part. ",
+      "revId": "18f10f6ffc2c2ced11351b25411f73e29f2a2070",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e9209cb_5b3a3672",

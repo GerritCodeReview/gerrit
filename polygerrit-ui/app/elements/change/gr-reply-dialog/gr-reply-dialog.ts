@@ -118,6 +118,7 @@ import {when} from 'lit/directives/when';
 import {classMap} from 'lit/directives/class-map';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {customElement, property, state, query} from 'lit/decorators';
+import {subscribe} from '../../lit/subscription-controller';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -346,6 +347,8 @@ export class GrReplyDialog extends LitElement {
   private readonly jsAPI = getAppContext().jsApiService;
 
   storeTask?: DelayedTask;
+
+  private isLoggedIn = false;
 
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
@@ -687,6 +690,12 @@ export class GrReplyDialog extends LitElement {
     this.addEventListener('remove-reviewer', e => {
       this.reviewersList?.removeAccount((e as CustomEvent).detail.reviewer);
     });
+
+    subscribe(
+      this,
+      getAppContext().userModel.loggedIn$,
+      isLoggedIn => (this.isLoggedIn = isLoggedIn)
+    );
   }
 
   override disconnectedCallback() {
@@ -2079,23 +2088,25 @@ export class GrReplyDialog extends LitElement {
 
   getReviewerSuggestionsProvider(change?: ChangeInfo) {
     if (!change) return;
-    const provider = GrReviewerSuggestionsProvider.create(
+    const provider = new GrReviewerSuggestionsProvider(
       this.restApiService,
-      change._number,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER
+      SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER,
+      this.serverConfig,
+      this.isLoggedIn,
+      change._number
     );
-    provider.init();
     return provider;
   }
 
   getCcSuggestionsProvider(change?: ChangeInfo) {
     if (!change) return;
-    const provider = GrReviewerSuggestionsProvider.create(
+    const provider = new GrReviewerSuggestionsProvider(
       this.restApiService,
-      change._number,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES.CC
+      SUGGESTIONS_PROVIDERS_USERS_TYPES.CC,
+      this.serverConfig,
+      this.isLoggedIn,
+      change._number
     );
-    provider.init();
     return provider;
   }
 

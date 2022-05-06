@@ -28,25 +28,20 @@ import {
   SuggestedReviewerInfo,
   Suggestion,
 } from '../../types/common';
-import {assertNever} from '../../utils/common-util';
+import {assertNever, intersection} from '../../utils/common-util';
 import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-autocomplete';
+import {allSettled, isFulfilled} from '../../utils/async-util';
+import {notUndefined} from '../../types/types';
+import {accountKey} from '../../utils/account-util';
 
-// TODO(TS): enum name doesn't follow typescript style guid rules
+// TODO(TS): enum name doesn't follow typescript style guide rules
 // Rename it
 export enum SUGGESTIONS_PROVIDERS_USERS_TYPES {
   REVIEWER = 'reviewers',
   CC = 'ccs',
-  ANY = 'any',
 }
-
-export function isAccountSuggestions(s: Suggestion): s is AccountInfo {
-  return (s as AccountInfo)._account_id !== undefined;
-}
-
-type ApiCallCallback = (input: string) => Promise<Suggestion[] | void>;
 
 export interface ReviewerSuggestionsProvider {
-  init(): void;
   getSuggestions(input: string): Promise<Suggestion[]>;
   makeSuggestionItem(
     suggestion: Suggestion
@@ -56,66 +51,31 @@ export interface ReviewerSuggestionsProvider {
 export class GrReviewerSuggestionsProvider
   implements ReviewerSuggestionsProvider
 {
-  static create(
-    restApi: RestApiService,
-    changeNumber: NumericChangeId,
-    userType: SUGGESTIONS_PROVIDERS_USERS_TYPES
+  private changeNumbers: NumericChangeId[];
+
+  constructor(
+    private restApi: RestApiService,
+    private type: SUGGESTIONS_PROVIDERS_USERS_TYPES,
+    private config: ServerInfo | undefined,
+    private loggedIn: boolean,
+    ...changeNumbers: NumericChangeId[]
   ) {
-    switch (userType) {
-      case SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER:
-        return new GrReviewerSuggestionsProvider(restApi, input =>
-          restApi.getChangeSuggestedReviewers(changeNumber, input)
-        );
-      case SUGGESTIONS_PROVIDERS_USERS_TYPES.CC:
-        return new GrReviewerSuggestionsProvider(restApi, input =>
-          restApi.getChangeSuggestedCCs(changeNumber, input)
-        );
-      case SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY:
-        return new GrReviewerSuggestionsProvider(restApi, input =>
-          restApi.getSuggestedAccounts(`cansee:${changeNumber} ${input}`)
-        );
-      default:
-        throw new Error(`Unknown users type: ${userType}`);
-    }
+    this.changeNumbers = changeNumbers;
   }
 
-  private initPromise?: Promise<void>;
+  async getSuggestions(input: string): Promise<Suggestion[]> {
+    if (!this.loggedIn) return [];
 
-  config?: ServerInfo;
-
-  loggedIn = false;
-
-  private initialized = false;
-
-  private constructor(
-    private readonly _restAPI: RestApiService,
-    private readonly _apiCall: ApiCallCallback
-  ) {}
-
-  init() {
-    if (this.initPromise) {
-      return this.initPromise;
-    }
-    const getConfigPromise = this._restAPI.getConfig().then(cfg => {
-      this.config = cfg;
-    });
-    const getLoggedInPromise = this._restAPI.getLoggedIn().then(loggedIn => {
-      this.loggedIn = loggedIn;
-    });
-    this.initPromise = Promise.all([getConfigPromise, getLoggedInPromise]).then(
-      () => {
-        this.initialized = true;
-      }
+    const allResults = await allSettled(
+      this.changeNumbers.map(changeNumber =>
+        this.getSuggestionsForChange(changeNumber, input)
+      )
     );
-    return this.initPromise;
-  }
-
-  getSuggestions(input: string): Promise<Suggestion[]> {
-    if (!this.initialized || !this.loggedIn) {
-      return Promise.resolve([]);
-    }
-
-    return this._apiCall(input).then(reviewers => reviewers || []);
+    const allSuggestions = allResults
+      .filter(isFulfilled)
+      .map(result => result.value)
+      .filter(notUndefined);
+    return intersection(allSuggestions, this.areSameSuggestions.bind(this));
   }
 
   makeSuggestionItem(
@@ -137,7 +97,7 @@ export class GrReviewerSuggestionsProvider
       };
     }
 
-    if (isAccountSuggestions(suggestion)) {
+    if (this.isAccountSuggestion(suggestion)) {
       // Reviewer is an account suggestion from getSuggestedAccounts.
       return {
         name: getAccountDisplayName(this.config, suggestion),
@@ -145,5 +105,29 @@ export class GrReviewerSuggestionsProvider
       };
     }
     assertNever(suggestion, 'Received an incorrect suggestion');
+  }
+
+  private getSuggestionsForChange(
+    changeNumber: NumericChangeId,
+    input: string
+  ): Promise<Suggestion[] | undefined> {
+    return this.type === SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER
+      ? this.restApi.getChangeSuggestedReviewers(changeNumber, input)
+      : this.restApi.getChangeSuggestedCCs(changeNumber, input);
+  }
+
+  private areSameSuggestions(a: Suggestion, b: Suggestion): boolean {
+    if (isReviewerAccountSuggestion(a) && isReviewerAccountSuggestion(b)) {
+      return accountKey(a.account) === accountKey(b.account);
+    } else if (isReviewerGroupSuggestion(a) && isReviewerGroupSuggestion(b)) {
+      return a.group.id === b.group.id;
+    } else if (this.isAccountSuggestion(a) && this.isAccountSuggestion(b)) {
+      return accountKey(a) === accountKey(b);
+    }
+    return false;
+  }
+
+  private isAccountSuggestion(s: Suggestion): s is AccountInfo {
+    return (s as AccountInfo)._account_id !== undefined;
   }
 }

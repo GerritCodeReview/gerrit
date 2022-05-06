@@ -339,7 +339,8 @@ const appThemeCss = safeStyleSheet`
     --font-weight-bold: 500;
     --font-weight-h1: 400;
     --font-weight-h2: 400;
-    --font-weight-h3: var(--font-weight-bold, 500);
+    --font-weight-h3: 400;
+    --font-weight-h4: 600;
     --context-control-button-font: var(--font-weight-normal)
       var(--font-size-normal) var(--font-family);
     --code-hint-font-weight: 500;

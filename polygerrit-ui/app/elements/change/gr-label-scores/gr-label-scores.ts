@@ -78,7 +78,7 @@ export class GrLabelScores extends LitElement {
         gr-label-score-row {
           display: table-row;
         }
-        .heading-3 {
+        .heading-4 {
           padding-left: var(--label-score-padding-left, 0);
           margin-bottom: var(--spacing-m);
           margin-top: var(--spacing-l);
@@ -119,10 +119,10 @@ export class GrLabelScores extends LitElement {
         label => !this.permittedLabels || this.permittedLabels[label.name]
       ).length === 0
     ) {
-      return html`<h3 class="heading-3">Submit requirements votes</h3>
+      return html`<h3 class="heading-4">Submit requirements votes</h3>
         <div class="permissionMessage">You don't have permission to vote</div>`;
     }
-    return html`<h3 class="heading-3">Submit requirements votes</h3>
+    return html`<h3 class="heading-4">Submit requirements votes</h3>
       ${this.renderLabels(labels)}`;
   }
 
@@ -137,10 +137,10 @@ export class GrLabelScores extends LitElement {
         label => !this.permittedLabels || this.permittedLabels[label.name]
       ).length === 0
     ) {
-      return html`<h3 class="heading-3">Trigger Votes</h3>
+      return html`<h3 class="heading-4">Trigger Votes</h3>
         <div class="permissionMessage">You don't have permission to vote</div>`;
     }
-    return html`<h3 class="heading-3">Trigger Votes</h3>
+    return html`<h3 class="heading-4">Trigger Votes</h3>
       ${this.renderLabels(labels)}`;
   }
 

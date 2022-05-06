@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca364a7c_b8113edc",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-06T08:33:35Z",
+      "side": 1,
+      "message": "`--spacing-s` ?",
+      "range": {
+        "startLine": 132,
+        "startChar": 22,
+        "endLine": 132,
+        "endChar": 25
+      },
+      "revId": "ce7b62c0de7bc704dfc4c0909c7eabadd6bbc678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c920c49_4a381a7a",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-06T08:33:35Z",
+      "side": 1,
+      "message": "move this to #270 after `associatedLabels` is computed so that the method returns early if it is true.\nHelps with readability and `everyAssociatedLabelsIsWithoutVotes` doesn\u0027t need to be computed if this is true.",
+      "range": {
+        "startLine": 278,
+        "startChar": 4,
+        "endLine": 281,
+        "endChar": 5
+      },
+      "revId": "ce7b62c0de7bc704dfc4c0909c7eabadd6bbc678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca78a151_13d79261",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-06T08:33:35Z",
+      "side": 1,
+      "message": "perhaps an Enum for this? Not sure what type this is representing.",
+      "range": {
+        "startLine": 339,
+        "startChar": 6,
+        "endLine": 339,
+        "endChar": 20
+      },
+      "revId": "ce7b62c0de7bc704dfc4c0909c7eabadd6bbc678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

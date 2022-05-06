@@ -31,6 +31,7 @@ import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -82,6 +83,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
   @Inject private GroupOperations groupOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private IndexOperations.Change changeIndexOperations;
 
   @Inject private IndexConfig indexConfig;
   @Inject private ChangesCollection changes;
@@ -545,11 +547,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
     RevCommit c2_2 = testRepo.amend(c2_1).add("b.txt", "2").create();
     testRepo.reset(c2_2);
 
-    disableChangeIndexWrites();
-    try {
+    try (AutoCloseable ignored = changeIndexOperations.disableWrites()) {
       pushHead(testRepo, "refs/for/master", false);
-    } finally {
-      enableChangeIndexWrites();
     }
 
     PatchSet.Id psId1_1 = getPatchSetId(c1_1);

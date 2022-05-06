@@ -21,6 +21,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
@@ -50,6 +51,7 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
   @Inject private IndexConfig indexConfig;
   @Inject private StalenessChecker stalenessChecker;
   @Inject private ProjectOperations projectOperations;
+  @Inject private IndexOperations.Project projectIndexOperations;
 
   private static final ImmutableSet<String> FIELDS =
       ImmutableSet.of(ProjectField.NAME.getName(), ProjectField.REF_STATE.getName());
@@ -124,7 +126,7 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
         assertThrows(
             StorageException.class,
             () -> {
-              try (AutoCloseable ignored = disableProjectIndex()) {
+              try (AutoCloseable ignored = projectIndexOperations.disableReadsAndWrites()) {
                 try (ProjectConfigUpdate u = updateProject(project)) {
                   update.accept(u.getConfig());
                   u.save();

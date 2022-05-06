@@ -35,6 +35,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -97,6 +98,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private IndexOperations.Change changeIndexOperations;
 
   @Test
   public void submitRecords() throws Exception {
@@ -1051,8 +1053,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
 
     // disable change index writes so that the change in the index gets stale when the new submit
     // requirement is added
-    disableChangeIndexWrites();
-    try {
+    try (AutoCloseable ignored = changeIndexOperations.disableWrites()) {
       // Override submit requirement in project (allow uploaders to self approve).
       configSubmitRequirement(
           project,
@@ -1075,8 +1076,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
       assertThat(actions).containsKey("submit");
       ActionInfo submitAction = actions.get("submit");
       assertThat(submitAction.enabled).isTrue();
-    } finally {
-      enableChangeIndexWrites();
     }
   }
 

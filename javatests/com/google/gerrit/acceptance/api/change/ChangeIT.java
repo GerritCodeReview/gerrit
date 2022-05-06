@@ -85,6 +85,7 @@ import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -232,6 +233,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private IndexOperations.Change changeIndexOperations;
 
   @Inject
   @Named("diff_intraline")
@@ -3155,11 +3157,8 @@ public class ChangeIT extends AbstractDaemonTest {
   public void submitStaleChange() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    disableChangeIndexWrites();
-    try {
+    try (AutoCloseable ignored = changeIndexOperations.disableWrites()) {
       r = amendChange(r.getChangeId());
-    } finally {
-      enableChangeIndexWrites();
     }
 
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
@@ -4700,7 +4699,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result change = createChange();
     int number = gApi.changes().id(change.getChangeId()).get()._number;
 
-    try (AutoCloseable ignored = disableChangeIndex()) {
+    try (AutoCloseable ignored = changeIndexOperations.disableReadsAndWrites()) {
       assertThat(gApi.changes().id(project.get(), number).get(options).changeId)
           .isEqualTo(change.getChangeId());
     }

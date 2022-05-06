@@ -43,6 +43,12 @@ def declare_nongoogle_deps():
     )
 
     maven_jar(
+        name = "log-simple",
+        artifact = "org.slf4j:slf4j-simple:" + SLF4J_VERS,
+        sha1 = "a41f9cfe6faafb2eb83a1c7dd2d0dfd844e2a936",
+    )
+
+    maven_jar(
         name = "jcl-over-slf4j",
         artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
         sha1 = "d877e195a05aca4a2f1ad2ff14bfec1393af4b5e",

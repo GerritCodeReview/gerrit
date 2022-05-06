@@ -156,3 +156,22 @@ export function toggleSetMembership<T>(set: Set<T>, value: T): void {
 export function unique<T>(item: T, index: number, array: T[]) {
   return array.indexOf(item) === index;
 }
+
+/**
+ * Returns the elements that are present in every sub-array. If a compareBy
+ * predicate is passed in, it will be used instead of strict equality.
+ */
+export function intersection<T>(
+  arrays: T[][],
+  compareBy: (t: T, u: T) => boolean = (t, u) => t === u
+): T[] {
+  // Array.prototype.reduce needs either an initialValue or a non-empty array.
+  // Since there is no good initialValue for intersecting (∅ ∩ X = ∅), the
+  // empty array must be checked separately.
+  if (arrays.length === 0) {
+    return [];
+  }
+  return arrays.reduce((result, array) =>
+    result.filter(t => array.find(u => compareBy(t, u)))
+  );
+}

@@ -2081,8 +2081,8 @@ export class GrReplyDialog extends LitElement {
     if (!change) return;
     const provider = GrReviewerSuggestionsProvider.create(
       this.restApiService,
-      change._number,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER
+      SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER,
+      change._number
     );
     provider.init();
     return provider;
@@ -2092,8 +2092,8 @@ export class GrReplyDialog extends LitElement {
     if (!change) return;
     const provider = GrReviewerSuggestionsProvider.create(
       this.restApiService,
-      change._number,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES.CC
+      SUGGESTIONS_PROVIDERS_USERS_TYPES.CC,
+      change._number
     );
     provider.init();
     return provider;

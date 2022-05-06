@@ -28,6 +28,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -76,6 +77,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   // Injected fields.
   private final PermissionBackend permissionBackend;
   private final PatchSetInfoFactory patchSetInfoFactory;
+  private final ChangeKindCache changeKindCache;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ProjectCache projectCache;
@@ -113,6 +115,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private Change change;
   private PatchSet patchSet;
   private PatchSetInfo patchSetInfo;
+  private ChangeKind changeKind;
   private String mailMessage;
   private ReviewerSet oldReviewers;
   private boolean oldWorkInProgressState;
@@ -124,6 +127,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       PatchSetInfoFactory patchSetInfoFactory,
+      ChangeKindCache changeKindCache,
       CommitValidators.Factory commitValidatorsFactory,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       PatchSetUtil psUtil,
@@ -139,6 +143,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.patchSetInfoFactory = patchSetInfoFactory;
+    this.changeKindCache = changeKindCache;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.psUtil = psUtil;
@@ -241,6 +246,15 @@ public class PatchSetInserter implements BatchUpdateOp {
       throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
     validate(ctx);
     ctx.addRefUpdate(ObjectId.zeroId(), commitId, getPatchSetId().toRefName());
+
+    changeKind =
+        changeKindCache.getChangeKind(
+            ctx.getProject(),
+            ctx.getRevWalk(),
+            ctx.getRepoView().getConfig(),
+            psUtil.current(origNotes).commitId(),
+            commitId);
+
     Optional<ReceiveCommand> autoMerge =
         autoMerger.createAutoMergeCommitIfNecessary(
             ctx.getRepoView(),
@@ -323,7 +337,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   @Override
   public void postUpdate(PostUpdateContext ctx) {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
-    if (notify.shouldNotify() && sendEmail) {
+    if (notify.shouldNotify() && sendEmail && !changeKind.isTrivialRebase()) {
       requireNonNull(mailMessage);
       try {
         ReplacePatchSetSender emailSender =

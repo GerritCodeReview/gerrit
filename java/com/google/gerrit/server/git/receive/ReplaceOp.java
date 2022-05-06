@@ -504,7 +504,8 @@ public class ReplaceOp implements BatchUpdateOp {
                     oldRecipients.getCcOnly().stream(),
                     reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCs).stream())
                 .collect(toImmutableSet()),
-            changeKind)
+            changeKind,
+            notes.getMetaId())
         .setRequestScopePropagator(requestScopePropagator)
         .sendAsync();
 

@@ -29,7 +29,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
@@ -103,7 +102,7 @@ public class ReplaceOp implements BatchUpdateOp {
   public interface Factory {
     ReplaceOp create(
         ProjectState projectState,
-        BranchNameKey dest,
+        Change change,
         boolean checkMergedInto,
         @Nullable String mergeResultRevId,
         @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
@@ -113,8 +112,7 @@ public class ReplaceOp implements BatchUpdateOp {
         PatchSetInfo info,
         List<String> groups,
         @Nullable MagicBranchInput magicBranch,
-        @Nullable PushCertificate pushCertificate,
-        Change change);
+        @Nullable PushCertificate pushCertificate);
   }
 
   private static final String CHANGE_IS_CLOSED = "change is closed";
@@ -132,12 +130,11 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ProjectCache projectCache;
   private final ReviewerModifier reviewerModifier;
-  private final Change change;
   private final MessageIdGenerator messageIdGenerator;
   private final DynamicItem<UrlFormatter> urlFormatter;
 
   private final ProjectState projectState;
-  private final BranchNameKey dest;
+  private final Change change;
   private final boolean checkMergedInto;
   private final String mergeResultRevId;
   private final PatchSet.Id priorPatchSetId;
@@ -178,11 +175,10 @@ public class ReplaceOp implements BatchUpdateOp {
       ProjectCache projectCache,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       ReviewerModifier reviewerModifier,
-      Change change,
       MessageIdGenerator messageIdGenerator,
       DynamicItem<UrlFormatter> urlFormatter,
       @Assisted ProjectState projectState,
-      @Assisted BranchNameKey dest,
+      @Assisted Change change,
       @Assisted boolean checkMergedInto,
       @Assisted @Nullable String mergeResultRevId,
       @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
@@ -206,12 +202,11 @@ public class ReplaceOp implements BatchUpdateOp {
     this.projectCache = projectCache;
     this.sendEmailExecutor = sendEmailExecutor;
     this.reviewerModifier = reviewerModifier;
-    this.change = change;
     this.messageIdGenerator = messageIdGenerator;
     this.urlFormatter = urlFormatter;
 
     this.projectState = projectState;
-    this.dest = dest;
+    this.change = change;
     this.checkMergedInto = checkMergedInto;
     this.mergeResultRevId = mergeResultRevId;
     this.priorPatchSetId = priorPatchSetId;
@@ -237,7 +232,7 @@ public class ReplaceOp implements BatchUpdateOp {
             commitId);
 
     if (checkMergedInto) {
-      String mergedInto = findMergedInto(ctx, dest.branch(), commit);
+      String mergedInto = findMergedInto(ctx, change.getDest().branch(), commit);
       if (mergedInto != null) {
         mergedByPushOp =
             mergedByPushOpFactory.create(

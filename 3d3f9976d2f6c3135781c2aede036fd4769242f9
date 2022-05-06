@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23aaa0e2_e0f582e6",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2980,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-06T15:50:39Z",
+      "side": 1,
+      "message": "A bit of a nit, but assuming my comment below doesn\u0027t change the approach, could this name please be improved? \"host\" could refer to any host and as I mention below, this public/private dual Gerrit setup isn\u0027t documented anywhere else in Gerrit (and is unique to Google AFAIK), so there\u0027s no context for it here.",
+      "range": {
+        "startLine": 2980,
+        "startChar": 3,
+        "endLine": 2980,
+        "endChar": 32
+      },
+      "revId": "3d3f9976d2f6c3135781c2aede036fd4769242f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca4f5eba_baf9626f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2985,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-06T15:50:39Z",
+      "side": 1,
+      "message": "There\u0027s nothing else in the Gerrit docs that talks about how someone could even run Gerrit with this kind of configuration. I\u0027m pretty open to extension points, but this feels especially niche. For example, why wouldn\u0027t this be a small UI plugin that only provides this functionality? Then core would only need to support plugin UI elements in the location you want to put this (and then we have the benefit that other plugins with different purposes could use that location too).",
+      "range": {
+        "startLine": 2984,
+        "startChar": 3,
+        "endLine": 2985,
+        "endChar": 18
+      },
+      "revId": "3d3f9976d2f6c3135781c2aede036fd4769242f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

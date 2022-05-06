@@ -35,6 +35,7 @@ import {fireAlert, fireReload} from '../../../utils/event-util';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../change/gr-label-score-row/gr-label-score-row';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
+import {allSettled} from '../../../utils/async-util';
 
 @customElement('gr-change-list-bulk-vote-flow')
 export class GrChangeListBulkVoteFlow extends LitElement {
@@ -214,25 +215,15 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     this.requestUpdate();
     const promises = this.getBulkActionsModel().voteChanges(reviewInput);
 
-    // TODO: replace with Promise.allSettled once we upgrade to ES2020 or higher
-    // The names and types here match Promise.allSettled.
-    await Promise.all(
+    await allSettled(
       promises.map((promise, index) => {
         const changeNum = this.selectedChanges[index]._number;
         return promise
-          .then(value => {
+          .then(() => {
             this.progressByChange.set(changeNum, ProgressStatus.SUCCESSFUL);
-            return {
-              status: 'fulfilled',
-              value,
-            };
           })
-          .catch(reason => {
+          .catch(() => {
             this.progressByChange.set(changeNum, ProgressStatus.FAILED);
-            return {
-              status: 'rejected',
-              reason,
-            };
           })
           .finally(() => {
             this.requestUpdate();

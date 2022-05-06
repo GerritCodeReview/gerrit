@@ -114,7 +114,8 @@ public class ReplaceOp implements BatchUpdateOp {
         PatchSetInfo info,
         List<String> groups,
         @Nullable MagicBranchInput magicBranch,
-        @Nullable PushCertificate pushCertificate);
+        @Nullable PushCertificate pushCertificate,
+        RequestScopePropagator requestScopePropagator);
   }
 
   private static final String CHANGE_IS_CLOSED = "change is closed";
@@ -147,6 +148,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final PatchSetInfo info;
   private final MagicBranchInput magicBranch;
   private final PushCertificate pushCertificate;
+  private final RequestScopePropagator requestScopePropagator;
   private List<String> groups;
 
   private final Map<String, Short> approvals = new HashMap<>();
@@ -159,7 +161,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private ImmutableSet<PatchSetApproval> outdatedApprovals;
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
-  private RequestScopePropagator requestScopePropagator;
   private ReviewerModificationList reviewerAdditions;
   private MailRecipients oldRecipients;
 
@@ -192,7 +193,8 @@ public class ReplaceOp implements BatchUpdateOp {
       @Assisted PatchSetInfo info,
       @Assisted List<String> groups,
       @Assisted @Nullable MagicBranchInput magicBranch,
-      @Assisted @Nullable PushCertificate pushCertificate) {
+      @Assisted @Nullable PushCertificate pushCertificate,
+      @Assisted RequestScopePropagator requestScopePropagator) {
     this.accountResolver = accountResolver;
     this.approvalsUtil = approvalsUtil;
     this.changeDataFactory = changeDataFactory;
@@ -222,6 +224,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.groups = groups;
     this.magicBranch = magicBranch;
     this.pushCertificate = pushCertificate;
+    this.requestScopePropagator = requestScopePropagator;
   }
 
   @Override
@@ -501,13 +504,9 @@ public class ReplaceOp implements BatchUpdateOp {
     reviewerAdditions.postUpdate(ctx);
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
       // TODO(dborowitz): Merge email templates so we only have to send one.
-      Runnable e = new ReplaceEmailTask(ctx);
-      if (requestScopePropagator != null) {
-        @SuppressWarnings("unused")
-        Future<?> possiblyIgnoredError = sendEmailExecutor.submit(requestScopePropagator.wrap(e));
-      } else {
-        e.run();
-      }
+      @SuppressWarnings("unused")
+      Future<?> possiblyIgnoredError =
+          sendEmailExecutor.submit(requestScopePropagator.wrap(new ReplaceEmailTask(ctx)));
     }
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
     revisionCreated.fire(
@@ -617,11 +616,6 @@ public class ReplaceOp implements BatchUpdateOp {
 
   public ReceiveCommand getCommand() {
     return cmd;
-  }
-
-  public ReplaceOp setRequestScopePropagator(RequestScopePropagator requestScopePropagator) {
-    this.requestScopePropagator = requestScopePropagator;
-    return this;
   }
 
   private static String findMergedInto(Context ctx, String first, RevCommit commit) {

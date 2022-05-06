@@ -3187,22 +3187,21 @@ class ReceiveCommits {
 
         RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
         replaceOp =
-            replaceOpFactory
-                .create(
-                    projectState,
-                    notes.getChange().getDest(),
-                    notes.getChange(),
-                    checkMergedInto,
-                    checkMergedInto ? inputCommand.getNewId().name() : null,
-                    priorPatchSet,
-                    priorCommit,
-                    psId,
-                    newCommit,
-                    info,
-                    groups,
-                    magicBranch,
-                    receivePack.getPushCertificate())
-                .setRequestScopePropagator(requestScopePropagator);
+            replaceOpFactory.create(
+                projectState,
+                notes.getChange().getDest(),
+                notes.getChange(),
+                checkMergedInto,
+                checkMergedInto ? inputCommand.getNewId().name() : null,
+                priorPatchSet,
+                priorCommit,
+                psId,
+                newCommit,
+                info,
+                groups,
+                magicBranch,
+                receivePack.getPushCertificate(),
+                requestScopePropagator);
         bu.addOp(notes.getChangeId(), replaceOp);
         if (progress != null) {
           bu.addOp(notes.getChangeId(), new ChangeProgressOp(progress));

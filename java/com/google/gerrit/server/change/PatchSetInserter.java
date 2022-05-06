@@ -22,7 +22,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -42,8 +41,6 @@ import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.AutoMerger;
@@ -68,8 +65,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class PatchSetInserter implements BatchUpdateOp {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public interface Factory {
     PatchSetInserter create(ChangeNotes notes, PatchSet.Id psId, ObjectId commitId);
   }
@@ -79,14 +74,13 @@ public class PatchSetInserter implements BatchUpdateOp {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeKindCache changeKindCache;
   private final CommitValidators.Factory commitValidatorsFactory;
-  private final ReplacePatchSetSender.Factory replacePatchSetFactory;
+  private final EmailNewPatchSet.Factory emailNewPatchSetFactory;
   private final ProjectCache projectCache;
   private final RevisionCreated revisionCreated;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
   private final WorkInProgressStateChanged wipStateChanged;
-  private final MessageIdGenerator messageIdGenerator;
   private final AutoMerger autoMerger;
 
   // Assisted-injected fields.
@@ -129,12 +123,11 @@ public class PatchSetInserter implements BatchUpdateOp {
       PatchSetInfoFactory patchSetInfoFactory,
       ChangeKindCache changeKindCache,
       CommitValidators.Factory commitValidatorsFactory,
-      ReplacePatchSetSender.Factory replacePatchSetFactory,
+      EmailNewPatchSet.Factory emailNewPatchSetFactory,
       PatchSetUtil psUtil,
       RevisionCreated revisionCreated,
       ProjectCache projectCache,
       WorkInProgressStateChanged wipStateChanged,
-      MessageIdGenerator messageIdGenerator,
       AutoMerger autoMerger,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet.Id psId,
@@ -145,12 +138,11 @@ public class PatchSetInserter implements BatchUpdateOp {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.changeKindCache = changeKindCache;
     this.commitValidatorsFactory = commitValidatorsFactory;
-    this.replacePatchSetFactory = replacePatchSetFactory;
+    this.emailNewPatchSetFactory = emailNewPatchSetFactory;
     this.psUtil = psUtil;
     this.revisionCreated = revisionCreated;
     this.projectCache = projectCache;
     this.wipStateChanged = wipStateChanged;
-    this.messageIdGenerator = messageIdGenerator;
     this.autoMerger = autoMerger;
 
     this.origNotes = notes;
@@ -339,23 +331,17 @@ public class PatchSetInserter implements BatchUpdateOp {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
     if (notify.shouldNotify() && sendEmail) {
       requireNonNull(mailMessage);
-      try {
-        ReplacePatchSetSender emailSender =
-            replacePatchSetFactory.create(ctx.getProject(), change.getId(), changeKind);
-        emailSender.setFrom(ctx.getAccountId());
-        emailSender.setPatchSet(patchSet, patchSetInfo);
-        emailSender.setChangeMessage(mailMessage, ctx.getWhen());
-        emailSender.addReviewers(oldReviewers.byState(REVIEWER));
-        emailSender.addExtraCC(oldReviewers.byState(CC));
-        emailSender.addOutdatedApproval(outdatedApprovals);
-        emailSender.setNotify(notify);
-        emailSender.setMessageId(
-            messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-        emailSender.send();
-      } catch (Exception err) {
-        logger.atSevere().withCause(err).log(
-            "Cannot send email for new patch set on change %s", change.getId());
-      }
+
+      emailNewPatchSetFactory
+          .create(
+              ctx,
+              patchSet,
+              mailMessage,
+              outdatedApprovals,
+              oldReviewers.byState(REVIEWER),
+              oldReviewers.byState(CC),
+              changeKind)
+          .sendAsync();
     }
 
     if (fireRevisionCreated) {

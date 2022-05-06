@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb37c380_b7f685c7",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/IndexOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-06T07:35:34Z",
+      "side": 1,
+      "message": "[optional]\nThe correct implementation should be:\n  try {\n    AutoCloseable reads \u003d disableReads();\n    try {\n      AutoCloseable writes \u003d disableWrites();\n      return () -\u003e {\n        try {\n          reads.close();\n        }\n        finally {\n          write.close()\n        }\n      };\n    }\n    catch(Throwable e) {\n      reads.close();\n      throw e;\n    }\n  }\n  \nBut maybe in tests readability here is more important than fully correctness.",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 6
+      },
+      "revId": "df1f50d29a1eac3264ad2d354283f8126f9afaeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -83,6 +83,9 @@ export class GrLabelScores extends LitElement {
           margin-bottom: var(--spacing-m);
           margin-top: 0;
         }
+        .heading-3:first-of-type {
+          margin-top: 0;
+        }
       `,
     ];
   }

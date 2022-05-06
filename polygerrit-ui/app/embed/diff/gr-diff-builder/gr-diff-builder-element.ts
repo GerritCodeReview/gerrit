@@ -25,7 +25,7 @@ import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
 import {GrDiffBuilderImage} from './gr-diff-builder-image';
 import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
 import {GrDiffBuilderBinary} from './gr-diff-builder-binary';
-import {CancelablePromise, util} from '../../../scripts/util';
+import {CancelablePromise, makeCancelable} from '../../../scripts/util';
 import {customElement, property, observe} from '@polymer/decorators';
 import {BlameInfo, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -290,7 +290,7 @@ export class GrDiffBuilderElement
     const isBinary = !!(this.isImageDiff || this.diff.binary);
 
     fireEvent(this, 'render-start');
-    this._cancelableRenderPromise = util.makeCancelable(
+    this._cancelableRenderPromise = makeCancelable(
       this.processor
         .process(this.diff.content, isBinary)
         .then(() => {

@@ -337,14 +337,11 @@ public class PatchSetInserter implements BatchUpdateOp {
   @Override
   public void postUpdate(PostUpdateContext ctx) {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
-    if (notify.shouldNotify()
-        && sendEmail
-        && changeKind != ChangeKind.TRIVIAL_REBASE
-        && changeKind != ChangeKind.NO_CHANGE) {
+    if (notify.shouldNotify() && sendEmail) {
       requireNonNull(mailMessage);
       try {
         ReplacePatchSetSender emailSender =
-            replacePatchSetFactory.create(ctx.getProject(), change.getId());
+            replacePatchSetFactory.create(ctx.getProject(), change.getId(), changeKind);
         emailSender.setFrom(ctx.getAccountId());
         emailSender.setPatchSet(patchSet, patchSetInfo);
         emailSender.setChangeMessage(mailMessage, ctx.getWhen());

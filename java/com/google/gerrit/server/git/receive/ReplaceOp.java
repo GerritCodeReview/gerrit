@@ -485,19 +485,20 @@ public class ReplaceOp implements BatchUpdateOp {
   @Override
   public void postUpdate(PostUpdateContext ctx) throws Exception {
     reviewerAdditions.postUpdate(ctx);
-    if (changeKind != ChangeKind.TRIVIAL_REBASE && changeKind != ChangeKind.NO_CHANGE) {
-      // TODO(dborowitz): Merge email templates so we only have to send one.
-      emailNewPatchSetFactory
-          .create(
-              requestScopePropagator,
-              ctx,
-              newPatchSet,
-              mailMessage,
-              outdatedApprovals,
-              oldRecipients,
-              reviewerAdditions)
-          .sendAsync();
-    }
+
+    // TODO(dborowitz): Merge email templates so we only have to send one.
+    emailNewPatchSetFactory
+        .create(
+            requestScopePropagator,
+            ctx,
+            newPatchSet,
+            mailMessage,
+            outdatedApprovals,
+            oldRecipients,
+            reviewerAdditions,
+            changeKind)
+        .sendAsync();
+
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
     revisionCreated.fire(
         ctx.getChangeData(notes), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);

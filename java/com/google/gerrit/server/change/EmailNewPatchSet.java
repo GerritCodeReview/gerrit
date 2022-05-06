@@ -24,6 +24,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
@@ -55,7 +56,8 @@ public class EmailNewPatchSet {
         String message,
         ImmutableSet<PatchSetApproval> outdatedApprovals,
         MailRecipients oldRecipients,
-        ReviewerModificationList reviewerAdditions);
+        ReviewerModificationList reviewerAdditions,
+        ChangeKind changeKind);
   }
 
   private final ExecutorService sendEmailExecutor;
@@ -74,7 +76,8 @@ public class EmailNewPatchSet {
       @Assisted String message,
       @Assisted ImmutableSet<PatchSetApproval> outdatedApprovals,
       @Assisted MailRecipients oldRecipients,
-      @Assisted ReviewerModificationList reviewerAdditions) {
+      @Assisted ReviewerModificationList reviewerAdditions,
+      @Assisted ChangeKind changeKind) {
     this.sendEmailExecutor = sendEmailExecutor;
     this.requestScopePropagator = requestScopePropagator;
 
@@ -109,7 +112,8 @@ public class EmailNewPatchSet {
             Streams.concat(
                     oldRecipients.getCcOnly().stream(),
                     reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCs).stream())
-                .collect(toImmutableSet()));
+                .collect(toImmutableSet()),
+            changeKind);
   }
 
   public void sendAsync() {
@@ -138,6 +142,7 @@ public class EmailNewPatchSet {
     private final ImmutableSet<PatchSetApproval> outdatedApprovals;
     private final ImmutableSet<Account.Id> reviewers;
     private final ImmutableSet<Account.Id> extraCcs;
+    private final ChangeKind changeKind;
 
     AsyncSender(
         IdentifiedUser user,
@@ -152,7 +157,8 @@ public class EmailNewPatchSet {
         Instant timestamp,
         ImmutableSet<PatchSetApproval> outdatedApprovals,
         ImmutableSet<Account.Id> reviewers,
-        ImmutableSet<Account.Id> extraCcs) {
+        ImmutableSet<Account.Id> extraCcs,
+        ChangeKind changeKind) {
       this.user = user;
       this.replacePatchSetFactory = replacePatchSetFactory;
       this.patchSetInfoFactory = patchSetInfoFactory;
@@ -166,12 +172,14 @@ public class EmailNewPatchSet {
       this.outdatedApprovals = outdatedApprovals;
       this.reviewers = reviewers;
       this.extraCcs = extraCcs;
+      this.changeKind = changeKind;
     }
 
     @Override
     public void run() {
       try {
-        ReplacePatchSetSender emailSender = replacePatchSetFactory.create(projectName, changeId);
+        ReplacePatchSetSender emailSender =
+            replacePatchSetFactory.create(projectName, changeId, changeKind);
         emailSender.setFrom(user.getAccountId());
         emailSender.setPatchSet(patchSet, patchSetInfoFactory.get(projectName, patchSet));
         emailSender.setChangeMessage(message, timestamp);

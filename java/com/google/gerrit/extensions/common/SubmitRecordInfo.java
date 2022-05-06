@@ -36,7 +36,7 @@ public class SubmitRecordInfo {
     }
 
     public String label;
-    public Status status;
+    public Label.Status status;
     public AccountInfo appliedBy;
   }
 

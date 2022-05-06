@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6dd83c1f_df532903",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-06T08:53:02Z",
+      "side": 1,
+      "message": "\u003e Was the UI discussed somewhere\nNo. We are going to redirect all googlers to internal hosts, so copy-pasting url can be problematic and this is one of the simplest solution for this issue. We want to see how it will work and later we can improve/change it. At this stage spending time on the design doesn\u0027t look reasonable.\n\n\u003e Maybe submenu would be enough\nSubmenu is not visible in diff view and we want to show the button on all page.\n\n\u003e I usually take host url from Gerrit logo - was it considered that such icon would be shown when hovering on gerrit logo\n\nThanks, I didn\u0027t know about this scenario. I updated URL for gerrit logo - now it is also points to a public url (separate button is not needed in this case).",
+      "parentUuid": "0f713238_794cfed3",
+      "range": {
+        "startLine": 21,
+        "startChar": 12,
+        "endLine": 21,
+        "endChar": 39
+      },
+      "revId": "e47d0938bc52f06b2427cb2c98f3663ecff3414d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d8da83e0_f7de16f7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45bfa874_f00f1533",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-06T08:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df4c3646_9a7eab95",
+      "range": {
+        "startLine": 457,
+        "startChar": 33,
+        "endLine": 457,
+        "endChar": 42
+      },
+      "revId": "e47d0938bc52f06b2427cb2c98f3663ecff3414d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30bf732e_38917268",
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc0a6c1a_3772f7c5",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-06T08:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30bf732e_38917268",
+      "range": {
+        "startLine": 464,
+        "startChar": 8,
+        "endLine": 464,
+        "endChar": 66
+      },
+      "revId": "e47d0938bc52f06b2427cb2c98f3663ecff3414d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbe8a830_28b7f7a4",
@@ -100,6 +172,30 @@
       "writtenOn": "2022-05-05T18:24:44Z",
       "side": 1,
       "message": "NIT: This is overflown",
+      "range": {
+        "startLine": 26,
+        "startChar": 7,
+        "endLine": 26,
+        "endChar": 82
+      },
+      "revId": "e47d0938bc52f06b2427cb2c98f3663ecff3414d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db197590_3bac375d",
+        "filename": "polygerrit-ui/app/types/globals.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-06T08:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbe8a830_28b7f7a4",
       "range": {
         "startLine": 26,
         "startChar": 7,

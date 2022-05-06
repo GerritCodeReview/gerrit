@@ -36,6 +36,7 @@ import {
   SubmitRequirementStatus,
 } from '../../../api/rest-api';
 import {ParsedChangeInfo} from '../../../types/types';
+import {RunStatus} from '../../../api/checks';
 
 suite('gr-submit-requirements tests', () => {
   let element: GrSubmitRequirements;
@@ -163,6 +164,25 @@ suite('gr-submit-requirements tests', () => {
       element.runs = [
         {
           ...createRunResult(),
+          labelName: 'Verified',
+          results: [createCheckResult()],
+        },
+      ];
+      await element.updateComplete;
+      const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
+      expect(votesCell?.[0]).dom.equal(/* HTML */ `
+        <div class="votes-cell">
+          <gr-vote-chip></gr-vote-chip>
+          <gr-checks-chip></gr-checks-chip>
+        </div>
+      `);
+    });
+
+    test('running checks', async () => {
+      element.runs = [
+        {
+          ...createRunResult(),
+          status: RunStatus.RUNNING,
           labelName: 'Verified',
           results: [createCheckResult()],
         },

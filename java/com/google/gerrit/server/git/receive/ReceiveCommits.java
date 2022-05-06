@@ -3191,6 +3191,7 @@ class ReceiveCommits {
                 .create(
                     projectState,
                     notes.getChange().getDest(),
+                    notes.getChange(),
                     checkMergedInto,
                     checkMergedInto ? inputCommand.getNewId().name() : null,
                     priorPatchSet,
@@ -3200,8 +3201,7 @@ class ReceiveCommits {
                     info,
                     groups,
                     magicBranch,
-                    receivePack.getPushCertificate(),
-                    notes.getChange())
+                    receivePack.getPushCertificate())
                 .setRequestScopePropagator(requestScopePropagator);
         bu.addOp(notes.getChangeId(), replaceOp);
         if (progress != null) {

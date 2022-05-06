@@ -104,6 +104,7 @@ public class ReplaceOp implements BatchUpdateOp {
     ReplaceOp create(
         ProjectState projectState,
         BranchNameKey dest,
+        Change change,
         boolean checkMergedInto,
         @Nullable String mergeResultRevId,
         @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
@@ -113,8 +114,7 @@ public class ReplaceOp implements BatchUpdateOp {
         PatchSetInfo info,
         List<String> groups,
         @Nullable MagicBranchInput magicBranch,
-        @Nullable PushCertificate pushCertificate,
-        Change change);
+        @Nullable PushCertificate pushCertificate);
   }
 
   private static final String CHANGE_IS_CLOSED = "change is closed";
@@ -178,11 +178,11 @@ public class ReplaceOp implements BatchUpdateOp {
       ProjectCache projectCache,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       ReviewerModifier reviewerModifier,
-      Change change,
       MessageIdGenerator messageIdGenerator,
       DynamicItem<UrlFormatter> urlFormatter,
       @Assisted ProjectState projectState,
       @Assisted BranchNameKey dest,
+      @Assisted Change change,
       @Assisted boolean checkMergedInto,
       @Assisted @Nullable String mergeResultRevId,
       @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,

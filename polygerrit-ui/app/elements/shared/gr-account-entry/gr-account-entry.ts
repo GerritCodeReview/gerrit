@@ -24,6 +24,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {BindValueChangeEvent} from '../../../types/events';
+import {SuggestedReviewerInfo} from '../../../types/common';
 
 /**
  * gr-account-entry is an element for entering account
@@ -57,7 +58,8 @@ export class GrAccountEntry extends LitElement {
   placeholder = '';
 
   @property({type: Object})
-  querySuggestions: AutocompleteQuery = () => Promise.resolve([]);
+  querySuggestions: AutocompleteQuery<SuggestedReviewerInfo> = () =>
+    Promise.resolve([]);
 
   @state() private inputText = '';
 

@@ -34,13 +34,9 @@ import {getDisplayName} from '../../../utils/display-name-util';
 import {AccountInputDetail} from '../../shared/gr-account-list/gr-account-list';
 import '@polymer/iron-icon/iron-icon';
 
-const SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE: Record<
-  ReviewerState,
-  SUGGESTIONS_PROVIDERS_USERS_TYPES
-> = {
+const SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE = {
   REVIEWER: SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER,
   CC: SUGGESTIONS_PROVIDERS_USERS_TYPES.CC,
-  REMOVED: SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY,
 };
 
 @customElement('gr-change-list-reviewer-flow')
@@ -79,6 +75,8 @@ export class GrChangeListReviewerFlow extends LitElement {
   private getConfigModel = resolve(this, configModelToken);
 
   private restApiService = getAppContext().restApiService;
+
+  private isLoggedIn = false;
 
   static override get styles() {
     return css`
@@ -127,6 +125,11 @@ export class GrChangeListReviewerFlow extends LitElement {
       this,
       this.getConfigModel().serverConfig$,
       serverConfig => (this.serverConfig = serverConfig)
+    );
+    subscribe(
+      this,
+      getAppContext().userModel.loggedIn$,
+      isLoggedIn => (this.isLoggedIn = isLoggedIn)
     );
   }
 
@@ -275,7 +278,7 @@ export class GrChangeListReviewerFlow extends LitElement {
         ProgressStatus.NOT_STARTED,
       ])
     );
-    for (const state of [ReviewerState.REVIEWER, ReviewerState.CC]) {
+    for (const state of [ReviewerState.REVIEWER, ReviewerState.CC] as const) {
       this.updatedAccountsByReviewerState.set(
         state,
         this.getCurrentAccounts(state)
@@ -396,15 +399,15 @@ export class GrChangeListReviewerFlow extends LitElement {
   }
 
   private createSuggestionsProvider(
-    state: ReviewerState
+    state: ReviewerState.CC | ReviewerState.REVIEWER
   ): ReviewerSuggestionsProvider {
-    const suggestionsProvider = GrReviewerSuggestionsProvider.create(
+    const suggestionsProvider = new GrReviewerSuggestionsProvider(
       this.restApiService,
-      // TODO: fan out and get suggestions allowed by all changes
-      this.selectedChanges[0]._number,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE[state]
+      SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE[state],
+      this.serverConfig,
+      this.isLoggedIn,
+      ...this.selectedChanges.map(change => change._number)
     );
-    suggestionsProvider.init();
     return suggestionsProvider;
   }
 }

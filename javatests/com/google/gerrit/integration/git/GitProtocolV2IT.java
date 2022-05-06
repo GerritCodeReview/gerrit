@@ -16,7 +16,7 @@ package com.google.gerrit.integration.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
-import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
@@ -27,7 +27,10 @@ import com.google.gerrit.acceptance.GitClientVersion;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
@@ -62,6 +65,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
   @Inject private GerritApi gApi;
   @Inject private AccountCreator accountCreator;
   @Inject private ProjectOperations projectOperations;
+  @Inject private GroupOperations groupOperations;
   @Inject private @TestSshServerAddress InetSocketAddress sshAddress;
   @Inject private @GerritServerConfig Config config;
   @Inject private AllProjectsName allProjectsName;
@@ -86,15 +90,20 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       Project.NameKey project = Project.nameKey("foo");
       gApi.projects().create(project.get());
 
-      // Set up project permission
+      // Clear all permissions for anonymous users. Allow registered users to fetch/push.
+      AccountGroup.UUID admins = groupOperations.newGroup().addMember(admin.id()).create();
       projectOperations
-          .project(project)
+          .project(allProjectsName)
           .forUpdate()
-          .add(deny(Permission.READ).ref("refs/heads/*").group(SystemGroupBackend.ANONYMOUS_USERS))
+          .removeAllAccessSections()
           .add(
               allow(Permission.READ)
                   .ref("refs/heads/master")
                   .group(SystemGroupBackend.REGISTERED_USERS))
+          .add(allow(Permission.READ).ref("refs/*").group(admins))
+          .add(allow(Permission.CREATE).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
+          .add(allow(Permission.PUSH).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
+          .add(allowCapability(GlobalCapability.ADMINISTRATE_SERVER).group(admins))
           .update();
 
       // Retrieve HTTP url
@@ -211,15 +220,17 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       Project.NameKey allRefsVisibleProject = Project.nameKey("all-refs-visible");
       gApi.projects().create(allRefsVisibleProject.get());
 
-      // Set up project permission to allow reading all refs
+      // Allow registered users to fetch/push. Allow anonymous users to read refs/heads/* which also
+      // allows reading changes.
       projectOperations
-          .project(allRefsVisibleProject)
+          .project(allProjectsName)
           .forUpdate()
+          .removeAllAccessSections()
           .add(allow(Permission.READ).ref("refs/heads/*").group(SystemGroupBackend.ANONYMOUS_USERS))
           .add(
-              allow(Permission.READ)
-                  .ref("refs/changes/*")
-                  .group(SystemGroupBackend.ANONYMOUS_USERS))
+              allow(Permission.READ).ref("refs/heads/*").group(SystemGroupBackend.REGISTERED_USERS))
+          .add(allow(Permission.CREATE).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
+          .add(allow(Permission.PUSH).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
           .update();
 
       // Create new change and retrieve refs for the created patch set
@@ -265,25 +276,15 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       Project.NameKey privateProject = Project.nameKey("private-project");
       gApi.projects().create(privateProject.get());
 
-      // Disallow general read permissions for anonymous users
+      // Clear all permissions for anonymous users. Allow registered users to fetch/push.
       projectOperations
           .project(allProjectsName)
           .forUpdate()
-          .add(deny(Permission.READ).ref("refs/*").group(SystemGroupBackend.ANONYMOUS_USERS))
+          .removeAllAccessSections()
           .add(
-              allow(Permission.READ)
-                  .ref("refs/heads/master")
-                  .group(SystemGroupBackend.REGISTERED_USERS))
-          .update();
-
-      // Set up project permission to allow registered users fetching changes/*
-      projectOperations
-          .project(privateProject)
-          .forUpdate()
-          .add(
-              allow(Permission.READ)
-                  .ref("refs/changes/*")
-                  .group(SystemGroupBackend.REGISTERED_USERS))
+              allow(Permission.READ).ref("refs/heads/*").group(SystemGroupBackend.REGISTERED_USERS))
+          .add(allow(Permission.CREATE).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
+          .add(allow(Permission.PUSH).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
           .update();
 
       // Create new change and retrieve refs for the created patch set

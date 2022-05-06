@@ -90,6 +90,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c615b04_80c09161",
+        "filename": "java/com/google/gerrit/server/extensions/events/AttentionSetObserver.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1145775
+      },
+      "writtenOn": "2022-05-06T23:36:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06ac9ace_9ecdfc52",
+      "revId": "e6a3f59d321f6e87420a64c277160c8582a8b109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de0d2b2f_01d3f04e",

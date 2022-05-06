@@ -109,6 +109,207 @@ suite('gr-file-list tests', () => {
         .callsFake(() => Promise.resolve());
     });
 
+    test('renders', () => {
+      expect(element).shadowDom.to.equal(/* HTML */ `<h3
+          class="assistive-tech-only"
+        >
+          File list
+        </h3>
+        <div aria-label="Files list" id="container" role="grid">
+          <div class="header-row row" role="row">
+            <dom-if style="display: none;">
+              <template is="dom-if"> </template>
+            </dom-if>
+            <div class="path" role="columnheader">File</div>
+            <div class="comments desktop" role="columnheader">Comments</div>
+            <div class="comments mobile" role="columnheader" title="Comments">
+              C
+            </div>
+            <div class="desktop sizeBars" role="columnheader">Size</div>
+            <div class="header-stats" role="columnheader">Delta</div>
+            <dom-if style="display: none;">
+              <template is="dom-if"> </template>
+            </dom-if>
+            <div
+              aria-hidden="true"
+              class="hideOnEdit reviewed"
+              hidden="true"
+            ></div>
+            <div aria-hidden="true" class="editFileControls showOnEdit"></div>
+            <div aria-hidden="true" class="show-hide"></div>
+          </div>
+          <dom-repeat
+            as="file"
+            id="files"
+            style="display: none;"
+            target-framerate="1"
+          >
+            <template is="dom-repeat"> </template>
+          </dom-repeat>
+          <dom-if style="display: none;">
+            <template is="dom-if"> </template>
+          </dom-if>
+        </div>
+        <div class="row totalChanges" hidden="true">
+          <div class="total-stats">
+            <div>
+              <span aria-label="Total 0 lines added" class="added" tabindex="0">
+                +0
+              </span>
+              <span
+                aria-label="Total 0 lines removed"
+                class="removed"
+                tabindex="0"
+              >
+                -0
+              </span>
+            </div>
+          </div>
+          <dom-if style="display: none;">
+            <template is="dom-if"> </template>
+          </dom-if>
+          <div class="hideOnEdit reviewed" hidden="true"></div>
+          <div class="editFileControls showOnEdit"></div>
+          <div class="show-hide"></div>
+        </div>
+        <div class="row totalChanges" hidden="true">
+          <div class="total-stats">
+            <span aria-label="Total bytes inserted: +/-0 B " class="added">
+              +/-0 B
+            </span>
+            <span aria-label="Total bytes removed: +/-0 B" class="removed">
+              +/-0 B
+            </span>
+          </div>
+        </div>
+        <div class="controlRow invisible row">
+          <gr-button
+            aria-disabled="false"
+            class="fileListButton"
+            id="incrementButton"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            Show -200 more
+          </gr-button>
+          <gr-tooltip-content title="">
+            <gr-button
+              aria-disabled="false"
+              class="fileListButton"
+              id="showAllButton"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              Show all 0 files
+            </gr-button>
+          </gr-tooltip-content>
+        </div>
+        <gr-diff-preferences-dialog
+          id="diffPreferencesDialog"
+        ></gr-diff-preferences-dialog>`);
+    });
+
+    test('renders file row', () => {
+      element._filesByPath = Array(3)
+        .fill(0)
+        .reduce((_filesByPath, _, idx) => {
+          _filesByPath[`'/file${idx}`] = {lines_inserted: 9};
+          return _filesByPath;
+        }, {});
+      flush();
+      const fileRows = queryAll<HTMLDivElement>(element, '.file-row');
+      expect(fileRows?.[0]).dom.equal(/* HTML */ `<div
+        class="file-row row"
+        data-file='{"path":"&apos;/file0"}'
+        role="row"
+        tabindex="-1"
+      >
+        <dom-if style="display: none;">
+          <template is="dom-if"> </template>
+        </dom-if>
+        <span class="path" role="gridcell">
+          <a class="pathLink">
+            <span class="fullFileName" title="'/file0"> '/file0 </span>
+            <span class="truncatedFileName" title="'/file0"> …/file0 </span>
+            <gr-file-status-chip> </gr-file-status-chip>
+            <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
+          </a>
+          <dom-if style="display: none;">
+            <template is="dom-if"> </template>
+          </dom-if>
+        </span>
+        <div role="gridcell">
+          <div class="comments desktop">
+            <span class="drafts"> </span> <span> </span>
+            <span class="noCommentsScreenReaderText"> No comments </span>
+          </div>
+          <div class="comments mobile">
+            <span class="drafts"> </span> <span> </span>
+            <span class="noCommentsScreenReaderText"> No comments </span>
+          </div>
+        </div>
+        <div class="desktop" role="gridcell">
+          <div
+            aria-label="A bar that represents the addition and deletion ratio for the current file"
+            class="sizeBars"
+          ></div>
+        </div>
+        <div class="stats" role="gridcell">
+          <div>
+            <span aria-label="9 lines added" class="added" tabindex="0">
+              +9
+            </span>
+            <span aria-label="0 lines removed" class="removed" tabindex="0">
+              -0
+            </span>
+            <span hidden="true"> +/-0 B </span>
+          </div>
+        </div>
+        <dom-if style="display: none;">
+          <template is="dom-if"> </template>
+        </dom-if>
+        <div class="hideOnEdit reviewed" hidden="true" role="gridcell">
+          <span aria-hidden="true" class="reviewedLabel"> Reviewed </span>
+          <span
+            aria-checked="false"
+            aria-label="Reviewed"
+            class="reviewedSwitch"
+            role="switch"
+            tabindex="0"
+          >
+            <span
+              class="markReviewed"
+              tabindex="-1"
+              title="Mark as reviewed (shortcut: r)"
+            >
+              MARK REVIEWED
+            </span>
+          </span>
+        </div>
+        <div class="editFileControls showOnEdit" role="gridcell">
+          <dom-if style="display: none;">
+            <template is="dom-if"> </template>
+          </dom-if>
+        </div>
+        <div class="show-hide" role="gridcell">
+          <span
+            aria-checked="false"
+            aria-label="Expand file"
+            class="show-hide"
+            data-expand="true"
+            data-path="'/file0"
+            role="switch"
+            tabindex="0"
+          >
+            <iron-icon class="show-hide-icon" id="icon" tabindex="-1">
+            </iron-icon>
+          </span>
+        </div>
+      </div>`);
+    });
+
     test('correct number of files are shown', () => {
       element.fileListIncrement = 300;
       element._filesByPath = Array(500)

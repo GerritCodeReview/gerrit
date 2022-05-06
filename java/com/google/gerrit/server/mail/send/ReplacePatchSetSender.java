@@ -17,12 +17,15 @@ package com.google.gerrit.server.mail.send;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -34,33 +37,56 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** Send notice of new patch sets for reviewers. */
 public class ReplacePatchSetSender extends ReplyToChangeSender {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface Factory {
     ReplacePatchSetSender create(
-        Project.NameKey project, Change.Id changeId, ChangeKind changeKind);
+        Project.NameKey project,
+        Change.Id changeId,
+        ChangeKind changeKind,
+        ObjectId preUpdateMetaId,
+        Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults);
   }
 
   private final Set<Account.Id> reviewers = new HashSet<>();
   private final Set<Account.Id> extraCC = new HashSet<>();
   private final ChangeKind changeKind;
   private final Set<PatchSetApproval> outdatedApprovals = new HashSet<>();
+  private final Map<SubmitRequirement, SubmitRequirementResult> preUpdateSubmitRequirementResults;
+  private final Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults;
 
   @Inject
   public ReplacePatchSetSender(
       EmailArguments args,
       @Assisted Project.NameKey project,
       @Assisted Change.Id changeId,
-      @Assisted ChangeKind changeKind) {
+      @Assisted ChangeKind changeKind,
+      @Assisted ObjectId preUpdateMetaId,
+      @Assisted
+          Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
     super(args, "newpatchset", newChangeData(args, project, changeId));
     this.changeKind = changeKind;
+
+    // Triggers an (expensive) evaluation of the submit requirements. This is OK since all callers
+    // sent this email asynchronously, see EmailNewPatchSet.
+    this.preUpdateSubmitRequirementResults =
+        newChangeData(args, project, changeId, preUpdateMetaId).submitRequirementsIncludingLegacy();
+
+    this.postUpdateSubmitRequirementResults = postUpdateSubmitRequirementResults;
   }
 
   @Override
   protected boolean shouldSendMessage() {
-    if (changeKind == ChangeKind.TRIVIAL_REBASE || changeKind == ChangeKind.NO_CHANGE) {
+    if (!isChangeNoLongerSubmittable()
+        && (changeKind == ChangeKind.TRIVIAL_REBASE || changeKind == ChangeKind.NO_CHANGE)) {
+      logger.atFine().log(
+          "skip email because new patch set is a trivial rebase that didn't make the change non-submittable");
       return false;
     }
 
@@ -142,5 +168,56 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     super.setupSoyContext();
     soyContextEmailData.put("reviewerNames", getReviewerNames());
     soyContextEmailData.put("outdatedApprovals", formatOutdatedApprovals());
+
+    if (isChangeNoLongerSubmittable()) {
+      soyContext.put(
+          "oldSubmitRequirements", formatSubmitRequirments(preUpdateSubmitRequirementResults));
+      soyContext.put(
+          "newSubmitRequirements", formatSubmitRequirments(postUpdateSubmitRequirementResults));
+    }
+  }
+
+  /**
+   * Checks whether the change is no longer submittable.
+   *
+   * @return {@code true} if the change has been submittable before the update and is no longer
+   *     submittable after the update has been applied, otherwise {@code false}
+   */
+  private boolean isChangeNoLongerSubmittable() {
+    boolean isSubmittablePreUpdate =
+        preUpdateSubmitRequirementResults.values().stream()
+            .allMatch(SubmitRequirementResult::fulfilled);
+    logger.atFine().log(
+        "the submitability of change %s before the update is %s",
+        change.getId(), isSubmittablePreUpdate);
+    if (!isSubmittablePreUpdate) {
+      return false;
+    }
+
+    boolean isSubmittablePostUpdate =
+        postUpdateSubmitRequirementResults.values().stream()
+            .allMatch(SubmitRequirementResult::fulfilled);
+    logger.atFine().log(
+        "the submitability of change %s after the update is %s",
+        change.getId(), isSubmittablePostUpdate);
+    return !isSubmittablePostUpdate;
+  }
+
+  private static ImmutableList<String> formatSubmitRequirments(
+      Map<SubmitRequirement, SubmitRequirementResult> submitRequirementResults) {
+    return submitRequirementResults.entrySet().stream()
+        .map(
+            e -> {
+              if (e.getValue().errorMessage().isPresent()) {
+                return String.format(
+                    "%s: %s (%s)",
+                    e.getKey().name(),
+                    e.getValue().status().name(),
+                    e.getValue().errorMessage().get());
+              }
+              return String.format("%s: %s", e.getKey().name(), e.getValue().status().name());
+            })
+        .sorted()
+        .collect(toImmutableList());
   }
 }

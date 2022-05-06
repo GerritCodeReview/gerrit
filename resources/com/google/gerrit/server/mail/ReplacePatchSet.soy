@@ -27,6 +27,8 @@
   {@param fromName: ?}
   {@param patchSet: ?}
   {@param projectName: ?}
+  {@param oldSubmitRequirements: ?}
+  {@param newSubmitRequirements: ?}
   {if $email.reviewerNames and $fromEmail == $change.ownerEmail}
     Hello{sp}
     {for $reviewerName in $email.reviewerNames}
@@ -60,6 +62,21 @@
       {$outdatedApproval}
     {/for}{\n}
   {/if}
+  {if $oldSubmitRequirements and $newSubmitRequirements}
+    {\n}
+    Due to the creation of the new patch set the change is no longer submittable:{\n}
+    {\n}
+    Old submit requirements:{\n}
+    {for $oldSubmitRequirement in $oldSubmitRequirements}
+      * {$oldSubmitRequirement}{\n}
+    {/for}
+    {\n}
+    New submit requirements:{\n}
+    {for $newSubmitRequirement in $newSubmitRequirements}
+      * {$newSubmitRequirement}{\n}
+    {/for}
+  {/if}
+  {\n}
   {\n}
   Change subject: {$change.subject}{\n}
   ......................................................................{\n}

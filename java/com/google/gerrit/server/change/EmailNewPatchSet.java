@@ -21,6 +21,8 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -38,8 +40,10 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.time.Instant;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class EmailNewPatchSet {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -52,7 +56,8 @@ public class EmailNewPatchSet {
         ImmutableSet<PatchSetApproval> outdatedApprovals,
         @Assisted("reviewers") ImmutableSet<Account.Id> reviewers,
         @Assisted("extraCcs") ImmutableSet<Account.Id> extraCcs,
-        ChangeKind changeKind);
+        ChangeKind changeKind,
+        ObjectId preUpdateMetaId);
   }
 
   private final ExecutorService sendEmailExecutor;
@@ -74,7 +79,8 @@ public class EmailNewPatchSet {
       @Assisted ImmutableSet<PatchSetApproval> outdatedApprovals,
       @Assisted("reviewers") ImmutableSet<Account.Id> reviewers,
       @Assisted("extraCcs") ImmutableSet<Account.Id> extraCcs,
-      @Assisted ChangeKind changeKind) {
+      @Assisted ChangeKind changeKind,
+      @Assisted ObjectId preUpdateMetaId) {
     this.sendEmailExecutor = sendEmailExecutor;
     this.threadLocalRequestContext = threadLocalRequestContext;
 
@@ -88,6 +94,15 @@ public class EmailNewPatchSet {
     }
 
     Change.Id changeId = patchSet.id().changeId();
+
+    // Getting the change data from PostUpdateContext retrieves a cached ChangeData
+    // instance. This ChangeData instance has been created when the change was (re)indexed
+    // due to the update, and hence has submit requirement results already cached (since
+    // (re)indexing triggers the evaluation of the submit requirements).
+    Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults =
+        postUpdateContext
+            .getChangeData(postUpdateContext.getProject(), changeId)
+            .submitRequirementsIncludingLegacy();
     this.asyncSender =
         new AsyncSender(
             postUpdateContext.getIdentifiedUser(),
@@ -103,7 +118,9 @@ public class EmailNewPatchSet {
             outdatedApprovals,
             reviewers,
             extraCcs,
-            changeKind);
+            changeKind,
+            preUpdateMetaId,
+            postUpdateSubmitRequirementResults);
   }
 
   public EmailNewPatchSet setRequestScopePropagator(RequestScopePropagator requestScopePropagator) {
@@ -148,6 +165,9 @@ public class EmailNewPatchSet {
     private final ImmutableSet<Account.Id> reviewers;
     private final ImmutableSet<Account.Id> extraCcs;
     private final ChangeKind changeKind;
+    private final ObjectId preUpdateMetaId;
+    private final Map<SubmitRequirement, SubmitRequirementResult>
+        postUpdateSubmitRequirementResults;
 
     AsyncSender(
         IdentifiedUser user,
@@ -163,7 +183,9 @@ public class EmailNewPatchSet {
         ImmutableSet<PatchSetApproval> outdatedApprovals,
         ImmutableSet<Account.Id> reviewers,
         ImmutableSet<Account.Id> extraCcs,
-        ChangeKind changeKind) {
+        ChangeKind changeKind,
+        ObjectId preUpdateMetaId,
+        Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
       this.user = user;
       this.replacePatchSetFactory = replacePatchSetFactory;
       this.patchSetInfoFactory = patchSetInfoFactory;
@@ -178,13 +200,20 @@ public class EmailNewPatchSet {
       this.reviewers = reviewers;
       this.extraCcs = extraCcs;
       this.changeKind = changeKind;
+      this.preUpdateMetaId = preUpdateMetaId;
+      this.postUpdateSubmitRequirementResults = postUpdateSubmitRequirementResults;
     }
 
     @Override
     public void run() {
       try {
         ReplacePatchSetSender emailSender =
-            replacePatchSetFactory.create(projectName, changeId, changeKind);
+            replacePatchSetFactory.create(
+                projectName,
+                changeId,
+                changeKind,
+                preUpdateMetaId,
+                postUpdateSubmitRequirementResults);
         emailSender.setFrom(user.getAccountId());
         emailSender.setPatchSet(patchSet, patchSetInfoFactory.get(projectName, patchSet));
         emailSender.setChangeMessage(message, timestamp);

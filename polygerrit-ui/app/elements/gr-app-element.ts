@@ -367,7 +367,7 @@ export class GrAppElement extends LitElement {
         id="mainHeader"
         .searchQuery=${(this.params as AppElementSearchParam)?.query}
         @mobile-search=${this.mobileSearchToggle}
-        @show-keyboard-shortcuts=${this.handleShowKeyboardShortcuts}
+        @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
         .mobileSearchHidden=${!this.mobileSearch}
         .loginUrl=${this.loginUrl}
         ?aria-hidden=${this.footerHeaderAriaHidden}
@@ -640,8 +640,8 @@ export class GrAppElement extends LitElement {
       await this.updateComplete;
       assertIsDefined(this.registrationOverlay, 'registrationOverlay');
       assertIsDefined(this.registrationDialog, 'registrationDialog');
-      this.registrationOverlay.open();
-      this.registrationDialog.loadData().then(() => {
+      await this.registrationOverlay.open();
+      await this.registrationDialog.loadData().then(() => {
         this.registrationOverlay!.refit();
       });
     }
@@ -751,26 +751,18 @@ export class GrAppElement extends LitElement {
     }
   }
 
-  private async handleShowKeyboardShortcuts() {
+  private async showKeyboardShortcuts() {
     this.loadKeyboardShortcutsDialog = true;
     await this.updateComplete;
     assertIsDefined(this.keyboardShortcuts, 'keyboardShortcuts');
-    this.keyboardShortcuts.open();
-  }
 
-  private async showKeyboardShortcuts() {
-    // same shortcut should close the dialog if pressed again
-    // when dialog is open
-    this.loadKeyboardShortcutsDialog = true;
-    await this.updateComplete;
-    if (!this.keyboardShortcuts) return;
     if (this.keyboardShortcuts.opened) {
       this.keyboardShortcuts.cancel();
       return;
     }
-    this.keyboardShortcuts.open();
     this.footerHeaderAriaHidden = true;
     this.mainAriaHidden = true;
+    await this.keyboardShortcuts.open();
   }
 
   private handleKeyboardShortcutDialogClose() {

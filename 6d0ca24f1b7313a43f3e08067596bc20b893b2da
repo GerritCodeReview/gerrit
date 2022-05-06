@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "549eac85_d2c2afa6",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-06T05:29:49Z",
+      "side": 1,
+      "message": "optional nit approvalCopierResult would be a nicer return type because it\u0027s an explicitly typed one. Here one needs to read the javadoc to know what approvals are returned.",
+      "range": {
+        "startLine": 366,
+        "startChar": 9,
+        "endLine": 366,
+        "endChar": 39
+      },
+      "revId": "6d0ca24f1b7313a43f3e08067596bc20b893b2da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2ed2ab2_b9485d4b",
+        "filename": "resources/com/google/gerrit/server/mail/ReplacePatchSetHtml.soy",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-06T05:29:49Z",
+      "side": 1,
+      "message": "nit: remove?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 2
+      },
+      "revId": "6d0ca24f1b7313a43f3e08067596bc20b893b2da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       },
       "revId": "c4e41a4638b6f635984e6dbbfb3c95a8a29add70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3b47cd5_252dea34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-06T05:29:49Z",
+      "side": 1,
+      "message": "Nice! I like it much more :-)\n\nThanks for changing!",
+      "parentUuid": "c35c12df_3fb054f3",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 54
+      },
+      "revId": "c4e41a4638b6f635984e6dbbfb3c95a8a29add70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

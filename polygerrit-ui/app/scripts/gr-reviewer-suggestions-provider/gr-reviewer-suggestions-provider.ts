@@ -28,8 +28,10 @@ import {
   SuggestedReviewerInfo,
   Suggestion,
 } from '../../types/common';
-import {assertNever} from '../../utils/common-util';
+import {assertNever, intersection} from '../../utils/common-util';
 import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-autocomplete';
+import {allSettled, isFulfilled} from '../../utils/async-util';
+import {notUndefined} from '../../types/types';
 
 // TODO(TS): enum name doesn't follow typescript style guid rules
 // Rename it
@@ -45,6 +47,17 @@ export function isAccountSuggestions(s: Suggestion): s is AccountInfo {
 
 type ApiCallCallback = (input: string) => Promise<Suggestion[] | void>;
 
+function areSameSuggestions(
+  a: SuggestedReviewerInfo,
+  b: SuggestedReviewerInfo
+): boolean {
+  if (isReviewerAccountSuggestion(a) && isReviewerAccountSuggestion(b)) {
+    return a.account._account_id === b.account._account_id;
+  } else if (isReviewerGroupSuggestion(a) && isReviewerGroupSuggestion(b)) {
+    return a.group.id === b.group.id;
+  }
+  return false;
+}
 export interface ReviewerSuggestionsProvider {
   init(): void;
   getSuggestions(input: string): Promise<Suggestion[]>;
@@ -58,22 +71,52 @@ export class GrReviewerSuggestionsProvider
 {
   static create(
     restApi: RestApiService,
-    changeNumber: NumericChangeId,
-    userType: SUGGESTIONS_PROVIDERS_USERS_TYPES
+    userType: SUGGESTIONS_PROVIDERS_USERS_TYPES,
+    ...changeNumbers: NumericChangeId[]
   ) {
     switch (userType) {
       case SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER:
-        return new GrReviewerSuggestionsProvider(restApi, input =>
-          restApi.getChangeSuggestedReviewers(changeNumber, input)
-        );
+        return new GrReviewerSuggestionsProvider(restApi, async input => {
+          const allResults = await allSettled(
+            changeNumbers.map(changeNumber =>
+              restApi.getChangeSuggestedReviewers(changeNumber, input)
+            )
+          );
+          const allSuggestions = allResults
+            .filter(isFulfilled)
+            .map(result => result.value)
+            .filter(notUndefined);
+          return intersection(allSuggestions, areSameSuggestions);
+        });
       case SUGGESTIONS_PROVIDERS_USERS_TYPES.CC:
-        return new GrReviewerSuggestionsProvider(restApi, input =>
-          restApi.getChangeSuggestedCCs(changeNumber, input)
-        );
+        return new GrReviewerSuggestionsProvider(restApi, async input => {
+          const allResults = await allSettled(
+            changeNumbers.map(changeNumber =>
+              restApi.getChangeSuggestedCCs(changeNumber, input)
+            )
+          );
+          const allSuggestions = allResults
+            .filter(isFulfilled)
+            .map(result => result.value)
+            .filter(notUndefined);
+          return intersection(allSuggestions, areSameSuggestions);
+        });
       case SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY:
-        return new GrReviewerSuggestionsProvider(restApi, input =>
-          restApi.getSuggestedAccounts(`cansee:${changeNumber} ${input}`)
-        );
+        return new GrReviewerSuggestionsProvider(restApi, async input => {
+          const allResults = await allSettled(
+            changeNumbers.map(changeNumber =>
+              restApi.getSuggestedAccounts(`cansee:${changeNumber} ${input}`)
+            )
+          );
+          const allSuggestions = allResults
+            .filter(isFulfilled)
+            .map(result => result.value)
+            .filter(notUndefined);
+          return intersection(
+            allSuggestions,
+            (a, b) => a._account_id === b._account_id
+          );
+        });
       default:
         throw new Error(`Unknown users type: ${userType}`);
     }

@@ -101,11 +101,12 @@ suite('GrReviewerSuggestionsProvider tests', () => {
     setup(async () => {
       provider = GrReviewerSuggestionsProvider.create(
         getAppContext().restApiService,
-        change._number,
-        SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER
+        SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER,
+        change._number
       );
       await provider.init();
     });
+
     suite('stubbed values for _getReviewerSuggestions', () => {
       let getChangeSuggestedReviewersStub: sinon.SinonStub;
       setup(() => {
@@ -236,8 +237,8 @@ suite('GrReviewerSuggestionsProvider tests', () => {
     setup(async () => {
       provider = GrReviewerSuggestionsProvider.create(
         getAppContext().restApiService,
-        change._number,
-        SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY
+        SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY,
+        change._number
       );
       await provider.init();
     });
@@ -254,6 +255,68 @@ suite('GrReviewerSuggestionsProvider tests', () => {
       assert.isFalse(suggestReviewerStub.called);
       assert.isTrue(suggestAccountStub.calledOnce);
       assert.isTrue(suggestAccountStub.calledWith('cansee:42 '));
+    });
+  });
+
+  suite('suggestions for multiple changes', () => {
+    setup(async () => {
+      stubRestApi('getLoggedIn').resolves(true);
+    });
+
+    test('only returns REVIEWER suggestions for all changes', async () => {
+      stubRestApi('getChangeSuggestedReviewers')
+        .resolves([suggestion1, suggestion2, suggestion3])
+        .resolves([suggestion2, suggestion3]);
+      provider = GrReviewerSuggestionsProvider.create(
+        getAppContext().restApiService,
+        SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER,
+        ...[change._number, 43 as NumericChangeId]
+      );
+      await provider.init();
+
+      // suggestion1 is excluded because it is not returned for the second
+      // change.
+      assert.sameDeepMembers(await provider.getSuggestions('s'), [
+        suggestion2,
+        suggestion3,
+      ]);
+    });
+
+    test('only returns CC suggestions for all changes', async () => {
+      stubRestApi('getChangeSuggestedCCs')
+        .resolves([suggestion1, suggestion2, suggestion3])
+        .resolves([suggestion2, suggestion3]);
+      provider = GrReviewerSuggestionsProvider.create(
+        getAppContext().restApiService,
+        SUGGESTIONS_PROVIDERS_USERS_TYPES.CC,
+        ...[change._number, 43 as NumericChangeId]
+      );
+      await provider.init();
+
+      // suggestion1 is excluded because it is not returned for the second
+      // change.
+      assert.sameDeepMembers(await provider.getSuggestions('s'), [
+        suggestion2,
+        suggestion3,
+      ]);
+    });
+
+    test('only returns ANY suggestions for all changes', async () => {
+      stubRestApi('getSuggestedAccounts')
+        .resolves([existingReviewer1, existingReviewer2])
+        .resolves([existingReviewer1]);
+      provider = GrReviewerSuggestionsProvider.create(
+        getAppContext().restApiService,
+        SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY,
+        ...[change._number, 43 as NumericChangeId]
+      );
+      await provider.init();
+
+      // existingReviewer2 is excluded because it is not returned for the second
+      // change.
+      assert.sameDeepMembers(await provider.getSuggestions('s'), [
+        existingReviewer1,
+      ]);
     });
   });
 });

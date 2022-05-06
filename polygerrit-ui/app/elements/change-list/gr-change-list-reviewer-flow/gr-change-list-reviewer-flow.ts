@@ -400,9 +400,8 @@ export class GrChangeListReviewerFlow extends LitElement {
   ): ReviewerSuggestionsProvider {
     const suggestionsProvider = GrReviewerSuggestionsProvider.create(
       this.restApiService,
-      // TODO: fan out and get suggestions allowed by all changes
-      this.selectedChanges[0]._number,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE[state]
+      SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE[state],
+      ...this.selectedChanges.map(change => change._number)
     );
     suggestionsProvider.init();
     return suggestionsProvider;

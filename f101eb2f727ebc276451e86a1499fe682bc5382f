@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac2ac213_7f15ae05",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-06T23:29:23Z",
+      "side": 1,
+      "message": "@Marcin this could be the problem you have noticed with the NOOP logger in Gerrit v3.6",
+      "revId": "f101eb2f727ebc276451e86a1499fe682bc5382f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

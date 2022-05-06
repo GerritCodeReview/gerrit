@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c586b8e7_eacdcfe9",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-06T19:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f7c08e7_dc91bcb4",
+      "range": {
+        "startLine": 215,
+        "startChar": 6,
+        "endLine": 220,
+        "endChar": 15
+      },
+      "revId": "b81f8c07eafba25e3f01ee9aa36fa41c6c27b771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6127dc07_2e56acc7",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-06T15:31:18Z",
       "side": 1,
       "message": "Consider only filling _filesByPath with 1 row since you are only testing 1 row",
+      "range": {
+        "startLine": 223,
+        "startChar": 24,
+        "endLine": 223,
+        "endChar": 26
+      },
+      "revId": "b81f8c07eafba25e3f01ee9aa36fa41c6c27b771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79d8924d_d9caddaf",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-06T19:01:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6127dc07_2e56acc7",
       "range": {
         "startLine": 223,
         "startChar": 24,

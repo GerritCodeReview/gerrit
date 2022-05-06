@@ -26,6 +26,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -36,6 +37,7 @@ import org.junit.Test;
 @UseSsh
 public abstract class AbstractIndexTests extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private IndexOperations.Change changeIndexOperations;
 
   @Test
   @GerritConfig(name = "index.autoReindexIfStale", value = "false")
@@ -49,11 +51,10 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
       String changeLegacyId = change.getChange().getId().toString();
       ChangeInfo changeInfo = gApi.changes().id(changeId).get();
 
-      disableChangeIndexWrites();
-      amendChange(changeId, "second test", "test2.txt", "test2");
-
-      assertChangeQuery(change.getChange(), false);
-      enableChangeIndexWrites();
+      try (AutoCloseable ignored = changeIndexOperations.disableWrites()) {
+        amendChange(changeId, "second test", "test2.txt", "test2");
+        assertChangeQuery(change.getChange(), false);
+      }
 
       changeIndexedCounter.clear();
       String cmd = Joiner.on(" ").join("gerrit", "index", "changes", changeLegacyId);
@@ -77,11 +78,10 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
       String changeId = change.getChangeId();
       ChangeInfo changeInfo = gApi.changes().id(changeId).get();
 
-      disableChangeIndexWrites();
-      amendChange(changeId, "second test", "test2.txt", "test2");
-
-      assertChangeQuery(change.getChange(), false);
-      enableChangeIndexWrites();
+      try (AutoCloseable ignored = changeIndexOperations.disableWrites()) {
+        amendChange(changeId, "second test", "test2.txt", "test2");
+        assertChangeQuery(change.getChange(), false);
+      }
 
       changeIndexedCounter.clear();
       String cmd = Joiner.on(" ").join("gerrit", "index", "changes-in-project", project.get());

@@ -16,6 +16,24 @@
       "message": "nit: missing licence header",
       "revId": "586b1978ba5cb87f6891b3b468fe3c972478d515",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7a3aab5_d7cce465",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteVoteOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-06T11:35:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de720d39_0f309ec8",
+      "revId": "586b1978ba5cb87f6891b3b468fe3c972478d515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

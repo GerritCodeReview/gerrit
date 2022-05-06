@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce6a10b3_30716f4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-06T14:39:44Z",
+      "side": 1,
+      "message": "bug id?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 19
+      },
+      "revId": "efce8404a980f526408ce0c4ec7a89fa72597e23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69baf37f_1f8ca1f1",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-06T14:39:44Z",
+      "side": 1,
+      "message": "is it possible to use `accountOrGroupKey` that should do the checking of `_account_id` or `group.id`?",
+      "range": {
+        "startLine": 50,
+        "startChar": 9,
+        "endLine": 50,
+        "endChar": 27
+      },
+      "revId": "efce8404a980f526408ce0c4ec7a89fa72597e23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d09233c3_696ded6b",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-06T14:39:44Z",
+      "side": 1,
+      "message": "Is it possible to extract this computation out and do it only once?",
+      "range": {
+        "startLine": 111,
+        "startChar": 10,
+        "endLine": 118,
+        "endChar": 12
+      },
+      "revId": "efce8404a980f526408ce0c4ec7a89fa72597e23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

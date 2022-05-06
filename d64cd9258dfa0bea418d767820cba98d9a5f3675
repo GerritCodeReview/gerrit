@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a857b53_de283ecf",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-06T06:23:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4e4e3e8_f968ed89",
+      "range": {
+        "startLine": 122,
+        "startChar": 27,
+        "endLine": 122,
+        "endChar": 70
+      },
+      "revId": "d64cd9258dfa0bea418d767820cba98d9a5f3675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7fccaeb4_328c673e",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-05T15:21:14Z",
       "side": 1,
       "message": "The old code doesn\u0027t check this state for All-Users repository. If All-Users doesn\u0027t permit reads somehow - can we block ourselves from accessing a repo?",
+      "range": {
+        "startLine": 190,
+        "startChar": 9,
+        "endLine": 190,
+        "endChar": 38
+      },
+      "revId": "d64cd9258dfa0bea418d767820cba98d9a5f3675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c831f437_aa835615",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-06T06:23:18Z",
+      "side": 1,
+      "message": "I don\u0027t think so, the API allows setting the state for repos to ACTIVE and READ_ONLY even when it\u0027s HIDDEN. So we can use the API to get back. So I think it\u0027s OK to always check that.",
+      "parentUuid": "7fccaeb4_328c673e",
       "range": {
         "startLine": 190,
         "startChar": 9,

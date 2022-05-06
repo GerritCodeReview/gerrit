@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36c52061_d36aad08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-06T06:23:18Z",
+      "side": 1,
+      "message": "resolved.",
+      "parentUuid": "20702680_8e73a025",
+      "range": {
+        "startLine": 15,
+        "startChar": 62,
+        "endLine": 16,
+        "endChar": 65
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03bb1854_438c6a52",
@@ -242,6 +266,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4b59aae_35b36ad8",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-06T06:23:18Z",
+      "side": 1,
+      "message": "already done resolved.",
+      "parentUuid": "192ada4e_2bdfb6ba",
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3479b47_5fe74438",
@@ -429,6 +471,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f4aca29_de30179b",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-06T06:23:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89a558a9_c83a282c",
+      "range": {
+        "startLine": 199,
+        "startChar": 11,
+        "endLine": 199,
+        "endChar": 78
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2ba7d6e_26f4e8c2",
@@ -442,6 +508,30 @@
       "writtenOn": "2022-05-05T14:45:56Z",
       "side": 1,
       "message": "Is it possible collect directly into visibleChanges?",
+      "range": {
+        "startLine": 209,
+        "startChar": 54,
+        "endLine": 209,
+        "endChar": 81
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e9bec5b_56e42f24",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-06T06:23:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2ba7d6e_26f4e8c2",
       "range": {
         "startLine": 209,
         "startChar": 54,
@@ -630,6 +720,30 @@
       "writtenOn": "2022-05-05T14:45:56Z",
       "side": 1,
       "message": "Seems this is a copy-paste from AbstractDaemonTest, please extract it into a separate class",
+      "range": {
+        "startLine": 588,
+        "startChar": 0,
+        "endLine": 619,
+        "endChar": 3
+      },
+      "revId": "e36e531cb3c34136b3ea02b6b973b4bf1902e263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d72b4773_4f0442aa",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-06T06:23:18Z",
+      "side": 1,
+      "message": "Done: https://gerrit-review.googlesource.com/c/gerrit/+/336524\n\nI took the chance to refactor this some more.",
+      "parentUuid": "d972e753_45cfb844",
       "range": {
         "startLine": 588,
         "startChar": 0,

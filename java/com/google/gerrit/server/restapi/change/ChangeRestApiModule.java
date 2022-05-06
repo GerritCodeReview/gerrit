@@ -210,6 +210,7 @@ public class ChangeRestApiModule extends RestApiModule {
     factory(DeleteChangeOp.Factory.class);
     factory(DeleteReviewerByEmailOp.Factory.class);
     factory(DeleteReviewerOp.Factory.class);
+    factory(DeleteVoteOp.Factory.class);
     factory(EmailReviewComments.Factory.class);
     factory(PatchSetInserter.Factory.class);
     factory(AddReviewersOp.Factory.class);

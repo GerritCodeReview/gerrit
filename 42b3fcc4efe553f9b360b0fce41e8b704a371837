@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67fec626_5ced5c58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-07T19:14:33Z",
+      "side": 1,
+      "message": "@Marcin this is the root cause of the empty logs you\u0027ve noticed last week. The reason why it happened only on v3.6.0 is because the removal of impl-log4j ended up only on this version.",
+      "revId": "42b3fcc4efe553f9b360b0fce41e8b704a371837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,14 @@ java_library(
 )
 
 java_library(
+    name = "impl-log4j",
+    data = ["//lib:LICENSE-slf4j"],
+    visibility = ["//visibility:public"],
+    exports = ["@impl-log4j//jar"],
+    runtime_deps = [":log4j"],
+)
+
+java_library(
     name = "jcl-over-slf4j",
     data = ["//lib:LICENSE-slf4j"],
     visibility = ["//visibility:public"],

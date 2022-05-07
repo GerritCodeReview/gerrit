@@ -16,6 +16,29 @@
       "message": "@Marcin this is the root cause of the empty logs you\u0027ve noticed last week. The reason why it happened only on v3.6.0 is because the removal of impl-log4j ended up only on this version.",
       "revId": "42b3fcc4efe553f9b360b0fce41e8b704a371837",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88e31a65_34925ef0",
+        "filename": "lib/log/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-07T20:24:46Z",
+      "side": 1,
+      "message": "What I found strange about the change 326237 that removed impl-log4j: it didn\u0027t remove the actual fetching in nongoogle.bzl:\n\n      maven_jar(\n        name \u003d \"impl-log4j\",\n        artifact \u003d \"org.slf4j:slf4j-reload4j:\" + SLF4J_VERS,\n        sha1 \u003d \"db708f7d959dee1857ac524636e85ecf2e1781c1\",\n    )\n\nWas it intentional or just a forgotten left over?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 1
+      },
+      "revId": "42b3fcc4efe553f9b360b0fce41e8b704a371837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -40,7 +40,7 @@
     "highlight.js": "^11.5.0",
     "highlightjs-closure-templates": "https://github.com/highlightjs/highlightjs-closure-templates",
     "highlightjs-structured-text": "https://github.com/highlightjs/highlightjs-structured-text",
-    "lit": "^2.1.1",
+    "lit": "^2.2.3",
     "page": "^1.11.6",
     "polymer-bridges": "file:../../polymer-bridges/",
     "polymer-resin": "^2.0.1",

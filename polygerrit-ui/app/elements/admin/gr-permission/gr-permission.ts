@@ -147,10 +147,7 @@ export class GrPermission extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues<GrPermission>): void {
     if (changedProperties.has('editing')) {
-      this.handleEditingChanged(
-        this.editing,
-        changedProperties.get('editing') as boolean
-      );
+      this.handleEditingChanged(changedProperties.get('editing'));
     }
     if (
       changedProperties.has('permission') ||
@@ -329,7 +326,7 @@ export class GrPermission extends LitElement {
     return permissionId === 'owner' || section === 'GLOBAL_CAPABILITIES';
   }
 
-  private handleEditingChanged(editing: boolean, editingOld: boolean) {
+  private handleEditingChanged(editingOld: boolean) {
     // Ignore when editing gets set initially.
     if (!editingOld) {
       return;
@@ -339,7 +336,7 @@ export class GrPermission extends LitElement {
     }
 
     // Restore original values if no longer editing.
-    if (!editing) {
+    if (!this.editing) {
       this.deleted = false;
       delete this.permission.value.deleted;
       this.groupFilter = '';

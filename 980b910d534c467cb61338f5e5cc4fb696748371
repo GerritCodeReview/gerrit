@@ -22,6 +22,30 @@
       },
       "revId": "980b910d534c467cb61338f5e5cc4fb696748371",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ecf3551_5e3b3482",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-09T08:59:28Z",
+      "side": 0,
+      "message": "I added a screenshot in the commit message for showing how the change looks.\nNot sure why you don\u0027t see the topic column.\nPerhaps this change is not being applied?",
+      "parentUuid": "145e230f_8ff18708",
+      "range": {
+        "startLine": 109,
+        "startChar": 38,
+        "endLine": 109,
+        "endChar": 59
+      },
+      "revId": "980b910d534c467cb61338f5e5cc4fb696748371",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

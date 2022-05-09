@@ -11,6 +11,7 @@ java_library(
         "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/api",
+        "//lib/auto:auto-factory",
         "//lib:guava",
         "//lib:jgit",
         "//lib/bouncycastle:bcpg-neverlink",

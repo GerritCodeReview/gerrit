@@ -42,7 +42,6 @@ public class GpgModule extends FactoryModule {
     }
     if (enableSignedPush) {
       install(new SignedPushModule());
-      factory(GerritPushCertificateChecker.Factory.class);
     }
     install(new GpgApiModule(enableSignedPush && configEditGpgKeys));
   }

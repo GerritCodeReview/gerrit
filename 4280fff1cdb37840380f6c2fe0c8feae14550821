@@ -34,6 +34,23 @@
       "parentUuid": "43e95165_2fe16efe",
       "revId": "4280fff1cdb37840380f6c2fe0c8feae14550821",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f0f9b33_4cb89e51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-09T09:06:05Z",
+      "side": 1,
+      "message": "I propose we don\u0027t display the topic name on 2 columns, this makes the distance between checkboxes different between each row depending if there is a topic or not. This would cause users some overhead when selecting multiple topics. \n\nSo I propose we add `...` to the topic name when the topic name is too long to fit the column max-width so that each row on the dashboard is the same height.",
+      "revId": "4280fff1cdb37840380f6c2fe0c8feae14550821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

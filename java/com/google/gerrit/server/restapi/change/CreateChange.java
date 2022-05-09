@@ -63,6 +63,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -127,7 +128,7 @@ public class CreateChange
   private final ChangeFinder changeFinder;
   private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetUtil psUtil;
-  private final MergeUtil.Factory mergeUtilFactory;
+  private final MergeUtilFactory mergeUtilFactory;
   private final SubmitType submitType;
   private final NotifyResolver notifyResolver;
   private final ContributorAgreementsChecker contributorAgreements;
@@ -150,7 +151,7 @@ public class CreateChange
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,
       @GerritServerConfig Config config,
-      MergeUtil.Factory mergeUtilFactory,
+      MergeUtilFactory mergeUtilFactory,
       NotifyResolver notifyResolver,
       ContributorAgreementsChecker contributorAgreements) {
     this.updateFactory = updateFactory;

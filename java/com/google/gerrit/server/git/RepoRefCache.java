@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.server.cache.PerThreadCache;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,6 +29,17 @@ import org.eclipse.jgit.lib.Repository;
 public class RepoRefCache implements RefCache {
   private final RefDatabase refdb;
   private final Map<String, Optional<ObjectId>> ids;
+
+  public static Optional<RefCache> getOptional(Repository repo) {
+    PerThreadCache cache = PerThreadCache.get();
+    if (cache != null && cache.hasReadonlyRequest()) {
+      return Optional.of(
+          cache.get(
+              PerThreadCache.Key.create(RepoRefCache.class, repo), () -> new RepoRefCache(repo)));
+    }
+
+    return Optional.empty();
+  }
 
   public RepoRefCache(Repository repo) {
     this.refdb = repo.getRefDatabase();

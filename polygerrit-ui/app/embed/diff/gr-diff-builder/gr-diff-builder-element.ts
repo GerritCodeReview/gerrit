@@ -62,12 +62,15 @@ const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
 const COMMIT_MSG_LINE_LENGTH = 72;
 
+<<<<<<< HEAD
 declare global {
   interface HTMLElementEventMap {
     'render-progress': CustomEvent<RenderProgressEventDetail>;
   }
 }
 
+=======
+>>>>>>> stable-3.6
 export function getLineNumberCellWidth(prefs: DiffPreferencesInfo) {
   return prefs.font_size * 4;
 }

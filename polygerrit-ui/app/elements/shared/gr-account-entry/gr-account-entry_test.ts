@@ -30,7 +30,10 @@ suite('gr-account-entry tests', () => {
     element = await fixture<GrAccountEntry>(html`
       <gr-account-entry></gr-account-entry>
     `);
+<<<<<<< HEAD
     await element.updateComplete;
+=======
+>>>>>>> stable-3.6
   });
 
   test('account-text-changed fired when input text changed and allowAnyInput', async () => {
@@ -58,8 +61,13 @@ suite('gr-account-entry tests', () => {
   });
 
   test('setText', async () => {
+<<<<<<< HEAD
     // Stub on query, as that is called when _updateSuggestions proceeds.
     const suggestStub = sinon.stub(
+=======
+    // Spy on query, as that is called when _updateSuggestions proceeds.
+    const suggestSpy = sinon.spy(
+>>>>>>> stable-3.6
       queryAndAssert<GrAutocomplete>(element, '#input'),
       'query'
     );

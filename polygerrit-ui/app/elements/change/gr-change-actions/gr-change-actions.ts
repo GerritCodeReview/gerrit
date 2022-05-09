@@ -834,70 +834,34 @@ export class GrChangeActions
       this.computeChainState();
     }
 
-    if (changedProperties.has('revisionActions')) {
-      this.revisionSubmitAction = this.getSubmitAction(this.revisionActions);
-      this.revisionRebaseAction = this.getRebaseAction(this.revisionActions);
-    }
-
     if (
       changedProperties.has('actions') ||
       changedProperties.has('revisionActions') ||
+      changedProperties.has('hiddenActions') ||
+      changedProperties.has('overflowActions') ||
       changedProperties.has('primaryActionKeys') ||
       changedProperties.has('additionalActions') ||
       changedProperties.has('change') ||
-      changedProperties.has('actionPriorityOverrides')
-    ) {
-      this.allActionValues = this.computeAllActions(
-        this.actions,
-        this.revisionActions,
-        this.primaryActionKeys,
-        this.additionalActions,
-        this.change
-      );
-    }
-
-    if (
-      changedProperties.has('allActionValues') ||
-      changedProperties.has('hiddenActions') ||
       changedProperties.has('editMode') ||
-      changedProperties.has('overflowActions')
+      changedProperties.has('actionPriorityOverrides') ||
+      changedProperties.has('topLevelActions')
     ) {
-      this.topLevelActions = this.computeTopLevelActions(
-        this.allActionValues,
-        this.hiddenActions,
-        this.editMode
-      );
-    }
-
-    if (changedProperties.has('topLevelActions')) {
-      this.filterPrimaryActions(this.topLevelActions);
-    }
-
-    if (
-      changedProperties.has('allActionValues') ||
-      changedProperties.has('hiddenActions') ||
-      changedProperties.has('overflowActions')
-    ) {
+      this.refreshActions();
       this.menuActions = this.computeMenuActions(
         this.allActionValues,
         this.hiddenActions
       );
-    }
-
-    if (changedProperties.has('change')) {
-      this.reload();
-    }
-
-    if (
-      changedProperties.has('actions') ||
-      changedProperties.has('revisionActions') ||
-      changedProperties.has('additionalActions')
-    ) {
+      this.revisionSubmitAction = this.getSubmitAction(this.revisionActions);
+      this.revisionRebaseAction = this.getRebaseAction(this.revisionActions);
       this.actionsChanged(
         this.actions,
         this.revisionActions,
         this.additionalActions
       );
+    }
+
+    if (changedProperties.has('change')) {
+      this.reload();
     }
 
     if (

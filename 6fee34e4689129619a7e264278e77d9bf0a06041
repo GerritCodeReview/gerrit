@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96d7cd8c_8cbddcfb",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-09T16:19:58Z",
+      "side": 1,
+      "message": "isn\u0027t this check a part of `computeIsAutomated` already?\n\nThen we could simplify and remove `isAutomated` variable.",
+      "range": {
+        "startLine": 326,
+        "startChar": 26,
+        "endLine": 326,
+        "endChar": 40
+      },
+      "revId": "6fee34e4689129619a7e264278e77d9bf0a06041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf66fe98_9a7622af",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-09T16:19:58Z",
+      "side": 1,
+      "message": "It\u0027s not exactly clear that to compute `expanded` status, the entire message object needs to be updated.\nIs that better than the alternative of maintaining the property explicitly?",
+      "range": {
+        "startLine": 330,
+        "startChar": 6,
+        "endLine": 330,
+        "endChar": 33
+      },
+      "revId": "6fee34e4689129619a7e264278e77d9bf0a06041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "651ef0f5_de367f71",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-09T16:19:58Z",
+      "side": 1,
+      "message": "We agreed(in the team chat) not to use `maybe` in the render method names.",
+      "range": {
+        "startLine": 341,
+        "startChar": 38,
+        "endLine": 341,
+        "endChar": 64
+      },
+      "revId": "6fee34e4689129619a7e264278e77d9bf0a06041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20552e2b_a5bd5838",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-09T16:19:58Z",
+      "side": 1,
+      "message": "Prefer to not render things instead of hiding them.",
+      "range": {
+        "startLine": 351,
+        "startChar": 6,
+        "endLine": 351,
+        "endChar": 53
+      },
+      "revId": "6fee34e4689129619a7e264278e77d9bf0a06041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c8233ee_83f9e57c",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-09T16:19:58Z",
+      "side": 1,
+      "message": "avoid render instead of hiding?",
+      "range": {
+        "startLine": 425,
+        "startChar": 6,
+        "endLine": 425,
+        "endChar": 47
+      },
+      "revId": "6fee34e4689129619a7e264278e77d9bf0a06041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c12c1c0_788ae69a",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-09T16:19:58Z",
+      "side": 1,
+      "message": "remove `_`?",
+      "range": {
+        "startLine": 508,
+        "startChar": 20,
+        "endLine": 508,
+        "endChar": 43
+      },
+      "revId": "6fee34e4689129619a7e264278e77d9bf0a06041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7531327c_6ba3e052",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-09T16:19:58Z",
+      "side": 1,
+      "message": "remove `_`?",
+      "range": {
+        "startLine": 550,
+        "startChar": 11,
+        "endLine": 550,
+        "endChar": 28
+      },
+      "revId": "6fee34e4689129619a7e264278e77d9bf0a06041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66aaa9cf_0ba64815",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-09T16:19:58Z",
+      "side": 1,
+      "message": "what\u0027s the TODO here?",
+      "range": {
+        "startLine": 418,
+        "startChar": 6,
+        "endLine": 418,
+        "endChar": 13
+      },
+      "revId": "6fee34e4689129619a7e264278e77d9bf0a06041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

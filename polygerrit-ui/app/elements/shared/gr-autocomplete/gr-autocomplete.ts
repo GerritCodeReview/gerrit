@@ -334,7 +334,6 @@ export class GrAutocomplete extends LitElement {
         .suggestions=${this.suggestions}
         role="listbox"
         .index=${this.index}
-        .positionTarget=${this.input}
       >
       </gr-autocomplete-dropdown>
     `;

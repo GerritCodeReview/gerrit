@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "493efab6_2e77defe",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-09T12:24:16Z",
+      "side": 1,
+      "message": "On the minus side, now every non-assisted injection has to be annotated with the @Provided annotation. Mention that in the commit message so that this is a more obvious point for reviewers?",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 71
+      },
+      "revId": "3b8e9246ed7c3005a8a370c41283ca309b5bee26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

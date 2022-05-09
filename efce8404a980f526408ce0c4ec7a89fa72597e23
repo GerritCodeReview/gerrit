@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0aed2910_2f1dcacf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-09T14:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce6a10b3_30716f4c",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 19
+      },
+      "revId": "efce8404a980f526408ce0c4ec7a89fa72597e23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69baf37f_1f8ca1f1",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-06T14:39:44Z",
       "side": 1,
       "message": "is it possible to use `accountOrGroupKey` that should do the checking of `_account_id` or `group.id`?",
+      "range": {
+        "startLine": 50,
+        "startChar": 9,
+        "endLine": 50,
+        "endChar": 27
+      },
+      "revId": "efce8404a980f526408ce0c4ec7a89fa72597e23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49e8ac7b_ad621605",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-09T14:21:12Z",
+      "side": 1,
+      "message": "The raw AccountInfo / GroupInfo are nested [a bit deeper](https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/types/common.ts;l\u003d1328-1352;drc\u003d276c6a954316d52657c176c441c75b55a9202631), but I switched to use the `accountKey` method internally since it works when account_id is missing.",
+      "parentUuid": "69baf37f_1f8ca1f1",
       "range": {
         "startLine": 50,
         "startChar": 9,
@@ -84,6 +132,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "d09233c3_696ded6b",
+      "range": {
+        "startLine": 111,
+        "startChar": 10,
+        "endLine": 118,
+        "endChar": 12
+      },
+      "revId": "efce8404a980f526408ce0c4ec7a89fa72597e23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "349cef4e_8d9540c2",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-09T14:21:12Z",
+      "side": 1,
+      "message": "Done. Please take another look since it has changed significantly. I removed some unused parts and then it was clear a lot of the special code could be removed too (see change description).",
+      "parentUuid": "9cc549b4_3d544fc7",
       "range": {
         "startLine": 111,
         "startChar": 10,

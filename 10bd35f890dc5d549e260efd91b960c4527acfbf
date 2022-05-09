@@ -105,6 +105,24 @@
       "parentUuid": "7805ef03_deb08206",
       "revId": "10bd35f890dc5d549e260efd91b960c4527acfbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54292ae3_4e8b2c81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-09T20:37:55Z",
+      "side": 1,
+      "message": "Chris, did you compare against \"Parent 1\"? Reviewing merge commits is a bit confusing. We should do something about that!\n\nI don\u0027t see any substantial frontend changes, so +2 for the frontend code.",
+      "parentUuid": "339ee0c0_0f80238b",
+      "revId": "10bd35f890dc5d549e260efd91b960c4527acfbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

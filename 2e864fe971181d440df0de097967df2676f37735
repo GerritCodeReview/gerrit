@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "abe18a40_60a35f8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T12:46:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99879b84_986d0d39",
+      "range": {
+        "startLine": 16,
+        "startChar": 52,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "2e864fe971181d440df0de097967df2676f37735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "cd34e9b5_bd1f97e7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -37,6 +61,24 @@
       "writtenOn": "2022-05-09T11:37:35Z",
       "side": 1,
       "message": "Would it make sense to always state the default name when annotating?\nThat way it get\u0027s a little less magical as you can f.i. can git grep MergeUtilFactory and you instantly see that it\u0027s an \"auto-factory\" created factory.\n\n    @AutoFactory(className \u003d \"MergeUtilFactory\")\n    public class MergeUtil {\n      ...",
+      "revId": "2e864fe971181d440df0de097967df2676f37735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b95a3f1e_b137387d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T12:46:29Z",
+      "side": 1,
+      "message": "I don\u0027t have a strong opinion on this one, but slightly leaning towards omitting the default name: The more widely we use @AutoFactory the more natural the default name will become. That would make the string boiler plate once again.\n\nWhat do others think?",
+      "parentUuid": "cd34e9b5_bd1f97e7",
       "revId": "2e864fe971181d440df0de097967df2676f37735",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

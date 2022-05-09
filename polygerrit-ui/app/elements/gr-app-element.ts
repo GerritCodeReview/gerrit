@@ -176,6 +176,8 @@ export class GrAppElement extends LitElement {
 
   readonly router = new GrRouter();
 
+  readonly router = new GrRouter();
+
   private reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;

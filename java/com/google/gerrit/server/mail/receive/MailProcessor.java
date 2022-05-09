@@ -365,7 +365,14 @@ public class MailProcessor {
       }
       // Send email notifications
       outgoingMailFactory
-          .create(ctx, patchSet, mailMessage, comments, patchSetComment, ImmutableList.of())
+          .create(
+              ctx,
+              patchSet,
+              notes.getMetaId(),
+              mailMessage,
+              comments,
+              patchSetComment,
+              ImmutableList.of())
           .sendAsync();
       // Get previous approvals from this user
       Map<String, Short> approvals = new HashMap<>();

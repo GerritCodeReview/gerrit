@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e36accc8_052ea7cd",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T06:23:44Z",
+      "side": 1,
+      "message": "Right, but constructors (especially injected ones) should not be expensive :-)\n\nCan you put this in a getter that memoizes (manually)?",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 63
+      },
+      "revId": "b0c78c4290797a90aca07922208bff6c767fca9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e930f7b3_21b92a38",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T06:23:44Z",
+      "side": 1,
+      "message": "Instead of printing old and new, can we just print the ones that have changed and show the delta? If we do that, I think we don\u0027t even have to print the previous state, just use it to compute the delta: I think this would be really nice:\n\n```\nThis change is no longer submittable: Code-Review is now unsatisifed.\n```\n\nor \n\n```\nThis change is no longer submittable: Code-Review and Verified are now unsatisifed.\n```",
+      "range": {
+        "startLine": 531,
+        "startChar": 0,
+        "endLine": 537,
+        "endChar": 0
+      },
+      "revId": "b0c78c4290797a90aca07922208bff6c767fca9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

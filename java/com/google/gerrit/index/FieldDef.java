@@ -23,6 +23,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import java.io.IOException;
 import java.sql.Timestamp;
+//import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -114,6 +115,7 @@ public final class FieldDef<I, T> {
   private final Getter<I, T> getter;
   private final Optional<Setter<I, T>> setter;
 
+//  @SuppressWarnings("ReferenceEquality")
   private FieldDef(
       String name,
       FieldType<?> type,
@@ -207,4 +209,24 @@ public final class FieldDef<I, T> {
   public boolean isRepeatable() {
     return repeatable;
   }
+
+/*  @Override
+  public boolean equals(Object other) {
+    if (!(other instanceof FieldDef<?, ?>)) {
+      return false;
+    }
+    FieldDef<?, ?> otherFieldDef = (FieldDef<?, ?>) other;
+    return
+        Arrays.equals(otherFieldDef.getClass().getTypeParameters(), getClass().getTypeParameters())
+        && name.equals(otherFieldDef.name)
+        && type == otherFieldDef.type // Instances are singletons, constructor is private.
+        && stored == otherFieldDef.stored
+        && repeatable == otherFieldDef.repeatable;
+  }
+
+  @Override
+  public int hashCode() {
+    // ö
+    return name.hashCode();
+  }*/
 }

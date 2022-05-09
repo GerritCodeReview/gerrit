@@ -1,7 +1,5 @@
 load("//tools/bzl:junit.bzl", "junit_tests")
 
-# ö prune deps
-
 junit_tests(
     name = "tests",
     size = "small",

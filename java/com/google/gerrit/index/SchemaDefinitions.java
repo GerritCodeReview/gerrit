@@ -42,6 +42,7 @@ public abstract class SchemaDefinitions<V> {
     return name;
   }
 
+  /** Returns all schemas sorted by version (ascending). */
   public final ImmutableSortedMap<Integer, Schema<V>> getSchemas() {
     return schemas;
   }

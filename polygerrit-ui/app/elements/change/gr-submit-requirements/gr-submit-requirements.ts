@@ -46,7 +46,7 @@ import {capitalizeFirstLetter, charsOnly} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {CheckRun} from '../../../models/checks/checks-model';
 import {getResultsOf, hasResultsOf} from '../../../models/checks/checks-util';
-import {Category} from '../../../api/checks';
+import {Category, RunStatus} from '../../../api/checks';
 import {fireShowPrimaryTab} from '../../../utils/event-util';
 import {PrimaryTab} from '../../../constants/constants';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
@@ -342,28 +342,60 @@ export class GrSubmitRequirements extends LitElement {
 
   renderChecks(requirement: SubmitRequirementResultInfo) {
     const requirementLabels = extractAssociatedLabels(requirement);
-    const requirementRuns = this.runs
+    const errorRuns = this.runs
       .filter(run => hasResultsOf(run, Category.ERROR))
       .filter(
         run => run.labelName && requirementLabels.includes(run.labelName)
       );
-    const runsCount = requirementRuns.reduce(
+    const errorRunsCount = errorRuns.reduce(
       (sum, run) => sum + getResultsOf(run, Category.ERROR).length,
       0
     );
+    if (errorRunsCount > 0) {
+      return this.renderChecksCategoryChip(
+        errorRuns,
+        errorRunsCount,
+        Category.ERROR
+      );
+    }
+    const runningRuns = this.runs
+      .filter(r => r.isLatestAttempt)
+      .filter(
+        r => r.status === RunStatus.RUNNING || r.status === RunStatus.SCHEDULED
+      )
+      .filter(
+        run => run.labelName && requirementLabels.includes(run.labelName)
+      );
+
+    const runningRunsCount = runningRuns.length;
+    if (runningRunsCount > 0) {
+      return this.renderChecksCategoryChip(
+        runningRuns,
+        runningRunsCount,
+        RunStatus.RUNNING
+      );
+    }
+    return;
+  }
+
+  renderChecksCategoryChip(
+    runs: CheckRun[],
+    runsCount: Number,
+    category: Category | RunStatus
+  ) {
     if (runsCount === 0) return;
     const links = [];
-    if (requirementRuns.length === 1 && requirementRuns[0].statusLink) {
-      links.push(requirementRuns[0].statusLink);
+    if (runs.length === 1 && runs[0].statusLink) {
+      links.push(runs[0].statusLink);
     }
     return html`<gr-checks-chip
       .text=${`${runsCount}`}
       .links=${links}
-      .statusOrCategory=${Category.ERROR}
+      .statusOrCategory=${category}
       @click=${() => {
         fireShowPrimaryTab(this, PrimaryTab.CHECKS, false, {
           checksTab: {
-            statusOrCategory: Category.ERROR,
+            statusOrCategory: category,
           },
         });
       }}

@@ -730,7 +730,7 @@ export class GrSettingsView extends LitElement {
                 this.changeTableChanged = true;
               }}
               .serverConfig=${this.serverConfig}
-              .defaultColumns=${this.localChangeTableColumns}
+              .displayedColumns=${this.localChangeTableColumns}
               @displayed-columns-changed=${(e: ValueChangedEvent<string[]>) => {
                 this.localChangeTableColumns = e.detail.value;
                 this.changeTableChanged = true;

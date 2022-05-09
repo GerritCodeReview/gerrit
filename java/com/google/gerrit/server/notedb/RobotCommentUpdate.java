@@ -69,6 +69,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
 
   private List<RobotComment> put = new ArrayList<>();
 
+  @SuppressWarnings("UnusedMethod")
   @AssistedInject
   private RobotCommentUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
@@ -81,6 +82,7 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
     super(noteUtil, serverIdent, notes, null, accountId, realAccountId, authorIdent, when);
   }
 
+  @SuppressWarnings("UnusedMethod")
   @AssistedInject
   private RobotCommentUpdate(
       @GerritPersonIdent PersonIdent serverIdent,

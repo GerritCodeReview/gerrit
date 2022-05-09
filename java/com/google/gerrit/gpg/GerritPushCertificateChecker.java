@@ -14,28 +14,24 @@
 
 package com.google.gerrit.gpg;
 
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import org.eclipse.jgit.lib.Repository;
 
+@AutoFactory
 public class GerritPushCertificateChecker extends PushCertificateChecker {
-  public interface Factory {
-    GerritPushCertificateChecker create(IdentifiedUser expectedUser);
-  }
-
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
 
-  @Inject
   GerritPushCertificateChecker(
-      GerritPublicKeyChecker.Factory keyCheckerFactory,
-      GitRepositoryManager repoManager,
-      AllUsersName allUsers,
-      @Assisted IdentifiedUser expectedUser) {
+      @Provided GerritPublicKeyChecker.Factory keyCheckerFactory,
+      @Provided GitRepositoryManager repoManager,
+      @Provided AllUsersName allUsers,
+      IdentifiedUser expectedUser) {
     super(keyCheckerFactory.create().setExpectedUser(expectedUser));
     this.repoManager = repoManager;
     this.allUsers = allUsers;

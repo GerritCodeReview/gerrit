@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67115e33_ada99917",
+        "filename": "resources/com/google/gerrit/server/mail/Comment.soy",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T13:31:05Z",
+      "side": 1,
+      "message": "nit: \"newly unsatisfied\".",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 25
+      },
+      "revId": "0c95f8f3faedb4039a79517a784ce98a600a5a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

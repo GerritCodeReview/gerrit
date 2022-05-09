@@ -2187,7 +2187,7 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         assert.isNotOk(query(element, '[data-action-key="submit"]'));
         assert.strictEqual(
-          queryAndAssert<GrDropdown>(element, '#moreActions').items![2].id,
+          queryAndAssert<GrDropdown>(element, '#moreActions').items![3].id,
           'submit-revision'
         );
       });

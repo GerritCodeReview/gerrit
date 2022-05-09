@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9ed8721_3d0b6a91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-09T19:41:35Z",
+      "side": 1,
+      "message": "Your change is fixing http://b/231946357\n\nCould you please link to it.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "90e07a191cd7b326a9c3c0efb3088fd2086b0f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3453dbd6_d8f862d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-09T19:41:35Z",
+      "side": 1,
+      "message": "This is great refactoring! Much easier to understand what\u0027s going on.",
+      "revId": "90e07a191cd7b326a9c3c0efb3088fd2086b0f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "0c95f8f3faedb4039a79517a784ce98a600a5a9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c06239ec_4b1fc50f",
+        "filename": "resources/com/google/gerrit/server/mail/Comment.soy",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-09T13:42:22Z",
+      "side": 1,
+      "message": "I actually dropped the \"newly\" everywhere. \nReason: this is only included if the change moves from SUBMITTABLE to NON-SUBMITTABLE. This means all unsatisfied SRs all always new, otherwise the change would have been NON-SUBMITTABLE with the old state.",
+      "parentUuid": "67115e33_ada99917",
+      "range": {
+        "startLine": 54,
+        "startChar": 10,
+        "endLine": 54,
+        "endChar": 25
+      },
+      "revId": "0c95f8f3faedb4039a79517a784ce98a600a5a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8197bdd4_8de9ff84",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-09T12:42:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e36accc8_052ea7cd",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 63
+      },
+      "revId": "b0c78c4290797a90aca07922208bff6c767fca9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e930f7b3_21b92a38",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-09T06:23:44Z",
       "side": 1,
       "message": "Instead of printing old and new, can we just print the ones that have changed and show the delta? If we do that, I think we don\u0027t even have to print the previous state, just use it to compute the delta: I think this would be really nice:\n\n```\nThis change is no longer submittable: Code-Review is now unsatisifed.\n```\n\nor \n\n```\nThis change is no longer submittable: Code-Review and Verified are now unsatisifed.\n```",
+      "range": {
+        "startLine": 531,
+        "startChar": 0,
+        "endLine": 537,
+        "endChar": 0
+      },
+      "revId": "b0c78c4290797a90aca07922208bff6c767fca9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c02d709_1f116bf5",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-09T12:42:56Z",
+      "side": 1,
+      "message": "This looks nice indeed. I\u0027m not sure whether this covers all possible use-cases (since this way we don\u0027t tell about SR\u0027s that are still satisfied/unsatisfied, and omit SRs with other statuses such as overridden, forced and failed), but I think it covers what is most important (tell the user that the change is no longer submittable and what\u0027s blocking now). So maybe let\u0027s start with this and add more information only when we have stakeholders/users explaining us why they need more info, and which information they would like to see additionally.\n\nDone.",
+      "parentUuid": "e930f7b3_21b92a38",
       "range": {
         "startLine": 531,
         "startChar": 0,

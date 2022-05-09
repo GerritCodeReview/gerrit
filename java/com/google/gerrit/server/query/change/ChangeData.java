@@ -76,7 +76,7 @@ import com.google.gerrit.server.change.PureRevert;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.RobotCommentNotes;
 import com.google.gerrit.server.patch.DiffSummary;
@@ -289,7 +289,7 @@ public class ChangeData {
   private final ChangeNotes.Factory notesFactory;
   private final CommentsUtil commentsUtil;
   private final GitRepositoryManager repoManager;
-  private final MergeUtil.Factory mergeUtilFactory;
+  private final MergeUtilFactory mergeUtilFactory;
   private final MergeabilityCache mergeabilityCache;
   private final PatchListCache patchListCache;
   private final PatchSetUtil psUtil;
@@ -371,7 +371,7 @@ public class ChangeData {
       ChangeNotes.Factory notesFactory,
       CommentsUtil commentsUtil,
       GitRepositoryManager repoManager,
-      MergeUtil.Factory mergeUtilFactory,
+      MergeUtilFactory mergeUtilFactory,
       MergeabilityCache mergeabilityCache,
       PatchListCache patchListCache,
       PatchSetUtil psUtil,

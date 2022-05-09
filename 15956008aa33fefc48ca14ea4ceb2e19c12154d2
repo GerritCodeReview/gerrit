@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f86633b_ba83ec02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T06:13:17Z",
+      "side": 1,
+      "message": "Your explanation made me wonder:\n\nIn a lot of places we now have special casing a la \"if NO_CHANGE OR TRIVIAL_REBASE\" etc. So we are coding in assumptions about this state implicitly.\n\nI was wondering if we could be more explicit:\n\n```\npublic enum ChangeKind {\n  REWORK(true),\n  TRIVIAL_REBASE(false),\n  MERGE_FIRST_PARENT_UPDATE(?),\n  NO_CODE_CHANGE(false),\n  NO_CHANGE(false)\n  \n  /** Code was modified by the uploader. */\n  public boolean hasCodeChange() {\n  ...\n  }\n  \n  public boolean hasCommitMessageChange() {}\n  \n  public boolean hasRebase()\n}\n```\n\nNot sure if that would simplify things (especially because I don\u0027t know the end state of your refactoring).",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "15956008aa33fefc48ca14ea4ceb2e19c12154d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

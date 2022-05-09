@@ -13,6 +13,7 @@ java_library(
         "//java/com/google/gerrit/server/api",
         "//lib:guava",
         "//lib:jgit",
+        "//lib/auto:auto-factory",
         "//lib/bouncycastle:bcpg-neverlink",
         "//lib/bouncycastle:bcprov-neverlink",
         "//lib/flogger:api",

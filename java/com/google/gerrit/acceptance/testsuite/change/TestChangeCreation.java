@@ -34,6 +34,8 @@ public abstract class TestChangeCreation {
 
   public abstract Optional<Account.Id> owner();
 
+  public abstract Optional<String> topic();
+
   public abstract String commitMessage();
 
   public abstract ImmutableList<TreeModification> treeModifications();
@@ -65,6 +67,9 @@ public abstract class TestChangeCreation {
 
     /** The change owner. Must be an existing user account. */
     public abstract Builder owner(Account.Id owner);
+
+    /** The topic to add this change to. */
+    public abstract Builder topic(String topic);
 
     /**
      * The commit message. The message may contain a {@code Change-Id} footer but does not need to.

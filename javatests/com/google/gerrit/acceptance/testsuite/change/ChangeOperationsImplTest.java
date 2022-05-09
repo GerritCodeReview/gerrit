@@ -610,6 +610,14 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void createdChangeHasSpecifiedTopic() throws Exception {
+    Change.Id changeId = changeOperations.newChange().topic("test-topic").create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThat(change.topic).isEqualTo("test-topic");
+  }
+
+  @Test
   public void createdChangeHasSpecifiedCommitMessage() throws Exception {
     Change.Id changeId =
         changeOperations

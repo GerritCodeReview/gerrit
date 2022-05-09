@@ -16,6 +16,24 @@
       "message": "We have removed our internal dependency on Lucene. I\u0027ll try to look into how we can proceed with this change in the next weeks. There\u0027s quite a number of other things going on at the moment, so I can\u0027t promise an ETA unfortunately, but I\u0027ll do my best.",
       "revId": "3b8eb47bad789a7304adeb1d94fe36e481a54c21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f9455c2_52461ef4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T11:14:50Z",
+      "side": 1,
+      "message": "Getting back to this: We don\u0027t depend on Lucenen anymore, but are still on old index schema versions for accounts and groups. That will change later this year, but I think you don\u0027t want to wait for it.\n\nHere is what we could do:\n- For changes, all modifications are fine because we are past the version that added the new field. I just left comments to keep our current version def around.\n- For accounts, groups: I suggest reworking the ID predicates to just check if the new ID_STR field is in the schema, use that for matching if so. That allows you to remote all checks for numeric ID types. For lucene, you can add a checkState that the version is at least X or that the ID_STR field is there. So you can upgrade lucene past the version that needs string IDs.\n\nWDYT?",
+      "parentUuid": "0cf125d5_4ec86269",
+      "revId": "3b8eb47bad789a7304adeb1d94fe36e481a54c21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

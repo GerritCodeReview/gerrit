@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b817e999_2ad94e93",
+        "filename": "java/com/google/gerrit/server/index/account/AccountSchemaDefinitions.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T11:14:50Z",
+      "side": 0,
+      "message": "please keep v8 as this is the current version at Google.",
+      "range": {
+        "startLine": 47,
+        "startChar": 36,
+        "endLine": 47,
+        "endChar": 38
+      },
+      "revId": "7dc969443beacb10f88541c2bdb37f29c1a7bd62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fab6515_93771f97",
+        "filename": "java/com/google/gerrit/server/index/account/StalenessChecker.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T11:14:50Z",
+      "side": 0,
+      "message": "Base this on the fact that the current schema has a field called AccountField.ID_STR instead of the numeric type boolean.",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 67,
+        "endChar": 40
+      },
+      "revId": "7dc969443beacb10f88541c2bdb37f29c1a7bd62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b2f8c21_5aa69202",
+        "filename": "java/com/google/gerrit/server/index/group/GroupSchemaDefinitions.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T11:14:50Z",
+      "side": 0,
+      "message": "please keep v5 as last version as this is the version used at google",
+      "range": {
+        "startLine": 41,
+        "startChar": 49,
+        "endLine": 41,
+        "endChar": 51
+      },
+      "revId": "7dc969443beacb10f88541c2bdb37f29c1a7bd62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

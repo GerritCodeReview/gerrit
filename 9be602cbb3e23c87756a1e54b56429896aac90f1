@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d87f2a9_567be768",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T11:14:50Z",
+      "side": 1,
+      "message": "This is problematic.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 3
+      },
+      "revId": "9be602cbb3e23c87756a1e54b56429896aac90f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40afac8f_c55dd4dc",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T11:14:50Z",
+      "side": 1,
+      "message": "Please keep v74 as the last one instead of v75. We have v74 at google right now.",
+      "range": {
+        "startLine": 29,
+        "startChar": 34,
+        "endLine": 29,
+        "endChar": 37
+      },
+      "revId": "9be602cbb3e23c87756a1e54b56429896aac90f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2e824b8_bab880e8",
+        "filename": "java/com/google/gerrit/server/query/account/AccountPredicates.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T11:14:50Z",
+      "side": 1,
+      "message": "I would base the check on weather the schema has a field called \"ID_STR\".",
+      "range": {
+        "startLine": 69,
+        "startChar": 9,
+        "endLine": 69,
+        "endChar": 24
+      },
+      "revId": "9be602cbb3e23c87756a1e54b56429896aac90f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ef35b4b_a1bae471",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesPreviousIndexVersionTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T11:14:50Z",
+      "side": 1,
+      "message": "Please leave as is since we leave an old version around.",
+      "range": {
+        "startLine": 27,
+        "startChar": 3,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "9be602cbb3e23c87756a1e54b56429896aac90f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "924395ce_297fac10",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesPreviousIndexVersionTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T11:14:50Z",
+      "side": 1,
+      "message": "Please leave as is since we leave an old version around.",
+      "range": {
+        "startLine": 23,
+        "startChar": 3,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "9be602cbb3e23c87756a1e54b56429896aac90f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

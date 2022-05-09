@@ -16,6 +16,80 @@
       "message": "Thanks, PTAL",
       "revId": "1451802ccbbf4f8b21ab9eeef2361bf97fcc7440",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c292a9_e6bfeec6",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-09T20:56:18Z",
+      "side": 1,
+      "message": "Maybe consider subscribing to `repoCommentLinks$` from config-model instead. Then you don\u0027t need `projectConfig` and neither `projectName`.",
+      "revId": "1451802ccbbf4f8b21ab9eeef2361bf97fcc7440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c682411_96941d70",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-09T20:56:18Z",
+      "side": 1,
+      "message": "Maybe just remove the `hidden` property/attribute. Its only purpose is to trigger `display:none` as defined in shared-styles. For Lit components that seems like an anti-pattern. What about just adding a guard statement at the beginning of `render()` instead?\n\n```\nif (this.hideAutomated \u0026\u0026 this.computeIsAutomated()) return;\n```",
+      "revId": "1451802ccbbf4f8b21ab9eeef2361bf97fcc7440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f4ae9b2_ce2646db",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-09T20:56:18Z",
+      "side": 1,
+      "message": "Nit: Are these leading spaces deliberate?",
+      "range": {
+        "startLine": 459,
+        "startChar": 16,
+        "endLine": 459,
+        "endChar": 17
+      },
+      "revId": "1451802ccbbf4f8b21ab9eeef2361bf97fcc7440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4560b424_0dfc13e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-09T20:56:18Z",
+      "side": 1,
+      "message": "Can this be done on the fly during render?",
+      "revId": "1451802ccbbf4f8b21ab9eeef2361bf97fcc7440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

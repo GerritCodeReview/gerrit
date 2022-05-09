@@ -75,16 +75,10 @@ def java_dependencies():
         sha1 = "9feecc2b24d6bc9ff865af8d082f192238a293eb",
     )
 
-    # TODO(davido): Switch to official release once available.
-    # Use custom release that fixed compatibility with JDK 17:
-    # https://github.com/google/gson/issues/1875
-    java_import_external(
+    maven_jar(
         name = "gson",
-        jar_sha256 = "d68e2a0f4b97143988f2ceef593947acc3f9d9e9618569c26264e63179887d49",
-        jar_urls = [
-            "https://github.com/davido/gson/releases/download/v2.9.0/gson-2.9.0.jar",
-        ],
-        licenses = ["unencumbered"],  # public domain
+        artifact = "com.google.code.gson:gson:2.9.0",
+        sha1 = "8a1167e089096758b49f9b34066ef98b2f4b37aa",
     )
 
     maven_jar(

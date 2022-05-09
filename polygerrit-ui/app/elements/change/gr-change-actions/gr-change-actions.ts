@@ -834,6 +834,20 @@ export class GrChangeActions
       this.computeChainState();
     }
 
+    if (
+      changedProperties.has('actions') ||
+      changedProperties.has('revisionActions') ||
+      changedProperties.has('additionalActions')
+    ) {
+      // this method is modifying revisionActions so it needs to run first in
+      // update.
+      this.actionsChanged(
+        this.actions,
+        this.revisionActions,
+        this.additionalActions
+      );
+    }
+
     if (changedProperties.has('revisionActions')) {
       this.revisionSubmitAction = this.getSubmitAction(this.revisionActions);
       this.revisionRebaseAction = this.getRebaseAction(this.revisionActions);
@@ -886,18 +900,6 @@ export class GrChangeActions
 
     if (changedProperties.has('change')) {
       this.reload();
-    }
-
-    if (
-      changedProperties.has('actions') ||
-      changedProperties.has('revisionActions') ||
-      changedProperties.has('additionalActions')
-    ) {
-      this.actionsChanged(
-        this.actions,
-        this.revisionActions,
-        this.additionalActions
-      );
     }
 
     if (
@@ -1129,6 +1131,7 @@ export class GrChangeActions
           ...this.revisionActions,
           download: DOWNLOAD_ACTION,
         };
+        // this.requestUpdate('revisionActions');
         fire(this, 'revision-actions-changed', {
           value: this.revisionActions,
         });

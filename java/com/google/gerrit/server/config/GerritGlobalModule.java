@@ -135,7 +135,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.GitModule;
-import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.NotesBranchUtil;
@@ -299,7 +298,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(DistinctVotersPredicate.Factory.class);
     factory(DeadlineChecker.Factory.class);
     factory(EmailNewPatchSet.Factory.class);
-    factory(MergeUtil.Factory.class);
     factory(MultiProgressMonitor.Factory.class);
     factory(PatchScriptFactory.Factory.class);
     factory(PatchScriptFactoryForAutoFix.Factory.class);

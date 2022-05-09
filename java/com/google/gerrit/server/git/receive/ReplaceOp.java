@@ -29,7 +29,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
@@ -103,7 +102,7 @@ public class ReplaceOp implements BatchUpdateOp {
   public interface Factory {
     ReplaceOp create(
         ProjectState projectState,
-        BranchNameKey dest,
+        Change change,
         boolean checkMergedInto,
         @Nullable String mergeResultRevId,
         @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
@@ -114,7 +113,7 @@ public class ReplaceOp implements BatchUpdateOp {
         List<String> groups,
         @Nullable MagicBranchInput magicBranch,
         @Nullable PushCertificate pushCertificate,
-        Change change);
+        RequestScopePropagator requestScopePropagator);
   }
 
   private static final String CHANGE_IS_CLOSED = "change is closed";
@@ -132,12 +131,11 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ProjectCache projectCache;
   private final ReviewerModifier reviewerModifier;
-  private final Change change;
   private final MessageIdGenerator messageIdGenerator;
   private final DynamicItem<UrlFormatter> urlFormatter;
 
   private final ProjectState projectState;
-  private final BranchNameKey dest;
+  private final Change change;
   private final boolean checkMergedInto;
   private final String mergeResultRevId;
   private final PatchSet.Id priorPatchSetId;
@@ -147,6 +145,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final PatchSetInfo info;
   private final MagicBranchInput magicBranch;
   private final PushCertificate pushCertificate;
+  private final RequestScopePropagator requestScopePropagator;
   private List<String> groups;
 
   private final Map<String, Short> approvals = new HashMap<>();
@@ -159,7 +158,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private ImmutableSet<PatchSetApproval> outdatedApprovals;
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
-  private RequestScopePropagator requestScopePropagator;
   private ReviewerModificationList reviewerAdditions;
   private MailRecipients oldRecipients;
 
@@ -178,11 +176,10 @@ public class ReplaceOp implements BatchUpdateOp {
       ProjectCache projectCache,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       ReviewerModifier reviewerModifier,
-      Change change,
       MessageIdGenerator messageIdGenerator,
       DynamicItem<UrlFormatter> urlFormatter,
       @Assisted ProjectState projectState,
-      @Assisted BranchNameKey dest,
+      @Assisted Change change,
       @Assisted boolean checkMergedInto,
       @Assisted @Nullable String mergeResultRevId,
       @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
@@ -192,7 +189,8 @@ public class ReplaceOp implements BatchUpdateOp {
       @Assisted PatchSetInfo info,
       @Assisted List<String> groups,
       @Assisted @Nullable MagicBranchInput magicBranch,
-      @Assisted @Nullable PushCertificate pushCertificate) {
+      @Assisted @Nullable PushCertificate pushCertificate,
+      @Assisted RequestScopePropagator requestScopePropagator) {
     this.accountResolver = accountResolver;
     this.approvalsUtil = approvalsUtil;
     this.changeDataFactory = changeDataFactory;
@@ -206,12 +204,11 @@ public class ReplaceOp implements BatchUpdateOp {
     this.projectCache = projectCache;
     this.sendEmailExecutor = sendEmailExecutor;
     this.reviewerModifier = reviewerModifier;
-    this.change = change;
     this.messageIdGenerator = messageIdGenerator;
     this.urlFormatter = urlFormatter;
 
     this.projectState = projectState;
-    this.dest = dest;
+    this.change = change;
     this.checkMergedInto = checkMergedInto;
     this.mergeResultRevId = mergeResultRevId;
     this.priorPatchSetId = priorPatchSetId;
@@ -222,6 +219,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.groups = groups;
     this.magicBranch = magicBranch;
     this.pushCertificate = pushCertificate;
+    this.requestScopePropagator = requestScopePropagator;
   }
 
   @Override
@@ -237,7 +235,7 @@ public class ReplaceOp implements BatchUpdateOp {
             commitId);
 
     if (checkMergedInto) {
-      String mergedInto = findMergedInto(ctx, dest.branch(), commit);
+      String mergedInto = findMergedInto(ctx, change.getDest().branch(), commit);
       if (mergedInto != null) {
         mergedByPushOp =
             mergedByPushOpFactory.create(
@@ -501,13 +499,9 @@ public class ReplaceOp implements BatchUpdateOp {
     reviewerAdditions.postUpdate(ctx);
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
       // TODO(dborowitz): Merge email templates so we only have to send one.
-      Runnable e = new ReplaceEmailTask(ctx);
-      if (requestScopePropagator != null) {
-        @SuppressWarnings("unused")
-        Future<?> possiblyIgnoredError = sendEmailExecutor.submit(requestScopePropagator.wrap(e));
-      } else {
-        e.run();
-      }
+      @SuppressWarnings("unused")
+      Future<?> possiblyIgnoredError =
+          sendEmailExecutor.submit(requestScopePropagator.wrap(new ReplaceEmailTask(ctx)));
     }
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
     revisionCreated.fire(
@@ -617,11 +611,6 @@ public class ReplaceOp implements BatchUpdateOp {
 
   public ReceiveCommand getCommand() {
     return cmd;
-  }
-
-  public ReplaceOp setRequestScopePropagator(RequestScopePropagator requestScopePropagator) {
-    this.requestScopePropagator = requestScopePropagator;
-    return this;
   }
 
   private static String findMergedInto(Context ctx, String first, RevCommit commit) {

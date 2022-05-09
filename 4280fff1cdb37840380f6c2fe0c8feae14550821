@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43e95165_2fe16efe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-09T08:57:05Z",
+      "side": 1,
+      "message": "Is this change also including setting the `Topic` column in Settings?",
+      "revId": "4280fff1cdb37840380f6c2fe0c8feae14550821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git.receive;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.change.ReviewerModifier.newReviewerInputFromCommitIdentity;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
@@ -49,21 +48,18 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeKindCache;
+import com.google.gerrit.server.change.EmailNewPatchSet;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerModifier;
 import com.google.gerrit.server.change.ReviewerModifier.InternalReviewerInput;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
-import com.google.gerrit.server.change.ReviewerOp;
-import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.receive.ReceiveCommits.MagicBranchInput;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
-import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -86,8 +82,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -123,15 +117,13 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
-  private final ExecutorService sendEmailExecutor;
+  private final EmailNewPatchSet.Factory emailNewPatchSetFactory;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
   private final PatchSetUtil psUtil;
-  private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ProjectCache projectCache;
   private final ReviewerModifier reviewerModifier;
-  private final MessageIdGenerator messageIdGenerator;
   private final DynamicItem<UrlFormatter> urlFormatter;
 
   private final ProjectState projectState;
@@ -172,11 +164,9 @@ public class ReplaceOp implements BatchUpdateOp {
       CommentAdded commentAdded,
       MergedByPushOp.Factory mergedByPushOpFactory,
       PatchSetUtil psUtil,
-      ReplacePatchSetSender.Factory replacePatchSetFactory,
       ProjectCache projectCache,
-      @SendEmailExecutor ExecutorService sendEmailExecutor,
+      EmailNewPatchSet.Factory emailNewPatchSetFactory,
       ReviewerModifier reviewerModifier,
-      MessageIdGenerator messageIdGenerator,
       DynamicItem<UrlFormatter> urlFormatter,
       @Assisted ProjectState projectState,
       @Assisted Change change,
@@ -200,11 +190,9 @@ public class ReplaceOp implements BatchUpdateOp {
     this.commentAdded = commentAdded;
     this.mergedByPushOpFactory = mergedByPushOpFactory;
     this.psUtil = psUtil;
-    this.replacePatchSetFactory = replacePatchSetFactory;
     this.projectCache = projectCache;
-    this.sendEmailExecutor = sendEmailExecutor;
+    this.emailNewPatchSetFactory = emailNewPatchSetFactory;
     this.reviewerModifier = reviewerModifier;
-    this.messageIdGenerator = messageIdGenerator;
     this.urlFormatter = urlFormatter;
 
     this.projectState = projectState;
@@ -499,9 +487,16 @@ public class ReplaceOp implements BatchUpdateOp {
     reviewerAdditions.postUpdate(ctx);
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
       // TODO(dborowitz): Merge email templates so we only have to send one.
-      @SuppressWarnings("unused")
-      Future<?> possiblyIgnoredError =
-          sendEmailExecutor.submit(requestScopePropagator.wrap(new ReplaceEmailTask(ctx)));
+      emailNewPatchSetFactory
+          .create(
+              requestScopePropagator,
+              ctx,
+              newPatchSet,
+              mailMessage,
+              outdatedApprovals,
+              oldRecipients,
+              reviewerAdditions)
+          .sendAsync();
     }
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
     revisionCreated.fire(
@@ -513,50 +508,6 @@ public class ReplaceOp implements BatchUpdateOp {
     }
     if (mergedByPushOp != null) {
       mergedByPushOp.postUpdate(ctx);
-    }
-  }
-
-  private class ReplaceEmailTask implements Runnable {
-    private final Context ctx;
-
-    private ReplaceEmailTask(Context ctx) {
-      this.ctx = ctx;
-    }
-
-    @Override
-    public void run() {
-      try {
-        ReplacePatchSetSender emailSender =
-            replacePatchSetFactory.create(projectState.getNameKey(), notes.getChangeId());
-        emailSender.setFrom(ctx.getAccount().account().id());
-        emailSender.setPatchSet(newPatchSet, info);
-        emailSender.setChangeMessage(mailMessage, ctx.getWhen());
-        emailSender.setNotify(ctx.getNotify(notes.getChangeId()));
-        emailSender.addReviewers(
-            Streams.concat(
-                    oldRecipients.getReviewers().stream(),
-                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedReviewers).stream()
-                        .map(PatchSetApproval::accountId))
-                .collect(toImmutableSet()));
-        emailSender.addExtraCC(
-            Streams.concat(
-                    oldRecipients.getCcOnly().stream(),
-                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCs).stream())
-                .collect(toImmutableSet()));
-        emailSender.addOutdatedApproval(outdatedApprovals);
-        emailSender.setMessageId(
-            messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSetId));
-        // TODO(dborowitz): Support byEmail
-        emailSender.send();
-      } catch (Exception e) {
-        logger.atSevere().withCause(e).log(
-            "Cannot send email for new patch set %s", newPatchSet.id());
-      }
-    }
-
-    @Override
-    public String toString() {
-      return "send-email newpatchset";
     }
   }
 

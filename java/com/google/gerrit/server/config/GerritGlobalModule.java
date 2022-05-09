@@ -121,6 +121,7 @@ import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
+import com.google.gerrit.server.change.EmailNewPatchSet;
 import com.google.gerrit.server.change.FileInfoJsonModule;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.ReviewerSuggestion;
@@ -297,6 +298,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ChangeIsVisibleToPredicate.Factory.class);
     factory(DistinctVotersPredicate.Factory.class);
     factory(DeadlineChecker.Factory.class);
+    factory(EmailNewPatchSet.Factory.class);
     factory(MergeUtil.Factory.class);
     factory(MultiProgressMonitor.Factory.class);
     factory(PatchScriptFactory.Factory.class);

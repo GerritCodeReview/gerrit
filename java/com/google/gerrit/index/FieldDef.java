@@ -28,6 +28,9 @@ import java.util.Optional;
 /**
  * Definition of a field stored in the secondary index.
  *
+ * <p>Note that {@link FieldDef} does not override {@link Object#equals(Object)}. It relies on
+ * instances being singletons so that the default (i.e. reference) comparison works.
+ *
  * @param <I> input type from which documents are created and search results are returned.
  * @param <T> type that should be extracted from the input object when converting to an index
  *     document.
@@ -61,12 +64,21 @@ public final class FieldDef<I, T> {
     return new FieldDef.Builder<>(FieldType.TIMESTAMP, name);
   }
 
+  /**
+   * This interface allows to specify a method or lambda for populating an index field. Note that
+   * for existing fields, changing the code of either the {@link Getter} implementation or the
+   * method(s) that it calls would invalidate existing index data. Therefore, instead of changing
+   * the semantics of an existing field, a new field must be added using the new semantics from the
+   * start. The old field can be removed in another upgrade step (cf. {@link
+   * IndexUpgradeValidator}).
+   */
   @FunctionalInterface
   public interface Getter<I, T> {
     @Nullable
     T get(I input) throws IOException;
   }
 
+  /** See {@link Getter} for restrictions on changing the implementation. */
   @FunctionalInterface
   public interface Setter<I, T> {
     void set(I object, T value);

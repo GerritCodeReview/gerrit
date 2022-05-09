@@ -77,7 +77,6 @@ suite('gr-change-actions-js-api-interface tests', () => {
       element = await fixture<GrChangeActions>(html`
         <gr-change-actions></gr-change-actions>
       `);
-      sinon.stub(element, 'editStatusChanged');
       element.change = {} as ChangeViewChangeInfo;
       element._hasKnownChainState = false;
       window.Gerrit.install(

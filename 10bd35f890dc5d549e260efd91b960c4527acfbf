@@ -16,6 +16,24 @@
       "message": "So I understand, is this merging 3.6 into head, or merging things into 3.6?",
       "revId": "10bd35f890dc5d549e260efd91b960c4527acfbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7efe020e_78b454f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-09T14:32:27Z",
+      "side": 1,
+      "message": "The former: it\u0027s merging stable-3.6 branch into master.",
+      "parentUuid": "f014d641_238defa7",
+      "revId": "10bd35f890dc5d549e260efd91b960c4527acfbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

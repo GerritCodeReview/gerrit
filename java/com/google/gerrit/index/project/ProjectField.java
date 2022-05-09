@@ -26,7 +26,12 @@ import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
 
-/** Index schema for projects. */
+/**
+ * Index schema for projects.
+ *
+ * <p>Note that this class does not override {@link Object#equals(Object)}. It relies on instances
+ * being singletons so that the default (i.e. reference) comparison works.
+ */
 public class ProjectField {
   private static byte[] toRefState(Project project) {
     return RefState.create(RefNames.REFS_CONFIG, project.getConfigRefState())

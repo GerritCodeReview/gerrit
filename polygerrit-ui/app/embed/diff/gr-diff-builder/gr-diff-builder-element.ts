@@ -64,7 +64,21 @@ const COMMIT_MSG_LINE_LENGTH = 72;
 
 declare global {
   interface HTMLElementEventMap {
+    /**
+     * Fired when the diff begins rendering - both for full renders and for
+     * partial rerenders.
+     */
+    'render-start': CustomEvent<{}>;
+    /**
+     * Fired whenever a new chunk of lines has been rendered synchronously - this
+     * only happens for full renders.
+     */
     'render-progress': CustomEvent<RenderProgressEventDetail>;
+    /**
+     * Fired when the diff finishes rendering text content - both for full
+     * renders and for partial rerenders.
+     */
+    'render-content': CustomEvent<{}>;
   }
 }
 
@@ -105,27 +119,6 @@ export class GrDiffBuilderElement
   static get template() {
     return htmlTemplate;
   }
-
-  /**
-   * Fired when the diff begins rendering - both for full renders and for
-   * partial rerenders.
-   *
-   * @event render-start
-   */
-
-  /**
-   * Fired whenever a new chunk of lines has been rendered synchronously - this
-   * only happens for full renders.
-   *
-   * @event render-progress
-   */
-
-  /**
-   * Fired when the diff finishes rendering text content - both for full
-   * renders and for partial rerenders.
-   *
-   * @event render-content
-   */
 
   @property({type: Object})
   diff?: DiffInfo;
@@ -210,7 +203,8 @@ export class GrDiffBuilderElement
 
   private rangeLayer = new GrRangedCommentLayer();
 
-  private processor = new GrDiffProcessor();
+  // visible for testing
+  processor = new GrDiffProcessor();
 
   constructor() {
     super();

@@ -162,10 +162,8 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
    *
    * TODO(brohlfs): Consolidate this with getLineEl... methods in html file.
    */
-  private getLineNumberEl(
-    content: HTMLElement,
-    side: Side
-  ): HTMLElement | null {
+  // visible for testing
+  getLineNumberEl(content: HTMLElement, side: Side): HTMLElement | null {
     let row: HTMLElement | null = content;
     while (row && !row.classList.contains('diff-row')) row = row.parentElement;
     return row ? (row.querySelector('.lineNum.' + side) as HTMLElement) : null;
@@ -349,7 +347,8 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     });
   }
 
-  protected createTextEl(
+  // visible for testing
+  createTextEl(
     lineNumberEl: HTMLElement | null,
     line: GrDiffLine,
     side?: Side
@@ -491,7 +490,8 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
    * Create a blame cell for the given base line. Blame information will be
    * included in the cell if available.
    */
-  protected createBlameCell(lineNumber: LineNumber): HTMLTableCellElement {
+  // visible for testing
+  createBlameCell(lineNumber: LineNumber): HTMLTableCellElement {
     const blameTd = createElementDiff('td', 'blame') as HTMLTableCellElement;
     blameTd.setAttribute('data-line-number', lineNumber.toString());
     if (!lineNumber) return blameTd;

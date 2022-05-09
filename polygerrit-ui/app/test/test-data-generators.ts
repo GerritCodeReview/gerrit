@@ -469,6 +469,24 @@ export function createGetDiffCommentsOutput(): GetDiffCommentsOutput {
   };
 }
 
+export function createEmptyDiff(): DiffInfo {
+  return {
+    meta_a: {
+      name: 'empty-left.txt',
+      content_type: 'text/plain',
+      lines: 1,
+    },
+    meta_b: {
+      name: 'empty-right.txt',
+      content_type: 'text/plain',
+      lines: 1,
+    },
+    intraline_status: 'OK',
+    change_type: 'MODIFIED',
+    content: [],
+  };
+}
+
 export function createDiff(): DiffInfo {
   return {
     meta_a: {

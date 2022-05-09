@@ -1,131 +1,147 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma.js';
-import {createDiff} from '../../../test/test-data-generators.js';
-import './gr-diff-builder-element.js';
-import {stubBaseUrl} from '../../../test/test-utils.js';
-import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
-import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
-import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {DiffViewMode, Side} from '../../../api/diff.js';
-import {stubRestApi} from '../../../test/test-utils.js';
+import '../../../test/common-test-setup-karma';
+import {
+  createConfig,
+  createDiff,
+  createEmptyDiff,
+} from '../../../test/test-data-generators';
+import './gr-diff-builder-element';
+import {queryAndAssert, stubBaseUrl} from '../../../test/test-utils';
+import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
+import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {
+  DiffContent,
+  DiffInfo,
+  DiffLayer,
+  DiffPreferencesInfo,
+  DiffViewMode,
+  Side,
+} from '../../../api/diff';
+import {stubRestApi} from '../../../test/test-utils';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
-import {GrDiffBuilderLegacy} from './gr-diff-builder-legacy.js';
-import {waitForEventOnce} from '../../../utils/event-util.js';
+import {GrDiffBuilderLegacy} from './gr-diff-builder-legacy';
+import {waitForEventOnce} from '../../../utils/event-util';
+import {GrDiffBuilderElement} from './gr-diff-builder-element';
+import {createDefaultDiffPrefs} from '../../../constants/constants';
+import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
+import {BlameInfo} from '../../../types/common';
 
 const basicFixture = fixtureFromTemplate(html`
-    <gr-diff-builder>
-      <table id="diffTable"></table>
-    </gr-diff-builder>
+  <gr-diff-builder>
+    <table id="diffTable"></table>
+  </gr-diff-builder>
 `);
 
 const divWithTextFixture = fixtureFromTemplate(html`
-<div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
+  <div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
 `);
 
 const mockDiffFixture = fixtureFromTemplate(html`
-<gr-diff-builder view-mode="SIDE_BY_SIDE">
-      <table id="diffTable"></table>
-    </gr-diff-builder>
+  <gr-diff-builder view-mode="SIDE_BY_SIDE">
+    <table id="diffTable"></table>
+  </gr-diff-builder>
 `);
 
-// GrDiffBuilderElement forces these prefs to be set - tests that do not care
-// about these values can just set these defaults.
-const DEFAULT_PREFS = {
-  line_length: 10,
-  show_tabs: true,
-  tab_size: 4,
-};
+const DEFAULT_PREFS = createDefaultDiffPrefs();
 
 suite('gr-diff-builder tests', () => {
-  let prefs;
-  let element;
-  let builder;
+  let element: GrDiffBuilderElement;
+  let builder: GrDiffBuilderLegacy;
 
   const LINE_BREAK_HTML = '<span class="style-scope gr-diff br"></span>';
   const WBR_HTML = '<wbr class="style-scope gr-diff">';
 
+  const setBuilderPrefs = (prefs: Partial<DiffPreferencesInfo>) => {
+    builder = new GrDiffBuilderSideBySide(
+      createEmptyDiff(),
+      {...createDefaultDiffPrefs(), ...prefs},
+      element.diffElement
+    );
+  };
+
+  const line = (text: string) => {
+    const line = new GrDiffLine(GrDiffLineType.BOTH);
+    line.text = text;
+    return line;
+  };
+
   setup(() => {
-    element = basicFixture.instantiate();
+    element = basicFixture.instantiate() as GrDiffBuilderElement;
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-    stubRestApi('getProjectConfig').returns(Promise.resolve({}));
+    stubRestApi('getProjectConfig').returns(Promise.resolve(createConfig()));
     stubBaseUrl('/r');
-    prefs = {...DEFAULT_PREFS};
-    builder = new GrDiffBuilderLegacy({content: []}, prefs);
+    setBuilderPrefs({});
   });
 
   test('line_length applied with <wbr> if line_wrapping is true', () => {
-    builder._prefs = {line_wrapping: true, tab_size: 4, line_length: 50};
+    setBuilderPrefs({line_wrapping: true, tab_size: 4, line_length: 50});
     const text = 'a'.repeat(51);
-
-    const line = {text, highlights: []};
     const expected = 'a'.repeat(50) + WBR_HTML + 'a';
-    const result = builder.createTextEl(undefined, line).firstChild.innerHTML;
+    const result = builder.createTextEl(null, line(text)).firstElementChild
+      ?.innerHTML;
     assert.equal(result, expected);
   });
 
   test('line_length applied with line break if line_wrapping is false', () => {
-    builder._prefs = {line_wrapping: false, tab_size: 4, line_length: 50};
+    setBuilderPrefs({line_wrapping: false, tab_size: 4, line_length: 50});
     const text = 'a'.repeat(51);
-
-    const line = {text, highlights: []};
     const expected = 'a'.repeat(50) + LINE_BREAK_HTML + 'a';
-    const result = builder.createTextEl(undefined, line).firstChild.innerHTML;
+    const result = builder.createTextEl(null, line(text)).firstElementChild
+      ?.innerHTML;
     assert.equal(result, expected);
   });
 
-  [DiffViewMode.UNIFIED, DiffViewMode.SIDE_BY_SIDE]
-      .forEach(mode => {
-        test(`line_length used for regular files under ${mode}`, () => {
-          element.path = '/a.txt';
-          element.viewMode = mode;
-          element.diff = {};
-          element.prefs = {tab_size: 4, line_length: 50};
-          builder = element._getDiffBuilder();
-          assert.equal(builder._prefs.line_length, 50);
-        });
+  [DiffViewMode.UNIFIED, DiffViewMode.SIDE_BY_SIDE].forEach(mode => {
+    test(`line_length used for regular files under ${mode}`, () => {
+      element.path = '/a.txt';
+      element.viewMode = mode;
+      element.diff = createEmptyDiff();
+      element.prefs = {
+        ...createDefaultDiffPrefs(),
+        tab_size: 4,
+        line_length: 50,
+      };
+      builder = element._getDiffBuilder() as GrDiffBuilderLegacy;
+      assert.equal(builder._prefs.line_length, 50);
+    });
 
-        test(`line_length ignored for commit msg under ${mode}`, () => {
-          element.path = '/COMMIT_MSG';
-          element.viewMode = mode;
-          element.diff = {};
-          element.prefs = {tab_size: 4, line_length: 50};
-          builder = element._getDiffBuilder();
-          assert.equal(builder._prefs.line_length, 72);
-        });
-      });
+    test(`line_length ignored for commit msg under ${mode}`, () => {
+      element.path = '/COMMIT_MSG';
+      element.viewMode = mode;
+      element.diff = createEmptyDiff();
+      element.prefs = {
+        ...createDefaultDiffPrefs(),
+        tab_size: 4,
+        line_length: 50,
+      };
+      builder = element._getDiffBuilder() as GrDiffBuilderLegacy;
+      assert.equal(builder._prefs.line_length, 72);
+    });
+  });
 
   test('createTextEl linewrap with tabs', () => {
+    setBuilderPrefs({tab_size: 4, line_length: 10});
     const text = '\t'.repeat(7) + '!';
-    const line = {text, highlights: []};
-    const el = builder.createTextEl(undefined, line);
+    const el = builder.createTextEl(null, line(text));
     assert.equal(el.innerText, text);
-    // With line length 10 and tab size 2, there should be a line break
+    // With line length 10 and tab size 4, there should be a line break
     // after every two tabs.
     const newlineEl = el.querySelector('.contentText > .br');
     assert.isOk(newlineEl);
     assert.equal(
-        el.querySelector('.contentText .tab:nth-child(2)').nextSibling,
-        newlineEl);
+      el.querySelector('.contentText .tab:nth-child(2)')?.nextSibling,
+      newlineEl
+    );
   });
 
   test('_handlePreferenceError throws with invalid preference', () => {
-    element.prefs = {tab_size: 0};
+    element.prefs = {...createDefaultDiffPrefs(), tab_size: 0};
     assert.throws(() => element._getDiffBuilder());
   });
 
@@ -133,38 +149,33 @@ suite('gr-diff-builder tests', () => {
     const errorStub = sinon.stub();
     element.addEventListener('show-alert', errorStub);
     assert.throws(() => element._handlePreferenceError('tab size'));
-    assert.equal(errorStub.lastCall.args[0].detail.message,
-        `The value of the 'tab size' user preference is invalid. ` +
-      `Fix in diff preferences`);
+    assert.equal(
+      errorStub.lastCall.args[0].detail.message,
+      "The value of the 'tab size' user preference is invalid. " +
+        'Fix in diff preferences'
+    );
   });
 
   suite('intraline differences', () => {
-    let el;
-    let str;
-    let annotateElementSpy;
-    let layer;
+    let el: HTMLElement;
+    let str: string;
+    let annotateElementSpy: sinon.SinonSpy;
+    let layer: DiffLayer;
     const lineNumberEl = document.createElement('td');
 
-    function slice(str, start, end) {
-      return Array.from(str).slice(start, end)
-          .join('');
+    function slice(str: string, start: number, end?: number) {
+      return Array.from(str).slice(start, end).join('');
     }
 
     setup(() => {
-      el = divWithTextFixture.instantiate();
-      str = el.textContent;
+      el = divWithTextFixture.instantiate() as HTMLElement;
+      str = el.textContent ?? '';
       annotateElementSpy = sinon.spy(GrAnnotation, 'annotateElement');
-      layer = document.createElement('gr-diff-builder')
-          ._createIntralineLayer();
+      layer = document.createElement('gr-diff-builder')._createIntralineLayer();
     });
 
     test('annotate no highlights', () => {
-      const line = {
-        text: str,
-        highlights: [],
-      };
-
-      layer.annotate(el, lineNumberEl, line);
+      layer.annotate(el, lineNumberEl, line(str), Side.LEFT);
 
       // The content is unchanged.
       assert.isFalse(annotateElementSpy.called);
@@ -174,20 +185,18 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('annotate with highlights', () => {
-      const line = {
-        text: str,
-        highlights: [
-          {startIndex: 6, endIndex: 12},
-          {startIndex: 18, endIndex: 22},
-        ],
-      };
+      const l = line(str);
+      l.highlights = [
+        {contentIndex: 0, startIndex: 6, endIndex: 12},
+        {contentIndex: 0, startIndex: 18, endIndex: 22},
+      ];
       const str0 = slice(str, 0, 6);
       const str1 = slice(str, 6, 12);
       const str2 = slice(str, 12, 18);
       const str3 = slice(str, 18, 22);
       const str4 = slice(str, 22);
 
-      layer.annotate(el, lineNumberEl, line);
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
       assert.isTrue(annotateElementSpy.called);
       assert.equal(el.childNodes.length, 5);
@@ -209,17 +218,13 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('annotate without endIndex', () => {
-      const line = {
-        text: str,
-        highlights: [
-          {startIndex: 28},
-        ],
-      };
+      const l = line(str);
+      l.highlights = [{contentIndex: 0, startIndex: 28}];
 
       const str0 = slice(str, 0, 28);
       const str1 = slice(str, 28);
 
-      layer.annotate(el, lineNumberEl, line);
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
       assert.isTrue(annotateElementSpy.called);
       assert.equal(el.childNodes.length, 2);
@@ -232,14 +237,10 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('annotate ignores empty highlights', () => {
-      const line = {
-        text: str,
-        highlights: [
-          {startIndex: 28, endIndex: 28},
-        ],
-      };
+      const l = line(str);
+      l.highlights = [{contentIndex: 0, startIndex: 28, endIndex: 28}];
 
-      layer.annotate(el, lineNumberEl, line);
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
       assert.isFalse(annotateElementSpy.called);
       assert.equal(el.childNodes.length, 1);
@@ -249,18 +250,14 @@ suite('gr-diff-builder tests', () => {
       // Put some unicode into the string:
       str = str.replace(/\s/g, '💢');
       el.textContent = str;
-      const line = {
-        text: str,
-        highlights: [
-          {startIndex: 6, endIndex: 12},
-        ],
-      };
+      const l = line(str);
+      l.highlights = [{contentIndex: 0, startIndex: 6, endIndex: 12}];
 
       const str0 = slice(str, 0, 6);
       const str1 = slice(str, 6, 12);
       const str2 = slice(str, 12);
 
-      layer.annotate(el, lineNumberEl, line);
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
       assert.isTrue(annotateElementSpy.called);
       assert.equal(el.childNodes.length, 3);
@@ -280,17 +277,13 @@ suite('gr-diff-builder tests', () => {
       str = str.replace(/\s/g, '💢');
       el.textContent = str;
 
-      const line = {
-        text: str,
-        highlights: [
-          {startIndex: 6},
-        ],
-      };
+      const l = line(str);
+      l.highlights = [{contentIndex: 0, startIndex: 6}];
 
       const str0 = slice(str, 0, 6);
       const str1 = slice(str, 6);
 
-      layer.annotate(el, lineNumberEl, line);
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
       assert.isTrue(annotateElementSpy.called);
       assert.equal(el.childNodes.length, 2);
@@ -304,49 +297,46 @@ suite('gr-diff-builder tests', () => {
   });
 
   suite('tab indicators', () => {
-    let element;
-    let layer;
+    let element: GrDiffBuilderElement;
+    let layer: DiffLayer;
     const lineNumberEl = document.createElement('td');
 
     setup(() => {
-      element = basicFixture.instantiate();
+      element = basicFixture.instantiate() as GrDiffBuilderElement;
       element._showTabs = true;
       layer = element._createTabIndicatorLayer();
     });
 
     test('does nothing with empty line', () => {
-      const line = {text: ''};
+      const l = line('');
       const el = document.createElement('div');
-      const annotateElementStub =
-          sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
 
-      layer.annotate(el, lineNumberEl, line);
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
       assert.isFalse(annotateElementStub.called);
     });
 
     test('does nothing with no tabs', () => {
       const str = 'lorem ipsum no tabs';
-      const line = {text: str};
+      const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub =
-          sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
 
-      layer.annotate(el, lineNumberEl, line);
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
       assert.isFalse(annotateElementStub.called);
     });
 
     test('annotates tab at beginning', () => {
       const str = '\tlorem upsum';
-      const line = {text: str};
+      const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub =
-          sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
 
-      layer.annotate(el, lineNumberEl, line);
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
       assert.equal(annotateElementStub.callCount, 1);
       const args = annotateElementStub.getCalls()[0].args;
@@ -360,26 +350,24 @@ suite('gr-diff-builder tests', () => {
       element._showTabs = false;
 
       const str = '\tlorem upsum';
-      const line = {text: str};
+      const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub =
-          sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
 
-      layer.annotate(el, lineNumberEl, line);
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
       assert.isFalse(annotateElementStub.called);
     });
 
     test('annotates multiple in beginning', () => {
       const str = '\t\tlorem upsum';
-      const line = {text: str};
+      const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub =
-          sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
 
-      layer.annotate(el, lineNumberEl, line);
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
       assert.equal(annotateElementStub.callCount, 2);
 
@@ -398,13 +386,12 @@ suite('gr-diff-builder tests', () => {
 
     test('annotates intermediate tabs', () => {
       const str = 'lorem\tupsum';
-      const line = {text: str};
+      const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub =
-          sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
 
-      layer.annotate(el, lineNumberEl, line);
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
       assert.equal(annotateElementStub.callCount, 1);
       const args = annotateElementStub.getCalls()[0].args;
@@ -416,12 +403,12 @@ suite('gr-diff-builder tests', () => {
   });
 
   suite('layers', () => {
-    let element;
-    let initialLayersCount;
-    let withLayerCount;
+    let element: GrDiffBuilderElement;
+    let initialLayersCount = 0;
+    let withLayerCount = 0;
     setup(() => {
-      const layers = [];
-      element = basicFixture.instantiate();
+      const layers: DiffLayer[] = [];
+      element = basicFixture.instantiate() as GrDiffBuilderElement;
       element.layers = layers;
       element._showTrailingWhitespace = true;
       element._setupAnnotationLayers();
@@ -434,9 +421,9 @@ suite('gr-diff-builder tests', () => {
     });
 
     suite('with layers', () => {
-      const layers = [{}, {}];
+      const layers: DiffLayer[] = [{annotate: () => {}}, {annotate: () => {}}];
       setup(() => {
-        element = basicFixture.instantiate();
+        element = basicFixture.instantiate() as GrDiffBuilderElement;
         element.layers = layers;
         element._showTrailingWhitespace = true;
         element._setupAnnotationLayers();
@@ -445,51 +432,47 @@ suite('gr-diff-builder tests', () => {
       test('with layers', () => {
         element._setupAnnotationLayers();
         assert.equal(element._layers.length, withLayerCount);
-        assert.equal(initialLayersCount + layers.length,
-            withLayerCount);
+        assert.equal(initialLayersCount + layers.length, withLayerCount);
       });
     });
   });
 
   suite('trailing whitespace', () => {
-    let element;
-    let layer;
+    let element: GrDiffBuilderElement;
+    let layer: DiffLayer;
     const lineNumberEl = document.createElement('td');
 
     setup(() => {
-      element = basicFixture.instantiate();
+      element = basicFixture.instantiate() as GrDiffBuilderElement;
       element._showTrailingWhitespace = true;
       layer = element._createTrailingWhitespaceLayer();
     });
 
     test('does nothing with empty line', () => {
-      const line = {text: ''};
+      const l = line('');
       const el = document.createElement('div');
-      const annotateElementStub =
-          sinon.stub(GrAnnotation, 'annotateElement');
-      layer.annotate(el, lineNumberEl, line);
+      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isFalse(annotateElementStub.called);
     });
 
     test('does nothing with no trailing whitespace', () => {
       const str = 'lorem ipsum blah blah';
-      const line = {text: str};
+      const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub =
-          sinon.stub(GrAnnotation, 'annotateElement');
-      layer.annotate(el, lineNumberEl, line);
+      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isFalse(annotateElementStub.called);
     });
 
     test('annotates trailing spaces', () => {
       const str = 'lorem ipsum   ';
-      const line = {text: str};
+      const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub =
-          sinon.stub(GrAnnotation, 'annotateElement');
-      layer.annotate(el, lineNumberEl, line);
+      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isTrue(annotateElementStub.called);
       assert.equal(annotateElementStub.lastCall.args[1], 11);
       assert.equal(annotateElementStub.lastCall.args[2], 3);
@@ -497,12 +480,11 @@ suite('gr-diff-builder tests', () => {
 
     test('annotates trailing tabs', () => {
       const str = 'lorem ipsum\t\t\t';
-      const line = {text: str};
+      const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub =
-          sinon.stub(GrAnnotation, 'annotateElement');
-      layer.annotate(el, lineNumberEl, line);
+      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isTrue(annotateElementStub.called);
       assert.equal(annotateElementStub.lastCall.args[1], 11);
       assert.equal(annotateElementStub.lastCall.args[2], 3);
@@ -510,12 +492,11 @@ suite('gr-diff-builder tests', () => {
 
     test('annotates mixed trailing whitespace', () => {
       const str = 'lorem ipsum\t \t';
-      const line = {text: str};
+      const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub =
-          sinon.stub(GrAnnotation, 'annotateElement');
-      layer.annotate(el, lineNumberEl, line);
+      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isTrue(annotateElementStub.called);
       assert.equal(annotateElementStub.lastCall.args[1], 11);
       assert.equal(annotateElementStub.lastCall.args[2], 3);
@@ -523,12 +504,11 @@ suite('gr-diff-builder tests', () => {
 
     test('unicode preceding trailing whitespace', () => {
       const str = '💢\t';
-      const line = {text: str};
+      const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub =
-          sinon.stub(GrAnnotation, 'annotateElement');
-      layer.annotate(el, lineNumberEl, line);
+      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isTrue(annotateElementStub.called);
       assert.equal(annotateElementStub.lastCall.args[1], 1);
       assert.equal(annotateElementStub.lastCall.args[2], 1);
@@ -537,45 +517,48 @@ suite('gr-diff-builder tests', () => {
     test('does not annotate when disabled', () => {
       element._showTrailingWhitespace = false;
       const str = 'lorem upsum\t \t ';
-      const line = {text: str};
+      const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub =
-          sinon.stub(GrAnnotation, 'annotateElement');
-      layer.annotate(el, lineNumberEl, line);
+      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isFalse(annotateElementStub.called);
     });
   });
 
   suite('rendering text, images and binary files', () => {
-    let processStub;
-    let keyLocations;
-    let content;
+    let processStub: sinon.SinonStub;
+    let keyLocations: KeyLocations;
+    let content: DiffContent[] = [];
 
     setup(() => {
-      element = basicFixture.instantiate();
+      element = basicFixture.instantiate() as GrDiffBuilderElement;
       element.viewMode = 'SIDE_BY_SIDE';
-      processStub = sinon.stub(element.processor, 'process')
-          .returns(Promise.resolve());
+      processStub = sinon
+        .stub(element.processor, 'process')
+        .returns(Promise.resolve());
       keyLocations = {left: {}, right: {}};
       element.prefs = {
         ...DEFAULT_PREFS,
         context: -1,
         syntax_highlighting: true,
       };
-      content = [{
-        a: ['all work and no play make andybons a dull boy'],
-        b: ['elgoog elgoog elgoog'],
-      }, {
-        ab: [
-          'Non eram nescius, Brute, cum, quae summis ingeniis ',
-          'exquisitaque doctrina philosophi Graeco sermone tractavissent',
-        ],
-      }];
+      content = [
+        {
+          a: ['all work and no play make andybons a dull boy'],
+          b: ['elgoog elgoog elgoog'],
+        },
+        {
+          ab: [
+            'Non eram nescius, Brute, cum, quae summis ingeniis ',
+            'exquisitaque doctrina philosophi Graeco sermone tractavissent',
+          ],
+        },
+      ];
     });
 
     test('text', async () => {
-      element.diff = {content};
+      element.diff = {...createEmptyDiff(), content};
       element.render(keyLocations);
       await waitForEventOnce(element, 'render-content');
       assert.isTrue(processStub.calledOnce);
@@ -583,7 +566,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('image', async () => {
-      element.diff = {content, binary: true};
+      element.diff = {...createEmptyDiff(), content, binary: true};
       element.isImageDiff = true;
       element.render(keyLocations);
       await waitForEventOnce(element, 'render-content');
@@ -592,7 +575,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('binary', async () => {
-      element.diff = {content, binary: true};
+      element.diff = {...createEmptyDiff(), content, binary: true};
       element.render(keyLocations);
       await waitForEventOnce(element, 'render-content');
       assert.isTrue(processStub.calledOnce);
@@ -601,11 +584,14 @@ suite('gr-diff-builder tests', () => {
   });
 
   suite('rendering', () => {
-    let content;
-    let outputEl;
-    let keyLocations;
+    let content: DiffContent[];
+    let outputEl: HTMLTableElement;
+    let keyLocations: KeyLocations;
+    let addColumnsStub: sinon.SinonStub;
+    let dispatchStub: sinon.SinonStub;
+    let builder: GrDiffBuilderSideBySide;
 
-    setup(async () => {
+    setup(() => {
       const prefs = {...DEFAULT_PREFS};
       content = [
         {
@@ -619,43 +605,51 @@ suite('gr-diff-builder tests', () => {
           ],
         },
       ];
-      element = basicFixture.instantiate();
-      sinon.stub(element, 'dispatchEvent');
-      outputEl = element.querySelector('#diffTable');
+      element = basicFixture.instantiate() as GrDiffBuilderElement;
+      dispatchStub = sinon.stub(element, 'dispatchEvent');
+      outputEl = queryAndAssert(element, '#diffTable');
       keyLocations = {left: {}, right: {}};
       sinon.stub(element, '_getDiffBuilder').callsFake(() => {
-        const builder = new GrDiffBuilderSideBySide({content}, prefs, outputEl);
-        sinon.stub(builder, 'addColumns');
-        builder.buildSectionElement = function(group) {
+        builder = new GrDiffBuilderSideBySide(
+          {...createEmptyDiff(), content},
+          prefs,
+          outputEl
+        );
+        addColumnsStub = sinon.stub(builder, 'addColumns');
+        builder.buildSectionElement = function (group) {
           const section = document.createElement('stub');
-          section.textContent = group.lines
-              .reduce((acc, line) => acc + line.text, '');
+          section.textContent = group.lines.reduce(
+            (acc, line) => acc + line.text,
+            ''
+          );
           return section;
         };
         return builder;
       });
-      element.diff = {content};
+      element.diff = {...createEmptyDiff(), content};
       element.prefs = prefs;
-      await element.render(keyLocations);
+      element.render(keyLocations);
     });
 
     test('addColumns is called', () => {
-      assert.isTrue(element._builder.addColumns.called);
+      assert.isTrue(addColumnsStub.called);
     });
 
     test('getGroupsByLineRange one line', () => {
-      const section = outputEl.querySelector('stub:nth-of-type(3)');
-      const groups = element._builder.getGroupsByLineRange(1, 1, 'left');
+      const section = outputEl.querySelector<HTMLElement>(
+        'stub:nth-of-type(3)'
+      );
+      const groups = builder.getGroupsByLineRange(1, 1, Side.LEFT);
       assert.equal(groups.length, 1);
       assert.strictEqual(groups[0].element, section);
     });
 
     test('getGroupsByLineRange over diff', () => {
       const section = [
-        outputEl.querySelector('stub:nth-of-type(3)'),
-        outputEl.querySelector('stub:nth-of-type(4)'),
+        outputEl.querySelector<HTMLElement>('stub:nth-of-type(3)'),
+        outputEl.querySelector<HTMLElement>('stub:nth-of-type(4)'),
       ];
-      const groups = element._builder.getGroupsByLineRange(1, 2, 'left');
+      const groups = builder.getGroupsByLineRange(1, 2, Side.LEFT);
       assert.equal(groups.length, 2);
       assert.strictEqual(groups[0].element, section[0]);
       assert.strictEqual(groups[1].element, section[1]);
@@ -663,8 +657,7 @@ suite('gr-diff-builder tests', () => {
 
     test('render-start and render-content are fired', async () => {
       await new Promise(resolve => afterNextRender(element, resolve));
-      const firedEventTypes = element.dispatchEvent.getCalls()
-          .map(c => c.args[0].type);
+      const firedEventTypes = dispatchStub.getCalls().map(c => c.args[0].type);
       assert.include(firedEventTypes, 'render-start');
       assert.include(firedEventTypes, 'render-content');
     });
@@ -677,13 +670,16 @@ suite('gr-diff-builder tests', () => {
   });
 
   suite('context hiding and expanding', () => {
+    let dispatchStub: sinon.SinonStub;
+
     setup(async () => {
-      element = basicFixture.instantiate();
-      sinon.stub(element, 'dispatchEvent');
-      const afterNextRenderPromise = new Promise((resolve, reject) => {
+      element = basicFixture.instantiate() as GrDiffBuilderElement;
+      dispatchStub = sinon.stub(element, 'dispatchEvent');
+      const afterNextRenderPromise = new Promise(resolve => {
         afterNextRender(element, resolve);
       });
       element.diff = {
+        ...createEmptyDiff(),
         content: [
           {ab: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => `unchanged ${i}`)},
           {a: ['before'], b: ['after']},
@@ -692,12 +688,12 @@ suite('gr-diff-builder tests', () => {
       };
       element.viewMode = DiffViewMode.SIDE_BY_SIDE;
 
-      const keyLocations = {left: {}, right: {}};
+      const keyLocations: KeyLocations = {left: {}, right: {}};
       element.prefs = {
         ...DEFAULT_PREFS,
         context: 1,
       };
-      await element.render(keyLocations);
+      element.render(keyLocations);
       // Make sure all listeners are installed.
       await afterNextRenderPromise;
     });
@@ -717,10 +713,13 @@ suite('gr-diff-builder tests', () => {
 
     test('clicking +x common lines expands those lines', () => {
       const contextControls = element.querySelectorAll('gr-context-controls');
-      const topExpandCommonButton = contextControls[0].shadowRoot
-          .querySelectorAll('.showContext')[0];
-      assert.include(topExpandCommonButton.textContent, '+9 common lines');
-      topExpandCommonButton.click();
+      const topExpandCommonButton =
+        contextControls[0].shadowRoot?.querySelectorAll<HTMLElement>(
+          '.showContext'
+        )[0];
+      assert.isOk(topExpandCommonButton);
+      assert.include(topExpandCommonButton!.textContent, '+9 common lines');
+      topExpandCommonButton!.click();
       const diffRows = element.querySelectorAll('.diff-row');
       // The first two are LOST and FILE line
       assert.equal(diffRows.length, 2 + 10 + 1 + 1);
@@ -740,7 +739,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('unhideLine shows the line with context', async () => {
-      element.dispatchEvent.reset();
+      dispatchStub.reset();
       element.unhideLine(4, Side.LEFT);
 
       const diffRows = element.querySelectorAll('.diff-row');
@@ -761,37 +760,38 @@ suite('gr-diff-builder tests', () => {
       assert.include(diffRows[9].textContent, 'unchanged 11');
 
       await new Promise(resolve => afterNextRender(element, resolve));
-      const firedEventTypes = element.dispatchEvent.getCalls()
-          .map(c => c.args[0].type);
+      const firedEventTypes = dispatchStub.getCalls().map(c => c.args[0].type);
       assert.include(firedEventTypes, 'render-content');
     });
   });
 
   suite('mock-diff', () => {
-    let element;
-    let builder;
-    let diff;
-    let keyLocations;
+    let element: GrDiffBuilderElement;
+    let builder: GrDiffBuilderSideBySide;
+    let diff: DiffInfo;
+    let keyLocations: KeyLocations;
 
-    setup(async () => {
-      element = mockDiffFixture.instantiate();
+    setup(() => {
+      element = mockDiffFixture.instantiate() as GrDiffBuilderElement;
       diff = createDiff();
       element.diff = diff;
 
       keyLocations = {left: {}, right: {}};
 
       element.prefs = {
+        ...createDefaultDiffPrefs(),
         line_length: 80,
         show_tabs: true,
         tab_size: 4,
       };
-      await element.render(keyLocations);
-      builder = element._builder;
+      element.render(keyLocations);
+      builder = element._builder as GrDiffBuilderSideBySide;
     });
 
     test('aria-labels on added line numbers', () => {
       const deltaLineNumberButton = element.diffElement.querySelectorAll(
-          '.lineNumButton.right')[5];
+        '.lineNumButton.right'
+      )[5];
 
       assert.isOk(deltaLineNumberButton);
       assert.equal(deltaLineNumberButton.getAttribute('aria-label'), '5 added');
@@ -799,57 +799,66 @@ suite('gr-diff-builder tests', () => {
 
     test('aria-labels on removed line numbers', () => {
       const deltaLineNumberButton = element.diffElement.querySelectorAll(
-          '.lineNumButton.left')[10];
+        '.lineNumButton.left'
+      )[10];
 
       assert.isOk(deltaLineNumberButton);
       assert.equal(
-          deltaLineNumberButton.getAttribute('aria-label'), '10 removed');
+        deltaLineNumberButton.getAttribute('aria-label'),
+        '10 removed'
+      );
     });
 
     test('getContentByLine', () => {
-      let actual;
+      let actual: HTMLElement | null;
 
-      actual = builder.getContentByLine(2, 'left');
-      assert.equal(actual.textContent, diff.content[0].ab[1]);
+      actual = builder.getContentByLine(2, Side.LEFT);
+      assert.equal(actual?.textContent, diff.content[0].ab?.[1]);
 
-      actual = builder.getContentByLine(2, 'right');
-      assert.equal(actual.textContent, diff.content[0].ab[1]);
+      actual = builder.getContentByLine(2, Side.RIGHT);
+      assert.equal(actual?.textContent, diff.content[0].ab?.[1]);
 
-      actual = builder.getContentByLine(5, 'left');
-      assert.equal(actual.textContent, diff.content[2].ab[0]);
+      actual = builder.getContentByLine(5, Side.LEFT);
+      assert.equal(actual?.textContent, diff.content[2].ab?.[0]);
 
-      actual = builder.getContentByLine(5, 'right');
-      assert.equal(actual.textContent, diff.content[1].b[0]);
+      actual = builder.getContentByLine(5, Side.RIGHT);
+      assert.equal(actual?.textContent, diff.content[1].b?.[0]);
     });
 
     test('getContentTdByLineEl works both with button and td', () => {
       const diffRow = element.diffElement.querySelectorAll('tr.diff-row')[2];
 
-      const lineNumTdLeft = diffRow.querySelector('td.lineNum.left');
-      const lineNumButtonLeft = lineNumTdLeft.querySelector('button');
+      const lineNumTdLeft = queryAndAssert(diffRow, 'td.lineNum.left');
+      const lineNumButtonLeft = queryAndAssert(lineNumTdLeft, 'button');
       const contentTdLeft = diffRow.querySelectorAll('.content')[0];
 
-      const lineNumTdRight = diffRow.querySelector('td.lineNum.right');
-      const lineNumButtonRight = lineNumTdRight.querySelector('button');
+      const lineNumTdRight = queryAndAssert(diffRow, 'td.lineNum.right');
+      const lineNumButtonRight = queryAndAssert(lineNumTdRight, 'button');
       const contentTdRight = diffRow.querySelectorAll('.content')[1];
 
       assert.equal(element.getContentTdByLineEl(lineNumTdLeft), contentTdLeft);
       assert.equal(
-          element.getContentTdByLineEl(lineNumButtonLeft), contentTdLeft);
+        element.getContentTdByLineEl(lineNumButtonLeft),
+        contentTdLeft
+      );
       assert.equal(
-          element.getContentTdByLineEl(lineNumTdRight), contentTdRight);
+        element.getContentTdByLineEl(lineNumTdRight),
+        contentTdRight
+      );
       assert.equal(
-          element.getContentTdByLineEl(lineNumButtonRight), contentTdRight);
+        element.getContentTdByLineEl(lineNumButtonRight),
+        contentTdRight
+      );
     });
 
     test('findLinesByRange', () => {
-      const lines = [];
-      const elems = [];
+      const lines: GrDiffLine[] = [];
+      const elems: HTMLElement[] = [];
       const start = 6;
       const end = 10;
       const count = end - start + 1;
 
-      builder.findLinesByRange(start, end, 'right', lines, elems);
+      builder.findLinesByRange(start, end, Side.RIGHT, lines, elems);
 
       assert.equal(lines.length, count);
       assert.equal(elems.length, count);
@@ -868,10 +877,10 @@ suite('gr-diff-builder tests', () => {
       const end = 14;
       const count = end - start + 1;
 
-      builder.renderContentByRange(start, end, 'left');
+      builder.renderContentByRange(start, end, Side.LEFT);
 
       assert.equal(spy.callCount, count);
-      spy.getCalls().forEach((call, i) => {
+      spy.getCalls().forEach((call, i: number) => {
         assert.equal(call.args[1].beforeNumber, start + i);
       });
     });
@@ -879,145 +888,201 @@ suite('gr-diff-builder tests', () => {
     test('renderContentByRange non-existent elements', () => {
       const spy = sinon.spy(builder, 'createTextEl');
 
-      sinon.stub(builder, 'getLineNumberEl').returns(
-          document.createElement('div')
-      );
-      sinon.stub(builder, 'findLinesByRange').callsFake(
-          (s, e, d, lines, elements) => {
-            // Add a line and a corresponding element.
-            lines.push(new GrDiffLine(GrDiffLineType.BOTH));
-            const tr = document.createElement('tr');
-            const td = document.createElement('td');
-            const el = document.createElement('div');
-            tr.appendChild(td);
-            td.appendChild(el);
-            elements.push(el);
+      sinon
+        .stub(builder, 'getLineNumberEl')
+        .returns(document.createElement('div'));
+      sinon
+        .stub(builder, 'findLinesByRange')
+        .callsFake((_1, _2, _3, lines, elements) => {
+          // Add a line and a corresponding element.
+          lines?.push(new GrDiffLine(GrDiffLineType.BOTH));
+          const tr = document.createElement('tr');
+          const td = document.createElement('td');
+          const el = document.createElement('div');
+          tr.appendChild(td);
+          td.appendChild(el);
+          elements?.push(el);
 
-            // Add 2 lines without corresponding elements.
-            lines.push(new GrDiffLine(GrDiffLineType.BOTH));
-            lines.push(new GrDiffLine(GrDiffLineType.BOTH));
-          });
+          // Add 2 lines without corresponding elements.
+          lines?.push(new GrDiffLine(GrDiffLineType.BOTH));
+          lines?.push(new GrDiffLine(GrDiffLineType.BOTH));
+        });
 
-      builder.renderContentByRange(1, 10, 'left');
+      builder.renderContentByRange(1, 10, Side.LEFT);
       // Should be called only once because only one line had a corresponding
       // element.
       assert.equal(spy.callCount, 1);
     });
 
     test('getLineNumberEl side-by-side left', () => {
-      const contentEl = builder.getContentByLine(5, 'left',
-          element.$.diffTable);
-      const lineNumberEl = builder.getLineNumberEl(contentEl, 'left');
-      assert.isTrue(lineNumberEl.classList.contains('lineNum'));
-      assert.isTrue(lineNumberEl.classList.contains('left'));
+      const contentEl = builder.getContentByLine(
+        5,
+        Side.LEFT,
+        element.$.diffTable as HTMLTableElement
+      );
+      assert.isOk(contentEl);
+      const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.LEFT);
+      assert.isOk(lineNumberEl);
+      assert.isTrue(lineNumberEl!.classList.contains('lineNum'));
+      assert.isTrue(lineNumberEl!.classList.contains(Side.LEFT));
     });
 
     test('getLineNumberEl side-by-side right', () => {
-      const contentEl = builder.getContentByLine(5, 'right',
-          element.$.diffTable);
-      const lineNumberEl = builder.getLineNumberEl(contentEl, 'right');
-      assert.isTrue(lineNumberEl.classList.contains('lineNum'));
-      assert.isTrue(lineNumberEl.classList.contains('right'));
+      const contentEl = builder.getContentByLine(
+        5,
+        Side.RIGHT,
+        element.$.diffTable as HTMLTableElement
+      );
+      assert.isOk(contentEl);
+      const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.RIGHT);
+      assert.isOk(lineNumberEl);
+      assert.isTrue(lineNumberEl!.classList.contains('lineNum'));
+      assert.isTrue(lineNumberEl!.classList.contains(Side.RIGHT));
     });
 
     test('getLineNumberEl unified left', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      await element.render(keyLocations);
-      builder = element._builder;
+      element.render(keyLocations);
+      builder = element._builder as GrDiffBuilderSideBySide;
 
-      const contentEl = builder.getContentByLine(5, 'left',
-          element.$.diffTable);
-      const lineNumberEl = builder.getLineNumberEl(contentEl, 'left');
-      assert.isTrue(lineNumberEl.classList.contains('lineNum'));
-      assert.isTrue(lineNumberEl.classList.contains('left'));
+      const contentEl = builder.getContentByLine(
+        5,
+        Side.LEFT,
+        element.$.diffTable as HTMLTableElement
+      );
+      assert.isOk(contentEl);
+      const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.LEFT);
+      assert.isOk(lineNumberEl);
+      assert.isTrue(lineNumberEl!.classList.contains('lineNum'));
+      assert.isTrue(lineNumberEl!.classList.contains(Side.LEFT));
     });
 
     test('getLineNumberEl unified right', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      await element.render(keyLocations);
-      builder = element._builder;
+      element.render(keyLocations);
+      builder = element._builder as GrDiffBuilderSideBySide;
 
-      const contentEl = builder.getContentByLine(5, 'right',
-          element.$.diffTable);
-      const lineNumberEl = builder.getLineNumberEl(contentEl, 'right');
-      assert.isTrue(lineNumberEl.classList.contains('lineNum'));
-      assert.isTrue(lineNumberEl.classList.contains('right'));
+      const contentEl = builder.getContentByLine(
+        5,
+        Side.RIGHT,
+        element.$.diffTable as HTMLTableElement
+      );
+      assert.isOk(contentEl);
+      const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.RIGHT);
+      assert.isOk(lineNumberEl);
+      assert.isTrue(lineNumberEl!.classList.contains('lineNum'));
+      assert.isTrue(lineNumberEl!.classList.contains(Side.RIGHT));
     });
 
     test('getNextContentOnSide side-by-side left', () => {
-      const startElem = builder.getContentByLine(5, 'left',
-          element.$.diffTable);
-      const expectedStartString = diff.content[2].ab[0];
-      const expectedNextString = diff.content[2].ab[1];
-      assert.equal(startElem.textContent, expectedStartString);
+      const startElem = builder.getContentByLine(
+        5,
+        Side.LEFT,
+        element.$.diffTable as HTMLTableElement
+      );
+      assert.isOk(startElem);
+      const expectedStartString = diff.content[2].ab?.[0];
+      const expectedNextString = diff.content[2].ab?.[1];
+      assert.equal(startElem!.textContent, expectedStartString);
 
-      const nextElem = builder.getNextContentOnSide(startElem,
-          'left');
-      assert.equal(nextElem.textContent, expectedNextString);
+      const nextElem = builder.getNextContentOnSide(startElem!, Side.LEFT);
+      assert.isOk(nextElem);
+      assert.equal(nextElem!.textContent, expectedNextString);
     });
 
     test('getNextContentOnSide side-by-side right', () => {
-      const startElem = builder.getContentByLine(5, 'right',
-          element.$.diffTable);
-      const expectedStartString = diff.content[1].b[0];
-      const expectedNextString = diff.content[1].b[1];
-      assert.equal(startElem.textContent, expectedStartString);
+      const startElem = builder.getContentByLine(
+        5,
+        Side.RIGHT,
+        element.$.diffTable as HTMLTableElement
+      );
+      const expectedStartString = diff.content[1].b?.[0];
+      const expectedNextString = diff.content[1].b?.[1];
+      assert.isOk(startElem);
+      assert.equal(startElem!.textContent, expectedStartString);
 
-      const nextElem = builder.getNextContentOnSide(startElem,
-          'right');
-      assert.equal(nextElem.textContent, expectedNextString);
+      const nextElem = builder.getNextContentOnSide(startElem!, Side.RIGHT);
+      assert.isOk(nextElem);
+      assert.equal(nextElem!.textContent, expectedNextString);
     });
 
     test('getNextContentOnSide unified left', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      await element.render(keyLocations);
-      builder = element._builder;
+      element.render(keyLocations);
+      builder = element._builder as GrDiffBuilderSideBySide;
 
-      const startElem = builder.getContentByLine(5, 'left',
-          element.$.diffTable);
-      const expectedStartString = diff.content[2].ab[0];
-      const expectedNextString = diff.content[2].ab[1];
-      assert.equal(startElem.textContent, expectedStartString);
+      const startElem = builder.getContentByLine(
+        5,
+        Side.LEFT,
+        element.$.diffTable as HTMLTableElement
+      );
+      const expectedStartString = diff.content[2].ab?.[0];
+      const expectedNextString = diff.content[2].ab?.[1];
+      assert.isOk(startElem);
+      assert.equal(startElem!.textContent, expectedStartString);
 
-      const nextElem = builder.getNextContentOnSide(startElem,
-          'left');
-      assert.equal(nextElem.textContent, expectedNextString);
+      const nextElem = builder.getNextContentOnSide(startElem!, Side.LEFT);
+      assert.isOk(nextElem);
+      assert.equal(nextElem!.textContent, expectedNextString);
     });
 
     test('getNextContentOnSide unified right', async () => {
       // Re-render as unified:
       element.viewMode = 'UNIFIED_DIFF';
-      await element.render(keyLocations);
-      builder = element._builder;
+      element.render(keyLocations);
+      builder = element._builder as GrDiffBuilderSideBySide;
 
-      const startElem = builder.getContentByLine(5, 'right',
-          element.$.diffTable);
-      const expectedStartString = diff.content[1].b[0];
-      const expectedNextString = diff.content[1].b[1];
-      assert.equal(startElem.textContent, expectedStartString);
+      const startElem = builder.getContentByLine(
+        5,
+        Side.RIGHT,
+        element.$.diffTable as HTMLTableElement
+      );
+      const expectedStartString = diff.content[1].b?.[0];
+      const expectedNextString = diff.content[1].b?.[1];
+      assert.isOk(startElem);
+      assert.equal(startElem!.textContent, expectedStartString);
 
-      const nextElem = builder.getNextContentOnSide(startElem,
-          'right');
-      assert.equal(nextElem.textContent, expectedNextString);
+      const nextElem = builder.getNextContentOnSide(startElem!, Side.RIGHT);
+      assert.isOk(nextElem);
+      assert.equal(nextElem!.textContent, expectedNextString);
     });
   });
 
   suite('blame', () => {
-    let mockBlame;
+    let mockBlame: BlameInfo[];
 
     setup(() => {
       mockBlame = [
-        {id: 'commit 1', ranges: [{start: 1, end: 2}, {start: 10, end: 16}]},
-        {id: 'commit 2', ranges: [{start: 4, end: 10}, {start: 17, end: 32}]},
+        {
+          author: 'test-author',
+          time: 314,
+          commit_msg: 'test-commit-message',
+          id: 'commit 1',
+          ranges: [
+            {start: 1, end: 2},
+            {start: 10, end: 16},
+          ],
+        },
+        {
+          author: 'test-author',
+          time: 314,
+          commit_msg: 'test-commit-message',
+          id: 'commit 2',
+          ranges: [
+            {start: 4, end: 10},
+            {start: 17, end: 32},
+          ],
+        },
       ];
     });
 
     test('setBlame attempts to render each blamed line', () => {
-      const getBlameStub = sinon.stub(builder, 'getBlameTdByLine')
-          .returns(null);
+      const getBlameStub = sinon
+        .stub(builder, 'getBlameTdByLine')
+        .returns(undefined);
       builder.setBlame(mockBlame);
       assert.equal(getBlameStub.callCount, 32);
     });
@@ -1026,13 +1091,13 @@ suite('gr-diff-builder tests', () => {
       sinon.stub(builder, 'getBlameTdByLine').returns(undefined);
       builder.setBlame(mockBlame);
       assert.isOk(builder.getBlameCommitForBaseLine(1));
-      assert.equal(builder.getBlameCommitForBaseLine(1).id, 'commit 1');
+      assert.equal(builder.getBlameCommitForBaseLine(1)?.id, 'commit 1');
 
       assert.isOk(builder.getBlameCommitForBaseLine(11));
-      assert.equal(builder.getBlameCommitForBaseLine(11).id, 'commit 1');
+      assert.equal(builder.getBlameCommitForBaseLine(11)?.id, 'commit 1');
 
       assert.isOk(builder.getBlameCommitForBaseLine(32));
-      assert.equal(builder.getBlameCommitForBaseLine(32).id, 'commit 2');
+      assert.equal(builder.getBlameCommitForBaseLine(32)?.id, 'commit 2');
 
       assert.isUndefined(builder.getBlameCommitForBaseLine(33));
     });
@@ -1046,13 +1111,14 @@ suite('gr-diff-builder tests', () => {
     test('createBlameCell', () => {
       const mockBlameInfo = {
         time: 1576155200,
-        id: 1234567890,
+        id: '1234567890',
         author: 'Clark Kent',
         commit_msg: 'Testing Commit',
-        ranges: [1],
+        ranges: [{start: 4, end: 10}],
       };
-      const getBlameStub = sinon.stub(builder, 'getBlameCommitForBaseLine')
-          .returns(mockBlameInfo);
+      const getBlameStub = sinon
+        .stub(builder, 'getBlameCommitForBaseLine')
+        .returns(mockBlameInfo);
       const line = new GrDiffLine(GrDiffLineType.BOTH);
       line.beforeNumber = 3;
       line.afterNumber = 5;
@@ -1061,7 +1127,7 @@ suite('gr-diff-builder tests', () => {
 
       assert.isTrue(getBlameStub.calledWithExactly(3));
       assert.equal(result.getAttribute('data-line-number'), '3');
-      expect(result).dom.to.equal(/* HTML */`
+      expect(result).dom.to.equal(/* HTML */ `
         <span class="gr-diff style-scope">
           <a class="blameDate gr-diff style-scope" href="/r/q/1234567890">
             12/12/2019
@@ -1069,10 +1135,10 @@ suite('gr-diff-builder tests', () => {
           <span class="blameAuthor gr-diff style-scope">Clark</span>
           <gr-hovercard class="gr-diff style-scope">
             <span class="blameHoverCard gr-diff style-scope">
-              Commit 1234567890<br>
-              Author: Clark Kent<br>
-              Date: 12/12/2019<br>
-              <br>
+              Commit 1234567890<br />
+              Author: Clark Kent<br />
+              Date: 12/12/2019<br />
+              <br />
               Testing Commit
             </span>
           </gr-hovercard>
@@ -1081,4 +1147,3 @@ suite('gr-diff-builder tests', () => {
     });
   });
 });
-

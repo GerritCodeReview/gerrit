@@ -16,6 +16,24 @@
       "message": "This same layout is used in Bulk Vote Dialog as well so that needs to be updated as well.\nI\u0027m happy to do it. Let me know what you prefer.",
       "revId": "963bb4eefe20e844b0e40f4afe3f2be8026af331",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5838d133_6e845036",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-09T09:54:43Z",
+      "side": 1,
+      "message": "Please, can you do it as separate change. I am not very familiar with bulk vote dialog.",
+      "parentUuid": "69c05a50_4d183227",
+      "revId": "963bb4eefe20e844b0e40f4afe3f2be8026af331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

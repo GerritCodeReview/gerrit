@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "20e8e766_36dded88",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
@@ -14,8 +15,25 @@
       "side": 1,
       "message": "I think it would be better to leave this public, and have the new createQueue call it as it does at L142.  Then we don\u0027t need the separate createQueueWithMetrics method. It should be enough to add Javadoc here to explain the parameter.",
       "revId": "6c337b1fcad352fbbb1731598fca76a86edda938",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f88126dd_36d787c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2022-05-09T16:41:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20e8e766_36dded88",
+      "revId": "6c337b1fcad352fbbb1731598fca76a86edda938",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

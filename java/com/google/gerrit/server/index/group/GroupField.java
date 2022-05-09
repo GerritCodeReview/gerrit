@@ -32,7 +32,12 @@ import com.google.gerrit.index.SchemaUtil;
 import java.sql.Timestamp;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** Secondary index schemas for groups. */
+/**
+ * Secondary index schemas for groups.
+ *
+ * <p>Note that this class does not override {@link Object#equals(Object)}. It relies on instances
+ * being singletons so that the default (i.e. reference) comparison works.
+ */
 public class GroupField {
   /** Legacy group ID. */
   public static final FieldDef<InternalGroup, Integer> ID =

@@ -15,7 +15,7 @@ import {
   GrDiffGroupType,
   hideInContextControl,
 } from '../gr-diff/gr-diff-group';
-import {CancelablePromise, util} from '../../../scripts/util';
+import {CancelablePromise, makeCancelable} from '../../../scripts/util';
 import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';
@@ -138,7 +138,7 @@ export class GrDiffProcessor {
       return Promise.resolve();
     }
 
-    this.processPromise = util.makeCancelable(
+    this.processPromise = makeCancelable(
       new Promise(resolve => {
         const state = {
           lineNums: {left: 0, right: 0},

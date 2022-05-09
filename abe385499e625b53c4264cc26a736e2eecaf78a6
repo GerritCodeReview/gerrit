@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fbdb9a2_9a6f01c9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-09T16:21:08Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be just !this.localPrefs.email_format?",
+      "range": {
+        "startLine": 828,
+        "startChar": 4,
+        "endLine": 828,
+        "endChar": 76
+      },
+      "revId": "abe385499e625b53c4264cc26a736e2eecaf78a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

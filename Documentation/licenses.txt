@@ -42,6 +42,7 @@ updates of mirror servers, or realtime backups.
 [[Apache2_0]]
 Apache2.0
 
+* auto:auto-factory
 * auto:auto-value
 * auto:auto-value-annotations
 * auto:auto-value-gson

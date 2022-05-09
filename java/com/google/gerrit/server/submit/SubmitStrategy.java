@@ -43,6 +43,7 @@ import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -151,7 +152,7 @@ public abstract class SubmitStrategy {
         EmailMerge.Factory mergedSenderFactory,
         GitRepositoryManager repoManager,
         LabelNormalizer labelNormalizer,
-        MergeUtil.Factory mergeUtilFactory,
+        MergeUtilFactory mergeUtilFactory,
         PatchSetInfoFactory patchSetInfoFactory,
         PatchSetUtil psUtil,
         @GerritPersonIdent PersonIdent serverIdent,

@@ -138,13 +138,13 @@ public class PureRevertCache {
 
   static class Loader extends CacheLoader<PureRevertKeyProto, Boolean> {
     private final GitRepositoryManager repoManager;
-    private final MergeUtil.Factory mergeUtilFactory;
+    private final MergeUtilFactory mergeUtilFactory;
     private final ProjectCache projectCache;
 
     @Inject
     Loader(
         GitRepositoryManager repoManager,
-        MergeUtil.Factory mergeUtilFactory,
+        MergeUtilFactory mergeUtilFactory,
         ProjectCache projectCache) {
       this.repoManager = repoManager;
       this.mergeUtilFactory = mergeUtilFactory;

@@ -10,6 +10,23 @@ java_plugin(
 )
 
 java_plugin(
+    name = "auto-factory-plugin",
+    generates_api = 1,
+    processor_class = "com.google.auto.factory.processor.AutoFactoryProcessor",
+    visibility = ["//visibility:private"],
+    deps = [
+        "@auto-common//jar",
+        "@auto-factory//jar",
+        "@auto-service-annotations//jar",
+        "@auto-value-annotations//jar",
+        "@auto-value//jar",
+        "@guava//jar",
+        "@javapoet//jar",
+        "@javax_inject//jar",
+    ],
+)
+
+java_plugin(
     name = "auto-value-plugin",
     processor_class = "com.google.auto.value.processor.AutoValueProcessor",
     deps = [
@@ -40,6 +57,16 @@ java_plugin(
         "@gson//jar",
         "@javapoet//jar",
     ],
+)
+
+java_library(
+    name = "auto-factory",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exported_plugins = [
+        ":auto-factory-plugin",
+    ],
+    visibility = ["//visibility:public"],
+    exports = ["@auto-factory//jar"],
 )
 
 java_library(

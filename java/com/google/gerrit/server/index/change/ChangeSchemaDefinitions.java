@@ -20,10 +20,15 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.query.change.ChangeData;
 
-/** Definition of change index versions (schemata). See {@link SchemaDefinitions}. */
+/**
+ * Definition of change index versions (schemata). See {@link SchemaDefinitions}.
+ *
+ * <p>Upgrades are subject to constraints, see {@link
+ * com.google.gerrit.index.IndexUpgradeValidator}.
+ */
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
-  @Deprecated
   /** Added new field {@link ChangeField#IS_SUBMITTABLE} based on submit requirements. */
+  @Deprecated
   static final Schema<ChangeData> V74 =
       schema(
           ChangeField.ADDED,

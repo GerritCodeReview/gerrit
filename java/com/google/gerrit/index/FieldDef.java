@@ -28,6 +28,9 @@ import java.util.Optional;
 /**
  * Definition of a field stored in the secondary index.
  *
+ * <p>Note that {@link FieldDef} does not override {@link Object#equals(Object)}. It relies on
+ * instances being singletons so that the default (i.e. reference) comparison works.
+ *
  * @param <I> input type from which documents are created and search results are returned.
  * @param <T> type that should be extracted from the input object when converting to an index
  *     document.

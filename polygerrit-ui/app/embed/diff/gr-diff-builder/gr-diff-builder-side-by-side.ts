@@ -44,7 +44,8 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
     };
   }
 
-  protected override buildSectionElement(group: GrDiffGroup) {
+  // visible for testing
+  override buildSectionElement(group: GrDiffGroup) {
     const sectionEl = createElementDiff('tbody', 'section');
     sectionEl.classList.add(group.type);
     if (group.isTotal()) {
@@ -147,7 +148,8 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
     return td;
   }
 
-  protected override getNextContentOnSide(
+  // visible for testing
+  override getNextContentOnSide(
     content: HTMLElement,
     side: Side
   ): HTMLElement | null {

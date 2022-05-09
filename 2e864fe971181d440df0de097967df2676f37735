@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99879b84_986d0d39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-05-09T11:37:35Z",
+      "side": 1,
+      "message": "factory",
+      "range": {
+        "startLine": 16,
+        "startChar": 52,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "2e864fe971181d440df0de097967df2676f37735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd34e9b5_bd1f97e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-05-09T11:37:35Z",
+      "side": 1,
+      "message": "Would it make sense to always state the default name when annotating?\nThat way it get\u0027s a little less magical as you can f.i. can git grep MergeUtilFactory and you instantly see that it\u0027s an \"auto-factory\" created factory.\n\n    @AutoFactory(className \u003d \"MergeUtilFactory\")\n    public class MergeUtil {\n      ...",
+      "revId": "2e864fe971181d440df0de097967df2676f37735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

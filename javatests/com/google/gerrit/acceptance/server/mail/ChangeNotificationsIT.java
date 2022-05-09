@@ -33,6 +33,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import com.google.common.collect.ImmutableList;
 import com.google.common.truth.Truth;
 import com.google.gerrit.acceptance.AbstractNotificationTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -58,6 +59,7 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.server.restapi.change.PostReviewOp;
 import com.google.inject.Inject;
+import java.util.UUID;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
@@ -2004,7 +2006,19 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private void pushTo(StagedChange sc, String ref, TestAccount by, EmailStrategy emailStrategy)
       throws Exception {
     setEmailStrategy(by, emailStrategy);
-    pushFactory.create(by.newIdent(), sc.repo, sc.changeId).to(ref).assertOkStatus();
+
+    // Use random file content to avoid that change kind is NO_CHANGE.
+    String randomContent = UUID.randomUUID().toString();
+    pushFactory
+        .create(
+            by.newIdent(),
+            sc.repo,
+            "New Patch Set",
+            PushOneCommit.FILE_NAME,
+            randomContent,
+            sc.changeId)
+        .to(ref)
+        .assertOkStatus();
   }
 
   @Test

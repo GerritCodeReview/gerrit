@@ -22,6 +22,30 @@
       },
       "revId": "15956008aa33fefc48ca14ea4ceb2e19c12154d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ed8e028_e18a6bb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-09T06:48:11Z",
+      "side": 1,
+      "message": "Thanks, this is a good suggestion. I can address this is a separate change.\n\n\u003e Not sure if that would simplify things (especially because I don\u0027t\n\u003e know the end state of your refactoring).\n\nI think it does. I had no further plans about this, I only noticed this being inconsistent with ChangeKindPredicate and hence I just fixed it.",
+      "parentUuid": "2f86633b_ba83ec02",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "15956008aa33fefc48ca14ea4ceb2e19c12154d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

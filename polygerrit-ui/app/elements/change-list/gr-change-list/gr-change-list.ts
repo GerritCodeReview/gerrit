@@ -278,7 +278,7 @@ export class GrChangeList extends LitElement {
       changedProperties.has('config') ||
       changedProperties.has('sections')
     ) {
-      this.computePreferences();
+      this.computeVisibleChangeTableColumns();
     }
 
     if (changedProperties.has('changes')) {
@@ -292,13 +292,13 @@ export class GrChangeList extends LitElement {
     }
   }
 
-  private computePreferences() {
+  private computeVisibleChangeTableColumns() {
     if (!this.config) return;
 
     this.changeTableColumns = Object.values(ColumnNames);
     this.showNumber = false;
     this.visibleChangeTableColumns = this.changeTableColumns.filter(col =>
-      this._isColumnEnabled(col, this.config)
+      this.isColumnEnabled(col, this.config)
     );
     if (this.account && this.preferences) {
       this.showNumber = !!this.preferences?.legacycid_in_change_table;
@@ -322,7 +322,7 @@ export class GrChangeList extends LitElement {
         // are in prefColumns and enabled by config
         this.visibleChangeTableColumns = Object.values(ColumnNames)
           .filter(col => prefColumns.includes(col))
-          .filter(col => this._isColumnEnabled(col, this.config));
+          .filter(col => this.isColumnEnabled(col, this.config));
       }
     }
   }
@@ -330,7 +330,7 @@ export class GrChangeList extends LitElement {
   /**
    * Is the column disabled by a server config or experiment?
    */
-  _isColumnEnabled(column: string, config?: ServerInfo) {
+  isColumnEnabled(column: string, config?: ServerInfo) {
     if (!Object.values(ColumnNames).includes(column as unknown as ColumnNames))
       return false;
     if (!config || !config.change) return true;

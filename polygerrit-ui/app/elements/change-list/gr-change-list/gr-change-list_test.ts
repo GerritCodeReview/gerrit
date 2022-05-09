@@ -436,8 +436,8 @@ suite('gr-change-list basic tests', () => {
   });
 
   test('obsolete column in preferences not visible', () => {
-    assert.isTrue(element._isColumnEnabled('Subject'));
-    assert.isFalse(element._isColumnEnabled('Assignee'));
+    assert.isTrue(element.isColumnEnabled('Subject'));
+    assert.isFalse(element.isColumnEnabled('Assignee'));
   });
 
   test('showStar and showNumber', async () => {

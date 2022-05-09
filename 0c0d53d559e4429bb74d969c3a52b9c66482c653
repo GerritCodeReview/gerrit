@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48f69f17_43b306b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-09T15:11:49Z",
+      "side": 1,
+      "message": "I thought it was a static factory method so that it could be async while constructor cannot, but it was not doing await stuff and could have had a public constructor before. static `create` was not adding anything. I have amended the message to avoid implying that it was required before.",
+      "parentUuid": "f0e89fa8_e0929094",
+      "range": {
+        "startLine": 17,
+        "startChar": 23,
+        "endLine": 17,
+        "endChar": 54
+      },
+      "revId": "0c0d53d559e4429bb74d969c3a52b9c66482c653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bf68903_75ce89a8",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a810509_89637db9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-09T15:11:49Z",
+      "side": 1,
+      "message": "Done. was only needed when `SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY` still existed",
+      "parentUuid": "1bf68903_75ce89a8",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 10
+      },
+      "revId": "0c0d53d559e4429bb74d969c3a52b9c66482c653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b91de43a_582818b1",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-05-09T14:52:06Z",
       "side": 1,
       "message": "Object.keys(ReviewerState)?",
+      "range": {
+        "startLine": 281,
+        "startChar": 24,
+        "endLine": 281,
+        "endChar": 74
+      },
+      "revId": "0c0d53d559e4429bb74d969c3a52b9c66482c653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3451f3c3_fbdfe9fc",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-09T15:11:49Z",
+      "side": 1,
+      "message": "There is ReviewerState.REMOVED also in the enum that I don\u0027t want. That is why I am `as const`, otherwise TS will generalize the type to `ReviewerState` and complain that I am not handling `REMOVED` case.",
+      "parentUuid": "b91de43a_582818b1",
       "range": {
         "startLine": 281,
         "startChar": 24,
@@ -95,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6725b400_d922cbb1",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-09T15:11:49Z",
+      "side": 1,
+      "message": "Ack. I prefer string union `\u0027reviewers\u0027 | \u0027ccs\u0027`. I will do that separately",
+      "parentUuid": "0cf03f3b_8858a46f",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 14
+      },
+      "revId": "0c0d53d559e4429bb74d969c3a52b9c66482c653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ce3ce1a_961e614e",
         "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
         "patchSetId": 4
@@ -106,6 +202,30 @@
       "writtenOn": "2022-05-09T14:52:06Z",
       "side": 1,
       "message": "why is this passed in the constructor?\nI think normally we keep it as a property instead of passing in the constructor.",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 36
+      },
+      "revId": "0c0d53d559e4429bb74d969c3a52b9c66482c653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "364bc2ed_0e10c033",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-09T15:11:49Z",
+      "side": 1,
+      "message": "This isn\u0027t a Lit component so it can\u0027t use dependency injection. Today it could pull restApi from getAppContext() but this should not be a blocker to migrating that service to dependency injection if we want to. Also it is the existing behavior.\n\nFeel free to reopen if I have misunderstood.",
+      "parentUuid": "7ce3ce1a_961e614e",
       "range": {
         "startLine": 57,
         "startChar": 4,
@@ -129,6 +249,30 @@
       "writtenOn": "2022-05-09T14:52:06Z",
       "side": 1,
       "message": "this cannot be `accountKey`?",
+      "range": {
+        "startLine": 125,
+        "startChar": 13,
+        "endLine": 125,
+        "endChar": 24
+      },
+      "revId": "0c0d53d559e4429bb74d969c3a52b9c66482c653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b29f9e76_8310d227",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-09T15:11:49Z",
+      "side": 1,
+      "message": "`accountKey` takes an `AccountInfo` and I have `GroupBaseInfo` here",
+      "parentUuid": "161b4b60_4dbbfe99",
       "range": {
         "startLine": 125,
         "startChar": 13,

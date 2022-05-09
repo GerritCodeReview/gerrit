@@ -16,6 +16,47 @@
       "message": "The auto generated factory is not resolvable in Eclipse. Does the Eclipse project generation script (tools/eclipse/project.py) need to be adapted for this?",
       "revId": "a35f4cf7e2d91a302369242f26da37810d1027fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba799b5a_ea3ee226",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-09T16:27:41Z",
+      "side": 1,
+      "message": "Yes. There is a support for it in project.py:\n\n  # Map of targets to corresponding classpath collector rules\n  cp_targets \u003d {\n      AUTO: \u0027//tools/eclipse:autovalue_classpath_collect\u0027,\n      MAIN: \u0027//tools/eclipse:main_classpath_collect\u0027,\n  }",
+      "parentUuid": "7b3628a1_cb3b6459",
+      "revId": "a35f4cf7e2d91a302369242f26da37810d1027fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b51ce3f9_2190c182",
+        "filename": "lib/auto/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-09T16:27:41Z",
+      "side": 1,
+      "message": "Are those dependencies actually used?",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 25,
+        "endChar": 29
+      },
+      "revId": "a35f4cf7e2d91a302369242f26da37810d1027fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -834,91 +834,28 @@ export class GrChangeActions
       this.computeChainState();
     }
 
-    if (changedProperties.has('revisionActions')) {
-      this.revisionSubmitAction = this.getSubmitAction(this.revisionActions);
-      this.revisionRebaseAction = this.getRebaseAction(this.revisionActions);
-    }
-
-    if (
-      changedProperties.has('actions') ||
-      changedProperties.has('revisionActions') ||
-      changedProperties.has('primaryActionKeys') ||
-      changedProperties.has('additionalActions') ||
-      changedProperties.has('change') ||
-      changedProperties.has('actionPriorityOverrides')
-    ) {
-      this.allActionValues = this.computeAllActions(
-        this.actions,
-        this.revisionActions,
-        this.primaryActionKeys,
-        this.additionalActions,
-        this.change
-      );
-    }
-
-    if (
-      changedProperties.has('allActionValues') ||
-      changedProperties.has('hiddenActions') ||
-      changedProperties.has('editMode') ||
-      changedProperties.has('overflowActions')
-    ) {
-      this.topLevelActions = this.computeTopLevelActions(
-        this.allActionValues,
-        this.hiddenActions,
-        this.editMode
-      );
-    }
-
-    if (changedProperties.has('topLevelActions')) {
-      this.filterPrimaryActions(this.topLevelActions);
-    }
-
-    if (
-      changedProperties.has('allActionValues') ||
-      changedProperties.has('hiddenActions') ||
-      changedProperties.has('overflowActions')
-    ) {
-      this.menuActions = this.computeMenuActions(
-        this.allActionValues,
-        this.hiddenActions
-      );
-    }
-
     if (changedProperties.has('change')) {
       this.reload();
     }
 
-    if (
-      changedProperties.has('actions') ||
-      changedProperties.has('revisionActions') ||
-      changedProperties.has('additionalActions')
-    ) {
-      this.actionsChanged(
-        this.actions,
-        this.revisionActions,
-        this.additionalActions
-      );
-    }
+    this.editStatusChanged();
 
-    if (
-      changedProperties.has('editMode') ||
-      changedProperties.has('editPatchsetLoaded') ||
-      changedProperties.has('editBasedOnCurrentPatchSet') ||
-      changedProperties.has('disableEdit') ||
-      changedProperties.has('loggedIn') ||
-      changedProperties.has('actions') ||
-      changedProperties.has('change')
-    ) {
-      this.editStatusChanged(
-        this.editMode,
-        this.editPatchsetLoaded,
-        this.editBasedOnCurrentPatchSet,
-        this.disableEdit,
-        this.loggedIn,
-        this.actions,
-        this.change
-      );
-    }
+    this.actionsChanged();
+    this.allActionValues = this.computeAllActions();
+    this.topLevelActions = this.allActionValues.filter(a => {
+      if (this.hiddenActions.includes(a.__key)) return false;
+      if (this.editMode) return EDIT_ACTIONS.has(a.__key);
+      return this.getActionOverflowIndex(a.__type, a.__key) === -1;
+    });
+    this.topLevelPrimaryActions = this.topLevelActions.filter(
+      action => action.__primary
+    );
+    this.topLevelSecondaryActions = this.topLevelActions.filter(
+      action => !action.__primary
+    );
+    this.menuActions = this.computeMenuActions();
+    this.revisionSubmitAction = this.getSubmitAction(this.revisionActions);
+    this.revisionRebaseAction = this.getRebaseAction(this.revisionActions);
   }
 
   private getSubmitAction(revisionActions: ActionNameToActionInfoMap) {
@@ -1102,29 +1039,16 @@ export class GrChangeActions
     return -1;
   }
 
-  private actionsChanged(
-    actionsChange?: ActionNameToActionInfoMap,
-    revisionActionsChange?: ActionNameToActionInfoMap,
-    additionalActionsChange?: UIActionInfo[]
-  ) {
-    // Polymer 2: check for undefined
-    if (
-      actionsChange === undefined ||
-      revisionActionsChange === undefined ||
-      additionalActionsChange === undefined
-    ) {
-      return;
-    }
-
+  private actionsChanged() {
     this.hidden =
-      Object.keys(actionsChange).length === 0 &&
-      Object.keys(revisionActionsChange).length === 0 &&
-      additionalActionsChange.length === 0;
+      Object.keys(this.actions).length === 0 &&
+      Object.keys(this.revisionActions).length === 0 &&
+      this.additionalActions.length === 0;
     this.actionLoadingMessage = '';
     this.disabledMenuActions = [];
 
-    if (Object.keys(revisionActionsChange).length !== 0) {
-      if (!revisionActionsChange.download) {
+    if (Object.keys(this.revisionActions).length !== 0) {
+      if (!this.revisionActions.download) {
         this.revisionActions = {
           ...this.revisionActions,
           download: DOWNLOAD_ACTION,
@@ -1135,116 +1059,75 @@ export class GrChangeActions
       }
     }
     if (
-      !actionsChange.includedIn &&
+      !this.actions.includedIn &&
       this.change?.status === ChangeStatus.MERGED
     ) {
       this.actions = {...this.actions, includedIn: INCLUDED_IN_ACTION};
     }
   }
 
-  private deleteAndNotify(actionName: string) {
-    if (this.actions && this.actions[actionName]) {
-      delete this.actions[actionName];
-      this.refreshActions();
-    }
-  }
-
-  // private but used in test
-  editStatusChanged(
-    editMode: boolean,
-    editPatchsetLoaded: boolean,
-    editBasedOnCurrentPatchSet: boolean,
-    disableEdit: boolean,
-    loggedIn: boolean,
-    actionsChange?: ActionNameToActionInfoMap,
-    changeChange?: ChangeInfo
-  ) {
+  private editStatusChanged() {
     // Hide change edits if not logged in
-    if (
-      actionsChange === undefined ||
-      changeChange === undefined ||
-      !loggedIn
-    ) {
+    if (this.change === undefined || !this.loggedIn) {
       return;
     }
-    if (disableEdit) {
-      this.deleteAndNotify('publishEdit');
-      this.deleteAndNotify('rebaseEdit');
-      this.deleteAndNotify('deleteEdit');
-      this.deleteAndNotify('stopEdit');
-      this.deleteAndNotify('edit');
+    if (this.disableEdit) {
+      delete this.actions.rebaseEdit;
+      delete this.actions.publishEdit;
+      delete this.actions.deleteEdit;
+      delete this.actions.stopEdit;
+      delete this.actions.edit;
       return;
     }
-    if (actionsChange && editPatchsetLoaded) {
+    if (this.editPatchsetLoaded) {
       // Only show actions that mutate an edit if an actual edit patch set
       // is loaded.
-      if (changeIsOpen(changeChange)) {
-        if (editBasedOnCurrentPatchSet) {
-          if (!actionsChange.publishEdit) {
+      if (changeIsOpen(this.change)) {
+        if (this.editBasedOnCurrentPatchSet) {
+          if (!this.actions.publishEdit) {
             this.actions = {...this.actions, publishEdit: PUBLISH_EDIT};
           }
-          this.deleteAndNotify('rebaseEdit');
+          delete this.actions.rebaseEdit;
         } else {
-          if (!actionsChange.rebaseEdit) {
+          if (!this.actions.rebaseEdit) {
             this.actions = {...this.actions, rebaseEdit: REBASE_EDIT};
           }
-          this.deleteAndNotify('publishEdit');
+          delete this.actions.publishEdit;
         }
       }
-      if (!actionsChange.deleteEdit) {
+      if (!this.actions.deleteEdit) {
         this.actions = {...this.actions, deleteEdit: DELETE_EDIT};
       }
     } else {
-      this.deleteAndNotify('publishEdit');
-      this.deleteAndNotify('rebaseEdit');
-      this.deleteAndNotify('deleteEdit');
+      delete this.actions.rebaseEdit;
+      delete this.actions.publishEdit;
+      delete this.actions.deleteEdit;
     }
 
-    if (actionsChange && changeIsOpen(changeChange)) {
+    if (changeIsOpen(this.change)) {
       // Only show edit button if there is no edit patchset loaded and the
       // file list is not in edit mode.
-      if (editPatchsetLoaded || editMode) {
-        this.deleteAndNotify('edit');
+      if (this.editPatchsetLoaded || this.editMode) {
+        delete this.actions.edit;
       } else {
-        if (!actionsChange.edit) {
+        if (!this.actions.edit) {
           this.actions = {...this.actions, edit: EDIT};
         }
       }
       // Only show STOP_EDIT if edit mode is enabled, but no edit patch set
       // is loaded.
-      if (editMode && !editPatchsetLoaded) {
-        if (!actionsChange.stopEdit) {
+      if (this.editMode && !this.editPatchsetLoaded) {
+        if (!this.actions.stopEdit) {
           this.actions = {...this.actions, stopEdit: STOP_EDIT};
           fireAlert(this, 'Change is in edit mode');
         }
       } else {
-        this.deleteAndNotify('stopEdit');
+        delete this.actions.stopEdit;
       }
     } else {
       // Remove edit button.
-      this.deleteAndNotify('edit');
+      delete this.actions.edit;
     }
-
-    this.refreshActions();
-  }
-
-  // It appears that trying to get life cycles to be re-triggered
-  // from a function being called by a life cycle does not work.
-  // So we have to manually do this.
-  private refreshActions() {
-    this.allActionValues = this.computeAllActions(
-      this.actions,
-      this.revisionActions,
-      this.primaryActionKeys,
-      this.additionalActions,
-      this.change
-    );
-    this.topLevelActions = this.computeTopLevelActions(
-      this.allActionValues,
-      this.hiddenActions,
-      this.editMode
-    );
-    this.filterPrimaryActions(this.topLevelActions);
   }
 
   private getValuesFor<T>(obj: {[key: string]: T}): T[] {
@@ -2236,36 +2119,22 @@ export class GrChangeActions
    * Merge sources of change actions into a single ordered array of action
    * values.
    */
-  private computeAllActions(
-    changeActions: ActionNameToActionInfoMap,
-    revisionActions: ActionNameToActionInfoMap,
-    primariesActions: PrimaryActionKey[],
-    additionalActions: UIActionInfo[],
-    change?: ChangeInfo
-  ): UIActionInfo[] {
+  private computeAllActions(): UIActionInfo[] {
     // Polymer 2: check for undefined
-    if (
-      [
-        changeActions,
-        revisionActions,
-        primariesActions,
-        additionalActions,
-        change,
-      ].includes(undefined)
-    ) {
+    if (this.change === undefined) {
       return [];
     }
 
     const revisionActionValues = this.getActionValues(
-      revisionActions,
-      primariesActions,
-      additionalActions,
+      this.revisionActions,
+      this.primaryActionKeys,
+      this.additionalActions,
       ActionType.REVISION
     );
     const changeActionValues = this.getActionValues(
-      changeActions,
-      primariesActions,
-      additionalActions,
+      this.actions,
+      this.primaryActionKeys,
+      this.additionalActions,
       ActionType.CHANGE
     );
     const quickApprove = this.getQuickApproveAction();
@@ -2327,35 +2196,11 @@ export class GrChangeActions
     return SKIP_ACTION_KEYS.includes(action.__key);
   }
 
-  computeTopLevelActions(
-    action: UIActionInfo[],
-    hiddenActions: string[],
-    editMode: boolean
-  ): UIActionInfo[] {
-    return action.filter(a => {
-      if (hiddenActions.includes(a.__key)) return false;
-      if (editMode) return EDIT_ACTIONS.has(a.__key);
-      return this.getActionOverflowIndex(a.__type, a.__key) === -1;
-    });
-  }
-
-  private filterPrimaryActions(topLevelActions?: UIActionInfo[]) {
-    this.topLevelPrimaryActions = topLevelActions!.filter(
-      action => action.__primary
-    );
-    this.topLevelSecondaryActions = topLevelActions!.filter(
-      action => !action.__primary
-    );
-  }
-
-  private computeMenuActions(
-    action: UIActionInfo[],
-    hiddenActions: string[]
-  ): MenuAction[] {
-    return action
+  private computeMenuActions(): MenuAction[] {
+    return this.allActionValues
       .filter(a => {
         const overflow = this.getActionOverflowIndex(a.__type, a.__key) !== -1;
-        return overflow && !hiddenActions.includes(a.__key);
+        return overflow && !this.hiddenActions.includes(a.__key);
       })
       .map(action => {
         let key = action.__key;

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.receive;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.change.ReviewerModifier.newReviewerInputFromCommitIdentity;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
@@ -54,6 +55,7 @@ import com.google.gerrit.server.change.ReviewerModifier;
 import com.google.gerrit.server.change.ReviewerModifier.InternalReviewerInput;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
+import com.google.gerrit.server.change.ReviewerOp;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
@@ -485,19 +487,27 @@ public class ReplaceOp implements BatchUpdateOp {
   @Override
   public void postUpdate(PostUpdateContext ctx) throws Exception {
     reviewerAdditions.postUpdate(ctx);
-    if (changeKind != ChangeKind.TRIVIAL_REBASE && changeKind != ChangeKind.NO_CHANGE) {
-      // TODO(dborowitz): Merge email templates so we only have to send one.
-      emailNewPatchSetFactory
-          .create(
-              requestScopePropagator,
-              ctx,
-              newPatchSet,
-              mailMessage,
-              outdatedApprovals,
-              oldRecipients,
-              reviewerAdditions)
-          .sendAsync();
-    }
+
+    // TODO(dborowitz): Merge email templates so we only have to send one.
+    emailNewPatchSetFactory
+        .create(
+            ctx,
+            newPatchSet,
+            mailMessage,
+            outdatedApprovals,
+            Streams.concat(
+                    oldRecipients.getReviewers().stream(),
+                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedReviewers).stream()
+                        .map(PatchSetApproval::accountId))
+                .collect(toImmutableSet()),
+            Streams.concat(
+                    oldRecipients.getCcOnly().stream(),
+                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCs).stream())
+                .collect(toImmutableSet()),
+            changeKind)
+        .setRequestScopePropagator(requestScopePropagator)
+        .sendAsync();
+
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
     revisionCreated.fire(
         ctx.getChangeData(notes), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);

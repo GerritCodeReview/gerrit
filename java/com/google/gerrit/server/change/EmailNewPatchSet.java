@@ -14,21 +14,17 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
-
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
 import com.google.gerrit.server.config.SendEmailExecutor;
-import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
@@ -36,6 +32,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -49,34 +46,37 @@ public class EmailNewPatchSet {
 
   public interface Factory {
     EmailNewPatchSet create(
-        RequestScopePropagator requestScopePropagator,
         PostUpdateContext postUpdateContext,
         PatchSet patchSet,
         String message,
         ImmutableSet<PatchSetApproval> outdatedApprovals,
-        MailRecipients oldRecipients,
-        ReviewerModificationList reviewerAdditions);
+        @Assisted("reviewers") ImmutableSet<Account.Id> reviewers,
+        @Assisted("extraCcs") ImmutableSet<Account.Id> extraCcs,
+        ChangeKind changeKind);
   }
 
   private final ExecutorService sendEmailExecutor;
-  private final RequestScopePropagator requestScopePropagator;
+  private final ThreadLocalRequestContext threadLocalRequestContext;
   private final AsyncSender asyncSender;
+
+  private RequestScopePropagator requestScopePropagator;
 
   @Inject
   EmailNewPatchSet(
       @SendEmailExecutor ExecutorService sendEmailExecutor,
+      ThreadLocalRequestContext threadLocalRequestContext,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       MessageIdGenerator messageIdGenerator,
-      @Assisted RequestScopePropagator requestScopePropagator,
       @Assisted PostUpdateContext postUpdateContext,
       @Assisted PatchSet patchSet,
       @Assisted String message,
       @Assisted ImmutableSet<PatchSetApproval> outdatedApprovals,
-      @Assisted MailRecipients oldRecipients,
-      @Assisted ReviewerModificationList reviewerAdditions) {
+      @Assisted("reviewers") ImmutableSet<Account.Id> reviewers,
+      @Assisted("extraCcs") ImmutableSet<Account.Id> extraCcs,
+      @Assisted ChangeKind changeKind) {
     this.sendEmailExecutor = sendEmailExecutor;
-    this.requestScopePropagator = requestScopePropagator;
+    this.threadLocalRequestContext = threadLocalRequestContext;
 
     MessageId messageId;
     try {
@@ -101,21 +101,30 @@ public class EmailNewPatchSet {
             message,
             postUpdateContext.getWhen(),
             outdatedApprovals,
-            Streams.concat(
-                    oldRecipients.getReviewers().stream(),
-                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedReviewers).stream()
-                        .map(PatchSetApproval::accountId))
-                .collect(toImmutableSet()),
-            Streams.concat(
-                    oldRecipients.getCcOnly().stream(),
-                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCs).stream())
-                .collect(toImmutableSet()));
+            reviewers,
+            extraCcs,
+            changeKind);
+  }
+
+  public EmailNewPatchSet setRequestScopePropagator(RequestScopePropagator requestScopePropagator) {
+    this.requestScopePropagator = requestScopePropagator;
+    return this;
   }
 
   public void sendAsync() {
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError =
-        sendEmailExecutor.submit(requestScopePropagator.wrap(asyncSender));
+        sendEmailExecutor.submit(
+            requestScopePropagator != null
+                ? requestScopePropagator.wrap(asyncSender)
+                : () -> {
+                  RequestContext old = threadLocalRequestContext.setContext(asyncSender);
+                  try {
+                    asyncSender.run();
+                  } finally {
+                    threadLocalRequestContext.setContext(old);
+                  }
+                });
   }
 
   /**
@@ -138,6 +147,7 @@ public class EmailNewPatchSet {
     private final ImmutableSet<PatchSetApproval> outdatedApprovals;
     private final ImmutableSet<Account.Id> reviewers;
     private final ImmutableSet<Account.Id> extraCcs;
+    private final ChangeKind changeKind;
 
     AsyncSender(
         IdentifiedUser user,
@@ -152,7 +162,8 @@ public class EmailNewPatchSet {
         Instant timestamp,
         ImmutableSet<PatchSetApproval> outdatedApprovals,
         ImmutableSet<Account.Id> reviewers,
-        ImmutableSet<Account.Id> extraCcs) {
+        ImmutableSet<Account.Id> extraCcs,
+        ChangeKind changeKind) {
       this.user = user;
       this.replacePatchSetFactory = replacePatchSetFactory;
       this.patchSetInfoFactory = patchSetInfoFactory;
@@ -166,12 +177,14 @@ public class EmailNewPatchSet {
       this.outdatedApprovals = outdatedApprovals;
       this.reviewers = reviewers;
       this.extraCcs = extraCcs;
+      this.changeKind = changeKind;
     }
 
     @Override
     public void run() {
       try {
-        ReplacePatchSetSender emailSender = replacePatchSetFactory.create(projectName, changeId);
+        ReplacePatchSetSender emailSender =
+            replacePatchSetFactory.create(projectName, changeId, changeKind);
         emailSender.setFrom(user.getAccountId());
         emailSender.setPatchSet(patchSet, patchSetInfoFactory.get(projectName, patchSet));
         emailSender.setChangeMessage(message, timestamp);

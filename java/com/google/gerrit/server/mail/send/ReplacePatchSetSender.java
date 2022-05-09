@@ -26,6 +26,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -38,17 +39,32 @@ import java.util.Set;
 /** Send notice of new patch sets for reviewers. */
 public class ReplacePatchSetSender extends ReplyToChangeSender {
   public interface Factory {
-    ReplacePatchSetSender create(Project.NameKey project, Change.Id changeId);
+    ReplacePatchSetSender create(
+        Project.NameKey project, Change.Id changeId, ChangeKind changeKind);
   }
 
   private final Set<Account.Id> reviewers = new HashSet<>();
   private final Set<Account.Id> extraCC = new HashSet<>();
+  private final ChangeKind changeKind;
   private final Set<PatchSetApproval> outdatedApprovals = new HashSet<>();
 
   @Inject
   public ReplacePatchSetSender(
-      EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
+      EmailArguments args,
+      @Assisted Project.NameKey project,
+      @Assisted Change.Id changeId,
+      @Assisted ChangeKind changeKind) {
     super(args, "newpatchset", newChangeData(args, project, changeId));
+    this.changeKind = changeKind;
+  }
+
+  @Override
+  protected boolean shouldSendMessage() {
+    if (changeKind.isTrivialRebase()) {
+      return true;
+    }
+
+    return super.shouldSendMessage();
   }
 
   public void addReviewers(Collection<Account.Id> cc) {

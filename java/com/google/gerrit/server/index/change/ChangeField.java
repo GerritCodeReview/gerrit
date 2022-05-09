@@ -106,6 +106,9 @@ import org.eclipse.jgit.lib.PersonIdent;
  *
  * <p>Field names are all lowercase alphanumeric plus underscore; index implementations may create
  * unambiguous derived field names containing other characters.
+ *
+ * <p>Note that this class does not override {@link Object#equals(Object)}. It relies on instances
+ * being singletons so that the default (i.e. reference) comparison works.
  */
 public class ChangeField {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

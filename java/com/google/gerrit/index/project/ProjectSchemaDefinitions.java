@@ -19,7 +19,12 @@ import static com.google.gerrit.index.SchemaUtil.schema;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 
-/** Definition of project index versions (schemata). See {@link SchemaDefinitions}. */
+/**
+ * Definition of project index versions (schemata). See {@link SchemaDefinitions}.
+ *
+ * <p>Upgrades are subject to constraints, see {@link
+ * com.google.gerrit.index.IndexUpgradeValidator}.
+ */
 public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
 
   @Deprecated

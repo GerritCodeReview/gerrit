@@ -33,6 +33,23 @@
       "message": "By bad, this doesn\u0027t require LC+1",
       "revId": "24a84cb42753f6bc7c639b6087e9d5a178c94eb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a374f333_c98245f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-09T18:51:49Z",
+      "side": 1,
+      "message": "@Sven need to add `Release-Notes: skip`",
+      "revId": "24a84cb42753f6bc7c639b6087e9d5a178c94eb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

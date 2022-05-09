@@ -278,7 +278,7 @@ export class GrChangeList extends LitElement {
       changedProperties.has('config') ||
       changedProperties.has('sections')
     ) {
-      this.computePreferences();
+      this.computeVisibleChangeTableColumns();
     }
 
     if (changedProperties.has('changes')) {
@@ -292,7 +292,7 @@ export class GrChangeList extends LitElement {
     }
   }
 
-  private computePreferences() {
+  private computeVisibleChangeTableColumns() {
     if (!this.config) return;
 
     this.changeTableColumns = Object.values(ColumnNames);

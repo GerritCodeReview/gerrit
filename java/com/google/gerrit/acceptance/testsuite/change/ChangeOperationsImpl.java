@@ -147,6 +147,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
 
       String refName = RefNames.fullName(changeCreation.branch());
       ChangeInserter inserter = getChangeInserter(changeId, refName, commitId);
+      changeCreation.topic().ifPresent(t -> inserter.setTopic(t));
 
       try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, changeOwner, now)) {
         batchUpdate.setRepository(repository, revWalk, objectInserter);

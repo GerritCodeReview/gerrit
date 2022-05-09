@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d77a440f_cec848d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-09T08:23:57Z",
+      "side": 1,
+      "message": "Other than these lines to filter the runs the two render methods are identical, right? Could `runs` be a parameter of a common render method then?\n\nIf you would prefer to not do that refactoring, then I think you can revert the refactoring of introducing `category` as a parameter.",
+      "range": {
+        "startLine": 359,
+        "startChar": 4,
+        "endLine": 367,
+        "endChar": 6
+      },
+      "revId": "4fdd96a59f298834f83ccae028baff1629f8d869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

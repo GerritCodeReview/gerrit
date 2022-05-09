@@ -21,6 +21,7 @@ import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static java.util.stream.Collectors.joining;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.common.base.Strings;
@@ -29,6 +30,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
@@ -46,7 +48,9 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.EmailNewPatchSet;
@@ -56,6 +60,7 @@ import com.google.gerrit.server.change.ReviewerModifier.InternalReviewerInput;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
 import com.google.gerrit.server.change.ReviewerOp;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
@@ -73,6 +78,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -114,7 +120,9 @@ public class ReplaceOp implements BatchUpdateOp {
 
   private static final String CHANGE_IS_CLOSED = "change is closed";
 
+  private final AccountCache accountCache;
   private final AccountResolver accountResolver;
+  private final String anonymousCowardName;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeKindCache changeKindCache;
@@ -157,7 +165,9 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Inject
   ReplaceOp(
+      AccountCache accountCache,
       AccountResolver accountResolver,
+      @AnonymousCowardName String anonymousCowardName,
       ApprovalsUtil approvalsUtil,
       ChangeData.Factory changeDataFactory,
       ChangeKindCache changeKindCache,
@@ -183,7 +193,9 @@ public class ReplaceOp implements BatchUpdateOp {
       @Assisted @Nullable MagicBranchInput magicBranch,
       @Assisted @Nullable PushCertificate pushCertificate,
       @Assisted RequestScopePropagator requestScopePropagator) {
+    this.accountCache = accountCache;
     this.accountResolver = accountResolver;
+    this.anonymousCowardName = anonymousCowardName;
     this.approvalsUtil = approvalsUtil;
     this.changeDataFactory = changeDataFactory;
     this.changeKindCache = changeKindCache;
@@ -569,6 +581,40 @@ public class ReplaceOp implements BatchUpdateOp {
 
   public String getRejectMessage() {
     return rejectMessage;
+  }
+
+  public Optional<String> getOutdatedApprovalsMessage() {
+    if (outdatedApprovals == null || outdatedApprovals.isEmpty()) {
+      return Optional.empty();
+    }
+
+    return Optional.of(
+        "The following approvals got outdated and were removed:\n"
+            + outdatedApprovals.stream()
+                .map(
+                    outdatedApproval ->
+                        String.format(
+                            "* %s by %s",
+                            LabelVote.create(outdatedApproval.label(), outdatedApproval.value())
+                                .format(),
+                            getNameFor(outdatedApproval.accountId())))
+                .sorted()
+                .collect(joining("\n")));
+  }
+
+  private String getNameFor(Account.Id accountId) {
+    Optional<Account> account = accountCache.get(accountId).map(AccountState::account);
+    String name = null;
+    if (account.isPresent()) {
+      name = account.get().fullName();
+      if (name == null) {
+        name = account.get().preferredEmail();
+      }
+    }
+    if (name == null) {
+      name = anonymousCowardName + " #" + accountId;
+    }
+    return name;
   }
 
   public ReceiveCommand getCommand() {

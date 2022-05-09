@@ -472,6 +472,9 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
     r = amendChangeWithUploader(r, project, uploaderPs3);
     r.assertOkStatus();
 
+    r.assertMessage(
+        "The following approvals got outdated and were removed:\n* Code-Review+2 by user2\n");
+
     // Verify the email notification that has been sent for uploading the new patch set.
     Message message = Iterables.getOnlyElement(sender.getMessages());
     assertThat(message.body())

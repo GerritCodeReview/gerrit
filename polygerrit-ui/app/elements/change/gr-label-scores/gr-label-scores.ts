@@ -80,10 +80,10 @@ export class GrLabelScores extends LitElement {
         }
         .heading-4 {
           padding-left: var(--label-score-padding-left, 0);
-          margin-bottom: var(--spacing-m);
+          margin-bottom: var(--spacing-s);
           margin-top: var(--spacing-l);
         }
-        .heading-3:first-of-type {
+        .heading-4:first-of-type {
           margin-top: 0;
         }
       `,

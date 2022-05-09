@@ -22,6 +22,30 @@
       },
       "revId": "3b8e9246ed7c3005a8a370c41283ca309b5bee26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db94ced1_ebe4b8c8",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-09T13:24:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "493efab6_2e77defe",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 71
+      },
+      "revId": "3b8e9246ed7c3005a8a370c41283ca309b5bee26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -9,6 +9,7 @@ junit_tests(
         "//antlr3:query_parser",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
+        "//java/com/google/gerrit/index/project",
         "//java/com/google/gerrit/index/query/testing",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/testing:gerrit-test-util",

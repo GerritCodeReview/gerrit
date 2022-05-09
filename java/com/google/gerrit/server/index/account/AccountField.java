@@ -41,7 +41,12 @@ import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** Secondary index schemas for accounts. */
+/**
+ * Secondary index schemas for accounts.
+ *
+ * <p>Note that this class does not override {@link Object#equals(Object)}. It relies on instances
+ * being singletons so that the default (i.e. reference) comparison works.
+ */
 public class AccountField {
   public static final FieldDef<AccountState, Integer> ID =
       integer("id").stored().build(a -> a.account().id().get());

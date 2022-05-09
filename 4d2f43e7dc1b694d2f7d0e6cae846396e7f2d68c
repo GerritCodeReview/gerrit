@@ -16,6 +16,24 @@
       "message": "Thanks for running this! Looks promising, though I find \"Passed (0 sec)\" for the build/tests a bit suspicious. At least the RBE tests seem to have run something, and have taken more than 0 seconds :-)\n\nDoes the test suite include load tests? At least large data transfers over SSH? Cloning a large-ish repo? Can we run this with\n\n  CoreModuleProperties.REKEY_BLOCKS_LIMIT.set(ssh_daemon, Long.valueOf(512 * 1024L));\n  \nset on Gerrit\u0027s server daemon? (Don\u0027t know if Gerrit has some way to configure this via a config file.) That would re-key every 512kB, which may slow down things quite a bit, but which will really stress test the KEX implementation if there are large data transfers.\n\nThe SftpTransferTest in Apache MINA sshd has a test that even re-keys every 64kB. That test runs about 5 times slower than with the default setting (1GB with the chacha20 cipher) because it re-keys basically every 1-2 SSH packets.",
       "revId": "4d2f43e7dc1b694d2f7d0e6cae846396e7f2d68c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "128fc8bc_c3c8848d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-09T14:23:45Z",
+      "side": 1,
+      "message": "Yes, it\u0027s possible and was added in change 60574.\n\n@Matthias, @Luca, could you please help verifying this change by cloning a huge repository, with this setting:\n\n  sshd.sshd.rekeyBytesLimit \u003d 512×1024\u003d524288",
+      "parentUuid": "bd2b736a_a6f3b36d",
+      "revId": "4d2f43e7dc1b694d2f7d0e6cae846396e7f2d68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

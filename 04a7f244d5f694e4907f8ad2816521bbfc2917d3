@@ -22,6 +22,46 @@
       },
       "revId": "04a7f244d5f694e4907f8ad2816521bbfc2917d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6edd9e1c_e3a6752f",
+        "filename": "polygerrit-ui/app/styles/gr-font-styles.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-09T08:32:17Z",
+      "side": 1,
+      "message": "That should be `var(--line-height-normal);`",
+      "range": {
+        "startLine": 52,
+        "startChar": 17,
+        "endLine": 52,
+        "endChar": 41
+      },
+      "revId": "04a7f244d5f694e4907f8ad2816521bbfc2917d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "282277b6_60c12e97",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-09T08:32:17Z",
+      "side": 1,
+      "message": "We don\u0027t load Roboto 600:\n\nhttps://fonts.googleapis.com/css?family\u003dRoboto+Mono:400,500,700|Roboto:400,500,700|Open+Sans:400,600,700\u0026display\u003dswap\n\nWait, this is Open Sans, right?\n\nSo we don\u0027t load 500 for that. So we should reconsider the h3 weight and either go for 400 or 600.",
+      "revId": "04a7f244d5f694e4907f8ad2816521bbfc2917d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

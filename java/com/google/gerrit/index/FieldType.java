@@ -53,6 +53,10 @@ public class FieldType<T> {
 
   private final String name;
 
+  /**
+   * Note that {@link FieldDef} does not override {@link Object#equals(Object)}. It relies on
+   * instances being singletons so that the default (i.e. reference) comparison works.
+   */
   private FieldType(String name) {
     this.name = name;
   }

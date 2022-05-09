@@ -92,7 +92,7 @@ public class Schema<T> {
   }
 
   private static <T> FieldDef<T, ?> checkSame(FieldDef<T, ?> f1, FieldDef<T, ?> f2) {
-    checkState(f1 == f2, "Mismatched %s fields: %s != %s", f1.getName(), f1, f2);
+    checkState(f1 == f2, "Mismatched %s fields: %s != %s", f1.getName(), f1, f2); // ö prior art...
     return f1;
   }
 

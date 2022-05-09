@@ -51,6 +51,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -89,7 +90,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
   private final Provider<CurrentUser> user;
   private final ChangeJson.Factory jsonFactory;
   private final PatchSetUtil psUtil;
-  private final MergeUtil.Factory mergeUtilFactory;
+  private final MergeUtilFactory mergeUtilFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ProjectCache projectCache;
   private final ChangeFinder changeFinder;
@@ -104,7 +105,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
       Provider<CurrentUser> user,
       ChangeJson.Factory json,
       PatchSetUtil psUtil,
-      MergeUtil.Factory mergeUtilFactory,
+      MergeUtilFactory mergeUtilFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       ProjectCache projectCache,
       ChangeFinder changeFinder,

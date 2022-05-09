@@ -23,6 +23,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.joining;
 
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -60,8 +62,6 @@ import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
 import com.google.gerrit.server.submit.CommitMergeStatus;
 import com.google.gerrit.server.submit.MergeIdenticalTreeException;
 import com.google.gerrit.server.submit.MergeSorter;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -115,6 +115,7 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  * flushing should use {@link ObjectInserter#newReader()}. This is already the default behavior of
  * {@code BatchUpdate}.
  */
+@AutoFactory
 public class MergeUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -135,12 +136,6 @@ public class MergeUtil {
     return useRecursiveMerge(cfg) ? MergeStrategy.RECURSIVE : MergeStrategy.RESOLVE;
   }
 
-  public interface Factory {
-    MergeUtil create(ProjectState project);
-
-    MergeUtil create(ProjectState project, boolean useContentMerge);
-  }
-
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final DynamicItem<UrlFormatter> urlFormatter;
   private final ApprovalsUtil approvalsUtil;
@@ -149,40 +144,38 @@ public class MergeUtil {
   private final boolean useRecursiveMerge;
   private final PluggableCommitMessageGenerator commitMessageGenerator;
 
-  @AssistedInject
   MergeUtil(
-      @GerritServerConfig Config serverConfig,
-      IdentifiedUser.GenericFactory identifiedUserFactory,
-      DynamicItem<UrlFormatter> urlFormatter,
-      ApprovalsUtil approvalsUtil,
-      PluggableCommitMessageGenerator commitMessageGenerator,
-      @Assisted ProjectState project) {
+      @Provided @GerritServerConfig Config serverConfig,
+      @Provided IdentifiedUser.GenericFactory identifiedUserFactory,
+      @Provided DynamicItem<UrlFormatter> urlFormatter,
+      @Provided ApprovalsUtil approvalsUtil,
+      @Provided PluggableCommitMessageGenerator commitMessageGenerator,
+      ProjectState project) {
     this(
         serverConfig,
         identifiedUserFactory,
         urlFormatter,
         approvalsUtil,
-        project,
         commitMessageGenerator,
+        project,
         project.is(BooleanProjectConfig.USE_CONTENT_MERGE));
   }
 
-  @AssistedInject
   MergeUtil(
-      @GerritServerConfig Config serverConfig,
-      IdentifiedUser.GenericFactory identifiedUserFactory,
-      DynamicItem<UrlFormatter> urlFormatter,
-      ApprovalsUtil approvalsUtil,
-      @Assisted ProjectState project,
-      PluggableCommitMessageGenerator commitMessageGenerator,
-      @Assisted boolean useContentMerge) {
+      @Provided @GerritServerConfig Config serverConfig,
+      @Provided IdentifiedUser.GenericFactory identifiedUserFactory,
+      @Provided DynamicItem<UrlFormatter> urlFormatter,
+      @Provided ApprovalsUtil approvalsUtil,
+      @Provided PluggableCommitMessageGenerator commitMessageGenerator,
+      ProjectState project,
+      boolean useContentMerge) {
     this.identifiedUserFactory = identifiedUserFactory;
     this.urlFormatter = urlFormatter;
     this.approvalsUtil = approvalsUtil;
+    this.commitMessageGenerator = commitMessageGenerator;
     this.project = project;
     this.useContentMerge = useContentMerge;
     this.useRecursiveMerge = useRecursiveMerge(serverConfig);
-    this.commitMessageGenerator = commitMessageGenerator;
   }
 
   public CodeReviewCommit getFirstFastForward(

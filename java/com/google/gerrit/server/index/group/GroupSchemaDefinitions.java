@@ -20,7 +20,12 @@ import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 
-/** Definition of group index versions (schemata). See {@link SchemaDefinitions}. */
+/**
+ * Definition of group index versions (schemata). See {@link SchemaDefinitions}.
+ *
+ * <p>Upgrades are subject to constraints, see {@link
+ * com.google.gerrit.index.IndexUpgradeValidator}.
+ */
 public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
   @Deprecated
   static final Schema<InternalGroup> V2 =

@@ -20,7 +20,12 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.account.AccountState;
 
-/** Definition of account index versions (schemata). See {@link SchemaDefinitions}. */
+/**
+ * Definition of account index versions (schemata). See {@link SchemaDefinitions}.
+ *
+ * <p>Upgrades are subject to constraints, see {@link
+ * com.google.gerrit.index.IndexUpgradeValidator}.
+ */
 public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   @Deprecated
   static final Schema<AccountState> V4 =

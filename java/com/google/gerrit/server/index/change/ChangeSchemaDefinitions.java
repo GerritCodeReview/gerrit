@@ -20,7 +20,12 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.query.change.ChangeData;
 
-/** Definition of change index versions (schemata). See {@link SchemaDefinitions}. */
+/**
+ * Definition of change index versions (schemata). See {@link SchemaDefinitions}.
+ *
+ * <p>Upgrades are subject to constraints, see {@link
+ * com.google.gerrit.index.IndexUpgradeValidator}.
+ */
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated
   static final Schema<ChangeData> V55 =
@@ -192,12 +197,12 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   static final Schema<ChangeData> V72 =
       new Schema.Builder<ChangeData>().add(V71).add(ChangeField.IS_PURE_REVERT).build();
 
-  @Deprecated
   /** Added new "count=$count" argument to the {@link ChangeField#LABEL} operator. */
+  @Deprecated
   static final Schema<ChangeData> V73 = schema(V72, false);
 
-  @Deprecated
   /** Added new field {@link ChangeField#IS_SUBMITTABLE} based on submit requirements. */
+  @Deprecated
   static final Schema<ChangeData> V74 =
       new Schema.Builder<ChangeData>().add(V73).add(ChangeField.IS_SUBMITTABLE).build();
 

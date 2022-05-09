@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.testsuite.change;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -36,6 +37,8 @@ public abstract class TestChangeCreation {
 
   public abstract Optional<String> topic();
 
+  public abstract ImmutableMap<String, Short> approvals();
+
   public abstract String commitMessage();
 
   public abstract ImmutableList<TreeModification> treeModifications();
@@ -52,7 +55,8 @@ public abstract class TestChangeCreation {
         .branch(Constants.R_HEADS + Constants.MASTER)
         .commitMessage("A test change")
         // Which value we choose here doesn't matter. All relevant code paths set the desired value.
-        .mergeStrategy(MergeStrategy.OURS);
+        .mergeStrategy(MergeStrategy.OURS)
+        .approvals(ImmutableMap.of());
   }
 
   @AutoValue.Builder
@@ -70,6 +74,12 @@ public abstract class TestChangeCreation {
 
     /** The topic to add this change to. */
     public abstract Builder topic(String topic);
+
+    /**
+     * The approvals to apply to this change. Map of label name to value. All approvals will be
+     * granted by the uploader.
+     */
+    public abstract Builder approvals(ImmutableMap<String, Short> approvals);
 
     /**
      * The commit message. The message may contain a {@code Change-Id} footer but does not need to.

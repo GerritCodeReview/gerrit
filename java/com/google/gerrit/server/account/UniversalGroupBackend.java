@@ -27,10 +27,16 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.metrics.Counter1;
+import com.google.gerrit.metrics.Counter2;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.StartupCheck;
 import com.google.gerrit.server.StartupException;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
 import com.google.gerrit.server.project.ProjectState;
@@ -49,11 +55,39 @@ import org.eclipse.jgit.lib.Config;
 public class UniversalGroupBackend implements GroupBackend {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private static Field<String> SYSTEM_FIELD = Field.ofString("system", Metadata.Builder::groupSystem).build();
+
   private final PluginSetContext<GroupBackend> backends;
+  private final Counter1<String> handlesCount;
+  private final Counter1<String> getCount;
+  private final Counter2<String, Integer> suggestCount;
+  private final Counter1<String> membershipsCount;
+  private final Counter2<String, Boolean> containsCount;
+  private final Counter2<String, Boolean> containsAnyCount;
+  private final Counter2<String, Integer> intersectionCount;
+  private final Counter2<String, Integer> knownGroupsCount;
 
   @Inject
-  UniversalGroupBackend(PluginSetContext<GroupBackend> backends) {
+  UniversalGroupBackend(PluginSetContext<GroupBackend> backends, MetricMaker metricMaker) {
     this.backends = backends;
+    this.handlesCount = metricMaker.newCounter("groups/handles_count", new Description(
+        "Calls to GroupBackend.handles"), SYSTEM_FIELD);
+    this.getCount =
+        metricMaker.newCounter("groups/get_count", new Description("Calls to GroupBackend.get"), SYSTEM_FIELD);
+    this.suggestCount =metricMaker.newCounter("groups/suggest_count", new Description("Calls to GroupBackend.suggest")
+        , SYSTEM_FIELD,
+        Field.ofInteger("num_suggested", (meta, value) -> {}).build());
+    this.membershipsCount =
+        metricMaker.newCounter("groups/memberships_count", new Description("Calls to GroupBackend.membershipsOf"), SYSTEM_FIELD);
+    this.containsCount =
+        metricMaker.newCounter("groups/contains_count", new Description("Calls to GroupMemberships.contains"), SYSTEM_FIELD, Field.ofBoolean("contains", (meta, value) -> {}).build());
+    this.containsAnyCount =
+        metricMaker.newCounter("groups/contains_count", new Description("Calls to GroupMemberships.containsAnyOf"), SYSTEM_FIELD, Field.ofBoolean("containsAnyOf", (meta, value) -> {}).build());
+    this.intersectionCount=
+    metricMaker.newCounter("groups/intersection_count", new Description("Calls to GroupMemberships.intersection"), SYSTEM_FIELD, Field.ofInteger("num_intersection", (meta, value) -> {}).build());
+    this.knownGroupsCount=
+        metricMaker.newCounter("groups/known_groups_count", new Description("Calls to GroupMemberships.getKnownGroups"), SYSTEM_FIELD, Field.ofInteger("num_known_groups", (meta, value) -> {}).build());
+
   }
 
   @Nullable
@@ -70,7 +104,12 @@ public class UniversalGroupBackend implements GroupBackend {
 
   @Override
   public boolean handles(AccountGroup.UUID uuid) {
-    return backend(uuid) != null;
+    GroupBackend b = backend(uuid);
+    if (uuid == null) {
+      return false;
+    }
+    handlesCount.increment(name(b));
+    return true;
   }
 
   @Override
@@ -83,13 +122,18 @@ public class UniversalGroupBackend implements GroupBackend {
       logger.atFine().log("Unknown GroupBackend for UUID: %s", uuid);
       return null;
     }
+    getCount.increment(name(b));
     return b.get(uuid);
   }
 
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
     Set<GroupReference> groups = Sets.newTreeSet(GROUP_REF_NAME_COMPARATOR);
-    backends.runEach(g -> groups.addAll(g.suggest(name, project)));
+    backends.runEach(g -> {
+      Collection<GroupReference> suggestions = g.suggest(name, project);
+      suggestCount.increment(name(g), suggestions.size());
+      groups.addAll(suggestions);
+    });
     return groups;
   }
 
@@ -108,11 +152,11 @@ public class UniversalGroupBackend implements GroupBackend {
     }
 
     @Nullable
-    private GroupMembership membership(AccountGroup.UUID uuid) {
+    private Map.Entry<GroupBackend, GroupMembership> membership(AccountGroup.UUID uuid) {
       if (uuid != null) {
         for (Map.Entry<GroupBackend, GroupMembership> m : memberships.entrySet()) {
           if (m.getKey().handles(uuid)) {
-            return m.getValue();
+            return m;
           }
         }
       }
@@ -125,51 +169,58 @@ public class UniversalGroupBackend implements GroupBackend {
       if (uuid == null) {
         return false;
       }
-      GroupMembership m = membership(uuid);
+      Map.Entry<GroupBackend, GroupMembership> m = membership(uuid);
       if (m == null) {
         return false;
       }
-      return m.contains(uuid);
+      boolean contains = m.getValue().contains(uuid);
+      containsCount.increment(name(m.getKey()), contains);
+      return contains;
     }
 
     @Override
     public boolean containsAnyOf(Iterable<AccountGroup.UUID> uuids) {
-      ListMultimap<GroupMembership, AccountGroup.UUID> lookups =
+      ListMultimap<Map.Entry<GroupBackend, GroupMembership>, AccountGroup.UUID> lookups =
           MultimapBuilder.hashKeys().arrayListValues().build();
       for (AccountGroup.UUID uuid : uuids) {
         if (uuid == null) {
           continue;
         }
-        GroupMembership m = membership(uuid);
+        Map.Entry<GroupBackend, GroupMembership> m = membership(uuid);
         if (m == null) {
           continue;
         }
         lookups.put(m, uuid);
       }
-      for (Map.Entry<GroupMembership, Collection<AccountGroup.UUID>> entry :
-          lookups.asMap().entrySet()) {
-        GroupMembership m = entry.getKey();
-        Collection<AccountGroup.UUID> ids = entry.getValue();
+      for (Map.Entry<GroupBackend, GroupMembership> groupBackends :
+          lookups.asMap().keySet()) {
+
+        GroupMembership m = groupBackends.getValue();
+        Collection<AccountGroup.UUID> ids = lookups.asMap().get(groupBackends);
         if (ids.size() == 1) {
           if (m.contains(Iterables.getOnlyElement(ids))) {
+            containsAnyCount.increment(name(groupBackends.getKey()), true);
             return true;
           }
         } else if (m.containsAnyOf(ids)) {
+          containsAnyCount.increment(name(groupBackends.getKey()), true);
           return true;
         }
+        // We would have returned if contains was true.
+        containsAnyCount.increment(name(groupBackends.getKey()), false);
       }
       return false;
     }
 
     @Override
     public Set<AccountGroup.UUID> intersection(Iterable<AccountGroup.UUID> uuids) {
-      ListMultimap<GroupMembership, AccountGroup.UUID> lookups =
+      ListMultimap<Map.Entry<GroupBackend, GroupMembership>, AccountGroup.UUID> lookups =
           MultimapBuilder.hashKeys().arrayListValues().build();
       for (AccountGroup.UUID uuid : uuids) {
         if (uuid == null) {
           continue;
         }
-        GroupMembership m = membership(uuid);
+        Map.Entry<GroupBackend, GroupMembership> m = membership(uuid);
         if (m == null) {
           logger.atFine().log("Unknown GroupMembership for UUID: %s", uuid);
           continue;
@@ -177,9 +228,11 @@ public class UniversalGroupBackend implements GroupBackend {
         lookups.put(m, uuid);
       }
       Set<AccountGroup.UUID> groups = new HashSet<>();
-      for (Map.Entry<GroupMembership, Collection<AccountGroup.UUID>> entry :
-          lookups.asMap().entrySet()) {
-        groups.addAll(entry.getKey().intersection(entry.getValue()));
+      for (Map.Entry<GroupBackend, GroupMembership> groupBackend :
+          lookups.asMap().keySet()) {
+        Set<AccountGroup.UUID> intersection = groupBackend.getValue().intersection(lookups.asMap().get(groupBackend));
+        intersectionCount.increment(name(groupBackend.getKey()), intersection.size());
+        groups.addAll(intersection);
       }
       return groups;
     }
@@ -187,8 +240,10 @@ public class UniversalGroupBackend implements GroupBackend {
     @Override
     public Set<AccountGroup.UUID> getKnownGroups() {
       Set<AccountGroup.UUID> groups = new HashSet<>();
-      for (GroupMembership m : memberships.values()) {
-        groups.addAll(m.getKnownGroups());
+      for (Map.Entry<GroupBackend, GroupMembership> entry: memberships.entrySet()) {
+        Set<AccountGroup.UUID> knownGroups = entry.getValue().getKnownGroups();
+        knownGroupsCount.increment(name(entry.getKey()), knownGroups.size());
+        groups.addAll(knownGroups);
       }
       return groups;
     }
@@ -202,6 +257,10 @@ public class UniversalGroupBackend implements GroupBackend {
       }
     }
     return false;
+  }
+
+  private static String name(GroupBackend backend) {
+    return backend.getClass().getSimpleName();
   }
 
   public static class ConfigCheck implements StartupCheck {

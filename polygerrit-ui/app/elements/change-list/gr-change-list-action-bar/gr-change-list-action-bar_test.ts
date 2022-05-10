@@ -66,6 +66,7 @@ suite('gr-change-list-action-bar tests', () => {
           <div class="actionButtons">
             <gr-change-list-bulk-vote-flow></gr-change-list-bulk-vote-flow>
             <gr-change-list-topic-flow></gr-change-list-topic-flow>
+            <gr-change-list-hashtag-flow></gr-change-list-hashtag-flow>
             <gr-change-list-reviewer-flow></gr-change-list-reviewer-flow>
           </div>
         </div>

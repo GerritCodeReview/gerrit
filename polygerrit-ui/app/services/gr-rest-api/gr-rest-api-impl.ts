@@ -1817,11 +1817,22 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getChangesWithSimilarTopic(topic: string): Promise<ChangeInfo[] | undefined> {
-    const query = [`intopic:"${topic}"`].join(' ');
+    const query = `intopic:"${topic}"`;
     return this._restApiHelper.fetchJSON({
       url: '/changes/',
       params: {q: query},
       anonymizedUrl: '/changes/intopic:*',
+    }) as Promise<ChangeInfo[] | undefined>;
+  }
+
+  getChangesWithSimilarHashtag(
+    hashtag: string
+  ): Promise<ChangeInfo[] | undefined> {
+    const query = `inhashtag:"${hashtag}"`;
+    return this._restApiHelper.fetchJSON({
+      url: '/changes/',
+      params: {q: query},
+      anonymizedUrl: '/changes/inhashtag:*',
     }) as Promise<ChangeInfo[] | undefined>;
   }
 

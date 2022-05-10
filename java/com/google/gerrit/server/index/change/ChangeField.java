@@ -15,7 +15,6 @@
 package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.index.FieldDef.exact;
@@ -38,8 +37,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.Files;
@@ -92,9 +89,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /**
@@ -178,12 +173,13 @@ public class ChangeField {
               (cd, field) -> cd.setMergedOn(field != null ? field.toInstant() : null));
 
   /** List of full file paths modified in the current patch set. */
-  public static final FieldDef<ChangeData, Iterable<String>> PATH =
+  public static final FieldDef<ChangeData, Stream<String>> PATH =
       // Named for backwards compatibility.
       exact(ChangeQueryBuilder.FIELD_FILE)
-          .buildRepeatable(cd -> firstNonNull(cd.currentFilePaths(), ImmutableList.of()));
+          .buildRepeatable(
+              cd -> firstNonNull(cd.currentFilePaths(), ImmutableList.<String>of()).stream());
 
-  public static Set<String> getFileParts(ChangeData cd) {
+  public static Stream<String> getFileParts(ChangeData cd) {
     List<String> paths = cd.currentFilePaths();
 
     Splitter s = Splitter.on('/').omitEmptyStrings();
@@ -193,45 +189,40 @@ public class ChangeField {
         r.add(part);
       }
     }
-    return r;
+    return r.stream();
   }
 
   /** Hashtags tied to a change */
-  public static final FieldDef<ChangeData, Iterable<String>> HASHTAG =
+  public static final FieldDef<ChangeData, Stream<String>> HASHTAG =
       exact(ChangeQueryBuilder.FIELD_HASHTAG)
-          .buildRepeatable(cd -> cd.hashtags().stream().map(String::toLowerCase).collect(toSet()));
+          .buildRepeatable(cd -> cd.hashtags().stream().map(String::toLowerCase));
 
   /** Hashtags as fulltext field for in-string search. */
-  public static final FieldDef<ChangeData, Iterable<String>> FUZZY_HASHTAG =
-      fullText("hashtag2")
-          .buildRepeatable(cd -> cd.hashtags().stream().map(String::toLowerCase).collect(toSet()));
+  public static final FieldDef<ChangeData, Stream<String>> FUZZY_HASHTAG =
+      fullText("hashtag2").buildRepeatable(cd -> cd.hashtags().stream().map(String::toLowerCase));
 
   /** Hashtags as prefix field for in-string search. */
-  public static final FieldDef<ChangeData, Iterable<String>> PREFIX_HASHTAG =
-      prefix("hashtag3")
-          .buildRepeatable(cd -> cd.hashtags().stream().map(String::toLowerCase).collect(toSet()));
+  public static final FieldDef<ChangeData, Stream<String>> PREFIX_HASHTAG =
+      prefix("hashtag3").buildRepeatable(cd -> cd.hashtags().stream().map(String::toLowerCase));
 
   /** Hashtags with original case. */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> HASHTAG_CASE_AWARE =
+  public static final FieldDef<ChangeData, Stream<byte[]>> HASHTAG_CASE_AWARE =
       storedOnly("_hashtag")
           .buildRepeatable(
-              cd -> cd.hashtags().stream().map(t -> t.getBytes(UTF_8)).collect(toSet()),
+              cd -> cd.hashtags().stream().map(t -> t.getBytes(UTF_8)),
               (cd, field) ->
-                  cd.setHashtags(
-                      StreamSupport.stream(field.spliterator(), false)
-                          .map(f -> new String(f, UTF_8))
-                          .collect(toImmutableSet())));
+                  cd.setHashtags(field.map(f -> new String(f, UTF_8)).collect(toImmutableSet())));
 
   /** Components of each file path modified in the current patch set. */
-  public static final FieldDef<ChangeData, Iterable<String>> FILE_PART =
+  public static final FieldDef<ChangeData, Stream<String>> FILE_PART =
       exact(ChangeQueryBuilder.FIELD_FILEPART).buildRepeatable(ChangeField::getFileParts);
 
   /** File extensions of each file modified in the current patch set. */
-  public static final FieldDef<ChangeData, Iterable<String>> EXTENSION =
+  public static final FieldDef<ChangeData, Stream<String>> EXTENSION =
       exact(ChangeQueryBuilder.FIELD_EXTENSION).buildRepeatable(ChangeField::getExtensions);
 
-  public static Set<String> getExtensions(ChangeData cd) {
-    return extensions(cd).collect(toSet());
+  public static Stream<String> getExtensions(ChangeData cd) {
+    return extensions(cd);
   }
 
   /**
@@ -263,28 +254,26 @@ public class ChangeField {
   }
 
   /** Footers from the commit message of the current patch set. */
-  public static final FieldDef<ChangeData, Iterable<String>> FOOTER =
+  public static final FieldDef<ChangeData, Stream<String>> FOOTER =
       exact(ChangeQueryBuilder.FIELD_FOOTER).buildRepeatable(ChangeField::getFooters);
 
-  public static Set<String> getFooters(ChangeData cd) {
-    return cd.commitFooters().stream()
-        .map(f -> f.toString().toLowerCase(Locale.US))
-        .collect(toSet());
+  public static Stream<String> getFooters(ChangeData cd) {
+    return cd.commitFooters().stream().map(f -> f.toString().toLowerCase(Locale.US));
   }
 
   /** Footers from the commit message of the current patch set. */
-  public static final FieldDef<ChangeData, Iterable<String>> FOOTER_NAME =
+  public static final FieldDef<ChangeData, Stream<String>> FOOTER_NAME =
       exact(ChangeQueryBuilder.FIELD_FOOTER_NAME).buildRepeatable(ChangeField::getFootersNames);
 
-  public static Set<String> getFootersNames(ChangeData cd) {
-    return cd.commitFooters().stream().map(f -> f.getKey()).collect(toSet());
+  public static Stream<String> getFootersNames(ChangeData cd) {
+    return cd.commitFooters().stream().map(f -> f.getKey());
   }
 
   /** Folders that are touched by the current patch set. */
-  public static final FieldDef<ChangeData, Iterable<String>> DIRECTORY =
+  public static final FieldDef<ChangeData, Stream<String>> DIRECTORY =
       exact(ChangeQueryBuilder.FIELD_DIRECTORY).buildRepeatable(ChangeField::getDirectories);
 
-  public static Set<String> getDirectories(ChangeData cd) {
+  public static Stream<String> getDirectories(ChangeData cd) {
     List<String> paths = cd.currentFilePaths();
 
     Splitter s = Splitter.on('/').omitEmptyStrings();
@@ -313,7 +302,7 @@ public class ChangeField {
         nextPart = part;
       }
     }
-    return r;
+    return r.stream();
   }
 
   /** Owner/creator of the change. */
@@ -368,7 +357,7 @@ public class ChangeField {
    *
    * @see #ATTENTION_SET_FULL
    */
-  public static final FieldDef<ChangeData, Iterable<Integer>> ATTENTION_SET_USERS =
+  public static final FieldDef<ChangeData, Stream<Integer>> ATTENTION_SET_USERS =
       integer(ChangeQueryBuilder.FIELD_ATTENTION_SET_USERS)
           .buildRepeatable(ChangeField::getAttentionSetUserIds);
 
@@ -382,16 +371,11 @@ public class ChangeField {
    *
    * @see #ATTENTION_SET_USERS
    */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> ATTENTION_SET_FULL =
+  public static final FieldDef<ChangeData, Stream<byte[]>> ATTENTION_SET_FULL =
       storedOnly(ChangeQueryBuilder.FIELD_ATTENTION_SET_FULL)
           .buildRepeatable(
               ChangeField::storedAttentionSet,
-              (cd, value) ->
-                  parseAttentionSet(
-                      StreamSupport.stream(value.spliterator(), false)
-                          .map(v -> new String(v, UTF_8))
-                          .collect(toImmutableSet()),
-                      cd));
+              (cd, value) -> parseAttentionSet(value.map(v -> new String(v, UTF_8)), cd));
 
   /** The user assigned to the change. */
   public static final FieldDef<ChangeData, Integer> ASSIGNEE =
@@ -399,7 +383,7 @@ public class ChangeField {
           .build(changeGetter(c -> c.getAssignee() != null ? c.getAssignee().get() : NO_ASSIGNEE));
 
   /** Reviewer(s) associated with the change. */
-  public static final FieldDef<ChangeData, Iterable<String>> REVIEWER =
+  public static final FieldDef<ChangeData, Stream<String>> REVIEWER =
       exact("reviewer2")
           .stored()
           .buildRepeatable(
@@ -407,7 +391,7 @@ public class ChangeField {
               (cd, field) -> cd.setReviewers(parseReviewerFieldValues(cd.getId(), field)));
 
   /** Reviewer(s) associated with the change that do not have a gerrit account. */
-  public static final FieldDef<ChangeData, Iterable<String>> REVIEWER_BY_EMAIL =
+  public static final FieldDef<ChangeData, Stream<String>> REVIEWER_BY_EMAIL =
       exact("reviewer_by_email")
           .stored()
           .buildRepeatable(
@@ -416,7 +400,7 @@ public class ChangeField {
                   cd.setReviewersByEmail(parseReviewerByEmailFieldValues(cd.getId(), field)));
 
   /** Reviewer(s) modified during change's current WIP phase. */
-  public static final FieldDef<ChangeData, Iterable<String>> PENDING_REVIEWER =
+  public static final FieldDef<ChangeData, Stream<String>> PENDING_REVIEWER =
       exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER)
           .stored()
           .buildRepeatable(
@@ -424,7 +408,7 @@ public class ChangeField {
               (cd, field) -> cd.setPendingReviewers(parseReviewerFieldValues(cd.getId(), field)));
 
   /** Reviewer(s) by email modified during change's current WIP phase. */
-  public static final FieldDef<ChangeData, Iterable<String>> PENDING_REVIEWER_BY_EMAIL =
+  public static final FieldDef<ChangeData, Stream<String>> PENDING_REVIEWER_BY_EMAIL =
       exact(ChangeQueryBuilder.FIELD_PENDING_REVIEWER_BY_EMAIL)
           .stored()
           .buildRepeatable(
@@ -457,14 +441,14 @@ public class ChangeField {
                       : "0");
 
   @VisibleForTesting
-  static List<String> getReviewerFieldValues(ReviewerSet reviewers) {
+  static Stream<String> getReviewerFieldValues(ReviewerSet reviewers) {
     List<String> r = new ArrayList<>(reviewers.asTable().size() * 2);
     for (Table.Cell<ReviewerStateInternal, Account.Id, Instant> c : reviewers.asTable().cellSet()) {
       String v = getReviewerFieldValue(c.getRowKey(), c.getColumnKey());
       r.add(v);
       r.add(v + ',' + c.getValue().toEpochMilli());
     }
-    return r;
+    return r.stream();
   }
 
   public static String getReviewerFieldValue(ReviewerStateInternal state, Account.Id id) {
@@ -472,7 +456,7 @@ public class ChangeField {
   }
 
   @VisibleForTesting
-  static List<String> getReviewerByEmailFieldValues(ReviewerByEmailSet reviewersByEmail) {
+  static Stream<String> getReviewerByEmailFieldValues(ReviewerByEmailSet reviewersByEmail) {
     List<String> r = new ArrayList<>(reviewersByEmail.asTable().size() * 2);
     for (Table.Cell<ReviewerStateInternal, Address, Instant> c :
         reviewersByEmail.asTable().cellSet()) {
@@ -485,16 +469,17 @@ public class ChangeField {
       }
       r.add(v + ',' + c.getValue().toEpochMilli());
     }
-    return r;
+    return r.stream();
   }
 
   public static String getReviewerByEmailFieldValue(ReviewerStateInternal state, Address adr) {
     return state.toString() + ',' + adr;
   }
 
-  public static ReviewerSet parseReviewerFieldValues(Change.Id changeId, Iterable<String> values) {
+  public static ReviewerSet parseReviewerFieldValues(Change.Id changeId, Stream<String> values) {
     ImmutableTable.Builder<ReviewerStateInternal, Account.Id, Instant> b = ImmutableTable.builder();
-    for (String v : values) {
+
+    for (String v : values.collect(toSet())) {
 
       int i = v.indexOf(',');
       if (i < 0) {
@@ -543,9 +528,9 @@ public class ChangeField {
   }
 
   public static ReviewerByEmailSet parseReviewerByEmailFieldValues(
-      Change.Id changeId, Iterable<String> values) {
+      Change.Id changeId, Stream<String> values) {
     ImmutableTable.Builder<ReviewerStateInternal, Address, Instant> b = ImmutableTable.builder();
-    for (String v : values) {
+    for (String v : values.collect(toSet())) {
       int i = v.indexOf(',');
       if (i < 0) {
         logger.atWarning().log(
@@ -603,17 +588,14 @@ public class ChangeField {
     }
   }
 
-  private static ImmutableSet<Integer> getAttentionSetUserIds(ChangeData changeData) {
-    return additionsOnly(changeData.attentionSet()).stream()
-        .map(update -> update.account().get())
-        .collect(toImmutableSet());
+  private static Stream<Integer> getAttentionSetUserIds(ChangeData changeData) {
+    return additionsOnly(changeData.attentionSet()).stream().map(update -> update.account().get());
   }
 
-  private static ImmutableSet<byte[]> storedAttentionSet(ChangeData changeData) {
+  private static Stream<byte[]> storedAttentionSet(ChangeData changeData) {
     return changeData.attentionSet().stream()
         .map(StoredAttentionSetEntry::new)
-        .map(storedAttentionSetEntry -> GSON.toJson(storedAttentionSetEntry).getBytes(UTF_8))
-        .collect(toImmutableSet());
+        .map(storedAttentionSetEntry -> GSON.toJson(storedAttentionSetEntry).getBytes(UTF_8));
   }
 
   /**
@@ -621,9 +603,9 @@ public class ChangeField {
    * change.
    */
   public static void parseAttentionSet(
-      Collection<String> storedAttentionSetEntriesJson, ChangeData changeData) {
+      Stream<String> storedAttentionSetEntriesJson, ChangeData changeData) {
     ImmutableSet<AttentionSetUpdate> attentionSet =
-        storedAttentionSetEntriesJson.stream()
+        storedAttentionSetEntriesJson
             .map(
                 entry -> GSON.fromJson(entry, StoredAttentionSetEntry.class).toAttentionSetUpdate())
             .collect(toImmutableSet());
@@ -631,27 +613,27 @@ public class ChangeField {
   }
 
   /** Commit ID of any patch set on the change, using prefix match. */
-  public static final FieldDef<ChangeData, Iterable<String>> COMMIT =
+  public static final FieldDef<ChangeData, Stream<String>> COMMIT =
       prefix(ChangeQueryBuilder.FIELD_COMMIT).buildRepeatable(ChangeField::getRevisions);
 
   /** Commit ID of any patch set on the change, using exact match. */
-  public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMIT =
+  public static final FieldDef<ChangeData, Stream<String>> EXACT_COMMIT =
       exact(ChangeQueryBuilder.FIELD_EXACTCOMMIT).buildRepeatable(ChangeField::getRevisions);
 
-  private static ImmutableSet<String> getRevisions(ChangeData cd) {
-    return cd.patchSets().stream().map(ps -> ps.commitId().name()).collect(toImmutableSet());
+  private static Stream<String> getRevisions(ChangeData cd) {
+    return cd.patchSets().stream().map(ps -> ps.commitId().name());
   }
 
   /** Tracking id extracted from a footer. */
-  public static final FieldDef<ChangeData, Iterable<String>> TR =
+  public static final FieldDef<ChangeData, Stream<String>> TR =
       exact(ChangeQueryBuilder.FIELD_TR)
-          .buildRepeatable(cd -> ImmutableSet.copyOf(cd.trackingFooters().values()));
+          .buildRepeatable(cd -> cd.trackingFooters().values().stream());
 
   /** List of labels on the current patch set including change owner votes. */
-  public static final FieldDef<ChangeData, Iterable<String>> LABEL =
+  public static final FieldDef<ChangeData, Stream<String>> LABEL =
       exact("label2").buildRepeatable(cd -> getLabels(cd));
 
-  private static Iterable<String> getLabels(ChangeData cd) {
+  private static Stream<String> getLabels(ChangeData cd) {
     Set<String> allApprovals = new HashSet<>();
     Set<String> distinctApprovals = new HashSet<>();
     Table<String, Short, Integer> voteCounts = HashBasedTable.create();
@@ -671,7 +653,7 @@ public class ChangeField {
     }
     allApprovals.addAll(distinctApprovals);
     allApprovals.addAll(getCountLabelFormats(voteCounts, cd));
-    return allApprovals;
+    return allApprovals.stream();
   }
 
   private static void increment(Table<String, Short, Integer> table, String k1, short k2) {
@@ -755,25 +737,25 @@ public class ChangeField {
     return allFormats;
   }
 
-  public static Set<String> getAuthorParts(ChangeData cd) {
-    return SchemaUtil.getPersonParts(cd.getAuthor());
+  public static Stream<String> getAuthorParts(ChangeData cd) {
+    return SchemaUtil.getPersonParts(cd.getAuthor()).stream();
   }
 
-  public static Set<String> getAuthorNameAndEmail(ChangeData cd) {
+  public static Stream<String> getAuthorNameAndEmail(ChangeData cd) {
     return getNameAndEmail(cd.getAuthor());
   }
 
-  public static Set<String> getCommitterParts(ChangeData cd) {
-    return SchemaUtil.getPersonParts(cd.getCommitter());
+  public static Stream<String> getCommitterParts(ChangeData cd) {
+    return SchemaUtil.getPersonParts(cd.getCommitter()).stream();
   }
 
-  public static Set<String> getCommitterNameAndEmail(ChangeData cd) {
+  public static Stream<String> getCommitterNameAndEmail(ChangeData cd) {
     return getNameAndEmail(cd.getCommitter());
   }
 
-  private static Set<String> getNameAndEmail(PersonIdent person) {
+  private static Stream<String> getNameAndEmail(PersonIdent person) {
     if (person == null) {
-      return ImmutableSet.of();
+      return Stream.empty();
     }
 
     String name = person.getName().toLowerCase(Locale.US);
@@ -785,18 +767,18 @@ public class ChangeField {
     PersonIdent.appendSanitized(nameEmailBuilder, email);
     nameEmailBuilder.append('>');
 
-    return ImmutableSet.of(name, email, nameEmailBuilder.toString());
+    return Stream.of(name, email, nameEmailBuilder.toString());
   }
 
   /**
    * The exact email address, or any part of the author name or email address, in the current patch
    * set.
    */
-  public static final FieldDef<ChangeData, Iterable<String>> AUTHOR =
+  public static final FieldDef<ChangeData, Stream<String>> AUTHOR =
       fullText(ChangeQueryBuilder.FIELD_AUTHOR).buildRepeatable(ChangeField::getAuthorParts);
 
   /** The exact name, email address and NameEmail of the author. */
-  public static final FieldDef<ChangeData, Iterable<String>> EXACT_AUTHOR =
+  public static final FieldDef<ChangeData, Stream<String>> EXACT_AUTHOR =
       exact(ChangeQueryBuilder.FIELD_EXACTAUTHOR)
           .buildRepeatable(ChangeField::getAuthorNameAndEmail);
 
@@ -804,11 +786,11 @@ public class ChangeField {
    * The exact email address, or any part of the committer name or email address, in the current
    * patch set.
    */
-  public static final FieldDef<ChangeData, Iterable<String>> COMMITTER =
+  public static final FieldDef<ChangeData, Stream<String>> COMMITTER =
       fullText(ChangeQueryBuilder.FIELD_COMMITTER).buildRepeatable(ChangeField::getCommitterParts);
 
   /** The exact name, email address, and NameEmail of the committer. */
-  public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMITTER =
+  public static final FieldDef<ChangeData, Stream<String>> EXACT_COMMITTER =
       exact(ChangeQueryBuilder.FIELD_EXACTCOMMITTER)
           .buildRepeatable(ChangeField::getCommitterNameAndEmail);
 
@@ -820,13 +802,14 @@ public class ChangeField {
               (cd, field) -> cd.setChange(parseProtoFrom(field, ChangeProtoConverter.INSTANCE)));
 
   /** Serialized approvals for the current patch set, used for pre-populating results. */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> APPROVAL =
+  public static final FieldDef<ChangeData, Stream<byte[]>> APPROVAL =
       storedOnly("_approval")
           .buildRepeatable(
               cd -> toProtos(PatchSetApprovalProtoConverter.INSTANCE, cd.currentApprovals()),
               (cd, field) ->
                   cd.setCurrentApprovals(
-                      decodeProtos(field, PatchSetApprovalProtoConverter.INSTANCE)));
+                      decodeProtos(field, PatchSetApprovalProtoConverter.INSTANCE)
+                          .collect(toList())));
 
   public static String formatLabel(String label, int value) {
     return formatLabel(label, value, /* accountId= */ null, /* count= */ null);
@@ -876,18 +859,17 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT).build(ChangeData::commitMessage);
 
   /** Summary or inline comment. */
-  public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
+  public static final FieldDef<ChangeData, Stream<String>> COMMENT =
       fullText(ChangeQueryBuilder.FIELD_COMMENT)
           .buildRepeatable(
               cd ->
                   Stream.concat(
-                          cd.publishedComments().stream().map(c -> c.message),
-                          // Some endpoint allow passing user message in input, and we still want to
-                          // search by that. Index on message template with placeholders for user
-                          // data, so we don't
-                          // persist user identifiable information data in index.
-                          cd.messages().stream().map(ChangeMessage::getMessage))
-                      .collect(toSet()));
+                      cd.publishedComments().stream().map(c -> c.message),
+                      // Some endpoint allow passing user message in input, and we still want to
+                      // search by that. Index on message template with placeholders for user
+                      // data, so we don't
+                      // persist user identifiable information data in index.
+                      cd.messages().stream().map(ChangeMessage::getMessage)));
 
   /** Number of unresolved comment threads of the change, including robot comments. */
   public static final FieldDef<ChangeData, Integer> UNRESOLVED_COMMENT_COUNT =
@@ -975,7 +957,7 @@ public class ChangeField {
           .build(cd -> cd.change().hasReviewStarted() ? "1" : "0");
 
   /** Users who have commented on this change. */
-  public static final FieldDef<ChangeData, Iterable<Integer>> COMMENTBY =
+  public static final FieldDef<ChangeData, Stream<Integer>> COMMENTBY =
       integer(ChangeQueryBuilder.FIELD_COMMENTBY)
           .buildRepeatable(
               cd ->
@@ -983,52 +965,53 @@ public class ChangeField {
                           cd.messages().stream().map(ChangeMessage::getAuthor),
                           cd.publishedComments().stream().map(c -> c.author.getId()))
                       .filter(Objects::nonNull)
-                      .map(Account.Id::get)
-                      .collect(toSet()));
+                      .map(Account.Id::get));
 
   /** Star labels on this change in the format: &lt;account-id&gt;:&lt;label&gt; */
-  public static final FieldDef<ChangeData, Iterable<String>> STAR =
+  public static final FieldDef<ChangeData, Stream<String>> STAR =
       exact(ChangeQueryBuilder.FIELD_STAR)
           .stored()
           .buildRepeatable(
               cd ->
-                  Iterables.transform(
-                      cd.stars().entries(),
-                      e ->
-                          StarredChangesUtil.StarField.create(e.getKey(), e.getValue()).toString()),
+                  cd.stars().entries().stream()
+                      .map(
+                          e ->
+                              StarredChangesUtil.StarField.create(e.getKey(), e.getValue())
+                                  .toString()),
               (cd, field) ->
                   cd.setStars(
-                      StreamSupport.stream(field.spliterator(), false)
+                      field
                           .map(f -> StarredChangesUtil.StarField.parse(f))
                           .collect(toImmutableListMultimap(e -> e.accountId(), e -> e.label()))));
 
   /** Users that have starred the change with any label. */
-  public static final FieldDef<ChangeData, Iterable<Integer>> STARBY =
+  public static final FieldDef<ChangeData, Stream<Integer>> STARBY =
       integer(ChangeQueryBuilder.FIELD_STARBY)
-          .buildRepeatable(cd -> Iterables.transform(cd.stars().keySet(), Account.Id::get));
+          .buildRepeatable(cd -> cd.stars().keys().stream().map(Account.Id::get));
 
   /** Opaque group identifiers for this change's patch sets. */
-  public static final FieldDef<ChangeData, Iterable<String>> GROUP =
+  public static final FieldDef<ChangeData, Stream<String>> GROUP =
       exact(ChangeQueryBuilder.FIELD_GROUP)
-          .buildRepeatable(
-              cd -> cd.patchSets().stream().flatMap(ps -> ps.groups().stream()).collect(toSet()));
+          .buildRepeatable(cd -> cd.patchSets().stream().flatMap(ps -> ps.groups().stream()));
 
   /** Serialized patch set object, used for pre-populating results. */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> PATCH_SET =
+  public static final FieldDef<ChangeData, Stream<byte[]>> PATCH_SET =
       storedOnly("_patch_set")
           .buildRepeatable(
               cd -> toProtos(PatchSetProtoConverter.INSTANCE, cd.patchSets()),
-              (cd, field) -> cd.setPatchSets(decodeProtos(field, PatchSetProtoConverter.INSTANCE)));
+              (cd, field) ->
+                  cd.setPatchSets(
+                      decodeProtos(field, PatchSetProtoConverter.INSTANCE).collect(toSet())));
 
   /** Users who have edits on this change. */
-  public static final FieldDef<ChangeData, Iterable<Integer>> EDITBY =
+  public static final FieldDef<ChangeData, Stream<Integer>> EDITBY =
       integer(ChangeQueryBuilder.FIELD_EDITBY)
-          .buildRepeatable(cd -> cd.editsByUser().stream().map(Account.Id::get).collect(toSet()));
+          .buildRepeatable(cd -> cd.editsByUser().stream().map(Account.Id::get));
 
   /** Users who have draft comments on this change. */
-  public static final FieldDef<ChangeData, Iterable<Integer>> DRAFTBY =
+  public static final FieldDef<ChangeData, Stream<Integer>> DRAFTBY =
       integer(ChangeQueryBuilder.FIELD_DRAFTBY)
-          .buildRepeatable(cd -> cd.draftsByUser().stream().map(Account.Id::get).collect(toSet()));
+          .buildRepeatable(cd -> cd.draftsByUser().stream().map(Account.Id::get));
 
   public static final Integer NOT_REVIEWED = -1;
 
@@ -1042,22 +1025,18 @@ public class ChangeField {
    * <p>If the latest update is by the change owner, then the special value {@link #NOT_REVIEWED} is
    * emitted.
    */
-  public static final FieldDef<ChangeData, Iterable<Integer>> REVIEWEDBY =
+  public static final FieldDef<ChangeData, Stream<Integer>> REVIEWEDBY =
       integer(ChangeQueryBuilder.FIELD_REVIEWEDBY)
           .stored()
           .buildRepeatable(
               cd -> {
                 Set<Account.Id> reviewedBy = cd.reviewedBy();
                 if (reviewedBy.isEmpty()) {
-                  return ImmutableSet.of(NOT_REVIEWED);
+                  return Stream.of(NOT_REVIEWED);
                 }
-                return reviewedBy.stream().map(Account.Id::get).collect(toList());
+                return reviewedBy.stream().map(Account.Id::get);
               },
-              (cd, field) ->
-                  cd.setReviewedBy(
-                      StreamSupport.stream(field.spliterator(), false)
-                          .map(Account::id)
-                          .collect(toImmutableSet())));
+              (cd, field) -> cd.setReviewedBy(field.map(Account::id).collect(toImmutableSet())));
 
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
       SubmitRuleOptions.builder().recomputeOnClosedChanges(true).build();
@@ -1066,7 +1045,7 @@ public class ChangeField {
       SubmitRuleOptions.builder().build();
 
   /** All submit rules results in the form of "$ruleName,$status". */
-  public static final FieldDef<ChangeData, Iterable<String>> SUBMIT_RULE_RESULT =
+  public static final FieldDef<ChangeData, Stream<String>> SUBMIT_RULE_RESULT =
       exact("submit_rule_result")
           .buildRepeatable(
               cd -> {
@@ -1075,7 +1054,7 @@ public class ChangeField {
                 for (SubmitRecord record : submitRecords) {
                   result.add(record.ruleName + "=" + record.status.name());
                 }
-                return result;
+                return result.stream();
               });
 
   /**
@@ -1164,56 +1143,42 @@ public class ChangeField {
     }
   }
 
-  public static final FieldDef<ChangeData, Iterable<String>> SUBMIT_RECORD =
+  public static final FieldDef<ChangeData, Stream<String>> SUBMIT_RECORD =
       exact("submit_record").buildRepeatable(ChangeField::formatSubmitRecordValues);
 
-  public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_STRICT =
+  public static final FieldDef<ChangeData, Stream<byte[]>> STORED_SUBMIT_RECORD_STRICT =
       storedOnly("full_submit_record_strict")
           .buildRepeatable(
-              cd -> storedSubmitRecords(cd, SUBMIT_RULE_OPTIONS_STRICT),
+              cd -> storedSubmitRecords(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)),
               (cd, field) ->
                   parseSubmitRecords(
-                      StreamSupport.stream(field.spliterator(), false)
-                          .map(f -> new String(f, UTF_8))
-                          .collect(toSet()),
-                      SUBMIT_RULE_OPTIONS_STRICT,
-                      cd));
+                      field.map(f -> new String(f, UTF_8)), SUBMIT_RULE_OPTIONS_STRICT, cd));
 
-  public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_LENIENT =
+  public static final FieldDef<ChangeData, Stream<byte[]>> STORED_SUBMIT_RECORD_LENIENT =
       storedOnly("full_submit_record_lenient")
           .buildRepeatable(
-              cd -> storedSubmitRecords(cd, SUBMIT_RULE_OPTIONS_LENIENT),
+              cd -> storedSubmitRecords(cd.submitRecords(SUBMIT_RULE_OPTIONS_LENIENT)),
               (cd, field) ->
                   parseSubmitRecords(
-                      StreamSupport.stream(field.spliterator(), false)
-                          .map(f -> new String(f, UTF_8))
-                          .collect(toSet()),
-                      SUBMIT_RULE_OPTIONS_LENIENT,
-                      cd));
+                      field.map(f -> new String(f, UTF_8)), SUBMIT_RULE_OPTIONS_LENIENT, cd));
 
   public static void parseSubmitRecords(
-      Collection<String> values, SubmitRuleOptions opts, ChangeData out) {
-    List<SubmitRecord> records = parseSubmitRecords(values);
-    out.setSubmitRecords(opts, records);
+      Stream<String> values, SubmitRuleOptions opts, ChangeData out) {
+    Stream<SubmitRecord> records = parseSubmitRecords(values);
+    out.setSubmitRecords(opts, records.collect(toList()));
   }
 
   @VisibleForTesting
-  static List<SubmitRecord> parseSubmitRecords(Collection<String> values) {
-    return values.stream()
-        .map(v -> GSON.fromJson(v, StoredSubmitRecord.class).toSubmitRecord())
-        .collect(toList());
+  static Stream<SubmitRecord> parseSubmitRecords(Stream<String> values) {
+    return values.map(v -> GSON.fromJson(v, StoredSubmitRecord.class).toSubmitRecord());
   }
 
   @VisibleForTesting
-  static List<byte[]> storedSubmitRecords(List<SubmitRecord> records) {
-    return Lists.transform(records, r -> GSON.toJson(new StoredSubmitRecord(r)).getBytes(UTF_8));
+  static Stream<byte[]> storedSubmitRecords(List<SubmitRecord> records) {
+    return records.stream().map(r -> GSON.toJson(new StoredSubmitRecord(r)).getBytes(UTF_8));
   }
 
-  private static Iterable<byte[]> storedSubmitRecords(ChangeData cd, SubmitRuleOptions opts) {
-    return storedSubmitRecords(cd.submitRecords(opts));
-  }
-
-  public static List<String> formatSubmitRecordValues(ChangeData cd) {
+  public static Stream<String> formatSubmitRecordValues(ChangeData cd) {
     Set<String> submitRecordValues = new HashSet<>();
     submitRecordValues.addAll(
         formatSubmitRecordValues(
@@ -1225,7 +1190,7 @@ public class ChangeField {
     // which were previously working with submit records. Now admins can configure submit
     // requirements and continue querying them with the label operator.
     submitRecordValues.addAll(formatSubmitRequirementValues(cd.submitRequirements().values()));
-    return submitRecordValues.stream().collect(Collectors.toList());
+    return submitRecordValues.stream();
   }
 
   @VisibleForTesting
@@ -1294,7 +1259,7 @@ public class ChangeField {
   }
 
   /** Serialized submit requirements, used for pre-populating results. */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_REQUIREMENTS =
+  public static final FieldDef<ChangeData, Stream<byte[]>> STORED_SUBMIT_REQUIREMENTS =
       storedOnly("full_submit_requirements")
           .buildRepeatable(
               cd ->
@@ -1302,9 +1267,9 @@ public class ChangeField {
                       SubmitRequirementProtoConverter.INSTANCE, cd.submitRequirements().values()),
               (cd, field) -> parseSubmitRequirements(field, cd));
 
-  private static void parseSubmitRequirements(Iterable<byte[]> values, ChangeData out) {
+  private static void parseSubmitRequirements(Stream<byte[]> values, ChangeData out) {
     out.setSubmitRequirements(
-        StreamSupport.stream(values.spliterator(), false)
+        values
             .map(
                 f ->
                     SubmitRequirementProtoConverter.INSTANCE.fromProto(
@@ -1320,16 +1285,12 @@ public class ChangeField {
    *
    * <p>Emitted as UTF-8 encoded strings of the form {@code project:ref/name:[hex sha]}.
    */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> REF_STATE =
+  public static final FieldDef<ChangeData, Stream<byte[]>> REF_STATE =
       storedOnly("ref_state")
           .buildRepeatable(
-              cd -> {
-                List<byte[]> result = new ArrayList<>();
-                cd.getRefStates()
-                    .entries()
-                    .forEach(e -> result.add(e.getValue().toByteArray(e.getKey())));
-                return result;
-              },
+              cd ->
+                  cd.getRefStates().entries().stream()
+                      .map(e -> e.getValue().toByteArray(e.getKey())),
               (cd, field) -> cd.setRefStates(RefState.parseStates(field)));
 
   /**
@@ -1338,7 +1299,7 @@ public class ChangeField {
    * <p>Emitted as UTF-8 encoded strings of the form {@code project:ref/name/*}. See {@link
    * RefStatePattern} for the pattern format.
    */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> REF_STATE_PATTERN =
+  public static final FieldDef<ChangeData, Stream<byte[]>> REF_STATE_PATTERN =
       storedOnly("ref_state_pattern")
           .buildRepeatable(
               cd -> {
@@ -1355,9 +1316,9 @@ public class ChangeField {
                 result.add(
                     RefStatePattern.create(RefNames.refsDraftCommentsPrefix(id) + "*")
                         .toByteArray(allUsers(cd)));
-                return result;
+                return result.stream();
               },
-              (cd, field) -> cd.setRefStatePatterns(field));
+              (cd, field) -> cd.setRefStatePatterns(field.collect(toSet())));
 
   private static String getTopic(ChangeData cd) {
     Change c = cd.change();
@@ -1367,18 +1328,17 @@ public class ChangeField {
     return firstNonNull(c.getTopic(), "");
   }
 
-  private static <T> List<byte[]> toProtos(ProtoConverter<?, T> converter, Collection<T> objects) {
-    return objects.stream().map(object -> toProto(converter, object)).collect(toImmutableList());
+  private static <T> Stream<byte[]> toProtos(
+      ProtoConverter<?, T> converter, Collection<T> objects) {
+    return objects.stream().map(object -> toProto(converter, object));
   }
 
   private static <T> byte[] toProto(ProtoConverter<?, T> converter, T object) {
     return Protos.toByteArray(converter.toProto(object));
   }
 
-  private static <T> List<T> decodeProtos(Iterable<byte[]> raw, ProtoConverter<?, T> converter) {
-    return StreamSupport.stream(raw.spliterator(), false)
-        .map(bytes -> parseProtoFrom(bytes, converter))
-        .collect(toImmutableList());
+  private static <T> Stream<T> decodeProtos(Stream<byte[]> raw, ProtoConverter<?, T> converter) {
+    return raw.map(bytes -> parseProtoFrom(bytes, converter));
   }
 
   private static <P extends MessageLite, T> T parseProtoFrom(

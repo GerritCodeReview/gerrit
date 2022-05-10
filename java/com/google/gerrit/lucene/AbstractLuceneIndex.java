@@ -322,11 +322,14 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
   Document toDocument(V obj) {
     Document result = new Document();
-    for (Values<V> vs : schema.buildFields(obj, skipFields)) {
-      if (vs.getValues() != null) {
-        add(result, vs);
-      }
-    }
+    schema
+        .buildFields(obj, skipFields)
+        .forEach(
+            vs -> {
+              if (vs.getValues() != null) {
+                add(result, vs);
+              }
+            });
     return result;
   }
 
@@ -346,37 +349,55 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     Store store = store(values.getField());
 
     if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
-      for (Object value : values.getValues()) {
-        Integer intValue = (Integer) value;
-        if (schema.useLegacyNumericFields()) {
-          doc.add(new LegacyIntField(name, intValue, store));
-        } else {
-          doc.add(new IntPoint(name, intValue));
-          if (store == Store.YES) {
-            doc.add(new StoredField(name, intValue));
-          }
-        }
-      }
+      values
+          .getValues()
+          .forEach(
+              value -> {
+                Integer intValue = (Integer) value;
+                if (schema.useLegacyNumericFields()) {
+                  doc.add(new LegacyIntField(name, intValue, store));
+                } else {
+                  doc.add(new IntPoint(name, intValue));
+                  if (store == Store.YES) {
+                    doc.add(new StoredField(name, intValue));
+                  }
+                }
+              });
     } else if (type == FieldType.LONG) {
-      for (Object value : values.getValues()) {
-        addLongField(doc, name, store, (Long) value);
-      }
+      values
+          .getValues()
+          .forEach(
+              value -> {
+                addLongField(doc, name, store, (Long) value);
+              });
     } else if (type == FieldType.TIMESTAMP) {
-      for (Object value : values.getValues()) {
-        addLongField(doc, name, store, ((Timestamp) value).getTime());
-      }
+      values
+          .getValues()
+          .forEach(
+              value -> {
+                addLongField(doc, name, store, ((Timestamp) value).getTime());
+              });
     } else if (type == FieldType.EXACT || type == FieldType.PREFIX) {
-      for (Object value : values.getValues()) {
-        doc.add(new StringField(name, (String) value, store));
-      }
+      values
+          .getValues()
+          .forEach(
+              value -> {
+                doc.add(new StringField(name, (String) value, store));
+              });
     } else if (type == FieldType.FULL_TEXT) {
-      for (Object value : values.getValues()) {
-        doc.add(new TextField(name, (String) value, store));
-      }
+      values
+          .getValues()
+          .forEach(
+              value -> {
+                doc.add(new TextField(name, (String) value, store));
+              });
     } else if (type == FieldType.STORED_ONLY) {
-      for (Object value : values.getValues()) {
-        doc.add(new StoredField(name, (byte[]) value));
-      }
+      values
+          .getValues()
+          .forEach(
+              value -> {
+                doc.add(new StoredField(name, (byte[]) value));
+              });
     } else {
       throw FieldType.badFieldType(type);
     }

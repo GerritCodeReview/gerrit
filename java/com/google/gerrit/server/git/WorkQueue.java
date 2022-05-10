@@ -20,6 +20,7 @@ import com.google.common.base.CaseFormat;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
@@ -27,6 +28,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.logging.LoggingContextAwareRunnable;
+import com.google.gerrit.server.plugincontext.PluginMapContext;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -58,6 +60,30 @@ import org.eclipse.jgit.lib.Config;
 public class WorkQueue {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  /**
+   * To register a TaskListener, which will get called right before and after a Task runs, bind it
+   * like this:
+   *
+   * <p><code>
+   *   bind(TaskListener.class)
+   *       .annotatedWith(Exports.named("MyListener"))
+   *       .to(MyListener.class);
+   * </code>
+   */
+  public interface TaskListener {
+    public static class NoOp implements TaskListener {
+      @Override
+      public void onStart(Task<?> task) {}
+
+      @Override
+      public void onStop(Task<?> task) {}
+    }
+
+    void onStart(Task<?> task);
+
+    void onStop(Task<?> task);
+  }
+
   public static class Lifecycle implements LifecycleListener {
     private final WorkQueue workQueue;
 
@@ -87,18 +113,32 @@ public class WorkQueue {
   private final IdGenerator idGenerator;
   private final MetricMaker metrics;
   private final CopyOnWriteArrayList<Executor> queues;
+  private final PluginMapContext<TaskListener> listeners;
 
   @Inject
-  WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg, MetricMaker metrics) {
-    this(idGenerator, Math.max(cfg.getInt("execution", "defaultThreadPoolSize", 2), 2), metrics);
+  WorkQueue(
+      IdGenerator idGenerator,
+      @GerritServerConfig Config cfg,
+      MetricMaker metrics,
+      PluginMapContext<TaskListener> listeners) {
+    this(
+        idGenerator,
+        Math.max(cfg.getInt("execution", "defaultThreadPoolSize", 2), 2),
+        metrics,
+        listeners);
   }
 
   /** Constructor to allow binding the WorkQueue more explicitly in a vhost setup. */
-  public WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize, MetricMaker metrics) {
+  public WorkQueue(
+      IdGenerator idGenerator,
+      int defaultThreadPoolSize,
+      MetricMaker metrics,
+      PluginMapContext<TaskListener> listeners) {
     this.idGenerator = idGenerator;
     this.metrics = metrics;
     this.queues = new CopyOnWriteArrayList<>();
     this.defaultQueue = createQueue(defaultThreadPoolSize, "WorkQueue", true);
+    this.listeners = listeners;
   }
 
   /** Get the default work queue, for miscellaneous tasks. */
@@ -438,6 +478,14 @@ public class WorkQueue {
     Collection<Task<?>> getTasks() {
       return all.values();
     }
+
+    public void onStart(Task<?> task) {
+      listeners.runEach(extension -> extension.getProvider().get().onStart(task));
+    }
+
+    public void onStop(Task<?> task) {
+      listeners.runEach(extension -> extension.getProvider().get().onStop(task));
+    }
   }
 
   private static void logUncaughtException(Thread t, Throwable e) {
@@ -608,10 +656,12 @@ public class WorkQueue {
       if (running.compareAndSet(false, true)) {
         String oldThreadName = Thread.currentThread().getName();
         try {
+          executor.onStart(this);
           Thread.currentThread().setName(oldThreadName + "[" + task.toString() + "]");
           task.run();
         } finally {
           Thread.currentThread().setName(oldThreadName);
+          executor.onStop(this);
           if (isPeriodic()) {
             running.set(false);
           } else {

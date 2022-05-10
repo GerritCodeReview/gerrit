@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fbf3ba5_de5d030e",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-10T14:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d87f2a9_567be768",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 3
+      },
+      "revId": "9be602cbb3e23c87756a1e54b56429896aac90f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40afac8f_c55dd4dc",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-09T11:14:50Z",
       "side": 1,
       "message": "Please keep v74 as the last one instead of v75. We have v74 at google right now.",
+      "range": {
+        "startLine": 29,
+        "startChar": 34,
+        "endLine": 29,
+        "endChar": 37
+      },
+      "revId": "9be602cbb3e23c87756a1e54b56429896aac90f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7f0cc5d_1ccdae65",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-10T14:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40afac8f_c55dd4dc",
       "range": {
         "startLine": 29,
         "startChar": 34,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "828b3026_45143878",
+        "filename": "java/com/google/gerrit/server/query/account/AccountPredicates.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-10T14:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2e824b8_bab880e8",
+      "range": {
+        "startLine": 69,
+        "startChar": 9,
+        "endLine": 69,
+        "endChar": 24
+      },
+      "revId": "9be602cbb3e23c87756a1e54b56429896aac90f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ef35b4b_a1bae471",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff20cb41_3c5863ff",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesPreviousIndexVersionTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-10T14:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ef35b4b_a1bae471",
+      "range": {
+        "startLine": 27,
+        "startChar": 3,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "9be602cbb3e23c87756a1e54b56429896aac90f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "924395ce_297fac10",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-05-09T11:14:50Z",
       "side": 1,
       "message": "Please leave as is since we leave an old version around.",
+      "range": {
+        "startLine": 23,
+        "startChar": 3,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "9be602cbb3e23c87756a1e54b56429896aac90f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a5ee2ea_66ba7899",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesPreviousIndexVersionTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-10T14:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "924395ce_297fac10",
       "range": {
         "startLine": 23,
         "startChar": 3,

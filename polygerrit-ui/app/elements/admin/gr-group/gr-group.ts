@@ -56,10 +56,6 @@ export interface GroupNameChangedDetail {
 }
 
 declare global {
-  interface HTMLElementEventMap {
-    'text-changed': CustomEvent<string>;
-    'value-changed': CustomEvent;
-  }
   interface HTMLElementTagNameMap {
     'gr-group': GrGroup;
   }

@@ -34,15 +34,15 @@ suite('gr-textarea tests', () => {
 
   test('renders', () => {
     expect(element).shadowDom.to.equal(/* HTML */ `<div id="hiddenText"></div>
-      <span id="caratSpan"></span>
+      <span id="caratSpan"> </span>
       <gr-autocomplete-dropdown
         id="emojiSuggestions"
         is-hidden=""
-      ></gr-autocomplete-dropdown>
-      <iron-autogrow-textarea
-        aria-disabled="false"
-        id="textarea"
-      ></iron-autogrow-textarea>`);
+        style="position: fixed; top: 150px; left: 392.5px; box-sizing: border-box; max-height: 300px; max-width: 785px;"
+      >
+      </gr-autocomplete-dropdown>
+      <iron-autogrow-textarea aria-disabled="false" id="textarea">
+      </iron-autogrow-textarea> `);
   });
 
   test('monospace is set properly', () => {

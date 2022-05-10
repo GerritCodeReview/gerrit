@@ -19,26 +19,20 @@ import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import '../gr-cursor-manager/gr-cursor-manager';
 import '../gr-icons/gr-icons';
 import '../../../styles/shared-styles';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-autocomplete_html';
-import {property, customElement, observe} from '@polymer/decorators';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {PaperInputElementExt} from '../../../types/types';
-import {fireEvent} from '../../../utils/event-util';
+import {fire, fireEvent} from '../../../utils/event-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {PropertyType} from '../../../types/common';
 import {modifierPressed} from '../../../utils/dom-util';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, html, css, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {ValueChangedEvent} from '../../../types/events';
+import {IronInputElement} from '@polymer/iron-input';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
-
-export interface GrAutocomplete {
-  $: {
-    input: PaperInputElementExt;
-    suggestions: GrAutocompleteDropdown;
-  };
-}
 
 export type AutocompleteQuery<T = string> = (
   text: string
@@ -47,6 +41,10 @@ export type AutocompleteQuery<T = string> = (
 declare global {
   interface HTMLElementTagNameMap {
     'gr-autocomplete': GrAutocomplete;
+  }
+  interface HTMLElementEventMap {
+    'text-changed': ValueChangedEvent<string>;
+    'value-changed': ValueChangedEvent<string>;
   }
 }
 
@@ -65,10 +63,7 @@ export type AutocompleteCommitEvent =
   CustomEvent<AutocompleteCommitEventDetail>;
 
 @customElement('gr-autocomplete')
-export class GrAutocomplete extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
+export class GrAutocomplete extends LitElement {
   /**
    * Fired when a value is chosen.
    *
@@ -101,6 +96,10 @@ export class GrAutocomplete extends PolymerElement {
   @property({type: Object})
   query?: AutocompleteQuery = () => Promise.resolve([]);
 
+  @query('#input') input?: PaperInputElementExt;
+
+  @query('#suggestions') suggestionsDropdown?: GrAutocompleteDropdown;
+
   /**
    * The number of characters that must be typed before suggestions are
    * made. If threshold is zero, default suggestions are enabled.
@@ -108,7 +107,7 @@ export class GrAutocomplete extends PolymerElement {
   @property({type: Number})
   threshold = 1;
 
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'allow-non-suggested-values'})
   allowNonSuggestedValues = false;
 
   @property({type: Boolean})
@@ -117,7 +116,7 @@ export class GrAutocomplete extends PolymerElement {
   @property({type: Boolean})
   disabled = false;
 
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'show-search-icon'})
   showSearchIcon = false;
 
   /**
@@ -129,13 +128,13 @@ export class GrAutocomplete extends PolymerElement {
   @property({type: Number})
   verticalOffset = 31;
 
-  @property({type: String, notify: true})
+  @property({type: String})
   text = '';
 
   @property({type: String})
   placeholder = '';
 
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'clear-on-commit'})
   clearOnCommit = false;
 
   /**
@@ -143,10 +142,10 @@ export class GrAutocomplete extends PolymerElement {
    * When false, tab key not caught, and focus is removed from the element.
    * See Issue 4556, Issue 6645.
    */
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'tab-complete'})
   tabComplete = false;
 
-  @property({type: String, notify: true})
+  @property({type: String})
   value = '';
 
   /**
@@ -160,29 +159,17 @@ export class GrAutocomplete extends PolymerElement {
    * When true and uncommitted text is left in the autocomplete input after
    * blurring, the text will appear red.
    */
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'warn-uncommitted'})
   warnUncommitted = false;
 
   /**
    * When true, querying for suggestions is not debounced w/r/t keypresses
    */
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'no-debounce'})
   noDebounce = false;
 
-  @property({type: Array})
-  _suggestions: AutocompleteSuggestion[] = [];
-
-  @property({type: Array})
-  _suggestionEls = [];
-
-  @property({type: Number})
-  _index: number | null = null;
-
-  @property({type: Boolean})
-  _disableSuggestions = false;
-
-  // private but used in tests
-  focused = false;
+  @property({type: Boolean, attribute: 'show-blue-focus-border'})
+  showBlueFocusBorder = false;
 
   /**
    * Invisible label for input element. This label is exposed to
@@ -191,17 +178,87 @@ export class GrAutocomplete extends PolymerElement {
   @property({type: String})
   label = '';
 
-  /** The DOM element of the selected suggestion. */
-  @property({type: Object})
-  _selected: HTMLElement | null = null;
+  @state() suggestions: AutocompleteSuggestion[] = [];
+
+  @state() index: number | null = null;
+
+  @state() disableSuggestions = false;
+
+  // private but used in tests
+  focused = false;
+
+  @state() selected: HTMLElement | null = null;
 
   private updateSuggestionsTask?: DelayedTask;
 
-  get _nativeInput() {
-    // In Polymer 2 inputElement isn't nativeInput anymore
-    return (this.$.input.$.nativeInput ||
-      this.$.input.inputElement) as HTMLInputElement;
+  get nativeInput() {
+    return (this.input!.inputElement as IronInputElement)
+      .inputElement as HTMLInputElement;
   }
+
+  static override styles = [
+    sharedStyles,
+    css`
+      .searchIcon {
+        display: none;
+      }
+      .searchIcon.showSearchIcon {
+        display: inline-block;
+      }
+      iron-icon {
+        margin: 0 var(--spacing-xs);
+        vertical-align: top;
+      }
+      paper-input.borderless {
+        border: none;
+        padding: 0;
+      }
+      paper-input {
+        background-color: var(--view-background-color);
+        color: var(--primary-text-color);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        padding: var(--spacing-s);
+        --paper-input-container_-_padding: 0;
+        --paper-input-container-input_-_font-size: var(--font-size-normal);
+        --paper-input-container-input_-_line-height: var(--line-height-normal);
+        /* This is a hack for not being able to set height:0 on the underline
+            of a paper-input 2.2.3 element. All the underline fixes below only
+            actually work in 3.x.x, so the height must be adjusted directly as
+            a workaround until we are on Polymer 3. */
+        height: var(--line-height-normal);
+        --paper-input-container-underline-height: 0;
+        --paper-input-container-underline-wrapper-height: 0;
+        --paper-input-container-underline-focus-height: 0;
+        --paper-input-container-underline-legacy-height: 0;
+        --paper-input-container-underline_-_height: 0;
+        --paper-input-container-underline_-_display: none;
+        --paper-input-container-underline-focus_-_height: 0;
+        --paper-input-container-underline-focus_-_display: none;
+        --paper-input-container-underline-disabled_-_height: 0;
+        --paper-input-container-underline-disabled_-_display: none;
+        /* Hide label for input. The label is still visible for
+           screen readers. Workaround found at:
+           https://github.com/PolymerElements/paper-input/issues/478 */
+        --paper-input-container-label_-_display: none;
+      }
+      paper-input.showBlueFocusBorder:focus {
+        border: 2px solid var(--input-focus-border-color);
+        /*
+         * The goal is to have a thicker blue border when focused and a thinner
+         * gray border when blurred. To avoid shifting neighboring elements
+         * around when the border size changes, a negative margin is added to
+         * compensate. box-sizing: border-box; will not work since there is
+         * important padding to add around the content.
+         */
+        margin: -1px;
+      }
+      paper-input.warnUncommitted {
+        --paper-input-container-input_-_color: var(--error-text-color);
+        --paper-input-container-input_-_font-size: inherit;
+      }
+    `,
+  ];
 
   override connectedCallback() {
     super.connectedCallback();
@@ -214,39 +271,107 @@ export class GrAutocomplete extends PolymerElement {
     super.disconnectedCallback();
   }
 
+  override willUpdate(changedProperties: PropertyValues) {
+    if (
+      changedProperties.has('text') ||
+      changedProperties.has('threshold') ||
+      changedProperties.has('noDebounce')
+    ) {
+      this.updateSuggestions();
+    }
+    if (
+      changedProperties.has('suggestions') ||
+      changedProperties.has('focused')
+    ) {
+      this.maybeOpenDropdown();
+    }
+    if (changedProperties.has('text')) {
+      fire(this, 'text-changed', {value: this.text});
+    }
+    if (changedProperties.has('value')) {
+      fire(this, 'value-changed', {value: this.value});
+    }
+  }
+
+  override render() {
+    return html`
+      <paper-input
+        .noLabelFloat=${true}
+        id="input"
+        class=${this.computeClass()}
+        ?disabled=${this.disabled}
+        .value=${this.text}
+        @value-changed=${(e: CustomEvent) => {
+          this.text = e.detail.value;
+        }}
+        .placeholder=${this.placeholder}
+        @keydown=${this.handleKeydown}
+        @focus=${this.onInputFocus}
+        @blur=${this.onInputBlur}
+        autocomplete="off"
+        .label=${this.label}
+      >
+        <div slot="prefix">
+          <iron-icon
+            icon="gr-icons:search"
+            class="searchIcon ${this.computeShowSearchIconClass(
+              this.showSearchIcon
+            )}"
+          >
+          </iron-icon>
+        </div>
+
+        <div slot="suffix">
+          <slot name="suffix"></slot>
+        </div>
+      </paper-input>
+      <gr-autocomplete-dropdown
+        vertical-align="top"
+        .verticalOffset=${this.verticalOffset}
+        horizontal-align="left"
+        id="suggestions"
+        @item-selected=${this.handleItemSelect}
+        .suggestions=${this.suggestions}
+        role="listbox"
+        .index=${this.index}
+      >
+      </gr-autocomplete-dropdown>
+    `;
+  }
+
   get focusStart() {
-    return this.$.input;
+    return this.input;
   }
 
   override focus() {
-    this._nativeInput.focus();
+    this.nativeInput.focus();
   }
 
   selectAll() {
-    const nativeInputElement = this._nativeInput;
-    if (!this.$.input.value) {
+    const nativeInputElement = this.nativeInput;
+    if (!this.input?.value) {
       return;
     }
-    nativeInputElement.setSelectionRange(0, this.$.input.value.length);
+    nativeInputElement.setSelectionRange(0, this.input?.value.length);
   }
 
   clear() {
     this.text = '';
   }
 
-  _handleItemSelect(e: CustomEvent) {
+  handleItemSelect(e: CustomEvent) {
     if (e.detail.trigger === 'click') {
-      this._selected = e.detail.selected;
+      this.selected = e.detail.selected;
       this._commit();
       e.stopPropagation();
       e.preventDefault();
     } else if (e.detail.trigger === 'enter') {
-      this._handleInputCommit();
+      this.handleInputCommit();
       e.stopPropagation();
       e.preventDefault();
     } else if (e.detail.trigger === 'tab') {
       if (this.tabComplete) {
-        this._handleInputCommit(true);
+        this.handleInputCommit(true);
         e.stopPropagation();
         e.preventDefault();
         this.focus();
@@ -256,56 +381,53 @@ export class GrAutocomplete extends PolymerElement {
     }
   }
 
-  get _inputElement() {
-    // Polymer2: this.$ can be undefined when this is first evaluated.
-    return this.$ && this.$.input;
-  }
-
   /**
    * Set the text of the input without triggering the suggestion dropdown.
    *
    * @param text The new text for the input.
    */
-  setText(text: string) {
-    this._disableSuggestions = true;
+  async setText(text: string) {
+    this.disableSuggestions = true;
     this.text = text;
-    this._disableSuggestions = false;
+    // if we disableSuggestions immediately then suggestions are requested in
+    // updateSuggestions
+    await this.updateComplete;
+    this.disableSuggestions = false;
   }
 
-  _onInputFocus() {
+  onInputFocus() {
     this.setFocus(true);
-    this._updateSuggestions(this.text, this.threshold, this.noDebounce);
-    this.$.input.classList.remove('warnUncommitted');
+    this.updateSuggestions();
+    this.input?.classList.remove('warnUncommitted');
     // Needed so that --paper-input-container-input updated style is applied.
-    this.updateStyles();
+    this.requestUpdate();
   }
 
-  _onInputBlur() {
-    this.$.input.classList.toggle(
+  onInputBlur() {
+    this.input?.classList.toggle(
       'warnUncommitted',
       this.warnUncommitted && !!this.text.length && !this.focused
     );
     // Needed so that --paper-input-container-input updated style is applied.
-    this.updateStyles();
+    this.requestUpdate();
   }
 
-  @observe('text', 'threshold', 'noDebounce')
-  _updateSuggestions(text?: string, threshold?: number, noDebounce?: boolean) {
+  updateSuggestions() {
     if (
-      text === undefined ||
-      threshold === undefined ||
-      noDebounce === undefined
+      this.text === undefined ||
+      this.threshold === undefined ||
+      this.noDebounce === undefined
     )
       return;
 
-    // Reset _suggestions for every update
+    // Reset suggestions for every update
     // This will also prevent from carrying over suggestions:
     // @see Issue 12039
-    this._suggestions = [];
+    this.suggestions = [];
 
     // TODO(taoalpha): Also skip if text has not changed
 
-    if (this._disableSuggestions) {
+    if (this.disableSuggestions) {
       return;
     }
 
@@ -314,7 +436,7 @@ export class GrAutocomplete extends PolymerElement {
       return;
     }
 
-    if (text.length < threshold) {
+    if (this.text.length < this.threshold) {
       this.value = '';
       return;
     }
@@ -324,23 +446,22 @@ export class GrAutocomplete extends PolymerElement {
     }
 
     const update = () => {
-      query(text).then(suggestions => {
-        if (text !== this.text) {
+      query(this.text).then(suggestions => {
+        if (this.text !== this.text) {
           // Late response.
           return;
         }
         for (const suggestion of suggestions) {
-          suggestion.text = suggestion.name;
+          suggestion.text = suggestion?.name ?? '';
         }
-        this._suggestions = suggestions;
-        flush();
-        if (this._index === -1) {
+        this.suggestions = suggestions;
+        if (this.index === -1) {
           this.value = '';
         }
       });
     };
 
-    if (noDebounce) {
+    if (this.noDebounce) {
       update();
     } else {
       this.updateSuggestionsTask = debounce(
@@ -354,45 +475,47 @@ export class GrAutocomplete extends PolymerElement {
   setFocus(focused: boolean) {
     if (focused === this.focused) return;
     this.focused = focused;
-    this._maybeOpenDropdown(this._suggestions);
+    this.maybeOpenDropdown();
   }
 
-  @observe('_suggestions')
-  _maybeOpenDropdown(suggestions: AutocompleteSuggestion[]) {
-    if (suggestions.length > 0 && this.focused) {
-      this.$.suggestions.open();
+  maybeOpenDropdown() {
+    if (this.suggestions.length > 0 && this.focused) {
+      this.suggestionsDropdown?.open();
       return;
     }
-    this.$.suggestions.close();
+    this.suggestionsDropdown?.close();
   }
 
-  _computeClass(borderless?: boolean) {
-    return borderless ? 'borderless' : '';
+  computeClass() {
+    const classes = [];
+    if (this.borderless) classes.push('borderless');
+    if (this.showBlueFocusBorder) classes.push('showBlueFocusBorder');
+    return classes.join(' ');
   }
 
   /**
-   * _handleKeydown used for key handling in the this.$.input.
+   * handleKeydown used for key handling in the this.input?.
    */
-  _handleKeydown(e: KeyboardEvent) {
+  handleKeydown(e: KeyboardEvent) {
     this.setFocus(true);
     switch (e.keyCode) {
       case 38: // Up
         e.preventDefault();
-        this.$.suggestions.cursorUp();
+        this.suggestionsDropdown?.cursorUp();
         break;
       case 40: // Down
         e.preventDefault();
-        this.$.suggestions.cursorDown();
+        this.suggestionsDropdown?.cursorDown();
         break;
       case 27: // Escape
         e.preventDefault();
-        this._cancel();
+        this.cancel();
         break;
       case 9: // Tab
-        if (this._suggestions.length > 0 && this.tabComplete) {
+        if (this.suggestions.length > 0 && this.tabComplete) {
           e.preventDefault();
-          this._handleInputCommit(true);
           this.focus();
+          this.handleInputCommit(true);
         } else {
           this.setFocus(false);
         }
@@ -402,7 +525,7 @@ export class GrAutocomplete extends PolymerElement {
           break;
         }
         e.preventDefault();
-        this._handleInputCommit();
+        this.handleInputCommit();
         break;
       default:
         // For any normal keypress, return focus to the input to allow for
@@ -413,36 +536,37 @@ export class GrAutocomplete extends PolymerElement {
         // been based on a previous input. Clear them. This prevents an
         // outdated suggestion from being used if the input keystroke is
         // immediately followed by a commit keystroke. @see Issue 8655
-        this._suggestions = [];
+        this.suggestions = [];
     }
     this.dispatchEvent(
       new CustomEvent('input-keydown', {
-        detail: {keyCode: e.keyCode, input: this.$.input},
+        detail: {keyCode: e.keyCode, input: this.input},
         composed: true,
         bubbles: true,
       })
     );
   }
 
-  _cancel() {
-    if (this._suggestions.length) {
-      this.set('_suggestions', []);
+  cancel() {
+    if (this.suggestions.length) {
+      this.suggestions = [];
+      this.requestUpdate();
     } else {
       fireEvent(this, 'cancel');
     }
   }
 
-  _handleInputCommit(_tabComplete?: boolean) {
+  handleInputCommit(_tabComplete?: boolean) {
     // Nothing to do if the dropdown is not open.
-    if (!this.allowNonSuggestedValues && this.$.suggestions.isHidden) {
+    if (!this.allowNonSuggestedValues && this.suggestionsDropdown?.isHidden) {
       return;
     }
 
-    this._selected = this.$.suggestions.getCursorTarget();
+    this.selected = this.suggestionsDropdown?.getCursorTarget() ?? null;
     this._commit(_tabComplete);
   }
 
-  _updateValue(
+  updateValue(
     suggestion: HTMLElement | null,
     suggestions: AutocompleteSuggestion[]
   ) {
@@ -484,10 +608,10 @@ export class GrAutocomplete extends PolymerElement {
    * autocomplete suggestion in order to handle cases like tab-to-complete
    * without firing the commit event.
    */
-  _commit(silent?: boolean) {
+  async _commit(silent?: boolean) {
     // Allow values that are not in suggestion list iff suggestions are empty.
-    if (this._suggestions.length > 0) {
-      this._updateValue(this._selected, this._suggestions);
+    if (this.suggestions.length > 0) {
+      this.updateValue(this.selected, this.suggestions);
     } else {
       this.value = this.text || '';
     }
@@ -498,20 +622,23 @@ export class GrAutocomplete extends PolymerElement {
     if (this.multi) {
       this.setText(this.value);
     } else {
-      if (!this.clearOnCommit && this._selected) {
-        const dataSet = this._selected.dataset;
+      if (!this.clearOnCommit && this.selected) {
+        const dataSet = this.selected.dataset;
         // index property cannot be null for the data-set
         if (dataSet) {
           const index = Number(dataSet['index']!);
           if (isNaN(index)) return;
-          this.setText(this._suggestions[index].name || '');
+          this.setText(this.suggestions[index]?.name || '');
         }
       } else {
         this.clear();
       }
     }
 
-    this._suggestions = [];
+    this.suggestions = [];
+    // we need willUpdate to send text-changed event before we can send the
+    // 'commit' event
+    await this.updateComplete;
     if (!silent) {
       this.dispatchEvent(
         new CustomEvent('commit', {
@@ -523,7 +650,7 @@ export class GrAutocomplete extends PolymerElement {
     }
   }
 
-  _computeShowSearchIconClass(showSearchIcon: boolean) {
+  computeShowSearchIconClass(showSearchIcon: boolean) {
     return showSearchIcon ? 'showSearchIcon' : '';
   }
 }

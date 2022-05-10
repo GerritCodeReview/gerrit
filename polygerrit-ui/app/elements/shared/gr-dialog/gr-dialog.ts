@@ -147,7 +147,7 @@ export class GrDialog extends LitElement {
             id="confirm"
             link
             primary
-            @click=${(e: Event) => this._handleConfirm(e)}
+            @click=${this._handleConfirm}
             ?disabled=${this.disabled}
             title=${this.confirmTooltip ?? ''}
           >

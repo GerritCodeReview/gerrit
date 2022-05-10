@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-search-bar';
 import {GrSearchBar} from './gr-search-bar';
 import '../../../scripts/util';
-import {mockPromise} from '../../../test/test-utils';
+import {mockPromise, waitUntil} from '../../../test/test-utils';
 import {_testOnly_clearDocsBaseUrlCache} from '../../../utils/url-util';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {
@@ -93,7 +93,7 @@ suite('gr-search-bar tests', () => {
       null,
       'enter'
     );
-    assert.isTrue(blurSpy.called);
+    await waitUntil(() => blurSpy.called);
   });
 
   test('empty search query does not trigger nav', async () => {
@@ -138,7 +138,7 @@ suite('gr-search-bar tests', () => {
       null,
       'enter'
     );
-    assert.isTrue(searchSpy.called);
+    await waitUntil(() => searchSpy.called);
   });
 
   test('undefined predicate query triggers nav', async () => {
@@ -153,7 +153,7 @@ suite('gr-search-bar tests', () => {
       null,
       'enter'
     );
-    assert.isTrue(searchSpy.called);
+    await waitUntil(() => searchSpy.called);
   });
 
   test('empty undefined predicate query triggers nav', async () => {
@@ -168,7 +168,7 @@ suite('gr-search-bar tests', () => {
       null,
       'enter'
     );
-    assert.isTrue(searchSpy.called);
+    await waitUntil(() => searchSpy.called);
   });
 
   test('keyboard shortcuts', async () => {

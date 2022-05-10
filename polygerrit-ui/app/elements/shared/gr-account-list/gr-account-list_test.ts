@@ -30,7 +30,7 @@ import {
   GroupName,
   Suggestion,
 } from '../../../types/common';
-import {queryAll, queryAndAssert} from '../../../test/test-utils';
+import {queryAll, queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrAutocomplete} from '../gr-autocomplete/gr-autocomplete';
@@ -429,12 +429,12 @@ suite('gr-account-list tests', () => {
       '#input'
     );
     input.text = 'newTest';
-    MockInteractions.focus(input.$.input);
+    MockInteractions.focus(input.input!);
     input.noDebounce = true;
     await element.updateComplete;
     assert.isTrue(getSuggestionsStub.calledOnce);
     assert.equal(getSuggestionsStub.lastCall.args[0], 'newTest');
-    assert.equal(makeSuggestionItemSpy.getCalls().length, 2);
+    await waitUntil(() => makeSuggestionItemSpy.getCalls().length === 2);
   });
 
   suite('allowAnyInput', () => {
@@ -466,28 +466,28 @@ suite('gr-account-list tests', () => {
         queryAndAssert<GrAccountEntry>(element, '#entry'),
         '#input'
       );
-      sinon.stub(input, '_updateSuggestions');
+      sinon.stub(input, 'updateSuggestions');
       sinon.stub(element, 'computeRemovable').returns(true);
-      await await element.updateComplete;
+      await element.updateComplete;
       // Next line is a workaround for Firefox not moving cursor
       // on input field update
-      assert.equal(element.getOwnNativeInput(input.$.input).selectionStart, 0);
+      assert.equal(element.getOwnNativeInput(input.input!).selectionStart, 0);
       input.text = 'test';
-      MockInteractions.focus(input.$.input);
+      MockInteractions.focus(input.input!);
       await element.updateComplete;
       assert.equal(element.accounts.length, 2);
       MockInteractions.pressAndReleaseKeyOn(
-        element.getOwnNativeInput(input.$.input),
+        element.getOwnNativeInput(input.input!),
         8
       ); // Backspace
-      assert.equal(element.accounts.length, 2);
+      await waitUntil(() => element.accounts.length === 2);
       input.text = '';
+      await input.updateComplete;
       MockInteractions.pressAndReleaseKeyOn(
-        element.getOwnNativeInput(input.$.input),
+        element.getOwnNativeInput(input.input!),
         8
       ); // Backspace
-      await element.updateComplete;
-      assert.equal(element.accounts.length, 1);
+      await waitUntil(() => element.accounts.length === 1);
     });
 
     test('arrow key navigation', async () => {
@@ -498,11 +498,11 @@ suite('gr-account-list tests', () => {
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];
       await element.updateComplete;
-      MockInteractions.focus(input.$.input);
-      await await element.updateComplete;
+      MockInteractions.focus(input.input!);
+      await element.updateComplete;
       const chips = element.accountChips;
       const chipsOneSpy = sinon.spy(chips[1], 'focus');
-      MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
+      MockInteractions.pressAndReleaseKeyOn(input.input!, 37); // Left
       assert.isTrue(chipsOneSpy.called);
       const chipsZeroSpy = sinon.spy(chips[0], 'focus');
       MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left

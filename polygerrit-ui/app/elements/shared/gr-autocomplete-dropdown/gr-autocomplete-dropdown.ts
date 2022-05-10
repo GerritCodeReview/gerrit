@@ -55,6 +55,10 @@ export interface ItemSelectedEvent {
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = IronFitMixin(PolymerElement, IronFitBehavior as IronFitBehavior);
 
+/**
+ * @attr {String} vertical-align - inherited from IronOverlay
+ * @attr {String} horizontal-align - inherited from IronOverlay
+ */
 @customElement('gr-autocomplete-dropdown')
 export class GrAutocompleteDropdown extends base {
   static get template() {
@@ -132,9 +136,7 @@ export class GrAutocompleteDropdown extends base {
 
   open() {
     this.isHidden = false;
-    this._resetCursorStops();
-    // Refit should run after we call Polymer.flush inside _resetCursorStops
-    this.refit();
+    this.onSuggestionsChanged();
   }
 
   getCurrentText() {
@@ -219,7 +221,7 @@ export class GrAutocompleteDropdown extends base {
   }
 
   @observe('suggestions')
-  _resetCursorStops() {
+  onSuggestionsChanged() {
     if (this.suggestions.length > 0) {
       if (!this.isHidden) {
         flush();
@@ -231,6 +233,7 @@ export class GrAutocompleteDropdown extends base {
     } else {
       this.cursor.stops = [];
     }
+    this.refit();
   }
 
   @observe('index')

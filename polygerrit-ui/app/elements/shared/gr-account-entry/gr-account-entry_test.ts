@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-account-entry';
 import {GrAccountEntry} from './gr-account-entry';
 import {fixture, html} from '@open-wc/testing-helpers';
-import {queryAndAssert} from '../../../test/test-utils';
+import {queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {GrAutocomplete} from '../gr-autocomplete/gr-autocomplete';
 import {PaperInputElementExt} from '../../../types/types';
 
@@ -30,6 +30,7 @@ suite('gr-account-entry tests', () => {
     element = await fixture<GrAccountEntry>(html`
       <gr-account-entry></gr-account-entry>
     `);
+    await element.updateComplete;
   });
 
   test('account-text-changed fired when input text changed and allowAnyInput', async () => {
@@ -40,10 +41,10 @@ suite('gr-account-entry tests', () => {
     element.addEventListener('account-text-changed', changeStub);
     queryAndAssert<GrAutocomplete>(element, '#input').text = 'a';
     await element.updateComplete;
-    assert.isTrue(changeStub.calledOnce);
+    await waitUntil(() => changeStub.calledOnce);
     queryAndAssert<GrAutocomplete>(element, '#input').text = 'ab';
     await element.updateComplete;
-    assert.isTrue(changeStub.calledTwice);
+    await waitUntil(() => changeStub.calledTwice);
   });
 
   test('account-text-changed not fired when input text changed without allowAnyInput', async () => {
@@ -57,8 +58,8 @@ suite('gr-account-entry tests', () => {
   });
 
   test('setText', async () => {
-    // Spy on query, as that is called when _updateSuggestions proceeds.
-    const suggestSpy = sinon.spy(
+    // Stub on query, as that is called when _updateSuggestions proceeds.
+    const suggestStub = sinon.stub(
       queryAndAssert<GrAutocomplete>(element, '#input'),
       'query'
     );
@@ -70,6 +71,6 @@ suite('gr-account-entry tests', () => {
       queryAndAssert<PaperInputElementExt>(input, '#input').value,
       'test text'
     );
-    assert.isFalse(suggestSpy.called);
+    assert.isFalse(suggestStub.called);
   });
 });

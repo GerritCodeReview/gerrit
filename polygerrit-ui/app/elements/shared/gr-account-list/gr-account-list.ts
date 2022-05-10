@@ -407,7 +407,7 @@ export class GrAccountList extends LitElement {
   private handleInputKeydown(e: KeyboardEvent) {
     const target = e.target as GrAccountEntry;
     const entryInput = queryAndAssert<GrAutocomplete>(target, '#input');
-    const input = this.getOwnNativeInput(entryInput.$.input);
+    const input = this.getOwnNativeInput(entryInput.input!);
     if (
       input.selectionStart !== input.selectionEnd ||
       input.selectionStart !== 0

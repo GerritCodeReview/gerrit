@@ -456,6 +456,14 @@ Each queue provides the following metrics:
 === Group
 
 * `group/guess_relevant_groups_latency`: Latency for guessing relevant groups.
+* `group/handles_count`: Number of calls to GroupBackend.handles.
+* `group/get_count`: Number of calls to GroupBackend.get.
+* `group/suggest_count`: Number of calls to GroupBackend.suggest.
+* `group/contains_count`: Number of calls to GroupMemberships.contains.
+* `group/contains_any_of_count`: Number of calls to
+  GroupMemberships.containsAnyOf.
+* `group/known_groups_count`: Number of calls to GroupMemberships.getKnownGroups.
+
 
 === Replication Plugin
 

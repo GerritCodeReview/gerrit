@@ -140,8 +140,8 @@ export class GrChangeListTopicFlow extends LitElement {
             <div slot="dropdown-content">
               ${when(
                 this.selectedChanges.some(change => change.topic),
-                () => this.renderRemoveMode(),
-                () => this.renderAddMode()
+                () => this.renderExistingTopicsMode(),
+                () => this.renderNoExistingTopicsMode()
               )}
             </div>
           `
@@ -150,7 +150,7 @@ export class GrChangeListTopicFlow extends LitElement {
     `;
   }
 
-  private renderRemoveMode() {
+  private renderExistingTopicsMode() {
     const topics = this.selectedChanges
       .map(change => change.topic)
       .filter(notUndefined)
@@ -158,6 +158,7 @@ export class GrChangeListTopicFlow extends LitElement {
     const removeDisabled =
       this.topicsToRemove.size === 0 ||
       this.overallProgress === ProgressStatus.RUNNING;
+    const applyToAllDisabled = this.topicsToRemove.size !== 1;
     return html`
       <div class="chips">
         ${topics.map(name => this.renderTopicRemoveChip(name))}
@@ -165,6 +166,13 @@ export class GrChangeListTopicFlow extends LitElement {
       <div class="footer">
         <div class="loadingOrError">${this.renderLoadingOrError()}</div>
         <div class="buttons">
+          <gr-button
+            id="apply-to-all-button"
+            flatten
+            ?disabled=${applyToAllDisabled}
+            @click=${this.applyTopicToAll}
+            >Apply to all</gr-button
+          >
           <gr-button
             id="remove-topics-button"
             flatten
@@ -196,7 +204,7 @@ export class GrChangeListTopicFlow extends LitElement {
     if (this.overallProgress === ProgressStatus.RUNNING) {
       return html`
         <span class="loadingSpin"></span>
-        <span>${this.loadingText}</span>
+        <span class="loadingText">${this.loadingText}</span>
       `;
     } else if (this.errorText !== undefined) {
       return html`<div class="error">${this.errorText}</div>`;
@@ -204,7 +212,7 @@ export class GrChangeListTopicFlow extends LitElement {
     return nothing;
   }
 
-  private renderAddMode() {
+  private renderNoExistingTopicsMode() {
     const isCreateNewTopicDisabled =
       this.topicToAdd === '' ||
       this.existingTopicSuggestions.includes(this.topicToAdd) ||
@@ -289,6 +297,18 @@ export class GrChangeListTopicFlow extends LitElement {
       this.selectedChanges
         .filter(change => change.topic && this.topicsToRemove.has(change.topic))
         .map(change => this.restApiService.setChangeTopic(change._number, ''))
+    );
+  }
+
+  private applyTopicToAll() {
+    this.loadingText = 'Applying to all';
+    this.trackPromises(
+      this.selectedChanges.map(change =>
+        this.restApiService.setChangeTopic(
+          change._number,
+          Array.from(this.topicsToRemove.values())[0]
+        )
+      )
     );
   }
 

@@ -108,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e10a353a_dd034bd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-10T07:46:18Z",
+      "side": 1,
+      "message": "Yes, it\u0027s working now! \nThanks David, you\u0027re awesome!",
+      "parentUuid": "6cee7233_262d6f09",
+      "revId": "a35f4cf7e2d91a302369242f26da37810d1027fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b51ce3f9_2190c182",

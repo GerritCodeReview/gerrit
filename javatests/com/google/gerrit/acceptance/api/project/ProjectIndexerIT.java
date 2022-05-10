@@ -40,6 +40,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Ref;
@@ -66,7 +67,7 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
         i.getRaw(project, QueryOptions.create(indexConfig, 0, 1, FIELDS));
 
     assertThat(result).isPresent();
-    Iterable<byte[]> refState = result.get().getValue(ProjectField.REF_STATE);
+    Stream<byte[]> refState = result.get().getValue(ProjectField.REF_STATE);
     assertThat(refState).isNotEmpty();
 
     Map<Project.NameKey, Collection<RefState>> states = RefState.parseStates(refState).asMap();

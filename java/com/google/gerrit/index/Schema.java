@@ -25,10 +25,10 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.StorageException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /** Specific version of a secondary index schema. */
 public class Schema<T> {
@@ -67,18 +67,22 @@ public class Schema<T> {
 
   public static class Values<T> {
     private final FieldDef<T, ?> field;
-    private final Iterable<?> values;
+    private final ImmutableList<?> values;
 
-    private Values(FieldDef<T, ?> field, Iterable<?> values) {
+    private Values(FieldDef<T, ?> field, Stream<?> values) {
       this.field = field;
-      this.values = values;
+      this.values = values.collect(toImmutableList());
     }
 
     public FieldDef<T, ?> getField() {
       return field;
     }
 
-    public Iterable<?> getValues() {
+    public Object getValue() {
+      return values.get(0);
+    }
+
+    public ImmutableList<?> getValues() {
       return values;
     }
   }
@@ -198,9 +202,9 @@ public class Schema<T> {
     if (v == null) {
       return null;
     } else if (f.isRepeatable()) {
-      return new Values<>(f, (Iterable<?>) v);
+      return new Values<>(f, (Stream<?>) v);
     } else {
-      return new Values<>(f, Collections.singleton(v));
+      return new Values<>(f, Stream.of(v));
     }
   }
 
@@ -213,14 +217,13 @@ public class Schema<T> {
    * @param skipFields set of field names to skip when indexing the document
    * @return all non-null field values from the object.
    */
-  public final Iterable<Values<T>> buildFields(T obj, ImmutableSet<String> skipFields) {
+  public final Stream<Values<T>> buildFields(T obj, ImmutableSet<String> skipFields) {
     try {
       return fields.values().stream()
           .map(f -> fieldValues(obj, f, skipFields))
-          .filter(Objects::nonNull)
-          .collect(toImmutableList());
+          .filter(Objects::nonNull);
     } catch (StorageException e) {
-      return ImmutableList.of();
+      return Stream.empty();
     }
   }
 

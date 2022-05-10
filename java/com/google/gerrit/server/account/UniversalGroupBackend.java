@@ -55,13 +55,13 @@ import org.eclipse.jgit.lib.Config;
 public class UniversalGroupBackend implements GroupBackend {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static Field<String> SYSTEM_FIELD = Field.ofString("system", Metadata.Builder::groupSystem).build();
+  private static final Field<String> SYSTEM_FIELD =
+      Field.ofString("system", Metadata.Builder::groupSystem).build();
 
   private final PluginSetContext<GroupBackend> backends;
   private final Counter1<String> handlesCount;
   private final Counter1<String> getCount;
   private final Counter2<String, Integer> suggestCount;
-  private final Counter1<String> membershipsCount;
   private final Counter2<String, Boolean> containsCount;
   private final Counter2<String, Boolean> containsAnyCount;
   private final Counter2<String, Integer> intersectionCount;
@@ -70,24 +70,42 @@ public class UniversalGroupBackend implements GroupBackend {
   @Inject
   UniversalGroupBackend(PluginSetContext<GroupBackend> backends, MetricMaker metricMaker) {
     this.backends = backends;
-    this.handlesCount = metricMaker.newCounter("groups/handles_count", new Description(
-        "Calls to GroupBackend.handles"), SYSTEM_FIELD);
+    this.handlesCount =
+        metricMaker.newCounter(
+            "groups/handles_count", new Description("Calls to GroupBackend.handles"), SYSTEM_FIELD);
     this.getCount =
-        metricMaker.newCounter("groups/get_count", new Description("Calls to GroupBackend.get"), SYSTEM_FIELD);
-    this.suggestCount =metricMaker.newCounter("groups/suggest_count", new Description("Calls to GroupBackend.suggest")
-        , SYSTEM_FIELD,
-        Field.ofInteger("num_suggested", (meta, value) -> {}).build());
-    this.membershipsCount =
-        metricMaker.newCounter("groups/memberships_count", new Description("Calls to GroupBackend.membershipsOf"), SYSTEM_FIELD);
+        metricMaker.newCounter(
+            "groups/get_count", new Description("Calls to GroupBackend.get"), SYSTEM_FIELD);
+    this.suggestCount =
+        metricMaker.newCounter(
+            "groups/suggest_count",
+            new Description("Calls to GroupBackend.suggest"),
+            SYSTEM_FIELD,
+            Field.ofInteger("num_suggested", (meta, value) -> {}).build());
     this.containsCount =
-        metricMaker.newCounter("groups/contains_count", new Description("Calls to GroupMemberships.contains"), SYSTEM_FIELD, Field.ofBoolean("contains", (meta, value) -> {}).build());
+        metricMaker.newCounter(
+            "groups/contains_count",
+            new Description("Calls to GroupMemberships.contains"),
+            SYSTEM_FIELD,
+            Field.ofBoolean("contains", (meta, value) -> {}).build());
     this.containsAnyCount =
-        metricMaker.newCounter("groups/contains_count", new Description("Calls to GroupMemberships.containsAnyOf"), SYSTEM_FIELD, Field.ofBoolean("containsAnyOf", (meta, value) -> {}).build());
-    this.intersectionCount=
-    metricMaker.newCounter("groups/intersection_count", new Description("Calls to GroupMemberships.intersection"), SYSTEM_FIELD, Field.ofInteger("num_intersection", (meta, value) -> {}).build());
-    this.knownGroupsCount=
-        metricMaker.newCounter("groups/known_groups_count", new Description("Calls to GroupMemberships.getKnownGroups"), SYSTEM_FIELD, Field.ofInteger("num_known_groups", (meta, value) -> {}).build());
-
+        metricMaker.newCounter(
+            "groups/contains_count",
+            new Description("Calls to GroupMemberships.containsAnyOf"),
+            SYSTEM_FIELD,
+            Field.ofBoolean("containsAnyOf", (meta, value) -> {}).build());
+    this.intersectionCount =
+        metricMaker.newCounter(
+            "groups/intersection_count",
+            new Description("Calls to GroupMemberships.intersection"),
+            SYSTEM_FIELD,
+            Field.ofInteger("num_intersection", (meta, value) -> {}).build());
+    this.knownGroupsCount =
+        metricMaker.newCounter(
+            "groups/known_groups_count",
+            new Description("Calls to GroupMemberships.getKnownGroups"),
+            SYSTEM_FIELD,
+            Field.ofInteger("num_known_groups", (meta, value) -> {}).build());
   }
 
   @Nullable
@@ -129,11 +147,12 @@ public class UniversalGroupBackend implements GroupBackend {
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
     Set<GroupReference> groups = Sets.newTreeSet(GROUP_REF_NAME_COMPARATOR);
-    backends.runEach(g -> {
-      Collection<GroupReference> suggestions = g.suggest(name, project);
-      suggestCount.increment(name(g), suggestions.size());
-      groups.addAll(suggestions);
-    });
+    backends.runEach(
+        g -> {
+          Collection<GroupReference> suggestions = g.suggest(name, project);
+          suggestCount.increment(name(g), suggestions.size());
+          groups.addAll(suggestions);
+        });
     return groups;
   }
 
@@ -192,8 +211,7 @@ public class UniversalGroupBackend implements GroupBackend {
         }
         lookups.put(m, uuid);
       }
-      for (Map.Entry<GroupBackend, GroupMembership> groupBackends :
-          lookups.asMap().keySet()) {
+      for (Map.Entry<GroupBackend, GroupMembership> groupBackends : lookups.asMap().keySet()) {
 
         GroupMembership m = groupBackends.getValue();
         Collection<AccountGroup.UUID> ids = lookups.asMap().get(groupBackends);
@@ -228,9 +246,9 @@ public class UniversalGroupBackend implements GroupBackend {
         lookups.put(m, uuid);
       }
       Set<AccountGroup.UUID> groups = new HashSet<>();
-      for (Map.Entry<GroupBackend, GroupMembership> groupBackend :
-          lookups.asMap().keySet()) {
-        Set<AccountGroup.UUID> intersection = groupBackend.getValue().intersection(lookups.asMap().get(groupBackend));
+      for (Map.Entry<GroupBackend, GroupMembership> groupBackend : lookups.asMap().keySet()) {
+        Set<AccountGroup.UUID> intersection =
+            groupBackend.getValue().intersection(lookups.asMap().get(groupBackend));
         intersectionCount.increment(name(groupBackend.getKey()), intersection.size());
         groups.addAll(intersection);
       }
@@ -240,7 +258,7 @@ public class UniversalGroupBackend implements GroupBackend {
     @Override
     public Set<AccountGroup.UUID> getKnownGroups() {
       Set<AccountGroup.UUID> groups = new HashSet<>();
-      for (Map.Entry<GroupBackend, GroupMembership> entry: memberships.entrySet()) {
+      for (Map.Entry<GroupBackend, GroupMembership> entry : memberships.entrySet()) {
         Set<AccountGroup.UUID> knownGroups = entry.getValue().getKnownGroups();
         knownGroupsCount.increment(name(entry.getKey()), knownGroups.size());
         groups.addAll(knownGroups);

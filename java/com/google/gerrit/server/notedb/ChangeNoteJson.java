@@ -20,6 +20,7 @@ import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
 import com.google.gerrit.json.EnumTypeAdapterFactory;
 import com.google.gerrit.json.OptionalSubmitRequirementExpressionResultAdapterFactory;
+import com.google.gerrit.json.OptionalTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -54,6 +55,7 @@ public class ChangeNoteJson {
 
   static Gson newGson() {
     return new GsonBuilder()
+        .registerTypeAdapter(Optional.class, new OptionalTypeAdapter())
         .registerTypeAdapter(Timestamp.class, new CommentTimestampAdapter().nullSafe())
         .registerTypeAdapterFactory(new EnumTypeAdapterFactory())
         .registerTypeAdapterFactory(EntitiesAdapterFactory.create())

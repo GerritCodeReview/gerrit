@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee00463d_5b7c590c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-10T15:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d201259e_19b7be51",
+      "range": {
+        "startLine": 11,
+        "startChar": 63,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "777473cb5c0012769da4e12ca32d24c06a4b237a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54a65ddd_f81a8677",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-05T15:03:31Z",
       "side": 1,
       "message": "what does it mean `not guard` here? It seems like it is guarded and the second one bounces off without sticking.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "777473cb5c0012769da4e12ca32d24c06a4b237a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcc07dde_b626bc89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-10T15:19:34Z",
+      "side": 1,
+      "message": "It doesn\u0027t send an exception in case it\u0027s reregistered, it\u0027s just a silent ignore",
+      "parentUuid": "54a65ddd_f81a8677",
       "range": {
         "startLine": 15,
         "startChar": 0,
@@ -66,6 +114,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f9ca406_80e72992",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-10T15:19:34Z",
+      "side": 1,
+      "message": "I actually don\u0027t know how to test repeated connectedCallback.",
+      "parentUuid": "8ece1297_cb853013",
+      "revId": "777473cb5c0012769da4e12ca32d24c06a4b237a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ca028d1_277124bd",
         "filename": "polygerrit-ui/app/models/dependency.ts",
         "patchSetId": 2
@@ -77,6 +143,30 @@
       "writtenOn": "2022-04-05T14:41:43Z",
       "side": 1,
       "message": "consider adding `\u0026 Registrations` here \u0026 in resolve and define it above near with your symbols\n```\ninterface Registrations {\n  [PROVIDERS_SYMBOL]?: Set\u003cDependencyToken\u003e;\n  [RESOLVERS_SYMBOL]?: Map\u003cDependencyToken, () \u003d\u003e unknown\u003e \n}\n```\nthen you shouldn\u0027t need to cast as any and skip eslint",
+      "range": {
+        "startLine": 145,
+        "startChar": 44,
+        "endLine": 145,
+        "endChar": 45
+      },
+      "revId": "777473cb5c0012769da4e12ca32d24c06a4b237a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b86d3bc6_6f372a7d",
+        "filename": "polygerrit-ui/app/models/dependency.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-10T15:19:34Z",
+      "side": 1,
+      "message": "Thanks for the type, I didn\u0027t know you could have index types for symbols.",
+      "parentUuid": "2ca028d1_277124bd",
       "range": {
         "startLine": 145,
         "startChar": 44,
@@ -124,6 +214,30 @@
       "side": 1,
       "message": "I am thinking of cases like\n```\n// ancestor\noverride connectedCallback() {\n  this.someModel \u003d new SomeModel();\n  provide(someToken, someModel);\n  // subscriptions\n}\n\n// descendant\noverride connectedCallback() {\n  const someModel \u003d resolve(someToken);\n  // subscriptions\n}\n```\nWith overwrite functionality, when ancestor is reattached (and by tree extension, descendant), both will be synced on the new model.\nWith first-wins functionality, they will be out of sync.",
       "parentUuid": "30255880_3ed5d0f3",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 44
+      },
+      "revId": "777473cb5c0012769da4e12ca32d24c06a4b237a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8909d659_8239830a",
+        "filename": "polygerrit-ui/app/models/dependency.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-10T15:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a54c79b_2dab59bd",
       "range": {
         "startLine": 151,
         "startChar": 0,

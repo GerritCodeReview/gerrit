@@ -19,11 +19,11 @@ import '../../../test/common-test-setup-karma.js';
 import '../gr-diff/gr-diff.js';
 import './gr-diff-cursor.js';
 import {fixture, html} from '@open-wc/testing-helpers';
-import {listenOnce, mockPromise} from '../../../test/test-utils.js';
+import {mockPromise} from '../../../test/test-utils.js';
 import {createDiff} from '../../../test/test-data-generators.js';
 import {createDefaultDiffPrefs} from '../../../constants/constants.js';
 import {GrDiffCursor} from './gr-diff-cursor.js';
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
+import {waitForEventOnce} from '../../../utils/event-util.js';
 
 suite('gr-diff-cursor tests', () => {
   let cursor;
@@ -110,7 +110,8 @@ suite('gr-diff-cursor tests', () => {
     // The file comment button, if present, is a cursor stop. Ensure
     // moveToFirstChunk() works correctly even if the button is not shown.
     diffElement.prefs.show_file_comment_button = false;
-    await flush();
+    await waitForEventOnce(diffElement, 'render');
+
     cursor._updateStops();
 
     const chunks = Array.from(diffElement.root.querySelectorAll(
@@ -160,7 +161,7 @@ suite('gr-diff-cursor tests', () => {
     };
 
     diffElement.diff = diff;
-    await new Promise(resolve => afterNextRender(diffElement, resolve));
+    await waitForEventOnce(diffElement, 'render');
     cursor._updateStops();
 
     const chunks = Array.from(diffElement.root.querySelectorAll(
@@ -215,8 +216,7 @@ suite('gr-diff-cursor tests', () => {
   suite('unified diff', () => {
     setup(async () => {
       diffElement.viewMode = 'UNIFIED_DIFF';
-      // We must allow the diff to re-render after setting the viewMode.
-      await new Promise(resolve => afterNextRender(diffElement, resolve));
+      await waitForEventOnce(diffElement, 'render');
       cursor.reInitCursor();
     });
 
@@ -453,7 +453,7 @@ suite('gr-diff-cursor tests', () => {
         });
 
     diffElement._diffChanged(createDiff());
-    await new Promise(resolve => afterNextRender(diffElement, resolve));
+    await waitForEventOnce(diffElement, 'render');
     cursor.reInitCursor();
     assert.isFalse(moveToNumStub.called);
     assert.isTrue(moveToChunkStub.called);
@@ -472,7 +472,7 @@ suite('gr-diff-cursor tests', () => {
     cursor.side = 'right';
 
     diffElement._diffChanged(createDiff());
-    await new Promise(resolve => afterNextRender(diffElement, resolve));
+    await waitForEventOnce(diffElement, 'render');
     cursor.reInitCursor();
     assert.isFalse(moveToChunkStub.called);
     assert.isTrue(moveToNumStub.called);
@@ -601,7 +601,7 @@ suite('gr-diff-cursor tests', () => {
     MockInteractions.tap(diffElement.shadowRoot
         .querySelector('gr-context-controls').shadowRoot
         .querySelector('.showContext'));
-    await new Promise(resolve => afterNextRender(diffElement, resolve));
+    await waitForEventOnce(diffElement, 'render');
     assert.isTrue(cursor._updateStops.called);
   });
 
@@ -641,13 +641,10 @@ suite('gr-diff-cursor tests', () => {
     }
 
     test('do not skip loading diffs', async () => {
-      const diffRenderedPromises =
-          diffElements.map(diffEl => listenOnce(diffEl, 'render'));
-
       diffElements[0].diff = createDiff();
       diffElements[2].diff = createDiff();
-      await Promise.all([diffRenderedPromises[0], diffRenderedPromises[2]]);
-      await new Promise(resolve => afterNextRender(diffElements[0], resolve));
+      await waitForEventOnce(diffElements[0], 'render');
+      await waitForEventOnce(diffElements[2], 'render');
 
       const lastLine = diffElements[0].diff.meta_b.lines;
 
@@ -668,8 +665,7 @@ suite('gr-diff-cursor tests', () => {
 
       // Diff 1 finishing to load
       diffElements[1].diff = createDiff();
-      await diffRenderedPromises[1];
-      await new Promise(resolve => afterNextRender(diffElements[0], resolve));
+      await waitForEventOnce(diffElements[1], 'render');
 
       // Now we can go down
       cursor.moveDown();

@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "872b002b_02906203",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-10T11:32:09Z",
+      "side": 1,
+      "message": "Maybe as a follow-up, I\u0027d like to stick this change to the lit migration.",
+      "parentUuid": "f1c292a9_e6bfeec6",
+      "revId": "1451802ccbbf4f8b21ab9eeef2361bf97fcc7440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c682411_96941d70",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
         "patchSetId": 6
@@ -48,6 +66,24 @@
       "writtenOn": "2022-05-09T20:56:18Z",
       "side": 1,
       "message": "Maybe just remove the `hidden` property/attribute. Its only purpose is to trigger `display:none` as defined in shared-styles. For Lit components that seems like an anti-pattern. What about just adding a guard statement at the beginning of `render()` instead?\n\n```\nif (this.hideAutomated \u0026\u0026 this.computeIsAutomated()) return;\n```",
+      "revId": "1451802ccbbf4f8b21ab9eeef2361bf97fcc7440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eecabaca_125d91fa",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-10T11:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c682411_96941d70",
       "revId": "1451802ccbbf4f8b21ab9eeef2361bf97fcc7440",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +111,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90a8127e_893b4f9f",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-10T11:32:09Z",
+      "side": 1,
+      "message": "No, removed",
+      "parentUuid": "0f4ae9b2_ce2646db",
+      "range": {
+        "startLine": 459,
+        "startChar": 16,
+        "endLine": 459,
+        "endChar": 17
+      },
+      "revId": "1451802ccbbf4f8b21ab9eeef2361bf97fcc7440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4560b424_0dfc13e4",
@@ -88,6 +148,24 @@
       "writtenOn": "2022-05-09T20:56:18Z",
       "side": 1,
       "message": "Can this be done on the fly during render?",
+      "revId": "1451802ccbbf4f8b21ab9eeef2361bf97fcc7440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f39146f0_d617c84e",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-10T11:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4560b424_0dfc13e4",
       "revId": "1451802ccbbf4f8b21ab9eeef2361bf97fcc7440",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

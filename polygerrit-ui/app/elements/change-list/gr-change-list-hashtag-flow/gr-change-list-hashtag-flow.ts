@@ -7,7 +7,7 @@ import {css, html, LitElement, nothing} from 'lit';
 import {customElement, query, state} from 'lit/decorators';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
-import {ChangeInfo, TopicName} from '../../../types/common';
+import {ChangeInfo, Hashtag} from '../../../types/common';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-autocomplete/gr-autocomplete';
@@ -24,13 +24,13 @@ import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {ProgressStatus} from '../../../constants/constants';
 import {allSettled} from '../../../utils/async-util';
 
-@customElement('gr-change-list-topic-flow')
-export class GrChangeListTopicFlow extends LitElement {
+@customElement('gr-change-list-hashtag-flow')
+export class GrChangeListHashtagFlow extends LitElement {
   @state() private selectedChanges: ChangeInfo[] = [];
 
-  @state() private topicToAdd: TopicName = '' as TopicName;
+  @state() private hashtagToAdd: Hashtag = '' as Hashtag;
 
-  @state() private existingTopicSuggestions: TopicName[] = [];
+  @state() private existingHashtagSuggestions: Hashtag[] = [];
 
   @state() private loadingText?: string;
 
@@ -43,7 +43,7 @@ export class GrChangeListTopicFlow extends LitElement {
 
   @query('iron-dropdown') private dropdown?: IronDropdownElement;
 
-  private selectedExistingTopics: Set<TopicName> = new Set();
+  private selectedExistingHashtags: Set<Hashtag> = new Set();
 
   private getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
@@ -129,7 +129,7 @@ export class GrChangeListTopicFlow extends LitElement {
         flatten
         @click=${this.toggleDropdown}
         .disabled=${isFlowDisabled}
-        >Topic</gr-button
+        >Hashtag</gr-button
       >
       <iron-dropdown
         .horizontalAlign=${'auto'}
@@ -143,9 +143,9 @@ export class GrChangeListTopicFlow extends LitElement {
           () => html`
             <div slot="dropdown-content">
               ${when(
-                this.selectedChanges.some(change => change.topic),
-                () => this.renderExistingTopicsMode(),
-                () => this.renderNoExistingTopicsMode()
+                this.selectedChanges.some(change => change.hashtags?.length),
+                () => this.renderExistingHashtagsMode(),
+                () => this.renderNoExistingHashtagsMode()
               )}
             </div>
           `
@@ -154,17 +154,18 @@ export class GrChangeListTopicFlow extends LitElement {
     `;
   }
 
-  private renderExistingTopicsMode() {
-    const topics = this.selectedChanges
-      .map(change => change.topic)
+  private renderExistingHashtagsMode() {
+    const hashtags = this.selectedChanges
+      .flatMap(change => change.hashtags ?? [])
       .filter(notUndefined)
       .filter(unique);
     const removeDisabled =
-      this.selectedExistingTopics.size === 0 ||
+      this.selectedExistingHashtags.size === 0 ||
       this.overallProgress === ProgressStatus.RUNNING;
+    const applyToAllDisabled = this.selectedExistingHashtags.size !== 1;
     return html`
       <div class="chips">
-        ${topics.map(name => this.renderExistingTopicChip(name))}
+        ${hashtags.map(name => this.renderExistingHashtagChip(name))}
       </div>
       <div class="footer">
         <div class="loadingOrError">${this.renderLoadingOrError()}</div>
@@ -172,15 +173,15 @@ export class GrChangeListTopicFlow extends LitElement {
           <gr-button
             id="apply-to-all-button"
             flatten
-            ?disabled=${this.selectedExistingTopics.size !== 1}
-            @click=${this.applyTopicToAll}
+            ?disabled=${applyToAllDisabled}
+            @click=${this.applyHashtagToAll}
             >Apply to all</gr-button
           >
           <gr-button
-            id="remove-topics-button"
+            id="remove-hashtags-button"
             flatten
             ?disabled=${removeDisabled}
-            @click=${this.removeTopics}
+            @click=${this.removeHashtags}
             >Remove</gr-button
           >
         </div>
@@ -188,17 +189,17 @@ export class GrChangeListTopicFlow extends LitElement {
     `;
   }
 
-  private renderExistingTopicChip(name: TopicName) {
+  private renderExistingHashtagChip(name: Hashtag) {
     const chipClasses = {
       chip: true,
-      selected: this.selectedExistingTopics.has(name),
+      selected: this.selectedExistingHashtags.has(name),
     };
     return html`
       <span
         role="button"
         aria-label=${name as string}
         class=${classMap(chipClasses)}
-        @click=${() => this.toggleExistingTopicSelected(name)}
+        @click=${() => this.toggleExistingHashtagSelected(name)}
       >
         ${name}
       </span>
@@ -217,46 +218,46 @@ export class GrChangeListTopicFlow extends LitElement {
     return nothing;
   }
 
-  private renderNoExistingTopicsMode() {
-    const isCreateNewTopicDisabled =
-      this.topicToAdd === '' ||
-      this.existingTopicSuggestions.includes(this.topicToAdd) ||
+  private renderNoExistingHashtagsMode() {
+    const isCreateNewHashtagDisabled =
+      this.hashtagToAdd === '' ||
+      this.existingHashtagSuggestions.includes(this.hashtagToAdd) ||
       this.overallProgress === ProgressStatus.RUNNING;
-    const isApplyTopicDisabled =
-      this.topicToAdd === '' ||
-      !this.existingTopicSuggestions.includes(this.topicToAdd) ||
+    const isApplyHashtagDisabled =
+      this.hashtagToAdd === '' ||
+      !this.existingHashtagSuggestions.includes(this.hashtagToAdd) ||
       this.overallProgress === ProgressStatus.RUNNING;
     return html`
       <!--
         The .query function needs to be bound to this because lit's autobind
         seems to work only for @event handlers.
-        'this.getTopicSuggestions.bind(this)' gets in trouble with our linter
+        'this.getHashtagSuggestions.bind(this)' gets in trouble with our linter
         even though the bind is necessary here, so an anonymous function is used
         instead.
       -->
       <gr-autocomplete
-        .text=${this.topicToAdd}
-        .query=${(query: string) => this.getTopicSuggestions(query)}
+        .text=${this.hashtagToAdd}
+        .query=${(query: string) => this.getHashtagSuggestions(query)}
         show-blue-focus-border
-        placeholder="Type topic name to create or filter topics"
-        @text-changed=${(e: ValueChangedEvent<TopicName>) =>
-          (this.topicToAdd = e.detail.value)}
+        placeholder="Type hashtag name to create or filter hashtags"
+        @text-changed=${(e: ValueChangedEvent<Hashtag>) =>
+          (this.hashtagToAdd = e.detail.value)}
       ></gr-autocomplete>
       <div class="footer">
         <div class="loadingOrError">${this.renderLoadingOrError()}</div>
         <div class="buttons">
           <gr-button
-            id="create-new-topic-button"
+            id="create-new-hashtag-button"
             flatten
-            @click=${() => this.addTopic('Creating topic...')}
-            .disabled=${isCreateNewTopicDisabled}
-            >Create new topic</gr-button
+            @click=${() => this.addHashtag('Creating hashtag...')}
+            .disabled=${isCreateNewHashtagDisabled}
+            >Create new hashtag</gr-button
           >
           <gr-button
-            id="apply-topic-button"
+            id="apply-hashtag-button"
             flatten
-            @click=${() => this.addTopic('Applying topic...')}
-            .disabled=${isApplyTopicDisabled}
+            @click=${() => this.addHashtag('Applying hashtag...')}
+            .disabled=${isApplyHashtagDisabled}
             >Apply</gr-button
           >
         </div>
@@ -274,8 +275,8 @@ export class GrChangeListTopicFlow extends LitElement {
   }
 
   private reset() {
-    this.topicToAdd = '' as TopicName;
-    this.selectedExistingTopics = new Set();
+    this.hashtagToAdd = '' as Hashtag;
+    this.selectedExistingHashtags = new Set();
     this.overallProgress = ProgressStatus.NOT_STARTED;
     this.errorText = undefined;
   }
@@ -290,63 +291,70 @@ export class GrChangeListTopicFlow extends LitElement {
     this.dropdown?.open();
   }
 
-  private async getTopicSuggestions(
+  private async getHashtagSuggestions(
     query: string
   ): Promise<AutocompleteSuggestion[]> {
-    const suggestions = await this.restApiService.getChangesWithSimilarTopic(
+    const suggestions = await this.restApiService.getChangesWithSimilarHashtag(
       query
     );
-    this.existingTopicSuggestions = (suggestions ?? [])
-      .map(change => change.topic)
+    this.existingHashtagSuggestions = (suggestions ?? [])
+      .flatMap(change => change.hashtags ?? [])
       .filter(notUndefined)
       .filter(unique);
-    return this.existingTopicSuggestions.map(topic => {
-      return {name: topic, value: topic};
+    return this.existingHashtagSuggestions.map(hashtag => {
+      return {name: hashtag, value: hashtag};
     });
   }
 
-  private removeTopics() {
-    this.loadingText = `Removing topic${
-      this.selectedExistingTopics.size > 1 ? 's' : ''
+  private removeHashtags() {
+    this.loadingText = `Removing hashtag${
+      this.selectedExistingHashtags.size > 1 ? 's' : ''
     }...`;
     this.trackPromises(
       this.selectedChanges
         .filter(
           change =>
-            change.topic && this.selectedExistingTopics.has(change.topic)
+            change.hashtags &&
+            change.hashtags.some(hashtag =>
+              this.selectedExistingHashtags.has(hashtag)
+            )
         )
-        .map(change => this.restApiService.setChangeTopic(change._number, ''))
+        .map(change =>
+          this.restApiService.setChangeHashtag(change._number, {
+            remove: Array.from(this.selectedExistingHashtags.values()),
+          })
+        )
     );
   }
 
-  private applyTopicToAll() {
-    this.loadingText = 'Applying to all';
+  private applyHashtagToAll() {
+    this.loadingText = 'Applying hashtag to all';
     this.trackPromises(
       this.selectedChanges.map(change =>
-        this.restApiService.setChangeTopic(
-          change._number,
-          Array.from(this.selectedExistingTopics.values())[0]
-        )
+        this.restApiService.setChangeHashtag(change._number, {
+          add: Array.from(this.selectedExistingHashtags.values()),
+        })
       )
     );
   }
 
-  private addTopic(loadingText: string) {
+  private addHashtag(loadingText: string) {
     this.loadingText = loadingText;
     this.trackPromises(
       this.selectedChanges.map(change =>
-        this.restApiService.setChangeTopic(change._number, this.topicToAdd)
+        this.restApiService.setChangeHashtag(change._number, {
+          add: [this.hashtagToAdd],
+        })
       )
     );
   }
 
-  private async trackPromises(promises: Promise<string>[]) {
+  private async trackPromises(promises: Promise<Hashtag[]>[]) {
     this.overallProgress = ProgressStatus.RUNNING;
     const results = await allSettled(promises);
     if (results.every(result => result.status === 'fulfilled')) {
       this.overallProgress = ProgressStatus.SUCCESSFUL;
-      this.dropdown?.close();
-      this.isDropdownOpen = false;
+      this.closeDropdown();
       // TODO: fire reload of dashboard
     } else {
       this.overallProgress = ProgressStatus.FAILED;
@@ -354,11 +362,11 @@ export class GrChangeListTopicFlow extends LitElement {
     }
   }
 
-  private toggleExistingTopicSelected(name: TopicName) {
-    if (this.selectedExistingTopics.has(name)) {
-      this.selectedExistingTopics.delete(name);
+  private toggleExistingHashtagSelected(name: Hashtag) {
+    if (this.selectedExistingHashtags.has(name)) {
+      this.selectedExistingHashtags.delete(name);
     } else {
-      this.selectedExistingTopics.add(name);
+      this.selectedExistingHashtags.add(name);
     }
     this.requestUpdate();
   }
@@ -366,6 +374,6 @@ export class GrChangeListTopicFlow extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-change-list-topic-flow': GrChangeListTopicFlow;
+    'gr-change-list-hashtag-flow': GrChangeListHashtagFlow;
   }
 }

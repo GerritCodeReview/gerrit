@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dec47b1_db01e78c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-10T15:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e87d241f_8a814053",
+      "range": {
+        "startLine": 172,
+        "startChar": 24,
+        "endLine": 172,
+        "endChar": 42
+      },
+      "revId": "c7c299919f47b2b6bfc7d162aa72836bc90f3c60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce5e2ac5_63c1d265",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-10T14:22:54Z",
       "side": 1,
       "message": "why is the topic to add coming from `topicsToRemove` value?",
+      "range": {
+        "startLine": 309,
+        "startChar": 26,
+        "endLine": 309,
+        "endChar": 40
+      },
+      "revId": "c7c299919f47b2b6bfc7d162aa72836bc90f3c60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25cb2889_ac006ca1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-10T15:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce5e2ac5_63c1d265",
       "range": {
         "startLine": 309,
         "startChar": 26,

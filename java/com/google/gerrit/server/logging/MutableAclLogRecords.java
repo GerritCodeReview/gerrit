@@ -45,6 +45,10 @@ public class MutableAclLogRecords {
     return ImmutableList.copyOf(aclLogRecords);
   }
 
+  public boolean isEmpty() {
+    return aclLogRecords.isEmpty();
+  }
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).add("aclLogRecords", aclLogRecords).toString();

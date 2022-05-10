@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e557e279_19d41774",
+        "filename": "java/com/google/gerrit/server/api/projects/SubmitRequirementApiImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-10T11:30:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4000aac3_8088ccdf",
+      "revId": "bbbc067621f3434943b1c3a3d34709579459a8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "803917cf_fc3f74d3",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "242863b9_08a96e5b",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateSubmitRequirement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-10T11:30:49Z",
+      "side": 1,
+      "message": "Added a follow up change with documentation.",
+      "parentUuid": "3b62ee90_8ac7a71c",
+      "range": {
+        "startLine": 43,
+        "startChar": 13,
+        "endLine": 43,
+        "endChar": 36
+      },
+      "revId": "bbbc067621f3434943b1c3a3d34709579459a8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c97251f_03bedb19",
@@ -71,6 +113,30 @@
       "writtenOn": "2021-05-25T10:30:24Z",
       "side": 1,
       "message": "Rather list the exceptions that this REST endpoint actually throws.",
+      "range": {
+        "startLine": 68,
+        "startChar": 78,
+        "endLine": 68,
+        "endChar": 87
+      },
+      "revId": "bbbc067621f3434943b1c3a3d34709579459a8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8c5f1c2_7d2ca5fa",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateSubmitRequirement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-10T11:30:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c97251f_03bedb19",
       "range": {
         "startLine": 68,
         "startChar": 78,
@@ -104,6 +170,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e5f779a_11dd6c55",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateSubmitRequirement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-10T11:30:49Z",
+      "side": 1,
+      "message": "Yes. I re-used the same logic for labels.\n\nDone.",
+      "parentUuid": "5bed1400_cfe50c14",
+      "range": {
+        "startLine": 123,
+        "startChar": 21,
+        "endLine": 123,
+        "endChar": 25
+      },
+      "revId": "bbbc067621f3434943b1c3a3d34709579459a8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87ff2a4f_0011cae8",
@@ -117,6 +207,30 @@
       "writtenOn": "2021-05-25T10:30:24Z",
       "side": 1,
       "message": "Are these exception ever thrown? If not, drop them.",
+      "range": {
+        "startLine": 30,
+        "startChar": 13,
+        "endLine": 30,
+        "endChar": 47
+      },
+      "revId": "bbbc067621f3434943b1c3a3d34709579459a8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "266fe573_e4018c52",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetSubmitRequirement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-10T11:30:49Z",
+      "side": 1,
+      "message": "They are not used. I dropped them.",
+      "parentUuid": "87ff2a4f_0011cae8",
       "range": {
         "startLine": 30,
         "startChar": 13,
@@ -150,6 +264,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4aac33ea_b9443032",
+        "filename": "java/com/google/gerrit/server/restapi/project/SubmitRequirementsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-10T11:30:49Z",
+      "side": 1,
+      "message": "I am willing to implement in a later change. I changed it to NotImplementedException similar to the other handling in https://gerrit-review.googlesource.com/c/gerrit/+/307349/3/java/com/google/gerrit/server/api/projects/SubmitRequirementApiImpl.java#95",
+      "parentUuid": "f8b5a547_83329efc",
+      "range": {
+        "startLine": 54,
+        "startChar": 11,
+        "endLine": 54,
+        "endChar": 15
+      },
+      "revId": "bbbc067621f3434943b1c3a3d34709579459a8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9acfcd9e_0ecbb9ca",
@@ -163,6 +301,24 @@
       "writtenOn": "2021-05-25T10:30:24Z",
       "side": 1,
       "message": "Maybe just implement this method? It\u0027s just one @Inject to get the views and then you can return them here.",
+      "revId": "bbbc067621f3434943b1c3a3d34709579459a8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2966ec1_082b6036",
+        "filename": "java/com/google/gerrit/server/restapi/project/SubmitRequirementsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-10T11:30:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9acfcd9e_0ecbb9ca",
       "revId": "bbbc067621f3434943b1c3a3d34709579459a8d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

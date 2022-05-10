@@ -313,7 +313,7 @@ suite('gr-diff-host tests', () => {
       // Recognizes that it should be an image diff.
       assert.isTrue(element.isImageDiff);
       assert.instanceOf(
-          element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
+          element.$.diff.diffbuilder.builder, GrDiffBuilderImage);
 
       // Left image rendered with the parent commit's version of the file.
       const leftImage =
@@ -381,7 +381,7 @@ suite('gr-diff-host tests', () => {
       // Recognizes that it should be an image diff.
       assert.isTrue(element.isImageDiff);
       assert.instanceOf(
-          element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
+          element.$.diff.diffbuilder.builder, GrDiffBuilderImage);
 
       // Left image rendered with the parent commit's version of the file.
       const leftImage =
@@ -445,7 +445,7 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assert.instanceOf(
-            element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
+            element.$.diff.diffbuilder.builder, GrDiffBuilderImage);
 
         const leftImage =
             element.$.diff.$.diffTable.querySelector('td.left img');
@@ -493,7 +493,7 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assert.instanceOf(
-            element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
+            element.$.diff.diffbuilder.builder, GrDiffBuilderImage);
 
         const leftImage =
             element.$.diff.$.diffTable.querySelector('td.left img');
@@ -543,7 +543,7 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assert.instanceOf(
-            element.$.diff.$.diffBuilder._builder, GrDiffBuilderImage);
+            element.$.diff.diffbuilder.builder, GrDiffBuilderImage);
         const leftImage =
             element.$.diff.$.diffTable.querySelector('td.left img');
         assert.isNotOk(leftImage);
@@ -623,7 +623,7 @@ suite('gr-diff-host tests', () => {
 
     test('clearBlame', () => {
       element._blame = [];
-      const setBlameSpy = sinon.spy(element.$.diff.$.diffBuilder, 'setBlame');
+      const setBlameSpy = sinon.spy(element.$.diff.diffBuilder, 'setBlame');
       element.clearBlame();
       assert.isNull(element._blame);
       assert.isTrue(setBlameSpy.calledWithExactly(null));

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "182a204e_3220b2f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-10T10:23:06Z",
+      "side": 1,
+      "message": "Can you mentioned in the commit message how Plugin instance could be injected? How feasible would be to add a test for it?",
+      "revId": "205fc74123aa7555de9ba995bdd9ea1f29e9a1ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

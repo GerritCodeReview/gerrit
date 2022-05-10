@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ade15659_30472ae0",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-10T13:32:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "013ca399_8659197a",
+      "range": {
+        "startLine": 330,
+        "startChar": 6,
+        "endLine": 330,
+        "endChar": 33
+      },
+      "revId": "6fee34e4689129619a7e264278e77d9bf0a06041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "651ef0f5_de367f71",

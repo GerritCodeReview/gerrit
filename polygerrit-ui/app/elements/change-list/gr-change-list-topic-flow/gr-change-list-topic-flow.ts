@@ -31,7 +31,7 @@ export class GrChangeListTopicFlow extends LitElement {
 
   @state() private topicToAdd: TopicName = '' as TopicName;
 
-  @state() private topicsToRemove: Set<TopicName> = new Set();
+  @state() private selectedExistingTopics: Set<TopicName> = new Set();
 
   @state() private existingTopicSuggestions: TopicName[] = [];
 
@@ -140,8 +140,8 @@ export class GrChangeListTopicFlow extends LitElement {
             <div slot="dropdown-content">
               ${when(
                 this.selectedChanges.some(change => change.topic),
-                () => this.renderRemoveMode(),
-                () => this.renderAddMode()
+                () => this.renderExistingTopicsMode(),
+                () => this.renderNoExistingTopicsMode()
               )}
             </div>
           `
@@ -150,21 +150,28 @@ export class GrChangeListTopicFlow extends LitElement {
     `;
   }
 
-  private renderRemoveMode() {
+  private renderExistingTopicsMode() {
     const topics = this.selectedChanges
       .map(change => change.topic)
       .filter(notUndefined)
       .filter(unique);
     const removeDisabled =
-      this.topicsToRemove.size === 0 ||
+      this.selectedExistingTopics.size === 0 ||
       this.overallProgress === ProgressStatus.RUNNING;
     return html`
       <div class="chips">
-        ${topics.map(name => this.renderTopicRemoveChip(name))}
+        ${topics.map(name => this.renderExistingTopicChip(name))}
       </div>
       <div class="footer">
         <div class="loadingOrError">${this.renderLoadingOrError()}</div>
         <div class="buttons">
+          <gr-button
+            id="apply-to-all-button"
+            flatten
+            ?disabled=${this.selectedExistingTopics.size !== 1}
+            @click=${this.applyTopicToAll}
+            >Apply to all</gr-button
+          >
           <gr-button
             id="remove-topics-button"
             flatten
@@ -177,15 +184,15 @@ export class GrChangeListTopicFlow extends LitElement {
     `;
   }
 
-  private renderTopicRemoveChip(name: TopicName) {
+  private renderExistingTopicChip(name: TopicName) {
     const chipClasses = {
       chip: true,
-      selected: this.topicsToRemove.has(name),
+      selected: this.selectedExistingTopics.has(name),
     };
     return html`
       <span
         class=${classMap(chipClasses)}
-        @click=${() => this.toggleTopicToRemove(name)}
+        @click=${() => this.toggleExistingTopicSelected(name)}
       >
         ${name}
       </span>
@@ -196,7 +203,7 @@ export class GrChangeListTopicFlow extends LitElement {
     if (this.overallProgress === ProgressStatus.RUNNING) {
       return html`
         <span class="loadingSpin"></span>
-        <span>${this.loadingText}</span>
+        <span class="loadingText">${this.loadingText}</span>
       `;
     } else if (this.errorText !== undefined) {
       return html`<div class="error">${this.errorText}</div>`;
@@ -204,7 +211,7 @@ export class GrChangeListTopicFlow extends LitElement {
     return nothing;
   }
 
-  private renderAddMode() {
+  private renderNoExistingTopicsMode() {
     const isCreateNewTopicDisabled =
       this.topicToAdd === '' ||
       this.existingTopicSuggestions.includes(this.topicToAdd) ||
@@ -257,7 +264,7 @@ export class GrChangeListTopicFlow extends LitElement {
       this.dropdown?.close();
     } else {
       this.topicToAdd = '' as TopicName;
-      this.topicsToRemove = new Set();
+      this.selectedExistingTopics = new Set();
       this.overallProgress = ProgressStatus.NOT_STARTED;
       this.errorText = undefined;
       this.isDropdownOpen = true;
@@ -282,13 +289,28 @@ export class GrChangeListTopicFlow extends LitElement {
 
   private removeTopics() {
     this.loadingText = `Removing ${pluralize(
-      this.topicsToRemove.size,
+      this.selectedExistingTopics.size,
       'topic'
     )}...`;
     this.trackPromises(
       this.selectedChanges
-        .filter(change => change.topic && this.topicsToRemove.has(change.topic))
+        .filter(
+          change =>
+            change.topic && this.selectedExistingTopics.has(change.topic)
+        )
         .map(change => this.restApiService.setChangeTopic(change._number, ''))
+    );
+  }
+
+  private applyTopicToAll() {
+    this.loadingText = 'Applying to all';
+    this.trackPromises(
+      this.selectedChanges.map(change =>
+        this.restApiService.setChangeTopic(
+          change._number,
+          Array.from(this.selectedExistingTopics.values())[0]
+        )
+      )
     );
   }
 
@@ -315,11 +337,11 @@ export class GrChangeListTopicFlow extends LitElement {
     }
   }
 
-  private toggleTopicToRemove(name: TopicName) {
-    if (this.topicsToRemove.has(name)) {
-      this.topicsToRemove.delete(name);
+  private toggleExistingTopicSelected(name: TopicName) {
+    if (this.selectedExistingTopics.has(name)) {
+      this.selectedExistingTopics.delete(name);
     } else {
-      this.topicsToRemove.add(name);
+      this.selectedExistingTopics.add(name);
     }
     this.requestUpdate();
   }

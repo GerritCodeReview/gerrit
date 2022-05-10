@@ -703,10 +703,10 @@ export class GrReplyDialog extends LitElement {
         <section class="peopleContainer">
           <gr-endpoint-decorator name="reply-reviewers">
             <gr-endpoint-param
-              .name=${'change'}
+              name="change"
               .value=${this.change}
             ></gr-endpoint-param>
-            <gr-endpoint-param .name=${'reviewers'} .value=${this.allReviewers}>
+            <gr-endpoint-param name="reviewers" .value=${this.allReviewers}>
             </gr-endpoint-param>
             ${this.renderReviewerList()}
             <gr-endpoint-slot name="below"></gr-endpoint-slot>

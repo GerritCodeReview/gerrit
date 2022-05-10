@@ -37,7 +37,7 @@ public class RegexDirectoryPredicate extends ChangeRegexPredicate {
 
   @Override
   public boolean match(ChangeData cd) {
-    return ChangeField.getDirectories(cd).stream().anyMatch(pattern::run);
+    return ChangeField.getDirectories(cd).anyMatch(pattern::run);
   }
 
   @Override

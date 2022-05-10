@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -128,7 +129,7 @@ public class StalenessChecker {
   }
 
   private ListMultimap<Project.NameKey, RefStatePattern> parsePatterns(ChangeData cd) {
-    return parsePatterns(cd.getRefStatePatterns());
+    return parsePatterns(cd.getRefStatePatterns().stream());
   }
 
   /**
@@ -136,17 +137,19 @@ public class StalenessChecker {
    * RefStatePattern}.
    */
   public static ListMultimap<Project.NameKey, RefStatePattern> parsePatterns(
-      Iterable<byte[]> patterns) {
+      Stream<byte[]> patterns) {
     RefStatePattern.check(patterns != null, null);
     ListMultimap<Project.NameKey, RefStatePattern> result =
         MultimapBuilder.hashKeys().arrayListValues().build();
-    for (byte[] b : patterns) {
-      RefStatePattern.check(b != null, null);
-      String s = new String(b, UTF_8);
-      List<String> parts = Splitter.on(':').splitToList(s);
-      RefStatePattern.check(parts.size() == 2, s);
-      result.put(Project.nameKey(Url.decode(parts.get(0))), RefStatePattern.create(parts.get(1)));
-    }
+    patterns.forEach(
+        b -> {
+          RefStatePattern.check(b != null, null);
+          String s = new String(b, UTF_8);
+          List<String> parts = Splitter.on(':').splitToList(s);
+          RefStatePattern.check(parts.size() == 2, s);
+          result.put(
+              Project.nameKey(Url.decode(parts.get(0))), RefStatePattern.create(parts.get(1)));
+        });
     return result;
   }
 

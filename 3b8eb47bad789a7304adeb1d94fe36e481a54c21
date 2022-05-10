@@ -34,6 +34,24 @@
       "parentUuid": "0cf125d5_4ec86269",
       "revId": "3b8eb47bad789a7304adeb1d94fe36e481a54c21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60dd6bcc_4136f0d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-10T14:35:02Z",
+      "side": 1,
+      "message": "Thanks for this suggestion. It almost worked as you suggested. The only problem was to make previous account index version test work. I used a hack and bumped account index version, that is done in follow-up change, to avoid keeping support for legacy numeric types in place in the code base.",
+      "parentUuid": "0f9455c2_52461ef4",
+      "revId": "3b8eb47bad789a7304adeb1d94fe36e481a54c21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

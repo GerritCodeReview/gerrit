@@ -21,9 +21,7 @@ import static com.google.gerrit.index.FieldDef.storedOnly;
 import static com.google.gerrit.index.FieldDef.timestamp;
 import static java.util.stream.Collectors.toSet;
 
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.index.FieldDef;
@@ -34,11 +32,10 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Secondary index schemas for accounts. */
@@ -55,9 +52,10 @@ public class AccountField {
    * <p>This field includes secondary emails. Use this field only if the current user is allowed to
    * see secondary emails (requires the {@link GlobalCapability#MODIFY_ACCOUNT} capability).
    */
-  public static final FieldDef<AccountState, Iterable<String>> EXTERNAL_ID =
+  public static final FieldDef<AccountState, Stream<String>> EXTERNAL_ID =
       exact("external_id")
-          .buildRepeatable(a -> Iterables.transform(a.externalIds(), id -> id.key().get()));
+          .buildRepeatable(
+              a -> a.externalIds().stream().map(ExternalId::key).map(ExternalId.Key::get));
 
   /**
    * Fuzzy prefix match on name and email parts.
@@ -69,18 +67,17 @@ public class AccountField {
    * <p>Use the {@link AccountField#NAME_PART_NO_SECONDARY_EMAIL} if the current user can't see
    * secondary emails.
    */
-  public static final FieldDef<AccountState, Iterable<String>> NAME_PART =
+  public static final FieldDef<AccountState, Stream<String>> NAME_PART =
       prefix("name")
-          .buildRepeatable(
-              a -> getNameParts(a, Iterables.transform(a.externalIds(), ExternalId::email)));
+          .buildRepeatable(a -> getNameParts(a, a.externalIds().stream().map(ExternalId::email)));
 
   /**
    * Fuzzy prefix match on name and preferred email parts. Parts of secondary emails are not
    * included.
    */
-  public static final FieldDef<AccountState, Iterable<String>> NAME_PART_NO_SECONDARY_EMAIL =
+  public static final FieldDef<AccountState, Stream<String>> NAME_PART_NO_SECONDARY_EMAIL =
       prefix("name2")
-          .buildRepeatable(a -> getNameParts(a, Arrays.asList(a.account().preferredEmail())));
+          .buildRepeatable(a -> getNameParts(a, Stream.of(a.account().preferredEmail())));
 
   public static final FieldDef<AccountState, String> FULL_NAME =
       exact("full_name").build(a -> a.account().fullName());
@@ -94,16 +91,15 @@ public class AccountField {
    *
    * <p>Use the {@link AccountField#PREFERRED_EMAIL} if the current user can't see secondary emails.
    */
-  public static final FieldDef<AccountState, Iterable<String>> EMAIL =
+  public static final FieldDef<AccountState, Stream<String>> EMAIL =
       prefix("email")
           .buildRepeatable(
               a ->
-                  FluentIterable.from(a.externalIds())
-                      .transform(ExternalId::email)
-                      .append(Collections.singleton(a.account().preferredEmail()))
+                  Streams.concat(
+                          a.externalIds().stream().map(ExternalId::email),
+                          Stream.of(a.account().preferredEmail()))
                       .filter(Objects::nonNull)
-                      .transform(String::toLowerCase)
-                      .toSet());
+                      .map(String::toLowerCase));
 
   public static final FieldDef<AccountState, String> PREFERRED_EMAIL =
       prefix("preferredemail")
@@ -123,13 +119,9 @@ public class AccountField {
   public static final FieldDef<AccountState, String> USERNAME =
       exact("username").build(a -> a.userName().map(String::toLowerCase).orElse(""));
 
-  public static final FieldDef<AccountState, Iterable<String>> WATCHED_PROJECT =
+  public static final FieldDef<AccountState, Stream<String>> WATCHED_PROJECT =
       exact("watchedproject")
-          .buildRepeatable(
-              a ->
-                  FluentIterable.from(a.projectWatches().keySet())
-                      .transform(k -> k.project().get())
-                      .toSet());
+          .buildRepeatable(a -> a.projectWatches().keySet().stream().map(k -> k.project().get()));
 
   /**
    * All values of all refs that were used in the course of indexing this document, except the
@@ -138,15 +130,15 @@ public class AccountField {
    *
    * <p>Emitted as UTF-8 encoded strings of the form {@code project:ref/name:[hex sha]}.
    */
-  public static final FieldDef<AccountState, Iterable<byte[]>> REF_STATE =
+  public static final FieldDef<AccountState, Stream<byte[]>> REF_STATE =
       storedOnly("ref_state")
           .buildRepeatable(
               a -> {
                 if (a.account().metaId() == null) {
-                  return ImmutableList.of();
+                  return Stream.empty();
                 }
 
-                return ImmutableList.of(
+                return Stream.of(
                     RefState.create(
                             RefNames.refsUsers(a.account().id()),
                             ObjectId.fromString(a.account().metaId()))
@@ -163,25 +155,24 @@ public class AccountField {
    * <p>Emitted as UTF-8 encoded strings of the form {@code [hex sha of external ID]:[hex sha of
    * note blob]}, or with other words {@code [note ID]:[note data ID]}.
    */
-  public static final FieldDef<AccountState, Iterable<byte[]>> EXTERNAL_ID_STATE =
+  public static final FieldDef<AccountState, Stream<byte[]>> EXTERNAL_ID_STATE =
       storedOnly("external_id_state")
           .buildRepeatable(
               a ->
                   a.externalIds().stream()
                       .filter(e -> e.blobId() != null)
-                      .map(ExternalId::toByteArray)
-                      .collect(toSet()));
+                      .map(ExternalId::toByteArray));
 
-  private static final Set<String> getNameParts(AccountState a, Iterable<String> emails) {
+  private static final Stream<String> getNameParts(AccountState a, Stream<String> emails) {
     String fullName = a.account().fullName();
-    Set<String> parts = SchemaUtil.getNameParts(fullName, emails);
+    Set<String> parts = SchemaUtil.getNameParts(fullName, emails.collect(toSet()));
 
     // Additional values not currently added by getPersonParts.
     // TODO(dborowitz): Move to getPersonParts and remove this hack.
     if (fullName != null) {
       parts.add(fullName.toLowerCase(Locale.US));
     }
-    return parts;
+    return parts.stream();
   }
 
   private AccountField() {}

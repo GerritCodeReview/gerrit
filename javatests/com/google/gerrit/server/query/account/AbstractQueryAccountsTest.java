@@ -23,7 +23,6 @@ import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -670,7 +669,9 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     }
     assertThat(rawFields.get().getValue(AccountField.EXTERNAL_ID_STATE)).hasSize(blobs.size());
     assertThat(
-            Streams.stream(rawFields.get().getValue(AccountField.EXTERNAL_ID_STATE))
+            rawFields
+                .get()
+                .getValue(AccountField.EXTERNAL_ID_STATE)
                 .map(ByteArrayWrapper::new)
                 .collect(toList()))
         .containsExactlyElementsIn(blobs);

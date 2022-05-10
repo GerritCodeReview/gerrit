@@ -25,10 +25,10 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.StorageException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /** Specific version of a secondary index schema. */
 public class Schema<T> {
@@ -67,9 +67,9 @@ public class Schema<T> {
 
   public static class Values<T> {
     private final FieldDef<T, ?> field;
-    private final Iterable<?> values;
+    private final Stream<?> values;
 
-    private Values(FieldDef<T, ?> field, Iterable<?> values) {
+    private Values(FieldDef<T, ?> field, Stream<?> values) {
       this.field = field;
       this.values = values;
     }
@@ -78,7 +78,7 @@ public class Schema<T> {
       return field;
     }
 
-    public Iterable<?> getValues() {
+    public Stream<?> getValues() {
       return values;
     }
   }
@@ -198,9 +198,9 @@ public class Schema<T> {
     if (v == null) {
       return null;
     } else if (f.isRepeatable()) {
-      return new Values<>(f, (Iterable<?>) v);
+      return new Values<>(f, (Stream<?>) v);
     } else {
-      return new Values<>(f, Collections.singleton(v));
+      return new Values<>(f, Stream.of(v));
     }
   }
 

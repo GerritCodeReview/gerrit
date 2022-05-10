@@ -31,6 +31,6 @@ public class FileExtensionPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData object) {
-    return ChangeField.getExtensions(object).contains(value);
+    return ChangeField.getExtensions(object).anyMatch(e -> e.equals(value));
   }
 }

@@ -25,6 +25,8 @@ import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /** Predicate that is mapped to a field in the index. */
@@ -75,8 +77,8 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> implements 
   @Override
   public boolean match(I doc) {
     if (getField().isRepeatable()) {
-      Iterable<?> values = (Iterable<?>) getField().get(doc);
-      for (Object v : values) {
+      Stream<?> values = (Stream<?>) getField().get(doc);
+      for (Object v : values.collect(Collectors.toSet())) {
         if (matchesSingleObject(v)) {
           return true;
         }

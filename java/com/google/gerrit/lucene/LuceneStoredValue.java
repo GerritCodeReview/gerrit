@@ -14,13 +14,10 @@
 
 package com.google.gerrit.lucene;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-import static java.util.stream.Collectors.toList;
-
-import com.google.common.collect.Iterables;
 import com.google.gerrit.index.StoredValue;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Stream;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.util.BytesRef;
 
@@ -38,32 +35,32 @@ public class LuceneStoredValue implements StoredValue {
 
   @Override
   public String asString() {
-    return Iterables.getFirst(asStrings(), null);
+    return asStrings().findFirst().orElse(null);
   }
 
   @Override
-  public Iterable<String> asStrings() {
-    return field.stream().map(f -> f.stringValue()).collect(toImmutableList());
+  public Stream<String> asStrings() {
+    return field.stream().map(f -> f.stringValue());
   }
 
   @Override
   public Integer asInteger() {
-    return Iterables.getFirst(asIntegers(), null);
+    return asIntegers().findFirst().orElse(null);
   }
 
   @Override
-  public Iterable<Integer> asIntegers() {
-    return field.stream().map(f -> f.numericValue().intValue()).collect(toImmutableList());
+  public Stream<Integer> asIntegers() {
+    return field.stream().map(f -> f.numericValue().intValue());
   }
 
   @Override
   public Long asLong() {
-    return Iterables.getFirst(asLongs(), null);
+    return asLongs().findFirst().orElse(null);
   }
 
   @Override
-  public Iterable<Long> asLongs() {
-    return field.stream().map(f -> f.numericValue().longValue()).collect(toImmutableList());
+  public Stream<Long> asLongs() {
+    return field.stream().map(f -> f.numericValue().longValue());
   }
 
   @Override
@@ -73,23 +70,18 @@ public class LuceneStoredValue implements StoredValue {
 
   @Override
   public byte[] asByteArray() {
-    return Iterables.getFirst(asByteArrays(), null);
+    return asByteArrays().findFirst().orElse(null);
   }
 
   @Override
-  public Iterable<byte[]> asByteArrays() {
-    return copyAsBytes(field);
-  }
-
-  private static List<byte[]> copyAsBytes(List<IndexableField> fields) {
-    return fields.stream()
+  public Stream<byte[]> asByteArrays() {
+    return field.stream()
         .map(
             f -> {
               BytesRef ref = f.binaryValue();
               byte[] b = new byte[ref.length];
               System.arraycopy(ref.bytes, ref.offset, b, 0, ref.length);
               return b;
-            })
-        .collect(toList());
+            });
   }
 }

@@ -24,6 +24,7 @@ import com.google.gerrit.exceptions.StorageException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Definition of a field stored in the secondary index.
@@ -95,12 +96,12 @@ public final class FieldDef<I, T> {
       return new FieldDef<>(name, type, stored, false, getter, setter);
     }
 
-    public <I> FieldDef<I, Iterable<T>> buildRepeatable(Getter<I, Iterable<T>> getter) {
+    public <I> FieldDef<I, Stream<T>> buildRepeatable(Getter<I, Stream<T>> getter) {
       return new FieldDef<>(name, type, stored, true, getter, null);
     }
 
-    public <I> FieldDef<I, Iterable<T>> buildRepeatable(
-        Getter<I, Iterable<T>> getter, Setter<I, Iterable<T>> setter) {
+    public <I> FieldDef<I, Stream<T>> buildRepeatable(
+        Getter<I, Stream<T>> getter, Setter<I, Stream<T>> setter) {
       return new FieldDef<>(name, type, stored, true, getter, setter);
     }
   }

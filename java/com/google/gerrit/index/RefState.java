@@ -26,23 +26,25 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.ObjectIds;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 @AutoValue
 public abstract class RefState {
-  public static ImmutableSetMultimap<Project.NameKey, RefState> parseStates(
-      Iterable<byte[]> states) {
+  public static ImmutableSetMultimap<Project.NameKey, RefState> parseStates(Stream<byte[]> states) {
     RefState.check(states != null, null);
     ImmutableSetMultimap.Builder<Project.NameKey, RefState> result = ImmutableSetMultimap.builder();
-    for (byte[] b : states) {
-      RefState.check(b != null, null);
-      String s = new String(b, UTF_8);
-      List<String> parts = Splitter.on(':').splitToList(s);
-      RefState.check(parts.size() == 3 && !parts.get(0).isEmpty() && !parts.get(1).isEmpty(), s);
-      result.put(Project.nameKey(parts.get(0)), RefState.create(parts.get(1), parts.get(2)));
-    }
+    states.forEach(
+        b -> {
+          RefState.check(b != null, null);
+          String s = new String(b, UTF_8);
+          List<String> parts = Splitter.on(':').splitToList(s);
+          RefState.check(
+              parts.size() == 3 && !parts.get(0).isEmpty() && !parts.get(1).isEmpty(), s);
+          result.put(Project.nameKey(parts.get(0)), RefState.create(parts.get(1), parts.get(2)));
+        });
     return result.build();
   }
 

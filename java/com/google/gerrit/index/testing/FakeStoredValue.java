@@ -14,8 +14,10 @@
 
 package com.google.gerrit.index.testing;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.index.StoredValue;
 import java.sql.Timestamp;
+import java.util.stream.Stream;
 
 /** Bridge to recover fields from the fake index. */
 public class FakeStoredValue implements StoredValue {
@@ -32,8 +34,8 @@ public class FakeStoredValue implements StoredValue {
 
   @Override
   @SuppressWarnings("unchecked")
-  public Iterable<String> asStrings() {
-    return (Iterable<String>) field;
+  public Stream<String> asStrings() {
+    return ((ImmutableList<String>) field).stream();
   }
 
   @Override
@@ -43,8 +45,8 @@ public class FakeStoredValue implements StoredValue {
 
   @Override
   @SuppressWarnings("unchecked")
-  public Iterable<Integer> asIntegers() {
-    return (Iterable<Integer>) field;
+  public Stream<Integer> asIntegers() {
+    return ((ImmutableList<Integer>) field).stream();
   }
 
   @Override
@@ -54,8 +56,8 @@ public class FakeStoredValue implements StoredValue {
 
   @Override
   @SuppressWarnings("unchecked")
-  public Iterable<Long> asLongs() {
-    return (Iterable<Long>) field;
+  public Stream<Long> asLongs() {
+    return ((ImmutableList<Long>) field).stream();
   }
 
   @Override
@@ -70,7 +72,7 @@ public class FakeStoredValue implements StoredValue {
 
   @Override
   @SuppressWarnings("unchecked")
-  public Iterable<byte[]> asByteArrays() {
-    return (Iterable<byte[]>) field;
+  public Stream<byte[]> asByteArrays() {
+    return ((ImmutableList<byte[]>) field).stream();
   }
 }

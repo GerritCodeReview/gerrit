@@ -20,7 +20,6 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.account.AccountState;
@@ -29,6 +28,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.util.List;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -85,7 +85,7 @@ public class AccountFieldTest {
     assertThat(values).containsExactly(expectedValue1, expectedValue2, expectedValue3);
   }
 
-  private List<String> toStrings(Iterable<byte[]> values) {
-    return Streams.stream(values).map(v -> new String(v, UTF_8)).collect(toList());
+  private List<String> toStrings(Stream<byte[]> values) {
+    return values.map(v -> new String(v, UTF_8)).collect(toList());
   }
 }

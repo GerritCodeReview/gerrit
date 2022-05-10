@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.index.group;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.index.FieldDef.exact;
 import static com.google.gerrit.index.FieldDef.fullText;
 import static com.google.gerrit.index.FieldDef.integer;
@@ -30,6 +29,7 @@ import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.SchemaUtil;
 import java.sql.Timestamp;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Secondary index schemas for groups. */
@@ -56,8 +56,8 @@ public class GroupField {
       exact("name").build(InternalGroup::getName);
 
   /** Prefix match on group name parts. */
-  public static final FieldDef<InternalGroup, Iterable<String>> NAME_PART =
-      prefix("name_part").buildRepeatable(g -> SchemaUtil.getNameParts(g.getName()));
+  public static final FieldDef<InternalGroup, Stream<String>> NAME_PART =
+      prefix("name_part").buildRepeatable(g -> SchemaUtil.getNameParts(g.getName()).stream());
 
   /** Group description. */
   public static final FieldDef<InternalGroup, String> DESCRIPTION =
@@ -67,16 +67,11 @@ public class GroupField {
   public static final FieldDef<InternalGroup, String> IS_VISIBLE_TO_ALL =
       exact("is_visible_to_all").build(g -> g.isVisibleToAll() ? "1" : "0");
 
-  public static final FieldDef<InternalGroup, Iterable<Integer>> MEMBER =
-      integer("member")
-          .buildRepeatable(
-              g -> g.getMembers().stream().map(Account.Id::get).collect(toImmutableList()));
+  public static final FieldDef<InternalGroup, Stream<Integer>> MEMBER =
+      integer("member").buildRepeatable(g -> g.getMembers().stream().map(Account.Id::get));
 
-  public static final FieldDef<InternalGroup, Iterable<String>> SUBGROUP =
-      exact("subgroup")
-          .buildRepeatable(
-              g ->
-                  g.getSubgroups().stream().map(AccountGroup.UUID::get).collect(toImmutableList()));
+  public static final FieldDef<InternalGroup, Stream<String>> SUBGROUP =
+      exact("subgroup").buildRepeatable(g -> g.getSubgroups().stream().map(AccountGroup.UUID::get));
 
   /** ObjectId of HEAD:refs/groups/<UUID>. */
   public static final FieldDef<InternalGroup, byte[]> REF_STATE =

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2265d100_f60906ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-10T17:53:23Z",
+      "side": 1,
+      "message": "Btw. I am not big fan of splitting to too many small rendering methods. https://gerrit-review.googlesource.com/c/gerrit/+/335931/comments/a31fde1a_b457391a\n\nBut if it works for others, I am ok with it.",
+      "revId": "4a922d8f4821b066554d3defc792018a3a1edfe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

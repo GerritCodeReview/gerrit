@@ -100,7 +100,7 @@ const RoutePattern = {
   // Redirects /groups/self to /settings/#Groups for GWT compatibility
   GROUP_SELF: /^\/groups\/self/,
 
-  // Matches /admin/groups/[uuid-]<group>,info (backwords compat with gwtui)
+  // Matches /admin/groups/[uuid-]<group>,info (backwards compat with gwtui)
   // Redirects to /admin/groups/[uuid-]<group>
   GROUP_INFO: /^\/admin\/groups\/(?:uuid-)?(.+),info$/,
 
@@ -786,7 +786,7 @@ export class GrRouter {
    * @param authRedirect If true, then auth is checked before
    * executing the handler. If the user is not logged in, it will redirect
    * to the login flow and the handler will not be executed. The login
-   * redirect specifies the matched URL to be used after successfull auth.
+   * redirect specifies the matched URL to be used after successful auth.
    */
   mapRoute(
     pattern: string | RegExp,
@@ -885,383 +885,349 @@ export class GrRouter {
       next();
     });
 
-    this.mapRoute(
-      RoutePattern.ROOT,
-      'handleRootRoute',
-      this.handleRootRoute.bind(this)
+    this.mapRoute(RoutePattern.ROOT, 'handleRootRoute', ctx =>
+      this.handleRootRoute(ctx)
     );
 
-    this.mapRoute(
-      RoutePattern.DASHBOARD,
-      'handleDashboardRoute',
-      this.handleDashboardRoute.bind(this)
+    this.mapRoute(RoutePattern.DASHBOARD, 'handleDashboardRoute', ctx =>
+      this.handleDashboardRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.CUSTOM_DASHBOARD,
       'handleCustomDashboardRoute',
-      this.handleCustomDashboardRoute.bind(this)
+      ctx => this.handleCustomDashboardRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.PROJECT_DASHBOARD,
       'handleProjectDashboardRoute',
-      this.handleProjectDashboardRoute.bind(this)
+      ctx => this.handleProjectDashboardRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.LEGACY_PROJECT_DASHBOARD,
       'handleLegacyProjectDashboardRoute',
-      this.handleLegacyProjectDashboardRoute.bind(this)
+      ctx => this.handleLegacyProjectDashboardRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.GROUP_INFO,
       'handleGroupInfoRoute',
-      this.handleGroupInfoRoute.bind(this),
+      ctx => this.handleGroupInfoRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.GROUP_AUDIT_LOG,
       'handleGroupAuditLogRoute',
-      this.handleGroupAuditLogRoute.bind(this),
+      ctx => this.handleGroupAuditLogRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.GROUP_MEMBERS,
       'handleGroupMembersRoute',
-      this.handleGroupMembersRoute.bind(this),
+      ctx => this.handleGroupMembersRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.GROUP_LIST_OFFSET,
       'handleGroupListOffsetRoute',
-      this.handleGroupListOffsetRoute.bind(this),
+      ctx => this.handleGroupListOffsetRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.GROUP_LIST_FILTER_OFFSET,
       'handleGroupListFilterOffsetRoute',
-      this.handleGroupListFilterOffsetRoute.bind(this),
+      ctx => this.handleGroupListFilterOffsetRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.GROUP_LIST_FILTER,
       'handleGroupListFilterRoute',
-      this.handleGroupListFilterRoute.bind(this),
+      ctx => this.handleGroupListFilterRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.GROUP_SELF,
       'handleGroupSelfRedirectRoute',
-      this.handleGroupSelfRedirectRoute.bind(this),
+      ctx => this.handleGroupSelfRedirectRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.GROUP,
       'handleGroupRoute',
-      this.handleGroupRoute.bind(this),
+      ctx => this.handleGroupRoute(ctx),
       true
     );
 
-    this.mapRoute(
-      RoutePattern.PROJECT_OLD,
-      'handleProjectsOldRoute',
-      this.handleProjectsOldRoute.bind(this)
+    this.mapRoute(RoutePattern.PROJECT_OLD, 'handleProjectsOldRoute', ctx =>
+      this.handleProjectsOldRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.REPO_COMMANDS,
       'handleRepoCommandsRoute',
-      this.handleRepoCommandsRoute.bind(this),
+      ctx => this.handleRepoCommandsRoute(ctx),
       true
     );
 
-    this.mapRoute(
-      RoutePattern.REPO_GENERAL,
-      'handleRepoGeneralRoute',
-      this.handleRepoGeneralRoute.bind(this)
+    this.mapRoute(RoutePattern.REPO_GENERAL, 'handleRepoGeneralRoute', ctx =>
+      this.handleRepoGeneralRoute(ctx)
     );
 
-    this.mapRoute(
-      RoutePattern.REPO_ACCESS,
-      'handleRepoAccessRoute',
-      this.handleRepoAccessRoute.bind(this)
+    this.mapRoute(RoutePattern.REPO_ACCESS, 'handleRepoAccessRoute', ctx =>
+      this.handleRepoAccessRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.REPO_DASHBOARDS,
       'handleRepoDashboardsRoute',
-      this.handleRepoDashboardsRoute.bind(this)
+      ctx => this.handleRepoDashboardsRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.BRANCH_LIST_OFFSET,
       'handleBranchListOffsetRoute',
-      this.handleBranchListOffsetRoute.bind(this)
+      ctx => this.handleBranchListOffsetRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.BRANCH_LIST_FILTER_OFFSET,
       'handleBranchListFilterOffsetRoute',
-      this.handleBranchListFilterOffsetRoute.bind(this)
+      ctx => this.handleBranchListFilterOffsetRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.BRANCH_LIST_FILTER,
       'handleBranchListFilterRoute',
-      this.handleBranchListFilterRoute.bind(this)
+      ctx => this.handleBranchListFilterRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.TAG_LIST_OFFSET,
       'handleTagListOffsetRoute',
-      this.handleTagListOffsetRoute.bind(this)
+      ctx => this.handleTagListOffsetRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.TAG_LIST_FILTER_OFFSET,
       'handleTagListFilterOffsetRoute',
-      this.handleTagListFilterOffsetRoute.bind(this)
+      ctx => this.handleTagListFilterOffsetRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.TAG_LIST_FILTER,
       'handleTagListFilterRoute',
-      this.handleTagListFilterRoute.bind(this)
+      ctx => this.handleTagListFilterRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.LEGACY_CREATE_GROUP,
       'handleCreateGroupRoute',
-      this.handleCreateGroupRoute.bind(this),
+      ctx => this.handleCreateGroupRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.LEGACY_CREATE_PROJECT,
       'handleCreateProjectRoute',
-      this.handleCreateProjectRoute.bind(this),
+      ctx => this.handleCreateProjectRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.REPO_LIST_OFFSET,
       'handleRepoListOffsetRoute',
-      this.handleRepoListOffsetRoute.bind(this)
+      ctx => this.handleRepoListOffsetRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.REPO_LIST_FILTER_OFFSET,
       'handleRepoListFilterOffsetRoute',
-      this.handleRepoListFilterOffsetRoute.bind(this)
+      ctx => this.handleRepoListFilterOffsetRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.REPO_LIST_FILTER,
       'handleRepoListFilterRoute',
-      this.handleRepoListFilterRoute.bind(this)
+      ctx => this.handleRepoListFilterRoute(ctx)
     );
 
-    this.mapRoute(
-      RoutePattern.REPO,
-      'handleRepoRoute',
-      this.handleRepoRoute.bind(this)
+    this.mapRoute(RoutePattern.REPO, 'handleRepoRoute', ctx =>
+      this.handleRepoRoute(ctx)
     );
 
-    this.mapRoute(
-      RoutePattern.PLUGINS,
-      'handlePassThroughRoute',
-      this.handlePassThroughRoute.bind(this)
+    this.mapRoute(RoutePattern.PLUGINS, 'handlePassThroughRoute', () =>
+      this.handlePassThroughRoute()
     );
 
     this.mapRoute(
       RoutePattern.PLUGIN_LIST_OFFSET,
       'handlePluginListOffsetRoute',
-      this.handlePluginListOffsetRoute.bind(this),
+      ctx => this.handlePluginListOffsetRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.PLUGIN_LIST_FILTER_OFFSET,
       'handlePluginListFilterOffsetRoute',
-      this.handlePluginListFilterOffsetRoute.bind(this),
+      ctx => this.handlePluginListFilterOffsetRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.PLUGIN_LIST_FILTER,
       'handlePluginListFilterRoute',
-      this.handlePluginListFilterRoute.bind(this),
+      ctx => this.handlePluginListFilterRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.PLUGIN_LIST,
       'handlePluginListRoute',
-      this.handlePluginListRoute.bind(this),
+      ctx => this.handlePluginListRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.QUERY_LEGACY_SUFFIX,
       'handleQueryLegacySuffixRoute',
-      this.handleQueryLegacySuffixRoute.bind(this)
+      ctx => this.handleQueryLegacySuffixRoute(ctx)
     );
 
-    this.mapRoute(
-      RoutePattern.QUERY,
-      'handleQueryRoute',
-      this.handleQueryRoute.bind(this)
+    this.mapRoute(RoutePattern.QUERY, 'handleQueryRoute', ctx =>
+      this.handleQueryRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.CHANGE_ID_QUERY,
       'handleChangeIdQueryRoute',
-      this.handleChangeIdQueryRoute.bind(this)
+      ctx => this.handleChangeIdQueryRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.DIFF_LEGACY_LINENUM,
       'handleLegacyLinenum',
-      this.handleLegacyLinenum.bind(this)
+      ctx => this.handleLegacyLinenum(ctx)
     );
 
     this.mapRoute(
       RoutePattern.CHANGE_NUMBER_LEGACY,
       'handleChangeNumberLegacyRoute',
-      this.handleChangeNumberLegacyRoute.bind(this)
+      ctx => this.handleChangeNumberLegacyRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.DIFF_EDIT,
       'handleDiffEditRoute',
-      this.handleDiffEditRoute.bind(this),
+      ctx => this.handleDiffEditRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.CHANGE_EDIT,
       'handleChangeEditRoute',
-      this.handleChangeEditRoute.bind(this),
+      ctx => this.handleChangeEditRoute(ctx),
       true
     );
 
-    this.mapRoute(
-      RoutePattern.COMMENT,
-      'handleCommentRoute',
-      this.handleCommentRoute.bind(this)
+    this.mapRoute(RoutePattern.COMMENT, 'handleCommentRoute', ctx =>
+      this.handleCommentRoute(ctx)
     );
 
-    this.mapRoute(
-      RoutePattern.COMMENTS_TAB,
-      'handleCommentsRoute',
-      this.handleCommentsRoute.bind(this)
+    this.mapRoute(RoutePattern.COMMENTS_TAB, 'handleCommentsRoute', ctx =>
+      this.handleCommentsRoute(ctx)
     );
 
-    this.mapRoute(
-      RoutePattern.DIFF,
-      'handleDiffRoute',
-      this.handleDiffRoute.bind(this)
+    this.mapRoute(RoutePattern.DIFF, 'handleDiffRoute', ctx =>
+      this.handleDiffRoute(ctx)
     );
 
-    this.mapRoute(
-      RoutePattern.CHANGE,
-      'handleChangeRoute',
-      this.handleChangeRoute.bind(this)
+    this.mapRoute(RoutePattern.CHANGE, 'handleChangeRoute', ctx =>
+      this.handleChangeRoute(ctx)
     );
 
-    this.mapRoute(
-      RoutePattern.CHANGE_LEGACY,
-      'handleChangeLegacyRoute',
-      this.handleChangeLegacyRoute.bind(this)
+    this.mapRoute(RoutePattern.CHANGE_LEGACY, 'handleChangeLegacyRoute', ctx =>
+      this.handleChangeLegacyRoute(ctx)
     );
 
     this.mapRoute(
       RoutePattern.AGREEMENTS,
       'handleAgreementsRoute',
-      this.handleAgreementsRoute.bind(this),
+      () => this.handleAgreementsRoute(),
       true
     );
 
     this.mapRoute(
       RoutePattern.NEW_AGREEMENTS,
       'handleNewAgreementsRoute',
-      this.handleNewAgreementsRoute.bind(this),
+      ctx => this.handleNewAgreementsRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.SETTINGS_LEGACY,
       'handleSettingsLegacyRoute',
-      this.handleSettingsLegacyRoute.bind(this),
+      ctx => this.handleSettingsLegacyRoute(ctx),
       true
     );
 
     this.mapRoute(
       RoutePattern.SETTINGS,
       'handleSettingsRoute',
-      this.handleSettingsRoute.bind(this),
+      ctx => this.handleSettingsRoute(ctx),
       true
     );
 
-    this.mapRoute(
-      RoutePattern.REGISTER,
-      'handleRegisterRoute',
-      this.handleRegisterRoute.bind(this)
+    this.mapRoute(RoutePattern.REGISTER, 'handleRegisterRoute', ctx =>
+      this.handleRegisterRoute(ctx)
     );
 
-    this.mapRoute(
-      RoutePattern.LOG_IN_OR_OUT,
-      'handlePassThroughRoute',
-      this.handlePassThroughRoute.bind(this)
+    this.mapRoute(RoutePattern.LOG_IN_OR_OUT, 'handlePassThroughRoute', () =>
+      this.handlePassThroughRoute()
     );
 
     this.mapRoute(
       RoutePattern.IMPROPERLY_ENCODED_PLUS,
       'handleImproperlyEncodedPlusRoute',
-      this.handleImproperlyEncodedPlusRoute.bind(this)
+      ctx => this.handleImproperlyEncodedPlusRoute(ctx)
     );
 
-    this.mapRoute(
-      RoutePattern.PLUGIN_SCREEN,
-      'handlePluginScreen',
-      this.handlePluginScreen.bind(this)
+    this.mapRoute(RoutePattern.PLUGIN_SCREEN, 'handlePluginScreen', ctx =>
+      this.handlePluginScreen(ctx)
     );
 
     this.mapRoute(
       RoutePattern.DOCUMENTATION_SEARCH_FILTER,
       'handleDocumentationSearchRoute',
-      this.handleDocumentationSearchRoute.bind(this)
+      ctx => this.handleDocumentationSearchRoute(ctx)
     );
 
     // redirects /Documentation/q/* to /Documentation/q/filter:*
     this.mapRoute(
       RoutePattern.DOCUMENTATION_SEARCH,
       'handleDocumentationSearchRedirectRoute',
-      this.handleDocumentationSearchRedirectRoute.bind(this)
+      ctx => this.handleDocumentationSearchRedirectRoute(ctx)
     );
 
-    // Makes sure /Documentation/* links work (doin't return 404)
+    // Makes sure /Documentation/* links work (don't return 404)
     this.mapRoute(
       RoutePattern.DOCUMENTATION,
       'handleDocumentationRedirectRoute',
-      this.handleDocumentationRedirectRoute.bind(this)
+      ctx => this.handleDocumentationRedirectRoute(ctx)
     );
 
     // Note: this route should appear last so it only catches URLs unmatched
     // by other patterns.
-    this.mapRoute(
-      RoutePattern.DEFAULT,
-      'handleDefaultRoute',
-      this.handleDefaultRoute.bind(this)
+    this.mapRoute(RoutePattern.DEFAULT, 'handleDefaultRoute', () =>
+      this.handleDefaultRoute()
     );
 
     page.start();

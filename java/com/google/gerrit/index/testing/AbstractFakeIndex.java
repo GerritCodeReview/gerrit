@@ -52,6 +52,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -142,7 +144,8 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
               continue;
             }
             if (field.isRepeatable()) {
-              fields.putAll(field.getName(), (Iterable<?>) field.get(result));
+              fields.putAll(
+                  field.getName(), ((Stream<?>) field.get(result)).collect(Collectors.toSet()));
             } else {
               fields.put(field.getName(), field.get(result));
             }
@@ -218,8 +221,14 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
           continue;
         }
         Object docifiedValue = field.get(value);
+        if (field.isRepeatable()) {
+          // Streams can only be read once. Hence we materialize them as ImmutableLists in the
+          // fake index. This allows callers to read fresh streams we create when deserializing the
+          // document.
+          docifiedValue = ((Stream<?>) docifiedValue).collect(toImmutableList());
+        }
         if (docifiedValue != null) {
-          doc.put(field.getName(), field.get(value));
+          doc.put(field.getName(), docifiedValue);
         }
       }
       return doc.build();

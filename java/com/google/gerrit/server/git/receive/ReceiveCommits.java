@@ -1007,6 +1007,7 @@ class ReceiveCommits {
             .setIsWorkInProgress(wip)
             .build();
     addMessage(changeFormatter.changeUpdated(input));
+    u.getOutdatedApprovalsMessage().map(msg -> "\n" + msg).ifPresent(this::addMessage);
   }
 
   private void insertChangesAndPatchSets(
@@ -3229,6 +3230,10 @@ class ReceiveCommits {
 
     String getRejectMessage() {
       return replaceOp != null ? replaceOp.getRejectMessage() : null;
+    }
+
+    Optional<String> getOutdatedApprovalsMessage() {
+      return replaceOp != null ? replaceOp.getOutdatedApprovalsMessage() : Optional.empty();
     }
   }
 

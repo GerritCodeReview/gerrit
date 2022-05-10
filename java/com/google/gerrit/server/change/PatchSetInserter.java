@@ -114,6 +114,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private ReviewerSet oldReviewers;
   private boolean oldWorkInProgressState;
   private ImmutableSet<PatchSetApproval> outdatedApprovals;
+  private ObjectId preUpdateMetaId;
 
   @Inject
   public PatchSetInserter(
@@ -261,6 +262,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   @Override
   public boolean updateChange(ChangeContext ctx)
       throws ResourceConflictException, IOException, BadRequestException {
+    preUpdateMetaId = ctx.getNotes().getMetaId();
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(psId);
     update.setSubjectForCommit("Create patch set " + psId.get());
@@ -340,7 +342,8 @@ public class PatchSetInserter implements BatchUpdateOp {
               outdatedApprovals,
               oldReviewers.byState(REVIEWER),
               oldReviewers.byState(CC),
-              changeKind)
+              changeKind,
+              preUpdateMetaId)
           .sendAsync();
     }
 

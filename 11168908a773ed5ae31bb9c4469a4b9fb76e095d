@@ -45,6 +45,30 @@
       },
       "revId": "11168908a773ed5ae31bb9c4469a4b9fb76e095d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ee65476_c192aca3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-10T11:16:12Z",
+      "side": 1,
+      "message": "They are fixed in previous change 336724: Fix Code Owners regression | https://gerrit-review.googlesource.com/c/gerrit/+/336724",
+      "parentUuid": "5df32c8f_5aa89feb",
+      "range": {
+        "startLine": 707,
+        "startChar": 14,
+        "endLine": 707,
+        "endChar": 27
+      },
+      "revId": "11168908a773ed5ae31bb9c4469a4b9fb76e095d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

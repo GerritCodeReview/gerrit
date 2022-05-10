@@ -130,8 +130,7 @@ export class GrEndpointDecorator extends LitElement {
     }
     const expectProperties = this.getEndpointParams().map(paramEl => {
       const helper = plugin.attributeHelper(paramEl);
-      // TODO: this should be replaced by accessing the property directly
-      const paramName = paramEl.getAttribute('name');
+      const paramName = paramEl.name;
       if (!paramName) {
         this.reporting.error(
           new Error(

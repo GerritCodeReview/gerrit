@@ -41,6 +41,8 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.After;
 import org.junit.Before;
@@ -71,12 +73,15 @@ public class ChangeFieldTest {
     t.put(ReviewerStateInternal.CC, Account.id(2), t2);
     ReviewerSet reviewers = ReviewerSet.fromTable(t);
 
-    List<String> values = ChangeField.getReviewerFieldValues(reviewers);
-    assertThat(values)
+    Stream<String> values = ChangeField.getReviewerFieldValues(reviewers);
+    assertThat(values.collect(Collectors.toSet()))
         .containsExactly(
             "REVIEWER,1", "REVIEWER,1," + t1.toEpochMilli(), "CC,2", "CC,2," + t2.toEpochMilli());
 
-    assertThat(ChangeField.parseReviewerFieldValues(Change.id(1), values)).isEqualTo(reviewers);
+    assertThat(
+            ChangeField.parseReviewerFieldValues(
+                Change.id(1), ChangeField.getReviewerFieldValues(reviewers)))
+        .isEqualTo(reviewers);
   }
 
   @Test
@@ -210,11 +215,11 @@ public class ChangeFieldTest {
   private static void assertStoredRecordRoundTrip(SubmitRecord... records) {
     List<SubmitRecord> recordList = ImmutableList.copyOf(records);
     List<String> stored =
-        ChangeField.storedSubmitRecords(recordList).stream()
+        ChangeField.storedSubmitRecords(recordList)
             .map(s -> new String(s, UTF_8))
             .collect(toList());
     assertWithMessage("JSON %s" + stored)
-        .that(ChangeField.parseSubmitRecords(stored))
+        .that(ChangeField.parseSubmitRecords(stored.stream()))
         .isEqualTo(recordList);
   }
 }

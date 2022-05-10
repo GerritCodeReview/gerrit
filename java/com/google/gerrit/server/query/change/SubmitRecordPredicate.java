@@ -41,6 +41,6 @@ public class SubmitRecordPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData in) {
-    return ChangeField.formatSubmitRecordValues(in).contains(getValue());
+    return ChangeField.formatSubmitRecordValues(in).anyMatch(r -> r.equals(getValue()));
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29109eec_8c43b5b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-10T06:25:00Z",
+      "side": 1,
+      "message": "Code looks good, once the issue with the Eclipse project generation in the predecessor change is resolved.",
+      "revId": "4f583cf62c76172f4618b10a22c6695441ad08af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

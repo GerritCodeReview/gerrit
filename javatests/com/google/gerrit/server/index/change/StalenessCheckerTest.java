@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.index.change.StalenessChecker.refsAreStale;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -75,7 +74,7 @@ public class StalenessCheckerTest {
                     P1 + ":refs/heads/bar:" + SHA2,
                     P2 + ":refs/heads/baz:" + SHA1)))
         .isEqualTo(
-            ImmutableSetMultimap.of(
+            ImmutableListMultimap.of(
                 P1, RefState.create("refs/heads/foo", SHA1),
                 P1, RefState.create("refs/heads/bar", SHA2),
                 P2, RefState.create("refs/heads/baz", SHA1)));
@@ -311,7 +310,7 @@ public class StalenessCheckerTest {
         .isFalse();
   }
 
-  private static Iterable<byte[]> byteArrays(String... strs) {
-    return Stream.of(strs).map(s -> s != null ? s.getBytes(UTF_8) : null).collect(toList());
+  private static Stream<byte[]> byteArrays(String... strs) {
+    return Stream.of(strs).map(s -> s != null ? s.getBytes(UTF_8) : null);
   }
 }

@@ -505,3 +505,14 @@ export function whenRendered(el: HTMLElement, callback: () => void) {
   });
   obs.observe(el);
 }
+
+/**
+ * Mimics a Polymer utility. `requestAnimationFrame` is called before the next
+ * browser paint. An additional `setTimeout` ensures that the pain has
+ * actually happened.
+ */
+export function afterNextRender(callback: (value?: unknown) => void) {
+  requestAnimationFrame(() => {
+    setTimeout(callback);
+  });
+}

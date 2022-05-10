@@ -1,24 +1,11 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-diff-processor/gr-diff-processor';
 import '../../../elements/shared/gr-hovercard/gr-hovercard';
 import './gr-diff-builder-side-by-side';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-diff-builder-element_html';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {DiffBuilder, DiffContextExpandedEventDetail} from './gr-diff-builder';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
@@ -26,7 +13,6 @@ import {GrDiffBuilderImage} from './gr-diff-builder-image';
 import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
 import {GrDiffBuilderBinary} from './gr-diff-builder-binary';
 import {CancelablePromise, makeCancelable} from '../../../scripts/util';
-import {customElement, property, observe} from '@polymer/decorators';
 import {BlameInfo, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {CoverageRange, DiffLayer} from '../../../types/types';
@@ -54,7 +40,8 @@ import {
 } from '../gr-diff/gr-diff-group';
 import {getLineNumber, getSideByLineEl} from '../gr-diff/gr-diff-utils';
 import {fireAlert, fireEvent, fire} from '../../../utils/event-util';
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
+import {assertIsDefined} from '../../../utils/common-util';
+import {afterNextRender} from '../../../utils/dom-util';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
@@ -111,43 +98,29 @@ function annotateSymbols(
   }
 }
 
-@customElement('gr-diff-builder')
-export class GrDiffBuilderElement
-  extends PolymerElement
-  implements GroupConsumer
-{
-  static get template() {
-    return htmlTemplate;
-  }
-
-  @property({type: Object})
+// TODO: Rename the class and the file and remove "element". This is not an
+// element anymore.
+export class GrDiffBuilderElement implements GroupConsumer {
   diff?: DiffInfo;
 
-  @property({type: String})
+  diffElement?: HTMLTableElement;
+
   viewMode?: string;
 
-  @property({type: Boolean})
   isImageDiff?: boolean;
 
-  @property({type: Object})
   baseImage: ImageInfo | null = null;
 
-  @property({type: Object})
   revisionImage: ImageInfo | null = null;
 
-  @property({type: Number})
   parentIndex?: number;
 
-  @property({type: String})
   path?: string;
 
-  @property({type: Object})
   prefs: DiffPreferencesInfo = createDefaultDiffPrefs();
 
-  @property({type: Object})
   renderPrefs?: RenderPreferences;
 
-  @property({type: Object})
   _builder?: DiffBuilder;
 
   /**
@@ -159,34 +132,22 @@ export class GrDiffBuilderElement
    * expanding/collapsing groups only the builder is updated. This field and the
    * corresponsing one in the processor are not updated.
    */
-  @property({type: Array})
   _groups: GrDiffGroup[] = [];
 
   /**
    * Layers passed in from the outside.
    */
-  @property({type: Array})
   layers: DiffLayer[] = [];
 
   /**
    * All layers, both from the outside and the default ones.
    */
-  @property({type: Array})
   _layers: DiffLayer[] = [];
 
-  @property({type: Boolean})
   _showTabs?: boolean;
 
-  @property({type: Boolean})
   _showTrailingWhitespace?: boolean;
 
-  @property({type: Array})
-  commentRanges: CommentRangeLayer[] = [];
-
-  @property({type: Array, observer: 'coverageObserver'})
-  coverageRanges: CoverageRange[] = [];
-
-  @property({type: Boolean})
   useNewImageDiffUi = false;
 
   /**
@@ -194,7 +155,6 @@ export class GrDiffBuilderElement
    * rendering is running - `null` otherwise. Provides a `cancel()`
    * method that rejects it with `{isCancelled: true}`.
    */
-  @property({type: Object})
   _cancelableRenderPromise: CancelablePromise<unknown> | null = null;
 
   private coverageLayerLeft = new GrCoverageLayer(Side.LEFT);
@@ -207,47 +167,18 @@ export class GrDiffBuilderElement
   processor = new GrDiffProcessor();
 
   constructor() {
-    super();
-    afterNextRender(this, () => {
-      this.addEventListener(
-        'diff-context-expanded',
-        (e: CustomEvent<DiffContextExpandedEventDetail>) => {
-          // Don't stop propagation. The host may listen for reporting or
-          // resizing.
-          this.replaceGroup(e.detail.contextGroup, e.detail.groups);
-        }
-      );
-    });
     this.processor.consumer = this;
   }
 
-  override disconnectedCallback() {
-    this.processor.cancel();
-    if (this._builder) {
-      this._builder.clear();
-    }
-    super.disconnectedCallback();
+  updateCommentRanges(ranges: CommentRangeLayer[]) {
+    this.rangeLayer.updateRanges(ranges);
   }
 
-  get diffElement(): HTMLTableElement {
-    // Not searching in shadowRoot, because the diff table is slotted!
-    return this.querySelector('#diffTable') as HTMLTableElement;
-  }
-
-  @observe('commentRanges.*')
-  rangeObserver() {
-    this.rangeLayer.updateRanges(this.commentRanges);
-  }
-
-  coverageObserver(coverageRanges: CoverageRange[]) {
-    const leftRanges = coverageRanges.filter(
-      range => range && range.side === Side.LEFT
-    );
+  updateCoverageRanges(ranges: CoverageRange[]) {
+    const leftRanges = ranges.filter(r => r?.side === Side.LEFT);
     this.coverageLayerLeft.setRanges(leftRanges);
 
-    const rightRanges = coverageRanges.filter(
-      range => range && range.side === Side.RIGHT
-    );
+    const rightRanges = ranges.filter(r => r?.side === Side.RIGHT);
     this.coverageLayerRight.setRanges(rightRanges);
   }
 
@@ -267,13 +198,17 @@ export class GrDiffBuilderElement
     if (this._builder) {
       this._builder.clear();
     }
-    if (!this.diff) {
-      throw Error('Cannot render a diff without DiffInfo.');
-    }
+    assertIsDefined(this.diff, 'diff');
+    assertIsDefined(this.diffElement, 'diff table');
     this._builder = this._getDiffBuilder();
 
     this.processor.context = this.prefs.context;
     this.processor.keyLocations = keyLocations;
+
+    this.diffElement.addEventListener(
+      'diff-context-expanded',
+      this.onDiffContextExpanded
+    );
 
     this._clearDiffContent();
     this._builder.addColumns(
@@ -283,7 +218,7 @@ export class GrDiffBuilderElement
 
     const isBinary = !!(this.isImageDiff || this.diff.binary);
 
-    fireEvent(this, 'render-start');
+    this.fireDiffEvent('render-start');
     this._cancelableRenderPromise = makeCancelable(
       this.processor
         .process(this.diff.content, isBinary)
@@ -291,7 +226,7 @@ export class GrDiffBuilderElement
           if (this.isImageDiff) {
             (this._builder as GrDiffBuilderImage).renderDiff();
           }
-          afterNextRender(this, () => fireEvent(this, 'render-content'));
+          afterNextRender(() => this.fireDiffEvent('render-content'));
         })
         // Mocha testing does not like uncaught rejections, so we catch
         // the cancels which are expected and should not throw errors in
@@ -304,6 +239,24 @@ export class GrDiffBuilderElement
           this._cancelableRenderPromise = null;
         })
     );
+  }
+
+  private onDiffContextExpanded = (
+    e: CustomEvent<DiffContextExpandedEventDetail>
+  ) => {
+    // Don't stop propagation. The host may listen for reporting or
+    // resizing.
+    this.replaceGroup(e.detail.contextGroup, e.detail.groups);
+  };
+
+  private fireDiffEvent(type: string) {
+    assertIsDefined(this.diffElement, 'diff table');
+    fireEvent(this.diffElement, type);
+  }
+
+  private fireDiffEventRenderProgress(detail: RenderProgressEventDetail) {
+    assertIsDefined(this.diffElement, 'diff table');
+    fire(this.diffElement, 'render-progress', detail);
   }
 
   _setupAnnotationLayers() {
@@ -415,38 +368,41 @@ export class GrDiffBuilderElement
     newGroups: readonly GrDiffGroup[]
   ) {
     if (!this._builder) return;
-    fireEvent(this, 'render-start');
+    this.fireDiffEvent('render-start');
     const linesRendered = newGroups.reduce(
       (sum, group) => sum + group.lines.length,
       0
     );
     this._builder.replaceGroup(contextGroup, newGroups);
-    afterNextRender(this, () => {
-      fire(this, 'render-progress', {linesRendered});
-      fireEvent(this, 'render-content');
+    afterNextRender(() => {
+      this.fireDiffEventRenderProgress({linesRendered});
+      this.fireDiffEvent('render-content');
     });
   }
 
   cancel() {
     this.processor.cancel();
-    if (this._cancelableRenderPromise) {
-      this._cancelableRenderPromise.cancel();
-      this._cancelableRenderPromise = null;
-    }
+    this._builder?.clear();
+    this._cancelableRenderPromise?.cancel();
+    this._cancelableRenderPromise = null;
+    this.diffElement?.removeEventListener(
+      'diff-context-expanded',
+      this.onDiffContextExpanded
+    );
   }
 
   _handlePreferenceError(pref: string): never {
     const message =
       `The value of the '${pref}' user preference is ` +
       'invalid. Fix in diff preferences';
-    fireAlert(this, message);
+    assertIsDefined(this.diffElement, 'diff table');
+    fireAlert(this.diffElement, message);
     throw Error(`Invalid preference value: ${pref}`);
   }
 
   _getDiffBuilder(): DiffBuilder {
-    if (!this.diff) {
-      throw Error('Cannot render a diff without DiffInfo.');
-    }
+    assertIsDefined(this.diff, 'diff');
+    assertIsDefined(this.diffElement, 'diff table');
     if (isNaN(this.prefs.tab_size) || this.prefs.tab_size <= 0) {
       this._handlePreferenceError('tab size');
     }
@@ -500,6 +456,7 @@ export class GrDiffBuilderElement
   }
 
   _clearDiffContent() {
+    assertIsDefined(this.diffElement, 'diff table');
     this.diffElement.innerHTML = '';
   }
 
@@ -518,8 +475,8 @@ export class GrDiffBuilderElement
   addGroup(group: GrDiffGroup) {
     if (!this._builder) return;
     this._builder.addGroups([group]);
-    afterNextRender(this, () =>
-      fire(this, 'render-progress', {linesRendered: group.lines.length})
+    afterNextRender(() =>
+      this.fireDiffEventRenderProgress({linesRendered: group.lines.length})
     );
   }
 
@@ -622,11 +579,5 @@ export class GrDiffBuilderElement
   updateRenderPrefs(renderPrefs: RenderPreferences) {
     this._builder?.updateRenderPrefs(renderPrefs);
     this.processor.updateRenderPrefs(renderPrefs);
-  }
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'gr-diff-builder': GrDiffBuilderElement;
   }
 }

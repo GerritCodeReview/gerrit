@@ -100,7 +100,6 @@ const COMMIT_MSG_LINE_LENGTH = 72;
 
 export interface GrDiff {
   $: {
-    diffBuilder: GrDiffBuilderElement;
     diffTable: HTMLTableElement;
   };
 }
@@ -179,7 +178,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   @property({type: Object})
   highlightRange?: CommentRange;
 
-  @property({type: Array})
+  @property({type: Array, observer: '_coverageRangesObserver'})
   coverageRanges: CoverageRange[] = [];
 
   @property({type: Boolean, observer: '_lineWrappingObserver'})
@@ -248,9 +247,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   @property({type: Object, observer: '_blameChanged'})
   blame: BlameInfo[] | null = null;
 
-  @property({type: Number})
-  parentIndex?: number;
-
   @property({type: Boolean})
   showNewlineWarningLeft = false;
 
@@ -298,6 +294,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   private highlights = new GrDiffHighlight();
 
+  // visible for testing
+  diffBuilder = new GrDiffBuilderElement();
+
   constructor() {
     super();
     this._setLoading(true);
@@ -321,11 +320,12 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     this._unobserveNodes();
     this.diffSelection.cleanup();
     this.highlights.cleanup();
+    this.diffBuilder.cancel();
     super.disconnectedCallback();
   }
 
   getLineNumEls(side: Side): HTMLElement[] {
-    return this.$.diffBuilder.getLineNumEls(side);
+    return this.diffBuilder.getLineNumEls(side);
   }
 
   showNoChangeMessage(
@@ -426,19 +426,25 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
           cr.side === removedCommentRange.side &&
           rangesEqual(cr.range, removedCommentRange.range)
       );
-      this.splice('_commentRanges', i, 1);
+      this._commentRanges.splice(i, 1);
     }
 
-    if (addedCommentRanges && addedCommentRanges.length) {
-      this.push('_commentRanges', ...addedCommentRanges);
+    if (addedCommentRanges?.length) {
+      this._commentRanges.push(...addedCommentRanges);
     }
     if (this.highlightRange) {
-      this.push('_commentRanges', {
+      this._commentRanges.push({
         side: Side.RIGHT,
         range: this.highlightRange,
         rootId: '',
       });
     }
+
+    this.diffBuilder.updateCommentRanges(this._commentRanges);
+  }
+
+  _coverageRangesObserver() {
+    this.diffBuilder.updateCoverageRanges(this.coverageRanges);
   }
 
   /**
@@ -483,7 +489,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   /** Cancel any remaining diff builder rendering work. */
   cancel() {
-    this.$.diffBuilder.cancel();
+    this.diffBuilder.cancel();
     this.renderDiffTableTask?.cancel();
   }
 
@@ -492,7 +498,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
     // Get rendered stops.
     const stops: Array<HTMLElement | AbortStop> =
-      this.$.diffBuilder.getLineNumberRows();
+      this.diffBuilder.getLineNumberRows();
 
     // If we are still loading this diff, abort after the rendered stops to
     // avoid skipping over to e.g. the next file.
@@ -512,7 +518,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   _blameChanged(newValue?: BlameInfo[] | null) {
     if (newValue === undefined) return;
-    this.$.diffBuilder.setBlame(newValue);
+    this.diffBuilder.setBlame(newValue);
     if (newValue) {
       this.classList.add('showBlame');
     } else {
@@ -603,7 +609,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   _createCommentForSelection(side: Side, range: CommentRange) {
     const lineNum = range.end_line;
-    const lineEl = this.$.diffBuilder.getLineElByNumber(lineNum, side);
+    const lineEl = this.diffBuilder.getLineElByNumber(lineNum, side);
     if (lineEl) {
       this._createComment(lineEl, lineNum, side, range);
     }
@@ -621,7 +627,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     side?: Side,
     range?: CommentRange
   ) {
-    const contentEl = this.$.diffBuilder.getContentTdByLineEl(lineEl);
+    const contentEl = this.diffBuilder.getContentTdByLineEl(lineEl);
     if (!contentEl) throw new Error('content el not found for line el');
     side = side ?? this._getCommentSideByLineAndContent(lineEl, contentEl);
     assertIsDefined(this.path, 'path');
@@ -699,7 +705,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     if (!this.lineOfInterest) return;
     const lineNum = this.lineOfInterest.lineNum;
     if (typeof lineNum !== 'number') return;
-    this.$.diffBuilder.unhideLine(lineNum, this.lineOfInterest.side);
+    this.diffBuilder.unhideLine(lineNum, this.lineOfInterest.side);
   }
 
   _cleanup() {
@@ -808,7 +814,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     if (this.prefs) {
       this._updatePreferenceStyles(this.prefs, renderPrefs);
     }
-    this.$.diffBuilder.updateRenderPrefs(renderPrefs);
+    this.diffBuilder.updateRenderPrefs(renderPrefs);
   }
 
   _diffChanged(newValue?: DiffInfo) {
@@ -820,7 +826,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     }
     if (this.diff) {
       this.diffSelection.init(this.diff, this.$.diffTable);
-      this.highlights.init(this.$.diffTable, this.$.diffBuilder);
+      this.highlights.init(this.$.diffTable, this.diffBuilder);
     }
   }
 
@@ -866,9 +872,20 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     this._showWarning = false;
 
     const keyLocations = this._computeKeyLocations();
-    this.$.diffBuilder.prefs = this._getBypassPrefs(this.prefs);
-    this.$.diffBuilder.renderPrefs = this.renderPrefs;
-    this.$.diffBuilder.render(keyLocations);
+    this.diffBuilder.prefs = this._getBypassPrefs(this.prefs);
+    this.diffBuilder.renderPrefs = this.renderPrefs;
+    this.diffBuilder.diff = this.diff;
+    this.diffBuilder.path = this.path;
+    this.diffBuilder.viewMode = this.viewMode;
+    this.diffBuilder.layers = this.layers ?? [];
+    this.diffBuilder.isImageDiff = this.isImageDiff;
+    this.diffBuilder.baseImage = this.baseImage ?? null;
+    this.diffBuilder.revisionImage = this.revisionImage ?? null;
+    this.diffBuilder.useNewImageDiffUi = this.useNewImageDiffUi;
+    this.diffBuilder.diffElement = this.$.diffTable;
+    this.diffBuilder.updateCommentRanges(this._commentRanges);
+    this.diffBuilder.updateCoverageRanges(this.coverageRanges);
+    this.diffBuilder.render(keyLocations);
   }
 
   _handleRenderContent() {
@@ -895,10 +912,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
         const commentSide = getSide(threadEl);
         const range = getRange(threadEl);
         if (!commentSide) continue;
-        const lineEl = this.$.diffBuilder.getLineElByNumber(
-          lineNum,
-          commentSide
-        );
+        const lineEl = this.diffBuilder.getLineElByNumber(lineNum, commentSide);
         // When the line the comment refers to does not exist, log an error
         // but don't crash. This can happen e.g. if the API does not fully
         // validate e.g. (robot) comments
@@ -911,7 +925,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
           );
           continue;
         }
-        const contentEl = this.$.diffBuilder.getContentTdByLineEl(lineEl);
+        const contentEl = this.diffBuilder.getContentTdByLineEl(lineEl);
         if (!contentEl) continue;
         if (lineNum === 'LOST' && !contentEl.hasChildNodes()) {
           contentEl.appendChild(this._portedCommentsWithoutRangeMessage());

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58fd8a83_05b2849d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1140732
+      },
+      "writtenOn": "2022-05-10T19:58:53Z",
+      "side": 1,
+      "message": "Added feature to output an email address along with other parameters. ",
+      "revId": "e93bc01d77efe241c1900a5dffb81b6e427f229c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

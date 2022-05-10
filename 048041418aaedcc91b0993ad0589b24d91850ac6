@@ -134,6 +134,30 @@
       },
       "revId": "048041418aaedcc91b0993ad0589b24d91850ac6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec850a39_7f468756",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectAccessCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1140732
+      },
+      "writtenOn": "2022-05-10T19:58:53Z",
+      "side": 1,
+      "message": "Thank you so much for the detailed explanation, I reverted back using the check to catch exceptions separately for permission backend exception and auth exception, and to be percolate to run() and not relayed to the caller.",
+      "parentUuid": "4848dd80_5ae55bc0",
+      "range": {
+        "startLine": 92,
+        "startChar": 13,
+        "endLine": 92,
+        "endChar": 41
+      },
+      "revId": "048041418aaedcc91b0993ad0589b24d91850ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

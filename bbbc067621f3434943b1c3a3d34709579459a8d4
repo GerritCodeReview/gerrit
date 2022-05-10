@@ -100,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fa2b27b_c8327418",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateSubmitRequirement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-10T13:50:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "803917cf_fc3f74d3",
+      "revId": "bbbc067621f3434943b1c3a3d34709579459a8d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c97251f_03bedb19",

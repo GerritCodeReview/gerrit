@@ -25,6 +25,14 @@ import org.junit.Test;
 public class ChangeNoteJsonTest {
   private final Gson gson = new ChangeNoteJson().getGson();
 
+  static class Child {
+    Optional<String> optionalValue;
+  }
+
+  static class Parent {
+    Optional<Child> optionalChild;
+  }
+
   @Test
   public void shouldSerializeAndDeserializeEmptyOptional() {
     // given
@@ -61,5 +69,59 @@ public class ChangeNoteJsonTest {
     // and then
     assertThat(result).isPresent();
     assertThat(result.get()).isEqualTo(value);
+  }
+
+  @Test
+  public void shouldSerializeAndDeserializeNestedNonEmptyOptional() {
+    String value = "foo";
+    Child fooChild = new Child();
+    fooChild.optionalValue = Optional.of(value);
+    Parent parent = new Parent();
+    parent.optionalChild = Optional.of(fooChild);
+
+    String json = gson.toJson(parent);
+
+    assertThat(json)
+        .isEqualTo(
+            "{\n"
+                + "  \"optionalChild\": {\n"
+                + "    \"value\": {\n"
+                + "      \"optionalValue\": {\n"
+                + "        \"value\": \"foo\"\n"
+                + "      }\n"
+                + "    }\n"
+                + "  }\n"
+                + "}");
+
+    Parent result = gson.fromJson(json, new TypeLiteral<Parent>() {}.getType());
+
+    assertThat(result.optionalChild).isPresent();
+    assertThat(result.optionalChild.get().optionalValue).isPresent();
+    assertThat(result.optionalChild.get().optionalValue.get()).isEqualTo(value);
+  }
+
+  @Test
+  public void shouldSerializeAndDeserializeNestedEmptyOptional() {
+    Child fooChild = new Child();
+    fooChild.optionalValue = Optional.empty();
+    Parent parent = new Parent();
+    parent.optionalChild = Optional.of(fooChild);
+
+    String json = gson.toJson(parent);
+
+    assertThat(json)
+        .isEqualTo(
+            "{\n"
+                + "  \"optionalChild\": {\n"
+                + "    \"value\": {\n"
+                + "      \"optionalValue\": {}\n"
+                + "    }\n"
+                + "  }\n"
+                + "}");
+
+    Parent result = gson.fromJson(json, new TypeLiteral<Parent>() {}.getType());
+
+    assertThat(result.optionalChild).isPresent();
+    assertThat(result.optionalChild.get().optionalValue).isEmpty();
   }
 }

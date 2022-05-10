@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85b94518_1359d5bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-10T06:12:26Z",
+      "side": 1,
+      "message": "I already tried and unfortunately rerunning the script didn\u0027t fix the build issue. I guess we need to add something for auto-factory there.",
+      "parentUuid": "d2749e66_33aa4231",
+      "revId": "a35f4cf7e2d91a302369242f26da37810d1027fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b51ce3f9_2190c182",
         "filename": "lib/auto/BUILD",
         "patchSetId": 10

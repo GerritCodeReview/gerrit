@@ -15,6 +15,7 @@
 package com.google.gerrit.index;
 
 import java.sql.Timestamp;
+import java.util.stream.Stream;
 
 /**
  * Representation of a field stored on the index. Used to load field values from different index
@@ -25,19 +26,19 @@ public interface StoredValue {
   String asString();
 
   /** Returns the {@link String} values of the field. */
-  Iterable<String> asStrings();
+  Stream<String> asStrings();
 
   /** Returns the {@link Integer} value of the field. */
   Integer asInteger();
 
   /** Returns the {@link Integer} values of the field. */
-  Iterable<Integer> asIntegers();
+  Stream<Integer> asIntegers();
 
   /** Returns the {@link Long} value of the field. */
   Long asLong();
 
   /** Returns the {@link Long} values of the field. */
-  Iterable<Long> asLongs();
+  Stream<Long> asLongs();
 
   /** Returns the {@link Timestamp} value of the field. */
   Timestamp asTimestamp();
@@ -46,5 +47,5 @@ public interface StoredValue {
   byte[] asByteArray();
 
   /** Returns the {@code byte[]} values of the field. */
-  Iterable<byte[]> asByteArrays();
+  Stream<byte[]> asByteArrays();
 }

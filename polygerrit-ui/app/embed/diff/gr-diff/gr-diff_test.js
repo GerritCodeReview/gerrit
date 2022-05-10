@@ -25,7 +25,6 @@ import '@polymer/paper-button/paper-button.js';
 import {Side} from '../../../api/diff.js';
 import {mockPromise, stubRestApi} from '../../../test/test-utils.js';
 import {AbortStop} from '../../../api/core.js';
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {waitForEventOnce} from '../../../utils/event-util.js';
 
 const basicFixture = fixtureFromElement('gr-diff');
@@ -72,7 +71,7 @@ suite('gr-diff tests', () => {
 
   test('cancel', () => {
     element = basicFixture.instantiate();
-    const cancelStub = sinon.stub(element.$.diffBuilder, 'cancel');
+    const cancelStub = sinon.stub(element.diffBuilder, 'cancel');
     element.cancel();
     assert.isTrue(cancelStub.calledOnce);
   });
@@ -192,9 +191,6 @@ suite('gr-diff tests', () => {
       element.changeNum = 123;
       element.patchRange = {basePatchNum: 1, patchNum: 2};
       element.path = 'file.txt';
-      element.$.diffBuilder.diff = createDiff();
-      element.$.diffBuilder.prefs = {...MINIMAL_PREFS};
-      element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder();
 
       // No thread groups.
       assert.equal(contentEl.querySelectorAll('.thread-group').length, 0);
@@ -263,7 +259,7 @@ suite('gr-diff tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assert.instanceOf(
-            element.$.diffBuilder._builder, GrDiffBuilderImage);
+            element.diffBuilder._builder, GrDiffBuilderImage);
 
         // Left image rendered with the parent commit's version of the file.
         const leftImage = element.$.diffTable.querySelector('td.left img');
@@ -321,7 +317,7 @@ suite('gr-diff tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assert.instanceOf(
-            element.$.diffBuilder._builder, GrDiffBuilderImage);
+            element.diffBuilder._builder, GrDiffBuilderImage);
 
         // Left image rendered with the parent commit's version of the file.
         const leftImage = element.$.diffTable.querySelector('td.left img');
@@ -381,7 +377,7 @@ suite('gr-diff tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assert.instanceOf(
-            element.$.diffBuilder._builder, GrDiffBuilderImage);
+            element.diffBuilder._builder, GrDiffBuilderImage);
 
         const leftImage = element.$.diffTable.querySelector('td.left img');
         const rightImage = element.$.diffTable.querySelector('td.right img');
@@ -417,7 +413,7 @@ suite('gr-diff tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assert.instanceOf(
-            element.$.diffBuilder._builder, GrDiffBuilderImage);
+            element.diffBuilder._builder, GrDiffBuilderImage);
 
         const leftImage = element.$.diffTable.querySelector('td.left img');
         const rightImage = element.$.diffTable.querySelector('td.right img');
@@ -455,7 +451,7 @@ suite('gr-diff tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assert.instanceOf(
-            element.$.diffBuilder._builder, GrDiffBuilderImage);
+            element.diffBuilder._builder, GrDiffBuilderImage);
         const leftImage = element.$.diffTable.querySelector('td.left img');
         assert.isNotOk(leftImage);
       });
@@ -602,7 +598,7 @@ suite('gr-diff tests', () => {
         ab: Array(13).fill('text'),
       }];
       setupSampleDiff({content});
-      await new Promise(resolve => afterNextRender(element, resolve));
+      await waitForEventOnce(element, 'render');
 
       element.appendChild(threadEl);
       await flush();
@@ -775,9 +771,9 @@ suite('gr-diff tests', () => {
 
     setup(() => {
       element = basicFixture.instantiate();
-      renderStub = sinon.stub(element.$.diffBuilder, 'render').callsFake(
+      renderStub = sinon.stub(element.diffBuilder, 'render').callsFake(
           () => {
-            element.$.diffBuilder.dispatchEvent(
+            element.$.diffTable.dispatchEvent(
                 new CustomEvent('render', {bubbles: true, composed: true}));
             return Promise.resolve({});
           });
@@ -838,7 +834,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, 3);
       assert.equal(element._safetyBypass, -1);
-      assert.equal(element.$.diffBuilder.prefs.context, -1);
+      assert.equal(element.diffBuilder.prefs.context, -1);
     });
 
     test('toggles collapse context from bypass', async () => {
@@ -851,7 +847,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, 3);
       assert.isNull(element._safetyBypass);
-      assert.equal(element.$.diffBuilder.prefs.context, 3);
+      assert.equal(element.diffBuilder.prefs.context, 3);
     });
 
     test('toggles collapse context from pref using default', async () => {
@@ -863,7 +859,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, -1);
       assert.equal(element._safetyBypass, 10);
-      assert.equal(element.$.diffBuilder.prefs.context, 10);
+      assert.equal(element.diffBuilder.prefs.context, 10);
     });
   });
 
@@ -874,7 +870,7 @@ suite('gr-diff tests', () => {
 
     test('unsetting', () => {
       element.blame = [];
-      const setBlameSpy = sinon.spy(element.$.diffBuilder, 'setBlame');
+      const setBlameSpy = sinon.spy(element.diffBuilder, 'setBlame');
       element.classList.add('showBlame');
       element.blame = null;
       assert.isTrue(setBlameSpy.calledWithExactly(null));
@@ -976,7 +972,7 @@ suite('gr-diff tests', () => {
     setup(() => {
       element = basicFixture.instantiate();
       element.prefs = {};
-      renderStub = sinon.stub(element.$.diffBuilder, 'render')
+      renderStub = sinon.stub(element.diffBuilder, 'render')
           .returns(new Promise(() => {}));
     });
 

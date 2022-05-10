@@ -173,6 +173,8 @@ export class GrChangeMetadata extends LitElement {
 
   @state() private queryTopic?: AutocompleteQuery;
 
+  @state() private queryHashtag?: AutocompleteQuery;
+
   private restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -182,6 +184,7 @@ export class GrChangeMetadata extends LitElement {
   constructor() {
     super();
     this.queryTopic = (input: string) => this.getTopicSuggestions(input);
+    this.queryHashtag = (input: string) => this.getHashtagSuggestions(input);
   }
 
   static override styles = [
@@ -689,6 +692,8 @@ export class GrChangeMetadata extends LitElement {
               .readOnly=${this.hashtagReadOnly}
               @changed=${this.handleHashtagChanged}
               showAsEditPencil
+              autocomplete
+              .query=${this.queryHashtag}
             ></gr-editable-label>
           `
         )}
@@ -1188,6 +1193,22 @@ export class GrChangeMetadata extends LitElement {
           .filter(unique)
           .map(topic => {
             return {name: topic, value: topic};
+          })
+      );
+  }
+
+  private getHashtagSuggestions(
+    input: string
+  ): Promise<AutocompleteSuggestion[]> {
+    return this.restApiService
+      .getChangesWithSimilarHashtag(input)
+      .then(response =>
+        (response ?? [])
+          .flatMap(change => change.hashtags ?? [])
+          .filter(notUndefined)
+          .filter(unique)
+          .map(hashtag => {
+            return {name: hashtag, value: hashtag};
           })
       );
   }

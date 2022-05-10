@@ -1825,6 +1825,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<ChangeInfo[] | undefined>;
   }
 
+  getChangesWithSimilarHashtag(
+    hashtag: string
+  ): Promise<ChangeInfo[] | undefined> {
+    const query = [`inhashtag:"${hashtag}"`].join(' ');
+    return this._restApiHelper.fetchJSON({
+      url: '/changes/',
+      params: {q: query},
+      anonymizedUrl: '/changes/inhashtag:*',
+    }) as Promise<ChangeInfo[] | undefined>;
+  }
+
   getReviewedFiles(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum

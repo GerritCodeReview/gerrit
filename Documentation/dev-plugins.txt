@@ -208,6 +208,28 @@ name, i.e. `http://review.example.com:8080/plugin-name`.
 The canonical web URL may be injected into any .jar plugin regardless of
 whether or not the plugin provides an HTTP servlet.
 
+[[plugin_resources]]
+=== Plugin resources
+
+Plugins are able to access their own resources without having to go through
+the implementation details on how they are packaged or deployed to Gerrit.
+
+The following example shows a MyClass in a plugin that is able to access the
+last modified time of the "myresource" loaded.
+
+[source,java]
+----
+public class MyClass {
+
+  @Inject
+  public MyClass(Plugin plugin) {
+    long myresourceTime = plugin.getContentScanner().getEntry("myresource").getTime();
+  }
+
+  [...]
+}
+----
+
 [[reload_method]]
 === Reload Method
 

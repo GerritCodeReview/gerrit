@@ -49,6 +49,7 @@ class ServerPluginInfoModule extends AbstractModule {
     bind(String.class)
         .annotatedWith(PluginCanonicalWebUrl.class)
         .toInstance(plugin.getPluginCanonicalWebUrl());
+    bind(Plugin.class).toInstance(plugin);
 
     install(
         new LifecycleModule() {

@@ -58,7 +58,7 @@ import {
 } from '../../../constants/constants';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {paperStyles} from '../../../styles/gr-paper-styles';
@@ -410,279 +410,16 @@ export class GrSettingsView extends LitElement {
             Preferences
           </h2>
           <fieldset id="preferences">
-            <section>
-              <label class="title" for="changesPerPageSelect"
-                >Changes per page</label
-              >
-              <span class="value">
-                <gr-select
-                  .bindValue=${this.convertToString(
-                    this.localPrefs.changes_per_page
-                  )}
-                  @change=${() => {
-                    this.localPrefs.changes_per_page = Number(
-                      this.changesPerPageSelect.value
-                    ) as 10 | 25 | 50 | 100;
-                    this.prefsChanged = true;
-                  }}
-                >
-                  <select id="changesPerPageSelect">
-                    <option value="10">10 rows per page</option>
-                    <option value="25">25 rows per page</option>
-                    <option value="50">50 rows per page</option>
-                    <option value="100">100 rows per page</option>
-                  </select>
-                </gr-select>
-              </span>
-            </section>
-            <section>
-              <label class="title" for="dateTimeFormatSelect"
-                >Date/time format</label
-              >
-              <span class="value">
-                <gr-select
-                  .bindValue=${this.convertToString(
-                    this.localPrefs.date_format
-                  )}
-                  @change=${() => {
-                    this.localPrefs.date_format = this.dateTimeFormatSelect
-                      .value as DateFormat;
-                    this.prefsChanged = true;
-                  }}
-                >
-                  <select id="dateTimeFormatSelect">
-                    <option value="STD">Jun 3 ; Jun 3, 2016</option>
-                    <option value="US">06/03 ; 06/03/16</option>
-                    <option value="ISO">06-03 ; 2016-06-03</option>
-                    <option value="EURO">3. Jun ; 03.06.2016</option>
-                    <option value="UK">03/06 ; 03/06/2016</option>
-                  </select>
-                </gr-select>
-                <gr-select
-                  .bindValue=${this.convertToString(
-                    this.localPrefs.time_format
-                  )}
-                  aria-label="Time Format"
-                  @change=${() => {
-                    this.localPrefs.time_format = this.timeFormatSelect
-                      .value as TimeFormat;
-                    this.prefsChanged = true;
-                  }}
-                >
-                  <select id="timeFormatSelect">
-                    <option value="HHMM_12">4:10 PM</option>
-                    <option value="HHMM_24">16:10</option>
-                  </select>
-                </gr-select>
-              </span>
-            </section>
-            <section>
-              <label class="title" for="emailNotificationsSelect"
-                >Email notifications</label
-              >
-              <span class="value">
-                <gr-select
-                  .bindValue=${this.convertToString(
-                    this.localPrefs.email_strategy
-                  )}
-                  @change=${() => {
-                    this.localPrefs.email_strategy = this
-                      .emailNotificationsSelect.value as EmailStrategy;
-                    this.prefsChanged = true;
-                  }}
-                >
-                  <select id="emailNotificationsSelect">
-                    <option value="CC_ON_OWN_COMMENTS">Every comment</option>
-                    <option value="ENABLED">
-                      Only comments left by others
-                    </option>
-                    <option value="ATTENTION_SET_ONLY">
-                      Only when I am in the attention set
-                    </option>
-                    <option value="DISABLED">None</option>
-                  </select>
-                </gr-select>
-              </span>
-            </section>
-            <section
-              ?hidden=${!this.convertToString(this.localPrefs.email_format)}
-            >
-              <label class="title" for="emailFormatSelect">Email format</label>
-              <span class="value">
-                <gr-select
-                  .bindValue=${this.convertToString(
-                    this.localPrefs.email_format
-                  )}
-                  @change=${() => {
-                    this.localPrefs.email_format = this.emailFormatSelect
-                      .value as EmailFormat;
-                    this.prefsChanged = true;
-                  }}
-                >
-                  <select id="emailFormatSelect">
-                    <option value="HTML_PLAINTEXT">HTML and plaintext</option>
-                    <option value="PLAINTEXT">Plaintext only</option>
-                  </select>
-                </gr-select>
-              </span>
-            </section>
-            <section ?hidden=${!this.localPrefs.default_base_for_merges}>
-              <span class="title">Default Base For Merges</span>
-              <span class="value">
-                <gr-select
-                  .bindValue=${this.convertToString(
-                    this.localPrefs.default_base_for_merges
-                  )}
-                  @change=${() => {
-                    this.localPrefs.default_base_for_merges = this
-                      .defaultBaseForMergesSelect.value as DefaultBase;
-                    this.prefsChanged = true;
-                  }}
-                >
-                  <select id="defaultBaseForMergesSelect">
-                    <option value="AUTO_MERGE">Auto Merge</option>
-                    <option value="FIRST_PARENT">First Parent</option>
-                  </select>
-                </gr-select>
-              </span>
-            </section>
-            <section>
-              <label class="title" for="relativeDateInChangeTable"
-                >Show Relative Dates In Changes Table</label
-              >
-              <span class="value">
-                <input
-                  id="relativeDateInChangeTable"
-                  type="checkbox"
-                  ?checked=${this.localPrefs.relative_date_in_change_table}
-                  @change=${() => {
-                    this.localPrefs.relative_date_in_change_table =
-                      this.relativeDateInChangeTable.checked;
-                    this.prefsChanged = true;
-                  }}
-                />
-              </span>
-            </section>
-            <section>
-              <span class="title">Diff view</span>
-              <span class="value">
-                <gr-select
-                  .bindValue=${this.convertToString(this.localPrefs.diff_view)}
-                  @change=${() => {
-                    this.localPrefs.diff_view = this.diffViewSelect
-                      .value as DiffViewMode;
-                    this.prefsChanged = true;
-                  }}
-                >
-                  <select id="diffViewSelect">
-                    <option value="SIDE_BY_SIDE">Side by side</option>
-                    <option value="UNIFIED_DIFF">Unified diff</option>
-                  </select>
-                </gr-select>
-              </span>
-            </section>
-            <section>
-              <label for="showSizeBarsInFileList" class="title"
-                >Show size bars in file list</label
-              >
-              <span class="value">
-                <input
-                  id="showSizeBarsInFileList"
-                  type="checkbox"
-                  ?checked=${this.localPrefs.size_bar_in_change_table}
-                  @change=${() => {
-                    this.localPrefs.size_bar_in_change_table =
-                      this.showSizeBarsInFileList.checked;
-                    this.prefsChanged = true;
-                  }}
-                />
-              </span>
-            </section>
-            <section>
-              <label for="publishCommentsOnPush" class="title"
-                >Publish comments on push</label
-              >
-              <span class="value">
-                <input
-                  id="publishCommentsOnPush"
-                  type="checkbox"
-                  ?checked=${this.localPrefs.publish_comments_on_push}
-                  @change=${() => {
-                    this.localPrefs.publish_comments_on_push =
-                      this.publishCommentsOnPush.checked;
-                    this.prefsChanged = true;
-                  }}
-                />
-              </span>
-            </section>
-            <section>
-              <label for="workInProgressByDefault" class="title"
-                >Set new changes to "work in progress" by default</label
-              >
-              <span class="value">
-                <input
-                  id="workInProgressByDefault"
-                  type="checkbox"
-                  ?checked=${this.localPrefs.work_in_progress_by_default}
-                  @change=${() => {
-                    this.localPrefs.work_in_progress_by_default =
-                      this.workInProgressByDefault.checked;
-                    this.prefsChanged = true;
-                  }}
-                />
-              </span>
-            </section>
-            <section>
-              <label for="disableKeyboardShortcuts" class="title"
-                >Disable all keyboard shortcuts</label
-              >
-              <span class="value">
-                <input
-                  id="disableKeyboardShortcuts"
-                  type="checkbox"
-                  ?checked=${this.localPrefs.disable_keyboard_shortcuts}
-                  @change=${() => {
-                    this.localPrefs.disable_keyboard_shortcuts =
-                      this.disableKeyboardShortcuts.checked;
-                    this.prefsChanged = true;
-                  }}
-                />
-              </span>
-            </section>
-            <section>
-              <label for="disableTokenHighlighting" class="title"
-                >Disable token highlighting on hover</label
-              >
-              <span class="value">
-                <input
-                  id="disableTokenHighlighting"
-                  type="checkbox"
-                  ?checked=${this.localPrefs.disable_token_highlighting}
-                  @change=${() => {
-                    this.localPrefs.disable_token_highlighting =
-                      this.disableTokenHighlighting.checked;
-                    this.prefsChanged = true;
-                  }}
-                />
-              </span>
-            </section>
-            <section>
-              <label for="insertSignedOff" class="title">
-                Insert Signed-off-by Footer For Inline Edit Changes
-              </label>
-              <span class="value">
-                <input
-                  id="insertSignedOff"
-                  type="checkbox"
-                  ?checked=${this.localPrefs.signed_off_by}
-                  @change=${() => {
-                    this.localPrefs.signed_off_by =
-                      this.insertSignedOff.checked;
-                    this.prefsChanged = true;
-                  }}
-                />
-              </span>
-            </section>
+            ${this.renderChangesPerPages()} ${this.renderDateTimeFormat()}
+            ${this.renderEmailNotification()} ${this.renderEmailFormat()}
+            ${this.renderDefaultBaseForMerges()}
+            ${this.renderRelativeDateInChangeTable()} ${this.renderDiffView()}
+            ${this.renderShowSizeBarsInFileList()}
+            ${this.renderPublishCommentsOnPush()}
+            ${this.renderWorkInProgressByDefault()}
+            ${this.renderDisableKeyboardShortcuts()}
+            ${this.renderDisableTokenHighlighting()}
+            ${this.renderInsertSignedOff()}
             <gr-button
               id="savePrefs"
               @click=${this.handleSavePreferences}
@@ -990,6 +727,327 @@ export class GrSettingsView extends LitElement {
   override disconnectedCallback() {
     window.removeEventListener('location-change', this.handleLocationChange);
     super.disconnectedCallback();
+  }
+
+  private renderChangesPerPages() {
+    return html`
+      <section>
+        <label class="title" for="changesPerPageSelect">Changes per page</label>
+        <span class="value">
+          <gr-select
+            .bindValue=${this.convertToString(this.localPrefs.changes_per_page)}
+            @change=${() => {
+              this.localPrefs.changes_per_page = Number(
+                this.changesPerPageSelect.value
+              ) as 10 | 25 | 50 | 100;
+              this.prefsChanged = true;
+            }}
+          >
+            <select id="changesPerPageSelect">
+              <option value="10">10 rows per page</option>
+              <option value="25">25 rows per page</option>
+              <option value="50">50 rows per page</option>
+              <option value="100">100 rows per page</option>
+            </select>
+          </gr-select>
+        </span>
+      </section>
+    `;
+  }
+
+  private renderDateTimeFormat() {
+    return html`
+      <section>
+        <label class="title" for="dateTimeFormatSelect">Date/time format</label>
+        <span class="value">
+          <gr-select
+            .bindValue=${this.convertToString(this.localPrefs.date_format)}
+            @change=${() => {
+              this.localPrefs.date_format = this.dateTimeFormatSelect
+                .value as DateFormat;
+              this.prefsChanged = true;
+            }}
+          >
+            <select id="dateTimeFormatSelect">
+              <option value="STD">Jun 3 ; Jun 3, 2016</option>
+              <option value="US">06/03 ; 06/03/16</option>
+              <option value="ISO">06-03 ; 2016-06-03</option>
+              <option value="EURO">3. Jun ; 03.06.2016</option>
+              <option value="UK">03/06 ; 03/06/2016</option>
+            </select>
+          </gr-select>
+          <gr-select
+            .bindValue=${this.convertToString(this.localPrefs.time_format)}
+            aria-label="Time Format"
+            @change=${() => {
+              this.localPrefs.time_format = this.timeFormatSelect
+                .value as TimeFormat;
+              this.prefsChanged = true;
+            }}
+          >
+            <select id="timeFormatSelect">
+              <option value="HHMM_12">4:10 PM</option>
+              <option value="HHMM_24">16:10</option>
+            </select>
+          </gr-select>
+        </span>
+      </section>
+    `;
+  }
+
+  private renderEmailNotification() {
+    return html`
+      <section>
+        <label class="title" for="emailNotificationsSelect"
+          >Email notifications</label
+        >
+        <span class="value">
+          <gr-select
+            .bindValue=${this.convertToString(this.localPrefs.email_strategy)}
+            @change=${() => {
+              this.localPrefs.email_strategy = this.emailNotificationsSelect
+                .value as EmailStrategy;
+              this.prefsChanged = true;
+            }}
+          >
+            <select id="emailNotificationsSelect">
+              <option value="CC_ON_OWN_COMMENTS">Every comment</option>
+              <option value="ENABLED">Only comments left by others</option>
+              <option value="ATTENTION_SET_ONLY">
+                Only when I am in the attention set
+              </option>
+              <option value="DISABLED">None</option>
+            </select>
+          </gr-select>
+        </span>
+      </section>
+    `;
+  }
+
+  private renderEmailFormat() {
+    if (!this.localPrefs.email_format) return nothing;
+    return html`
+      <section>
+        <label class="title" for="emailFormatSelect">Email format</label>
+        <span class="value">
+          <gr-select
+            .bindValue=${this.convertToString(this.localPrefs.email_format)}
+            @change=${() => {
+              this.localPrefs.email_format = this.emailFormatSelect
+                .value as EmailFormat;
+              this.prefsChanged = true;
+            }}
+          >
+            <select id="emailFormatSelect">
+              <option value="HTML_PLAINTEXT">HTML and plaintext</option>
+              <option value="PLAINTEXT">Plaintext only</option>
+            </select>
+          </gr-select>
+        </span>
+      </section>
+    `;
+  }
+
+  private renderDefaultBaseForMerges() {
+    if (!this.localPrefs.default_base_for_merges) return nothing;
+    return html`
+      <section>
+        <span class="title">Default Base For Merges</span>
+        <span class="value">
+          <gr-select
+            .bindValue=${this.convertToString(
+              this.localPrefs.default_base_for_merges
+            )}
+            @change=${() => {
+              this.localPrefs.default_base_for_merges = this
+                .defaultBaseForMergesSelect.value as DefaultBase;
+              this.prefsChanged = true;
+            }}
+          >
+            <select id="defaultBaseForMergesSelect">
+              <option value="AUTO_MERGE">Auto Merge</option>
+              <option value="FIRST_PARENT">First Parent</option>
+            </select>
+          </gr-select>
+        </span>
+      </section>
+    `;
+  }
+
+  private renderRelativeDateInChangeTable() {
+    return html`
+      <section>
+        <label class="title" for="relativeDateInChangeTable"
+          >Show Relative Dates In Changes Table</label
+        >
+        <span class="value">
+          <input
+            id="relativeDateInChangeTable"
+            type="checkbox"
+            ?checked=${this.localPrefs.relative_date_in_change_table}
+            @change=${() => {
+              this.localPrefs.relative_date_in_change_table =
+                this.relativeDateInChangeTable.checked;
+              this.prefsChanged = true;
+            }}
+          />
+        </span>
+      </section>
+    `;
+  }
+
+  private renderDiffView() {
+    return html`
+      <section>
+        <span class="title">Diff view</span>
+        <span class="value">
+          <gr-select
+            .bindValue=${this.convertToString(this.localPrefs.diff_view)}
+            @change=${() => {
+              this.localPrefs.diff_view = this.diffViewSelect
+                .value as DiffViewMode;
+              this.prefsChanged = true;
+            }}
+          >
+            <select id="diffViewSelect">
+              <option value="SIDE_BY_SIDE">Side by side</option>
+              <option value="UNIFIED_DIFF">Unified diff</option>
+            </select>
+          </gr-select>
+        </span>
+      </section>
+    `;
+  }
+
+  private renderShowSizeBarsInFileList() {
+    return html`
+      <section>
+        <label for="showSizeBarsInFileList" class="title"
+          >Show size bars in file list</label
+        >
+        <span class="value">
+          <input
+            id="showSizeBarsInFileList"
+            type="checkbox"
+            ?checked=${this.localPrefs.size_bar_in_change_table}
+            @change=${() => {
+              this.localPrefs.size_bar_in_change_table =
+                this.showSizeBarsInFileList.checked;
+              this.prefsChanged = true;
+            }}
+          />
+        </span>
+      </section>
+    `;
+  }
+
+  private renderPublishCommentsOnPush() {
+    return html`
+      <section>
+        <label for="publishCommentsOnPush" class="title"
+          >Publish comments on push</label
+        >
+        <span class="value">
+          <input
+            id="publishCommentsOnPush"
+            type="checkbox"
+            ?checked=${this.localPrefs.publish_comments_on_push}
+            @change=${() => {
+              this.localPrefs.publish_comments_on_push =
+                this.publishCommentsOnPush.checked;
+              this.prefsChanged = true;
+            }}
+          />
+        </span>
+      </section>
+    `;
+  }
+
+  private renderWorkInProgressByDefault() {
+    return html`
+      <section>
+        <label for="workInProgressByDefault" class="title"
+          >Set new changes to "work in progress" by default</label
+        >
+        <span class="value">
+          <input
+            id="workInProgressByDefault"
+            type="checkbox"
+            ?checked=${this.localPrefs.work_in_progress_by_default}
+            @change=${() => {
+              this.localPrefs.work_in_progress_by_default =
+                this.workInProgressByDefault.checked;
+              this.prefsChanged = true;
+            }}
+          />
+        </span>
+      </section>
+    `;
+  }
+
+  private renderDisableKeyboardShortcuts() {
+    return html`
+      <section>
+        <label for="disableKeyboardShortcuts" class="title"
+          >Disable all keyboard shortcuts</label
+        >
+        <span class="value">
+          <input
+            id="disableKeyboardShortcuts"
+            type="checkbox"
+            ?checked=${this.localPrefs.disable_keyboard_shortcuts}
+            @change=${() => {
+              this.localPrefs.disable_keyboard_shortcuts =
+                this.disableKeyboardShortcuts.checked;
+              this.prefsChanged = true;
+            }}
+          />
+        </span>
+      </section>
+    `;
+  }
+
+  private renderDisableTokenHighlighting() {
+    return html`
+      <section>
+        <label for="disableTokenHighlighting" class="title"
+          >Disable token highlighting on hover</label
+        >
+        <span class="value">
+          <input
+            id="disableTokenHighlighting"
+            type="checkbox"
+            ?checked=${this.localPrefs.disable_token_highlighting}
+            @change=${() => {
+              this.localPrefs.disable_token_highlighting =
+                this.disableTokenHighlighting.checked;
+              this.prefsChanged = true;
+            }}
+          />
+        </span>
+      </section>
+    `;
+  }
+
+  private renderInsertSignedOff() {
+    return html`
+      <section>
+        <label for="insertSignedOff" class="title">
+          Insert Signed-off-by Footer For Inline Edit Changes
+        </label>
+        <span class="value">
+          <input
+            id="insertSignedOff"
+            type="checkbox"
+            ?checked=${this.localPrefs.signed_off_by}
+            @change=${() => {
+              this.localPrefs.signed_off_by = this.insertSignedOff.checked;
+              this.prefsChanged = true;
+            }}
+          />
+        </span>
+      </section>
+    `;
   }
 
   private readonly handleLocationChange = () => {

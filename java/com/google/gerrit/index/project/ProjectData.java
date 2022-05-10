@@ -14,14 +14,13 @@
 
 package com.google.gerrit.index.project;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Project;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Representation of a Gerrit project in the project index.
@@ -56,8 +55,8 @@ public class ProjectData {
     return ImmutableList.copyOf(parents);
   }
 
-  public ImmutableList<String> getParentNames() {
-    return tree().stream().skip(1).map(p -> p.getProject().getName()).collect(toImmutableList());
+  public Stream<String> getParentNames() {
+    return tree().stream().skip(1).map(p -> p.getProject().getName());
   }
 
   @Override

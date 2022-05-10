@@ -733,7 +733,7 @@ export class GrReplyDialog extends LitElement {
         <div class="stickyBottom newReplyDialog">
           <gr-endpoint-decorator name="reply-bottom">
             <gr-endpoint-param
-              .name=${'change'}
+              name="change"
               .value=${this.change}
             ></gr-endpoint-param>
             ${this.renderAttentionSummarySection()}
@@ -834,7 +834,7 @@ export class GrReplyDialog extends LitElement {
           .permittedLabels=${this.permittedLabels}
         ></gr-label-scores>
         <gr-endpoint-param
-          .name=${'change'}
+          name="change"
           .value=${this.change}
         ></gr-endpoint-param>
       </gr-endpoint-decorator>
@@ -869,7 +869,7 @@ export class GrReplyDialog extends LitElement {
             }}
           >
           </gr-textarea>
-          <gr-endpoint-param .name=${'change'} .value=${this.change}>
+          <gr-endpoint-param name="change" .value=${this.change}>
           </gr-endpoint-param>
         </gr-endpoint-decorator>
         <div class="labelContainer">

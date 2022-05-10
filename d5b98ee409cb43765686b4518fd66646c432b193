@@ -22,6 +22,30 @@
       },
       "revId": "d5b98ee409cb43765686b4518fd66646c432b193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adf90124_3bcbe1de",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-10T16:59:30Z",
+      "side": 1,
+      "message": "I think the name for \u0027pre\u0027 is wrong.  I can change it if you like. But \u0027pre\u0027 gets generated when a comment starts with prefix whitespace.  This should show as code.",
+      "parentUuid": "a40fcdc4_18a047b9",
+      "range": {
+        "startLine": 403,
+        "startChar": 6,
+        "endLine": 404,
+        "endChar": 33
+      },
+      "revId": "d5b98ee409cb43765686b4518fd66646c432b193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

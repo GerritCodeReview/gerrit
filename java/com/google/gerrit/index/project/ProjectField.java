@@ -14,7 +14,6 @@
 
 package com.google.gerrit.index.project;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.index.FieldDef.exact;
 import static com.google.gerrit.index.FieldDef.fullText;
 import static com.google.gerrit.index.FieldDef.prefix;
@@ -25,6 +24,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
+import java.util.stream.Stream;
 
 /** Index schema for projects. */
 public class ProjectField {
@@ -42,13 +42,14 @@ public class ProjectField {
   public static final FieldDef<ProjectData, String> PARENT_NAME =
       exact("parent_name").build(p -> p.getProject().getParentName());
 
-  public static final FieldDef<ProjectData, Iterable<String>> NAME_PART =
-      prefix("name_part").buildRepeatable(p -> SchemaUtil.getNameParts(p.getProject().getName()));
+  public static final FieldDef<ProjectData, Stream<String>> NAME_PART =
+      prefix("name_part")
+          .buildRepeatable(p -> SchemaUtil.getNameParts(p.getProject().getName()).stream());
 
   public static final FieldDef<ProjectData, String> STATE =
       exact("state").stored().build(p -> p.getProject().getState().name());
 
-  public static final FieldDef<ProjectData, Iterable<String>> ANCESTOR_NAME =
+  public static final FieldDef<ProjectData, Stream<String>> ANCESTOR_NAME =
       exact("ancestor_name").buildRepeatable(ProjectData::getParentNames);
 
   /**
@@ -57,12 +58,11 @@ public class ProjectField {
    *
    * <p>Emitted as UTF-8 encoded strings of the form {@code project:ref/name:[hex sha]}.
    */
-  public static final FieldDef<ProjectData, Iterable<byte[]>> REF_STATE =
+  public static final FieldDef<ProjectData, Stream<byte[]>> REF_STATE =
       storedOnly("ref_state")
           .buildRepeatable(
               projectData ->
                   projectData.tree().stream()
                       .filter(p -> p.getProject().getConfigRefState() != null)
-                      .map(p -> toRefState(p.getProject()))
-                      .collect(toImmutableList()));
+                      .map(p -> toRefState(p.getProject())));
 }

@@ -16,8 +16,8 @@ package com.google.gerrit.index.query;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.index.FieldDef;
 
@@ -52,10 +52,10 @@ public class FieldBundle {
         fieldDef.getName(),
         fields.keySet());
 
-    Iterable<Object> result = fields.get(fieldDef.getName());
+    ImmutableList<Object> result = fields.get(fieldDef.getName());
     if (fieldDef.isRepeatable()) {
-      return (T) result;
+      return (T) result.stream();
     }
-    return (T) Iterables.getOnlyElement(result);
+    return (T) result.get(0);
   }
 }

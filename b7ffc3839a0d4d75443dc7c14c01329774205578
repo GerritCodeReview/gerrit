@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b5a4aae_d286c556",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-10T15:56:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f9dcf20_06fd935e",
+      "range": {
+        "startLine": 594,
+        "startChar": 10,
+        "endLine": 594,
+        "endChar": 15
+      },
+      "revId": "b7ffc3839a0d4d75443dc7c14c01329774205578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d23edb27_fe83ec56",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-09T18:47:31Z",
       "side": 1,
       "message": "I also don\u0027t see any await",
+      "range": {
+        "startLine": 774,
+        "startChar": 10,
+        "endLine": 774,
+        "endChar": 15
+      },
+      "revId": "b7ffc3839a0d4d75443dc7c14c01329774205578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee586874_4edd8625",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-10T15:56:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d23edb27_fe83ec56",
       "range": {
         "startLine": 774,
         "startChar": 10,

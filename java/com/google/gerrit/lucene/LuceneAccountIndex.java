@@ -14,7 +14,6 @@
 
 package com.google.gerrit.lucene;
 
-import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.index.account.AccountField.FULL_NAME;
 import static com.google.gerrit.server.index.account.AccountField.ID;
 import static com.google.gerrit.server.index.account.AccountField.ID_STR;
@@ -119,16 +118,16 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
     // Add separate DocValues fields for those fields needed for sorting.
     FieldDef<AccountState, ?> f = values.getField();
     if (f == ID) {
-      int v = (Integer) getOnlyElement(values.getValues());
+      int v = (Integer) values.getValue();
       doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));
     } else if (f == ID_STR) {
-      String v = (String) getOnlyElement(values.getValues());
+      String v = (String) values.getValue();
       doc.add(new NumericDocValuesField(ID2_SORT_FIELD, Integer.valueOf(v)));
     } else if (f == FULL_NAME) {
-      String value = (String) getOnlyElement(values.getValues());
+      String value = (String) values.getValue();
       doc.add(new SortedDocValuesField(FULL_NAME_SORT_FIELD, new BytesRef(value)));
     } else if (f == PREFERRED_EMAIL_EXACT) {
-      String value = (String) getOnlyElement(values.getValues());
+      String value = (String) values.getValue();
       doc.add(new SortedDocValuesField(EMAIL_SORT_FIELD, new BytesRef(value)));
     }
     super.add(doc, values);

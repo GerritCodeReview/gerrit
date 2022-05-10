@@ -65,7 +65,7 @@ public class ExperimentFeaturesIT extends AbstractDaemonTest {
       values = {"enabledFeature"})
   @GerritConfig(
       name = "experiments.disabled",
-      values = {"UiFeature__patchset_comments"})
+      values = {"UiFeature__patchset_comments", "UiFeature__submit_requirements_ui"})
   public void configOverride_defaultFeatureDisabled() {
     assertThat(experimentFeatures.isFeatureEnabled("enabledFeature")).isTrue();
     assertThat(

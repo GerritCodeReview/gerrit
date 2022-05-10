@@ -32,7 +32,7 @@ export function fireEvent(target: EventTarget, type: string) {
   );
 }
 
-type HTMLElementEventDetailType<K extends keyof HTMLElementEventMap> =
+export type HTMLElementEventDetailType<K extends keyof HTMLElementEventMap> =
   HTMLElementEventMap[K] extends CustomEvent<infer DT>
     ? unknown extends DT
       ? never

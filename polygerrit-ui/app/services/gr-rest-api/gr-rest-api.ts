@@ -634,6 +634,9 @@ export interface RestApiService extends Finalizable {
     }
   ): Promise<ChangeInfo[] | undefined>;
   getChangesWithSimilarTopic(topic: string): Promise<ChangeInfo[] | undefined>;
+  getChangesWithSimilarHashtag(
+    hashtag: string
+  ): Promise<ChangeInfo[] | undefined>;
 
   hasPendingDiffDrafts(): number;
   awaitPendingDiffDrafts(): Promise<void>;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c061110_edb3e481",
+        "filename": "java/com/google/gerrit/server/mail/send/ReplacePatchSetSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-10T06:07:43Z",
+      "side": 1,
+      "message": "Nice!",
+      "range": {
+        "startLine": 80,
+        "startChar": 6,
+        "endLine": 80,
+        "endChar": 26
+      },
+      "revId": "6ec4c4477fe2a0429c718f73aa48c46ba0f4fb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

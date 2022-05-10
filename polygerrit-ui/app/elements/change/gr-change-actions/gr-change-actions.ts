@@ -29,7 +29,6 @@ import '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
 import '../gr-confirm-submit-dialog/gr-confirm-submit-dialog';
 import '../../../styles/shared-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {htmlTemplate} from './gr-change-actions_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../../../services/app-context';
@@ -47,7 +46,6 @@ import {
   NotifyType,
 } from '../../../constants/constants';
 import {EventType as PluginEventType, TargetElement} from '../../../api/plugin';
-import {customElement, observe, property} from '@polymer/decorators';
 import {
   AccountInfo,
   ActionInfo,
@@ -63,11 +61,9 @@ import {
   LabelInfo,
   NumericChangeId,
   PatchSetNum,
-  PropertyType,
   RequestPayload,
   RevertSubmissionInfo,
   ReviewInput,
-  ServerInfo,
 } from '../../../types/common';
 import {GrConfirmAbandonDialog} from '../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -86,13 +82,17 @@ import {
   ConfirmRebaseEventDetail,
   GrConfirmRebaseDialog,
 } from '../gr-confirm-rebase-dialog/gr-confirm-rebase-dialog';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {
   GrChangeActionsElement,
   UIActionInfo,
 } from '../../shared/gr-js-api-interface/gr-change-actions-js-api';
-import {fireAlert, fireEvent, fireReload} from '../../../utils/event-util';
+import {
+  fire,
+  fireAlert,
+  fireEvent,
+  fireReload,
+} from '../../../utils/event-util';
 import {
   getApprovalInfo,
   getVotingRange,
@@ -108,8 +108,13 @@ import {
 } from '../../../api/change-actions';
 import {ErrorCallback} from '../../../api/rest';
 import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
-import {resolve, DIPolymerElement} from '../../../models/dependency';
+import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, css, html, nothing} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {ifDefined} from 'lit/directives/if-defined';
+import {assertIsDefined, queryAll} from '../../../utils/common-util';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -320,35 +325,11 @@ interface ChangeActionDialog extends HTMLElement {
   init?(): void;
 }
 
-export interface GrChangeActions {
-  $: {
-    mainContent: Element;
-    overlay: GrOverlay;
-    confirmRebase: GrConfirmRebaseDialog;
-    confirmCherrypick: GrConfirmCherrypickDialog;
-    confirmCherrypickConflict: GrConfirmCherrypickConflictDialog;
-    confirmMove: GrConfirmMoveDialog;
-    confirmRevertDialog: GrConfirmRevertDialog;
-    confirmAbandonDialog: GrConfirmAbandonDialog;
-    confirmSubmitDialog: GrConfirmSubmitDialog;
-    createFollowUpDialog: GrDialog;
-    createFollowUpChange: GrCreateChangeDialog;
-    confirmDeleteDialog: GrDialog;
-    confirmDeleteEditDialog: GrDialog;
-    moreActions: GrDropdown;
-    secondaryActions: HTMLElement;
-  };
-}
-
 @customElement('gr-change-actions')
 export class GrChangeActions
-  extends DIPolymerElement
+  extends LitElement
   implements GrChangeActionsElement
 {
-  static get template() {
-    return htmlTemplate;
-  }
-
   /**
    * Fired when the change should be reloaded.
    *
@@ -372,6 +353,37 @@ export class GrChangeActions
    *
    * @event show-error
    */
+
+  @query('#mainContent') mainContent?: Element;
+
+  @query('#overlay') overlay?: GrOverlay;
+
+  @query('#confirmRebase') confirmRebase?: GrConfirmRebaseDialog;
+
+  @query('#confirmCherrypick') confirmCherrypick?: GrConfirmCherrypickDialog;
+
+  @query('#confirmCherrypickConflict')
+  confirmCherrypickConflict?: GrConfirmCherrypickConflictDialog;
+
+  @query('#confirmMove') confirmMove?: GrConfirmMoveDialog;
+
+  @query('#confirmRevertDialog') confirmRevertDialog?: GrConfirmRevertDialog;
+
+  @query('#confirmAbandonDialog') confirmAbandonDialog?: GrConfirmAbandonDialog;
+
+  @query('#confirmSubmitDialog') confirmSubmitDialog?: GrConfirmSubmitDialog;
+
+  @query('#createFollowUpDialog') createFollowUpDialog?: GrDialog;
+
+  @query('#createFollowUpChange') createFollowUpChange?: GrCreateChangeDialog;
+
+  @query('#confirmDeleteDialog') confirmDeleteDialog?: GrDialog;
+
+  @query('#confirmDeleteEditDialog') confirmDeleteEditDialog?: GrDialog;
+
+  @query('#moreActions') moreActions?: GrDropdown;
+
+  @query('#secondaryActions') secondaryActions?: HTMLElement;
 
   // TODO(TS): Ensure that ActionType, ChangeActions and RevisionActions
   // properties are replaced with enums everywhere and remove them from
@@ -407,8 +419,8 @@ export class GrChangeActions
   @property({type: Boolean})
   _hasKnownChainState = false;
 
-  @property({type: Boolean})
-  _hideQuickApproveAction = false;
+  // private but used in test
+  @state() _hideQuickApproveAction = false;
 
   @property({type: Object})
   account?: AccountInfo;
@@ -422,7 +434,7 @@ export class GrChangeActions
   @property({type: String})
   commitNum?: CommitId;
 
-  @property({type: Boolean, observer: '_computeChainState'})
+  @property({type: Boolean})
   hasParent?: boolean;
 
   @property({type: String})
@@ -431,58 +443,39 @@ export class GrChangeActions
   @property({type: String})
   commitMessage = '';
 
-  @property({type: Object, notify: true})
+  @property({type: Object})
   revisionActions: ActionNameToActionInfoMap = {};
 
-  @property({type: Object, computed: '_getSubmitAction(revisionActions)'})
-  _revisionSubmitAction?: ActionInfo | null;
+  @state() private revisionSubmitAction?: ActionInfo | null;
 
-  @property({type: Object, computed: '_getRebaseAction(revisionActions)'})
-  _revisionRebaseAction?: ActionInfo | null;
+  // used as a proprty type so cannot be private
+  @state() revisionRebaseAction?: ActionInfo | null;
 
   @property({type: String})
   privateByDefault?: InheritedBooleanInfo;
 
-  @property({type: Boolean})
-  _loading = true;
+  // private but used in test
+  @state() loading = true;
 
-  @property({type: String})
-  _actionLoadingMessage = '';
+  // private but used in test
+  @state() actionLoadingMessage = '';
 
-  @property({
-    type: Array,
-    computed:
-      '_computeAllActions(actions.*, revisionActions.*,' +
-      'primaryActionKeys.*, _additionalActions.*, change, ' +
-      '_actionPriorityOverrides.*)',
-  })
-  _allActionValues: UIActionInfo[] = []; // _computeAllActions always returns an array
+  // _computeAllActions always returns an array
+  // private but used in test
+  @state() allActionValues: UIActionInfo[] = [];
 
-  @property({
-    type: Array,
-    computed:
-      '_computeTopLevelActions(_allActionValues.*, ' +
-      '_hiddenActions.*, editMode, _overflowActions.*)',
-    observer: '_filterPrimaryActions',
-  })
-  _topLevelActions?: UIActionInfo[];
+  // private but used in test
+  @state() topLevelActions?: UIActionInfo[];
 
-  @property({type: Array})
-  _topLevelPrimaryActions?: UIActionInfo[];
+  // private but used in test
+  @state() topLevelPrimaryActions?: UIActionInfo[];
 
-  @property({type: Array})
-  _topLevelSecondaryActions?: UIActionInfo[];
+  // private but used in test
+  @state() topLevelSecondaryActions?: UIActionInfo[];
 
-  @property({
-    type: Array,
-    computed:
-      '_computeMenuActions(_allActionValues.*, ' +
-      '_hiddenActions.*, _overflowActions.*)',
-  })
-  _menuActions?: MenuAction[];
+  @state() private menuActions?: MenuAction[];
 
-  @property({type: Array})
-  _overflowActions: OverflowAction[] = [
+  @state() private overflowActions: OverflowAction[] = [
     {
       type: ActionType.CHANGE,
       key: ChangeActions.WIP,
@@ -529,17 +522,15 @@ export class GrChangeActions
     },
   ];
 
-  @property({type: Array})
-  _actionPriorityOverrides: ActionPriorityOverride[] = [];
+  @state() private actionPriorityOverrides: ActionPriorityOverride[] = [];
 
-  @property({type: Array})
-  _additionalActions: UIActionInfo[] = [];
+  @state() private additionalActions: UIActionInfo[] = [];
 
-  @property({type: Array})
-  _hiddenActions: string[] = [];
+  // private but used in test
+  @state() hiddenActions: string[] = [];
 
-  @property({type: Array})
-  _disabledMenuActions: string[] = [];
+  // private but used in test
+  @state() disabledMenuActions: string[] = [];
 
   @property({type: Boolean})
   editPatchsetLoaded = false;
@@ -549,9 +540,6 @@ export class GrChangeActions
 
   @property({type: Boolean})
   editBasedOnCurrentPatchSet = true;
-
-  @property({type: Object})
-  _config?: ServerInfo;
 
   @property({type: Boolean})
   loggedIn = false;
@@ -563,31 +551,322 @@ export class GrChangeActions
   constructor() {
     super();
     this.addEventListener('fullscreen-overlay-opened', () =>
-      this._handleHideBackgroundContent()
+      this.handleHideBackgroundContent()
     );
     this.addEventListener('fullscreen-overlay-closed', () =>
-      this._handleShowBackgroundContent()
+      this.handleShowBackgroundContent()
     );
   }
 
-  override ready() {
-    super.ready();
+  override connectedCallback() {
+    super.connectedCallback();
     this.jsAPI.addElement(TargetElement.CHANGE_ACTIONS, this);
-    this.restApiService.getConfig().then(config => {
-      this._config = config;
+    this.handleLoadingComplete();
+  }
+
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: flex;
+          font-family: var(--font-family);
+        }
+        #actionLoadingMessage,
+        #mainContent,
+        section {
+          display: flex;
+        }
+        #actionLoadingMessage,
+        gr-button,
+        gr-dropdown {
+          /* px because don't have the same font size */
+          margin-left: 8px;
+        }
+        gr-button {
+          display: block;
+        }
+        #actionLoadingMessage {
+          align-items: center;
+          color: var(--deemphasized-text-color);
+        }
+        #confirmSubmitDialog .changeSubject {
+          margin: var(--spacing-l);
+          text-align: center;
+        }
+        iron-icon {
+          color: inherit;
+          margin-right: var(--spacing-xs);
+        }
+        #moreActions iron-icon {
+          margin: 0;
+        }
+        #moreMessage,
+        .hidden {
+          display: none;
+        }
+        @media screen and (max-width: 50em) {
+          #mainContent {
+            flex-wrap: wrap;
+          }
+          gr-button {
+            --gr-button-padding: var(--spacing-m);
+            white-space: nowrap;
+          }
+          gr-button,
+          gr-dropdown {
+            margin: 0;
+          }
+          #actionLoadingMessage {
+            margin: var(--spacing-m);
+            text-align: center;
+          }
+          #moreMessage {
+            display: inline;
+          }
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    if (!this.change) return nothing;
+    return html`
+      <div id="mainContent">
+        <span id="actionLoadingMessage" ?hidden=${!this.actionLoadingMessage}>
+          ${this.actionLoadingMessage}
+        </span>
+        <section
+          id="primaryActions"
+          ?hidden=${this.loading ||
+          !this.topLevelActions ||
+          !this.topLevelActions.length}
+        >
+          ${this.topLevelPrimaryActions?.map(action =>
+            this.renderTopPrimaryActions(action)
+          )}
+        </section>
+        <section
+          id="secondaryActions"
+          ?hidden=${this.loading ||
+          !this.topLevelActions ||
+          !this.topLevelActions.length}
+        >
+          ${this.topLevelSecondaryActions?.map(action =>
+            this.renderTopSecondaryActions(action)
+          )}
+        </section>
+        <gr-button ?hidden=${!this.loading}>Loading actions...</gr-button>
+        <gr-dropdown
+          id="moreActions"
+          link
+          .verticalOffset=${32}
+          .horizontalAlign=${'right'}
+          @tap-item=${this.handleOverflowItemTap}
+          ?hidden=${this.loading ||
+          !this.menuActions ||
+          !this.menuActions.length}
+          .disabledIds=${this.disabledMenuActions}
+          .items=${this.menuActions}
+        >
+          <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
+          </iron-icon>
+          <span id="moreMessage">More</span>
+        </gr-dropdown>
+      </div>
+      <gr-overlay id="overlay" with-backdrop="">
+        <gr-confirm-rebase-dialog
+          id="confirmRebase"
+          class="confirmDialog"
+          .changeNumber=${this.change?._number}
+          @confirm=${this.handleRebaseConfirm}
+          @cancel=${this.handleConfirmDialogCancel}
+          .branch=${this.change?.branch}
+          .hasParent=${this.hasParent}
+          .rebaseOnCurrent=${this.revisionRebaseAction
+            ? !!this.revisionRebaseAction.enabled
+            : null}
+        ></gr-confirm-rebase-dialog>
+        <gr-confirm-cherrypick-dialog
+          id="confirmCherrypick"
+          class="confirmDialog"
+          .changeStatus=${this.changeStatus}
+          .commitMessage=${this.commitMessage}
+          .commitNum=${this.commitNum}
+          @confirm=${this.handleCherrypickConfirm}
+          @cancel=${this.handleConfirmDialogCancel}
+          .project=${this.change?.project}
+        ></gr-confirm-cherrypick-dialog>
+        <gr-confirm-cherrypick-conflict-dialog
+          id="confirmCherrypickConflict"
+          class="confirmDialog"
+          @confirm=${this.handleCherrypickConflictConfirm}
+          @cancel=${this.handleConfirmDialogCancel}
+        ></gr-confirm-cherrypick-conflict-dialog>
+        <gr-confirm-move-dialog
+          id="confirmMove"
+          class="confirmDialog"
+          @confirm=${this.handleMoveConfirm}
+          @cancel=${this.handleConfirmDialogCancel}
+          .project=${this.change?.project}
+        ></gr-confirm-move-dialog>
+        <gr-confirm-revert-dialog
+          id="confirmRevertDialog"
+          class="confirmDialog"
+          @confirm=${this.handleRevertDialogConfirm}
+          @cancel=${this.handleConfirmDialogCancel}
+        ></gr-confirm-revert-dialog>
+        <gr-confirm-abandon-dialog
+          id="confirmAbandonDialog"
+          class="confirmDialog"
+          @confirm=${this.handleAbandonDialogConfirm}
+          @cancel=${this.handleConfirmDialogCancel}
+        ></gr-confirm-abandon-dialog>
+        <gr-confirm-submit-dialog
+          id="confirmSubmitDialog"
+          class="confirmDialog"
+          .action=${this.revisionSubmitAction}
+          @cancel=${this.handleConfirmDialogCancel}
+          @confirm=${this.handleSubmitConfirm}
+        ></gr-confirm-submit-dialog>
+        <gr-dialog
+          id="createFollowUpDialog"
+          class="confirmDialog"
+          confirm-label="Create"
+          @confirm=${this.handleCreateFollowUpChange}
+          @cancel=${this.handleCloseCreateFollowUpChange}
+        >
+          <div class="header" slot="header">Create Follow-Up Change</div>
+          <div class="main" slot="main">
+            <gr-create-change-dialog
+              id="createFollowUpChange"
+              .branch=${this.change?.branch}
+              .baseChange=${this.change?.id}
+              .repoName=${this.change?.project}
+              .privateByDefault=${this.privateByDefault}
+            ></gr-create-change-dialog>
+          </div>
+        </gr-dialog>
+        <gr-dialog
+          id="confirmDeleteDialog"
+          class="confirmDialog"
+          confirm-label="Delete"
+          confirm-on-enter=""
+          @cancel=${this.handleConfirmDialogCancel}
+          @confirm=${this.handleDeleteConfirm}
+        >
+          <div class="header" slot="header">Delete Change</div>
+          <div class="main" slot="main">
+            Do you really want to delete the change?
+          </div>
+        </gr-dialog>
+        <gr-dialog
+          id="confirmDeleteEditDialog"
+          class="confirmDialog"
+          confirm-label="Delete"
+          confirm-on-enter=""
+          @cancel=${this.handleConfirmDialogCancel}
+          @confirm=${this.handleDeleteEditConfirm}
+        >
+          <div class="header" slot="header">Delete Change Edit</div>
+          <div class="main" slot="main">
+            Do you really want to delete the edit?
+          </div>
+        </gr-dialog>
+      </gr-overlay>
+    `;
+  }
+
+  private renderTopPrimaryActions(action: UIActionInfo) {
+    return html`
+      <gr-tooltip-content
+        title=${ifDefined(action.title)}
+        .hasTooltip=${!!action.title}
+        ?position-below=${true}
+      >
+        <gr-button
+          link
+          class=${action.__key}
+          data-action-key=${action.__key}
+          data-label=${action.label}
+          ?disabled=${this.calculateDisabled(action)}
+          @click=${(e: MouseEvent) =>
+            this.handleActionTap(e, action.__key, action.__type)}
+        >
+          <iron-icon
+            class=${action.icon ? '' : 'hidden'}
+            .icon="gr-icons:${action.icon}"
+          ></iron-icon>
+          ${action.label}
+        </gr-button>
+      </gr-tooltip-content>
+    `;
+  }
+
+  private renderTopSecondaryActions(action: UIActionInfo) {
+    return html`
+      <gr-tooltip-content
+        title=${ifDefined(action.title)}
+        .hasTooltip=${!!action.title}
+        ?position-below=${true}
+      >
+        <gr-button
+          link
+          class=${action.__key}
+          data-action-key=${action.__key}
+          data-label=${action.label}
+          ?disabled=${this.calculateDisabled(action)}
+          @click=${(e: MouseEvent) =>
+            this.handleActionTap(e, action.__key, action.__type)}
+        >
+          <iron-icon
+            class=${action.icon ? '' : 'hidden'}
+            icon="gr-icons:${action.icon}"
+          ></iron-icon>
+          ${action.label}
+        </gr-button>
+      </gr-tooltip-content>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('hasParent')) {
+      this.computeChainState();
+    }
+
+    if (changedProperties.has('change')) {
+      this.reload();
+    }
+
+    this.editStatusChanged();
+
+    this.actionsChanged();
+    this.allActionValues = this.computeAllActions();
+    this.topLevelActions = this.allActionValues.filter(a => {
+      if (this.hiddenActions.includes(a.__key)) return false;
+      if (this.editMode) return EDIT_ACTIONS.has(a.__key);
+      return this.getActionOverflowIndex(a.__type, a.__key) === -1;
     });
-    this._handleLoadingComplete();
+    this.topLevelPrimaryActions = this.topLevelActions.filter(
+      action => action.__primary
+    );
+    this.topLevelSecondaryActions = this.topLevelActions.filter(
+      action => !action.__primary
+    );
+    this.menuActions = this.computeMenuActions();
+    this.revisionSubmitAction = this.getSubmitAction(this.revisionActions);
+    this.revisionRebaseAction = this.getRebaseAction(this.revisionActions);
   }
 
-  _getSubmitAction(revisionActions: ActionNameToActionInfoMap) {
-    return this._getRevisionAction(revisionActions, 'submit');
+  private getSubmitAction(revisionActions: ActionNameToActionInfoMap) {
+    return this.getRevisionAction(revisionActions, 'submit');
   }
 
-  _getRebaseAction(revisionActions: ActionNameToActionInfoMap) {
-    return this._getRevisionAction(revisionActions, 'rebase');
+  private getRebaseAction(revisionActions: ActionNameToActionInfoMap) {
+    return this.getRevisionAction(revisionActions, 'rebase');
   }
 
-  _getRevisionAction(
+  private getRevisionAction(
     revisionActions: ActionNameToActionInfoMap,
     actionName: string
   ) {
@@ -608,7 +887,7 @@ export class GrChangeActions
     }
     const change = this.change;
 
-    this._loading = true;
+    this.loading = true;
     return this.restApiService
       .getChangeRevisionActions(this.changeNum, this.latestPatchNum)
       .then(revisionActions => {
@@ -617,35 +896,31 @@ export class GrChangeActions
         }
 
         this.revisionActions = revisionActions;
-        this._sendShowRevisionActions({
+        this.sendShowRevisionActions({
           change,
           revisionActions,
         });
-        this._handleLoadingComplete();
+        this.handleLoadingComplete();
       })
       .catch(err => {
         fireAlert(this, ERR_REVISION_ACTIONS);
-        this._loading = false;
+        this.loading = false;
         throw err;
       });
   }
 
-  _handleLoadingComplete() {
+  private handleLoadingComplete() {
     getPluginLoader()
       .awaitPluginsLoaded()
-      .then(() => (this._loading = false));
+      .then(() => (this.loading = false));
   }
 
-  _sendShowRevisionActions(detail: {
+  // private but used in test
+  sendShowRevisionActions(detail: {
     change: ChangeInfo;
     revisionActions: ActionNameToActionInfoMap;
   }) {
     this.jsAPI.handleEvent(PluginEventType.SHOW_REVISION_ACTIONS, detail);
-  }
-
-  @observe('change')
-  _changeChanged() {
-    this.reload();
   }
 
   addActionButton(type: ActionType, label: string) {
@@ -659,16 +934,18 @@ export class GrChangeActions
       __key:
         ADDITIONAL_ACTION_KEY_PREFIX + Math.random().toString(36).substr(2),
     };
-    this.push('_additionalActions', action);
+    this.additionalActions.push(action);
+    this.requestUpdate('additionalActions');
     return action.__key;
   }
 
   removeActionButton(key: string) {
-    const idx = this._indexOfActionButtonWithKey(key);
+    const idx = this.indexOfActionButtonWithKey(key);
     if (idx === -1) {
       return;
     }
-    this.splice('_additionalActions', idx, 1);
+    this.additionalActions.splice(idx, 1);
+    this.requestUpdate('additionalActions');
   }
 
   setActionButtonProp<T extends keyof UIActionInfo>(
@@ -676,26 +953,26 @@ export class GrChangeActions
     prop: T,
     value: UIActionInfo[T]
   ) {
-    this.set(
-      ['_additionalActions', this._indexOfActionButtonWithKey(key), prop],
-      value
-    );
+    this.additionalActions[this.indexOfActionButtonWithKey(key)][prop] = value;
+    this.requestUpdate('additionalActions');
   }
 
   setActionOverflow(type: ActionType, key: string, overflow: boolean) {
     if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
       throw Error(`Invalid action type given: ${type}`);
     }
-    const index = this._getActionOverflowIndex(type, key);
+    const index = this.getActionOverflowIndex(type, key);
     const action: OverflowAction = {
       type,
       key,
       overflow,
     };
     if (!overflow && index !== -1) {
-      this.splice('_overflowActions', index, 1);
+      this.overflowActions.splice(index, 1);
+      this.requestUpdate('overflowActions');
     } else if (overflow) {
-      this.push('_overflowActions', action);
+      this.overflowActions.push(action);
+      this.requestUpdate('overflowActions');
     }
   }
 
@@ -707,7 +984,7 @@ export class GrChangeActions
     if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
       throw Error(`Invalid action type given: ${type}`);
     }
-    const index = this._actionPriorityOverrides.findIndex(
+    const index = this.actionPriorityOverrides.findIndex(
       action => action.type === type && action.key === key
     );
     const action: ActionPriorityOverride = {
@@ -716,9 +993,11 @@ export class GrChangeActions
       priority,
     };
     if (index !== -1) {
-      this.set('_actionPriorityOverrides', index, action);
+      this.actionPriorityOverrides[index] = action;
+      this.requestUpdate('actionPriorityOverrides');
     } else {
-      this.push('_actionPriorityOverrides', action);
+      this.actionPriorityOverrides.push(action);
+      this.requestUpdate('actionPriorityOverrides');
     }
   }
 
@@ -731,11 +1010,13 @@ export class GrChangeActions
       throw Error(`Invalid action type given: ${type}`);
     }
 
-    const idx = this._hiddenActions.indexOf(key);
+    const idx = this.hiddenActions.indexOf(key);
     if (hidden && idx === -1) {
-      this.push('_hiddenActions', key);
+      this.hiddenActions.push(key);
+      this.requestUpdate('hiddenActions');
     } else if (!hidden && idx !== -1) {
-      this.splice('_hiddenActions', idx, 1);
+      this.hiddenActions.splice(idx, 1);
+      this.requestUpdate('hiddenActions');
     }
   }
 
@@ -749,182 +1030,111 @@ export class GrChangeActions
     }
   }
 
-  _indexOfActionButtonWithKey(key: string) {
-    for (let i = 0; i < this._additionalActions.length; i++) {
-      if (this._additionalActions[i].__key === key) {
+  private indexOfActionButtonWithKey(key: string) {
+    for (let i = 0; i < this.additionalActions.length; i++) {
+      if (this.additionalActions[i].__key === key) {
         return i;
       }
     }
     return -1;
   }
 
-  _shouldHideActions(
-    actions?: PolymerDeepPropertyChange<UIActionInfo[], UIActionInfo[]>,
-    loading?: boolean
-  ) {
-    return loading || !actions || !actions.base || !actions.base.length;
-  }
-
-  _keyCount(
-    changeRecord?: PolymerDeepPropertyChange<
-      ActionNameToActionInfoMap,
-      ActionNameToActionInfoMap
-    >
-  ) {
-    return Object.keys(changeRecord?.base || {}).length;
-  }
-
-  @observe('actions.*', 'revisionActions.*', '_additionalActions.*')
-  _actionsChanged(
-    actionsChangeRecord?: PolymerDeepPropertyChange<
-      ActionNameToActionInfoMap,
-      ActionNameToActionInfoMap
-    >,
-    revisionActionsChangeRecord?: PolymerDeepPropertyChange<
-      ActionNameToActionInfoMap,
-      ActionNameToActionInfoMap
-    >,
-    additionalActionsChangeRecord?: PolymerDeepPropertyChange<
-      UIActionInfo[],
-      UIActionInfo[]
-    >
-  ) {
-    // Polymer 2: check for undefined
-    if (
-      actionsChangeRecord === undefined ||
-      revisionActionsChangeRecord === undefined ||
-      additionalActionsChangeRecord === undefined
-    ) {
-      return;
-    }
-
-    const additionalActions =
-      (additionalActionsChangeRecord && additionalActionsChangeRecord.base) ||
-      [];
+  private actionsChanged() {
     this.hidden =
-      this._keyCount(actionsChangeRecord) === 0 &&
-      this._keyCount(revisionActionsChangeRecord) === 0 &&
-      additionalActions.length === 0;
-    this._actionLoadingMessage = '';
-    this._actionLoadingMessage = '';
-    this._disabledMenuActions = [];
+      Object.keys(this.actions).length === 0 &&
+      Object.keys(this.revisionActions).length === 0 &&
+      this.additionalActions.length === 0;
+    this.actionLoadingMessage = '';
+    this.disabledMenuActions = [];
 
-    const revisionActions = revisionActionsChangeRecord.base || {};
-    if (Object.keys(revisionActions).length !== 0) {
-      if (!revisionActions.download) {
-        this.set('revisionActions.download', DOWNLOAD_ACTION);
+    if (Object.keys(this.revisionActions).length !== 0) {
+      if (!this.revisionActions.download) {
+        this.revisionActions = {
+          ...this.revisionActions,
+          download: DOWNLOAD_ACTION,
+        };
+        fire(this, 'revision-actions-changed', {
+          value: this.revisionActions,
+        });
       }
     }
-    const actions = actionsChangeRecord.base || {};
-    if (!actions.includedIn && this.change?.status === ChangeStatus.MERGED) {
-      this.set('actions.includedIn', INCLUDED_IN_ACTION);
-    }
-  }
-
-  _deleteAndNotify(actionName: string) {
-    if (this.actions && this.actions[actionName]) {
-      delete this.actions[actionName];
-      // We assign a fake value of 'false' to support Polymer 2
-      // see https://github.com/Polymer/polymer/issues/2631
-      this.notifyPath('actions.' + actionName, false);
-    }
-  }
-
-  @observe(
-    'editMode',
-    'editPatchsetLoaded',
-    'editBasedOnCurrentPatchSet',
-    'disableEdit',
-    'loggedIn',
-    'actions.*',
-    'change.*'
-  )
-  _editStatusChanged(
-    editMode: boolean,
-    editPatchsetLoaded: boolean,
-    editBasedOnCurrentPatchSet: boolean,
-    disableEdit: boolean,
-    loggedIn: boolean,
-    actionsChangeRecord?: PolymerDeepPropertyChange<
-      ActionNameToActionInfoMap,
-      ActionNameToActionInfoMap
-    >,
-    changeChangeRecord?: PolymerDeepPropertyChange<ChangeInfo, ChangeInfo>
-  ) {
-    // Hide change edits if not logged in
     if (
-      actionsChangeRecord === undefined ||
-      changeChangeRecord === undefined ||
-      !loggedIn
+      !this.actions.includedIn &&
+      this.change?.status === ChangeStatus.MERGED
     ) {
+      this.actions = {...this.actions, includedIn: INCLUDED_IN_ACTION};
+    }
+  }
+
+  private editStatusChanged() {
+    // Hide change edits if not logged in
+    if (this.change === undefined || !this.loggedIn) {
       return;
     }
-    if (disableEdit) {
-      this._deleteAndNotify('publishEdit');
-      this._deleteAndNotify('rebaseEdit');
-      this._deleteAndNotify('deleteEdit');
-      this._deleteAndNotify('stopEdit');
-      this._deleteAndNotify('edit');
+    if (this.disableEdit) {
+      delete this.actions.rebaseEdit;
+      delete this.actions.publishEdit;
+      delete this.actions.deleteEdit;
+      delete this.actions.stopEdit;
+      delete this.actions.edit;
       return;
     }
-    const actions = actionsChangeRecord.base;
-    const change = changeChangeRecord.base;
-    if (actions && editPatchsetLoaded) {
+    if (this.editPatchsetLoaded) {
       // Only show actions that mutate an edit if an actual edit patch set
       // is loaded.
-      if (changeIsOpen(change)) {
-        if (editBasedOnCurrentPatchSet) {
-          if (!actions.publishEdit) {
-            this.set('actions.publishEdit', PUBLISH_EDIT);
+      if (changeIsOpen(this.change)) {
+        if (this.editBasedOnCurrentPatchSet) {
+          if (!this.actions.publishEdit) {
+            this.actions = {...this.actions, publishEdit: PUBLISH_EDIT};
           }
-          this._deleteAndNotify('rebaseEdit');
+          delete this.actions.rebaseEdit;
         } else {
-          if (!actions.rebaseEdit) {
-            this.set('actions.rebaseEdit', REBASE_EDIT);
+          if (!this.actions.rebaseEdit) {
+            this.actions = {...this.actions, rebaseEdit: REBASE_EDIT};
           }
-          this._deleteAndNotify('publishEdit');
+          delete this.actions.publishEdit;
         }
       }
-      if (!actions.deleteEdit) {
-        this.set('actions.deleteEdit', DELETE_EDIT);
+      if (!this.actions.deleteEdit) {
+        this.actions = {...this.actions, deleteEdit: DELETE_EDIT};
       }
     } else {
-      this._deleteAndNotify('publishEdit');
-      this._deleteAndNotify('rebaseEdit');
-      this._deleteAndNotify('deleteEdit');
+      delete this.actions.rebaseEdit;
+      delete this.actions.publishEdit;
+      delete this.actions.deleteEdit;
     }
 
-    if (actions && changeIsOpen(change)) {
+    if (changeIsOpen(this.change)) {
       // Only show edit button if there is no edit patchset loaded and the
       // file list is not in edit mode.
-      if (editPatchsetLoaded || editMode) {
-        this._deleteAndNotify('edit');
+      if (this.editPatchsetLoaded || this.editMode) {
+        delete this.actions.edit;
       } else {
-        if (!actions.edit) {
-          this.set('actions.edit', EDIT);
+        if (!this.actions.edit) {
+          this.actions = {...this.actions, edit: EDIT};
         }
       }
       // Only show STOP_EDIT if edit mode is enabled, but no edit patch set
       // is loaded.
-      if (editMode && !editPatchsetLoaded) {
-        if (!actions.stopEdit) {
-          this.set('actions.stopEdit', STOP_EDIT);
+      if (this.editMode && !this.editPatchsetLoaded) {
+        if (!this.actions.stopEdit) {
+          this.actions = {...this.actions, stopEdit: STOP_EDIT};
           fireAlert(this, 'Change is in edit mode');
         }
       } else {
-        this._deleteAndNotify('stopEdit');
+        delete this.actions.stopEdit;
       }
     } else {
       // Remove edit button.
-      this._deleteAndNotify('edit');
+      delete this.actions.edit;
     }
   }
 
-  _getValuesFor<T>(obj: {[key: string]: T}): T[] {
+  private getValuesFor<T>(obj: {[key: string]: T}): T[] {
     return Object.keys(obj).map(key => obj[key]);
   }
 
-  _getLabelStatus(label: LabelInfo): LabelStatus {
+  private getLabelStatus(label: LabelInfo): LabelStatus {
     if (isQuickLabelInfo(label)) {
       if (label.approved) {
         return LabelStatus.OK;
@@ -943,7 +1153,7 @@ export class GrChangeActions
    * Get highest score for last missing permitted label for current change.
    * Returns null if no labels permitted or more than one label missing.
    */
-  _getTopMissingApproval() {
+  private getTopMissingApproval() {
     if (!this.change || !this.change.labels || !this.change.permitted_labels) {
       return null;
     }
@@ -958,7 +1168,7 @@ export class GrChangeActions
       if (this.change.permitted_labels[label].length === 0) {
         continue;
       }
-      const status = this._getLabelStatus(labelInfo);
+      const status = this.getLabelStatus(labelInfo);
       if (status === LabelStatus.NEED) {
         if (result) {
           // More than one label is missing, so check if Code Review can be
@@ -1014,20 +1224,20 @@ export class GrChangeActions
   }
 
   hideQuickApproveAction() {
-    if (!this._topLevelSecondaryActions) {
-      throw new Error('_topLevelSecondaryActions must be set');
+    if (!this.topLevelSecondaryActions) {
+      throw new Error('topLevelSecondaryActions must be set');
     }
-    this._topLevelSecondaryActions = this._topLevelSecondaryActions.filter(
+    this.topLevelSecondaryActions = this.topLevelSecondaryActions.filter(
       sa => !isQuickApproveAction(sa)
     );
     this._hideQuickApproveAction = true;
   }
 
-  _getQuickApproveAction(): QuickApproveUIActionInfo | null {
+  private getQuickApproveAction(): QuickApproveUIActionInfo | null {
     if (this._hideQuickApproveAction) {
       return null;
     }
-    const approval = this._getTopMissingApproval();
+    const approval = this.getTopMissingApproval();
     if (!approval) {
       return null;
     }
@@ -1049,32 +1259,23 @@ export class GrChangeActions
     return action;
   }
 
-  _getActionValues(
-    actionsChangeRecord: PolymerDeepPropertyChange<
-      ActionNameToActionInfoMap,
-      ActionNameToActionInfoMap
-    >,
-    primariesChangeRecord: PolymerDeepPropertyChange<
-      PrimaryActionKey[],
-      PrimaryActionKey[]
-    >,
-    additionalActionsChangeRecord: PolymerDeepPropertyChange<
-      UIActionInfo[],
-      UIActionInfo[]
-    >,
+  private getActionValues(
+    actionsChange: ActionNameToActionInfoMap,
+    primariesChange: PrimaryActionKey[],
+    additionalActionsChange: UIActionInfo[],
     type: ActionType
   ): UIActionInfo[] {
-    if (!actionsChangeRecord || !primariesChangeRecord) {
+    if (!actionsChange || !primariesChange) {
       return [];
     }
 
-    const actions = actionsChangeRecord.base || {};
-    const primaryActionKeys = primariesChangeRecord.base || [];
+    const actions = actionsChange;
+    const primaryActionKeys = primariesChange;
     const result: UIActionInfo[] = [];
     const values: Array<ChangeActions | RevisionActions> =
       type === ActionType.CHANGE
-        ? this._getValuesFor(ChangeActions)
-        : this._getValuesFor(RevisionActions);
+        ? this.getValuesFor(ChangeActions)
+        : this.getValuesFor(RevisionActions);
 
     const pluginActions: UIActionInfo[] = [];
     Object.keys(actions).forEach(a => {
@@ -1084,26 +1285,25 @@ export class GrChangeActions
       action.__primary = primaryActionKeys.includes(a as PrimaryActionKey);
       // Plugin actions always contain ~ in the key.
       if (a.indexOf('~') !== -1) {
-        this._populateActionUrl(action);
+        this.populateActionUrl(action);
         pluginActions.push(action);
         // Add server-side provided plugin actions to overflow menu.
-        this._overflowActions.push({
+        this.overflowActions.push({
           type,
           key: a,
         });
+        this.requestUpdate('overflowActions');
         return;
       } else if (!values.includes(a as PrimaryActionKey)) {
         return;
       }
-      action.label = this._getActionLabel(action);
+      action.label = this.getActionLabel(action);
 
       // Triggers a re-render by ensuring object inequality.
       result.push({...action});
     });
 
-    let additionalActions =
-      (additionalActionsChangeRecord && additionalActionsChangeRecord.base) ||
-      [];
+    let additionalActions = additionalActionsChange;
     additionalActions = additionalActions
       .filter(a => a.__type === type)
       .map(a => {
@@ -1114,7 +1314,7 @@ export class GrChangeActions
     return result.concat(additionalActions).concat(pluginActions);
   }
 
-  _populateActionUrl(action: UIActionInfo) {
+  private populateActionUrl(action: UIActionInfo) {
     const patchNum =
       action.__type === ActionType.REVISION ? this.latestPatchNum : undefined;
     if (!this.changeNum) {
@@ -1129,7 +1329,7 @@ export class GrChangeActions
    * Given a change action, return a display label that uses the appropriate
    * casing or includes explanatory details.
    */
-  _getActionLabel(action: UIActionInfo) {
+  private getActionLabel(action: UIActionInfo) {
     if (action.label === 'Delete') {
       // This label is common within change and revision actions. Make it more
       // explicit to the user.
@@ -1138,34 +1338,38 @@ export class GrChangeActions
       return 'Mark as work in progress';
     }
     // Otherwise, just map the name to sentence case.
-    return this._toSentenceCase(action.label);
+    return this.toSentenceCase(action.label);
   }
 
   /**
    * Capitalize the first letter and lowecase all others.
+   *
+   * private but used in test
    */
-  _toSentenceCase(s: string) {
+  toSentenceCase(s: string) {
     if (!s.length) {
       return '';
     }
     return s[0].toUpperCase() + s.slice(1).toLowerCase();
   }
 
-  _computeLoadingLabel(action: string) {
+  private computeLoadingLabel(action: string) {
     return ActionLoadingLabels[action] || 'Working...';
   }
 
-  _canSubmitChange() {
+  // private but used in test
+  canSubmitChange() {
     if (!this.change) {
       return false;
     }
     return this.jsAPI.canSubmitChange(
       this.change,
-      this._getRevision(this.change, this.latestPatchNum)
+      this.getRevision(this.change, this.latestPatchNum)
     );
   }
 
-  _getRevision(change: ChangeViewChangeInfo, patchNum?: PatchSetNum) {
+  // private but used in test
+  getRevision(change: ChangeViewChangeInfo, patchNum?: PatchSetNum) {
     for (const rev of Object.values(change.revisions)) {
       if (rev._number === patchNum) {
         return rev;
@@ -1187,21 +1391,23 @@ export class GrChangeActions
         this.reporting.error(new Error('changes is undefined'));
         return;
       }
-      this.$.confirmRevertDialog.populate(change, this.commitMessage, changes);
-      this._showActionDialog(this.$.confirmRevertDialog);
+      assertIsDefined(this.confirmRevertDialog, 'confirmRevertDialog');
+      this.confirmRevertDialog.populate(change, this.commitMessage, changes);
+      this.showActionDialog(this.confirmRevertDialog);
     });
   }
 
   showSubmitDialog() {
-    if (!this._canSubmitChange()) {
+    if (!this.canSubmitChange()) {
       return;
     }
-    this._showActionDialog(this.$.confirmSubmitDialog);
+    assertIsDefined(this.confirmSubmitDialog, 'confirmSubmitDialog');
+    this.showActionDialog(this.confirmSubmitDialog);
   }
 
-  _handleActionTap(e: MouseEvent) {
+  private handleActionTap(e: MouseEvent, key: string, type: string) {
     e.preventDefault();
-    let el = (dom(e) as EventApi).localTarget as Element;
+    let el = e.target as Element;
     while (el.tagName.toLowerCase() !== 'gr-button') {
       if (!el.parentElement) {
         return;
@@ -1209,10 +1415,6 @@ export class GrChangeActions
       el = el.parentElement;
     }
 
-    const key = el.getAttribute('data-action-key');
-    if (!key) {
-      throw new Error("Button doesn't have data-action-key attribute");
-    }
     if (
       key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX) ||
       key.indexOf('~') !== -1
@@ -1226,11 +1428,10 @@ export class GrChangeActions
       );
       return;
     }
-    const type = el.getAttribute('data-action-type') as ActionType;
-    this._handleAction(type, key);
+    this.handleAction(type as ActionType, key);
   }
 
-  _handleOverflowItemTap(e: CustomEvent<MenuAction>) {
+  private handleOverflowItemTap(e: CustomEvent<MenuAction>) {
     e.preventDefault();
     const el = (dom(e) as EventApi).localTarget as Element;
     const key = e.detail.action.__key;
@@ -1247,147 +1448,160 @@ export class GrChangeActions
       );
       return;
     }
-    this._handleAction(e.detail.action.__type, e.detail.action.__key);
+    this.handleAction(e.detail.action.__type, e.detail.action.__key);
   }
 
-  _handleAction(type: ActionType, key: string) {
+  // private but used in test
+  handleAction(type: ActionType, key: string) {
     this.reporting.reportInteraction(`${type}-${key}`);
     switch (type) {
       case ActionType.REVISION:
-        this._handleRevisionAction(key);
+        this.handleRevisionAction(key);
         break;
       case ActionType.CHANGE:
-        this._handleChangeAction(key);
+        this.handleChangeAction(key);
         break;
       default:
-        this._fireAction(
-          this._prependSlash(key),
+        this.fireAction(
+          this.prependSlash(key),
           assertUIActionInfo(this.actions[key]),
           false
         );
     }
   }
 
-  _handleChangeAction(key: string) {
+  // private but used in test
+  handleChangeAction(key: string) {
     switch (key) {
       case ChangeActions.REVERT:
         this.showRevertDialog();
         break;
       case ChangeActions.ABANDON:
-        this._showActionDialog(this.$.confirmAbandonDialog);
+        assertIsDefined(this.confirmAbandonDialog, 'confirmAbandonDialog');
+        this.showActionDialog(this.confirmAbandonDialog);
         break;
       case QUICK_APPROVE_ACTION.key: {
-        const action = this._allActionValues.find(isQuickApproveAction);
+        const action = this.allActionValues.find(isQuickApproveAction);
         if (!action) {
           return;
         }
-        this._fireAction(this._prependSlash(key), action, true, action.payload);
+        this.fireAction(this.prependSlash(key), action, true, action.payload);
         break;
       }
       case ChangeActions.EDIT:
-        this._handleEditTap();
+        this.handleEditTap();
         break;
       case ChangeActions.STOP_EDIT:
-        this._handleStopEditTap();
+        this.handleStopEditTap();
         break;
       case ChangeActions.DELETE:
-        this._handleDeleteTap();
+        this.handleDeleteTap();
         break;
       case ChangeActions.DELETE_EDIT:
-        this._handleDeleteEditTap();
+        this.handleDeleteEditTap();
         break;
       case ChangeActions.FOLLOW_UP:
-        this._handleFollowUpTap();
+        this.handleFollowUpTap();
         break;
       case ChangeActions.WIP:
-        this._handleWipTap();
+        this.handleWipTap();
         break;
       case ChangeActions.MOVE:
-        this._handleMoveTap();
+        this.handleMoveTap();
         break;
       case ChangeActions.PUBLISH_EDIT:
-        this._handlePublishEditTap();
+        this.handlePublishEditTap();
         break;
       case ChangeActions.REBASE_EDIT:
-        this._handleRebaseEditTap();
+        this.handleRebaseEditTap();
         break;
       case ChangeActions.INCLUDED_IN:
-        this._handleIncludedInTap();
+        this.handleIncludedInTap();
         break;
       default:
-        this._fireAction(
-          this._prependSlash(key),
+        this.fireAction(
+          this.prependSlash(key),
           assertUIActionInfo(this.actions[key]),
           false
         );
     }
   }
 
-  _handleRevisionAction(key: string) {
+  private handleRevisionAction(key: string) {
     switch (key) {
       case RevisionActions.REBASE:
-        this._showActionDialog(this.$.confirmRebase);
-        this.$.confirmRebase.fetchRecentChanges();
+        assertIsDefined(this.confirmRebase, 'confirmRebase');
+        this.showActionDialog(this.confirmRebase);
+        this.confirmRebase.fetchRecentChanges();
         break;
       case RevisionActions.CHERRYPICK:
-        this._handleCherrypickTap();
+        this.handleCherrypickTap();
         break;
       case RevisionActions.DOWNLOAD:
-        this._handleDownloadTap();
+        this.handleDownloadTap();
         break;
       case RevisionActions.SUBMIT:
-        if (!this._canSubmitChange()) {
+        if (!this.canSubmitChange()) {
           return;
         }
-        this._showActionDialog(this.$.confirmSubmitDialog);
+        assertIsDefined(this.confirmSubmitDialog, 'confirmSubmitDialog');
+        this.showActionDialog(this.confirmSubmitDialog);
         break;
       default:
-        this._fireAction(
-          this._prependSlash(key),
+        this.fireAction(
+          this.prependSlash(key),
           assertUIActionInfo(this.revisionActions[key]),
           true
         );
     }
   }
 
-  _prependSlash(key: string) {
+  private prependSlash(key: string) {
     return key === '/' ? key : `/${key}`;
   }
 
   /**
    * _hasKnownChainState set to true true if hasParent is defined (can be
    * either true or false). set to false otherwise.
+   *
+   * private but used in test
    */
-  _computeChainState() {
+  computeChainState() {
     this._hasKnownChainState = true;
   }
 
-  _calculateDisabled(action: UIActionInfo, hasKnownChainState: boolean) {
+  // private but used in test
+  calculateDisabled(action: UIActionInfo) {
     if (action.__key === 'rebase') {
       // Rebase button is only disabled when change has no parent(s).
-      return hasKnownChainState === false;
+      return this._hasKnownChainState === false;
     }
     return !action.enabled;
   }
 
-  _handleConfirmDialogCancel() {
-    this._hideAllDialogs();
+  private handleConfirmDialogCancel() {
+    this.hideAllDialogs();
   }
 
-  _hideAllDialogs() {
-    const dialogEls = this.root!.querySelectorAll('.confirmDialog');
+  private hideAllDialogs() {
+    assertIsDefined(this.confirmSubmitDialog, 'confirmSubmitDialog');
+    const dialogEls = queryAll(this, '.confirmDialog');
     for (const dialogEl of dialogEls) {
       (dialogEl as HTMLElement).hidden = true;
     }
-    this.$.overlay.close();
+    assertIsDefined(this.overlay, 'overlay');
+    this.overlay.close();
   }
 
-  _handleRebaseConfirm(e: CustomEvent<ConfirmRebaseEventDetail>) {
-    const el = this.$.confirmRebase;
+  // private but used in test
+  handleRebaseConfirm(e: CustomEvent<ConfirmRebaseEventDetail>) {
+    assertIsDefined(this.confirmRebase, 'confirmRebase');
+    assertIsDefined(this.overlay, 'overlay');
+    const el = this.confirmRebase;
     const payload = {base: e.detail.base};
-    this.$.overlay.close();
+    this.overlay.close();
     el.hidden = true;
-    this._fireAction(
+    this.fireAction(
       '/rebase',
       assertUIActionInfo(this.revisionActions.rebase),
       true,
@@ -1395,16 +1609,20 @@ export class GrChangeActions
     );
   }
 
-  _handleCherrypickConfirm() {
-    this._handleCherryPickRestApi(false);
+  // private but used in test
+  handleCherrypickConfirm() {
+    this.handleCherryPickRestApi(false);
   }
 
-  _handleCherrypickConflictConfirm() {
-    this._handleCherryPickRestApi(true);
+  // private but used in test
+  handleCherrypickConflictConfirm() {
+    this.handleCherryPickRestApi(true);
   }
 
-  _handleCherryPickRestApi(conflicts: boolean) {
-    const el = this.$.confirmCherrypick;
+  private handleCherryPickRestApi(conflicts: boolean) {
+    assertIsDefined(this.confirmCherrypick, 'confirmCherrypick');
+    assertIsDefined(this.overlay, 'overlay');
+    const el = this.confirmCherrypick;
     if (!el.branch) {
       fireAlert(this, ERR_BRANCH_EMPTY);
       return;
@@ -1413,9 +1631,9 @@ export class GrChangeActions
       fireAlert(this, ERR_COMMIT_EMPTY);
       return;
     }
-    this.$.overlay.close();
+    this.overlay.close();
     el.hidden = true;
-    this._fireAction(
+    this.fireAction(
       '/cherrypick',
       assertUIActionInfo(this.revisionActions.cherrypick),
       true,
@@ -1428,29 +1646,34 @@ export class GrChangeActions
     );
   }
 
-  _handleMoveConfirm() {
-    const el = this.$.confirmMove;
+  // private but used in test
+  handleMoveConfirm() {
+    assertIsDefined(this.confirmMove, 'confirmMove');
+    assertIsDefined(this.overlay, 'overlay');
+    const el = this.confirmMove;
     if (!el.branch) {
       fireAlert(this, ERR_BRANCH_EMPTY);
       return;
     }
-    this.$.overlay.close();
+    this.overlay.close();
     el.hidden = true;
-    this._fireAction('/move', assertUIActionInfo(this.actions.move), false, {
+    this.fireAction('/move', assertUIActionInfo(this.actions.move), false, {
       destination_branch: el.branch,
       message: el.message,
     });
   }
 
-  _handleRevertDialogConfirm(e: CustomEvent<ConfirmRevertEventDetail>) {
+  private handleRevertDialogConfirm(e: CustomEvent<ConfirmRevertEventDetail>) {
+    assertIsDefined(this.confirmRevertDialog, 'confirmRevertDialog');
+    assertIsDefined(this.overlay, 'overlay');
     const revertType = e.detail.revertType;
     const message = e.detail.message;
-    const el = this.$.confirmRevertDialog;
-    this.$.overlay.close();
+    const el = this.confirmRevertDialog;
+    this.overlay.close();
     el.hidden = true;
     switch (revertType) {
       case RevertType.REVERT_SINGLE_CHANGE:
-        this._fireAction(
+        this.fireAction(
           '/revert',
           assertUIActionInfo(this.actions.revert),
           false,
@@ -1460,7 +1683,7 @@ export class GrChangeActions
       case RevertType.REVERT_SUBMISSION:
         // TODO(dhruvsri): replace with this.actions.revert_submission once
         // BE starts sending it again
-        this._fireAction(
+        this.fireAction(
           '/revert_submission',
           {__key: 'revert_submission', method: HttpMethod.POST} as UIActionInfo,
           false,
@@ -1472,11 +1695,14 @@ export class GrChangeActions
     }
   }
 
-  _handleAbandonDialogConfirm() {
-    const el = this.$.confirmAbandonDialog;
-    this.$.overlay.close();
+  // private but used in test
+  handleAbandonDialogConfirm() {
+    assertIsDefined(this.confirmAbandonDialog, 'confirmAbandonDialog');
+    assertIsDefined(this.overlay, 'overlay');
+    const el = this.confirmAbandonDialog;
+    this.overlay.close();
     el.hidden = true;
-    this._fireAction(
+    this.fireAction(
       '/abandon',
       assertUIActionInfo(this.actions.abandon),
       false,
@@ -1486,58 +1712,62 @@ export class GrChangeActions
     );
   }
 
-  _handleCreateFollowUpChange() {
-    this.$.createFollowUpChange.handleCreateChange();
-    this._handleCloseCreateFollowUpChange();
+  private handleCreateFollowUpChange() {
+    assertIsDefined(this.createFollowUpChange, 'createFollowUpChange');
+    this.createFollowUpChange.handleCreateChange();
+    this.handleCloseCreateFollowUpChange();
   }
 
-  _handleCloseCreateFollowUpChange() {
-    this.$.overlay.close();
+  private handleCloseCreateFollowUpChange() {
+    assertIsDefined(this.overlay, 'overlay');
+    this.overlay.close();
   }
 
-  _handleDeleteConfirm() {
-    this._hideAllDialogs();
-    this._fireAction(
+  private handleDeleteConfirm() {
+    this.hideAllDialogs();
+    this.fireAction(
       '/',
       assertUIActionInfo(this.actions[ChangeActions.DELETE]),
       false
     );
   }
 
-  _handleDeleteEditConfirm() {
-    this._hideAllDialogs();
+  private handleDeleteEditConfirm() {
+    this.hideAllDialogs();
 
     // We need to make sure that all cached version of a change
     // edit are deleted.
     this.storage.eraseEditableContentItemsForChangeEdit(this.changeNum);
 
-    this._fireAction(
+    this.fireAction(
       '/edit',
       assertUIActionInfo(this.actions.deleteEdit),
       false
     );
   }
 
-  _handleSubmitConfirm() {
-    if (!this._canSubmitChange()) {
+  // private but used in test
+  handleSubmitConfirm() {
+    if (!this.canSubmitChange()) {
       return;
     }
-    this._hideAllDialogs();
-    this._fireAction(
+    this.hideAllDialogs();
+    this.fireAction(
       '/submit',
       assertUIActionInfo(this.revisionActions.submit),
       true
     );
   }
 
-  _getActionOverflowIndex(type: string, key: string) {
-    return this._overflowActions.findIndex(
+  private getActionOverflowIndex(type: string, key: string) {
+    return this.overflowActions.findIndex(
       action => action.type === type && action.key === key
     );
   }
 
-  _setLoadingOnButtonWithKey(type: string, key: string) {
-    this._actionLoadingMessage = this._computeLoadingLabel(key);
+  // private but used in test
+  setLoadingOnButtonWithKey(type: string, key: string) {
+    this.actionLoadingMessage = this.computeLoadingLabel(key);
     let buttonKey = key;
     // TODO(dhruvsri): clean this up later
     // If key is revert-submission, then button key should be 'revert'
@@ -1547,14 +1777,12 @@ export class GrChangeActions
     }
 
     // If the action appears in the overflow menu.
-    if (this._getActionOverflowIndex(type, buttonKey) !== -1) {
-      this.push(
-        '_disabledMenuActions',
-        buttonKey === '/' ? 'delete' : buttonKey
-      );
+    if (this.getActionOverflowIndex(type, buttonKey) !== -1) {
+      this.disabledMenuActions.push(buttonKey === '/' ? 'delete' : buttonKey);
+      this.requestUpdate('disabledMenuActions');
       return () => {
-        this._actionLoadingMessage = '';
-        this._disabledMenuActions = [];
+        this.actionLoadingMessage = '';
+        this.disabledMenuActions = [];
       };
     }
 
@@ -1568,38 +1796,41 @@ export class GrChangeActions
     buttonEl.setAttribute('loading', 'true');
     buttonEl.disabled = true;
     return () => {
-      this._actionLoadingMessage = '';
+      this.actionLoadingMessage = '';
       buttonEl.removeAttribute('loading');
       buttonEl.disabled = false;
     };
   }
 
-  _fireAction(
+  // private but used in test
+  fireAction(
     endpoint: string,
     action: UIActionInfo,
     revAction: boolean,
     payload?: RequestPayload
   ) {
-    const cleanupFn = this._setLoadingOnButtonWithKey(
+    const cleanupFn = this.setLoadingOnButtonWithKey(
       action.__type,
       action.__key
     );
 
-    this._send(
+    this.send(
       action.method,
       payload,
       endpoint,
       revAction,
       cleanupFn,
       action
-    ).then(res => this._handleResponse(action, res));
+    ).then(res => this.handleResponse(action, res));
   }
 
-  _showActionDialog(dialog: ChangeActionDialog) {
-    this._hideAllDialogs();
+  // private but used in test
+  showActionDialog(dialog: ChangeActionDialog) {
+    this.hideAllDialogs();
     if (dialog.init) dialog.init();
     dialog.hidden = false;
-    this.$.overlay.open().then(() => {
+    assertIsDefined(this.overlay, 'overlay');
+    this.overlay.open().then(() => {
       if (dialog.resetFocus) {
         dialog.resetFocus();
       }
@@ -1608,7 +1839,8 @@ export class GrChangeActions
 
   // TODO(rmistry): Redo this after
   // https://bugs.chromium.org/p/gerrit/issues/detail?id=4671 is resolved.
-  _setReviewOnRevert(newChangeId: NumericChangeId) {
+  // private but used in test
+  setReviewOnRevert(newChangeId: NumericChangeId) {
     const review = this.jsAPI.getReviewPostRevert(this.change);
     if (!review) {
       return Promise.resolve(undefined);
@@ -1616,7 +1848,8 @@ export class GrChangeActions
     return this.restApiService.saveChangeReview(newChangeId, CURRENT, review);
   }
 
-  _handleResponse(action: UIActionInfo, response?: Response) {
+  // private but used in test
+  handleResponse(action: UIActionInfo, response?: Response) {
     if (!response) {
       return;
     }
@@ -1624,8 +1857,8 @@ export class GrChangeActions
       switch (action.__key) {
         case ChangeActions.REVERT: {
           const revertChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
-          this._waitForChangeReachable(revertChangeInfo._number)
-            .then(() => this._setReviewOnRevert(revertChangeInfo._number))
+          this.waitForChangeReachable(revertChangeInfo._number)
+            .then(() => this.setReviewOnRevert(revertChangeInfo._number))
             .then(() => {
               GerritNav.navigateToChange(revertChangeInfo);
             });
@@ -1633,11 +1866,9 @@ export class GrChangeActions
         }
         case RevisionActions.CHERRYPICK: {
           const cherrypickChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
-          this._waitForChangeReachable(cherrypickChangeInfo._number).then(
-            () => {
-              GerritNav.navigateToChange(cherrypickChangeInfo);
-            }
-          );
+          this.waitForChangeReachable(cherrypickChangeInfo._number).then(() => {
+            GerritNav.navigateToChange(cherrypickChangeInfo);
+          });
           break;
         }
         case ChangeActions.DELETE:
@@ -1661,7 +1892,7 @@ export class GrChangeActions
           )
             return;
           /* If there is only 1 change then gerrit will automatically
-             redirect to that change */
+            redirect to that change */
           GerritNav.navigateToSearchQuery(
             `topic: ${revertSubmistionInfo.revert_changes[0].topic}`
           );
@@ -1674,7 +1905,8 @@ export class GrChangeActions
     });
   }
 
-  _handleResponseError(
+  // private but used in test
+  handleResponseError(
     action: UIActionInfo,
     response: Response | undefined | null,
     body?: RequestPayload
@@ -1696,7 +1928,11 @@ export class GrChangeActions
         body &&
         !(body as CherryPickInput).allow_conflicts
       ) {
-        this._showActionDialog(this.$.confirmCherrypickConflict);
+        assertIsDefined(
+          this.confirmCherrypickConflict,
+          'confirmCherrypickConflict'
+        );
+        this.showActionDialog(this.confirmCherrypickConflict);
         return;
       }
     }
@@ -1714,7 +1950,8 @@ export class GrChangeActions
     });
   }
 
-  _send(
+  // private but used in test
+  send(
     method: HttpMethod | undefined,
     payload: RequestPayload | undefined,
     actionEndpoint: string,
@@ -1724,7 +1961,7 @@ export class GrChangeActions
   ): Promise<Response | undefined> {
     const handleError: ErrorCallback = response => {
       cleanupFn.call(this);
-      this._handleResponseError(action, response, payload);
+      this.handleResponseError(action, response, payload);
     };
     const change = this.change;
     const changeNum = this.changeNum;
@@ -1774,11 +2011,13 @@ export class GrChangeActions
       });
   }
 
-  _handleCherrypickTap() {
+  // private but used in test
+  handleCherrypickTap() {
     if (!this.change) {
       throw new Error('The change property must be set');
     }
-    this.$.confirmCherrypick.branch = '' as BranchName;
+    assertIsDefined(this.confirmCherrypick, 'confirmCherrypick');
+    this.confirmCherrypick.branch = '' as BranchName;
     const query = `topic: "${this.change.topic}"`;
     const options = listChangesOptionsToHex(
       ListChangesOption.MESSAGES,
@@ -1791,52 +2030,61 @@ export class GrChangeActions
           this.reporting.error(new Error('getChanges returns undefined'));
           return;
         }
-        this.$.confirmCherrypick.updateChanges(changes);
-        this._showActionDialog(this.$.confirmCherrypick);
+        this.confirmCherrypick!.updateChanges(changes);
+        this.showActionDialog(this.confirmCherrypick!);
       });
   }
 
-  _handleMoveTap() {
-    this.$.confirmMove.branch = '' as BranchName;
-    this.$.confirmMove.message = '';
-    this._showActionDialog(this.$.confirmMove);
+  // private but used in test
+  handleMoveTap() {
+    assertIsDefined(this.confirmMove, 'confirmMove');
+    this.confirmMove.branch = '' as BranchName;
+    this.confirmMove.message = '';
+    this.showActionDialog(this.confirmMove);
   }
 
-  _handleDownloadTap() {
+  // private but used in test
+  handleDownloadTap() {
     fireEvent(this, 'download-tap');
   }
 
-  _handleIncludedInTap() {
+  // private but used in test
+  handleIncludedInTap() {
     fireEvent(this, 'included-tap');
   }
 
-  _handleDeleteTap() {
-    this._showActionDialog(this.$.confirmDeleteDialog);
+  // private but used in test
+  handleDeleteTap() {
+    assertIsDefined(this.confirmDeleteDialog, 'confirmDeleteDialog');
+    this.showActionDialog(this.confirmDeleteDialog);
   }
 
-  _handleDeleteEditTap() {
-    this._showActionDialog(this.$.confirmDeleteEditDialog);
+  // private but used in test
+  handleDeleteEditTap() {
+    assertIsDefined(this.confirmDeleteEditDialog, 'confirmDeleteEditDialog');
+    this.showActionDialog(this.confirmDeleteEditDialog);
   }
 
-  _handleFollowUpTap() {
-    this._showActionDialog(this.$.createFollowUpDialog);
+  private handleFollowUpTap() {
+    assertIsDefined(this.createFollowUpDialog, 'createFollowUpDialog');
+    this.showActionDialog(this.createFollowUpDialog);
   }
 
-  _handleWipTap() {
+  private handleWipTap() {
     if (!this.actions.wip) {
       return;
     }
-    this._fireAction('/wip', assertUIActionInfo(this.actions.wip), false);
+    this.fireAction('/wip', assertUIActionInfo(this.actions.wip), false);
   }
 
-  _handlePublishEditTap() {
+  private handlePublishEditTap() {
     if (!this.actions.publishEdit) return;
 
     // We need to make sure that all cached version of a change
     // edit are deleted.
     this.storage.eraseEditableContentItemsForChangeEdit(this.changeNum);
 
-    this._fireAction(
+    this.fireAction(
       '/edit:publish',
       assertUIActionInfo(this.actions.publishEdit),
       false,
@@ -1844,93 +2092,71 @@ export class GrChangeActions
     );
   }
 
-  _handleRebaseEditTap() {
+  private handleRebaseEditTap() {
     if (!this.actions.rebaseEdit) {
       return;
     }
-    this._fireAction(
+    this.fireAction(
       '/edit:rebase',
       assertUIActionInfo(this.actions.rebaseEdit),
       false
     );
   }
 
-  _handleHideBackgroundContent() {
-    this.$.mainContent.classList.add('overlayOpen');
+  // private but used in test
+  handleHideBackgroundContent() {
+    assertIsDefined(this.mainContent, 'mainContent');
+    this.mainContent.classList.add('overlayOpen');
   }
 
-  _handleShowBackgroundContent() {
-    this.$.mainContent.classList.remove('overlayOpen');
+  // private but used in test
+  handleShowBackgroundContent() {
+    assertIsDefined(this.mainContent, 'mainContent');
+    this.mainContent.classList.remove('overlayOpen');
   }
 
   /**
    * Merge sources of change actions into a single ordered array of action
    * values.
    */
-  _computeAllActions(
-    changeActionsRecord: PolymerDeepPropertyChange<
-      ActionNameToActionInfoMap,
-      ActionNameToActionInfoMap
-    >,
-    revisionActionsRecord: PolymerDeepPropertyChange<
-      ActionNameToActionInfoMap,
-      ActionNameToActionInfoMap
-    >,
-    primariesRecord: PolymerDeepPropertyChange<
-      PrimaryActionKey[],
-      PrimaryActionKey[]
-    >,
-    additionalActionsRecord: PolymerDeepPropertyChange<
-      UIActionInfo[],
-      UIActionInfo[]
-    >,
-    change?: ChangeInfo
-  ): UIActionInfo[] {
+  private computeAllActions(): UIActionInfo[] {
     // Polymer 2: check for undefined
-    if (
-      [
-        changeActionsRecord,
-        revisionActionsRecord,
-        primariesRecord,
-        additionalActionsRecord,
-        change,
-      ].includes(undefined)
-    ) {
+    if (this.change === undefined) {
       return [];
     }
 
-    const revisionActionValues = this._getActionValues(
-      revisionActionsRecord,
-      primariesRecord,
-      additionalActionsRecord,
+    const revisionActionValues = this.getActionValues(
+      this.revisionActions,
+      this.primaryActionKeys,
+      this.additionalActions,
       ActionType.REVISION
     );
-    const changeActionValues = this._getActionValues(
-      changeActionsRecord,
-      primariesRecord,
-      additionalActionsRecord,
+    const changeActionValues = this.getActionValues(
+      this.actions,
+      this.primaryActionKeys,
+      this.additionalActions,
       ActionType.CHANGE
     );
-    const quickApprove = this._getQuickApproveAction();
+    const quickApprove = this.getQuickApproveAction();
     if (quickApprove) {
       changeActionValues.unshift(quickApprove);
     }
 
     return revisionActionValues
       .concat(changeActionValues)
-      .sort((a, b) => this._actionComparator(a, b))
+      .sort((a, b) => this.actionComparator(a, b))
       .map(action => {
         if (ACTIONS_WITH_ICONS.has(action.__key)) {
           action.icon = action.__key;
         }
         return action;
       })
-      .filter(action => !this._shouldSkipAction(action));
+      .filter(action => !this.shouldSkipAction(action));
   }
 
-  _getActionPriority(action: UIActionInfo) {
+  private getActionPriority(action: UIActionInfo) {
     if (action.__type && action.__key) {
-      const overrideAction = this._actionPriorityOverrides.find(
+      const overrideAction = this.actionPriorityOverrides.find(
         i => i.type === action.__type && i.key === action.__key
       );
 
@@ -1952,10 +2178,12 @@ export class GrChangeActions
 
   /**
    * Sort comparator to define the order of change actions.
+   *
+   * private but used in test
    */
-  _actionComparator(actionA: UIActionInfo, actionB: UIActionInfo) {
+  actionComparator(actionA: UIActionInfo, actionB: UIActionInfo) {
     const priorityDelta =
-      this._getActionPriority(actionA) - this._getActionPriority(actionB);
+      this.getActionPriority(actionA) - this.getActionPriority(actionB);
     // Sort by the button label if same priority.
     if (priorityDelta === 0) {
       return actionA.label > actionB.label ? 1 : -1;
@@ -1964,41 +2192,15 @@ export class GrChangeActions
     }
   }
 
-  _shouldSkipAction(action: UIActionInfo) {
+  private shouldSkipAction(action: UIActionInfo) {
     return SKIP_ACTION_KEYS.includes(action.__key);
   }
 
-  _computeTopLevelActions(
-    actionRecord: PolymerDeepPropertyChange<UIActionInfo[], UIActionInfo[]>,
-    hiddenActionsRecord: PolymerDeepPropertyChange<string[], string[]>,
-    editMode: boolean
-  ): UIActionInfo[] {
-    const hiddenActions = hiddenActionsRecord.base || [];
-    return actionRecord.base.filter(a => {
-      if (hiddenActions.includes(a.__key)) return false;
-      if (editMode) return EDIT_ACTIONS.has(a.__key);
-      return this._getActionOverflowIndex(a.__type, a.__key) === -1;
-    });
-  }
-
-  _filterPrimaryActions(_topLevelActions: UIActionInfo[]) {
-    this._topLevelPrimaryActions = _topLevelActions.filter(
-      action => action.__primary
-    );
-    this._topLevelSecondaryActions = _topLevelActions.filter(
-      action => !action.__primary
-    );
-  }
-
-  _computeMenuActions(
-    actionRecord: PolymerDeepPropertyChange<UIActionInfo[], UIActionInfo[]>,
-    hiddenActionsRecord: PolymerDeepPropertyChange<string[], string[]>
-  ): MenuAction[] {
-    const hiddenActions = hiddenActionsRecord.base || [];
-    return actionRecord.base
+  private computeMenuActions(): MenuAction[] {
+    return this.allActionValues
       .filter(a => {
-        const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
-        return overflow && !hiddenActions.includes(a.__key);
+        const overflow = this.getActionOverflowIndex(a.__type, a.__key) !== -1;
+        return overflow && !this.hiddenActions.includes(a.__key);
       })
       .map(action => {
         let key = action.__key;
@@ -2014,15 +2216,6 @@ export class GrChangeActions
       });
   }
 
-  _computeRebaseOnCurrent(
-    revisionRebaseAction: PropertyType<GrChangeActions, '_revisionRebaseAction'>
-  ) {
-    if (revisionRebaseAction) {
-      return !!revisionRebaseAction.enabled;
-    }
-    return null;
-  }
-
   /**
    * Occasionally, a change created by a change action is not yet known to the
    * API for a brief time. Wait for the given change number to be recognized.
@@ -2030,8 +2223,9 @@ export class GrChangeActions
    * Returns a promise that resolves with true if a request is recognized, or
    * false if the change was never recognized after all attempts.
    *
+   * private but used in test
    */
-  _waitForChangeReachable(changeNum: NumericChangeId) {
+  waitForChangeReachable(changeNum: NumericChangeId) {
     let attemptsRemaining = AWAIT_CHANGE_ATTEMPTS;
     return new Promise(resolve => {
       const check = () => {
@@ -2057,24 +2251,19 @@ export class GrChangeActions
     });
   }
 
-  _handleEditTap() {
+  private handleEditTap() {
     this.dispatchEvent(new CustomEvent('edit-tap', {bubbles: false}));
   }
 
-  _handleStopEditTap() {
+  private handleStopEditTap() {
     this.dispatchEvent(new CustomEvent('stop-edit-tap', {bubbles: false}));
-  }
-
-  _computeHasTooltip(title?: string) {
-    return !!title;
-  }
-
-  _computeHasIcon(action: UIActionInfo) {
-    return action.icon ? '' : 'hidden';
   }
 }
 
 declare global {
+  interface HTMLElementEventMap {
+    'revision-actions-changed': CustomEvent<{value: ActionNameToActionInfoMap}>;
+  }
   interface HTMLElementTagNameMap {
     'gr-change-actions': GrChangeActions;
   }

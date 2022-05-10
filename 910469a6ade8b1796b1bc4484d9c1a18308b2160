@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "0bc135a0_e03943d5",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 0
       },
       "revId": "910469a6ade8b1796b1bc4484d9c1a18308b2160",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "70509f67_c5e13f63",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,10 @@
         "endChar": 0
       },
       "revId": "910469a6ade8b1796b1bc4484d9c1a18308b2160",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "115869c8_42c1e93c",
         "filename": "/PATCHSET_LEVEL",
@@ -61,8 +62,24 @@
       "side": 1,
       "message": "It seems like there is a problem with the deleteproject plugin, but I don\u0027t understand why that would not affect the parent changes also?\n\nplugins/delete-project/src/test/java/com/googlesource/gerrit/plugins/deleteproject/ConfigurationTest.java:59: error: PluginConfig is abstract; cannot be instantiated\n        .thenReturn(new PluginConfig(PLUGIN_NAME, new Config()));",
       "revId": "910469a6ade8b1796b1bc4484d9c1a18308b2160",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de7184f8_2d52f0ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-10T07:51:22Z",
+      "side": 1,
+      "message": "Interesting series.\n\nHow does this change relate to this one:\nhttps://gerrit-review.googlesource.com/c/plugins/quota/+/245593",
+      "revId": "910469a6ade8b1796b1bc4484d9c1a18308b2160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

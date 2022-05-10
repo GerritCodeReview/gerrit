@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -158,21 +159,21 @@ public class StalenessChecker {
     return StalenessCheckResult.notStale();
   }
 
-  public static ListMultimap<ObjectId, ObjectId> parseExternalIdStates(
-      Iterable<byte[]> extIdStates) {
+  public static ListMultimap<ObjectId, ObjectId> parseExternalIdStates(Stream<byte[]> extIdStates) {
     ListMultimap<ObjectId, ObjectId> result = MultimapBuilder.hashKeys().arrayListValues().build();
 
     if (extIdStates == null) {
       return result;
     }
 
-    for (byte[] b : extIdStates) {
-      requireNonNull(b, "invalid external ID state");
-      String s = new String(b, UTF_8);
-      List<String> parts = Splitter.on(':').splitToList(s);
-      checkState(parts.size() == 2, "invalid external ID state: %s", s);
-      result.put(ObjectId.fromString(parts.get(0)), ObjectId.fromString(parts.get(1)));
-    }
+    extIdStates.forEach(
+        b -> {
+          requireNonNull(b, "invalid external ID state");
+          String s = new String(b, UTF_8);
+          List<String> parts = Splitter.on(':').splitToList(s);
+          checkState(parts.size() == 2, "invalid external ID state: %s", s);
+          result.put(ObjectId.fromString(parts.get(0)), ObjectId.fromString(parts.get(1)));
+        });
     return result;
   }
 }

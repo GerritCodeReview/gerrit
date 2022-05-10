@@ -10,11 +10,14 @@ import {
   createEmptyDiff,
 } from '../../../test/test-data-generators';
 import './gr-diff-builder-element';
-import {queryAndAssert, stubBaseUrl} from '../../../test/test-utils';
+import {
+  nextRender,
+  queryAndAssert,
+  stubBaseUrl,
+} from '../../../test/test-utils';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {
   DiffContent,
   DiffInfo,
@@ -24,35 +27,20 @@ import {
   Side,
 } from '../../../api/diff';
 import {stubRestApi} from '../../../test/test-utils';
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {GrDiffBuilderLegacy} from './gr-diff-builder-legacy';
 import {waitForEventOnce} from '../../../utils/event-util';
 import {GrDiffBuilderElement} from './gr-diff-builder-element';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {BlameInfo} from '../../../types/common';
-
-const basicFixture = fixtureFromTemplate(html`
-  <gr-diff-builder>
-    <table id="diffTable"></table>
-  </gr-diff-builder>
-`);
-
-const divWithTextFixture = fixtureFromTemplate(html`
-  <div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
-`);
-
-const mockDiffFixture = fixtureFromTemplate(html`
-  <gr-diff-builder view-mode="SIDE_BY_SIDE">
-    <table id="diffTable"></table>
-  </gr-diff-builder>
-`);
+import {fixture, html} from '@open-wc/testing-helpers';
 
 const DEFAULT_PREFS = createDefaultDiffPrefs();
 
 suite('gr-diff-builder tests', () => {
   let element: GrDiffBuilderElement;
   let builder: GrDiffBuilderLegacy;
+  let diffTable: HTMLTableElement;
 
   const LINE_BREAK_HTML = '<span class="style-scope gr-diff br"></span>';
   const WBR_HTML = '<wbr class="style-scope gr-diff">';
@@ -61,7 +49,7 @@ suite('gr-diff-builder tests', () => {
     builder = new GrDiffBuilderSideBySide(
       createEmptyDiff(),
       {...createDefaultDiffPrefs(), ...prefs},
-      element.diffElement
+      diffTable
     );
   };
 
@@ -71,8 +59,10 @@ suite('gr-diff-builder tests', () => {
     return line;
   };
 
-  setup(() => {
-    element = basicFixture.instantiate() as GrDiffBuilderElement;
+  setup(async () => {
+    diffTable = await fixture(html`<table id="diffTable"></table>`);
+    element = new GrDiffBuilderElement();
+    element.diffElement = diffTable;
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getProjectConfig').returns(Promise.resolve(createConfig()));
     stubBaseUrl('/r');
@@ -147,7 +137,7 @@ suite('gr-diff-builder tests', () => {
 
   test('_handlePreferenceError triggers alert and javascript error', () => {
     const errorStub = sinon.stub();
-    element.addEventListener('show-alert', errorStub);
+    diffTable.addEventListener('show-alert', errorStub);
     assert.throws(() => element._handlePreferenceError('tab size'));
     assert.equal(
       errorStub.lastCall.args[0].detail.message,
@@ -167,11 +157,13 @@ suite('gr-diff-builder tests', () => {
       return Array.from(str).slice(start, end).join('');
     }
 
-    setup(() => {
-      el = divWithTextFixture.instantiate() as HTMLElement;
+    setup(async () => {
+      el = await fixture(html`
+        <div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
+      `);
       str = el.textContent ?? '';
       annotateElementSpy = sinon.spy(GrAnnotation, 'annotateElement');
-      layer = document.createElement('gr-diff-builder')._createIntralineLayer();
+      layer = element._createIntralineLayer();
     });
 
     test('annotate no highlights', () => {
@@ -297,12 +289,10 @@ suite('gr-diff-builder tests', () => {
   });
 
   suite('tab indicators', () => {
-    let element: GrDiffBuilderElement;
     let layer: DiffLayer;
     const lineNumberEl = document.createElement('td');
 
     setup(() => {
-      element = basicFixture.instantiate() as GrDiffBuilderElement;
       element._showTabs = true;
       layer = element._createTabIndicatorLayer();
     });
@@ -403,12 +393,10 @@ suite('gr-diff-builder tests', () => {
   });
 
   suite('layers', () => {
-    let element: GrDiffBuilderElement;
     let initialLayersCount = 0;
     let withLayerCount = 0;
     setup(() => {
       const layers: DiffLayer[] = [];
-      element = basicFixture.instantiate() as GrDiffBuilderElement;
       element.layers = layers;
       element._showTrailingWhitespace = true;
       element._setupAnnotationLayers();
@@ -423,7 +411,6 @@ suite('gr-diff-builder tests', () => {
     suite('with layers', () => {
       const layers: DiffLayer[] = [{annotate: () => {}}, {annotate: () => {}}];
       setup(() => {
-        element = basicFixture.instantiate() as GrDiffBuilderElement;
         element.layers = layers;
         element._showTrailingWhitespace = true;
         element._setupAnnotationLayers();
@@ -438,12 +425,10 @@ suite('gr-diff-builder tests', () => {
   });
 
   suite('trailing whitespace', () => {
-    let element: GrDiffBuilderElement;
     let layer: DiffLayer;
     const lineNumberEl = document.createElement('td');
 
     setup(() => {
-      element = basicFixture.instantiate() as GrDiffBuilderElement;
       element._showTrailingWhitespace = true;
       layer = element._createTrailingWhitespaceLayer();
     });
@@ -532,7 +517,6 @@ suite('gr-diff-builder tests', () => {
     let content: DiffContent[] = [];
 
     setup(() => {
-      element = basicFixture.instantiate() as GrDiffBuilderElement;
       element.viewMode = 'SIDE_BY_SIDE';
       processStub = sinon
         .stub(element.processor, 'process')
@@ -560,7 +544,7 @@ suite('gr-diff-builder tests', () => {
     test('text', async () => {
       element.diff = {...createEmptyDiff(), content};
       element.render(keyLocations);
-      await waitForEventOnce(element, 'render-content');
+      await waitForEventOnce(diffTable, 'render-content');
       assert.isTrue(processStub.calledOnce);
       assert.isFalse(processStub.lastCall.args[1]);
     });
@@ -569,7 +553,7 @@ suite('gr-diff-builder tests', () => {
       element.diff = {...createEmptyDiff(), content, binary: true};
       element.isImageDiff = true;
       element.render(keyLocations);
-      await waitForEventOnce(element, 'render-content');
+      await waitForEventOnce(diffTable, 'render-content');
       assert.isTrue(processStub.calledOnce);
       assert.isTrue(processStub.lastCall.args[1]);
     });
@@ -577,7 +561,7 @@ suite('gr-diff-builder tests', () => {
     test('binary', async () => {
       element.diff = {...createEmptyDiff(), content, binary: true};
       element.render(keyLocations);
-      await waitForEventOnce(element, 'render-content');
+      await waitForEventOnce(diffTable, 'render-content');
       assert.isTrue(processStub.calledOnce);
       assert.isTrue(processStub.lastCall.args[1]);
     });
@@ -605,9 +589,8 @@ suite('gr-diff-builder tests', () => {
           ],
         },
       ];
-      element = basicFixture.instantiate() as GrDiffBuilderElement;
-      dispatchStub = sinon.stub(element, 'dispatchEvent');
-      outputEl = queryAndAssert(element, '#diffTable');
+      dispatchStub = sinon.stub(diffTable, 'dispatchEvent');
+      outputEl = element.diffElement!;
       keyLocations = {left: {}, right: {}};
       sinon.stub(element, '_getDiffBuilder').callsFake(() => {
         builder = new GrDiffBuilderSideBySide(
@@ -656,9 +639,13 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('render-start and render-content are fired', async () => {
-      await new Promise(resolve => afterNextRender(element, resolve));
-      const firedEventTypes = dispatchStub.getCalls().map(c => c.args[0].type);
+      await nextRender();
+      let firedEventTypes = dispatchStub.getCalls().map(c => c.args[0].type);
       assert.include(firedEventTypes, 'render-start');
+      assert.include(firedEventTypes, 'render-progress');
+
+      await nextRender();
+      firedEventTypes = dispatchStub.getCalls().map(c => c.args[0].type);
       assert.include(firedEventTypes, 'render-content');
     });
 
@@ -673,11 +660,7 @@ suite('gr-diff-builder tests', () => {
     let dispatchStub: sinon.SinonStub;
 
     setup(async () => {
-      element = basicFixture.instantiate() as GrDiffBuilderElement;
-      dispatchStub = sinon.stub(element, 'dispatchEvent');
-      const afterNextRenderPromise = new Promise(resolve => {
-        afterNextRender(element, resolve);
-      });
+      dispatchStub = sinon.stub(diffTable, 'dispatchEvent');
       element.diff = {
         ...createEmptyDiff(),
         content: [
@@ -695,14 +678,14 @@ suite('gr-diff-builder tests', () => {
       };
       element.render(keyLocations);
       // Make sure all listeners are installed.
-      await afterNextRenderPromise;
+      await nextRender();
     });
 
     test('hides lines behind two context controls', () => {
-      const contextControls = element.querySelectorAll('gr-context-controls');
+      const contextControls = diffTable.querySelectorAll('gr-context-controls');
       assert.equal(contextControls.length, 2);
 
-      const diffRows = element.querySelectorAll('.diff-row');
+      const diffRows = diffTable.querySelectorAll('.diff-row');
       // The first two are LOST and FILE line
       assert.equal(diffRows.length, 2 + 1 + 1 + 1);
       assert.include(diffRows[2].textContent, 'unchanged 10');
@@ -712,7 +695,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('clicking +x common lines expands those lines', () => {
-      const contextControls = element.querySelectorAll('gr-context-controls');
+      const contextControls = diffTable.querySelectorAll('gr-context-controls');
       const topExpandCommonButton =
         contextControls[0].shadowRoot?.querySelectorAll<HTMLElement>(
           '.showContext'
@@ -720,7 +703,7 @@ suite('gr-diff-builder tests', () => {
       assert.isOk(topExpandCommonButton);
       assert.include(topExpandCommonButton!.textContent, '+9 common lines');
       topExpandCommonButton!.click();
-      const diffRows = element.querySelectorAll('.diff-row');
+      const diffRows = diffTable.querySelectorAll('.diff-row');
       // The first two are LOST and FILE line
       assert.equal(diffRows.length, 2 + 10 + 1 + 1);
       assert.include(diffRows[2].textContent, 'unchanged 1');
@@ -742,7 +725,7 @@ suite('gr-diff-builder tests', () => {
       dispatchStub.reset();
       element.unhideLine(4, Side.LEFT);
 
-      const diffRows = element.querySelectorAll('.diff-row');
+      const diffRows = diffTable.querySelectorAll('.diff-row');
       // The first two are LOST and FILE line
       // Lines 3-5 (Line 4 plus 1 context in each direction) will be expanded
       // Because context expanders do not hide <3 lines, lines 1-2 will also
@@ -759,20 +742,19 @@ suite('gr-diff-builder tests', () => {
       assert.include(diffRows[8].textContent, 'after');
       assert.include(diffRows[9].textContent, 'unchanged 11');
 
-      await new Promise(resolve => afterNextRender(element, resolve));
+      await nextRender();
       const firedEventTypes = dispatchStub.getCalls().map(c => c.args[0].type);
       assert.include(firedEventTypes, 'render-content');
     });
   });
 
   suite('mock-diff', () => {
-    let element: GrDiffBuilderElement;
     let builder: GrDiffBuilderSideBySide;
     let diff: DiffInfo;
     let keyLocations: KeyLocations;
 
     setup(async () => {
-      element = mockDiffFixture.instantiate() as GrDiffBuilderElement;
+      element.viewMode = DiffViewMode.SIDE_BY_SIDE;
       diff = createDiff();
       element.diff = diff;
 
@@ -789,7 +771,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('aria-labels on added line numbers', () => {
-      const deltaLineNumberButton = element.diffElement.querySelectorAll(
+      const deltaLineNumberButton = diffTable.querySelectorAll(
         '.lineNumButton.right'
       )[5];
 
@@ -798,7 +780,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('aria-labels on removed line numbers', () => {
-      const deltaLineNumberButton = element.diffElement.querySelectorAll(
+      const deltaLineNumberButton = diffTable.querySelectorAll(
         '.lineNumButton.left'
       )[10];
 
@@ -826,7 +808,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('getContentTdByLineEl works both with button and td', () => {
-      const diffRow = element.diffElement.querySelectorAll('tr.diff-row')[2];
+      const diffRow = diffTable.querySelectorAll('tr.diff-row')[2];
 
       const lineNumTdLeft = queryAndAssert(diffRow, 'td.lineNum.left');
       const lineNumButtonLeft = queryAndAssert(lineNumTdLeft, 'button');
@@ -918,7 +900,7 @@ suite('gr-diff-builder tests', () => {
       const contentEl = builder.getContentByLine(
         5,
         Side.LEFT,
-        element.$.diffTable as HTMLTableElement
+        element.diffElement as HTMLTableElement
       );
       assert.isOk(contentEl);
       const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.LEFT);
@@ -931,7 +913,7 @@ suite('gr-diff-builder tests', () => {
       const contentEl = builder.getContentByLine(
         5,
         Side.RIGHT,
-        element.$.diffTable as HTMLTableElement
+        element.diffElement as HTMLTableElement
       );
       assert.isOk(contentEl);
       const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.RIGHT);
@@ -949,7 +931,7 @@ suite('gr-diff-builder tests', () => {
       const contentEl = builder.getContentByLine(
         5,
         Side.LEFT,
-        element.$.diffTable as HTMLTableElement
+        element.diffElement as HTMLTableElement
       );
       assert.isOk(contentEl);
       const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.LEFT);
@@ -967,7 +949,7 @@ suite('gr-diff-builder tests', () => {
       const contentEl = builder.getContentByLine(
         5,
         Side.RIGHT,
-        element.$.diffTable as HTMLTableElement
+        element.diffElement as HTMLTableElement
       );
       assert.isOk(contentEl);
       const lineNumberEl = builder.getLineNumberEl(contentEl!, Side.RIGHT);
@@ -980,7 +962,7 @@ suite('gr-diff-builder tests', () => {
       const startElem = builder.getContentByLine(
         5,
         Side.LEFT,
-        element.$.diffTable as HTMLTableElement
+        element.diffElement as HTMLTableElement
       );
       assert.isOk(startElem);
       const expectedStartString = diff.content[2].ab?.[0];
@@ -996,7 +978,7 @@ suite('gr-diff-builder tests', () => {
       const startElem = builder.getContentByLine(
         5,
         Side.RIGHT,
-        element.$.diffTable as HTMLTableElement
+        element.diffElement as HTMLTableElement
       );
       const expectedStartString = diff.content[1].b?.[0];
       const expectedNextString = diff.content[1].b?.[1];
@@ -1017,7 +999,7 @@ suite('gr-diff-builder tests', () => {
       const startElem = builder.getContentByLine(
         5,
         Side.LEFT,
-        element.$.diffTable as HTMLTableElement
+        element.diffElement as HTMLTableElement
       );
       const expectedStartString = diff.content[2].ab?.[0];
       const expectedNextString = diff.content[2].ab?.[1];
@@ -1038,7 +1020,7 @@ suite('gr-diff-builder tests', () => {
       const startElem = builder.getContentByLine(
         5,
         Side.RIGHT,
-        element.$.diffTable as HTMLTableElement
+        element.diffElement as HTMLTableElement
       );
       const expectedStartString = diff.content[1].b?.[0];
       const expectedNextString = diff.content[1].b?.[1];

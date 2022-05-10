@@ -27,7 +27,7 @@ import {UserModel} from '../models/user/user-model';
 import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {queryAndAssert, query} from '../utils/common-util';
 import {FlagsService} from '../services/flags/flags';
-import {Key, Modifier} from '../utils/dom-util';
+import {afterNextRender, Key, Modifier} from '../utils/dom-util';
 import {Observable} from 'rxjs';
 import {filter, take, timeout} from 'rxjs/operators';
 import {HighlightService} from '../services/highlight/highlight-service';
@@ -222,6 +222,10 @@ export function waitUntil(
 
 export function waitUntilCalled(stub: SinonStub | SinonSpy, name: string) {
   return waitUntil(() => stub.called, `${name} was not called`);
+}
+
+export async function nextRender() {
+  return new Promise(resolve => afterNextRender(resolve));
 }
 
 /**

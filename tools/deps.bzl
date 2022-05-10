@@ -62,8 +62,8 @@ def java_dependencies():
 
     maven_jar(
         name = "servlet-api",
-        artifact = "org.apache.tomcat:tomcat-servlet-api:8.5.23",
-        sha1 = "021a212688ec94fe77aff74ab34cc74f6f940e60",
+        artifact = "javax.servlet:javax.servlet-api:3.1.0",
+        sha1 = "3cd63d075497751784b2fa84be59432f4905bf7c",
     )
 
     # JGit's transitive dependencies

@@ -105,7 +105,7 @@ public class IndexServletTest {
     assertThat(output)
         .contains(
             "window.ENABLED_EXPERIMENTS = JSON.parse('\\x5b\\x22"
-                + String.join("\\x22,", expectedEnabled)
+                + String.join("\\x22,\\x22", expectedEnabled)
                 + "\\x22\\x5d');</script>");
   }
 }

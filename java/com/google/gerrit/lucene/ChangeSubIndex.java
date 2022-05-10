@@ -14,7 +14,6 @@
 
 package com.google.gerrit.lucene;
 
-import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.lucene.LuceneChangeIndex.ID2_SORT_FIELD;
 import static com.google.gerrit.lucene.LuceneChangeIndex.ID_SORT_FIELD;
 import static com.google.gerrit.lucene.LuceneChangeIndex.MERGED_ON_SORT_FIELD;
@@ -121,16 +120,16 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
     // Add separate DocValues fields for those fields needed for sorting.
     FieldDef<ChangeData, ?> f = values.getField();
     if (f == ChangeField.LEGACY_ID) {
-      int v = (Integer) getOnlyElement(values.getValues());
+      int v = (Integer) values.getValue();
       doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));
     } else if (f == ChangeField.LEGACY_ID_STR) {
-      String v = (String) getOnlyElement(values.getValues());
-      doc.add(new NumericDocValuesField(ID2_SORT_FIELD, Integer.valueOf(v)));
+      String v = (String) values.getValue();
+      doc.add(new NumericDocValuesField(ID2_SORT_FIELD, Integer.parseInt(v)));
     } else if (f == ChangeField.UPDATED) {
-      long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
+      long t = ((Timestamp) values.getValue()).getTime();
       doc.add(new NumericDocValuesField(UPDATED_SORT_FIELD, t));
     } else if (f == ChangeField.MERGED_ON) {
-      long t = ((Timestamp) getOnlyElement(values.getValues())).getTime();
+      long t = ((Timestamp) values.getValue()).getTime();
       doc.add(new NumericDocValuesField(MERGED_ON_SORT_FIELD, t));
     }
     super.add(doc, values);

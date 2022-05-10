@@ -30,6 +30,7 @@ import static org.mockito.Mockito.when;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
@@ -56,7 +57,8 @@ public class UniversalGroupBackendTest {
     backends.add("gerrit", new SystemGroupBackend(new Config()));
     backend =
         new UniversalGroupBackend(
-            new PluginSetContext<>(backends, PluginMetrics.DISABLED_INSTANCE));
+            new PluginSetContext<>(backends, PluginMetrics.DISABLED_INSTANCE),
+            new DisabledMetricMaker());
   }
 
   @Test
@@ -124,7 +126,8 @@ public class UniversalGroupBackendTest {
     backends.add("gerrit", backend);
     backend =
         new UniversalGroupBackend(
-            new PluginSetContext<>(backends, PluginMetrics.DISABLED_INSTANCE));
+            new PluginSetContext<>(backends, PluginMetrics.DISABLED_INSTANCE),
+           new DisabledMetricMaker());
 
     GroupMembership checker = backend.membershipsOf(member);
     assertFalse(checker.contains(REGISTERED_USERS));

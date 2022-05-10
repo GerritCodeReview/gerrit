@@ -102,6 +102,9 @@ public abstract class Metadata {
   /** The name of a group. */
   public abstract Optional<String> groupName();
 
+  /** The group system being queried. */
+  public abstract Optional<String> groupSystem();
+
   /** The UUID of a group. */
   public abstract Optional<String> groupUuid();
 
@@ -327,6 +330,8 @@ public abstract class Metadata {
     public abstract Builder groupId(int groupId);
 
     public abstract Builder groupName(@Nullable String groupName);
+
+    public abstract Builder groupSystem(@Nullable String groupSystem);
 
     public abstract Builder groupUuid(@Nullable String groupUuid);
 

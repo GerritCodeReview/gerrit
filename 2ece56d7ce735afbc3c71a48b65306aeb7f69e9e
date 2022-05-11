@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1829ce27_bbc237be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-11T19:33:23Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "73fd0db0_e7ca7a9a",
+      "revId": "2ece56d7ce735afbc3c71a48b65306aeb7f69e9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdcda3c3_683f2ac7",
@@ -100,6 +118,30 @@
       "writtenOn": "2022-05-03T13:17:12Z",
       "side": 1,
       "message": "The error icon and the text looks slightly misaligned by 1 or 2px in the screenshot.",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 9
+      },
+      "revId": "2ece56d7ce735afbc3c71a48b65306aeb7f69e9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68797f60_b26f4150",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-11T19:33:23Z",
+      "side": 1,
+      "message": "Moved icon up by 1px.",
+      "parentUuid": "c6e2a9fa_226887b2",
       "range": {
         "startLine": 101,
         "startChar": 8,

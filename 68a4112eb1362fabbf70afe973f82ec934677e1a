@@ -22,6 +22,30 @@
       },
       "revId": "68a4112eb1362fabbf70afe973f82ec934677e1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7df27b36_f3926b19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-11T09:29:08Z",
+      "side": 1,
+      "message": "It\u0027s same as in shared-styles. https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/styles/shared-styles.ts;l\u003d144?q\u003dshared-styles\u0026ss\u003dgerrit\n\nI think this is regression when I removed shared-styles from gr-formatted-text for performance reason.",
+      "parentUuid": "1648e9ac_0d823df4",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "68a4112eb1362fabbf70afe973f82ec934677e1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

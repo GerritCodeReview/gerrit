@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3cd303a_cc7afda7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-11T15:08:11Z",
+      "side": 1,
+      "message": "does the fix still work if you don\u0027t change this part? It should be calling the render with `this.editing \u003d true` to create textarea before focusing",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 0
+      },
+      "revId": "23d91925717ccc783a789c3db696d679a2375c49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

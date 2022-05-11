@@ -251,6 +251,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2960d5c1_e269fb62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-11T08:45:42Z",
+      "side": 1,
+      "message": "Post-review CR-1:\n- Needs a test of backward compatibility with older supported releases (v.3.3, v3.4, v3.5)\n- Needs a bump on the schema version on All-Projects:refs/meta/version as we are changing the format of the Gerrit review meta-data",
+      "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2d5568a_008518b0",

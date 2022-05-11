@@ -56,6 +56,7 @@ public class AttentionSetEmail implements Runnable, RequestContext {
   }
 
   private final ExecutorService sendEmailsExecutor;
+  private final ThreadLocalRequestContext requestContext;
   private final AccountTemplateUtil accountTemplateUtil;
   private final AttentionSetSender sender;
   private final Context ctx;
@@ -67,6 +68,7 @@ public class AttentionSetEmail implements Runnable, RequestContext {
   @Inject
   AttentionSetEmail(
       @SendEmailExecutor ExecutorService executor,
+      ThreadLocalRequestContext requestContext,
       AccountTemplateUtil accountTemplateUtil,
       @Assisted AttentionSetSender sender,
       @Assisted Context ctx,
@@ -75,6 +77,7 @@ public class AttentionSetEmail implements Runnable, RequestContext {
       @Assisted MessageIdGenerator.MessageId messageId,
       @Assisted Account.Id attentionUserId) {
     this.sendEmailsExecutor = executor;
+    this.requestContext = requestContext;
     this.accountTemplateUtil = accountTemplateUtil;
     this.sender = sender;
     this.ctx = ctx;
@@ -91,6 +94,7 @@ public class AttentionSetEmail implements Runnable, RequestContext {
 
   @Override
   public void run() {
+    RequestContext old = requestContext.setContext(this);
     try {
       AccountState accountState =
           ctx.getUser().isIdentifiedUser() ? ctx.getUser().asIdentifiedUser().state() : null;
@@ -104,6 +108,8 @@ public class AttentionSetEmail implements Runnable, RequestContext {
       sender.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
+    } finally {
+      requestContext.setContext(old);
     }
   }
 

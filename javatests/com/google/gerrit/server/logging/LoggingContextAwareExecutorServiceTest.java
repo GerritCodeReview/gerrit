@@ -56,6 +56,9 @@ public class LoggingContextAwareExecutorServiceTest {
           }
         };
     performanceLoggerRegistrationHandle = performanceLoggers.add("gerrit", testPerformanceLogger);
+
+    // Enable performance logging
+    config.setBoolean("tracing", null, "performanceLogging", true);
   }
 
   @After

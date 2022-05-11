@@ -83,6 +83,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b0d3f4d5_a27b4694",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-11T07:15:12Z",
+      "side": 1,
+      "message": "Yes, I noticed: OptionalSubmitRequirementExpressionResultAdapterFactory. And I alos added Youssef as reviewer to this change.\n\n@Youssef, can you comment on the current status of incompatible storage format changes?\n\nOne problem is that the current state of the affairs prevents us to fully support JDK 17 that is currently LTS release.",
+      "parentUuid": "a785db8f_2e1ff673",
+      "revId": "6608c0d46548e4c2698254d523a24a29234a3eaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0c6df070_80faea6f",
         "filename": "java/com/google/gerrit/json/OptionalSerializer.java",
         "patchSetId": 3

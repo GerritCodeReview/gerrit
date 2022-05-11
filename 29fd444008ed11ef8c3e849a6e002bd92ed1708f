@@ -51,6 +51,24 @@
       "message": "Build is failing in test. Apparently we are missing yet another cherry-pick?\n\n```\n  javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java:32: error: cannot find symbol\nimport com.google.gerrit.acceptance.testsuite.change.IndexOperations;\n                                                    ^\n  symbol:   class IndexOperations\n  location: package com.google.gerrit.acceptance.testsuite.change\njavatests/com/google/gerrit/integration/git/GitProtocolV2IT.java:78: error: package IndexOperations does not exist\n  @Inject private IndexOperations.Change changeIndexOperations;\n```\n",
       "revId": "29fd444008ed11ef8c3e849a6e002bd92ed1708f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cf8e73e_48fbb4d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-11T08:03:50Z",
+      "side": 1,
+      "message": "Yes: https://gerrit-review.googlesource.com/c/gerrit/+/336524",
+      "parentUuid": "8f1190e2_fe5f29d3",
+      "revId": "29fd444008ed11ef8c3e849a6e002bd92ed1708f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

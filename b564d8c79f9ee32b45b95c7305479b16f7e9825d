@@ -1,0 +1,214 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63a67d4e_9406fda0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-11T09:26:45Z",
+      "side": 1,
+      "message": "What\u0027s the value of making this an @state, especially since you do in-place updates on it.",
+      "revId": "b564d8c79f9ee32b45b95c7305479b16f7e9825d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15383d71_116a8434",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-11T09:26:45Z",
+      "side": 1,
+      "message": "Shouldn the button be disabled if we have no changes selected?",
+      "revId": "b564d8c79f9ee32b45b95c7305479b16f7e9825d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "370f904e_6d2d839d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-11T09:26:45Z",
+      "side": 1,
+      "message": "Any reasons you went with .foo\u003d${\u0027auto\u0027} instead of foo\u003d\u0027auto\u0027?",
+      "range": {
+        "startLine": 130,
+        "startChar": 20,
+        "endLine": 131,
+        "endChar": 34
+      },
+      "revId": "b564d8c79f9ee32b45b95c7305479b16f7e9825d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a1406e2_d272c693",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-11T09:26:45Z",
+      "side": 1,
+      "message": "Same comment as above",
+      "revId": "b564d8c79f9ee32b45b95c7305479b16f7e9825d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b3f917e_bbb0dc55",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-11T09:26:45Z",
+      "side": 1,
+      "message": "Same comment as above",
+      "revId": "b564d8c79f9ee32b45b95c7305479b16f7e9825d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c686c477_d2204108",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-11T09:26:45Z",
+      "side": 1,
+      "message": "Should this be a button instead of a span so ARIA properly understands it?",
+      "revId": "b564d8c79f9ee32b45b95c7305479b16f7e9825d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52922fd1_e6c9b697",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-11T09:26:45Z",
+      "side": 1,
+      "message": "Make a method closeDropDown and reuse here and on line 338",
+      "revId": "b564d8c79f9ee32b45b95c7305479b16f7e9825d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbd80952_4d27619d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-11T09:26:45Z",
+      "side": 1,
+      "message": "Move these four lines 267-270 to a \u0027reset\u0027 method.  So the code is clearer\n\n```\n  private toggleDropdown() {\n    if (this.isDropdownOpen) {\n      this.isDropdownOpen \u003d false;\n      this.dropdown?.close();\n    } else {\n      this.reset();\n      this.isDropdownOpen \u003d true;\n      this.dropdown?.open();\n    }\n  }\n```",
+      "revId": "b564d8c79f9ee32b45b95c7305479b16f7e9825d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf6299f6_bbe7d116",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-11T09:26:45Z",
+      "side": 1,
+      "message": "Any reason why we call pluralize hashtags for removing but not applying?",
+      "revId": "b564d8c79f9ee32b45b95c7305479b16f7e9825d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ecc3687_1f367d9e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-11T09:26:45Z",
+      "side": 1,
+      "message": "I find the variable name a bit confusing. It says \u0027hashtagsToRemove\u0027 but it\u0027s adding them.",
+      "revId": "b564d8c79f9ee32b45b95c7305479b16f7e9825d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83d5c4f3_ad7f3fa6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-11T09:26:45Z",
+      "side": 1,
+      "message": "As mentioned above, introduce closeDropdown method.",
+      "revId": "b564d8c79f9ee32b45b95c7305479b16f7e9825d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "809935be_5d6735e5",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1831,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-11T09:26:45Z",
+      "side": 1,
+      "message": "What is this join useful for?",
+      "revId": "b564d8c79f9ee32b45b95c7305479b16f7e9825d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

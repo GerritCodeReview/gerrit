@@ -157,7 +157,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
           </div>
           <div slot="main">
             <div class="newSubmitRequirements scoresTable">
-              <h3 class="vote-type">Submit requirements votes</h3>
+              <h3 class="heading-4 vote-type">Submit requirements votes</h3>
               <gr-label-score-row name="A"> </gr-label-score-row>
               <gr-label-score-row name="B"> </gr-label-score-row>
               <gr-label-score-row name="C"> </gr-label-score-row>
@@ -165,7 +165,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
               </gr-label-score-row>
             </div>
             <div class="newSubmitRequirements scoresTable">
-              <h3 class="vote-type">Trigger Votes</h3>
+              <h3 class="heading-4 vote-type">Trigger Votes</h3>
               <gr-label-score-row name="change1OnlyTriggerLabelE">
               </gr-label-score-row>
             </div>

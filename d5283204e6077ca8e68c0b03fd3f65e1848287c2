@@ -288,6 +288,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "183ef929_8ec684a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-05-11T09:27:43Z",
+      "side": 1,
+      "message": "Ended up with the fix to stable-3.5, since the changes also apply to Copied-Label, that did not exist in stable-3.3 yet.\nShould be easy to cherry-pick to stable-3.3, stable-3.4\nhttps://gerrit-review.googlesource.com/c/gerrit/+/336883",
+      "parentUuid": "1ca4778b_98ba1e4b",
+      "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d2d5568a_008518b0",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 10

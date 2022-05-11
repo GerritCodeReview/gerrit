@@ -306,7 +306,7 @@ export class GrMessagesList extends DIPolymerElement {
     super.disconnectedCallback();
   }
 
-  scrollToMessage(messageID: string) {
+  async scrollToMessage(messageID: string) {
     const selector = `[data-message-id="${messageID}"]`;
     const el = this.shadowRoot!.querySelector(selector) as
       | GrMessage
@@ -325,6 +325,7 @@ export class GrMessagesList extends DIPolymerElement {
     }
 
     el.message = {...el.message, expanded: true};
+    await el.updateComplete;
     let top = el.offsetTop;
     for (
       let offsetParent = el.offsetParent as HTMLElement | null;

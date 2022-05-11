@@ -192,7 +192,7 @@ suite('gr-change-list-topic-flow tests', () => {
       await flush();
     });
 
-    test('renders remove flow', () => {
+    test('renders existing-topics flow', () => {
       expect(element).shadowDom.to.equal(
         /* HTML */ `
           <gr-button
@@ -216,6 +216,15 @@ suite('gr-change-list-topic-flow tests', () => {
               <div class="footer">
                 <div class="loadingOrError"></div>
                 <div class="buttons">
+                  <gr-button
+                    id="apply-to-all-button"
+                    flatten=""
+                    aria-disabled="true"
+                    disabled=""
+                    role="button"
+                    tabindex="-1"
+                    >Apply to all</gr-button
+                  >
                   <gr-button
                     id="remove-topics-button"
                     flatten=""
@@ -241,6 +250,13 @@ suite('gr-change-list-topic-flow tests', () => {
       queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
       await element.updateComplete;
       queryAndAssert<GrButton>(element, '#remove-topics-button').click();
+      await element.updateComplete;
+
+      assert.equal(
+        queryAndAssert(element, '.loadingText').textContent,
+        'Removing 1 topic...'
+      );
+
       await resolvePromises();
       await element.updateComplete;
 
@@ -257,6 +273,13 @@ suite('gr-change-list-topic-flow tests', () => {
       queryAll<HTMLSpanElement>(element, 'span.chip')[1].click();
       await element.updateComplete;
       queryAndAssert<GrButton>(element, '#remove-topics-button').click();
+      await element.updateComplete;
+
+      assert.equal(
+        queryAndAssert(element, '.loadingText').textContent,
+        'Removing 2 topics...'
+      );
+
       await resolvePromises();
       await element.updateComplete;
 
@@ -269,6 +292,52 @@ suite('gr-change-list-topic-flow tests', () => {
       assert.deepEqual(setChangeTopicStub.secondCall.args, [
         changesWithTopics[1]._number,
         '',
+      ]);
+    });
+
+    test('can only apply a single topic', async () => {
+      assert.isTrue(
+        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
+      );
+
+      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
+      await element.updateComplete;
+
+      assert.isFalse(
+        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
+      );
+
+      queryAll<HTMLSpanElement>(element, 'span.chip')[1].click();
+      await element.updateComplete;
+
+      assert.isTrue(
+        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
+      );
+    });
+
+    test('applies topic to all changes', async () => {
+      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
+      await element.updateComplete;
+
+      queryAndAssert<GrButton>(element, '#apply-to-all-button').click();
+      await element.updateComplete;
+
+      assert.equal(
+        queryAndAssert(element, '.loadingText').textContent,
+        'Applying to all'
+      );
+
+      await resolvePromises();
+      await element.updateComplete;
+
+      assert.isTrue(setChangeTopicStub.calledTwice);
+      assert.deepEqual(setChangeTopicStub.firstCall.args, [
+        changesWithTopics[0]._number,
+        'topic1',
+      ]);
+      assert.deepEqual(setChangeTopicStub.secondCall.args, [
+        changesWithTopics[1]._number,
+        'topic1',
       ]);
     });
   });
@@ -334,7 +403,7 @@ suite('gr-change-list-topic-flow tests', () => {
       await flush();
     });
 
-    test('renders create/apply flow', () => {
+    test('renders no-existing-topics flow', () => {
       expect(element).shadowDom.to.equal(
         /* HTML */ `
           <gr-button
@@ -405,6 +474,13 @@ suite('gr-change-list-topic-flow tests', () => {
       );
 
       queryAndAssert<GrButton>(element, '#create-new-topic-button').click();
+      await element.updateComplete;
+
+      assert.equal(
+        queryAndAssert(element, '.loadingText').textContent,
+        'Creating topic...'
+      );
+
       await resolvePromises();
       await element.updateComplete;
 
@@ -437,6 +513,13 @@ suite('gr-change-list-topic-flow tests', () => {
       );
 
       queryAndAssert<GrButton>(element, '#apply-topic-button').click();
+      await element.updateComplete;
+
+      assert.equal(
+        queryAndAssert(element, '.loadingText').textContent,
+        'Applying topic...'
+      );
+
       await resolvePromises();
 
       assert.isTrue(setChangeTopicStub.calledTwice);

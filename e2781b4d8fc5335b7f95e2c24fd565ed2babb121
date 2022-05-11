@@ -16,6 +16,24 @@
       "message": "Should we cherry-pick this change to stable-3.6 to improve performance for clients using git protocol v2? ",
       "revId": "e2781b4d8fc5335b7f95e2c24fd565ed2babb121",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c9db27f_4235de60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-11T06:28:23Z",
+      "side": 1,
+      "message": "sure. happy to review if you want to cherry pick it over.",
+      "parentUuid": "be9800d9_61e4a28c",
+      "revId": "e2781b4d8fc5335b7f95e2c24fd565ed2babb121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

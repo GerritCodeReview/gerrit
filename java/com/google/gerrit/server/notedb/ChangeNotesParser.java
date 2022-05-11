@@ -814,17 +814,25 @@ class ChangeNotesParser {
     Account.Id accountId, realAccountId = null;
     String labelVoteStr;
     String tag = null;
-    int s = line.indexOf(' ');
     int tagStart = line.indexOf(":\"");
-
+    // UUID introduced in https://gerrit-review.googlesource.com/c/gerrit/+/324937
+    // Only parsed for backward compatibility
+    // Footer has the following format in this case:
+    // Copied-Label: <LABEL>=VOTE <Gerrit Account>,<Gerrit Real Account> :"<TAG>"
+    int uuidStart = line.indexOf(", ");
+    // Wired tag that contains uuid delimiter. The uuid is actually not present.
+    if (tagStart != -1 && uuidStart > tagStart) {
+      uuidStart = -1;
+    }
+    int identitiesStart = line.indexOf(' ', uuidStart != -1 ? uuidStart + 2 : 0);
     // The first account is the accountId, and second (if applicable) is the realAccountId.
     try {
-      labelVoteStr = line.substring(0, s);
+      labelVoteStr = line.substring(0, uuidStart != -1 ? uuidStart : identitiesStart);
     } catch (StringIndexOutOfBoundsException ex) {
       throw new ConfigInvalidException(ex.getMessage(), ex);
     }
     String[] identities =
-        line.substring(s + 1, tagStart == -1 ? line.length() : tagStart).split(",");
+        line.substring(identitiesStart + 1, tagStart == -1 ? line.length() : tagStart).split(",");
     PersonIdent ident = RawParseUtils.parsePersonIdent(identities[0]);
     checkFooter(ident != null, FOOTER_COPIED_LABEL, line);
     accountId = parseIdent(ident);
@@ -892,18 +900,27 @@ class ChangeNotesParser {
     //     user.
     Account.Id effectiveAccountId;
     String labelVoteStr;
-    int s = line.indexOf(' ');
-    if (s > 0) {
+    // UUID introduced in https://gerrit-review.googlesource.com/c/gerrit/+/324937
+    // Only parsed for backward compatibility
+    // Footer has the following format in this case: Label: <LABEL>=VOTE, <UUID> <Gerrit Account>
+    int uuidStart = line.indexOf(", ");
+    int reviewerStart = line.indexOf(' ', uuidStart != -1 ? uuidStart + 2 : 0);
+    if (uuidStart != -1) {
+      labelVoteStr = line.substring(0, uuidStart);
+    } else if (reviewerStart != -1) {
+      labelVoteStr = line.substring(0, reviewerStart);
+    } else {
+      labelVoteStr = line;
+    }
+    if (reviewerStart > 0) {
       // Account in the label line (2) becomes the effective ID of the
       // approval. If there is a real user (3) different from the commit user
       // (2), we actually don't store that anywhere in this case; it's more
       // important to record that the real user (3) actually initiated submit.
-      labelVoteStr = line.substring(0, s);
-      PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
+      PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(reviewerStart + 1));
       checkFooter(ident != null, FOOTER_LABEL, line);
       effectiveAccountId = parseIdent(ident);
     } else {
-      labelVoteStr = line;
       effectiveAccountId = committerId;
     }
 

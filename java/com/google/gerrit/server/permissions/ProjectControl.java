@@ -346,7 +346,6 @@ class ProjectControl {
   }
 
   private class ForProjectImpl extends ForProject {
-    private DefaultRefFilter refFilter;
     private String resourcePath;
 
     @Override
@@ -415,10 +414,7 @@ class ProjectControl {
     @Override
     public Collection<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
         throws PermissionBackendException {
-      if (refFilter == null) {
-        refFilter = refFilterFactory.create(ProjectControl.this);
-      }
-      return refFilter.filter(refs, repo, opts);
+      return refFilterFactory.create(ProjectControl.this).filter(refs, repo, opts);
     }
 
     private boolean can(CoreOrPluginProjectPermission perm) throws PermissionBackendException {

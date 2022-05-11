@@ -34,6 +34,24 @@
       "parentUuid": "fa8b900b_9506029e",
       "revId": "f96167290f198f86c7988eb923fb90eaf36abf46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20fe7bdb_dcde0666",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2022-05-11T13:26:34Z",
+      "side": 1,
+      "message": "In my case, I have a custom change-action, so if I set an icon to it, the gr-icons prefix is prepended by default, and I cannot control it.\n\nWhat I\u0027d like to have is a way to add icons to gr-icons from within the plugin.",
+      "parentUuid": "2575079e_b11e6b15",
+      "revId": "f96167290f198f86c7988eb923fb90eaf36abf46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

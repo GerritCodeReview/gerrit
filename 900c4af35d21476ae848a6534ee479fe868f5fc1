@@ -16,6 +16,24 @@
       "message": "bump",
       "revId": "900c4af35d21476ae848a6534ee479fe868f5fc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf6e1b4d_2b2c6ad7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-11T07:18:34Z",
+      "side": 1,
+      "message": "Patrick, are you missing some specific feature how gjf check is currently implemented? Or do you mean issue 15789 that currently used gjf version is totally outdated? I am planning to start working on the update.",
+      "parentUuid": "500f7939_69306c77",
+      "revId": "900c4af35d21476ae848a6534ee479fe868f5fc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

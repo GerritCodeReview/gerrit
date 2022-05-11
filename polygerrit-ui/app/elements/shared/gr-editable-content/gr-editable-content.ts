@@ -423,8 +423,9 @@ export class GrEditableContent extends LitElement {
     }
   }
 
-  handleEditCommitMessage() {
+  async handleEditCommitMessage() {
     this.editing = true;
+    await this.updateComplete;
     this.focusTextarea();
   }
 }

@@ -292,7 +292,7 @@ export class GrHovercardAccount extends base {
             class="attentionIcon"
             icon="gr-icons:attention"
           ></iron-icon>
-          <span> ${this.computePronoun()} turn to take this action. </span>
+          <span> ${this.computePronoun()} turn to take action. </span>
           <a
             href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
             target="_blank"

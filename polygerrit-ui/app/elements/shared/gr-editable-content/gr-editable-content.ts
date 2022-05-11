@@ -222,9 +222,8 @@ export class GrEditableContent extends LitElement {
   }
 
   private renderEditor() {
-    if (!this.editing) return;
     return html`
-      <div class="editor">
+      <div class="editor" ?hidden=${!this.editing}>
         <div>
           <iron-autogrow-textarea
             autocomplete="on"
@@ -424,8 +423,9 @@ export class GrEditableContent extends LitElement {
     }
   }
 
-  handleEditCommitMessage() {
+  async handleEditCommitMessage() {
     this.editing = true;
+    await this.updateComplete;
     this.focusTextarea();
   }
 }

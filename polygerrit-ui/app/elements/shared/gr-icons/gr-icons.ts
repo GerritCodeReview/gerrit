@@ -77,6 +77,8 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="unified"><path d="M4,2 L17,2 C18.1045695,2 19,2.8954305 19,4 L19,16 C19,17.1045695 18.1045695,18 17,18 L4,18 C2.8954305,18 2,17.1045695 2,16 L2,4 L2,4 C2,2.8954305 2.8954305,2 4,2 L4,2 Z M4,7 L4,9 L17,9 L17,7 L4,7 Z M4,11 L4,13 L17,13 L17,11 L4,11 Z" id="Combined-Shape" transform="scale(1.12, 1.2)"></path></g>
       <!-- This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js -->
       <g id="content-copy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></g>
+      <!-- This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js -->
+      <g id="build"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"></path></g>
       <!-- This is a custom PolyGerrit SVG -->
       <g id="check"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></g>
       <!-- This SVG is a copy from material.io https://material.io/icons/#check_circle-->

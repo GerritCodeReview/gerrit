@@ -127,13 +127,11 @@ export class GrFormattedText extends LitElement {
           list-style-type: disc;
           margin-left: var(--spacing-xl);
         }
-        code,
-        gr-linked-text.pre {
+        .inline-code,
+        code {
           font-family: var(--monospace-font-family);
           font-size: var(--font-size-code);
           line-height: var(--line-height-mono);
-        }
-        gr-linked-text.pre {
           background-color: var(--background-color-secondary);
           border: 1px solid var(--border-color);
           padding: 1px var(--spacing-s);
@@ -350,21 +348,9 @@ export class GrFormattedText extends LitElement {
     return /^\s+$/.test(line);
   }
 
-  private renderText(content: string, isPre?: boolean): TemplateResult {
+  private renderInlineText(content: string): TemplateResult {
     return html`
       <gr-linked-text
-        class=${isPre ? 'pre' : ''}
-        .config=${this.config}
-        content=${content}
-        pre
-      ></gr-linked-text>
-    `;
-  }
-
-  private renderInlineText(content: string, isPre?: boolean): TemplateResult {
-    return html`
-      <gr-linked-text
-        class=${isPre ? 'pre' : ''}
         .config=${this.config}
         content=${content}
         pre
@@ -377,6 +363,10 @@ export class GrFormattedText extends LitElement {
     return html`<a href=${url}>${text}</a>`;
   }
 
+  private renderInlineCode(text: string): TemplateResult {
+    return html`<span class="inline-code">${text}</span>`;
+  }
+
   private renderInlineItem(span: InlineItem): TemplateResult {
     switch (span.type) {
       case 'text':
@@ -384,7 +374,7 @@ export class GrFormattedText extends LitElement {
       case 'link':
         return this.renderLink(span.text, span.url);
       case 'code':
-        return this.renderInlineText(span.text, true);
+        return this.renderInlineCode(span.text);
       default:
         return html``;
     }
@@ -411,7 +401,7 @@ export class GrFormattedText extends LitElement {
       case 'code':
         return html`<code>${block.text}</code>`;
       case 'pre':
-        return this.renderText(block.text, true);
+        return html`<code>${block.text}</code>`;
       case 'list':
         return html`
           <ul>

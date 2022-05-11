@@ -120,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37979bd8_fdf64963",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-11T13:30:59Z",
+      "side": 1,
+      "message": "Turns out it\u0027s a style error on the CI and not a warning. I am reverting.",
+      "parentUuid": "385ab37c_08da80f7",
+      "range": {
+        "startLine": 130,
+        "startChar": 20,
+        "endLine": 131,
+        "endChar": 34
+      },
+      "revId": "b564d8c79f9ee32b45b95c7305479b16f7e9825d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a1406e2_d272c693",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
         "patchSetId": 3

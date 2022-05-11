@@ -222,7 +222,7 @@ suite('gr-messages-list tests', () => {
       assert.isNotOk(query(element, '.showAllActivityToggle'));
     });
 
-    test('scroll to message', () => {
+    test('scroll to message', async () => {
       const allMessageEls = getMessages();
       for (const message of allMessageEls) {
         assertIsDefined(message.message);
@@ -232,7 +232,7 @@ suite('gr-messages-list tests', () => {
       const scrollToStub = sinon.stub(window, 'scrollTo');
       const highlightStub = sinon.stub(element, '_highlightEl');
 
-      element.scrollToMessage('invalid');
+      await element.scrollToMessage('invalid');
 
       for (const message of allMessageEls) {
         assertIsDefined(message.message);
@@ -243,7 +243,7 @@ suite('gr-messages-list tests', () => {
       }
 
       const messageID = messages[1].id;
-      element.scrollToMessage(messageID);
+      await element.scrollToMessage(messageID);
       assert.isTrue(
         queryAndAssert<GrMessage>(element, `[data-message-id="${messageID}"]`)
           .message?.expanded
@@ -253,16 +253,16 @@ suite('gr-messages-list tests', () => {
       assert.isTrue(highlightStub.calledOnce);
     });
 
-    test('scroll to message offscreen', () => {
+    test('scroll to message offscreen', async () => {
       const scrollToStub = sinon.stub(window, 'scrollTo');
       const highlightStub = sinon.stub(element, '_highlightEl');
       element.messages = generateRandomMessages(25);
-      flush();
+      await element.updateComplete;
       assert.isFalse(scrollToStub.called);
       assert.isFalse(highlightStub.called);
 
       const messageID = element.messages[1].id;
-      element.scrollToMessage(messageID);
+      await element.scrollToMessage(messageID);
       assert.isTrue(scrollToStub.calledOnce);
       assert.isTrue(highlightStub.calledOnce);
       assert.isTrue(

@@ -16,6 +16,24 @@
       "message": "I rebased the change so I can run all Google internal tests.",
       "revId": "5b4d8118aca8ee9040e30cbb4359331cb8c7c878",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cf86bf6_f9771396",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-11T08:41:18Z",
+      "side": 1,
+      "message": "Thanks. I was thinking about moving this and the follow-up change to stable-3.6 branch. As you know we can only bump Lucene version during major release, because only the previous lucene version codec is included in Lucene release.\n\nBut, we normally don\u0027t introduce any big changes after rc-3 was cut. @Luca, what do you mean?",
+      "parentUuid": "96e68b1b_414aa6c9",
+      "revId": "5b4d8118aca8ee9040e30cbb4359331cb8c7c878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

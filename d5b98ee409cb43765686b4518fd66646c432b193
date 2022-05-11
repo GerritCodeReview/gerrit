@@ -46,6 +46,30 @@
       },
       "revId": "d5b98ee409cb43765686b4518fd66646c432b193",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c0bafb9_8bc8f2dd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-11T08:51:24Z",
+      "side": 1,
+      "message": "Yeah do you mind clarifying it a bit it because `pre` is an existing tag name and I was a bit confused why the `code` tag is there.",
+      "parentUuid": "adf90124_3bcbe1de",
+      "range": {
+        "startLine": 403,
+        "startChar": 6,
+        "endLine": 404,
+        "endChar": 33
+      },
+      "revId": "d5b98ee409cb43765686b4518fd66646c432b193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

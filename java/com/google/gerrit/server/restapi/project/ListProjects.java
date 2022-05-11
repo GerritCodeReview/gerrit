@@ -421,14 +421,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     if (all && state != null) {
       throw new BadRequestException("'all' and 'state' may not be used together");
     }
-    if (groupUuid != null) {
-      try {
-        if (!groupControlFactory.controlFor(groupUuid).isVisible()) {
-          return Collections.emptySortedMap();
-        }
-      } catch (NoSuchGroupException ex) {
-        return Collections.emptySortedMap();
-      }
+    if (!checkGroupVisibility()) {
+      return Collections.emptySortedMap();
     }
 
     int foundIndex = 0;
@@ -551,6 +545,14 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       if (stdout != null) {
         stdout.flush();
       }
+    }
+  }
+
+  private boolean checkGroupVisibility() {
+    try {
+      return groupUuid == null || groupControlFactory.controlFor(groupUuid).isVisible();
+    } catch (NoSuchGroupException ex) {
+      return false;
     }
   }
 

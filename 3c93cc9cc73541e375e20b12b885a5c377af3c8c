@@ -34,6 +34,24 @@
       "parentUuid": "e8882706_1cca6158",
       "revId": "3c93cc9cc73541e375e20b12b885a5c377af3c8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1393a275_84769282",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-11T11:17:45Z",
+      "side": 1,
+      "message": "No, I misread the code. Sorry for the noise.",
+      "parentUuid": "7fd9c330_563a609e",
+      "revId": "3c93cc9cc73541e375e20b12b885a5c377af3c8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

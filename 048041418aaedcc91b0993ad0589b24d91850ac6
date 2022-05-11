@@ -158,6 +158,30 @@
       },
       "revId": "048041418aaedcc91b0993ad0589b24d91850ac6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e2c5c49_e2da98d3",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectAccessCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1140732
+      },
+      "writtenOn": "2022-05-11T16:13:54Z",
+      "side": 1,
+      "message": "Would it be acceptable to handle permission backend exception by outputting String error message instead of calling die() as shown in patchset 10? I was wondering since as far I understand, it would require overall structural change to handle permission backend exception error by calling die().",
+      "parentUuid": "ec850a39_7f468756",
+      "range": {
+        "startLine": 92,
+        "startChar": 13,
+        "endLine": 92,
+        "endChar": 41
+      },
+      "revId": "048041418aaedcc91b0993ad0589b24d91850ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

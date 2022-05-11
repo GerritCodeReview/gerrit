@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ec2cb9f_2a9607fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-05-11T11:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b40b3eea_a654cf23",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "c6564e2a3414e38e4ef0cbab91533473766dd447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28a5896b_d3cbfc00",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33f3daea_84ad4102",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-05-11T11:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28a5896b_d3cbfc00",
+      "revId": "c6564e2a3414e38e4ef0cbab91533473766dd447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6dbd464_7f7226f3",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-05-11T09:45:30Z",
       "side": 1,
       "message": "This isn\u0027t really helpful for release manage to be included in the release notes.\n\nMay be:\n\n  Make PatchSetApproval UUID parsing forwards compatible\n  \nAnd add the statement you put into Release-Notes in the commit message, may be:\n\n  this change has to be reverted, when merging to stable-3.6 branch.",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 60
+      },
+      "revId": "c6564e2a3414e38e4ef0cbab91533473766dd447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4c409ff_f32fb1e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-05-11T11:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6dbd464_7f7226f3",
       "range": {
         "startLine": 17,
         "startChar": 15,

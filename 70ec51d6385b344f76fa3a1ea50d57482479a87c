@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "862a8d77_669f61d6",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 46
       },
       "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a8638eb6_2f8b73b5",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,34 @@
         "endChar": 46
       },
       "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90a86694_b786046b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-11T14:39:55Z",
+      "side": 1,
+      "message": "And now a completely new one :)",
+      "parentUuid": "a8638eb6_2f8b73b5",
+      "range": {
+        "startLine": 4,
+        "startChar": 24,
+        "endLine": 4,
+        "endChar": 46
+      },
+      "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "9f8a0aff_742026a1",
         "filename": "Documentation/dev-plugins.txt",
@@ -67,10 +92,34 @@
         "endChar": 54
       },
       "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5ed3ce6_d871f77d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-11T14:39:55Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "9f8a0aff_742026a1",
+      "range": {
+        "startLine": 501,
+        "startChar": 0,
+        "endLine": 502,
+        "endChar": 54
+      },
+      "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "647e30ba_ea65c9f4",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
@@ -84,10 +133,10 @@
       "side": 1,
       "message": "Answering my question from my comment in the dev-plugins.txt, this looks like the listener\nhas to put the thread to sleep if it wants to delay the task? This can potentially waste\nthe threads I think.\n\nExample assume we have one thread free and two tasks in the queue: lightweight-task and heavyweight-task. The heavyweight-task is run first and the listener decides that due to\nthe currently high load the heavyweight-task needs to be delayed. The thread sleeps.\nHowever, this thread could have been used to run the lightweight-task instead of putting\nit to sleep.\n\nMaybe, instead of using just a listener here we need something with richer semantics.\nSomething that gives or rejects a permission for the task to be run, like a semaphore?\nOf course, this would require a more intrusive change here as we would need to consider\nthe return value from the listener.",
       "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "4a858e65_25580d4d",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
@@ -102,10 +151,10 @@
       "message": "This generic listener approach allows for traditional listeners things with pre/post task work, such as logging, to be done from plugins, and it allows for plugins to enforce quotas (limits on what can run) by as you say \"wasting a thread\", likely by sleeping on a semaphore. I could not come up with other ways to limit things in ways that would do what you suggested with light and heavy weight tasks in a way that I thought did not have problems. For example, if you let the lightweight task run, on a busy server how do you prevent blocking the heavyweight task indefinitely? By letting other tasks run you are never reserving the space for the heavyweight task to ever run. By blocking all tasks for the heavyweight one, it guarantees that the heavy weight task will get an opportunity to run as other already running tasks complete. This effectively preserves ordering and is \"fair\".\n\nI agree that there might be additional ways that we can modify core to allow for different types of QOS approaches, I have not come up with them, and I think this listener approach would likely be useful even if we add other approaches.",
       "parentUuid": "647e30ba_ea65c9f4",
       "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "41d4c811_ab6bf8e0",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
@@ -120,10 +169,10 @@
       "message": "The ProjectQoSFilter uses Jetty\u0027s continuations as a mean to park an http request without\nactually parking the thread. In the servlet 3.0 spec this concept is called asynchronous request processing [1]. It can be worth exploring if we could use the same concept here.\n\nTheoretically, you are correct with your concerns about the \"fair\" processing.\nIn practice we actually see and fight the opposite: heavyweight tasks blocking or\nimpacting too much the lightweight tasks. If a cluster of Jenkins servers all start\ncloning/fetching a large repository at the same time, we could put a significant\nnumber of threads to sleep (wait on semaphore) for significant amount of time (minutes).\nThis is likely to impact the responsiveness of the server for lightweight requests too much.\n\nI am not against the listener concept which you propose here. If neither you nor me have\ntime to explore other possibilities, we can proceed with the listener concept as a\nfirst step towards concurrency limits.\n\n\n[1] https://docs.oracle.com/javaee/7/tutorial/servlets012.htm",
       "parentUuid": "4a858e65_25580d4d",
       "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "cbc0bf2c_cc370975",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
@@ -138,8 +187,25 @@
       "message": "org.eclipse.jgit.lfs.server implements an asynchronous servlet FileLfsServlet [2] to increase scalability for transfer of lfs objects. Here is the corresponding ObjectDownloadListener [3] and ObjectUploadListener [4].\n\nImplementing that was a bit tricky, see the discussion and links to videos recommended by the jetty team explaining the pitfalls of implementing async servlets in [5].\n\n[2] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsServlet.java#64\n[3] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java#63\n[4] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectUploadListener.java#67\n[5] https://github.com/eclipse/jetty.project/issues/2911",
       "parentUuid": "41d4c811_ab6bf8e0",
       "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2519966f_547f8ac5",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-11T14:39:55Z",
+      "side": 1,
+      "message": "I think these are great ideas which I am going to treat them as follow up ideas. For now, this change will stay about a listener approach (since listening can be used for more than just QOS).",
+      "parentUuid": "cbc0bf2c_cc370975",
+      "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

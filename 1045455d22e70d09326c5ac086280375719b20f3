@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "07e4a384_a3ca440b",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
@@ -20,10 +21,34 @@
         "endChar": 6
       },
       "revId": "1045455d22e70d09326c5ac086280375719b20f3",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6626366_fff202f5",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-11T14:39:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07e4a384_a3ca440b",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 6
+      },
+      "revId": "1045455d22e70d09326c5ac086280375719b20f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "b7673325_ab9492f2",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
@@ -43,10 +68,10 @@
         "endChar": 3
       },
       "revId": "1045455d22e70d09326c5ac086280375719b20f3",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9eb6b0d4_9819e26b",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
@@ -67,10 +92,34 @@
         "endChar": 3
       },
       "revId": "1045455d22e70d09326c5ac086280375719b20f3",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c22f773_51274596",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-11T14:39:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9eb6b0d4_9819e26b",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 3
+      },
+      "revId": "1045455d22e70d09326c5ac086280375719b20f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "2db496ae_b39ca2af",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
@@ -90,8 +139,31 @@
         "endChar": 11
       },
       "revId": "1045455d22e70d09326c5ac086280375719b20f3",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5863e5c2_397af5ba",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-11T14:39:55Z",
+      "side": 1,
+      "message": "Very cool, thanks for the pointer! Done.",
+      "parentUuid": "2db496ae_b39ca2af",
+      "range": {
+        "startLine": 476,
+        "startChar": 7,
+        "endLine": 483,
+        "endChar": 11
+      },
+      "revId": "1045455d22e70d09326c5ac086280375719b20f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

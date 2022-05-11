@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b21bc3c8_5e87c518",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-05-11T13:25:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51b5aff9_2c78dcbe",
+      "range": {
+        "startLine": 19,
+        "startChar": 36,
+        "endLine": 19,
+        "endChar": 50
+      },
+      "revId": "6608c0d46548e4c2698254d523a24a29234a3eaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64681b88_48a8c9ad",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-11T06:27:12Z",
       "side": 1,
       "message": "Actually mention what is done: add Optional type adapter for java 17 support.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "6608c0d46548e4c2698254d523a24a29234a3eaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df3939a2_b45fc81c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-05-11T13:25:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64681b88_48a8c9ad",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -99,6 +147,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "329af249_6cb452d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-05-11T13:25:40Z",
+      "side": 1,
+      "message": "I have introduced a dedicated change that performs JSON Optional (de)serialization.",
+      "parentUuid": "b1dc583d_f4521115",
+      "revId": "6608c0d46548e4c2698254d523a24a29234a3eaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aef2f45f_111e0509",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-05-11T13:25:40Z",
+      "side": 1,
+      "message": "@Patrick I do agree that we shouldn\u0027t change the way things get serialized so that we avoid any issues hence I have prepended the change with one that performs JSON serialization tests of Optional and AFAICT nothing has changed with this change.\n\nObviously I could be missing sth so feel free to point me to it (@Youssef could do that too ;)).",
+      "parentUuid": "b0d3f4d5_a27b4694",
+      "revId": "6608c0d46548e4c2698254d523a24a29234a3eaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c6df070_80faea6f",
@@ -112,6 +196,30 @@
       "writtenOn": "2022-05-11T06:27:12Z",
       "side": 1,
       "message": "The class naming does not fully reflect what this class provides: both serialization and de-serialization. Given that this class is registered using:\n\n  .registerTypeAdapter(Optional.class, new OptionalSerializer())\n  \nshould it be called: OptionalTypeAdapter?",
+      "range": {
+        "startLine": 31,
+        "startChar": 21,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "6608c0d46548e4c2698254d523a24a29234a3eaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32f3937a_0d7f4454",
+        "filename": "java/com/google/gerrit/json/OptionalSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-05-11T13:25:40Z",
+      "side": 1,
+      "message": "Right, double checked the code base and that is the approach taken.",
+      "parentUuid": "0c6df070_80faea6f",
       "range": {
         "startLine": 31,
         "startChar": 21,

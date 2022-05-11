@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8882706_1cca6158",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-11T10:18:46Z",
+      "side": 1,
+      "message": "Should this actually return an empty Stream to avoid a NPE above in l. 83?",
+      "revId": "3c93cc9cc73541e375e20b12b885a5c377af3c8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

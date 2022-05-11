@@ -77,8 +77,6 @@ class DefaultRefFilter {
   private final Counter0 skipFilterCount;
   private final boolean skipFullRefEvaluationIfAllRefsAreVisible;
 
-  private ImmutableMap<Change.Id, ChangeData> visibleChanges;
-
   @Inject
   DefaultRefFilter(
       TagCache tagCache,
@@ -120,15 +118,6 @@ class DefaultRefFilter {
   /** Filters given refs and tags by visibility. */
   ImmutableList<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
-    visibleChanges =
-        GitVisibleChangeFilter.getVisibleChanges(
-            searchingChangeDataProvider,
-            changeNotesFactory,
-            changeDataFactory,
-            projectState.getNameKey(),
-            permissionBackendForProject,
-            repo,
-            changes(refs));
     logger.atFinest().log(
         "Filter refs for repository %s by visibility (options = %s, refs = %s)",
         projectState.getNameKey(), opts, refs);
@@ -144,12 +133,21 @@ class DefaultRefFilter {
     // Perform an initial ref filtering with all the refs the caller asked for. If we find tags that
     // we have to investigate separately (deferred tags) then perform a reachability check starting
     // from all visible branches (refs/heads/*).
-    Result initialRefFilter = filterRefs(new ArrayList<>(refs), opts);
+    ImmutableMap<Change.Id, ChangeData> visibleChanges =
+        GitVisibleChangeFilter.getVisibleChanges(
+            searchingChangeDataProvider,
+            changeNotesFactory,
+            changeDataFactory,
+            projectState.getNameKey(),
+            permissionBackendForProject,
+            repo,
+            changes(refs));
+    Result initialRefFilter = filterRefs(new ArrayList<>(refs), opts, visibleChanges);
     ImmutableList.Builder<Ref> visibleRefs = ImmutableList.builder();
     visibleRefs.addAll(initialRefFilter.visibleRefs());
     if (!initialRefFilter.deferredTags().isEmpty()) {
       try (TraceTimer traceTimer = TraceContext.newTimer("Check visibility of deferred tags")) {
-        Result allVisibleBranches = filterRefs(getTaggableRefs(repo), opts);
+        Result allVisibleBranches = filterRefs(getTaggableRefs(repo), opts, visibleChanges);
         checkState(
             allVisibleBranches.deferredTags().isEmpty(),
             "unexpected tags found when filtering refs/heads/* "
@@ -184,7 +182,9 @@ class DefaultRefFilter {
    * separately for later rev-walk-based visibility computation. Tags where visibility is trivial to
    * compute will be returned as part of {@link Result#visibleRefs()}.
    */
-  Result filterRefs(List<Ref> refs, RefFilterOptions opts) throws PermissionBackendException {
+  Result filterRefs(
+      List<Ref> refs, RefFilterOptions opts, ImmutableMap<Change.Id, ChangeData> visibleChanges)
+      throws PermissionBackendException {
     logger.atFinest().log("Filter refs (refs = %s)", refs);
     if (!projectState.statePermitsRead()) {
       return new AutoValue_DefaultRefFilter_Result(ImmutableList.of(), ImmutableList.of());
@@ -256,7 +256,7 @@ class DefaultRefFilter {
           resultRefs.add(ref);
         } else if (!visibleChanges.containsKey(changeId)) {
           logger.atFinest().log("Filter out invisible change ref %s", refName);
-        } else if (RefNames.isRefsEdit(refName) && !visibleEdit(refName)) {
+        } else if (RefNames.isRefsEdit(refName) && !visibleEdit(refName, visibleChanges)) {
           logger.atFinest().log("Filter out invisible change edit ref %s", refName);
         } else {
           // Change is visible
@@ -316,7 +316,8 @@ class DefaultRefFilter {
     return refs;
   }
 
-  private boolean visibleEdit(String name) throws PermissionBackendException {
+  private boolean visibleEdit(String name, ImmutableMap<Change.Id, ChangeData> visibleChanges)
+      throws PermissionBackendException {
     Change.Id id = Change.Id.fromEditRefPart(name);
     if (id == null) {
       logger.atWarning().log("Couldn't extract change ID from edit ref %s", name);

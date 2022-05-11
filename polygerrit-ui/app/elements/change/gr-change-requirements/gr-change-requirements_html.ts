@@ -125,7 +125,6 @@ export const htmlTemplate = html`
         </span>
         <gr-limited-text
           class="name"
-          limit="25"
           tooltip="[[item.tooltip]]"
           text="[[item.fallback_text]]"
         ></gr-limited-text>
@@ -143,7 +142,6 @@ export const htmlTemplate = html`
         </span>
         <gr-limited-text
           class="name"
-          limit="25"
           text="[[item.labelName]]"
         ></gr-limited-text>
       </div>
@@ -193,7 +191,6 @@ export const htmlTemplate = html`
         </span>
         <gr-limited-text
           class="name"
-          limit="25"
           text="[[item.labelName]]"
         ></gr-limited-text>
       </div>

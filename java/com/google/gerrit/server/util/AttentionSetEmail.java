@@ -109,7 +109,7 @@ public class AttentionSetEmail implements Runnable, RequestContext {
 
   @Override
   public String toString() {
-    return "send-email comments";
+    return "send-email attention-set-update";
   }
 
   @Override

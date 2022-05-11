@@ -2691,20 +2691,22 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
     return Promise.all([promiseA, promiseB]).then(results => {
       // Sometimes the server doesn't send back the content type.
-      const baseImage: Base64ImageFile | null = results[0]
-        ? {
-            ...results[0],
-            _expectedType: diff.meta_a.content_type,
-            _name: diff.meta_a.name,
-          }
-        : null;
-      const revisionImage: Base64ImageFile | null = results[1]
-        ? {
-            ...results[1],
-            _expectedType: diff.meta_b.content_type,
-            _name: diff.meta_b.name,
-          }
-        : null;
+      const baseImage: Base64ImageFile | null =
+        results[0] && diff.meta_a
+          ? {
+              ...results[0],
+              _expectedType: diff.meta_a.content_type,
+              _name: diff.meta_a.name,
+            }
+          : null;
+      const revisionImage: Base64ImageFile | null =
+        results[1] && diff.meta_b
+          ? {
+              ...results[1],
+              _expectedType: diff.meta_b.content_type,
+              _name: diff.meta_b.name,
+            }
+          : null;
       const imagesForDiff: ImagesForDiff = {baseImage, revisionImage};
       return imagesForDiff;
     });

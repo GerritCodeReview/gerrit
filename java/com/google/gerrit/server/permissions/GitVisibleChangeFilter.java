@@ -100,7 +100,11 @@ public class GitVisibleChangeFilter {
         .map(
             id -> {
               try {
-                return changeDataFactory.create(projectName, id);
+                ChangeData cd = changeDataFactory.create(projectName, id);
+                cd.notes(); // Make sure notes are available. This will trigger loading notes and
+                // throw an exception in case the change is corrupt and can't be loaded. It will
+                // then be omitted from the result.
+                return cd;
               } catch (Exception e) {
                 // We drop changes that we can't load. The repositories contain 'dead' change refs
                 // and we want to overall operation to continue.

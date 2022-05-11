@@ -34,6 +34,29 @@
       "parentUuid": "69c05a50_4d183227",
       "revId": "963bb4eefe20e844b0e40f4afe3f2be8026af331",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb3cd6d6_00090eaf",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-11T13:23:28Z",
+      "side": 1,
+      "message": "we are doing h3 class\u003d\"heading-4\"\n\nshould this be h4 instead of h3?",
+      "range": {
+        "startLine": 122,
+        "startChar": 19,
+        "endLine": 122,
+        "endChar": 39
+      },
+      "revId": "963bb4eefe20e844b0e40f4afe3f2be8026af331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

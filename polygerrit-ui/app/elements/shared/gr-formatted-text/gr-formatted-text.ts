@@ -401,7 +401,7 @@ export class GrFormattedText extends LitElement {
       case 'code':
         return html`<code>${block.text}</code>`;
       case 'pre':
-        return html`<code>${block.text}</code>`;
+        return html`<pre><code>${block.text}</code></pre>`;
       case 'list':
         return html`
           <ul>

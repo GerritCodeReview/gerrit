@@ -22,6 +22,30 @@
       },
       "revId": "acb8a2a2b699ceef51bcd6d9cafbfc910063e1d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ecb2e2f_00fe5af9",
+        "filename": "java/com/google/gerrit/server/index/account/AccountSchemaDefinitions.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-11T08:23:09Z",
+      "side": 1,
+      "message": "I think this is fine. We bump versions whenever we upgrade lucene, so can just bump it here as well.",
+      "parentUuid": "8fad1d7f_bf21d685",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 54
+      },
+      "revId": "acb8a2a2b699ceef51bcd6d9cafbfc910063e1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

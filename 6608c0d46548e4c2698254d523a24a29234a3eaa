@@ -66,6 +66,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a785db8f_2e1ff673",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-11T06:37:54Z",
+      "side": 1,
+      "message": "Seems like a good thing to have, but would you mind waiting a bit?\n\nWe\u0027ve had several outages with incompatible storage format changes and I would like to see us addressing that systematically first before we make more changes. It has bitten us too often at this point.\n\nYoussef is working on this so he can comment more :-)\n\nSorry for putting a block on the change and thank you for your patience.",
+      "revId": "6608c0d46548e4c2698254d523a24a29234a3eaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0c6df070_80faea6f",
         "filename": "java/com/google/gerrit/json/OptionalSerializer.java",
         "patchSetId": 3

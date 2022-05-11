@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f3fe8b2_18d2e28f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-11T07:26:33Z",
+      "side": 1,
+      "message": "Can you cherry pick https://gerrit-review.googlesource.com/c/gerrit/+/336877 on top so we stay consistent?\n\nThanks!",
+      "revId": "29fd444008ed11ef8c3e849a6e002bd92ed1708f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

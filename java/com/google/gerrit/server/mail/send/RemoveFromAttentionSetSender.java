@@ -30,7 +30,7 @@ public class RemoveFromAttentionSetSender extends AttentionSetSender {
   @Inject
   public RemoveFromAttentionSetSender(
       EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
-    super(args, project, changeId);
+    super(args, "removeFromAttentionSet", project, changeId);
   }
 
   @Override

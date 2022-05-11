@@ -24,8 +24,9 @@ public abstract class AttentionSetSender extends ReplyToChangeSender {
   private Account.Id attentionSetUser;
   private String reason;
 
-  public AttentionSetSender(EmailArguments args, Project.NameKey project, Change.Id changeId) {
-    super(args, "addToAttentionSet", ChangeEmail.newChangeData(args, project, changeId));
+  public AttentionSetSender(
+      EmailArguments args, String messageClass, Project.NameKey project, Change.Id changeId) {
+    super(args, messageClass, ChangeEmail.newChangeData(args, project, changeId));
   }
 
   @Override

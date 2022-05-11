@@ -90,6 +90,9 @@ export class GrFormattedText extends LitElement {
           display: block;
           font-family: var(--font-family);
         }
+        a {
+          color: var(--link-color);
+        }
         p,
         ul,
         code,

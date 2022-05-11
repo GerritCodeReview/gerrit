@@ -77,7 +77,8 @@ public class AttentionSetEmail {
     MessageId messageId;
     try {
       messageId =
-          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId());
+          messageIdGenerator.fromChangeUpdateAndReason(
+              ctx.getRepoView(), change.currentPatchSetId(), "AttentionSetEmail");
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa8b900b_9506029e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2022-05-11T09:01:27Z",
+      "side": 1,
+      "message": "Is it possible to give plugins a way to inject icons? I see that there are several icons in core that were added for particular plugins.",
+      "revId": "f96167290f198f86c7988eb923fb90eaf36abf46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5559b02_a7b33254",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-11T14:26:42Z",
+      "side": 1,
+      "message": "I checked, it fixed issue that is described in https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d15622.",
+      "parentUuid": "8f2cd821_95fa83a3",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 26
+      },
+      "revId": "025bf8fa9cafba9ec6ae2540e84beafaf75f289d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8b8b80c_585cf892",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54c9c0d8_07e2cea9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-11T14:26:42Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e8b8b80c_585cf892",
+      "revId": "025bf8fa9cafba9ec6ae2540e84beafaf75f289d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60e8f3ec_9ef89c96",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-05-11T13:51:25Z",
       "side": 1,
       "message": "is it guaranteed `this._allPatchSets` is set when this is triggered for the first time with `value.patchNum` undefined?",
+      "range": {
+        "startLine": 1288,
+        "startChar": 45,
+        "endLine": 1288,
+        "endChar": 63
+      },
+      "revId": "025bf8fa9cafba9ec6ae2540e84beafaf75f289d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61f391c1_41cf99ca",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-11T14:26:42Z",
+      "side": 1,
+      "message": "Actually this._allPatchset is undefined, so computeLatestPatchNum will return undefined. So 1st render works same as before.",
+      "parentUuid": "60e8f3ec_9ef89c96",
       "range": {
         "startLine": 1288,
         "startChar": 45,

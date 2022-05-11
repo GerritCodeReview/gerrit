@@ -154,6 +154,7 @@ WS
 
 FIELD_NAME
   : ('a'..'z' | '_')+
+  | ('a'..'z')+ '_' ('a'..'z')+ '-' ('a'..'z')+
   ;
 
 EXACT_PHRASE

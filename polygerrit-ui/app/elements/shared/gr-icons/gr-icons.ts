@@ -25,7 +25,7 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="expand-less"><path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"></path></g>
       <!-- This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js -->
       <g id="expand-more"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#unfold_more -->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=unfold_more -->
       <g id="unfold-more"><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 5.83L15.17 9l1.41-1.41L12 3 7.41 7.59 8.83 9 12 5.83zm0 12.34L8.83 15l-1.41 1.41L12 21l4.59-4.59L15.17 15 12 18.17z"></path></g>
       <!-- This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js -->
       <g id="search"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></g>
@@ -61,11 +61,11 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="info"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"></path></g>
       <!-- This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js -->
       <g id="info-outline"><path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z"></path></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#ic_hourglass_full-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=ic_hourglass_full-->
       <g id="hourglass"><path d="M6 2v6h.01L6 8.01 10 12l-4 4 .01.01H6V22h12v-5.99h-.01L18 16l-4-4 4-3.99-.01-.01H18V2H6z"></path><path d="M0 0h24v24H0V0z" fill="none"></path></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#mode_comment-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=mode_comment-->
       <g id="comment"><path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"></path><path d="M0 0h24v24H0z" fill="none"></path></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#calendar_today-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=calendar_today-->
       <g id="calendar"><path d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 18H4V8h16v13z"></path><path d="M0 0h24v24H0z" fill="none"></path></g>
       <!-- This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons/blob/master/iron-icons.js -->
       <g id="error"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></g>
@@ -79,9 +79,9 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="content-copy"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></g>
       <!-- This is a custom PolyGerrit SVG -->
       <g id="check"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#check_circle-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=check_circle-->
       <g id="check-circle"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#check_circle_outline-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=check_circle_outline-->
       <g id="check-circle-outline"><path d="M0 0h24v24H0V0zm0 0h24v24H0V0z" fill="none"/><path d="M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></g>
       <!-- This is a custom PolyGerrit SVG -->
       <g id="robot"><path d="M4.137453,5.61015591 L4.54835569,1.5340419 C4.5717665,1.30180904 4.76724872,1.12504213 5.00065859,1.12504213 C5.23327176,1.12504213 5.42730868,1.30282046 5.44761309,1.53454578 L5.76084628,5.10933916 C6.16304484,5.03749412 6.57714381,5 7,5 L17,5 C20.8659932,5 24,8.13400675 24,12 L24,15.1250421 C24,18.9910354 20.8659932,22.1250421 17,22.1250421 L7,22.1250421 C3.13400675,22.1250421 2.19029351e-15,18.9910354 0,15.1250421 L0,12 C-3.48556243e-16,9.15382228 1.69864167,6.70438358 4.137453,5.61015591 Z M5.77553049,6.12504213 C3.04904264,6.69038358 1,9.10590202 1,12 L1,15.1250421 C1,18.4387506 3.6862915,21.1250421 7,21.1250421 L17,21.1250421 C20.3137085,21.1250421 23,18.4387506 23,15.1250421 L23,12 C23,8.6862915 20.3137085,6 17,6 L7,6 C6.60617231,6 6.2212068,6.03794347 5.84855971,6.11037415 L5.84984496,6.12504213 L5.77553049,6.12504213 Z M6.93003717,6.95027711 L17.1232083,6.95027711 C19.8638332,6.95027711 22.0855486,9.17199258 22.0855486,11.9126175 C22.0855486,14.6532424 19.8638332,16.8749579 17.1232083,16.8749579 L6.93003717,16.8749579 C4.18941226,16.8749579 1.9676968,14.6532424 1.9676968,11.9126175 C1.9676968,9.17199258 4.18941226,6.95027711 6.93003717,6.95027711 Z M7.60124392,14.0779303 C9.03787127,14.0779303 10.2024878,12.9691885 10.2024878,11.6014862 C10.2024878,10.2337839 9.03787127,9.12504213 7.60124392,9.12504213 C6.16461657,9.12504213 5,10.2337839 5,11.6014862 C5,12.9691885 6.16461657,14.0779303 7.60124392,14.0779303 Z M16.617997,14.1098288 C18.0638768,14.1098288 19.2359939,12.9939463 19.2359939,11.6174355 C19.2359939,10.2409246 18.0638768,9.12504213 16.617997,9.12504213 C15.1721172,9.12504213 14,10.2409246 14,11.6174355 C14,12.9939463 15.1721172,14.1098288 16.617997,14.1098288 Z M9.79751216,18.1250421 L15,18.1250421 L15,19.1250421 C15,19.6773269 14.5522847,20.1250421 14,20.1250421 L10.7975122,20.1250421 C10.2452274,20.1250421 9.79751216,19.6773269 9.79751216,19.1250421 L9.79751216,18.1250421 Z"></path></g>
@@ -106,45 +106,45 @@ $_documentContainer.innerHTML = `<iron-iconset-svg name="gr-icons" size="24">
       <g id="review"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></g>
       <!-- This is a custom PolyGerrit SVG -->
       <g id="zeroState"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9h2zm-4 10H4V5h14v14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"></path></g>
-      <!-- This SVG is an adaptation of material.io https://material.io/icons/#label_important-->
+      <!-- This SVG is an adaptation of material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=label_important-->
       <g id="attention"><path d="M1 23 l13 0 c.67 0 1.27 -.33 1.63 -.84 l7.37 -10.16 l-7.37 -10.16 c-.36 -.51 -.96 -.84 -1.63 -.84 L1 1 L7 12 z"></path></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#pets-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=pets-->
       <g id="pets"><circle cx="4.5" cy="9.5" r="2.5"/><circle cx="9" cy="5.5" r="2.5"/><circle cx="15" cy="5.5" r="2.5"/><circle cx="19.5" cy="9.5" r="2.5"/><path d="M17.34 14.86c-.87-1.02-1.6-1.89-2.48-2.91-.46-.54-1.05-1.08-1.75-1.32-.11-.04-.22-.07-.33-.09-.25-.04-.52-.04-.78-.04s-.53 0-.79.05c-.11.02-.22.05-.33.09-.7.24-1.28.78-1.75 1.32-.87 1.02-1.6 1.89-2.48 2.91-1.31 1.31-2.92 2.76-2.62 4.79.29 1.02 1.02 2.03 2.33 2.32.73.15 3.06-.44 5.54-.44h.18c2.48 0 4.81.58 5.54.44 1.31-.29 2.04-1.31 2.33-2.32.31-2.04-1.3-3.49-2.61-4.8z"/><path d="M0 0h24v24H0z" fill="none"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#visibility-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=visibility-->
       <g id="ready"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></g>
       <!-- This SVG is a copy from iron-icons https://github.com/PolymerElements/iron-icons -->
       <g id="schedule"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"></path></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#bug_report-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=bug_report-->
       <g id="bug"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"/></g>
       <!-- This SVG is a copy from material.io https://fonts.gstatic.com/s/i/googlematerialicons/move_item/v1/24px.svg -->
       <g id="move-item"><path d="M15,19H5V5h10v4h2V5c0-1.1-0.89-2-2-2H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h10c1.11,0,2-0.9,2-2v-4h-2V19z"/><polygon points="20.01,8.01 18.59,9.41 20.17,11 8,11 8,13 20.17,13 18.59,14.59 20.01,15.99 24,12"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#warning-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=warning-->
       <g id="warning"><path d="M0 0h24v24H0z" fill="none"/><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#timelapse-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=timelapse-->
       <g id="timelapse"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.24 7.76C15.07 6.59 13.54 6 12 6v6l-4.24 4.24c2.34 2.34 6.14 2.34 8.49 0 2.34-2.34 2.34-6.14-.01-8.48zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#mark_chat_read-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=mark_chat_read-->
       <g id="markChatRead"><path d="M12,18l-6,0l-4,4V4c0-1.1,0.9-2,2-2h16c1.1,0,2,0.9,2,2v7l-2,0V4H4v12l8,0V18z M23,14.34l-1.41-1.41l-4.24,4.24l-2.12-2.12 l-1.41,1.41L17.34,20L23,14.34z"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#message-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=message-->
       <g id="message"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#launch-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=launch-->
       <g id="launch"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#filter-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=filter-->
       <g id="filter"><path d="M0,0h24 M24,24H0" fill="none"/><path d="M4.25,5.61C6.27,8.2,10,13,10,13v6c0,0.55,0.45,1,1,1h2c0.55,0,1-0.45,1-1v-6c0,0,3.72-4.8,5.74-7.39 C20.25,4.95,19.78,4,18.95,4H5.04C4.21,4,3.74,4.95,4.25,5.61z"/><path d="M0,0h24v24H0V0z" fill="none"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#arrow_drop_down-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=arrow_drop_down-->
       <g id="arrowDropDown"><path d="M0 0h24v24H0z" fill="none"/><path d="M7 10l5 5 5-5z"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#arrow_drop_up-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=arrow_drop_up-->
       <g id="arrowDropUp"><path d="M0 0h24v24H0z" fill="none"/><path d="M7 14l5-5 5 5z"/></g>
       <!-- This is just a placeholder, i.e. an empty icon that has the same size as a normal icon. -->
       <g id="placeholder"><path d="M0 0h24v24H0z" fill="none"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#insert_photo-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=insert_photo-->
       <g id="insert-photo"><path d="M0 0h24v24H0z" fill="none"/><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#download-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=download-->
       <g id="download"><path d="M0 0h24v24H0z" fill="none"/><path d="M5,20h14v-2H5V20z M19,9h-4V3H9v6H5l7,7L19,9z"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#system_update-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=system_update-->
       <g id="system-update"><path d="M0 0h24v24H0z" fill="none"/><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14zm-1-6h-3V8h-2v5H8l4 4 4-4z"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#swap_horiz-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=swap_horiz-->
       <g id="swapHoriz"><path d="M0 0h24v24H0z" fill="none"/><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></g>
-      <!-- This SVG is a copy from material.io https://material.io/icons/#link-->
+      <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material+Icons&icon.query=link-->
       <g id="link"><path d="M0 0h24v24H0z" fill="none"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></g>
       <!-- This SVG is a copy from material.io https://fonts.google.com/icons?selected=Material%20Icons%3Aplay_arrow-->
       <g id="playArrow"><path d="M0 0h24v24H0z" fill="none"/><path d="M8 5v14l11-7z"/></g>

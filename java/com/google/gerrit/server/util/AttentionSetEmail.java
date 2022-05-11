@@ -55,15 +55,14 @@ public class AttentionSetEmail implements Runnable, RequestContext {
         Account.Id attentionUserId);
   }
 
-  private ExecutorService sendEmailsExecutor;
-  private AccountTemplateUtil accountTemplateUtil;
-  private AttentionSetSender sender;
-  private Context ctx;
-  private Change change;
-  private String reason;
-
-  private MessageIdGenerator.MessageId messageId;
-  private Account.Id attentionUserId;
+  private final ExecutorService sendEmailsExecutor;
+  private final AccountTemplateUtil accountTemplateUtil;
+  private final AttentionSetSender sender;
+  private final Context ctx;
+  private final Change change;
+  private final String reason;
+  private final MessageIdGenerator.MessageId messageId;
+  private final Account.Id attentionUserId;
 
   @Inject
   AttentionSetEmail(

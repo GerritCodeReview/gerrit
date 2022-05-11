@@ -235,6 +235,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "efb36650_fc2c1f91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-05-11T08:43:26Z",
+      "side": 1,
+      "message": "In master we don\u0027t want to ignore the UUID though, s only up to 3.5.\n\nI am working on the fix now.",
+      "parentUuid": "dd97f79d_352f066d",
+      "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d2d5568a_008518b0",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 10

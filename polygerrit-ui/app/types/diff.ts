@@ -48,9 +48,9 @@ export {
 
 export interface DiffInfo extends DiffInfoApi {
   /** Meta information about the file on side A as a DiffFileMetaInfo entity. */
-  meta_a: DiffFileMetaInfo;
+  meta_a?: DiffFileMetaInfo;
   /** Meta information about the file on side B as a DiffFileMetaInfo entity. */
-  meta_b: DiffFileMetaInfo;
+  meta_b?: DiffFileMetaInfo;
 
   /**
    * Links to the file diff in external sites as a list of DiffWebLinkInfo

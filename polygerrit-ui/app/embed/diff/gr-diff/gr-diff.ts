@@ -43,11 +43,7 @@ import {
 import {getHiddenScroll} from '../../../scripts/hiddenscroll';
 import {customElement, observe, property} from '@polymer/decorators';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
-import {
-  DiffInfo,
-  DiffPreferencesInfo,
-  DiffPreferencesInfoKey,
-} from '../../../types/diff';
+import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHighlight} from '../gr-diff-highlight/gr-diff-highlight';
 import {
   GrDiffBuilderElement,
@@ -81,6 +77,7 @@ import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
+import {deepEqual} from '../../../utils/deep-util';
 
 const NO_NEWLINE_LEFT = 'No newline at end of left file.';
 const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
@@ -288,11 +285,13 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   @property({type: Boolean})
   isAttached = false;
 
-  private renderDiffTableTask?: DelayedTask;
+  // visible for testing
+  renderDiffTableTask?: DelayedTask;
 
   private diffSelection = new GrDiffSelection();
 
-  private highlights = new GrDiffHighlight();
+  // visible for testing
+  highlights = new GrDiffHighlight();
 
   // visible for testing
   diffBuilder = new GrDiffBuilderElement();
@@ -540,7 +539,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     return classes.join(' ');
   }
 
-  _handleTap(e: CustomEvent) {
+  _handleTap(e: Event) {
     const el = (dom(e) as EventApi).localTarget as Element;
 
     if (
@@ -669,26 +668,9 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   _prefsObserver(newPrefs: DiffPreferencesInfo, oldPrefs: DiffPreferencesInfo) {
-    if (!this._prefsEqual(newPrefs, oldPrefs)) {
+    if (!deepEqual(newPrefs, oldPrefs)) {
       this._prefsChanged(newPrefs);
     }
-  }
-
-  _prefsEqual(prefs1: DiffPreferencesInfo, prefs2: DiffPreferencesInfo) {
-    if (prefs1 === prefs2) {
-      return true;
-    }
-    if (!prefs1 || !prefs2) {
-      return false;
-    }
-    // Scan the preference objects one level deep to see if they differ.
-    const keys1 = Object.keys(prefs1) as DiffPreferencesInfoKey[];
-    const keys2 = Object.keys(prefs2) as DiffPreferencesInfoKey[];
-    return (
-      keys1.length === keys2.length &&
-      keys1.every(key => prefs1[key] === prefs2[key]) &&
-      keys2.every(key => prefs1[key] === prefs2[key])
-    );
   }
 
   _pathObserver() {

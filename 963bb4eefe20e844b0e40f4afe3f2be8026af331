@@ -57,6 +57,30 @@
       },
       "revId": "963bb4eefe20e844b0e40f4afe3f2be8026af331",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ff47db4_703611fc",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-11T13:27:05Z",
+      "side": 1,
+      "message": "It can be h4. I think semantically it\u0027s h3, that\u0027s why I left it as h3. But size wise it\u0027s h4. But feel free to change it to h4",
+      "parentUuid": "bb3cd6d6_00090eaf",
+      "range": {
+        "startLine": 122,
+        "startChar": 19,
+        "endLine": 122,
+        "endChar": 39
+      },
+      "revId": "963bb4eefe20e844b0e40f4afe3f2be8026af331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

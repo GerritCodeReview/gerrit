@@ -1284,6 +1284,10 @@ export class GrChangeView extends base {
     if (value.basePatchNum === undefined)
       value.basePatchNum = ParentPatchSetNum;
 
+    if (value.patchNum === undefined) {
+      value.patchNum = computeLatestPatchNum(this._allPatchSets);
+    }
+
     const patchChanged = this.hasPatchRangeChanged(value);
     let patchNumChanged = this.hasPatchNumChanged(value);
 

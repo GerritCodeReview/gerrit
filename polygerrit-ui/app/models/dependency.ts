@@ -102,7 +102,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
  * Type Safety
  * ---
  *
- * Dependency injection is guaranteed npmtype-safe by construction due to the
+ * Dependency injection is guaranteed type-safe by construction due to the
  * typing of the token used to tie together dependency providers and dependency
  * consumers.
  *

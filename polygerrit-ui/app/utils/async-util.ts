@@ -147,12 +147,18 @@ export function until<T>(obs$: Observable<T>, predicate: (t: T) => boolean) {
 
 export const isFalse = (b: boolean) => b === false;
 
-// An equivalent to Promise.allSettled from ES2020.
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled
-// TODO: Migrate our tooling to ES2020 and remove this method.
 export type PromiseResult<T> =
   | {status: 'fulfilled'; value: T}
   | {status: 'rejected'; reason: string};
+export function isFulfilled<T>(
+  promiseResult?: PromiseResult<T>
+): promiseResult is PromiseResult<T> & {status: 'fulfilled'} {
+  return promiseResult?.status === 'fulfilled';
+}
+
+// An equivalent to Promise.allSettled from ES2020.
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled
+// TODO: Migrate our tooling to ES2020 and remove this method.
 export function allSettled<T>(
   promises: Promise<T>[]
 ): Promise<PromiseResult<T>[]> {

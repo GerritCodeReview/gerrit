@@ -153,7 +153,7 @@ WS
   ;
 
 FIELD_NAME
-  : ('a'..'z' | '_')+
+  : ('a'..'z' | '_' | '-')+
   ;
 
 EXACT_PHRASE

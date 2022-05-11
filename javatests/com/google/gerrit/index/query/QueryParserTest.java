@@ -242,6 +242,39 @@ public class QueryParserTest {
     assertThat(r).child(0).hasText("A backslash \\ in phrase");
   }
 
+  @Test
+  public void fieldNameWithUnderscore() throws Exception {
+    Tree r = parse("foo_bar:baz");
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasText("foo_bar");
+    assertThat(r).hasChildCount(1);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("baz");
+    assertThat(r).child(0).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameWithHyphen() throws Exception {
+    Tree r = parse("foo-bar:baz");
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasText("foo-bar");
+    assertThat(r).hasChildCount(1);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("baz");
+    assertThat(r).child(0).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameWithUnderscoreAndHyphen() throws Exception {
+    Tree r = parse("foo-bar_baz:qux");
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasText("foo-bar_baz");
+    assertThat(r).hasChildCount(1);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("qux");
+    assertThat(r).child(0).hasNoChildren();
+  }
+
   private static void assertParseFails(String query) {
     assertThrows(QueryParseException.class, () -> parse(query));
   }

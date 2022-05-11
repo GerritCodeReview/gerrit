@@ -22,6 +22,30 @@
       },
       "revId": "23d91925717ccc783a789c3db696d679a2375c49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e1a06e7_9b7697fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-11T18:33:23Z",
+      "side": 1,
+      "message": "You are right. This was my first attempt. It helped with js error, but not with focus.",
+      "parentUuid": "a3cd303a_cc7afda7",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 0
+      },
+      "revId": "23d91925717ccc783a789c3db696d679a2375c49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

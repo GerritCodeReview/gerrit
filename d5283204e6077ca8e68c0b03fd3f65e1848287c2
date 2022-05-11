@@ -270,6 +270,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ca4778b_98ba1e4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-11T08:45:59Z",
+      "side": 1,
+      "message": "\u003e In master we don\u0027t want to ignore the UUID though, s only up to 3.5.\n\nRight, in 3.6 and in master we don\u0027t want to ignore the UUID part parsing. That\u0027s why we would need to revert the fix in merge commit from stable-3.4 to stable-3.5. I will take care of it.",
+      "parentUuid": "efb36650_fc2c1f91",
+      "revId": "d5283204e6077ca8e68c0b03fd3f65e1848287c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d2d5568a_008518b0",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 10

@@ -24,10 +24,13 @@ import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
 import com.google.gerrit.server.mail.send.AttentionSetSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
 import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -45,7 +48,6 @@ public class AttentionSetEmail {
      * @param ctx context for sending the email.
      * @param change the change that the user was added/removed in.
      * @param reason reason for adding/removing the user.
-     * @param messageId messageId for tracking the email.
      * @param attentionUserId the user added/removed.
      */
     AttentionSetEmail create(
@@ -53,7 +55,6 @@ public class AttentionSetEmail {
         Context ctx,
         Change change,
         String reason,
-        MessageIdGenerator.MessageId messageId,
         Account.Id attentionUserId);
   }
 
@@ -64,14 +65,23 @@ public class AttentionSetEmail {
   AttentionSetEmail(
       @SendEmailExecutor ExecutorService executor,
       ThreadLocalRequestContext requestContext,
+      MessageIdGenerator messageIdGenerator,
       AccountTemplateUtil accountTemplateUtil,
       @Assisted AttentionSetSender sender,
       @Assisted Context ctx,
       @Assisted Change change,
       @Assisted String reason,
-      @Assisted MessageIdGenerator.MessageId messageId,
       @Assisted Account.Id attentionUserId) {
     this.sendEmailsExecutor = executor;
+
+    MessageId messageId;
+    try {
+      messageId =
+          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId());
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+
     this.asyncSender =
         new AsyncSender(
             requestContext,

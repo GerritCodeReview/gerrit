@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51b5aff9_2c78dcbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-11T06:27:12Z",
+      "side": 1,
+      "message": "prior to the specific",
+      "range": {
+        "startLine": 19,
+        "startChar": 36,
+        "endLine": 19,
+        "endChar": 50
+      },
+      "revId": "6608c0d46548e4c2698254d523a24a29234a3eaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64681b88_48a8c9ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-11T06:27:12Z",
+      "side": 1,
+      "message": "Actually mention what is done: add Optional type adapter for java 17 support.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "6608c0d46548e4c2698254d523a24a29234a3eaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1dc583d_f4521115",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-11T06:27:12Z",
+      "side": 1,
+      "message": "Can we move this change to stable-3.6 branch? That way we could announce that the upcoming 3.6 release is fully compatible with Java 17 LTS release.\n\nOther JSON type adapters also added tests, for example: EnumTypeAdapterFactory is tested in JsonEnumMappingTest. Please, add a test for the new Optional type adapter.",
+      "revId": "6608c0d46548e4c2698254d523a24a29234a3eaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c6df070_80faea6f",
+        "filename": "java/com/google/gerrit/json/OptionalSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-11T06:27:12Z",
+      "side": 1,
+      "message": "The class naming does not fully reflect what this class provides: both serialization and de-serialization. Given that this class is registered using:\n\n  .registerTypeAdapter(Optional.class, new OptionalSerializer())\n  \nshould it be called: OptionalTypeAdapter?",
+      "range": {
+        "startLine": 31,
+        "startChar": 21,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "6608c0d46548e4c2698254d523a24a29234a3eaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -38,10 +38,16 @@ export enum DiffViewMode {
  * If the weblinks-only parameter is specified, only the web_links field is set.
  */
 export declare interface DiffInfo {
-  /** Meta information about the file on side A as a DiffFileMetaInfo entity. */
-  meta_a: DiffFileMetaInfo;
-  /** Meta information about the file on side B as a DiffFileMetaInfo entity. */
-  meta_b: DiffFileMetaInfo;
+  /**
+   * Meta information about the file on side A as a DiffFileMetaInfo entity.
+   * Not set when change_type is ADDED.
+   */
+  meta_a?: DiffFileMetaInfo;
+  /**
+   * Meta information about the file on side B as a DiffFileMetaInfo entity.
+   * Not set when change_type is DELETED.
+   */
+  meta_b?: DiffFileMetaInfo;
   /** The type of change (ADDED, MODIFIED, DELETED, RENAMED COPIED, REWRITE). */
   change_type: ChangeType;
   /** Intraline status (OK, ERROR, TIMEOUT). */

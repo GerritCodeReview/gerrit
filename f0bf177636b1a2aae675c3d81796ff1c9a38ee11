@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34b93320_f7af0604",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-11T21:11:32Z",
+      "side": 1,
+      "message": "Thanks @Marija for the quick fix: I\u0027ve deployed it to the v3.5.1 sites of GerritHub.io and it works fine.\n\nDo you believe we should also increase the schema version or not?",
+      "revId": "f0bf177636b1a2aae675c3d81796ff1c9a38ee11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -1,46 +1,39 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
-import '../../../test/common-test-setup-karma.js';
-import '../gr-diff/gr-diff-group.js';
-import './gr-diff-builder.js';
-import './gr-diff-builder-unified.js';
-import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
-import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
-import {GrDiffBuilderUnified} from './gr-diff-builder-unified.js';
+import '../../../test/common-test-setup-karma';
+import '../gr-diff/gr-diff-group';
+import './gr-diff-builder';
+import './gr-diff-builder-unified';
+import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
+import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
+import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
+import {DiffPreferencesInfo} from '../../../api/diff';
+import {createDefaultDiffPrefs} from '../../../constants/constants';
+import {createDiff} from '../../../test/test-data-generators';
+import {queryAndAssert} from '../../../utils/common-util';
 
 suite('GrDiffBuilderUnified tests', () => {
-  let prefs;
-  let outputEl;
-  let diffBuilder;
+  let prefs: DiffPreferencesInfo;
+  let outputEl: HTMLElement;
+  let diffBuilder: GrDiffBuilderUnified;
 
-  setup(()=> {
+  setup(() => {
     prefs = {
+      ...createDefaultDiffPrefs(),
       line_length: 10,
       show_tabs: true,
       tab_size: 4,
     };
     outputEl = document.createElement('div');
-    diffBuilder = new GrDiffBuilderUnified({}, prefs, outputEl, []);
+    diffBuilder = new GrDiffBuilderUnified(createDiff(), prefs, outputEl, []);
   });
 
   suite('buildSectionElement for BOTH group', () => {
-    let lines;
-    let group;
+    let lines: GrDiffLine[];
+    let group: GrDiffGroup;
 
     setup(() => {
       lines = [
@@ -68,31 +61,43 @@ suite('GrDiffBuilderUnified tests', () => {
       assert.equal(rowEls.length, 3);
 
       assert.equal(
-          rowEls[0].querySelector('.lineNum.left').textContent,
-          lines[0].beforeNumber);
+        queryAndAssert(rowEls[0], '.lineNum.left').textContent,
+        lines[0].beforeNumber.toString()
+      );
       assert.equal(
-          rowEls[0].querySelector('.lineNum.right').textContent,
-          lines[0].afterNumber);
+        queryAndAssert(rowEls[0], '.lineNum.right').textContent,
+        lines[0].afterNumber.toString()
+      );
       assert.equal(
-          rowEls[0].querySelector('.content').textContent, lines[0].text);
+        queryAndAssert(rowEls[0], '.content').textContent,
+        lines[0].text
+      );
 
       assert.equal(
-          rowEls[1].querySelector('.lineNum.left').textContent,
-          lines[1].beforeNumber);
+        queryAndAssert(rowEls[1], '.lineNum.left').textContent,
+        lines[1].beforeNumber.toString()
+      );
       assert.equal(
-          rowEls[1].querySelector('.lineNum.right').textContent,
-          lines[1].afterNumber);
+        queryAndAssert(rowEls[1], '.lineNum.right').textContent,
+        lines[1].afterNumber.toString()
+      );
       assert.equal(
-          rowEls[1].querySelector('.content').textContent, lines[1].text);
+        queryAndAssert(rowEls[1], '.content').textContent,
+        lines[1].text
+      );
 
       assert.equal(
-          rowEls[2].querySelector('.lineNum.left').textContent,
-          lines[2].beforeNumber);
+        queryAndAssert(rowEls[2], '.lineNum.left').textContent,
+        lines[2].beforeNumber.toString()
+      );
       assert.equal(
-          rowEls[2].querySelector('.lineNum.right').textContent,
-          lines[2].afterNumber);
+        queryAndAssert(rowEls[2], '.lineNum.right').textContent,
+        lines[2].afterNumber.toString()
+      );
       assert.equal(
-          rowEls[2].querySelector('.content').textContent, lines[2].text);
+        queryAndAssert(rowEls[2], '.content').textContent,
+        lines[2].text
+      );
     });
   });
 
@@ -104,8 +109,11 @@ suite('GrDiffBuilderUnified tests', () => {
       ];
       lines[0].text = 'def hello_world():';
       lines[1].text = '  print "Hello World"';
-      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
-      group.moveDetails = {changed: false};
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines,
+        moveDetails: {changed: false},
+      });
 
       const sectionEl = diffBuilder.buildSectionElement(group);
 
@@ -127,8 +135,11 @@ suite('GrDiffBuilderUnified tests', () => {
       ];
       lines[0].text = 'def hello_world():';
       lines[1].text = '  print "Hello World"';
-      const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
-      group.moveDetails = {changed: false};
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines,
+        moveDetails: {changed: false},
+      });
 
       const sectionEl = diffBuilder.buildSectionElement(group);
 
@@ -145,8 +156,8 @@ suite('GrDiffBuilderUnified tests', () => {
   });
 
   suite('buildSectionElement for DELTA group', () => {
-    let lines;
-    let group;
+    let lines: GrDiffLine[];
+    let group: GrDiffGroup;
 
     setup(() => {
       lines = [
@@ -159,65 +170,89 @@ suite('GrDiffBuilderUnified tests', () => {
       lines[1].text = '  print "Hello World"';
       lines[2].text = 'def hello_universe()';
       lines[3].text = '  print "Hello Universe"';
-
-      group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
     });
 
     test('creates the section', () => {
+      group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
       const sectionEl = diffBuilder.buildSectionElement(group);
       assert.isTrue(sectionEl.classList.contains('section'));
       assert.isTrue(sectionEl.classList.contains('delta'));
     });
 
     test('creates the section with class if ignoredWhitespaceOnly', () => {
-      group.ignoredWhitespaceOnly = true;
+      group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines,
+        ignoredWhitespaceOnly: true,
+      });
       const sectionEl = diffBuilder.buildSectionElement(group);
       assert.isTrue(sectionEl.classList.contains('ignoredWhitespaceOnly'));
     });
 
     test('creates the section with class if dueToRebase', () => {
-      group.dueToRebase = true;
+      group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines,
+        dueToRebase: true,
+      });
       const sectionEl = diffBuilder.buildSectionElement(group);
       assert.isTrue(sectionEl.classList.contains('dueToRebase'));
     });
 
     test('creates first the removed and then the added rows', () => {
+      group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
       const sectionEl = diffBuilder.buildSectionElement(group);
       const rowEls = sectionEl.querySelectorAll('.diff-row');
 
       assert.equal(rowEls.length, 4);
 
       assert.equal(
-          rowEls[0].querySelector('.lineNum.left').textContent,
-          lines[0].beforeNumber);
+        queryAndAssert(rowEls[0], '.lineNum.left').textContent,
+        lines[0].beforeNumber.toString()
+      );
       assert.isNotOk(rowEls[0].querySelector('.lineNum.right'));
       assert.equal(
-          rowEls[0].querySelector('.content').textContent, lines[0].text);
+        queryAndAssert(rowEls[0], '.content').textContent,
+        lines[0].text
+      );
 
       assert.equal(
-          rowEls[1].querySelector('.lineNum.left').textContent,
-          lines[1].beforeNumber);
+        queryAndAssert(rowEls[1], '.lineNum.left').textContent,
+        lines[1].beforeNumber.toString()
+      );
       assert.isNotOk(rowEls[1].querySelector('.lineNum.right'));
       assert.equal(
-          rowEls[1].querySelector('.content').textContent, lines[1].text);
+        queryAndAssert(rowEls[1], '.content').textContent,
+        lines[1].text
+      );
 
       assert.isNotOk(rowEls[2].querySelector('.lineNum.left'));
       assert.equal(
-          rowEls[2].querySelector('.lineNum.right').textContent,
-          lines[2].afterNumber);
+        queryAndAssert(rowEls[2], '.lineNum.right').textContent,
+        lines[2].afterNumber.toString()
+      );
       assert.equal(
-          rowEls[2].querySelector('.content').textContent, lines[2].text);
+        queryAndAssert(rowEls[2], '.content').textContent,
+        lines[2].text
+      );
 
       assert.isNotOk(rowEls[3].querySelector('.lineNum.left'));
       assert.equal(
-          rowEls[3].querySelector('.lineNum.right').textContent,
-          lines[3].afterNumber);
+        queryAndAssert(rowEls[3], '.lineNum.right').textContent,
+        lines[3].afterNumber.toString()
+      );
       assert.equal(
-          rowEls[3].querySelector('.content').textContent, lines[3].text);
+        queryAndAssert(rowEls[3], '.content').textContent,
+        lines[3].text
+      );
     });
 
     test('creates only the added rows if only ignored whitespace', () => {
-      group.ignoredWhitespaceOnly = true;
+      group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines,
+        ignoredWhitespaceOnly: true,
+      });
       const sectionEl = diffBuilder.buildSectionElement(group);
       const rowEls = sectionEl.querySelectorAll('.diff-row');
 
@@ -225,18 +260,23 @@ suite('GrDiffBuilderUnified tests', () => {
 
       assert.isNotOk(rowEls[0].querySelector('.lineNum.left'));
       assert.equal(
-          rowEls[0].querySelector('.lineNum.right').textContent,
-          lines[2].afterNumber);
+        queryAndAssert(rowEls[0], '.lineNum.right').textContent,
+        lines[2].afterNumber.toString()
+      );
       assert.equal(
-          rowEls[0].querySelector('.content').textContent, lines[2].text);
+        queryAndAssert(rowEls[0], '.content').textContent,
+        lines[2].text
+      );
 
       assert.isNotOk(rowEls[1].querySelector('.lineNum.left'));
       assert.equal(
-          rowEls[1].querySelector('.lineNum.right').textContent,
-          lines[3].afterNumber);
+        queryAndAssert(rowEls[1], '.lineNum.right').textContent,
+        lines[3].afterNumber.toString()
+      );
       assert.equal(
-          rowEls[1].querySelector('.content').textContent, lines[3].text);
+        queryAndAssert(rowEls[1], '.content').textContent,
+        lines[3].text
+      );
     });
   });
 });
-

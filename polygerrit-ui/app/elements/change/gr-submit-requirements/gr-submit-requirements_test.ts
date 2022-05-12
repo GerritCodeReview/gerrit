@@ -99,7 +99,7 @@ suite('gr-submit-requirements tests', () => {
               </iron-icon>
             </td>
             <td class="name">
-              <gr-limited-text class="name" limit="25"></gr-limited-text>
+              <gr-limited-text class="name"></gr-limited-text>
             </td>
             <td>
               <gr-endpoint-decorator

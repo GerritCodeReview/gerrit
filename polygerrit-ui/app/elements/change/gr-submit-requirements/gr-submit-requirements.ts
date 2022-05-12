@@ -200,7 +200,6 @@ export class GrSubmitRequirements extends LitElement {
         <td class="name">
           <gr-limited-text
             class="name"
-            limit="25"
             .text=${requirement.name}
           ></gr-limited-text>
         </td>

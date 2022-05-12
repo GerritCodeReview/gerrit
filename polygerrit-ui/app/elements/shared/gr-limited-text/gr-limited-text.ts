@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {customElement, property} from 'lit/decorators';
-import {html, LitElement} from 'lit';
+import {css, html, LitElement} from 'lit';
 import '../gr-tooltip-content/gr-tooltip-content';
 
 declare global {
@@ -38,13 +38,19 @@ export class GrLimitedText extends LitElement {
 
   /** The maximum length for the text to display before truncating. */
   @property({type: Number})
-  limit = 0;
+  limit = 25;
 
   @property({type: String})
   tooltip?: string;
 
   static override get styles() {
-    return [];
+    return [
+      css`
+        :host {
+          white-space: nowrap;
+        }
+      `,
+    ];
   }
 
   override render() {

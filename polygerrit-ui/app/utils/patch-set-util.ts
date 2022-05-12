@@ -282,7 +282,7 @@ export function computePredecessor(
 }
 
 export function hasEditBasedOnCurrentPatchSet(
-  allPatchSets: PatchSet[]
+  allPatchSets?: PatchSet[]
 ): boolean {
   if (!allPatchSets || allPatchSets.length < 2) {
     return false;

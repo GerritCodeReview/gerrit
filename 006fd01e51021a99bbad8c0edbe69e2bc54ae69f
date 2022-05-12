@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "078f28e4_743c1848",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-12T14:36:48Z",
+      "side": 1,
+      "message": "we don\u0027t use negative `top` anywhere. Can you find a more standard way to position these?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 20
+      },
+      "revId": "006fd01e51021a99bbad8c0edbe69e2bc54ae69f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

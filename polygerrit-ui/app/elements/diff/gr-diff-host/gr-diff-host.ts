@@ -116,7 +116,8 @@ function isImageDiff(diff?: DiffInfo) {
   return !!(diff.binary && (isA || isB));
 }
 
-interface LineInfo {
+// visible for testing
+export interface LineInfo {
   beforeNumber?: LineNumber;
   afterNumber?: LineNumber;
 }
@@ -277,15 +278,18 @@ export class GrDiffHost extends DIPolymerElement {
 
   private readonly getChecksModel = resolve(this, checksModelToken);
 
-  private readonly reporting = getAppContext().reportingService;
+  // visible for testing
+  readonly reporting = getAppContext().reportingService;
 
   private readonly flags = getAppContext().flagsService;
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly jsAPI = getAppContext().jsApiService;
+  // visible for testing
+  readonly jsAPI = getAppContext().jsApiService;
 
-  private readonly syntaxLayer: GrSyntaxLayerWorker;
+  // visible for testing
+  readonly syntaxLayer: GrSyntaxLayerWorker;
 
   private checksSubscription?: Subscription;
 

@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c9d3c79_d9790922",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-12T07:41:51Z",
+      "side": 1,
+      "message": "Would it worth to clarify, that this problem only affects gerrit sites, that do not provide their own soy template:\n\n  // Load as a file in the mail templates directory if present.\n  Path tmpl \u003d site.mail_dir.resolve(name);\n  if (Files.isRegularFile(tmpl)) {\n  [...]\n  \nIn this case, the classloader based resource loading code path isn\u0027t even reached.\n\nFor most sites I am aware of, the \u003cgerrit_site\u003e/etc/mail contains customized *.soy files (e.g. renamed from Abandoned.soy.example to Abandoned.soy).",
+      "revId": "a7c5fcac6bed5b169430c1bfcdb53d1898e64f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5f655bc8_c34fb2e7",
         "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceLoader.java",
         "patchSetId": 3

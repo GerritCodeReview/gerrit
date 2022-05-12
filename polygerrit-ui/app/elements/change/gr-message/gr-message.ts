@@ -663,7 +663,8 @@ export class GrMessage extends LitElement {
       return;
     }
     e.stopPropagation();
-    this.message = {...this.message, expanded: true};
+    this.message.expanded = true;
+    this.requestUpdate();
   }
 
   private handleAuthorClick(e: Event) {
@@ -671,7 +672,8 @@ export class GrMessage extends LitElement {
       return;
     }
     e.stopPropagation();
-    this.message = {...this.message, expanded: false};
+    this.message.expanded = false;
+    this.requestUpdate();
   }
 
   // private but used in tests.

@@ -16,6 +16,24 @@
       "message": "trigger build",
       "revId": "192374da5793b47732c9d188231a948d04a0e958",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2a516e6_c4c4994c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1121477
+      },
+      "writtenOn": "2022-05-12T18:28:46Z",
+      "side": 1,
+      "message": "This is a magic word, worked for me for Jgit, but I used it as an author.\n\nThis change should build, I think builder is just behind.",
+      "parentUuid": "ebf60d35_6540b8cb",
+      "revId": "192374da5793b47732c9d188231a948d04a0e958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

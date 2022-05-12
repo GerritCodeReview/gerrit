@@ -88,7 +88,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
           font-weight: var(--font-weight-h2);
         }
         .error-container {
-          background-color: var(--red-50);
+          background-color: var(--warning-background);
           margin-top: var(--spacing-l);
         }
         .error-container iron-icon {
@@ -214,7 +214,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     this.progressByChange = new Map(
       this.selectedChanges.map(change => [
         change._number,
-        ProgressStatus.NOT_STARTED,
+        ProgressStatus.FAILED,
       ])
     );
   }

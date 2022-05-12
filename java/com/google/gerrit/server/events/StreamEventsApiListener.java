@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.events.ChangeRestoredListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
+import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.events.PrivateStateChangedListener;
 import com.google.gerrit.extensions.events.ReviewerAddedListener;
@@ -86,7 +87,8 @@ public class StreamEventsApiListener
         ReviewerDeletedListener,
         RevisionCreatedListener,
         TopicEditedListener,
-        VoteDeletedListener {
+        VoteDeletedListener,
+        HeadUpdatedListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class StreamEventsApiListenerModule extends AbstractModule {
@@ -111,6 +113,7 @@ public class StreamEventsApiListener
       DynamicSet.bind(binder(), VoteDeletedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), WorkInProgressStateChangedListener.class)
           .to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), HeadUpdatedListener.class).to(StreamEventsApiListener.class);
     }
   }
 
@@ -334,6 +337,16 @@ public class StreamEventsApiListener
     ProjectCreatedEvent event = new ProjectCreatedEvent();
     event.projectName = ev.getProjectName();
     event.headName = ev.getHeadName();
+
+    dispatcher.run(d -> d.postEvent(event.getProjectNameKey(), event));
+  }
+
+  @Override
+  public void onHeadUpdated(HeadUpdatedListener.Event ev) {
+    ProjectHeadUpdatedEvent event = new ProjectHeadUpdatedEvent();
+    event.projectName = ev.getProjectName();
+    event.oldHead = ev.getOldHeadName();
+    event.newHead = ev.getNewHeadName();
 
     dispatcher.run(d -> d.postEvent(event.getProjectNameKey(), event));
   }

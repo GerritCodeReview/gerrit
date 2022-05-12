@@ -57,16 +57,16 @@ export class GrChangeListActionBar extends LitElement {
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
-  override connectedCallback(): void {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getBulkActionsModel().selectedChangeNums$,
+      () => this.getBulkActionsModel().selectedChangeNums$,
       selectedChangeNums => (this.numSelected = selectedChangeNums.length)
     );
     subscribe(
       this,
-      this.getBulkActionsModel().totalChangeCount$,
+      () => this.getBulkActionsModel().totalChangeCount$,
       totalChangeCount => (this.totalChangeCount = totalChangeCount)
     );
   }

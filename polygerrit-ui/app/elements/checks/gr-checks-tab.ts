@@ -73,31 +73,31 @@ export class GrChecksTab extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  override connectedCallback(): void {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getChecksModel().allRunsSelectedPatchset$,
+      () => this.getChecksModel().allRunsSelectedPatchset$,
       x => (this.runs = x)
     );
     subscribe(
       this,
-      this.getChecksModel().allResultsSelected$,
+      () => this.getChecksModel().allResultsSelected$,
       x => (this.results = x)
     );
     subscribe(
       this,
-      this.getChecksModel().checksSelectedPatchsetNumber$,
+      () => this.getChecksModel().checksSelectedPatchsetNumber$,
       x => (this.checksPatchsetNumber = x)
     );
     subscribe(
       this,
-      this.getChangeModel().latestPatchNum$,
+      () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchsetNumber = x)
     );
     subscribe(
       this,
-      this.getChangeModel().changeNum$,
+      () => this.getChangeModel().changeNum$,
       x => (this.changeNum = x)
     );
   }

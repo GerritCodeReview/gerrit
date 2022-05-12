@@ -65,13 +65,17 @@ export class GrDiffPreferences extends LitElement {
 
   private readonly userModel = getAppContext().userModel;
 
-  override connectedCallback() {
-    super.connectedCallback();
-    subscribe(this, this.userModel.diffPreferences$, diffPreferences => {
-      if (!diffPreferences) return;
-      this.originalDiffPrefs = diffPreferences;
-      this.diffPrefs = {...diffPreferences};
-    });
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.userModel.diffPreferences$,
+      diffPreferences => {
+        if (!diffPreferences) return;
+        this.originalDiffPrefs = diffPreferences;
+        this.diffPrefs = {...diffPreferences};
+      }
+    );
   }
 
   static override get styles() {

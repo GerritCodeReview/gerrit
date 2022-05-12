@@ -89,11 +89,11 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     ];
   }
 
-  override connectedCallback() {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getBulkActionsModel().selectedChanges$,
+      () => this.getBulkActionsModel().selectedChanges$,
       selectedChanges => {
         this.selectedChanges = selectedChanges;
         this.resetFlow();
@@ -101,7 +101,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     );
     subscribe(
       this,
-      this.userModel.account$,
+      () => this.userModel.account$,
       account => (this.account = account)
     );
   }

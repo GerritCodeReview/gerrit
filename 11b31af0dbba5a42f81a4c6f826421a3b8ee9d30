@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2323c7b_e32e780f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-12T08:50:29Z",
+      "side": 1,
+      "message": "what is the purpose of this comment?",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 139
+      },
+      "revId": "11b31af0dbba5a42f81a4c6f826421a3b8ee9d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b0b449a_978ad471",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-12T08:50:29Z",
+      "side": 1,
+      "message": "why is the name `Internal` here?\n`All layers, both from the outside and the default ones` is the comment above and the `outside` implies it is not `internal`?",
+      "range": {
+        "startLine": 136,
+        "startChar": 2,
+        "endLine": 136,
+        "endChar": 16
+      },
+      "revId": "11b31af0dbba5a42f81a4c6f826421a3b8ee9d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a63023b_9e7766ef",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-12T08:50:29Z",
+      "side": 1,
+      "message": "inline?",
+      "range": {
+        "startLine": 172,
+        "startChar": 10,
+        "endLine": 172,
+        "endChar": 21
+      },
+      "revId": "11b31af0dbba5a42f81a4c6f826421a3b8ee9d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42339e0c_bafb6d4f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-12T08:50:29Z",
+      "side": 1,
+      "message": "surprised it isn\u0027t using the `fireDiffEvent` method just above.\nDoes it make sense to add a detail argument to `fireDiffEvent` and then use it?",
+      "range": {
+        "startLine": 248,
+        "startChar": 10,
+        "endLine": 248,
+        "endChar": 37
+      },
+      "revId": "11b31af0dbba5a42f81a4c6f826421a3b8ee9d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2013b5c_c34fdd7c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-12T08:50:29Z",
+      "side": 1,
+      "message": "Could we have an `init` method in DiffBuilder?\n\nI don\u0027t like GrDiff setting 10 properties of DiffBuilder.",
+      "range": {
+        "startLine": 877,
+        "startChar": 4,
+        "endLine": 877,
+        "endChar": 25
+      },
+      "revId": "11b31af0dbba5a42f81a4c6f826421a3b8ee9d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15c6a3f8_d402f996",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-12T08:50:29Z",
+      "side": 1,
+      "message": "typo: paint",
+      "range": {
+        "startLine": 511,
+        "startChar": 62,
+        "endLine": 511,
+        "endChar": 66
+      },
+      "revId": "11b31af0dbba5a42f81a4c6f826421a3b8ee9d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

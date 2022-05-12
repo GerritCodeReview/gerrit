@@ -127,9 +127,6 @@ export class GrDialog extends LitElement {
           width: 18px;
           height: 18px;
         }
-        .loadingLabel {
-          color: var(--gray-700);
-        }
       `,
     ];
   }

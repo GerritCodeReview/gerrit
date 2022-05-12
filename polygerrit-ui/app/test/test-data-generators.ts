@@ -22,6 +22,7 @@ import {
   ApprovalInfo,
   AuthInfo,
   BasePatchSetNum,
+  BlameInfo,
   BranchName,
   ChangeConfigInfo,
   ChangeId,
@@ -54,6 +55,7 @@ import {
   MaxObjectSizeLimitInfo,
   MergeableInfo,
   NumericChangeId,
+  PatchRange,
   PatchSetNum,
   PluginConfigInfo,
   PreferencesInfo,
@@ -64,6 +66,7 @@ import {
   RequirementType,
   Reviewers,
   RevisionInfo,
+  RevisionPatchSetNum,
   RobotCommentInfo,
   RobotId,
   RobotRunId,
@@ -255,6 +258,16 @@ export function createCommitInfoWithRequiredCommit(
   return {
     ...createCommit(),
     commit: commit as CommitId,
+  };
+}
+
+export function createPatchRange(
+  basePatchNum?: number,
+  patchNum?: number
+): PatchRange {
+  return {
+    basePatchNum: (basePatchNum ?? 'PARENT') as BasePatchSetNum,
+    patchNum: (patchNum ?? 1) as RevisionPatchSetNum,
   };
 }
 
@@ -603,6 +616,16 @@ export function createDiff(): DiffInfo {
   };
 }
 
+export function createBlame(): BlameInfo {
+  return {
+    author: 'test-author',
+    id: 'test-id',
+    time: 123,
+    commit_msg: 'test-commit-message',
+    ranges: [],
+  };
+}
+
 export function createMergeable(): MergeableInfo {
   return {
     submit_type: SubmitType.MERGE_IF_NECESSARY,
@@ -843,7 +866,9 @@ export function createThread(
   };
 }
 
-export function createCommentThread(comments: Array<Partial<CommentInfo>>) {
+export function createCommentThread(
+  comments: Array<Partial<CommentInfo | DraftInfo>>
+) {
   if (!comments.length) {
     throw new Error('comment is required to create a thread');
   }

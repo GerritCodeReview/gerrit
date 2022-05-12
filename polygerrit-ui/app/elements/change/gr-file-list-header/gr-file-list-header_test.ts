@@ -59,10 +59,10 @@ suite('gr-file-list-header tests', () => {
     element = await fixture(
       html`<gr-file-list-header
         .change=${change}
-        .diffPrefs=${createDefaultDiffPrefs()}
         .shownFileCount=${3}
       ></gr-file-list-header>`
     );
+    element.diffPrefs = createDefaultDiffPrefs();
   });
 
   test('Diff preferences hidden when no prefs', async () => {

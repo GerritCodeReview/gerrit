@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import {Subscription} from 'rxjs';
 import '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import '../../diff/gr-patch-range-select/gr-patch-range-select';
 import '../../edit/gr-edit-controls/gr-edit-controls';
@@ -24,7 +26,7 @@ import '../gr-commit-info/gr-commit-info';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {computeLatestPatchNum, PatchSet} from '../../../utils/patch-set-util';
-import {property, customElement, query} from 'lit/decorators';
+import {property, customElement, query, state} from 'lit/decorators';
 import {
   AccountInfo,
   ChangeInfo,
@@ -97,9 +99,6 @@ export class GrFileListHeader extends LitElement {
   @property({type: Number})
   shownFileCount = 0;
 
-  @property({type: Object})
-  diffPrefs?: DiffPreferencesInfo;
-
   @property({type: String})
   patchNum?: PatchSetNum;
 
@@ -121,11 +120,17 @@ export class GrFileListHeader extends LitElement {
   @query('#collapseBtn')
   collapseBtn?: GrButton;
 
+  @state() diffPrefs?: DiffPreferencesInfo;
+
   private readonly shortcuts = getAppContext().shortcutsService;
 
   // Caps the number of files that can be shown and have the 'show diffs' /
   // 'hide diffs' buttons still be functional.
   private readonly maxFilesForBulkActions = 225;
+
+  private readonly userModel = getAppContext().userModel;
+
+  private subscriptions: Subscription[] = [];
 
   static override styles = [
     sharedStyles,
@@ -365,6 +370,23 @@ export class GrFileListHeader extends LitElement {
         </div>
       </div>
     `;
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.subscriptions = [
+      this.userModel.diffPreferences$.subscribe(diffPreferences => {
+        this.diffPrefs = diffPreferences;
+      }),
+    ];
+  }
+
+  override disconnectedCallback() {
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
+    super.disconnectedCallback();
   }
 
   private expandAllDiffs() {

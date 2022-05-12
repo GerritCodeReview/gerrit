@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "84ff0631_58ade7a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-05-12T09:14:40Z",
+      "side": 1,
+      "message": "I tried to explain better in the commit message the reason of this.\n\nIt boils down to the way the resources were attempted to be loaded using the class path of the current thread [1].\n\nHope it makes sense.\n\n[1]https://github.com/google/guava/blob/v30.1/guava/src/com/google/common/io/Resources.java#L192",
+      "parentUuid": "26996896_3770b71e",
+      "range": {
+        "startLine": 22,
+        "startChar": 12,
+        "endLine": 22,
+        "endChar": 34
+      },
+      "revId": "a7c5fcac6bed5b169430c1bfcdb53d1898e64f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c9d3c79_d9790922",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -37,6 +61,24 @@
       "writtenOn": "2022-05-12T07:41:51Z",
       "side": 1,
       "message": "Would it worth to clarify, that this problem only affects gerrit sites, that do not provide their own soy template:\n\n  // Load as a file in the mail templates directory if present.\n  Path tmpl \u003d site.mail_dir.resolve(name);\n  if (Files.isRegularFile(tmpl)) {\n  [...]\n  \nIn this case, the classloader based resource loading code path isn\u0027t even reached.\n\nFor most sites I am aware of, the \u003cgerrit_site\u003e/etc/mail contains customized *.soy files (e.g. renamed from Abandoned.soy.example to Abandoned.soy).",
+      "revId": "a7c5fcac6bed5b169430c1bfcdb53d1898e64f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7550a436_5d4ac933",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-05-12T09:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c9d3c79_d9790922",
       "revId": "a7c5fcac6bed5b169430c1bfcdb53d1898e64f14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -78,6 +120,30 @@
       "side": 1,
       "message": "Good point. The base version that uses Resources.getResource(logicalPath) using this code:\n\n  ClassLoader loader \u003d\n        MoreObjects.firstNonNull(\n            Thread.currentThread().getContextClassLoader(), \n  Resources.class.getClassLoader());\n\nAnd in async code path, during refresh it\u0027s problematic.\nHow and why it works at Google@HEAD? Is cache refreshing happens synchronously?",
       "parentUuid": "5f655bc8_c34fb2e7",
+      "range": {
+        "startLine": 140,
+        "startChar": 16,
+        "endLine": 140,
+        "endChar": 52
+      },
+      "revId": "a7c5fcac6bed5b169430c1bfcdb53d1898e64f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77f20178_d827d05f",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-05-12T09:14:40Z",
+      "side": 1,
+      "message": "Very good point @dmitrii,\nUsing the class loader of the class rather than the one from the thread fixes the issue without having to pass the classpath all the way through.\n\nDo you know why you were not seeing this at google? might be to do with the fact that you use customized templates?",
+      "parentUuid": "9f3db9ec_2ca5c7eb",
       "range": {
         "startLine": 140,
         "startChar": 16,

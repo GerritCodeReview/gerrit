@@ -205,15 +205,23 @@ export class GrThreadList extends LitElement {
 
   private readonly userModel = getAppContext().userModel;
 
-  override connectedCallback(): void {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getChangeModel().changeNum$,
+      () => this.getChangeModel().changeNum$,
       x => (this.changeNum = x)
     );
-    subscribe(this, this.getChangeModel().change$, x => (this.change = x));
-    subscribe(this, this.userModel.account$, x => (this.account = x));
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
+    );
+    subscribe(
+      this,
+      () => this.userModel.account$,
+      x => (this.account = x)
+    );
   }
 
   override willUpdate(changed: PropertyValues) {

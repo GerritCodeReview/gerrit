@@ -131,11 +131,11 @@ export class GrPatchRangeSelect extends LitElement {
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  override connectedCallback() {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getCommentsModel().changeComments$,
+      () => this.getCommentsModel().changeComments$,
       x => (this.changeComments = x)
     );
   }

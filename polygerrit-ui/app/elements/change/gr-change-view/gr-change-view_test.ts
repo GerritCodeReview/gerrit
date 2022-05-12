@@ -1529,7 +1529,7 @@ suite('gr-change-view tests', () => {
     );
   });
 
-  test('_handleCommitMessageSave trims trailing whitespace', () => {
+  test('_handleCommitMessageSave trims trailing whitespace', async () => {
     element._change = createChangeViewChange();
     // Response code is 500, because we want to avoid window reloading
     const putStub = stubRestApi('putChangeCommitMessage').returns(
@@ -1541,10 +1541,10 @@ suite('gr-change-view tests', () => {
 
     element._handleCommitMessageSave(mockEvent('test \n  test '));
     assert.equal(putStub.lastCall.args[1], 'test\n  test');
-
+    element.$.commitMessageEditor.disabled = false;
     element._handleCommitMessageSave(mockEvent('  test\ntest'));
     assert.equal(putStub.lastCall.args[1], '  test\ntest');
-
+    element.$.commitMessageEditor.disabled = false;
     element._handleCommitMessageSave(mockEvent('\n\n\n\n\n\n\n\n'));
     assert.equal(putStub.lastCall.args[1], '\n\n\n\n\n\n\n\n');
   });

@@ -944,6 +944,8 @@ export class GrChangeView extends base {
     assertIsDefined(this._change, '_change');
     if (!this._changeNum)
       throw new Error('missing required changeNum property');
+    // to prevent 2 requests at the same time
+    if (this.$.commitMessageEditor.disabled) return;
     // Trim trailing whitespace from each line.
     const message = e.detail.content.replace(TRAILING_WHITESPACE_REGEX, '');
 

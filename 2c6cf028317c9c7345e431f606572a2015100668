@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "a56022e4_a8e0706a",
         "filename": "/PATCHSET_LEVEL",
@@ -14,8 +15,25 @@
       "side": 1,
       "message": "The code looks good, but what is your plan for tests?\n\nI think you could have a Task in a test and a custom onStop/onStart listener that all either have a lock or a countdown latch and then assert states and hence test your logic.",
       "revId": "2c6cf028317c9c7345e431f606572a2015100668",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a541fa4c_3d8f061d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-12T16:18:05Z",
+      "side": 1,
+      "message": "I have found a simpler approach to testing that hopefully will be good enough, and doesn\u0027t require across thread coordination (except for volatile), let me know if you don\u0027t think it is a good approach.",
+      "parentUuid": "a56022e4_a8e0706a",
+      "revId": "2c6cf028317c9c7345e431f606572a2015100668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

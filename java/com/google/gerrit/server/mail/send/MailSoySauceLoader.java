@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.common.io.CharStreams;
-import com.google.common.io.Resources;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
@@ -137,6 +136,6 @@ class MailSoySauceLoader {
     }
 
     // Otherwise load the template as a resource.
-    builder.add(Resources.getResource(logicalPath), logicalPath);
+    builder.add(this.getClass().getClassLoader().getResource(logicalPath), logicalPath);
   }
 }

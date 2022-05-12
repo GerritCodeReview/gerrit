@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.common.io.CharStreams;
-import com.google.common.io.Resources;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
@@ -33,7 +32,7 @@ import java.nio.file.Path;
 /**
  * Configures and loads Soy Sauce object for rendering email templates.
  *
- * <p>It reloads templates each time when {@link #load()} is called.
+ * <p>It reloads templates each time when {@link #load(ClassLoader)} is called.
  */
 @Singleton
 class MailSoySauceLoader {
@@ -102,18 +101,19 @@ class MailSoySauceLoader {
     this.templateProviders = templateProviders;
   }
 
-  public SoySauce load() {
+  public SoySauce load(ClassLoader classLoader) {
     SoyFileSet.Builder builder = SoyFileSet.builder();
     builder.setSoyAstCache(cache);
     for (String name : TEMPLATES) {
-      addTemplate(builder, "com/google/gerrit/server/mail/", name);
+      addTemplate(classLoader, builder, "com/google/gerrit/server/mail/", name);
     }
     templateProviders.runEach(
-        e -> e.getFileNames().forEach(p -> addTemplate(builder, e.getPath(), p)));
+        e -> e.getFileNames().forEach(p -> addTemplate(classLoader, builder, e.getPath(), p)));
     return builder.build().compileTemplates();
   }
 
-  private void addTemplate(SoyFileSet.Builder builder, String resourcePath, String name)
+  private void addTemplate(
+      ClassLoader classLoader, SoyFileSet.Builder builder, String resourcePath, String name)
       throws ProvisionException {
     if (!resourcePath.endsWith("/")) {
       resourcePath += "/";
@@ -137,6 +137,6 @@ class MailSoySauceLoader {
     }
 
     // Otherwise load the template as a resource.
-    builder.add(Resources.getResource(logicalPath), logicalPath);
+    builder.add(classLoader.getResource(logicalPath), logicalPath);
   }
 }

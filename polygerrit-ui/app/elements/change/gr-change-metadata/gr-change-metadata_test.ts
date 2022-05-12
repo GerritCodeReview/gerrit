@@ -199,8 +199,8 @@ suite('gr-change-metadata tests', () => {
         <span class="title"> Hashtags </span>
         <span class="value"> </span>
       </section>
-      <div class="oldSeparatedSection">
-      <gr-change-requirements></gr-change-requirements>
+      <div class="separatedSection">
+      <gr-submit-requirements></gr-submit-requirements>
       </div>
       <gr-endpoint-decorator name="change-metadata-item">
         <gr-endpoint-param name="labels"> </gr-endpoint-param>

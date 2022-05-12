@@ -29,7 +29,6 @@ import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-linked-chip/gr-linked-chip';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-submit-requirements/gr-submit-requirements';
-import '../gr-change-requirements/gr-change-requirements';
 import '../gr-commit-info/gr-commit-info';
 import '../gr-reviewer-list/gr-reviewer-list';
 import '../../shared/gr-account-list/gr-account-list';
@@ -86,7 +85,6 @@ import {Interaction} from '../../../constants/reporting';
 import {
   getApprovalInfo,
   getCodeReviewLabel,
-  showNewSubmitRequirements,
 } from '../../../utils/label-util';
 import {LitElement, css, html, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
@@ -179,8 +177,6 @@ export class GrChangeMetadata extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly flagsService = getAppContext().flagsService;
-
   constructor() {
     super();
     this.queryTopic = (input: string) => this.getTopicSuggestions(input);
@@ -195,7 +191,6 @@ export class GrChangeMetadata extends LitElement {
       :host {
         display: table;
       }
-      gr-change-requirements,
       gr-submit-requirements {
         --requirements-horizontal-padding: var(--metadata-horizontal-padding);
       }
@@ -702,23 +697,13 @@ export class GrChangeMetadata extends LitElement {
   }
 
   private renderSubmitRequirements() {
-    if (this.showNewSubmitRequirements()) {
-      return html`<div class="separatedSection">
-        <gr-submit-requirements
-          .change=${this.change}
-          .account=${this.account}
-          .mutable=${this.mutable}
-        ></gr-submit-requirements>
-      </div>`;
-    } else {
-      return html` <div class="oldSeparatedSection">
-        <gr-change-requirements
-          .change=${this.change}
-          .account=${this.account}
-          .mutable=${this.mutable}
-        ></gr-change-requirements>
-      </div>`;
-    }
+    return html`<div class="separatedSection">
+      <gr-submit-requirements
+        .change=${this.change}
+        .account=${this.account}
+        .mutable=${this.mutable}
+      ></gr-submit-requirements>
+    </div>`;
   }
 
   private renderWeblinks() {
@@ -1211,10 +1196,6 @@ export class GrChangeMetadata extends LitElement {
             return {name: hashtag, value: hashtag};
           })
       );
-  }
-
-  private showNewSubmitRequirements() {
-    return showNewSubmitRequirements(this.flagsService, this.change);
   }
 
   private computeVoteForRole(role: ChangeRole) {

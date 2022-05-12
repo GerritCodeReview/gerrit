@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-reply-dialog';
 import {
   addListenerForTest,
+  isVisible,
   mockPromise,
   queryAll,
   queryAndAssert,
@@ -1233,11 +1234,6 @@ suite('gr-reply-dialog tests', () => {
 
   function getActiveElement() {
     return document.activeElement;
-  }
-
-  function isVisible(el: Element) {
-    assert.ok(el);
-    return getComputedStyle(el).getPropertyValue('display') !== 'none';
   }
 
   function overlayObserver(mode: string) {

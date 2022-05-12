@@ -20,7 +20,12 @@ import './gr-file-list-header';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {createChange, createRevision} from '../../../test/test-data-generators';
-import {query, queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {
+  isVisible,
+  query,
+  queryAndAssert,
+  stubRestApi,
+} from '../../../test/test-utils';
 import {GrFileListHeader} from './gr-file-list-header';
 import {
   BasePatchSetNum,
@@ -202,11 +207,6 @@ suite('gr-file-list-header tests', () => {
       element.loggedIn = true;
       await element.updateComplete;
     });
-
-    function isVisible(el: HTMLElement) {
-      assert.ok(el);
-      return getComputedStyle(el).getPropertyValue('display') !== 'none';
-    }
 
     test('patch specific elements', async () => {
       element.editMode = true;

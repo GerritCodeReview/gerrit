@@ -132,6 +132,7 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {BehaviorSubject} from 'rxjs';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -139,7 +140,8 @@ const LOADED_BLAME = 'Blame loaded';
 // Time in which pressing n key again after the toast navigates to next file
 const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
-interface Files {
+// visible for testing
+export interface Files {
   sortedFileList: string[];
   changeFilesByPath: {[path: string]: FileInfo};
 }
@@ -159,6 +161,9 @@ export interface GrDiffView {
     modeSelect: GrDiffModeSelector;
     downloadOverlay: GrOverlay;
     downloadDialog: GrDownloadDialog;
+    toggleBlame: GrButton;
+    diffPrefsContainer: HTMLElement;
+    rangeSelect: HTMLElement;
   };
 }
 
@@ -288,7 +293,8 @@ export class GrDiffView extends base {
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
 
-  private reviewedFiles = new Set<string>();
+  // visible for testing
+  reviewedFiles = new Set<string>();
 
   override keyboardShortcuts(): ShortcutListener[] {
     return [
@@ -382,7 +388,8 @@ export class GrDiffView extends base {
 
   _onRenderHandler?: EventListener;
 
-  private cursor = new GrDiffCursor();
+  // visible for testing
+  cursor = new GrDiffCursor();
 
   private subscriptions: Subscription[] = [];
 
@@ -1555,7 +1562,7 @@ export class GrDiffView extends base {
     }
   }
 
-  _getPaths(patchRange: PatchRange) {
+  _getPaths(patchRange: PatchRange): CommentMap {
     if (!this._changeComments) return {};
     return this._changeComments.getPaths(patchRange);
   }
@@ -1564,7 +1571,7 @@ export class GrDiffView extends base {
     commentMap?: CommentMap,
     fileList?: string[],
     path?: string
-  ) {
+  ): CommentSkips | undefined {
     if (!commentMap) return undefined;
     if (!fileList) return undefined;
     if (!path) return undefined;

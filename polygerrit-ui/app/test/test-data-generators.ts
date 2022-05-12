@@ -119,6 +119,7 @@ import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {GenerateUrlEditViewParameters} from '../elements/core/gr-navigation/gr-navigation';
 import {
   DetailedLabelInfo,
+  FileInfo,
   QuickLabelInfo,
   SubmitRequirementExpressionInfo,
   SubmitRequirementResultInfo,
@@ -364,6 +365,13 @@ export function createChangeMessages(count: number): ChangeMessageInfo[] {
     messageDate.setDate(messageDate.getDate() + 1);
   }
   return messages;
+}
+
+export function createFileInfo(): FileInfo {
+  return {
+    size: 314,
+    size_delta: 7,
+  };
 }
 
 export function createChange(): ChangeInfo {

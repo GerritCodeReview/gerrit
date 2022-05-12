@@ -39,6 +39,11 @@ type GrDiffRowType = GrDiffLineType | GrDiffGroupType;
 const LEFT_SIDE_CLASS = 'target-side-left';
 const RIGHT_SIDE_CLASS = 'target-side-right';
 
+interface Address {
+  leftSide: boolean;
+  number: number;
+}
+
 /** A subset of the GrDiff API that the cursor is using. */
 export interface GrDiffCursorable extends HTMLElement {
   isRangeSelected(): boolean;
@@ -373,7 +378,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
    * {leftSide: true, number: 321} for line 321 of the base patch.
    * Returns null if an address is not available.
    */
-  getAddress() {
+  getAddress(): Address | null {
     if (!this.diffRow) {
       return null;
     }
@@ -382,7 +387,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
     return this.getAddressFor(this.diffRow, this.side);
   }
 
-  private getAddressFor(diffRow: HTMLElement, side: Side) {
+  private getAddressFor(diffRow: HTMLElement, side: Side): Address | null {
     let cell;
     if (this._getViewMode() === DiffViewMode.UNIFIED) {
       cell = diffRow.querySelector('.lineNum.right');

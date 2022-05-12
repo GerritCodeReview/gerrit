@@ -1,104 +1,134 @@
 /**
  * @license
- * Copyright (C) 2018 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
-import '../../../test/common-test-setup-karma.js';
-import './gr-diff-host.js';
-
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {createDefaultDiffPrefs, Side} from '../../../constants/constants.js';
-import {createChange, createComment, createCommentThread} from '../../../test/test-data-generators.js';
-import {addListenerForTest, mockPromise, stubRestApi, waitUntil} from '../../../test/test-utils.js';
-import {EditPatchSetNum, ParentPatchSetNum} from '../../../types/common.js';
-import {CoverageType} from '../../../types/types.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {GrDiffBuilderImage} from '../../../embed/diff/gr-diff-builder/gr-diff-builder-image.js';
-import {waitForEventOnce} from '../../../utils/event-util.js';
+import '../../../test/common-test-setup-karma';
+import './gr-diff-host';
+import {
+  CommentSide,
+  createDefaultDiffPrefs,
+  Side,
+} from '../../../constants/constants';
+import {
+  createBlame,
+  createChange,
+  createComment,
+  createCommentThread,
+  createDiff,
+  createPatchRange,
+  createRunResult,
+} from '../../../test/test-data-generators';
+import {
+  addListenerForTest,
+  mockPromise,
+  query,
+  queryAll,
+  queryAndAssert,
+  stubRestApi,
+  waitUntil,
+} from '../../../test/test-utils';
+import {
+  BasePatchSetNum,
+  BlameInfo,
+  CommentRange,
+  CommitId,
+  EditPatchSetNum,
+  ImageInfo,
+  NumericChangeId,
+  ParentPatchSetNum,
+  PatchSetNum,
+  RepoName,
+  RevisionPatchSetNum,
+  UrlEncodedCommentId,
+} from '../../../types/common';
+import {CoverageType} from '../../../types/types';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {GrDiffBuilderImage} from '../../../embed/diff/gr-diff-builder/gr-diff-builder-image';
+import {waitForEventOnce} from '../../../utils/event-util';
+import {GrDiffHost, LineInfo} from './gr-diff-host';
+import {DiffInfo, DiffViewMode, IgnoreWhitespaceType} from '../../../api/diff';
+import {ErrorCallback} from '../../../api/rest';
+import {SinonStub} from 'sinon';
+import {RunResult} from '../../../models/checks/checks-model';
+import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
+import {assertIsDefined} from '../../../utils/common-util';
+import {GrAnnotationActionsInterface} from '../../shared/gr-js-api-interface/gr-annotation-actions-js-api';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 
 suite('gr-diff-host tests', () => {
-  let element;
-
-  let loggedIn;
+  let element: GrDiffHost;
+  let loggedIn: boolean;
 
   setup(async () => {
     loggedIn = false;
     stubRestApi('getLoggedIn').callsFake(() => Promise.resolve(loggedIn));
     element = basicFixture.instantiate();
-    element.changeNum = 123;
+    element.changeNum = 123 as NumericChangeId;
     element.path = 'some/path';
-    sinon.stub(element.reporting, 'time');
-    sinon.stub(element.reporting, 'timeEnd');
     await flush();
   });
 
   suite('plugin layers', () => {
+    let getDiffLayersStub: sinon.SinonStub;
     const pluginLayers = [{annotate: () => {}}, {annotate: () => {}}];
     setup(() => {
       element = basicFixture.instantiate();
-      sinon.stub(element.jsAPI, 'getDiffLayers').returns(pluginLayers);
-      element.changeNum = 123;
+      getDiffLayersStub = sinon
+        .stub(element.jsAPI, 'getDiffLayers')
+        .returns(pluginLayers);
+      element.changeNum = 123 as NumericChangeId;
       element.path = 'some/path';
     });
     test('plugin layers requested', async () => {
-      element.patchRange = {};
       element.change = createChange();
-      stubRestApi('getDiff').returns(Promise.resolve({content: []}));
+      stubRestApi('getDiff').returns(Promise.resolve(createDiff()));
       await element.reload();
-      assert(element.jsAPI.getDiffLayers.called);
+      assert(getDiffLayersStub.called);
     });
   });
 
   suite('render reporting', () => {
     test('ends total and syntax timer after syntax layer', async () => {
-      sinon.stub(element.reporting, 'diffViewContentDisplayed');
-      let notifySyntaxProcessed;
-      sinon.stub(element.syntaxLayer, 'process').returns(
-          new Promise(resolve => {
-            notifySyntaxProcessed = resolve;
-          })
+      const displayedStub = sinon.stub(
+        element.reporting,
+        'diffViewContentDisplayed'
       );
-      stubRestApi('getDiff').returns(Promise.resolve({content: []}));
-      element.patchRange = {};
+      const timeEndStub = sinon.stub(element.reporting, 'timeEnd');
+      let notifySyntaxProcessed: () => void = () => {};
+      sinon.stub(element.syntaxLayer, 'process').returns(
+        new Promise(resolve => {
+          notifySyntaxProcessed = resolve;
+        })
+      );
+      stubRestApi('getDiff').returns(Promise.resolve(createDiff()));
+      element.patchRange = createPatchRange();
       element.change = createChange();
       element.prefs = createDefaultDiffPrefs();
       element.reload(true);
       // Multiple cascading microtasks are scheduled.
       await flush();
       notifySyntaxProcessed();
-      await waitUntil(() => element.reporting.timeEnd.callCount === 4);
-      const calls = element.reporting.timeEnd.getCalls();
+      await waitUntil(() => timeEndStub.callCount === 4);
+      const calls = timeEndStub.getCalls();
       assert.equal(calls.length, 4);
       assert.equal(calls[0].args[0], 'Diff Load Render');
       assert.equal(calls[1].args[0], 'Diff Content Render');
       assert.equal(calls[2].args[0], 'Diff Syntax Render');
       assert.equal(calls[3].args[0], 'Diff Total Render');
-      assert.isTrue(element.reporting.diffViewContentDisplayed.called);
+      assert.isTrue(displayedStub.called);
     });
 
     test('completes reload promise after syntax layer processing', async () => {
-      let notifySyntaxProcessed;
-      sinon.stub(element.syntaxLayer, 'process').returns(new Promise(
-          resolve => {
-            notifySyntaxProcessed = resolve;
-          }));
-      stubRestApi('getDiff').returns(
-          Promise.resolve({content: []}));
-      element.patchRange = {};
+      let notifySyntaxProcessed: () => void = () => {};
+      sinon.stub(element.syntaxLayer, 'process').returns(
+        new Promise(resolve => {
+          notifySyntaxProcessed = resolve;
+        })
+      );
+      stubRestApi('getDiff').returns(Promise.resolve(createDiff()));
+      element.patchRange = createPatchRange();
       element.change = createChange();
       let reloadComplete = false;
       element.prefs = createDefaultDiffPrefs();
@@ -119,14 +149,17 @@ suite('gr-diff-host tests', () => {
 
     // Stub the network calls into requests that never resolve.
     sinon.stub(element, '_getDiff').callsFake(() => new Promise(() => {}));
-    element.patchRange = {};
+    element.patchRange = createPatchRange();
     element.change = createChange();
 
     // Needs to be set to something first for it to cancel.
     element.diff = {
-      content: [{
-        a: ['foo'],
-      }],
+      ...createDiff(),
+      content: [
+        {
+          a: ['foo'],
+        },
+      ],
     };
 
     element.reload();
@@ -135,46 +168,59 @@ suite('gr-diff-host tests', () => {
 
   test('reload() loads files weblinks', async () => {
     element.change = createChange();
-    const weblinksStub = sinon.stub(GerritNav, '_generateWeblinks')
-        .returns({name: 'stubb', url: '#s'});
-    stubRestApi('getDiff').returns(Promise.resolve({
-      content: [],
-    }));
-    element.projectName = 'test-project';
+    const weblinksStub = sinon
+      .stub(GerritNav, '_generateWeblinks')
+      .returns({name: 'stubb', url: '#s'});
+    stubRestApi('getDiff').returns(
+      Promise.resolve({
+        ...createDiff(),
+        content: [],
+      })
+    );
+    element.projectName = 'test-project' as RepoName;
     element.path = 'test-path';
-    element.commitRange = {baseCommit: 'test-base', commit: 'test-commit'};
-    element.patchRange = {};
+    element.commitRange = {
+      baseCommit: 'test-base' as CommitId,
+      commit: 'test-commit' as CommitId,
+    };
+    element.patchRange = createPatchRange();
 
     await element.reload();
 
     assert.equal(weblinksStub.callCount, 3);
     assert.deepEqual(weblinksStub.firstCall.args[0], {
-      commit: 'test-base',
+      commit: 'test-base' as CommitId,
       file: 'test-path',
       options: {
         weblinks: undefined,
       },
-      repo: 'test-project',
-      type: GerritNav.WeblinkType.EDIT});
-    assert.deepEqual(element.editWeblinks, [{
-      name: 'stubb', url: '#s',
-    }]);
+      repo: 'test-project' as RepoName,
+      type: GerritNav.WeblinkType.EDIT,
+    });
+    assert.deepEqual(element.editWeblinks, [
+      {
+        name: 'stubb',
+        url: '#s',
+      },
+    ]);
     assert.deepEqual(weblinksStub.secondCall.args[0], {
-      commit: 'test-base',
+      commit: 'test-base' as CommitId,
       file: 'test-path',
       options: {
         weblinks: undefined,
       },
-      repo: 'test-project',
-      type: GerritNav.WeblinkType.FILE});
+      repo: 'test-project' as RepoName,
+      type: GerritNav.WeblinkType.FILE,
+    });
     assert.deepEqual(weblinksStub.thirdCall.args[0], {
-      commit: 'test-commit',
+      commit: 'test-commit' as CommitId,
       file: 'test-path',
       options: {
         weblinks: undefined,
       },
-      repo: 'test-project',
-      type: GerritNav.WeblinkType.FILE});
+      repo: 'test-project' as RepoName,
+      type: GerritNav.WeblinkType.FILE,
+    });
     assert.deepEqual(element.filesWeblinks, {
       meta_a: [{name: 'stubb', url: '#s'}],
       meta_b: [{name: 'stubb', url: '#s'}],
@@ -182,40 +228,50 @@ suite('gr-diff-host tests', () => {
   });
 
   test('prefetch getDiff', async () => {
-    const diffRestApiStub = stubRestApi('getDiff')
-        .returns(Promise.resolve({content: []}));
-    element.changeNum = 123;
-    element.patchRange = {basePatchNum: 1, patchNum: 2};
+    const diffRestApiStub = stubRestApi('getDiff').returns(
+      Promise.resolve(createDiff())
+    );
+    element.changeNum = 123 as NumericChangeId;
+    element.patchRange = createPatchRange();
     element.path = 'file.txt';
     element.prefetchDiff();
     await element._getDiff();
     assert.isTrue(diffRestApiStub.calledOnce);
   });
 
-  test('_getDiff handles null diff responses', async () => {
-    stubRestApi('getDiff').returns(Promise.resolve(null));
-    element.changeNum = 123;
-    element.patchRange = {basePatchNum: 1, patchNum: 2};
+  test('_getDiff handles undefined diff responses', async () => {
+    stubRestApi('getDiff').returns(Promise.resolve(undefined));
+    element.changeNum = 123 as NumericChangeId;
+    element.patchRange = createPatchRange();
     element.path = 'file.txt';
     await element._getDiff();
   });
 
   test('reload resolves on error', () => {
     const onErrStub = sinon.stub(element, '_handleGetDiffError');
-    const error = new Response(null, {ok: false, status: 500});
+    const error = new Response(null, {status: 500});
     stubRestApi('getDiff').callsFake(
-        (changeNum, basePatchNum, patchNum, path, whitespace, onErr) => {
-          onErr(error);
-        });
-    element.patchRange = {};
+      (
+        _1: NumericChangeId,
+        _2: PatchSetNum,
+        _3: PatchSetNum,
+        _4: string,
+        _5?: IgnoreWhitespaceType,
+        onErr?: ErrorCallback
+      ) => {
+        if (onErr) onErr(error);
+        return Promise.resolve(undefined);
+      }
+    );
+    element.patchRange = createPatchRange();
     return element.reload().then(() => {
       assert.isTrue(onErrStub.calledOnce);
     });
   });
 
   suite('_handleGetDiffError', () => {
-    let serverErrorStub;
-    let pageErrorStub;
+    let serverErrorStub: sinon.SinonStub;
+    let pageErrorStub: sinon.SinonStub;
 
     setup(() => {
       serverErrorStub = sinon.stub();
@@ -225,7 +281,7 @@ suite('gr-diff-host tests', () => {
     });
 
     test('page error on HTTP-409', () => {
-      element._handleGetDiffError({status: 409});
+      element._handleGetDiffError({status: 409} as Response);
       assert.isTrue(serverErrorStub.calledOnce);
       assert.isFalse(pageErrorStub.called);
       assert.isNotOk(element._errorMessage);
@@ -235,7 +291,7 @@ suite('gr-diff-host tests', () => {
       element._handleGetDiffError({
         status: 500,
         text: () => Promise.resolve(''),
-      });
+      } as Response);
       assert.isFalse(serverErrorStub.called);
       assert.isTrue(pageErrorStub.calledOnce);
       assert.isNotOk(element._errorMessage);
@@ -243,43 +299,44 @@ suite('gr-diff-host tests', () => {
 
     test('error message if showLoadFailure', () => {
       element.showLoadFailure = true;
-      element._handleGetDiffError({status: 500, statusText: 'Failure!'});
+      element._handleGetDiffError({
+        status: 500,
+        statusText: 'Failure!',
+      } as Response);
       assert.isFalse(serverErrorStub.called);
       assert.isFalse(pageErrorStub.called);
-      assert.equal(element._errorMessage,
-          'Encountered error when loading the diff: 500 Failure!');
+      assert.equal(
+        element._errorMessage,
+        'Encountered error when loading the diff: 500 Failure!'
+      );
     });
   });
 
   suite('image diffs', () => {
-    let mockFile1;
-    let mockFile2;
+    let mockFile1: ImageInfo;
+    let mockFile2: ImageInfo;
     setup(() => {
       mockFile1 = {
-        body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
-        'wsAAAAAAAAAAAAAAAAA/w==',
+        body:
+          'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
+          'wsAAAAAAAAAAAAAAAAA/w==',
         type: 'image/bmp',
       };
       mockFile2 = {
-        body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
-        'wsAAAAAAAAAAAAA/////w==',
+        body:
+          'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
+          'wsAAAAAAAAAAAAA/////w==',
         type: 'image/bmp',
       };
 
-      element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
+      element.patchRange = createPatchRange();
       element.change = createChange();
-      element.comments = {
-        left: [],
-        right: [],
-        meta: {patchRange: element.patchRange},
-      };
     });
 
     test('renders image diffs with same file name', async () => {
-      const mockDiff = {
+      const mockDiff: DiffInfo = {
         meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-        meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-          lines: 560},
+        meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
         intraline_status: 'OK',
         change_type: 'MODIFIED',
         diff_header: [
@@ -293,18 +350,20 @@ suite('gr-diff-host tests', () => {
         binary: true,
       };
       stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
-      stubRestApi('getImagesForDiff').returns(Promise.resolve({
-        baseImage: {
-          ...mockFile1,
-          _expectedType: 'image/jpeg',
-          _name: 'carrot.jpg',
-        },
-        revisionImage: {
-          ...mockFile2,
-          _expectedType: 'image/jpeg',
-          _name: 'carrot.jpg',
-        },
-      }));
+      stubRestApi('getImagesForDiff').returns(
+        Promise.resolve({
+          baseImage: {
+            ...mockFile1,
+            _expectedType: 'image/jpeg',
+            _name: 'carrot.jpg',
+          },
+          revisionImage: {
+            ...mockFile2,
+            _expectedType: 'image/jpeg',
+            _name: 'carrot.jpg',
+          },
+        })
+      );
 
       element.prefs = createDefaultDiffPrefs();
       element.reload();
@@ -312,42 +371,41 @@ suite('gr-diff-host tests', () => {
 
       // Recognizes that it should be an image diff.
       assert.isTrue(element.isImageDiff);
-      assert.instanceOf(
-          element.$.diff.diffBuilder.builder, GrDiffBuilderImage);
+      assert.instanceOf(element.$.diff.diffBuilder.builder, GrDiffBuilderImage);
 
       // Left image rendered with the parent commit's version of the file.
-      const leftImage =
-          element.$.diff.$.diffTable.querySelector('td.left img');
-      const leftLabel =
-          element.$.diff.$.diffTable.querySelector('td.left label');
+      const diffTable = element.$.diff.$.diffTable;
+      const leftImage = queryAndAssert(diffTable, 'td.left img');
+      const leftLabel = queryAndAssert(diffTable, 'td.left label');
       const leftLabelContent = leftLabel.querySelector('.label');
       const leftLabelName = leftLabel.querySelector('.name');
 
-      const rightImage =
-          element.$.diff.$.diffTable.querySelector('td.right img');
-      const rightLabel = element.$.diff.$.diffTable.querySelector(
-          'td.right label');
+      const rightImage = queryAndAssert(diffTable, 'td.right img');
+      const rightLabel = queryAndAssert(diffTable, 'td.right label');
       const rightLabelContent = rightLabel.querySelector('.label');
       const rightLabelName = rightLabel.querySelector('.name');
 
       assert.isOk(leftImage);
-      assert.equal(leftImage.getAttribute('src'),
-          'data:image/bmp;base64,' + mockFile1.body);
-      assert.isTrue(leftLabelContent.textContent.includes('image/bmp'));
+      assert.equal(
+        leftImage.getAttribute('src'),
+        'data:image/bmp;base64,' + mockFile1.body
+      );
+      assert.isTrue(leftLabelContent?.textContent?.includes('image/bmp'));
       assert.isNotOk(leftLabelName);
 
       assert.isOk(rightImage);
-      assert.equal(rightImage.getAttribute('src'),
-          'data:image/bmp;base64,' + mockFile2.body);
-      assert.isTrue(rightLabelContent.textContent.includes('image/bmp'));
+      assert.equal(
+        rightImage.getAttribute('src'),
+        'data:image/bmp;base64,' + mockFile2.body
+      );
+      assert.isTrue(rightLabelContent?.textContent?.includes('image/bmp'));
       assert.isNotOk(rightLabelName);
     });
 
     test('renders image diffs with a different file name', async () => {
-      const mockDiff = {
+      const mockDiff: DiffInfo = {
         meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-        meta_b: {name: 'carrot2.jpg', content_type: 'image/jpeg',
-          lines: 560},
+        meta_b: {name: 'carrot2.jpg', content_type: 'image/jpeg', lines: 560},
         intraline_status: 'OK',
         change_type: 'MODIFIED',
         diff_header: [
@@ -361,18 +419,20 @@ suite('gr-diff-host tests', () => {
         binary: true,
       };
       stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
-      stubRestApi('getImagesForDiff').returns(Promise.resolve({
-        baseImage: {
-          ...mockFile1,
-          _expectedType: 'image/jpeg',
-          _name: 'carrot.jpg',
-        },
-        revisionImage: {
-          ...mockFile2,
-          _expectedType: 'image/jpeg',
-          _name: 'carrot2.jpg',
-        },
-      }));
+      stubRestApi('getImagesForDiff').returns(
+        Promise.resolve({
+          baseImage: {
+            ...mockFile1,
+            _expectedType: 'image/jpeg',
+            _name: 'carrot.jpg',
+          },
+          revisionImage: {
+            ...mockFile2,
+            _expectedType: 'image/jpeg',
+            _name: 'carrot2.jpg',
+          },
+        })
+      );
 
       element.prefs = createDefaultDiffPrefs();
       element.reload();
@@ -380,44 +440,43 @@ suite('gr-diff-host tests', () => {
 
       // Recognizes that it should be an image diff.
       assert.isTrue(element.isImageDiff);
-      assert.instanceOf(
-          element.$.diff.diffBuilder.builder, GrDiffBuilderImage);
+      assert.instanceOf(element.$.diff.diffBuilder.builder, GrDiffBuilderImage);
 
       // Left image rendered with the parent commit's version of the file.
-      const leftImage =
-          element.$.diff.$.diffTable.querySelector('td.left img');
-      const leftLabel =
-          element.$.diff.$.diffTable.querySelector('td.left label');
+      const diffTable = element.$.diff.$.diffTable;
+      const leftImage = queryAndAssert(diffTable, 'td.left img');
+      const leftLabel = queryAndAssert(diffTable, 'td.left label');
       const leftLabelContent = leftLabel.querySelector('.label');
       const leftLabelName = leftLabel.querySelector('.name');
 
-      const rightImage =
-          element.$.diff.$.diffTable.querySelector('td.right img');
-      const rightLabel = element.$.diff.$.diffTable.querySelector(
-          'td.right label');
+      const rightImage = queryAndAssert(diffTable, 'td.right img');
+      const rightLabel = queryAndAssert(diffTable, 'td.right label');
       const rightLabelContent = rightLabel.querySelector('.label');
       const rightLabelName = rightLabel.querySelector('.name');
 
       assert.isOk(rightLabelName);
       assert.isOk(leftLabelName);
-      assert.equal(leftLabelName.textContent, mockDiff.meta_a.name);
-      assert.equal(rightLabelName.textContent, mockDiff.meta_b.name);
+      assert.equal(leftLabelName?.textContent, mockDiff.meta_a?.name);
+      assert.equal(rightLabelName?.textContent, mockDiff.meta_b?.name);
 
       assert.isOk(leftImage);
-      assert.equal(leftImage.getAttribute('src'),
-          'data:image/bmp;base64,' + mockFile1.body);
-      assert.isTrue(leftLabelContent.textContent.includes('image/bmp'));
+      assert.equal(
+        leftImage.getAttribute('src'),
+        'data:image/bmp;base64,' + mockFile1.body
+      );
+      assert.isTrue(leftLabelContent?.textContent?.includes('image/bmp'));
 
       assert.isOk(rightImage);
-      assert.equal(rightImage.getAttribute('src'),
-          'data:image/bmp;base64,' + mockFile2.body);
-      assert.isTrue(rightLabelContent.textContent.includes('image/bmp'));
+      assert.equal(
+        rightImage.getAttribute('src'),
+        'data:image/bmp;base64,' + mockFile2.body
+      );
+      assert.isTrue(rightLabelContent?.textContent?.includes('image/bmp'));
     });
 
     test('renders added image', async () => {
-      const mockDiff = {
-        meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-          lines: 560},
+      const mockDiff: DiffInfo = {
+        meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
         intraline_status: 'OK',
         change_type: 'ADDED',
         diff_header: [
@@ -431,26 +490,30 @@ suite('gr-diff-host tests', () => {
         binary: true,
       };
       stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
-      stubRestApi('getImagesForDiff').returns(Promise.resolve({
-        baseImage: null,
-        revisionImage: {
-          ...mockFile2,
-          _expectedType: 'image/jpeg',
-          _name: 'carrot2.jpg',
-        },
-      }));
+      stubRestApi('getImagesForDiff').returns(
+        Promise.resolve({
+          baseImage: null,
+          revisionImage: {
+            ...mockFile2,
+            _expectedType: 'image/jpeg',
+            _name: 'carrot2.jpg',
+          },
+        })
+      );
 
       const promise = mockPromise();
       element.addEventListener('render', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assert.instanceOf(
-            element.$.diff.diffBuilder.builder, GrDiffBuilderImage);
+          element.$.diff.diffBuilder.builder,
+          GrDiffBuilderImage
+        );
 
-        const leftImage =
-            element.$.diff.$.diffTable.querySelector('td.left img');
-        const rightImage =
-            element.$.diff.$.diffTable.querySelector('td.right img');
+        const diffTable = element.$.diff.$.diffTable;
+
+        const leftImage = query(diffTable, 'td.left img');
+        const rightImage = queryAndAssert(diffTable, 'td.right img');
 
         assert.isNotOk(leftImage);
         assert.isOk(rightImage);
@@ -463,9 +526,8 @@ suite('gr-diff-host tests', () => {
     });
 
     test('renders removed image', async () => {
-      const mockDiff = {
-        meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg',
-          lines: 560},
+      const mockDiff: DiffInfo = {
+        meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
         intraline_status: 'OK',
         change_type: 'DELETED',
         diff_header: [
@@ -479,26 +541,30 @@ suite('gr-diff-host tests', () => {
         binary: true,
       };
       stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
-      stubRestApi('getImagesForDiff').returns(Promise.resolve({
-        baseImage: {
-          ...mockFile1,
-          _expectedType: 'image/jpeg',
-          _name: 'carrot.jpg',
-        },
-        revisionImage: null,
-      }));
+      stubRestApi('getImagesForDiff').returns(
+        Promise.resolve({
+          baseImage: {
+            ...mockFile1,
+            _expectedType: 'image/jpeg',
+            _name: 'carrot.jpg',
+          },
+          revisionImage: null,
+        })
+      );
 
       const promise = mockPromise();
       element.addEventListener('render', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assert.instanceOf(
-            element.$.diff.diffBuilder.builder, GrDiffBuilderImage);
+          element.$.diff.diffBuilder.builder,
+          GrDiffBuilderImage
+        );
 
-        const leftImage =
-            element.$.diff.$.diffTable.querySelector('td.left img');
-        const rightImage =
-            element.$.diff.$.diffTable.querySelector('td.right img');
+        const diffTable = element.$.diff.$.diffTable;
+
+        const leftImage = queryAndAssert(diffTable, 'td.left img');
+        const rightImage = query(diffTable, 'td.right img');
 
         assert.isOk(leftImage);
         assert.isNotOk(rightImage);
@@ -511,9 +577,12 @@ suite('gr-diff-host tests', () => {
     });
 
     test('does not render disallowed image type', async () => {
-      const mockDiff = {
-        meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg-evil',
-          lines: 560},
+      const mockDiff: DiffInfo = {
+        meta_a: {
+          name: 'carrot.jpg',
+          content_type: 'image/jpeg-evil',
+          lines: 560,
+        },
         intraline_status: 'OK',
         change_type: 'DELETED',
         diff_header: [
@@ -529,23 +598,28 @@ suite('gr-diff-host tests', () => {
       mockFile1.type = 'image/jpeg-evil';
 
       stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
-      stubRestApi('getImagesForDiff').returns(Promise.resolve({
-        baseImage: {
-          ...mockFile1,
-          _expectedType: 'image/jpeg',
-          _name: 'carrot.jpg',
-        },
-        revisionImage: null,
-      }));
+      stubRestApi('getImagesForDiff').returns(
+        Promise.resolve({
+          baseImage: {
+            ...mockFile1,
+            _expectedType: 'image/jpeg',
+            _name: 'carrot.jpg',
+          },
+          revisionImage: null,
+        })
+      );
 
       const promise = mockPromise();
       element.addEventListener('render', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assert.instanceOf(
-            element.$.diff.diffBuilder.builder, GrDiffBuilderImage);
-        const leftImage =
-            element.$.diff.$.diffTable.querySelector('td.left img');
+          element.$.diff.diffBuilder.builder,
+          GrDiffBuilderImage
+        );
+        const diffTable = element.$.diff.$.diffTable;
+
+        const leftImage = query(diffTable, 'td.left img');
         assert.isNotOk(leftImage);
         promise.resolve();
       });
@@ -557,32 +631,28 @@ suite('gr-diff-host tests', () => {
   });
 
   test('cannot create comments when not logged in', () => {
-    element.patchRange = {
-      basePatchNum: 'PARENT',
-      patchNum: 2,
-    };
+    element.patchRange = createPatchRange();
     const showAuthRequireSpy = sinon.spy();
     element.addEventListener('show-auth-required', showAuthRequireSpy);
 
-    element.dispatchEvent(new CustomEvent('create-comment', {
-      detail: {
-        lineNum: 3,
-        side: Side.LEFT,
-        path: '/p',
-      },
-    }));
+    element.dispatchEvent(
+      new CustomEvent('create-comment', {
+        detail: {
+          lineNum: 3,
+          side: Side.LEFT,
+          path: '/p',
+        },
+      })
+    );
 
-    const threads = dom(element.$.diff)
-        .queryDistributedElements('gr-comment-thread');
-
+    const threads = queryAll(element.$.diff, 'gr-comment-thread');
     assert.equal(threads.length, 0);
-
     assert.isTrue(showAuthRequireSpy.called);
   });
 
   test('delegates cancel()', () => {
     const stub = sinon.stub(element.$.diff, 'cancel');
-    element.patchRange = {};
+    element.patchRange = createPatchRange();
     element.cancel();
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 0);
@@ -590,8 +660,9 @@ suite('gr-diff-host tests', () => {
 
   test('delegates getCursorStops()', () => {
     const returnValue = [document.createElement('b')];
-    const stub = sinon.stub(element.$.diff, 'getCursorStops')
-        .returns(returnValue);
+    const stub = sinon
+      .stub(element.$.diff, 'getCursorStops')
+      .returns(returnValue);
     assert.equal(element.getCursorStops(), returnValue);
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 0);
@@ -599,8 +670,9 @@ suite('gr-diff-host tests', () => {
 
   test('delegates isRangeSelected()', () => {
     const returnValue = true;
-    const stub = sinon.stub(element.$.diff, 'isRangeSelected')
-        .returns(returnValue);
+    const stub = sinon
+      .stub(element.$.diff, 'isRangeSelected')
+      .returns(returnValue);
     assert.equal(element.isRangeSelected(), returnValue);
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 0);
@@ -616,7 +688,7 @@ suite('gr-diff-host tests', () => {
   suite('blame', () => {
     setup(async () => {
       element = basicFixture.instantiate();
-      element.changeNum = 123;
+      element.changeNum = 123 as NumericChangeId;
       element.path = 'some/path';
       await flush();
     });
@@ -631,17 +703,25 @@ suite('gr-diff-host tests', () => {
     });
 
     test('loadBlame', () => {
-      const mockBlame = [{id: 'commit id', ranges: [{start: 1, end: 2}]}];
+      const mockBlame: BlameInfo[] = [createBlame()];
       const showAlertStub = sinon.stub();
       element.addEventListener('show-alert', showAlertStub);
-      const getBlameStub = stubRestApi('getBlame')
-          .returns(Promise.resolve(mockBlame));
-      element.changeNum = 42;
-      element.patchRange = {patchNum: 5, basePatchNum: 4};
+      const getBlameStub = stubRestApi('getBlame').returns(
+        Promise.resolve(mockBlame)
+      );
+      const changeNum = 42 as NumericChangeId;
+      element.changeNum = changeNum;
+      element.patchRange = createPatchRange();
       element.path = 'foo/bar.baz';
       return element.loadBlame().then(() => {
-        assert.isTrue(getBlameStub.calledWithExactly(
-            42, 5, 'foo/bar.baz', true));
+        assert.isTrue(
+          getBlameStub.calledWithExactly(
+            changeNum,
+            1 as RevisionPatchSetNum,
+            'foo/bar.baz',
+            true
+          )
+        );
         assert.isFalse(showAlertStub.called);
         assert.equal(element._blame, mockBlame);
         assert.equal(element.isBlameLoaded, true);
@@ -649,23 +729,24 @@ suite('gr-diff-host tests', () => {
     });
 
     test('loadBlame empty', () => {
-      const mockBlame = [];
+      const mockBlame: BlameInfo[] = [];
       const showAlertStub = sinon.stub();
       element.addEventListener('show-alert', showAlertStub);
-      stubRestApi('getBlame')
-          .returns(Promise.resolve(mockBlame));
-      element.changeNum = 42;
-      element.patchRange = {patchNum: 5, basePatchNum: 4};
+      stubRestApi('getBlame').returns(Promise.resolve(mockBlame));
+      const changeNum = 42 as NumericChangeId;
+      element.changeNum = changeNum;
+      element.patchRange = createPatchRange();
       element.path = 'foo/bar.baz';
-      return element.loadBlame()
-          .then(() => {
-            assert.isTrue(false, 'Promise should not resolve');
-          })
-          .catch(() => {
-            assert.isTrue(showAlertStub.calledOnce);
-            assert.isNull(element._blame);
-            assert.equal(element.isBlameLoaded, false);
-          });
+      return element
+        .loadBlame()
+        .then(() => {
+          assert.isTrue(false, 'Promise should not resolve');
+        })
+        .catch(() => {
+          assert.isTrue(showAlertStub.calledOnce);
+          assert.isNull(element._blame);
+          assert.equal(element.isBlameLoaded, false);
+        });
     });
   });
 
@@ -712,7 +793,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('passes in prefs', () => {
-    const value = {};
+    const value = createDefaultDiffPrefs();
     element.prefs = value;
     assert.equal(element.$.diff.prefs, value);
   });
@@ -743,7 +824,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('passes in viewMode', () => {
-    const value = 'SIDE_BY_SIDE';
+    const value = DiffViewMode.SIDE_BY_SIDE;
     element.viewMode = value;
     assert.equal(element.$.diff.viewMode, value);
   });
@@ -755,31 +836,26 @@ suite('gr-diff-host tests', () => {
   });
 
   suite('_reportDiff', () => {
-    let reportStub;
+    let reportStub: SinonStub;
 
     setup(async () => {
       element = basicFixture.instantiate();
-      element.changeNum = 123;
+      element.changeNum = 123 as NumericChangeId;
       element.path = 'file.txt';
-      element.patchRange = {basePatchNum: 1};
+      element.patchRange = createPatchRange(1, 2);
       reportStub = sinon.stub(element.reporting, 'reportInteraction');
       await flush();
     });
 
-    test('null and content-less', () => {
-      element._reportDiff(null);
-      assert.isFalse(reportStub.called);
-
-      element._reportDiff({});
+    test('undefined', () => {
+      element._reportDiff(undefined);
       assert.isFalse(reportStub.called);
     });
 
     test('diff w/ no delta', () => {
-      const diff = {
-        content: [
-          {ab: ['foo', 'bar']},
-          {ab: ['baz', 'foo']},
-        ],
+      const diff: DiffInfo = {
+        ...createDiff(),
+        content: [{ab: ['foo', 'bar']}, {ab: ['baz', 'foo']}],
       };
       element._reportDiff(diff);
       assert.isTrue(reportStub.calledOnce);
@@ -788,7 +864,8 @@ suite('gr-diff-host tests', () => {
     });
 
     test('diff w/ no rebase delta', () => {
-      const diff = {
+      const diff: DiffInfo = {
+        ...createDiff(),
         content: [
           {ab: ['foo', 'bar']},
           {a: ['baz', 'foo']},
@@ -806,7 +883,8 @@ suite('gr-diff-host tests', () => {
     });
 
     test('diff w/ some rebase delta', () => {
-      const diff = {
+      const diff: DiffInfo = {
+        ...createDiff(),
         content: [
           {ab: ['foo', 'bar']},
           {a: ['baz', 'foo'], due_to_rebase: true},
@@ -820,32 +898,44 @@ suite('gr-diff-host tests', () => {
       };
       element._reportDiff(diff);
       assert.isTrue(reportStub.calledOnce);
-      assert.isTrue(reportStub.calledWith(
-          'rebase-percent-nonzero',
-          {percentRebaseDelta: 50}
-      ));
+      assert.isTrue(
+        reportStub.calledWith('rebase-percent-nonzero', {
+          percentRebaseDelta: 50,
+        })
+      );
     });
 
     test('diff w/ all rebase delta', () => {
-      const diff = {content: [{
-        a: ['foo', 'bar'],
-        b: ['baz', 'foo'],
-        due_to_rebase: true,
-      }]};
+      const diff: DiffInfo = {
+        ...createDiff(),
+        content: [
+          {
+            a: ['foo', 'bar'],
+            b: ['baz', 'foo'],
+            due_to_rebase: true,
+          },
+        ],
+      };
       element._reportDiff(diff);
       assert.isTrue(reportStub.calledOnce);
-      assert.isTrue(reportStub.calledWith(
-          'rebase-percent-nonzero',
-          {percentRebaseDelta: 100}
-      ));
+      assert.isTrue(
+        reportStub.calledWith('rebase-percent-nonzero', {
+          percentRebaseDelta: 100,
+        })
+      );
     });
 
     test('diff against parent event', () => {
-      element.patchRange.basePatchNum = 'PARENT';
-      const diff = {content: [{
-        a: ['foo', 'bar'],
-        b: ['baz', 'foo'],
-      }]};
+      element.patchRange = createPatchRange();
+      const diff: DiffInfo = {
+        ...createDiff(),
+        content: [
+          {
+            a: ['foo', 'bar'],
+            b: ['baz', 'foo'],
+          },
+        ],
+      };
       element._reportDiff(diff);
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'diff-against-parent');
@@ -855,8 +945,9 @@ suite('gr-diff-host tests', () => {
 
   suite('createCheckEl method', () => {
     test('start_line:12', () => {
-      const result = {
-        codePointers: [{range: {start_line: 12}}],
+      const result: RunResult = {
+        ...createRunResult(),
+        codePointers: [{path: 'a', range: {start_line: 12} as CommentRange}],
       };
       const el = element.createCheckEl(result);
       assert.equal(el.getAttribute('slot'), 'right-12');
@@ -867,8 +958,11 @@ suite('gr-diff-host tests', () => {
     });
 
     test('start_line:13 end_line:14 without char positions', () => {
-      const result = {
-        codePointers: [{range: {start_line: 13, end_line: 14}}],
+      const result: RunResult = {
+        ...createRunResult(),
+        codePointers: [
+          {path: 'a', range: {start_line: 13, end_line: 14} as CommentRange},
+        ],
       };
       const el = element.createCheckEl(result);
       assert.equal(el.getAttribute('slot'), 'right-14');
@@ -879,9 +973,11 @@ suite('gr-diff-host tests', () => {
     });
 
     test('start_line:13 end_line:14 with char positions', () => {
-      const result = {
+      const result: RunResult = {
+        ...createRunResult(),
         codePointers: [
           {
+            path: 'a',
             range: {
               start_line: 13,
               end_line: 14,
@@ -895,17 +991,20 @@ suite('gr-diff-host tests', () => {
       assert.equal(el.getAttribute('slot'), 'right-14');
       assert.equal(el.getAttribute('diff-side'), 'right');
       assert.equal(el.getAttribute('line-num'), '14');
-      assert.equal(el.getAttribute('range'),
-          '{"start_line":13,' +
+      assert.equal(
+        el.getAttribute('range'),
+        '{"start_line":13,' +
           '"end_line":14,' +
           '"start_character":5,' +
-          '"end_character":7}');
+          '"end_character":7}'
+      );
       assert.equal(el.result, result);
     });
 
     test('empty range', () => {
-      const result = {
-        codePointers: [{range: {}}],
+      const result: RunResult = {
+        ...createRunResult(),
+        codePointers: [{path: 'a', range: {} as CommentRange}],
       };
       const el = element.createCheckEl(result);
       assert.equal(el.getAttribute('slot'), 'right-FILE');
@@ -923,28 +1022,26 @@ suite('gr-diff-host tests', () => {
       await flush();
     });
 
-    test('creates comments if they do not exist yet', () => {
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 2,
-      };
+    test('creates comments if they do not exist yet', async () => {
+      element.patchRange = createPatchRange();
+      element.dispatchEvent(
+        new CustomEvent('create-comment', {
+          detail: {
+            lineNum: 3,
+            side: Side.LEFT,
+            path: '/p',
+          },
+        })
+      );
 
-      element.dispatchEvent(new CustomEvent('create-comment', {
-        detail: {
-          lineNum: 3,
-          side: Side.LEFT,
-          path: '/p',
-        },
-      }));
-
-      let threads = dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread');
+      let threads =
+        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
 
       assert.equal(threads.length, 1);
-      assert.equal(threads[0].thread.commentSide, 'PARENT');
+      assert.equal(threads[0].thread?.commentSide, CommentSide.PARENT);
       assert.equal(threads[0].getAttribute('diff-side'), Side.LEFT);
-      assert.equal(threads[0].thread.range, undefined);
-      assert.equal(threads[0].thread.patchNum, 2);
+      assert.equal(threads[0].thread?.range, undefined);
+      assert.equal(threads[0].thread?.patchNum, 1 as PatchSetNum);
 
       // Try to fetch a thread with a different range.
       const range = {
@@ -953,160 +1050,160 @@ suite('gr-diff-host tests', () => {
         end_line: 1,
         end_character: 3,
       };
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 3,
-      };
+      element.patchRange = createPatchRange();
 
-      element.dispatchEvent(new CustomEvent('create-comment', {
-        detail: {
-          lineNum: 1,
-          side: Side.LEFT,
-          path: '/p',
-          range,
-        },
-      }));
+      element.dispatchEvent(
+        new CustomEvent('create-comment', {
+          detail: {
+            lineNum: 1,
+            side: Side.LEFT,
+            path: '/p',
+            range,
+          },
+        })
+      );
 
-      threads = dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread');
+      threads =
+        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
 
       assert.equal(threads.length, 2);
-      assert.equal(threads[0].thread.commentSide, 'PARENT');
+      assert.equal(threads[0].thread?.commentSide, CommentSide.PARENT);
       assert.equal(threads[0].getAttribute('diff-side'), Side.LEFT);
-      assert.equal(threads[1].thread.range, range);
-      assert.equal(threads[1].thread.patchNum, 3);
+      assert.equal(threads[1].thread?.range, range);
+      assert.equal(threads[1].thread?.patchNum, 1 as PatchSetNum);
     });
 
-    test('should not be on parent if on the right', () => {
-      element.patchRange = {
-        basePatchNum: 2,
-        patchNum: 3,
-      };
+    test('should not be on parent if on the right', async () => {
+      element.patchRange = createPatchRange(2, 3);
+      element.dispatchEvent(
+        new CustomEvent('create-comment', {
+          detail: {
+            side: Side.RIGHT,
+          },
+        })
+      );
+      await flush();
 
-      element.dispatchEvent(new CustomEvent('create-comment', {
-        detail: {
-          side: Side.RIGHT,
-        },
-      }));
+      const threads =
+        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+      const threadEl = threads[0];
 
-      const threadEl = dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread')[0];
-
-      assert.equal(threadEl.thread.commentSide, 'REVISION');
+      assert.equal(threadEl.thread?.commentSide, CommentSide.REVISION);
       assert.equal(threadEl.getAttribute('diff-side'), Side.RIGHT);
     });
 
     test('should be on parent if right and base is PARENT', () => {
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 3,
-      };
+      element.patchRange = createPatchRange();
 
-      element.dispatchEvent(new CustomEvent('create-comment', {
-        detail: {
-          side: Side.LEFT,
-        },
-      }));
+      element.dispatchEvent(
+        new CustomEvent('create-comment', {
+          detail: {
+            side: Side.LEFT,
+          },
+        })
+      );
 
-      const threadEl = dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread')[0];
+      const threads =
+        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+      const threadEl = threads[0];
 
-      assert.equal(threadEl.thread.commentSide, 'PARENT');
+      assert.equal(threadEl.thread?.commentSide, CommentSide.PARENT);
       assert.equal(threadEl.getAttribute('diff-side'), Side.LEFT);
     });
 
     test('should be on parent if right and base negative', () => {
-      element.patchRange = {
-        basePatchNum: -2, // merge parents have negative numbers
-        patchNum: 3,
-      };
+      element.patchRange = createPatchRange(-2, 3);
 
-      element.dispatchEvent(new CustomEvent('create-comment', {
-        detail: {
-          side: Side.LEFT,
-        },
-      }));
+      element.dispatchEvent(
+        new CustomEvent('create-comment', {
+          detail: {
+            side: Side.LEFT,
+          },
+        })
+      );
 
-      const threadEl = dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread')[0];
+      const threads =
+        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+      const threadEl = threads[0];
 
-      assert.equal(threadEl.thread.commentSide, 'PARENT');
+      assert.equal(threadEl.thread?.commentSide, CommentSide.PARENT);
       assert.equal(threadEl.getAttribute('diff-side'), Side.LEFT);
     });
 
     test('should not be on parent otherwise', () => {
-      element.patchRange = {
-        basePatchNum: 2, // merge parents have negative numbers
-        patchNum: 3,
-      };
+      element.patchRange = createPatchRange(2, 3);
+      element.dispatchEvent(
+        new CustomEvent('create-comment', {
+          detail: {
+            side: Side.LEFT,
+          },
+        })
+      );
 
-      element.dispatchEvent(new CustomEvent('create-comment', {
-        detail: {
-          side: Side.LEFT,
-        },
-      }));
+      const threads =
+        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+      const threadEl = threads[0];
 
-      const threadEl = dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread')[0];
-
-      assert.equal(threadEl.thread.commentSide, 'REVISION');
+      assert.equal(threadEl.thread?.commentSide, CommentSide.REVISION);
       assert.equal(threadEl.getAttribute('diff-side'), Side.LEFT);
     });
 
-    test('thread should use old file path if first created ' +
-    'on patch set (left) before renaming', async () => {
-      element.patchRange = {
-        basePatchNum: 2,
-        patchNum: 3,
-      };
-      element.file = {basePath: 'file_renamed.txt', path: element.path};
-      await flush();
+    test(
+      'thread should use old file path if first created ' +
+        'on patch set (left) before renaming',
+      async () => {
+        element.patchRange = createPatchRange(2, 3);
+        element.file = {basePath: 'file_renamed.txt', path: element.path ?? ''};
+        await flush();
 
-      element.dispatchEvent(new CustomEvent('create-comment', {
-        detail: {
-          side: Side.LEFT,
-          path: '/p',
-        },
-      }));
+        element.dispatchEvent(
+          new CustomEvent('create-comment', {
+            detail: {
+              side: Side.LEFT,
+              path: '/p',
+            },
+          })
+        );
 
-      const threads = dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread');
+        const threads =
+          element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
 
-      assert.equal(threads.length, 1);
-      assert.equal(threads[0].getAttribute('diff-side'), Side.LEFT);
-      assert.equal(threads[0].thread.path, element.file.basePath);
-    });
+        assert.equal(threads.length, 1);
+        assert.equal(threads[0].getAttribute('diff-side'), Side.LEFT);
+        assert.equal(threads[0].thread?.path, element.file.basePath);
+      }
+    );
 
-    test('thread should use new file path if first created ' +
-    'on patch set (right) after renaming', async () => {
-      element.patchRange = {
-        basePatchNum: 2,
-        patchNum: 3,
-      };
-      element.file = {basePath: 'file_renamed.txt', path: element.path};
-      await flush();
+    test(
+      'thread should use new file path if first created ' +
+        'on patch set (right) after renaming',
+      async () => {
+        element.patchRange = createPatchRange(2, 3);
+        element.file = {basePath: 'file_renamed.txt', path: element.path ?? ''};
+        await flush();
 
-      element.dispatchEvent(new CustomEvent('create-comment', {
-        detail: {
-          side: Side.RIGHT,
-          path: '/p',
-        },
-      }));
+        element.dispatchEvent(
+          new CustomEvent('create-comment', {
+            detail: {
+              side: Side.RIGHT,
+              path: '/p',
+            },
+          })
+        );
 
-      const threads = dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread');
+        const threads =
+          element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
 
-      assert.equal(threads.length, 1);
-      assert.equal(threads[0].getAttribute('diff-side'), Side.RIGHT);
-      assert.equal(threads[0].thread.path, element.file.path);
-    });
+        assert.equal(threads.length, 1);
+        assert.equal(threads[0].getAttribute('diff-side'), Side.RIGHT);
+        assert.equal(threads[0].thread?.path, element.file.path);
+      }
+    );
 
     test('multiple threads created on the same range', async () => {
-      element.patchRange = {
-        basePatchNum: 2,
-        patchNum: 3,
-      };
-      element.file = {basePath: 'file_renamed.txt', path: element.path};
+      element.patchRange = createPatchRange(2, 3);
+
+      element.file = {basePath: 'file_renamed.txt', path: element.path ?? ''};
       await flush();
 
       const comment = {
@@ -1117,60 +1214,61 @@ suite('gr-diff-host tests', () => {
           end_line: 2,
           end_character: 2,
         },
-        patch_set: 3,
+        patch_set: 3 as PatchSetNum,
       };
       const thread = createCommentThread([comment]);
       element.threads = [thread];
 
-      let threads = dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread');
+      let threads =
+        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
 
       assert.equal(threads.length, 1);
-      element.threads= [...element.threads, thread];
+      element.threads = [...element.threads, thread];
 
-      threads = dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread');
+      threads =
+        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
       // Threads have same rootId so element is reused
       assert.equal(threads.length, 1);
 
       const newThread = {...thread};
-      newThread.rootId = 'differentRootId';
-      element.threads= [...element.threads, newThread];
-      threads = dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread');
+      newThread.rootId = 'differentRootId' as UrlEncodedCommentId;
+      element.threads = [...element.threads, newThread];
+      threads =
+        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
       // New thread has a different rootId
       assert.equal(threads.length, 2);
     });
 
     test('unsaved thread changes to draft', async () => {
-      element.patchRange = {
-        basePatchNum: 2,
-        patchNum: 3,
-      };
-      element.file = {basePath: 'file_renamed.txt', path: element.path};
+      element.patchRange = createPatchRange(2, 3);
+      element.file = {basePath: 'file_renamed.txt', path: element.path ?? ''};
       element.threads = [];
       await flush();
 
-      element.dispatchEvent(new CustomEvent('create-comment', {
-        detail: {
-          side: Side.RIGHT,
-          path: element.path,
-          lineNum: 13,
-        },
-      }));
+      element.dispatchEvent(
+        new CustomEvent('create-comment', {
+          detail: {
+            side: Side.RIGHT,
+            path: element.path,
+            lineNum: 13,
+          },
+        })
+      );
       await flush();
       assert.equal(element.getThreadEls().length, 1);
       const threadEl = element.getThreadEls()[0];
-      assert.equal(threadEl.thread.line, 13);
+      assert.equal(threadEl.thread?.line, 13);
       assert.isDefined(threadEl.unsavedComment);
-      assert.equal(threadEl.thread.comments.length, 0);
+      assert.equal(threadEl.thread?.comments.length, 0);
 
-      const draftThread = createCommentThread([{
-        path: element.path,
-        patch_set: 3,
-        line: 13,
-        __draft: true,
-      }]);
+      const draftThread = createCommentThread([
+        {
+          path: element.path,
+          patch_set: 3 as PatchSetNum,
+          line: 13,
+          __draft: true,
+        },
+      ]);
       element.threads = [draftThread];
       await flush();
 
@@ -1180,51 +1278,55 @@ suite('gr-diff-host tests', () => {
       assert.equal(element.getThreadEls()[0], threadEl);
       // But it must have been updated from unsaved to draft:
       assert.isUndefined(threadEl.unsavedComment);
-      assert.equal(threadEl.thread.comments.length, 1);
+      assert.equal(threadEl.thread?.comments.length, 1);
     });
 
-    test('thread should use new file path if first created ' +
-    'on patch set (left) but is base', async () => {
-      element.patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 3,
-      };
-      element.file = {basePath: 'file_renamed.txt', path: element.path};
-      await flush();
+    test(
+      'thread should use new file path if first created ' +
+        'on patch set (left) but is base',
+      async () => {
+        element.patchRange = createPatchRange();
+        element.file = {basePath: 'file_renamed.txt', path: element.path ?? ''};
+        await flush();
 
-      element.dispatchEvent(new CustomEvent('create-comment', {
-        detail: {
-          side: Side.LEFT,
-          path: '/p',
-        },
-      }));
+        element.dispatchEvent(
+          new CustomEvent('create-comment', {
+            detail: {
+              side: Side.LEFT,
+              path: '/p',
+            },
+          })
+        );
 
-      const threads =
-          dom(element.$.diff).queryDistributedElements('gr-comment-thread');
+        const threads =
+          element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
 
-      assert.equal(threads.length, 1);
-      assert.equal(threads[0].getAttribute('diff-side'), Side.LEFT);
-      assert.equal(threads[0].thread.path, element.file.path);
-    });
+        assert.equal(threads.length, 1);
+        assert.equal(threads[0].getAttribute('diff-side'), Side.LEFT);
+        assert.equal(threads[0].thread?.path, element.file.path);
+      }
+    );
 
     test('cannot create thread on an edit', () => {
       const alertSpy = sinon.spy();
       element.addEventListener('show-alert', alertSpy);
 
-      const diffSide = Side.LEFT;
+      const diffSide = Side.RIGHT;
       element.patchRange = {
-        basePatchNum: EditPatchSetNum,
-        patchNum: 3,
+        basePatchNum: 3 as BasePatchSetNum,
+        patchNum: EditPatchSetNum,
       };
-      element.dispatchEvent(new CustomEvent('create-comment', {
-        detail: {
-          side: diffSide,
-          path: '/p',
-        },
-      }));
+      element.dispatchEvent(
+        new CustomEvent('create-comment', {
+          detail: {
+            side: diffSide,
+            path: '/p',
+          },
+        })
+      );
 
       const threads =
-          dom(element.$.diff).queryDistributedElements('gr-comment-thread');
+        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
       assert.equal(threads.length, 0);
       assert.isTrue(alertSpy.called);
     });
@@ -1238,15 +1340,17 @@ suite('gr-diff-host tests', () => {
         basePatchNum: ParentPatchSetNum,
         patchNum: EditPatchSetNum,
       };
-      element.dispatchEvent(new CustomEvent('create-comment', {
-        detail: {
-          side: diffSide,
-          path: '/p',
-        },
-      }));
+      element.dispatchEvent(
+        new CustomEvent('create-comment', {
+          detail: {
+            side: diffSide,
+            path: '/p',
+          },
+        })
+      );
 
-      const threads = dom(element.$.diff)
-          .queryDistributedElements('gr-comment-thread');
+      const threads =
+        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
       assert.equal(threads.length, 0);
       assert.isTrue(alertSpy.called);
     });
@@ -1254,86 +1358,101 @@ suite('gr-diff-host tests', () => {
 
   test('_filterThreadElsForLocation with no threads', () => {
     const line = {beforeNumber: 3, afterNumber: 5};
-
-    const threads = [];
-    assert.deepEqual(element._filterThreadElsForLocation(threads, line), []);
-    assert.deepEqual(element._filterThreadElsForLocation(threads, line,
-        Side.LEFT), []);
-    assert.deepEqual(element._filterThreadElsForLocation(threads, line,
-        Side.RIGHT), []);
+    const threads: GrCommentThread[] = [];
+    assert.deepEqual(
+      element._filterThreadElsForLocation(threads, line, Side.LEFT),
+      []
+    );
+    assert.deepEqual(
+      element._filterThreadElsForLocation(threads, line, Side.RIGHT),
+      []
+    );
   });
 
   test('_filterThreadElsForLocation for line comments', () => {
     const line = {beforeNumber: 3, afterNumber: 5};
 
-    const l3 = document.createElement('div');
-    l3.setAttribute('line-num', 3);
+    const l3 = document.createElement('gr-comment-thread');
+    l3.setAttribute('line-num', '3');
     l3.setAttribute('diff-side', Side.LEFT);
 
-    const l5 = document.createElement('div');
-    l5.setAttribute('line-num', 5);
+    const l5 = document.createElement('gr-comment-thread');
+    l5.setAttribute('line-num', '5');
     l5.setAttribute('diff-side', Side.LEFT);
 
-    const r3 = document.createElement('div');
-    r3.setAttribute('line-num', 3);
+    const r3 = document.createElement('gr-comment-thread');
+    r3.setAttribute('line-num', '3');
     r3.setAttribute('diff-side', Side.RIGHT);
 
-    const r5 = document.createElement('div');
-    r5.setAttribute('line-num', 5);
+    const r5 = document.createElement('gr-comment-thread');
+    r5.setAttribute('line-num', '5');
     r5.setAttribute('diff-side', Side.RIGHT);
 
-    const threadEls = [l3, l5, r3, r5];
-    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Side.LEFT), [l3]);
-    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Side.RIGHT), [r5]);
+    const threadEls: GrCommentThread[] = [l3, l5, r3, r5];
+    assert.deepEqual(
+      element._filterThreadElsForLocation(threadEls, line, Side.LEFT),
+      [l3]
+    );
+    assert.deepEqual(
+      element._filterThreadElsForLocation(threadEls, line, Side.RIGHT),
+      [r5]
+    );
   });
 
   test('_filterThreadElsForLocation for file comments', () => {
-    const line = {beforeNumber: 'FILE', afterNumber: 'FILE'};
+    const line: LineInfo = {beforeNumber: 'FILE', afterNumber: 'FILE'};
 
-    const l = document.createElement('div');
+    const l = document.createElement('gr-comment-thread');
     l.setAttribute('diff-side', Side.LEFT);
     l.setAttribute('line-num', 'FILE');
 
-    const r = document.createElement('div');
+    const r = document.createElement('gr-comment-thread');
     r.setAttribute('diff-side', Side.RIGHT);
     r.setAttribute('line-num', 'FILE');
 
-    const threadEls = [l, r];
-    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Side.LEFT), [l]);
-    assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Side.RIGHT), [r]);
+    const threadEls: GrCommentThread[] = [l, r];
+    assert.deepEqual(
+      element._filterThreadElsForLocation(threadEls, line, Side.LEFT),
+      [l]
+    );
+    assert.deepEqual(
+      element._filterThreadElsForLocation(threadEls, line, Side.RIGHT),
+      [r]
+    );
   });
 
   suite('syntax layer with syntax_highlighting on', () => {
     setup(() => {
       const prefs = {
+        ...createDefaultDiffPrefs(),
         line_length: 10,
         show_tabs: true,
         tab_size: 4,
         context: -1,
         syntax_highlighting: true,
       };
-      element.patchRange = {};
+      element.patchRange = createPatchRange();
       element.prefs = prefs;
-      element.changeNum = 123;
+      element.changeNum = 123 as NumericChangeId;
       element.change = createChange();
       element.path = 'some/path';
     });
 
     test('gr-diff-host provides syntax highlighting layer', async () => {
-      stubRestApi('getDiff').returns(Promise.resolve({content: []}));
+      stubRestApi('getDiff').returns(Promise.resolve(createDiff()));
       await element.reload();
+      assertIsDefined(element.$.diff.layers);
       assert.equal(element.$.diff.layers[1], element.syntaxLayer);
     });
 
     test('rendering normal-sized diff does not disable syntax', () => {
       element.diff = {
-        content: [{
-          a: ['foo'],
-        }],
+        ...createDiff(),
+        content: [
+          {
+            a: ['foo'],
+          },
+        ],
       };
       assert.isTrue(element.syntaxLayer.enabled);
     });
@@ -1341,45 +1460,56 @@ suite('gr-diff-host tests', () => {
     test('rendering large diff disables syntax', () => {
       // Before it renders, set the first diff line to 500 '*' characters.
       element.diff = {
-        content: [{
-          a: [new Array(501).join('*')],
-        }],
+        ...createDiff(),
+        content: [
+          {
+            a: [new Array(501).join('*')],
+          },
+        ],
       };
       assert.isFalse(element.syntaxLayer.enabled);
     });
 
     test('starts syntax layer processing on render event', async () => {
-      sinon.stub(element.syntaxLayer, 'process')
-          .returns(Promise.resolve());
-      stubRestApi('getDiff').returns(Promise.resolve({content: []}));
+      const stub = sinon
+        .stub(element.syntaxLayer, 'process')
+        .returns(Promise.resolve());
+      stubRestApi('getDiff').returns(Promise.resolve(createDiff()));
       await element.reload();
       element.dispatchEvent(
-          new CustomEvent('render', {bubbles: true, composed: true}));
-      assert.isTrue(element.syntaxLayer.process.called);
+        new CustomEvent('render', {bubbles: true, composed: true})
+      );
+      assert.isTrue(stub.called);
     });
   });
 
   suite('syntax layer with syntax_highlighting off', () => {
     setup(() => {
       const prefs = {
+        ...createDefaultDiffPrefs(),
         line_length: 10,
         show_tabs: true,
         tab_size: 4,
         context: -1,
+        syntax_highlighting: false,
       };
       element.diff = {
-        content: [{
-          a: ['foo'],
-        }],
+        ...createDiff(),
+        content: [
+          {
+            a: ['foo'],
+          },
+        ],
       };
-      element.patchRange = {};
+      element.patchRange = createPatchRange();
       element.change = createChange();
       element.prefs = prefs;
     });
 
     test('gr-diff-host provides syntax highlighting layer', async () => {
-      stubRestApi('getDiff').returns(Promise.resolve({content: []}));
+      stubRestApi('getDiff').returns(Promise.resolve(createDiff()));
       await element.reload();
+      assertIsDefined(element.$.diff.layers);
       assert.equal(element.$.diff.layers[1], element.syntaxLayer);
     });
 
@@ -1390,17 +1520,21 @@ suite('gr-diff-host tests', () => {
     test('still disabled for large diff', () => {
       // Before it renders, set the first diff line to 500 '*' characters.
       element.diff = {
-        content: [{
-          a: [new Array(501).join('*')],
-        }],
+        ...createDiff(),
+        content: [
+          {
+            a: [new Array(501).join('*')],
+          },
+        ],
       };
       assert.isFalse(element.syntaxLayer.enabled);
     });
   });
 
   suite('coverage layer', () => {
-    let notifyStub;
-    let coverageProviderStub;
+    let notifyStub: SinonStub;
+    let coverageProviderStub: SinonStub;
+    let getCoverageAnnotationApisStub: SinonStub;
     const exampleRanges = [
       {
         type: CoverageType.COVERED,
@@ -1422,32 +1556,42 @@ suite('gr-diff-host tests', () => {
 
     setup(async () => {
       notifyStub = sinon.stub();
-      coverageProviderStub = sinon.stub().returns(
-          Promise.resolve(exampleRanges));
+      coverageProviderStub = sinon
+        .stub()
+        .returns(Promise.resolve(exampleRanges));
 
       element = basicFixture.instantiate();
-      sinon.stub(element.jsAPI, 'getCoverageAnnotationApis').returns(
-          Promise.resolve([{
-            notify: notifyStub,
-            getCoverageProvider() {
-              return coverageProviderStub;
-            },
-          }]));
-      element.changeNum = 123;
+      getCoverageAnnotationApisStub = sinon
+        .stub(element.jsAPI, 'getCoverageAnnotationApis')
+        .returns(
+          Promise.resolve([
+            {
+              notify: notifyStub,
+              getCoverageProvider() {
+                return coverageProviderStub;
+              },
+            } as unknown as GrAnnotationActionsInterface,
+          ])
+        );
+      element.changeNum = 123 as NumericChangeId;
       element.change = createChange();
       element.path = 'some/path';
       const prefs = {
+        ...createDefaultDiffPrefs(),
         line_length: 10,
         show_tabs: true,
         tab_size: 4,
         context: -1,
       };
       element.diff = {
-        content: [{
-          a: ['foo'],
-        }],
+        ...createDiff(),
+        content: [
+          {
+            a: ['foo'],
+          },
+        ],
       };
-      element.patchRange = {};
+      element.patchRange = createPatchRange();
       element.prefs = prefs;
       stubRestApi('getDiff').returns(Promise.resolve(element.diff));
       await flush();
@@ -1455,49 +1599,64 @@ suite('gr-diff-host tests', () => {
 
     test('getCoverageAnnotationApis should be called', async () => {
       await element.reload();
-      assert.isTrue(element.jsAPI.getCoverageAnnotationApis.calledOnce);
+      assert.isTrue(getCoverageAnnotationApisStub.calledOnce);
     });
 
     test('coverageRangeChanged should be called', async () => {
       await element.reload();
       assert.equal(notifyStub.callCount, 2);
-      assert.isTrue(notifyStub.calledWithExactly(
-          'some/path', 1, 2, Side.RIGHT));
-      assert.isTrue(notifyStub.calledWithExactly(
-          'some/path', 3, 4, Side.RIGHT));
+      assert.isTrue(
+        notifyStub.calledWithExactly('some/path', 1, 2, Side.RIGHT)
+      );
+      assert.isTrue(
+        notifyStub.calledWithExactly('some/path', 3, 4, Side.RIGHT)
+      );
     });
 
     test('provider is called with appropriate params', async () => {
-      element.patchRange.basePatchNum = 1;
-      element.patchRange.patchNum = 3;
+      element.patchRange = createPatchRange(1, 3);
 
       await element.reload();
-      assert.isTrue(coverageProviderStub.calledWithExactly(
-          123, 'some/path', 1, 3, element.change));
+      assert.isTrue(
+        coverageProviderStub.calledWithExactly(
+          123,
+          'some/path',
+          1,
+          3,
+          element.change
+        )
+      );
     });
 
-    test('provider is called with appropriate params - special patchset values',
-        async () => {
-          element.patchRange.basePatchNum = 'PARENT';
-          element.patchRange.patchNum = 'invalid';
+    test('provider is called with appropriate params - special patchset values', async () => {
+      element.patchRange = createPatchRange();
 
-          await element.reload();
-          assert.isTrue(coverageProviderStub.calledWithExactly(
-              123, 'some/path', undefined, undefined, element.change));
-        });
+      await element.reload();
+      assert.isTrue(
+        coverageProviderStub.calledWithExactly(
+          123,
+          'some/path',
+          undefined,
+          1,
+          element.change
+        )
+      );
+    });
   });
 
   suite('trailing newlines', () => {
-    setup(() => {
-    });
+    setup(() => {});
 
     suite('_lastChunkForSide', () => {
       test('deltas', () => {
-        const diff = {content: [
-          {a: ['foo', 'bar'], b: ['baz']},
-          {ab: ['foo', 'bar', 'baz']},
-          {b: ['foo']},
-        ]};
+        const diff: DiffInfo = {
+          ...createDiff(),
+          content: [
+            {a: ['foo', 'bar'], b: ['baz']},
+            {ab: ['foo', 'bar', 'baz']},
+            {b: ['foo']},
+          ],
+        };
         assert.equal(element._lastChunkForSide(diff, false), diff.content[2]);
         assert.equal(element._lastChunkForSide(diff, true), diff.content[1]);
 
@@ -1507,39 +1666,43 @@ suite('gr-diff-host tests', () => {
       });
 
       test('addition with a undefined', () => {
-        const diff = {content: [
-          {b: ['foo', 'bar', 'baz']},
-        ]};
+        const diff: DiffInfo = {
+          ...createDiff(),
+          content: [{b: ['foo', 'bar', 'baz']}],
+        };
         assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
         assert.isNull(element._lastChunkForSide(diff, true));
       });
 
       test('addition with a empty', () => {
-        const diff = {content: [
-          {a: [], b: ['foo', 'bar', 'baz']},
-        ]};
+        const diff: DiffInfo = {
+          ...createDiff(),
+          content: [{a: [], b: ['foo', 'bar', 'baz']}],
+        };
         assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
         assert.isNull(element._lastChunkForSide(diff, true));
       });
 
       test('deletion with b undefined', () => {
-        const diff = {content: [
-          {a: ['foo', 'bar', 'baz']},
-        ]};
+        const diff: DiffInfo = {
+          ...createDiff(),
+          content: [{a: ['foo', 'bar', 'baz']}],
+        };
         assert.isNull(element._lastChunkForSide(diff, false));
         assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);
       });
 
       test('deletion with b empty', () => {
-        const diff = {content: [
-          {a: ['foo', 'bar', 'baz'], b: []},
-        ]};
+        const diff: DiffInfo = {
+          ...createDiff(),
+          content: [{a: ['foo', 'bar', 'baz'], b: []}],
+        };
         assert.isNull(element._lastChunkForSide(diff, false));
         assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);
       });
 
       test('empty', () => {
-        const diff = {content: []};
+        const diff: DiffInfo = {...createDiff(), content: []};
         assert.isNull(element._lastChunkForSide(diff, false));
         assert.isNull(element._lastChunkForSide(diff, true));
       });
@@ -1548,40 +1711,47 @@ suite('gr-diff-host tests', () => {
     suite('_hasTrailingNewlines', () => {
       test('shared no trailing', () => {
         const diff = undefined;
-        sinon.stub(element, '_lastChunkForSide')
-            .returns({ab: ['foo', 'bar']});
+        sinon.stub(element, '_lastChunkForSide').returns({ab: ['foo', 'bar']});
         assert.isFalse(element._hasTrailingNewlines(diff, false));
         assert.isFalse(element._hasTrailingNewlines(diff, true));
       });
 
       test('delta trailing in right', () => {
         const diff = undefined;
-        sinon.stub(element, '_lastChunkForSide')
-            .returns({a: ['foo', 'bar'], b: ['baz', '']});
+        sinon
+          .stub(element, '_lastChunkForSide')
+          .returns({a: ['foo', 'bar'], b: ['baz', '']});
         assert.isTrue(element._hasTrailingNewlines(diff, false));
         assert.isFalse(element._hasTrailingNewlines(diff, true));
       });
 
       test('addition', () => {
-        const diff = undefined;
-        sinon.stub(element, '_lastChunkForSide').callsFake((diff, leftSide) => {
-          if (leftSide) { return null; }
-          return {b: ['foo', '']};
-        });
+        const diff: DiffInfo | undefined = undefined;
+        sinon
+          .stub(element, '_lastChunkForSide')
+          .callsFake((_: DiffInfo | undefined, leftSide: boolean) => {
+            if (leftSide) {
+              return null;
+            }
+            return {b: ['foo', '']};
+          });
         assert.isTrue(element._hasTrailingNewlines(diff, false));
         assert.isNull(element._hasTrailingNewlines(diff, true));
       });
 
       test('deletion', () => {
-        const diff = undefined;
-        sinon.stub(element, '_lastChunkForSide').callsFake((diff, leftSide) => {
-          if (!leftSide) { return null; }
-          return {a: ['foo']};
-        });
+        const diff: DiffInfo | undefined = undefined;
+        sinon
+          .stub(element, '_lastChunkForSide')
+          .callsFake((_: DiffInfo | undefined, leftSide: boolean) => {
+            if (!leftSide) {
+              return null;
+            }
+            return {a: ['foo']};
+          });
         assert.isNull(element._hasTrailingNewlines(diff, false));
         assert.isFalse(element._hasTrailingNewlines(diff, true));
       });
     });
   });
 });
-

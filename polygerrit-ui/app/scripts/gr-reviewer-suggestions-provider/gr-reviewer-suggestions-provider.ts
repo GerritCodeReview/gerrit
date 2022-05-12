@@ -33,13 +33,7 @@ import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-a
 import {allSettled, isFulfilled} from '../../utils/async-util';
 import {notUndefined} from '../../types/types';
 import {accountKey} from '../../utils/account-util';
-
-// TODO(TS): enum name doesn't follow typescript style guide rules
-// Rename it
-export enum SUGGESTIONS_PROVIDERS_USERS_TYPES {
-  REVIEWER = 'reviewers',
-  CC = 'ccs',
-}
+import {ReviewerState} from '../../api/rest-api';
 
 export interface ReviewerSuggestionsProvider {
   getSuggestions(input: string): Promise<Suggestion[]>;
@@ -48,14 +42,12 @@ export interface ReviewerSuggestionsProvider {
   ): AutocompleteSuggestion<SuggestedReviewerInfo>;
 }
 
-export class GrReviewerSuggestionsProvider
-  implements ReviewerSuggestionsProvider
-{
+export class GrReviewerSuggestionsProvider implements ReviewerSuggestionsProvider {
   private changeNumbers: NumericChangeId[];
 
   constructor(
     private restApi: RestApiService,
-    private type: SUGGESTIONS_PROVIDERS_USERS_TYPES,
+    private type: ReviewerState.REVIEWER | ReviewerState.CC,
     private config: ServerInfo | undefined,
     private loggedIn: boolean,
     ...changeNumbers: NumericChangeId[]
@@ -112,8 +104,8 @@ export class GrReviewerSuggestionsProvider
   private getSuggestionsForChange(
     changeNumber: NumericChangeId,
     input: string
-  ): Promise<Suggestion[] | undefined> {
-    return this.type === SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER
+  ): Promise<SuggestedReviewerInfo[] | undefined> {
+    return this.type === ReviewerState.REVIEWER
       ? this.restApi.getChangeSuggestedReviewers(changeNumber, input)
       : this.restApi.getChangeSuggestedCCs(changeNumber, input);
   }

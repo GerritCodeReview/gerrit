@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbd36540_f5ff9507",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-12T11:06:40Z",
+      "side": 1,
+      "message": "consider format-on-save in your IDE :)",
+      "range": {
+        "startLine": 676,
+        "startChar": 27,
+        "endLine": 676,
+        "endChar": 28
+      },
+      "revId": "8ada47e6efd429ee89388c63b6d37bd127def450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

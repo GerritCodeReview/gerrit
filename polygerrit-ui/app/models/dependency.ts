@@ -153,7 +153,10 @@ export function provide<T>(
   dependency: DependencyToken<T>,
   provider: Provider<T>
 ) {
-  const hostProviders = (host[PROVIDERS_SYMBOL] ||= new Map());
+  const hostProviders = (host[PROVIDERS_SYMBOL] ||= new Map<
+    DependencyToken<unknown>,
+    DependencyProvider<unknown>
+  >());
   const oldController = hostProviders.get(dependency);
   if (oldController) {
     host.removeController(oldController);
@@ -173,7 +176,10 @@ export function resolve<T>(
   host: ReactiveControllerHost & HTMLElement & Registrations,
   dependency: DependencyToken<T>
 ): Provider<T> {
-  const hostResolvers = (host[RESOLVERS_SYMBOL] ||= new Map());
+  const hostResolvers = (host[RESOLVERS_SYMBOL] ||= new Map<
+    DependencyToken<unknown>,
+    Provider<unknown>
+  >());
   let resolver = hostResolvers.get(dependency);
   if (!resolver) {
     const controller = new DependencySubscriber(host, dependency);
@@ -181,7 +187,7 @@ export function resolve<T>(
     resolver = () => controller.get();
     hostResolvers.set(dependency, resolver);
   }
-  return resolver;
+  return resolver as Provider<T>;
 }
 
 /**

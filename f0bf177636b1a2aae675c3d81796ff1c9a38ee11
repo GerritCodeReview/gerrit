@@ -34,6 +34,24 @@
       "parentUuid": "34b93320_f7af0604",
       "revId": "f0bf177636b1a2aae675c3d81796ff1c9a38ee11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f8cd689_8e51ea70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-12T09:27:50Z",
+      "side": 1,
+      "message": "\u003e It looks like we skipped quite a few updates in NoteDB already, e.g copy labels.\n\nYeah, that would need a schema version upgrade.\n\nThe versioning is done for two reasons:\n1. Forcing the user to run the \u0027init\u0027 command for running some data migration\n2. Preventing the user to use the old release and the new release at the same time (or downgrading)\n\n\u003e We do not use this versioning internally, as far as I know.\n\nYes, but the other members of the community do.\n\n\u003e Do you think it is worth maintaining?\n\nYes, AFAIK.",
+      "parentUuid": "d448f207_d1e59c9e",
+      "revId": "f0bf177636b1a2aae675c3d81796ff1c9a38ee11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

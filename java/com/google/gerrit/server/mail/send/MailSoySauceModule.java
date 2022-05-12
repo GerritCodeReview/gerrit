@@ -92,12 +92,12 @@ public class MailSoySauceModule extends CacheModule {
           SOY_LOADING_CACHE_KEY.equals(key),
           "Cache can have only one element with a key '%s'",
           SOY_LOADING_CACHE_KEY);
-      return loader.load();
+      return loader.load(this.getClass().getClassLoader());
     }
 
     @Override
     public ListenableFuture<SoySauce> reload(String key, SoySauce soySauce) {
-      return executor.submit(() -> loader.load());
+      return executor.submit(() -> loader.load(this.getClass().getClassLoader()));
     }
   }
 }

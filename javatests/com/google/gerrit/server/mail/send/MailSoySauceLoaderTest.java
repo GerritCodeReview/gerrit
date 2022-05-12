@@ -43,6 +43,6 @@ public class MailSoySauceLoaderTest {
             sitePaths,
             new SoyAstCache(),
             new PluginSetContext<>(set, PluginMetrics.DISABLED_INSTANCE));
-    assertThat(loader.load()).isNotNull(); // should not throw
+    assertThat(loader.load(this.getClass().getClassLoader())).isNotNull(); // should not throw
   }
 }

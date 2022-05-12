@@ -160,7 +160,7 @@ export function provide<T>(
     oldController.hostDisconnected();
   }
   const controller = new DependencyProvider<T>(host, dependency, provider);
-  hostProviders.set(dependency, provider);
+  hostProviders.set(dependency, controller);
   host.addController(controller);
 }
 

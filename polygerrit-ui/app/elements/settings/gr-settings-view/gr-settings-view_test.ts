@@ -369,8 +369,8 @@ suite('gr-settings-view tests', () => {
               Save changes
             </gr-button>
           </fieldset>
-          <gr-edit-preferences id="editPrefs"> </gr-edit-preferences>
-          <gr-menu-editor> </gr-menu-editor>
+          <gr-edit-preferences id="EditPreferences"> </gr-edit-preferences>
+          <gr-menu-editor id="Menu"> </gr-menu-editor>
           <h2 id="ChangeTableColumns">Change Table Columns</h2>
           <fieldset id="changeTableColumns">
             <gr-change-table-editor> </gr-change-table-editor>

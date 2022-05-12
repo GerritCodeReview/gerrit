@@ -22,6 +22,30 @@
       },
       "revId": "832dd8cf1171f99122033cf004a7582210a0ce2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ba108ff_7c8eb34e",
+        "filename": "polygerrit-ui/app/models/dependency.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-12T13:28:08Z",
+      "side": 0,
+      "message": "They are provider controllers, not subscriber controllers.",
+      "parentUuid": "f5463a35_625e10d5",
+      "range": {
+        "startLine": 163,
+        "startChar": 2,
+        "endLine": 163,
+        "endChar": 15
+      },
+      "revId": "832dd8cf1171f99122033cf004a7582210a0ce2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,9 +16,7 @@
  */
 import {BehaviorSubject, Subscription} from 'rxjs';
 import '@polymer/paper-tabs/paper-tabs';
-import '../../../styles/gr-a11y-styles';
 import '../../../styles/gr-paper-styles';
-import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
@@ -43,21 +41,14 @@ import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
 import '../../checks/gr-checks-tab';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {htmlTemplate} from './gr-change-view_html';
 import {
-  KeyboardShortcutMixin,
   Shortcut,
-  ShortcutListener,
   ShortcutSection,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
 import {querySelectorAll, windowLocationReload} from '../../../utils/dom-util';
-import {
-  GeneratedWebLink,
-  GerritNav,
-} from '../../core/gr-navigation/gr-navigation';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
@@ -89,7 +80,6 @@ import {
   roleDetails,
 } from '../../../utils/change-util';
 import {EventType as PluginEventType} from '../../../api/plugin';
-import {customElement, observe, property} from '@polymer/decorators';
 import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
 import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
@@ -108,7 +98,7 @@ import {
   CommitInfo,
   ConfigInfo,
   EditPatchSetNum,
-  LabelNameToInfoMap,
+  // LabelNameToInfoMap,
   NumericChangeId,
   ParentPatchSetNum,
   PatchRange,
@@ -127,11 +117,7 @@ import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
 import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
-import {
-  assertIsDefined,
-  hasOwnProperty,
-  query,
-} from '../../../utils/common-util';
+import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {
   CommentThread,
@@ -141,12 +127,11 @@ import {
   DraftInfo,
 } from '../../../utils/comment-util';
 import {
-  PolymerDeepPropertyChange,
+  // PolymerDeepPropertyChange,
   PolymerSplice,
-  PolymerSpliceChange,
+  // PolymerSpliceChange,
 } from '@polymer/polymer/interfaces';
 import {AppElementChangeViewParams} from '../../gr-app-types';
-import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {
   DEFAULT_NUM_FILES_SHOWN,
@@ -155,7 +140,7 @@ import {
 import {
   ChangeViewState,
   EditRevisionInfo,
-  isPolymerSpliceChange,
+  // isPolymerSpliceChange,
   ParsedChangeInfo,
 } from '../../../types/types';
 import {
@@ -196,12 +181,17 @@ import {
   getRemovedByReason,
   hasAttention,
 } from '../../../utils/attention-set-util';
-import {listen} from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../models/change/change-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
-import {resolve, DIPolymerElement} from '../../../models/dependency';
+import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
+import {a11yStyles} from '../../../styles/gr-a11y-styles';
+import {paperStyles} from '../../../styles/gr-paper-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {LitElement, PropertyValues, html, css, nothing} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {ShortcutController} from '../../lit/shortcut-controller';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -227,39 +217,10 @@ const ReloadToastMessage = {
 // Making the tab names more unique in case a plugin adds one with same name
 const ROBOT_COMMENTS_LIMIT = 10;
 
-export interface GrChangeView {
-  $: {
-    applyFixDialog: GrApplyFixDialog;
-    fileList: GrFileList & Element;
-    fileListHeader: GrFileListHeader;
-    commitMessageEditor: GrEditableContent;
-    includedInOverlay: GrOverlay;
-    includedInDialog: GrIncludedInDialog;
-    downloadOverlay: GrOverlay;
-    downloadDialog: GrDownloadDialog;
-    replyOverlay: GrOverlay;
-    mainContent: HTMLDivElement;
-    changeStar: GrChangeStar;
-    actions: GrChangeActions;
-    commitMessage: HTMLDivElement;
-    commitAndRelated: HTMLDivElement;
-    metadata: GrChangeMetadata;
-    mainChangeInfo: HTMLDivElement;
-    replyBtn: GrButton;
-  };
-}
-
 export type ChangeViewPatchRange = Partial<PatchRange>;
 
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(DIPolymerElement);
-
 @customElement('gr-change-view')
-export class GrChangeView extends base {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrChangeView extends LitElement {
   /**
    * Fired when the title of the page should change.
    *
@@ -278,13 +239,49 @@ export class GrChangeView extends base {
    * @event show-auth-required
    */
 
+  @query('#applyFixDialog') applyFixDialog?: GrApplyFixDialog;
+
+  @query('#fileList') fileList?: GrFileList & Element;
+
+  @query('#fileListHeader') fileListHeader?: GrFileListHeader;
+
+  @query('#commitMessageEditor') commitMessageEditor?: GrEditableContent;
+
+  @query('#includedInOverlay') includedInOverlay?: GrOverlay;
+
+  @query('#includedInDialog') includedInDialog?: GrIncludedInDialog;
+
+  @query('#downloadOverlay') downloadOverlay?: GrOverlay;
+
+  @query('#downloadDialog') downloadDialog?: GrDownloadDialog;
+
+  @query('#replyOverlay') replyOverlay?: GrOverlay;
+
+  @query('#replyDialog') replyDialog?: GrReplyDialog;
+
+  @query('#mainContent') mainContent?: HTMLDivElement;
+
+  @query('#changeStar') changeStar?: GrChangeStar;
+
+  @query('#actions') actions?: GrChangeActions;
+
+  @query('#commitMessage') commitMessage?: HTMLDivElement;
+
+  @query('#commitAndRelated') commitAndRelated?: HTMLDivElement;
+
+  @query('#metadata') metadata?: GrChangeMetadata;
+
+  @query('#mainChangeInfo') mainChangeInfo?: HTMLDivElement;
+
+  @query('#replyBtn') replyBtn?: GrButton;
+
   /**
    * URL params passed from the router.
    */
-  @property({type: Object, observer: '_paramsChanged'})
+  @property({type: Object})
   params?: AppElementChangeViewParams;
 
-  @property({type: Object, observer: '_viewStateChanged'})
+  @property({type: Object})
   viewState: Partial<ChangeViewState> = {};
 
   @property({type: String})
@@ -305,21 +302,13 @@ export class GrChangeView extends base {
   @property({type: Array})
   _draftCommentThreads?: CommentThread[];
 
-  @property({
-    type: Array,
-    computed:
-      '_computeRobotCommentThreads(_commentThreads,' +
-      ' _currentRobotCommentsPatchSet, _showAllRobotComments)',
-  })
-  _robotCommentThreads?: CommentThread[];
-
-  @property({type: Object, observer: '_startUpdateCheckTimer'})
+  @property({type: Object})
   _serverConfig?: ServerInfo;
 
   @property({type: Object})
   _diffPrefs?: DiffPreferencesInfo;
 
-  @property({type: Number, observer: '_numFilesShownChanged'})
+  @property({type: Number})
   _numFilesShown = DEFAULT_NUM_FILES_SHOWN;
 
   @property({type: Object})
@@ -331,26 +320,11 @@ export class GrChangeView extends base {
   @property({type: Object})
   _changeComments?: ChangeComments;
 
-  @property({type: Boolean, computed: '_computeCanStartReview(_change)'})
-  _canStartReview?: boolean;
-
-  @property({type: Object, observer: '_changeChanged'})
+  @property({type: Object})
   _change?: ParsedChangeInfo;
-
-  @property({type: Object, computed: '_getRevisionInfo(_change)'})
-  _revisionInfo?: RevisionInfoClass;
 
   @property({type: Object})
   _commitInfo?: CommitInfo;
-
-  @property({
-    type: Object,
-    computed:
-      '_computeCurrentRevision(_change.current_revision, ' +
-      '_change.revisions)',
-    observer: '_handleCurrentRevisionUpdate',
-  })
-  _currentRevision?: RevisionInfo;
 
   @property({type: String})
   _changeNum?: NumericChangeId;
@@ -360,14 +334,6 @@ export class GrChangeView extends base {
 
   @property({type: Boolean})
   _editingCommitMessage = false;
-
-  @property({
-    type: Boolean,
-    computed:
-      '_computeHideEditCommitMessage(_loggedIn, ' +
-      '_editingCommitMessage, _change, _editMode)',
-  })
-  _hideEditCommitMessage?: boolean;
 
   @property({type: String})
   _diffAgainst?: string;
@@ -402,12 +368,6 @@ export class GrChangeView extends base {
   @property({type: Object})
   _currentRevisionActions?: ActionNameToActionInfoMap;
 
-  @property({
-    type: Array,
-    computed: '_computeAllPatchSets(_change, _change.revisions.*)',
-  })
-  _allPatchSets?: PatchSet[];
-
   @property({type: Boolean})
   _loggedIn = false;
 
@@ -416,12 +376,6 @@ export class GrChangeView extends base {
 
   @property({type: Object})
   _projectConfig?: ConfigInfo;
-
-  @property({
-    type: String,
-    computed: '_computeReplyButtonLabel(_diffDrafts, _canStartReview)',
-  })
-  _replyButtonLabel = 'Reply';
 
   @property({type: String})
   _selectedPatchSet?: string;
@@ -435,39 +389,10 @@ export class GrChangeView extends base {
   @property({type: Boolean})
   _replyDisabled = true;
 
-  @property({
-    type: String,
-    computed: '_computeChangeStatusChips(_change, _mergeable, _submitEnabled)',
-  })
-  _changeStatuses?: ChangeStates[];
-
-  /** Is the "Show more/less" button visible? */
-  @property({
-    type: Boolean,
-    computed: '_computeCommitCollapsible(_latestCommitMessage)',
-  })
-  _commitCollapsible?: boolean;
+  @state() private changeStatuses: ChangeStates[] = [];
 
   @property({type: Number})
   _updateCheckTimerHandle?: number | null;
-
-  @property({
-    type: Boolean,
-    computed: '_computeEditMode(_patchRange.*, params.*)',
-  })
-  _editMode?: boolean;
-
-  @property({
-    type: Boolean,
-    computed: '_isParentCurrent(_currentRevisionActions)',
-  })
-  _parentIsCurrent?: boolean;
-
-  @property({
-    type: Boolean,
-    computed: '_isSubmitEnabled(_currentRevisionActions)',
-  })
-  _submitEnabled?: boolean;
 
   @property({type: Boolean})
   _mergeable: boolean | null = null;
@@ -488,13 +413,6 @@ export class GrChangeView extends base {
   @property({type: String})
   // The dynamic heading of the plugin added tab
   _selectedTabPluginHeader?: string;
-
-  @property({
-    type: Array,
-    computed:
-      '_computeRobotCommentsPatchSetDropdownItems(_change, _commentThreads)',
-  })
-  _robotCommentsPatchSetDropdownItems: DropdownLink[] = [];
 
   @property({type: Number})
   _currentRobotCommentsPatchSet?: PatchSetNum;
@@ -541,58 +459,6 @@ export class GrChangeView extends base {
   @property({type: Boolean})
   replyOverlayOpened = false;
 
-  @property({
-    type: Array,
-    computed: '_computeResolveWeblinks(_change, _commitInfo, _serverConfig)',
-  })
-  resolveWeblinks?: GeneratedWebLink[];
-
-  override keyboardShortcuts(): ShortcutListener[] {
-    return [
-      listen(Shortcut.SEND_REPLY, _ => {}), // docOnly
-      listen(Shortcut.EMOJI_DROPDOWN, _ => {}), // docOnly
-      listen(Shortcut.REFRESH_CHANGE, _ => fireReload(this, true)),
-      listen(Shortcut.OPEN_REPLY_DIALOG, _ => this._handleOpenReplyDialog()),
-      listen(Shortcut.OPEN_DOWNLOAD_DIALOG, _ =>
-        this._handleOpenDownloadDialog()
-      ),
-      listen(Shortcut.TOGGLE_DIFF_MODE, _ => this._handleToggleDiffMode()),
-      listen(Shortcut.TOGGLE_CHANGE_STAR, e => {
-        if (this._throttledToggleChangeStar) {
-          this._throttledToggleChangeStar(e);
-        }
-      }),
-      listen(Shortcut.UP_TO_DASHBOARD, _ => this._determinePageBack()),
-      listen(Shortcut.EXPAND_ALL_MESSAGES, _ =>
-        this._handleExpandAllMessages()
-      ),
-      listen(Shortcut.COLLAPSE_ALL_MESSAGES, _ =>
-        this._handleCollapseAllMessages()
-      ),
-      listen(Shortcut.OPEN_DIFF_PREFS, _ =>
-        this._handleOpenDiffPrefsShortcut()
-      ),
-      listen(Shortcut.EDIT_TOPIC, _ => this.$.metadata.editTopic()),
-      listen(Shortcut.DIFF_AGAINST_BASE, _ => this._handleDiffAgainstBase()),
-      listen(Shortcut.DIFF_AGAINST_LATEST, _ =>
-        this._handleDiffAgainstLatest()
-      ),
-      listen(Shortcut.DIFF_BASE_AGAINST_LEFT, _ =>
-        this._handleDiffBaseAgainstLeft()
-      ),
-      listen(Shortcut.DIFF_RIGHT_AGAINST_LATEST, _ =>
-        this._handleDiffRightAgainstLatest()
-      ),
-      listen(Shortcut.DIFF_BASE_AGAINST_LATEST, _ =>
-        this._handleDiffBaseAgainstLatest()
-      ),
-      listen(Shortcut.OPEN_SUBMIT_DIALOG, _ => this._handleOpenSubmitDialog()),
-      listen(Shortcut.TOGGLE_ATTENTION_SET, _ =>
-        this._handleToggleAttentionSet()
-      ),
-    ];
-  }
-
   // Accessed in tests.
   readonly reporting = getAppContext().reportingService;
 
@@ -613,7 +479,7 @@ export class GrChangeView extends base {
   // Private but used in tests.
   readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly shortcutsService = getAppContext().shortcutsService;
 
   private subscriptions: Subscription[] = [];
 
@@ -642,6 +508,8 @@ export class GrChangeView extends base {
   /** Simply reflects the router-model value. */
   // visible for testing
   routerPatchNum?: PatchSetNum;
+
+  private readonly shortcutsController = new ShortcutController(this);
 
   constructor() {
     super();
@@ -678,6 +546,60 @@ export class GrChangeView extends base {
         /* clearPatchset= */ e.detail && e.detail.clearPatchset
       );
     });
+    this.shortcutsController.addAbstract(Shortcut.SEND_REPLY, () => {}); // docOnly
+    this.shortcutsController.addAbstract(Shortcut.EMOJI_DROPDOWN, () => {}); // docOnly
+    this.shortcutsController.addAbstract(Shortcut.REFRESH_CHANGE, () =>
+      fireReload(this, true)
+    );
+    this.shortcutsController.addAbstract(Shortcut.OPEN_REPLY_DIALOG, () =>
+      this._handleOpenReplyDialog()
+    );
+    this.shortcutsController.addAbstract(Shortcut.OPEN_DOWNLOAD_DIALOG, () =>
+      this._handleOpenDownloadDialog()
+    );
+    this.shortcutsController.addAbstract(Shortcut.TOGGLE_DIFF_MODE, () =>
+      this._handleToggleDiffMode()
+    );
+    this.shortcutsController.addAbstract(Shortcut.TOGGLE_CHANGE_STAR, e => {
+      if (this._throttledToggleChangeStar) {
+        this._throttledToggleChangeStar(e);
+      }
+    });
+    this.shortcutsController.addAbstract(Shortcut.UP_TO_DASHBOARD, () =>
+      this._determinePageBack()
+    );
+    this.shortcutsController.addAbstract(Shortcut.EXPAND_ALL_MESSAGES, () =>
+      this._handleExpandAllMessages()
+    );
+    this.shortcutsController.addAbstract(Shortcut.COLLAPSE_ALL_MESSAGES, () =>
+      this._handleCollapseAllMessages()
+    );
+    this.shortcutsController.addAbstract(Shortcut.OPEN_DIFF_PREFS, () =>
+      this._handleOpenDiffPrefsShortcut()
+    );
+    this.shortcutsController.addAbstract(Shortcut.EDIT_TOPIC, () =>
+      this.metadata!.editTopic()
+    );
+    this.shortcutsController.addAbstract(Shortcut.DIFF_AGAINST_BASE, () =>
+      this._handleDiffAgainstBase()
+    );
+    this.shortcutsController.addAbstract(Shortcut.DIFF_BASE_AGAINST_LEFT, () =>
+      this._handleDiffBaseAgainstLeft()
+    );
+    this.shortcutsController.addAbstract(
+      Shortcut.DIFF_RIGHT_AGAINST_LATEST,
+      () => this._handleDiffRightAgainstLatest()
+    );
+    this.shortcutsController.addAbstract(
+      Shortcut.DIFF_BASE_AGAINST_LATEST,
+      () => this._handleDiffBaseAgainstLatest()
+    );
+    this.shortcutsController.addAbstract(Shortcut.OPEN_SUBMIT_DIALOG, () =>
+      this._handleOpenSubmitDialog()
+    );
+    this.shortcutsController.addAbstract(Shortcut.TOGGLE_ATTENTION_SET, () =>
+      this._handleToggleAttentionSet()
+    );
   }
 
   private setupSubscriptions() {
@@ -794,6 +716,807 @@ export class GrChangeView extends base {
     super.disconnectedCallback();
   }
 
+  static override get styles() {
+    return [
+      a11yStyles,
+      paperStyles,
+      sharedStyles,
+      css`
+        .container:not(.loading) {
+          background-color: var(--background-color-tertiary);
+        }
+        .container.loading {
+          color: var(--deemphasized-text-color);
+          padding: var(--spacing-l);
+        }
+        .header {
+          align-items: center;
+          background-color: var(--background-color-primary);
+          border-bottom: 1px solid var(--border-color);
+          display: flex;
+          padding: var(--spacing-s) var(--spacing-l);
+          z-index: 99; /* Less than gr-overlay's backdrop */
+        }
+        .header.editMode {
+          background-color: var(--edit-mode-background-color);
+        }
+        .header .download {
+          margin-right: var(--spacing-l);
+        }
+        gr-change-status {
+          margin-left: var(--spacing-s);
+        }
+        gr-change-status:first-child {
+          margin-left: 0;
+        }
+        .headerTitle {
+          align-items: center;
+          display: flex;
+          flex: 1;
+        }
+        .headerSubject {
+          font-family: var(--header-font-family);
+          font-size: var(--font-size-h3);
+          font-weight: var(--font-weight-h3);
+          line-height: var(--line-height-h3);
+          margin-left: var(--spacing-l);
+        }
+        .changeNumberColon {
+          color: transparent;
+        }
+        .changeCopyClipboard {
+          margin-left: var(--spacing-s);
+        }
+        #replyBtn {
+          margin-bottom: var(--spacing-m);
+        }
+        gr-change-star {
+          margin-left: var(--spacing-s);
+          --gr-change-star-size: var(--line-height-normal);
+        }
+        a.changeNumber {
+          margin-left: var(--spacing-xs);
+        }
+        gr-reply-dialog {
+          width: 60em;
+        }
+        .changeStatus {
+          text-transform: capitalize;
+        }
+        /* Strong specificity here is needed due to
+            https://github.com/Polymer/polymer/issues/2531 */
+        .container .changeInfo {
+          display: flex;
+          background-color: var(--background-color-secondary);
+          padding-right: var(--spacing-m);
+        }
+        section {
+          background-color: var(--view-background-color);
+          box-shadow: var(--elevation-level-1);
+        }
+        .changeMetadata {
+          /* Limit meta section to half of the screen at max */
+          max-width: 50%;
+        }
+        .commitMessage {
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-mono);
+          line-height: var(--line-height-mono);
+          margin-right: var(--spacing-l);
+          margin-bottom: var(--spacing-l);
+          /* Account for border and padding and rounding errors. */
+          max-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
+        }
+        .commitMessage gr-linked-text {
+          word-break: break-word;
+        }
+        #commitMessageEditor {
+          /* Account for border and padding and rounding errors. */
+          min-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
+          --collapsed-max-height: 300px;
+        }
+        .changeStatuses,
+        .commitActions {
+          align-items: center;
+          display: flex;
+        }
+        .changeStatuses {
+          flex-wrap: wrap;
+        }
+        .mainChangeInfo {
+          display: flex;
+          flex: 1;
+          flex-direction: column;
+          min-width: 0;
+        }
+        #commitAndRelated {
+          align-content: flex-start;
+          display: flex;
+          flex: 1;
+          overflow-x: hidden;
+        }
+        .relatedChanges {
+          flex: 0 1 auto;
+          overflow: hidden;
+          padding: var(--spacing-l) 0;
+        }
+        .mobile {
+          display: none;
+        }
+        hr {
+          border: 0;
+          border-top: 1px solid var(--border-color);
+          height: 0;
+          margin-bottom: var(--spacing-l);
+        }
+        .emptySpace {
+          flex-grow: 1;
+        }
+        .commitContainer {
+          display: flex;
+          flex-direction: column;
+          flex-shrink: 0;
+          margin: var(--spacing-l) 0;
+          padding: 0 var(--spacing-l);
+        }
+        .showOnEdit {
+          display: none;
+        }
+        .scrollable {
+          overflow: auto;
+        }
+        .text {
+          white-space: pre;
+        }
+        gr-commit-info {
+          display: inline-block;
+        }
+        paper-tabs {
+          background-color: var(--background-color-tertiary);
+          margin-top: var(--spacing-m);
+          height: calc(var(--line-height-h3) + var(--spacing-m));
+          --paper-tabs-selection-bar-color: var(--link-color);
+        }
+        paper-tab {
+          box-sizing: border-box;
+          max-width: 12em;
+          --paper-tab-ink: var(--link-color);
+        }
+        gr-thread-list,
+        gr-messages-list {
+          display: block;
+        }
+        gr-thread-list {
+          min-height: 250px;
+        }
+        #includedInOverlay {
+          width: 65em;
+        }
+        #uploadHelpOverlay {
+          width: 50em;
+        }
+        #metadata {
+          --metadata-horizontal-padding: var(--spacing-l);
+          padding-top: var(--spacing-l);
+          width: 100%;
+        }
+        gr-change-summary {
+          margin-left: var(--spacing-m);
+        }
+        @media screen and (max-width: 75em) {
+          .relatedChanges {
+            padding: 0;
+          }
+          #relatedChanges {
+            padding-top: var(--spacing-l);
+          }
+          #commitAndRelated {
+            flex-direction: column;
+            flex-wrap: nowrap;
+          }
+          #commitMessageEditor {
+            min-width: 0;
+          }
+          .commitMessage {
+            margin-right: 0;
+          }
+          .mainChangeInfo {
+            padding-right: 0;
+          }
+        }
+        @media screen and (max-width: 50em) {
+          .mobile {
+            display: block;
+          }
+          .header {
+            align-items: flex-start;
+            flex-direction: column;
+            flex: 1;
+            padding: var(--spacing-s) var(--spacing-l);
+          }
+          gr-change-star {
+            vertical-align: middle;
+          }
+          .headerTitle {
+            flex-wrap: wrap;
+            font-family: var(--header-font-family);
+            font-size: var(--font-size-h3);
+            font-weight: var(--font-weight-h3);
+            line-height: var(--line-height-h3);
+          }
+          .desktop {
+            display: none;
+          }
+          .reply {
+            display: block;
+            margin-right: 0;
+            /* px because don't have the same font size */
+            margin-bottom: 6px;
+          }
+          .changeInfo-column:not(:last-of-type) {
+            margin-right: 0;
+            padding-right: 0;
+          }
+          .changeInfo,
+          #commitAndRelated {
+            flex-direction: column;
+            flex-wrap: nowrap;
+          }
+          .commitContainer {
+            margin: 0;
+            padding: var(--spacing-l);
+          }
+          .changeMetadata {
+            margin-top: var(--spacing-xs);
+            max-width: none;
+          }
+          #metadata,
+          .mainChangeInfo {
+            padding: 0;
+          }
+          .commitActions {
+            display: block;
+            margin-top: var(--spacing-l);
+            width: 100%;
+          }
+          .commitMessage {
+            flex: initial;
+            margin: 0;
+          }
+          /* Change actions are the only thing thant need to remain visible due
+            to the fact that they may have the currently visible overlay open. */
+          #mainContent.overlayOpen .hideOnMobileOverlay {
+            display: none;
+          }
+          gr-reply-dialog {
+            height: 100vh;
+            min-width: initial;
+            width: 100vw;
+          }
+          #replyOverlay {
+            z-index: var(--reply-overlay-z-index);
+          }
+        }
+        .patch-set-dropdown {
+          margin: var(--spacing-m) 0 0 var(--spacing-m);
+        }
+        .show-robot-comments {
+          margin: var(--spacing-m);
+        }
+        .patchInfo gr-thread-list::part(threads) {
+          padding: var(--spacing-l);
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    // if (!this._change) return nothing;
+    return html`
+      <div class="container loading" ?hidden=${!this._loading}>Loading...</div>
+      <div
+        id="mainContent"
+        class="container"
+        ?hidden=${this._loading}
+        ?aria-hidden=${this._changeViewAriaHidden}
+      >
+        <section class="changeInfoSection">
+          <div class=${this.computeHeaderClass()}>
+            <h1 class="assistive-tech-only">
+              Change ${this._change?._number}: ${this._change?.subject}
+            </h1>
+            <div class="headerTitle">
+              <div class="changeStatuses">
+                this.computeChangeStatusChips()
+                ${this.computeChangeStatusChips()?.map(status =>
+                  this.renderChangeStatus(status)
+                )}
+              </div>
+              <gr-change-star
+                id="changeStar"
+                .change=${this._change}
+                @toggle-star=${this._handleToggleStar}
+                ?hidden=${!this._loggedIn}
+              ></gr-change-star>
+
+              <a
+                class="changeNumber"
+                aria-label="Change ${this._change?._number}"
+                href=${this.computeChangeUrl('forceReload')}
+                >${this._change?._number}</a
+              >
+              <span class="changeNumberColon">:&nbsp;</span>
+              <span class="headerSubject">${this._change?.subject}</span>
+              <gr-copy-clipboard
+                class="changeCopyClipboard"
+                hideInput
+                .text=${this.computeCopyTextForTitle()}
+              >
+              </gr-copy-clipboard>
+            </div>
+            <!-- end headerTitle -->
+            <!-- always show gr-change-actions regardless if logged in or not -->
+            <div class="commitActions">
+              <gr-change-actions
+                id="actions"
+                .change=${this._change}
+                .disableEdit=${this.disableEdit}
+                .hasParent=${this.hasParent}
+                .actions=${this._change?.actions}
+                .revisionActions=${this._currentRevisionActions}
+                .account=${this._account}
+                .changeNum=${this._changeNum}
+                .changeStatus=${this._change?.status}
+                .commitNum=${this._commitInfo?.commit}
+                .latestPatchNum=${computeLatestPatchNum(this._allPatchSets)}
+                .commitMessage=${this._latestCommitMessage}
+                .editPatchsetLoaded=${this.hasEditPatchsetLoaded()}
+                .editMode=${this._editMode}
+                .editBasedOnCurrentPatchSet=${hasEditBasedOnCurrentPatchSet(
+                  this._allPatchSets
+                )}
+                .privateByDefault=${this._projectConfig?.private_by_default}
+                .loggedIn=${this._loggedIn}
+                @edit-tap=${this._handleEditTap}
+                @stop-edit-tap=${this._handleStopEditTap}
+                @download-tap=${this._handleOpenDownloadDialog}
+                @included-tap=${this._handleOpenIncludedInDialog}
+                @revision-actions-changed=${this._handleRevisionActionsChanged}
+              ></gr-change-actions>
+            </div>
+            <!-- end commit actions -->
+          </div>
+          <!-- end header -->
+          <h2 class="assistive-tech-only">Change metadata</h2>
+          <div class="changeInfo">
+            <div class="changeInfo-column changeMetadata hideOnMobileOverlay">
+              <gr-change-metadata
+                id="metadata"
+                .change=${this._change}
+                .revertedChange=${this.revertedChange}
+                .account=${this._account}
+                .revision=${this._selectedRevision}
+                .commitInfo=${this._commitInfo}
+                .serverConfig=${this._serverConfig}
+                .parentIsCurrent=${this.isParentCurrent()}
+                @show-reply-dialog=${this._handleShowReplyDialog}
+              >
+              </gr-change-metadata>
+            </div>
+            <div id="mainChangeInfo" class="changeInfo-column mainChangeInfo">
+              <div id="commitAndRelated" class="hideOnMobileOverlay">
+                <div class="commitContainer">
+                  <h3 class="assistive-tech-only">Commit Message</h3>
+                  <div>
+                    <gr-button
+                      id="replyBtn"
+                      class="reply"
+                      title=${this.createTitle(
+                        Shortcut.OPEN_REPLY_DIALOG,
+                        ShortcutSection.ACTIONS
+                      )}
+                      ?hidden=${!this._loggedIn}
+                      primary
+                      ?disabled=${this._replyDisabled}
+                      @click=${this._handleReplyTap}
+                      >${this.computeReplyButtonLabel()}</gr-button
+                    >
+                  </div>
+                  <div id="commitMessage" class="commitMessage">
+                    <gr-editable-content
+                      id="commitMessageEditor"
+                      .editing=${this._editingCommitMessage}
+                      .content=${this._latestCommitMessage}
+                      @editing-changed=${this.handleEditingChanged}
+                      @content-changed=${this.handleContentChanged}
+                      .storageKey="c${this._change?._number}_rev${this._change
+                        ?.current_revision}"
+                      .hideEditCommitMessage=${this.computeHideEditCommitMessage()}
+                      .commitCollapsible=${this.computeCommitCollapsible(
+                        this._latestCommitMessage
+                      )}
+                      remove-zero-width-space
+                    >
+                      <gr-linked-text
+                        pre
+                        .content=${this._latestCommitMessage}
+                        .config=${this._projectConfig?.commentlinks}
+                        remove-zero-width-space
+                      ></gr-linked-text>
+                    </gr-editable-content>
+                  </div>
+                  <h3 class="assistive-tech-only">
+                    Comments and Checks Summary
+                  </h3>
+                  <gr-change-summary></gr-change-summary>
+                  <gr-endpoint-decorator name="commit-container">
+                    <gr-endpoint-param name="change" .value=${this._change}>
+                    </gr-endpoint-param>
+                    <gr-endpoint-param
+                      name="revision"
+                      .value=${this._selectedRevision}
+                    >
+                    </gr-endpoint-param>
+                  </gr-endpoint-decorator>
+                </div>
+                <div class="relatedChanges">
+                  <gr-related-changes-list
+                    .change=${this._change}
+                    id="relatedChanges"
+                    .mergeable=${this._mergeable}
+                    .patchNum=${computeLatestPatchNum(this._allPatchSets)}
+                  ></gr-related-changes-list>
+                </div>
+                <div class="emptySpace"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <h2 class="assistive-tech-only">Files and Comments tabs</h2>
+        <paper-tabs
+          id="primaryTabs"
+          @selected-changed=${this._setActivePrimaryTab}
+        >
+          <paper-tab
+            @click=${this._onPaperTabClick}
+            data-name=${this._constants.PrimaryTab.FILES}
+            ><span>Files</span></paper-tab
+          >
+          <paper-tab
+            @click=${this._onPaperTabClick}
+            data-name=${this._constants.PrimaryTab.COMMENT_THREADS}
+            class="commentThreads"
+          >
+            <gr-tooltip-content
+              has-tooltip
+              title=${this._computeTotalCommentCounts(
+                this._change?.unresolved_comment_count,
+                this._changeComments
+              )}
+            >
+              <span>Comments</span></gr-tooltip-content
+            >
+          </paper-tab>
+          ${this.renderChecktabs()}
+          ${this._dynamicTabHeaderEndpoints?.map(tabHeader =>
+            this.renderTabHeaderEndpoint(tabHeader)
+          )}
+          <paper-tab
+            data-name=${this._constants.PrimaryTab.FINDINGS}
+            @click=${this._onPaperTabClick}
+          >
+            <span>Findings</span>
+          </paper-tab>
+        </paper-tabs>
+
+        <section class="patchInfo">
+          <div
+            ?hidden=${!this._isTabActive(
+              this._constants.PrimaryTab.FILES,
+              this._activeTabs
+            )}
+          >
+            <gr-file-list-header
+              id="fileListHeader"
+              .account=${this._account}
+              .allPatchSets=${this._allPatchSets}
+              .change=${this._change}
+              .changeNum=${this._changeNum}
+              .revisionInfo=${this.getRevisionInfo(this._change)}
+              .commitInfo=${this._commitInfo}
+              .changeUrl=${this.computeChangeUrl()}
+              .editMode=${this._editMode}
+              .loggedIn=${this._loggedIn}
+              .serverConfig=${this._serverConfig}
+              .shownFileCount=${this._shownFileCount}
+              .diffPrefs=${this._diffPrefs}
+              .patchNum=${this._patchRange?.patchNum}
+              .basePatchNum=${this._patchRange?.basePatchNum}
+              .filesExpanded=${this._filesExpanded}
+              .diffPrefsDisabled=${!this._loggedIn}
+              @open-diff-prefs=${this._handleOpenDiffPrefs}
+              @open-download-dialog=${this._handleOpenDownloadDialog}
+              @expand-diffs=${this._expandAllDiffs}
+              @collapse-diffs=${this._collapseAllDiffs}
+            >
+            </gr-file-list-header>
+            <gr-file-list
+              id="fileList"
+              class="hideOnMobileOverlay"
+              .diffPrefs=${this._diffPrefs}
+              .change=${this._change}
+              .changeNum=${this._changeNum}
+              .patchRange=${this._patchRange}
+              .selectedIndex=${this.viewState.selectedFileIndex}
+              .diffViewMode=${this.viewState.diffMode}
+              .editMode=${this._editMode}
+              .numFilesShown=${this._numFilesShown}
+              .filesExpanded=${this._filesExpanded}
+              .fileListIncrement=${this._numFilesShown}
+              @files-shown-changed=${this._setShownFiles}
+              @file-action-tap=${this._handleFileActionTap}
+              .observerTarget=${this}
+              @diff-prefs-changed=${this.handleDiffPreffsChanged}
+              @selected-index-changed=${this.handleSelectedIndexChanged}
+              @num-files-shown-changed=${this.handleNumFilesShownChanged}
+              @files-expanded-changed=${this.handleFilesExpandedChanged}
+            >
+            </gr-file-list>
+          </div>
+          ${this.renderCommentThreads()} ${this.renderPrimaryChecksTab()}
+          ${this.renderPrimaryFindingsTab()} ${this.renderTabPluginHeader()}
+        </section>
+
+        <gr-endpoint-decorator name="change-view-integration">
+          <gr-endpoint-param name="change" .value=${this._change}>
+          </gr-endpoint-param>
+          <gr-endpoint-param name="revision" .value=${this._selectedRevision}>
+          </gr-endpoint-param>
+        </gr-endpoint-decorator>
+
+        <paper-tabs id="secondaryTabs">
+          <paper-tab
+            data-name=${this._constants.SecondaryTab.CHANGE_LOG}
+            class="changeLog"
+          >
+            Change Log
+          </paper-tab>
+        </paper-tabs>
+        <section class="changeLog">
+          <h2 class="assistive-tech-only">Change Log</h2>
+          <gr-messages-list
+            class="hideOnMobileOverlay"
+            .labels=${this._change?.labels}
+            .messages=${this._change?.messages}
+            .reviewerUpdates=${this._change?.reviewer_updates}
+            @message-anchor-tap=${this._handleMessageAnchorTap}
+            @reply=${this._handleMessageReply}
+          ></gr-messages-list>
+        </section>
+      </div>
+
+      <gr-apply-fix-dialog
+        id="applyFixDialog"
+        .prefs=${this._diffPrefs}
+        .change=${this._change}
+        .changeNum=${this._changeNum}
+      ></gr-apply-fix-dialog>
+      <gr-overlay id="downloadOverlay" with-backdrop="">
+        <gr-download-dialog
+          id="downloadDialog"
+          .change=${this._change}
+          .patchNum=${this._patchRange?.patchNum}
+          .config=${this._serverConfig?.download}
+          @close=${this._handleDownloadDialogClose}
+        ></gr-download-dialog>
+      </gr-overlay>
+      <gr-overlay id="includedInOverlay" with-backdrop="">
+        <gr-included-in-dialog
+          id="includedInDialog"
+          .changeNum=${this._changeNum}
+          @close=${this._handleIncludedInDialogClose}
+        ></gr-included-in-dialog>
+      </gr-overlay>
+      <gr-overlay
+        id="replyOverlay"
+        class="scrollable"
+        no-cancel-on-outside-click
+        no-cancel-on-esc-key
+        scroll-action="lock"
+        with-backdrop
+        .opened=${this.replyOverlayOpened}
+        @iron-overlay-canceled=${this.onReplyOverlayCanceled}
+        @opened-changed=${this.handleOpenedChanged}
+      >
+        ${this.renderReplyDialog()}
+      </gr-overlay>
+    `;
+  }
+
+  private renderChangeStatus(status: ChangeStates) {
+    return html`
+      <gr-change-status
+        .change=${this._change}
+        .revertedChange=${this.revertedChange}
+        .status=${status}
+        .resolveWeblinks=${this.computeResolveWeblinks()}
+      ></gr-change-status>
+    `;
+  }
+
+  private renderChecktabs() {
+    if (!this._showChecksTab) return nothing;
+    return html`
+      <paper-tab
+        data-name=${this._constants.PrimaryTab.CHECKS}
+        @click=${this._onPaperTabClick}
+        ><span>Checks</span></paper-tab
+      >
+    `;
+  }
+
+  private renderTabHeaderEndpoint(tabHeader: string) {
+    return html`
+      <paper-tab data-name=${tabHeader}>
+        <gr-endpoint-decorator name=${tabHeader}>
+          <gr-endpoint-param name="change" .value=${this._change}>
+          </gr-endpoint-param>
+          <gr-endpoint-param name="revision" .value=${this._selectedRevision}>
+          </gr-endpoint-param>
+        </gr-endpoint-decorator>
+      </paper-tab>
+    `;
+  }
+
+  private renderCommentThreads() {
+    if (
+      !this._isTabActive(
+        this._constants.PrimaryTab.COMMENT_THREADS,
+        this._activeTabs
+      )
+    )
+      return nothing;
+    return html`
+      <h3 class="assistive-tech-only">Comments</h3>
+      <gr-thread-list
+        .threads=${this._commentThreads}
+        .commentTabState=${this._tabState}
+        only-show-robot-comments-with-human-reply
+        .unresolvedOnly=${this.unresolvedOnly}
+        .scrollCommentId=${this.scrollCommentId}
+        show-comment-context
+      ></gr-thread-list>
+    `;
+  }
+
+  private renderPrimaryChecksTab() {
+    if (!this._isTabActive(this._constants.PrimaryTab.CHECKS, this._activeTabs))
+      return nothing;
+    return html`
+      <h3 class="assistive-tech-only">Checks</h3>
+      <gr-checks-tab id="checksTab" .tabState=${this._tabState}></gr-checks-tab>
+    `;
+  }
+
+  private renderPrimaryFindingsTab() {
+    if (
+      !this._isTabActive(this._constants.PrimaryTab.FINDINGS, this._activeTabs)
+    )
+      return nothing;
+    return html`
+      <gr-dropdown-list
+        class="patch-set-dropdown"
+        .items=${this.computeRobotCommentsPatchSetDropdownItems()}
+        @value-change=${this._handleRobotCommentPatchSetChanged}
+        .value=${this._currentRobotCommentsPatchSet}
+      >
+      </gr-dropdown-list>
+      <gr-thread-list
+        .threads=${this.computeRobotCommentThreads()}
+        hide-dropdown
+      >
+      </gr-thread-list>
+      ${this.renderRobotCommentsButton()}
+    `;
+  }
+
+  private renderRobotCommentsButton() {
+    if (!this._showRobotCommentsButton) return nothing;
+    return html`
+      <gr-button
+        class="show-robot-comments"
+        @click=${this._toggleShowRobotComments}
+      >
+        ${this._computeShowText(this._showAllRobotComments)}
+      </gr-button>
+    `;
+  }
+
+  private renderTabPluginHeader() {
+    if (
+      !this._selectedTabPluginHeader ||
+      !this._isTabActive(this._selectedTabPluginHeader, this._activeTabs)
+    )
+      return nothing;
+    return html`
+      <gr-endpoint-decorator name=${this._selectedTabPluginEndpoint}>
+        <gr-endpoint-param name="change" .value=${this._change}>
+        </gr-endpoint-param>
+        <gr-endpoint-param name="revision" .value=${this._selectedRevision}>
+        </gr-endpoint-param>
+      </gr-endpoint-decorator>
+    `;
+  }
+
+  private renderReplyDialog() {
+    if (!this.replyOverlayOpened) return nothing;
+    return html`
+      <gr-reply-dialog
+        id="replyDialog"
+        change="{{_change}}"
+        .patchNum=${computeLatestPatchNum(this._allPatchSets)}
+        .permittedLabels=${this._change!.permitted_labels}
+        .draftCommentThreads=${this._draftCommentThreads}
+        .projectConfig=${this._projectConfig}
+        .serverConfig=${this._serverConfig}
+        .canBeStarted=${this._change!.actions &&
+        this._change!.actions.ready &&
+        this._change!.actions.ready.enabled}
+        @send=${this._handleReplySent}
+        @cancel=${this._handleReplyCancel}
+        @autogrow=${this._handleReplyAutogrow}
+        @send-disabled-changed=${this._resetReplyOverlayFocusStops}
+        ?hidden=${!this._loggedIn}
+      >
+      </gr-reply-dialog>
+    `;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('params')) {
+      this.paramsChanged();
+    }
+
+    if (changedProperties.has('viewState')) {
+      this.viewStateChanged();
+    }
+
+    if (changedProperties.has('_serverConfig')) {
+      this.startUpdateCheckTimer();
+    }
+
+    if (changedProperties.has('_numFilesShown')) {
+      this.numFilesShownChanged();
+    }
+
+    if (changedProperties.has('_change')) {
+      this.changeChanged();
+    }
+
+    this._currentRobotCommentsPatchSet = this.computeCurrentRevision()?._number;
+
+    if (changedProperties.has('_patchRange')) {
+      this.patchNumChanged();
+    }
+
+    if (changedProperties.has('_changeComments')) {
+      this.changeCommentsChanged();
+    }
+
+    if (changedProperties.has('params') || changedProperties.has('change')) {
+      this.paramsAndChangeChanged();
+    }
+  }
+
+  get _allPatchSets(): PatchSet[] | undefined {
+    return computeAllPatchSets(this._change);
+  }
+
+  get _editMode() {
+    return this.computeEditMode();
+  }
+
   get messagesList(): GrMessagesList | null {
     return this.shadowRoot!.querySelector<GrMessagesList>('gr-messages-list');
   }
@@ -812,7 +1535,8 @@ export class GrChangeView extends base {
   };
 
   _onOpenFixPreview(e: OpenFixPreviewEvent) {
-    this.$.applyFixDialog.open(e);
+    assertIsDefined(this.applyFixDialog, 'applyFixDialog');
+    this.applyFixDialog.open(e);
   }
 
   _onCloseFixPreview(e: CloseFixPreviewEvent) {
@@ -961,18 +1685,20 @@ export class GrChangeView extends base {
     assertIsDefined(this._change, '_change');
     if (!this._changeNum)
       throw new Error('missing required changeNum property');
+    assertIsDefined(this.commitMessageEditor, 'commitMessageEditor');
+
     // to prevent 2 requests at the same time
-    if (this.$.commitMessageEditor.disabled) return;
+    if (this.commitMessageEditor.disabled) return;
     // Trim trailing whitespace from each line.
     const message = e.detail.content.replace(TRAILING_WHITESPACE_REGEX, '');
 
     this.jsAPI.handleCommitMessage(this._change, message);
 
-    this.$.commitMessageEditor.disabled = true;
+    this.commitMessageEditor.disabled = true;
     this.restApiService
       .putChangeCommitMessage(this._changeNum, message)
       .then(resp => {
-        this.$.commitMessageEditor.disabled = false;
+        this.commitMessageEditor!.disabled = false;
         if (!resp.ok) {
           return;
         }
@@ -982,7 +1708,7 @@ export class GrChangeView extends base {
         this._reloadWindow();
       })
       .catch(() => {
-        this.$.commitMessageEditor.disabled = false;
+        this.commitMessageEditor!.disabled = false;
       });
   }
 
@@ -994,39 +1720,35 @@ export class GrChangeView extends base {
     this._editingCommitMessage = false;
   }
 
-  _computeChangeStatusChips(
-    change: ChangeInfo | undefined,
-    mergeable: boolean | null,
-    submitEnabled?: boolean
-  ) {
-    if (!change) {
+  // private but used in test
+  computeChangeStatusChips() {
+    if (!this._change) {
       return undefined;
     }
 
     // Show no chips until mergeability is loaded.
-    if (mergeable === null) {
+    if (this._mergeable === null) {
       return [];
     }
 
     const options = {
       includeDerived: true,
-      mergeable: !!mergeable,
-      submitEnabled: !!submitEnabled,
+      mergeable: !!this._mergeable,
+      submitEnabled: !!this.isSubmitEnabled(),
     };
-    return changeStatuses(change, options);
+    return [
+      ...changeStatuses(this._change as ChangeInfo, options),
+      ...this.changeStatuses,
+    ];
   }
 
-  _computeHideEditCommitMessage(
-    loggedIn: boolean,
-    editing: boolean,
-    change: ChangeInfo,
-    editMode?: boolean
-  ) {
+  // private but used in test
+  computeHideEditCommitMessage() {
     if (
-      !loggedIn ||
-      editing ||
-      (change && change.status === ChangeStatus.MERGED) ||
-      editMode
+      !this._loggedIn ||
+      this._editingCommitMessage ||
+      (this._change && this._change.status === ChangeStatus.MERGED) ||
+      this._editMode
     ) {
       return true;
     }
@@ -1049,40 +1771,29 @@ export class GrChangeView extends base {
     }, {} as {[patchset: string]: number});
   }
 
-  /**
-   * Returns `this` as the visibility observer target for the keyboard shortcut
-   * mixin to decide whether shortcuts should be enabled or not.
-   */
-  _computeObserverTarget() {
-    return this;
-  }
-
-  _computeText(patch: RevisionInfo, commentThreads: CommentThread[]) {
+  _computeText(
+    patch: RevisionInfo | EditRevisionInfo,
+    commentThreads: CommentThread[]
+  ) {
     const commentCount = this._robotCommentCountPerPatchSet(commentThreads);
     const commentCnt = commentCount[patch._number] || 0;
     if (commentCnt === 0) return `Patchset ${patch._number}`;
     return `Patchset ${patch._number} (${pluralize(commentCnt, 'finding')})`;
   }
 
-  _computeRobotCommentsPatchSetDropdownItems(
-    change: ChangeInfo,
-    commentThreads: CommentThread[]
-  ) {
-    if (!change || !commentThreads || !change.revisions) return [];
+  private computeRobotCommentsPatchSetDropdownItems() {
+    if (!this._change || !this._commentThreads || !this._change.revisions)
+      return [];
 
-    return Object.values(change.revisions)
+    return Object.values(this._change.revisions)
       .filter(patch => patch._number !== 'edit')
       .map(patch => {
         return {
-          text: this._computeText(patch, commentThreads),
+          text: this._computeText(patch, this._commentThreads!),
           value: patch._number,
         };
       })
       .sort((a, b) => (b.value as number) - (a.value as number));
-  }
-
-  _handleCurrentRevisionUpdate(currentRevision?: RevisionInfo) {
-    this._currentRobotCommentsPatchSet = currentRevision?._number;
   }
 
   _handleRobotCommentPatchSetChanged(e: CustomEvent<{value: string}>) {
@@ -1099,32 +1810,30 @@ export class GrChangeView extends base {
     this._showAllRobotComments = !this._showAllRobotComments;
   }
 
-  _computeRobotCommentThreads(
-    commentThreads: CommentThread[],
-    currentRobotCommentsPatchSet: PatchSetNum,
-    showAllRobotComments: boolean
-  ) {
-    if (!commentThreads || !currentRobotCommentsPatchSet) return [];
-    const threads = commentThreads.filter(thread => {
+  // private but used in test
+  computeRobotCommentThreads() {
+    /* this._commentThreads, this._currentRobotCommentsPatchSet, this._showAllRobotComments*/
+    if (!this._commentThreads || !this._currentRobotCommentsPatchSet) return [];
+    const threads = this._commentThreads.filter(thread => {
       const comments = thread.comments || [];
       return (
         comments.length &&
         isRobot(comments[0]) &&
-        comments[0].patch_set === currentRobotCommentsPatchSet
+        comments[0].patch_set === this._currentRobotCommentsPatchSet
       );
     });
     this._showRobotCommentsButton = threads.length > ROBOT_COMMENTS_LIMIT;
     return threads.slice(
       0,
-      showAllRobotComments ? undefined : ROBOT_COMMENTS_LIMIT
+      this._showAllRobotComments ? undefined : ROBOT_COMMENTS_LIMIT
     );
   }
 
   _computeTotalCommentCounts(
-    unresolvedCount: number,
-    changeComments: ChangeComments
+    unresolvedCount?: number,
+    changeComments?: ChangeComments
   ) {
-    if (!changeComments) return undefined;
+    if (!changeComments || unresolvedCount === undefined) return undefined;
     const draftCount = changeComments.computeDraftCount();
     const unresolvedString =
       unresolvedCount === 0 ? '' : `${unresolvedCount} unresolved`;
@@ -1149,32 +1858,36 @@ export class GrChangeView extends base {
   }
 
   _handleOpenDiffPrefs() {
-    this.$.fileList.openDiffPrefs();
+    assertIsDefined(this.fileList, 'fileList');
+    this.fileList.openDiffPrefs();
   }
 
   _handleOpenIncludedInDialog() {
-    this.$.includedInDialog.loadData().then(() => {
-      flush();
-      this.$.includedInOverlay.refit();
+    assertIsDefined(this.includedInDialog, 'includedInDialog');
+    this.includedInDialog.loadData().then(async () => {
+      await this.updateComplete;
+      this.includedInOverlay!.refit();
     });
-    this.$.includedInOverlay.open();
+    assertIsDefined(this.includedInOverlay, 'includedInOverlay');
+    this.includedInOverlay.open();
   }
 
   _handleIncludedInDialogClose() {
-    this.$.includedInOverlay.close();
+    assertIsDefined(this.includedInOverlay, 'includedInOverlay');
+    this.includedInOverlay.close();
   }
 
   _handleOpenDownloadDialog() {
-    this.$.downloadOverlay.open().then(() => {
-      this.$.downloadOverlay.setFocusStops(
-        this.$.downloadDialog.getFocusStops()
-      );
-      this.$.downloadDialog.focus();
+    assertIsDefined(this.downloadOverlay, 'downloadOverlay');
+    this.downloadOverlay.open().then(() => {
+      this.downloadOverlay!.setFocusStops(this.downloadDialog!.getFocusStops());
+      this.downloadDialog!.focus();
     });
   }
 
   _handleDownloadDialogClose() {
-    this.$.downloadOverlay.close();
+    assertIsDefined(this.downloadOverlay, 'downloadOverlay');
+    this.downloadOverlay.close();
   }
 
   _handleMessageReply(e: CustomEvent<{message: {message: string}}>) {
@@ -1188,11 +1901,13 @@ export class GrChangeView extends base {
   }
 
   _handleHideBackgroundContent() {
-    this.$.mainContent.classList.add('overlayOpen');
+    assertIsDefined(this.mainContent, 'mainContent');
+    this.mainContent.classList.add('overlayOpen');
   }
 
   _handleShowBackgroundContent() {
-    this.$.mainContent.classList.remove('overlayOpen');
+    assertIsDefined(this.mainContent, 'mainContent');
+    this.mainContent.classList.remove('overlayOpen');
   }
 
   _handleReplySent() {
@@ -1203,19 +1918,21 @@ export class GrChangeView extends base {
       },
       {once: true}
     );
-    this.$.replyOverlay.cancel();
+    assertIsDefined(this.replyOverlay, 'replyOverlay');
+    this.replyOverlay.cancel();
     fireReload(this);
   }
 
   _handleReplyCancel() {
-    this.$.replyOverlay.cancel();
+    assertIsDefined(this.replyOverlay, 'replyOverlay');
+    this.replyOverlay.cancel();
   }
 
   _handleReplyAutogrow() {
     // If the textarea resizes, we need to re-fit the overlay.
     this.replyRefitTask = debounce(
       this.replyRefitTask,
-      () => this.$.replyOverlay.refit(),
+      () => this.replyOverlay!.refit(),
       REPLY_REFIT_DEBOUNCE_INTERVAL_MS
     );
   }
@@ -1233,11 +1950,13 @@ export class GrChangeView extends base {
   }
 
   _expandAllDiffs() {
-    this.$.fileList.expandAllDiffs();
+    assertIsDefined(this.fileList, 'fileList');
+    this.fileList.expandAllDiffs();
   }
 
   _collapseAllDiffs() {
-    this.$.fileList.collapseAllDiffs();
+    assertIsDefined(this.fileList, 'fileList');
+    this.fileList.collapseAllDiffs();
   }
 
   /**
@@ -1280,7 +1999,9 @@ export class GrChangeView extends base {
     }
   }
 
-  _paramsChanged(value: AppElementChangeViewParams) {
+  // private but used in test
+  paramsChanged() {
+    const value = this.params!;
     if (value.view !== GerritView.CHANGE) {
       this._initialLoadComplete = false;
       querySelectorAll(this, 'gr-overlay').forEach(overlay =>
@@ -1335,9 +2056,10 @@ export class GrChangeView extends base {
         patchNumChanged = true;
       }
       if (patchChanged) {
+        assertIsDefined(this.fileList, 'fileList');
         // We need to collapse all diffs when params change so that a non
         // existing diff is not requested. See Issue 125270 for more details.
-        this.$.fileList.collapseAllDiffs();
+        this.fileList.collapseAllDiffs();
         this._reloadPatchNumDependentResources(patchNumChanged).then(() => {
           this._sendShowChangeEvent();
         });
@@ -1356,9 +2078,10 @@ export class GrChangeView extends base {
       return;
     }
 
+    assertIsDefined(this.fileList, 'fileList');
     // We need to collapse all diffs when params change so that a non existing
     // diff is not requested. See Issue 125270 for more details.
-    this.$.fileList.collapseAllDiffs();
+    this.fileList.collapseAllDiffs();
 
     // If the change was loaded before, then we are firing a 'reload' event
     // instead of calling `loadData()` directly for two reasons:
@@ -1430,13 +2153,9 @@ export class GrChangeView extends base {
     });
   }
 
-  @observe('params', '_change')
-  _paramsAndChangeChanged(
-    value?: AppElementChangeViewParams,
-    change?: ChangeInfo
-  ) {
+  private paramsAndChangeChanged() {
     // Polymer 2: check for undefined
-    if (!value || !change) {
+    if (!this.params || !this._change) {
       return;
     }
 
@@ -1455,14 +2174,14 @@ export class GrChangeView extends base {
     }
   }
 
-  _viewStateChanged(viewState: ChangeViewState) {
-    this._numFilesShown = viewState.numFilesShown
-      ? viewState.numFilesShown
+  private viewStateChanged() {
+    this._numFilesShown = this.viewState.numFilesShown
+      ? this.viewState.numFilesShown
       : DEFAULT_NUM_FILES_SHOWN;
   }
 
-  _numFilesShownChanged(numFilesShown: number) {
-    this.viewState.numFilesShown = numFilesShown;
+  private numFilesShownChanged() {
+    this.viewState.numFilesShown = this._numFilesShown;
   }
 
   _handleMessageAnchorTap(e: CustomEvent<{id: string}>) {
@@ -1517,7 +2236,8 @@ export class GrChangeView extends base {
           return;
         }
         if (this._getUrlParameter('revert')) {
-          this.$.actions.showRevertDialog();
+          assertIsDefined(this.actions, 'actions');
+          this.actions.showRevertDialog();
         }
       });
   }
@@ -1530,7 +2250,8 @@ export class GrChangeView extends base {
 
       if (this.viewState.showReplyDialog) {
         this._openReplyDialog(FocusTarget.ANY);
-        this.set('viewState.showReplyDialog', false);
+        this.viewState.showReplyDialog = false;
+        this.requestUpdate('viewState');
         fire(this, 'view-state-change-view-changed', {
           value: this.viewState as ChangeViewState,
         });
@@ -1539,15 +2260,18 @@ export class GrChangeView extends base {
   }
 
   _resetFileListViewState() {
-    this.set('viewState.selectedFileIndex', 0);
+    this.viewState.selectedFileIndex = 0;
+    this.requestUpdate('viewState');
     if (
       !!this.viewState.changeNum &&
       this.viewState.changeNum !== this._changeNum
     ) {
-      this.set('_numFilesShown', DEFAULT_NUM_FILES_SHOWN);
+      this._numFilesShown = DEFAULT_NUM_FILES_SHOWN;
+      this.requestUpdate('viewState');
     }
-    this.set('viewState.changeNum', this._changeNum);
-    this.set('viewState.patchRange', this._patchRange);
+    this.viewState.changeNum = this._changeNum;
+    this.viewState.patchRange = this._patchRange as PatchRange;
+    this.requestUpdate('viewState');
     fire(this, 'view-state-change-view-changed', {
       value: this.viewState as ChangeViewState,
     });
@@ -1559,22 +2283,23 @@ export class GrChangeView extends base {
     fireTitleChange(this, title);
   }
 
-  _changeChanged(change?: ChangeInfo | ParsedChangeInfo) {
-    if (!change || !this._patchRange || !this._allPatchSets) {
+  // private but used in test
+  changeChanged() {
+    if (!this._change || !this._patchRange || !this._allPatchSets) {
       return;
     }
 
     // We get the parent first so we keep the original value for basePatchNum
     // and not the updated value.
-    const parent = this._getBasePatchNum(change, this._patchRange);
+    const parent = this._getBasePatchNum(this._change, this._patchRange);
 
-    this.set(
-      '_patchRange.patchNum',
-      this._patchRange.patchNum || computeLatestPatchNum(this._allPatchSets)
-    );
+    this._patchRange.patchNum =
+      this._patchRange.patchNum || computeLatestPatchNum(this._allPatchSets);
+    this.requestUpdate('_patchRange');
 
-    this.set('_patchRange.basePatchNum', parent);
-    this.updateTitle(change);
+    this._patchRange.basePatchNum = parent as BasePatchSetNum;
+    this.requestUpdate('_patchRange');
+    this.updateTitle(this._change);
   }
 
   /**
@@ -1589,7 +2314,7 @@ export class GrChangeView extends base {
       return patchRange.basePatchNum;
     }
 
-    const revisionInfo = this._getRevisionInfo(change);
+    const revisionInfo = this.getRevisionInfo(change);
     if (!revisionInfo) return 'PARENT';
 
     const parentCounts = revisionInfo.getParentCountMap();
@@ -1610,22 +2335,26 @@ export class GrChangeView extends base {
 
   // Polymer was converting true to "true"(type string) automatically hence
   // forceReload is of type string instead of boolean.
-  _computeChangeUrl(change: ChangeInfo, forceReload?: string) {
-    return GerritNav.getUrlForChange(change, {
+  computeChangeUrl(forceReload?: string) {
+    if (!this._change) return;
+    return GerritNav.getUrlForChange(this._change as ChangeInfo, {
       forceReload: !!forceReload,
     });
   }
 
-  _computeReplyButtonLabel(
-    drafts?: {[path: string]: DraftInfo[]},
-    canStartReview?: boolean
-  ) {
-    if (drafts === undefined || canStartReview === undefined) {
+  // private but used in test
+  computeReplyButtonLabel() {
+    const canStartReview = !!(
+      this._change?.actions &&
+      this._change?.actions.ready &&
+      this._change?.actions.ready.enabled
+    );
+    if (this._diffDrafts === undefined || canStartReview === undefined) {
       return 'Reply';
     }
 
-    const draftCount = Object.keys(drafts).reduce(
-      (count, file) => count + drafts[file].length,
+    const draftCount = Object.keys(this._diffDrafts).reduce(
+      (count, file) => count + this._diffDrafts![file].length,
       0
     );
 
@@ -1647,8 +2376,9 @@ export class GrChangeView extends base {
   }
 
   _handleOpenSubmitDialog() {
-    if (!this._submitEnabled) return;
-    this.$.actions.showSubmitDialog();
+    if (!this.isSubmitEnabled()) return;
+    assertIsDefined(this.actions, 'actions');
+    this.actions.showSubmitDialog();
   }
 
   _handleToggleAttentionSet() {
@@ -1762,7 +2492,8 @@ export class GrChangeView extends base {
   }
 
   _handleToggleChangeStar() {
-    this.$.changeStar.toggleStar();
+    assertIsDefined(this.changeStar, 'changeStar');
+    this.changeStar.toggleStar();
   }
 
   _handleExpandAllMessages() {
@@ -1779,7 +2510,8 @@ export class GrChangeView extends base {
 
   _handleOpenDiffPrefsShortcut() {
     if (!this._loggedIn) return;
-    this.$.fileList.openDiffPrefs();
+    assertIsDefined(this.fileList, 'fileList');
+    this.fileList.openDiffPrefs();
   }
 
   _determinePageBack() {
@@ -1796,7 +2528,7 @@ export class GrChangeView extends base {
       for (const removed of splice.removed) {
         const changePath = path.split('.');
         const labelPath = changePath.splice(0, changePath.length - 2);
-        const labelDict = this.get(labelPath) as QuickLabelInfo;
+        const labelDict = /* this.get(labelPath) */ labelPath as QuickLabelInfo;
         if (
           labelDict.approved &&
           labelDict.approved._account_id === removed._account_id
@@ -1808,7 +2540,7 @@ export class GrChangeView extends base {
     }
   }
 
-  @observe('_change.labels.*')
+  /* @observe('_change.labels.*')
   _labelsChanged(
     changeRecord: PolymerDeepPropertyChange<
       LabelNameToInfoMap,
@@ -1827,15 +2559,16 @@ export class GrChangeView extends base {
     this.jsAPI.handleEvent(PluginEventType.LABEL_CHANGE, {
       change: this._change,
     });
-  }
+  }*/
 
   _openReplyDialog(focusTarget?: FocusTarget, quote?: string) {
     if (!this._change) return;
-    const overlay = this.$.replyOverlay;
+    assertIsDefined(this.replyOverlay, 'replyOverlay');
+    const overlay = this.replyOverlay;
     overlay.open().finally(() => {
+      assertIsDefined(this.replyDialog, 'replyDialog');
       // the following code should be executed no matter open succeed or not
-      const dialog = query<GrReplyDialog>(this, '#replyDialog');
-      assertIsDefined(dialog, 'reply dialog');
+      const dialog = this.replyDialog;
       this._resetReplyOverlayFocusStops();
       dialog.open(focusTarget, quote);
       const observer = new ResizeObserver(() => overlay.center());
@@ -1919,7 +2652,8 @@ export class GrChangeView extends base {
     // also be model managed, so we can reconcile these two code snippets into
     // one location.
     if (!this.routerPatchNum && latestPsNum === editParentRev._number) {
-      this.set('_patchRange.patchNum', EditPatchSetNum);
+      this._patchRange.patchNum = EditPatchSetNum;
+      this.requestUpdate('_patchRange');
       // The file list is not reactive (yet) with regards to patch range
       // changes, so we have to actively trigger it.
       this._reloadPatchNumDependentResources();
@@ -1941,13 +2675,16 @@ export class GrChangeView extends base {
       const submittedRevert = changes.find(
         change => change?.status === ChangeStatus.MERGED
       );
-      if (!this._changeStatuses) return;
+      if (!this.computeChangeStatusChips()) return;
       if (submittedRevert) {
         this.revertedChange = submittedRevert;
-        this.push('_changeStatuses', ChangeStates.REVERT_SUBMITTED);
+
+        this.changeStatuses.push(ChangeStates.REVERT_SUBMITTED);
+        this.requestUpdate();
       } else {
         if (changes[0]) this.revertedChange = changes[0];
-        this.push('_changeStatuses', ChangeStates.REVERT_CREATED);
+        this.changeStatuses.push(ChangeStates.REVERT_CREATED);
+        this.requestUpdate();
       }
     });
   }
@@ -2033,17 +2770,18 @@ export class GrChangeView extends base {
     return true;
   }
 
-  _isSubmitEnabled(revisionActions: ActionNameToActionInfoMap) {
+  // private but used in test
+  isSubmitEnabled() {
     return !!(
-      revisionActions &&
-      revisionActions.submit &&
-      revisionActions.submit.enabled
+      this._currentRevisionActions &&
+      this._currentRevisionActions.submit &&
+      this._currentRevisionActions.submit.enabled
     );
   }
 
-  _isParentCurrent(revisionActions: ActionNameToActionInfoMap) {
-    if (revisionActions && revisionActions.rebase) {
-      return !revisionActions.rebase.enabled;
+  private isParentCurrent() {
+    if (this._currentRevisionActions && this._currentRevisionActions.rebase) {
+      return !this._currentRevisionActions.rebase.enabled;
     } else {
       return true;
     }
@@ -2091,10 +2829,8 @@ export class GrChangeView extends base {
       });
   }
 
-  @observe('_changeComments')
-  changeCommentsChanged(comments?: ChangeComments) {
-    if (!comments) return;
-    this._changeComments = comments;
+  private changeCommentsChanged() {
+    if (!this._changeComments) return;
     this._commentThreads = this._changeComments.getAllThreadsForChange();
     this._draftCommentThreads = this._commentThreads
       .filter(isDraftThread)
@@ -2170,9 +2906,7 @@ export class GrChangeView extends base {
       coreDataPromise = Promise.all([patchResourcesLoaded, loadingFlagSet]);
     } else {
       // Resolves when the file list has loaded.
-      const fileListReload = loadingFlagSet.then(() =>
-        this.$.fileList.reload()
-      );
+      const fileListReload = loadingFlagSet.then(() => this.fileList!.reload());
       allDataPromises.push(fileListReload);
 
       const latestCommitMessageLoaded = loadingFlagSet.then(() => {
@@ -2208,7 +2942,7 @@ export class GrChangeView extends base {
       let relatedChangesPromise:
         | Promise<RelatedChangesInfo | undefined>
         | undefined;
-      const patchNum = this._computeLatestPatchNum(this._allPatchSets);
+      const patchNum = computeLatestPatchNum(this._allPatchSets);
       if (this._change && patchNum) {
         relatedChangesPromise = this.restApiService
           .getRelatedChanges(this._change._number, patchNum)
@@ -2259,7 +2993,7 @@ export class GrChangeView extends base {
   _reloadPatchNumDependentResources(patchNumChanged?: boolean) {
     assertIsDefined(this._changeNum, '_changeNum');
     if (!this._patchRange?.patchNum) throw new Error('missing patchNum');
-    const promises = [this.loadAndSetCommitInfo(), this.$.fileList.reload()];
+    const promises = [this.loadAndSetCommitInfo(), this.fileList!.reload()];
     if (patchNumChanged) {
       promises.push(
         this.getCommentsModel().reloadPortedComments(
@@ -2313,29 +3047,17 @@ export class GrChangeView extends base {
       });
   }
 
-  _computeResolveWeblinks(
-    change?: ChangeInfo,
-    commitInfo?: CommitInfo,
-    config?: ServerInfo
-  ) {
-    if (!change || !commitInfo || !config) {
+  private computeResolveWeblinks() {
+    if (!this._change || !this._commitInfo || !this._serverConfig) {
       return [];
     }
     return GerritNav.getResolveConflictsWeblinks(
-      change.project,
-      commitInfo.commit,
+      this._change.project,
+      this._commitInfo.commit,
       {
-        weblinks: commitInfo.resolve_conflicts_web_links,
-        config,
+        weblinks: this._commitInfo.resolve_conflicts_web_links,
+        config: this._serverConfig,
       }
-    );
-  }
-
-  _computeCanStartReview(change: ChangeInfo): boolean {
-    return !!(
-      change.actions &&
-      change.actions.ready &&
-      change.actions.ready.enabled
     );
   }
 
@@ -2346,23 +3068,26 @@ export class GrChangeView extends base {
   /**
    * Returns the text to be copied when
    * click the copy icon next to change subject
+   *
+   * private but used in test
    */
-  _computeCopyTextForTitle(change: ChangeInfo): string {
+  computeCopyTextForTitle() {
+    if (!this._change) return '';
     return (
-      `${change._number}: ${change.subject} | ` +
+      `${this._change._number}: ${this._change.subject} | ` +
       `${location.protocol}//${location.host}` +
-      `${this._computeChangeUrl(change)}`
+      `${this.computeChangeUrl()}`
     );
   }
 
-  _computeCommitCollapsible(commitMessage?: string) {
+  private computeCommitCollapsible(commitMessage?: string | null) {
     if (!commitMessage) {
       return false;
     }
     return commitMessage.split('\n').length >= MIN_LINES_FOR_COMMIT_COLLAPSE;
   }
 
-  _startUpdateCheckTimer() {
+  private startUpdateCheckTimer() {
     if (
       !this._serverConfig ||
       !this._serverConfig.change ||
@@ -2374,7 +3099,7 @@ export class GrChangeView extends base {
 
     this._updateCheckTimerHandle = window.setTimeout(() => {
       if (!this.isViewCurrent || !this._change) {
-        this._startUpdateCheckTimer();
+        this.startUpdateCheckTimer();
         return;
       }
       const change = this._change;
@@ -2408,7 +3133,7 @@ export class GrChangeView extends base {
             changeWasReloaded ||
             !this.isViewCurrent
           ) {
-            this._startUpdateCheckTimer();
+            this.startUpdateCheckTimer();
             return;
           }
 
@@ -2442,7 +3167,7 @@ export class GrChangeView extends base {
     if (document.hidden && this._updateCheckTimerHandle) {
       this._cancelUpdateCheckTimer();
     } else if (!this._updateCheckTimerHandle) {
-      this._startUpdateCheckTimer();
+      this.startUpdateCheckTimer();
     }
   };
 
@@ -2450,40 +3175,32 @@ export class GrChangeView extends base {
     this.getRelatedChangesList()?.reload();
   }
 
-  _computeHeaderClass(editMode?: boolean) {
+  // private but used in test
+  computeHeaderClass() {
     const classes = ['header'];
-    if (editMode) {
+    if (this._editMode) {
       classes.push('editMode');
     }
     return classes.join(' ');
   }
 
-  _computeEditMode(
-    patchRangeRecord: PolymerDeepPropertyChange<
-      ChangeViewPatchRange,
-      ChangeViewPatchRange
-    >,
-    paramsRecord: PolymerDeepPropertyChange<
-      AppElementChangeViewParams,
-      AppElementChangeViewParams
-    >
-  ) {
-    if (!patchRangeRecord || !paramsRecord) {
+  // private but used in test
+  computeEditMode() {
+    if (!this._patchRange || !this.params) {
       return undefined;
     }
 
-    if (paramsRecord.base && paramsRecord.base.edit) {
+    if (this.params.edit) {
       return true;
     }
 
-    const patchRange = patchRangeRecord.base || {};
-    return patchRange.patchNum === EditPatchSetNum;
+    return this._patchRange.patchNum === EditPatchSetNum;
   }
 
   _handleFileActionTap(e: CustomEvent<{path: string; action: string}>) {
     e.preventDefault();
     const controls =
-      this.$.fileListHeader.shadowRoot!.querySelector<GrEditControls>(
+      this.fileListHeader!.shadowRoot!.querySelector<GrEditControls>(
         '#editControls'
       );
     if (!controls) throw new Error('Missing edit controls');
@@ -2517,13 +3234,13 @@ export class GrChangeView extends base {
     return `c${number}_rev${revision}`;
   }
 
-  @observe('_patchRange.patchNum')
-  _patchNumChanged(patchNumStr?: PatchSetNum) {
-    if (!this._selectedRevision || !patchNumStr) {
+  private patchNumChanged() {
+    if (!this._selectedRevision || !this._patchRange?.patchNum) {
       return;
     }
     assertIsDefined(this._change, '_change');
 
+    const patchNumStr = this._patchRange.patchNum;
     let patchNum: PatchSetNum;
     if (patchNumStr === 'edit') {
       patchNum = EditPatchSetNum;
@@ -2584,10 +3301,12 @@ export class GrChangeView extends base {
   }
 
   _resetReplyOverlayFocusStops() {
-    const dialog = query<GrReplyDialog>(this, '#replyDialog');
+    assertIsDefined(this.replyDialog, 'replyDialog');
+    const dialog = this.replyDialog;
     const focusStops = dialog?.getFocusStops();
     if (!focusStops) return;
-    this.$.replyOverlay.setFocusStops(focusStops);
+    assertIsDefined(this.replyOverlay, 'replyOverlay');
+    this.replyOverlay.setFocusStops(focusStops);
   }
 
   _handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {
@@ -2608,52 +3327,30 @@ export class GrChangeView extends base {
     );
   }
 
-  _getRevisionInfo(change: ChangeInfo | ParsedChangeInfo): RevisionInfoClass {
-    return new RevisionInfoClass(change);
+  private getRevisionInfo(
+    change?: ChangeInfo | ParsedChangeInfo
+  ): RevisionInfoClass | undefined {
+    if (!this._change) return;
+    return new RevisionInfoClass(change!);
   }
 
-  _computeCurrentRevision(
-    currentRevision: CommitId,
-    revisions: {[revisionId: string]: RevisionInfo}
-  ) {
-    return currentRevision && revisions && revisions[currentRevision];
-  }
-
-  /**
-   * Wrapper for using in the element template and computed properties
-   */
-  _computeLatestPatchNum(allPatchSets?: PatchSet[]) {
-    return computeLatestPatchNum(allPatchSets);
+  private computeCurrentRevision() {
+    return (
+      this._change?.current_revision &&
+      this._change?.revisions &&
+      this._change.revisions[this._change.current_revision]
+    );
   }
 
   /**
    * Wrapper for using in the element template and computed properties
    */
-  _hasEditBasedOnCurrentPatchSet(allPatchSets: PatchSet[]): boolean {
-    return hasEditBasedOnCurrentPatchSet(allPatchSets);
-  }
-
-  /**
-   * Wrapper for using in the element template and computed properties
-   */
-  _hasEditPatchsetLoaded(
-    patchRangeRecord: PolymerDeepPropertyChange<
-      ChangeViewPatchRange,
-      ChangeViewPatchRange
-    >
-  ): boolean {
-    const patchRange = patchRangeRecord.base;
+  private hasEditPatchsetLoaded(): boolean {
+    const patchRange = this._patchRange;
     if (!patchRange) {
       return false;
     }
     return hasEditPatchsetLoaded(patchRange);
-  }
-
-  /**
-   * Wrapper for using in the element template and computed properties
-   */
-  _computeAllPatchSets(change: ChangeInfo) {
-    return computeAllPatchSets(change);
   }
 
   getRelatedChangesList() {
@@ -2663,13 +3360,35 @@ export class GrChangeView extends base {
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {
-    return this.shortcuts.createTitle(shortcutName, section);
+    return this.shortcutsService.createTitle(shortcutName, section);
   }
 
   _handleRevisionActionsChanged(
     e: CustomEvent<{value: ActionNameToActionInfoMap}>
   ) {
     this._currentRevisionActions = e.detail.value;
+  }
+
+  private handleDiffPreffsChanged(
+    e: CustomEvent<{value: DiffPreferencesInfo}>
+  ) {
+    this._diffPrefs = {...this._diffPrefs, ...e.detail.value};
+  }
+
+  private handleSelectedIndexChanged(e: CustomEvent<{value: number}>) {
+    this.viewState.selectedFileIndex = e.detail.value;
+  }
+
+  private handleNumFilesShownChanged(e: CustomEvent<{value: number}>) {
+    this._numFilesShown = e.detail.value;
+  }
+
+  private handleFilesExpandedChanged(e: CustomEvent<{value: string}>) {
+    this._filesExpanded = e.detail.value;
+  }
+
+  private handleOpenedChanged(e: CustomEvent<{value: boolean}>) {
+    this.replyOverlayOpened = e.detail.value;
   }
 }
 

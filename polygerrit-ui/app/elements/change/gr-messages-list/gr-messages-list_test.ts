@@ -41,6 +41,7 @@ import {
   UrlEncodedCommentId,
 } from '../../../types/common';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
+import {assertIsDefined} from '../../../utils/common-util';
 
 createCommentApiMockWithTemplateElement(
   'gr-messages-list-comment-mock-api',
@@ -167,43 +168,53 @@ suite('gr-messages-list tests', () => {
       await flush();
     });
 
-    test('expand/collapse all', () => {
+    test('expand/collapse all', async () => {
       let allMessageEls = getMessages();
       for (const message of allMessageEls) {
-        message._expanded = false;
+        assertIsDefined(message.message);
+        message.message = {...message.message, expanded: false};
+        await message.updateComplete;
       }
       MockInteractions.tap(allMessageEls[1]);
-      assert.isTrue(allMessageEls[1]._expanded);
+      assert.isTrue(allMessageEls[1].message?.expanded);
 
       MockInteractions.tap(queryAndAssert(element, '#collapse-messages'));
       allMessageEls = getMessages();
       for (const message of allMessageEls) {
-        assert.isTrue(message._expanded);
+        assert.isTrue(message.message?.expanded);
       }
 
       MockInteractions.tap(queryAndAssert(element, '#collapse-messages'));
       allMessageEls = getMessages();
       for (const message of allMessageEls) {
-        assert.isFalse(message._expanded);
+        assert.isFalse(message.message?.expanded);
       }
     });
 
     test('expand/collapse from external keypress', () => {
       // Start with one expanded message. -> not all collapsed
       element.scrollToMessage(messages[1].id);
-      assert.isFalse([...getMessages()].filter(m => m._expanded).length === 0);
+      assert.isFalse(
+        [...getMessages()].filter(m => m.message?.expanded).length === 0
+      );
 
       // Press 'z' -> all collapsed
       element.handleExpandCollapse(false);
-      assert.isTrue([...getMessages()].filter(m => m._expanded).length === 0);
+      assert.isTrue(
+        [...getMessages()].filter(m => m.message?.expanded).length === 0
+      );
 
       // Press 'x' -> all expanded
       element.handleExpandCollapse(true);
-      assert.isTrue([...getMessages()].filter(m => !m._expanded).length === 0);
+      assert.isTrue(
+        [...getMessages()].filter(m => !m.message?.expanded).length === 0
+      );
 
       // Press 'z' -> all collapsed
       element.handleExpandCollapse(false);
-      assert.isTrue([...getMessages()].filter(m => m._expanded).length === 0);
+      assert.isTrue(
+        [...getMessages()].filter(m => m.message?.expanded).length === 0
+      );
     });
 
     test('showAllActivity does not appear when all msgs are important', () => {
@@ -211,50 +222,52 @@ suite('gr-messages-list tests', () => {
       assert.isNotOk(query(element, '.showAllActivityToggle'));
     });
 
-    test('scroll to message', () => {
+    test('scroll to message', async () => {
       const allMessageEls = getMessages();
       for (const message of allMessageEls) {
-        message.set('message.expanded', false);
+        assertIsDefined(message.message);
+        message.message = {...message.message, expanded: false};
       }
 
       const scrollToStub = sinon.stub(window, 'scrollTo');
       const highlightStub = sinon.stub(element, '_highlightEl');
 
-      element.scrollToMessage('invalid');
+      await element.scrollToMessage('invalid');
 
       for (const message of allMessageEls) {
+        assertIsDefined(message.message);
         assert.isFalse(
-          message._expanded,
+          message.message.expanded,
           'expected gr-message to not be expanded'
         );
       }
 
       const messageID = messages[1].id;
-      element.scrollToMessage(messageID);
+      await element.scrollToMessage(messageID);
       assert.isTrue(
         queryAndAssert<GrMessage>(element, `[data-message-id="${messageID}"]`)
-          ._expanded
+          .message?.expanded
       );
 
       assert.isTrue(scrollToStub.calledOnce);
       assert.isTrue(highlightStub.calledOnce);
     });
 
-    test('scroll to message offscreen', () => {
+    test('scroll to message offscreen', async () => {
       const scrollToStub = sinon.stub(window, 'scrollTo');
       const highlightStub = sinon.stub(element, '_highlightEl');
       element.messages = generateRandomMessages(25);
-      flush();
+      await element.updateComplete;
       assert.isFalse(scrollToStub.called);
       assert.isFalse(highlightStub.called);
 
       const messageID = element.messages[1].id;
-      element.scrollToMessage(messageID);
+      await element.scrollToMessage(messageID);
       assert.isTrue(scrollToStub.calledOnce);
       assert.isTrue(highlightStub.calledOnce);
       assert.isTrue(
         queryAndAssert<GrMessage>(element, `[data-message-id="${messageID}"]`)
-          ._expanded
+          .message?.expanded
       );
     });
 

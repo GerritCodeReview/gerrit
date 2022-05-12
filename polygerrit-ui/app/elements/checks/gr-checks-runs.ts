@@ -429,21 +429,21 @@ export class GrChecksRuns extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  override connectedCallback(): void {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getChecksModel().allRunsSelectedPatchset$,
+      () => this.getChecksModel().allRunsSelectedPatchset$,
       x => (this.runs = x)
     );
     subscribe(
       this,
-      this.getChecksModel().errorMessagesLatest$,
+      () => this.getChecksModel().errorMessagesLatest$,
       x => (this.errorMessages = x)
     );
     subscribe(
       this,
-      this.getChecksModel().loginCallbackLatest$,
+      () => this.getChecksModel().loginCallbackLatest$,
       x => (this.loginCallback = x)
     );
   }

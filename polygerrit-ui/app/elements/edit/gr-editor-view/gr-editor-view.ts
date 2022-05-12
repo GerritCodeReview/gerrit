@@ -122,13 +122,17 @@ export class GrEditorView extends LitElement {
     this.addEventListener('content-change', e => {
       this.handleContentChange(e as CustomEvent<{value: string}>);
     });
+    subscribe(
+      this,
+      () => this.userModel.editPreferences$,
+      editPreferences => {
+        this.editPrefs = editPreferences;
+      }
+    );
   }
 
   override connectedCallback() {
     super.connectedCallback();
-    subscribe(this, this.userModel.editPreferences$, editPreferences => {
-      this.editPrefs = editPreferences;
-    });
     this.cleanups.push(
       addShortcut(this, {key: 's', modifiers: [Modifier.CTRL_KEY]}, () =>
         this.handleSaveShortcut()

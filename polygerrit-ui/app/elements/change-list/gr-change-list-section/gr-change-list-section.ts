@@ -132,13 +132,9 @@ export class GrChangeListSection extends LitElement {
   constructor() {
     super();
     provide(this, bulkActionsModelToken, () => this.bulkActionsModel);
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
     subscribe(
       this,
-      this.bulkActionsModel.selectedChangeNums$,
+      () => this.bulkActionsModel.selectedChangeNums$,
       selectedChanges =>
         (this.showBulkActionsHeader = selectedChanges.length > 0)
     );

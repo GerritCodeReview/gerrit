@@ -26,9 +26,13 @@ class ConsumerElement extends LitElement {
   @state()
   private injectedValue = '';
 
-  override connectedCallback() {
-    super.connectedCallback();
-    subscribe(this, this.getModel(), value => (this.injectedValue = value));
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getModel(),
+      value => (this.injectedValue = value)
+    );
   }
 
   override render() {

@@ -264,35 +264,49 @@ export class GrCommentThread extends LitElement {
     super();
     this.shortcuts.addGlobal({key: 'e'}, () => this.handleExpandShortcut());
     this.shortcuts.addGlobal({key: 'E'}, () => this.handleCollapseShortcut());
-  }
-
-  override connectedCallback(): void {
-    super.connectedCallback();
     subscribe(
       this,
-      this.getChangeModel().changeNum$,
+      () => this.getChangeModel().changeNum$,
       x => (this.changeNum = x)
     );
-    subscribe(this, this.userModel.account$, x => (this.account = x));
-    subscribe(this, this.getChangeModel().repo$, x => (this.repoName = x));
-    subscribe(this, this.userModel.diffPreferences$, x =>
-      this.syntaxLayer.setEnabled(!!x.syntax_highlighting)
+    subscribe(
+      this,
+      () => this.userModel.account$,
+      x => (this.account = x)
     );
-    subscribe(this, this.userModel.preferences$, prefs => {
-      const layers: DiffLayer[] = [this.syntaxLayer];
-      if (!prefs.disable_token_highlighting) {
-        layers.push(new TokenHighlightLayer(this));
+    subscribe(
+      this,
+      () => this.getChangeModel().repo$,
+      x => (this.repoName = x)
+    );
+    subscribe(
+      this,
+      () => this.userModel.diffPreferences$,
+      x => this.syntaxLayer.setEnabled(!!x.syntax_highlighting)
+    );
+    subscribe(
+      this,
+      () => this.userModel.preferences$,
+      prefs => {
+        const layers: DiffLayer[] = [this.syntaxLayer];
+        if (!prefs.disable_token_highlighting) {
+          layers.push(new TokenHighlightLayer(this));
+        }
+        this.layers = layers;
       }
-      this.layers = layers;
-    });
-    subscribe(this, this.userModel.diffPreferences$, prefs => {
-      this.prefs = {
-        ...prefs,
-        // set line_wrapping to true so that the context can take all the
-        // remaining space after comment card has rendered
-        line_wrapping: true,
-      };
-    });
+    );
+    subscribe(
+      this,
+      () => this.userModel.diffPreferences$,
+      prefs => {
+        this.prefs = {
+          ...prefs,
+          // set line_wrapping to true so that the context can take all the
+          // remaining space after comment card has rendered
+          line_wrapping: true,
+        };
+      }
+    );
   }
 
   static override get styles() {

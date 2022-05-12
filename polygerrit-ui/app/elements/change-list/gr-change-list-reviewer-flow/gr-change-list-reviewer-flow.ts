@@ -108,21 +108,21 @@ export class GrChangeListReviewerFlow extends LitElement {
     `;
   }
 
-  override connectedCallback(): void {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getBulkActionsModel().selectedChanges$,
+      () => this.getBulkActionsModel().selectedChanges$,
       selectedChanges => (this.selectedChanges = selectedChanges)
     );
     subscribe(
       this,
-      this.getConfigModel().serverConfig$,
+      () => this.getConfigModel().serverConfig$,
       serverConfig => (this.serverConfig = serverConfig)
     );
     subscribe(
       this,
-      getAppContext().userModel.loggedIn$,
+      () => getAppContext().userModel.loggedIn$,
       isLoggedIn => (this.isLoggedIn = isLoggedIn)
     );
   }

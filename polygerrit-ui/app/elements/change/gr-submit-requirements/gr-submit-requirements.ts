@@ -144,11 +144,11 @@ export class GrSubmitRequirements extends LitElement {
 
   private readonly getChecksModel = resolve(this, checksModelToken);
 
-  override connectedCallback(): void {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getChecksModel().allRunsLatestPatchsetLatestAttempt$,
+      () => this.getChecksModel().allRunsLatestPatchsetLatestAttempt$,
       x => (this.runs = x)
     );
   }

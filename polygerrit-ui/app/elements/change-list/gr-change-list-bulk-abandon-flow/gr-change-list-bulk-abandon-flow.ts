@@ -35,11 +35,11 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
     ];
   }
 
-  override connectedCallback() {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getBulkActionsModel().selectedChanges$,
+      () => this.getBulkActionsModel().selectedChanges$,
       selectedChanges => (this.selectedChanges = selectedChanges)
     );
   }

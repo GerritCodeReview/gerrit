@@ -114,9 +114,13 @@ class GrResultRow extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  override connectedCallback() {
-    super.connectedCallback();
-    subscribe(this, this.getChangeModel().labels$, x => (this.labels = x));
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChangeModel().labels$,
+      x => (this.labels = x)
+    );
   }
 
   static override get styles() {
@@ -608,11 +612,11 @@ class GrResultExpanded extends LitElement {
     ];
   }
 
-  override connectedCallback() {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getConfigModel().repoConfig$,
+      () => this.getConfigModel().repoConfig$,
       x => (this.repoConfig = x)
     );
   }
@@ -787,31 +791,31 @@ export class GrChecksResults extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  override connectedCallback() {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getChecksModel().topLevelActionsSelected$,
+      () => this.getChecksModel().topLevelActionsSelected$,
       x => (this.actions = x)
     );
     subscribe(
       this,
-      this.getChecksModel().topLevelLinksSelected$,
+      () => this.getChecksModel().topLevelLinksSelected$,
       x => (this.links = x)
     );
     subscribe(
       this,
-      this.getChecksModel().checksSelectedPatchsetNumber$,
+      () => this.getChecksModel().checksSelectedPatchsetNumber$,
       x => (this.checksPatchsetNumber = x)
     );
     subscribe(
       this,
-      this.getChangeModel().latestPatchNum$,
+      () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchsetNumber = x)
     );
     subscribe(
       this,
-      this.getChecksModel().someProvidersAreLoadingSelected$,
+      () => this.getChecksModel().someProvidersAreLoadingSelected$,
       x => (this.someProvidersAreLoading = x)
     );
   }

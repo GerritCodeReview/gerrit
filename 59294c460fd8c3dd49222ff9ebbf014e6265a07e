@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e43ee868_61c99d97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-05-12T08:30:52Z",
+      "side": 1,
+      "message": "use plural here",
+      "range": {
+        "startLine": 12,
+        "startChar": 42,
+        "endLine": 12,
+        "endChar": 64
+      },
+      "revId": "59294c460fd8c3dd49222ff9ebbf014e6265a07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd787b57_b35026b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-05-12T08:30:52Z",
+      "side": 1,
+      "message": "isn\u0027t there an autotest to extend?",
+      "revId": "59294c460fd8c3dd49222ff9ebbf014e6265a07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e16a53b6_e5228fd7",
+        "filename": "antlr3/com/google/gerrit/index/query/Query.g",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-05-12T08:30:52Z",
+      "side": 1,
+      "message": "can you describe in words what exactly you expect this pattern to match? and why?\nto the degree that i understand the pattern language, i find the expression unexpectedly specific/restrictive.",
+      "revId": "59294c460fd8c3dd49222ff9ebbf014e6265a07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

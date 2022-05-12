@@ -3,6 +3,8 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+
+import {Subscription} from 'rxjs';
 import '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import '../../diff/gr-patch-range-select/gr-patch-range-select';
 import '../../edit/gr-edit-controls/gr-edit-controls';
@@ -120,6 +122,8 @@ export class GrFileListHeader extends LitElement {
   private readonly maxFilesForBulkActions = 225;
 
   private readonly userModel = getAppContext().userModel;
+
+  private subscriptions: Subscription[] = [];
 
   constructor() {
     super();
@@ -371,6 +375,23 @@ export class GrFileListHeader extends LitElement {
         </div>
       </div>
     `;
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.subscriptions = [
+      this.userModel.diffPreferences$.subscribe(diffPreferences => {
+        this.diffPrefs = diffPreferences;
+      }),
+    ];
+  }
+
+  override disconnectedCallback() {
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
+    super.disconnectedCallback();
   }
 
   private expandAllDiffs() {

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da92f156_49f7ef0a",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeFieldTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-05-12T16:57:59Z",
+      "side": 1,
+      "message": "nit: `%s` gets printed in the output as message is just concatenated",
+      "range": {
+        "startLine": 221,
+        "startChar": 28,
+        "endLine": 221,
+        "endChar": 30
+      },
+      "revId": "37d84b2ef5a794e095ad1fb8fe836d0c3b003eb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7c83c7e_0a6f5187",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeFieldTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-05-12T16:57:59Z",
+      "side": 1,
+      "message": "AFAIU `parseSubmitRecords` produces `Stream` hence it will never be equal to a `List`...",
+      "range": {
+        "startLine": 222,
+        "startChar": 14,
+        "endLine": 222,
+        "endChar": 61
+      },
+      "revId": "37d84b2ef5a794e095ad1fb8fe836d0c3b003eb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "956cbd85_30148611",
+        "filename": "javatests/com/google/gerrit/server/index/change/StalenessCheckerTest.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-05-12T16:57:59Z",
+      "side": 1,
+      "message": "returns `ImmutableSetMultimap` hence test fails in comparison ;)",
+      "range": {
+        "startLine": 71,
+        "startChar": 21,
+        "endLine": 71,
+        "endChar": 32
+      },
+      "revId": "37d84b2ef5a794e095ad1fb8fe836d0c3b003eb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

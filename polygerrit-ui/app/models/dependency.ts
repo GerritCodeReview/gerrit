@@ -181,7 +181,7 @@ export function resolve<T>(
     resolver = () => controller.get();
     hostResolvers.set(dependency, resolver);
   }
-  return resolver;
+  return resolver as Provider<T>;
 }
 
 /**

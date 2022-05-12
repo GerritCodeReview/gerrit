@@ -103,7 +103,7 @@ suite('gr-diff-host tests', () => {
       stubRestApi('getDiff').returns(Promise.resolve(createDiff()));
       element.patchRange = createPatchRange();
       element.change = createChange();
-      element.prefs = createDefaultDiffPrefs();
+      element.diffPrefs = createDefaultDiffPrefs();
       element.reload(true);
       // Multiple cascading microtasks are scheduled.
       await flush();
@@ -129,7 +129,7 @@ suite('gr-diff-host tests', () => {
       element.patchRange = createPatchRange();
       element.change = createChange();
       let reloadComplete = false;
-      element.prefs = createDefaultDiffPrefs();
+      element.diffPrefs = createDefaultDiffPrefs();
       element.reload().then(() => {
         reloadComplete = true;
       });
@@ -351,7 +351,7 @@ suite('gr-diff-host tests', () => {
         })
       );
 
-      element.prefs = createDefaultDiffPrefs();
+      element.diffPrefs = createDefaultDiffPrefs();
       element.reload();
       await waitForEventOnce(element, 'render');
 
@@ -420,7 +420,7 @@ suite('gr-diff-host tests', () => {
         })
       );
 
-      element.prefs = createDefaultDiffPrefs();
+      element.diffPrefs = createDefaultDiffPrefs();
       element.reload();
       await waitForEventOnce(element, 'render');
 
@@ -506,7 +506,7 @@ suite('gr-diff-host tests', () => {
         promise.resolve();
       });
 
-      element.prefs = createDefaultDiffPrefs();
+      element.diffPrefs = createDefaultDiffPrefs();
       element.reload();
       await promise;
     });
@@ -557,7 +557,7 @@ suite('gr-diff-host tests', () => {
         promise.resolve();
       });
 
-      element.prefs = createDefaultDiffPrefs();
+      element.diffPrefs = createDefaultDiffPrefs();
       element.reload();
       await promise;
     });
@@ -610,7 +610,7 @@ suite('gr-diff-host tests', () => {
         promise.resolve();
       });
 
-      element.prefs = createDefaultDiffPrefs();
+      element.diffPrefs = createDefaultDiffPrefs();
       element.reload();
       await promise;
     });
@@ -780,7 +780,7 @@ suite('gr-diff-host tests', () => {
 
   test('passes in prefs', () => {
     const value = createDefaultDiffPrefs();
-    element.prefs = value;
+    element.diffPrefs = value;
     assert.equal(element.$.diff.prefs, value);
   });
 
@@ -1409,7 +1409,7 @@ suite('gr-diff-host tests', () => {
 
   suite('syntax layer with syntax_highlighting on', () => {
     setup(() => {
-      const prefs = {
+      const diffPrefs = {
         ...createDefaultDiffPrefs(),
         line_length: 10,
         show_tabs: true,
@@ -1418,7 +1418,7 @@ suite('gr-diff-host tests', () => {
         syntax_highlighting: true,
       };
       element.patchRange = createPatchRange();
-      element.prefs = prefs;
+      element.diffPrefs = diffPrefs;
       element.changeNum = 123 as NumericChangeId;
       element.change = createChange();
       element.path = 'some/path';
@@ -1464,7 +1464,7 @@ suite('gr-diff-host tests', () => {
 
   suite('syntax layer with syntax_highlighting off', () => {
     setup(() => {
-      const prefs = {
+      const diffPrefs = {
         ...createDefaultDiffPrefs(),
         line_length: 10,
         show_tabs: true,
@@ -1475,7 +1475,7 @@ suite('gr-diff-host tests', () => {
       element.diff = createDiff();
       element.patchRange = createPatchRange();
       element.change = createChange();
-      element.prefs = prefs;
+      element.diffPrefs = diffPrefs;
     });
 
     test('gr-diff-host provides syntax highlighting layer', async () => {
@@ -1548,7 +1548,7 @@ suite('gr-diff-host tests', () => {
       element.changeNum = 123 as NumericChangeId;
       element.change = createChange();
       element.path = 'some/path';
-      const prefs = {
+      const diffPrefs = {
         ...createDefaultDiffPrefs(),
         line_length: 10,
         show_tabs: true,
@@ -1560,7 +1560,7 @@ suite('gr-diff-host tests', () => {
         content: [{a: ['foo']}],
       };
       element.patchRange = createPatchRange();
-      element.prefs = prefs;
+      element.diffPrefs = diffPrefs;
       stubRestApi('getDiff').returns(Promise.resolve(element.diff));
       await flush();
     });

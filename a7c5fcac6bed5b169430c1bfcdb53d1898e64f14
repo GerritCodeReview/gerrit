@@ -45,6 +45,53 @@
       },
       "revId": "a7c5fcac6bed5b169430c1bfcdb53d1898e64f14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f3db9ec_2ca5c7eb",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-12T07:36:46Z",
+      "side": 1,
+      "message": "Good point. The base version that uses Resources.getResource(logicalPath) using this code:\n\n  ClassLoader loader \u003d\n        MoreObjects.firstNonNull(\n            Thread.currentThread().getContextClassLoader(), \n  Resources.class.getClassLoader());\n\nAnd in async code path, during refresh it\u0027s problematic.\nHow and why it works at Google@HEAD? Is cache refreshing happens synchronously?",
+      "parentUuid": "5f655bc8_c34fb2e7",
+      "range": {
+        "startLine": 140,
+        "startChar": 16,
+        "endLine": 140,
+        "endChar": 52
+      },
+      "revId": "a7c5fcac6bed5b169430c1bfcdb53d1898e64f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb1a2175_2fc5738a",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-12T07:36:46Z",
+      "side": 1,
+      "message": "Unrelated to this change, but are 5 seconds for refreshAfterWrite and 1 minute for expireAfterWrite are sane defaults? I know, previously it was reloading on each and every access, but I guess it would be sufficient to have x10 default values, say 1 minute for refreshAfterWrite and 10 minutes for expireAfterWrite?",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 48
+      },
+      "revId": "a7c5fcac6bed5b169430c1bfcdb53d1898e64f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

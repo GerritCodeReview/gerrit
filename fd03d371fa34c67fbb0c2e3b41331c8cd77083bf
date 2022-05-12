@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ead6a961_66360e44",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-12T07:36:46Z",
+      "side": 0,
+      "message": "This method asserts if the resource couldn\u0027t be loaded:\n\n  URL url \u003d loader.getResource(resourceName);\n  checkArgument(url !\u003d null, \"resource %s not found.\", resourceName);\n\nShould the new code path do the same?",
+      "range": {
+        "startLine": 140,
+        "startChar": 16,
+        "endLine": 140,
+        "endChar": 50
+      },
+      "revId": "fd03d371fa34c67fbb0c2e3b41331c8cd77083bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

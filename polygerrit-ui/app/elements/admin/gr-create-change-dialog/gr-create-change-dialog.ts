@@ -84,16 +84,15 @@ export class GrCreateChangeDialog extends LitElement {
   constructor() {
     super();
     this.query = (input: string) => this.getRepoBranchesSuggestions(input);
-  }
 
-  override connectedCallback() {
-    super.connectedCallback();
-    if (!this.repoName) return;
-
-    subscribe(this, this.configModel().serverConfig$, config => {
-      this.privateChangesEnabled =
-        config?.change?.disable_private_changes ?? false;
-    });
+    subscribe(
+      this,
+      () => this.configModel().serverConfig$,
+      config => {
+        this.privateChangesEnabled =
+          config?.change?.disable_private_changes ?? false;
+      }
+    );
   }
 
   static override get styles() {

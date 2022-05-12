@@ -200,8 +200,8 @@ export class GrContextControls extends LitElement {
     }
   `;
 
-  override connectedCallback() {
-    super.connectedCallback();
+  constructor() {
+    super();
     this.setupButtonHoverHandler();
   }
 
@@ -220,16 +220,17 @@ export class GrContextControls extends LitElement {
   private setupButtonHoverHandler() {
     subscribe(
       this,
-      this.expandButtonsHover.pipe(
-        switchMap(e => {
-          if (e.eventType === 'leave') {
-            // cancel any previous delay
-            // for mouse enter
-            return EMPTY;
-          }
-          return of(e).pipe(delay(500));
-        })
-      ),
+      () =>
+        this.expandButtonsHover.pipe(
+          switchMap(e => {
+            if (e.eventType === 'leave') {
+              // cancel any previous delay
+              // for mouse enter
+              return EMPTY;
+            }
+            return of(e).pipe(delay(500));
+          })
+        ),
       ({buttonType, linesToExpand}) => {
         fire(this, 'diff-context-button-hovered', {
           buttonType,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6b434f8_b5c8412b",
+        "filename": "polygerrit-ui/app/elements/lit/subscription-controller.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-12T11:53:11Z",
+      "side": 1,
+      "message": "Why is this parameter optional? What is the point of the subscription then?",
+      "revId": "564a67a5d9ff11de84bf7dfd62dbee040941559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

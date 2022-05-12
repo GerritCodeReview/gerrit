@@ -43,7 +43,8 @@ export class GrDiffBuilderUnified extends GrDiffBuilderLegacy {
     };
   }
 
-  protected override buildSectionElement(group: GrDiffGroup): HTMLElement {
+  // visible for testing
+  override buildSectionElement(group: GrDiffGroup): HTMLElement {
     const sectionEl = createElementDiff('tbody', 'section');
     sectionEl.classList.add(group.type);
     if (group.isTotal()) {

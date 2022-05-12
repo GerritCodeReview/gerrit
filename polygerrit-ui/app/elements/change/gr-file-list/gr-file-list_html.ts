@@ -667,7 +667,6 @@ export const htmlTemplate = html`
             patch-range="[[patchRange]]"
             file="[[_computePatchSetFile(file)]]"
             path="[[file.__path]]"
-            prefs="[[diffPrefs]]"
             project-name="[[change.project]]"
             no-render-on-prefs-change=""
           ></gr-diff-host>
@@ -816,7 +815,6 @@ export const htmlTemplate = html`
   </div>
   <gr-diff-preferences-dialog
     id="diffPreferencesDialog"
-    diff-prefs="{{diffPrefs}}"
     on-reload-diff-preference="_handleReloadingDiffPreference"
   >
   </gr-diff-preferences-dialog>

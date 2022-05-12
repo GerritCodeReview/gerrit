@@ -75,7 +75,7 @@ suite('gr-diff-host tests', () => {
       stubRestApi('getDiff').returns(Promise.resolve({content: []}));
       element.patchRange = {};
       element.change = createChange();
-      element.prefs = createDefaultDiffPrefs();
+      element.diffPrefs = createDefaultDiffPrefs();
       element.reload(true);
       // Multiple cascading microtasks are scheduled.
       await flush();
@@ -101,7 +101,7 @@ suite('gr-diff-host tests', () => {
       element.patchRange = {};
       element.change = createChange();
       let reloadComplete = false;
-      element.prefs = createDefaultDiffPrefs();
+      element.diffPrefs = createDefaultDiffPrefs();
       element.reload().then(() => {
         reloadComplete = true;
       });
@@ -306,7 +306,7 @@ suite('gr-diff-host tests', () => {
         },
       }));
 
-      element.prefs = createDefaultDiffPrefs();
+      element.diffPrefs = createDefaultDiffPrefs();
       element.reload();
       await waitForEventOnce(element, 'render');
 
@@ -374,7 +374,7 @@ suite('gr-diff-host tests', () => {
         },
       }));
 
-      element.prefs = createDefaultDiffPrefs();
+      element.diffPrefs = createDefaultDiffPrefs();
       element.reload();
       await waitForEventOnce(element, 'render');
 
@@ -457,7 +457,7 @@ suite('gr-diff-host tests', () => {
         promise.resolve();
       });
 
-      element.prefs = createDefaultDiffPrefs();
+      element.diffPrefs = createDefaultDiffPrefs();
       element.reload();
       await promise;
     });
@@ -505,7 +505,7 @@ suite('gr-diff-host tests', () => {
         promise.resolve();
       });
 
-      element.prefs = createDefaultDiffPrefs();
+      element.diffPrefs = createDefaultDiffPrefs();
       element.reload();
       await promise;
     });
@@ -550,7 +550,7 @@ suite('gr-diff-host tests', () => {
         promise.resolve();
       });
 
-      element.prefs = createDefaultDiffPrefs();
+      element.diffPrefs = createDefaultDiffPrefs();
       element.reload();
       await promise;
     });
@@ -711,9 +711,9 @@ suite('gr-diff-host tests', () => {
     assert.equal(element.$.diff.path, value);
   });
 
-  test('passes in prefs', () => {
+  test('passes in diffPrefs', () => {
     const value = {};
-    element.prefs = value;
+    element.diffPrefs = value;
     assert.equal(element.$.diff.prefs, value);
   });
 
@@ -1309,7 +1309,7 @@ suite('gr-diff-host tests', () => {
 
   suite('syntax layer with syntax_highlighting on', () => {
     setup(() => {
-      const prefs = {
+      const diffPrefs = {
         line_length: 10,
         show_tabs: true,
         tab_size: 4,
@@ -1317,7 +1317,7 @@ suite('gr-diff-host tests', () => {
         syntax_highlighting: true,
       };
       element.patchRange = {};
-      element.prefs = prefs;
+      element.diffPrefs = diffPrefs;
       element.changeNum = 123;
       element.change = createChange();
       element.path = 'some/path';
@@ -1361,7 +1361,7 @@ suite('gr-diff-host tests', () => {
 
   suite('syntax layer with syntax_highlighting off', () => {
     setup(() => {
-      const prefs = {
+      const diffPrefs = {
         line_length: 10,
         show_tabs: true,
         tab_size: 4,
@@ -1374,7 +1374,7 @@ suite('gr-diff-host tests', () => {
       };
       element.patchRange = {};
       element.change = createChange();
-      element.prefs = prefs;
+      element.diffPrefs = diffPrefs;
     });
 
     test('gr-diff-host provides syntax highlighting layer', async () => {
@@ -1436,7 +1436,7 @@ suite('gr-diff-host tests', () => {
       element.changeNum = 123;
       element.change = createChange();
       element.path = 'some/path';
-      const prefs = {
+      const diffPrefs = {
         line_length: 10,
         show_tabs: true,
         tab_size: 4,
@@ -1448,7 +1448,7 @@ suite('gr-diff-host tests', () => {
         }],
       };
       element.patchRange = {};
-      element.prefs = prefs;
+      element.diffPrefs = diffPrefs;
       stubRestApi('getDiff').returns(Promise.resolve(element.diff));
       await flush();
     });

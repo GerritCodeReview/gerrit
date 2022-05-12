@@ -171,7 +171,7 @@ export class GrDiffHost extends DIPolymerElement {
   path?: string;
 
   @property({type: Object})
-  prefs?: DiffPreferencesInfo;
+  diffPrefs?: DiffPreferencesInfo;
 
   @property({type: String})
   projectName?: RepoName;
@@ -258,7 +258,7 @@ export class GrDiffHost extends DIPolymerElement {
 
   @property({
     type: Boolean,
-    computed: '_isSyntaxHighlightingEnabled(prefs.*, diff)',
+    computed: '_isSyntaxHighlightingEnabled(diffPrefs.*, diff)',
     observer: '_syntaxHighlightingEnabledChanged',
   })
   _syntaxHighlightingEnabled?: boolean;
@@ -286,6 +286,8 @@ export class GrDiffHost extends DIPolymerElement {
   private readonly jsAPI = getAppContext().jsApiService;
 
   private readonly syntaxLayer: GrSyntaxLayerWorker;
+
+  private readonly userModel = getAppContext().userModel;
 
   private checksSubscription?: Subscription;
 
@@ -327,7 +329,10 @@ export class GrDiffHost extends DIPolymerElement {
     this.subscriptions.push(
       this.getBrowserModel().diffViewMode$.subscribe(
         diffView => (this.viewMode = diffView)
-      )
+      ),
+      this.userModel.diffPreferences$.subscribe(diffPreferences => {
+        this.diffPrefs = diffPreferences;
+      })
     );
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
@@ -1121,14 +1126,14 @@ export class GrDiffHost extends DIPolymerElement {
   }
 
   _getIgnoreWhitespace(): IgnoreWhitespaceType {
-    if (!this.prefs || !this.prefs.ignore_whitespace) {
+    if (!this.diffPrefs || !this.diffPrefs.ignore_whitespace) {
       return 'IGNORE_NONE';
     }
-    return this.prefs.ignore_whitespace;
+    return this.diffPrefs.ignore_whitespace;
   }
 
   @observe(
-    'prefs.ignore_whitespace',
+    'diffPrefs.ignore_whitespace',
     '_loadedWhitespaceLevel',
     'noRenderOnPrefsChange'
   )
@@ -1150,17 +1155,17 @@ export class GrDiffHost extends DIPolymerElement {
     }
   }
 
-  @observe('noRenderOnPrefsChange', 'prefs.*')
+  @observe('noRenderOnPrefsChange', 'diffPrefs.*')
   _syntaxHighlightingChanged(
     noRenderOnPrefsChange?: boolean,
-    prefsChangeRecord?: PolymerDeepPropertyChange<
+    diffPrefsChangeRecord?: PolymerDeepPropertyChange<
       DiffPreferencesInfo,
       DiffPreferencesInfo
     >
   ) {
     if (noRenderOnPrefsChange === undefined) return;
-    if (prefsChangeRecord === undefined) return;
-    if (prefsChangeRecord.path !== 'prefs.syntax_highlighting') return;
+    if (diffPrefsChangeRecord === undefined) return;
+    if (diffPrefsChangeRecord.path !== 'diffPrefs.syntax_highlighting') return;
 
     if (!noRenderOnPrefsChange) this.reload();
   }

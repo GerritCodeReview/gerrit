@@ -225,7 +225,7 @@ export class GrFileList extends base {
   @property({type: Array})
   reviewed?: string[] = [];
 
-  @property({type: Object, notify: true, observer: '_updateDiffPreferences'})
+  @property({type: Object, observer: '_updateDiffPreferences'})
   diffPrefs?: DiffPreferencesInfo;
 
   @property({type: Number, notify: true})

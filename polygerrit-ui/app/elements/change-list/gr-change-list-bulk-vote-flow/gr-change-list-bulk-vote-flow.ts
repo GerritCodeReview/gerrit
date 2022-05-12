@@ -77,10 +77,9 @@ export class GrChangeListBulkVoteFlow extends LitElement {
           margin-top: var(--spacing-m);
         }
         .vote-type {
-          margin-bottom: var(--spacing-m);
+          margin-bottom: var(--spacing-s);
           margin-top: 0;
           display: table-caption;
-          font-weight: 600; /* TODO: create css variable for it */
         }
         .main-heading {
           margin-bottom: var(--spacing-m);
@@ -159,7 +158,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     permittedLabels?: LabelNameToValuesMap
   ) {
     return html` <div class="scoresTable newSubmitRequirements">
-      <h3 class="vote-type">${labels.length ? heading : nothing}</h3>
+      <h3 class="heading-4 vote-type">${labels.length ? heading : nothing}</h3>
       ${labels
         .filter(
           label =>

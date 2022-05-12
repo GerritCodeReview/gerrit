@@ -166,12 +166,12 @@ function computeCombinedMessages(
   let combinedMessages: CombinedMessage[] = [];
   let mDate;
   let rDate;
-  for (let i = 0; i < messages.length; i++) {
+  for (let i = 0; i < messages?.length; i++) {
     // TODO(TS): clone message instead and avoid API object mutation
     (messages[i] as CombinedMessage)._index = i;
   }
 
-  while (mi < messages.length || ri < reviewerUpdates.length) {
+  while (mi < messages?.length || ri < reviewerUpdates?.length) {
     if (mi >= messages.length) {
       combinedMessages = combinedMessages.concat(reviewerUpdates.slice(ri));
       break;

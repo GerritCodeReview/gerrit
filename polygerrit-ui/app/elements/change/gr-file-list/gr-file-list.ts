@@ -192,7 +192,7 @@ export class GrFileList extends LitElement {
   @property({type: Object})
   changeComments?: ChangeComments;
 
-  @property({type: Number, attribute: 'selected-index'})
+  @property({type: Number})
   selectedIndex = -1;
 
   @property({type: Object})
@@ -204,7 +204,7 @@ export class GrFileList extends LitElement {
   @property({type: Boolean})
   editMode?: boolean;
 
-  @property({type: String, attribute: 'files-expanded'})
+  @property({type: String})
   filesExpanded = FilesExpandedState.NONE;
 
   // Private but used in tests.
@@ -222,13 +222,13 @@ export class GrFileList extends LitElement {
   @property({type: Array})
   reviewed?: string[] = [];
 
-  @property({type: Object, attribute: 'diff-prefs'})
+  @property({type: Object})
   diffPrefs?: DiffPreferencesInfo;
 
-  @property({type: Number, attribute: 'num-files-shown'})
+  @property({type: Number})
   numFilesShown: number = DEFAULT_NUM_FILES_SHOWN;
 
-  @property({type: Number, attribute: 'file-list-increment'})
+  @property({type: Number})
   fileListIncrement: number = DEFAULT_NUM_FILES_SHOWN;
 
   // Private but used in tests.
@@ -972,7 +972,6 @@ export class GrFileList extends LitElement {
             .patchRange=${this.patchRange}
             .file=${patchSetFile}
             .path=${file.__path}
-            .prefs=${this.diffPrefs}
             .projectName=${this.change?.project}
             ?noRenderOnPrefsChange=${true}
           ></gr-diff-host>

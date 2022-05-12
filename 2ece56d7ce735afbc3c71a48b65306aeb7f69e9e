@@ -105,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae8660c5_a99f69bb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-12T09:55:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdcda3c3_683f2ac7",
+      "revId": "2ece56d7ce735afbc3c71a48b65306aeb7f69e9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6e2a9fa_226887b2",

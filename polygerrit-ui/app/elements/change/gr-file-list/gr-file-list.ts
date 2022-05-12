@@ -972,7 +972,6 @@ export class GrFileList extends LitElement {
             .patchRange=${this.patchRange}
             .file=${patchSetFile}
             .path=${file.__path}
-            .prefs=${this.diffPrefs}
             .projectName=${this.change?.project}
             ?noRenderOnPrefsChange=${true}
           ></gr-diff-host>

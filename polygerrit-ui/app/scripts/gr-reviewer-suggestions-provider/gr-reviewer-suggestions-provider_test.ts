@@ -16,10 +16,7 @@
  */
 
 import '../../test/common-test-setup-karma';
-import {
-  GrReviewerSuggestionsProvider,
-  SUGGESTIONS_PROVIDERS_USERS_TYPES,
-} from './gr-reviewer-suggestions-provider';
+import {GrReviewerSuggestionsProvider} from './gr-reviewer-suggestions-provider';
 import {getAppContext} from '../../services/app-context';
 import {stubRestApi} from '../../test/test-utils';
 import {
@@ -27,6 +24,7 @@ import {
   GroupId,
   GroupName,
   NumericChangeId,
+  ReviewerState,
 } from '../../api/rest-api';
 import {
   SuggestedReviewerAccountInfo,
@@ -70,7 +68,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
     ]);
     provider = new GrReviewerSuggestionsProvider(
       getAppContext().restApiService,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER,
+      ReviewerState.REVIEWER,
       createServerInfo(),
       true,
       change._number
@@ -90,7 +88,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
     // not logged in
     provider = new GrReviewerSuggestionsProvider(
       getAppContext().restApiService,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER,
+      ReviewerState.REVIEWER,
       createServerInfo(),
       false,
       change._number
@@ -108,7 +106,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
       .resolves([suggestion2, suggestion3]);
     provider = new GrReviewerSuggestionsProvider(
       getAppContext().restApiService,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER,
+      ReviewerState.REVIEWER,
       createServerInfo(),
       true,
       ...[change._number, 43 as NumericChangeId]
@@ -128,7 +126,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
       .resolves([suggestion2, suggestion3]);
     provider = new GrReviewerSuggestionsProvider(
       getAppContext().restApiService,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES.CC,
+      ReviewerState.CC,
       createServerInfo(),
       true,
       ...[change._number, 43 as NumericChangeId]
@@ -172,7 +170,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
 
     provider = new GrReviewerSuggestionsProvider(
       getAppContext().restApiService,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER,
+      ReviewerState.REVIEWER,
       {
         ...createServerInfo(),
         user: {

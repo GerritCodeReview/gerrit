@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "07819208_84734a6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-12T09:49:18Z",
+      "side": 1,
+      "message": "Thanks for the explanation.\n\nLooks like different threads return different class loader - and this is what I don\u0027t understand and seems suspicious for me. I expected that all threads in gerrit should share the same contextClassLoader.\n\nI see that there are several calls to setContextClassLoader in Gerrit. Can it be that the setContextClassLoader isn\u0027t called/called with incorrect arguments for some threads?",
+      "parentUuid": "84ff0631_58ade7a7",
+      "range": {
+        "startLine": 22,
+        "startChar": 12,
+        "endLine": 22,
+        "endChar": 34
+      },
+      "revId": "a7c5fcac6bed5b169430c1bfcdb53d1898e64f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c9d3c79_d9790922",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

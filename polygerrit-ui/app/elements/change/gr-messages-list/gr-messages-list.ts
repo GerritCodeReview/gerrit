@@ -324,7 +324,8 @@ export class GrMessagesList extends DIPolymerElement {
       return;
     }
 
-    el.message = {...el.message, expanded: true};
+    el.message.expanded = true;
+    el.requestUpdate();
     await el.updateComplete;
     let top = el.offsetTop;
     for (

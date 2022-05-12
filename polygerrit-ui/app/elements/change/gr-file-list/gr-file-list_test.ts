@@ -1950,7 +1950,7 @@ suite('gr-file-list tests', () => {
         diff.path === '/COMMIT_MSG'
           ? createCommentThreads(commitMsgComments)
           : [];
-      diff.prefs = {
+      diff.diffPrefs = {
         context: 10,
         tab_size: 8,
         font_size: 12,

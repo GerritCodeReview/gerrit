@@ -104,7 +104,7 @@ export interface AppElementDiffViewParam {
   path?: string;
   patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
-  lineNum: number;
+  lineNum?: number;
   leftSide?: boolean;
   commentLink?: boolean;
 }

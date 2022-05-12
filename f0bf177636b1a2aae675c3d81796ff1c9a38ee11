@@ -16,6 +16,24 @@
       "message": "Thanks @Marija for the quick fix: I\u0027ve deployed it to the v3.5.1 sites of GerritHub.io and it works fine.\n\nDo you believe we should also increase the schema version or not?",
       "revId": "f0bf177636b1a2aae675c3d81796ff1c9a38ee11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d448f207_d1e59c9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-05-12T08:44:13Z",
+      "side": 1,
+      "message": "It looks like we skipped quite a few updates in NoteDB already, e.g copy labels.\n\nWe do not use this versioning internally, as far as I know.\nDo you think it is worth maintaining?",
+      "parentUuid": "34b93320_f7af0604",
+      "revId": "f0bf177636b1a2aae675c3d81796ff1c9a38ee11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

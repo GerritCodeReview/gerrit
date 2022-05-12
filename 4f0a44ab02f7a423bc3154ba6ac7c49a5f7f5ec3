@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "997adef3_0eeeb208",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-12T13:39:07Z",
+      "side": 1,
+      "message": "I cooked on another approach to reach the same goal: https://gerrit-review.googlesource.com/c/gerrit/+/336721\n\nIt\u0027s not finished, but I am linking it here to get some early feedback.",
+      "revId": "4f0a44ab02f7a423bc3154ba6ac7c49a5f7f5ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -280,7 +280,7 @@ export class DependencyRequestEvent<T>
 }
 
 /**
- * A resolved dependency is valid within the econnectd lifetime of a component,
+ * A resolved dependency is valid within the connected lifetime of a component,
  * namely between connectedCallback and disconnectedCallback.
  */
 interface ResolvedDependency<T> {

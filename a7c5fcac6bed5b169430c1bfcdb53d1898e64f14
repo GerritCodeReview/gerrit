@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "610a86c9_303f14ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-12T12:59:09Z",
+      "side": 1,
+      "message": "The issue is, that the old way to load the resources:\n\n  ClassLoader loader \u003d\n        MoreObjects.firstNonNull(\n            Thread.currentThread().getContextClassLoader(), \n  Resources.class.getClassLoader());\n  \nwas already an approximation, to look for thread context classloader (TCCL) first and if it\u0027s null, use class loadeer for the Resources class.\n\nThe original change 321340, that switched resource loading to be done asynchronously has not changed that. So the root cause is that to load resources from gerrit.war\u0027s WEB-INF/lib*.jar files special Classloader needs to be used. And that classloader is not established during cache refresh code path in vanilla gerrit.",
+      "parentUuid": "07819208_84734a6c",
+      "range": {
+        "startLine": 22,
+        "startChar": 12,
+        "endLine": 22,
+        "endChar": 34
+      },
+      "revId": "a7c5fcac6bed5b169430c1bfcdb53d1898e64f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c9d3c79_d9790922",
@@ -192,6 +216,30 @@
       "side": 1,
       "message": "\u003e Do you know why you were not seeing this at google? \nI can only speculate here, because I don\u0027t understand the root cause of the issue (as I wrote here https://gerrit-review.git.corp.google.com/c/gerrit/+/336998/comments/26996896_3770b71e I expect that all threads shares the same contextClassLoader in gerrit).\nPossible explanation why it works in google:\n- I see that Gerrit calls setContextClassLoader in several classes; and exactly these classes are not used internally in google\n- In google there is a build step to merge some of required jars into a single jar. As a result, class loaders are the same (i.e. points to the same jar).",
       "parentUuid": "77f20178_d827d05f",
+      "range": {
+        "startLine": 140,
+        "startChar": 16,
+        "endLine": 140,
+        "endChar": 52
+      },
+      "revId": "a7c5fcac6bed5b169430c1bfcdb53d1898e64f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "394ea56f_73aaec77",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-12T12:59:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "97e7cda8_287bb96b",
       "range": {
         "startLine": 140,
         "startChar": 16,

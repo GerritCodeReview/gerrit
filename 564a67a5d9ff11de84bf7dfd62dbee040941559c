@@ -34,6 +34,24 @@
       "parentUuid": "b6b434f8_b5c8412b",
       "revId": "564a67a5d9ff11de84bf7dfd62dbee040941559c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b13fc2a_0352b047",
+        "filename": "polygerrit-ui/app/elements/lit/subscription-controller.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-12T12:21:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ada1c1d3_aa1fdc73",
+      "revId": "564a67a5d9ff11de84bf7dfd62dbee040941559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

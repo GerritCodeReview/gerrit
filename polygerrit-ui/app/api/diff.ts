@@ -173,7 +173,7 @@ export declare interface MoveDetails {
    * Indicates the range (line numbers) on the other side of the comparison
    * where the code related to the current chunk came from/went to.
    */
-  range: {
+  range?: {
     start: number;
     end: number;
   };

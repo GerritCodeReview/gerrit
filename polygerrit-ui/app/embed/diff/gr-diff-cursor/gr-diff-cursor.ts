@@ -109,7 +109,8 @@ export class GrDiffCursor implements GrDiffCursorApi {
    */
   initialLineNumber: number | null = null;
 
-  private cursorManager = new GrCursorManager();
+  // visible for testing
+  cursorManager = new GrCursorManager();
 
   private targetSubscription?: Subscription;
 

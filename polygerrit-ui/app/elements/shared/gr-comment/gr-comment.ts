@@ -248,27 +248,36 @@ export class GrComment extends LitElement {
         });
       }
     }
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
     subscribe(
       this,
-      this.configModel().repoCommentLinks$,
+      () => this.configModel().repoCommentLinks$,
       x => (this.commentLinks = x)
     );
-    subscribe(this, this.userModel.account$, x => (this.account = x));
-    subscribe(this, this.userModel.isAdmin$, x => (this.isAdmin = x));
-
-    subscribe(this, this.getChangeModel().repo$, x => (this.repoName = x));
     subscribe(
       this,
-      this.getChangeModel().changeNum$,
+      () => this.userModel.account$,
+      x => (this.account = x)
+    );
+    subscribe(
+      this,
+      () => this.userModel.isAdmin$,
+      x => (this.isAdmin = x)
+    );
+
+    subscribe(
+      this,
+      () => this.getChangeModel().repo$,
+      x => (this.repoName = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().changeNum$,
       x => (this.changeNum = x)
     );
     subscribe(
       this,
-      this.autoSaveTrigger$.pipe(debounceTime(AUTO_SAVE_DEBOUNCE_DELAY_MS)),
+      () =>
+        this.autoSaveTrigger$.pipe(debounceTime(AUTO_SAVE_DEBOUNCE_DELAY_MS)),
       () => {
         this.autoSave();
       }

@@ -60,12 +60,16 @@ export class GrEditPreferences extends LitElement {
 
   private readonly userModel = getAppContext().userModel;
 
-  override connectedCallback() {
-    super.connectedCallback();
-    subscribe(this, this.userModel.editPreferences$, editPreferences => {
-      this.originalEditPrefs = editPreferences;
-      this.editPrefs = {...editPreferences};
-    });
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.userModel.editPreferences$,
+      editPreferences => {
+        this.originalEditPrefs = editPreferences;
+        this.editPrefs = {...editPreferences};
+      }
+    );
   }
 
   static override get styles() {

@@ -593,6 +593,61 @@ export class GrReplyDialog extends LitElement {
     `,
   ];
 
+
+  constructor() {
+    super();
+    this.filterReviewerSuggestion =
+      this.filterReviewerSuggestionGenerator(false);
+    this.filterCCSuggestion = this.filterReviewerSuggestionGenerator(true);
+    this.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
+    subscribe(
+      this,
+      () => getAppContext().userModel.loggedIn$,
+      isLoggedIn => (this.isLoggedIn = isLoggedIn)
+    );
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    (
+      IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
+    ).requestAvailability();
+    this.restApiService.getAccount().then(account => {
+      if (account) this.account = account;
+    });
+
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]}, _ =>
+        this.submit()
+      )
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.META_KEY]}, _ =>
+        this.submit()
+      )
+    );
+    this.cleanups.push(addShortcut(this, {key: Key.ESC}, _ => this.cancel()));
+    this.addEventListener('comment-editing-changed', e => {
+      this.commentEditing = (e as CustomEvent).detail;
+    });
+
+    // Plugins on reply-reviewers endpoint can take advantage of these
+    // events to add / remove reviewers
+
+    this.addEventListener('add-reviewer', e => {
+      // Only support account type, see more from:
+      // elements/shared/gr-account-list/gr-account-list.js#addAccountItem
+      this.reviewersList?.addAccountItem({
+        account: (e as CustomEvent).detail.reviewer,
+        count: 1,
+      });
+    });
+
+    this.addEventListener('remove-reviewer', e => {
+      this.reviewersList?.removeAccount((e as CustomEvent).detail.reviewer);
+    });
+  }
+  
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('draft')) {
       this.draftChanged(changedProperties.get('draft') as string);
@@ -638,61 +693,6 @@ export class GrReplyDialog extends LitElement {
     ) {
       this.computeNewAttention();
     }
-  }
-
-  constructor() {
-    super();
-    this.filterReviewerSuggestion =
-      this.filterReviewerSuggestionGenerator(false);
-    this.filterCCSuggestion = this.filterReviewerSuggestionGenerator(true);
-    this.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    (
-      IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
-    ).requestAvailability();
-    this.restApiService.getAccount().then(account => {
-      if (account) this.account = account;
-    });
-
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]}, _ =>
-        this.submit()
-      )
-    );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.META_KEY]}, _ =>
-        this.submit()
-      )
-    );
-    this.cleanups.push(addShortcut(this, {key: Key.ESC}, _ => this.cancel()));
-    this.addEventListener('comment-editing-changed', e => {
-      this.commentEditing = (e as CustomEvent).detail;
-    });
-
-    // Plugins on reply-reviewers endpoint can take advantage of these
-    // events to add / remove reviewers
-
-    this.addEventListener('add-reviewer', e => {
-      // Only support account type, see more from:
-      // elements/shared/gr-account-list/gr-account-list.js#addAccountItem
-      this.reviewersList?.addAccountItem({
-        account: (e as CustomEvent).detail.reviewer,
-        count: 1,
-      });
-    });
-
-    this.addEventListener('remove-reviewer', e => {
-      this.reviewersList?.removeAccount((e as CustomEvent).detail.reviewer);
-    });
-
-    subscribe(
-      this,
-      getAppContext().userModel.loggedIn$,
-      isLoggedIn => (this.isLoggedIn = isLoggedIn)
-    );
   }
 
   override disconnectedCallback() {

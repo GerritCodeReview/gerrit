@@ -430,54 +430,58 @@ export class GrChangeSummary extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  override connectedCallback() {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getChecksModel().allRunsLatestPatchsetLatestAttempt$,
+      () => this.getChecksModel().allRunsLatestPatchsetLatestAttempt$,
       x => (this.runs = x)
     );
     subscribe(
       this,
-      this.getChecksModel().aPluginHasRegistered$,
+      () => this.getChecksModel().aPluginHasRegistered$,
       x => (this.showChecksSummary = x)
     );
     subscribe(
       this,
-      this.getChecksModel().someProvidersAreLoadingFirstTime$,
+      () => this.getChecksModel().someProvidersAreLoadingFirstTime$,
       x => (this.someProvidersAreLoading = x)
     );
     subscribe(
       this,
-      this.getChecksModel().errorMessagesLatest$,
+      () => this.getChecksModel().errorMessagesLatest$,
       x => (this.errorMessages = x)
     );
     subscribe(
       this,
-      this.getChecksModel().loginCallbackLatest$,
+      () => this.getChecksModel().loginCallbackLatest$,
       x => (this.loginCallback = x)
     );
     subscribe(
       this,
-      this.getChecksModel().topLevelActionsLatest$,
+      () => this.getChecksModel().topLevelActionsLatest$,
       x => (this.actions = x)
     );
     subscribe(
       this,
-      this.getChecksModel().topLevelMessagesLatest$,
+      () => this.getChecksModel().topLevelMessagesLatest$,
       x => (this.messages = x)
     );
     subscribe(
       this,
-      this.getCommentsModel().changeComments$,
+      () => this.getCommentsModel().changeComments$,
       x => (this.changeComments = x)
     );
     subscribe(
       this,
-      this.getCommentsModel().threads$,
+      () => this.getCommentsModel().threads$,
       x => (this.commentThreads = x)
     );
-    subscribe(this, this.userModel.account$, x => (this.selfAccount = x));
+    subscribe(
+      this,
+      () => this.userModel.account$,
+      x => (this.selfAccount = x)
+    );
   }
 
   static override get styles() {

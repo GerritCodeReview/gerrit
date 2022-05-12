@@ -93,12 +93,16 @@ export class GrConfirmSubmitDialog extends LitElement {
     ];
   }
 
-  override connectedCallback() {
-    super.connectedCallback();
-    subscribe(this, this.getChangeModel().change$, x => (this.change = x));
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getCommentsModel().threads$,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
+    );
+    subscribe(
+      this,
+      () => this.getCommentsModel().threads$,
       x => (this.unresolvedThreads = x.filter(isUnresolved))
     );
   }

@@ -125,6 +125,18 @@ export class GrChangeListItem extends LitElement {
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getBulkActionsModel().selectedChangeNums$,
+      selectedChangeNums => {
+        if (!this.change) return;
+        this.checked = selectedChangeNums.includes(this.change._number);
+      }
+    );
+  }
+
   override connectedCallback() {
     super.connectedCallback();
     getPluginLoader()
@@ -134,14 +146,6 @@ export class GrChangeListItem extends LitElement {
           'change-list-item-cell'
         );
       });
-    subscribe(
-      this,
-      this.getBulkActionsModel().selectedChangeNums$,
-      selectedChangeNums => {
-        if (!this.change) return;
-        this.checked = selectedChangeNums.includes(this.change._number);
-      }
-    );
   }
 
   static override get styles() {

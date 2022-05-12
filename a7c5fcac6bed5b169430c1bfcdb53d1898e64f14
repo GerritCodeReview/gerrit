@@ -180,6 +180,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97e7cda8_287bb96b",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-12T10:04:57Z",
+      "side": 1,
+      "message": "\u003e Do you know why you were not seeing this at google? \nI can only speculate here, because I don\u0027t understand the root cause of the issue (as I wrote here https://gerrit-review.git.corp.google.com/c/gerrit/+/336998/comments/26996896_3770b71e I expect that all threads shares the same contextClassLoader in gerrit).\nPossible explanation why it works in google:\n- I see that Gerrit calls setContextClassLoader in several classes; and exactly these classes are not used internally in google\n- In google there is a build step to merge some of required jars into a single jar. As a result, class loaders are the same (i.e. points to the same jar).",
+      "parentUuid": "77f20178_d827d05f",
+      "range": {
+        "startLine": 140,
+        "startChar": 16,
+        "endLine": 140,
+        "endChar": 52
+      },
+      "revId": "a7c5fcac6bed5b169430c1bfcdb53d1898e64f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fb1a2175_2fc5738a",
         "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceModule.java",
         "patchSetId": 3
@@ -191,6 +215,30 @@
       "writtenOn": "2022-05-12T07:36:46Z",
       "side": 1,
       "message": "Unrelated to this change, but are 5 seconds for refreshAfterWrite and 1 minute for expireAfterWrite are sane defaults? I know, previously it was reloading on each and every access, but I guess it would be sufficient to have x10 default values, say 1 minute for refreshAfterWrite and 10 minutes for expireAfterWrite?",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 48
+      },
+      "revId": "a7c5fcac6bed5b169430c1bfcdb53d1898e64f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c35f27e2_6747ac13",
+        "filename": "java/com/google/gerrit/server/mail/send/MailSoySauceModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-12T10:04:57Z",
+      "side": 1,
+      "message": "There is no strong explanation behind these numbers, this is more my expectations.\nI tried to set values big enough to avoid too many reloads in tests, but at the same time keep almost immediately reload in production.\n10 minutes for refreshAfterWrite means that (in rare cases) old templates can be used up to 10 minutes after they were changed. Seems too much for me.",
+      "parentUuid": "fb1a2175_2fc5738a",
       "range": {
         "startLine": 52,
         "startChar": 0,

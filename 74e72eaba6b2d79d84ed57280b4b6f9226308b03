@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "45ad55a4_7c828647",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-12T15:32:56Z",
+      "side": 1,
+      "message": "\u003e Out of curiosity, what\u0027s the use-case for listening to general task-completions?\n\nAnything with a lifecycle not only needs a beginning, but it also needs an end. So anything that opens a resource, may need to close it. One QOS possibility is the use of semaphores that need to be acquired before running, and released when done.",
+      "parentUuid": "d1de98e5_e5f359b8",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "74e72eaba6b2d79d84ed57280b4b6f9226308b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "23177fbc_47934a5c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9
@@ -37,6 +61,24 @@
       "writtenOn": "2022-05-12T08:34:25Z",
       "side": 1,
       "message": "Do we need to address the issue that installing multiple plugins implementing the TaskListener interface may very well lead to strange behavior[1]? Either by mentioning it in the documentation or a WARN log event if more than 1 TaskListener is present.\n\nAn extreme example:\n* plugin-1: only allows lightweight task to start first after all heavyweight tasks are completed.\n* plugin-2: only allows heavyweight tasks to start first after all lightweight tasks are completed.\n",
+      "revId": "74e72eaba6b2d79d84ed57280b4b6f9226308b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93d56ca3_bd732e8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-12T15:32:56Z",
+      "side": 1,
+      "message": "In my opinion \"NO\". While my intent is to create QOS plugins, listeners can be used for many things, and we don\u0027t generally make such a comment about other listeners in Gerrit that I know of. I also think that anyone using any sort of lock is generally going to be aware of the potential for deadlocks.",
+      "parentUuid": "23177fbc_47934a5c",
       "revId": "74e72eaba6b2d79d84ed57280b4b6f9226308b03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +96,30 @@
       "writtenOn": "2022-05-12T08:34:25Z",
       "side": 1,
       "message": "Suggestion (changes in quotes):\n\nIt is possible \"for plugins\" to listen to `com.google.gerrit.server.git.WorkQueue$Task`s\nright before they run, and right \"after they have completed\".",
+      "range": {
+        "startLine": 539,
+        "startChar": 0,
+        "endLine": 540,
+        "endChar": 61
+      },
+      "revId": "74e72eaba6b2d79d84ed57280b4b6f9226308b03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82fad797_abe00a9d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-12T15:32:56Z",
+      "side": 1,
+      "message": "I like it. I mostly updated to the same but tried to keep the tense more consistent.",
+      "parentUuid": "61658af6_02cd22a3",
       "range": {
         "startLine": 539,
         "startChar": 0,

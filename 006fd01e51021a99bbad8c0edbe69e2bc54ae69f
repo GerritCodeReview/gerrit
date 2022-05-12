@@ -22,6 +22,30 @@
       },
       "revId": "006fd01e51021a99bbad8c0edbe69e2bc54ae69f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa50cc71_68095b9f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-12T15:09:50Z",
+      "side": 1,
+      "message": "Replaced with positive top on the text instead.",
+      "parentUuid": "078f28e4_743c1848",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 20
+      },
+      "revId": "006fd01e51021a99bbad8c0edbe69e2bc54ae69f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

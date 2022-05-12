@@ -2127,6 +2127,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   putChangeCommitMessage(changeNum: NumericChangeId, message: string) {
+    // called 2
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,

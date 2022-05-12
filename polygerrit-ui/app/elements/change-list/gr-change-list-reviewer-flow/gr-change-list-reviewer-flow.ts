@@ -24,7 +24,6 @@ import {getAppContext} from '../../../services/app-context';
 import {
   GrReviewerSuggestionsProvider,
   ReviewerSuggestionsProvider,
-  SUGGESTIONS_PROVIDERS_USERS_TYPES,
 } from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import '../../shared/gr-account-list/gr-account-list';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
@@ -33,11 +32,6 @@ import {listForSentence} from '../../../utils/string-util';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {AccountInputDetail} from '../../shared/gr-account-list/gr-account-list';
 import '@polymer/iron-icon/iron-icon';
-
-const SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE = {
-  REVIEWER: SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER,
-  CC: SUGGESTIONS_PROVIDERS_USERS_TYPES.CC,
-};
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
@@ -403,7 +397,7 @@ export class GrChangeListReviewerFlow extends LitElement {
   ): ReviewerSuggestionsProvider {
     const suggestionsProvider = new GrReviewerSuggestionsProvider(
       this.restApiService,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE[state],
+      state,
       this.serverConfig,
       this.isLoggedIn,
       ...this.selectedChanges.map(change => change._number)

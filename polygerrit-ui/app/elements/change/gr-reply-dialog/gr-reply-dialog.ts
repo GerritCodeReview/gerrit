@@ -27,10 +27,7 @@ import '../../shared/gr-account-list/gr-account-list';
 import '../gr-label-scores/gr-label-scores';
 import '../gr-thread-list/gr-thread-list';
 import '../../../styles/shared-styles';
-import {
-  GrReviewerSuggestionsProvider,
-  SUGGESTIONS_PROVIDERS_USERS_TYPES,
-} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
+import {GrReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import {getAppContext} from '../../../services/app-context';
 import {
   ChangeStatus,
@@ -1491,7 +1488,7 @@ export class GrReplyDialog extends LitElement {
     const jsonPromise = this.restApiService.getResponseObject(response.clone());
     return jsonPromise.then((parsed: ParsedJSON) => {
       const result = parsed as ReviewResult;
-      // Only perform custom error handling for 400s and a parseable
+      // Only perform custom error handling for 400s and a parsable
       // ReviewResult response.
       if (response.status === 400 && result && result.reviewers) {
         const errors: string[] = [];
@@ -2090,7 +2087,7 @@ export class GrReplyDialog extends LitElement {
     if (!change) return;
     const provider = new GrReviewerSuggestionsProvider(
       this.restApiService,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER,
+      ReviewerState.REVIEWER,
       this.serverConfig,
       this.isLoggedIn,
       change._number
@@ -2102,7 +2099,7 @@ export class GrReplyDialog extends LitElement {
     if (!change) return;
     const provider = new GrReviewerSuggestionsProvider(
       this.restApiService,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES.CC,
+      ReviewerState.CC,
       this.serverConfig,
       this.isLoggedIn,
       change._number

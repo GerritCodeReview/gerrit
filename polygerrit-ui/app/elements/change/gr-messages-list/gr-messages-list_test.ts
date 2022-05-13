@@ -17,10 +17,8 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-messages-list';
-import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api';
 import {CombinedMessage, GrMessagesList, TEST_ONLY} from './gr-messages-list';
 import {MessageTag} from '../../../constants/constants';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {
   query,
   queryAll,
@@ -43,16 +41,7 @@ import {
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {assertIsDefined} from '../../../utils/common-util';
 
-createCommentApiMockWithTemplateElement(
-  'gr-messages-list-comment-mock-api',
-  html` <gr-messages-list id="messagesList"></gr-messages-list> `
-);
-
-const basicFixture = fixtureFromTemplate(html`
-  <gr-messages-list-comment-mock-api>
-    <gr-messages-list></gr-messages-list>
-  </gr-messages-list-comment-mock-api>
-`);
+const basicFixture = fixtureFromElement('gr-messages-list');
 
 const author = {
   _account_id: 42 as AccountId,
@@ -98,8 +87,6 @@ function generateRandomMessages(count: number) {
 suite('gr-messages-list tests', () => {
   let element: GrMessagesList;
   let messages: ChangeMessageInfo[];
-
-  let commentApiWrapper: any;
 
   const getMessages = function () {
     return queryAll<GrMessage>(element, 'gr-message');
@@ -156,13 +143,7 @@ suite('gr-messages-list tests', () => {
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
 
       messages = generateRandomMessages(3);
-      // Element must be wrapped in an element with direct access to the
-      // comment API.
-      commentApiWrapper = basicFixture.instantiate();
-      element = queryAndAssert<GrMessagesList>(
-        commentApiWrapper,
-        '#messagesList'
-      );
+      element = basicFixture.instantiate();
       await element.getCommentsModel().reloadComments(0 as NumericChangeId);
       element.messages = messages;
       await flush();
@@ -507,8 +488,6 @@ suite('gr-messages-list tests', () => {
     let element: GrMessagesList;
     let messages: ChangeMessageInfo[];
 
-    let commentApiWrapper: any;
-
     setup(() => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
@@ -529,13 +508,7 @@ suite('gr-messages-list tests', () => {
         }),
       ];
 
-      // Element must be wrapped in an element with direct access to the
-      // comment API.
-      commentApiWrapper = basicFixture.instantiate();
-      element = queryAndAssert<GrMessagesList>(
-        commentApiWrapper,
-        '#messagesList'
-      );
+      element = basicFixture.instantiate();
       element.messages = messages;
       flush();
     });

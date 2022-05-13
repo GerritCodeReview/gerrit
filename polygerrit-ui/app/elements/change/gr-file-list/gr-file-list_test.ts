@@ -17,11 +17,9 @@
 import '../../../test/common-test-setup-karma';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import './gr-file-list';
-import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {runA11yAudit} from '../../../test/a11y-test-utils';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {
   listenOnce,
   mockPromise,
@@ -61,12 +59,7 @@ import {IronIconElement} from '@polymer/iron-icon';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrEditFileControls} from '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 
-const commentApiMock = createCommentApiMockWithTemplateElement(
-  'gr-file-list-comment-api-mock',
-  html` <gr-file-list id="fileList"></gr-file-list> `
-);
-
-const basicFixture = fixtureFromElement(commentApiMock.is);
+const basicFixture = fixtureFromElement('gr-file-list');
 
 suite('gr-diff a11y test', () => {
   test('audit', async () => {
@@ -85,7 +78,6 @@ function createFilesByPath(count: number) {
 
 suite('gr-file-list tests', () => {
   let element: GrFileList;
-  let commentApiWrapper: any;
 
   let saveStub: sinon.SinonStub;
 
@@ -103,8 +95,7 @@ suite('gr-file-list tests', () => {
 
       // Element must be wrapped in an element with direct access to the
       // comment API.
-      commentApiWrapper = basicFixture.instantiate();
-      element = commentApiWrapper.$.fileList;
+      element = basicFixture.instantiate();
 
       element._loading = false;
       element.diffPrefs = {} as DiffPreferencesInfo;
@@ -1976,8 +1967,7 @@ suite('gr-file-list tests', () => {
 
       // Element must be wrapped in an element with direct access to the
       // comment API.
-      commentApiWrapper = basicFixture.instantiate();
-      element = commentApiWrapper.$.fileList;
+      element = basicFixture.instantiate();
       element.diffPrefs = {} as DiffPreferencesInfo;
       element.change = {
         ...createParsedChange(),

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a820b9b_528f881a",
+        "filename": "java/com/google/gerrit/server/events/ProjectHeadUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-05-13T10:27:56Z",
+      "side": 1,
+      "message": "nit: static members should be provided in their own section - typically separated by an empty line from the other members ;)",
+      "revId": "d2cabd82f74f7b90e325d1181df2cdebefc07371",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

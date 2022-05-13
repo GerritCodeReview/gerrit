@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18015b4d_74b46c5e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 5384,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-13T12:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a34cedf5_9279455e",
+      "range": {
+        "startLine": 5383,
+        "startChar": 64,
+        "endLine": 5384,
+        "endChar": 30
+      },
+      "revId": "87625b642b78078706b0c4fe3e7fea41b65aba19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f72ad09_d3c6dab7",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-05-06T09:20:54Z",
       "side": 1,
       "message": "missing body",
+      "range": {
+        "startLine": 5391,
+        "startChar": 0,
+        "endLine": 5391,
+        "endChar": 4
+      },
+      "revId": "87625b642b78078706b0c4fe3e7fea41b65aba19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6b5d2e8_9061a7d6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 5391,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-13T12:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f72ad09_d3c6dab7",
       "range": {
         "startLine": 5391,
         "startChar": 0,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5976eeb2_89f1ef27",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 5393,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-13T12:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1400ed7_ad3273b9",
+      "range": {
+        "startLine": 5393,
+        "startChar": 53,
+        "endLine": 5393,
+        "endChar": 75
+      },
+      "revId": "87625b642b78078706b0c4fe3e7fea41b65aba19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eae35f47_ad545659",
@@ -100,6 +172,30 @@
       "writtenOn": "2022-05-06T09:20:54Z",
       "side": 1,
       "message": "Nit: \"Applies a fix that is provided as part of the request body\"",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 95
+      },
+      "revId": "87625b642b78078706b0c4fe3e7fea41b65aba19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60cda600_117bdf72",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyDirectFix.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-13T12:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eae35f47_ad545659",
       "range": {
         "startLine": 50,
         "startChar": 4,
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa804a2b_dd49aea4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-13T12:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b033894c_0b34e509",
+      "range": {
+        "startLine": 1037,
+        "startChar": 0,
+        "endLine": 1056,
+        "endChar": 0
+      },
+      "revId": "87625b642b78078706b0c4fe3e7fea41b65aba19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8aa1921_f189e94e",
@@ -156,6 +276,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88cec542_cc9c5765",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-13T12:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8aa1921_f189e94e",
+      "range": {
+        "startLine": 1182,
+        "startChar": 41,
+        "endLine": 1182,
+        "endChar": 58
+      },
+      "revId": "87625b642b78078706b0c4fe3e7fea41b65aba19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "750c9f6f_ed7759d3",
@@ -169,6 +313,30 @@
       "writtenOn": "2022-05-06T09:20:54Z",
       "side": 1,
       "message": "Hm, I think this should not be possible: (1) Don\u0027t allow applying direct fixes to old patch sets and (2) don\u0027t allow applying direct fixes if there already is a change edit.",
+      "range": {
+        "startLine": 1238,
+        "startChar": 14,
+        "endLine": 1238,
+        "endChar": 75
+      },
+      "revId": "87625b642b78078706b0c4fe3e7fea41b65aba19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04e13d92_90b7ab59",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 1238,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-13T12:53:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "750c9f6f_ed7759d3",
       "range": {
         "startLine": 1238,
         "startChar": 14,

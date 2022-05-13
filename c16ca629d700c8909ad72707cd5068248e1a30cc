@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fec37b2_f5e5f662",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-13T09:49:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "474a1708_e04cf9aa",
+      "revId": "c16ca629d700c8909ad72707cd5068248e1a30cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "014c5579_c4eb1c0e",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-05-13T09:37:55Z",
       "side": 1,
       "message": "Why do you only want to check this once?",
+      "revId": "c16ca629d700c8909ad72707cd5068248e1a30cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93310a70_bc200dd7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-13T09:49:48Z",
+      "side": 1,
+      "message": "It may make sense to continually listen for changes of `loggedIn`, but re-connecting to the DOM seems like a very arbitrary time to do it. I was hoping that we are soon migrating this to a proper model and will be subscribing to an observable.\n\nAlso, I was feeling a bit uneasy about updating `this._account` with most likely the same data. So overall it felt safer to only do this once.\n\nMakes sense?",
+      "parentUuid": "014c5579_c4eb1c0e",
       "revId": "c16ca629d700c8909ad72707cd5068248e1a30cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

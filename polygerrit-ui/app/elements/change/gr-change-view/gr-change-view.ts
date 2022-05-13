@@ -623,7 +623,7 @@ export class GrChangeView extends base {
 
   private lastStarredTimestamp?: number;
 
-  private diffViewMode?: DiffViewMode;
+  private _diffPrefs?: DiffViewMode;
 
   /**
    * If the user comes back to the change page we want to remember the scroll

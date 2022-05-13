@@ -34,6 +34,24 @@
       "parentUuid": "a56022e4_a8e0706a",
       "revId": "2c6cf028317c9c7345e431f606572a2015100668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1ee5bc7_74710ce4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-13T21:07:59Z",
+      "side": 1,
+      "message": "Turns out that there was a bug in the tests which was not being caught by the original simple test approach (the Logger thread was triggering the Listener to be called instead of the tests), so I ended up adding solid transition and state tests with CountDownLatches which are better at catching any external interferrence.",
+      "parentUuid": "a541fa4c_3d8f061d",
+      "revId": "2c6cf028317c9c7345e431f606572a2015100668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

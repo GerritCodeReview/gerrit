@@ -70,6 +70,30 @@
       },
       "revId": "df5463e2c3e1658d171a3beb3e1c11d4199427f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "073be5c2_8f8d10b1",
+        "filename": "antlr3/com/google/gerrit/index/query/Query.g",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-13T11:16:43Z",
+      "side": 1,
+      "message": "That FIELD_PART name is not a good choice IMHO as the name implies where it will be used and not what it represents.\nWhat it really represents is a character class consisting of a..z plus _.\nSo maybe a better name could be ALPHA or ALPHA_UNDERSCORE or ALPHA_EXTENDED:",
+      "parentUuid": "55d10bc8_02e121b6",
+      "range": {
+        "startLine": 156,
+        "startChar": 22,
+        "endLine": 156,
+        "endChar": 30
+      },
+      "revId": "df5463e2c3e1658d171a3beb3e1c11d4199427f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

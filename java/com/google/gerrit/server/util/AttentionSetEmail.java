@@ -18,7 +18,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
 import com.google.gerrit.server.mail.send.AttentionSetSender;
@@ -27,6 +26,7 @@ import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
@@ -55,19 +55,20 @@ public class AttentionSetEmail implements Runnable, RequestContext {
         Account.Id attentionUserId);
   }
 
-  private ExecutorService sendEmailsExecutor;
-  private AccountTemplateUtil accountTemplateUtil;
-  private AttentionSetSender sender;
-  private Context ctx;
-  private Change change;
-  private String reason;
-
-  private MessageIdGenerator.MessageId messageId;
-  private Account.Id attentionUserId;
+  private final ExecutorService sendEmailsExecutor;
+  private final ThreadLocalRequestContext requestContext;
+  private final AccountTemplateUtil accountTemplateUtil;
+  private final AttentionSetSender sender;
+  private final Context ctx;
+  private final Change change;
+  private final String reason;
+  private final MessageIdGenerator.MessageId messageId;
+  private final Account.Id attentionUserId;
 
   @Inject
   AttentionSetEmail(
       @SendEmailExecutor ExecutorService executor,
+      ThreadLocalRequestContext requestContext,
       AccountTemplateUtil accountTemplateUtil,
       @Assisted AttentionSetSender sender,
       @Assisted Context ctx,
@@ -76,6 +77,7 @@ public class AttentionSetEmail implements Runnable, RequestContext {
       @Assisted MessageIdGenerator.MessageId messageId,
       @Assisted Account.Id attentionUserId) {
     this.sendEmailsExecutor = executor;
+    this.requestContext = requestContext;
     this.accountTemplateUtil = accountTemplateUtil;
     this.sender = sender;
     this.ctx = ctx;
@@ -92,11 +94,14 @@ public class AttentionSetEmail implements Runnable, RequestContext {
 
   @Override
   public void run() {
+    RequestContext old = requestContext.setContext(this);
     try {
-      AccountState accountState =
-          ctx.getUser().isIdentifiedUser() ? ctx.getUser().asIdentifiedUser().state() : null;
-      if (accountState != null) {
-        sender.setFrom(accountState.account().id());
+      Optional<Account.Id> accountId =
+          ctx.getUser().isIdentifiedUser()
+              ? Optional.of(ctx.getUser().asIdentifiedUser().getAccountId())
+              : Optional.empty();
+      if (accountId.isPresent()) {
+        sender.setFrom(accountId.get());
       }
       sender.setNotify(ctx.getNotify(change.getId()));
       sender.setAttentionSetUser(attentionUserId);
@@ -105,12 +110,14 @@ public class AttentionSetEmail implements Runnable, RequestContext {
       sender.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
+    } finally {
+      requestContext.setContext(old);
     }
   }
 
   @Override
   public String toString() {
-    return "send-email comments";
+    return "send-email attention-set-update";
   }
 
   @Override

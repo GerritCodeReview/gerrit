@@ -30,7 +30,7 @@ public class AddToAttentionSetSender extends AttentionSetSender {
   @Inject
   public AddToAttentionSetSender(
       EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
-    super(args, project, changeId);
+    super(args, "addToAttentionSet", project, changeId);
   }
 
   @Override

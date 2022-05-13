@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "00f8398b_d2eb2557",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-13T12:46:55Z",
+      "side": 1,
+      "message": "+1 on improving the commit message. :)\nThanks for bringing it up.",
+      "parentUuid": "568c5558_0ab52290",
+      "revId": "d4ec4b192bc788fea0723d5e8fb15c8a22037d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9802df3e_6ab75759",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.ts",
         "patchSetId": 3

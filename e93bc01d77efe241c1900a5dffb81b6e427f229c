@@ -16,6 +16,29 @@
       "message": "Added feature to output an email address along with other parameters. ",
       "revId": "e93bc01d77efe241c1900a5dffb81b6e427f229c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2836bad9_3e8b2548",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectAccessCommand.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-05-13T08:40:25Z",
+      "side": 1,
+      "message": "There\u0027s so much that has changed back an forth that it\u0027s hard to comment on the change.\nHere is what my approach would have been (sometimes streams isn\u0027t the right tool...):\n\n      \n    try {\n      for (IdentifiedUser user : getUserList(userName)) {\n        stdout.println(\n            String.format(\n                \"Username: \u0027%s\u0027, Email: \u0027%s\u0027, Full Name: \u0027%s\u0027, Result: %b\\n\",\n                user.getName(),\n                user.getNameEmail()\n                    .substring(\n                        user.getNameEmail().indexOf(\"\u003c\") + 1, user.getNameEmail().indexOf(\"\u003e\")),\n                user.getLoggableName(),\n                permissionBackend\n                    .user(user)\n                    .project(Project.nameKey(projectName))\n                    .test(ProjectPermission.READ)));\n      }\n    } catch (ConfigInvalidException\n        | ResourceNotFoundException\n        | IllegalArgumentException\n        | PermissionBackendException e) {\n      throw die(e);\n    }",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 48
+      },
+      "revId": "e93bc01d77efe241c1900a5dffb81b6e427f229c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

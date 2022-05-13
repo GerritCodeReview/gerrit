@@ -20,7 +20,6 @@ import '../gr-comment-api/gr-comment-api';
 import '../../shared/revision-info/revision-info';
 import './gr-patch-range-select';
 import {GrPatchRangeSelect} from './gr-patch-range-select';
-import '../../../test/mocks/comment-api';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {stubRestApi} from '../../../test/test-utils';

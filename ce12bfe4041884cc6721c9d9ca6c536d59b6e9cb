@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "291f760e_78880364",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-13T07:07:46Z",
+      "side": 1,
+      "message": "Thanks. LGTM. Please document the new metrics in Documentation/metrics.txt",
+      "revId": "ce12bfe4041884cc6721c9d9ca6c536d59b6e9cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

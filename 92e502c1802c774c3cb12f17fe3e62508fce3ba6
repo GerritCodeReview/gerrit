@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "448bb99e_aab06df5",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-13T15:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6de8c8e9_f242a6fa",
+      "range": {
+        "startLine": 548,
+        "startChar": 41,
+        "endLine": 548,
+        "endChar": 48
+      },
+      "revId": "92e502c1802c774c3cb12f17fe3e62508fce3ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41dc98b7_6ce1ff82",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8d65d05_ef415b12",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-13T15:28:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41dc98b7_6ce1ff82",
+      "range": {
+        "startLine": 569,
+        "startChar": 1,
+        "endLine": 577,
+        "endChar": 7
+      },
+      "revId": "92e502c1802c774c3cb12f17fe3e62508fce3ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64c62e83_d08dbd3f",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-05-13T08:18:14Z",
       "side": 1,
       "message": "Wouldn\u0027t you be interested in knowing whether you have a heap of tasks that are stuck in STOPPING state?",
+      "range": {
+        "startLine": 111,
+        "startChar": 13,
+        "endLine": 111,
+        "endChar": 21
+      },
+      "revId": "92e502c1802c774c3cb12f17fe3e62508fce3ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "391eeb5a_2e7aa588",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetSummary.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-13T15:28:08Z",
+      "side": 1,
+      "message": "Originally I thought that no one would be \"blocking\" in onStop(), but I guess it could be helpful to point out issues. Done.",
+      "parentUuid": "64c62e83_d08dbd3f",
       "range": {
         "startLine": 111,
         "startChar": 13,

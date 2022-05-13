@@ -22,6 +22,30 @@
       },
       "revId": "b1fc78ce512d0d741a148d2b1995d3b0c8fa7a46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14f6354b_21f9dd80",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-13T12:49:51Z",
+      "side": 1,
+      "message": "At least fix the types, and probably there are assumptions that accountId will exist in some places.",
+      "parentUuid": "3aeed560_8f5906d4",
+      "range": {
+        "startLine": 182,
+        "startChar": 18,
+        "endLine": 183,
+        "endChar": 25
+      },
+      "revId": "b1fc78ce512d0d741a148d2b1995d3b0c8fa7a46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -30,9 +30,7 @@ import {
   LabelInfo,
   ApprovalInfo,
   AccountId,
-  isQuickLabelInfo,
   isDetailedLabelInfo,
-  LabelNameToInfoMap,
 } from '../../../types/common';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
@@ -40,10 +38,8 @@ import {GrButton} from '../gr-button/gr-button';
 import {
   canVote,
   getApprovalInfo,
-  getVotingRangeOrDefault,
   hasNeutralStatus,
   hasVoted,
-  showNewSubmitRequirements,
   valueString,
 } from '../../../utils/label-util';
 import {getAppContext} from '../../../services/app-context';
@@ -106,8 +102,6 @@ export class GrLabelInfo extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   // TODO(TS): not used, remove later
   _xhrPromise?: Promise<void>;
@@ -208,14 +202,6 @@ export class GrLabelInfo extends LitElement {
   }
 
   override render() {
-    if (showNewSubmitRequirements(this.flagsService, this.change)) {
-      return this.renderNewSubmitRequirements();
-    } else {
-      return this.renderOldSubmitRequirements();
-    }
-  }
-
-  private renderNewSubmitRequirements() {
     const labelInfo = this.labelInfo;
     if (!labelInfo) return;
     const reviewers = (this.change?.reviewers['REVIEWER'] ?? [])
@@ -236,23 +222,6 @@ export class GrLabelInfo extends LitElement {
     return html`<div>
       ${reviewers.map(reviewer => this.renderReviewerVote(reviewer))}
     </div>`;
-  }
-
-  private renderOldSubmitRequirements() {
-    const labelInfo = this.labelInfo;
-    return html` <p
-        class="placeholder ${this.computeShowPlaceholder(
-          labelInfo,
-          this.change?.labels
-        )}"
-      >
-        No votes
-      </p>
-      <table>
-        ${this.mapLabelInfo(labelInfo, this.account, this.change?.labels).map(
-          mappedLabel => this.renderLabel(mappedLabel)
-        )}
-      </table>`;
   }
 
   renderReviewerVote(reviewer: AccountInfo) {
@@ -341,83 +310,6 @@ export class GrLabelInfo extends LitElement {
   }
 
   /**
-   * This method also listens on change.labels.*,
-   * to trigger computation when a label is removed from the change.
-   *
-   * The third parameter is just for *triggering* computation.
-   */
-  private mapLabelInfo(
-    labelInfo?: LabelInfo,
-    account?: AccountInfo,
-    _?: LabelNameToInfoMap
-  ): FormattedLabel[] {
-    const result: FormattedLabel[] = [];
-    if (!labelInfo) {
-      return result;
-    }
-    if (!isDetailedLabelInfo(labelInfo)) {
-      if (
-        isQuickLabelInfo(labelInfo) &&
-        (labelInfo.rejected || labelInfo.approved)
-      ) {
-        const ok = labelInfo.approved || !labelInfo.rejected;
-        return [
-          {
-            value: ok ? '👍️' : '👎️',
-            className: ok ? LabelClassName.POSITIVE : LabelClassName.NEGATIVE,
-            // executed only if approved or rejected is not undefined
-            account: ok ? labelInfo.approved! : labelInfo.rejected!,
-          },
-        ];
-      }
-      return result;
-    }
-
-    // Sort votes by positivity.
-    // TODO(TS): maybe mark value as required if always present
-    const votes = (labelInfo.all || []).sort(
-      (a, b) => (a.value || 0) - (b.value || 0)
-    );
-    const votingRange = getVotingRangeOrDefault(labelInfo);
-    for (const label of votes) {
-      if (
-        label.value &&
-        (!isQuickLabelInfo(labelInfo) ||
-          label.value !== labelInfo.default_value)
-      ) {
-        let labelClassName;
-        let labelValPrefix = '';
-        if (label.value > 0) {
-          labelValPrefix = '+';
-          if (label.value === votingRange.max) {
-            labelClassName = LabelClassName.MAX;
-          } else {
-            labelClassName = LabelClassName.POSITIVE;
-          }
-        } else if (label.value < 0) {
-          if (label.value === votingRange.min) {
-            labelClassName = LabelClassName.MIN;
-          } else {
-            labelClassName = LabelClassName.NEGATIVE;
-          }
-        }
-        const formattedLabel: FormattedLabel = {
-          value: `${labelValPrefix}${label.value}`,
-          className: labelClassName,
-          account: label,
-        };
-        if (label._account_id === account?._account_id) {
-          // Put self-votes at the top.
-          result.unshift(formattedLabel);
-        } else {
-          result.push(formattedLabel);
-        }
-      }
-    }
-    return result;
-  }
-
-  /**
    * A user is able to delete a vote iff the mutable property is true and the
    * reviewer that left the vote exists in the list of removable_reviewers
    * received from the backend.
@@ -487,40 +379,5 @@ export class GrLabelInfo extends LitElement {
       return '';
     }
     return labelInfo.values[score];
-  }
-
-  /**
-   * This method also listens change.labels.* in
-   * order to trigger computation when a label is removed from the change.
-   *
-   * The second parameter is just for *triggering* computation.
-   */
-  private computeShowPlaceholder(
-    labelInfo?: LabelInfo,
-    _?: LabelNameToInfoMap
-  ) {
-    if (!labelInfo) {
-      return '';
-    }
-    if (
-      !isDetailedLabelInfo(labelInfo) &&
-      isQuickLabelInfo(labelInfo) &&
-      (labelInfo.rejected || labelInfo.approved)
-    ) {
-      return 'hidden';
-    }
-
-    if (isDetailedLabelInfo(labelInfo) && labelInfo.all) {
-      for (const label of labelInfo.all) {
-        if (
-          label.value &&
-          (!isQuickLabelInfo(labelInfo) ||
-            label.value !== labelInfo.default_value)
-        ) {
-          return 'hidden';
-        }
-      }
-    }
-    return '';
   }
 }

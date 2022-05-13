@@ -29,12 +29,7 @@ import {
   LabelInfo,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {getAppContext} from '../../../services/app-context';
-import {
-  getApprovalInfo,
-  getCodeReviewLabel,
-  showNewSubmitRequirements,
-} from '../../../utils/label-util';
+import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';
 import {sortReviewers} from '../../../utils/attention-set-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
@@ -67,8 +62,6 @@ export class GrReviewerList extends LitElement {
   @state() hiddenReviewerCount?: number;
 
   @state() showAllReviewers = false;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   static override get styles() {
     return [
@@ -166,14 +159,12 @@ export class GrReviewerList extends LitElement {
         .vote=${this.computeVote(reviewer)}
         .label=${this.computeCodeReviewLabel()}
       >
-        ${showNewSubmitRequirements(this.flagsService, this.change)
-          ? html`<gr-vote-chip
-              slot="vote-chip"
-              .vote=${this.computeVote(reviewer)}
-              .label=${this.computeCodeReviewLabel()}
-              circle-shape
-            ></gr-vote-chip>`
-          : nothing}
+        <gr-vote-chip
+          slot="vote-chip"
+          .vote=${this.computeVote(reviewer)}
+          .label=${this.computeCodeReviewLabel()}
+          circle-shape
+        ></gr-vote-chip>
       </gr-account-chip>
     `;
   }

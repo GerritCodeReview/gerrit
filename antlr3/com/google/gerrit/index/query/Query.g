@@ -152,8 +152,10 @@ WS
   :  ( ' ' | '\r' | '\t' | '\n' ) { $channel=HIDDEN; }
   ;
 
+fragment ALPHA_UNDERSCORE: ('a'..'z' | '_')+ ;
+
 FIELD_NAME
-  : ('a'..'z' | '_')+
+  : ALPHA_UNDERSCORE ( '-' ALPHA_UNDERSCORE )*
   ;
 
 EXACT_PHRASE

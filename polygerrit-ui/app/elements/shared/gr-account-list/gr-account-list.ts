@@ -167,9 +167,6 @@ export class GrAccountList extends LitElement {
   @property({type: Array})
   removableValues?: AccountInput[];
 
-  @property({type: Number})
-  maxCount = 0;
-
   /**
    * Returns suggestion items
    */
@@ -234,8 +231,7 @@ export class GrAccountList extends LitElement {
       </div>
       <gr-account-entry
         borderless=""
-        ?hidden=${(this.maxCount && this.maxCount <= this.accounts.length) ||
-        this.readonly}
+        ?hidden=${this.readonly}
         id="entry"
         .placeholder=${this.placeholder}
         @add=${this.handleAdd}

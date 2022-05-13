@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d07fc42_8d22ed97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-13T06:29:08Z",
+      "side": 1,
+      "message": "This is staled. The latest patch set of change doesn\u0027t bump the schema version (it\u0027s still Schema_184), but only implement an optional site program that could be skipped. On line 18 it\u0027s already stated, that this is optional.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "da191c1faa27f5b42d66bb316da0bf190503d7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

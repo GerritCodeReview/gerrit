@@ -52,12 +52,14 @@ public class TaskListenerIT extends AbstractDaemonTest {
   public class LatchedListener implements TaskListener {
     @Override
     public void onStart(Task<?> task) {
+      TaskListenerIT.this.task = task;
       onStart.countDown();
       await(start);
     }
 
     @Override
     public void onStop(Task<?> task) {
+      TaskListenerIT.this.task = task;
       onStop.countDown();
       await(stop);
     }
@@ -81,6 +83,7 @@ public class TaskListenerIT extends AbstractDaemonTest {
   private CountDownLatch run = new CountDownLatch(1);
   private CountDownLatch onStop = new CountDownLatch(1);
   private CountDownLatch stop = new CountDownLatch(1);
+  private volatile Task task;
 
   @Before
   public void setupExecutorAndForwarder() throws InterruptedException {
@@ -103,7 +106,7 @@ public class TaskListenerIT extends AbstractDaemonTest {
       public void configure() {
         // Forwarder.delegate is empty on start to protect test listener from non test tasks
         // (such as the "Log File Compressor") interference
-        forwarder = new ForwardingListener();
+        forwarder = new ForwardingListener(); // Only gets bound once for all tests
         bind(TaskListener.class).annotatedWith(Exports.named("listener")).toInstance(forwarder);
       }
     };
@@ -143,6 +146,34 @@ public class TaskListenerIT extends AbstractDaemonTest {
       assertThat(ms++).isLessThan(MS_EMPTY_QUEUE);
       TimeUnit.MILLISECONDS.sleep(1);
     }
+  }
+
+  @Test
+  public void states() throws Exception {
+    assertThat(task).isEqualTo(null);
+
+    executor.execute(
+        () -> {
+          onRun.countDown();
+          await(run);
+        });
+
+    await(onStart);
+    assertThat(task.getState()).isEqualTo(Task.State.STARTING);
+
+    start.countDown();
+    await(onRun);
+    assertThat(task.getState()).isEqualTo(Task.State.RUNNING);
+
+    run.countDown();
+    await(onStop);
+    assertThat(task.getState()).isEqualTo(Task.State.STOPPING);
+
+    stop.countDown();
+    while (0 != workQueue.getTasks().size()) {
+      TimeUnit.MILLISECONDS.sleep(1);
+    }
+    assertThat(task.getState()).isEqualTo(Task.State.DONE);
   }
 
   private boolean await(CountDownLatch latch) {

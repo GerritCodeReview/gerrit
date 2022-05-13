@@ -23,22 +23,19 @@ import com.google.gerrit.index.SchemaDefinitions;
 /** Definition of group index versions (schemata). See {@link SchemaDefinitions}. */
 public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
   @Deprecated
-  static final Schema<InternalGroup> V2 =
+  static final Schema<InternalGroup> V5 =
       schema(
+          GroupField.CREATED_ON,
           GroupField.DESCRIPTION,
           GroupField.ID,
           GroupField.IS_VISIBLE_TO_ALL,
+          GroupField.MEMBER,
           GroupField.NAME,
           GroupField.NAME_PART,
           GroupField.OWNER_UUID,
+          GroupField.REF_STATE,
+          GroupField.SUBGROUP,
           GroupField.UUID);
-
-  @Deprecated static final Schema<InternalGroup> V3 = schema(V2, GroupField.CREATED_ON);
-
-  @Deprecated
-  static final Schema<InternalGroup> V4 = schema(V3, GroupField.MEMBER, GroupField.SUBGROUP);
-
-  @Deprecated static final Schema<InternalGroup> V5 = schema(V4, GroupField.REF_STATE);
 
   // Bump Lucene version requires reindexing
   @Deprecated static final Schema<InternalGroup> V6 = schema(V5);
@@ -48,7 +45,7 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
 
   // New numeric types: use dimensional points using the k-d tree geo-spatial data structure
   // to offer fast single- and multi-dimensional numeric range.
-  static final Schema<InternalGroup> V8 = schema(V7, false);
+  static final Schema<InternalGroup> V8 = schema(V7);
 
   /** Singleton instance of the schema definitions. This is one per JVM. */
   public static final GroupSchemaDefinitions INSTANCE = new GroupSchemaDefinitions();

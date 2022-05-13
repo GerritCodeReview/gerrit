@@ -400,16 +400,6 @@ suite('gr-account-list tests', () => {
     assert.equal(element.accounts.length, 1);
   });
 
-  test('max-count', async () => {
-    element.maxCount = 1;
-    const acct = makeAccount();
-    handleAdd({account: acct, count: 1});
-    await element.updateComplete;
-    assert.isTrue(
-      queryAndAssert<GrAccountEntry>(element, '#entry').hasAttribute('hidden')
-    );
-  });
-
   test('enter text calls suggestions provider', async () => {
     const suggestions: Suggestion[] = [
       {

@@ -16,6 +16,24 @@
       "message": "Are you sure this actually works?  We are not disconnecting gr-change-view but recreating it each time. We don\u0027t currently cache it in the lit-version of gr-app-element afaict.",
       "revId": "d67706130f49e9111c90e6d637ea607d8ff29093",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d5207c3_abba5c5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-13T11:19:43Z",
+      "side": 1,
+      "message": "I have added console.log() statements to the constructor(), to connectedCallback() and to disconnectedCallback() to make sure that my assumption is correct. And I have compared the console output before and after my fix.\n\nWe do use the cache() directive in change 336243:\n```\n  private renderChangeView() {\n    if (this.invalidateChangeViewCache) {\n      this.updateComplete.then(() \u003d\u003e (this.invalidateChangeViewCache \u003d false));\n      return nothing;\n    }\n    return cache(this.showChangeView ? this.changeViewTemplate() : nothing);\n  }\n```",
+      "parentUuid": "b2438b70_629e7ead",
+      "revId": "d67706130f49e9111c90e6d637ea607d8ff29093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

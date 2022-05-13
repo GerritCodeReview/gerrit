@@ -10,6 +10,7 @@ import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-m
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {
+  AccountDetailInfo,
   AccountInfo,
   ChangeInfo,
   NumericChangeId,
@@ -32,6 +33,8 @@ import {listForSentence} from '../../../utils/string-util';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {AccountInputDetail} from '../../shared/gr-account-list/gr-account-list';
 import '@polymer/iron-icon/iron-icon';
+import {getReplyByReason} from '../../../utils/attention-set-util';
+import {intersection} from '../../../utils/common-util';
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
@@ -71,6 +74,8 @@ export class GrChangeListReviewerFlow extends LitElement {
   private restApiService = getAppContext().restApiService;
 
   private isLoggedIn = false;
+
+  private account?: AccountDetailInfo;
 
   static override get styles() {
     return css`
@@ -124,6 +129,11 @@ export class GrChangeListReviewerFlow extends LitElement {
       this,
       () => getAppContext().userModel.loggedIn$,
       isLoggedIn => (this.isLoggedIn = isLoggedIn)
+    );
+    subscribe(
+      this,
+      () => getAppContext().userModel.account$,
+      account => (this.account = account)
     );
   }
 
@@ -335,7 +345,8 @@ export class GrChangeListReviewerFlow extends LitElement {
       ])
     );
     const inFlightActions = this.getBulkActionsModel().addReviewers(
-      this.updatedAccountsByReviewerState
+      this.updatedAccountsByReviewerState,
+      getReplyByReason(this.account, this.serverConfig)
     );
 
     await allSettled(
@@ -383,13 +394,7 @@ export class GrChangeListReviewerFlow extends LitElement {
     const reviewersPerChange = this.selectedChanges.map(
       change => change.reviewers[reviewerState] ?? []
     );
-    if (reviewersPerChange.length === 0) {
-      return [];
-    }
-    // Gets reviewers present in all changes
-    return reviewersPerChange.reduce((a, b) =>
-      a.filter(reviewer => b.includes(reviewer))
-    );
+    return intersection(reviewersPerChange);
   }
 
   private createSuggestionsProvider(

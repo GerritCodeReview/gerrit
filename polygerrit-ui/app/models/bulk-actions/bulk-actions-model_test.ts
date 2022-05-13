@@ -236,7 +236,8 @@ suite('bulk actions model test', () => {
         new Map([
           [ReviewerState.REVIEWER, [accounts[0]]],
           [ReviewerState.CC, [accounts[1]]],
-        ])
+        ]),
+        '<GERRIT_ACCOUNT_12345> replied on the change'
       );
 
       // changes[0] is not updated since it already has the reviewer & CC
@@ -248,6 +249,13 @@ suite('bulk actions model test', () => {
           reviewers: [
             {reviewer: accounts[0]._account_id, state: ReviewerState.REVIEWER},
             {reviewer: accounts[1]._account_id, state: ReviewerState.CC},
+          ],
+          ignore_automatic_attention_set_rules: true,
+          add_to_attention_set: [
+            {
+              reason: '<GERRIT_ACCOUNT_12345> replied on the change',
+              user: accounts[0]._account_id,
+            },
           ],
         },
       ]);

@@ -159,7 +159,8 @@ export function unique<T>(item: T, index: number, array: T[]) {
 
 /**
  * Returns the elements that are present in every sub-array. If a compareBy
- * predicate is passed in, it will be used instead of strict equality.
+ * predicate is passed in, it will be used instead of strict equality. A new
+ * array is always returned even if there is already just a single array.
  */
 export function intersection<T>(
   arrays: T[][],
@@ -170,6 +171,9 @@ export function intersection<T>(
   // empty array must be checked separately.
   if (arrays.length === 0) {
     return [];
+  }
+  if (arrays.length === 1) {
+    return [...arrays[0]];
   }
   return arrays.reduce((result, array) =>
     result.filter(t => array.find(u => compareBy(t, u)))

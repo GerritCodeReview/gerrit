@@ -245,6 +245,14 @@ suite('gr-change-list-reviewer-flow tests', () => {
             {reviewer: accounts[2]._account_id, state: ReviewerState.REVIEWER},
             {reviewer: accounts[5]._account_id, state: ReviewerState.CC},
           ],
+          ignore_automatic_attention_set_rules: true,
+          // only the reviewer is added to the attention set, not the cc
+          add_to_attention_set: [
+            {
+              reason: '<GERRIT_ACCOUNT_1> replied on the change',
+              user: accounts[2]._account_id,
+            },
+          ],
         },
       ]);
       assert.sameDeepOrderedMembers(saveChangeReviewStub.secondCall.args, [
@@ -254,6 +262,14 @@ suite('gr-change-list-reviewer-flow tests', () => {
           reviewers: [
             {reviewer: accounts[2]._account_id, state: ReviewerState.REVIEWER},
             {reviewer: accounts[5]._account_id, state: ReviewerState.CC},
+          ],
+          ignore_automatic_attention_set_rules: true,
+          // only the reviewer is added to the attention set, not the cc
+          add_to_attention_set: [
+            {
+              reason: '<GERRIT_ACCOUNT_1> replied on the change',
+              user: accounts[2]._account_id,
+            },
           ],
         },
       ]);
@@ -357,7 +373,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       );
       await flush();
 
-      // prettier and shadoDom string don't agree on long text in divs
+      // prettier and shadowDom string don't agree on long text in divs
       expect(element).shadowDom.to.equal(
         /* prettier-ignore */
         /* HTML */ `

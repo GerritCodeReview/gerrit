@@ -16,13 +16,11 @@ package com.google.gerrit.server.change;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -32,19 +30,15 @@ import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.util.AttentionSetEmail;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
 import java.util.Optional;
 
 /** Remove a specified user from the attention set. */
 public class RemoveFromAttentionSetOp implements BatchUpdateOp {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public interface Factory {
     RemoveFromAttentionSetOp create(Account.Id attentionUserId, String reason, boolean notify);
   }
 
   private final ChangeData.Factory changeDataFactory;
-  private final MessageIdGenerator messageIdGenerator;
   private final RemoveFromAttentionSetSender.Factory removeFromAttentionSetSender;
   private final AttentionSetEmail.Factory attentionSetEmailFactory;
 
@@ -64,14 +58,12 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
   @Inject
   RemoveFromAttentionSetOp(
       ChangeData.Factory changeDataFactory,
-      MessageIdGenerator messageIdGenerator,
       RemoveFromAttentionSetSender.Factory removeFromAttentionSetSenderFactory,
       AttentionSetEmail.Factory attentionSetEmailFactory,
       @Assisted Account.Id attentionUserId,
       @Assisted String reason,
       @Assisted boolean notify) {
     this.changeDataFactory = changeDataFactory;
-    this.messageIdGenerator = messageIdGenerator;
     this.removeFromAttentionSetSender = removeFromAttentionSetSenderFactory;
     this.attentionSetEmailFactory = attentionSetEmailFactory;
     this.attentionUserId = requireNonNull(attentionUserId, "user");
@@ -105,18 +97,13 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
     if (!notify) {
       return;
     }
-    try {
-      attentionSetEmailFactory
-          .create(
-              removeFromAttentionSetSender.create(ctx.getProject(), change.getId()),
-              ctx,
-              change,
-              reason,
-              messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()),
-              attentionUserId)
-          .sendAsync();
-    } catch (IOException e) {
-      logger.atSevere().withCause(e).log(e.getMessage(), change.getId());
-    }
+    attentionSetEmailFactory
+        .create(
+            removeFromAttentionSetSender.create(ctx.getProject(), change.getId()),
+            ctx,
+            change,
+            reason,
+            attentionUserId)
+        .sendAsync();
   }
 }

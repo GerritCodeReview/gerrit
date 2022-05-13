@@ -18,19 +18,24 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
 import com.google.gerrit.server.mail.send.AttentionSetSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
 import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-public class AttentionSetEmail implements Runnable, RequestContext {
+public class AttentionSetEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
@@ -43,7 +48,6 @@ public class AttentionSetEmail implements Runnable, RequestContext {
      * @param ctx context for sending the email.
      * @param change the change that the user was added/removed in.
      * @param reason reason for adding/removing the user.
-     * @param messageId messageId for tracking the email.
      * @param attentionUserId the user added/removed.
      */
     AttentionSetEmail create(
@@ -51,77 +55,117 @@ public class AttentionSetEmail implements Runnable, RequestContext {
         Context ctx,
         Change change,
         String reason,
-        MessageIdGenerator.MessageId messageId,
         Account.Id attentionUserId);
   }
 
   private final ExecutorService sendEmailsExecutor;
-  private final ThreadLocalRequestContext requestContext;
-  private final AccountTemplateUtil accountTemplateUtil;
-  private final AttentionSetSender sender;
-  private final Context ctx;
-  private final Change change;
-  private final String reason;
-  private final MessageIdGenerator.MessageId messageId;
-  private final Account.Id attentionUserId;
+  private final AsyncSender asyncSender;
 
   @Inject
   AttentionSetEmail(
       @SendEmailExecutor ExecutorService executor,
       ThreadLocalRequestContext requestContext,
+      MessageIdGenerator messageIdGenerator,
       AccountTemplateUtil accountTemplateUtil,
       @Assisted AttentionSetSender sender,
       @Assisted Context ctx,
       @Assisted Change change,
       @Assisted String reason,
-      @Assisted MessageIdGenerator.MessageId messageId,
       @Assisted Account.Id attentionUserId) {
     this.sendEmailsExecutor = executor;
-    this.requestContext = requestContext;
-    this.accountTemplateUtil = accountTemplateUtil;
-    this.sender = sender;
-    this.ctx = ctx;
-    this.change = change;
-    this.reason = reason;
-    this.messageId = messageId;
-    this.attentionUserId = attentionUserId;
+
+    MessageId messageId;
+    try {
+      messageId =
+          messageIdGenerator.fromChangeUpdateAndReason(
+              ctx.getRepoView(), change.currentPatchSetId(), "AttentionSetEmail");
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+
+    this.asyncSender =
+        new AsyncSender(
+            requestContext,
+            ctx.getIdentifiedUser(),
+            sender,
+            messageId,
+            ctx.getNotify(change.getId()),
+            attentionUserId,
+            accountTemplateUtil.replaceTemplates(reason),
+            change.getId());
   }
 
   public void sendAsync() {
     @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(this);
+    Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(asyncSender);
   }
 
-  @Override
-  public void run() {
-    RequestContext old = requestContext.setContext(this);
-    try {
-      Optional<Account.Id> accountId =
-          ctx.getUser().isIdentifiedUser()
-              ? Optional.of(ctx.getUser().asIdentifiedUser().getAccountId())
-              : Optional.empty();
-      if (accountId.isPresent()) {
-        sender.setFrom(accountId.get());
-      }
-      sender.setNotify(ctx.getNotify(change.getId()));
-      sender.setAttentionSetUser(attentionUserId);
-      sender.setReason(accountTemplateUtil.replaceTemplates(reason));
-      sender.setMessageId(messageId);
-      sender.send();
-    } catch (Exception e) {
-      logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
-    } finally {
-      requestContext.setContext(old);
+  /**
+   * {@link Runnable} that sends the email asynchonously.
+   *
+   * <p>Only pass objects into this class that are thread-safe (e.g. immutable) so that they can be
+   * safely accessed from the background thread.
+   */
+  private static class AsyncSender implements Runnable, RequestContext {
+    private final ThreadLocalRequestContext requestContext;
+    private final IdentifiedUser user;
+    private final AttentionSetSender sender;
+    private final MessageIdGenerator.MessageId messageId;
+    private final NotifyResolver.Result notify;
+    private final Account.Id attentionUserId;
+    private final String reason;
+    private final Change.Id changeId;
+
+    AsyncSender(
+        ThreadLocalRequestContext requestContext,
+        IdentifiedUser user,
+        AttentionSetSender sender,
+        MessageIdGenerator.MessageId messageId,
+        NotifyResolver.Result notify,
+        Account.Id attentionUserId,
+        String reason,
+        Change.Id changeId) {
+      this.requestContext = requestContext;
+      this.user = user;
+      this.sender = sender;
+      this.messageId = messageId;
+      this.notify = notify;
+      this.attentionUserId = attentionUserId;
+      this.reason = reason;
+      this.changeId = changeId;
     }
-  }
 
-  @Override
-  public String toString() {
-    return "send-email attention-set-update";
-  }
+    @Override
+    public void run() {
+      RequestContext old = requestContext.setContext(this);
+      try {
+        Optional<Account.Id> accountId =
+            user.isIdentifiedUser()
+                ? Optional.of(user.asIdentifiedUser().getAccountId())
+                : Optional.empty();
+        if (accountId.isPresent()) {
+          sender.setFrom(accountId.get());
+        }
+        sender.setNotify(notify);
+        sender.setAttentionSetUser(attentionUserId);
+        sender.setReason(reason);
+        sender.setMessageId(messageId);
+        sender.send();
+      } catch (Exception e) {
+        logger.atSevere().withCause(e).log("Cannot email update for change %s", changeId);
+      } finally {
+        requestContext.setContext(old);
+      }
+    }
 
-  @Override
-  public CurrentUser getUser() {
-    return ctx.getUser();
+    @Override
+    public String toString() {
+      return "send-email attention-set-update";
+    }
+
+    @Override
+    public CurrentUser getUser() {
+      return user;
+    }
   }
 }

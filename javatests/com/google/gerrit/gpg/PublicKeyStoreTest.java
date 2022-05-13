@@ -244,6 +244,25 @@ public class PublicKeyStoreTest {
   }
 
   @Test
+  public void removeSubkeyResultsInNoChange() throws Exception {
+    TestKey key1 = validKeyWithoutExpirationWithSubkeyWithExpiration();
+    PGPPublicKeyRing keyRing = key1.getPublicKeyRing();
+    store.add(keyRing);
+
+    assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
+
+    long masterKeyId = key1.getKeyId();
+    PGPPublicKey subKey =
+        keyRing.getPublicKey(Iterators.get(keyRing.getPublicKeys(), 1).getKeyID());
+
+    store.remove(subKey.getFingerprint());
+    assertEquals(RefUpdate.Result.NO_CHANGE, store.save(newCommitBuilder()));
+
+    assertKeys(masterKeyId, key1);
+    assertKeys(subKey.getKeyID(), key1);
+  }
+
+  @Test
   public void removeNonexisting() throws Exception {
     TestKey key1 = validKeyWithoutExpiration();
     store.add(key1.getPublicKeyRing());

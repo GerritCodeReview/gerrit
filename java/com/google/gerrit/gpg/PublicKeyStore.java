@@ -322,7 +322,8 @@ public class PublicKeyStore implements AutoCloseable {
    * <p>Multiple calls may be made to buffer deletes in memory, and they are not saved until {@link
    * #save(CommitBuilder)} is called.
    *
-   * @param fingerprint the fingerprint of the key to remove.
+   * @param fingerprint the fingerprint of the key to remove. This must be the fingerprint of a
+   *     master key, removal of subkeys is not supported.
    */
   public void remove(byte[] fingerprint) {
     Fingerprint fp = new Fingerprint(fingerprint);

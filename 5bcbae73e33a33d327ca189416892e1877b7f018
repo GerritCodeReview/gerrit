@@ -22,6 +22,30 @@
       },
       "revId": "5bcbae73e33a33d327ca189416892e1877b7f018",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "492880d2_a95d52d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-13T09:29:08Z",
+      "side": 1,
+      "message": "Yeah, I am surprised that auto linter didn\u0027t indented this one.",
+      "parentUuid": "af039437_0c369005",
+      "range": {
+        "startLine": 203,
+        "startChar": 6,
+        "endLine": 203,
+        "endChar": 55
+      },
+      "revId": "5bcbae73e33a33d327ca189416892e1877b7f018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

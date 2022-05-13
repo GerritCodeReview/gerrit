@@ -72,7 +72,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   private static Term idTerm(boolean useLegacyNumericFields, Account.Id id) {
     FieldDef<AccountState, ?> idField = useLegacyNumericFields ? ID : ID_STR;
     if (useLegacyNumericFields) {
-      return QueryBuilder.intTerm(idField.getName(), id.get());
+      return QueryBuilder.intTerm(idField.getName());
     }
     return QueryBuilder.stringTerm(idField.getName(), Integer.toString(id.get()));
   }

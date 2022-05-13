@@ -49,7 +49,7 @@ import org.apache.lucene.util.BytesRefBuilder;
 
 public class QueryBuilder<V> {
   /** @param name field name qparam i key value */
-  static Term intTerm(String name, int i) {
+  static Term intTerm(String name) {
     checkState(false, "Lucene index implementation removed legacy numeric type");
     return null;
   }

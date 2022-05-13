@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6de8c8e9_f242a6fa",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-05-13T08:18:14Z",
+      "side": 1,
+      "message": "state or runningState?",
+      "range": {
+        "startLine": 548,
+        "startChar": 41,
+        "endLine": 548,
+        "endChar": 48
+      },
+      "revId": "92e502c1802c774c3cb12f17fe3e62508fce3ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41dc98b7_6ce1ff82",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-05-13T08:18:14Z",
+      "side": 1,
+      "message": "Is this switch-case really necessary?\n\"running\" is private and the only 4 values it is set to in this class is STARTING, STOPPING, RUNNING and null.\n\n    if (r !\u003d null) {\n      return r;\n    } else if (isDone ...",
+      "range": {
+        "startLine": 569,
+        "startChar": 1,
+        "endLine": 577,
+        "endChar": 7
+      },
+      "revId": "92e502c1802c774c3cb12f17fe3e62508fce3ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64c62e83_d08dbd3f",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetSummary.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-05-13T08:18:14Z",
+      "side": 1,
+      "message": "Wouldn\u0027t you be interested in knowing whether you have a heap of tasks that are stuck in STOPPING state?",
+      "range": {
+        "startLine": 111,
+        "startChar": 13,
+        "endLine": 111,
+        "endChar": 21
+      },
+      "revId": "92e502c1802c774c3cb12f17fe3e62508fce3ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

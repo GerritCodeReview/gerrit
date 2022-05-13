@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "a49720ec_d70adf98",
         "filename": "Documentation/dev-plugins.txt",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "I wonder if we really need both isReadyToStart and onStart methods? If onStart method\nwould return boolean (just like the isReadyToStart) then we could still achieve both policies:\n* delay a task by letting the thread sleep on a semaphore\n* throttle by using the non-blocking tryAcquire. The false return value from onStart would\nhave to be handled the same way as when isReadyToStart returns false.\n\nThis documentation gives impression that we need the new isReadyToStart method in order\nto call tryAcquire instead of the acquireUninterruptibly but this distinction seems arbitrary to me.\n\nOf course, I am interested if you have good examples where indeed both methods are needed.",
       "revId": "4335cad3d5824e16de1021a78ba1acdc5f787ae3",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "2d2afcec_158aa74f",
         "filename": "Documentation/dev-plugins.txt",
@@ -32,10 +33,10 @@
       "message": "If onStart() returns a boolean, and a plugin returns a false from it, how would you inform the other plugins that have already returned true that the task is not actually going to start? If you look at the example posted, and at the docs you will see that in the onNotReadyToStart() the plugins can release the semaphore that they acquired during the isReadyToStart() method so as to not double up the usage count on the next call to onNotReadyToStart().\n\n\nAlso I think the semantics of using onStart() that way is a bit deceiving, i.e. if we call one plugin\u0027s onStart() and it returns true, then I think that plugin would expect the task to actually start and not potentially block if the next plugin returns false.",
       "parentUuid": "a49720ec_d70adf98",
       "revId": "4335cad3d5824e16de1021a78ba1acdc5f787ae3",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "09786bd7_55b48ed2",
         "filename": "Documentation/dev-plugins.txt",
@@ -50,10 +51,10 @@
       "message": "\u003e If onStart() returns a boolean, and a plugin returns a false from it, how would you inform the other plugins that have already returned true that the task is not actually going to start?\n\nI thought that this would be done by calling the onNotReadyToStart()\n\n\u003e If you look at the example posted, and at the docs you will see that in the onNotReadyToStart() the plugins can release the semaphore that they acquired during the isReadyToStart() method so as to not double up the usage count on the next call to onNotReadyToStart()\n\nYes, this is clear.\nI feel like two methods: isReadyToStart + onNotReadyToStart are enough and propose to use\nthe onStart method name instead of the isReadyToStart.\n\n\n\u003e \n\u003e \n\u003e Also I think the semantics of using onStart() that way is a bit deceiving, i.e. if we call one plugin\u0027s onStart() and it returns true, then I think that plugin would expect the task to actually start and not potentially block if the next plugin returns false.\n\nI think that we need a good example which demonstrates the necessity of both isReadyToStart\nand onStart (as these methods are designed in this patch-set). Right now I feel like\nplugins can do everything in the isReadyToStart method (acquire permission from a semaphore,\nnon-blocking or blocking) and they can do the necessary cleanup in the onNotReadyToStart.\n\n\nReading the documentation it looks like onStart method is intended for implementing a delay\n(the calling thread blocks) and onReadToStart is intended for acquiring start permission\nin a non-blocking manner. However, these are only recommendations, the design doesn\u0027t\nenforce anything of that. A plugin developer may still do the opposite: sleep in the onReadyToStart and perform a non-blocking acquire in the onStart and may not be aware\nthat he is doing something wrong... or something that he is not expected to do. This is why\nI believe that having one \"on start\" method would be a cleaner design.",
       "parentUuid": "2d2afcec_158aa74f",
       "revId": "4335cad3d5824e16de1021a78ba1acdc5f787ae3",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ef5b2e59_0a231e1c",
         "filename": "Documentation/dev-plugins.txt",
@@ -68,8 +69,25 @@
       "message": "\u003e I feel like two methods: isReadyToStart + onNotReadyToStart are enough and propose to use the onStart method name instead of the isReadyToStart.\n\nGotcha, this is different from what I first thought you were proposing. See below why this will not wok.\n\n\u003e Reading the documentation it looks like onStart method is intended for implementing a delay (the calling thread blocks) and onReadToStart is intended for acquiring start permission in a non-blocking manner.\n\nI have tried to update the docs to help differentiate the two different use cases. I\u0027ve also updated the terminology a bit to reflect the mechanism more than just a single use case.\n\n\u003e However, these are only recommendations, the design doesn\u0027t enforce anything of that. A plugin developer may still do the opposite: sleep in the onReadyToStart and perform a non-blocking acquire in the onStart and may not be aware that he is doing something wrong... or something that he is not expected to do. \n\nHopefully the new doc updates make this better.\n\n\u003e This is why I believe that having one \"on start\" method would be a cleaner design.\n\nWithout an onStart() method, blocking plugins will need to block in isReadyToStart() (even if it is now called onStart()). If they do, then Gerrit cannot call onNotReadyToStart() for those plugins that have already returned true from onStart() until the block is undone. This would force resource holders to hold their resources during the block, only to then release it potentially after the block when a third plugin then returns false from onStart(). Like this:\n\n * Task set to \"STARTING\"\n\n * plugin A -\u003e onStart() -\u003e grabs a semaphore -\u003e returns true\n\n * plugin B -\u003e onStart() -\u003e wait a really long time, holding the semaphore in plugin A preventing other tasks from running because plugin A is blocking them from running, but plugin B had no intention of blocking the tasks that plugin A is now blocking. Finally after some other task completes, we unblock and return true\n\n * plugin C -\u003e onStart() -\u003e false\n\n * plugin A -\u003e onNotReadyToStart() -\u003e release semaphore that was blocking other tasks uselessly since the current task was not able to run anyway.\n\n * Task set to \"PARKED\"\n * WorkQueue -\u003e allows another task to run on a new thread \n * ... other task completes\n * WorkQueue -\u003e eliminates extra thread\n * Task set to \"STARTING\"\n\n * plugin A -\u003e onStart() -\u003e Calling this a second time feels a bit semantically wrong and confusing\n\nThis also would mean allowing state looping from STARTING to PARKED (previously THROTTLED) and back to STARTING...\n\nAnother way to see this, is that it requires two passes before starting a task. The first pass is the \"non-blocking\" pass (this new code), and the second pass is the \"blocking\" pass. Calling all the non-blockers before the blockers ensures that blocking never happens before a non-blocker is ready to start, else this would make the non-blocking phase ineffective. The plugins being called need to know which pass they are being called from in order to know when it is OK to block, and this is achieved by having two different methods.",
       "parentUuid": "09786bd7_55b48ed2",
       "revId": "4335cad3d5824e16de1021a78ba1acdc5f787ae3",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1810efd_098445ae",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-13T01:08:12Z",
+      "side": 1,
+      "message": "Hopefully the docks clarify why blocking in onReadyToStart() (which would have to be done if there were only one method) would be bad.",
+      "parentUuid": "ef5b2e59_0a231e1c",
+      "revId": "4335cad3d5824e16de1021a78ba1acdc5f787ae3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

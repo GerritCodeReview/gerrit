@@ -16,6 +16,24 @@
       "message": "will this be somehow reported on the client side?",
       "revId": "c3c8b313e86edb75cd535c04c0dd2c03576c5a9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c6a4d90_c8e91b8d",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-13T08:54:08Z",
+      "side": 1,
+      "message": "no (but it has never been). this is not a behavioural change compared to the state of 2wks ago. I introduced a regression with the refactoring.",
+      "parentUuid": "9e3ca7db_0ff2721a",
+      "revId": "c3c8b313e86edb75cd535c04c0dd2c03576c5a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

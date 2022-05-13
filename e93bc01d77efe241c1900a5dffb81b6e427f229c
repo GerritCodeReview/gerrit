@@ -39,6 +39,30 @@
       },
       "revId": "e93bc01d77efe241c1900a5dffb81b6e427f229c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6fed244_4a4dd479",
+        "filename": "java/com/google/gerrit/sshd/commands/CheckProjectAccessCommand.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-13T09:51:13Z",
+      "side": 1,
+      "message": "agree, this looks a lot simpler",
+      "parentUuid": "2836bad9_3e8b2548",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 48
+      },
+      "revId": "e93bc01d77efe241c1900a5dffb81b6e427f229c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

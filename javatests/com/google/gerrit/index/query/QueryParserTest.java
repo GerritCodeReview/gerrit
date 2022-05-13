@@ -19,6 +19,7 @@ import static com.google.gerrit.index.query.QueryParser.COLON;
 import static com.google.gerrit.index.query.QueryParser.DEFAULT_FIELD;
 import static com.google.gerrit.index.query.QueryParser.EXACT_PHRASE;
 import static com.google.gerrit.index.query.QueryParser.FIELD_NAME;
+import static com.google.gerrit.index.query.QueryParser.NOT;
 import static com.google.gerrit.index.query.QueryParser.SINGLE_WORD;
 import static com.google.gerrit.index.query.QueryParser.parse;
 import static com.google.gerrit.index.query.testing.TreeSubject.assertThat;
@@ -240,6 +241,108 @@ public class QueryParserTest {
     assertThat(r).hasText("message");
     assertThat(r).child(0).hasType(EXACT_PHRASE);
     assertThat(r).child(0).hasText("A backslash \\ in phrase");
+  }
+
+  @Test
+  public void fieldNameWithNot() throws Exception {
+    Tree r = parse("-foo:bar");
+    assertThat(r).hasType(NOT);
+    assertThat(r).hasText("NOT");
+    assertThat(r).hasChildCount(1);
+    assertThat(r).child(0).hasType(FIELD_NAME);
+    assertThat(r).child(0).hasText("foo");
+    assertThat(r).child(0).hasChildCount(1);
+    assertThat(r).child(0).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).child(0).hasText("bar");
+    assertThat(r).child(0).child(0).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameWithUnderscore() throws Exception {
+    Tree r = parse("foo_bar:baz");
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasText("foo_bar");
+    assertThat(r).hasChildCount(1);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("baz");
+    assertThat(r).child(0).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameWithHyphen() throws Exception {
+    Tree r = parse("foo-bar:baz");
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasText("foo-bar");
+    assertThat(r).hasChildCount(1);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("baz");
+    assertThat(r).child(0).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameEndingWithHyphen() throws Exception {
+    Tree r = parse("foo-:bar");
+    assertThat(r).hasType(DEFAULT_FIELD);
+    assertThat(r).hasChildCount(3);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("foo-");
+    assertThat(r).child(0).hasNoChildren();
+    assertThat(r).child(1).hasType(COLON);
+    assertThat(r).child(1).hasText(":");
+    assertThat(r).child(1).hasNoChildren();
+    assertThat(r).child(2).hasType(SINGLE_WORD);
+    assertThat(r).child(2).hasText("bar");
+    assertThat(r).child(2).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameWithNotAndHyphen() throws Exception {
+    Tree r = parse("-foo-bar:baz");
+    assertThat(r).hasType(NOT);
+    assertThat(r).hasText("NOT");
+    assertThat(r).hasChildCount(1);
+    assertThat(r).child(0).hasType(FIELD_NAME);
+    assertThat(r).child(0).hasText("foo-bar");
+    assertThat(r).child(0).hasChildCount(1);
+    assertThat(r).child(0).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).child(0).hasText("baz");
+    assertThat(r).child(0).child(0).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameWithHyphenAndUnderscore() throws Exception {
+    Tree r = parse("foo_bar-baz:qux");
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasText("foo_bar-baz");
+    assertThat(r).hasChildCount(1);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("qux");
+    assertThat(r).child(0).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameWithNotAndHyphenAndUnderscore() throws Exception {
+    Tree r = parse("-foo_bar-baz:qux");
+    assertThat(r).hasType(NOT);
+    assertThat(r).hasText("NOT");
+    assertThat(r).hasChildCount(1);
+    assertThat(r).child(0).hasType(FIELD_NAME);
+    assertThat(r).child(0).hasText("foo_bar-baz");
+    assertThat(r).child(0).hasChildCount(1);
+    assertThat(r).child(0).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).child(0).hasText("qux");
+    assertThat(r).child(0).child(0).hasNoChildren();
+  }
+
+  @Test
+  public void fieldNameWithMultipleHyphensAndUnderscores() throws Exception {
+    Tree r = parse("_foo-bar_-baz:qux");
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasText("_foo-bar_-baz");
+    assertThat(r).hasChildCount(1);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("qux");
+    assertThat(r).child(0).hasNoChildren();
   }
 
   private static void assertParseFails(String query) {

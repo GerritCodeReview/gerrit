@@ -152,8 +152,10 @@ WS
   :  ( ' ' | '\r' | '\t' | '\n' ) { $channel=HIDDEN; }
   ;
 
+fragment LOWERCASE_AND_UNDERSCORE: ('a'..'z' | '_')+ ;
+
 FIELD_NAME
-  : ('a'..'z' | '_')+
+  : LOWERCASE_AND_UNDERSCORE ( '-' LOWERCASE_AND_UNDERSCORE )*
   ;
 
 EXACT_PHRASE

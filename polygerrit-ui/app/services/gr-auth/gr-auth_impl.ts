@@ -62,7 +62,7 @@ export class Auth implements AuthService, Finalizable {
 
   static CREDS_EXPIRED_MSG = 'Credentials expired.';
 
-  private authCheckPromise?: Promise<Response>;
+  private authCheckPromise?: Promise<boolean>;
 
   private _last_auth_check_time: number = Date.now();
 
@@ -100,12 +100,7 @@ export class Auth implements AuthService, Finalizable {
       Date.now() - this._last_auth_check_time > MAX_AUTH_CHECK_WAIT_TIME_MS
     ) {
       // Refetch after last check expired
-      this.authCheckPromise = fetch(`${this.baseUrl}/auth-check`);
-      this._last_auth_check_time = Date.now();
-    }
-
-    return this.authCheckPromise
-      .then(res => {
+      this.authCheckPromise = fetch(`${this.baseUrl}/auth-check`).then(res => {
         // Make a call that requires loading the body of the request. This makes it so that the browser
         // can close the request even though callers of this method might only ever read headers.
         // See https://stackoverflow.com/questions/45816743/how-to-solve-this-caution-request-is-not-finished-yet-in-chrome
@@ -131,6 +126,10 @@ export class Auth implements AuthService, Finalizable {
         this.authCheckPromise = undefined;
         return false;
       });
+      this._last_auth_check_time = Date.now();
+    }
+
+    return this.authCheckPromise;
   }
 
   clearCache() {

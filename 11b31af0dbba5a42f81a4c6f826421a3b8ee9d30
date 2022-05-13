@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42b32636_b2084881",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-13T11:24:35Z",
+      "side": 1,
+      "message": "No idea. :-) Removed.",
+      "parentUuid": "a2323c7b_e32e780f",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 139
+      },
+      "revId": "11b31af0dbba5a42f81a4c6f826421a3b8ee9d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b0b449a_978ad471",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-12T08:50:29Z",
       "side": 1,
       "message": "why is the name `Internal` here?\n`All layers, both from the outside and the default ones` is the comment above and the `outside` implies it is not `internal`?",
+      "range": {
+        "startLine": 136,
+        "startChar": 2,
+        "endLine": 136,
+        "endChar": 16
+      },
+      "revId": "11b31af0dbba5a42f81a4c6f826421a3b8ee9d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10ebebef_ce590b1f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-13T11:24:35Z",
+      "side": 1,
+      "message": "`internal` in the sense that it is not accessible from the outside. I have added comments to `layers` and `layersInternal` properties.",
+      "parentUuid": "7b0b449a_978ad471",
       "range": {
         "startLine": 136,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dce3267_615bab46",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-13T11:24:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a63023b_9e7766ef",
+      "range": {
+        "startLine": 172,
+        "startChar": 10,
+        "endLine": 172,
+        "endChar": 21
+      },
+      "revId": "11b31af0dbba5a42f81a4c6f826421a3b8ee9d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c41cb58_d62a8dc6",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-05-12T18:16:39Z",
       "side": 1,
       "message": "Nit: this.builder?.clear()",
+      "range": {
+        "startLine": 189,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 5
+      },
+      "revId": "11b31af0dbba5a42f81a4c6f826421a3b8ee9d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df47f3d4_e86b8d8e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-13T11:24:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c41cb58_d62a8dc6",
       "range": {
         "startLine": 189,
         "startChar": 4,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d1b888c_0d2ecbcd",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-13T11:24:35Z",
+      "side": 1,
+      "message": "It makes sense, yes. It was just non-trivial to get the typing right. :-)",
+      "parentUuid": "42339e0c_bafb6d4f",
+      "range": {
+        "startLine": 248,
+        "startChar": 10,
+        "endLine": 248,
+        "endChar": 37
+      },
+      "revId": "11b31af0dbba5a42f81a4c6f826421a3b8ee9d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2013b5c_c34fdd7c",
@@ -129,6 +249,30 @@
       "writtenOn": "2022-05-12T08:50:29Z",
       "side": 1,
       "message": "Could we have an `init` method in DiffBuilder?\n\nI don\u0027t like GrDiff setting 10 properties of DiffBuilder.",
+      "range": {
+        "startLine": 877,
+        "startChar": 4,
+        "endLine": 877,
+        "endChar": 25
+      },
+      "revId": "11b31af0dbba5a42f81a4c6f826421a3b8ee9d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dbe689e_dd42d804",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-13T11:24:35Z",
+      "side": 1,
+      "message": "Is an init method with 10 parameters better? But I agree that this is a code smell and that we should do something about it. I have added these 3 lines as a comment:\n\n```\n    // TODO: Setting tons of public properties like this is obviously a code\n    // smell. We are planning to introduce a diff model for managing all this\n    // data. Then diff builder will only need access to that model.\n```",
+      "parentUuid": "f2013b5c_c34fdd7c",
       "range": {
         "startLine": 877,
         "startChar": 4,
@@ -176,6 +320,30 @@
       "side": 1,
       "message": "😊",
       "parentUuid": "15c6a3f8_d402f996",
+      "range": {
+        "startLine": 511,
+        "startChar": 62,
+        "endLine": 511,
+        "endChar": 66
+      },
+      "revId": "11b31af0dbba5a42f81a4c6f826421a3b8ee9d30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d44013a5_612fe703",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-13T11:24:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ecb8c4a_29f7786c",
       "range": {
         "startLine": 511,
         "startChar": 62,

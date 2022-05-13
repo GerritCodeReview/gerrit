@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28056c02_7d717e50",
+        "filename": "java/com/google/gerrit/server/events/ProjectHeadUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-05-13T15:17:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a820b9b_528f881a",
+      "revId": "d2cabd82f74f7b90e325d1181df2cdebefc07371",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36a447dd_544355ca",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-05-13T13:50:26Z",
       "side": 1,
       "message": "unrelated to this change: strange that projectName is not already in the base class ProjectEvent. Currently every subtype of the ProjectEvent has to store it.",
+      "revId": "d2cabd82f74f7b90e325d1181df2cdebefc07371",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3023cdb0_d5e24444",
+        "filename": "java/com/google/gerrit/server/events/ProjectHeadUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-05-13T15:17:39Z",
+      "side": 1,
+      "message": "Agree, this should be addressed as a follow up",
+      "parentUuid": "36a447dd_544355ca",
       "revId": "d2cabd82f74f7b90e325d1181df2cdebefc07371",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -34,6 +34,24 @@
       "parentUuid": "9e3ca7db_0ff2721a",
       "revId": "c3c8b313e86edb75cd535c04c0dd2c03576c5a9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e98b1498_860e7ae7",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-05-13T09:18:20Z",
+      "side": 1,
+      "message": "it would be prudent to see this as an opportunity to improve things. 😊\ni see your intent to prevent corrupted refs from breaking the entire operation, but silent failure isn\u0027t the way to go, either.",
+      "parentUuid": "1c6a4d90_c8e91b8d",
+      "revId": "c3c8b313e86edb75cd535c04c0dd2c03576c5a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

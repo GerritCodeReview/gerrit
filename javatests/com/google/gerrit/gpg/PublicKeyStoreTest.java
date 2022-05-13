@@ -108,13 +108,8 @@ public class PublicKeyStoreTest {
 
     assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
 
-    long masterKeyId = key1.getKeyId();
-    long subKeyId = 0;
-    for (PGPPublicKey key : keyRing) {
-      if (masterKeyId != subKeyId) {
-        subKeyId = key.getKeyID();
-      }
-    }
+    long subKeyId =
+        keyRing.getPublicKey(Iterators.get(keyRing.getPublicKeys(), 1).getKeyID()).getKeyID();
 
     assertKeys(subKeyId, key1);
   }
@@ -229,12 +224,8 @@ public class PublicKeyStoreTest {
     assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
 
     long masterKeyId = key1.getKeyId();
-    long subKeyId = 0;
-    for (PGPPublicKey key : keyRing) {
-      if (masterKeyId != subKeyId) {
-        subKeyId = key.getKeyID();
-      }
-    }
+    long subKeyId =
+        keyRing.getPublicKey(Iterators.get(keyRing.getPublicKeys(), 1).getKeyID()).getKeyID();
 
     store.remove(key1.getPublicKey().getFingerprint());
     assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(newCommitBuilder()));

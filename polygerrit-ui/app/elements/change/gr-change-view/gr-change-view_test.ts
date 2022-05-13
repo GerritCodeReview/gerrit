@@ -784,7 +784,7 @@ suite('gr-change-view tests', () => {
 
     test(', should open diff preferences', () => {
       const stub = sinon.stub(
-        element.$.fileList.$.diffPreferencesDialog,
+        element.$.fileList.diffPreferencesDialog,
         'open'
       );
       element._loggedIn = false;

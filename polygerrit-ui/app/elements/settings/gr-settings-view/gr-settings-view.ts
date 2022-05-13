@@ -376,9 +376,7 @@ export class GrSettingsView extends LitElement {
                 @change=${this.handleToggleDark}
                 @click=${this.onTapDarkToggle}
               ></paper-toggle-button>
-              <div id="darkThemeToggleLabel">
-                Dark theme (the toggle reloads the page)
-              </div>
+              <div id="darkThemeToggleLabel">Dark theme</div>
             </div>
           </section>
           <h2
@@ -1161,6 +1159,7 @@ export class GrSettingsView extends LitElement {
 
   // private but used in test
   reloadPage() {
+    fireAlert(this, 'Reloading...');
     windowLocationReload();
   }
 

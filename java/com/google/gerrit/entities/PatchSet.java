@@ -67,7 +67,7 @@ public abstract class PatchSet {
   }
 
   @AutoValue
-  public abstract static class Id {
+  public abstract static class Id implements Comparable<Id> {
     /** Parse a PatchSet.Id out of a string representation. */
     public static Id parse(String str) {
       List<String> parts = Splitter.on(',').splitToList(str);
@@ -146,6 +146,11 @@ public abstract class PatchSet {
     @Override
     public final String toString() {
       return getCommaSeparatedChangeAndPatchSetId();
+    }
+
+    @Override
+    public int compareTo(Id other) {
+      return Ints.compare(get(), other.get());
     }
   }
 

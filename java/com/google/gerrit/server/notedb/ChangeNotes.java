@@ -412,8 +412,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   public ImmutableSortedMap<PatchSet.Id, PatchSet> getPatchSets() {
     if (patchSets == null) {
-      ImmutableSortedMap.Builder<PatchSet.Id, PatchSet> b =
-          ImmutableSortedMap.orderedBy(comparing(PatchSet.Id::get));
+      ImmutableSortedMap.Builder<PatchSet.Id, PatchSet> b = ImmutableSortedMap.naturalOrder();
       b.putAll(state.patchSets());
       patchSets = b.build();
     }

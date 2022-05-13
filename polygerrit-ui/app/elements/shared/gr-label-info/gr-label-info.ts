@@ -18,11 +18,9 @@ import '../../../styles/gr-font-styles';
 import '../../../styles/gr-voting-styles';
 import '../../../styles/shared-styles';
 import '../gr-vote-chip/gr-vote-chip';
-import '../gr-account-label/gr-account-label';
 import '../gr-account-chip/gr-account-chip';
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
-import '../gr-label/gr-label';
 import '../gr-tooltip-content/gr-tooltip-content';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {
@@ -30,9 +28,7 @@ import {
   LabelInfo,
   ApprovalInfo,
   AccountId,
-  isQuickLabelInfo,
   isDetailedLabelInfo,
-  LabelNameToInfoMap,
 } from '../../../types/common';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
@@ -40,10 +36,8 @@ import {GrButton} from '../gr-button/gr-button';
 import {
   canVote,
   getApprovalInfo,
-  getVotingRangeOrDefault,
   hasNeutralStatus,
   hasVoted,
-  showNewSubmitRequirements,
   valueString,
 } from '../../../utils/label-util';
 import {getAppContext} from '../../../services/app-context';
@@ -59,19 +53,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-label-info': GrLabelInfo;
   }
-}
-
-enum LabelClassName {
-  NEGATIVE = 'negative',
-  POSITIVE = 'positive',
-  MIN = 'min',
-  MAX = 'max',
-}
-
-interface FormattedLabel {
-  className?: LabelClassName;
-  account: ApprovalInfo | AccountInfo;
-  value: string;
 }
 
 @customElement('gr-label-info')
@@ -107,8 +88,6 @@ export class GrLabelInfo extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly flagsService = getAppContext().flagsService;
-
   // TODO(TS): not used, remove later
   _xhrPromise?: Promise<void>;
 
@@ -118,9 +97,6 @@ export class GrLabelInfo extends LitElement {
       fontStyles,
       votingStyles,
       css`
-        .placeholder {
-          color: var(--deemphasized-text-color);
-        }
         .hidden {
           display: none;
         }
@@ -131,33 +107,6 @@ export class GrLabelInfo extends LitElement {
           justify-content: center;
           margin-right: var(--spacing-s);
           padding: 1px;
-        }
-        .max {
-          background-color: var(--vote-color-approved);
-        }
-        .min {
-          background-color: var(--vote-color-rejected);
-        }
-        .positive {
-          background-color: var(--vote-color-recommended);
-          border-radius: 12px;
-          border: 1px solid var(--vote-outline-recommended);
-          color: var(--chip-color);
-        }
-        .negative {
-          background-color: var(--vote-color-disliked);
-          border-radius: 12px;
-          border: 1px solid var(--vote-outline-disliked);
-          color: var(--chip-color);
-        }
-        .hidden {
-          display: none;
-        }
-        td {
-          vertical-align: top;
-        }
-        tr {
-          min-height: var(--line-height-normal);
         }
         gr-tooltip-content {
           display: block;
@@ -173,16 +122,9 @@ export class GrLabelInfo extends LitElement {
         gr-button[disabled] iron-icon {
           color: var(--border-color);
         }
-        gr-account-label {
-          --account-max-length: 100px;
-          margin-right: var(--spacing-xs);
-        }
         iron-icon {
           height: calc(var(--line-height-normal) - 2px);
           width: calc(var(--line-height-normal) - 2px);
-        }
-        .labelValueContainer:not(:first-of-type) td {
-          padding-top: var(--spacing-s);
         }
         .reviewer-row {
           padding-top: var(--spacing-s);
@@ -208,14 +150,6 @@ export class GrLabelInfo extends LitElement {
   }
 
   override render() {
-    if (showNewSubmitRequirements(this.flagsService, this.change)) {
-      return this.renderNewSubmitRequirements();
-    } else {
-      return this.renderOldSubmitRequirements();
-    }
-  }
-
-  private renderNewSubmitRequirements() {
     const labelInfo = this.labelInfo;
     if (!labelInfo) return;
     const reviewers = (this.change?.reviewers['REVIEWER'] ?? [])
@@ -236,23 +170,6 @@ export class GrLabelInfo extends LitElement {
     return html`<div>
       ${reviewers.map(reviewer => this.renderReviewerVote(reviewer))}
     </div>`;
-  }
-
-  private renderOldSubmitRequirements() {
-    const labelInfo = this.labelInfo;
-    return html` <p
-        class="placeholder ${this.computeShowPlaceholder(
-          labelInfo,
-          this.change?.labels
-        )}"
-      >
-        No votes
-      </p>
-      <table>
-        ${this.mapLabelInfo(labelInfo, this.account, this.change?.labels).map(
-          mappedLabel => this.renderLabel(mappedLabel)
-        )}
-      </table>`;
   }
 
   renderReviewerVote(reviewer: AccountInfo) {
@@ -285,30 +202,6 @@ export class GrLabelInfo extends LitElement {
     </div>`;
   }
 
-  renderLabel(mappedLabel: FormattedLabel) {
-    const {labelInfo, change} = this;
-    return html` <tr class="labelValueContainer">
-      <td>
-        <gr-tooltip-content
-          has-tooltip
-          title=${this._computeValueTooltip(labelInfo, mappedLabel.value)}
-        >
-          <gr-label class="${mappedLabel.className} voteChip font-small">
-            ${mappedLabel.value}
-          </gr-label>
-        </gr-tooltip-content>
-      </td>
-      <td>
-        <gr-account-label
-          clickable
-          .account=${mappedLabel.account}
-          .change=${change}
-        ></gr-account-label>
-      </td>
-      <td>${this.renderRemoveVote(mappedLabel.account)}</td>
-    </tr>`;
-  }
-
   private renderVoteAbility(reviewer: AccountInfo) {
     if (this.labelInfo && isDetailedLabelInfo(this.labelInfo)) {
       const approvalInfo = getApprovalInfo(this.labelInfo, reviewer);
@@ -338,83 +231,6 @@ export class GrLabelInfo extends LitElement {
         <iron-icon icon="gr-icons:delete"></iron-icon>
       </gr-button>
     </gr-tooltip-content>`;
-  }
-
-  /**
-   * This method also listens on change.labels.*,
-   * to trigger computation when a label is removed from the change.
-   *
-   * The third parameter is just for *triggering* computation.
-   */
-  private mapLabelInfo(
-    labelInfo?: LabelInfo,
-    account?: AccountInfo,
-    _?: LabelNameToInfoMap
-  ): FormattedLabel[] {
-    const result: FormattedLabel[] = [];
-    if (!labelInfo) {
-      return result;
-    }
-    if (!isDetailedLabelInfo(labelInfo)) {
-      if (
-        isQuickLabelInfo(labelInfo) &&
-        (labelInfo.rejected || labelInfo.approved)
-      ) {
-        const ok = labelInfo.approved || !labelInfo.rejected;
-        return [
-          {
-            value: ok ? '👍️' : '👎️',
-            className: ok ? LabelClassName.POSITIVE : LabelClassName.NEGATIVE,
-            // executed only if approved or rejected is not undefined
-            account: ok ? labelInfo.approved! : labelInfo.rejected!,
-          },
-        ];
-      }
-      return result;
-    }
-
-    // Sort votes by positivity.
-    // TODO(TS): maybe mark value as required if always present
-    const votes = (labelInfo.all || []).sort(
-      (a, b) => (a.value || 0) - (b.value || 0)
-    );
-    const votingRange = getVotingRangeOrDefault(labelInfo);
-    for (const label of votes) {
-      if (
-        label.value &&
-        (!isQuickLabelInfo(labelInfo) ||
-          label.value !== labelInfo.default_value)
-      ) {
-        let labelClassName;
-        let labelValPrefix = '';
-        if (label.value > 0) {
-          labelValPrefix = '+';
-          if (label.value === votingRange.max) {
-            labelClassName = LabelClassName.MAX;
-          } else {
-            labelClassName = LabelClassName.POSITIVE;
-          }
-        } else if (label.value < 0) {
-          if (label.value === votingRange.min) {
-            labelClassName = LabelClassName.MIN;
-          } else {
-            labelClassName = LabelClassName.NEGATIVE;
-          }
-        }
-        const formattedLabel: FormattedLabel = {
-          value: `${labelValPrefix}${label.value}`,
-          className: labelClassName,
-          account: label,
-        };
-        if (label._account_id === account?._account_id) {
-          // Put self-votes at the top.
-          result.unshift(formattedLabel);
-        } else {
-          result.push(formattedLabel);
-        }
-      }
-    }
-    return result;
   }
 
   /**
@@ -487,40 +303,5 @@ export class GrLabelInfo extends LitElement {
       return '';
     }
     return labelInfo.values[score];
-  }
-
-  /**
-   * This method also listens change.labels.* in
-   * order to trigger computation when a label is removed from the change.
-   *
-   * The second parameter is just for *triggering* computation.
-   */
-  private computeShowPlaceholder(
-    labelInfo?: LabelInfo,
-    _?: LabelNameToInfoMap
-  ) {
-    if (!labelInfo) {
-      return '';
-    }
-    if (
-      !isDetailedLabelInfo(labelInfo) &&
-      isQuickLabelInfo(labelInfo) &&
-      (labelInfo.rejected || labelInfo.approved)
-    ) {
-      return 'hidden';
-    }
-
-    if (isDetailedLabelInfo(labelInfo) && labelInfo.all) {
-      for (const label of labelInfo.all) {
-        if (
-          label.value &&
-          (!isQuickLabelInfo(labelInfo) ||
-            label.value !== labelInfo.default_value)
-        ) {
-          return 'hidden';
-        }
-      }
-    }
-    return '';
   }
 }

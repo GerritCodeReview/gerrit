@@ -24,10 +24,8 @@ import {
   LabelNameToValueMap,
 } from '../../../types/common';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
-import {getAppContext} from '../../../services/app-context';
 import {
   getTriggerVotes,
-  showNewSubmitRequirements,
   computeLabels,
   Label,
   computeOrderedLabelValues,
@@ -48,8 +46,6 @@ export class GrLabelScores extends LitElement {
   @property({type: Object})
   account?: AccountInfo;
 
-  private readonly flagsService = getAppContext().flagsService;
-
   static override get styles() {
     return [
       fontStyles,
@@ -57,8 +53,6 @@ export class GrLabelScores extends LitElement {
         .scoresTable {
           display: table;
           width: 100%;
-        }
-        .scoresTable.newSubmitRequirements {
           table-layout: fixed;
         }
         .mergedMessage,
@@ -91,19 +85,6 @@ export class GrLabelScores extends LitElement {
   }
 
   override render() {
-    if (showNewSubmitRequirements(this.flagsService, this.change)) {
-      return this.renderNewSubmitRequirements();
-    } else {
-      return this.renderOldSubmitRequirements();
-    }
-  }
-
-  private renderOldSubmitRequirements() {
-    const labels = computeLabels(this.account, this.change);
-    return html`${this.renderLabels(labels)}${this.renderErrorMessages()}`;
-  }
-
-  private renderNewSubmitRequirements() {
     return html`${this.renderSubmitReqsLabels()}${this.renderTriggerVotes()}
     ${this.renderErrorMessages()}`;
   }
@@ -145,13 +126,7 @@ export class GrLabelScores extends LitElement {
   }
 
   private renderLabels(labels: Label[]) {
-    const newSubReqs = showNewSubmitRequirements(
-      this.flagsService,
-      this.change
-    );
-    return html`<div
-      class="scoresTable ${newSubReqs ? 'newSubmitRequirements' : ''}"
-    >
+    return html`<div class="scoresTable">
       ${labels
         .filter(
           label =>

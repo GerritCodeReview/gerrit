@@ -20,20 +20,18 @@ import './gr-label-info';
 import {
   isHidden,
   mockPromise,
-  queryAll,
   queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {GrLabelInfo} from './gr-label-info';
 import {GrButton} from '../gr-button/gr-button';
-import {GrLabel} from '../gr-label/gr-label';
 import {
   createAccountWithIdNameAndEmail,
+  createDetailedLabelInfo,
   createParsedChange,
 } from '../../../test/test-data-generators';
-import {LabelInfo} from '../../../types/common';
-import {GrAccountLabel} from '../gr-account-label/gr-account-label';
+import {ApprovalInfo, LabelInfo} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-label-info');
 
@@ -41,12 +39,51 @@ suite('gr-label-info tests', () => {
   let element: GrLabelInfo;
   const account = createAccountWithIdNameAndEmail(5);
 
-  setup(() => {
+  setup(async () => {
     element = basicFixture.instantiate();
 
     // Needed to trigger computed bindings.
     element.account = {};
-    element.change = {...createParsedChange(), labels: {}};
+    element.change = {
+      ...createParsedChange(),
+      labels: {},
+      reviewers: {
+        REVIEWER: [account],
+        CC: [],
+      },
+    };
+    const approval: ApprovalInfo = {
+      value: 2,
+      _account_id: account._account_id,
+    };
+    element.labelInfo = {
+      ...createDetailedLabelInfo(),
+      all: [approval],
+    };
+    await element.updateComplete;
+  });
+
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `<div>
+      <div class="reviewer-row">
+        <gr-account-chip>
+          <gr-vote-chip circle-shape="" slot="vote-chip"> </gr-vote-chip>
+        </gr-account-chip>
+        <gr-tooltip-content has-tooltip="" title="Remove vote">
+          <gr-button
+            aria-disabled="false"
+            aria-label="Remove vote"
+            class="deleteBtn hidden"
+            data-account-id="5"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            <iron-icon icon="gr-icons:delete"> </iron-icon>
+          </gr-button>
+        </gr-tooltip-content>
+      </div>
+    </div>`);
   });
 
   suite('remove reviewer votes', () => {
@@ -62,6 +99,10 @@ suite('gr-label-info tests', () => {
       element.change = {
         ...createParsedChange(),
         labels: {'Code-Review': label},
+        reviewers: {
+          REVIEWER: [account],
+          CC: [],
+        },
       };
       element.labelInfo = label;
       element.label = 'Code-Review';
@@ -108,101 +149,6 @@ suite('gr-label-info tests', () => {
     });
   });
 
-  suite('label color and order', () => {
-    test('valueless label rejected', async () => {
-      element.labelInfo = {rejected: {name: 'someone'}};
-      await element.updateComplete;
-      const labels = queryAll<GrLabel>(element, 'gr-label');
-      assert.isTrue(labels[0].classList.contains('negative'));
-    });
-
-    test('valueless label approved', async () => {
-      element.labelInfo = {approved: {name: 'someone'}};
-      await element.updateComplete;
-      const labels = queryAll<GrLabel>(element, 'gr-label');
-      assert.isTrue(labels[0].classList.contains('positive'));
-    });
-
-    test('-2 to +2', async () => {
-      element.labelInfo = {
-        all: [
-          {value: 2, name: 'user 2'},
-          {value: 1, name: 'user 1'},
-          {value: -1, name: 'user 3'},
-          {value: -2, name: 'user 4'},
-        ],
-        values: {
-          '-2': 'Awful',
-          '-1': "Don't submit as-is",
-          ' 0': 'No score',
-          '+1': 'Looks good to me',
-          '+2': 'Ready to submit',
-        },
-      };
-      await element.updateComplete;
-      const labels = queryAll<GrLabel>(element, 'gr-label');
-      assert.isTrue(labels[0].classList.contains('max'));
-      assert.isTrue(labels[1].classList.contains('positive'));
-      assert.isTrue(labels[2].classList.contains('negative'));
-      assert.isTrue(labels[3].classList.contains('min'));
-    });
-
-    test('-1 to +1', async () => {
-      element.labelInfo = {
-        all: [
-          {value: 1, name: 'user 1'},
-          {value: -1, name: 'user 2'},
-        ],
-        values: {
-          '-1': "Don't submit as-is",
-          ' 0': 'No score',
-          '+1': 'Looks good to me',
-        },
-      };
-      await element.updateComplete;
-      const labels = queryAll<GrLabel>(element, 'gr-label');
-      assert.isTrue(labels[0].classList.contains('max'));
-      assert.isTrue(labels[1].classList.contains('min'));
-    });
-
-    test('0 to +2', async () => {
-      element.labelInfo = {
-        all: [
-          {value: 1, name: 'user 2'},
-          {value: 2, name: 'user '},
-        ],
-        values: {
-          ' 0': "Don't submit as-is",
-          '+1': 'No score',
-          '+2': 'Looks good to me',
-        },
-      };
-      await element.updateComplete;
-      const labels = queryAll<GrLabel>(element, 'gr-label');
-      assert.isTrue(labels[0].classList.contains('max'));
-      assert.isTrue(labels[1].classList.contains('positive'));
-    });
-
-    test('self votes at top', async () => {
-      const otherAccount = createAccountWithIdNameAndEmail(8);
-      element.account = account;
-      element.labelInfo = {
-        all: [
-          {...otherAccount, value: 1},
-          {...account, value: -1},
-        ],
-        values: {
-          '-1': "Don't submit as-is",
-          ' 0': 'No score',
-          '+1': 'Looks good to me',
-        },
-      };
-      await element.updateComplete;
-      const chips = queryAll<GrAccountLabel>(element, 'gr-account-label');
-      assert.equal(chips[0].account!._account_id, element.account._account_id);
-    });
-  });
-
   test('_computeValueTooltip', () => {
     // Existing label.
     let labelInfo: LabelInfo = {values: {0: 'Baz'}};
@@ -217,50 +163,5 @@ suite('gr-label-info tests', () => {
     labelInfo = {values: {}};
     score = '0';
     assert.equal(element._computeValueTooltip(labelInfo, score), '');
-  });
-
-  test('placeholder', async () => {
-    const values = {
-      '0': 'No score',
-      '+1': 'good',
-      '+2': 'excellent',
-      '-1': 'bad',
-      '-2': 'terrible',
-    };
-    element.labelInfo = {};
-    await element.updateComplete;
-    assert.isFalse(
-      isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
-    );
-    element.labelInfo = {all: [], values};
-    await element.updateComplete;
-    assert.isFalse(
-      isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
-    );
-    element.labelInfo = {all: [{value: 1}], values};
-    await element.updateComplete;
-    assert.isTrue(
-      isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
-    );
-    element.labelInfo = {rejected: account};
-    await element.updateComplete;
-    assert.isTrue(
-      isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
-    );
-    element.labelInfo = {rejected: account, all: [{value: 1}], values};
-    await element.updateComplete;
-    assert.isTrue(
-      isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
-    );
-    element.labelInfo = {approved: account};
-    await element.updateComplete;
-    assert.isTrue(
-      isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
-    );
-    element.labelInfo = {approved: account, all: [{value: 1}], values};
-    await element.updateComplete;
-    assert.isTrue(
-      isHidden(queryAndAssert<HTMLParagraphElement>(element, '.placeholder'))
-    );
   });
 });

@@ -46,6 +46,30 @@
       },
       "revId": "df5463e2c3e1658d171a3beb3e1c11d4199427f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55d10bc8_02e121b6",
+        "filename": "antlr3/com/google/gerrit/index/query/Query.g",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-13T10:45:24Z",
+      "side": 1,
+      "message": "Ow with FIELD_PART extraction:\n\n```\nFIELD_PART\n : (\u0027a\u0027..\u0027z\u0027 | \u0027_\u0027)\n\nFIELD\n : FIELD_PART\n | FIELD_PART (\u0027a\u0027..\u0027z\u0027 | \u0027_\u0027 | \u0027-\u0027)+ FIELD_PART\n```",
+      "parentUuid": "e272a405_e11ae435",
+      "range": {
+        "startLine": 156,
+        "startChar": 22,
+        "endLine": 156,
+        "endChar": 30
+      },
+      "revId": "df5463e2c3e1658d171a3beb3e1c11d4199427f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

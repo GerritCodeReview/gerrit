@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "196e2343_c1802790",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-13T10:45:24Z",
+      "side": 1,
+      "message": "Why \u0027_\u0027 is not solving it for you as field parts separator? Less is more. Not to mention the mixing between the two: \"foo_bar-baz_qux\" vs. foo_bar -baz_qux or foo-bar_baz?\n\nhyphen is already used as not operator:\n\n```\nconditionNot\n  : \u0027-\u0027 conditionBase -\u003e ^(NOT conditionBase)\n[...]\n```\n\nIn addition, it is used in label-names:\n\n  label:Code-Review-1 -label:Verified-1\n  \nAs you see, 4 hyphens already used above.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "59294c460fd8c3dd49222ff9ebbf014e6265a07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e43ee868_61c99d97",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

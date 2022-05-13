@@ -770,6 +770,13 @@ export class GrDiffHost extends DIPolymerElement {
     }
   }
 
+  async waitForPrefetch() {
+    if (this._fetchDiffPromise !== null) {
+      await this._fetchDiffPromise;
+      this._fetchDiffPromise = null;
+    }
+  }
+
   _getDiff(): Promise<DiffInfo> {
     if (this._fetchDiffPromise !== null) {
       const fetchDiffPromise = this._fetchDiffPromise;

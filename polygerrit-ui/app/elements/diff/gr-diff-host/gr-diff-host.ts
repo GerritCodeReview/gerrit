@@ -315,13 +315,6 @@ export class GrDiffHost extends DIPolymerElement {
     );
   }
 
-  override ready() {
-    super.ready();
-    if (this._canReload()) {
-      this.reload();
-    }
-  }
-
   override connectedCallback() {
     super.connectedCallback();
     this.subscriptions.push(
@@ -390,7 +383,6 @@ export class GrDiffHost extends DIPolymerElement {
       // assets in parallel.
       const layerPromise = this.initLayers();
       const diff = await this._getDiff();
-      this.subscribeToChecks();
       this._loadedWhitespaceLevel = whitespaceLevel;
       this._reportDiff(diff);
 
@@ -408,8 +400,10 @@ export class GrDiffHost extends DIPolymerElement {
       this.reporting.timeEnd(Timing.DIFF_LOAD, this.timingDetails());
 
       this.reporting.time(Timing.DIFF_CONTENT);
+
       const syntaxLayerPromise = this.syntaxLayer.process(diff);
       await waitForEventOnce(this, 'render');
+      this.subscribeToChecks();
       this.reporting.timeEnd(Timing.DIFF_CONTENT, this.timingDetails());
 
       if (shouldReportMetric) {
@@ -750,12 +744,6 @@ export class GrDiffHost extends DIPolymerElement {
 
   _getLoggedIn() {
     return this.restApiService.getLoggedIn();
-  }
-
-  _canReload() {
-    return (
-      !!this.changeNum && !!this.patchRange && !!this.path && !this.noAutoRender
-    );
   }
 
   // TODO(milutin): Use rest-api with fetchCacheURL instead of this.
@@ -1162,7 +1150,9 @@ export class GrDiffHost extends DIPolymerElement {
     if (prefsChangeRecord === undefined) return;
     if (prefsChangeRecord.path !== 'prefs.syntax_highlighting') return;
 
-    if (!noRenderOnPrefsChange) this.reload();
+    if (!noRenderOnPrefsChange) {
+      this.reload();
+    }
   }
 
   _computeParentIndex(

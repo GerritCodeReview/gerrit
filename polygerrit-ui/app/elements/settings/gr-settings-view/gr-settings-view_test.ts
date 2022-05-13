@@ -177,7 +177,7 @@ suite('gr-settings-view tests', () => {
               >
               </paper-toggle-button>
               <div id="darkThemeToggleLabel">
-                Dark theme (the toggle reloads the page)
+                Dark theme
               </div>
             </div>
           </section>

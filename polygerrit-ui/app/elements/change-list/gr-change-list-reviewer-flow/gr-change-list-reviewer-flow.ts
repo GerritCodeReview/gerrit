@@ -11,7 +11,6 @@ import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {
   AccountDetailInfo,
-  AccountInfo,
   ChangeInfo,
   NumericChangeId,
   ServerInfo,
@@ -31,10 +30,14 @@ import {getOverallStatus} from '../../../utils/bulk-flow-util';
 import {allSettled} from '../../../utils/async-util';
 import {listForSentence} from '../../../utils/string-util';
 import {getDisplayName} from '../../../utils/display-name-util';
-import {AccountInputDetail} from '../../shared/gr-account-list/gr-account-list';
+import {
+  AccountInput,
+  AccountInputDetail,
+} from '../../shared/gr-account-list/gr-account-list';
 import '@polymer/iron-icon/iron-icon';
 import {getReplyByReason} from '../../../utils/attention-set-util';
 import {intersection} from '../../../utils/common-util';
+import {accountOrGroupKey} from '../../../utils/account-util';
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
@@ -43,7 +46,7 @@ export class GrChangeListReviewerFlow extends LitElement {
   // contents are given to gr-account-lists to mutate
   @state() private updatedAccountsByReviewerState: Map<
     ReviewerState,
-    AccountInfo[]
+    AccountInput[]
   > = new Map([
     [ReviewerState.REVIEWER, []],
     [ReviewerState.CC, []],
@@ -254,12 +257,11 @@ export class GrChangeListReviewerFlow extends LitElement {
       .filter(account => account?._account_id !== undefined);
     return this.updatedAccountsByReviewerState
       .get(updatedReviewerState)!
-      .filter(
-        account =>
-          account._account_id !== undefined &&
-          accountsInCurrentState.some(
-            otherAccount => otherAccount._account_id === account._account_id
-          )
+      .filter(account =>
+        accountsInCurrentState.some(
+          otherAccount =>
+            accountOrGroupKey(otherAccount) === accountOrGroupKey(account)
+        )
       )
       .map(reviewer => getDisplayName(this.serverConfig, reviewer));
   }
@@ -302,7 +304,6 @@ export class GrChangeListReviewerFlow extends LitElement {
     reviewerState: ReviewerState,
     event: CustomEvent<AccountInputDetail>
   ) {
-    const account = event.detail.account as AccountInfo;
     const oppositeReviewerState =
       reviewerState === ReviewerState.CC
         ? ReviewerState.REVIEWER
@@ -311,7 +312,7 @@ export class GrChangeListReviewerFlow extends LitElement {
       oppositeReviewerState
     )!;
     const oppositeUpdatedAccountIndex = oppositeUpdatedAccounts.findIndex(
-      acc => acc._account_id === account._account_id
+      acc => accountOrGroupKey(acc) === accountOrGroupKey(event.detail.account)
     );
     if (oppositeUpdatedAccountIndex >= 0) {
       oppositeUpdatedAccounts.splice(oppositeUpdatedAccountIndex, 1);

@@ -5,7 +5,7 @@
  */
 import {fixture, html} from '@open-wc/testing-helpers';
 import {SinonStubbedMember} from 'sinon';
-import {AccountInfo, ReviewerState} from '../../../api/rest-api';
+import {AccountInfo, GroupInfo, ReviewerState} from '../../../api/rest-api';
 import {
   BulkActionsModel,
   bulkActionsModelToken,
@@ -17,6 +17,7 @@ import '../../../test/common-test-setup-karma';
 import {
   createAccountWithIdNameAndEmail,
   createChange,
+  createGroupInfo,
 } from '../../../test/test-data-generators';
 import {
   MockPromise,
@@ -43,6 +44,7 @@ const accounts: AccountInfo[] = [
   createAccountWithIdNameAndEmail(4),
   createAccountWithIdNameAndEmail(5),
 ];
+const groups: GroupInfo[] = [createGroupInfo('groupId')];
 const changes: ChangeInfo[] = [
   {
     ...createChange(),
@@ -225,7 +227,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
         dialog,
         'gr-account-list#cc-list'
       );
-      reviewerList.accounts.push(accounts[2]);
+      reviewerList.accounts.push(accounts[2], groups[0]);
       ccList.accounts.push(accounts[5]);
       await flush();
       dialog.confirmButton!.click();
@@ -243,6 +245,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
         {
           reviewers: [
             {reviewer: accounts[2]._account_id, state: ReviewerState.REVIEWER},
+            {reviewer: groups[0].id, state: ReviewerState.REVIEWER},
             {reviewer: accounts[5]._account_id, state: ReviewerState.CC},
           ],
           ignore_automatic_attention_set_rules: true,
@@ -251,6 +254,10 @@ suite('gr-change-list-reviewer-flow tests', () => {
             {
               reason: '<GERRIT_ACCOUNT_1> replied on the change',
               user: accounts[2]._account_id,
+            },
+            {
+              reason: '<GERRIT_ACCOUNT_1> replied on the change',
+              user: groups[0].id,
             },
           ],
         },
@@ -261,6 +268,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
         {
           reviewers: [
             {reviewer: accounts[2]._account_id, state: ReviewerState.REVIEWER},
+            {reviewer: groups[0].id, state: ReviewerState.REVIEWER},
             {reviewer: accounts[5]._account_id, state: ReviewerState.CC},
           ],
           ignore_automatic_attention_set_rules: true,
@@ -269,6 +277,10 @@ suite('gr-change-list-reviewer-flow tests', () => {
             {
               reason: '<GERRIT_ACCOUNT_1> replied on the change',
               user: accounts[2]._account_id,
+            },
+            {
+              reason: '<GERRIT_ACCOUNT_1> replied on the change',
+              user: groups[0].id,
             },
           ],
         },

@@ -35,7 +35,7 @@ import {getDisplayName} from './display-name-util';
 export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
 
 export function accountKey(account: AccountInfo): AccountId | EmailAddress {
-  if (account._account_id) return account._account_id;
+  if (account._account_id !== undefined) return account._account_id;
   if (account.email) return account.email;
   throw new Error('Account has neither _account_id nor email.');
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10bb3495_57fb52d2",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-13T13:45:41Z",
+      "side": 1,
+      "message": "boolean methods should be named with isXXX or hasXXX so that the return value (true/false) is assumed from the name. Name it as:\n\n  private boolean isGroupVisible()",
+      "range": {
+        "startLine": 551,
+        "startChar": 18,
+        "endLine": 551,
+        "endChar": 38
+      },
+      "revId": "596bfa5cba0f8aef86d9ff22a0ef80aa350ee3ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

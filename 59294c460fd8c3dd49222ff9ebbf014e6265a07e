@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de9e90bb_8cf1530b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-13T20:48:41Z",
+      "side": 1,
+      "message": "\u003e Why \u0027_\u0027 is not solving it for you as field parts separator? Less is more. Not to mention the mixing between the two: \"foo_bar-baz_qux\" vs. foo_bar -baz_qux or foo-bar_baz?\nWe have plugins with \u0027-\u0027 in their names (so does gerrit-review) and we think this change supports our usecase and will be helpful for others having plugins named like we do.\n\u003e hyphen is already used as not operator:\n\u003e \n\u003e ```\n\u003e conditionNot\n\u003e   : \u0027-\u0027 conditionBase -\u003e ^(NOT conditionBase)\n\u003e [...]\n\u003e ```\n\u003e \n\u003e In addition, it is used in label-names:\n\u003e \n\u003e   label:Code-Review-1 -label:Verified-1\n\u003e   \n\u003e As you see, 4 hyphens already used above.",
+      "parentUuid": "196e2343_c1802790",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "59294c460fd8c3dd49222ff9ebbf014e6265a07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e43ee868_61c99d97",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

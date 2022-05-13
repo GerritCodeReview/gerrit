@@ -17,10 +17,8 @@
 
 import '../../../test/common-test-setup-karma';
 import './gr-messages-list';
-import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api';
 import {CombinedMessage, GrMessagesList, TEST_ONLY} from './gr-messages-list';
 import {MessageTag} from '../../../constants/constants';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
 import {
   query,
   queryAll,
@@ -42,17 +40,8 @@ import {
 } from '../../../types/common';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {assertIsDefined} from '../../../utils/common-util';
-
-createCommentApiMockWithTemplateElement(
-  'gr-messages-list-comment-mock-api',
-  html` <gr-messages-list id="messagesList"></gr-messages-list> `
-);
-
-const basicFixture = fixtureFromTemplate(html`
-  <gr-messages-list-comment-mock-api>
-    <gr-messages-list></gr-messages-list>
-  </gr-messages-list-comment-mock-api>
-`);
+import {html} from 'lit';
+import {fixture} from '@open-wc/testing-helpers';
 
 const author = {
   _account_id: 42 as AccountId,
@@ -98,8 +87,6 @@ function generateRandomMessages(count: number) {
 suite('gr-messages-list tests', () => {
   let element: GrMessagesList;
   let messages: ChangeMessageInfo[];
-
-  let commentApiWrapper: any;
 
   const getMessages = function () {
     return queryAll<GrMessage>(element, 'gr-message');
@@ -156,16 +143,11 @@ suite('gr-messages-list tests', () => {
       stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
 
       messages = generateRandomMessages(3);
-      // Element must be wrapped in an element with direct access to the
-      // comment API.
-      commentApiWrapper = basicFixture.instantiate();
-      element = queryAndAssert<GrMessagesList>(
-        commentApiWrapper,
-        '#messagesList'
-      );
+      element = await fixture<GrMessagesList>(
+        html`<gr-messages-list></gr-messages-list>`);
       await element.getCommentsModel().reloadComments(0 as NumericChangeId);
       element.messages = messages;
-      await flush();
+      await element.updateComplete;
     });
 
     test('expand/collapse all', async () => {
@@ -176,15 +158,18 @@ suite('gr-messages-list tests', () => {
         await message.updateComplete;
       }
       MockInteractions.tap(allMessageEls[1]);
+      await element.updateComplete;
       assert.isTrue(allMessageEls[1].message?.expanded);
 
       MockInteractions.tap(queryAndAssert(element, '#collapse-messages'));
+      await element.updateComplete;
       allMessageEls = getMessages();
       for (const message of allMessageEls) {
         assert.isTrue(message.message?.expanded);
       }
 
       MockInteractions.tap(queryAndAssert(element, '#collapse-messages'));
+      await element.updateComplete;
       allMessageEls = getMessages();
       for (const message of allMessageEls) {
         assert.isFalse(message.message?.expanded);
@@ -230,7 +215,7 @@ suite('gr-messages-list tests', () => {
       }
 
       const scrollToStub = sinon.stub(window, 'scrollTo');
-      const highlightStub = sinon.stub(element, '_highlightEl');
+      const highlightStub = sinon.stub(element, 'highlightEl');
 
       await element.scrollToMessage('invalid');
 
@@ -255,7 +240,7 @@ suite('gr-messages-list tests', () => {
 
     test('scroll to message offscreen', async () => {
       const scrollToStub = sinon.stub(window, 'scrollTo');
-      const highlightStub = sinon.stub(element, '_highlightEl');
+      const highlightStub = sinon.stub(element, 'highlightEl');
       element.messages = generateRandomMessages(25);
       await element.updateComplete;
       assert.isFalse(scrollToStub.called);
@@ -271,7 +256,7 @@ suite('gr-messages-list tests', () => {
       );
     });
 
-    test('associating messages with comments', () => {
+    test('associating messages with comments', async () => {
       // Have to type as any otherwise fails with
       // Argument of type 'ChangeMessageInfo[]' is not assignable to
       // parameter of type 'ConcatArray<never>'.
@@ -295,14 +280,14 @@ suite('gr-messages-list tests', () => {
         } as CombinedMessage
       );
       element.messages = messages;
-      flush();
+      await element.updateComplete;
       const messageElements = getMessages();
       assert.equal(messageElements.length, messages.length);
       assert.deepEqual(messageElements[1].message, messages[1]);
       assert.deepEqual(messageElements[2].message, messages[2]);
     });
 
-    test('threads', () => {
+    test('threads', async () => {
       const messages = [
         {
           _index: 5,
@@ -314,7 +299,7 @@ suite('gr-messages-list tests', () => {
         },
       ];
       element.messages = messages;
-      flush();
+      await element.updateComplete;
       const messageElements = getMessages();
       // threads
       assert.equal(messageElements[0].message!.commentThreads.length, 3);
@@ -468,7 +453,7 @@ suite('gr-messages-list tests', () => {
       assert.isFalse(TEST_ONLY.computeIsImportant(m3, [m1, m2, m3]));
     });
 
-    test('isImportant is evaluated after tag update', () => {
+    test('isImportant is evaluated after tag update', async () => {
       const m1 = randomMessage({
         ...randomMessage(),
         tag: MessageTag.TAG_NEW_PATCHSET as ReviewInputTag,
@@ -480,12 +465,12 @@ suite('gr-messages-list tests', () => {
         _revision_number: 2 as PatchSetNum,
       });
       element.messages = [m1, m2];
-      flush();
+      await element.updateComplete;
       assert.isFalse((m1 as CombinedMessage).isImportant);
       assert.isTrue((m2 as CombinedMessage).isImportant);
     });
 
-    test('messages without author do not throw', () => {
+    test('messages without author do not throw', async () => {
       const messages = [
         {
           _index: 5,
@@ -496,7 +481,7 @@ suite('gr-messages-list tests', () => {
         },
       ];
       element.messages = messages;
-      flush();
+      await element.updateComplete;
       const messageEls = getMessages();
       assert.equal(messageEls.length, 1);
       assert.equal(messageEls[0].message!.message, messages[0].message);
@@ -507,9 +492,7 @@ suite('gr-messages-list tests', () => {
     let element: GrMessagesList;
     let messages: ChangeMessageInfo[];
 
-    let commentApiWrapper: any;
-
-    setup(() => {
+    setup(async () => {
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getDiffComments').returns(Promise.resolve({}));
       stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
@@ -529,15 +512,10 @@ suite('gr-messages-list tests', () => {
         }),
       ];
 
-      // Element must be wrapped in an element with direct access to the
-      // comment API.
-      commentApiWrapper = basicFixture.instantiate();
-      element = queryAndAssert<GrMessagesList>(
-        commentApiWrapper,
-        '#messagesList'
-      );
+      element = await fixture<GrMessagesList>(
+        html`<gr-messages-list></gr-messages-list>`);
       element.messages = messages;
-      flush();
+      await element.updateComplete;
     });
 
     test('hide autogenerated button is not hidden', () => {
@@ -550,59 +528,53 @@ suite('gr-messages-list tests', () => {
       assert.equal(displayedMsgs.length, 2);
     });
 
-    test('unimportant messages hidden after toggle', () => {
-      element._showAllActivity = true;
+    test('unimportant messages hidden after toggle', async () => {
+      element.showAllActivity = true;
+      await element.updateComplete;
       const toggle = queryAndAssert(element, '.showAllActivityToggle');
       assert.isOk(toggle);
       MockInteractions.tap(toggle);
-      flush();
+      await element.updateComplete;
       const displayedMsgs = queryAll<GrMessage>(element, 'gr-message');
       assert.equal(displayedMsgs.length, 2);
     });
 
-    test('unimportant messages shown after toggle', () => {
-      element._showAllActivity = false;
+    test('unimportant messages shown after toggle', async () => {
+      element.showAllActivity = false;
+      await element.updateComplete;
       const toggle = queryAndAssert(element, '.showAllActivityToggle');
       assert.isOk(toggle);
       MockInteractions.tap(toggle);
-      flush();
+      await element.updateComplete;
       const displayedMsgs = queryAll<GrMessage>(element, 'gr-message');
       assert.equal(displayedMsgs.length, 3);
     });
 
     test('_computeLabelExtremes', () => {
-      const computeSpy = sinon.spy(element, '_computeLabelExtremes');
-
       // Have to type as any to be able to use null.
       element.labels = null as any;
-      assert.isTrue(computeSpy.calledOnce);
-      assert.deepEqual(computeSpy.lastCall.returnValue, {});
+      assert.deepEqual(element.computeLabelExtremes(), {});
 
       element.labels = {};
-      assert.isTrue(computeSpy.calledTwice);
-      assert.deepEqual(computeSpy.lastCall.returnValue, {});
+      assert.deepEqual(element.computeLabelExtremes(), {});
 
       element.labels = {'my-label': {}};
-      assert.isTrue(computeSpy.calledThrice);
-      assert.deepEqual(computeSpy.lastCall.returnValue, {});
+      assert.deepEqual(element.computeLabelExtremes(), {});
 
       element.labels = {'my-label': {values: {}}};
-      assert.equal(computeSpy.callCount, 4);
-      assert.deepEqual(computeSpy.lastCall.returnValue, {});
+      assert.deepEqual(element.computeLabelExtremes(), {});
 
       element.labels = {
         'my-label': {values: {'-12': {}}},
       } as LabelNameToInfoMap;
-      assert.equal(computeSpy.callCount, 5);
-      assert.deepEqual(computeSpy.lastCall.returnValue, {
+      assert.deepEqual(element.computeLabelExtremes(), {
         'my-label': {min: -12, max: -12},
       });
 
       element.labels = {
         'my-label': {values: {'-2': {}, '-1': {}, '0': {}, '+1': {}, '+2': {}}},
       } as LabelNameToInfoMap;
-      assert.equal(computeSpy.callCount, 6);
-      assert.deepEqual(computeSpy.lastCall.returnValue, {
+      assert.deepEqual(element.computeLabelExtremes(), {
         'my-label': {min: -2, max: 2},
       });
 
@@ -610,8 +582,7 @@ suite('gr-messages-list tests', () => {
         'my-label': {values: {'-12': {}}},
         'other-label': {values: {'-1': {}, ' 0': {}, '+1': {}}},
       } as LabelNameToInfoMap;
-      assert.equal(computeSpy.callCount, 7);
-      assert.deepEqual(computeSpy.lastCall.returnValue, {
+      assert.deepEqual(element.computeLabelExtremes(), {
         'my-label': {min: -12, max: -12},
         'other-label': {min: -1, max: 1},
       });

@@ -387,7 +387,6 @@ export class GrDiffHost extends DIPolymerElement {
       // assets in parallel.
       const layerPromise = this.initLayers();
       const diff = await this._getDiff();
-      this.subscribeToChecks();
       this._loadedWhitespaceLevel = whitespaceLevel;
       this._reportDiff(diff);
 
@@ -407,6 +406,7 @@ export class GrDiffHost extends DIPolymerElement {
       this.reporting.time(Timing.DIFF_CONTENT);
       const syntaxLayerPromise = this.syntaxLayer.process(diff);
       await waitForEventOnce(this, 'render');
+      this.subscribeToChecks();
       this.reporting.timeEnd(Timing.DIFF_CONTENT, this.timingDetails());
 
       if (shouldReportMetric) {

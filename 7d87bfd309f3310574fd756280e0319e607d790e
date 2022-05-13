@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c42572a2_d6ddc21f",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-13T16:03:28Z",
+      "side": 1,
+      "message": "Don\u0027t import elements from models, that\u0027s the wrong direction of dependency. I suggest you move AccountInput to a more common place.",
+      "revId": "7d87bfd309f3310574fd756280e0319e607d790e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c6ed2626_12fcbf4c",

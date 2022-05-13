@@ -200,7 +200,7 @@ export class GrAccountList extends LitElement {
       .group {
         --account-label-suffix: ' (group)';
       }
-      .pending-add {
+      .pendingAdd {
         font-style: italic;
       }
       .list {

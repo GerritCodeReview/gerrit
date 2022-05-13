@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6ed2626_12fcbf4c",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-13T15:27:59Z",
+      "side": 1,
+      "message": "this function was returning the email if account_id was 0. That would only happen in tests but checking undefined will work for both prod and tests.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 68
+      },
+      "revId": "7d87bfd309f3310574fd756280e0319e607d790e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

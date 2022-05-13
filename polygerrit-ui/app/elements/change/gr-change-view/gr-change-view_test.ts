@@ -103,6 +103,7 @@ import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
+import {assertIsDefined} from '../../../utils/common-util';
 
 const fixture = fixtureFromElement('gr-change-view');
 
@@ -783,8 +784,9 @@ suite('gr-change-view tests', () => {
     });
 
     test(', should open diff preferences', () => {
+      assertIsDefined(element.$.fileList.diffPreferencesDialog);
       const stub = sinon.stub(
-        element.$.fileList.$.diffPreferencesDialog,
+        element.$.fileList.diffPreferencesDialog,
         'open'
       );
       element._loggedIn = false;

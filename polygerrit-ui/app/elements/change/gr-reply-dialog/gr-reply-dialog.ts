@@ -261,7 +261,7 @@ export class GrReplyDialog extends LitElement {
   account?: AccountInfo;
 
   @state()
-  ccs: (AccountInfoInput | GroupInfoInput)[] = [];
+  ccs: AccountInput[] = [];
 
   @state()
   attentionCcsCount = 0;
@@ -1527,8 +1527,8 @@ export class GrReplyDialog extends LitElement {
     if (!this.change?.owner || !this.change?.reviewers) return;
     this.owner = this.change.owner;
 
-    const reviewers = [];
-    const ccs = [];
+    const reviewers: AccountInput[] = [];
+    const ccs: AccountInput[] = [];
 
     if (this.change.reviewers) {
       for (const key of Object.keys(this.change.reviewers)) {

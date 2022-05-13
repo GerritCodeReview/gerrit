@@ -9,8 +9,9 @@ import {
   NumericChangeId,
   ChangeStatus,
   ReviewerState,
-  AccountInfo,
   AccountId,
+  AccountInfo,
+  GroupInfo,
 } from '../../api/rest-api';
 import {Model} from '../model';
 import {Finalizable} from '../../services/registry';
@@ -22,6 +23,7 @@ import {
   ReviewerInput,
   AttentionSetInput,
 } from '../../types/common';
+import {accountOrGroupKey} from '../../utils/account-util';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -159,7 +161,7 @@ export class BulkActionsModel
   }
 
   addReviewers(
-    changedReviewers: Map<ReviewerState, AccountInfo[]>,
+    changedReviewers: Map<ReviewerState, (AccountInfo | GroupInfo)[]>,
     reason: string
   ): Promise<Response>[] {
     const current = this.subject$.getValue();
@@ -260,14 +262,14 @@ export class BulkActionsModel
   private getNewReviewersToChange(
     change: ChangeInfo,
     state: ReviewerState,
-    changedReviewers: Map<ReviewerState, AccountInfo[]>
+    changedReviewers: Map<ReviewerState, (AccountInfo | GroupInfo)[]>
   ): ReviewerInput[] {
     return (
       changedReviewers
         .get(state)
         ?.filter(account => !change.reviewers[state]?.includes(account))
         .map(account => {
-          return {state, reviewer: account._account_id!};
+          return {state, reviewer: accountOrGroupKey(account)};
         }) ?? []
     );
   }

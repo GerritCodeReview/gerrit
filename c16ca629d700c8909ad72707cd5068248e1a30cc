@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "474a1708_e04cf9aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-13T09:37:55Z",
+      "side": 1,
+      "message": "consider",
+      "revId": "c16ca629d700c8909ad72707cd5068248e1a30cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "014c5579_c4eb1c0e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-13T09:37:55Z",
+      "side": 1,
+      "message": "Why do you only want to check this once?",
+      "revId": "c16ca629d700c8909ad72707cd5068248e1a30cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

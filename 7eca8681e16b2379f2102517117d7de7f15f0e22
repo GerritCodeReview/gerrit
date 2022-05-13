@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2561ee54_99def147",
+        "filename": "java/com/google/gerrit/pgm/CopyApprovals.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-13T05:56:49Z",
+      "side": 1,
+      "message": "This class doesn\u0027t inject anything, so that can be omitted?",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 36
+      },
+      "revId": "7eca8681e16b2379f2102517117d7de7f15f0e22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "849b2050_883fb972",
+        "filename": "java/com/google/gerrit/pgm/CopyApprovals.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-13T05:56:49Z",
+      "side": 1,
+      "message": "You could inject this, then the line 69 would make sense?",
+      "range": {
+        "startLine": 72,
+        "startChar": 30,
+        "endLine": 72,
+        "endChar": 53
+      },
+      "revId": "7eca8681e16b2379f2102517117d7de7f15f0e22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1861b88e_06586d31",
+        "filename": "java/com/google/gerrit/server/approval/RecursiveApprovalCopier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-13T05:56:49Z",
+      "side": 1,
+      "message": "License header is missing.",
+      "revId": "7eca8681e16b2379f2102517117d7de7f15f0e22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f387c07b_f881bed8",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-13T05:56:49Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "7eca8681e16b2379f2102517117d7de7f15f0e22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

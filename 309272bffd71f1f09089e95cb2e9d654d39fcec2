@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7336a91_a1353c1d",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/Schema_184IT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-13T05:56:49Z",
+      "side": 0,
+      "message": "Why this test is deleted?",
+      "revId": "309272bffd71f1f09089e95cb2e9d654d39fcec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

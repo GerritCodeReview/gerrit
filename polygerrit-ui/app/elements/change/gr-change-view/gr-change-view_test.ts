@@ -103,6 +103,7 @@ import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
+import {assertIsDefined} from '../../../utils/common-util';
 
 const fixture = fixtureFromElement('gr-change-view');
 
@@ -782,11 +783,10 @@ suite('gr-change-view tests', () => {
       assert.isTrue(stub.called);
     });
 
-    test(', should open diff preferences', () => {
-      const stub = sinon.stub(
-        element.$.fileList.$.diffPreferencesDialog,
-        'open'
-      );
+    test(', should open diff preferences', async () => {
+      await element.$.fileList.updateComplete;
+      assertIsDefined(element.$.fileList.diffPreferencesDialog);
+      const stub = sinon.stub(element.$.fileList.diffPreferencesDialog, 'open');
       element._loggedIn = false;
       pressAndReleaseKeyOn(element, 188, null, ',');
       assert.isFalse(stub.called);
@@ -1183,7 +1183,8 @@ suite('gr-change-view tests', () => {
     });
   });
 
-  test('diff preferences open when open-diff-prefs is fired', () => {
+  test('diff preferences open when open-diff-prefs is fired', async () => {
+    await element.$.fileList.updateComplete;
     const overlayOpenStub = sinon.stub(element.$.fileList, 'openDiffPrefs');
     element.$.fileListHeader.dispatchEvent(
       new CustomEvent('open-diff-prefs', {
@@ -1326,6 +1327,7 @@ suite('gr-change-view tests', () => {
       .stub(element, '_reloadPatchNumDependentResources')
       .callsFake(() => Promise.resolve([undefined, undefined, undefined]));
     flush();
+    await element.$.fileList.updateComplete;
     const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
     const value: AppElementChangeViewParams = {
       ...createAppElementChangeViewParams(),
@@ -1359,7 +1361,7 @@ suite('gr-change-view tests', () => {
     sinon.stub(element, 'loadData').callsFake(() => Promise.resolve());
     sinon.stub(element, 'loadAndSetCommitInfo');
     sinon.stub(element.$.fileList, 'reload');
-    flush();
+    await flush();
     const reloadPortedCommentsStub = sinon.stub(
       element.getCommentsModel(),
       'reloadPortedComments'

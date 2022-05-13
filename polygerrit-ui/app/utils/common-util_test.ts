@@ -75,8 +75,11 @@ suite('common-util tests', () => {
   });
 
   test('intersections', () => {
+    const arrayWithValues = [1, 2, 3];
     assert.sameDeepMembers(intersection([]), []);
-    assert.sameDeepMembers(intersection([[1, 2, 3]]), [1, 2, 3]);
+    assert.sameDeepMembers(intersection([arrayWithValues]), arrayWithValues);
+    // a new array is returned even if a single array is provided.
+    assert.notStrictEqual(intersection([arrayWithValues]), arrayWithValues);
     assert.sameDeepMembers(
       intersection([
         [1, 2, 3],

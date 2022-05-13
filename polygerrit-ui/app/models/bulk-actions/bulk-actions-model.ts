@@ -10,13 +10,18 @@ import {
   ChangeStatus,
   ReviewerState,
   AccountInfo,
+  AccountId,
 } from '../../api/rest-api';
 import {Model} from '../model';
 import {Finalizable} from '../../services/registry';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {define} from '../dependency';
 import {select} from '../../utils/observable-util';
-import {ReviewInput, ReviewerInput} from '../../types/common';
+import {
+  ReviewInput,
+  ReviewerInput,
+  AttentionSetInput,
+} from '../../types/common';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
@@ -154,14 +159,15 @@ export class BulkActionsModel
   }
 
   addReviewers(
-    changedReviewers: Map<ReviewerState, AccountInfo[]>
+    changedReviewers: Map<ReviewerState, AccountInfo[]>,
+    reason: string
   ): Promise<Response>[] {
     const current = this.subject$.getValue();
     const changes = current.selectedChangeNums.map(
       changeNum => current.allChanges.get(changeNum)!
     );
     return changes.map(change => {
-      const reviewersNewToChange = [
+      const reviewersNewToChange: ReviewerInput[] = [
         ReviewerState.REVIEWER,
         ReviewerState.CC,
       ].flatMap(state =>
@@ -170,8 +176,20 @@ export class BulkActionsModel
       if (reviewersNewToChange.length === 0) {
         return Promise.resolve(new Response());
       }
+      const attentionSetUpdates: AttentionSetInput[] = reviewersNewToChange
+        .filter(reviewerInput => reviewerInput.state === ReviewerState.REVIEWER)
+        .map(reviewerInput => {
+          return {
+            // TODO: Once Groups are supported, filter them out and only add
+            // Accounts to the attention set, just like gr-reply-dialog.
+            user: reviewerInput.reviewer as AccountId,
+            reason,
+          };
+        });
       const reviewInput: ReviewInput = {
         reviewers: reviewersNewToChange,
+        ignore_automatic_attention_set_rules: true,
+        add_to_attention_set: attentionSetUpdates,
       };
       return this.restApiService.saveChangeReview(
         change._number,

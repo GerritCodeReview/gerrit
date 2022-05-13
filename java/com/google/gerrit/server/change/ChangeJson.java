@@ -45,6 +45,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -928,11 +929,12 @@ public class ChangeJson {
       }
       src = Collections.singletonList(ps);
     }
-    Map<PatchSet.Id, PatchSet> map = Maps.newHashMapWithExpectedSize(src.size());
+    // Sort by patch set ID in increasing order to have a stable output.
+    ImmutableSortedMap.Builder<PatchSet.Id, PatchSet> map = ImmutableSortedMap.naturalOrder();
     for (PatchSet patchSet : src) {
       map.put(patchSet.id(), patchSet);
     }
-    return map;
+    return map.build();
   }
 
   private List<PluginDefinedInfo> getPluginInfos(ChangeData cd) {

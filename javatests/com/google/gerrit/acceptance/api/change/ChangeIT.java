@@ -3326,6 +3326,21 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void stableRevisionSort() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    r1.assertOkStatus();
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "new content", r1.getChangeId())
+            .to("refs/for/master");
+    r2.assertOkStatus();
+
+    ChangeInfo actual = gApi.changes().id(r2.getChangeId()).get(ALL_REVISIONS, CURRENT_REVISION);
+    assertThat(actual.revisions).hasSize(2);
+    assertThat(actual.revisions.values().stream().map(r -> r._number)).isInOrder();
+  }
+
+  @Test
   public void defaultSearchDoesNotTouchDatabase() throws Exception {
     requestScopeOperations.setApiUser(admin.id());
     PushOneCommit.Result r1 = createChange();

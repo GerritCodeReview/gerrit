@@ -47,7 +47,7 @@ import org.junit.Test;
 
 public class ResourceServletTest {
   private static Cache<Path, Resource> newCache(int size) {
-    return CacheBuilder.newBuilder().maximumSize(size).recordStats().build();
+    return CacheBuilder.newBuilder().build(null -> null);
   }
 
   private static class Servlet extends ResourceServlet {

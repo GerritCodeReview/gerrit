@@ -1,32 +1,37 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup-karma.js';
-import {createDiff} from '../../../test/test-data-generators.js';
-import './gr-diff.js';
-import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
-import {getComputedStyleValue} from '../../../utils/dom-util.js';
-import {_setHiddenScroll} from '../../../scripts/hiddenscroll.js';
-import {runA11yAudit} from '../../../test/a11y-test-utils.js';
-import '@polymer/paper-button/paper-button.js';
-import {Side} from '../../../api/diff.js';
-import {mockPromise, stubRestApi} from '../../../test/test-utils.js';
-import {AbortStop} from '../../../api/core.js';
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
-import {waitForEventOnce} from '../../../utils/event-util.js';
+import '../../../test/common-test-setup-karma';
+import {createDiff} from '../../../test/test-data-generators';
+import './gr-diff';
+import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image';
+import {getComputedStyleValue} from '../../../utils/dom-util';
+import {_setHiddenScroll} from '../../../scripts/hiddenscroll';
+import {runA11yAudit} from '../../../test/a11y-test-utils';
+import '@polymer/paper-button/paper-button';
+import {
+  DiffContent,
+  DiffInfo,
+  DiffPreferencesInfo,
+  DiffViewMode,
+  IgnoreWhitespaceType,
+  Side,
+} from '../../../api/diff';
+import {
+  mockPromise,
+  mouseDown,
+  query,
+  queryAll,
+  queryAndAssert,
+  stubRestApi,
+} from '../../../test/test-utils';
+import {AbortStop} from '../../../api/core';
+import {waitForEventOnce} from '../../../utils/event-util';
+import {GrDiff} from './gr-diff';
+import {ImageInfo} from '../../../types/common';
+import {GrRangedCommentHint} from '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 
 const basicFixture = fixtureFromElement('gr-diff');
 
@@ -37,42 +42,51 @@ suite('gr-diff a11y test', () => {
 });
 
 suite('gr-diff tests', () => {
-  let element;
+  let element: GrDiff;
 
-  const MINIMAL_PREFS = {tab_size: 2, line_length: 80, font_size: 12};
+  const MINIMAL_PREFS: DiffPreferencesInfo = {
+    tab_size: 2,
+    line_length: 80,
+    font_size: 12,
+    context: 3,
+    ignore_whitespace: 'IGNORE_NONE',
+  };
 
-  setup(() => {
-
-  });
+  setup(() => {});
 
   suite('selectionchange event handling', () => {
-    const emulateSelection = function() {
+    let handleSelectionChangeStub: sinon.SinonSpy;
+
+    const emulateSelection = function () {
       document.dispatchEvent(new CustomEvent('selectionchange'));
     };
 
     setup(() => {
       element = basicFixture.instantiate();
-      sinon.stub(element.highlights, 'handleSelectionChange');
+      handleSelectionChangeStub = sinon.spy(
+        element.highlights,
+        'handleSelectionChange'
+      );
     });
 
     test('enabled if logged in', async () => {
       element.loggedIn = true;
       emulateSelection();
       await flush();
-      assert.isTrue(element.highlights.handleSelectionChange.called);
+      assert.isTrue(handleSelectionChangeStub.called);
     });
 
     test('ignored if logged out', async () => {
       element.loggedIn = false;
       emulateSelection();
       await flush();
-      assert.isFalse(element.highlights.handleSelectionChange.called);
+      assert.isFalse(handleSelectionChangeStub.called);
     });
   });
 
   test('cancel', () => {
     element = basicFixture.instantiate();
-    const cancelStub = sinon.stub(element.$.diffBuilder, 'cancel');
+    const cancelStub = sinon.stub(element.diffBuilder, 'cancel');
     element.cancel();
     assert.isTrue(cancelStub.calledOnce);
   });
@@ -98,10 +112,12 @@ suite('gr-diff tests', () => {
     });
 
     test('line limit is based on line_length', () => {
-      element.prefs = {...element.prefs, line_length: 100};
+      element.prefs = {...element.prefs!, line_length: 100};
       flush();
-      assert.equal(getComputedStyleValue('--line-limit-marker', element),
-          '100ch');
+      assert.equal(
+        getComputedStyleValue('--line-limit-marker', element),
+        '100ch'
+      );
     });
 
     test('content-width should not be defined', () => {
@@ -123,32 +139,40 @@ suite('gr-diff tests', () => {
     });
 
     test('max-width considers two content columns in side-by-side', () => {
-      element.viewMode = 'SIDE_BY_SIDE';
+      element.viewMode = DiffViewMode.SIDE_BY_SIDE;
       flush();
-      assert.equal(getComputedStyleValue('--diff-max-width', element),
-          'calc(2 * 80ch + 2 * 48px + 0ch + 1px + 2px)');
+      assert.equal(
+        getComputedStyleValue('--diff-max-width', element),
+        'calc(2 * 80ch + 2 * 48px + 0ch + 1px + 2px)'
+      );
     });
 
     test('max-width considers one content column in unified', () => {
-      element.viewMode = 'UNIFIED_DIFF';
+      element.viewMode = DiffViewMode.UNIFIED;
       flush();
-      assert.equal(getComputedStyleValue('--diff-max-width', element),
-          'calc(1 * 80ch + 2 * 48px + 0ch + 1px + 2px)');
+      assert.equal(
+        getComputedStyleValue('--diff-max-width', element),
+        'calc(1 * 80ch + 2 * 48px + 0ch + 1px + 2px)'
+      );
     });
 
     test('max-width considers font-size', () => {
-      element.prefs = {...element.prefs, font_size: 13};
+      element.prefs = {...element.prefs!, font_size: 13};
       flush();
       // Each line number column: 4 * 13 = 52px
-      assert.equal(getComputedStyleValue('--diff-max-width', element),
-          'calc(2 * 80ch + 2 * 52px + 0ch + 1px + 2px)');
+      assert.equal(
+        getComputedStyleValue('--diff-max-width', element),
+        'calc(2 * 80ch + 2 * 52px + 0ch + 1px + 2px)'
+      );
     });
 
     test('sign cols are considered if show_sign_col is true', () => {
       element.renderPrefs = {...element.renderPrefs, show_sign_col: true};
       flush();
-      assert.equal(getComputedStyleValue('--diff-max-width', element),
-          'calc(2 * 80ch + 2 * 48px + 2ch + 1px + 2px)');
+      assert.equal(
+        getComputedStyleValue('--diff-max-width', element),
+        'calc(2 * 80ch + 2 * 48px + 2ch + 1px + 2px)'
+      );
     });
   });
 
@@ -168,39 +192,31 @@ suite('gr-diff tests', () => {
     });
 
     test('view does not start with displayLine classList', () => {
-      assert.isFalse(
-          element.shadowRoot
-              .querySelector('.diffContainer')
-              .classList
-              .contains('displayLine'));
+      const container = queryAndAssert(element, '.diffContainer');
+      assert.isFalse(container.classList.contains('displayLine'));
     });
 
     test('displayLine class added called when displayLine is true', () => {
       const spy = sinon.spy(element, '_computeContainerClass');
       element.displayLine = true;
+      const container = queryAndAssert(element, '.diffContainer');
       assert.isTrue(spy.called);
-      assert.isTrue(
-          element.shadowRoot
-              .querySelector('.diffContainer')
-              .classList
-              .contains('displayLine'));
+      assert.isTrue(container.classList.contains('displayLine'));
     });
 
     test('thread groups', () => {
       const contentEl = document.createElement('div');
 
-      element.changeNum = 123;
-      element.patchRange = {basePatchNum: 1, patchNum: 2};
       element.path = 'file.txt';
-      element.$.diffBuilder.diff = createDiff();
-      element.$.diffBuilder.prefs = {...MINIMAL_PREFS};
-      element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder();
 
       // No thread groups.
       assert.equal(contentEl.querySelectorAll('.thread-group').length, 0);
 
       // A thread group gets created.
-      const threadGroupEl = element._getOrCreateThreadGroup(contentEl);
+      const threadGroupEl = element._getOrCreateThreadGroup(
+        contentEl,
+        Side.LEFT
+      );
       assert.isOk(threadGroupEl);
 
       // The new thread group can be fetched.
@@ -208,17 +224,19 @@ suite('gr-diff tests', () => {
     });
 
     suite('image diffs', () => {
-      let mockFile1;
-      let mockFile2;
+      let mockFile1: ImageInfo;
+      let mockFile2: ImageInfo;
       setup(() => {
         mockFile1 = {
-          body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
-          'wsAAAAAAAAAAAAAAAAA/w==',
+          body:
+            'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
+            'wsAAAAAAAAAAAAAAAAA/w==',
           type: 'image/bmp',
         };
         mockFile2 = {
-          body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
-          'wsAAAAAAAAAAAAA/////w==',
+          body:
+            'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
+            'wsAAAAAAAAAAAAA/////w==',
           type: 'image/bmp',
         };
 
@@ -235,7 +253,6 @@ suite('gr-diff tests', () => {
           show_whitespace_errors: true,
           syntax_highlighting: true,
           tab_size: 8,
-          theme: 'DEFAULT',
         };
       });
 
@@ -244,8 +261,7 @@ suite('gr-diff tests', () => {
         element.revisionImage = mockFile2;
         element.diff = {
           meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-            lines: 560},
+          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
           intraline_status: 'OK',
           change_type: 'MODIFIED',
           diff_header: [
@@ -262,42 +278,40 @@ suite('gr-diff tests', () => {
 
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
-        assert.instanceOf(
-            element.$.diffBuilder._builder, GrDiffBuilderImage);
+        assert.instanceOf(element.diffBuilder.builder, GrDiffBuilderImage);
 
         // Left image rendered with the parent commit's version of the file.
-        const leftImage = element.$.diffTable.querySelector('td.left img');
-        const leftLabel =
-              element.$.diffTable.querySelector('td.left label');
-        const leftLabelContent = leftLabel.querySelector('.label');
-        const leftLabelName = leftLabel.querySelector('.name');
+        const diffTable = element.$.diffTable;
+        const leftImage = queryAndAssert(diffTable, 'td.left img');
+        const leftLabel = queryAndAssert(diffTable, 'td.left label');
+        const leftLabelContent = queryAndAssert(leftLabel, '.label');
+        const leftLabelName = query(leftLabel, '.name');
 
-        const rightImage =
-              element.$.diffTable.querySelector('td.right img');
-        const rightLabel = element.$.diffTable.querySelector(
-            'td.right label');
-        const rightLabelContent = rightLabel.querySelector('.label');
-        const rightLabelName = rightLabel.querySelector('.name');
+        const rightImage = queryAndAssert(diffTable, 'td.right img');
+        const rightLabel = queryAndAssert(diffTable, 'td.right label');
+        const rightLabelContent = queryAndAssert(rightLabel, '.label');
+        const rightLabelName = query(rightLabel, '.name');
 
         assert.isNotOk(rightLabelName);
         assert.isNotOk(leftLabelName);
 
-        assert.isOk(leftImage);
-        assert.equal(leftImage.getAttribute('src'),
-            'data:image/bmp;base64,' + mockFile1.body);
-        assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
+        assert.equal(
+          leftImage.getAttribute('src'),
+          'data:image/bmp;base64,' + mockFile1.body
+        );
+        assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp'); // \u00d7 - '×'
 
-        assert.isOk(rightImage);
-        assert.equal(rightImage.getAttribute('src'),
-            'data:image/bmp;base64,' + mockFile2.body);
-        assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
+        assert.equal(
+          rightImage.getAttribute('src'),
+          'data:image/bmp;base64,' + mockFile2.body
+        );
+        assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp'); // \u00d7 - '×'
       });
 
       test('renders image diffs with a different file name', async () => {
-        const mockDiff = {
+        const mockDiff: DiffInfo = {
           meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-          meta_b: {name: 'carrot2.jpg', content_type: 'image/jpeg',
-            lines: 560},
+          meta_b: {name: 'carrot2.jpg', content_type: 'image/jpeg', lines: 560},
           intraline_status: 'OK',
           change_type: 'MODIFIED',
           diff_header: [
@@ -312,51 +326,51 @@ suite('gr-diff tests', () => {
         };
 
         element.baseImage = mockFile1;
-        element.baseImage._name = mockDiff.meta_a.name;
+        element.baseImage._name = mockDiff.meta_a!.name;
         element.revisionImage = mockFile2;
-        element.revisionImage._name = mockDiff.meta_b.name;
+        element.revisionImage._name = mockDiff.meta_b!.name;
         element.diff = mockDiff;
         await waitForEventOnce(element, 'render');
 
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
-        assert.instanceOf(
-            element.$.diffBuilder._builder, GrDiffBuilderImage);
+        assert.instanceOf(element.diffBuilder.builder, GrDiffBuilderImage);
 
         // Left image rendered with the parent commit's version of the file.
-        const leftImage = element.$.diffTable.querySelector('td.left img');
-        const leftLabel =
-              element.$.diffTable.querySelector('td.left label');
-        const leftLabelContent = leftLabel.querySelector('.label');
-        const leftLabelName = leftLabel.querySelector('.name');
+        const diffTable = element.$.diffTable;
+        const leftImage = queryAndAssert(diffTable, 'td.left img');
+        const leftLabel = queryAndAssert(diffTable, 'td.left label');
+        const leftLabelContent = queryAndAssert(leftLabel, '.label');
+        const leftLabelName = queryAndAssert(leftLabel, '.name');
 
-        const rightImage =
-              element.$.diffTable.querySelector('td.right img');
-        const rightLabel = element.$.diffTable.querySelector(
-            'td.right label');
-        const rightLabelContent = rightLabel.querySelector('.label');
-        const rightLabelName = rightLabel.querySelector('.name');
+        const rightImage = queryAndAssert(diffTable, 'td.right img');
+        const rightLabel = queryAndAssert(diffTable, 'td.right label');
+        const rightLabelContent = queryAndAssert(rightLabel, '.label');
+        const rightLabelName = queryAndAssert(rightLabel, '.name');
 
         assert.isOk(rightLabelName);
         assert.isOk(leftLabelName);
-        assert.equal(leftLabelName.textContent, mockDiff.meta_a.name);
-        assert.equal(rightLabelName.textContent, mockDiff.meta_b.name);
+        assert.equal(leftLabelName.textContent, mockDiff.meta_a?.name);
+        assert.equal(rightLabelName.textContent, mockDiff.meta_b?.name);
 
         assert.isOk(leftImage);
-        assert.equal(leftImage.getAttribute('src'),
-            'data:image/bmp;base64,' + mockFile1.body);
-        assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
+        assert.equal(
+          leftImage.getAttribute('src'),
+          'data:image/bmp;base64,' + mockFile1.body
+        );
+        assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp'); // \u00d7 - '×'
 
         assert.isOk(rightImage);
-        assert.equal(rightImage.getAttribute('src'),
-            'data:image/bmp;base64,' + mockFile2.body);
-        assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
+        assert.equal(
+          rightImage.getAttribute('src'),
+          'data:image/bmp;base64,' + mockFile2.body
+        );
+        assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp'); // \u00d7 - '×'
       });
 
       test('renders added image', async () => {
-        const mockDiff = {
-          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-            lines: 560},
+        const mockDiff: DiffInfo = {
+          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
           intraline_status: 'OK',
           change_type: 'ADDED',
           diff_header: [
@@ -371,7 +385,9 @@ suite('gr-diff tests', () => {
         };
 
         const promise = mockPromise();
-        function rendered() { promise.resolve(); }
+        function rendered() {
+          promise.resolve();
+        }
         element.addEventListener('render', rendered);
 
         element.revisionImage = mockFile2;
@@ -380,20 +396,17 @@ suite('gr-diff tests', () => {
         element.removeEventListener('render', rendered);
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
-        assert.instanceOf(
-            element.$.diffBuilder._builder, GrDiffBuilderImage);
+        assert.instanceOf(element.diffBuilder.builder, GrDiffBuilderImage);
 
-        const leftImage = element.$.diffTable.querySelector('td.left img');
-        const rightImage = element.$.diffTable.querySelector('td.right img');
-
+        const diffTable = element.$.diffTable;
+        const leftImage = query(diffTable, 'td.left img');
         assert.isNotOk(leftImage);
-        assert.isOk(rightImage);
+        queryAndAssert(diffTable, 'td.right img');
       });
 
       test('renders removed image', async () => {
-        const mockDiff = {
-          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg',
-            lines: 560},
+        const mockDiff: DiffInfo = {
+          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
           intraline_status: 'OK',
           change_type: 'DELETED',
           diff_header: [
@@ -407,7 +420,9 @@ suite('gr-diff tests', () => {
           binary: true,
         };
         const promise = mockPromise();
-        function rendered() { promise.resolve(); }
+        function rendered() {
+          promise.resolve();
+        }
         element.addEventListener('render', rendered);
 
         element.baseImage = mockFile1;
@@ -416,20 +431,21 @@ suite('gr-diff tests', () => {
         element.removeEventListener('render', rendered);
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
-        assert.instanceOf(
-            element.$.diffBuilder._builder, GrDiffBuilderImage);
+        assert.instanceOf(element.diffBuilder.builder, GrDiffBuilderImage);
 
-        const leftImage = element.$.diffTable.querySelector('td.left img');
-        const rightImage = element.$.diffTable.querySelector('td.right img');
-
-        assert.isOk(leftImage);
+        const diffTable = element.$.diffTable;
+        queryAndAssert(diffTable, 'td.left img');
+        const rightImage = query(diffTable, 'td.right img');
         assert.isNotOk(rightImage);
       });
 
       test('does not render disallowed image type', async () => {
-        const mockDiff = {
-          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg-evil',
-            lines: 560},
+        const mockDiff: DiffInfo = {
+          meta_a: {
+            name: 'carrot.jpg',
+            content_type: 'image/jpeg-evil',
+            lines: 560,
+          },
           intraline_status: 'OK',
           change_type: 'DELETED',
           diff_header: [
@@ -445,7 +461,9 @@ suite('gr-diff tests', () => {
         mockFile1.type = 'image/jpeg-evil';
 
         const promise = mockPromise();
-        function rendered() { promise.resolve(); }
+        function rendered() {
+          promise.resolve();
+        }
         element.addEventListener('render', rendered);
 
         element.baseImage = mockFile1;
@@ -454,9 +472,9 @@ suite('gr-diff tests', () => {
         element.removeEventListener('render', rendered);
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
-        assert.instanceOf(
-            element.$.diffBuilder._builder, GrDiffBuilderImage);
-        const leftImage = element.$.diffTable.querySelector('td.left img');
+        assert.instanceOf(element.diffBuilder.builder, GrDiffBuilderImage);
+        const diffTable = element.$.diffTable;
+        const leftImage = query(diffTable, 'td.left img');
         assert.isNotOk(leftImage);
       });
     });
@@ -513,7 +531,6 @@ suite('gr-diff tests', () => {
           show_tabs: true,
           show_whitespace_errors: true,
           syntax_highlighting: true,
-          theme: 'DEFAULT',
           ignore_whitespace: 'IGNORE_NONE',
         };
 
@@ -548,20 +565,20 @@ suite('gr-diff tests', () => {
         const FILE_ROW = 1;
         const actual = element.getCursorStops();
         assert.equal(actual.length, ROWS + FILE_ROW + 1);
-        assert.isTrue(actual[actual.length -1] instanceof AbortStop);
+        assert.isTrue(actual[actual.length - 1] instanceof AbortStop);
       });
     });
 
     test('adds .hiddenscroll', () => {
       _setHiddenScroll(true);
       element.displayLine = true;
-      assert.include(element.shadowRoot
-          .querySelector('.diffContainer').className, 'hiddenscroll');
+      const container = queryAndAssert(element, '.diffContainer');
+      assert.include(container.className, 'hiddenscroll');
     });
   });
 
   suite('logged in', () => {
-    let fakeLineEl;
+    let fakeLineEl: HTMLElement;
     setup(() => {
       element = basicFixture.instantiate();
       element.loggedIn = true;
@@ -571,15 +588,14 @@ suite('gr-diff tests', () => {
         classList: {
           contains: sinon.stub().returns(true),
         },
-      };
+      } as unknown as HTMLElement;
     });
 
     test('addDraftAtLine', () => {
       sinon.stub(element, '_selectLine');
-      sinon.stub(element, '_createComment');
+      const createCommentStub = sinon.stub(element, '_createComment');
       element.addDraftAtLine(fakeLineEl);
-      assert.isTrue(element._createComment
-          .calledWithExactly(fakeLineEl, 42));
+      assert.isTrue(createCommentStub.calledWithExactly(fakeLineEl, 42));
     });
 
     test('adds long range comment hint', async () => {
@@ -592,23 +608,29 @@ suite('gr-diff tests', () => {
       const threadEl = document.createElement('div');
       threadEl.className = 'comment-thread';
       threadEl.setAttribute('diff-side', 'right');
-      threadEl.setAttribute('line-num', 1);
+      threadEl.setAttribute('line-num', '1');
       threadEl.setAttribute('range', JSON.stringify(range));
       threadEl.setAttribute('slot', 'right-1');
-      const content = [{
-        a: [],
-        b: [],
-      }, {
-        ab: Array(13).fill('text'),
-      }];
+      const content = [
+        {
+          a: [],
+          b: [],
+        },
+        {
+          ab: Array(13).fill('text'),
+        },
+      ];
       setupSampleDiff({content});
-      await new Promise(resolve => afterNextRender(element, resolve));
+      await waitForEventOnce(element, 'render');
 
       element.appendChild(threadEl);
       await flush();
 
-      assert.deepEqual(
-          element.querySelector('gr-ranged-comment-hint').range, range);
+      const hint = queryAndAssert<GrRangedCommentHint>(
+        element,
+        'gr-ranged-comment-hint'
+      );
+      assert.deepEqual(hint.range, range);
     });
 
     test('no duplicate range hint for same thread', async () => {
@@ -621,19 +643,21 @@ suite('gr-diff tests', () => {
       const threadEl = document.createElement('div');
       threadEl.className = 'comment-thread';
       threadEl.setAttribute('diff-side', 'right');
-      threadEl.setAttribute('line-num', 1);
+      threadEl.setAttribute('line-num', '1');
       threadEl.setAttribute('range', JSON.stringify(range));
       threadEl.setAttribute('slot', 'right-1');
       const firstHint = document.createElement('gr-ranged-comment-hint');
       firstHint.range = range;
-      firstHint.setAttribute('threadElRootId', threadEl.rootId);
       firstHint.setAttribute('slot', 'right-1');
-      const content = [{
-        a: [],
-        b: [],
-      }, {
-        ab: Array(13).fill('text'),
-      }];
+      const content = [
+        {
+          a: [],
+          b: [],
+        },
+        {
+          ab: Array(13).fill('text'),
+        },
+      ];
       setupSampleDiff({content});
 
       element.appendChild(firstHint);
@@ -644,86 +668,97 @@ suite('gr-diff tests', () => {
       await flush();
 
       assert.equal(
-          element.querySelectorAll('gr-ranged-comment-hint').length, 1);
+        element.querySelectorAll('gr-ranged-comment-hint').length,
+        1
+      );
     });
 
-    test('removes long range comment hint when comment is discarded',
-        async () => {
-          const range = {
-            start_line: 1,
-            end_line: 7,
-            start_character: 0,
-            end_character: 0,
-          };
-          const threadEl = document.createElement('div');
-          threadEl.className = 'comment-thread';
-          threadEl.setAttribute('diff-side', 'right');
-          threadEl.setAttribute('line-num', 1);
-          threadEl.setAttribute('range', JSON.stringify(range));
-          threadEl.setAttribute('slot', 'right-1');
-          const content = [{
-            a: [],
-            b: [],
-          }, {
-            ab: Array(8).fill('text'),
-          }];
-          setupSampleDiff({content});
-          element.appendChild(threadEl);
-          await flush();
+    test('removes long range comment hint when comment is discarded', async () => {
+      const range = {
+        start_line: 1,
+        end_line: 7,
+        start_character: 0,
+        end_character: 0,
+      };
+      const threadEl = document.createElement('div');
+      threadEl.className = 'comment-thread';
+      threadEl.setAttribute('diff-side', 'right');
+      threadEl.setAttribute('line-num', '1');
+      threadEl.setAttribute('range', JSON.stringify(range));
+      threadEl.setAttribute('slot', 'right-1');
+      const content = [
+        {
+          a: [],
+          b: [],
+        },
+        {
+          ab: Array(8).fill('text'),
+        },
+      ];
+      setupSampleDiff({content});
+      element.appendChild(threadEl);
+      await flush();
 
-          threadEl.remove();
-          await flush();
+      threadEl.remove();
+      await flush();
 
-          assert.isEmpty(element.querySelectorAll('gr-ranged-comment-hint'));
-        });
+      assert.isEmpty(element.querySelectorAll('gr-ranged-comment-hint'));
+    });
 
     suite('change in preferences', () => {
       setup(() => {
         element.diff = {
           meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-            lines: 560},
+          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
           diff_header: [],
           intraline_status: 'OK',
           change_type: 'MODIFIED',
           content: [{skip: 66}],
         };
-        element.renderDiffTableTask.flush();
+        element.renderDiffTableTask?.flush();
       });
 
       test('change in preferences re-renders diff', () => {
-        sinon.stub(element, '_renderDiffTable');
+        const stub = sinon.stub(element, '_renderDiffTable');
         element.prefs = {
-          ...MINIMAL_PREFS, time_format: 'HHMM_12'};
-        element.renderDiffTableTask.flush();
-        assert.isTrue(element._renderDiffTable.called);
+          ...MINIMAL_PREFS,
+        };
+        element.renderDiffTableTask?.flush();
+        assert.isTrue(stub.called);
       });
 
       test('adding/removing property in preferences re-renders diff', () => {
         const stub = sinon.stub(element, '_renderDiffTable');
-        const newPrefs1 = {...MINIMAL_PREFS,
-          line_wrapping: true};
+        const newPrefs1: DiffPreferencesInfo = {
+          ...MINIMAL_PREFS,
+          line_wrapping: true,
+        };
         element.prefs = newPrefs1;
-        element.renderDiffTableTask.flush();
-        assert.isTrue(element._renderDiffTable.called);
+        element.renderDiffTableTask?.flush();
+        assert.isTrue(stub.called);
         stub.reset();
 
         const newPrefs2 = {...newPrefs1};
         delete newPrefs2.line_wrapping;
         element.prefs = newPrefs2;
-        element.renderDiffTableTask.flush();
-        assert.isTrue(element._renderDiffTable.called);
+        element.renderDiffTableTask?.flush();
+        assert.isTrue(stub.called);
       });
 
-      test('change in preferences does not re-renders diff with ' +
-          'noRenderOnPrefsChange', () => {
-        sinon.stub(element, '_renderDiffTable');
-        element.noRenderOnPrefsChange = true;
-        element.prefs = {
-          ...MINIMAL_PREFS, time_format: 'HHMM_12'};
-        element.renderDiffTableTask.flush();
-        assert.isFalse(element._renderDiffTable.called);
-      });
+      test(
+        'change in preferences does not re-renders diff with ' +
+          'noRenderOnPrefsChange',
+        () => {
+          const stub = sinon.stub(element, '_renderDiffTable');
+          element.noRenderOnPrefsChange = true;
+          element.prefs = {
+            ...MINIMAL_PREFS,
+            context: 12,
+          };
+          element.renderDiffTableTask?.flush();
+          assert.isFalse(stub.called);
+        }
+      );
     });
   });
 
@@ -732,8 +767,7 @@ suite('gr-diff tests', () => {
       element = basicFixture.instantiate();
       element.diff = {
         meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-        meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
-          lines: 560},
+        meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
         diff_header: [],
         intraline_status: 'OK',
         change_type: 'MODIFIED',
@@ -755,11 +789,12 @@ suite('gr-diff tests', () => {
       assert.equal(element._diffHeaderItems.length, 1);
       flush();
 
-      assert.equal(element.$.diffHeader.textContent.trim(), 'test');
+      const header = queryAndAssert(element, '#diffHeader');
+      assert.equal(header.textContent?.trim(), 'test');
     });
 
     test('binary files', () => {
-      element.diff.binary = true;
+      element.diff!.binary = true;
       assert.equal(element._diffHeaderItems.length, 0);
       element.push('diff.diff_header', 'diff --git a/test.jpg b/test.jpg');
       assert.equal(element._diffHeaderItems.length, 0);
@@ -771,16 +806,17 @@ suite('gr-diff tests', () => {
   });
 
   suite('safety and bypass', () => {
-    let renderStub;
+    let renderStub: sinon.SinonStub;
 
     setup(() => {
       element = basicFixture.instantiate();
-      renderStub = sinon.stub(element.$.diffBuilder, 'render').callsFake(
-          () => {
-            element.$.diffBuilder.dispatchEvent(
-                new CustomEvent('render', {bubbles: true, composed: true}));
-            return Promise.resolve({});
-          });
+      renderStub = sinon.stub(element.diffBuilder, 'render').callsFake(() => {
+        const diffTable = element.$.diffTable;
+        diffTable.dispatchEvent(
+          new CustomEvent('render', {bubbles: true, composed: true})
+        );
+        return Promise.resolve({});
+      });
       sinon.stub(element, 'getDiffLength').returns(10000);
       element.diff = createDiff();
       element.noRenderOnPrefsChange = true;
@@ -838,7 +874,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, 3);
       assert.equal(element._safetyBypass, -1);
-      assert.equal(element.$.diffBuilder.prefs.context, -1);
+      assert.equal(element.diffBuilder.prefs.context, -1);
     });
 
     test('toggles collapse context from bypass', async () => {
@@ -851,7 +887,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, 3);
       assert.isNull(element._safetyBypass);
-      assert.equal(element.$.diffBuilder.prefs.context, 3);
+      assert.equal(element.diffBuilder.prefs.context, 3);
     });
 
     test('toggles collapse context from pref using default', async () => {
@@ -863,7 +899,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, -1);
       assert.equal(element._safetyBypass, 10);
-      assert.equal(element.$.diffBuilder.prefs.context, 10);
+      assert.equal(element.diffBuilder.prefs.context, 10);
     });
   });
 
@@ -874,7 +910,7 @@ suite('gr-diff tests', () => {
 
     test('unsetting', () => {
       element.blame = [];
-      const setBlameSpy = sinon.spy(element.$.diffBuilder, 'setBlame');
+      const setBlameSpy = sinon.spy(element.diffBuilder, 'setBlame');
       element.classList.add('showBlame');
       element.blame = null;
       assert.isTrue(setBlameSpy.calledWithExactly(null));
@@ -882,7 +918,15 @@ suite('gr-diff tests', () => {
     });
 
     test('setting', () => {
-      element.blame = [{id: 'commit id', ranges: [{start: 1, end: 2}]}];
+      element.blame = [
+        {
+          author: 'test-author',
+          time: 12345,
+          commit_msg: '',
+          id: 'commit id',
+          ranges: [{start: 1, end: 2}],
+        },
+      ];
       assert.isTrue(element.classList.contains('showBlame'));
     });
   });
@@ -891,8 +935,10 @@ suite('gr-diff tests', () => {
     const NO_NEWLINE_LEFT = 'No newline at end of left file.';
     const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
 
-    const getWarning = element =>
-      element.shadowRoot.querySelector('.newlineWarning').textContent;
+    const getWarning = (element: GrDiff) => {
+      const warningElement = queryAndAssert(element, '.newlineWarning');
+      return warningElement.textContent;
+    };
 
     setup(() => {
       element = basicFixture.instantiate();
@@ -904,8 +950,9 @@ suite('gr-diff tests', () => {
       element.showNewlineWarningLeft = true;
       element.showNewlineWarningRight = true;
       assert.include(
-          getWarning(element),
-          NO_NEWLINE_LEFT + ' \u2014 ' + NO_NEWLINE_RIGHT);// \u2014 - '—'
+        getWarning(element),
+        NO_NEWLINE_LEFT + ' \u2014 ' + NO_NEWLINE_RIGHT
+      ); // \u2014 - '—'
     });
 
     suite('showNewlineWarningLeft', () => {
@@ -916,11 +963,6 @@ suite('gr-diff tests', () => {
 
       test('hide warning if false', () => {
         element.showNewlineWarningLeft = false;
-        assert.notInclude(getWarning(element), NO_NEWLINE_LEFT);
-      });
-
-      test('hide warning if undefined', () => {
-        element.showNewlineWarningLeft = undefined;
         assert.notInclude(getWarning(element), NO_NEWLINE_LEFT);
       });
     });
@@ -935,49 +977,25 @@ suite('gr-diff tests', () => {
         element.showNewlineWarningRight = false;
         assert.notInclude(getWarning(element), NO_NEWLINE_RIGHT);
       });
-
-      test('hide warning if undefined', () => {
-        element.showNewlineWarningRight = undefined;
-        assert.notInclude(getWarning(element), NO_NEWLINE_RIGHT);
-      });
     });
 
     test('_computeNewlineWarningClass', () => {
       const hidden = 'newlineWarning hidden';
       const shown = 'newlineWarning';
-      assert.equal(element._computeNewlineWarningClass(null, true), hidden);
-      assert.equal(element._computeNewlineWarningClass('foo', true), hidden);
-      assert.equal(element._computeNewlineWarningClass(null, false), hidden);
-      assert.equal(element._computeNewlineWarningClass('foo', false), shown);
-    });
-
-    test('_prefsEqual', () => {
-      element = basicFixture.instantiate();
-      assert.isTrue(element._prefsEqual(null, null));
-      assert.isTrue(element._prefsEqual({}, {}));
-      assert.isTrue(element._prefsEqual({x: 1}, {x: 1}));
-      assert.isTrue(
-          element._prefsEqual({x: 1, abc: 'def'}, {x: 1, abc: 'def'}));
-      const somePref = {abc: 'def', p: true};
-      assert.isTrue(element._prefsEqual(somePref, somePref));
-
-      assert.isFalse(element._prefsEqual({}, null));
-      assert.isFalse(element._prefsEqual(null, {}));
-      assert.isFalse(element._prefsEqual({x: 1}, {x: 2}));
-      assert.isFalse(element._prefsEqual({x: 1, y: 'abc'}, {x: 1, y: 'abcd'}));
-      assert.isFalse(element._prefsEqual({x: 1, y: 'abc'}, {x: 1}));
-      assert.isFalse(element._prefsEqual({x: 1}, {x: 1, y: 'abc'}));
+      assert.equal(element._computeNewlineWarningClass(false, true), hidden);
+      assert.equal(element._computeNewlineWarningClass(true, true), hidden);
+      assert.equal(element._computeNewlineWarningClass(false, false), hidden);
+      assert.equal(element._computeNewlineWarningClass(true, false), shown);
     });
   });
 
   suite('key locations', () => {
-    let renderStub;
+    let renderStub: sinon.SinonStub;
 
     setup(() => {
       element = basicFixture.instantiate();
-      element.prefs = {};
-      renderStub = sinon.stub(element.$.diffBuilder, 'render')
-          .returns(new Promise(() => {}));
+      element.prefs = {...MINIMAL_PREFS};
+      renderStub = sinon.stub(element.diffBuilder, 'render');
     });
 
     test('lineOfInterest is a key location', () => {
@@ -994,7 +1012,7 @@ suite('gr-diff tests', () => {
       const threadEl = document.createElement('div');
       threadEl.className = 'comment-thread';
       threadEl.setAttribute('diff-side', 'right');
-      threadEl.setAttribute('line-num', 3);
+      threadEl.setAttribute('line-num', '3');
       element.appendChild(threadEl);
       flush();
 
@@ -1021,7 +1039,11 @@ suite('gr-diff tests', () => {
       });
     });
   });
-  const setupSampleDiff = function(params) {
+  const setupSampleDiff = function (params: {
+    content: DiffContent[];
+    ignore_whitespace?: IgnoreWhitespaceType;
+    binary?: boolean;
+  }) {
     const {ignore_whitespace, content} = params;
     // binary can't be undefined, use false if not set
     const binary = params.binary || false;
@@ -1039,7 +1061,6 @@ suite('gr-diff tests', () => {
       show_whitespace_errors: true,
       syntax_highlighting: true,
       tab_size: 8,
-      theme: 'DEFAULT',
     };
     element.diff = {
       intraline_status: 'OK',
@@ -1059,21 +1080,24 @@ suite('gr-diff tests', () => {
   };
 
   test('clear diff table content as soon as diff changes', () => {
-    const content = [{
-      a: ['all work and no play make andybons a dull boy'],
-    }, {
-      b: [
-        'Non eram nescius, Brute, cum, quae summis ingeniis ',
-      ],
-    }];
+    const content = [
+      {
+        a: ['all work and no play make andybons a dull boy'],
+      },
+      {
+        b: ['Non eram nescius, Brute, cum, quae summis ingeniis '],
+      },
+    ];
     function assertDiffTableWithContent() {
-      assert.isTrue(element.$.diffTable.innerText.includes(content[0].a));
+      const diffTable = element.$.diffTable;
+      assert.isTrue(diffTable.innerText.includes(content[0].a?.[0] ?? ''));
     }
     setupSampleDiff({content});
     assertDiffTableWithContent();
-    element.diff = {...element.diff};
+    element.diff = {...element.diff!};
     // immediately cleaned up
-    assert.equal(element.$.diffTable.innerHTML, '');
+    const diffTable = element.$.diffTable;
+    assert.equal(diffTable.innerHTML, '');
     element._renderDiffTable();
     flush();
     // rendered again
@@ -1082,40 +1106,46 @@ suite('gr-diff tests', () => {
 
   suite('selection test', () => {
     test('user-select set correctly on side-by-side view', () => {
-      const content = [{
-        a: ['all work and no play make andybons a dull boy'],
-        b: ['elgoog elgoog elgoog'],
-      }, {
-        ab: [
-          'Non eram nescius, Brute, cum, quae summis ingeniis ',
-          'exquisitaque doctrina philosophi Graeco sermone tractavissent',
-        ],
-      }];
+      const content = [
+        {
+          a: ['all work and no play make andybons a dull boy'],
+          b: ['elgoog elgoog elgoog'],
+        },
+        {
+          ab: [
+            'Non eram nescius, Brute, cum, quae summis ingeniis ',
+            'exquisitaque doctrina philosophi Graeco sermone tractavissent',
+          ],
+        },
+      ];
       setupSampleDiff({content});
       flush();
-      const diffLine = element.shadowRoot.querySelectorAll('.contentText')[2];
+
+      const diffLine = queryAll<HTMLElement>(element, '.contentText')[2];
       assert.equal(getComputedStyle(diffLine).userSelect, 'none');
-      // click to mark it as selected
-      MockInteractions.tap(diffLine);
+      mouseDown(diffLine);
       assert.equal(getComputedStyle(diffLine).userSelect, 'text');
     });
 
     test('user-select set correctly on unified view', () => {
-      const content = [{
-        a: ['all work and no play make andybons a dull boy'],
-        b: ['elgoog elgoog elgoog'],
-      }, {
-        ab: [
-          'Non eram nescius, Brute, cum, quae summis ingeniis ',
-          'exquisitaque doctrina philosophi Graeco sermone tractavissent',
-        ],
-      }];
+      const content = [
+        {
+          a: ['all work and no play make andybons a dull boy'],
+          b: ['elgoog elgoog elgoog'],
+        },
+        {
+          ab: [
+            'Non eram nescius, Brute, cum, quae summis ingeniis ',
+            'exquisitaque doctrina philosophi Graeco sermone tractavissent',
+          ],
+        },
+      ];
       setupSampleDiff({content});
-      element.viewMode = 'UNIFIED_DIFF';
+      element.viewMode = DiffViewMode.UNIFIED;
       flush();
-      const diffLine = element.shadowRoot.querySelectorAll('.contentText')[2];
+      const diffLine = queryAll<HTMLElement>(element, '.contentText')[2];
       assert.equal(getComputedStyle(diffLine).userSelect, 'none');
-      MockInteractions.tap(diffLine);
+      mouseDown(diffLine);
       assert.equal(getComputedStyle(diffLine).userSelect, 'text');
     });
   });
@@ -1123,93 +1153,92 @@ suite('gr-diff tests', () => {
   suite('whitespace changes only message', () => {
     test('show the message if ignore_whitespace is criteria matches', () => {
       setupSampleDiff({content: [{skip: 100}]});
-      assert.isTrue(element.showNoChangeMessage(
+      assert.isTrue(
+        element.showNoChangeMessage(
           /* loading= */ false,
           element.prefs,
           element._diffLength,
           element.diff
-      ));
+        )
+      );
     });
 
     test('do not show the message for binary files', () => {
       setupSampleDiff({content: [{skip: 100}], binary: true});
-      assert.isFalse(element.showNoChangeMessage(
+      assert.isFalse(
+        element.showNoChangeMessage(
           /* loading= */ false,
           element.prefs,
           element._diffLength,
           element.diff
-      ));
+        )
+      );
     });
 
     test('do not show the message if still loading', () => {
       setupSampleDiff({content: [{skip: 100}]});
-      assert.isFalse(element.showNoChangeMessage(
+      assert.isFalse(
+        element.showNoChangeMessage(
           /* loading= */ true,
           element.prefs,
           element._diffLength,
           element.diff
-      ));
+        )
+      );
     });
 
     test('do not show the message if contains valid changes', () => {
-      const content = [{
-        a: ['all work and no play make andybons a dull boy'],
-        b: ['elgoog elgoog elgoog'],
-      }, {
-        ab: [
-          'Non eram nescius, Brute, cum, quae summis ingeniis ',
-          'exquisitaque doctrina philosophi Graeco sermone tractavissent',
-        ],
-      }];
+      const content = [
+        {
+          a: ['all work and no play make andybons a dull boy'],
+          b: ['elgoog elgoog elgoog'],
+        },
+        {
+          ab: [
+            'Non eram nescius, Brute, cum, quae summis ingeniis ',
+            'exquisitaque doctrina philosophi Graeco sermone tractavissent',
+          ],
+        },
+      ];
       setupSampleDiff({content});
       assert.equal(element._diffLength, 3);
-      assert.isFalse(element.showNoChangeMessage(
+      assert.isFalse(
+        element.showNoChangeMessage(
           /* loading= */ false,
           element.prefs,
           element._diffLength,
           element.diff
-      ));
+        )
+      );
     });
 
     test('do not show message if ignore whitespace is disabled', () => {
-      const content = [{
-        a: ['all work and no play make andybons a dull boy'],
-        b: ['elgoog elgoog elgoog'],
-      }, {
-        ab: [
-          'Non eram nescius, Brute, cum, quae summis ingeniis ',
-          'exquisitaque doctrina philosophi Graeco sermone tractavissent',
-        ],
-      }];
+      const content = [
+        {
+          a: ['all work and no play make andybons a dull boy'],
+          b: ['elgoog elgoog elgoog'],
+        },
+        {
+          ab: [
+            'Non eram nescius, Brute, cum, quae summis ingeniis ',
+            'exquisitaque doctrina philosophi Graeco sermone tractavissent',
+          ],
+        },
+      ];
       setupSampleDiff({ignore_whitespace: 'IGNORE_NONE', content});
-      assert.isFalse(element.showNoChangeMessage(
+      assert.isFalse(
+        element.showNoChangeMessage(
           /* loading= */ false,
           element.prefs,
           element._diffLength,
           element.diff
-      ));
+        )
+      );
     });
   });
 
   test('getDiffLength', () => {
     const diff = createDiff();
     assert.equal(element.getDiffLength(diff), 52);
-  });
-
-  test('_prefsEqual', () => {
-    element = basicFixture.instantiate();
-    assert.isTrue(element._prefsEqual(null, null));
-    assert.isTrue(element._prefsEqual({}, {}));
-    assert.isTrue(element._prefsEqual({x: 1}, {x: 1}));
-    assert.isTrue(element._prefsEqual({x: 1, abc: 'def'}, {x: 1, abc: 'def'}));
-    const somePref = {abc: 'def', p: true};
-    assert.isTrue(element._prefsEqual(somePref, somePref));
-
-    assert.isFalse(element._prefsEqual({}, null));
-    assert.isFalse(element._prefsEqual(null, {}));
-    assert.isFalse(element._prefsEqual({x: 1}, {x: 2}));
-    assert.isFalse(element._prefsEqual({x: 1, y: 'abc'}, {x: 1, y: 'abcd'}));
-    assert.isFalse(element._prefsEqual({x: 1, y: 'abc'}, {x: 1}));
-    assert.isFalse(element._prefsEqual({x: 1}, {x: 1, y: 'abc'}));
   });
 });

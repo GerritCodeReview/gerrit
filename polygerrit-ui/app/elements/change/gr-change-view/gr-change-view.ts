@@ -633,6 +633,12 @@ export class GrChangeView extends base {
 
   private connected$ = new BehaviorSubject(false);
 
+  /**
+   * For `connectedCallback()` to distinguish between connecting to the DOM for
+   * the first time or if just re-connecting.
+   */
+  private isFirstConnection = true;
+
   /** Simply reflects the router-model value. */
   // visible for testing
   routerPatchNum?: PatchSetNum;
@@ -649,12 +655,29 @@ export class GrChangeView extends base {
       'fullscreen-overlay-opened',
       () => this._handleHideBackgroundContent()
     );
-
     this.addEventListener('fullscreen-overlay-closed', () =>
       this._handleShowBackgroundContent()
     );
-
     this.addEventListener('open-reply-dialog', () => this._openReplyDialog());
+    this.addEventListener('change-message-deleted', () => fireReload(this));
+    this.addEventListener('editable-content-save', e =>
+      this._handleCommitMessageSave(e)
+    );
+    this.addEventListener('editable-content-cancel', () =>
+      this._handleCommitMessageCancel()
+    );
+    this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
+    this.addEventListener('close-fix-preview', e => this._onCloseFixPreview(e));
+
+    this.addEventListener(EventType.SHOW_PRIMARY_TAB, e =>
+      this._setActivePrimaryTab(e)
+    );
+    this.addEventListener('reload', e => {
+      this.loadData(
+        /* isLocationChange= */ false,
+        /* clearPatchset= */ e.detail && e.detail.clearPatchset
+      );
+    });
   }
 
   private setupSubscriptions() {
@@ -699,24 +722,23 @@ export class GrChangeView extends base {
 
   override connectedCallback() {
     super.connectedCallback();
+    this.firstConnectedCallback();
     this.connected$.next(true);
-    this.setupSubscriptions();
-    this._throttledToggleChangeStar = throttleWrap<KeyboardEvent>(_ =>
-      this._handleToggleChangeStar()
-    );
-    this._getServerConfig().then(config => {
-      this._serverConfig = config;
-      this._replyDisabled = false;
-    });
 
-    this._getLoggedIn().then(loggedIn => {
-      this._loggedIn = loggedIn;
-      if (loggedIn) {
-        this.restApiService.getAccount().then(acct => {
-          this._account = acct;
-        });
-      }
-    });
+    // Make sure to reverse everything below this line in disconnectedCallback().
+    // Or conisder using firstConnectedCallback().
+    this.setupSubscriptions();
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+    document.addEventListener('scroll', this.handleScroll);
+  }
+
+  /**
+   * For initialization that should only happen once, not again when
+   * re-connecting to the DOM later.
+   */
+  private firstConnectedCallback() {
+    if (!this.isFirstConnection) return;
+    this.isFirstConnection = false;
 
     getPluginLoader()
       .awaitPluginsLoaded()
@@ -734,26 +756,21 @@ export class GrChangeView extends base {
       })
       .then(() => this._initActiveTabs(this.params));
 
-    this.addEventListener('change-message-deleted', () => fireReload(this));
-    this.addEventListener('editable-content-save', e =>
-      this._handleCommitMessageSave(e)
+    this._throttledToggleChangeStar = throttleWrap<KeyboardEvent>(_ =>
+      this._handleToggleChangeStar()
     );
-    this.addEventListener('editable-content-cancel', () =>
-      this._handleCommitMessageCancel()
-    );
-    this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
-    this.addEventListener('close-fix-preview', e => this._onCloseFixPreview(e));
-    document.addEventListener('visibilitychange', this.handleVisibilityChange);
-    document.addEventListener('scroll', this.handleScroll);
+    this._getServerConfig().then(config => {
+      this._serverConfig = config;
+      this._replyDisabled = false;
+    });
 
-    this.addEventListener(EventType.SHOW_PRIMARY_TAB, e =>
-      this._setActivePrimaryTab(e)
-    );
-    this.addEventListener('reload', e => {
-      this.loadData(
-        /* isLocationChange= */ false,
-        /* clearPatchset= */ e.detail && e.detail.clearPatchset
-      );
+    this._getLoggedIn().then(loggedIn => {
+      this._loggedIn = loggedIn;
+      if (loggedIn) {
+        this.restApiService.getAccount().then(acct => {
+          this._account = acct;
+        });
+      }
     });
   }
 

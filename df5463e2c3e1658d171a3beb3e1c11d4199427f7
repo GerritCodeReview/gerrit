@@ -22,6 +22,30 @@
       },
       "revId": "df5463e2c3e1658d171a3beb3e1c11d4199427f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9ff3c5c_dd1507aa",
+        "filename": "antlr3/com/google/gerrit/index/query/Query.g",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-13T10:10:49Z",
+      "side": 1,
+      "message": "This still allows field name to end with a dash, for example: a-\n\nIf we want to achieve the following:\n* field name must start and end with a..z or _\n* field name can also contain -\n\nthen I think the following grammar is correct:\n\n  (\u0027_\u0027 \u0027a\u0027..\u0027z\u0027)\n  |\n  (\u0027_\u0027 \u0027a\u0027..\u0027z\u0027) (\u0027_\u0027 \u0027a\u0027..\u0027z\u0027 \u0027-\u0027)+ (\u0027_\u0027 \u0027a\u0027..\u0027z\u0027)",
+      "parentUuid": "e272a405_e11ae435",
+      "range": {
+        "startLine": 156,
+        "startChar": 22,
+        "endLine": 156,
+        "endChar": 30
+      },
+      "revId": "df5463e2c3e1658d171a3beb3e1c11d4199427f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

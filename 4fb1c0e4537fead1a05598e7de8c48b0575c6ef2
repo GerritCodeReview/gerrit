@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1485760a_fcac7c53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-14T15:19:07Z",
+      "side": 1,
+      "message": "@Kaushik are you planning to update Gerrit documentation as well?",
+      "revId": "4fb1c0e4537fead1a05598e7de8c48b0575c6ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "Release-Notes missing.\n\nAlso, it should be mentioned in the plugins development docs.",
       "revId": "a13f15ba8bd2b785333028e8088afca0a1792847",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e154658_270f67c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-15T18:37:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f84f30be_c251004b",
+      "revId": "a13f15ba8bd2b785333028e8088afca0a1792847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -103,6 +103,8 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
       switch (saveResult) {
         case NO_CHANGE:
         case FAST_FORWARD:
+        case LOCK_FAILURE:
+        case FORCED:
           try {
             deleteKeySenderFactory
                 .create(rsrc.getUser(), ImmutableList.of(PublicKeyStore.keyToString(key)))
@@ -113,8 +115,6 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
                 rsrc.getUser().getAccount().preferredEmail());
           }
           break;
-        case LOCK_FAILURE:
-        case FORCED:
         case IO_FAILURE:
         case NEW:
         case NOT_ATTEMPTED:

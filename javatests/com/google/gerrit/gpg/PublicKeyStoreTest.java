@@ -23,12 +23,11 @@ import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithoutExpiration;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithoutExpirationWithSubkeyWithExpiration;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import com.google.common.collect.Iterators;
 import com.google.gerrit.gpg.testing.TestKey;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -38,14 +37,22 @@ import java.util.TreeSet;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
@@ -216,8 +223,77 @@ public class PublicKeyStoreTest {
     assertKeys(key1.getKeyId(), key1);
 
     store.remove(key1.getPublicKey().getFingerprint());
-    assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(newCommitBuilder()));
+    assertEquals(RefUpdate.Result.FORCED, store.save(newCommitBuilder()));
     assertKeys(key1.getKeyId());
+  }
+
+  @Test
+  public void removeWithRewritePreservesOtherKeys() throws Exception {
+    TestKey key1 = validKeyWithoutExpiration();
+    store.add(key1.getPublicKeyRing());
+    assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
+    assertKeys(key1.getKeyId(), key1);
+
+    TestKey key2 = validKeyWithoutExpirationWithSubkeyWithExpiration();
+    PGPPublicKeyRing keyRing = key2.getPublicKeyRing();
+    PGPPublicKey subKeyKey2 =
+        keyRing.getPublicKey(Iterators.get(keyRing.getPublicKeys(), 1).getKeyID());
+    store.add(key2.getPublicKeyRing());
+    assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(newCommitBuilder()));
+    assertKeys(key2.getKeyId(), key2);
+
+    store.remove(key1.getPublicKey().getFingerprint());
+    assertEquals(RefUpdate.Result.FORCED, store.save(newCommitBuilder()));
+    assertKeys(key1.getKeyId());
+    assertKeys(key2.getKeyId(), key2);
+    assertKeys(subKeyKey2.getKeyID(), key2);
+  }
+
+  @Test
+  public void removeMultipleKeys() throws Exception {
+    TestKey key1 = validKeyWithoutExpiration();
+    store.add(key1.getPublicKeyRing());
+    assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
+    assertKeys(key1.getKeyId(), key1);
+
+    TestKey key2 = validKeyWithoutExpirationWithSubkeyWithExpiration();
+    PGPPublicKeyRing keyRing = key2.getPublicKeyRing();
+    PGPPublicKey subKeyKey2 =
+        keyRing.getPublicKey(Iterators.get(keyRing.getPublicKeys(), 1).getKeyID());
+    store.add(key2.getPublicKeyRing());
+    assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(newCommitBuilder()));
+    assertKeys(key2.getKeyId(), key2);
+
+    store.remove(key1.getPublicKey().getFingerprint());
+    store.remove(key2.getPublicKey().getFingerprint());
+    assertEquals(RefUpdate.Result.FORCED, store.save(newCommitBuilder()));
+    assertKeys(key1.getKeyId());
+    assertKeys(key2.getKeyId());
+    assertKeys(subKeyKey2.getKeyID());
+  }
+
+  @Test
+  public void removeVerifyRewrite() throws Exception {
+    TestKey key1 = validKeyWithoutExpiration();
+    store.add(key1.getPublicKeyRing());
+    assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
+    assertKeys(key1.getKeyId(), key1);
+
+    TestKey key2 = validKeyWithoutExpirationWithSubkeyWithExpiration();
+    PGPPublicKeyRing keyRing = key2.getPublicKeyRing();
+    PGPPublicKey subKeyKey2 =
+        keyRing.getPublicKey(Iterators.get(keyRing.getPublicKeys(), 1).getKeyID());
+    store.add(key2.getPublicKeyRing());
+    assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(newCommitBuilder()));
+    assertKeys(key2.getKeyId(), key2);
+
+    List<RevCommit> commitsBefore = getCommitsInReverseOrder();
+    store.remove(key1.getPublicKey().getFingerprint());
+    assertEquals(RefUpdate.Result.FORCED, store.save(newCommitBuilder()));
+    assertKeys(key1.getKeyId());
+    assertKeys(key2.getKeyId(), key2);
+    assertKeys(subKeyKey2.getKeyID(), key2);
+    assertNotContainedInAnyCommitAfterRewrite(commitsBefore, key1);
   }
 
   @Test
@@ -237,7 +313,7 @@ public class PublicKeyStoreTest {
     }
 
     store.remove(key1.getPublicKey().getFingerprint());
-    assertEquals(RefUpdate.Result.FAST_FORWARD, store.save(newCommitBuilder()));
+    assertEquals(RefUpdate.Result.FORCED, store.save(newCommitBuilder()));
 
     assertKeys(masterKeyId);
     assertKeys(subKeyId);
@@ -264,6 +340,32 @@ public class PublicKeyStoreTest {
     assertKeys(key1.getKeyId());
   }
 
+  @Test
+  public void removeThenAdd() throws Exception {
+    TestKey key1 = validKeyWithoutExpiration();
+    store.remove(key1.getPublicKey().getFingerprint());
+    store.add(key1.getPublicKeyRing());
+    assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
+    assertKeys(key1.getKeyId(), key1);
+  }
+
+  @Test
+  public void addAndRemoveInSameSaveCall() throws Exception {
+    TestKey key1 = validKeyWithoutExpiration();
+    store.add(key1.getPublicKeyRing());
+
+    assertEquals(RefUpdate.Result.NEW, store.save(newCommitBuilder()));
+    assertKeys(key1.getKeyId(), key1);
+
+    TestKey key2 = validKeyWithSecondUserId();
+    store.add(key2.getPublicKeyRing());
+    store.remove(key1.getPublicKey().getFingerprint());
+
+    assertEquals(RefUpdate.Result.FORCED, store.save(newCommitBuilder()));
+    assertKeys(key2.getKeyId(), key2);
+    assertKeys(key1.getKeyId());
+  }
+
   private void assertKeys(long keyId, TestKey... expected) throws Exception {
     Set<String> expectedStrings = new TreeSet<>();
     for (TestKey k : expected) {
@@ -286,6 +388,58 @@ public class PublicKeyStoreTest {
     }
 
     assertEquals(Arrays.asList(expected), actual);
+  }
+
+  protected void assertNotContainedInAnyCommitAfterRewrite(
+      List<RevCommit> commitsBeforeDelete, TestKey deleted)
+      throws RepositoryNotFoundException, IOException {
+    List<RevCommit> commitsAfterDelete = getCommitsInReverseOrder();
+    ObjectId deletedObjectId = PublicKeyStore.keyObjectId(deleted.getPublicKey().getKeyID());
+    assertEquals(commitsAfterDelete.size(), commitsBeforeDelete.size());
+
+    boolean containedBefore = false;
+    try (ObjectReader reader = tr.getRepository().newObjectReader()) {
+      for (int i = 0; i < commitsBeforeDelete.size(); i++) {
+        RevCommit commitBefore = commitsBeforeDelete.get(i);
+        RevCommit commitAfter = commitsAfterDelete.get(i);
+
+        NoteMap noteMapBefore = NoteMap.read(reader, commitBefore);
+        containedBefore |= noteMapBefore.contains(deletedObjectId);
+
+        if (containedBefore) {
+          // should be in every commit after it as been inserted
+          assertTrue(noteMapBefore.contains(deletedObjectId));
+        }
+
+        NoteMap noteMapAfter = NoteMap.read(reader, commitAfter);
+        assertFalse(noteMapAfter.contains(deletedObjectId));
+
+        assertEquals(commitAfter.getFullMessage(), commitBefore.getFullMessage());
+        assertEquals(commitAfter.getCommitterIdent(), commitBefore.getCommitterIdent());
+        assertEquals(commitAfter.getAuthorIdent(), commitBefore.getAuthorIdent());
+        assertEquals(commitAfter.getEncoding(), commitBefore.getEncoding());
+        assertEquals(commitAfter.getEncodingName(), commitBefore.getEncodingName());
+      }
+      assertTrue(containedBefore);
+    }
+  }
+
+  private List<RevCommit> getCommitsInReverseOrder()
+      throws IOException, MissingObjectException, IncorrectObjectTypeException,
+          RepositoryNotFoundException {
+    Repository repo = tr.getRepository();
+    try (RevWalk revWalk = new RevWalk(repo)) {
+      revWalk.sort(RevSort.TOPO);
+      revWalk.sort(RevSort.REVERSE);
+      Ref metaRef = repo.exactRef(PublicKeyStore.REFS_GPG_KEYS);
+      revWalk.markStart(revWalk.parseCommit(metaRef.getObjectId()));
+      revWalk.markStart(revWalk.parseCommit(metaRef.getObjectId()));
+      ArrayList<RevCommit> commits = new ArrayList<>();
+      for (RevCommit revCommit : revWalk) {
+        commits.add(revCommit);
+      }
+      return commits;
+    }
   }
 
   private CommitBuilder newCommitBuilder() {

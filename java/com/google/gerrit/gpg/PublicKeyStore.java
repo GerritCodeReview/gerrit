@@ -227,15 +227,26 @@ public class PublicKeyStore implements AutoCloseable {
   }
 
   private List<PGPPublicKeyRing> get(ObjectId keyObjectId, byte[] fp) throws IOException {
+    return PublicKeyStore.get(reader, notes, keyObjectId, fp);
+  }
+
+  static List<PGPPublicKeyRing> get(
+      ObjectReader reader, NoteMap notes, ObjectId keyObjectId, byte[] fp) throws IOException {
     Note note = notes.getNote(keyObjectId);
     if (note == null) {
       return Collections.emptyList();
     }
 
-    return readKeysFromNote(note, fp);
+    return PublicKeyStore.readKeysFromNote(reader, notes, note, fp);
   }
 
   private List<PGPPublicKeyRing> readKeysFromNote(Note note, byte[] fp)
+      throws IOException, MissingObjectException, IncorrectObjectTypeException {
+    return PublicKeyStore.readKeysFromNote(reader, notes, note, fp);
+  }
+
+  static List<PGPPublicKeyRing> readKeysFromNote(
+      ObjectReader reader, NoteMap notes, Note note, byte[] fp)
       throws IOException, MissingObjectException, IncorrectObjectTypeException {
     boolean foundAtLeastOneKey = false;
     List<PGPPublicKeyRing> keys = new ArrayList<>();
@@ -267,7 +278,7 @@ public class PublicKeyStore implements AutoCloseable {
       // Subkey handling
       String id = new String(bytes, UTF_8);
       Preconditions.checkArgument(ObjectId.isId(id), "Not valid SHA1: " + id);
-      return get(ObjectId.fromString(id), fp);
+      return PublicKeyStore.get(reader, notes, ObjectId.fromString(id), fp);
     }
   }
 
@@ -319,8 +330,11 @@ public class PublicKeyStore implements AutoCloseable {
   /**
    * Remove a public key from the store.
    *
-   * <p>Multiple calls may be made to buffer deletes in memory, and they are not saved until {@link
-   * #save(CommitBuilder)} is called.
+   * <p>Multiple calls may be made to buffer deletes in memory, and they are not removed until
+   * {@link #save(CommitBuilder)} is called.
+   *
+   * <p>Deletion of keys by {@link #save(CommitBuilder)} is done by rewriting history so key
+   * removals will not create a new commit.
    *
    * @param fingerprint the fingerprint of the key to remove.
    */
@@ -331,10 +345,13 @@ public class PublicKeyStore implements AutoCloseable {
   }
 
   /**
-   * Save pending keys to the store.
+   * Execute rewrites for key removal and save pending keys to the store.
    *
-   * <p>One commit is created and the ref updated. The pending list is cleared if and only if the
-   * ref update succeeds, which allows for easy retries in case of lock failure.
+   * <p>If keys are scheduled to be removed then history gets rewritten them. If there are keys to
+   * be added then one new commit is created. When keys get both added and removed then the rewrites
+   * get executed before creating the new commit. If there are any changes then the ref gets
+   * updated. The pending list is cleared if and only if the ref update succeeds, which allows for
+   * easy retries in case of lock failure.
    *
    * @param cb commit builder with at least author and identity populated; tree and parent are
    *     ignored.
@@ -350,28 +367,48 @@ public class PublicKeyStore implements AutoCloseable {
     if (notes == null) {
       notes = NoteMap.newEmptyMap();
     }
-    ObjectId newTip;
-    try (ObjectInserter ins = repo.newObjectInserter()) {
-      for (PGPPublicKeyRing keyRing : toAdd.values()) {
-        saveToNotes(ins, keyRing);
-      }
-      for (Fingerprint fp : toRemove) {
-        deleteFromNotes(ins, fp);
-      }
-      cb.setTreeId(notes.writeTree(ins));
-      if (cb.getTreeId().equals(tip != null ? tip.getTree() : EMPTY_TREE_ID)) {
-        return RefUpdate.Result.NO_CHANGE;
+    RevCommit newTip = tip;
+    boolean hasRewrites = false;
+
+    try (ObjectInserter ins = repo.newObjectInserter();
+        ObjectReader reader = ins.newReader();
+        RevWalk rw = new RevWalk(reader)) {
+      if (tip != null) {
+        for (Fingerprint fp : toRemove) {
+          newTip = rw.parseCommit(deleteWithRewrite(ins, reader, rw, newTip, fp));
+          if (!tip.equals(newTip)) {
+            hasRewrites = true;
+          }
+        }
       }
 
-      if (tip != null) {
-        cb.setParentId(tip);
+      if (!toAdd.isEmpty()) {
+        for (PGPPublicKeyRing keyRing : toAdd.values()) {
+          saveToNotes(ins, keyRing);
+        }
+        if (hasRewrites) {
+          notes = NoteMap.read(reader, newTip);
+        }
+        cb.setTreeId(notes.writeTree(ins));
+        if (cb.getTreeId().equals(newTip != null ? newTip.getTree() : EMPTY_TREE_ID)) {
+          return RefUpdate.Result.NO_CHANGE;
+        }
+
+        if (newTip != null) {
+          cb.setParentId(newTip);
+        }
+        if (cb.getMessage() == null) {
+          int n = toAdd.size() + toRemove.size();
+          cb.setMessage(String.format("Update %d public key%s", n, n != 1 ? "s" : ""));
+        }
+        newTip = rw.parseCommit(ins.insert(cb));
       }
-      if (cb.getMessage() == null) {
-        int n = toAdd.size() + toRemove.size();
-        cb.setMessage(String.format("Update %d public key%s", n, n != 1 ? "s" : ""));
-      }
-      newTip = ins.insert(cb);
+
       ins.flush();
+    }
+
+    if (newTip == null || (tip != null && tip.equals(newTip))) {
+      return RefUpdate.Result.NO_CHANGE;
     }
 
     RefUpdate ru = repo.updateRef(PublicKeyStore.REFS_GPG_KEYS);
@@ -379,6 +416,7 @@ public class PublicKeyStore implements AutoCloseable {
     ru.setNewObjectId(newTip);
     ru.setRefLogIdent(cb.getCommitter());
     ru.setRefLogMessage("Store public keys", true);
+    ru.setForceUpdate(hasRewrites);
     RefUpdate.Result result = ru.update();
     reset();
     switch (result) {
@@ -402,6 +440,20 @@ public class PublicKeyStore implements AutoCloseable {
         break;
     }
     return result;
+  }
+
+  private ObjectId deleteWithRewrite(
+      ObjectInserter ins,
+      ObjectReader reader,
+      RevWalk rw,
+      RevCommit currentTip,
+      Fingerprint fingerprint)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+    if (tip == null) {
+      // no commit on the ref yet, nothing to delete
+      return null;
+    }
+    return new DeleteGpgKeyRewriter(fingerprint).rewriteHistory(ins, reader, rw, currentTip);
   }
 
   private void saveToNotes(ObjectInserter ins, PGPPublicKeyRing keyRing)
@@ -454,44 +506,11 @@ public class PublicKeyStore implements AutoCloseable {
     }
   }
 
-  private void deleteFromNotes(ObjectInserter ins, Fingerprint fp)
-      throws PGPException, IOException {
-    long keyId = fp.getId();
-    PGPPublicKeyRingCollection existing = get(keyId);
-    List<PGPPublicKeyRing> toWrite = new ArrayList<>(existing.size());
-    for (PGPPublicKeyRing kr : existing) {
-      if (!fp.equalsBytes(kr.getPublicKey().getFingerprint())) {
-        toWrite.add(kr);
-      }
-    }
-    if (toWrite.size() == existing.size()) {
-      return;
-    }
-
-    ObjectId keyObjectId = keyObjectId(keyId);
-    if (!toWrite.isEmpty()) {
-      notes.set(keyObjectId, ins.insert(OBJ_BLOB, keysToArmored(toWrite)));
-    } else {
-      PGPPublicKeyRing keyRing = get(fp.get());
-
-      for (PGPPublicKey key : keyRing) {
-        long subKeyId = key.getKeyID();
-        // Skip master public key
-        if (keyId == subKeyId) {
-          continue;
-        }
-        notes.remove(keyObjectId(subKeyId));
-      }
-
-      notes.remove(keyObjectId);
-    }
-  }
-
   private static boolean sameKey(PGPPublicKeyRing kr1, PGPPublicKeyRing kr2) {
     return Arrays.equals(kr1.getPublicKey().getFingerprint(), kr2.getPublicKey().getFingerprint());
   }
 
-  private static byte[] keysToArmored(List<PGPPublicKeyRing> keys) throws IOException {
+  static byte[] keysToArmored(List<PGPPublicKeyRing> keys) throws IOException {
     ByteArrayOutputStream out = new ByteArrayOutputStream(4096 * keys.size());
     for (PGPPublicKeyRing kr : keys) {
       try (ArmoredOutputStream aout = new ArmoredOutputStream(out)) {

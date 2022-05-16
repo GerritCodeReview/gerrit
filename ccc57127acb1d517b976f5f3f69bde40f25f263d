@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff683921_135344f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-16T17:01:58Z",
+      "side": 1,
+      "message": "Need screenshot updates for the record",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "ccc57127acb1d517b976f5f3f69bde40f25f263d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -123,9 +123,7 @@ def transform_polymer_templates(name, srcs, tsconfig, deps, out_tsconfig):
     )
 
     # Pack all transformed files. Later files can be materialized in the
-    # WORKSPACE/polygerrit-ui/app/tmpl_out dir. The following command do it
-    # automatically
-    # npm run polytest:dev
+    # WORKSPACE/polygerrit-ui/app/tmpl_out dir.
     pkg_tar(
         name = name + "_tar",
         srcs = generated_dev_files,

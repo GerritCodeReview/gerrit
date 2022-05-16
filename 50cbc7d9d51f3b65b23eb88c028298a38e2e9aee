@@ -16,6 +16,24 @@
       "message": "@hiesel, this is needed by some automation to update SRs using the REST API. More info in b/230422602.",
       "revId": "50cbc7d9d51f3b65b23eb88c028298a38e2e9aee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "527b7ef2_49175242",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-16T09:35:10Z",
+      "side": 1,
+      "message": "ping",
+      "parentUuid": "1521d346_1996227e",
+      "revId": "50cbc7d9d51f3b65b23eb88c028298a38e2e9aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

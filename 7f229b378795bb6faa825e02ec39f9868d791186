@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a8c1f97_444b66b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-16T11:23:04Z",
+      "side": 1,
+      "message": "This cannot be merged as-is as this would bump Java 17 per default. I will upload a new patch set.",
+      "revId": "7f229b378795bb6faa825e02ec39f9868d791186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -240,34 +240,6 @@ were changed, the plugin doesn't run compiler. As a workaround, setup
 the "Before launch" section for IntelliJ. This is a temporary problem until
 typescript migration is complete.
 
-## Running Templates Test
-The templates test validates polymer templates. The test convert polymer
-templates into a plain typescript code and then run TS compiler. The test fails
-if TS compiler reports errors; in this case you will see TS errors in
-the log/output. Gerrit-CI automatically runs templates test.
-
-**Note**: Files defined in `ignore_templates_list` (`polygerrit-ui/app/BUILD`)
-are excluded from code generation and checking. If you don't know how to fix
-a problem, you can add a problematic template in the list.
-
-* To run test locally, use npm command:
-``` sh
-npm run polytest
-```
-
-* Often, the output from the previous command is not clear (cryptic TS errors).
-In this case, run the command
-```sh
-npm run polytest:dev
-```
-This command (re)creates the `polygerrit-ui/app/tmpl_out` directory and put
-generated files into it. For each polygerrit .ts file there is a generated file
-in the `tmpl_out` directory. If an original file doesn't contain a polymer
-template, the generated file is empty.
-
-You can open a problematic file in IDE and fix the problem. Ensure, that IDE
-uses `polygerrit-ui/app/tsconfig.json` as a project (usually, this is default).
-
 ### Generated file overview
 
 A generated file starts with imports followed by a static content with

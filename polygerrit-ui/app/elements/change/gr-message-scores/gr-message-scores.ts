@@ -25,8 +25,6 @@ import {
 } from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {getTriggerVotes} from '../../../utils/label-util';
-import {getAppContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 const VOTE_RESET_TEXT = '0 (vote reset)';
 
@@ -102,8 +100,6 @@ export class GrMessageScores extends LitElement {
     `;
   }
 
-  private readonly flagsService = getAppContext().flagsService;
-
   override render() {
     const scores = this._getScores(this.message, this.labelExtremes);
     const triggerVotes = getTriggerVotes(this.change);
@@ -112,7 +108,6 @@ export class GrMessageScores extends LitElement {
 
   private renderScore(score: Score, triggerVotes: string[]) {
     if (
-      this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI) &&
       score.label &&
       triggerVotes.includes(score.label) &&
       !score.value?.includes(VOTE_RESET_TEXT)

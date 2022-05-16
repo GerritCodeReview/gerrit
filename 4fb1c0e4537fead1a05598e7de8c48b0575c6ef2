@@ -16,6 +16,24 @@
       "message": "@Kaushik are you planning to update Gerrit documentation as well?",
       "revId": "4fb1c0e4537fead1a05598e7de8c48b0575c6ef2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02a5c31e_8ff2dab6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-16T15:19:37Z",
+      "side": 1,
+      "message": "@Luca, what docs do you think need an update for this? I don\u0027t think we document anywhere that search operators can\u0027t have \u0027-\u0027. This was surprising to me that it didn\u0027t already work since we have plenty of plugins with \u0027-\u0027 in their names.",
+      "parentUuid": "1485760a_fcac7c53",
+      "revId": "4fb1c0e4537fead1a05598e7de8c48b0575c6ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

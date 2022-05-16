@@ -74,6 +74,30 @@
       },
       "revId": "5b4d8118aca8ee9040e30cbb4359331cb8c7c878",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d467e98a_96d2b0d0",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-16T14:38:52Z",
+      "side": 1,
+      "message": "Right. Let me fix it.",
+      "parentUuid": "9cb8d8df_f36aeffb",
+      "range": {
+        "startLine": 263,
+        "startChar": 51,
+        "endLine": 263,
+        "endChar": 57
+      },
+      "revId": "5b4d8118aca8ee9040e30cbb4359331cb8c7c878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

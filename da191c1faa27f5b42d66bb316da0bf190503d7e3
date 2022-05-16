@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b773113_e5d52c0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-16T09:08:26Z",
+      "side": 1,
+      "message": "typo: Pgm",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "da191c1faa27f5b42d66bb316da0bf190503d7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8d07fc42_8d22ed97",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -19,6 +42,46 @@
         "startChar": 0,
         "endLine": 10,
         "endChar": 35
+      },
+      "revId": "da191c1faa27f5b42d66bb316da0bf190503d7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19be5dbe_f9ecd6f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-16T09:08:26Z",
+      "side": 1,
+      "message": "@Patrick we are releasing v3.6.0 today, are you planning to work on it and finalise it?",
+      "revId": "da191c1faa27f5b42d66bb316da0bf190503d7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6badca82_98faaeb3",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/CopyApprovalsPmgIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-16T09:08:26Z",
+      "side": 1,
+      "message": "Pgm?",
+      "range": {
+        "startLine": 28,
+        "startChar": 26,
+        "endLine": 28,
+        "endChar": 29
       },
       "revId": "da191c1faa27f5b42d66bb316da0bf190503d7e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

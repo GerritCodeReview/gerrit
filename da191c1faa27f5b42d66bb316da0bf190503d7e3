@@ -47,6 +47,29 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d39e00a5_211bd401",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-16T09:19:28Z",
+      "side": 1,
+      "message": "Can you explain why is this optional? AFAIK if you are migrating form an older version (e.g. before v3.5) straight to v3.6, you won\u0027t have any copied labels and therefore you may risk to see lots of changes without the appropriate label copied.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 8
+      },
+      "revId": "da191c1faa27f5b42d66bb316da0bf190503d7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "19be5dbe_f9ecd6f2",

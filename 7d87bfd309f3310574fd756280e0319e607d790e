@@ -37,6 +37,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "419561e9_8bd7a3f9",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-16T08:31:04Z",
+      "side": 1,
+      "message": "Done. It already extends `AccountInfo | GroupInfo` so I switched to that. The extra \"Input\" parts are UI-only and don\u0027t need to be given here, so I will prefer this over moving AccountInput to common.",
+      "parentUuid": "c42572a2_d6ddc21f",
+      "revId": "7d87bfd309f3310574fd756280e0319e607d790e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c6ed2626_12fcbf4c",
         "filename": "polygerrit-ui/app/utils/account-util.ts",
         "patchSetId": 1

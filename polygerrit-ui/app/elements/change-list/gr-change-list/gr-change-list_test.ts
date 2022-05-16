@@ -32,6 +32,7 @@ import {AccountId, NumericChangeId} from '../../../types/common';
 import {
   createChange,
   createServerInfo,
+  createSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
@@ -165,23 +166,36 @@ suite('gr-change-list basic tests', () => {
             {
               ...createChange(),
               _number: 0 as NumericChangeId,
-              labels: {Verified: {approved: {}}},
+              submit_requirements: [
+                {
+                  ...createSubmitRequirementResultInfo(),
+                  name: 'Verified',
+                },
+              ],
             },
             {
               ...createChange(),
               _number: 1 as NumericChangeId,
-              labels: {
-                Verified: {approved: {}},
-                'Code-Review': {approved: {}},
-              },
+              submit_requirements: [
+                {
+                  ...createSubmitRequirementResultInfo(),
+                  name: 'Verified',
+                },
+                {
+                  ...createSubmitRequirementResultInfo(),
+                  name: 'Code-Review',
+                },
+              ],
             },
             {
               ...createChange(),
               _number: 2 as NumericChangeId,
-              labels: {
-                Verified: {approved: {}},
-                'Library-Compliance': {approved: {}},
-              },
+              submit_requirements: [
+                {
+                  ...createSubmitRequirementResultInfo(),
+                  name: 'Library-Compliance',
+                },
+              ],
             },
           ],
         },

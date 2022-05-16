@@ -14,6 +14,7 @@ import {
   ChangeInfo,
   NumericChangeId,
   ServerInfo,
+  SuggestedReviewerGroupInfo,
 } from '../../../types/common';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-overlay/gr-overlay';
@@ -32,12 +33,13 @@ import {listForSentence} from '../../../utils/string-util';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {
   AccountInput,
-  AccountInputDetail,
+  GrAccountList,
 } from '../../shared/gr-account-list/gr-account-list';
 import '@polymer/iron-icon/iron-icon';
 import {getReplyByReason} from '../../../utils/attention-set-util';
 import {intersection} from '../../../utils/common-util';
 import {accountOrGroupKey} from '../../../utils/account-util';
+import {ValueChangedEvent} from '../../../types/events';
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
@@ -66,7 +68,25 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   @state() private serverConfig?: ServerInfo;
 
-  @query('gr-overlay') private overlay!: GrOverlay;
+  @state()
+  private groupPendingConfirmationByReviewerState: Map<
+    ReviewerState,
+    SuggestedReviewerGroupInfo | null
+  > = new Map([
+    [ReviewerState.REVIEWER, null],
+    [ReviewerState.CC, null],
+  ]);
+
+  @query('gr-overlay#flow') private overlay?: GrOverlay;
+
+  @query('gr-account-list#reviewer-list') private reviewerList?: GrAccountList;
+
+  @query('gr-account-list#cc-list') private ccList?: GrAccountList;
+
+  @query('gr-overlay#confirm-reviewer')
+  private reviewerConfirmOverlay?: GrOverlay;
+
+  @query('gr-overlay#confirm-cc') private ccConfirmOverlay?: GrOverlay;
 
   private readonly reportingService = getAppContext().reportingService;
 
@@ -113,6 +133,14 @@ export class GrChangeListReviewerFlow extends LitElement {
         --iron-icon-height: 18px;
         --iron-icon-width: 18px;
       }
+      gr-overlay#confirm-cc,
+      gr-overlay#confirm-reviewer {
+        padding: var(--spacing-l);
+        text-align: center;
+      }
+      .confirmation-buttons {
+        margin-top: var(--spacing-l);
+      }
     `;
   }
 
@@ -141,7 +169,6 @@ export class GrChangeListReviewerFlow extends LitElement {
   }
 
   override render() {
-    // TODO: factor out button+dialog component with promise-progress tracking
     return html`
       <gr-button
         id="start-flow"
@@ -150,7 +177,7 @@ export class GrChangeListReviewerFlow extends LitElement {
         @click=${() => this.openOverlay()}
         >add reviewer/cc</gr-button
       >
-      <gr-overlay with-backdrop>
+      <gr-overlay id="flow" with-backdrop>
         ${this.isOverlayOpen ? this.renderDialog() : nothing}
       </gr-overlay>
     `;
@@ -195,8 +222,6 @@ export class GrChangeListReviewerFlow extends LitElement {
     if (!updatedAccounts || !suggestionsProvider) {
       return;
     }
-    // @accounts-changed will notify us when an account is added or removed, so
-    // we need to re-render to update warning messages.
     return html`
       <gr-account-list
         id=${id}
@@ -204,11 +229,48 @@ export class GrChangeListReviewerFlow extends LitElement {
         .removableValues=${[]}
         .suggestionsProvider=${suggestionsProvider}
         .placeholder=${placeholder}
-        @accounts-changed=${() => this.requestUpdate()}
-        @account-added=${(e: CustomEvent<AccountInputDetail>) =>
-          this.onAccountAdded(reviewerState, e)}
+        .pendingConfirmation=${this.groupPendingConfirmationByReviewerState.get(
+          reviewerState
+        )}
+        @accounts-changed=${() => this.onAccountsChanged(reviewerState)}
+        @pending-confirmation-changed=${(
+          ev: ValueChangedEvent<SuggestedReviewerGroupInfo | null>
+        ) => this.onPendingConfirmationChanged(reviewerState, ev)}
       >
       </gr-account-list>
+      ${this.renderConfirmationDialog(reviewerState)}
+    `;
+  }
+
+  private renderConfirmationDialog(reviewerState: ReviewerState) {
+    const id =
+      reviewerState === ReviewerState.CC ? 'confirm-cc' : 'confirm-reviewer';
+    const suggestion =
+      this.groupPendingConfirmationByReviewerState.get(reviewerState);
+    return html`
+      <gr-overlay
+        id=${id}
+        @iron-overlay-canceled=${() => this.cancelPendingGroup(reviewerState)}
+      >
+        <div class="confirmation-text">
+          Group
+          <span class="groupName"> ${suggestion?.group.name} </span>
+          has
+          <span class="groupSize"> ${suggestion?.count} </span>
+          members.
+          <br />
+          Are you sure you want to add them all?
+        </div>
+        <div class="confirmation-buttons">
+          <gr-button
+            @click=${() => this.confirmPendingGroup(reviewerState, suggestion)}
+            >Yes</gr-button
+          >
+          <gr-button @click=${() => this.cancelPendingGroup(reviewerState)}
+            >No</gr-button
+          >
+        </div>
+      </gr-overlay>
     `;
   }
 
@@ -269,12 +331,12 @@ export class GrChangeListReviewerFlow extends LitElement {
   private openOverlay() {
     this.resetFlow();
     this.isOverlayOpen = true;
-    this.overlay.open();
+    this.overlay?.open();
   }
 
   private closeOverlay() {
     this.isOverlayOpen = false;
-    this.overlay.close();
+    this.overlay?.close();
   }
 
   private resetFlow() {
@@ -299,11 +361,15 @@ export class GrChangeListReviewerFlow extends LitElement {
     this.requestUpdate();
   }
 
-  /* Removes accounts from one list when they are added to the other */
-  private onAccountAdded(
-    reviewerState: ReviewerState,
-    event: CustomEvent<AccountInputDetail>
-  ) {
+  /*
+   * Removes accounts from one list when they are added to the other. Also
+   * trigger re-render so warnings will update as accounts are added, removed,
+   * and confirmed.
+   */
+  private onAccountsChanged(reviewerState: ReviewerState) {
+    const reviewerStateKeys = this.updatedAccountsByReviewerState
+      .get(reviewerState)!
+      .map(accountOrGroupKey);
     const oppositeReviewerState =
       reviewerState === ReviewerState.CC
         ? ReviewerState.REVIEWER
@@ -311,13 +377,61 @@ export class GrChangeListReviewerFlow extends LitElement {
     const oppositeUpdatedAccounts = this.updatedAccountsByReviewerState.get(
       oppositeReviewerState
     )!;
-    const oppositeUpdatedAccountIndex = oppositeUpdatedAccounts.findIndex(
-      acc => accountOrGroupKey(acc) === accountOrGroupKey(event.detail.account)
+
+    const notOverwrittenOppositeAccounts = oppositeUpdatedAccounts.filter(
+      acc => !reviewerStateKeys.includes(accountOrGroupKey(acc))
     );
-    if (oppositeUpdatedAccountIndex >= 0) {
-      oppositeUpdatedAccounts.splice(oppositeUpdatedAccountIndex, 1);
-      this.requestUpdate();
+    if (
+      notOverwrittenOppositeAccounts.length !== oppositeUpdatedAccounts.length
+    ) {
+      this.updatedAccountsByReviewerState.set(
+        oppositeReviewerState,
+        notOverwrittenOppositeAccounts
+      );
     }
+    this.requestUpdate();
+  }
+
+  private async onPendingConfirmationChanged(
+    reviewerState: ReviewerState,
+    ev: ValueChangedEvent<SuggestedReviewerGroupInfo | null>
+  ) {
+    this.groupPendingConfirmationByReviewerState.set(
+      reviewerState,
+      ev.detail.value
+    );
+    this.requestUpdate();
+    await this.updateComplete;
+
+    const overlay =
+      reviewerState === ReviewerState.CC
+        ? this.ccConfirmOverlay
+        : this.reviewerConfirmOverlay;
+    if (ev.detail.value === null) {
+      overlay?.close();
+    } else {
+      overlay?.open();
+    }
+  }
+
+  private cancelPendingGroup(reviewerState: ReviewerState) {
+    const overlay =
+      reviewerState === ReviewerState.CC
+        ? this.ccConfirmOverlay
+        : this.reviewerConfirmOverlay;
+    overlay?.close();
+    this.groupPendingConfirmationByReviewerState.set(reviewerState, null);
+    this.requestUpdate();
+  }
+
+  private confirmPendingGroup(
+    reviewerState: ReviewerState,
+    suggestion: SuggestedReviewerGroupInfo | null | undefined
+  ) {
+    if (!suggestion) return;
+    const accountList =
+      reviewerState === ReviewerState.CC ? this.ccList : this.reviewerList;
+    accountList?.confirmGroup(suggestion.group);
   }
 
   private onConfirm(overallStatus: ProgressStatus) {
@@ -326,10 +440,10 @@ export class GrChangeListReviewerFlow extends LitElement {
         this.saveReviewers();
         break;
       case ProgressStatus.SUCCESSFUL:
-        this.overlay.close();
+        this.overlay?.close();
         break;
       case ProgressStatus.FAILED:
-        this.overlay.close();
+        this.overlay?.close();
         break;
     }
   }

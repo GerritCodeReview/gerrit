@@ -22,6 +22,30 @@
       },
       "revId": "fcbed0c76226c091a934a5851dbe51aa5cede1f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2764b816_5eb6c5ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-16T09:00:57Z",
+      "side": 1,
+      "message": "The commit message has been changed. \u003dP",
+      "parentUuid": "c2438090_95314494",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 2
+      },
+      "revId": "fcbed0c76226c091a934a5851dbe51aa5cede1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -121,6 +121,8 @@ const appThemeCss = safeStyleSheet`
       var(--red-50);
     --error-ripple: var(--red-700-10);
 
+    --light-error-background: var(--blue-50);
+
     --warning-foreground: var(--orange-700);
     --warning-background: var(--orange-50);
     --warning-background-hover: linear-gradient(

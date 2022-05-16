@@ -16,7 +16,6 @@ package com.google.gerrit.server.submit;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
@@ -72,8 +71,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.StoreSubmitRequirementsOp;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -247,7 +244,6 @@ public class MergeOp implements AutoCloseable {
   private final RetryHelper retryHelper;
   private final ChangeData.Factory changeDataFactory;
   private final StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory;
-  private final ProjectCache projectCache;
 
   // Changes that were updated by this MergeOp.
   private final Map<Change.Id, Change> updatedChanges;
@@ -282,8 +278,7 @@ public class MergeOp implements AutoCloseable {
       TopicMetrics topicMetrics,
       RetryHelper retryHelper,
       ChangeData.Factory changeDataFactory,
-      StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory,
-      ProjectCache projectCache) {
+      StoreSubmitRequirementsOp.Factory storeSubmitRequirementsOpFactory) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -301,7 +296,6 @@ public class MergeOp implements AutoCloseable {
     this.changeDataFactory = changeDataFactory;
     this.updatedChanges = new HashMap<>();
     this.storeSubmitRequirementsOpFactory = storeSubmitRequirementsOpFactory;
-    this.projectCache = projectCache;
   }
 
   @Override
@@ -650,12 +644,12 @@ public class MergeOp implements AutoCloseable {
         Project.NameKey project = entry.getValue().project();
         Change.Id changeId = entry.getKey();
         ChangeData cd = entry.getValue();
-        Collection<SubmitRequirementResult> srResults =
-            cd.submitRequirementsIncludingLegacy().values();
         batchUpdatesByProject
             .get(project)
-            .addOp(changeId, storeSubmitRequirementsOpFactory.create(srResults, cd));
-        crossCheckSubmitRequirementResults(cd, srResults, project);
+            .addOp(
+                changeId,
+                storeSubmitRequirementsOpFactory.create(
+                    cd.submitRequirementsIncludingLegacy().values(), cd));
       }
       try {
         submissionExecutor.setAdditionalBatchUpdateListeners(
@@ -1004,29 +998,5 @@ public class MergeOp implements AutoCloseable {
         + p
         + " projects involved; some projects may have submitted successfully, but others may have"
         + " failed";
-  }
-
-  /**
-   * Make sure that for every project config submit requirement there exists a corresponding result
-   * with the same name in {@code srResults}. If no result is found, log a warning message.
-   */
-  private void crossCheckSubmitRequirementResults(
-      ChangeData cd, Collection<SubmitRequirementResult> srResults, Project.NameKey project) {
-    ProjectState state = projectCache.get(project).orElseThrow(illegalState(project));
-    Map<String, SubmitRequirement> projectConfigRequirements = state.getSubmitRequirements();
-    for (String srName : projectConfigRequirements.keySet()) {
-      boolean hasResult = false;
-      for (SubmitRequirementResult srResult : srResults) {
-        if (!srResult.isLegacy() && srResult.submitRequirement().name().equals(srName)) {
-          hasResult = true;
-          break;
-        }
-      }
-      if (!hasResult) {
-        logger.atWarning().log(
-            "Change %d: No result found for project config submit requirement '%s'",
-            cd.getId().get(), srName);
-      }
-    }
   }
 }

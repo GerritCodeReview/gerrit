@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fdeacff_db0e237d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-16T11:18:37Z",
+      "side": 1,
+      "message": "@Youssef, @Patrick: Now, that the previous change was merged, can we revisit this change?\n\nAs you know, this is a blocker for Java 17 support. And this should be more or less a no-op change, that actually could (or better to say should) be a part of Gson library itself.",
+      "revId": "6dbf5d1dc74fb9cf06d23a129ee48681cf44b5e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

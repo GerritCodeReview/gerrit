@@ -17,7 +17,6 @@
 import '../../shared/gr-button/gr-button';
 import {ServerInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -136,14 +135,7 @@ export class GrChangeTableEditor extends LitElement {
     if (!this.serverConfig?.change) return true;
     if (column === ColumnNames.COMMENTS)
       return this.flagsService.isEnabled('comments-column');
-    if (column === ColumnNames.STATUS)
-      return !this.flagsService.isEnabled(
-        KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-      );
-    if (column === ColumnNames.STATUS2)
-      return this.flagsService.isEnabled(
-        KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-      );
+    if (column === ColumnNames.STATUS) return false;
     return true;
   }
 

@@ -23,8 +23,6 @@ import {
   isQuickLabelInfo,
   LabelInfo,
 } from '../../../api/rest-api';
-import {getAppContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {
   classForLabelStatus,
   getLabelStatus,
@@ -60,8 +58,6 @@ export class GrVoteChip extends LitElement {
 
   @property({type: Boolean, attribute: 'tooltip-with-who-voted'})
   tooltipWithWhoVoted = false;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   static override get styles() {
     return [
@@ -131,9 +127,6 @@ export class GrVoteChip extends LitElement {
   }
 
   override render() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI))
-      return;
-
     const renderValue = this.renderValue();
     if (!renderValue) return;
 

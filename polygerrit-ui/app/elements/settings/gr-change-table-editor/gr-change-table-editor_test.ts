@@ -71,12 +71,6 @@ suite('gr-change-table-editor tests', () => {
             </td>
           </tr>
           <tr>
-            <td><label for="Status"> Status </label></td>
-            <td class="checkboxContainer">
-              <input checked="" id="Status" name="Status" type="checkbox" />
-            </td>
-          </tr>
-          <tr>
             <td><label for="Owner"> Owner </label></td>
             <td class="checkboxContainer">
               <input checked="" id="Owner" name="Owner" type="checkbox" />
@@ -115,6 +109,12 @@ suite('gr-change-table-editor tests', () => {
             <td><label for="Size"> Size </label></td>
             <td class="checkboxContainer">
               <input id="Size" name="Size" type="checkbox" />
+            </td>
+          </tr>
+          <tr>
+            <td><label for=" Status "> Status </label></td>
+            <td class="checkboxContainer">
+              <input id=" Status " name=" Status " type="checkbox" />
             </td>
           </tr>
         </tbody>

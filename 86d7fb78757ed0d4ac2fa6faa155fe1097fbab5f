@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30047871_eb83e16a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-16T14:07:48Z",
+      "side": 1,
+      "message": "Remove this if, the default return value is true;",
+      "revId": "86d7fb78757ed0d4ac2fa6faa155fe1097fbab5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

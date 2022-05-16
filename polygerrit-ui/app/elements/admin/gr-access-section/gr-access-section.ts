@@ -237,9 +237,13 @@ export class GrAccessSection extends PolymerElement {
     capabilities: CapabilityInfoMap
   ) {
     if (name === GLOBAL_NAME) {
+<<<<<<< HEAD   (844404 Merge branch 'stable-3.3' into stable-3.4)
       return capabilities[permission.id].name;
+=======
+      return capabilities?.[permission.id]?.name;
+>>>>>>> CHANGE (61ccea gr-access-section: Fix exception when unknown name is set)
     } else if (AccessPermissions[permission.id]) {
-      return AccessPermissions[permission.id].name;
+      return AccessPermissions[permission.id]?.name;
     } else if (permission.value.label) {
       let behalfOf = '';
       if (permission.id.startsWith('labelAs-')) {

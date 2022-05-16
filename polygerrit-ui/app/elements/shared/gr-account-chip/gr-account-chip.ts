@@ -27,7 +27,6 @@ import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ClassInfo, classMap} from 'lit/directives/class-map';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {getLabelStatus, hasVoted, LabelStatus} from '../../../utils/label-util';
 
 @customElement('gr-account-chip')
@@ -93,8 +92,6 @@ export class GrAccountChip extends LitElement {
   label?: LabelInfo;
 
   private readonly restApiService = getAppContext().restApiService;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   static override get styles() {
     return [
@@ -252,12 +249,7 @@ export class GrAccountChip extends LitElement {
   }
 
   private computeVoteClasses(): ClassInfo {
-    if (
-      !this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI) ||
-      !this.label ||
-      !this.account ||
-      !hasVoted(this.label, this.account)
-    ) {
+    if (!this.label || !this.account || !hasVoted(this.label, this.account)) {
       return {};
     }
     const status = getLabelStatus(this.label, this.vote?.value);

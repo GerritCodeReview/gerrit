@@ -136,14 +136,8 @@ export class GrChangeTableEditor extends LitElement {
     if (!this.serverConfig?.change) return true;
     if (column === ColumnNames.COMMENTS)
       return this.flagsService.isEnabled('comments-column');
-    if (column === ColumnNames.STATUS)
-      return !this.flagsService.isEnabled(
-        KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-      );
-    if (column === ColumnNames.STATUS2)
-      return this.flagsService.isEnabled(
-        KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-      );
+    if (column === ColumnNames.STATUS) return false;
+    if (column === ColumnNames.STATUS2) return true;
     return true;
   }
 

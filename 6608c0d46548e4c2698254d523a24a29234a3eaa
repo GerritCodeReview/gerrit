@@ -183,6 +183,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06236810_556f5891",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-16T11:19:14Z",
+      "side": 1,
+      "message": "No objections on this change. I tried (with this change) removing our custom serializers in favour of the new one:\n  * OptionalBooleanAdapter\n  * OptionalSubmitRequirementExpressionResultAdapterFactory\n  \nBut it didn\u0027t work. We have these custom adapters because we had fields that were mandatory, then we made them optional: [1], [2], hence we needed these custom adapters s.t. they can understand both serial formats (this was hacky, and we should get rid of these adapters on the long run and data-migrate all serialized entities to one format).\n\nSince the custom serializers are still kept, they are picked up for SR deserialization and this change is a no/op for them. We have guarding tests (SubmitRequirementJsonSerializerTest) for SRs. Looks good to me.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/321518\n\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/328617",
+      "parentUuid": "aef2f45f_111e0509",
+      "revId": "6608c0d46548e4c2698254d523a24a29234a3eaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c6df070_80faea6f",

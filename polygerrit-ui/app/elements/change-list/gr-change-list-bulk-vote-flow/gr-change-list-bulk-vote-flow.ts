@@ -38,6 +38,7 @@ import '../../change/gr-label-score-row/gr-label-score-row';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
 import {allSettled} from '../../../utils/async-util';
 import {pluralize} from '../../../utils/string-util';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 
 @customElement('gr-change-list-bulk-vote-flow')
 export class GrChangeListBulkVoteFlow extends LitElement {
@@ -91,15 +92,33 @@ export class GrChangeListBulkVoteFlow extends LitElement {
           background-color: var(--red-50);
           margin-top: var(--spacing-l);
         }
+        .code-review-message-container iron-icon,
         .error-container iron-icon {
           padding: 10px var(--spacing-xl);
-          color: var(--red-700);
           --iron-icon-height: 20px;
           --iron-icon-width: 20px;
         }
-        .error-container span {
+        .error-container iron-icon {
+          color: var(--red-700);
+        }
+        .code-review-message-container iron-icon {
+          color: var(--blue-800);
+        }
+        .error-container span,
+        .code-review-message-container span {
           position: relative;
           top: 1px;
+        }
+        .code-review-message-container {
+          display: flex;
+          background-color: var(--light-error-background);
+        }
+        .code-review-message-container gr-button {
+          margin-top: 6px;
+          margin-right: var(--spacing-m);
+        }
+        .flex-space {
+          flex-grow: 1;
         }
       `,
     ];
@@ -151,6 +170,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
             <span class="main-heading"> Vote on selected changes </span>
           </div>
           <div slot="main">
+            ${this.renderCodeReviewMessage()}
             ${this.renderLabels(
               nonTriggerLabels,
               'Submit requirements votes',
@@ -166,6 +186,31 @@ export class GrChangeListBulkVoteFlow extends LitElement {
         </gr-dialog>
       </gr-overlay>
     `;
+  }
+
+  private renderCodeReviewMessage() {
+    return html`
+      <div class="code-review-message-container">
+        <div>
+          <iron-icon icon="gr-icons:error"></iron-icon>
+          <span>
+            Code Review vote is only available on the individual change page
+          </span>
+        </div>
+        <div class="flex-space"></div>
+        <div>
+          <gr-button flatten link @click=${this.handleOpenChanges}
+            >Open ${pluralize(this.selectedChanges.length, 'change')}
+          </gr-button>
+        </div>
+      </div>
+    `;
+  }
+
+  private handleOpenChanges() {
+    for (const change of this.selectedChanges) {
+      window.open(GerritNav.getUrlForChange(change));
+    }
   }
 
   private renderErrors() {

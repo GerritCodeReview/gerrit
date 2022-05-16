@@ -73,7 +73,7 @@ export function create<TContext>(
             initializing = true;
             initialized.set(name, factory(context));
           } catch (e) {
-            console.error(`Failed to initialize ${name}`, e);
+            console.error(`Failed to initialize ${String(name)}`, e);
           } finally {
             initializing = false;
           }

@@ -45,7 +45,6 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {queryAll} from '../../../utils/common-util';
 import {ValueChangedEvent} from '../../../types/events';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 import {Execution} from '../../../constants/reporting';
 
@@ -309,11 +308,7 @@ export class GrChangeList extends LitElement {
         const prefColumns = this.preferences.change_table
           .map(column => (column === 'Project' ? ColumnNames.REPO : column))
           .map(column =>
-            this.flagsService.isEnabled(
-              KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-            ) && column === ColumnNames.STATUS
-              ? ColumnNames.STATUS2
-              : column
+            column === ColumnNames.STATUS ? ColumnNames.STATUS2 : column
           );
         this.reporting.reportExecution(Execution.USER_PREFERENCES_COLUMNS, {
           statusColumn: prefColumns.includes(ColumnNames.STATUS2),
@@ -336,50 +331,23 @@ export class GrChangeList extends LitElement {
     if (!config || !config.change) return true;
     if (column === 'Comments')
       return this.flagsService.isEnabled('comments-column');
-    if (column === 'Status') {
-      return !this.flagsService.isEnabled(
-        KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-      );
-    }
-    if (column === ColumnNames.STATUS2)
-      return this.flagsService.isEnabled(
-        KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-      );
+    if (column === 'Status') return false;
+    if (column === ColumnNames.STATUS2) return true;
     return true;
   }
 
   // private but used in test
   computeLabelNames(sections: ChangeListSection[]) {
     if (!sections) return [];
-    let labels: string[] = [];
-    const nonExistingLabel = function (item: string) {
-      return !labels.includes(item);
-    };
-    for (const section of sections) {
-      if (!section.results) {
-        continue;
-      }
-      for (const change of section.results) {
-        if (!change.labels) {
-          continue;
-        }
-        const currentLabels = Object.keys(change.labels);
-        labels = labels.concat(currentLabels.filter(nonExistingLabel));
-      }
+    if (this.config?.submit_requirement_dashboard_columns?.length) {
+      return this.config?.submit_requirement_dashboard_columns;
     }
-
-    if (this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI)) {
-      if (this.config?.submit_requirement_dashboard_columns?.length) {
-        return this.config?.submit_requirement_dashboard_columns;
-      } else {
-        const changes = sections.map(section => section.results).flat();
-        labels = (changes ?? [])
-          .map(change => getRequirements(change))
-          .flat()
-          .map(requirement => requirement.name)
-          .filter(unique);
-      }
-    }
+    const changes = sections.map(section => section.results).flat();
+    const labels = (changes ?? [])
+      .map(change => getRequirements(change))
+      .flat()
+      .map(requirement => requirement.name)
+      .filter(unique);
     return labels.sort();
   }
 

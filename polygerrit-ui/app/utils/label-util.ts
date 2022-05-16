@@ -21,7 +21,6 @@ import {
   SubmitRequirementStatus,
   LabelNameToValuesMap,
 } from '../api/rest-api';
-import {FlagsService, KnownExperimentId} from '../services/flags/flags';
 import {
   AccountInfo,
   ApprovalInfo,
@@ -420,17 +419,4 @@ export function getTriggerVotes(change?: ParsedChangeInfo | ChangeInfo) {
   return allLabels.filter(
     label => !labelAssociatedWithSubmitReqs.includes(label)
   );
-}
-
-export function showNewSubmitRequirements(
-  flagsService: FlagsService,
-  change?: ParsedChangeInfo | ChangeInfo
-) {
-  const isSubmitRequirementsUiEnabled = flagsService.isEnabled(
-    KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-  );
-  if (!isSubmitRequirementsUiEnabled) return false;
-  if ((getRequirements(change) ?? []).length === 0) return false;
-
-  return true;
 }

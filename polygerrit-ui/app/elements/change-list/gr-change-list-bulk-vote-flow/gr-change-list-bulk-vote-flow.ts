@@ -38,6 +38,9 @@ import '../../change/gr-label-score-row/gr-label-score-row';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
 import {allSettled} from '../../../utils/async-util';
 import {pluralize} from '../../../utils/string-util';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+
+const SUBMIT_REQUIREMENT_HEADING = 'Submit requirements votes';
 
 @customElement('gr-change-list-bulk-vote-flow')
 export class GrChangeListBulkVoteFlow extends LitElement {
@@ -64,6 +67,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
         }
         .scoresTable {
           display: table;
+          width: 100%;
         }
         .scoresTable.newSubmitRequirements {
           table-layout: fixed;
@@ -91,15 +95,37 @@ export class GrChangeListBulkVoteFlow extends LitElement {
           background-color: var(--red-50);
           margin-top: var(--spacing-l);
         }
+        .code-review-message-container iron-icon,
         .error-container iron-icon {
           padding: 10px var(--spacing-xl);
-          color: var(--red-700);
           --iron-icon-height: 20px;
           --iron-icon-width: 20px;
         }
-        .error-container span {
+        .error-container iron-icon {
+          color: var(--red-700);
+        }
+        .code-review-message-container iron-icon {
+          color: var(--blue-800);
+        }
+        .error-container span,
+        .code-review-message-container span {
           position: relative;
           top: 1px;
+        }
+        .code-review-message-container {
+          display: table-caption;
+          background-color: var(--light-error-background);
+          margin-bottom: var(--spacing-m);
+        }
+        .code-review-message-layout-container {
+          display: flex;
+        }
+        .code-review-message-container gr-button {
+          margin-top: 6px;
+          margin-right: var(--spacing-m);
+        }
+        .flex-space {
+          flex-grow: 1;
         }
       `,
     ];
@@ -168,6 +194,33 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     `;
   }
 
+  private renderCodeReviewMessage() {
+    return html`
+      <div class="code-review-message-container">
+        <div class="code-review-message-layout-container">
+          <div>
+            <iron-icon icon="gr-icons:error"></iron-icon>
+            <span>
+              Code Review vote is only available on the individual change page
+            </span>
+          </div>
+          <div class="flex-space"></div>
+          <div>
+            <gr-button flatten link @click=${this.handleOpenChanges}
+              >Open ${pluralize(this.selectedChanges.length, 'change')}
+            </gr-button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  private handleOpenChanges() {
+    for (const change of this.selectedChanges) {
+      window.open(GerritNav.getUrlForChange(change));
+    }
+  }
+
   private renderErrors() {
     if (getOverallStatus(this.progressByChange) !== ProgressStatus.FAILED) {
       return nothing;
@@ -195,6 +248,9 @@ export class GrChangeListBulkVoteFlow extends LitElement {
   ) {
     return html` <div class="scoresTable newSubmitRequirements">
       <h3 class="heading-4 vote-type">${labels.length ? heading : nothing}</h3>
+      ${heading === SUBMIT_REQUIREMENT_HEADING
+        ? this.renderCodeReviewMessage()
+        : nothing}
       ${labels
         .filter(
           label =>

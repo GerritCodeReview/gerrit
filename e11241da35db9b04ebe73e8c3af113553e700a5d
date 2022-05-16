@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0d20dae_4775cbed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-16T16:50:20Z",
+      "side": 1,
+      "message": "1. We should use a non-filled \u0027info\u0027 icon so that all icons are consistent across the UI (ie. the Checks \u0027info\u0027 icon)\n\n2. Code-Review is part of submit requirements, it should appear after the section title `Submit requirements`. Please refer to the specs for spacings",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 11,
+        "endChar": 39
+      },
+      "revId": "e11241da35db9b04ebe73e8c3af113553e700a5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d89f8a80_12195cf1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-16T14:54:55Z",
+      "side": 1,
+      "message": "Please add a Git footer for release notes \"Release-Notes: Instrumented group backend\"",
+      "revId": "d0e20d9dcd3384a30565ed81ed53a5362d4afeb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

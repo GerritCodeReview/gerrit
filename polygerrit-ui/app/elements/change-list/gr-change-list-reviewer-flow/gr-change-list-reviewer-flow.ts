@@ -14,6 +14,7 @@ import {
   ChangeInfo,
   NumericChangeId,
   ServerInfo,
+  SuggestedReviewerGroupInfo,
 } from '../../../types/common';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-overlay/gr-overlay';
@@ -38,6 +39,7 @@ import '@polymer/iron-icon/iron-icon';
 import {getReplyByReason} from '../../../utils/attention-set-util';
 import {intersection} from '../../../utils/common-util';
 import {accountOrGroupKey} from '../../../utils/account-util';
+import {ValueChangedEvent} from '../../../types/events';
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
@@ -65,6 +67,9 @@ export class GrChangeListReviewerFlow extends LitElement {
   @state() private isOverlayOpen = false;
 
   @state() private serverConfig?: ServerInfo;
+
+  @state()
+  private groupPendingConfirmation: SuggestedReviewerGroupInfo | null = null;
 
   @query('gr-overlay') private overlay!: GrOverlay;
 
@@ -207,8 +212,40 @@ export class GrChangeListReviewerFlow extends LitElement {
         @accounts-changed=${() => this.requestUpdate()}
         @account-added=${(e: CustomEvent<AccountInputDetail>) =>
           this.onAccountAdded(reviewerState, e)}
+        @pending-confirmation-changed=${(
+          e: ValueChangedEvent<SuggestedReviewerGroupInfo | null>
+        ) => {
+          this.groupPendingConfirmation = e.detail.value;
+        }}
       >
       </gr-account-list>
+    `;
+  }
+
+  private renderReviewConfirmation() {
+    return html`
+      <gr-overlay
+        id="reviewerConfirmationOverlay"
+        @iron-overlay-canceled=${this.cancelPendingGroup}
+      >
+        <div class="reviewerConfirmation">
+          Group
+          <span class="groupName">
+            ${this.groupPendingConfirmation?.group.name}
+          </span>
+          has
+          <span class="groupSize">
+            ${this.groupPendingConfirmation?.count}
+          </span>
+          members.
+          <br />
+          Are you sure you want to add them all?
+        </div>
+        <div class="reviewerConfirmationButtons">
+          <gr-button @click=${this.confirmPendingGroup}>Yes</gr-button>
+          <gr-button @click=${this.cancelPendingGroup}>No</gr-button>
+        </div>
+      </gr-overlay>
     `;
   }
 

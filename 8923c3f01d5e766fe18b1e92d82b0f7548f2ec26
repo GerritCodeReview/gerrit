@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e50561cc_969a1497",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-16T04:24:14Z",
+      "side": 1,
+      "message": "This comment can be removed now.",
+      "range": {
+        "startLine": 255,
+        "startChar": 6,
+        "endLine": 255,
+        "endChar": 71
+      },
+      "revId": "8923c3f01d5e766fe18b1e92d82b0f7548f2ec26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

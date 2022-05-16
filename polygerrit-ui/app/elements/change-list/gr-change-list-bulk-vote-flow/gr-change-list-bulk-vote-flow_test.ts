@@ -135,7 +135,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     );
     await selectChange(change1);
     await element.updateComplete;
-    expect(element).shadowDom.to.equal(/* HTML */ `<gr-button
+    expect(element).shadowDom.to.equal(`<gr-button
         aria-disabled="false"
         flatten=""
         id="voteFlowButton"
@@ -156,6 +156,26 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
             <span class="main-heading"> Vote on selected changes </span>
           </div>
           <div slot="main">
+            <div class="code-review-message-container">
+              <div>
+                <iron-icon icon="gr-icons:error"> </iron-icon>
+                <span>
+                  Code Review vote is only available on the individual change page
+                </span>
+              </div>
+              <div class="flex-space"></div>
+              <div>
+                <gr-button
+                  aria-disabled="false"
+                  flatten=""
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Open 1 change
+                </gr-button>
+              </div>
+            </div>
             <div class="newSubmitRequirements scoresTable">
               <h3 class="heading-4 vote-type">Submit requirements votes</h3>
               <gr-label-score-row name="A"> </gr-label-score-row>
@@ -200,7 +220,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
         ProgressStatus.FAILED
     );
 
-    expect(element).shadowDom.to.equal(/* HTML */ `<gr-button
+    expect(element).shadowDom.to.equal(`<gr-button
         aria-disabled="false"
         flatten=""
         id="voteFlowButton"
@@ -221,6 +241,26 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
             <span class="main-heading"> Vote on selected changes </span>
           </div>
           <div slot="main">
+            <div class="code-review-message-container">
+              <div>
+                <iron-icon icon="gr-icons:error"> </iron-icon>
+                <span>
+                  Code Review vote is only available on the individual change page
+                </span>
+              </div>
+              <div class="flex-space"></div>
+              <div>
+                <gr-button
+                  aria-disabled="false"
+                  flatten=""
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Open 1 change
+                </gr-button>
+              </div>
+            </div>
             <div class="newSubmitRequirements scoresTable">
               <h3 class="heading-4 vote-type">Submit requirements votes</h3>
               <gr-label-score-row name="A"> </gr-label-score-row>

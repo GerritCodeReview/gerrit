@@ -87,6 +87,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fca7f5f8_4996407f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-16T10:24:33Z",
+      "side": 1,
+      "message": "I believe we do need a schema migration: running this tool isn\u0027t optional as people may lose their Verified or Code-Review labels upon upgrade.\n\nI\u0027ve tried E2E and tool and doesn\u0027t produce the same result as we would have had in v3.4 for instance. Raised Issue 15919 and giving Verified -1 to this change.",
+      "revId": "da191c1faa27f5b42d66bb316da0bf190503d7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6badca82_98faaeb3",

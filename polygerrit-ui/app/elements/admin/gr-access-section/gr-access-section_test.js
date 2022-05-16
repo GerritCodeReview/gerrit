@@ -176,6 +176,13 @@ suite('gr-access-section tests', () => {
           element.capabilities),
       element.capabilities[permission.id].name);
 
+      permission = {
+        id: 'non-existent',
+        value: {},
+      };
+      assert.isUndefined(element._computePermissionName(name, permission,
+          element.capabilities));
+
       name = 'refs/for/*';
       permission = {
         id: 'abandon',

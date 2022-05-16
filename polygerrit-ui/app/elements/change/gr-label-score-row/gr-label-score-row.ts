@@ -27,9 +27,6 @@ import {
   DetailedLabelInfo,
 } from '../../../types/common';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
-import {getAppContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
-import {classMap} from 'lit/directives/class-map';
 import {Label} from '../../../utils/label-util';
 import {LabelNameToValuesMap} from '../../../api/rest-api';
 
@@ -68,12 +65,6 @@ export class GrLabelScoreRow extends LitElement {
   @state()
   private selectedValueText = 'No value selected';
 
-  private readonly flagsService = getAppContext().flagsService;
-
-  private readonly isSubmitRequirementsUiEnabled = this.flagsService.isEnabled(
-    KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-  );
-
   static override get styles() {
     return [
       sharedStyles,
@@ -87,8 +78,6 @@ export class GrLabelScoreRow extends LitElement {
         /* We want the :hover highlight to extend to the border of the dialog. */
         .labelNameCell {
           padding-left: var(--label-score-padding-left, 0);
-        }
-        .labelNameCell.newSubmitRequirements {
           width: 160px;
         }
         .selectedValueCell {
@@ -100,9 +89,6 @@ export class GrLabelScoreRow extends LitElement {
           white-space: nowrap;
         }
         .selectedValueCell {
-          width: 75%;
-        }
-        .selectedValueCell.newSubmitRequirements {
           width: 52%;
         }
         .labelMessage {
@@ -175,13 +161,7 @@ export class GrLabelScoreRow extends LitElement {
 
   override render() {
     return html`
-      <span
-        class=${classMap({
-          labelNameCell: true,
-          newSubmitRequirements: this.isSubmitRequirementsUiEnabled,
-        })}
-        id="labelName"
-        aria-hidden="true"
+      <span class="labelNameCell" id="labelName" aria-hidden="true"
         >${this.label?.name ?? ''}</span
       >
       ${this.renderButtonsCell()} ${this.renderSelectedValue()}
@@ -257,12 +237,7 @@ export class GrLabelScoreRow extends LitElement {
 
   private renderSelectedValue() {
     return html`
-      <div
-        class=${classMap({
-          selectedValueCell: true,
-          newSubmitRequirements: this.isSubmitRequirementsUiEnabled,
-        })}
-      >
+      <div class="selectedValueCell">
         <span id="selectedValueLabel">${this.selectedValueText}</span>
       </div>
     `;

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a5e6332_0cd59ec7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-17T13:53:19Z",
+      "side": 1,
+      "message": "Do we need a site program? Why can\u0027t we just run it internally in Gerrit whilst it is running, hence without any downtime?",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "44b7ce2391ed8d83bca5d8e53dceaff9559b85e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad087542_9bdafc6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-17T13:53:19Z",
+      "side": 1,
+      "message": "I like the idea; however, I wouldn\u0027t do a site project but just a regular command on the project.\n\nThe command would have two advantages:\n1. Can be done *before* migrating to v3.6 and without interrupting the incoming traffic when Gerrit is up and running\n2. Can be tuned / parallelised on different projects at different times\n\nWDYT?",
+      "revId": "44b7ce2391ed8d83bca5d8e53dceaff9559b85e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ed6eb5d_6ba32119",
+        "filename": "java/com/google/gerrit/server/approval/RecursiveApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-17T13:53:19Z",
+      "side": 1,
+      "message": "Why not getting the project name as a paraemter?\nThe user may want to decide which ones to run and when: scanning all projects would definitely use a lot of heap and, eventually, collapse the JVM.",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 32
+      },
+      "revId": "44b7ce2391ed8d83bca5d8e53dceaff9559b85e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

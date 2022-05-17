@@ -236,9 +236,9 @@ export class GrAccessSection extends PolymerElement {
     capabilities?: CapabilityInfoMap
   ): string | undefined {
     if (name === GLOBAL_NAME) {
-      return capabilities?.[permission.id].name;
+      return capabilities?.[permission.id]?.name;
     } else if (AccessPermissions[permission.id]) {
-      return AccessPermissions[permission.id].name;
+      return AccessPermissions[permission.id]?.name;
     } else if (permission.value.label) {
       let behalfOf = '';
       if (permission.id.startsWith('labelAs-')) {

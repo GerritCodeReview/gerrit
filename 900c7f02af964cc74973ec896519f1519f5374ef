@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d15f631d_0022c4f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-17T06:28:23Z",
+      "side": 1,
+      "message": "@Edwin, could you restore your LC+1 from the original change 328339, that was reverted in change 329499?",
+      "revId": "900c7f02af964cc74973ec896519f1519f5374ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

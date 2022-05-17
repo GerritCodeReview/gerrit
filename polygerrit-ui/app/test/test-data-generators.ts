@@ -49,6 +49,7 @@ import {
   GroupId,
   GroupInfo,
   InheritedBooleanInfo,
+  LabelInfo,
   MaxObjectSizeLimitInfo,
   MergeableInfo,
   NumericChangeId,
@@ -208,6 +209,30 @@ export function createGitPerson(name = 'Test name'): GitPersonInfo {
     email: `${name}@` as EmailAddress,
     date: dateToTimestamp(new Date(2019, 11, 6, 14, 5, 8)),
     tz: 0 as TimezoneOffset,
+  };
+}
+
+export function createLabelInfo(score = 1): LabelInfo {
+  return {
+    all: [
+      {
+        value: score,
+        permitted_voting_range: {
+          min: -1,
+          max: 1,
+        },
+        _account_id: 1000 as AccountId,
+        name: 'Foo',
+        email: 'foo@example.com' as EmailAddress,
+        username: 'foo',
+      },
+    ],
+    values: {
+      '-1': 'Fail',
+      ' 0': 'No score',
+      '+1': 'Pass',
+    },
+    default_value: 0,
   };
 }
 

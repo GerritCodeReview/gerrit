@@ -39,6 +39,7 @@ import {
   PatchSetNum,
   AccountInfo,
   BasePatchSetNum,
+  LabelNameToInfoMap,
 } from '../../../types/common';
 import {CommentThread} from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
@@ -182,7 +183,8 @@ export class GrMessage extends PolymerElement {
     computed:
       '_computeMessageContentExpanded(_expanded, message.message,' +
       ' message.accounts_in_message,' +
-      ' message.tag)',
+      ' message.tag,' +
+      ' change.labels)',
   })
   _messageContentExpanded = '';
 
@@ -192,7 +194,8 @@ export class GrMessage extends PolymerElement {
       '_computeMessageContentCollapsed(message.message,' +
       ' message.accounts_in_message,' +
       ' message.tag,' +
-      ' commentThreads)',
+      ' commentThreads,' +
+      ' change.labels)',
   })
   _messageContentCollapsed = '';
 
@@ -243,10 +246,17 @@ export class GrMessage extends PolymerElement {
     expanded: boolean,
     content?: string,
     accountsInMessage?: AccountInfo[],
-    tag?: ReviewInputTag
+    tag?: ReviewInputTag,
+    labels?: LabelNameToInfoMap
   ) {
     if (!expanded) return '';
-    return this._computeMessageContent(true, content, accountsInMessage, tag);
+    return this._computeMessageContent(
+      true,
+      content,
+      accountsInMessage,
+      tag,
+      labels
+    );
   }
 
   _patchsetCommentSummary(commentThreads: CommentThread[] = []) {
@@ -277,7 +287,8 @@ export class GrMessage extends PolymerElement {
     content?: string,
     accountsInMessage?: AccountInfo[],
     tag?: ReviewInputTag,
-    commentThreads?: CommentThread[]
+    commentThreads?: CommentThread[],
+    labels?: LabelNameToInfoMap
   ) {
     // Content is under text-overflow, so it's always shorten
     const shortenedContent = content?.substring(0, 1000);
@@ -285,7 +296,8 @@ export class GrMessage extends PolymerElement {
       false,
       shortenedContent,
       accountsInMessage,
-      tag
+      tag,
+      labels
     );
     if (summary || !commentThreads) return summary;
     return this._patchsetCommentSummary(commentThreads);
@@ -342,7 +354,8 @@ export class GrMessage extends PolymerElement {
     isExpanded: boolean,
     content?: string,
     accountsInMessage?: AccountInfo[],
-    tag?: ReviewInputTag
+    tag?: ReviewInputTag,
+    labels?: LabelNameToInfoMap
   ) {
     if (!content) return '';
     const isNewPatchSet = this._isNewPatchsetTag(tag);
@@ -362,8 +375,24 @@ export class GrMessage extends PolymerElement {
       if (line.startsWith('(') && line.endsWith(' comments)')) {
         return false;
       }
-      if (!isNewPatchSet && line.match(PATCH_SET_PREFIX_PATTERN)) {
-        return false;
+      if (!isNewPatchSet && labels) {
+        // Legacy change messages may contain the 'Patch Set' prefix
+        // and a message(not containing label scores) on the same line.
+        // To handle them correctly, only filter out lines which contain
+        // the 'Patch Set' prefix and label scores.
+        const match = line.match(PATCH_SET_PREFIX_PATTERN);
+        if (match && match[1]) {
+          const message = match[1].split(' ');
+          if (
+            message
+              .map(s => s.match(LABEL_TITLE_SCORE_PATTERN))
+              .filter(
+                ms => ms && ms.length === 4 && hasOwnProperty(labels, ms[2])
+              ).length === message.length
+          ) {
+            return false;
+          }
+        }
       }
       return true;
     });
@@ -378,7 +407,7 @@ export class GrMessage extends PolymerElement {
       // Only make this replacement if the line starts with Patch Set, since if
       // it starts with "Uploaded patch set" (e.g for votes) we want to keep the
       // "Uploaded patch set".
-      if (isNewPatchSet && line.startsWith('Patch Set')) {
+      if (line.startsWith('Patch Set')) {
         line = line.replace(PATCH_SET_PREFIX_PATTERN, '$1');
       }
       return line;

@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.FieldBundle;
@@ -235,7 +236,10 @@ public class ReviewersUtil {
     return suggestedReviewers;
   }
 
-  private static Account.Id fromIdField(FieldBundle f) {
+  private static Account.Id fromIdField(FieldBundle f, boolean useLegacyNumericFields) {
+    if (useLegacyNumericFields) {
+      return Account.id(f.getValue(AccountField.ID).intValue());
+    }
     return Account.id(Integer.valueOf(f.getValue(AccountField.ID_STR)));
   }
 
@@ -251,6 +255,10 @@ public class ReviewersUtil {
               accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
       logger.atFine().log("accounts index query: %s", pred);
       accountIndexRewriter.validateMaxTermsInQuery(pred);
+      boolean useLegacyNumericFields =
+          accountIndexes.getSearchIndex().getSchema().hasField(AccountField.ID);
+      FieldDef<AccountState, ?> idField =
+          useLegacyNumericFields ? AccountField.ID : AccountField.ID_STR;
       ResultSet<FieldBundle> result =
           accountIndexes
               .getSearchIndex()
@@ -260,10 +268,12 @@ public class ReviewersUtil {
                       indexConfig,
                       0,
                       suggestReviewers.getLimit(),
-                      ImmutableSet.of(AccountField.ID_STR.getName())))
+                      ImmutableSet.of(idField.getName())))
               .readRaw();
       List<Account.Id> matches =
-          result.toList().stream().map(f -> fromIdField(f)).collect(toList());
+          result.toList().stream()
+              .map(f -> fromIdField(f, useLegacyNumericFields))
+              .collect(toList());
       logger.atFine().log("Matches: %s", matches);
       return matches;
     } catch (TooManyTermsInQueryException e) {

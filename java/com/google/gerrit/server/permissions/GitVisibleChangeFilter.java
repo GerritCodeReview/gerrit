@@ -130,11 +130,10 @@ public class GitVisibleChangeFilter {
                   notesResult -> {
                     if (!notesResult.error().isPresent()) {
                       return changeDataFactory.create(notesResult.notes());
-                    } else {
-                      logger.atWarning().withCause(notesResult.error().get()).log(
-                          "Unable to load ChangeNotes for %s", notesResult.id());
-                      return null;
                     }
+                    logger.atWarning().withCause(notesResult.error().get()).log(
+                        "Unable to load ChangeNotes for %s", notesResult.id());
+                    return null;
                   })
               .filter(Objects::nonNull);
     } catch (IOException e) {

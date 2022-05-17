@@ -362,8 +362,14 @@ export class GrMessage extends PolymerElement {
       if (line.startsWith('(') && line.endsWith(' comments)')) {
         return false;
       }
-      if (!isNewPatchSet && line.match(PATCH_SET_PREFIX_PATTERN)) {
-        return false;
+      if (!isNewPatchSet) {
+        const match = line.match(PATCH_SET_PREFIX_PATTERN)
+        if (match && match[1] &&
+          match[1].split(' ')
+          .map(s => s.match(LABEL_TITLE_SCORE_PATTERN))
+          .filter(ms => ms && ms.length === 4 && (ms[1] || ms[3])).length > 0) {
+          return false;
+        }
       }
       return true;
     });
@@ -378,7 +384,7 @@ export class GrMessage extends PolymerElement {
       // Only make this replacement if the line starts with Patch Set, since if
       // it starts with "Uploaded patch set" (e.g for votes) we want to keep the
       // "Uploaded patch set".
-      if (isNewPatchSet && line.startsWith('Patch Set')) {
+      if (line.startsWith('Patch Set')) {
         line = line.replace(PATCH_SET_PREFIX_PATTERN, '$1');
       }
       return line;

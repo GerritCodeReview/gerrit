@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd1ecfa1_c7008804",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-17T19:39:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b773113_e5d52c0e",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "da191c1faa27f5b42d66bb316da0bf190503d7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d07fc42_8d22ed97",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31a65ee5_afdca386",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-17T19:39:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d07fc42_8d22ed97",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "da191c1faa27f5b42d66bb316da0bf190503d7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d39e00a5_211bd401",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-05-16T09:19:28Z",
       "side": 1,
       "message": "Can you explain why is this optional? AFAIK if you are migrating form an older version (e.g. before v3.5) straight to v3.6, you won\u0027t have any copied labels and therefore you may risk to see lots of changes without the appropriate label copied.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 8
+      },
+      "revId": "da191c1faa27f5b42d66bb316da0bf190503d7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fdbb9a0_d7414d9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-17T19:39:40Z",
+      "side": 1,
+      "message": "Removed. Done.",
+      "parentUuid": "d39e00a5_211bd401",
       "range": {
         "startLine": 18,
         "startChar": 0,
@@ -117,6 +189,30 @@
       "writtenOn": "2022-05-16T09:08:26Z",
       "side": 1,
       "message": "Pgm?",
+      "range": {
+        "startLine": 28,
+        "startChar": 26,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "da191c1faa27f5b42d66bb316da0bf190503d7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acc10edc_c62e15f6",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/CopyApprovalsPmgIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-17T19:39:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6badca82_98faaeb3",
       "range": {
         "startLine": 28,
         "startChar": 26,

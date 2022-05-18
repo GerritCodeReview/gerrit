@@ -491,8 +491,18 @@ export function shouldSuppress(e: KeyboardEvent): boolean {
   return false;
 }
 
+/** Returns a promise that waits for the element's height to become > 0. */
+export function untilRendered(el: HTMLElement) {
+  return new Promise(resolve => {
+    whenRendered(el, resolve);
+  });
+}
+
 /** Executes the given callback when the element's height is > 0. */
-export function whenRendered(el: HTMLElement, callback: () => void) {
+export function whenRendered(
+  el: HTMLElement,
+  callback: (value?: unknown) => void
+) {
   if (el.clientHeight > 0) {
     callback();
     return;
@@ -504,15 +514,4 @@ export function whenRendered(el: HTMLElement, callback: () => void) {
     }
   });
   obs.observe(el);
-}
-
-/**
- * Mimics a Polymer utility. `requestAnimationFrame` is called before the next
- * browser paint. An additional `setTimeout` ensures that the paint has
- * actually happened.
- */
-export function afterNextRender(callback: (value?: unknown) => void) {
-  requestAnimationFrame(() => {
-    setTimeout(callback);
-  });
 }

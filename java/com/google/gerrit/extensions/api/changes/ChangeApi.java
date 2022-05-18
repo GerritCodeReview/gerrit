@@ -95,6 +95,8 @@ public interface ChangeApi {
 
   void abandon(AbandonInput in) throws RestApiException;
 
+  ChangeInfo applyPatch(ApplyPatchInput in) throws RestApiException;
+
   default void restore() throws RestApiException {
     restore(new RestoreInput());
   }
@@ -569,6 +571,11 @@ public interface ChangeApi {
 
     @Override
     public void abandon(AbandonInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfo applyPatch(ApplyPatchInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

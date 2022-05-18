@@ -21,6 +21,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
+import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.AttentionSetApi;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
@@ -72,6 +73,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.restapi.change.Abandon;
 import com.google.gerrit.server.restapi.change.AddToAttentionSet;
+import com.google.gerrit.server.restapi.change.ApplyPatch;
 import com.google.gerrit.server.restapi.change.AttentionSet;
 import com.google.gerrit.server.restapi.change.ChangeIncludedIn;
 import com.google.gerrit.server.restapi.change.ChangeMessages;
@@ -140,6 +142,7 @@ class ChangeApiImpl implements ChangeApi {
   private final ListReviewers listReviewers;
   private final ChangeResource change;
   private final Abandon abandon;
+  private final ApplyPatch applyPatch;
   private final Revert revert;
   private final RevertSubmission revertSubmission;
   private final Restore restore;
@@ -203,6 +206,7 @@ class ChangeApiImpl implements ChangeApi {
       Rebase.CurrentRevision rebase,
       DeleteChange deleteChange,
       GetTopic getTopic,
+      ApplyPatch applyPatch,
       PutTopic putTopic,
       ChangeIncludedIn includedIn,
       PostReviewers postReviewers,
@@ -249,6 +253,7 @@ class ChangeApiImpl implements ChangeApi {
     this.changeMessages = changeMessages;
     this.suggestReviewers = suggestReviewers;
     this.listReviewers = listReviewers;
+    this.applyPatch = applyPatch;
     this.abandon = abandon;
     this.restore = restore;
     this.updateByMerge = updateByMerge;
@@ -322,6 +327,15 @@ class ChangeApiImpl implements ChangeApi {
       abandon.apply(change, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot abandon change", e);
+    }
+  }
+
+  @Override
+  public ChangeInfo applyPatch(ApplyPatchInput in) throws RestApiException {
+    try {
+      return applyPatch.apply(change, in).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot apply patch", e);
     }
   }
 

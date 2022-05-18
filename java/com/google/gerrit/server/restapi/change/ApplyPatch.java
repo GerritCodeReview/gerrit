@@ -19,6 +19,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
@@ -41,8 +42,9 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
-import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.SetCherryPickOp;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -69,9 +71,11 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.assistedinject.Assisted;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.api.ApplyCommand;
@@ -93,8 +97,10 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
-public class ApplyPatch implements RestModifyView<RevisionResource, ApplyPatchInput>,
-    UiAction<RevisionResource> {
+public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchInput>,
+    UiAction<ChangeResource> {
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
   private final ChangeJson.Factory json;
@@ -109,7 +115,6 @@ public class ApplyPatch implements RestModifyView<RevisionResource, ApplyPatchIn
   private final Sequences seq;
   private final ChangeNotes.Factory changeNotesFactory;
   private final NotifyResolver notifyResolver;
-  private final ProjectState projectState;
 
   @Inject
   ApplyPatch(PermissionBackend permissionBackend, ChangeJson.Factory json,
@@ -120,7 +125,6 @@ public class ApplyPatch implements RestModifyView<RevisionResource, ApplyPatchIn
       ChangeNotes.Factory changeNotesFactory,
       NotifyResolver notifyResolver,
       ChangeInserter.Factory changeInserterFactory,
-      ProjectState projectState,
       BatchUpdate.Factory batchUpdateFactory) {
     this.permissionBackend = permissionBackend;
     this.json = json;
@@ -132,14 +136,13 @@ public class ApplyPatch implements RestModifyView<RevisionResource, ApplyPatchIn
     this.changeNotesFactory = changeNotesFactory;
     this.changeInserterFactory = changeInserterFactory;
     this.gitManager = gitManager;
-    this.projectState = projectState;
     this.notifyResolver = notifyResolver;
     this.queryProvider = queryProvider;
     this.batchUpdateFactory = batchUpdateFactory;
   }
 
   @Override
-  public Response<ChangeInfo> apply(RevisionResource rsrc, ApplyPatchInput input)
+  public Response<ChangeInfo> apply(ChangeResource rsrc, ApplyPatchInput input)
       throws IOException, UpdateException, RestApiException, PermissionBackendException, ConfigInvalidException, NoSuchProjectException, InvalidChangeOperationException {
     if (input.destinationBranch == null || input.destinationBranch.trim().isEmpty()) {
       throw new BadRequestException("destination must be non-empty");
@@ -201,10 +204,12 @@ public class ApplyPatch implements RestModifyView<RevisionResource, ApplyPatchIn
 
       ApplyResult result;
       try (Git git = new Git(repo)) {
-        InputStream patchStream = new ByteArrayInputStream(input.patch.getBytes());
+        InputStream patchStream = new ByteArrayInputStream(
+            input.patch.getBytes(StandardCharsets.UTF_8));
         ApplyCommand applyCommand = git.apply().setPatch(patchStream);
 
         result = applyCommand.call();
+        logger.atWarning().log("~~~~~~~~DNS result: %s", result.getUpdatedFiles());
       } catch (GitAPIException e) {
         throw new IOException("Cannot apply patch", e);
       }
@@ -219,7 +224,9 @@ public class ApplyPatch implements RestModifyView<RevisionResource, ApplyPatchIn
       appliedCommit.setAuthor(authorIdent);
       appliedCommit.setCommitter(committerIdent);
       appliedCommit.setMessage(commitMessage);
-      matchAuthorToCommitterDate(projectState, appliedCommit);
+      matchAuthorToCommitterDate(
+          projectCache.get(rsrc.getProject()).orElseThrow(illegalState(rsrc.getProject())),
+          appliedCommit);
       CodeReviewCommit commit = revWalk.parseCommit(oi.insert(appliedCommit));
       commit.setFilesWithGitConflicts(commit.getFilesWithGitConflicts());
       oi.flush();
@@ -282,7 +289,7 @@ public class ApplyPatch implements RestModifyView<RevisionResource, ApplyPatchIn
   }
 
   @Override
-  public Description getDescription(RevisionResource resource) throws Exception {
+  public Description getDescription(ChangeResource resource) throws Exception {
     return null;
   }
 

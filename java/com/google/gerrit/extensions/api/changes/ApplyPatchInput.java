@@ -17,9 +17,9 @@ package com.google.gerrit.extensions.api.changes;
 import java.util.Map;
 
 public class ApplyPatchInput {
-  public String message;
-  public String destinationBranch;
-  public String patch;
+  public String message;  // required
+  public String destinationBranch;  // required
+  public String patch;  // required
 
   // 40-hex digit SHA-1 of the commit which will be the parent commit of the newly created change.
   public String base;

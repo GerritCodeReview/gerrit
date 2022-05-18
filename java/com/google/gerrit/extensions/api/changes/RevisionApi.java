@@ -134,8 +134,6 @@ public interface RevisionApi {
 
   BinaryResult patch(String path) throws RestApiException;
 
-  ChangeInfo applyPatch(ApplyPatchInput in) throws RestApiException;
-
   Map<String, ActionInfo> actions() throws RestApiException;
 
   SubmitType submitType() throws RestApiException;
@@ -354,10 +352,7 @@ public interface RevisionApi {
       throw new NotImplementedException();
     }
 
-    @Override
-    public ChangeInfo applyPatch(ApplyPatchInput in) throws RestApiException {
-      throw new NotImplementedException();
-    }
+
 
     @Override
     public Map<String, ActionInfo> actions() throws RestApiException {

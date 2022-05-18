@@ -22,7 +22,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder.ListMultimapBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.PatchSetApproval;
-import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
@@ -67,7 +66,6 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.restapi.change.ApplyFix;
 import com.google.gerrit.server.restapi.change.CherryPick;
-import com.google.gerrit.server.restapi.change.ApplyPatch;
 import com.google.gerrit.server.restapi.change.Comments;
 import com.google.gerrit.server.restapi.change.CreateDraftComment;
 import com.google.gerrit.server.restapi.change.DraftComments;
@@ -127,7 +125,6 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   private final Files.ListFiles listFiles;
   private final GetCommit getCommit;
   private final GetPatch getPatch;
-  private final ApplyPatch applyPatch;
   private final PostReview review;
   private final Mergeable mergeable;
   private final FileApiImpl.Factory fileApi;
@@ -174,7 +171,6 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       Files.ListFiles listFiles,
       GetCommit getCommit,
       GetPatch getPatch,
-      ApplyPatch applyPatch,
       PostReview review,
       Mergeable mergeable,
       FileApiImpl.Factory fileApi,
@@ -220,7 +216,6 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
     this.listFiles = listFiles;
     this.getCommit = getCommit;
     this.getPatch = getPatch;
-    this.applyPatch = applyPatch;
     this.mergeable = mergeable;
     this.fileApi = fileApi;
     this.listComments = listComments;
@@ -562,15 +557,6 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       return getPatch.setPath(path).apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get patch", e);
-    }
-  }
-
-  @Override
-  public ChangeInfo applyPatch(ApplyPatchInput in) throws RestApiException {
-    try {
-      return applyPatch.apply(revision, in).value();
-    } catch (Exception e) {
-      throw asRestApiException("Cannot apply patch", e);
     }
   }
 

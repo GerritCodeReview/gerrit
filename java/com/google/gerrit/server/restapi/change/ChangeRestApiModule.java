@@ -124,6 +124,7 @@ public class ChangeRestApiModule extends RestApiModule {
     post(CHANGE_KIND, "ready").to(SetReadyForReview.class);
     put(CHANGE_KIND, "message").to(PutMessage.class);
     post(CHANGE_KIND, "check.submit_requirement").to(CheckSubmitRequirement.class);
+    post(CHANGE_KIND, "apply_patch").to(ApplyPatch.class);
 
     get(CHANGE_KIND, "suggest_reviewers").to(SuggestChangeReviewers.class);
     child(CHANGE_KIND, "reviewers").to(Reviewers.class);

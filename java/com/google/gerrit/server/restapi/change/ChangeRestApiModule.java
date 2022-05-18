@@ -173,6 +173,7 @@ public class ChangeRestApiModule extends RestApiModule {
     post(FIX_KIND, "apply").to(ApplyStoredFix.class);
     get(FIX_KIND, "preview").to(PreviewStoredFix.class);
     post(REVISION_KIND, "fix:apply").to(ApplyProvidedFix.class);
+    post(REVISION_KIND, "preview_direct_fix").to(DirectFixPreview.class);
 
     get(REVISION_KIND, "ported_comments").to(ListPortedComments.class);
     get(REVISION_KIND, "ported_drafts").to(ListPortedDrafts.class);

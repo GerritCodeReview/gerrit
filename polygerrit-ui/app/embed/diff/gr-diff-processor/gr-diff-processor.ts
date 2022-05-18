@@ -614,6 +614,7 @@ export class GrDiffProcessor {
     const result = [];
     let lastChunkEndOffset = 0;
     for (const {offset, keyLocation} of chunkEnds) {
+      if (lastChunkEndOffset === offset) continue;
       result.push({
         lines: lines.slice(lastChunkEndOffset, offset),
         keyLocation,

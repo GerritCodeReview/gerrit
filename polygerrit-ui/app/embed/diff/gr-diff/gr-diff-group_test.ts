@@ -10,6 +10,7 @@ import {
   GrDiffGroupType,
   hideInContextControl,
 } from './gr-diff-group';
+import {fireAlert} from '../../../utils/event-util';
 
 suite('gr-diff-group tests', () => {
   test('delta line pairs', () => {
@@ -44,6 +45,16 @@ suite('gr-diff-group tests', () => {
       {left: l3, right: l1},
       {left: BLANK_LINE, right: l2},
     ]);
+  });
+
+  test('group must have lines', () => {
+    try {
+      new GrDiffGroup({type: GrDiffGroupType.BOTH});
+    } catch (e) {
+      // expected
+      return;
+    }
+    assert.fail('a standard diff group cannot be empty');
   });
 
   test('group/header line pairs', () => {
@@ -230,11 +241,6 @@ suite('gr-diff-group tests', () => {
       }
       const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
       assert.isTrue(group.isTotal());
-    });
-
-    test('not total for empty', () => {
-      const group = new GrDiffGroup({type: GrDiffGroupType.BOTH});
-      assert.isFalse(group.isTotal());
     });
 
     test('not total for non-delta', () => {

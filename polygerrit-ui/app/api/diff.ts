@@ -340,6 +340,7 @@ export declare interface LineNumberEventDetail {
   lineNum: LineNumber;
 }
 
+// TODO: Currently unused and not fired.
 export declare interface RenderProgressEventDetail {
   linesRendered: number;
 }

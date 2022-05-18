@@ -16,6 +16,23 @@
       "message": "Tests were migrated form JS to TS.",
       "revId": "8c586f90a95317a6f7c0e639f2869c09ffb87857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c49ba18_53e353a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2022-05-18T07:11:13Z",
+      "side": 1,
+      "message": "Yeah, the right resolution on modified/delete is very rarely just \"delete\". You need to find what was modified and port it 😊",
+      "revId": "8c586f90a95317a6f7c0e639f2869c09ffb87857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

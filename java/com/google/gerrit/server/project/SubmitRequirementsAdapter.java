@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -103,6 +104,7 @@ public class SubmitRequirementsAdapter {
     return result.build();
   }
 
+  @VisibleForTesting
   static List<SubmitRequirementResult> createResult(
       SubmitRecord record, List<LabelType> labelTypes, ObjectId psCommitId, boolean isForced) {
     List<SubmitRequirementResult> results;

@@ -10,11 +10,7 @@ import {
   createEmptyDiff,
 } from '../../../test/test-data-generators';
 import './gr-diff-builder-element';
-import {
-  nextRender,
-  queryAndAssert,
-  stubBaseUrl,
-} from '../../../test/test-utils';
+import {queryAndAssert, stubBaseUrl} from '../../../test/test-utils';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
@@ -639,12 +635,12 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('render-start and render-content are fired', async () => {
-      await nextRender();
+      await element.allGroupsRendered();
       let firedEventTypes = dispatchStub.getCalls().map(c => c.args[0].type);
       assert.include(firedEventTypes, 'render-start');
       assert.include(firedEventTypes, 'render-progress');
 
-      await nextRender();
+      await element.allGroupsRendered();
       firedEventTypes = dispatchStub.getCalls().map(c => c.args[0].type);
       assert.include(firedEventTypes, 'render-content');
     });
@@ -678,7 +674,7 @@ suite('gr-diff-builder tests', () => {
       };
       element.render(keyLocations);
       // Make sure all listeners are installed.
-      await nextRender();
+      await element.allGroupsRendered();
     });
 
     test('hides lines behind two context controls', () => {
@@ -742,7 +738,7 @@ suite('gr-diff-builder tests', () => {
       assert.include(diffRows[8].textContent, 'after');
       assert.include(diffRows[9].textContent, 'unchanged 11');
 
-      await nextRender();
+      await element.allGroupsRendered();
       const firedEventTypes = dispatchStub.getCalls().map(c => c.args[0].type);
       assert.include(firedEventTypes, 'render-content');
     });

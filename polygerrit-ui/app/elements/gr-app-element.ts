@@ -17,7 +17,10 @@
 
 import '../styles/themes/app-theme';
 import '../styles/themes/dark-theme';
-import {applyTheme as applyDarkTheme} from '../styles/themes/dark-theme';
+import {
+  applyTheme as applyDarkTheme,
+  removeTheme as removeDarkTheme,
+} from '../styles/themes/dark-theme';
 import './admin/gr-admin-view/gr-admin-view';
 import './documentation/gr-documentation-search/gr-documentation-search';
 import './change-list/gr-change-list-view/gr-change-list-view';
@@ -80,6 +83,7 @@ import {ShortcutController} from './lit/shortcut-controller';
 import {cache} from 'lit/directives/cache';
 import {assertIsDefined} from '../utils/common-util';
 import './gr-css-mixins';
+import {isDarkTheme} from '../utils/theme-util';
 
 interface ErrorInfo {
   text: string;
@@ -250,10 +254,7 @@ export class GrAppElement extends LitElement {
       this.logWelcome();
     });
 
-    const isDarkTheme = !!window.localStorage.getItem('dark-theme');
-    document.documentElement.classList.toggle('darkTheme', isDarkTheme);
-    document.documentElement.classList.toggle('lightTheme', !isDarkTheme);
-    if (isDarkTheme) applyDarkTheme();
+    this.applyTheme();
 
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
@@ -360,6 +361,7 @@ export class GrAppElement extends LitElement {
   }
 
   override render() {
+    this.applyTheme();
     return html`
       <gr-css-mixins></gr-css-mixins>
       <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
@@ -648,6 +650,17 @@ export class GrAppElement extends LitElement {
     // To fix bug announce read after each new view, we reset announce with
     // empty space
     fireIronAnnounce(this, ' ');
+  }
+
+  private applyTheme() {
+    const showDarkTheme = isDarkTheme();
+    document.documentElement.classList.toggle('darkTheme', showDarkTheme);
+    document.documentElement.classList.toggle('lightTheme', !showDarkTheme);
+    if (showDarkTheme) {
+      applyDarkTheme();
+    } else {
+      removeDarkTheme();
+    }
   }
 
   private handlePageError(e: CustomEvent<PageErrorEventDetail>) {

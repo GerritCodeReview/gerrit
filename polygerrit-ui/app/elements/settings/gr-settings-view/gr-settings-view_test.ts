@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma';
 import './gr-settings-view';
 import {GrSettingsView} from './gr-settings-view';
 import {GerritView} from '../../../services/router/router-model';
-import {queryAll, queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {queryAll, stubRestApi} from '../../../test/test-utils';
 import {
   AuthInfo,
   AccountDetailInfo,
@@ -35,6 +35,7 @@ import {
   DiffViewMode,
   EmailFormat,
   EmailStrategy,
+  AppTheme,
   TimeFormat,
 } from '../../../constants/constants';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
@@ -165,21 +166,24 @@ suite('gr-settings-view tests', () => {
           <h1 class="heading-1">User Settings</h1>
           <h2 id="Theme">Theme</h2>
           <section class="darkToggle">
-            <div class="toggle">
-              <paper-toggle-button
-                aria-disabled="false"
-                aria-labelledby="darkThemeToggleLabel"
-                aria-pressed="false"
-                role="button"
-                style="touch-action: none;"
-                tabindex="0"
-                toggles=""
-              >
-              </paper-toggle-button>
-              <div id="darkThemeToggleLabel">
-                Dark theme
-              </div>
-            </div>
+          <span class="title">
+                  Appearance
+                </span>
+                <span class="value">
+                  <gr-select>
+                    <select id="themePreferenceSelect">
+                      <option value="AUTO">
+                        Auto
+                      </option>
+                      <option value="LIGHT">
+                        Light
+                      </option>
+                      <option value="DARK">
+                        Dark
+                      </option>
+                    </select>
+                  </gr-select>
+                </span>
           </section>
           <h2 id="Profile">Profile</h2>
           <fieldset id="profile">
@@ -543,17 +547,14 @@ suite('gr-settings-view tests', () => {
 
     window.localStorage.removeItem('dark-theme');
     assert.isFalse(window.localStorage.getItem('dark-theme') === 'true');
-    const themeToggle = queryAndAssert(
-      element,
-      '.darkToggle paper-toggle-button'
-    );
-    MockInteractions.tap(themeToggle);
+    element.themePreferenceSelect.value = AppTheme.DARK;
+    element.handleThemePreferenceChanged();
+    await element.updateComplete;
     assert.isTrue(window.localStorage.getItem('dark-theme') === 'true');
     assert.isTrue(reloadStub.calledOnce);
 
-    element.isDark = true;
-    await flush();
-    MockInteractions.tap(themeToggle);
+    element.themePreferenceSelect.value = AppTheme.LIGHT;
+    element.handleThemePreferenceChanged();
     assert.isFalse(window.localStorage.getItem('dark-theme') === 'true');
     assert.isTrue(reloadStub.calledTwice);
   });

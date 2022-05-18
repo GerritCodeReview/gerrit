@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "93ff2448_cf8d6344",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-18T11:48:51Z",
+      "side": 1,
+      "message": "Okay - I can also not quickly find deps, I hope we are right. If splitting is a bug effort on your end, I am okay with avoiding it.",
+      "parentUuid": "31920a71_d9cdbe34",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "36b1ae9993aa8760def654edf4c0890be1f2a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "58745a38_e8bce45e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "If you debounce an event that is fired every 20 ms or do to only fire every 500 ms, then you can as well just use setInterval and do something every 500 ms. That would have the advantage of reducing dependencies and making things simpler. We have learned that establishing a `render-progress` event is tricky, and we know that the diff builder API and design is in a fragile state. So refactorings will be coming. So I would prefer diff cursor to be more self sufficient and take care of its own problems.",
       "parentUuid": "60338e1e_2afb5f79",
+      "range": {
+        "startLine": 16,
+        "startChar": 43,
+        "endLine": 20,
+        "endChar": 7
+      },
+      "revId": "36b1ae9993aa8760def654edf4c0890be1f2a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d9bef1f_3fd0e48b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-18T11:48:51Z",
+      "side": 1,
+      "message": "True. We could also debounce on the receiving end of the event. I think the interval is not necessarily simpler because need to install and uninstall it when a render starts and ends and so on, but we could have that conversation later.",
+      "parentUuid": "0c9d1d67_2545651f",
       "range": {
         "startLine": 16,
         "startChar": 43,

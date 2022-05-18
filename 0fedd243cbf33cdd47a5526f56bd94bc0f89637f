@@ -34,6 +34,24 @@
       "parentUuid": "a4d3d8b1_e60c5c48",
       "revId": "0fedd243cbf33cdd47a5526f56bd94bc0f89637f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d250685_a78c5a56",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-18T11:48:51Z",
+      "side": 0,
+      "message": "Also did not find anything - okay, so you could remove it - I am still a bit vary of not really respecting the stability goals for the api/ folder - I feel like keeping the type does not hurt anyone either - but I don\u0027t think it is going to break us specifically.",
+      "parentUuid": "7f44b23b_36a79b0b",
+      "revId": "0fedd243cbf33cdd47a5526f56bd94bc0f89637f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

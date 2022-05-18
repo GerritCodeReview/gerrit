@@ -151,6 +151,7 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.post("/changes/%s/revisions/%s/test.submit_type"),
           RestCall.post("/changes/%s/revisions/%s/rebase"),
           RestCall.post("/changes/%s/revisions/%s/fix:apply"),
+          RestCall.post("/changes/%s/revisions/%s/fix:preview"),
           RestCall.get("/changes/%s/revisions/%s/description"),
           RestCall.put("/changes/%s/revisions/%s/description"),
           RestCall.get("/changes/%s/revisions/%s/patch"),

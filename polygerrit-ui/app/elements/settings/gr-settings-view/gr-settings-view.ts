@@ -43,6 +43,7 @@ import {
   DiffViewMode,
   EmailFormat,
   EmailStrategy,
+  AppTheme,
   TimeFormat,
 } from '../../../constants/constants';
 import {windowLocationReload} from '../../../utils/dom-util';
@@ -62,6 +63,7 @@ import {when} from 'lit/directives/when.js';
 import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
+import {getThemePreference} from '../../../utils/theme-util';
 
 const GERRIT_DOCS_BASE_URL =
   'https://gerrit-review.googlesource.com/' + 'Documentation';
@@ -140,6 +142,8 @@ export class GrSettingsView extends LitElement {
 
   @query('#diffViewSelect') diffViewSelect!: HTMLInputElement;
 
+  @query('#themePreferenceSelect') themePreferenceSelect!: HTMLInputElement;
+
   @state() prefs: PreferencesInput = {};
 
   @property({type: Object}) params?: AppElementParams;
@@ -187,7 +191,7 @@ export class GrSettingsView extends LitElement {
   @state() showNumber?: boolean;
 
   // private but used in test
-  @state() isDark = false;
+  @state() themePreference = AppTheme.AUTO;
 
   // private but used in test
   public _testOnly_loadingPromise?: Promise<void>;
@@ -203,7 +207,7 @@ export class GrSettingsView extends LitElement {
   }
 
   override firstUpdated() {
-    this.isDark = !!window.localStorage.getItem('dark-theme');
+    this.themePreference = getThemePreference();
 
     const promises: Array<Promise<unknown>> = [
       this.accountInfo.loadData(),
@@ -368,15 +372,19 @@ export class GrSettingsView extends LitElement {
           <h1 class="heading-1">User Settings</h1>
           <h2 id="Theme">Theme</h2>
           <section class="darkToggle">
-            <div class="toggle">
-              <paper-toggle-button
-                aria-labelledby="darkThemeToggleLabel"
-                ?checked=${this.isDark}
-                @change=${this.handleToggleDark}
-                @click=${this.onTapDarkToggle}
-              ></paper-toggle-button>
-              <div id="darkThemeToggleLabel">Dark theme</div>
-            </div>
+            <span class="title">Appearance</span>
+            <span class="value">
+              <gr-select
+                .bindValue=${this.themePreference}
+                @change=${this.handleThemePreferenceChanged}
+              >
+                <select id="themePreferenceSelect">
+                  <option value="AUTO">Auto</option>
+                  <option value="LIGHT">Light</option>
+                  <option value="DARK">Dark</option>
+                </select>
+              </gr-select>
+            </span>
           </section>
           <h2
             id="Profile"
@@ -1149,11 +1157,18 @@ export class GrSettingsView extends LitElement {
     return base + GERRIT_DOCS_FILTER_PATH;
   }
 
-  private handleToggleDark() {
-    if (this.isDark) {
-      window.localStorage.removeItem('dark-theme');
-    } else {
+  // private but used in test
+  handleThemePreferenceChanged() {
+    const themeSelected = this.themePreferenceSelect.value as AppTheme;
+    if (themeSelected === AppTheme.DARK) {
+      window.localStorage.removeItem('light-theme');
       window.localStorage.setItem('dark-theme', 'true');
+    } else if (themeSelected === AppTheme.LIGHT) {
+      window.localStorage.removeItem('dark-theme');
+      window.localStorage.setItem('light-theme', 'true');
+    } else if (themeSelected === AppTheme.AUTO) {
+      window.localStorage.removeItem('light-theme');
+      window.localStorage.removeItem('dark-theme');
     }
     this.reloadPage();
   }
@@ -1173,13 +1188,6 @@ export class GrSettingsView extends LitElement {
     }
 
     return false;
-  }
-
-  /**
-   * Work around a issue on iOS when clicking turns into double tap
-   */
-  private onTapDarkToggle(e: Event) {
-    e.preventDefault();
   }
 
   /**

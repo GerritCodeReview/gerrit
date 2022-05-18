@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff4afe99_48f5c120",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-18T09:18:31Z",
+      "side": 1,
+      "message": "Thanks @Davido.\n\nThere are some TODOs still:\n1. Documentation update\n2. How to detect that this has been run and block (or warning?) Gerrit startup once migrated to v3.6\n3. How to make it fast? (scanning all changes on all projects may take ages)\n\nI can try to run this on GerritHub.io and provide some numbers.",
+      "revId": "e29af3c7fc30d16f90d8a8f8d775f667a40a5912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f669ec67_e344fe4d",
@@ -14,6 +31,23 @@
       "writtenOn": "2022-05-17T19:43:25Z",
       "side": 1,
       "message": "This was copied as is from, stable-3.5 branch. I haven\u0027t tried yet to merge it with ApprovalCopier.java from stable-3.6 branch.",
+      "revId": "e29af3c7fc30d16f90d8a8f8d775f667a40a5912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49f786e4_bf9964aa",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalInference.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-18T09:18:31Z",
+      "side": 1,
+      "message": "Should we put a note that is copied AS-IS from stable-3.5 just for the purpose of the copy label migration?",
       "revId": "e29af3c7fc30d16f90d8a8f8d775f667a40a5912",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

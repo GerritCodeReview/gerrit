@@ -134,6 +134,9 @@ public class SubmitRequirementsUtil {
     result.putAll(projectConfigRequirements);
     Map<String, SubmitRequirementResult> requirementsByName =
         projectConfigRequirements.entrySet().stream()
+            // filter out legacy entries as a safety guard for duplicate entries
+            // (projectConfigRequirements should not contain legacy entries)
+            .filter(entry -> !entry.getValue().isLegacy())
             .collect(Collectors.toMap(sr -> sr.getKey().name().toLowerCase(), sr -> sr.getValue()));
     for (Map.Entry<SubmitRequirement, SubmitRequirementResult> legacy :
         legacyRequirements.entrySet()) {

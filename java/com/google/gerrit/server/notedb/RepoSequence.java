@@ -340,4 +340,13 @@ public class RepoSequence {
       counterLock.unlock();
     }
   }
+
+  public int last() {
+    counterLock.lock();
+    try {
+      return counter;
+    } finally {
+      counterLock.unlock();
+    }
+  }
 }

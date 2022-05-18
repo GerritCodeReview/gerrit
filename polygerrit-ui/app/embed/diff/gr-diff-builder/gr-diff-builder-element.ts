@@ -26,11 +26,7 @@ import {
   GrRangedCommentLayer,
 } from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
-import {
-  DiffViewMode,
-  RenderPreferences,
-  RenderProgressEventDetail,
-} from '../../../api/diff';
+import {DiffViewMode, RenderPreferences} from '../../../api/diff';
 import {createDefaultDiffPrefs, Side} from '../../../constants/constants';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {
@@ -39,13 +35,9 @@ import {
   hideInContextControl,
 } from '../gr-diff/gr-diff-group';
 import {getLineNumber, getSideByLineEl} from '../gr-diff/gr-diff-utils';
-import {
-  fireAlert,
-  fire,
-  HTMLElementEventDetailType,
-} from '../../../utils/event-util';
+import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {afterNextRender} from '../../../utils/dom-util';
+import {untilRendered} from '../../../utils/dom-util';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
@@ -58,11 +50,6 @@ declare global {
      * partial rerenders.
      */
     'render-start': CustomEvent<{}>;
-    /**
-     * Fired whenever a new chunk of lines has been rendered synchronously - this
-     * only happens for full renders.
-     */
-    'render-progress': CustomEvent<RenderProgressEventDetail>;
     /**
      * Fired when the diff finishes rendering text content - both for full
      * renders and for partial rerenders.
@@ -163,6 +150,16 @@ export class GrDiffBuilderElement implements GroupConsumer {
   // visible for testing
   processor = new GrDiffProcessor();
 
+  /**
+   * Groups are mostly just passed on to the diff builder (this.builder). But
+   * we also keep track of them here for being able to fire a `render-content`
+   * event when .element of each group has rendered.
+   *
+   * TODO: Refactor DiffBuilderElement and DiffBuilders with a cleaner
+   * separation of responsibilities.
+   */
+  private groups: GrDiffGroup[] = [];
+
   constructor() {
     this.processor.consumer = this;
   }
@@ -210,7 +207,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
 
     const isBinary = !!(this.isImageDiff || this.diff.binary);
 
-    this.fireDiffEvent('render-start', {});
+    this.fireDiffEvent('render-start');
     this.cancelableRenderPromise = makeCancelable(
       this.processor
         .process(this.diff.content, isBinary)
@@ -218,7 +215,10 @@ export class GrDiffBuilderElement implements GroupConsumer {
           if (this.isImageDiff) {
             (this.builder as GrDiffBuilderImage).renderDiff();
           }
-          afterNextRender(() => this.fireDiffEvent('render-content', {}));
+          return this.untilGroupsRendered();
+        })
+        .then(() => {
+          this.fireDiffEvent('render-content');
         })
         // Mocha testing does not like uncaught rejections, so we catch
         // the cancels which are expected and should not throw errors in
@@ -233,6 +233,18 @@ export class GrDiffBuilderElement implements GroupConsumer {
     );
   }
 
+  // visible for testing
+  async untilGroupsRendered(groups: readonly GrDiffGroup[] = this.groups) {
+    for (const g of groups) {
+      // The LOST or FILE lines may be hidden and thus never resolve an
+      // untilRendered() promise.
+      const lineNumber = g.lines?.[0]?.beforeNumber;
+      if (lineNumber === 'LOST' || lineNumber === 'FILE') continue;
+      assertIsDefined(g.element);
+      await untilRendered(g.element);
+    }
+  }
+
   private onDiffContextExpanded = (
     e: CustomEvent<DiffContextExpandedEventDetail>
   ) => {
@@ -241,17 +253,9 @@ export class GrDiffBuilderElement implements GroupConsumer {
     this.replaceGroup(e.detail.contextGroup, e.detail.groups);
   };
 
-  private fireDiffEvent<K extends keyof HTMLElementEventMap>(
-    type: K,
-    detail: HTMLElementEventDetailType<K>
-  ) {
+  private fireDiffEvent<K extends keyof HTMLElementEventMap>(type: K) {
     assertIsDefined(this.diffElement, 'diff table');
-    fire(this.diffElement, type, detail);
-  }
-
-  private fireDiffEventRenderProgress(detail: RenderProgressEventDetail) {
-    assertIsDefined(this.diffElement, 'diff table');
-    fire(this.diffElement, 'render-progress', detail);
+    fireEvent(this.diffElement, type);
   }
 
   // visible for testing
@@ -364,15 +368,12 @@ export class GrDiffBuilderElement implements GroupConsumer {
     newGroups: readonly GrDiffGroup[]
   ) {
     if (!this.builder) return;
-    this.fireDiffEvent('render-start', {});
-    const linesRendered = newGroups.reduce(
-      (sum, group) => sum + group.lines.length,
-      0
-    );
+    this.fireDiffEvent('render-start');
     this.builder.replaceGroup(contextGroup, newGroups);
-    afterNextRender(() => {
-      this.fireDiffEvent('render-progress', {linesRendered});
-      this.fireDiffEvent('render-content', {});
+    this.groups = this.groups.filter(g => g !== contextGroup);
+    this.groups.push(...newGroups);
+    this.untilGroupsRendered(newGroups).then(() => {
+      this.fireDiffEvent('render-content');
     });
   }
 
@@ -464,6 +465,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
    */
   clearGroups() {
     if (!this.builder) return;
+    this.groups = [];
     this.builder.clearGroups();
   }
 
@@ -473,9 +475,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
   addGroup(group: GrDiffGroup) {
     if (!this.builder) return;
     this.builder.addGroups([group]);
-    afterNextRender(() =>
-      this.fireDiffEventRenderProgress({linesRendered: group.lines.length})
-    );
+    this.groups.push(group);
   }
 
   // visible for testing

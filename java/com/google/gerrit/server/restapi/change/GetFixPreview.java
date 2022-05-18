@@ -74,7 +74,7 @@ public class GetFixPreview implements RestReadView<FixResource> {
   public Response<Map<String, DiffInfo>> apply(FixResource resource)
       throws PermissionBackendException, ResourceNotFoundException, ResourceConflictException,
           AuthException, IOException, InvalidChangeOperationException {
-    Map<String, DiffInfo> result = new HashMap<>();
+
     PatchSet patchSet = resource.getRevisionResource().getPatchSet();
     ChangeNotes notes = resource.getRevisionResource().getNotes();
     Change change = notes.getChange();
@@ -83,6 +83,21 @@ public class GetFixPreview implements RestReadView<FixResource> {
     Map<String, List<FixReplacement>> fixReplacementsPerFilePath =
         resource.getFixReplacements().stream()
             .collect(groupingBy(fixReplacement -> fixReplacement.path));
+
+    Map<String, DiffInfo> result =
+        applyFixPreviewForAllFiles(repoManager, patchSet, notes, state, fixReplacementsPerFilePath);
+    return Response.ok(result);
+  }
+
+  Map<String, DiffInfo> applyFixPreviewForAllFiles(
+      GitRepositoryManager repoManager,
+      PatchSet patchSet,
+      ChangeNotes notes,
+      ProjectState state,
+      Map<String, List<FixReplacement>> fixReplacementsPerFilePath)
+      throws PermissionBackendException, ResourceNotFoundException, ResourceConflictException,
+          AuthException, IOException, InvalidChangeOperationException {
+    Map<String, DiffInfo> result = new HashMap<>();
     try {
       try (Repository git = repoManager.openRepository(notes.getProjectName())) {
         for (Map.Entry<String, List<FixReplacement>> entry :
@@ -99,10 +114,10 @@ public class GetFixPreview implements RestReadView<FixResource> {
     } catch (LargeObjectException e) {
       throw new ResourceConflictException(e.getMessage(), e);
     }
-    return Response.ok(result);
+    return result;
   }
 
-  private DiffInfo getFixPreviewForSingleFile(
+  DiffInfo getFixPreviewForSingleFile(
       Repository git,
       PatchSet patchSet,
       ProjectState state,

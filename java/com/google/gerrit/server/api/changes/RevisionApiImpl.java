@@ -70,6 +70,7 @@ import com.google.gerrit.server.restapi.change.ApplyFix;
 import com.google.gerrit.server.restapi.change.CherryPick;
 import com.google.gerrit.server.restapi.change.Comments;
 import com.google.gerrit.server.restapi.change.CreateDraftComment;
+import com.google.gerrit.server.restapi.change.DirectFixPreview;
 import com.google.gerrit.server.restapi.change.DraftComments;
 import com.google.gerrit.server.restapi.change.Files;
 import com.google.gerrit.server.restapi.change.Fixes;
@@ -137,6 +138,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   private final ApplyFix applyFix;
   private final ApplyDirectFix applyDirectFix;
   private final GetFixPreview getFixPreview;
+  private final DirectFixPreview directFixPreview;
   private final Fixes fixes;
   private final ListRevisionDrafts listDrafts;
   private final CreateDraftComment createDraft;
@@ -184,6 +186,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       ApplyFix applyFix,
       ApplyDirectFix applyDirectFix,
       GetFixPreview getFixPreview,
+      DirectFixPreview directFixPreview,
       Fixes fixes,
       ListRevisionDrafts listDrafts,
       CreateDraftComment createDraft,
@@ -230,6 +233,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
     this.applyFix = applyFix;
     this.applyDirectFix = applyDirectFix;
     this.getFixPreview = getFixPreview;
+    this.directFixPreview = directFixPreview;
     this.fixes = fixes;
     this.listDrafts = listDrafts;
     this.createDraft = createDraft;
@@ -503,6 +507,16 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       return getFixPreview.apply(fixes.parse(revision, IdString.fromDecoded(fixId))).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get fix preview", e);
+    }
+  }
+
+  @Override
+  public Map<String, DiffInfo> directFixPreview(DirectFixInput directFixInput)
+      throws RestApiException {
+    try {
+      return directFixPreview.apply(revision, directFixInput).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get direct fix preview", e);
     }
   }
 

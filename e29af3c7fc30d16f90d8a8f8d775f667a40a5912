@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dac98bca_95c7a2b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-18T09:39:14Z",
+      "side": 1,
+      "message": "\u003e 1. Documentation update\n\nWill add it.\n\n\u003e 2. How to detect that this has been run and block (or warning?) Gerrit startup once migrated to v3.6\n\nIt is not obvious how to do is. As written, it\u0027s still optional, as we don\u0027t have schema migration. Because non trivial Guice binding issue (you need whole gerrit), it\u0027s hard to provide this site program as schema migration. We could provide dummy schema version bump (184 \u003d\u003e 185), and only run this step once the schema version still 184.\n\n\u003e 3. How to make it fast?\n\nThere some potential optimization options: We could also provide an option, to only copy approvals for open changes, and skip closed and abandoned changes.\n\nI also working on adding more tests, as currently the test coverage is not sufficient.",
+      "parentUuid": "ff4afe99_48f5c120",
+      "revId": "e29af3c7fc30d16f90d8a8f8d775f667a40a5912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f669ec67_e344fe4d",

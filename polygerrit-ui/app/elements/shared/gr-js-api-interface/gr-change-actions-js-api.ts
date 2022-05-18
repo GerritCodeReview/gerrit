@@ -133,19 +133,16 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
 
   setActionOverflow(type: ActionType, key: string, overflow: boolean) {
     this.reporting.trackApi(this.plugin, 'actions', 'setActionOverflow');
-    // TODO(TS): remove return, unclear why it was written
     this.ensureEl().setActionOverflow(type, key, overflow);
   }
 
   setActionPriority(type: ActionType, key: string, priority: ActionPriority) {
     this.reporting.trackApi(this.plugin, 'actions', 'setActionPriority');
-    // TODO(TS): remove return, unclear why it was written
     this.ensureEl().setActionPriority(type, key, priority);
   }
 
   setActionHidden(type: ActionType, key: string, hidden: boolean) {
     this.reporting.trackApi(this.plugin, 'actions', 'setActionHidden');
-    // TODO(TS): remove return, unclear why it was written
     this.ensureEl().setActionHidden(type, key, hidden);
   }
 
@@ -156,7 +153,6 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
 
   remove(key: string) {
     this.reporting.trackApi(this.plugin, 'actions', 'remove');
-    // TODO(TS): remove return, unclear why it was written
     this.ensureEl().removeActionButton(key);
   }
 

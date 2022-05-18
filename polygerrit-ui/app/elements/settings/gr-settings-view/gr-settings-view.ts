@@ -449,8 +449,8 @@ export class GrSettingsView extends LitElement {
               >Save changes</gr-button
             >
           </fieldset>
-          <gr-edit-preferences id="editPrefs"></gr-edit-preferences>
-          <gr-menu-editor></gr-menu-editor>
+          <gr-edit-preferences id="EditPreferences"></gr-edit-preferences>
+          <gr-menu-editor id="Menu"></gr-menu-editor>
           <h2
             id="ChangeTableColumns"
             class=${this.computeHeaderClass(this.changeTableChanged)}

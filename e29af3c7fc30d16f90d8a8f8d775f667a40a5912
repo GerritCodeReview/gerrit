@@ -38,6 +38,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "31ddcc1e_5cd6495d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148409
+      },
+      "writtenOn": "2022-05-18T10:08:27Z",
+      "side": 1,
+      "message": "issue exists still",
+      "revId": "e29af3c7fc30d16f90d8a8f8d775f667a40a5912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f669ec67_e344fe4d",
         "filename": "java/com/google/gerrit/server/approval/ApprovalInference.java",
         "patchSetId": 6

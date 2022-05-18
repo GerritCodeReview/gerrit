@@ -170,7 +170,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
               false);
       configSubmitRequirement(project, projectSubmitRequirement);
       Map<SubmitRequirement, SubmitRequirementResult> results =
-          evaluator.evaluateAllRequirements(changeData, /* includeLegacy= */ false);
+          evaluator.evaluateAllRequirements(changeData);
       assertThat(results).hasSize(2);
       assertThat(results.get(globalSubmitRequirement).status())
           .isEqualTo(SubmitRequirementResult.Status.SATISFIED);
@@ -201,7 +201,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
               false);
       configSubmitRequirement(project, projectSubmitRequirement);
       Map<SubmitRequirement, SubmitRequirementResult> results =
-          evaluator.evaluateAllRequirements(changeData, /* includeLegacy= */ false);
+          evaluator.evaluateAllRequirements(changeData);
       assertThat(results).hasSize(1);
       assertThat(results.get(projectSubmitRequirement).status())
           .isEqualTo(SubmitRequirementResult.Status.SATISFIED);
@@ -230,7 +230,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
               false);
       configSubmitRequirement(project, projectSubmitRequirement);
       Map<SubmitRequirement, SubmitRequirementResult> results =
-          evaluator.evaluateAllRequirements(changeData, /* includeLegacy= */ false);
+          evaluator.evaluateAllRequirements(changeData);
       assertThat(results).hasSize(1);
       assertThat(results.get(globalSubmitRequirement).status())
           .isEqualTo(SubmitRequirementResult.Status.SATISFIED);

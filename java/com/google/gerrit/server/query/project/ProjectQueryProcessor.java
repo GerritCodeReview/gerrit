@@ -30,6 +30,7 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -42,6 +43,7 @@ import com.google.inject.Provider;
 public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> userProvider;
+  private final ProjectCache projectCache;
 
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
@@ -58,7 +60,8 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
       IndexConfig indexConfig,
       ProjectIndexCollection indexes,
       ProjectIndexRewriter rewriter,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ProjectCache projectCache) {
     super(
         metricMaker,
         ProjectSchemaDefinitions.INSTANCE,
@@ -69,6 +72,7 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
         () -> limitsFactory.create(userProvider.get()).getQueryLimit());
     this.permissionBackend = permissionBackend;
     this.userProvider = userProvider;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -80,5 +84,10 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
   @Override
   protected String formatForLogging(ProjectData projectData) {
     return projectData.getProject().getName();
+  }
+
+  @Override
+  protected int getMaxEffectiveLimit() {
+    return projectCache.all().size();
   }
 }

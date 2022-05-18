@@ -42,6 +42,7 @@ import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
+import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   private final Map<String, DynamicBean> dynamicBeans = new HashMap<>();
   private final List<Extension<ChangePluginDefinedInfoFactory>>
       changePluginDefinedInfoFactoriesByPlugin = new ArrayList<>();
+  private final Sequences sequences;
 
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
@@ -82,6 +84,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       ChangeIndexCollection indexes,
       ChangeIndexRewriter rewriter,
       DynamicSet<ChangeAttributeFactory> attributeFactories,
+      Sequences sequences,
       ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory,
       DynamicSet<ChangePluginDefinedInfoFactory> changePluginDefinedInfoFactories) {
     super(
@@ -94,6 +97,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
         () -> limitsFactory.create(userProvider.get()).getQueryLimit());
     this.userProvider = userProvider;
     this.changeIsVisibleToPredicateFactory = changeIsVisibleToPredicateFactory;
+    this.sequences = sequences;
 
     ImmutableListMultimap.Builder<String, ChangeAttributeFactory> factoriesBuilder =
         ImmutableListMultimap.builder();
@@ -162,5 +166,10 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   @Override
   protected String formatForLogging(ChangeData changeData) {
     return changeData.getId().toString();
+  }
+
+  @Override
+  protected int getMaxEffectiveLimit() {
+    return sequences.currentChangeId() + sequences.changeBatchSize();
   }
 }

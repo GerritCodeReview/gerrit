@@ -48,7 +48,6 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private final Provider<SubmitRequirementChangeQueryBuilder> queryBuilder;
   private final ProjectCache projectCache;
   private final PluginSetContext<SubmitRequirement> globalSubmitRequirements;
-  private final SubmitRequirementsUtil submitRequirementsUtil;
   private final OneOffRequestContext requestContext;
   private final ExperimentFeatures experimentFeatures;
 
@@ -68,13 +67,11 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       Provider<SubmitRequirementChangeQueryBuilder> queryBuilder,
       ProjectCache projectCache,
       PluginSetContext<SubmitRequirement> globalSubmitRequirements,
-      SubmitRequirementsUtil submitRequirementsUtil,
       OneOffRequestContext requestContext,
       ExperimentFeatures experimentFeatures) {
     this.queryBuilder = queryBuilder;
     this.projectCache = projectCache;
     this.globalSubmitRequirements = globalSubmitRequirements;
-    this.submitRequirementsUtil = submitRequirementsUtil;
     this.requestContext = requestContext;
     this.experimentFeatures = experimentFeatures;
   }
@@ -87,16 +84,8 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
 
   @Override
   public ImmutableMap<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(
-      ChangeData cd, boolean includeLegacy) {
-    ImmutableMap<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements =
-        getRequirements(cd);
-    if (!includeLegacy) {
-      return projectConfigRequirements;
-    }
-    Map<SubmitRequirement, SubmitRequirementResult> legacyReqs =
-        SubmitRequirementsAdapter.getLegacyRequirements(cd);
-    return submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
-        projectConfigRequirements, legacyReqs, cd);
+      ChangeData cd) {
+    return getRequirements(cd);
   }
 
   @Override

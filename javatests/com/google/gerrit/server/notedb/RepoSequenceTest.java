@@ -91,27 +91,37 @@ public class RepoSequenceTest {
     assertThat(s.acquireCount).isEqualTo(0);
 
     assertThat(s.next()).isEqualTo(1);
+    assertThat(s.last()).isEqualTo(1);
     assertThat(s.acquireCount).isEqualTo(1);
     assertThat(s.next()).isEqualTo(2);
+    assertThat(s.last()).isEqualTo(2);
     assertThat(s.acquireCount).isEqualTo(1);
     assertThat(s.next()).isEqualTo(3);
+    assertThat(s.last()).isEqualTo(3);
     assertThat(s.acquireCount).isEqualTo(1);
 
     assertThat(s.next()).isEqualTo(4);
+    assertThat(s.last()).isEqualTo(4);
     assertThat(s.acquireCount).isEqualTo(2);
     assertThat(s.next()).isEqualTo(5);
+    assertThat(s.last()).isEqualTo(5);
     assertThat(s.acquireCount).isEqualTo(2);
     assertThat(s.next()).isEqualTo(6);
+    assertThat(s.last()).isEqualTo(6);
     assertThat(s.acquireCount).isEqualTo(2);
 
     assertThat(s.next()).isEqualTo(7);
+    assertThat(s.last()).isEqualTo(7);
     assertThat(s.acquireCount).isEqualTo(3);
     assertThat(s.next()).isEqualTo(8);
+    assertThat(s.last()).isEqualTo(8);
     assertThat(s.acquireCount).isEqualTo(3);
     assertThat(s.next()).isEqualTo(9);
+    assertThat(s.last()).isEqualTo(9);
     assertThat(s.acquireCount).isEqualTo(3);
 
     assertThat(s.next()).isEqualTo(10);
+    assertThat(s.last()).isEqualTo(10);
     assertThat(s.acquireCount).isEqualTo(4);
   }
 
@@ -127,6 +137,8 @@ public class RepoSequenceTest {
     assertThat(s2.next()).isEqualTo(5);
     assertThat(s1.next()).isEqualTo(3);
     assertThat(s2.next()).isEqualTo(6);
+    assertThat(s1.last()).isEqualTo(3);
+    assertThat(s2.last()).isEqualTo(6);
 
     // s2 acquires 7-9; s1 acquires 10-12.
     assertThat(s2.next()).isEqualTo(7);
@@ -135,6 +147,8 @@ public class RepoSequenceTest {
     assertThat(s1.next()).isEqualTo(11);
     assertThat(s2.next()).isEqualTo(9);
     assertThat(s1.next()).isEqualTo(12);
+    assertThat(s1.last()).isEqualTo(12);
+    assertThat(s2.last()).isEqualTo(9);
   }
 
   @Test
@@ -284,48 +298,61 @@ public class RepoSequenceTest {
   }
 
   @Test
-  public void nextWithCountOneCaller() throws Exception {
+  public void nextWithCountAndLastByOneCaller() throws Exception {
     RepoSequence s = newSequence("id", 1, 3);
     assertThat(s.next(2)).containsExactly(1, 2).inOrder();
     assertThat(s.acquireCount).isEqualTo(1);
+    assertThat(s.last()).isEqualTo(2);
     assertThat(s.next(2)).containsExactly(3, 4).inOrder();
     assertThat(s.acquireCount).isEqualTo(2);
+    assertThat(s.last()).isEqualTo(4);
     assertThat(s.next(2)).containsExactly(5, 6).inOrder();
     assertThat(s.acquireCount).isEqualTo(2);
+    assertThat(s.last()).isEqualTo(6);
 
     assertThat(s.next(3)).containsExactly(7, 8, 9).inOrder();
     assertThat(s.acquireCount).isEqualTo(3);
+    assertThat(s.last()).isEqualTo(9);
     assertThat(s.next(3)).containsExactly(10, 11, 12).inOrder();
     assertThat(s.acquireCount).isEqualTo(4);
+    assertThat(s.last()).isEqualTo(12);
     assertThat(s.next(3)).containsExactly(13, 14, 15).inOrder();
     assertThat(s.acquireCount).isEqualTo(5);
+    assertThat(s.last()).isEqualTo(15);
 
     assertThat(s.next(7)).containsExactly(16, 17, 18, 19, 20, 21, 22).inOrder();
     assertThat(s.acquireCount).isEqualTo(6);
+    assertThat(s.last()).isEqualTo(22);
     assertThat(s.next(7)).containsExactly(23, 24, 25, 26, 27, 28, 29).inOrder();
     assertThat(s.acquireCount).isEqualTo(7);
+    assertThat(s.last()).isEqualTo(29);
     assertThat(s.next(7)).containsExactly(30, 31, 32, 33, 34, 35, 36).inOrder();
     assertThat(s.acquireCount).isEqualTo(8);
+    assertThat(s.last()).isEqualTo(36);
   }
 
   @Test
-  public void nextWithCountMultipleCallers() throws Exception {
+  public void nextWithCountAndLastByMultipleCallers() throws Exception {
     RepoSequence s1 = newSequence("id", 1, 3);
     RepoSequence s2 = newSequence("id", 1, 4);
 
     assertThat(s1.next(2)).containsExactly(1, 2).inOrder();
+    assertThat(s1.last()).isEqualTo(2);
     assertThat(s1.acquireCount).isEqualTo(1);
 
     // s1 hasn't exhausted its last batch.
     assertThat(s2.next(2)).containsExactly(4, 5).inOrder();
+    assertThat(s2.last()).isEqualTo(5);
     assertThat(s2.acquireCount).isEqualTo(1);
 
     // s1 acquires again to cover this request, plus a whole new batch.
     assertThat(s1.next(3)).containsExactly(3, 8, 9);
+    assertThat(s1.last()).isEqualTo(9);
     assertThat(s1.acquireCount).isEqualTo(2);
 
     // s2 hasn't exhausted its last batch, do so now.
     assertThat(s2.next(2)).containsExactly(6, 7);
+    assertThat(s2.last()).isEqualTo(7);
     assertThat(s2.acquireCount).isEqualTo(1);
   }
 

@@ -87,7 +87,7 @@ import com.google.gerrit.server.restapi.change.ListRevisionDrafts;
 import com.google.gerrit.server.restapi.change.ListRobotComments;
 import com.google.gerrit.server.restapi.change.Mergeable;
 import com.google.gerrit.server.restapi.change.PostReview;
-import com.google.gerrit.server.restapi.change.PreviewStoredFix;
+import com.google.gerrit.server.restapi.change.PreviewFix;
 import com.google.gerrit.server.restapi.change.PutDescription;
 import com.google.gerrit.server.restapi.change.Rebase;
 import com.google.gerrit.server.restapi.change.Reviewed;
@@ -135,8 +135,9 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   private final ListPortedComments listPortedComments;
   private final ListPortedDrafts listPortedDrafts;
   private final ApplyStoredFix applyStoredFix;
-  private final PreviewStoredFix previewStoredFix;
+  private final PreviewFix.Stored previewStoredFix;
   private final ApplyProvidedFix applyProvidedFix;
+  private final PreviewFix.Provided previewProvidedFix;
   private final Fixes fixes;
   private final ListRevisionDrafts listDrafts;
   private final CreateDraftComment createDraft;
@@ -182,8 +183,9 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       ListPortedComments listPortedComments,
       ListPortedDrafts listPortedDrafts,
       ApplyStoredFix applyStoredFix,
-      PreviewStoredFix previewStoredFix,
+      PreviewFix.Stored previewStoredFix,
       ApplyProvidedFix applyProvidedFix,
+      PreviewFix.Provided previewProvidedFix,
       Fixes fixes,
       ListRevisionDrafts listDrafts,
       CreateDraftComment createDraft,
@@ -230,6 +232,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
     this.applyStoredFix = applyStoredFix;
     this.previewStoredFix = previewStoredFix;
     this.applyProvidedFix = applyProvidedFix;
+    this.previewProvidedFix = previewProvidedFix;
     this.fixes = fixes;
     this.listDrafts = listDrafts;
     this.createDraft = createDraft;
@@ -503,6 +506,16 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       return previewStoredFix.apply(fixes.parse(revision, IdString.fromDecoded(fixId))).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot preview stored fix", e);
+    }
+  }
+
+  @Override
+  public Map<String, DiffInfo> getFixPreview(ApplyProvidedFixInput applyProvidedFixInput)
+      throws RestApiException {
+    try {
+      return previewProvidedFix.apply(revision, applyProvidedFixInput).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot preview provided fix", e);
     }
   }
 

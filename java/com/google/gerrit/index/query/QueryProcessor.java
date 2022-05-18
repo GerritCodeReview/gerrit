@@ -356,7 +356,8 @@ public abstract class QueryProcessor<T> {
 
   private int getEffectiveLimit(Predicate<T> p) {
     if (isNoLimit == true) {
-      return Integer.MAX_VALUE;
+      // 1% as extra buffer
+      return (int) (getMaxEffectiveLimit() * 1.01);
     }
     List<Integer> possibleLimits = new ArrayList<>(4);
     possibleLimits.add(getBackendSupportedLimit());
@@ -384,4 +385,6 @@ public abstract class QueryProcessor<T> {
   }
 
   protected abstract String formatForLogging(T t);
+
+  protected abstract int getMaxEffectiveLimit();
 }

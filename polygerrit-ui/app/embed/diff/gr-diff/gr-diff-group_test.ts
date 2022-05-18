@@ -46,6 +46,16 @@ suite('gr-diff-group tests', () => {
     ]);
   });
 
+  test('group must have lines', () => {
+    try {
+      new GrDiffGroup({type: GrDiffGroupType.BOTH});
+    } catch (e) {
+      // expected
+      return;
+    }
+    assert.fail('a standard diff group cannot be empty');
+  });
+
   test('group/header line pairs', () => {
     const l1 = new GrDiffLine(GrDiffLineType.BOTH, 64, 128);
     const l2 = new GrDiffLine(GrDiffLineType.BOTH, 65, 129);
@@ -230,11 +240,6 @@ suite('gr-diff-group tests', () => {
       }
       const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
       assert.isTrue(group.isTotal());
-    });
-
-    test('not total for empty', () => {
-      const group = new GrDiffGroup({type: GrDiffGroupType.BOTH});
-      assert.isFalse(group.isTotal());
     });
 
     test('not total for non-delta', () => {

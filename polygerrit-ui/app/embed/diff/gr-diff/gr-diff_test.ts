@@ -613,8 +613,7 @@ suite('gr-diff tests', () => {
       threadEl.setAttribute('slot', 'right-1');
       const content = [
         {
-          a: [],
-          b: [],
+          a: ['asdf'],
         },
         {
           ab: Array(13).fill('text'),
@@ -624,7 +623,7 @@ suite('gr-diff tests', () => {
       await waitForEventOnce(element, 'render');
 
       element.appendChild(threadEl);
-      await flush();
+      await waitForEventOnce(element, 'render');
 
       const hint = queryAndAssert<GrRangedCommentHint>(
         element,
@@ -651,21 +650,18 @@ suite('gr-diff tests', () => {
       firstHint.setAttribute('slot', 'right-1');
       const content = [
         {
-          a: [],
-          b: [],
+          a: ['asdf'],
         },
         {
           ab: Array(13).fill('text'),
         },
       ];
       setupSampleDiff({content});
+      await waitForEventOnce(element, 'render');
 
       element.appendChild(firstHint);
-      await flush();
-      element._handleRenderContent();
-      await flush();
       element.appendChild(threadEl);
-      await flush();
+      await waitForEventOnce(element, 'render');
 
       assert.equal(
         element.querySelectorAll('gr-ranged-comment-hint').length,

@@ -45,7 +45,7 @@ import {
   HTMLElementEventDetailType,
 } from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {afterNextRender} from '../../../utils/dom-util';
+import {untilRendered, whenRendered} from '../../../utils/dom-util';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
@@ -163,6 +163,8 @@ export class GrDiffBuilderElement implements GroupConsumer {
   // visible for testing
   processor = new GrDiffProcessor();
 
+  private groups: GrDiffGroup[] = [];
+
   constructor() {
     this.processor.consumer = this;
   }
@@ -218,7 +220,10 @@ export class GrDiffBuilderElement implements GroupConsumer {
           if (this.isImageDiff) {
             (this.builder as GrDiffBuilderImage).renderDiff();
           }
-          afterNextRender(() => this.fireDiffEvent('render-content', {}));
+          return this.allGroupsRendered();
+        })
+        .then(() => {
+          this.fireDiffEvent('render-content', {});
         })
         // Mocha testing does not like uncaught rejections, so we catch
         // the cancels which are expected and should not throw errors in
@@ -231,6 +236,15 @@ export class GrDiffBuilderElement implements GroupConsumer {
           this.cancelableRenderPromise = null;
         })
     );
+  }
+
+  // visible for testing
+  async allGroupsRendered(groups: readonly GrDiffGroup[] = this.groups) {
+    for (const g of groups) {
+      if (g.lines?.[0]?.beforeNumber === 'LOST') continue;
+      assertIsDefined(g.element);
+      await untilRendered(g.element);
+    }
   }
 
   private onDiffContextExpanded = (
@@ -247,11 +261,6 @@ export class GrDiffBuilderElement implements GroupConsumer {
   ) {
     assertIsDefined(this.diffElement, 'diff table');
     fire(this.diffElement, type, detail);
-  }
-
-  private fireDiffEventRenderProgress(detail: RenderProgressEventDetail) {
-    assertIsDefined(this.diffElement, 'diff table');
-    fire(this.diffElement, 'render-progress', detail);
   }
 
   // visible for testing
@@ -370,7 +379,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
       0
     );
     this.builder.replaceGroup(contextGroup, newGroups);
-    afterNextRender(() => {
+    this.allGroupsRendered(newGroups).then(() => {
       this.fireDiffEvent('render-progress', {linesRendered});
       this.fireDiffEvent('render-content', {});
     });
@@ -464,6 +473,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
    */
   clearGroups() {
     if (!this.builder) return;
+    this.groups = [];
     this.builder.clearGroups();
   }
 
@@ -473,8 +483,9 @@ export class GrDiffBuilderElement implements GroupConsumer {
   addGroup(group: GrDiffGroup) {
     if (!this.builder) return;
     this.builder.addGroups([group]);
-    afterNextRender(() =>
-      this.fireDiffEventRenderProgress({linesRendered: group.lines.length})
+    this.groups.push(group);
+    whenRendered(group.element!, () =>
+      this.fireDiffEvent('render-progress', {linesRendered: group.lines.length})
     );
   }
 

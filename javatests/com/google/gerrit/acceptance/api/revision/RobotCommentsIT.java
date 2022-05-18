@@ -1387,7 +1387,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     assertThrows(
         ResourceNotFoundException.class,
-        () -> gApi.changes().id(changeId).current().getFixPreview("Non existing fixId"));
+        () -> gApi.changes().id(changeId).current().previewStoredFix("Non existing fixId"));
   }
 
   @Test
@@ -1413,7 +1413,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().getFixPreview(fixId);
+    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().previewStoredFix(fixId);
     assertThat(fixPreview).hasSize(1);
     assertThat(fixPreview).containsKey(Patch.COMMIT_MSG);
 
@@ -1467,7 +1467,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     assertThrows(
         ResourceNotFoundException.class,
-        () -> gApi.changes().id(changeId).current().getFixPreview(fixId));
+        () -> gApi.changes().id(changeId).current().previewStoredFix(fixId));
   }
 
   @Test
@@ -1493,7 +1493,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().getFixPreview(fixId);
+    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().previewStoredFix(fixId);
     assertThat(fixPreview).hasSize(2);
     assertThat(fixPreview).containsKey(FILE_NAME);
     assertThat(fixPreview).containsKey(FILE_NAME2);
@@ -1597,7 +1597,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().getFixPreview(fixId);
+    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().previewStoredFix(fixId);
 
     assertThat(fixPreview).hasSize(1);
     assertThat(fixPreview).containsKey(FILE_NAME3);

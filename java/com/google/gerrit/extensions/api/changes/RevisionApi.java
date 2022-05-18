@@ -127,7 +127,9 @@ public interface RevisionApi {
    */
   EditInfo applyFix(ApplyProvidedFixInput applyProvidedFixInput) throws RestApiException;
 
-  Map<String, DiffInfo> getFixPreview(String fixId) throws RestApiException;
+  Map<String, DiffInfo> previewStoredFix(String fixId) throws RestApiException;
+
+  Map<String, DiffInfo> directFixPreview(ApplyProvidedFixInput applyProvidedFixInput) throws RestApiException;
 
   DraftApi createDraft(DraftInput in) throws RestApiException;
 
@@ -328,7 +330,13 @@ public interface RevisionApi {
     }
 
     @Override
-    public Map<String, DiffInfo> getFixPreview(String fixId) throws RestApiException {
+    public Map<String, DiffInfo> previewStoredFix(String fixId) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, DiffInfo> directFixPreview(ApplyProvidedFixInput applyProvidedFixInput)
+        throws RestApiException {
       throw new NotImplementedException();
     }
 

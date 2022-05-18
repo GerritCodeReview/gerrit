@@ -190,6 +190,7 @@ export enum CommentSide {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
  */
 export enum AppTheme {
+  AUTO = 'AUTO',
   DARK = 'DARK',
   LIGHT = 'LIGHT',
 }

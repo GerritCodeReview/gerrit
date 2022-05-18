@@ -30,6 +30,7 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexRewriter;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
+import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -42,6 +43,7 @@ import com.google.inject.Provider;
 public class GroupQueryProcessor extends QueryProcessor<InternalGroup> {
   private final Provider<CurrentUser> userProvider;
   private final GroupControl.GenericFactory groupControlFactory;
+  private final Sequences sequences;
 
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
@@ -58,7 +60,8 @@ public class GroupQueryProcessor extends QueryProcessor<InternalGroup> {
       IndexConfig indexConfig,
       GroupIndexCollection indexes,
       GroupIndexRewriter rewriter,
-      GroupControl.GenericFactory groupControlFactory) {
+      GroupControl.GenericFactory groupControlFactory,
+      Sequences sequences) {
     super(
         metricMaker,
         GroupSchemaDefinitions.INSTANCE,
@@ -69,6 +72,7 @@ public class GroupQueryProcessor extends QueryProcessor<InternalGroup> {
         () -> limitsFactory.create(userProvider.get()).getQueryLimit());
     this.userProvider = userProvider;
     this.groupControlFactory = groupControlFactory;
+    this.sequences = sequences;
   }
 
   @Override
@@ -80,5 +84,15 @@ public class GroupQueryProcessor extends QueryProcessor<InternalGroup> {
   @Override
   protected String formatForLogging(InternalGroup internalGroup) {
     return internalGroup.getGroupUUID().get();
+  }
+
+  @Override
+  protected int getIndexSize() {
+    return sequences.lastGroupId();
+  }
+
+  @Override
+  protected int getBatchSize() {
+    return sequences.groupBatchSize();
   }
 }

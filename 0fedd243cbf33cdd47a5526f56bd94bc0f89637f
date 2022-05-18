@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4d3d8b1_e60c5c48",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-18T10:50:00Z",
+      "side": 0,
+      "message": "This is a breaking change, that will stop our build from compiling. Even if we settle on not sending render progress changes right now, I would like the API and the types to be stable and not removed.",
+      "revId": "0fedd243cbf33cdd47a5526f56bd94bc0f89637f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

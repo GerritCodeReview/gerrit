@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb3018b3_78a0745d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-18T10:50:00Z",
+      "side": 1,
+      "message": "It feels suboptimal to fix both of these issues in one change - I am not quite sure how risky removing render-progress at this point is - I know that this will reopen a very popular bug in our internal code review system based on gr-diff, but maybe there is more than depends on this now. If we could keep this separate, we have some control and at import time and the ability to rollback if this is even worse than just slower diff rendering.",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "36b1ae9993aa8760def654edf4c0890be1f2a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58745a38_e8bce45e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-18T10:50:00Z",
+      "side": 1,
+      "message": "This was indeed not intended. The code before made it look as if the splice method was called with larger changes. Thanks for catching that, and I agree we need to debounce this.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 66
+      },
+      "revId": "36b1ae9993aa8760def654edf4c0890be1f2a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60338e1e_2afb5f79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-18T10:50:00Z",
+      "side": 1,
+      "message": "Wouldn\u0027t that change be much less risky? Just stick a debounce 500 on the progress event to improve rendering performance while not causing the issue where a long synchronous render without ever updating the cursor means on long file renders users cannot start navigating with keyboard shortcuts until the entire, possibly 10000s of lines have rendered which can somethings takes dozens of seconds?",
+      "range": {
+        "startLine": 16,
+        "startChar": 43,
+        "endLine": 20,
+        "endChar": 7
+      },
+      "revId": "36b1ae9993aa8760def654edf4c0890be1f2a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52912c72_a322738b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-18T10:50:00Z",
+      "side": 1,
+      "message": "Nice solution! Thanks for finding this!",
+      "range": {
+        "startLine": 28,
+        "startChar": 21,
+        "endLine": 29,
+        "endChar": 56
+      },
+      "revId": "36b1ae9993aa8760def654edf4c0890be1f2a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f3bba39_91dc9caf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-18T10:50:00Z",
+      "side": 1,
+      "message": "Thanks for looking into these issues, and sorry for causing you pain. I have some concerns with the specific change, but I am overall thankful you are looking into it - also happy to maybe synchronously discuss this to converge faster and see how I can maybe help.",
+      "revId": "36b1ae9993aa8760def654edf4c0890be1f2a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bce44d6_44c23add",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-18T10:50:00Z",
+      "side": 1,
+      "message": "Nit: It feels there is a slight tension between the name \"all groups\" and the ability to pass specific groups to wait on. Maybe it should be `untilGroupsRendered()` or something?",
+      "range": {
+        "startLine": 237,
+        "startChar": 8,
+        "endLine": 237,
+        "endChar": 11
+      },
+      "revId": "36b1ae9993aa8760def654edf4c0890be1f2a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "255b837a_d85140af",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-18T10:50:00Z",
+      "side": 1,
+      "message": "I would really like to remove this dependency from the model onto the view over time. I realize it is there now, and you are trying to fix an issue quickly, but we should start thinking about how we can cut this dependency - let\u0027s discuss that some time.",
+      "range": {
+        "startLine": 244,
+        "startChar": 26,
+        "endLine": 244,
+        "endChar": 35
+      },
+      "revId": "36b1ae9993aa8760def654edf4c0890be1f2a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -5837,6 +5837,101 @@ As response, a map of link:#diff-info[DiffInfo] entities is returned that descri
 
 Each link:#diff-info[DiffInfo] is the differences between the patch set indicated by revision-id and a virtual patch set with the applied fix.
 
+[[preview-direct-fix]]
+=== Preview direct fix
+--
+'POST /changes/<<change-id,\{change-id\}>>/revisions/<<revision-id,\{revision-id\}>>/preview_direct_fix'
+--
+
+Gets the diffs of all files for a list of <<fix-replacement-info,FixReplacementInfo>> loaded from the
+<<direct-fix-input,DirectFixInput>> entity. The fixes are passed as part of the request body.
+As response, a map of link:#diff-info[DiffInfo] is returned that describes the diffs.
+
+Each link:#diff-info[DiffInfo] is the differences between the patch set indicated by revision-id
+and a virtual patch set with the applied fix.
+
+.Request
+----
+  POST /changes/myProject~master~Id6f0b9d946791f8aba90ace53074eda565983452/revisions/1/preview_direct_fix HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "fix_replacement_infos": [
+      {
+        "path": "abcd.txt",
+        "range": {
+          "start_line": 2,
+          "start_character": 2,
+          "end_line": 2,
+          "end_character": 5
+        },
+        "replacement": "abcdefg"
+      }
+    ]
+  }
+----
+
+If the `preview_direct_fix` operation was successful, a link:#diff-info[DiffInfo] previewing the
+change is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+    Content-Disposition: attachment
+    Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "abcd.txt": {
+      "meta_a": {
+        "name": "abcd.txt",
+        "content_type": "text/plain",
+        "lines": 3
+      },
+      "meta_b": {
+        "name": "abcd.txt",
+        "content_type": "text/plain",
+        "lines": 3
+      },
+      "intraline_status": "OK",
+      "change_type": "MODIFIED",
+      "content": [
+        {
+          "ab": [
+            "ABCDEFGHI"
+          ]
+        },
+        {
+          "a": [
+            "JKLMNOPQR"
+          ],
+          "b": [
+            "JKabcdefgOPQR"
+          ],
+          "edit_a": [
+            [
+              2,
+              3
+            ]
+          ],
+          "edit_b": [
+            [
+              2,
+              7
+            ]
+          ]
+        },
+        {
+          "ab": [
+            ""
+          ]
+        }
+      ]
+    }
+  }
+----
+
+
 [[get-blame]]
 === Get Blame
 --

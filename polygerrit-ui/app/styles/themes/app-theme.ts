@@ -46,7 +46,6 @@ const appThemeCss = safeStyleSheet`
     --blue-50: #e8f0fe;
     --blue-tonal: #314972;
     --orange-900: #b06000;
-    --orange-800: #c26401;
     --orange-700: #d56e0c;
     --orange-700-04: #d56e0c0a;
     --orange-700-10: #d56e0c1a;
@@ -286,7 +285,6 @@ const appThemeCss = safeStyleSheet`
 
     /* misc colors */
     --border-color: var(--gray-300);
-    --input-focus-border-color: var(--blue-800);
     --comment-separator-color: var(--gray-300);
 
     /* checks tag colors */
@@ -339,8 +337,7 @@ const appThemeCss = safeStyleSheet`
     --font-weight-bold: 500;
     --font-weight-h1: 400;
     --font-weight-h2: 400;
-    --font-weight-h3: 400;
-    --font-weight-h4: 600;
+    --font-weight-h3: var(--font-weight-bold, 500);
     --context-control-button-font: var(--font-weight-normal)
       var(--font-size-normal) var(--font-family);
     --code-hint-font-weight: 500;

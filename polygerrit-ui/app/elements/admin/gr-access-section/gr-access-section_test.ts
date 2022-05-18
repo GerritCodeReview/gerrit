@@ -224,6 +224,14 @@ suite('gr-access-section tests', () => {
         element.capabilities![permission.id].name
       );
 
+      permission = {
+        id: 'non-existent',
+        value: {},
+      };
+      assert.isUndefined(
+        element.computePermissionName(name, permission, element.capabilities)
+      );
+
       element.section.id = 'refs/for/*' as GitRef;
       permission = {
         id: 'abandon' as GitRef,

@@ -405,7 +405,7 @@ export class GrAccessSection extends LitElement {
     if (this.section?.id === GLOBAL_NAME) {
       return this.capabilities?.[permission.id].name;
     } else if (AccessPermissions[permission.id]) {
-      return AccessPermissions[permission.id].name;
+      return AccessPermissions[permission.id]?.name;
     } else if (permission.value.label) {
       let behalfOf = '';
       if (permission.id.startsWith('labelAs-')) {

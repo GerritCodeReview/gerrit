@@ -130,6 +130,9 @@ public interface RevisionApi {
 
   Map<String, DiffInfo> getFixPreview(String fixId) throws RestApiException;
 
+  Map<String, DiffInfo> getFixPreview(ApplyProvidedFixInput applyProvidedFixInput)
+      throws RestApiException;
+
   DraftApi createDraft(DraftInput in) throws RestApiException;
 
   DraftApi draft(String id) throws RestApiException;
@@ -332,6 +335,12 @@ public interface RevisionApi {
 
     @Override
     public Map<String, DiffInfo> getFixPreview(String fixId) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, DiffInfo> getFixPreview(ApplyProvidedFixInput applyProvidedFixInput)
+        throws RestApiException {
       throw new NotImplementedException();
     }
 

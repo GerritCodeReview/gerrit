@@ -1,4 +1,4 @@
-// Copyright (C) 2019 The Android Open Source Project
+// Copyright (C) 2022 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -7,7 +7,7 @@
 // http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
+// distributed under the License is distributed on an "AS IS" BASIS,//
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
@@ -21,18 +21,23 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment.Range;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.common.ApplyProvidedFixInput;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.FixResource;
+import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.diff.DiffInfoCreator;
 import com.google.gerrit.server.diff.DiffSide;
 import com.google.gerrit.server.diff.DiffWebLinksProvider;
@@ -53,15 +58,13 @@ import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.lib.Repository;
 
-@Singleton
-public class PreviewStoredFix implements RestReadView<FixResource> {
-
+public class PreviewFix {
   private final ProjectCache projectCache;
   private final GitRepositoryManager repoManager;
   private final PatchScriptFactoryForAutoFix.Factory patchScriptFactoryFactory;
 
   @Inject
-  PreviewStoredFix(
+  PreviewFix(
       ProjectCache projectCache,
       GitRepositoryManager repoManager,
       PatchScriptFactoryForAutoFix.Factory patchScriptFactoryFactory) {
@@ -70,26 +73,94 @@ public class PreviewStoredFix implements RestReadView<FixResource> {
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
   }
 
-  @Override
-  public Response<Map<String, DiffInfo>> apply(FixResource resource)
+  @Singleton
+  public static class Stored implements RestReadView<FixResource> {
+    private final PreviewFix previewFix;
+
+    @Inject
+    Stored(PreviewFix previewFix) {
+      this.previewFix = previewFix;
+    }
+
+    @Override
+    public Response<Map<String, DiffInfo>> apply(FixResource fixResource)
+        throws PermissionBackendException, ResourceNotFoundException, ResourceConflictException,
+            AuthException, IOException, InvalidChangeOperationException {
+
+      ChangeNotes notes = fixResource.getRevisionResource().getNotes();
+      Change change = notes.getChange();
+      ProjectState state =
+          previewFix
+              .projectCache
+              .get(change.getProject())
+              .orElseThrow(illegalState(change.getProject()));
+      Map<String, List<FixReplacement>> fixReplacementsPerFilePath =
+          fixResource.getFixReplacements().stream()
+              .collect(groupingBy(fixReplacement -> fixReplacement.path));
+
+      return Response.ok(
+          previewFix.previewAllFiles(
+              fixResource.getRevisionResource().getPatchSet(),
+              notes,
+              state,
+              fixReplacementsPerFilePath));
+    }
+  }
+
+  @Singleton
+  public static class Provided implements RestModifyView<RevisionResource, ApplyProvidedFixInput> {
+    private final PreviewFix previewFix;
+
+    @Inject
+    Provided(PreviewFix previewFix) {
+      this.previewFix = previewFix;
+    }
+
+    @Override
+    public Response<Map<String, DiffInfo>> apply(
+        RevisionResource revisionResource, ApplyProvidedFixInput applyProvidedFixInput)
+        throws BadRequestException, PermissionBackendException, ResourceNotFoundException,
+            ResourceConflictException, AuthException, IOException, InvalidChangeOperationException {
+      if (applyProvidedFixInput == null) {
+        throw new BadRequestException("applyProvidedFixInput is required");
+      }
+      if (applyProvidedFixInput.fixReplacementInfos == null) {
+        throw new BadRequestException("applyProvidedFixInput.fixReplacementInfos is required");
+      }
+      ChangeNotes notes = revisionResource.getNotes();
+      Change change = notes.getChange();
+      ProjectState state =
+          previewFix
+              .projectCache
+              .get(change.getProject())
+              .orElseThrow(illegalState(change.getProject()));
+
+      Map<String, List<FixReplacement>> fixReplacementsPerFilePath =
+          applyProvidedFixInput.fixReplacementInfos.stream()
+              .map(fix -> new FixReplacement(fix.path, new Range(fix.range), fix.replacement))
+              .collect(groupingBy(fixReplacement -> fixReplacement.path));
+
+      return Response.ok(
+          previewFix.previewAllFiles(
+              revisionResource.getPatchSet(), notes, state, fixReplacementsPerFilePath));
+    }
+  }
+
+  private Map<String, DiffInfo> previewAllFiles(
+      PatchSet patchSet,
+      ChangeNotes notes,
+      ProjectState state,
+      Map<String, List<FixReplacement>> fixReplacementsPerFilePath)
       throws PermissionBackendException, ResourceNotFoundException, ResourceConflictException,
           AuthException, IOException, InvalidChangeOperationException {
     Map<String, DiffInfo> result = new HashMap<>();
-    PatchSet patchSet = resource.getRevisionResource().getPatchSet();
-    ChangeNotes notes = resource.getRevisionResource().getNotes();
-    Change change = notes.getChange();
-    ProjectState state =
-        projectCache.get(change.getProject()).orElseThrow(illegalState(change.getProject()));
-    Map<String, List<FixReplacement>> fixReplacementsPerFilePath =
-        resource.getFixReplacements().stream()
-            .collect(groupingBy(fixReplacement -> fixReplacement.path));
     try {
       try (Repository git = repoManager.openRepository(notes.getProjectName())) {
         for (Map.Entry<String, List<FixReplacement>> entry :
             fixReplacementsPerFilePath.entrySet()) {
           String fileName = entry.getKey();
           DiffInfo diffInfo =
-              previewStoredFixForSingleFile(
+              previewSingleFile(
                   git, patchSet, state, notes, fileName, ImmutableList.copyOf(entry.getValue()));
           result.put(fileName, diffInfo);
         }
@@ -99,10 +170,10 @@ public class PreviewStoredFix implements RestReadView<FixResource> {
     } catch (LargeObjectException e) {
       throw new ResourceConflictException(e.getMessage(), e);
     }
-    return Response.ok(result);
+    return result;
   }
 
-  private DiffInfo previewStoredFixForSingleFile(
+  private DiffInfo previewSingleFile(
       Repository git,
       PatchSet patchSet,
       ProjectState state,

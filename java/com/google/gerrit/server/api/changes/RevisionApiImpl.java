@@ -70,6 +70,7 @@ import com.google.gerrit.server.restapi.change.ApplyStoredFix;
 import com.google.gerrit.server.restapi.change.CherryPick;
 import com.google.gerrit.server.restapi.change.Comments;
 import com.google.gerrit.server.restapi.change.CreateDraftComment;
+import com.google.gerrit.server.restapi.change.PreviewProvidedFix;
 import com.google.gerrit.server.restapi.change.DraftComments;
 import com.google.gerrit.server.restapi.change.Files;
 import com.google.gerrit.server.restapi.change.Fixes;
@@ -137,6 +138,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   private final ApplyStoredFix applyStoredFix;
   private final PreviewStoredFix previewStoredFix;
   private final ApplyProvidedFix applyProvidedFix;
+  private final PreviewProvidedFix previewProvidedFix;
   private final Fixes fixes;
   private final ListRevisionDrafts listDrafts;
   private final CreateDraftComment createDraft;
@@ -184,6 +186,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       ApplyStoredFix applyStoredFix,
       PreviewStoredFix previewStoredFix,
       ApplyProvidedFix applyProvidedFix,
+      PreviewProvidedFix previewProvidedFix,
       Fixes fixes,
       ListRevisionDrafts listDrafts,
       CreateDraftComment createDraft,
@@ -230,6 +233,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
     this.applyStoredFix = applyStoredFix;
     this.previewStoredFix = previewStoredFix;
     this.applyProvidedFix = applyProvidedFix;
+    this.previewProvidedFix = previewProvidedFix;
     this.fixes = fixes;
     this.listDrafts = listDrafts;
     this.createDraft = createDraft;
@@ -503,6 +507,16 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       return previewStoredFix.apply(fixes.parse(revision, IdString.fromDecoded(fixId))).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot preview stored fix", e);
+    }
+  }
+
+  @Override
+  public Map<String, DiffInfo> getFixPreview(ApplyProvidedFixInput applyProvidedFixInput)
+      throws RestApiException {
+    try {
+      return previewProvidedFix.apply(revision, applyProvidedFixInput).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get direct fix preview", e);
     }
   }
 

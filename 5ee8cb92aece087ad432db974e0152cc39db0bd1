@@ -16,6 +16,24 @@
       "message": "Think it needs Boolean around both similar to how we’ve done it below.",
       "revId": "5ee8cb92aece087ad432db974e0152cc39db0bd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89f44e90_e950b6b3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-19T18:41:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7a6d882_6d2c89ee",
+      "revId": "5ee8cb92aece087ad432db974e0152cc39db0bd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

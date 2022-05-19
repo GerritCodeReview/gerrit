@@ -186,6 +186,9 @@ export class GrAppElement extends LitElement {
 
   constructor() {
     super();
+    window.addEventListener('beforeunload', (e: BeforeUnloadEvent) => {
+      e.returnValue = 'Are you sure you want to leave?';
+    });
     document.addEventListener(EventType.PAGE_ERROR, e => {
       this.handlePageError(e);
     });

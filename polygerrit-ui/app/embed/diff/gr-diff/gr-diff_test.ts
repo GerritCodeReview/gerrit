@@ -299,13 +299,13 @@ suite('gr-diff tests', () => {
           leftImage.getAttribute('src'),
           'data:image/bmp;base64,' + mockFile1.body
         );
-        assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp'); // \u00d7 - '×'
+        assert.isTrue(leftLabelContent.textContent?.includes('image/bmp'));
 
         assert.equal(
           rightImage.getAttribute('src'),
           'data:image/bmp;base64,' + mockFile2.body
         );
-        assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp'); // \u00d7 - '×'
+        assert.isTrue(rightLabelContent.textContent?.includes('image/bmp'));
       });
 
       test('renders image diffs with a different file name', async () => {
@@ -358,14 +358,14 @@ suite('gr-diff tests', () => {
           leftImage.getAttribute('src'),
           'data:image/bmp;base64,' + mockFile1.body
         );
-        assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp'); // \u00d7 - '×'
+        assert.isTrue(leftLabelContent.textContent?.includes('image/bmp'));
 
         assert.isOk(rightImage);
         assert.equal(
           rightImage.getAttribute('src'),
           'data:image/bmp;base64,' + mockFile2.body
         );
-        assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp'); // \u00d7 - '×'
+        assert.isTrue(rightLabelContent.textContent?.includes('image/bmp'));
       });
 
       test('renders added image', async () => {

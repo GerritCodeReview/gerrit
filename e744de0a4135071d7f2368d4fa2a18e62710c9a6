@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f6d40b6f_dab57fc1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-19T13:35:36Z",
+      "side": 1,
+      "message": "Hi Paladox, I am planning to add AUTO mode. It would be default mode. I would have to change backend to make AUTO mode default and then wire it like you do this. \n\nCan I take over this change and do it after I merge 337421: Show dark theme based on OS preference | https://gerrit-review.googlesource.com/c/gerrit/+/337421\n?",
+      "revId": "e744de0a4135071d7f2368d4fa2a18e62710c9a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e523435b_a66e1807",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 26

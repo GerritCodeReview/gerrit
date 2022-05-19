@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c520f4ba_835f3512",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-19T13:03:08Z",
+      "side": 1,
+      "message": "Nice, thank you!",
+      "revId": "e744de0a4135071d7f2368d4fa2a18e62710c9a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e523435b_a66e1807",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-19T13:03:08Z",
+      "side": 1,
+      "message": "I think we should consider some migration code, so that users who have dark mode enabled at the moment are not suddenly force to light mode. Maybe something like this:\n```\n// TODO: Remove after next release.\nif (!!window.localStorage.getItem(\u0027dark-theme\u0027)) {\n  this.restApiService.setPreferences(...);\n  window.localStorage.removeItem(\u0027dark-theme\u0027);\n}\n```",
+      "revId": "e744de0a4135071d7f2368d4fa2a18e62710c9a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f17e2a98_ff33c5d9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-19T13:03:08Z",
+      "side": 1,
+      "message": "remove comment",
+      "revId": "e744de0a4135071d7f2368d4fa2a18e62710c9a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45fbe4d1_b27f2631",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-19T13:03:08Z",
+      "side": 1,
+      "message": "Maybe inline this method.",
+      "revId": "e744de0a4135071d7f2368d4fa2a18e62710c9a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e64a09d3_7115d934",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-19T13:03:08Z",
+      "side": 1,
+      "message": "In tests it is not easy and not recommended to wait for a window reload. If you want to test that scenario, then I would just stub `window.location.reload` or the `windowLocationReload` function and check that it is called. `getComputedStyleValue(\u0027--primary-text-color\u0027, document.body)` is not really related to the settings view and should be tested elsewhere.",
+      "revId": "e744de0a4135071d7f2368d4fa2a18e62710c9a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

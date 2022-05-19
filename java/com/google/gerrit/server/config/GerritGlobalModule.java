@@ -191,6 +191,9 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRequirementExpressionsValidator;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.project.validator.CopyValuesLabelConfigValidator;
+import com.google.gerrit.server.project.validator.DeprecatedFlagsLabelConfigValidator;
+import com.google.gerrit.server.project.validator.LabelConfigValidatorChecker;
 import com.google.gerrit.server.query.FileEditsPredicate;
 import com.google.gerrit.server.query.approval.ApprovalModule;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -398,6 +401,11 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), CommitValidationListener.class);
     DynamicSet.bind(binder(), CommitValidationListener.class)
         .to(SubmitRequirementExpressionsValidator.class);
+    DynamicSet.setOf(binder(), LabelConfigValidatorChecker.class);
+    DynamicSet.bind(binder(), LabelConfigValidatorChecker.class)
+        .to(CopyValuesLabelConfigValidator.class);
+    DynamicSet.bind(binder(), LabelConfigValidatorChecker.class)
+        .to(DeprecatedFlagsLabelConfigValidator.class);
     DynamicSet.setOf(binder(), CommentValidator.class);
     DynamicSet.setOf(binder(), ChangeMessageModifier.class);
     DynamicSet.setOf(binder(), RefOperationValidationListener.class);

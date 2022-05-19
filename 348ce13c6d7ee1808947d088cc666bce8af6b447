@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc485a92_fb56297a",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-19T01:01:41Z",
+      "side": 1,
+      "message": "There is no rolling back (and no need to) in here because when junit runs each test, it creates a whole new TaskListenerIT object and thus also creates an entirely new LatchedListener also. I removed the initial \"1\" tests since they just confirm initial conditions, which is not really a test. I moved the initial condition checks to the @Before to show that things are always as intended.",
+      "parentUuid": "08ff05a0_c048614f",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 56
+      },
+      "revId": "348ce13c6d7ee1808947d088cc666bce8af6b447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c037260d_4f9bcade",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-18T07:46:51Z",
       "side": 1,
       "message": "FWICT you are only making negative assertions. \"Make sure that this method that shouldn\u0027t have been called yet hasn\u0027t been called\".\nIf so, why aren\u0027t you checking that the \u0027onStart\u0027 and \u0027onStop\u0027 actually have been called?",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 54
+      },
+      "revId": "348ce13c6d7ee1808947d088cc666bce8af6b447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81a7bfd4_160dc459",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-19T01:01:41Z",
+      "side": 1,
+      "message": "These are asserted on lines 146 and 159. Hopefully the new LatchedMethod approach in the next PS makes this a bit clearer.",
+      "parentUuid": "c037260d_4f9bcade",
       "range": {
         "startLine": 138,
         "startChar": 0,

@@ -186,6 +186,13 @@ export class GrAppElement extends LitElement {
 
   constructor() {
     super();
+    window.addEventListener('beforeunload', (e: BeforeUnloadEvent) => {
+      const confirmationMessage = 'Draft comments were not sent.';
+
+      e.preventDefault();
+      (e || window.event).returnValue = confirmationMessage;
+      return confirmationMessage;
+    });
     document.addEventListener(EventType.PAGE_ERROR, e => {
       this.handlePageError(e);
     });

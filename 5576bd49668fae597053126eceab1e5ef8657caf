@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3543efc2_61811c94",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2022-05-19T07:32:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7b99087_55360331",
+      "range": {
+        "startLine": 28,
+        "startChar": 33,
+        "endLine": 28,
+        "endChar": 36
+      },
+      "revId": "5576bd49668fae597053126eceab1e5ef8657caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39a8d828_86c1ef69",
@@ -54,6 +78,24 @@
       "writtenOn": "2022-05-12T18:54:11Z",
       "side": 1,
       "message": "nit: remove trailing blank",
+      "revId": "5576bd49668fae597053126eceab1e5ef8657caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df6fbe9b_2699a181",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2022-05-19T07:32:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39a8d828_86c1ef69",
       "revId": "5576bd49668fae597053126eceab1e5ef8657caf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

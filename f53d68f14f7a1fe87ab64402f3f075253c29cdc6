@@ -87,6 +87,24 @@
       "parentUuid": "10500cf2_a2014659",
       "revId": "f53d68f14f7a1fe87ab64402f3f075253c29cdc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fec6e1f_40768371",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-19T14:51:30Z",
+      "side": 1,
+      "message": "I am concerned that your change will get quite some attention by users. So it would be good to have a proper user preference at that point. I actually don\u0027t care much, which of the two changes comes first, but I would encourage releasing them in one release together. WDYT?",
+      "parentUuid": "8dfd0332_29dc4089",
+      "revId": "f53d68f14f7a1fe87ab64402f3f075253c29cdc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

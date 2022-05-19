@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bf922cc8_e0537352",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-19T15:15:33Z",
+      "side": 1,
+      "message": "There is something important about this method that none of your suggestions capture, the fact that this method waits for the call to happen. Unlike the assertUncalled() method which is asserting that the LatchedMethod has never been called yet (it does not wait around to see if it will eventually be called), this method is not just asserting that the LatchedMethod has been called, it waiting for this to potentially happen if it hasn\u0027t already. So the term \"await\" is not attempting to expose what the CountDownLatch is doing, but rather what this method is doing, it just happens to be the same thing as what the CountDownLatch is doing, it is waiting for something to potentially happen, the term \"await\" is thus vital here. I could call this assertAwaitCalled() if that makes it clearer? I just figured that similarly to how the CountDownLatch\u0027s method is named just \"await()\" to signify the most important and relevant thing it is doing, that on an object named LatcheMethod, the \"called\" part was overkill since that is what one would \"await\", (it being called)?",
+      "parentUuid": "54339d81_1a45a19c",
+      "range": {
+        "startLine": 42,
+        "startChar": 16,
+        "endLine": 42,
+        "endChar": 27
+      },
+      "revId": "e5e663c03d4dbdaea72daa55419fc1d917232cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3ad871a_635f0a99",
         "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
         "patchSetId": 13
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-19T08:43:30Z",
       "side": 1,
       "message": "Same here, hide in method:\n\n```\n    public void execute(Runnable runnable) throws Exception {\n      int sizeBefore \u003d workQueue.getTasks().size();\n      executor.execute(runnable);\n      assertQueueSize(sizeBefore + 1);\n    }\n```",
+      "range": {
+        "startLine": 156,
+        "startChar": 4,
+        "endLine": 156,
+        "endChar": 31
+      },
+      "revId": "e5e663c03d4dbdaea72daa55419fc1d917232cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea9337ce_137db176",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-19T15:15:33Z",
+      "side": 1,
+      "message": "This seems like an assumptions about execute which doesn\u0027t always hold, it just happens to hold in the current flows, the assumption that the task blocks (that it doesn\u0027t compete on its own before you can see it) and appears in the count. So I think that needs to be captured in the name. I also think the assert would need to be reflected in the name, so maybe assertBlockedExecution(), assertHeldExecution(), assertQueueExecution()?",
+      "parentUuid": "f3ad871a_635f0a99",
       "range": {
         "startLine": 156,
         "startChar": 4,
@@ -95,6 +143,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "edf86083_4c2b0961",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-19T15:15:33Z",
+      "side": 1,
+      "message": "No, not at all, these are asserting that these methods are not called by the executor at the wrong time. They are making an assumed expectation explicit, that onStop() is not called before run().",
+      "parentUuid": "b7629b81_4b87e9c7",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 37
+      },
+      "revId": "e5e663c03d4dbdaea72daa55419fc1d917232cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58e1301e_0f52ede0",
         "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
         "patchSetId": 13
@@ -129,6 +201,30 @@
       "writtenOn": "2022-05-19T08:43:30Z",
       "side": 1,
       "message": "assertQueueIsEmpty()",
+      "range": {
+        "startLine": 215,
+        "startChar": 15,
+        "endLine": 215,
+        "endChar": 53
+      },
+      "revId": "e5e663c03d4dbdaea72daa55419fc1d917232cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33fb218f_0840fde3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-19T15:15:33Z",
+      "side": 1,
+      "message": "I probably should replace the \"Eventually\" with \"await\" to be more consistent, but that part is important here too because the queue is not necessarily expected to be empty when this method is called.",
+      "parentUuid": "33723148_57124c27",
       "range": {
         "startLine": 215,
         "startChar": 15,

@@ -301,6 +301,8 @@ export class GrDiffPreferences extends LitElement {
     // We have to wrap boolean values in Boolean() to ensure undefined values
     // use false rather than undefined.
     return (
+      Boolean(this.originalDiffPrefs?.syntax_highlighting) !==
+        Boolean(this.diffPrefs?.syntax_highlighting) ||
       this.originalDiffPrefs?.context !== this.diffPrefs?.context ||
       Boolean(this.originalDiffPrefs?.line_wrapping) !==
         Boolean(this.diffPrefs?.line_wrapping) ||

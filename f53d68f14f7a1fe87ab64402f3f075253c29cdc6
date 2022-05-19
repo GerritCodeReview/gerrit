@@ -16,6 +16,23 @@
       "message": "Nice, thank you!\n\nIt should probably not block this change, but I think we really need to make this a proper user setting instead of using `window.localStorage`. Maybe this could be a starter bug for Kamil?",
       "revId": "f53d68f14f7a1fe87ab64402f3f075253c29cdc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6123971_32e13b42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-19T08:47:15Z",
+      "side": 1,
+      "message": "Note that we already have the pref implemented on the backend side: https://gerrit-review.googlesource.com/c/gerrit/+/274352\n\nAnd there is also an open change for using that in the frontend: 274334: Use new \"theme\" preference in the UI | https://gerrit-review.googlesource.com/c/gerrit/+/274334",
+      "revId": "f53d68f14f7a1fe87ab64402f3f075253c29cdc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

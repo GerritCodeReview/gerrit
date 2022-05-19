@@ -106,7 +106,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
   }
 
   private _getImageSrc(image: ImageInfo | null): string {
-    return image && IMAGE_MIME_PATTERN.test(image.type)
+    return image?.type && IMAGE_MIME_PATTERN.test(image.type)
       ? `data:${image.type};base64,${image.body}`
       : '';
   }
@@ -233,7 +233,7 @@ function _getImageLabel(image: ImageInfo | null) {
     const type = image.type ?? image._expectedType;
     if (image._width && image._height) {
       return `${image._width}×${image._height} ${type}`;
-    } else {
+    } else if (type) {
       return type;
     }
   }

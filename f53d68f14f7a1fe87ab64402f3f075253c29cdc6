@@ -51,6 +51,24 @@
       "parentUuid": "c6123971_32e13b42",
       "revId": "f53d68f14f7a1fe87ab64402f3f075253c29cdc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dfd0332_29dc4089",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-19T13:36:58Z",
+      "side": 1,
+      "message": "Actually I would prefer to merge this change and then migrate to user settings. We need to do backend change to make AUTO mode default and then connect user settings. Would that work for you?",
+      "parentUuid": "ce9e856b_6a986ea2",
+      "revId": "f53d68f14f7a1fe87ab64402f3f075253c29cdc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

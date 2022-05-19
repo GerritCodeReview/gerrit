@@ -21,7 +21,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -363,6 +365,116 @@ public class ProjectConfigIT extends AbstractDaemonTest {
             "ERROR: commit %s: Parameter 'label.Foo.%s' is deprecated and cannot be set,"
                 + " use 'is:<copy-value>' in 'label.Foo.copyCondition' instead.",
             abbreviateName(r.getCommit()), ProjectConfig.KEY_COPY_VALUE));
+  }
+
+  @Test
+  public void testRejectChangingLabelFunction_toMaxWithBlock() throws Exception {
+    testChangingLabelFunction(
+        /* initialLabelFunction= */ LabelFunction.NO_BLOCK,
+        /* newLabelFunction= */ LabelFunction.MAX_WITH_BLOCK,
+        /* errorMessage= */ String.format(
+            "Value '%s' of 'label.foo.function' is not allowed and cannot be set."
+                + " Label functions can only be set to {no_block, no_op}."
+                + " Use submit requirements instead of label functions.",
+            LabelFunction.MAX_WITH_BLOCK.getFunctionName()));
+  }
+
+  @Test
+  public void testRejectChangingLabelFunction_toMaxNoBlock() throws Exception {
+    testChangingLabelFunction(
+        /* initialLabelFunction= */ LabelFunction.NO_BLOCK,
+        /* newLabelFunction= */ LabelFunction.MAX_NO_BLOCK,
+        /* errorMessage= */ String.format(
+            "Value '%s' of 'label.foo.function' is not allowed and cannot be set."
+                + " Label functions can only be set to {no_block, no_op}."
+                + " Use submit requirements instead of label functions.",
+            LabelFunction.MAX_NO_BLOCK.getFunctionName()));
+  }
+
+  @Test
+  public void testRejectChangingLabelFunction_toAnyWithBlock() throws Exception {
+    testChangingLabelFunction(
+        /* initialLabelFunction= */ LabelFunction.NO_BLOCK,
+        /* newLabelFunction= */ LabelFunction.ANY_WITH_BLOCK,
+        /* errorMessage= */ String.format(
+            "Value '%s' of 'label.foo.function' is not allowed and cannot be set."
+                + " Label functions can only be set to {no_block, no_op}."
+                + " Use submit requirements instead of label functions.",
+            LabelFunction.ANY_WITH_BLOCK.getFunctionName()));
+  }
+
+  @Test
+  public void testChangingLabelFunction_toNoBlock() throws Exception {
+    testChangingLabelFunction(
+        /* initialLabelFunction= */ LabelFunction.MAX_WITH_BLOCK,
+        /* newLabelFunction= */ LabelFunction.NO_BLOCK,
+        /* errorMessage= */ null);
+  }
+
+  @Test
+  public void testChangingLabelFunction_toNoOp() throws Exception {
+    testChangingLabelFunction(
+        /* initialLabelFunction= */ LabelFunction.MAX_WITH_BLOCK,
+        /* newLabelFunction= */ LabelFunction.NO_OP,
+        /* errorMessage= */ null);
+  }
+
+  @Test
+  public void testRejectRemovingLabelFunction() throws Exception {
+    testChangingLabelFunction(
+        /* initialLabelFunction= */ LabelFunction.MAX_WITH_BLOCK,
+        /* newLabelFunction= */ null,
+        /* errorMessage= */ String.format(
+            "Cannot delete '%s.%s.%s'."
+                + " Label functions can only be set to {%s, %s}."
+                + " Use submit requirements instead of label functions.",
+            ProjectConfig.LABEL,
+            "Foo",
+            ProjectConfig.KEY_FUNCTION,
+            LabelFunction.NO_BLOCK,
+            LabelFunction.NO_OP));
+  }
+
+  private void testChangingLabelFunction(
+      LabelFunction initialLabelFunction,
+      @Nullable LabelFunction newLabelFunction,
+      @Nullable String errorMessage)
+      throws Exception {
+    try (TestRepository<Repository> testRepo =
+        new TestRepository<>(repoManager.openRepository(project))) {
+      testRepo
+          .branch(RefNames.REFS_CONFIG)
+          .commit()
+          .add(
+              ProjectConfig.PROJECT_CONFIG,
+              String.format(
+                  "[label \"Foo\"]\n  %s = %s\n",
+                  ProjectConfig.KEY_FUNCTION, initialLabelFunction.getFunctionName()))
+          .parent(projectOperations.project(project).getHead(RefNames.REFS_CONFIG))
+          .create();
+    }
+
+    fetchRefsMetaConfig();
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Test Change",
+            ProjectConfig.PROJECT_CONFIG,
+            newLabelFunction == null
+                ? "[label \"Foo\"]\n"
+                : String.format(
+                    "[label \"Foo\"]\n  %s = %s\n",
+                    ProjectConfig.KEY_FUNCTION, newLabelFunction.getFunctionName()));
+    PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
+    if (errorMessage == null) {
+      r.assertOkStatus();
+      return;
+    }
+    r.assertErrorStatus(
+        String.format(
+            "invalid %s file in revision %s", ProjectConfig.PROJECT_CONFIG, r.getCommit().name()));
+    r.assertMessage(errorMessage);
   }
 
   @Test

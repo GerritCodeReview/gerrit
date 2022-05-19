@@ -54,4 +54,18 @@ public interface LabelConfigValidatorChecker {
     String newValue = newConfig.getString(ProjectConfig.LABEL, labelName, key);
     return newValue != null && !newValue.equals(oldValue);
   }
+
+  /**
+   * Return true if the project config field "LABEL.{labelName}.{key}" was deleted in the {@code
+   * newConfig}.
+   */
+  default boolean flagDeleted(
+      Config newConfig, @Nullable Config oldConfig, String labelName, String key) {
+    if (oldConfig == null) {
+      return false;
+    }
+    String oldValue = oldConfig.getString(ProjectConfig.LABEL, labelName, key);
+    String newValue = newConfig.getString(ProjectConfig.LABEL, labelName, key);
+    return oldValue != null && newValue == null;
+  }
 }

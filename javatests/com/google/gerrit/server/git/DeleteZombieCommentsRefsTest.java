@@ -60,7 +60,8 @@ public class DeleteZombieCommentsRefsTest {
       Ref ref2 = createRefWithEmptyTreeCommit(usersRepo, 1, 1000002);
 
       DeleteZombieCommentsRefs clean =
-          new DeleteZombieCommentsRefs(new AllUsersName("All-Users"), repoManager, null);
+          new DeleteZombieCommentsRefs(
+              new AllUsersName("All-Users"), repoManager, null, (msg) -> {});
       clean.execute();
 
       /* Check that ref1 still exists, and ref2 is deleted */
@@ -81,7 +82,7 @@ public class DeleteZombieCommentsRefsTest {
       int cleanupPercentage = 50;
       DeleteZombieCommentsRefs clean =
           new DeleteZombieCommentsRefs(
-              new AllUsersName("All-Users"), repoManager, cleanupPercentage);
+              new AllUsersName("All-Users"), repoManager, cleanupPercentage, (msg) -> {});
       clean.execute();
 
       /* ref1 not deleted, ref2 deleted, ref3 not deleted because of the clean percentage */
@@ -101,7 +102,7 @@ public class DeleteZombieCommentsRefsTest {
       cleanupPercentage = 70;
       clean =
           new DeleteZombieCommentsRefs(
-              new AllUsersName("All-Users"), repoManager, cleanupPercentage);
+              new AllUsersName("All-Users"), repoManager, cleanupPercentage, (msg) -> {});
 
       clean.execute();
 
@@ -137,7 +138,8 @@ public class DeleteZombieCommentsRefsTest {
           .isEqualTo(goodRefs.size() + badRefs.size());
 
       DeleteZombieCommentsRefs clean =
-          new DeleteZombieCommentsRefs(new AllUsersName("All-Users"), repoManager, null);
+          new DeleteZombieCommentsRefs(
+              new AllUsersName("All-Users"), repoManager, null, (msg) -> {});
       clean.execute();
 
       assertThat(

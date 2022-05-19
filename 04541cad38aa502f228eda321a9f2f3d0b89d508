@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a160bbe2_568841bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-19T17:40:03Z",
+      "side": 1,
+      "message": "Can you add some info on what this is? I don\u0027t think I\u0027ve heard of it before.",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "04541cad38aa502f228eda321a9f2f3d0b89d508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

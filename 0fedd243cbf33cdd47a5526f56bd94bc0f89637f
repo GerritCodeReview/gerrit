@@ -52,6 +52,29 @@
       "parentUuid": "7f44b23b_36a79b0b",
       "revId": "0fedd243cbf33cdd47a5526f56bd94bc0f89637f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75797a64_e8cb7da8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-19T12:09:51Z",
+      "side": 0,
+      "message": "This was recently introduced in https://gerrit-review.googlesource.com/c/gerrit/+/336142\n\nMaybe we should add this data to render-content?",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 371,
+        "endChar": 6
+      },
+      "revId": "0fedd243cbf33cdd47a5526f56bd94bc0f89637f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

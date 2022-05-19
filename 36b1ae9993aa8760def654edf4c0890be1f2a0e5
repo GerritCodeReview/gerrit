@@ -189,6 +189,29 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "467b426d_8f87ea5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-19T12:09:51Z",
+      "side": 1,
+      "message": "I like idea, but are we looking at right element? From performance tab, it looks event ends when there is grey area, not when diff is inside of this area. https://imgur.com/a/6hpsb1j",
+      "range": {
+        "startLine": 28,
+        "startChar": 22,
+        "endLine": 29,
+        "endChar": 55
+      },
+      "revId": "36b1ae9993aa8760def654edf4c0890be1f2a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "4f3bba39_91dc9caf",

@@ -150,6 +150,10 @@ export class GrLabelScoreRow extends LitElement {
         .selectedValueCell.hidden {
           display: none;
         }
+        iron-icon.small {
+          width: 16px;
+          height: 16px;
+        }
         @media only screen and (max-width: 50em) {
           .selectedValueCell {
             display: none;
@@ -162,10 +166,26 @@ export class GrLabelScoreRow extends LitElement {
   override render() {
     return html`
       <span class="labelNameCell" id="labelName" aria-hidden="true"
-        >${this.label?.name ?? ''}</span
+        >${this.label?.name ?? ''}${this.renderDescription()}</span
       >
       ${this.renderButtonsCell()} ${this.renderSelectedValue()}
     `;
+  }
+
+  private renderDescription() {
+    if (!this.labels || !this.label) return '';
+    const labelInfo = this.labels[this.label.name];
+    let description = labelInfo.description;
+    if (this.label.name === 'Verified')
+      description = 'Override CI result status for build and tests';
+    if (!description) return;
+    return html`<iron-icon
+        class="small"
+        icon="gr-icons:info-outline"
+      ></iron-icon
+      ><paper-tooltip offset="5" fitToVisibleBounds
+        >${description}</paper-tooltip
+      >`;
   }
 
   private renderButtonsCell() {

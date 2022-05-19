@@ -34,6 +34,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -54,10 +55,11 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
-import com.google.gerrit.server.project.validator.LabelConfigValidator;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.validator.LabelConfigValidator;
+import com.google.gerrit.server.project.validator.LabelConfigValidatorChecker;
 import com.google.gerrit.server.ssh.HostKey;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
@@ -109,6 +111,7 @@ public class CommitValidators {
     private final ProjectConfig.Factory projectConfigFactory;
     private final DiffOperations diffOperations;
     private final Config config;
+    private final DynamicSet<LabelConfigValidatorChecker> labelConfigValidatorCheckers;
 
     @Inject
     Factory(
@@ -123,7 +126,8 @@ public class CommitValidators {
         AccountValidator accountValidator,
         ProjectCache projectCache,
         ProjectConfig.Factory projectConfigFactory,
-        DiffOperations diffOperations) {
+        DiffOperations diffOperations,
+        DynamicSet<LabelConfigValidatorChecker> labelConfigValidatorCheckers) {
       this.gerritIdent = gerritIdent;
       this.urlFormatter = urlFormatter;
       this.config = config;
@@ -136,6 +140,7 @@ public class CommitValidators {
       this.projectCache = projectCache;
       this.projectConfigFactory = projectConfigFactory;
       this.diffOperations = diffOperations;
+      this.labelConfigValidatorCheckers = labelConfigValidatorCheckers;
     }
 
     public CommitValidators forReceiveCommits(
@@ -168,7 +173,7 @@ public class CommitValidators {
           .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker))
           .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
           .add(new GroupCommitValidator(allUsers))
-          .add(new LabelConfigValidator(diffOperations));
+          .add(new LabelConfigValidator(diffOperations, labelConfigValidatorCheckers));
       return new CommitValidators(validators.build());
     }
 
@@ -198,7 +203,7 @@ public class CommitValidators {
           .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker))
           .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
           .add(new GroupCommitValidator(allUsers))
-          .add(new LabelConfigValidator(diffOperations));
+          .add(new LabelConfigValidator(diffOperations, labelConfigValidatorCheckers));
       return new CommitValidators(validators.build());
     }
 

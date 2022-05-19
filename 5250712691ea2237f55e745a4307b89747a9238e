@@ -16,6 +16,24 @@
       "message": "There are a number of different pending approaches to integrate google-java-format in Bazel: [1], [2].\n\n\n[1] https://github.com/bazel-contrib/rules_jvm/issues/23\n[2] https://github.com/google/google-java-format/pull/216",
       "revId": "5250712691ea2237f55e745a4307b89747a9238e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb63efde_10543aa6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022277
+      },
+      "writtenOn": "2022-05-19T04:19:34Z",
+      "side": 1,
+      "message": "Do you think we should be waiting for those or would it be ok to go ahead with this approach and update to a common upstream solution later?",
+      "parentUuid": "683af2c4_ad1ae4c4",
+      "revId": "5250712691ea2237f55e745a4307b89747a9238e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

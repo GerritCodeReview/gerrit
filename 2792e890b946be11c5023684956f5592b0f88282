@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bd0abec_e3208a78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-19T21:16:28Z",
+      "side": 1,
+      "message": "Needs Release-Notes footer, maybe:\n\n Release-Notes: Fixed ES \u0027Result window is too large\u0027 error with --no-limit query option",
+      "revId": "2792e890b946be11c5023684956f5592b0f88282",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaaee430_91665fcd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-19T21:16:28Z",
+      "side": 1,
+      "message": "Can you move to stable-3.3 and add the missing footer?",
+      "revId": "2792e890b946be11c5023684956f5592b0f88282",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

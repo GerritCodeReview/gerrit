@@ -14,14 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Subscription} from 'rxjs';
 import '@polymer/paper-toggle-button/paper-toggle-button';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
 import '../gr-message/gr-message';
 import '../../../styles/gr-paper-styles';
-import '../../../styles/shared-styles';
-import {htmlTemplate} from './gr-messages-list_html';
 import {
   Shortcut,
   ShortcutSection,
@@ -29,7 +26,7 @@ import {
 import {parseDate} from '../../../utils/date-util';
 import {MessageTag} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
-import {customElement, property} from '@polymer/decorators';
+import {customElement, property, state} from 'lit/decorators';
 import {
   ChangeId,
   ChangeMessageId,
@@ -38,16 +35,10 @@ import {
   NumericChangeId,
   PatchSetNum,
   RepoName,
-  ReviewerUpdateInfo,
   VotingRangeInfo,
 } from '../../../types/common';
-import {
-  CommentThread,
-  isRobot,
-  LabelExtreme,
-} from '../../../utils/comment-util';
+import {CommentThread, isRobot} from '../../../utils/comment-util';
 import {GrMessage, MessageAnchorTapDetail} from '../gr-message/gr-message';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {DomRepeat} from '@polymer/polymer/lib/elements/dom-repeat';
 import {getVotingRange} from '../../../utils/label-util';
 import {
@@ -56,8 +47,14 @@ import {
 } from '../../../types/types';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
-import {resolve, DIPolymerElement} from '../../../models/dependency';
+import {resolve} from '../../../models/dependency';
 import {queryAll} from '../../../utils/common-util';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {subscribe} from '../../lit/subscription-controller';
+import {paperStyles} from '../../../styles/gr-paper-styles';
+import {when} from 'lit/directives/when';
+import {ifDefined} from 'lit/directives/if-defined';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -168,6 +165,63 @@ function computeRevision(
 }
 
 /**
+ * Merges change messages and reviewer updates into one array. Also processes
+ * all messages and updates, aligns or massages some of the properties.
+ */
+function computeCombinedMessages(
+  messages: ChangeMessageInfo[],
+  reviewerUpdates: FormattedReviewerUpdateInfo[],
+  commentThreads: CommentThread[]
+): CombinedMessage[] {
+  let mi = 0;
+  let ri = 0;
+  let combinedMessages: CombinedMessage[] = [];
+  let mDate;
+  let rDate;
+  for (let i = 0; i < messages.length; i++) {
+    // TODO(TS): clone message instead and avoid API object mutation
+    (messages[i] as CombinedMessage)._index = i;
+  }
+
+  while (mi < messages.length || ri < reviewerUpdates.length) {
+    if (mi >= messages.length) {
+      combinedMessages = combinedMessages.concat(reviewerUpdates.slice(ri));
+      break;
+    }
+    if (ri >= reviewerUpdates.length) {
+      combinedMessages = combinedMessages.concat(messages.slice(mi));
+      break;
+    }
+    mDate = mDate || parseDate(messages[mi].date);
+    rDate = rDate || parseDate(reviewerUpdates[ri].date);
+    if (rDate < mDate) {
+      combinedMessages.push(reviewerUpdates[ri++]);
+      rDate = null;
+    } else {
+      combinedMessages.push(messages[mi++]);
+      mDate = null;
+    }
+  }
+
+  for (let i = 0; i < combinedMessages.length; i++) {
+    const message = combinedMessages[i];
+    if (message.expanded === undefined) {
+      message.expanded = false;
+    }
+    message.commentThreads = computeThreads(message, commentThreads);
+    message._revision_number = computeRevision(message, combinedMessages);
+    message.tag = computeTag(message);
+  }
+  // computeIsImportant() depends on tags and revision numbers already being
+  // updated for all messages, so we have to compute this in its own forEach
+  // loop.
+  combinedMessages.forEach(m => {
+    m.isImportant = computeIsImportant(m, combinedMessages);
+  });
+  return combinedMessages;
+}
+
+/**
  * Unimportant messages are initially hidden.
  *
  * Human messages are always important. They have an undefined tag.
@@ -201,62 +255,80 @@ export interface GrMessagesList {
 }
 
 @customElement('gr-messages-list')
-export class GrMessagesList extends DIPolymerElement {
-  static get template() {
-    return htmlTemplate;
+export class GrMessagesList extends LitElement {
+  // TODO: Evaluate if we still need to have display: flex on the :host and
+  // .header.
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: flex;
+          justify-content: space-between;
+        }
+        .header {
+          align-items: center;
+          border-bottom: 1px solid var(--border-color);
+          display: flex;
+          justify-content: space-between;
+          padding: var(--spacing-s) var(--spacing-l);
+        }
+        .highlighted {
+          animation: 3s fadeOut;
+        }
+        @keyframes fadeOut {
+          0% {
+            background-color: var(--emphasis-color);
+          }
+          100% {
+            background-color: var(--view-background-color);
+          }
+        }
+        .container {
+          align-items: center;
+          display: flex;
+        }
+        .hiddenEntries {
+          color: var(--deemphasized-text-color);
+        }
+        gr-message:not(:last-of-type) {
+          border-bottom: 1px solid var(--border-color);
+        }
+      `,
+      paperStyles,
+    ];
   }
-
-  // Private internal @state, derived from the application state.
-  @property({type: Object})
-  change?: ParsedChangeInfo;
-
-  // Private internal @state, derived from the application state.
-  @property({type: String})
-  changeNum?: ChangeId | NumericChangeId;
 
   @property({type: Array})
   messages: ChangeMessageInfo[] = [];
 
   @property({type: Array})
-  reviewerUpdates: ReviewerUpdateInfo[] = [];
-
-  // Private internal @state, derived from the application state.
-  @property({type: Object})
-  commentThreads: CommentThread[] = [];
-
-  // Private internal @state, derived from the application state.
-  @property({type: String})
-  projectName?: RepoName;
-
-  // Private internal @state, derived from the application state.
-  @property({type: Boolean})
-  showReplyButtons = false;
+  reviewerUpdates: FormattedReviewerUpdateInfo[] = [];
 
   @property({type: Object})
   labels?: LabelNameToInfoMap;
 
-  @property({type: String})
-  _expandAllState = ExpandAllState.EXPAND_ALL;
+  @state()
+  private change?: ParsedChangeInfo;
 
-  @property({type: String, computed: '_computeExpandAllTitle(_expandAllState)'})
-  _expandAllTitle = '';
+  @state()
+  private changeNum?: ChangeId | NumericChangeId;
 
-  @property({type: Boolean, observer: '_observeShowAllActivity'})
-  _showAllActivity = false;
+  @state()
+  private commentThreads: CommentThread[] = [];
 
-  @property({
-    type: Array,
-    computed:
-      '_computeCombinedMessages(messages, reviewerUpdates, ' +
-      'commentThreads)',
-    observer: '_combinedMessagesChanged',
-  })
-  _combinedMessages: CombinedMessage[] = [];
+  @state()
+  private projectName?: RepoName;
 
-  @property({type: Object, computed: '_computeLabelExtremes(labels.*)'})
-  _labelExtremes: LabelExtreme = {};
+  @state()
+  expandAllState = ExpandAllState.EXPAND_ALL;
 
-  private readonly userModel = getAppContext().userModel;
+  // Private but used in tests.
+  @state()
+  showAllActivity = false;
+
+  @state()
+  private combinedMessages: CombinedMessage[] = [];
 
   // Private but used in tests.
   readonly getCommentsModel = resolve(this, commentsModelToken);
@@ -267,43 +339,105 @@ export class GrMessagesList extends DIPolymerElement {
 
   private readonly shortcuts = getAppContext().shortcutsService;
 
-  private subscriptions: Subscription[] = [];
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.subscriptions.push(
-      this.getCommentsModel().threads$.subscribe(x => {
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getCommentsModel().threads$,
+      x => {
         this.commentThreads = x;
-      })
+      }
     );
-    this.subscriptions.push(
-      this.changeModel().change$.subscribe(x => {
+    subscribe(
+      this,
+      () => this.changeModel().change$,
+      x => {
         this.change = x;
-      })
+      }
     );
-    this.subscriptions.push(
-      this.userModel.loggedIn$.subscribe(x => {
-        this.showReplyButtons = x;
-      })
-    );
-    this.subscriptions.push(
-      this.changeModel().repo$.subscribe(x => {
+    subscribe(
+      this,
+      () => this.changeModel().repo$,
+      x => {
         this.projectName = x;
-      })
+      }
     );
-    this.subscriptions.push(
-      this.changeModel().changeNum$.subscribe(x => {
+    subscribe(
+      this,
+      () => this.changeModel().changeNum$,
+      x => {
         this.changeNum = x;
-      })
+      }
     );
   }
 
-  override disconnectedCallback() {
-    for (const s of this.subscriptions) {
-      s.unsubscribe();
+  override willUpdate(changedProperties: PropertyValues): void {
+    if (
+      changedProperties.has('messages') ||
+      changedProperties.has('reviewerUpdates') ||
+      changedProperties.has('commentThreads')
+    ) {
+      this.combinedMessages = computeCombinedMessages(
+        this.messages,
+        this.reviewerUpdates,
+        this.commentThreads
+      );
+      this.combinedMessagesChanged();
     }
-    this.subscriptions = [];
-    super.disconnectedCallback();
+  }
+
+  override render() {
+    const labelExtremes = this.computeLabelExtremes();
+    return html`${this.renderHeader()}
+    ${this.combinedMessages
+      .filter(m => this.isMessageVisible(m))
+      .map(
+        message => html`<gr-message
+          .change=${this.change}
+          .changeNum=${this.changeNum}
+          .message=${message}
+          .commentThreads=${message.commentThreads}
+          .projectName=${this.projectName}
+          @message-anchor-tap=${this.handleAnchorClick}
+          .labelExtremes=${labelExtremes}
+          data-message-id=${ifDefined(getMessageId(message) as String)}
+        ></gr-message>`
+      )}`;
+  }
+
+  private renderHeader() {
+    return html`<div class="header">
+      <div id="showAllActivityToggleContainer" class="container">
+        ${when(
+          this.isVisibleShowAllActivityToggle(),
+          () => html`
+            <paper-toggle-button
+              class="showAllActivityToggle"
+              ?checked=${this.showAllActivity}
+              @change=${this.handleShowAllActivityChanged}
+              aria-labelledby="showAllEntriesLabel"
+              role="switch"
+              @click=${this.onTapShowAllActivityToggle}
+            ></paper-toggle-button>
+            <div id="showAllEntriesLabel" aria-hidden="true">
+              <span>Show all entries</span>
+              <span class="hiddenEntries" ?hidden=${this.showAllActivity}>
+                (${this.computeHiddenEntriesCount()} hidden)
+              </span>
+            </div>
+            <span class="transparent separator"></span>
+          `
+        )}
+      </div>
+      <gr-button
+        id="collapse-messages"
+        link=""
+        .title=${this.computeExpandAllTitle()}
+        @click=${this.handleExpandCollapseTap}
+      >
+        ${this.expandAllState}
+      </gr-button>
+    </div>`;
   }
 
   async scrollToMessage(messageID: string) {
@@ -312,14 +446,14 @@ export class GrMessagesList extends DIPolymerElement {
       | GrMessage
       | undefined;
 
-    if (!el && this._showAllActivity) {
+    if (!el && this.showAllActivity) {
       this.reporting.error(
         new Error(`Failed to scroll to message: ${messageID}`)
       );
       return;
     }
     if (!el || !el.message) {
-      this._showAllActivity = true;
+      this.showAllActivity = true;
       setTimeout(() => this.scrollToMessage(messageID));
       return;
     }
@@ -336,101 +470,42 @@ export class GrMessagesList extends DIPolymerElement {
       top += offsetParent.offsetTop;
     }
     window.scrollTo(0, top);
-    this._highlightEl(el);
+    this.highlightEl(el);
   }
 
-  _observeShowAllActivity() {
-    // We have to call render() such that the dom-repeat filter picks up the
-    // change.
-    this.$.messageRepeat.render();
+  private handleShowAllActivityChanged(e: Event) {
+    this.showAllActivity = (e.target as HTMLInputElement).checked;
   }
 
   /**
    * Filter for the dom-repeat of combinedMessages.
    */
-  _isMessageVisible(message: CombinedMessage) {
-    return this._showAllActivity || message.isImportant;
+  isMessageVisible(message: CombinedMessage) {
+    return this.showAllActivity || message.isImportant;
   }
 
-  /**
-   * Merges change messages and reviewer updates into one array. Also processes
-   * all messages and updates, aligns or massages some of the properties.
-   */
-  _computeCombinedMessages(
-    messages: ChangeMessageInfo[] | undefined,
-    reviewerUpdates: FormattedReviewerUpdateInfo[] | undefined,
-    commentThreads: CommentThread[]
-  ) {
-    if (messages === undefined || reviewerUpdates === undefined) return;
-
-    let mi = 0;
-    let ri = 0;
-    let combinedMessages: CombinedMessage[] = [];
-    let mDate;
-    let rDate;
-    for (let i = 0; i < messages.length; i++) {
-      // TODO(TS): clone message instead and avoid API object mutation
-      (messages[i] as CombinedMessage)._index = i;
+  private updateExpandedStateOfAllMessages(exp: boolean) {
+    if (!this.combinedMessages) return;
+    for (let i = 0; i < this.combinedMessages.length; i++) {
+      this.combinedMessages[i].expanded = exp;
     }
-
-    while (mi < messages.length || ri < reviewerUpdates.length) {
-      if (mi >= messages.length) {
-        combinedMessages = combinedMessages.concat(reviewerUpdates.slice(ri));
-        break;
-      }
-      if (ri >= reviewerUpdates.length) {
-        combinedMessages = combinedMessages.concat(messages.slice(mi));
-        break;
-      }
-      mDate = mDate || parseDate(messages[mi].date);
-      rDate = rDate || parseDate(reviewerUpdates[ri].date);
-      if (rDate < mDate) {
-        combinedMessages.push(reviewerUpdates[ri++]);
-        rDate = null;
-      } else {
-        combinedMessages.push(messages[mi++]);
-        mDate = null;
-      }
-    }
-
-    for (let i = 0; i < combinedMessages.length; i++) {
-      const message = combinedMessages[i];
-      if (message.expanded === undefined) {
-        message.expanded = false;
-      }
-      message.commentThreads = computeThreads(message, commentThreads);
-      message._revision_number = computeRevision(message, combinedMessages);
-      message.tag = computeTag(message);
-    }
-    // computeIsImportant() depends on tags and revision numbers already being
-    // updated for all messages, so we have to compute this in its own forEach
-    // loop.
-    combinedMessages.forEach(m => {
-      m.isImportant = computeIsImportant(m, combinedMessages);
-    });
-    return combinedMessages;
+    this.refreshMessages();
   }
 
-  _updateExpandedStateOfAllMessages(exp: boolean) {
-    if (!this._combinedMessages) return;
-
-    for (let i = 0; i < this._combinedMessages.length; i++) {
-      this._combinedMessages[i].expanded = exp;
-      this.notifyPath(`_combinedMessages.${i}.expanded`);
-    }
+  private refreshMessages() {
     for (const message of queryAll<GrMessage>(this, 'gr-message')) {
-      message.requestUpdate('message');
+      message.requestUpdate();
     }
   }
 
-  _computeExpandAllTitle(_expandAllState?: string) {
-    if (_expandAllState === ExpandAllState.COLLAPSE_ALL) {
+  private computeExpandAllTitle() {
+    if (this.expandAllState === ExpandAllState.COLLAPSE_ALL) {
       return this.shortcuts.createTitle(
         Shortcut.COLLAPSE_ALL_MESSAGES,
         ShortcutSection.ACTIONS
       );
     }
-    if (_expandAllState === ExpandAllState.EXPAND_ALL) {
+    if (this.expandAllState === ExpandAllState.EXPAND_ALL) {
       return this.shortcuts.createTitle(
         Shortcut.EXPAND_ALL_MESSAGES,
         ShortcutSection.ACTIONS
@@ -439,8 +514,10 @@ export class GrMessagesList extends DIPolymerElement {
     return '';
   }
 
-  _highlightEl(el: HTMLElement) {
-    const highlightedEls = this.root!.querySelectorAll('.highlighted');
+  // Private but used in tests.
+  highlightEl(el: HTMLElement) {
+    const highlightedEls =
+      this.shadowRoot?.querySelectorAll('.highlighted') ?? [];
     for (const highlightedEl of highlightedEls) {
       highlightedEl.classList.remove('highlighted');
     }
@@ -452,42 +529,40 @@ export class GrMessagesList extends DIPolymerElement {
     el.classList.add('highlighted');
   }
 
+  // Private but used in tests.
   handleExpandCollapse(expand: boolean) {
-    this._expandAllState = expand
+    this.expandAllState = expand
       ? ExpandAllState.COLLAPSE_ALL
       : ExpandAllState.EXPAND_ALL;
-    this._updateExpandedStateOfAllMessages(expand);
+    this.updateExpandedStateOfAllMessages(expand);
   }
 
-  _handleExpandCollapseTap(e: Event) {
+  private handleExpandCollapseTap(e: Event) {
     e.preventDefault();
     this.handleExpandCollapse(
-      this._expandAllState === ExpandAllState.EXPAND_ALL
+      this.expandAllState === ExpandAllState.EXPAND_ALL
     );
   }
 
-  _handleAnchorClick(e: CustomEvent<MessageAnchorTapDetail>) {
+  private handleAnchorClick(e: CustomEvent<MessageAnchorTapDetail>) {
     this.scrollToMessage(e.detail.id);
   }
 
-  _isVisibleShowAllActivityToggle(messages: CombinedMessage[] = []) {
-    return messages.some(m => !m.isImportant);
+  private isVisibleShowAllActivityToggle() {
+    return this.combinedMessages.some(m => !m.isImportant);
   }
 
-  _computeHiddenEntriesCount(messages: CombinedMessage[] = []) {
-    return messages.filter(m => !m.isImportant).length;
+  computeHiddenEntriesCount() {
+    return this.combinedMessages.filter(m => !m.isImportant).length;
   }
 
   /**
-   * Called when this._combinedMessages has changed.
+   * Called when this.combinedMessages has changed.
    */
-  _combinedMessagesChanged(combinedMessages?: CombinedMessage[]) {
-    if (!combinedMessages) return;
-    if (combinedMessages.length === 0) return;
-    for (let i = 0; i < combinedMessages.length; i++) {
-      this.notifyPath(`_combinedMessages.${i}.commentThreads`);
-    }
-    const tags = combinedMessages.map(
+  private combinedMessagesChanged() {
+    if (this.combinedMessages.length === 0) return;
+    this.refreshMessages();
+    const tags = this.combinedMessages.map(
       message =>
         message.tag || (message as FormattedReviewerUpdateInfo).type || 'none'
     );
@@ -496,7 +571,7 @@ export class GrMessagesList extends DIPolymerElement {
         acc[val] = (acc[val] || 0) + 1;
         return acc;
       },
-      {all: combinedMessages.length} as TagsCountReportInfo
+      {all: this.combinedMessages.length} as TagsCountReportInfo
     );
     this.reporting.reportInteraction('messages-count', tagsCounted);
   }
@@ -504,20 +579,15 @@ export class GrMessagesList extends DIPolymerElement {
   /**
    * Compute a mapping from label name to objects representing the minimum and
    * maximum possible values for that label.
+   * Private but used in tests.
    */
-  _computeLabelExtremes(
-    labelRecord: PolymerDeepPropertyChange<
-      LabelNameToInfoMap,
-      LabelNameToInfoMap
-    >
-  ) {
+  computeLabelExtremes() {
     const extremes: {[labelName: string]: VotingRangeInfo} = {};
-    const labels = labelRecord.base;
-    if (!labels) {
+    if (!this.labels) {
       return extremes;
     }
-    for (const key of Object.keys(labels)) {
-      const range = getVotingRange(labels[key]);
+    for (const key of Object.keys(this.labels)) {
+      const range = getVotingRange(this.labels[key]);
       if (range) {
         extremes[key] = range;
       }
@@ -528,7 +598,7 @@ export class GrMessagesList extends DIPolymerElement {
   /**
    * Work around a issue on iOS when clicking turns into double tap
    */
-  _onTapShowAllActivityToggle(e: Event) {
+  private onTapShowAllActivityToggle(e: Event) {
     e.preventDefault();
   }
 }

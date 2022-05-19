@@ -54,7 +54,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
-import com.google.gerrit.server.project.LabelConfigValidator;
+import com.google.gerrit.server.project.validator.LabelConfigValidator;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;

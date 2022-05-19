@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.server.project.validator;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -31,6 +31,8 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.ProjectLevelConfig.Bare;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -211,7 +213,7 @@ public class LabelConfigValidator implements CommitValidationListener {
 
   private Config loadNewConfig(CommitReceivedEvent receiveEvent)
       throws IOException, ConfigInvalidException {
-    ProjectLevelConfig.Bare bareConfig = new ProjectLevelConfig.Bare(ProjectConfig.PROJECT_CONFIG);
+    Bare bareConfig = new Bare(ProjectConfig.PROJECT_CONFIG);
     bareConfig.load(receiveEvent.project.getNameKey(), receiveEvent.revWalk, receiveEvent.commit);
     return bareConfig.getConfig();
   }
@@ -223,8 +225,8 @@ public class LabelConfigValidator implements CommitValidationListener {
     }
 
     try {
-      ProjectLevelConfig.Bare bareConfig =
-          new ProjectLevelConfig.Bare(ProjectConfig.PROJECT_CONFIG);
+      Bare bareConfig =
+          new Bare(ProjectConfig.PROJECT_CONFIG);
       bareConfig.load(
           receiveEvent.project.getNameKey(),
           receiveEvent.revWalk,

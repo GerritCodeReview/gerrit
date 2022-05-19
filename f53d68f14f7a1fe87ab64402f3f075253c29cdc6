@@ -69,6 +69,24 @@
       "parentUuid": "ce9e856b_6a986ea2",
       "revId": "f53d68f14f7a1fe87ab64402f3f075253c29cdc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8ec1d2e_03c60477",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-19T13:50:40Z",
+      "side": 1,
+      "message": "Yes, I would do follow up changes. I will change little bit backend side \n https://gerrit-review.googlesource.com/c/gerrit/+/274352 to do default AUTO mode.\n\nAnd then I will connect it with front-end",
+      "parentUuid": "10500cf2_a2014659",
+      "revId": "f53d68f14f7a1fe87ab64402f3f075253c29cdc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

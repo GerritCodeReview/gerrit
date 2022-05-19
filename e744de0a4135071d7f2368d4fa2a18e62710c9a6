@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4089abcd_80ebf467",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-19T13:40:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e523435b_a66e1807",
+      "revId": "e744de0a4135071d7f2368d4fa2a18e62710c9a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f17e2a98_ff33c5d9",
@@ -65,6 +83,24 @@
       "writtenOn": "2022-05-19T13:03:08Z",
       "side": 1,
       "message": "remove comment",
+      "revId": "e744de0a4135071d7f2368d4fa2a18e62710c9a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e54db49_2fd8c08f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-19T13:40:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f17e2a98_ff33c5d9",
       "revId": "e744de0a4135071d7f2368d4fa2a18e62710c9a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +122,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "024d80ec_e81a3bee",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-19T13:40:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "45fbe4d1_b27f2631",
+      "revId": "e744de0a4135071d7f2368d4fa2a18e62710c9a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e64a09d3_7115d934",
@@ -99,6 +153,24 @@
       "writtenOn": "2022-05-19T13:03:08Z",
       "side": 1,
       "message": "In tests it is not easy and not recommended to wait for a window reload. If you want to test that scenario, then I would just stub `window.location.reload` or the `windowLocationReload` function and check that it is called. `getComputedStyleValue(\u0027--primary-text-color\u0027, document.body)` is not really related to the settings view and should be tested elsewhere.",
+      "revId": "e744de0a4135071d7f2368d4fa2a18e62710c9a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b8b5ffc_d2cc716b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-19T13:40:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e64a09d3_7115d934",
       "revId": "e744de0a4135071d7f2368d4fa2a18e62710c9a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

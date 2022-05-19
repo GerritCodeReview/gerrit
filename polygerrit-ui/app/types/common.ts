@@ -757,7 +757,7 @@ export interface BlameInfo {
  */
 export interface ImageInfo {
   body: string;
-  type: string;
+  type: string | undefined;
   _name?: string;
   _expectedType?: string;
   _width?: number;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10500cf2_a2014659",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-19T08:44:17Z",
+      "side": 1,
+      "message": "Nice, thank you!\n\nIt should probably not block this change, but I think we really need to make this a proper user setting instead of using `window.localStorage`. Maybe this could be a starter bug for Kamil?",
+      "revId": "f53d68f14f7a1fe87ab64402f3f075253c29cdc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

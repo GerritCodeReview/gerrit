@@ -12,16 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.server.project.validator;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
@@ -31,59 +27,36 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
+import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.ProjectLevelConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 /**
  * Validates modifications to label configurations in the {@code project.config} file that is stored
  * in {@code refs/meta/config}.
- *
- * <p>Rejects setting/changing deprecated fields (fields {@code copyAnyScore}, {@code copyMinScore},
- * {@code copyMaxScore}, {@code copyAllScoresIfNoChange}, {@code copyAllScoresIfNoCodeChange},
- * {@code copyAllScoresOnMergeFirstParentUpdate}, {@code copyAllScoresOnTrivialRebase}, {@code
- * copyAllScoresIfListOfFilesDidNotChange}, {@code copyValue}).
- *
- * <p>Updates that unset the deprecated fields or that don't touch them are allowed.
  */
 @Singleton
 public class LabelConfigValidator implements CommitValidationListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  // Map of deprecated boolean flags to the predicates that should be used in the copy condition
-  // instead.
-  private static final ImmutableMap<String, String> DEPRECATED_FLAGS =
-      ImmutableMap.<String, String>builder()
-          .put(ProjectConfig.KEY_COPY_ANY_SCORE, "is:ANY")
-          .put(ProjectConfig.KEY_COPY_MIN_SCORE, "is:MIN")
-          .put(ProjectConfig.KEY_COPY_MAX_SCORE, "is:MAX")
-          .put(
-              ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CHANGE,
-              "changekind:" + ChangeKind.NO_CHANGE.name())
-          .put(
-              ProjectConfig.KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE,
-              "changekind:" + ChangeKind.NO_CODE_CHANGE.name())
-          .put(
-              ProjectConfig.KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE,
-              "changekind:" + ChangeKind.MERGE_FIRST_PARENT_UPDATE.name())
-          .put(
-              ProjectConfig.KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE,
-              "changekind:" + ChangeKind.TRIVIAL_REBASE.name())
-          .put(
-              ProjectConfig.KEY_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE,
-              "has:unchanged-files")
-          .build();
-
+  private final DynamicSet<LabelConfigValidatorChecker> labelConfigValidatorCheckers;
   private final DiffOperations diffOperations;
 
   @Inject
-  public LabelConfigValidator(DiffOperations diffOperations) {
+  public LabelConfigValidator(
+      DiffOperations diffOperations,
+      DynamicSet<LabelConfigValidatorChecker> labelConfigValidatorCheckers) {
     this.diffOperations = diffOperations;
+    this.labelConfigValidatorCheckers = labelConfigValidatorCheckers;
   }
 
   @Override
@@ -96,9 +69,6 @@ public class LabelConfigValidator implements CommitValidationListener {
         // any validation and can return early.
         return ImmutableList.of();
       }
-
-      ImmutableList.Builder<CommitValidationMessage> validationMessageBuilder =
-          ImmutableList.builder();
 
       // Load the new config
       Config newConfig;
@@ -119,50 +89,20 @@ public class LabelConfigValidator implements CommitValidationListener {
       }
 
       // Load the old config
-      Optional<Config> oldConfig = loadOldConfig(receiveEvent);
+      Config oldConfig = loadOldConfig(receiveEvent).orElse(null);
 
-      for (String labelName : newConfig.getSubsections(ProjectConfig.LABEL)) {
-        for (String deprecatedFlag : DEPRECATED_FLAGS.keySet()) {
-          if (flagChangedOrNewlySet(newConfig, oldConfig.orElse(null), labelName, deprecatedFlag)) {
-            validationMessageBuilder.add(
-                new CommitValidationMessage(
-                    String.format(
-                        "Parameter '%s.%s.%s' is deprecated and cannot be set,"
-                            + " use '%s' in '%s.%s.%s' instead.",
-                        ProjectConfig.LABEL,
-                        labelName,
-                        deprecatedFlag,
-                        DEPRECATED_FLAGS.get(deprecatedFlag),
-                        ProjectConfig.LABEL,
-                        labelName,
-                        ProjectConfig.KEY_COPY_CONDITION),
-                    ValidationMessage.Type.ERROR));
-          }
-        }
-
-        if (copyValuesChangedOrNewlySet(newConfig, oldConfig.orElse(null), labelName)) {
-          validationMessageBuilder.add(
-              new CommitValidationMessage(
-                  String.format(
-                      "Parameter '%s.%s.%s' is deprecated and cannot be set,"
-                          + " use 'is:<copy-value>' in '%s.%s.%s' instead.",
-                      ProjectConfig.LABEL,
-                      labelName,
-                      ProjectConfig.KEY_COPY_VALUE,
-                      ProjectConfig.LABEL,
-                      labelName,
-                      ProjectConfig.KEY_COPY_CONDITION),
-                  ValidationMessage.Type.ERROR));
-        }
+      // Run the checkers
+      List<String> validationMessages = new ArrayList<>();
+      for (LabelConfigValidatorChecker checker : labelConfigValidatorCheckers) {
+        validationMessages.addAll(checker.validate(newConfig, oldConfig));
       }
 
-      ImmutableList<CommitValidationMessage> validationMessages = validationMessageBuilder.build();
       if (!validationMessages.isEmpty()) {
         throw new CommitValidationException(
             String.format(
                 "invalid %s file in revision %s",
                 ProjectConfig.PROJECT_CONFIG, receiveEvent.commit.getName()),
-            validationMessages);
+            asCommitValidationMessages(validationMessages));
       }
       return ImmutableList.of();
     } catch (IOException | DiffNotAvailableException e) {
@@ -176,6 +116,12 @@ public class LabelConfigValidator implements CommitValidationListener {
       logger.atSevere().withCause(e).log("%s", errorMessage);
       throw new CommitValidationException(errorMessage, e);
     }
+  }
+
+  private static List<CommitValidationMessage> asCommitValidationMessages(List<String> messages) {
+    return messages.stream()
+        .map(s -> new CommitValidationMessage(s, ValidationMessage.Type.ERROR))
+        .collect(Collectors.toList());
   }
 
   /**
@@ -242,37 +188,5 @@ public class LabelConfigValidator implements CommitValidationListener {
           e.getMessage());
       return Optional.empty();
     }
-  }
-
-  private static boolean flagChangedOrNewlySet(
-      Config newConfig, @Nullable Config oldConfig, String labelName, String key) {
-    if (oldConfig == null) {
-      return newConfig.getNames(ProjectConfig.LABEL, labelName).contains(key);
-    }
-
-    // Use getString rather than getBoolean so that we do not have to deal with values that cannot
-    // be parsed as a boolean.
-    String oldValue = oldConfig.getString(ProjectConfig.LABEL, labelName, key);
-    String newValue = newConfig.getString(ProjectConfig.LABEL, labelName, key);
-    return newValue != null && !newValue.equals(oldValue);
-  }
-
-  private static boolean copyValuesChangedOrNewlySet(
-      Config newConfig, @Nullable Config oldConfig, String labelName) {
-    if (oldConfig == null) {
-      return newConfig
-          .getNames(ProjectConfig.LABEL, labelName)
-          .contains(ProjectConfig.KEY_COPY_VALUE);
-    }
-
-    // Ignore the order in which the copy values are defined in the new and old config, since the
-    // order doesn't matter for this parameter.
-    ImmutableSet<String> oldValues =
-        ImmutableSet.copyOf(
-            oldConfig.getStringList(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_VALUE));
-    ImmutableSet<String> newValues =
-        ImmutableSet.copyOf(
-            newConfig.getStringList(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_VALUE));
-    return !newValues.isEmpty() && !Sets.difference(newValues, oldValues).isEmpty();
   }
 }

@@ -107,6 +107,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b80b1f8_b95f7061",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-20T17:00:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ec1b48c_8036c9f8",
+      "range": {
+        "startLine": 98,
+        "startChar": 63,
+        "endLine": 98,
+        "endChar": 79
+      },
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb7bda7d_a33b19ef",

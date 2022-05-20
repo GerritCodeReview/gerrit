@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eacd5bed_710e4516",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T06:53:09Z",
+      "side": 1,
+      "message": "\"Implement API to preview a fix provided by the client\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "5760b08a734ac10821eaf7e1bef37be640880c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44b64659_eab8d700",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5852,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T06:53:09Z",
+      "side": 1,
+      "message": "Please add:\n\nNo content on the server will be modified as part of this request.",
+      "revId": "5760b08a734ac10821eaf7e1bef37be640880c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

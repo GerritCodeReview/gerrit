@@ -22,6 +22,30 @@
       },
       "revId": "74a9c2285d75182eca0d6892b36a07eca35443ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1de5fb3a_4a4b1949",
+        "filename": "javatests/com/google/gerrit/server/git/RepoRefCacheTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-20T13:31:57Z",
+      "side": 1,
+      "message": "I see, you\u0027ve already fixed the formatting issue in patch set 10.",
+      "parentUuid": "d83de5f2_2d1c5b6c",
+      "range": {
+        "startLine": 329,
+        "startChar": 0,
+        "endLine": 332,
+        "endChar": 2
+      },
+      "revId": "74a9c2285d75182eca0d6892b36a07eca35443ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

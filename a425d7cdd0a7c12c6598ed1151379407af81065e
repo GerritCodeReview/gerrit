@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ca28c7d_f4f07898",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T13:31:14Z",
+      "side": 1,
+      "message": "Is this not causing issues? I was expecting this to be one of the harder parts of the file-list migration.",
+      "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da93b65b_a83da551",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
         "patchSetId": 14
@@ -43,6 +60,86 @@
         "startChar": 0,
         "endLine": 554,
         "endChar": 45
+      },
+      "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "543c1fd3_b36756fc",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T13:31:14Z",
+      "side": 1,
+      "message": "FWIW Maybe a good pattern for documenting such events is to add them to `interface HTMLElementEventMap { ... }` and add a comment there. Similar to how `dependency.ts` does it.\n\nOh wait, you already do that at the bottom of the file. Maybe move to the top? Listing the event names twice seems redundant.",
+      "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da5f8537_fab06850",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T13:31:14Z",
+      "side": 1,
+      "message": "Maybe consider not computing `showDynamicColumns` and `showPrependedDynamicColumns` early, but instead do it further down, even if that means computing it multiple times. It is super cheap to compute, and it would make the code simpler and would the information more tied to the DOM where they are directly relevant.",
+      "range": {
+        "startLine": 829,
+        "startChar": 10,
+        "endLine": 829,
+        "endChar": 28
+      },
+      "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23814f03_ca2ce6b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 2339,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T13:31:14Z",
+      "side": 1,
+      "message": "Can this just be done at the top of `render()`?",
+      "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "894ed039_cffa03a3",
+        "filename": "polygerrit-ui/app/types/diff.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T13:31:14Z",
+      "side": 1,
+      "message": "Why these additions? Aren\u0027t they declared identically in the parent type `DiffPreferenceInfoApi`?",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 22
       },
       "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

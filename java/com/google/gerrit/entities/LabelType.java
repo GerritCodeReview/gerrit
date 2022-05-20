@@ -185,11 +185,19 @@ public abstract class LabelType {
   }
 
   public boolean isMaxNegative(PatchSetApproval ca) {
-    return getMaxNegative() == ca.value();
+    return isMaxNegative(ca.value());
+  }
+
+  public boolean isMaxNegative(short value) {
+    return getMaxNegative() == value;
   }
 
   public boolean isMaxPositive(PatchSetApproval ca) {
-    return getMaxPositive() == ca.value();
+    return isMaxPositive(ca.value());
+  }
+
+  public boolean isMaxPositive(short value) {
+    return getMaxPositive() == value;
   }
 
   public LabelValue getValue(short value) {

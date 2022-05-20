@@ -170,7 +170,8 @@ public class ApprovalCopier {
 
   private boolean canCopyBasedOnBooleanLabelConfigs(
       Project.NameKey projectName,
-      PatchSetApproval psa,
+      PatchSetApproval.Key psaKey,
+      short psaValue,
       PatchSet.Id psId,
       ChangeKind kind,
       boolean isMerge,
@@ -178,28 +179,28 @@ public class ApprovalCopier {
       @Nullable Map<String, ModifiedFile> baseVsCurrentDiff,
       @Nullable Map<String, ModifiedFile> baseVsPriorDiff,
       @Nullable Map<String, ModifiedFile> priorVsCurrentDiff) {
-    int n = psa.key().patchSetId().get();
+    int n = psaKey.patchSetId().get();
     checkArgument(n != psId.get());
 
-    if (type.isCopyMinScore() && type.isMaxNegative(psa)) {
+    if (type.isCopyMinScore() && type.isMaxNegative(psaValue)) {
       logger.atFine().log(
           "veto approval %s on label %s of patch set %d of change %d can be copied"
               + " to patch set %d because the label has set copyMinScore = true on project %s",
-          psa.value(),
-          psa.label(),
+          psaValue,
+          psaKey.labelId().get(),
           n,
-          psa.key().patchSetId().changeId().get(),
+          psaKey.patchSetId().changeId().get(),
           psId.get(),
           projectName);
       return true;
-    } else if (type.isCopyMaxScore() && type.isMaxPositive(psa)) {
+    } else if (type.isCopyMaxScore() && type.isMaxPositive(psaValue)) {
       logger.atFine().log(
           "max approval %s on label %s of patch set %d of change %d can be copied"
               + " to patch set %d because the label has set copyMaxScore = true on project %s",
-          psa.value(),
-          psa.label(),
+          psaValue,
+          psaKey.labelId().get(),
           n,
-          psa.key().patchSetId().changeId().get(),
+          psaKey.patchSetId().changeId().get(),
           psId.get(),
           projectName);
       return true;
@@ -207,23 +208,23 @@ public class ApprovalCopier {
       logger.atFine().log(
           "approval %d on label %s of patch set %d of change %d can be copied"
               + " to patch set %d because the label has set copyAnyScore = true on project %s",
-          psa.value(),
-          psa.label(),
+          psaValue,
+          psaKey.labelId().get(),
           n,
-          psa.key().patchSetId().changeId().get(),
+          psaKey.patchSetId().changeId().get(),
           psId.get(),
           projectName);
       return true;
-    } else if (type.getCopyValues().contains(psa.value())) {
+    } else if (type.getCopyValues().contains(psaValue)) {
       logger.atFine().log(
           "approval %d on label %s of patch set %d of change %d can be copied"
               + " to patch set %d because the label has set copyValue = %d on project %s",
-          psa.value(),
-          psa.label(),
+          psaValue,
+          psaKey.labelId().get(),
           n,
-          psa.key().patchSetId().changeId().get(),
+          psaKey.patchSetId().changeId().get(),
           psId.get(),
-          psa.value(),
+          psaValue,
           projectName);
       return true;
     } else if (type.isCopyAllScoresIfListOfFilesDidNotChange()
@@ -235,10 +236,10 @@ public class ApprovalCopier {
               + "copyAllScoresIfListOfFilesDidNotChange = true on "
               + "project %s and list of files did not change (maybe except a rename, which is "
               + "still the same file).",
-          psa.value(),
-          psa.label(),
+          psaValue,
+          psaKey.labelId().get(),
           n,
-          psa.key().patchSetId().changeId().get(),
+          psaKey.patchSetId().changeId().get(),
           psId.get(),
           projectName);
       return true;
@@ -250,10 +251,10 @@ public class ApprovalCopier {
               "approval %d on label %s of patch set %d of change %d can be copied"
                   + " to patch set %d because change kind is %s and the label has set"
                   + " copyAllScoresOnMergeFirstParentUpdate = true on project %s",
-              psa.value(),
-              psa.label(),
+              psaValue,
+              psaKey.labelId().get(),
               n,
-              psa.key().patchSetId().changeId().get(),
+              psaKey.patchSetId().changeId().get(),
               psId.get(),
               kind,
               projectName);
@@ -266,10 +267,10 @@ public class ApprovalCopier {
               "approval %d on label %s of patch set %d of change %d can be copied"
                   + " to patch set %d because change kind is %s and the label has set"
                   + " copyAllScoresIfNoCodeChange = true on project %s",
-              psa.value(),
-              psa.label(),
+              psaValue,
+              psaKey.labelId().get(),
               n,
-              psa.key().patchSetId().changeId().get(),
+              psaKey.patchSetId().changeId().get(),
               psId.get(),
               kind,
               projectName);
@@ -282,10 +283,10 @@ public class ApprovalCopier {
               "approval %d on label %s of patch set %d of change %d can be copied"
                   + " to patch set %d because change kind is %s and the label has set"
                   + " copyAllScoresOnTrivialRebase = true on project %s",
-              psa.value(),
-              psa.label(),
+              psaValue,
+              psaKey.labelId().get(),
               n,
-              psa.key().patchSetId().changeId().get(),
+              psaKey.patchSetId().changeId().get(),
               psId.get(),
               kind,
               projectName);
@@ -298,10 +299,10 @@ public class ApprovalCopier {
               "approval %d on label %s of patch set %d of change %d can be copied"
                   + " to patch set %d because change kind is %s and the label has set"
                   + " copyAllScoresIfNoCodeChange = true on project %s",
-              psa.value(),
-              psa.label(),
+              psaValue,
+              psaKey.labelId().get(),
               n,
-              psa.key().patchSetId().changeId().get(),
+              psaKey.patchSetId().changeId().get(),
               psId.get(),
               kind,
               projectName);
@@ -312,10 +313,10 @@ public class ApprovalCopier {
               "approval %d on label %s of patch set %d of change %d can be copied"
                   + " to patch set %d because change kind is %s and the label has set"
                   + " copyAllScoresOnTrivialRebase = true on project %s",
-              psa.value(),
-              psa.label(),
+              psaValue,
+              psaKey.labelId().get(),
               n,
-              psa.key().patchSetId().changeId().get(),
+              psaKey.patchSetId().changeId().get(),
               psId.get(),
               kind,
               projectName);
@@ -326,10 +327,10 @@ public class ApprovalCopier {
               "approval %d on label %s of patch set %d of change %d can be copied"
                   + " to patch set %d because change kind is %s and the label has set"
                   + " copyAllScoresOnMergeFirstParentUpdate = true on project %s",
-              psa.value(),
-              psa.label(),
+              psaValue,
+              psaKey.labelId().get(),
               n,
-              psa.key().patchSetId().changeId().get(),
+              psaKey.patchSetId().changeId().get(),
               psId.get(),
               kind,
               projectName);
@@ -340,10 +341,10 @@ public class ApprovalCopier {
               "approval %d on label %s of patch set %d of change %d can be copied"
                   + " to patch set %d because change kind is %s and the label has set"
                   + " copyAllScoresIfNoCodeChange = true on project %s",
-              psa.value(),
-              psa.label(),
+              psaValue,
+              psaKey.labelId().get(),
               n,
-              psa.key().patchSetId().changeId().get(),
+              psaKey.patchSetId().changeId().get(),
               psId.get(),
               kind,
               projectName);
@@ -355,14 +356,20 @@ public class ApprovalCopier {
         logger.atFine().log(
             "approval %d on label %s of patch set %d of change %d cannot be copied"
                 + " to patch set %d because change kind is %s",
-            psa.value(), psa.label(), n, psa.key().patchSetId().changeId().get(), psId.get(), kind);
+            psaValue,
+            psaKey.labelId().get(),
+            n,
+            psaKey.patchSetId().changeId().get(),
+            psId.get(),
+            kind);
         return false;
     }
   }
 
   private boolean canCopyBasedOnCopyCondition(
       ChangeNotes changeNotes,
-      PatchSetApproval psa,
+      PatchSetApproval.Key psaKey,
+      short psaValue,
       PatchSet patchSet,
       LabelType type,
       ChangeKind changeKind,
@@ -374,7 +381,7 @@ public class ApprovalCopier {
     }
     ApprovalContext ctx =
         ApprovalContext.create(
-            changeNotes, psa, patchSet, changeKind, isMerge, revWalk, repoConfig);
+            changeNotes, psaKey, psaValue, patchSet, changeKind, isMerge, revWalk, repoConfig);
     try {
       // Use a request context to run checks as an internal user with expanded visibility. This is
       // so that the output of the copy condition does not depend on who is running the current
@@ -464,7 +471,8 @@ public class ApprovalCopier {
       }
       if (!canCopyBasedOnBooleanLabelConfigs(
               projectName,
-              psa,
+              psa.key(),
+              psa.value(),
               patchSet.id(),
               changeKind,
               isMerge,
@@ -473,7 +481,15 @@ public class ApprovalCopier {
               baseVsPrior,
               priorVsCurrent)
           && !canCopyBasedOnCopyCondition(
-              notes, psa, patchSet, type.get(), changeKind, isMerge, rw, repoConfig)) {
+              notes,
+              psa.key(),
+              psa.value(),
+              patchSet,
+              type.get(),
+              changeKind,
+              isMerge,
+              rw,
+              repoConfig)) {
         outdatedApprovalsBuilder.add(psa);
         continue;
       }

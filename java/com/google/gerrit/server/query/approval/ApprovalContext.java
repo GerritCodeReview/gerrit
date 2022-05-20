@@ -27,8 +27,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /** Entity representing all required information to match predicates for copying approvals. */
 @AutoValue
 public abstract class ApprovalContext {
-  /** Approval on the source patch set to be copied. */
-  public abstract PatchSetApproval patchSetApproval();
+  /** Key of the approval on the source patch set to be copied. */
+  public abstract PatchSetApproval.Key patchSetApprovalKey();
+
+  /** Value of the approval on the source patch set to be copied. */
+  public abstract short patchSetApprovalValue();
 
   /**
    * Target change and patch set for the approval. This must be used instead of getting the PatchSet
@@ -54,16 +57,17 @@ public abstract class ApprovalContext {
 
   public static ApprovalContext create(
       ChangeNotes changeNotes,
-      PatchSetApproval psa,
+      PatchSetApproval.Key psaKey,
+      short psaValue,
       PatchSet patchSet,
       ChangeKind changeKind,
       boolean isMerge,
       RevWalk revWalk,
       Config repoConfig) {
     checkState(
-        psa.patchSetId().changeId().equals(patchSet.id().changeId()),
+        psaKey.patchSetId().changeId().equals(patchSet.id().changeId()),
         "approval and target must be the same change. got: %s, %s",
-        psa.patchSetId(),
+        psaKey.patchSetId(),
         patchSet.id());
     // TODO(ekempin): Use checkState to verify that psa.patchSetId().get() + 1 == id.get() so that
     // it's ensured that approvals are only copied to the next consecutive patch set. To add back
@@ -72,6 +76,6 @@ public abstract class ApprovalContext {
     // are no changes with gaps in patch set numbers. Since it's planned to fix-up old changes with
     // gaps in patch set numbers, this todo is a reminder to add back the check once this is done.
     return new AutoValue_ApprovalContext(
-        psa, patchSet, changeNotes, changeKind, isMerge, revWalk, repoConfig);
+        psaKey, psaValue, patchSet, changeNotes, changeKind, isMerge, revWalk, repoConfig);
   }
 }

@@ -54,7 +54,7 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
   public boolean match(ApprovalContext ctx) {
     PatchSet targetPatchSet = ctx.target();
     PatchSet sourcePatchSet =
-        ctx.changeNotes().getPatchSets().get(ctx.patchSetApproval().patchSetId());
+        ctx.changeNotes().getPatchSets().get(ctx.patchSetApprovalKey().patchSetId());
 
     Integer parentNum =
         isInitialCommit(ctx.changeNotes().getProjectName(), targetPatchSet.commitId()) ? 0 : 1;

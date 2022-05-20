@@ -22,6 +22,30 @@
       },
       "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d28f99f_802f9fbf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-20T13:30:38Z",
+      "side": 1,
+      "message": "I think that makes sense once gr-change-view is migrated to Lit.",
+      "parentUuid": "da93b65b_a83da551",
+      "range": {
+        "startLine": 553,
+        "startChar": 0,
+        "endLine": 554,
+        "endChar": 45
+      },
+      "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

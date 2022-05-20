@@ -16,6 +16,24 @@
       "message": "What is the status of this? Might be nice to get this submitted eventually. Is there anything that I can help with to unblock?",
       "revId": "80601dd8887b7e56e11096aabb662a26e2b96ae8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a6d8b72_afc056f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-20T11:57:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2512d80_0155d449",
+      "revId": "80601dd8887b7e56e11096aabb662a26e2b96ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

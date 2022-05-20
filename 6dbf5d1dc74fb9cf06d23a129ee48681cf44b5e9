@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9e0a3dfe_5082b997",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-20T12:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32646b4d_64852ae7",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 27
+      },
+      "revId": "6dbf5d1dc74fb9cf06d23a129ee48681cf44b5e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3fdeacff_db0e237d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -72,6 +96,24 @@
       "writtenOn": "2022-05-20T06:41:29Z",
       "side": 1,
       "message": "Please add one more test to javatests/com/google/gerrit/server/notedb/ChangeNoteJsonTest.java that shows that (de) serializing nested optionals works as expected:\n\nclass Foo {\n  Optional\u003cString\u003e bar; // test for null, empty, populated\n}",
+      "revId": "6dbf5d1dc74fb9cf06d23a129ee48681cf44b5e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ead4f17_5925b062",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-20T12:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cf9a99c_d53778b2",
       "revId": "6dbf5d1dc74fb9cf06d23a129ee48681cf44b5e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

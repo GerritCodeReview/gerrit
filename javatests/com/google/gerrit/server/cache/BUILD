@@ -10,6 +10,7 @@ junit_tests(
         "//lib:junit",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",
+        "@jgit-lib//jar",
         "@servlet-api//jar",
     ],
 )

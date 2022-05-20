@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37b60f67_741c8c9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T06:49:22Z",
+      "side": 1,
+      "message": "I won\u0027t have time to review this before my leave. Removing myself.",
+      "revId": "9b0304687d2a05242bc01b752b78e8558afe2d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

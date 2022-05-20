@@ -105,6 +105,24 @@
       "parentUuid": "8dfd0332_29dc4089",
       "revId": "f53d68f14f7a1fe87ab64402f3f075253c29cdc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89a057fa_60bed798",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-20T11:04:40Z",
+      "side": 1,
+      "message": "I will try to release them in one. I have to wait for back-end release. So in 1 week probably. It is written in a way that if  https://gerrit-review.googlesource.com/c/gerrit/+/274334 will be rollbacked, it will still work - it will just not sync with backend.",
+      "parentUuid": "1fec6e1f_40768371",
+      "revId": "f53d68f14f7a1fe87ab64402f3f075253c29cdc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

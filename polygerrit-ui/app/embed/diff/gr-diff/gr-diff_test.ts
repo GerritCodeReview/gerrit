@@ -539,15 +539,6 @@ suite('gr-diff tests', () => {
         flush();
       }
 
-      test('returns [] when hidden and noAutoRender', () => {
-        element.noAutoRender = true;
-        setupDiff();
-        element._setLoading(false);
-        flush();
-        element.hidden = true;
-        assert.equal(element.getCursorStops().length, 0);
-      });
-
       test('returns one stop per line and one for the file row', () => {
         setupDiff();
         element._setLoading(false);

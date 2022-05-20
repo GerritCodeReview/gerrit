@@ -1374,7 +1374,6 @@ export class GrFileList extends base {
       if (!this.diffPrefs) {
         throw new Error('diffPrefs must be set');
       }
-
       // When one file is expanded individually then automatically mark as
       // reviewed, if the user's diff prefs request it. Doing this for
       // "Expand All" would not be what the user wants, because there is no

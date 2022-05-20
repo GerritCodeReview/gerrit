@@ -19,7 +19,6 @@ import {html} from '@polymer/polymer/lib/utils/html-tag';
 export const htmlTemplate = html`
   <gr-diff
     id="diff"
-    no-auto-render="[[noAutoRender]]"
     path="[[path]]"
     prefs="[[prefs]]"
     display-line="[[displayLine]]"

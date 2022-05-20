@@ -144,9 +144,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
    * @event diff-context-expanded
    */
 
-  @property({type: Boolean})
-  noAutoRender = false;
-
   @property({type: String, observer: '_pathObserver'})
   path?: string;
 
@@ -493,8 +490,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   getCursorStops(): Array<HTMLElement | AbortStop> {
-    if (this.hidden && this.noAutoRender) return [];
-
     // Get rendered stops.
     const stops: Array<HTMLElement | AbortStop> =
       this.diffBuilder.getLineNumberRows();

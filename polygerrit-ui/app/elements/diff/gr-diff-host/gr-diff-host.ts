@@ -158,9 +158,6 @@ export class GrDiffHost extends DIPolymerElement {
   @property({type: Object})
   change?: ChangeInfo;
 
-  @property({type: Boolean})
-  noAutoRender = false;
-
   @property({type: Object})
   patchRange?: PatchRange;
 
@@ -754,7 +751,7 @@ export class GrDiffHost extends DIPolymerElement {
 
   _canReload() {
     return (
-      !!this.changeNum && !!this.patchRange && !!this.path && !this.noAutoRender
+      !!this.changeNum && !!this.patchRange && !!this.path
     );
   }
 

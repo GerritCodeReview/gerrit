@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d758f4c1_3f53a1da",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T12:19:48Z",
+      "side": 1,
+      "message": "Maybe just `styleEl?.remove()`?",
+      "revId": "440273445831001e9886f906d546f12639268d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

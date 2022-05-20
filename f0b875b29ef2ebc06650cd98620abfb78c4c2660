@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "329a358c_e35a611c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-20T13:37:52Z",
+      "side": 0,
+      "message": "we still need `this.hidden`?",
+      "range": {
+        "startLine": 496,
+        "startChar": 4,
+        "endLine": 496,
+        "endChar": 19
+      },
+      "revId": "f0b875b29ef2ebc06650cd98620abfb78c4c2660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

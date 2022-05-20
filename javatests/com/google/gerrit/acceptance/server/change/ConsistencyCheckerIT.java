@@ -825,14 +825,11 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   private void addNoteDbCommit(Change.Id id, String commitMessage) throws Exception {
     PersonIdent committer = serverIdent.get();
     PersonIdent author =
         noteUtil.newAccountIdIdent(
-            getAccount(admin.id()).id(), committer.getWhen().toInstant(), committer);
+            getAccount(admin.id()).id(), committer.getWhenAsInstant(), committer);
     serverSideTestRepo
         .branch(RefNames.changeMetaRef(id))
         .commit()

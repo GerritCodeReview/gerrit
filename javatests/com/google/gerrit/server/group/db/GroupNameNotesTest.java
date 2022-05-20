@@ -44,11 +44,10 @@ import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gerrit.truth.ListSubject;
 import com.google.gerrit.truth.OptionalSubject;
 import java.io.IOException;
+import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -72,7 +71,7 @@ import org.junit.Test;
 public class GroupNameNotesTest {
   private static final String SERVER_NAME = "Gerrit Server";
   private static final String SERVER_EMAIL = "noreply@gerritcodereview.com";
-  private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
+  private static final ZoneId ZONE_ID = ZoneId.of("America/Los_Angeles");
 
   private final AccountGroup.UUID groupUuid = AccountGroup.uuid("users-XYZ");
   private final AccountGroup.NameKey groupName = AccountGroup.nameKey("users");
@@ -558,11 +557,8 @@ public class GroupNameNotesTest {
     return GroupReference.create(AccountGroup.uuid(name + "-" + id), name);
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   private static PersonIdent newPersonIdent() {
-    return new PersonIdent(SERVER_NAME, SERVER_EMAIL, Date.from(TimeUtil.now()), TZ);
+    return new PersonIdent(SERVER_NAME, SERVER_EMAIL, TimeUtil.now(), ZONE_ID);
   }
 
   private static ObjectId getNoteKey(GroupReference g) {

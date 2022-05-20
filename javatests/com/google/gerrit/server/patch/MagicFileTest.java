@@ -22,9 +22,8 @@ import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.Date;
-import java.util.TimeZone;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -95,9 +94,6 @@ public class MagicFileTest {
     assertThat(magicFile.getStartLineOfModifiableContent()).isEqualTo(1);
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Test
   public void commitMessageFileOfRootCommitContainsCorrectContent() throws Exception {
     try (Repository repository = repositoryManager.createRepository(Project.nameKey("repo1"));
@@ -107,20 +103,12 @@ public class MagicFileTest {
       Instant authorTime =
           LocalDateTime.of(2020, Month.APRIL, 23, 19, 30, 27).atZone(ZoneOffset.UTC).toInstant();
       PersonIdent author =
-          new PersonIdent(
-              "Alfred",
-              "alfred@example.com",
-              Date.from(authorTime),
-              TimeZone.getTimeZone(ZoneOffset.UTC));
+          new PersonIdent("Alfred", "alfred@example.com", authorTime, ZoneId.of("UTC"));
 
       Instant committerTime =
           LocalDateTime.of(2021, Month.JANUARY, 6, 5, 12, 55).atZone(ZoneOffset.UTC).toInstant();
       PersonIdent committer =
-          new PersonIdent(
-              "Luise",
-              "luise@example.com",
-              Date.from(committerTime),
-              TimeZone.getTimeZone(ZoneOffset.UTC));
+          new PersonIdent("Luise", "luise@example.com", committerTime, ZoneId.of("UTC"));
 
       ObjectId commit =
           testRepo
@@ -149,9 +137,6 @@ public class MagicFileTest {
     }
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Test
   public void commitMessageFileOfNonMergeCommitContainsCorrectContent() throws Exception {
     try (Repository repository = repositoryManager.createRepository(Project.nameKey("repo1"));
@@ -161,20 +146,12 @@ public class MagicFileTest {
       Instant authorTime =
           LocalDateTime.of(2020, Month.APRIL, 23, 19, 30, 27).atZone(ZoneOffset.UTC).toInstant();
       PersonIdent author =
-          new PersonIdent(
-              "Alfred",
-              "alfred@example.com",
-              Date.from(authorTime),
-              TimeZone.getTimeZone(ZoneOffset.UTC));
+          new PersonIdent("Alfred", "alfred@example.com", authorTime, ZoneId.of("UTC"));
 
       Instant committerTime =
           LocalDateTime.of(2021, Month.JANUARY, 6, 5, 12, 55).atZone(ZoneOffset.UTC).toInstant();
       PersonIdent committer =
-          new PersonIdent(
-              "Luise",
-              "luise@example.com",
-              Date.from(committerTime),
-              TimeZone.getTimeZone(ZoneOffset.UTC));
+          new PersonIdent("Luise", "luise@example.com", committerTime, ZoneId.of("UTC"));
 
       RevCommit parent =
           testRepo.commit().message("Parent subject\n\nParent further details.").create();
@@ -208,9 +185,6 @@ public class MagicFileTest {
     }
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Test
   public void commitMessageFileOfMergeCommitContainsCorrectContent() throws Exception {
     try (Repository repository = repositoryManager.createRepository(Project.nameKey("repo1"));
@@ -220,20 +194,12 @@ public class MagicFileTest {
       Instant authorTime =
           LocalDateTime.of(2020, Month.APRIL, 23, 19, 30, 27).atZone(ZoneOffset.UTC).toInstant();
       PersonIdent author =
-          new PersonIdent(
-              "Alfred",
-              "alfred@example.com",
-              Date.from(authorTime),
-              TimeZone.getTimeZone(ZoneOffset.UTC));
+          new PersonIdent("Alfred", "alfred@example.com", authorTime, ZoneId.of("UTC"));
 
       Instant committerTime =
           LocalDateTime.of(2021, Month.JANUARY, 6, 5, 12, 55).atZone(ZoneOffset.UTC).toInstant();
       PersonIdent committer =
-          new PersonIdent(
-              "Luise",
-              "luise@example.com",
-              Date.from(committerTime),
-              TimeZone.getTimeZone(ZoneOffset.UTC));
+          new PersonIdent("Luise", "luise@example.com", committerTime, ZoneId.of("UTC"));
 
       RevCommit parent1 = testRepo.commit().message("Parent 1\n\nExplanation 1.").create();
       RevCommit parent2 = testRepo.commit().message("Parent 2\n\nExplanation 2.").create();

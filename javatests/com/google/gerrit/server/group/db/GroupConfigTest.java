@@ -40,9 +40,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.Optional;
-import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -64,7 +62,7 @@ public class GroupConfigTest {
   private final AccountGroup.Id groupId = AccountGroup.id(123);
   private final AuditLogFormatter auditLogFormatter =
       AuditLogFormatter.createBackedBy(ImmutableSet.of(), ImmutableSet.of(), "server-id");
-  private final TimeZone timeZone = TimeZone.getTimeZone("America/Los_Angeles");
+  private final ZoneId zoneId = ZoneId.of("America/Los_Angeles");
 
   @Before
   public void setUp() throws Exception {
@@ -1044,9 +1042,6 @@ public class GroupConfigTest {
     assertThat(revCommit.getCommitTime()).isEqualTo(createdOnAsSecondsSinceEpoch);
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Test
   public void timestampOfCommitterMatchesSpecifiedCreatedOnOfNewGroup() throws Exception {
     Instant committerTimestamp =
@@ -1068,23 +1063,18 @@ public class GroupConfigTest {
     groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
     PersonIdent committerIdent =
-        new PersonIdent(
-            "Jane", "Jane@gerritcodereview.com", Date.from(committerTimestamp), timeZone);
+        new PersonIdent("Jane", "Jane@gerritcodereview.com", committerTimestamp, zoneId);
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       metaDataUpdate.getCommitBuilder().setCommitter(committerIdent);
       groupConfig.commit(metaDataUpdate);
     }
 
     RevCommit revCommit = getLatestCommitForGroup(groupUuid);
-    assertThat(revCommit.getCommitterIdent().getWhen().getTime())
-        .isEqualTo(createdOn.toEpochMilli());
-    assertThat(revCommit.getCommitterIdent().getTimeZone().getRawOffset())
-        .isEqualTo(timeZone.getRawOffset());
+    assertThat(revCommit.getCommitterIdent().getWhenAsInstant()).isEqualTo(createdOn);
+    assertThat(revCommit.getCommitterIdent().getZoneId().getRules().getOffset(createdOn))
+        .isEqualTo(zoneId.getRules().getOffset(createdOn));
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Test
   public void timestampOfAuthorMatchesSpecifiedCreatedOnOfNewGroup() throws Exception {
     Instant authorTimestamp = toInstant(LocalDate.of(2017, Month.DECEMBER, 13).atTime(15, 5, 27));
@@ -1105,16 +1095,16 @@ public class GroupConfigTest {
     groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
     PersonIdent authorIdent =
-        new PersonIdent("Jane", "Jane@gerritcodereview.com", Date.from(authorTimestamp), timeZone);
+        new PersonIdent("Jane", "Jane@gerritcodereview.com", authorTimestamp, zoneId);
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       metaDataUpdate.getCommitBuilder().setAuthor(authorIdent);
       groupConfig.commit(metaDataUpdate);
     }
 
     RevCommit revCommit = getLatestCommitForGroup(groupUuid);
-    assertThat(revCommit.getAuthorIdent().getWhen().getTime()).isEqualTo(createdOn.toEpochMilli());
-    assertThat(revCommit.getAuthorIdent().getTimeZone().getRawOffset())
-        .isEqualTo(timeZone.getRawOffset());
+    assertThat(revCommit.getAuthorIdent().getWhenAsInstant()).isEqualTo(createdOn);
+    assertThat(revCommit.getAuthorIdent().getZoneId().getRules().getOffset(createdOn))
+        .isEqualTo(zoneId.getRules().getOffset(createdOn));
   }
 
   @Test
@@ -1149,9 +1139,6 @@ public class GroupConfigTest {
   }
 
   @Test
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   public void timestampOfCommitterMatchesSpecifiedUpdatedOnOfUpdatedGroup() throws Exception {
     Instant committerTimestamp =
         toInstant(LocalDate.of(2017, Month.DECEMBER, 13).atTime(15, 5, 27));
@@ -1167,24 +1154,19 @@ public class GroupConfigTest {
     groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
     PersonIdent committerIdent =
-        new PersonIdent(
-            "Jane", "Jane@gerritcodereview.com", Date.from(committerTimestamp), timeZone);
+        new PersonIdent("Jane", "Jane@gerritcodereview.com", committerTimestamp, zoneId);
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       metaDataUpdate.getCommitBuilder().setCommitter(committerIdent);
       groupConfig.commit(metaDataUpdate);
     }
 
     RevCommit revCommit = getLatestCommitForGroup(groupUuid);
-    assertThat(revCommit.getCommitterIdent().getWhen().getTime())
-        .isEqualTo(updatedOn.toEpochMilli());
-    assertThat(revCommit.getCommitterIdent().getTimeZone().getRawOffset())
-        .isEqualTo(timeZone.getRawOffset());
+    assertThat(revCommit.getCommitterIdent().getWhenAsInstant()).isEqualTo(updatedOn);
+    assertThat(revCommit.getCommitterIdent().getZoneId().getRules().getOffset(updatedOn))
+        .isEqualTo(zoneId.getRules().getOffset(updatedOn));
   }
 
   @Test
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   public void timestampOfAuthorMatchesSpecifiedUpdatedOnOfUpdatedGroup() throws Exception {
     Instant authorTimestamp = toInstant(LocalDate.of(2017, Month.DECEMBER, 13).atTime(15, 5, 27));
     Instant updatedOn = toInstant(LocalDate.of(2016, Month.MARCH, 11).atTime(23, 49, 11));
@@ -1199,16 +1181,16 @@ public class GroupConfigTest {
     groupConfig.setGroupDelta(groupDelta, auditLogFormatter);
 
     PersonIdent authorIdent =
-        new PersonIdent("Jane", "Jane@gerritcodereview.com", Date.from(authorTimestamp), timeZone);
+        new PersonIdent("Jane", "Jane@gerritcodereview.com", authorTimestamp, zoneId);
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate()) {
       metaDataUpdate.getCommitBuilder().setAuthor(authorIdent);
       groupConfig.commit(metaDataUpdate);
     }
 
     RevCommit revCommit = getLatestCommitForGroup(groupUuid);
-    assertThat(revCommit.getAuthorIdent().getWhen().getTime()).isEqualTo(updatedOn.toEpochMilli());
-    assertThat(revCommit.getAuthorIdent().getTimeZone().getRawOffset())
-        .isEqualTo(timeZone.getRawOffset());
+    assertThat(revCommit.getAuthorIdent().getWhenAsInstant()).isEqualTo(updatedOn);
+    assertThat(revCommit.getAuthorIdent().getZoneId().getRules().getOffset(updatedOn))
+        .isEqualTo(zoneId.getRules().getOffset(updatedOn));
   }
 
   @Test
@@ -1557,13 +1539,9 @@ public class GroupConfigTest {
     }
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   private MetaDataUpdate createMetaDataUpdate() {
     PersonIdent serverIdent =
-        new PersonIdent(
-            "Gerrit Server", "noreply@gerritcodereview.com", Date.from(TimeUtil.now()), timeZone);
+        new PersonIdent("Gerrit Server", "noreply@gerritcodereview.com", TimeUtil.now(), zoneId);
 
     MetaDataUpdate metaDataUpdate =
         new MetaDataUpdate(

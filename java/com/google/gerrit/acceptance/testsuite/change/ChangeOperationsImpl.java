@@ -47,7 +47,6 @@ import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Objects;
@@ -140,8 +139,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
         RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
       Instant now = TimeUtil.now();
       IdentifiedUser changeOwner = getChangeOwner(changeCreation);
-      PersonIdent authorAndCommitter =
-          changeOwner.newCommitterIdent(now, serverIdent.getTimeZone());
+      PersonIdent authorAndCommitter = changeOwner.newCommitterIdent(now, serverIdent.getZoneId());
       ObjectId commitId =
           createCommit(repository, revWalk, objectInserter, changeCreation, authorAndCommitter);
 
@@ -496,13 +494,10 @@ public class ChangeOperationsImpl implements ChangeOperations {
       return Optional.ofNullable(oldPatchsetCommit.getAuthorIdent()).orElse(serverIdent);
     }
 
-    // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-    // Instants
-    @SuppressWarnings("JdkObsolete")
     private PersonIdent getCommitter(RevCommit oldPatchsetCommit, Instant now) {
       PersonIdent oldPatchsetCommitter =
           Optional.ofNullable(oldPatchsetCommit.getCommitterIdent()).orElse(serverIdent);
-      if (asSeconds(now) == asSeconds(oldPatchsetCommitter.getWhen().toInstant())) {
+      if (asSeconds(now) == asSeconds(oldPatchsetCommitter.getWhenAsInstant())) {
         /* We need to ensure that the resulting commit SHA-1 is different from the old patchset.
          * In real situations, this automatically happens as two patchsets won't have exactly the
          * same commit timestamp even when the tree and commit message are the same. In tests,
@@ -512,7 +507,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
          * here and simply add a second. */
         now = now.plusSeconds(1);
       }
-      return new PersonIdent(oldPatchsetCommitter, Timestamp.from(now));
+      return new PersonIdent(oldPatchsetCommitter, now);
     }
 
     private long asSeconds(Instant date) {

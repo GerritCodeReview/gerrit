@@ -86,11 +86,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -118,7 +117,7 @@ public class CreateChange
   private final String anonymousCowardName;
   private final GitRepositoryManager gitManager;
   private final Sequences seq;
-  private final TimeZone serverTimeZone;
+  private final ZoneId serverZoneId;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
   private final ProjectsCollection projectsCollection;
@@ -158,7 +157,7 @@ public class CreateChange
     this.anonymousCowardName = anonymousCowardName;
     this.gitManager = gitManager;
     this.seq = seq;
-    this.serverTimeZone = myIdent.getTimeZone();
+    this.serverZoneId = myIdent.getZoneId();
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.projectsCollection = projectsCollection;
@@ -321,9 +320,6 @@ public class CreateChange
     }
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   private ChangeInfo createNewChange(
       ChangeInput input,
       IdentifiedUser me,
@@ -360,12 +356,11 @@ public class CreateChange
 
       Instant now = TimeUtil.now();
 
-      PersonIdent committer = me.newCommitterIdent(now, serverTimeZone);
+      PersonIdent committer = me.newCommitterIdent(now, serverZoneId);
       PersonIdent author =
           input.author == null
               ? committer
-              : new PersonIdent(
-                  input.author.name, input.author.email, Date.from(now), serverTimeZone);
+              : new PersonIdent(input.author.name, input.author.email, now, serverZoneId);
 
       String commitMessage = getCommitMessage(input.subject, me);
 

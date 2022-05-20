@@ -24,7 +24,6 @@ import com.google.gerrit.server.config.GerritServerId;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -100,16 +99,13 @@ public class ChangeNoteUtil {
    * Returns a {@link PersonIdent} that contains the account ID, but not the user's name or email
    * address.
    */
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   public PersonIdent newAccountIdIdent(
       Account.Id accountId, Instant when, PersonIdent serverIdent) {
     return new PersonIdent(
         getAccountIdAsUsername(accountId),
         getAccountIdAsEmailAddress(accountId),
-        Date.from(when),
-        serverIdent.getTimeZone());
+        when,
+        serverIdent.getZoneId());
   }
 
   /** Returns the string {@code "Gerrit User " + accountId}, to pseudonymize user names. */

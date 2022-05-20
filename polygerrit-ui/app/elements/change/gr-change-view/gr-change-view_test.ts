@@ -44,7 +44,6 @@ import {
 } from '../../../test/test-utils';
 import {
   createAppElementChangeViewParams,
-  createApproval,
   createChange,
   createChangeMessages,
   createCommit,
@@ -57,7 +56,6 @@ import {
   TEST_NUMERIC_CHANGE_ID,
   TEST_PROJECT_NAME,
   createEditRevision,
-  createAccountWithIdNameAndEmail,
   createChangeViewChange,
   createRelatedChangeAndCommitInfo,
   createAccountDetailWithId,
@@ -66,7 +64,6 @@ import {
 import {ChangeViewPatchRange, GrChangeView} from './gr-change-view';
 import {
   AccountId,
-  ApprovalInfo,
   BasePatchSetNum,
   ChangeId,
   ChangeInfo,
@@ -1212,52 +1209,6 @@ suite('gr-change-view tests', () => {
     assert.isFalse(element._isSubmitEnabled({}));
     assert.isFalse(element._isSubmitEnabled({submit: {}}));
     assert.isTrue(element._isSubmitEnabled({submit: {enabled: true}}));
-  });
-
-  test('_reload is called when an approved label is removed', () => {
-    const vote: ApprovalInfo = {
-      ...createApproval(),
-      _account_id: 1 as AccountId,
-      name: 'bojack',
-      value: 1,
-    };
-    element._changeNum = TEST_NUMERIC_CHANGE_ID;
-    element._patchRange = {
-      basePatchNum: ParentPatchSetNum,
-      patchNum: 1 as RevisionPatchSetNum,
-    };
-    const change = {
-      ...createChangeViewChange(),
-      owner: createAccountWithIdNameAndEmail(),
-      revisions: {
-        rev2: createRevision(2),
-        rev1: createRevision(1),
-        rev13: createRevision(13),
-        rev3: createRevision(3),
-      },
-      current_revision: 'rev3' as CommitId,
-      status: ChangeStatus.NEW,
-      labels: {
-        test: {
-          all: [vote],
-          default_value: 0,
-          values: {},
-          approved: {},
-        },
-      },
-    };
-    element._change = change;
-    flush();
-    const reloadStub = sinon.stub(element, 'loadData');
-    element.splice('_change.labels.test.all', 0, 1);
-    assert.isFalse(reloadStub.called);
-    change.labels.test.all.push(vote);
-    change.labels.test.all.push(vote);
-    change.labels.test.approved = vote;
-    flush();
-    element.splice('_change.labels.test.all', 0, 2);
-    assert.isTrue(reloadStub.called);
-    assert.isTrue(reloadStub.calledOnce);
   });
 
   test('reply button has updated count when there are drafts', () => {

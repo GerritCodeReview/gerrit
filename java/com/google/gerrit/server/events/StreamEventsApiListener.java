@@ -47,6 +47,8 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
@@ -273,14 +275,18 @@ public class StreamEventsApiListener
   @Override
   public void onRevisionCreated(RevisionCreatedListener.Event ev) {
     try {
-      ChangeNotes notes = getNotes(ev.getChange());
-      Change change = notes.getChange();
-      PatchSet patchSet = getPatchSet(notes, ev.getRevision());
-      PatchSetCreatedEvent event = new PatchSetCreatedEvent(change);
+      Change change;
+      PatchSetCreatedEvent event;
+      try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+        ChangeNotes notes = getNotes(ev.getChange());
+        change = notes.getChange();
+        PatchSet patchSet = getPatchSet(notes, ev.getRevision());
+        event = new PatchSetCreatedEvent(change);
 
-      event.change = changeAttributeSupplier(change, notes);
-      event.patchSet = patchSetAttributeSupplier(change, patchSet);
-      event.uploader = accountAttributeSupplier(ev.getWho());
+        event.change = changeAttributeSupplier(change, notes);
+        event.patchSet = patchSetAttributeSupplier(change, patchSet);
+        event.uploader = accountAttributeSupplier(ev.getWho());
+      }
 
       dispatcher.run(d -> d.postEvent(change, event));
     } catch (StorageException e) {
@@ -374,17 +380,24 @@ public class StreamEventsApiListener
 
   @Override
   public void onCommentAdded(CommentAddedListener.Event ev) {
-    try {
-      ChangeNotes notes = getNotes(ev.getChange());
-      Change change = notes.getChange();
-      PatchSet ps = getPatchSet(notes, ev.getRevision());
-      CommentAddedEvent event = new CommentAddedEvent(change);
+    Change change;
 
-      event.change = changeAttributeSupplier(change, notes);
-      event.author = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, ps);
-      event.comment = ev.getComment();
-      event.approvals = approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
+    try {
+      CommentAddedEvent event;
+
+      try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+        ChangeNotes notes = getNotes(ev.getChange());
+        change = notes.getChange();
+        PatchSet ps = getPatchSet(notes, ev.getRevision());
+        event = new CommentAddedEvent(change);
+
+        event.change = changeAttributeSupplier(change, notes);
+        event.author = accountAttributeSupplier(ev.getWho());
+        event.patchSet = patchSetAttributeSupplier(change, ps);
+        event.comment = ev.getComment();
+        event.approvals =
+            approvalsAttributeSupplier(change, ev.getApprovals(), ev.getOldApprovals());
+      }
 
       dispatcher.run(d -> d.postEvent(change, event));
     } catch (StorageException e) {
@@ -413,14 +426,18 @@ public class StreamEventsApiListener
   @Override
   public void onChangeMerged(ChangeMergedListener.Event ev) {
     try {
-      ChangeNotes notes = getNotes(ev.getChange());
-      Change change = notes.getChange();
-      ChangeMergedEvent event = new ChangeMergedEvent(change);
+      ChangeMergedEvent event;
+      Change change;
+      try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+        ChangeNotes notes = getNotes(ev.getChange());
+        change = notes.getChange();
+        event = new ChangeMergedEvent(change);
 
-      event.change = changeAttributeSupplier(change, notes);
-      event.submitter = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
-      event.newRev = ev.getNewRevisionId();
+        event.change = changeAttributeSupplier(change, notes);
+        event.submitter = accountAttributeSupplier(ev.getWho());
+        event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
+        event.newRev = ev.getNewRevisionId();
+      }
 
       dispatcher.run(d -> d.postEvent(change, event));
     } catch (StorageException e) {
@@ -431,14 +448,18 @@ public class StreamEventsApiListener
   @Override
   public void onChangeAbandoned(ChangeAbandonedListener.Event ev) {
     try {
-      ChangeNotes notes = getNotes(ev.getChange());
-      Change change = notes.getChange();
-      ChangeAbandonedEvent event = new ChangeAbandonedEvent(change);
+      ChangeAbandonedEvent event;
+      Change change;
+      try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+        ChangeNotes notes = getNotes(ev.getChange());
+        change = notes.getChange();
+        event = new ChangeAbandonedEvent(change);
 
-      event.change = changeAttributeSupplier(change, notes);
-      event.abandoner = accountAttributeSupplier(ev.getWho());
-      event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
-      event.reason = ev.getReason();
+        event.change = changeAttributeSupplier(change, notes);
+        event.abandoner = accountAttributeSupplier(ev.getWho());
+        event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
+        event.reason = ev.getReason();
+      }
 
       dispatcher.run(d -> d.postEvent(change, event));
     } catch (StorageException e) {
@@ -505,12 +526,17 @@ public class StreamEventsApiListener
   @Override
   public void onChangeDeleted(ChangeDeletedListener.Event ev) {
     try {
-      ChangeNotes notes = getNotes(ev.getChange());
-      Change change = notes.getChange();
-      ChangeDeletedEvent event = new ChangeDeletedEvent(change);
+      Change change;
+      ChangeDeletedEvent event;
 
-      event.change = changeAttributeSupplier(change, notes);
-      event.deleter = accountAttributeSupplier(ev.getWho());
+      try (ReadonlyRequestWindow window = PerThreadCache.openReadonlyRequestWindow()) {
+        ChangeNotes notes = getNotes(ev.getChange());
+        change = notes.getChange();
+        event = new ChangeDeletedEvent(change);
+
+        event.change = changeAttributeSupplier(change, notes);
+        event.deleter = accountAttributeSupplier(ev.getWho());
+      }
 
       dispatcher.run(d -> d.postEvent(change, event));
     } catch (StorageException e) {

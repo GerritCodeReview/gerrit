@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0a262dd_ec70b6d1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-20T12:03:13Z",
+      "side": 1,
+      "message": "It\u0027s not a new `null` by me, it\u0027s an existing `null` in GrAccountList. GrAccountList emits it to tell parent that confirmation dialog should be hidden.",
+      "parentUuid": "4d306c5a_c8d1cd85",
+      "range": {
+        "startLine": 74,
+        "startChar": 33,
+        "endLine": 74,
+        "endChar": 37
+      },
+      "revId": "b5c47d42690320c96e3b0e48b2657ad7e9a0bf79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cc81af1_1e1d1aab",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-20T10:47:07Z",
       "side": 1,
       "message": "I think we want to use `?:` here since this is not guaranteed to be set until render() is called.",
+      "range": {
+        "startLine": 80,
+        "startChar": 43,
+        "endLine": 80,
+        "endChar": 46
+      },
+      "revId": "b5c47d42690320c96e3b0e48b2657ad7e9a0bf79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0977cd3d_065b2a8f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-20T12:03:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cc81af1_1e1d1aab",
       "range": {
         "startLine": 80,
         "startChar": 43,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7c55140_11613737",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-20T12:03:13Z",
+      "side": 1,
+      "message": "Yes account-added is useless. I think GrReplyDialog could do the same thing as me (remove all CCs in Reviewer or vice-versa) using accounts-changed and we could remove account-added.\n\nI removed the usage here.",
+      "parentUuid": "7e9844ff_045254b2",
+      "range": {
+        "startLine": 238,
+        "startChar": 8,
+        "endLine": 238,
+        "endChar": 22
+      },
+      "revId": "b5c47d42690320c96e3b0e48b2657ad7e9a0bf79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba9eba6b_6228bf66",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16973500_f3039cb7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-20T12:03:13Z",
+      "side": 1,
+      "message": "Perhaps, but changing the UX of this was agreed out-of-scope",
+      "parentUuid": "ba9eba6b_6228bf66",
+      "range": {
+        "startLine": 248,
+        "startChar": 10,
+        "endLine": 248,
+        "endChar": 34
+      },
+      "revId": "b5c47d42690320c96e3b0e48b2657ad7e9a0bf79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1774a74_e2f7cb18",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-05-20T10:47:07Z",
       "side": 1,
       "message": "This method is now called when an account is deleted as well. Update to mention what it does on deletion as well?",
+      "range": {
+        "startLine": 367,
+        "startChar": 41,
+        "endLine": 367,
+        "endChar": 68
+      },
+      "revId": "b5c47d42690320c96e3b0e48b2657ad7e9a0bf79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d07baa6_3d2f4bb6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-20T12:03:13Z",
+      "side": 1,
+      "message": "Adjusted",
+      "parentUuid": "f1774a74_e2f7cb18",
       "range": {
         "startLine": 367,
         "startChar": 41,

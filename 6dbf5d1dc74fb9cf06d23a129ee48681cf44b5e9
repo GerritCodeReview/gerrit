@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "32646b4d_64852ae7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T06:41:29Z",
+      "side": 1,
+      "message": "maybe add:\n\nThe (de)serialization of this adapter is exactly the same as the reflective (de)serialization.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 27
+      },
+      "revId": "6dbf5d1dc74fb9cf06d23a129ee48681cf44b5e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3fdeacff_db0e237d",
@@ -32,6 +55,23 @@
       "side": 1,
       "message": "Yes, I agree. I appended a comment to the other thread at the same time.\n\n@Patrick, this should be a no-op change and safe to get merged.",
       "parentUuid": "3fdeacff_db0e237d",
+      "revId": "6dbf5d1dc74fb9cf06d23a129ee48681cf44b5e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cf9a99c_d53778b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T06:41:29Z",
+      "side": 1,
+      "message": "Please add one more test to javatests/com/google/gerrit/server/notedb/ChangeNoteJsonTest.java that shows that (de) serializing nested optionals works as expected:\n\nclass Foo {\n  Optional\u003cString\u003e bar; // test for null, empty, populated\n}",
       "revId": "6dbf5d1dc74fb9cf06d23a129ee48681cf44b5e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

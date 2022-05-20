@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edb07c00_2dd97045",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T08:17:19Z",
+      "side": 1,
+      "message": "Can you split this change into two: First add the new enum value (but never write to it and don\u0027t change the default). Then in a subsequent change, adapt the default and start writing the new value.\n\nWe need to be careful with (de)serialization of new values in the storage as we always do rolling upgrades.",
+      "range": {
+        "startLine": 193,
+        "startChar": 6,
+        "endLine": 193,
+        "endChar": 25
+      },
+      "revId": "967e57f9af7cd5174cc0065499002489bcc1317e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d4dd365_0838d118",
+        "filename": "plugins/gitiles",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T08:17:19Z",
+      "side": 1,
+      "message": "unintended modification?",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "967e57f9af7cd5174cc0065499002489bcc1317e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e56d63b_6130ad26",
+        "filename": "plugins/replication",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T08:17:19Z",
+      "side": 1,
+      "message": "unintended modification?",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "967e57f9af7cd5174cc0065499002489bcc1317e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

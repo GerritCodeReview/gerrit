@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4583f427_18500482",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T11:10:29Z",
+      "side": 1,
+      "message": "Change LGTM, but we should wait until the predecessor change is rolled out.",
+      "revId": "8aea375acceae97c3842bddf75ba60722c88a918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -166,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "238e723e_8cab7ef0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-20T12:13:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79cf84eb_de06d2ca",
+      "range": {
+        "startLine": 238,
+        "startChar": 8,
+        "endLine": 238,
+        "endChar": 22
+      },
+      "revId": "b5c47d42690320c96e3b0e48b2657ad7e9a0bf79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba9eba6b_6228bf66",

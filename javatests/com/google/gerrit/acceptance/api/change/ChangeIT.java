@@ -1695,6 +1695,34 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void change_withMixedCaseIdentInCommit_canBeSubmitted() throws Exception {    // Approve by a code-owner.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, +2))
+        .update();
+    // user pushes own change with different case ident
+    PushOneCommit push = pushFactory.create(new PersonIdent(admin.fullName().toUpperCase(), admin.email().toUpperCase()), testRepo);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+    requestScopeOperations.setApiUser(user.id());
+    // someone approves
+    gApi.changes().id(result.getChangeId()).current().review(ReviewInput.approve());
+    requestScopeOperations.setApiUser(admin.id());
+    // check if we can submit
+    ChangeInfo change = gApi.changes().id(result.getChangeId()).get();
+    assertThat(change.owner._accountId).isEqualTo(admin.id().get());
+    CommitInfo commit = change.revisions.get(change.currentRevision).commit;
+    assertThat(commit.author.email).isEqualTo(admin.email().toUpperCase());
+    assertThat(commit.committer.email).isEqualTo(admin.email().toUpperCase());
+
+    assertThat(change.revisions.get(change.currentRevision).actions.get("submit").enabled.booleanValue()).isTrue();
+
+    gApi.changes().id(result.getChangeId()).current().submit();
+
+  }
+
+  @Test
   public void pushCommitOfOtherUserThatCannotSeeChange() throws Exception {
     // create hidden project that is only visible to administrators
     Project.NameKey p = projectOperations.newProject().create();

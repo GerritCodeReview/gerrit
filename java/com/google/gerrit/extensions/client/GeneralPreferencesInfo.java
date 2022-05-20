@@ -102,6 +102,7 @@ public class GeneralPreferencesInfo {
   }
 
   public enum Theme {
+    AUTO,
     DARK,
     LIGHT
   }
@@ -189,7 +190,7 @@ public class GeneralPreferencesInfo {
     GeneralPreferencesInfo p = new GeneralPreferencesInfo();
     p.changesPerPage = DEFAULT_PAGESIZE;
     p.downloadScheme = null;
-    p.theme = Theme.LIGHT;
+    p.theme = Theme.AUTO;
     p.dateFormat = DateFormat.STD;
     p.timeFormat = TimeFormat.HHMM_12;
     p.expandInlineDiffs = false;

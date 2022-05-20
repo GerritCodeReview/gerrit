@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3365d63a_843f2b3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-20T18:05:39Z",
+      "side": 1,
+      "message": "I have attempted to update the commit message to better justify this change.",
+      "parentUuid": "de9e90bb_8cf1530b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "59294c460fd8c3dd49222ff9ebbf014e6265a07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e43ee868_61c99d97",

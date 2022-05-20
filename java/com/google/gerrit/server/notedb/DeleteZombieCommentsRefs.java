@@ -25,10 +25,13 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -67,6 +70,9 @@ public class DeleteZombieCommentsRefs {
   private final DraftCommentNotes.Factory draftNotesFactory;
   private final ChangeNotes.Factory changeNotesFactory;
   private final CommentsUtil commentsUtil;
+  private final ChangeUpdate.Factory changeUpdateFactory;
+  private final NoteDbUpdateManager.Factory noteDbUpdateManagerFactory;
+  private final IdentifiedUser.GenericFactory userFactory;
 
   public interface Factory {
     DeleteZombieCommentsRefs create(int cleanupPercentage);
@@ -79,6 +85,9 @@ public class DeleteZombieCommentsRefs {
       ChangeNotes.Factory changeNotesFactory,
       DraftCommentNotes.Factory draftNotesFactory,
       CommentsUtil commentsUtil,
+      ChangeUpdate.Factory changeUpdateFactory,
+      NoteDbUpdateManager.Factory noteDbUpdateManagerFactory,
+      IdentifiedUser.GenericFactory userFactory,
       @Assisted Integer cleanupPercentage) {
     this(
         allUsers,
@@ -87,7 +96,10 @@ public class DeleteZombieCommentsRefs {
         (msg) -> {},
         changeNotesFactory,
         draftNotesFactory,
-        commentsUtil);
+        commentsUtil,
+        changeUpdateFactory,
+        noteDbUpdateManagerFactory,
+        userFactory);
   }
 
   public DeleteZombieCommentsRefs(
@@ -95,7 +107,7 @@ public class DeleteZombieCommentsRefs {
       GitRepositoryManager repoManager,
       Integer cleanupPercentage,
       Consumer<String> uiConsumer) {
-    this(allUsers, repoManager, cleanupPercentage, uiConsumer, null, null, null);
+    this(allUsers, repoManager, cleanupPercentage, uiConsumer, null, null, null, null, null, null);
   }
 
   private DeleteZombieCommentsRefs(
@@ -105,7 +117,10 @@ public class DeleteZombieCommentsRefs {
       Consumer<String> uiConsumer,
       ChangeNotes.Factory changeNotesFactory,
       DraftCommentNotes.Factory draftNotesFactory,
-      CommentsUtil commentsUtil) {
+      CommentsUtil commentsUtil,
+      ChangeUpdate.Factory changeUpdateFactory,
+      NoteDbUpdateManager.Factory noteDbUpdateManagerFactory,
+      IdentifiedUser.GenericFactory userFactory) {
     this.allUsers = allUsers;
     this.repoManager = repoManager;
     this.cleanupPercentage = (cleanupPercentage == null) ? 100 : cleanupPercentage;
@@ -113,12 +128,15 @@ public class DeleteZombieCommentsRefs {
     this.draftNotesFactory = draftNotesFactory;
     this.changeNotesFactory = changeNotesFactory;
     this.commentsUtil = commentsUtil;
+    this.changeUpdateFactory = changeUpdateFactory;
+    this.noteDbUpdateManagerFactory = noteDbUpdateManagerFactory;
+    this.userFactory = userFactory;
   }
 
   public void execute() throws IOException {
     deleteDraftRefsThatPointToEmptyTree();
     if (draftNotesFactory != null) {
-      getNumberOfDraftsThatAreAlsoPublished();
+      deleteDraftCommentsThatAreAlsoPublished();
     }
   }
 
@@ -156,9 +174,11 @@ public class DeleteZombieCommentsRefs {
   /**
    * For each draft comment, check if there exists a published comment with the same UUID and log a
    * warning if that's the case.
+   *
+   * @return the number of detected and deleted zombie draft comments.
    */
   @VisibleForTesting
-  public int getNumberOfDraftsThatAreAlsoPublished() throws IOException {
+  public int deleteDraftCommentsThatAreAlsoPublished() throws IOException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
       List<Ref> draftRefs = allUsersRepo.getRefDatabase().getRefsByPrefix(REFS_DRAFT_COMMENTS);
       int numZombies = 0;
@@ -170,6 +190,7 @@ public class DeleteZombieCommentsRefs {
         ImmutableCollection<HumanComment> drafts = draftCommentNotes.getComments().values();
         Map<String, HumanComment> publishedComments =
             groupById(commentsUtil.publishedHumanCommentsByChange(notes));
+        List<HumanComment> draftsToDelete = new ArrayList<>();
         for (HumanComment draft : drafts) {
           if (publishedComments.containsKey(draft.key.uuid)) {
             logger.atWarning().log(
@@ -177,7 +198,11 @@ public class DeleteZombieCommentsRefs {
                     + " is a zombie draft that is already published.",
                 draft.key.uuid, changeId);
             numZombies += 1;
+            draftsToDelete.add(draft);
           }
+        }
+        if (!draftsToDelete.isEmpty()) {
+          deleteZombieComment(notes.getProjectName(), accountId, notes, draftsToDelete);
         }
       }
       if (numZombies > 0) {
@@ -185,6 +210,20 @@ public class DeleteZombieCommentsRefs {
       }
       return numZombies;
     }
+  }
+
+  private void deleteZombieComment(
+      Project.NameKey project,
+      Account.Id accountId,
+      ChangeNotes changeNotes,
+      List<HumanComment> draftsToDelete)
+      throws IOException {
+    ChangeUpdate changeUpdate =
+        changeUpdateFactory.create(changeNotes, userFactory.create(accountId), TimeUtil.now());
+    draftsToDelete.forEach(c -> changeUpdate.deleteComment(c));
+    NoteDbUpdateManager noteDbUpdateManager = noteDbUpdateManagerFactory.create(project);
+    noteDbUpdateManager.add(changeUpdate);
+    noteDbUpdateManager.execute();
   }
 
   /** Group comments by their id. */

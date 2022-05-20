@@ -34,6 +34,69 @@
       "parentUuid": "1521d346_1996227e",
       "revId": "50cbc7d9d51f3b65b23eb88c028298a38e2e9aee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b76a4db_4cceeb82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T12:05:40Z",
+      "side": 1,
+      "message": "Nice test coverage!",
+      "revId": "50cbc7d9d51f3b65b23eb88c028298a38e2e9aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e071291_4efe4bc5",
+        "filename": "java/com/google/gerrit/server/api/projects/SubmitRequirementApiImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T12:05:40Z",
+      "side": 1,
+      "message": "This would also apply to update, no?",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 68
+      },
+      "revId": "50cbc7d9d51f3b65b23eb88c028298a38e2e9aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b7bc42d_ffcde14f",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T12:05:40Z",
+      "side": 1,
+      "message": "optional: We could use a regular expression instead. Might be easier to read.",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 29
+      },
+      "revId": "50cbc7d9d51f3b65b23eb88c028298a38e2e9aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

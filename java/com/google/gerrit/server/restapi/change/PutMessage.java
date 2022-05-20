@@ -48,7 +48,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.TimeZone;
+import java.time.ZoneId;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -64,7 +64,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
   private final BatchUpdate.Factory updateFactory;
   private final GitRepositoryManager repositoryManager;
   private final Provider<CurrentUser> userProvider;
-  private final TimeZone tz;
+  private final ZoneId zoneId;
   private final PatchSetInserter.Factory psInserterFactory;
   private final PermissionBackend permissionBackend;
   private final PatchSetUtil psUtil;
@@ -86,7 +86,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
     this.repositoryManager = repositoryManager;
     this.userProvider = userProvider;
     this.psInserterFactory = psInserterFactory;
-    this.tz = gerritIdent.getTimeZone();
+    this.zoneId = gerritIdent.getZoneId();
     this.permissionBackend = permissionBackend;
     this.psUtil = psUtil;
     this.notifyResolver = notifyResolver;
@@ -167,7 +167,8 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
     builder.setTreeId(basePatchSetCommit.getTree());
     builder.setParentIds(basePatchSetCommit.getParents());
     builder.setAuthor(basePatchSetCommit.getAuthorIdent());
-    builder.setCommitter(userProvider.get().asIdentifiedUser().newCommitterIdent(timestamp, tz));
+    builder.setCommitter(
+        userProvider.get().asIdentifiedUser().newCommitterIdent(timestamp, zoneId));
     builder.setMessage(commitMessage);
     ObjectId newCommitId = objectInserter.insert(builder);
     objectInserter.flush();

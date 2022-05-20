@@ -29,10 +29,9 @@ import com.google.gerrit.server.git.meta.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.io.IOException;
+import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Optional;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -56,7 +55,7 @@ public class VersionedMetaDataTest {
   // instead coming up with a replacement interface for
   // VersionedMetaData/BatchMetaDataUpdate/MetaDataUpdate that is easier to use correctly.
 
-  private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
+  private static final ZoneId ZONE_ID = ZoneId.of("America/Los_Angeles");
   private static final String DEFAULT_REF = "refs/meta/config";
 
   private Project.NameKey project;
@@ -221,13 +220,10 @@ public class VersionedMetaDataTest {
     return u;
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   private CommitBuilder newCommitBuilder() {
     CommitBuilder cb = new CommitBuilder();
     PersonIdent author =
-        new PersonIdent("J. Author", "author@example.com", Date.from(TimeUtil.now()), TZ);
+        new PersonIdent("J. Author", "author@example.com", TimeUtil.now(), ZONE_ID);
     cb.setAuthor(author);
     cb.setCommitter(
         new PersonIdent(

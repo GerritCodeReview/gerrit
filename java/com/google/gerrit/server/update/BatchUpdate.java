@@ -69,6 +69,7 @@ import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -76,7 +77,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.function.Function;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -257,8 +257,8 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     @Override
-    public TimeZone getTimeZone() {
-      return tz;
+    public ZoneId getZoneId() {
+      return zoneId;
     }
 
     @Override
@@ -383,7 +383,7 @@ public class BatchUpdate implements AutoCloseable {
   private final Project.NameKey project;
   private final CurrentUser user;
   private final Instant when;
-  private final TimeZone tz;
+  private final ZoneId zoneId;
 
   private final ListMultimap<Change.Id, BatchUpdateOp> ops =
       MultimapBuilder.linkedHashKeys().arrayListValues().build();
@@ -422,7 +422,7 @@ public class BatchUpdate implements AutoCloseable {
     this.project = project;
     this.user = user;
     this.when = when;
-    tz = serverIdent.getTimeZone();
+    zoneId = serverIdent.getZoneId();
   }
 
   @Override
@@ -666,7 +666,7 @@ public class BatchUpdate implements AutoCloseable {
                     repo, repoView.getRevWalk(), repoView.getInserter(), repoView.getCommands()),
             dryrun);
     if (user.isIdentifiedUser()) {
-      handle.manager.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, tz));
+      handle.manager.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, zoneId));
     }
     handle.manager.setRefLogMessage(refLogMessage);
     handle.manager.setPushCertificate(pushCert);

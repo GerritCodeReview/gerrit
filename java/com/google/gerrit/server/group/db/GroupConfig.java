@@ -37,7 +37,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Pattern;
@@ -300,9 +299,6 @@ public class GroupConfig extends VersionedMetaData {
     return c;
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Override
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     checkLoaded();
@@ -321,8 +317,8 @@ public class GroupConfig extends VersionedMetaData {
     Instant commitTimestamp =
         TimeUtil.truncateToSecond(
             groupDelta.flatMap(GroupDelta::getUpdatedOn).orElseGet(TimeUtil::now));
-    commit.setAuthor(new PersonIdent(commit.getAuthor(), Date.from(commitTimestamp)));
-    commit.setCommitter(new PersonIdent(commit.getCommitter(), Date.from(commitTimestamp)));
+    commit.setAuthor(new PersonIdent(commit.getAuthor(), commitTimestamp));
+    commit.setCommitter(new PersonIdent(commit.getCommitter(), commitTimestamp));
 
     InternalGroup updatedGroup = updateGroup(commitTimestamp);
 

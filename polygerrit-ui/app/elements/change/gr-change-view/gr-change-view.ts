@@ -114,7 +114,6 @@ import {
   PatchRange,
   PatchSetNum,
   PreferencesInfo,
-  QuickLabelInfo,
   RelatedChangeAndCommitInfo,
   RelatedChangesInfo,
   RevisionInfo,
@@ -142,7 +141,6 @@ import {
 } from '../../../utils/comment-util';
 import {
   PolymerDeepPropertyChange,
-  PolymerSplice,
   PolymerSpliceChange,
 } from '@polymer/polymer/interfaces';
 import {AppElementChangeViewParams} from '../../gr-app-types';
@@ -155,7 +153,6 @@ import {
 import {
   ChangeViewState,
   EditRevisionInfo,
-  isPolymerSpliceChange,
   ParsedChangeInfo,
 } from '../../../types/types';
 import {
@@ -1788,26 +1785,6 @@ export class GrChangeView extends base {
     GerritNav.navigateToRelativeUrl(this.backPage || GerritNav.getUrlForRoot());
   }
 
-  _handleLabelRemoved(
-    splices: Array<PolymerSplice<ApprovalInfo[]>>,
-    path: string
-  ) {
-    for (const splice of splices) {
-      for (const removed of splice.removed) {
-        const changePath = path.split('.');
-        const labelPath = changePath.splice(0, changePath.length - 2);
-        const labelDict = this.get(labelPath) as QuickLabelInfo;
-        if (
-          labelDict.approved &&
-          labelDict.approved._account_id === removed._account_id
-        ) {
-          fireReload(this);
-          return;
-        }
-      }
-    }
-  }
-
   @observe('_change.labels.*')
   _labelsChanged(
     changeRecord: PolymerDeepPropertyChange<
@@ -1815,15 +1792,7 @@ export class GrChangeView extends base {
       PolymerSpliceChange<ApprovalInfo[]>
     >
   ) {
-    if (!changeRecord) {
-      return;
-    }
-    if (changeRecord.value && isPolymerSpliceChange(changeRecord.value)) {
-      this._handleLabelRemoved(
-        changeRecord.value.indexSplices,
-        changeRecord.path
-      );
-    }
+    if (!changeRecord) return;
     this.jsAPI.handleEvent(PluginEventType.LABEL_CHANGE, {
       change: this._change,
     });

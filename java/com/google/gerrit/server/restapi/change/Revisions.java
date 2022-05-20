@@ -154,9 +154,6 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     return ImmutableList.of();
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   private ImmutableList<RevisionResource> loadEdit(
       ChangeResource change, @Nullable ObjectId commitId) throws AuthException, IOException {
     Optional<ChangeEdit> edit = editUtil.byChange(change.getNotes(), change.getUser());
@@ -167,7 +164,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
               .id(PatchSet.id(change.getId(), 0))
               .commitId(editCommit)
               .uploader(change.getUser().getAccountId())
-              .createdOn(editCommit.getCommitterIdent().getWhen().toInstant())
+              .createdOn(editCommit.getCommitterIdent().getWhenAsInstant())
               .build();
       if (commitId == null || editCommit.equals(commitId)) {
         return ImmutableList.of(new RevisionResource(change, ps, edit));

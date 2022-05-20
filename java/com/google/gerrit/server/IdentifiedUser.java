@@ -50,9 +50,9 @@ import java.net.MalformedURLException;
 import java.net.SocketAddress;
 import java.net.URL;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TimeZone;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.SystemReader;
 
@@ -427,10 +427,10 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   public PersonIdent newRefLogIdent() {
-    return newRefLogIdent(Instant.now(), TimeZone.getDefault());
+    return newRefLogIdent(Instant.now(), ZoneId.systemDefault());
   }
 
-  public PersonIdent newRefLogIdent(Instant when, TimeZone tz) {
+  public PersonIdent newRefLogIdent(Instant when, ZoneId zoneId) {
     final Account ua = getAccount();
 
     String name = ua.fullName();
@@ -451,21 +451,18 @@ public class IdentifiedUser extends CurrentUser {
               : ua.preferredEmail();
     }
 
-    return newPersonIdent(name, user, when, tz);
+    return new PersonIdent(name, user, when, zoneId);
   }
 
   private String constructMailAddress(Account ua, String host) {
     return getUserName().orElse("") + "|account-" + ua.id().toString() + "@" + host;
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   public PersonIdent newCommitterIdent(PersonIdent ident) {
-    return newCommitterIdent(ident.getWhen().toInstant(), ident.getTimeZone());
+    return newCommitterIdent(ident.getWhenAsInstant(), ident.getZoneId());
   }
 
-  public PersonIdent newCommitterIdent(Instant when, TimeZone tz) {
+  public PersonIdent newCommitterIdent(Instant when, ZoneId zoneId) {
     final Account ua = getAccount();
     String name = ua.fullName();
     String email = ua.preferredEmail();
@@ -500,7 +497,7 @@ public class IdentifiedUser extends CurrentUser {
       }
     }
 
-    return newPersonIdent(name, email, when, tz);
+    return new PersonIdent(name, email, when, zoneId);
   }
 
   @Override
@@ -567,20 +564,5 @@ public class IdentifiedUser extends CurrentUser {
       return "unknown";
     }
     return host;
-  }
-
-  /**
-   * Create a {@link PersonIdent} from an {@code Instant} and a {@link TimeZone}.
-   *
-   * <p>We use the {@link PersonIdent#PersonIdent(String, String, long, int)} constructor to avoid
-   * doing a conversion to {@code java.util.Date} here. For the {@code int aTZ} argument, which is
-   * the time zone, we do the same computation as in {@link PersonIdent#PersonIdent(String, String,
-   * java.util.Date, TimeZone)} (just instead of getting the epoch millis from {@code
-   * java.util.Date} we get them from {@link Instant}).
-   */
-  // TODO(issue-15517): Drop this method once JGit's PersonIdent class supports Instants
-  private static PersonIdent newPersonIdent(String name, String email, Instant when, TimeZone tz) {
-    return new PersonIdent(
-        name, email, when.toEpochMilli(), tz.getOffset(when.toEpochMilli()) / (60 * 1000));
   }
 }

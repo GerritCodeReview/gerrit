@@ -112,7 +112,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -1608,9 +1607,6 @@ public class GroupsIT extends AbstractDaemonTest {
     return createCommit(repo, commitMessage, null);
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   private ObjectId createCommit(Repository repo, String commitMessage, @Nullable ObjectId treeId)
       throws IOException {
     try (ObjectInserter oi = repo.newObjectInserter()) {
@@ -1618,7 +1614,7 @@ public class GroupsIT extends AbstractDaemonTest {
         treeId = oi.insert(Constants.OBJ_TREE, new byte[] {});
       }
 
-      PersonIdent ident = new PersonIdent(serverIdent.get(), Date.from(TimeUtil.now()));
+      PersonIdent ident = new PersonIdent(serverIdent.get(), TimeUtil.now());
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(treeId);
       cb.setCommitter(ident);

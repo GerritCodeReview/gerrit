@@ -30,7 +30,6 @@ import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Date;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
@@ -61,16 +60,12 @@ public class AccountsOnInit {
     this.allUsers = allUsers.get();
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   public Account insert(Account.Builder account) throws IOException {
     File path = getPath();
     try (Repository repo = new FileRepository(path);
         ObjectInserter oi = repo.newObjectInserter()) {
       PersonIdent ident =
-          new PersonIdent(
-              new GerritPersonIdentProvider(flags.cfg).get(), Date.from(account.registeredOn()));
+          new PersonIdent(new GerritPersonIdentProvider(flags.cfg).get(), account.registeredOn());
 
       Config accountConfig = new Config();
       AccountProperties.writeToAccountConfig(

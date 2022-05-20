@@ -31,7 +31,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Injector;
-import java.util.TimeZone;
+import java.time.ZoneId;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -109,7 +109,7 @@ public class TestChanges {
     try (Repository repo = repoManager.openRepository(c.getProject());
         TestRepository<Repository> tr = new TestRepository<>(repo)) {
       PersonIdent ident =
-          user.asIdentifiedUser().newCommitterIdent(update.getWhen(), TimeZone.getDefault());
+          user.asIdentifiedUser().newCommitterIdent(update.getWhen(), ZoneId.systemDefault());
       TestRepository<Repository>.CommitBuilder cb =
           tr.commit()
               .author(ident)

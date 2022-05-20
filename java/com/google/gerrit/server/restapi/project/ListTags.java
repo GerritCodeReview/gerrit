@@ -172,9 +172,6 @@ public class ListTags implements RestReadView<ProjectResource> {
     throw new ResourceNotFoundException(id);
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   public static TagInfo createTagInfo(
       PermissionBackend.ForRef perm, Ref ref, RevWalk rw, ProjectState projectState, WebLinks links)
       throws IOException {
@@ -200,12 +197,12 @@ public class ListTags implements RestReadView<ProjectResource> {
           tagger != null ? CommonConverters.toGitPerson(tagger) : null,
           canDelete,
           webLinks.isEmpty() ? null : webLinks,
-          tagger != null ? tagger.getWhen().toInstant() : null);
+          tagger != null ? tagger.getWhenAsInstant() : null);
     }
 
     Instant timestamp =
         object instanceof RevCommit
-            ? ((RevCommit) object).getCommitterIdent().getWhen().toInstant()
+            ? ((RevCommit) object).getCommitterIdent().getWhenAsInstant()
             : null;
 
     // Lightweight tag

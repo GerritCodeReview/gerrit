@@ -36,7 +36,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -258,9 +257,6 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     return c;
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Override
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     checkLoaded();
@@ -279,8 +275,8 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       }
 
       Instant registeredOn = loadedAccountProperties.get().getRegisteredOn();
-      commit.setAuthor(new PersonIdent(commit.getAuthor(), Date.from(registeredOn)));
-      commit.setCommitter(new PersonIdent(commit.getCommitter(), Date.from(registeredOn)));
+      commit.setAuthor(new PersonIdent(commit.getAuthor(), registeredOn));
+      commit.setCommitter(new PersonIdent(commit.getCommitter(), registeredOn));
     }
 
     saveAccount();

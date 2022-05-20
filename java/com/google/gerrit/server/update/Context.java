@@ -25,7 +25,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.TimeZone;
+import java.time.ZoneId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -70,13 +70,13 @@ public interface Context {
   Instant getWhen();
 
   /**
-   * Get the time zone in which this update takes place.
+   * Get the time zone ID in which this update takes place.
    *
-   * <p>In the current implementation, this is always the time zone of the server.
+   * <p>In the current implementation, this is always the time zone ID of the server.
    *
-   * @return time zone.
+   * @return zone ID.
    */
-  TimeZone getTimeZone();
+  ZoneId getZoneId();
 
   /**
    * Get the user performing the update.
@@ -162,6 +162,6 @@ public interface Context {
    * @return the created committer {@link PersonIdent}
    */
   default PersonIdent newCommitterIdent(IdentifiedUser user) {
-    return user.newCommitterIdent(getWhen(), getTimeZone());
+    return user.newCommitterIdent(getWhen(), getZoneId());
   }
 }

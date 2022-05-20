@@ -158,7 +158,6 @@ import java.io.IOException;
 import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -2466,9 +2465,6 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   public void stalenessChecker() throws Exception {
     // Newly created account is not stale.
     AccountInfo accountInfo = gApi.accounts().create(name("foo")).get();
@@ -2482,7 +2478,7 @@ public class AccountIT extends AbstractDaemonTest {
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(repo.exactRef(userRef).getObjectId());
 
-      PersonIdent ident = new PersonIdent(serverIdent.get(), Date.from(TimeUtil.now()));
+      PersonIdent ident = new PersonIdent(serverIdent.get(), TimeUtil.now());
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(commit.getTree());
       cb.setCommitter(ident);

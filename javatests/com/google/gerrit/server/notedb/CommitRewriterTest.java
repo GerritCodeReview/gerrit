@@ -49,7 +49,6 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -321,9 +320,6 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.fixedRefDiff.keySet().size()).isEqualTo(expectedSecondRunResult);
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Test
   public void fixAuthorIdent() throws Exception {
     Change c = newChange();
@@ -332,8 +328,8 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         new PersonIdent(
             changeOwner.getName(),
             changeNoteUtil.getAccountIdAsEmailAddress(changeOwner.getAccountId()),
-            Date.from(when),
-            serverIdent.getTimeZone());
+            when,
+            serverIdent.getZoneId());
     RevCommit invalidUpdateCommit =
         writeUpdate(
             RefNames.changeMetaRef(c.getId()),
@@ -374,8 +370,8 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(fixedUpdateCommit.getAuthorIdent().getName())
         .isEqualTo("Gerrit User " + changeOwner.getAccountId());
     assertThat(originalAuthorIdent.getEmailAddress()).isEqualTo(fixedAuthorIdent.getEmailAddress());
-    assertThat(originalAuthorIdent.getWhen().getTime())
-        .isEqualTo(fixedAuthorIdent.getWhen().getTime());
+    assertThat(originalAuthorIdent.getWhenAsInstant())
+        .isEqualTo(fixedAuthorIdent.getWhenAsInstant());
     assertThat(originalAuthorIdent.getTimeZone()).isEqualTo(fixedAuthorIdent.getTimeZone());
     assertThat(invalidUpdateCommit.getFullMessage()).isEqualTo(fixedUpdateCommit.getFullMessage());
     assertThat(invalidUpdateCommit.getCommitterIdent())
@@ -453,9 +449,6 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Test
   public void fixReviewerFooterIdent() throws Exception {
     Change c = newChange();
@@ -502,7 +495,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    Instant updateTimestamp = serverIdent.getWhen().toInstant();
+    Instant updateTimestamp = serverIdent.getWhenAsInstant();
     ImmutableList<ReviewerStatusUpdate> expectedReviewerUpdates =
         ImmutableList.of(
             ReviewerStatusUpdate.create(
@@ -539,9 +532,6 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Test
   public void fixReviewerMessage() throws Exception {
     Change c = newChange();
@@ -589,7 +579,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    Instant updateTimestamp = serverIdent.getWhen().toInstant();
+    Instant updateTimestamp = serverIdent.getWhenAsInstant();
     ImmutableList<ReviewerStatusUpdate> expectedReviewerUpdates =
         ImmutableList.of(
             ReviewerStatusUpdate.create(
@@ -669,9 +659,6 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Test
   public void fixLabelFooterIdent() throws Exception {
     Change c = newChange();
@@ -722,7 +709,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    Instant updateTimestamp = serverIdent.getWhen().toInstant();
+    Instant updateTimestamp = serverIdent.getWhenAsInstant();
     ImmutableList<PatchSetApproval> expectedApprovals =
         ImmutableList.of(
             PatchSetApproval.builder()
@@ -806,9 +793,6 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Test
   public void fixRemoveVoteChangeMessage() throws Exception {
     Change c = newChange();
@@ -862,7 +846,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
 
-    Instant updateTimestamp = serverIdent.getWhen().toInstant();
+    Instant updateTimestamp = serverIdent.getWhenAsInstant();
     ImmutableList<PatchSetApproval> expectedApprovals =
         ImmutableList.of(
             PatchSetApproval.builder()
@@ -932,18 +916,12 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Test
   public void fixRemoveVoteChangeMessageWithUnparsableAuthorIdent() throws Exception {
     Change c = newChange();
     PersonIdent invalidAuthorIdent =
         new PersonIdent(
-            changeOwner.getName(),
-            "server@" + serverId,
-            Date.from(TimeUtil.now()),
-            serverIdent.getTimeZone());
+            changeOwner.getName(), "server@" + serverId, TimeUtil.now(), serverIdent.getZoneId());
     writeUpdate(
         RefNames.changeMetaRef(c.getId()),
         getChangeUpdateBody(
@@ -1188,9 +1166,6 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Test
   public void fixAttentionFooter() throws Exception {
     Change c = newChange();
@@ -1271,7 +1246,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
     notesBeforeRewrite.getAttentionSetUpdates();
-    Instant updateTimestamp = serverIdent.getWhen().toInstant();
+    Instant updateTimestamp = serverIdent.getWhenAsInstant();
     ImmutableList<AttentionSetUpdate> attentionSetUpdatesBeforeRewrite =
         ImmutableList.of(
             AttentionSetUpdate.createFromRead(
@@ -1569,9 +1544,6 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Test
   public void fixSubmitChangeMessageAndFooters() throws Exception {
     Change c = newChange();
@@ -1579,8 +1551,8 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         new PersonIdent(
             changeOwner.getName(),
             changeNoteUtil.getAccountIdAsEmailAddress(changeOwner.getAccountId()),
-            Date.from(TimeUtil.now()),
-            serverIdent.getTimeZone());
+            TimeUtil.now(),
+            serverIdent.getZoneId());
     String changeOwnerIdentToFix = getAccountIdentToFix(changeOwner.getAccount());
     writeUpdate(
         RefNames.changeMetaRef(c.getId()),
@@ -2281,9 +2253,6 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Test
   public void singleRunFixesAll() throws Exception {
     Change c = newChange();
@@ -2293,8 +2262,8 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         new PersonIdent(
             changeOwner.getName(),
             changeNoteUtil.getAccountIdAsEmailAddress(changeOwner.getAccountId()),
-            Date.from(when),
-            serverIdent.getTimeZone());
+            when,
+            serverIdent.getZoneId());
 
     RevCommit invalidUpdateCommit =
         writeUpdate(

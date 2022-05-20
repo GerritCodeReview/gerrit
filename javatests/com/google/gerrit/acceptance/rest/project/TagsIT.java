@@ -457,11 +457,8 @@ public class TagsIT extends AbstractDaemonTest {
     return gApi.projects().name(project.get()).tag(tagname);
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   private Instant instant(PushOneCommit.Result r) {
-    return r.getCommit().getCommitterIdent().getWhen().toInstant();
+    return r.getCommit().getCommitterIdent().getWhenAsInstant();
   }
 
   private void assertBadRequest(ListRefsRequest<TagInfo> req) throws Exception {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ffa92d3_353bdc6f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-20T14:37:41Z",
+      "side": 1,
+      "message": "Just idea:\nWhat do you think to put confirmation dialog to gr-account-list?\n\nSo this logic could be shared with reply dialog and change-list-reviewer-flow?",
+      "range": {
+        "startLine": 241,
+        "startChar": 13,
+        "endLine": 241,
+        "endChar": 37
+      },
+      "revId": "7281dbbaf7ade0ad9d90b8e2ed88544e407d1ab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ed23cd4_565f57d2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-20T14:37:41Z",
+      "side": 1,
+      "message": "NIT: I find solution in reply dialog with just 1 dialog in html better. But it\u0027s just minor thing.",
+      "range": {
+        "startLine": 245,
+        "startChar": 10,
+        "endLine": 245,
+        "endChar": 34
+      },
+      "revId": "7281dbbaf7ade0ad9d90b8e2ed88544e407d1ab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

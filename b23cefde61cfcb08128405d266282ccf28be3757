@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d151de1c_911a8457",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-20T13:19:49Z",
+      "side": 1,
+      "message": "@Jacek @DavidO can you some extra E2E test on the REST-API JSON before we release v3.6.0?",
+      "revId": "b23cefde61cfcb08128405d266282ccf28be3757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

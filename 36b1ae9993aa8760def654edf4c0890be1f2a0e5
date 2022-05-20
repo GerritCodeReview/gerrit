@@ -214,6 +214,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "90594289_74a1ea09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T08:02:50Z",
+      "side": 1,
+      "message": "I think we do look at the right element.\n\nIf I interpret your image correctly, then \"Diff Content Render\" is emitted after the screenshot. Note the highlighted area.\n\nWe have also discussed this over VC, so I am marking this as resolved, because Milutin has agreed to my interpretation. :-)",
+      "parentUuid": "467b426d_8f87ea5f",
+      "range": {
+        "startLine": 28,
+        "startChar": 22,
+        "endLine": 29,
+        "endChar": 55
+      },
+      "revId": "36b1ae9993aa8760def654edf4c0890be1f2a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4f3bba39_91dc9caf",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -242,6 +266,30 @@
       "writtenOn": "2022-05-18T10:50:00Z",
       "side": 1,
       "message": "Nit: It feels there is a slight tension between the name \"all groups\" and the ability to pass specific groups to wait on. Maybe it should be `untilGroupsRendered()` or something?",
+      "range": {
+        "startLine": 237,
+        "startChar": 8,
+        "endLine": 237,
+        "endChar": 11
+      },
+      "revId": "36b1ae9993aa8760def654edf4c0890be1f2a0e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6754ff6a_cc68330b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T08:02:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bce44d6_44c23add",
       "range": {
         "startLine": 237,
         "startChar": 8,

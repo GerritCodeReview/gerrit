@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb99d97e_6bcc3259",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T08:02:50Z",
+      "side": 0,
+      "message": "I am also fine with adding it back. :-)",
+      "parentUuid": "7d250685_a78c5a56",
+      "revId": "0fedd243cbf33cdd47a5526f56bd94bc0f89637f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75797a64_e8cb7da8",
@@ -67,6 +85,30 @@
       "writtenOn": "2022-05-19T12:09:51Z",
       "side": 0,
       "message": "This was recently introduced in https://gerrit-review.googlesource.com/c/gerrit/+/336142\n\nMaybe we should add this data to render-content?",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 371,
+        "endChar": 6
+      },
+      "revId": "0fedd243cbf33cdd47a5526f56bd94bc0f89637f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e0f3692_1f65d172",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T08:02:50Z",
+      "side": 0,
+      "message": "I would prefer to only add this data when we have someone doing something with the data, not speculative.\n\nI am not sure how useful this metric is going forward. We are planning to switch to virtual rendering for lines that are off-screen. Then just counting lines might not be relevant anymore.",
+      "parentUuid": "75797a64_e8cb7da8",
       "range": {
         "startLine": 368,
         "startChar": 4,

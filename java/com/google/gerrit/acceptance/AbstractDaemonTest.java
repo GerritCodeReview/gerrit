@@ -109,6 +109,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -188,6 +189,7 @@ import org.eclipse.jgit.util.SystemReader;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
@@ -200,6 +202,7 @@ import org.junit.runners.model.Statement;
 public abstract class AbstractDaemonTest {
   private static GerritServer commonServer;
   private static Description firstTest;
+  private static String perThreadCacheCheckStaleEntry;
 
   @ClassRule public static TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -302,6 +305,12 @@ public abstract class AbstractDaemonTest {
   private String systemTimeZone;
   private SystemReader oldSystemReader;
 
+  @BeforeClass
+  public static void enablePerThreadCacheStalenessCheck() {
+    perThreadCacheCheckStaleEntry =
+        System.setProperty(RepoRefCache.REPO_REF_CACHE_CHECK_STALE_ENTRIES_PROPERTY, "true");
+  }
+
   @Before
   public void clearSender() {
     if (sender != null) {
@@ -346,6 +355,16 @@ public abstract class AbstractDaemonTest {
       } finally {
         commonServer = null;
       }
+    }
+  }
+
+  @AfterClass
+  public static void disablePerThreadCacheStalenessCheck() {
+    if (perThreadCacheCheckStaleEntry == null) {
+      System.clearProperty(RepoRefCache.REPO_REF_CACHE_CHECK_STALE_ENTRIES_PROPERTY);
+    } else {
+      System.setProperty(
+          RepoRefCache.REPO_REF_CACHE_CHECK_STALE_ENTRIES_PROPERTY, perThreadCacheCheckStaleEntry);
     }
   }
 

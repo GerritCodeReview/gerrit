@@ -33,8 +33,10 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -83,6 +85,8 @@ public class DeleteZombieCommentsRefs {
   @Nullable private final DraftCommentNotes.Factory draftNotesFactory;
   @Nullable private final ChangeNotes.Factory changeNotesFactory;
   @Nullable private final CommentsUtil commentsUtil;
+  @Nullable private final ChangeUpdate.Factory changeUpdateFactory;
+  @Nullable private final IdentifiedUser.GenericFactory userFactory;
 
   public interface Factory {
     DeleteZombieCommentsRefs create(int cleanupPercentage);
@@ -95,6 +99,8 @@ public class DeleteZombieCommentsRefs {
       ChangeNotes.Factory changeNotesFactory,
       DraftCommentNotes.Factory draftNotesFactory,
       CommentsUtil commentsUtil,
+      ChangeUpdate.Factory changeUpdateFactory,
+      IdentifiedUser.GenericFactory userFactory,
       @Assisted Integer cleanupPercentage) {
     this(
         allUsers,
@@ -103,7 +109,9 @@ public class DeleteZombieCommentsRefs {
         (msg) -> {},
         changeNotesFactory,
         draftNotesFactory,
-        commentsUtil);
+        commentsUtil,
+        changeUpdateFactory,
+        userFactory);
   }
 
   public DeleteZombieCommentsRefs(
@@ -111,7 +119,7 @@ public class DeleteZombieCommentsRefs {
       GitRepositoryManager repoManager,
       Integer cleanupPercentage,
       Consumer<String> uiConsumer) {
-    this(allUsers, repoManager, cleanupPercentage, uiConsumer, null, null, null);
+    this(allUsers, repoManager, cleanupPercentage, uiConsumer, null, null, null, null, null);
   }
 
   private DeleteZombieCommentsRefs(
@@ -121,7 +129,9 @@ public class DeleteZombieCommentsRefs {
       Consumer<String> uiConsumer,
       @Nullable ChangeNotes.Factory changeNotesFactory,
       @Nullable DraftCommentNotes.Factory draftNotesFactory,
-      @Nullable CommentsUtil commentsUtil) {
+      @Nullable CommentsUtil commentsUtil,
+      @Nullable ChangeUpdate.Factory changeUpdateFactory,
+      @Nullable IdentifiedUser.GenericFactory userFactory) {
     this.allUsers = allUsers;
     this.repoManager = repoManager;
     this.cleanupPercentage = (cleanupPercentage == null) ? 100 : cleanupPercentage;
@@ -129,12 +139,14 @@ public class DeleteZombieCommentsRefs {
     this.draftNotesFactory = draftNotesFactory;
     this.changeNotesFactory = changeNotesFactory;
     this.commentsUtil = commentsUtil;
+    this.changeUpdateFactory = changeUpdateFactory;
+    this.userFactory = userFactory;
   }
 
   public void execute() throws IOException {
     deleteDraftRefsThatPointToEmptyTree();
     if (draftNotesFactory != null) {
-      getNumberOfDraftsThatAreAlsoPublished();
+      deleteDraftCommentsThatAreAlsoPublished();
     }
   }
 
@@ -170,11 +182,14 @@ public class DeleteZombieCommentsRefs {
   }
 
   /**
-   * For each draft comment, check if there exists a published comment with the same UUID and log a
-   * warning if that's the case.
+   * Iterates over all draft refs in All-Users repository. For each draft ref, checks if there
+   * exists a published comment with the same UUID and deletes the draft ref if that's the case
+   * because it is a zombie draft.
+   *
+   * @return the number of detected and deleted zombie draft comments.
    */
   @VisibleForTesting
-  public int getNumberOfDraftsThatAreAlsoPublished() throws IOException {
+  public int deleteDraftCommentsThatAreAlsoPublished() throws IOException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
       Timestamp earliestZombieTs = null;
       Timestamp latestZombieTs = null;
@@ -220,6 +235,9 @@ public class DeleteZombieCommentsRefs {
                       "Draft comment with uuid '%s' of change %s, account %s, written on %s,"
                           + " is a zombie draft that is already published.",
                       zombieDraft.key.uuid, changeId, accountId, zombieDraft.writtenOn));
+          if (!zombieDrafts.isEmpty()) {
+            deleteZombieComments(accountId, notes, zombieDrafts);
+          }
           numZombies += zombieDrafts.size();
         } catch (Exception e) {
           logger.atWarning().withCause(e).log("Failed to process ref %s", draftRef.getName());
@@ -243,6 +261,23 @@ public class DeleteZombieCommentsRefs {
     static ChangeUserIDsPair create(Change.Id changeId, Account.Id accountId) {
       return new AutoValue_DeleteZombieCommentsRefs_ChangeUserIDsPair(changeId, accountId);
     }
+  }
+
+  /**
+   * Accepts a list of draft (zombie) comments for the same change and delete them by executing a
+   * {@link ChangeUpdate} on NoteDb. The update is executed using the user account who created this
+   * draft.
+   */
+  private void deleteZombieComments(
+      Account.Id accountId, ChangeNotes changeNotes, List<HumanComment> draftsToDelete)
+      throws IOException {
+    if (changeUpdateFactory == null || userFactory == null) {
+      return;
+    }
+    ChangeUpdate changeUpdate =
+        changeUpdateFactory.create(changeNotes, userFactory.create(accountId), TimeUtil.now());
+    draftsToDelete.forEach(c -> changeUpdate.deleteComment(c));
+    changeUpdate.commit();
   }
 
   /**

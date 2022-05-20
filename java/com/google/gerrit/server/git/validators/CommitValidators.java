@@ -254,7 +254,7 @@ public class CommitValidators {
         }
       }
     } catch (CommitValidationException e) {
-      logger.atFine().withCause(e).log(
+      logger.atWarning().withCause(e).log(
           "CommitValidationException occurred: %s", e.getFullMessage());
       // Keep the old messages (and their order) in case of an exception
       messages.addAll(e.getMessages());

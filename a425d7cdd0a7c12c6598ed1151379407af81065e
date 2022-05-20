@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da93b65b_a83da551",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-20T13:26:36Z",
+      "side": 1,
+      "message": "Should convert this to use events. Same for the above (diffPrefs).",
+      "range": {
+        "startLine": 553,
+        "startChar": 0,
+        "endLine": 554,
+        "endChar": 45
+      },
+      "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "bb84b9a9a840498f2a74dfcb259aa14c08c81e56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4f8b9db_df4905e6",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-20T11:10:30Z",
+      "side": 0,
+      "message": "No, because the point was exactly NOT to eagerly get the destination but delegate tot he superclass constructor, as it is done in stable-2.16",
+      "parentUuid": "9df5ed55_b203717a",
+      "range": {
+        "startLine": 89,
+        "startChar": 18,
+        "endLine": 89,
+        "endChar": 39
+      },
+      "revId": "bb84b9a9a840498f2a74dfcb259aa14c08c81e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

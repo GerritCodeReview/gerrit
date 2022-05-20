@@ -76,6 +76,47 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "949c0da9_4a57c1e4",
+        "filename": "java/com/google/gerrit/server/api/projects/SubmitRequirementApiImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-20T16:54:41Z",
+      "side": 1,
+      "message": "I think it\u0027s not really needed in update(). The reason it\u0027s needed here is because callers do:\n  * api.create(srInput).get()\n  \nthe call to get() will fail if this line didn\u0027t exist since it tries to parse the \"newly created\" resource (the new SR) using the resource() method (see line 110) using the `project` field. This is not needed in update() since the resource already exists.\n\nI also copied the implementation from LabelApiImpl which does the same.\n\nI added this to update() anyway as it doesn\u0027t hurt.",
+      "parentUuid": "6e071291_4efe4bc5",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 68
+      },
+      "revId": "50cbc7d9d51f3b65b23eb88c028298a38e2e9aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa4d54f3_7a57da42",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementExpressionsValidator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-20T16:54:41Z",
+      "side": 1,
+      "message": "Done bringing back the license header.",
+      "revId": "50cbc7d9d51f3b65b23eb88c028298a38e2e9aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b7bc42d_ffcde14f",
@@ -89,6 +130,30 @@
       "writtenOn": "2022-05-20T12:05:40Z",
       "side": 1,
       "message": "optional: We could use a regular expression instead. Might be easier to read.",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 29
+      },
+      "revId": "50cbc7d9d51f3b65b23eb88c028298a38e2e9aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31027c00_6aff6503",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-20T16:54:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b7bc42d_ffcde14f",
       "range": {
         "startLine": 189,
         "startChar": 0,

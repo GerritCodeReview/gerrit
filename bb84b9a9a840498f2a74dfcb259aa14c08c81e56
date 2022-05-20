@@ -93,6 +93,30 @@
       },
       "revId": "bb84b9a9a840498f2a74dfcb259aa14c08c81e56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca08a270_faf8bea4",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-20T12:08:12Z",
+      "side": 0,
+      "message": "Let me mention that in the commit message and include your fix. Thanks.",
+      "parentUuid": "348826c5_abf36ba3",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "bb84b9a9a840498f2a74dfcb259aa14c08c81e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -32,7 +32,6 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -256,14 +255,11 @@ public class DiffOperationsTest {
         : createCommitInRepo(repo, treeId, parentCommit);
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   private static ObjectId createCommitInRepo(Repository repo, ObjectId treeId, ObjectId... parents)
       throws IOException {
     try (ObjectInserter oi = repo.newObjectInserter()) {
       PersonIdent committer =
-          new PersonIdent(new PersonIdent("Foo Bar", "foo.bar@baz.com"), Date.from(TimeUtil.now()));
+          new PersonIdent(new PersonIdent("Foo Bar", "foo.bar@baz.com"), TimeUtil.now());
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(treeId);
       cb.setCommitter(committer);

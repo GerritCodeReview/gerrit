@@ -40,11 +40,11 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.RefUtil;
 import com.google.gerrit.server.project.RefUtil.InvalidRevisionException;
 import com.google.gerrit.server.project.TagResource;
-import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.TimeZone;
+import java.time.Instant;
+import java.time.ZoneId;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -136,7 +136,7 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
                   resource
                       .getUser()
                       .asIdentifiedUser()
-                      .newCommitterIdent(TimeUtil.now(), TimeZone.getDefault()));
+                      .newCommitterIdent(Instant.now(), ZoneId.systemDefault()));
         }
 
         Ref result = tag.call();

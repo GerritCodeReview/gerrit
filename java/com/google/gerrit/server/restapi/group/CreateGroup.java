@@ -54,20 +54,20 @@ import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
-import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -77,7 +77,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 public class CreateGroup
     implements RestCollectionCreateView<TopLevelResource, GroupResource, GroupInput> {
   private final Provider<IdentifiedUser> self;
-  private final TimeZone serverTimeZone;
+  private final ZoneId serverZoneId;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final GroupCache groupCache;
   private final GroupResolver groups;
@@ -102,7 +102,7 @@ public class CreateGroup
       @GerritServerConfig Config cfg,
       Sequences sequences) {
     this.self = self;
-    this.serverTimeZone = serverIdent.get().getTimeZone();
+    this.serverZoneId = serverIdent.get().getZoneId();
     this.groupsUpdateProvider = groupsUpdateProvider;
     this.groupCache = groupCache;
     this.groups = groups;
@@ -212,7 +212,7 @@ public class CreateGroup
             createGroupArgs.uuid,
             GroupUuid.make(
                 createGroupArgs.getGroupName(),
-                self.get().newCommitterIdent(TimeUtil.now(), serverTimeZone)));
+                self.get().newCommitterIdent(Instant.now(), serverZoneId)));
     InternalGroupCreation groupCreation =
         InternalGroupCreation.builder()
             .setGroupUUID(uuid)

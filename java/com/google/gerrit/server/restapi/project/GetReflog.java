@@ -89,9 +89,6 @@ public class GetReflog implements RestReadView<BranchResource> {
     this.permissionBackend = permissionBackend;
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Override
   public Response<List<ReflogEntryInfo>> apply(BranchResource rsrc)
       throws RestApiException, IOException, PermissionBackendException {
@@ -118,7 +115,7 @@ public class GetReflog implements RestReadView<BranchResource> {
       } else {
         entries = limit > 0 ? new ArrayList<>(limit) : new ArrayList<>();
         for (ReflogEntry e : r.getReverseEntries()) {
-          Instant timestamp = e.getWho().getWhen().toInstant();
+          Instant timestamp = e.getWho().getWhenAsInstant();
           if ((from == null || from.isBefore(timestamp)) && (to == null || to.isAfter(timestamp))) {
             entries.add(e);
           }

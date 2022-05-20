@@ -53,10 +53,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.TimeZone;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.RawText;
@@ -91,7 +91,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 @Singleton
 public class ChangeEditModifier {
 
-  private final TimeZone tz;
+  private final ZoneId zoneId;
   private final Provider<CurrentUser> currentUser;
   private final PermissionBackend permissionBackend;
   private final ChangeEditUtil changeEditUtil;
@@ -110,12 +110,12 @@ public class ChangeEditModifier {
       ProjectCache projectCache) {
     this.currentUser = currentUser;
     this.permissionBackend = permissionBackend;
-    this.tz = gerritIdent.getTimeZone();
+    this.zoneId = gerritIdent.getZoneId();
     this.changeEditUtil = changeEditUtil;
     this.patchSetUtil = patchSetUtil;
     this.projectCache = projectCache;
 
-    noteDbEdits = new NoteDbEdits(tz, indexer, currentUser);
+    noteDbEdits = new NoteDbEdits(zoneId, indexer, currentUser);
   }
 
   /**
@@ -519,7 +519,7 @@ public class ChangeEditModifier {
 
   private PersonIdent getCommitterIdent(Instant commitTimestamp) {
     IdentifiedUser user = currentUser.get().asIdentifiedUser();
-    return user.newCommitterIdent(commitTimestamp, tz);
+    return user.newCommitterIdent(commitTimestamp, zoneId);
   }
 
   /**
@@ -709,12 +709,12 @@ public class ChangeEditModifier {
   }
 
   private static class NoteDbEdits {
-    private final TimeZone tz;
+    private final ZoneId zoneId;
     private final ChangeIndexer indexer;
     private final Provider<CurrentUser> currentUser;
 
-    NoteDbEdits(TimeZone tz, ChangeIndexer indexer, Provider<CurrentUser> currentUser) {
-      this.tz = tz;
+    NoteDbEdits(ZoneId zoneId, ChangeIndexer indexer, Provider<CurrentUser> currentUser) {
+      this.zoneId = zoneId;
       this.indexer = indexer;
       this.currentUser = currentUser;
     }
@@ -841,7 +841,7 @@ public class ChangeEditModifier {
 
     private PersonIdent getRefLogIdent(Instant timestamp) {
       IdentifiedUser user = currentUser.get().asIdentifiedUser();
-      return user.newRefLogIdent(timestamp, tz);
+      return user.newRefLogIdent(timestamp, zoneId);
     }
 
     private void reindex(Change change) {

@@ -1706,15 +1706,13 @@ public class RevisionIT extends AbstractDaemonTest {
     }
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
   // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   @SuppressWarnings("JdkObsolete")
   private void assertPersonIdent(GitPerson gitPerson, PersonIdent expectedIdent) {
     assertThat(gitPerson.name).isEqualTo(expectedIdent.getName());
     assertThat(gitPerson.email).isEqualTo(expectedIdent.getEmailAddress());
-    assertThat(gitPerson.date.getTime()).isEqualTo(expectedIdent.getWhen().getTime());
+    assertThat(gitPerson.date.getTime()).isEqualTo(expectedIdent.getWhenAsInstant().toEpochMilli());
     assertThat(gitPerson.tz).isEqualTo(expectedIdent.getTimeZoneOffset());
   }
 

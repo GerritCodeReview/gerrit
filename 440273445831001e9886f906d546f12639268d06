@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "43f6a770_dccaa3b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2022-05-20T18:27:30Z",
+      "side": 1,
+      "message": "\u003e User can select Light or Dark theme in preferences. Then such theme is\nnot changed by OS preference.\n\n\nWe need to send a PSA to customers about this change as I expect a LOT of feedback the moment this is deployed.",
+      "revId": "440273445831001e9886f906d546f12639268d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d758f4c1_3f53a1da",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
         "patchSetId": 6

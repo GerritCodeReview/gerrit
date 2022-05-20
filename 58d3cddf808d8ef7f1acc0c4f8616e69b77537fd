@@ -89,6 +89,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3d22554_1dcc4325",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyDirectFix.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T06:52:09Z",
+      "side": 1,
+      "message": "Please check if the user has \"ADD_PATCH_SET\" permission (via PermissionBackend)\n\nAnd add a test that the operation fails in case the user lacks that permission.",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "72d1557f_38c4a849",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyDirectFixIT.java",
         "patchSetId": 28

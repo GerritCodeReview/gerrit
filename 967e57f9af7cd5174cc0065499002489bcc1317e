@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b063342_3baaf33f",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-20T10:55:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edb07c00_2dd97045",
+      "range": {
+        "startLine": 193,
+        "startChar": 6,
+        "endLine": 193,
+        "endChar": 25
+      },
+      "revId": "967e57f9af7cd5174cc0065499002489bcc1317e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d4dd365_0838d118",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb33be57_bcdaa673",
+        "filename": "plugins/gitiles",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-20T10:55:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d4dd365_0838d118",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "967e57f9af7cd5174cc0065499002489bcc1317e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e56d63b_6130ad26",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-05-20T08:17:19Z",
       "side": 1,
       "message": "unintended modification?",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "967e57f9af7cd5174cc0065499002489bcc1317e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d4689e6_32688a59",
+        "filename": "plugins/replication",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-20T10:55:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e56d63b_6130ad26",
       "range": {
         "startLine": 1,
         "startChar": 18,

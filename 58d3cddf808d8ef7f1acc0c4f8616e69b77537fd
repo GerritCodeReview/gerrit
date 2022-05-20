@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbdb8863_074d4612",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T06:48:17Z",
+      "side": 1,
+      "message": "\"Implement API endpoint to apply a fix directly from input\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c75e1a14_82abbc08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T06:48:17Z",
+      "side": 1,
+      "message": "Please add a footer to the commit message:\n\nRelease-Notes: Implement API endpoint to apply a fix directly from input",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0049d38_a5eead08",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5384,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T06:48:17Z",
+      "side": 1,
+      "message": "nit: remove extra blank",
+      "range": {
+        "startLine": 5384,
+        "startChar": 52,
+        "endLine": 5384,
+        "endChar": 53
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "681a4eb4_3addde76",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T06:48:17Z",
+      "side": 1,
+      "message": "nit: \"Instead of using a fix stored at the server, this applies the fix provided in {@code DirectFixInput}\"",
+      "range": {
+        "startLine": 122,
+        "startChar": 53,
+        "endLine": 123,
+        "endChar": 21
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72d1557f_38c4a849",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyDirectFixIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T06:48:17Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 53
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00a7ddb3_0463486b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyDirectFixIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-20T06:48:17Z",
+      "side": 1,
+      "message": "remove this and other commented out lines",
+      "range": {
+        "startLine": 283,
+        "startChar": 4,
+        "endLine": 283,
+        "endChar": 56
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -68,8 +68,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.time.Instant;
-import java.util.Date;
-import java.util.TimeZone;
+import java.time.ZoneId;
 import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -85,7 +84,7 @@ import org.junit.runner.RunWith;
 @Ignore
 @RunWith(ConfigSuite.class)
 public abstract class AbstractChangeNotesTest {
-  private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
+  private static final ZoneId ZONE_ID = ZoneId.of("America/Los_Angeles");
 
   @ConfigSuite.Parameter public Config testConfig;
 
@@ -115,15 +114,11 @@ public abstract class AbstractChangeNotesTest {
   protected Injector injector;
   private String systemTimeZone;
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   @Before
   public void setUpTestEnvironment() throws Exception {
     setTimeForTesting();
 
-    serverIdent =
-        new PersonIdent("Gerrit Server", "noreply@gerrit.com", Date.from(TimeUtil.now()), TZ);
+    serverIdent = new PersonIdent("Gerrit Server", "noreply@gerrit.com", TimeUtil.now(), ZONE_ID);
     project = Project.nameKey("test-project");
     repoManager = new InMemoryRepositoryManager();
     repo = repoManager.createRepository(project);

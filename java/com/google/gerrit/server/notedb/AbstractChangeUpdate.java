@@ -29,7 +29,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Date;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -56,9 +55,6 @@ public abstract class AbstractChangeUpdate {
   private ObjectId result;
   boolean rootOnly;
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   AbstractChangeUpdate(
       ChangeNotes notes,
       CurrentUser user,
@@ -66,7 +62,7 @@ public abstract class AbstractChangeUpdate {
       ChangeNoteUtil noteUtil,
       Instant when) {
     this.noteUtil = noteUtil;
-    this.serverIdent = new PersonIdent(serverIdent, Date.from(when));
+    this.serverIdent = new PersonIdent(serverIdent, when);
     this.notes = notes;
     this.change = notes.getChange();
     this.accountId = accountId(user);
@@ -76,9 +72,6 @@ public abstract class AbstractChangeUpdate {
     this.when = when;
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   AbstractChangeUpdate(
       ChangeNoteUtil noteUtil,
       PersonIdent serverIdent,
@@ -92,7 +85,7 @@ public abstract class AbstractChangeUpdate {
         (notes != null && change == null) || (notes == null && change != null),
         "exactly one of notes or change required");
     this.noteUtil = noteUtil;
-    this.serverIdent = new PersonIdent(serverIdent, Date.from(when));
+    this.serverIdent = new PersonIdent(serverIdent, when);
     this.notes = notes;
     this.change = change != null ? change : notes.getChange();
     this.accountId = accountId;
@@ -213,9 +206,6 @@ public abstract class AbstractChangeUpdate {
    *     deleted.
    * @throws IOException if a lower-level error occurred.
    */
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   final ObjectId apply(RevWalk rw, ObjectInserter ins, ObjectId curr) throws IOException {
     if (isEmpty()) {
       return null;
@@ -236,7 +226,7 @@ public abstract class AbstractChangeUpdate {
       return null; // Impl is a no-op.
     }
     cb.setAuthor(authorIdent);
-    cb.setCommitter(new PersonIdent(serverIdent, Date.from(when)));
+    cb.setCommitter(new PersonIdent(serverIdent, when));
     setParentCommit(cb, curr);
     if (cb.getTreeId() == null) {
       if (curr.equals(z)) {

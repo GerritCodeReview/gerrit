@@ -113,14 +113,11 @@ public class Emails {
     return externalIds.byEmail(email).stream().map(ExternalId::accountId).collect(toImmutableSet());
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   public UserIdentity toUserIdentity(PersonIdent who) throws IOException {
     UserIdentity u = new UserIdentity();
     u.setName(who.getName());
     u.setEmail(who.getEmailAddress());
-    u.setDate(who.getWhen().toInstant());
+    u.setDate(who.getWhenAsInstant());
     u.setTimeZone(who.getTimeZoneOffset());
 
     // If only one account has access to this email address, select it

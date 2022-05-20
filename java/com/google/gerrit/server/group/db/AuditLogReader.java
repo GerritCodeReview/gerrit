@@ -139,9 +139,6 @@ public class AuditLogReader {
     return result.stream().map(AccountGroupByIdAudit.Builder::build).collect(toImmutableList());
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   private Optional<ParsedCommit> parse(AccountGroup.UUID uuid, RevCommit c) {
     Optional<Account.Id> authorId = NoteDbUtil.parseIdent(c.getAuthorIdent());
     if (!authorId.isPresent()) {
@@ -169,7 +166,7 @@ public class AuditLogReader {
     return Optional.of(
         new AutoValue_AuditLogReader_ParsedCommit(
             authorId.get(),
-            c.getAuthorIdent().getWhen().toInstant(),
+            c.getAuthorIdent().getWhenAsInstant(),
             ImmutableList.copyOf(addedMembers),
             ImmutableList.copyOf(removedMembers),
             ImmutableList.copyOf(addedSubgroups),

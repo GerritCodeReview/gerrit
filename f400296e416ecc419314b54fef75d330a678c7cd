@@ -16,6 +16,23 @@
       "message": "Nice!!!",
       "revId": "f400296e416ecc419314b54fef75d330a678c7cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "038ee014_8b6bbaaf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-20T12:01:29Z",
+      "side": 1,
+      "message": "Thanks Matthias for finalizing the implementation in JGit and thanks Edwin for  integration in gerrit!",
+      "revId": "f400296e416ecc419314b54fef75d330a678c7cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

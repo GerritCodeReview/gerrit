@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d757cd12_e5da10bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2022-05-20T00:33:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bd0abec_e3208a78",
+      "revId": "2792e890b946be11c5023684956f5592b0f88282",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "aaaee430_91665fcd",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2022-05-19T21:16:28Z",
       "side": 1,
       "message": "Can you move to stable-3.3 and add the missing footer?",
+      "revId": "2792e890b946be11c5023684956f5592b0f88282",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ff1b4b2_2b6cec47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2022-05-20T00:33:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aaaee430_91665fcd",
       "revId": "2792e890b946be11c5023684956f5592b0f88282",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -48,6 +84,30 @@
       "writtenOn": "2022-05-19T21:24:29Z",
       "side": 1,
       "message": "Since the indices contain varying limits, would it be better to dynamically set the BUFFER to x% (x can be ~1% ?) of getMaxEffectiveLimit() ?",
+      "range": {
+        "startLine": 370,
+        "startChar": 38,
+        "endLine": 370,
+        "endChar": 64
+      },
+      "revId": "2792e890b946be11c5023684956f5592b0f88282",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75dd1528_ac301a28",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2022-05-20T00:33:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03dfebb3_52d6c5c5",
       "range": {
         "startLine": 370,
         "startChar": 38,

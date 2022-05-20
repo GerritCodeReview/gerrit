@@ -36,7 +36,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.io.IOException;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
@@ -333,13 +332,10 @@ public class ProjectResetterTest {
     assertThat(repo.exactRef(ref.getName())).isNull();
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   private ObjectId createCommit(Repository repo) throws IOException {
     try (ObjectInserter oi = repo.newObjectInserter()) {
       PersonIdent ident =
-          new PersonIdent(new PersonIdent("Foo Bar", "foo.bar@baz.com"), Date.from(TimeUtil.now()));
+          new PersonIdent(new PersonIdent("Foo Bar", "foo.bar@baz.com"), TimeUtil.now());
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
       cb.setCommitter(ident);

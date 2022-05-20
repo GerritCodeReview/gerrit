@@ -29,7 +29,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -204,14 +203,11 @@ public class DeleteZombieCommentsRefsTest {
     return repo.exactRef(refName);
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   private static ObjectId createCommit(Repository repo, ObjectId treeId, ObjectId parentCommit)
       throws IOException {
     try (ObjectInserter oi = repo.newObjectInserter()) {
       PersonIdent committer =
-          new PersonIdent(new PersonIdent("Foo Bar", "foo.bar@baz.com"), Date.from(TimeUtil.now()));
+          new PersonIdent(new PersonIdent("Foo Bar", "foo.bar@baz.com"), TimeUtil.now());
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(treeId);
       cb.setCommitter(committer);

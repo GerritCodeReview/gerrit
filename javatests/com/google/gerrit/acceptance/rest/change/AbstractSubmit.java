@@ -1361,14 +1361,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(actual.getTimeZone()).isEqualTo(expected.getTimeZone());
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   protected void assertAuthorAndCommitDateEquals(RevCommit commit) {
-    assertThat(commit.getAuthorIdent().getWhen().getTime())
-        .isEqualTo(commit.getCommitterIdent().getWhen().getTime());
-    assertThat(commit.getAuthorIdent().getTimeZone())
-        .isEqualTo(commit.getCommitterIdent().getTimeZone());
+    assertThat(commit.getAuthorIdent().getWhenAsInstant())
+        .isEqualTo(commit.getCommitterIdent().getWhenAsInstant());
+    assertThat(commit.getAuthorIdent().getZoneId())
+        .isEqualTo(commit.getCommitterIdent().getZoneId());
   }
 
   protected void assertSubmitter(String changeId, int psId) throws Throwable {

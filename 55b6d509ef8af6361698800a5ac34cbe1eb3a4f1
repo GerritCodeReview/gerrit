@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71028149_f06ebcd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-20T07:50:43Z",
+      "side": 1,
+      "message": "Can you add some screenshots showing the exact issue? \nI don\u0027t fully understand how to reproduce this.\nHow it looks without the fix and how it looks with the fix.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "55b6d509ef8af6361698800a5ac34cbe1eb3a4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31a15490_d55ecfe8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-20T07:50:43Z",
+      "side": 1,
+      "message": "Can you link the bug 15927 in the footer similar to the commit message for https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/337461?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "55b6d509ef8af6361698800a5ac34cbe1eb3a4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

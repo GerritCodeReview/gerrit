@@ -1284,7 +1284,7 @@ any account.
   )]}'
   {
     "changes_per_page": 25,
-    "theme": "LIGHT",
+    "theme": "AUTO",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "diff_view": "SIDE_BY_SIDE",

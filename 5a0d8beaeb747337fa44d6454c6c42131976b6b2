@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65fe1331_cb536c04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-20T14:50:47Z",
+      "side": 1,
+      "message": "Should this be backported to 3.6? Since the first change you talk about is in 3.6? Although not all the changes are in 3.6.",
+      "revId": "5a0d8beaeb747337fa44d6454c6c42131976b6b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

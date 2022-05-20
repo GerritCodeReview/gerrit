@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fda4457_9383cf19",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-20T15:33:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86c05e29_1f672e82",
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "419fc50e_b3aaaedf",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-05-20T12:46:48Z",
       "side": 1,
       "message": "@Nullable annotation is missing.",
+      "range": {
+        "startLine": 98,
+        "startChar": 63,
+        "endLine": 98,
+        "endChar": 79
+      },
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca5312b9_621e94f1",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-20T15:33:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "419fc50e_b3aaaedf",
       "range": {
         "startLine": 98,
         "startChar": 63,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b0a30fc_d48e1679",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-20T15:33:18Z",
+      "side": 1,
+      "message": "Yes we only need the keys. We\u0027ll need the full comment entity for the deletion in the follow up.\n\nI fixed for this change though. Thanks for the advice.",
+      "parentUuid": "cb7bda7d_a33b19ef",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 74
+      },
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d7f27d5_c81891fc",
@@ -81,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "155bf19f_58ee9ac7",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-20T15:33:18Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "4d7f27d5_c81891fc",
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "499def50_ea8f4d87",
@@ -94,6 +178,24 @@
       "writtenOn": "2022-05-20T12:46:48Z",
       "side": 1,
       "message": "Could you add a link back to the tested class?",
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31fe14cf_17e6f26e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/DeleteZombieDraftIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-20T15:33:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "499def50_ea8f4d87",
       "revId": "04285a391191e225f8606f048356189c93196023",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -121,6 +223,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05b2acd5_dd72008e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/DeleteZombieDraftIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-20T15:33:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1389f111_6bcdc35a",
+      "range": {
+        "startLine": 69,
+        "startChar": 89,
+        "endLine": 69,
+        "endChar": 96
+      },
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "211b6c05_678975a2",
@@ -134,6 +260,24 @@
       "writtenOn": "2022-05-20T12:46:48Z",
       "side": 1,
       "message": "Return value is unused.",
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e96dd06d_9139d5cd",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/DeleteZombieDraftIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-20T15:33:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "211b6c05_678975a2",
       "revId": "04285a391191e225f8606f048356189c93196023",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

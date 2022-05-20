@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86c05e29_1f672e82",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-20T12:46:48Z",
+      "side": 1,
+      "message": "Should the comment be updated?",
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "419fc50e_b3aaaedf",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-20T12:46:48Z",
+      "side": 1,
+      "message": "@Nullable annotation is missing.",
+      "range": {
+        "startLine": 98,
+        "startChar": 63,
+        "endLine": 98,
+        "endChar": 79
+      },
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb7bda7d_a33b19ef",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-20T12:46:48Z",
+      "side": 1,
+      "message": "We only need the keys in both cases, not the full HumanComment. Or is this needed in the follow-up to remove the comment?",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 74
+      },
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d7f27d5_c81891fc",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-20T12:46:48Z",
+      "side": 1,
+      "message": "nit/opt: drafts.stream().filter(...).foreach(...)\n\nTotally optional, I just personally find it more readable because it\u0027s more uniform and there are fewer opportunities for side effects to sneak in.",
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "499def50_ea8f4d87",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/DeleteZombieDraftIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-20T12:46:48Z",
+      "side": 1,
+      "message": "Could you add a link back to the tested class?",
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1389f111_6bcdc35a",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/DeleteZombieDraftIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-20T12:46:48Z",
+      "side": 1,
+      "message": "nit: Iterables.getOnlyElement()",
+      "range": {
+        "startLine": 69,
+        "startChar": 89,
+        "endLine": 69,
+        "endChar": 96
+      },
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "211b6c05_678975a2",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/DeleteZombieDraftIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-20T12:46:48Z",
+      "side": 1,
+      "message": "Return value is unused.",
+      "revId": "04285a391191e225f8606f048356189c93196023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

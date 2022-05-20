@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e977992_4f154490",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-20T10:44:24Z",
+      "side": 1,
+      "message": "Unrelated space change.",
+      "revId": "31cb519c4cf3198fa558b2ab9c9c2618947f3a1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

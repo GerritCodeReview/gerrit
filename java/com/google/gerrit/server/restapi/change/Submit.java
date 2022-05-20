@@ -46,6 +46,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.cache.PerThreadCache.ReadonlyRequestWindow;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
@@ -207,7 +209,8 @@ public class Submit
     try (MergeOp op = mergeOpProvider.get()) {
       Change updatedChange;
 
-      try {
+      try (ReadonlyRequestWindow readonlyRequestWindow =
+          PerThreadCache.openReadonlyRequestWindow()) {
         updatedChange = op.merge(change, submitter, true, input, false);
       } catch (Exception e) {
         Throwables.throwIfInstanceOf(e, RestApiException.class);

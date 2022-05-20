@@ -361,7 +361,7 @@ public class RestApiServlet extends HttpServlet {
     try (TraceContext traceContext = enableTracing(req, res)) {
       String requestUri = requestUri(req);
 
-      try (PerThreadCache ignored = PerThreadCache.create(req)) {
+      try (PerThreadCache ignored = PerThreadCache.create()) {
         List<IdString> path = splitPath(req);
         RequestInfo requestInfo = createRequestInfo(traceContext, requestUri(req), path);
         globals.requestListeners.runEach(l -> l.onRequest(requestInfo));

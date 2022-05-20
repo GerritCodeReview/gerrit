@@ -43,6 +43,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c7b8b524_728a9686",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5378,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-20T16:17:19Z",
+      "side": 1,
+      "message": "Maybe this should be \"Apply Fix\" and the current \"Apply Fix\" is renamed to \"Apply Suggested Fix\"? Or maybe this becomes \"Apply Fix Directly\"? A \"Direct Fix\" is a confusing concept to me because my brain wants to compare it to an \"Indirect Fix\" and that\u0027s obviously not a thing.",
+      "range": {
+        "startLine": 5378,
+        "startChar": 4,
+        "endLine": 5378,
+        "endChar": 20
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e66e7d95_9c78c022",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5383,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-20T16:17:19Z",
+      "side": 1,
+      "message": "This is going to be confusing because a \"FixInput\" is completely unrelated to the \"Apply Fix\" concepts and is instead used for doing consistency checks on a change and fixing any problems. Maybe \"ApplyFixInput\"?",
+      "range": {
+        "startLine": 5383,
+        "startChar": 19,
+        "endLine": 5383,
+        "endChar": 33
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a0049d38_a5eead08",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28
@@ -59,6 +105,29 @@
         "startChar": 52,
         "endLine": 5384,
         "endChar": 53
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "905d764b_5ee257f4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5385,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-20T16:17:19Z",
+      "side": 1,
+      "message": "Which entity should have this reference?",
+      "range": {
+        "startLine": 5385,
+        "startChar": 27,
+        "endLine": 5385,
+        "endChar": 62
       },
       "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -83,6 +152,23 @@
         "endLine": 123,
         "endChar": 21
       },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33b34ef3_24c991d2",
+        "filename": "java/com/google/gerrit/extensions/common/DirectFixInput.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-20T16:17:19Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t match my understanding of the intent of this class. I don\u0027t think there\u0027s anything \"Reviewer\" specific and it\u0027s not a suggestion if the API is applying it without further user interaction.",
       "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

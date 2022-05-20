@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d83de5f2_2d1c5b6c",
+        "filename": "javatests/com/google/gerrit/server/git/RepoRefCacheTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-20T13:27:07Z",
+      "side": 1,
+      "message": "Wrong indentation and tabs are used for indent.\n\nAlso unrelated to this change, but the formatting in Reindex.java is broken in this branch as well:\n\n```\ndiff --git a/java/com/google/gerrit/pgm/Reindex.java b/java/com/google/gerrit/pgm/Reindex.java\nindex 0a8458b122..923406ea1a 100644\n--- a/java/com/google/gerrit/pgm/Reindex.java\n+++ b/java/com/google/gerrit/pgm/Reindex.java\n@@ -153,7 +153,9 @@ public class Reindex extends SiteProgram {\n     Module indexModule;\n     IndexType indexType \u003d IndexModule.getIndexType(dbInjector);\n     if (indexType.isLucene()) {\n-      indexModule \u003d LuceneIndexModule.singleVersionWithExplicitVersions(versions, threads, replica, AutoFlush.DISABLED);\n+      indexModule \u003d\n+          LuceneIndexModule.singleVersionWithExplicitVersions(\n+              versions, threads, replica, AutoFlush.DISABLED);\n     } else if (indexType.isElasticsearch()) {\n\n```",
+      "range": {
+        "startLine": 329,
+        "startChar": 0,
+        "endLine": 332,
+        "endChar": 2
+      },
+      "revId": "74a9c2285d75182eca0d6892b36a07eca35443ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

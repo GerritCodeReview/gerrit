@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8462d251_d949171f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-20T12:08:37Z",
+      "side": 1,
+      "message": "Thanks @Davido, I\u0027ve included it in Change-Id: I7fab22d2bfae5",
+      "revId": "aa17c5fbd12e643355aeadddc5da791374d228bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

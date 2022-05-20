@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4034b9f2_e1e9767c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-20T14:46:15Z",
+      "side": 1,
+      "message": "Can you elaborate why?",
+      "revId": "7165ef1f7231f9a49262945b0f0eb57bdd776325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

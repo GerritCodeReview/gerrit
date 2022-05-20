@@ -1,0 +1,203 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca84d79d_f40ab650",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T07:24:29Z",
+      "side": 1,
+      "message": "Thanks! Feel free to ignore some comments and just submit. :-)",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7581f38b_27d21819",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T07:24:29Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 1
+      },
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32eb045b_c965b761",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T07:24:29Z",
+      "side": 1,
+      "message": "Maybe move to the top. I just wanted to point out that `paperStyles` is missing, because I was not expecting something at the bottom.",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0e8be71_0f6e6f8e",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T07:24:29Z",
+      "side": 1,
+      "message": "Nit: Personally, I like to use just `link` instead of `link\u003d\"\"` for setting boolean attributes.",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b45bbc95_60b47fa1",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T07:24:29Z",
+      "side": 1,
+      "message": "Nit: If you cannot be 100% sure that `e.target` is an input element, then maybe add `?? false`, because `this.showAllActivity` should not become `undefined`.",
+      "range": {
+        "startLine": 477,
+        "startChar": 28,
+        "endLine": 477,
+        "endChar": 36
+      },
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "063d86b0_f3547d49",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T07:24:29Z",
+      "side": 1,
+      "message": "remove comment",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c5a355f_23990b67",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T07:24:29Z",
+      "side": 1,
+      "message": "maybe inline",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "060896ec_b4ac6b34",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T07:24:29Z",
+      "side": 1,
+      "message": "maybe inline, because just used once?",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac9dfc0a_6d4689cd",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T07:24:29Z",
+      "side": 1,
+      "message": "maybe inline",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ee42117_57c72680",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T07:24:29Z",
+      "side": 1,
+      "message": "maybe inline",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5441eccd_6cf9e462",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T07:24:29Z",
+      "side": 1,
+      "message": "maybe inline",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

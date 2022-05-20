@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d4b0131_cc909897",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-20T14:09:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7581f38b_27d21819",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 255,
+        "endChar": 1
+      },
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32eb045b_c965b761",
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e2e50e1_34db56f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-20T14:09:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32eb045b_c965b761",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0e8be71_0f6e6f8e",
@@ -71,6 +113,24 @@
       "writtenOn": "2022-05-20T07:24:29Z",
       "side": 1,
       "message": "Nit: Personally, I like to use just `link` instead of `link\u003d\"\"` for setting boolean attributes.",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9681d0c0_001dfd10",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-20T14:09:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0e8be71_0f6e6f8e",
       "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +158,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c04d7bf2_07c74fae",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-20T14:09:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b45bbc95_60b47fa1",
+      "range": {
+        "startLine": 477,
+        "startChar": 28,
+        "endLine": 477,
+        "endChar": 36
+      },
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "063d86b0_f3547d49",
@@ -111,6 +195,24 @@
       "writtenOn": "2022-05-20T07:24:29Z",
       "side": 1,
       "message": "remove comment",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "148f93ed_6b3d2bfd",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-20T14:09:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "063d86b0_f3547d49",
       "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -132,6 +234,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "facdccff_f42cd5b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-20T14:09:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c5a355f_23990b67",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "060896ec_b4ac6b34",
@@ -145,6 +265,24 @@
       "writtenOn": "2022-05-20T07:24:29Z",
       "side": 1,
       "message": "maybe inline, because just used once?",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aa98148_b3604be5",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-20T14:09:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "060896ec_b4ac6b34",
       "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -166,6 +304,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea686b9a_7f527dd9",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-20T14:09:32Z",
+      "side": 1,
+      "message": "It\u0027s a long type-signature so I\u0027ve kept it.",
+      "parentUuid": "ac9dfc0a_6d4689cd",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ee42117_57c72680",
@@ -183,6 +339,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28aad574_02ea1c60",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-20T14:09:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ee42117_57c72680",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5441eccd_6cf9e462",
@@ -196,6 +370,24 @@
       "writtenOn": "2022-05-20T07:24:29Z",
       "side": 1,
       "message": "maybe inline",
+      "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d2f6cf6_4a875976",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-20T14:09:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5441eccd_6cf9e462",
       "revId": "5d2ad16a0621fdb310a8f47fcdec6c6f3a496a50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

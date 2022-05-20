@@ -16,6 +16,24 @@
       "message": "Can you elaborate why?",
       "revId": "7165ef1f7231f9a49262945b0f0eb57bdd776325",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ed0e824_c609fca1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-05-20T15:33:33Z",
+      "side": 1,
+      "message": "since 3.2 we have more general solution to the problem `modules/cached-refdb` [1]\n\n[1] https://gerrit-review.googlesource.com/admin/repos/modules/cached-refdb,branches",
+      "parentUuid": "4034b9f2_e1e9767c",
+      "revId": "7165ef1f7231f9a49262945b0f0eb57bdd776325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -102,6 +102,7 @@ public class GeneralPreferencesInfo {
   }
 
   public enum Theme {
+    AUTO,
     DARK,
     LIGHT
   }

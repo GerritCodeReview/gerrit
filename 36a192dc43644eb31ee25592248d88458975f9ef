@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48454324_26bf428a",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 32
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T12:27:52Z",
+      "side": 1,
+      "message": "\"preferences\"?\n\nMaybe mention that this code is for migrating from local storage to backend prefs.",
+      "range": {
+        "startLine": 260,
+        "startChar": 36,
+        "endLine": 260,
+        "endChar": 48
+      },
+      "revId": "36a192dc43644eb31ee25592248d88458975f9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73559bb8_aad73797",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 32
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T12:27:52Z",
+      "side": 1,
+      "message": "Calling the Rest API from UI components is an anti-pattern. You can subscribe to preference changes in the using the user-model. That will also allow you to remove `this.reloadPage();` from the settings view, which is pretty cool: Theme change without page reload, yay!",
+      "range": {
+        "startLine": 272,
+        "startChar": 11,
+        "endLine": 272,
+        "endChar": 42
+      },
+      "revId": "36a192dc43644eb31ee25592248d88458975f9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a396e195_b78420ec",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 32
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T12:27:52Z",
+      "side": 1,
+      "message": "It should be made clear that these lines should be removed when resolving the TODO above.",
+      "range": {
+        "startLine": 272,
+        "startChar": 6,
+        "endLine": 275,
+        "endChar": 9
+      },
+      "revId": "36a192dc43644eb31ee25592248d88458975f9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57629d86_27b25e8c",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 32
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-20T12:27:52Z",
+      "side": 1,
+      "message": "Why does this need to happen in `render()`?",
+      "range": {
+        "startLine": 383,
+        "startChar": 3,
+        "endLine": 385,
+        "endChar": 5
+      },
+      "revId": "36a192dc43644eb31ee25592248d88458975f9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

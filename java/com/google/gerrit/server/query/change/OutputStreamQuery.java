@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelTypes;
@@ -250,7 +251,8 @@ public class OutputStreamQuery {
       ChangeData d, Map<Project.NameKey, Repository> repos, Map<Project.NameKey, RevWalk> revWalks)
       throws IOException {
     LabelTypes labelTypes = d.getLabelTypes();
-    ChangeAttribute c = eventFactory.asChangeAttribute(d.change(), d.notes());
+    ChangeAttribute c = eventFactory.asChangeAttribute(d.change());
+    c.hashtags = Lists.newArrayList(d.hashtags());
     eventFactory.extend(c, d.change());
 
     if (!trackingFooters.isEmpty()) {

@@ -56,7 +56,7 @@ public class UserInPredicate extends ApprovalPredicate {
       PatchSet patchSet = ctx.target();
       accountId = patchSet.uploader();
     } else if (field == Field.APPROVER) {
-      accountId = ctx.patchSetApproval().accountId();
+      accountId = ctx.patchSetApprovalKey().accountId();
     } else {
       throw new IllegalStateException("unknown field in group membership check: " + field);
     }

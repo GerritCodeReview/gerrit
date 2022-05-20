@@ -27,7 +27,7 @@ public class ExactValuePredicate extends ApprovalPredicate {
 
   @Override
   public boolean match(ApprovalContext approvalContext) {
-    return votingValue == approvalContext.patchSetApproval().value();
+    return votingValue == approvalContext.patchSetApprovalValue();
   }
 
   @Override

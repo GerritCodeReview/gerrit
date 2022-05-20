@@ -49,7 +49,7 @@ public class MagicValuePredicate extends ApprovalPredicate {
   @Override
   public boolean match(ApprovalContext ctx) {
     Optional<LabelType> lt =
-        getLabelType(ctx.changeNotes().getProjectName(), ctx.patchSetApproval().labelId());
+        getLabelType(ctx.changeNotes().getProjectName(), ctx.patchSetApprovalKey().labelId());
     short pValue;
     switch (value) {
       case ANY:
@@ -69,7 +69,7 @@ public class MagicValuePredicate extends ApprovalPredicate {
       default:
         throw new IllegalArgumentException("unrecognized label value: " + value);
     }
-    return pValue == ctx.patchSetApproval().value();
+    return pValue == ctx.patchSetApprovalValue();
   }
 
   private Optional<LabelType> getLabelType(Project.NameKey project, LabelId labelId) {

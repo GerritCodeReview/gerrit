@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1483f429_46e5094a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-05-21T06:41:31Z",
+      "side": 1,
+      "message": "makes no sense to me here.",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "236e43e1ab9556073b26d77de28c6fbc45d6ec06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81b9e493_53d542c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-05-21T06:41:31Z",
+      "side": 1,
+      "message": "pedantically, that should be \"on\", i think.",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "236e43e1ab9556073b26d77de28c6fbc45d6ec06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1dc8fc6_8681ad1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-05-21T06:41:31Z",
+      "side": 1,
+      "message": "maybe add comma here for unambiguous parsing.",
+      "range": {
+        "startLine": 18,
+        "startChar": 61,
+        "endLine": 18,
+        "endChar": 62
+      },
+      "revId": "236e43e1ab9556073b26d77de28c6fbc45d6ec06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf3402a6_4912a6dd",
+        "filename": "javatests/com/google/gerrit/index/query/QueryParserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-05-21T06:41:31Z",
+      "side": 1,
+      "message": "you could also test -foo-:bar for completeness.\n\nalso, for good measure you could add a case with a digit.",
+      "revId": "236e43e1ab9556073b26d77de28c6fbc45d6ec06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7614551_36ee5ddb",
+        "filename": "javatests/com/google/gerrit/index/query/QueryParserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-05-21T06:41:31Z",
+      "side": 1,
+      "message": "pedantically, it\u0027s not necessary to test mixing dashes and underscores, as from a parser perspective the underscores aren\u0027t anything special at this level. that makes this and the next case redundant, and the last one could be simplified.",
+      "revId": "236e43e1ab9556073b26d77de28c6fbc45d6ec06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

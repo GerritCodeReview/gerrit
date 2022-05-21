@@ -1352,6 +1352,27 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushForMasterWithApprovalsAndHashtags() throws Exception {
+    // specify a single hashtag as option
+    String hashtag1 = "tag1";
+    Set<String> expected = ImmutableSet.of(hashtag1);
+    PushOneCommit.Result r = pushTo("refs/for/master%l=Code-Review,%hashtag=#" + hashtag1);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, null);
+
+    Set<String> hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
+    assertThat(hashtags).containsExactlyElementsIn(expected);
+
+    ChangeInfo ci = get(r.getChangeId(), MESSAGES);
+    //assertThat(ci.messages).hasSize(2);
+    assertThat(ci.messages.stream().map(m -> m.message))
+      .containsExactly(
+        "Hashtags added: tag1",
+        "Uploaded patch set 1: Code-Review+1."
+      );
+  }
+
+  @Test
   public void pushCommitUsingSignedOffBy() throws Exception {
     PushOneCommit push =
         pushFactory.create(

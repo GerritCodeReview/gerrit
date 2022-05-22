@@ -36,12 +36,14 @@ import {
   createRevision,
   createAccountDetailWithId,
   createChangeConfig,
+  createConfig,
 } from '../../../test/test-data-generators';
 import {
   ChangeStatus,
   SubmitType,
   RequirementStatus,
   GpgKeyInfoStatus,
+  InheritedBooleanInfoConfiguredValue,
 } from '../../../constants/constants';
 import {
   EmailAddress,
@@ -479,6 +481,13 @@ suite('gr-change-metadata tests', () => {
         labels: {},
         mergeable: true,
       };
+      element.repoConfig = {
+        ...createConfig(),
+        enable_signed_push: {
+          configured_value: 'TRUE' as InheritedBooleanInfoConfiguredValue,
+          value: true,
+        },
+      };
     });
 
     test('Push Certificate Validation test BAD', () => {
@@ -491,7 +500,8 @@ suite('gr-change-metadata tests', () => {
       };
       const result = element._computePushCertificateValidation(
         serverConfig,
-        change
+        change,
+        element.repoConfig
       );
       assert.equal(
         result?.message,
@@ -511,7 +521,8 @@ suite('gr-change-metadata tests', () => {
       };
       const result = element._computePushCertificateValidation(
         serverConfig,
-        change
+        change,
+        element.repoConfig
       );
       assert.equal(
         result?.message,
@@ -525,7 +536,8 @@ suite('gr-change-metadata tests', () => {
       change!.revisions.rev1! = createRevision(1);
       const result = element._computePushCertificateValidation(
         serverConfig,
-        change
+        change,
+        element.repoConfig
       );
       assert.equal(
         result?.message,
@@ -533,6 +545,41 @@ suite('gr-change-metadata tests', () => {
       );
       assert.equal(result?.icon, 'gr-icons:help');
       assert.equal(result?.class, 'help');
+    });
+
+    test('_computePushCertificateValidation returns undefined', () => {
+      delete serverConfig!.receive!.enable_signed_push;
+      const result = element._computePushCertificateValidation(
+        serverConfig,
+        change,
+        element.repoConfig
+      );
+      assert.isUndefined(result);
+    });
+
+    test('isEnabledSignedPushOnRepo', () => {
+      change!.revisions.rev1!.push_certificate = {
+        certificate: 'Push certificate',
+        key: {
+          status: GpgKeyInfoStatus.TRUSTED,
+        },
+      };
+      element.change = change;
+      element.serverConfig = serverConfig;
+      element.repoConfig!.enable_signed_push!.configured_value =
+        InheritedBooleanInfoConfiguredValue.INHERIT;
+      element.repoConfig!.enable_signed_push!.inherited_value = true;
+      assert.isTrue(element.isEnabledSignedPushOnRepo(element.repoConfig));
+
+      element.repoConfig!.enable_signed_push!.inherited_value = false;
+      assert.isFalse(element.isEnabledSignedPushOnRepo(element.repoConfig));
+
+      element.repoConfig!.enable_signed_push!.configured_value =
+        InheritedBooleanInfoConfiguredValue.TRUE;
+      assert.isTrue(element.isEnabledSignedPushOnRepo(element.repoConfig));
+
+      element.repoConfig = undefined;
+      assert.isFalse(element.isEnabledSignedPushOnRepo(element.repoConfig));
     });
   });
 

@@ -37,6 +37,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   ChangeStatus,
   GpgKeyInfoStatus,
+  InheritedBooleanInfoConfiguredValue,
   SubmitType,
 } from '../../../constants/constants';
 import {changeIsOpen, isOwner} from '../../../utils/change-util';
@@ -48,6 +49,7 @@ import {
   ChangeInfo,
   CommitId,
   CommitInfo,
+  ConfigInfo,
   GpgKeyInfo,
   Hashtag,
   isAccount,
@@ -149,6 +151,8 @@ export class GrChangeMetadata extends LitElement {
   @property({type: Object}) serverConfig?: ServerInfo;
 
   @property({type: Boolean}) parentIsCurrent?: boolean;
+
+  @property({type: Object}) repoConfig?: ConfigInfo;
 
   // private but used in test
   @state() mutable = false;
@@ -749,7 +753,8 @@ export class GrChangeMetadata extends LitElement {
     }
     if (
       changedProperties.has('serverConfig') ||
-      changedProperties.has('change')
+      changedProperties.has('change') ||
+      changedProperties.has('repoConfig')
     ) {
       this.pushCertificateValidation = this.computePushCertificateValidation();
     }
@@ -887,6 +892,9 @@ export class GrChangeMetadata extends LitElement {
     if (!this.change || !this.serverConfig?.receive?.enable_signed_push)
       return undefined;
 
+    if (!this.isEnabledSignedPushOnRepo()) {
+      return undefined;
+    }
     const rev = this.change.revisions[this.change.current_revision];
     if (!rev.push_certificate?.key) {
       return {
@@ -928,6 +936,20 @@ export class GrChangeMetadata extends LitElement {
       default:
         assertNever(key.status, `unknown certificate status: ${key.status}`);
     }
+  }
+
+  // private but used in test
+  isEnabledSignedPushOnRepo() {
+    if (!this.repoConfig?.enable_signed_push) return false;
+
+    const enableSignedPush = this.repoConfig.enable_signed_push;
+    return (
+      (enableSignedPush.configured_value ===
+        InheritedBooleanInfoConfiguredValue.INHERIT &&
+        enableSignedPush.inherited_value) ||
+      enableSignedPush.configured_value ===
+        InheritedBooleanInfoConfiguredValue.TRUE
+    );
   }
 
   private problems(msg: string, key: GpgKeyInfo) {

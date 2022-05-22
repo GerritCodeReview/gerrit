@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "623b53ea_5e380e4e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-22T15:18:12Z",
+      "side": 1,
+      "message": "Seems like there is either a typo in the doc or somethings gone wrong. As i don\u0027t see \"INHERITED\" as a value at all, rather i only see \"INHERIT\" then \"TRUE and FALSE\".\n\nAnd we seem to use INHERITED within the app (although i think it\u0027s wrong based on the value returned (e.g. INHERIT).\n\nDoc being https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#inherited-boolean-info",
+      "revId": "26df0d017ff06aa7a52c00b4f00b64bea5b1d75e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -43,6 +43,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   ChangeStatus,
   GpgKeyInfoStatus,
+  InheritedBooleanInfoConfiguredValue,
   SubmitType,
 } from '../../../constants/constants';
 import {changeIsOpen} from '../../../utils/change-util';
@@ -53,7 +54,11 @@ import {
   BranchName,
   CommitId,
   CommitInfo,
+<<<<<<< HEAD   (1b9504 Set version to 3.4.6-SNAPSHOT)
   ElementPropertyDeepChange,
+=======
+  ConfigInfo,
+>>>>>>> CHANGE (82bd1a Support per-project enableSignedPush in computePushCertifica)
   GpgKeyInfo,
   Hashtag,
   LabelNameToInfoMap,
@@ -155,8 +160,15 @@ export class GrChangeMetadata extends PolymerElement {
   @property({type: Object})
   serverConfig?: ServerInfo;
 
+<<<<<<< HEAD   (1b9504 Set version to 3.4.6-SNAPSHOT)
   @property({type: Boolean})
   parentIsCurrent?: boolean;
+=======
+  @property({type: Object}) repoConfig?: ConfigInfo;
+
+  // private but used in test
+  @state() mutable = false;
+>>>>>>> CHANGE (82bd1a Support per-project enableSignedPush in computePushCertifica)
 
   @property({type: String})
   readonly _notCurrentMessage = NOT_CURRENT_MESSAGE;
@@ -256,10 +268,30 @@ export class GrChangeMetadata extends PolymerElement {
       this.set(['change', 'assignee'], undefined);
       this.restApiService.deleteAssignee(this.change._number);
     }
+<<<<<<< HEAD   (1b9504 Set version to 3.4.6-SNAPSHOT)
   }
 
   _computeHideStrategy(change?: ParsedChangeInfo) {
     return !changeIsOpen(change);
+=======
+    if (changedProperties.has('mutable') || changedProperties.has('change')) {
+      this.topicReadOnly = this.computeTopicReadOnly();
+      this.hashtagReadOnly = this.computeHashtagReadOnly();
+    }
+    if (changedProperties.has('change')) {
+      this.settingTopic = false;
+    }
+    if (
+      changedProperties.has('serverConfig') ||
+      changedProperties.has('change') ||
+      changedProperties.has('repoConfig')
+    ) {
+      this.pushCertificateValidation = this.computePushCertificateValidation();
+    }
+    if (changedProperties.has('revision') || changedProperties.has('change')) {
+      this.currentParents = this.computeParents();
+    }
+>>>>>>> CHANGE (82bd1a Support per-project enableSignedPush in computePushCertifica)
   }
 
   /**
@@ -411,7 +443,14 @@ export class GrChangeMetadata extends PolymerElement {
   ): PushCertificateValidationInfo | undefined {
     if (!change || !serverConfig?.receive?.enable_signed_push) return undefined;
 
+<<<<<<< HEAD   (1b9504 Set version to 3.4.6-SNAPSHOT)
     const rev = change.revisions[change.current_revision];
+=======
+    if (!this.isEnabledSignedPushOnRepo()) {
+      return undefined;
+    }
+    const rev = this.change.revisions[this.change.current_revision];
+>>>>>>> CHANGE (82bd1a Support per-project enableSignedPush in computePushCertifica)
     if (!rev.push_certificate?.key) {
       return {
         class: 'help',
@@ -454,7 +493,25 @@ export class GrChangeMetadata extends PolymerElement {
     }
   }
 
+<<<<<<< HEAD   (1b9504 Set version to 3.4.6-SNAPSHOT)
   _problems(msg: string, key: GpgKeyInfo) {
+=======
+  // private but used in test
+  isEnabledSignedPushOnRepo() {
+    if (!this.repoConfig?.enable_signed_push) return false;
+
+    const enableSignedPush = this.repoConfig.enable_signed_push;
+    return (
+      (enableSignedPush.configured_value ===
+        InheritedBooleanInfoConfiguredValue.INHERIT &&
+        enableSignedPush.inherited_value) ||
+      enableSignedPush.configured_value ===
+        InheritedBooleanInfoConfiguredValue.TRUE
+    );
+  }
+
+  private problems(msg: string, key: GpgKeyInfo) {
+>>>>>>> CHANGE (82bd1a Support per-project enableSignedPush in computePushCertifica)
     if (!key?.problems || key.problems.length === 0) {
       return msg;
     }

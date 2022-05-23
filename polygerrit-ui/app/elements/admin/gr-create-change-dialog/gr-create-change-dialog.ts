@@ -193,7 +193,7 @@ export class GrCreateChangeDialog extends PolymerElement {
       return false;
     } else if (
       config &&
-      config.configured_value === InheritedBooleanInfoConfiguredValue.INHERITED
+      config.configured_value === InheritedBooleanInfoConfiguredValue.INHERIT
     ) {
       return !!(config && config.inherited_value);
     } else {

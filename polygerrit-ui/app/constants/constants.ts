@@ -211,7 +211,7 @@ export enum MergeStrategy {
 export enum InheritedBooleanInfoConfiguredValue {
   TRUE = 'TRUE',
   FALSE = 'FALSE',
-  INHERITED = 'INHERITED',
+  INHERIT = 'INHERIT',
 }
 
 export enum AccountTag {

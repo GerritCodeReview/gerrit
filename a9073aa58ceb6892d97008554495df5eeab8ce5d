@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a39480d8_b16c82d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-23T07:57:06Z",
+      "side": 1,
+      "message": "I verified this change manually, works well. Thanks Paladox for working on this issue!\n\nFound a few minor issues with the code...",
+      "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ecf61f0_1123b23b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-23T07:57:06Z",
+      "side": 1,
+      "message": "compared to the surrounding source code, looks like these two lines should be joined into one line?",
+      "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "748acc3f_51627475",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-23T07:57:06Z",
+      "side": 1,
+      "message": "typo: Config",
+      "range": {
+        "startLine": 930,
+        "startChar": 26,
+        "endLine": 930,
+        "endChar": 32
+      },
+      "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7d90eae_765e405a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-23T07:57:06Z",
+      "side": 1,
+      "message": "name boolean function using is... or has.... prefix:\n\n  isEnabledSignedPushOnRepo",
+      "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

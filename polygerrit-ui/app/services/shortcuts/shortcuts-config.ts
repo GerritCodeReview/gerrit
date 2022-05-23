@@ -111,6 +111,8 @@ export enum Shortcut {
   SEND_REPLY = 'SEND_REPLY',
   EMOJI_DROPDOWN = 'EMOJI_DROPDOWN',
   TOGGLE_BLAME = 'TOGGLE_BLAME',
+
+  TOGGLE_CHECKBOX = 'TOGGLE_CHECKBOX',
 }
 
 export interface ShortcutHelpItem {
@@ -422,6 +424,9 @@ describe(
 );
 describe(Shortcut.TOGGLE_BLAME, ShortcutSection.DIFFS, 'Toggle blame', {
   key: 'b',
+});
+describe(Shortcut.TOGGLE_CHECKBOX, ShortcutSection.ACTIONS, 'Toggle checkbox', {
+  key: 'x',
 });
 describe(Shortcut.OPEN_FILE_LIST, ShortcutSection.DIFFS, 'Open file list', {
   key: 'f',

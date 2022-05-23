@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ee8f2c7b_77d12011",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5378,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-23T09:02:08Z",
+      "side": 1,
+      "message": "I do agree, but we need to rename an API that is currently in use. Which purely for the sake of naming, I think is too much effort. So my suggestion is to leave as-is.\n\nDo we have other naming options that would allow us to keep the name of the existing API?",
+      "parentUuid": "c7b8b524_728a9686",
+      "range": {
+        "startLine": 5378,
+        "startChar": 4,
+        "endLine": 5378,
+        "endChar": 20
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e66e7d95_9c78c022",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28
@@ -77,6 +101,30 @@
       "writtenOn": "2022-05-20T16:17:19Z",
       "side": 1,
       "message": "This is going to be confusing because a \"FixInput\" is completely unrelated to the \"Apply Fix\" concepts and is instead used for doing consistency checks on a change and fixing any problems. Maybe \"ApplyFixInput\"?",
+      "range": {
+        "startLine": 5383,
+        "startChar": 19,
+        "endLine": 5383,
+        "endChar": 33
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "089b67ff_0bb8f0eb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5383,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-23T09:02:08Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "e66e7d95_9c78c022",
       "range": {
         "startLine": 5383,
         "startChar": 19,
@@ -135,6 +183,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ff4f93e6_60007c42",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5385,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-23T09:02:08Z",
+      "side": 1,
+      "message": "It\u0027s part of the URL. Maybe state that explicitly?",
+      "parentUuid": "905d764b_5ee257f4",
+      "range": {
+        "startLine": 5385,
+        "startChar": 27,
+        "endLine": 5385,
+        "endChar": 62
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "681a4eb4_3addde76",
         "filename": "java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
         "patchSetId": 28
@@ -169,6 +241,24 @@
       "writtenOn": "2022-05-20T16:17:19Z",
       "side": 1,
       "message": "This comment doesn\u0027t match my understanding of the intent of this class. I don\u0027t think there\u0027s anything \"Reviewer\" specific and it\u0027s not a suggestion if the API is applying it without further user interaction.",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99f1c50e_cc35af29",
+        "filename": "java/com/google/gerrit/extensions/common/DirectFixInput.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-23T09:02:08Z",
+      "side": 1,
+      "message": "+1 maybe:\n\n\"Input containing a fix to apply a fix directly to the change.\"",
+      "parentUuid": "33b34ef3_24c991d2",
       "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

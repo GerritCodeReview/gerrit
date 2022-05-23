@@ -1,0 +1,60 @@
+= gerrit copy-approvals
+
+== NAME
+gerrit copy-approvals - Copy all inferred approvals labels to the latest patch-set.
+
+== SYNOPSIS
+[verse]
+--
+_ssh_ -p <port> <host> _gerrit copy-approvals_
+  [--verbose | -v]
+  [PROJECT]...
+--
+
+== DESCRIPTION
+Gerrit has historically computed votes using an inference algorithm that
+was cumulating them from all the patch-sets. That was not efficient since
+it had to take into account copied votes from very old patchsets.
+E.g, votes sometimes need to be copied from ps1 to ps10.
+
+Gerrit copy the approvals from the inferred votes to the latest patch-sets
+once a change receives a new label update.
+
+The copy-approval command scans all the changes of a project and looks for
+all votes that have not been copied yet, calculate the inferred score and
+apply that as copied label to the latest patch-set.
+
+NOTE: The label copied as part of this process receives the grant date of
+the timestamp of the copy-approval command execution, not the one associated
+with the inferred vote.
+
+== OPTIONS
+
+--verbose::
+-v::
+	Display projects/changes impacted by the label copy operation.
+
+== ACCESS
+Only the user with MAINTAIN_SERVER permissions can run this command.
+
+== SCRIPTING
+This command is intended to be used in scripts.
+
+== EXAMPLES
+
+Copy all inferred labels on the project 'foo'
+----
+$ ssh -p 29418 review.example.com gerrit copy-approvals foo
+----
+
+Copy all inferred labels on all projects
+----
+$ ssh -p 29418 review.example.com gerrit copy-approvals
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

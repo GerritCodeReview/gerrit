@@ -383,13 +383,15 @@ public class ApprovalsUtil {
     }
 
     for (PatchSetApproval psa : inferred) {
-      if (approvalTable.contains(psa.labelId(), psa.accountId())) {
-        Short v = approvalTable.get(psa.labelId(), psa.accountId());
-        if (v.shortValue() != psa.value()) {
+      if (psa.value() != 0) {
+        if (approvalTable.contains(psa.labelId(), psa.accountId())) {
+          Short v = approvalTable.get(psa.labelId(), psa.accountId());
+          if (v.shortValue() != psa.value()) {
+            changeUpdate.putCopiedApproval(psa);
+          }
+        } else {
           changeUpdate.putCopiedApproval(psa);
         }
-      } else {
-        changeUpdate.putCopiedApproval(psa);
       }
     }
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1601217e_c8356104",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-23T14:15:59Z",
+      "side": 1,
+      "message": "Have you confirmed that this is what the REST API looks like?",
+      "revId": "4d71f28f198379482ab266835e02b55f8cc5a2eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

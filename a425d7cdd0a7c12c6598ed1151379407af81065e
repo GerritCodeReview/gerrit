@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5f2041c_49668909",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-23T11:33:18Z",
+      "side": 1,
+      "message": "Afaict, it\u0027s never mutated inside of gr-file-list.",
+      "parentUuid": "1ca28c7d_f4f07898",
+      "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da93b65b_a83da551",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
         "patchSetId": 14

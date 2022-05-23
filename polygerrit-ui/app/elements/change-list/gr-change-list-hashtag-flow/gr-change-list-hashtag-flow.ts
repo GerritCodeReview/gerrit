@@ -29,7 +29,7 @@ import {fireReload} from '../../../utils/event-util';
 export class GrChangeListHashtagFlow extends LitElement {
   @state() private selectedChanges: ChangeInfo[] = [];
 
-  @state() private hashtagToAdd: Hashtag = '' as Hashtag;
+  @state() private hashtagToApply: Hashtag = '' as Hashtag;
 
   @state() private existingHashtagSuggestions: Hashtag[] = [];
 
@@ -81,6 +81,7 @@ export class GrChangeListHashtagFlow extends LitElement {
           display: flex;
           flex-wrap: wrap;
           gap: 6px;
+          padding-bottom: var(--spacing-l);
         }
         .chip {
           padding: var(--spacing-s) var(--spacing-xl);
@@ -124,6 +125,16 @@ export class GrChangeListHashtagFlow extends LitElement {
 
   override render() {
     const isFlowDisabled = this.selectedChanges.length === 0;
+    const isCreateNewHashtagDisabled =
+      this.hashtagToApply === '' ||
+      this.existingHashtagSuggestions.includes(this.hashtagToApply) ||
+      this.selectedExistingHashtags.size !== 0 ||
+      this.overallProgress === ProgressStatus.RUNNING;
+    const isApplyHashtagDisabled =
+      (this.selectedExistingHashtags.size === 0 &&
+        (this.hashtagToApply === '' ||
+          !this.existingHashtagSuggestions.includes(this.hashtagToApply))) ||
+      this.overallProgress === ProgressStatus.RUNNING;
     return html`
       <gr-button
         id="start-flow"
@@ -144,11 +155,38 @@ export class GrChangeListHashtagFlow extends LitElement {
           this.isDropdownOpen,
           () => html`
             <div slot="dropdown-content">
-              ${when(
-                this.selectedChanges.some(change => change.hashtags?.length),
-                () => this.renderExistingHashtagsMode(),
-                () => this.renderNoExistingHashtagsMode()
-              )}
+              ${this.renderExistingHashtags()}
+              <!--
+                The .query function needs to be bound to this because lit's
+                autobind seems to work only for @event handlers.
+              -->
+              <gr-autocomplete
+                .text=${this.hashtagToApply}
+                .query=${(query: string) => this.getHashtagSuggestions(query)}
+                show-blue-focus-border
+                placeholder="Type hashtag name to create or filter hashtags"
+                @text-changed=${(e: ValueChangedEvent<Hashtag>) =>
+                  (this.hashtagToApply = e.detail.value)}
+              ></gr-autocomplete>
+              <div class="footer">
+                <div class="loadingOrError">${this.renderLoadingOrError()}</div>
+                <div class="buttons">
+                  <gr-button
+                    id="create-new-hashtag-button"
+                    flatten
+                    @click=${() => this.applyHashtags('Creating hashtag...')}
+                    .disabled=${isCreateNewHashtagDisabled}
+                    >Create new hashtag</gr-button
+                  >
+                  <gr-button
+                    id="apply-hashtag-button"
+                    flatten
+                    @click=${() => this.applyHashtags('Applying hashtag...')}
+                    .disabled=${isApplyHashtagDisabled}
+                    >Apply</gr-button
+                  >
+                </div>
+              </div>
             </div>
           `
         )}
@@ -156,37 +194,14 @@ export class GrChangeListHashtagFlow extends LitElement {
     `;
   }
 
-  private renderExistingHashtagsMode() {
+  private renderExistingHashtags() {
     const hashtags = this.selectedChanges
       .flatMap(change => change.hashtags ?? [])
       .filter(notUndefined)
       .filter(unique);
-    const removeDisabled =
-      this.selectedExistingHashtags.size === 0 ||
-      this.overallProgress === ProgressStatus.RUNNING;
-    const applyToAllDisabled = this.selectedExistingHashtags.size !== 1;
     return html`
       <div class="chips">
         ${hashtags.map(name => this.renderExistingHashtagChip(name))}
-      </div>
-      <div class="footer">
-        <div class="loadingOrError">${this.renderLoadingOrError()}</div>
-        <div class="buttons">
-          <gr-button
-            id="apply-to-all-button"
-            flatten
-            ?disabled=${applyToAllDisabled}
-            @click=${this.applyHashtagToAll}
-            >Apply${this.selectedChanges.length > 1 ? ' to all' : nothing}
-          </gr-button>
-          <gr-button
-            id="remove-hashtags-button"
-            flatten
-            ?disabled=${removeDisabled}
-            @click=${this.removeHashtags}
-            >Remove</gr-button
-          >
-        </div>
       </div>
     `;
   }
@@ -220,53 +235,6 @@ export class GrChangeListHashtagFlow extends LitElement {
     return nothing;
   }
 
-  private renderNoExistingHashtagsMode() {
-    const isCreateNewHashtagDisabled =
-      this.hashtagToAdd === '' ||
-      this.existingHashtagSuggestions.includes(this.hashtagToAdd) ||
-      this.overallProgress === ProgressStatus.RUNNING;
-    const isApplyHashtagDisabled =
-      this.hashtagToAdd === '' ||
-      !this.existingHashtagSuggestions.includes(this.hashtagToAdd) ||
-      this.overallProgress === ProgressStatus.RUNNING;
-    return html`
-      <!--
-        The .query function needs to be bound to this because lit's autobind
-        seems to work only for @event handlers.
-        'this.getHashtagSuggestions.bind(this)' gets in trouble with our linter
-        even though the bind is necessary here, so an anonymous function is used
-        instead.
-      -->
-      <gr-autocomplete
-        .text=${this.hashtagToAdd}
-        .query=${(query: string) => this.getHashtagSuggestions(query)}
-        show-blue-focus-border
-        placeholder="Type hashtag name to create or filter hashtags"
-        @text-changed=${(e: ValueChangedEvent<Hashtag>) =>
-          (this.hashtagToAdd = e.detail.value)}
-      ></gr-autocomplete>
-      <div class="footer">
-        <div class="loadingOrError">${this.renderLoadingOrError()}</div>
-        <div class="buttons">
-          <gr-button
-            id="create-new-hashtag-button"
-            flatten
-            @click=${() => this.addHashtag('Creating hashtag...')}
-            .disabled=${isCreateNewHashtagDisabled}
-            >Create new hashtag</gr-button
-          >
-          <gr-button
-            id="apply-hashtag-button"
-            flatten
-            @click=${() => this.addHashtag('Applying hashtag...')}
-            .disabled=${isApplyHashtagDisabled}
-            >Apply</gr-button
-          >
-        </div>
-      </div>
-    `;
-  }
-
   private toggleDropdown() {
     if (this.isDropdownOpen) {
       this.closeDropdown();
@@ -277,7 +245,7 @@ export class GrChangeListHashtagFlow extends LitElement {
   }
 
   private reset() {
-    this.hashtagToAdd = '' as Hashtag;
+    this.hashtagToApply = '' as Hashtag;
     this.selectedExistingHashtags = new Set();
     this.overallProgress = ProgressStatus.NOT_STARTED;
     this.errorText = undefined;
@@ -308,44 +276,16 @@ export class GrChangeListHashtagFlow extends LitElement {
     });
   }
 
-  private removeHashtags() {
-    this.loadingText = `Removing hashtag${
-      this.selectedExistingHashtags.size > 1 ? 's' : ''
-    }...`;
-    this.trackPromises(
-      this.selectedChanges
-        .filter(
-          change =>
-            change.hashtags &&
-            change.hashtags.some(hashtag =>
-              this.selectedExistingHashtags.has(hashtag)
-            )
-        )
-        .map(change =>
-          this.restApiService.setChangeHashtag(change._number, {
-            remove: Array.from(this.selectedExistingHashtags.values()),
-          })
-        )
-    );
-  }
-
-  private applyHashtagToAll() {
-    this.loadingText = 'Applying hashtag to all';
-    this.trackPromises(
-      this.selectedChanges.map(change =>
-        this.restApiService.setChangeHashtag(change._number, {
-          add: Array.from(this.selectedExistingHashtags.values()),
-        })
-      )
-    );
-  }
-
-  private addHashtag(loadingText: string) {
+  private applyHashtags(loadingText: string) {
+    const allHashtagsToApply = [
+      ...this.selectedExistingHashtags.values(),
+      ...(this.hashtagToApply === '' ? [] : [this.hashtagToApply]),
+    ];
     this.loadingText = loadingText;
     this.trackPromises(
       this.selectedChanges.map(change =>
         this.restApiService.setChangeHashtag(change._number, {
-          add: [this.hashtagToAdd],
+          add: allHashtagsToApply,
         })
       )
     );

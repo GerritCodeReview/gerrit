@@ -16,6 +16,24 @@
       "message": "Have you confirmed that this is what the REST API looks like?",
       "revId": "4d71f28f198379482ab266835e02b55f8cc5a2eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45a426dd_bcec5990",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-23T14:18:22Z",
+      "side": 1,
+      "message": "Yup, see `{configured_value: \"INHERIT\", inherited_value: true}` and the documentation has just been fixed to fix the typo.",
+      "parentUuid": "1601217e_c8356104",
+      "revId": "4d71f28f198379482ab266835e02b55f8cc5a2eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

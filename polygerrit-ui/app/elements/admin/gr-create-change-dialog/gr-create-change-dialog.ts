@@ -272,7 +272,7 @@ export class GrCreateChangeDialog extends LitElement {
         return true;
       case InheritedBooleanInfoConfiguredValue.FALSE:
         return false;
-      case InheritedBooleanInfoConfiguredValue.INHERITED:
+      case InheritedBooleanInfoConfiguredValue.INHERIT:
         return !!config.inherited_value;
       default:
         return false;

@@ -22,6 +22,29 @@
       },
       "revId": "e85263873aaf498203bdaf4e938078bf1652562d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c76b37d_95a76088",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopyApprovalsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-23T14:14:43Z",
+      "side": 1,
+      "message": "This isn\u0027t testing much though: by following the calls it ends up getting the approvals without the copied labels:\n\n```\n  /**\n   * Gets the approvals, not including the copied approvals. To get copied approvals as well, use\n   * {@link #getApprovalsWithCopied}, or use {@code ApprovalInference}.\n   */\n  public ImmutableListMultimap\u003cPatchSet.Id, PatchSetApproval\u003e getApprovals() {\n    if (approvals \u003d\u003d null) {\n      approvals \u003d\n          state.approvals().stream()\n              .filter(e -\u003e !e.getValue().copied())\n              .collect(toImmutableListMultimap(e -\u003e e.getKey(), e -\u003e e.getValue()));\n    }\n    return approvals;\n  }\n```\n\nI believe we should instead get the ChangeNotes and asserting the copied labels directly.",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 25
+      },
+      "revId": "e85263873aaf498203bdaf4e938078bf1652562d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

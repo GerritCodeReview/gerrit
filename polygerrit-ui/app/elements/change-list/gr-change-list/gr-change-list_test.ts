@@ -206,6 +206,7 @@ suite('gr-change-list basic tests', () => {
 
   test('keyboard shortcuts', async () => {
     sinon.stub(element, 'computeLabelNames');
+    const navStub = sinon.stub(GerritNav, 'navigateToChange');
     element.sections = [{results: new Array(1)}, {results: new Array(2)}];
     element.selectedIndex = 0;
     element.preferences = {
@@ -258,11 +259,10 @@ suite('gr-change-list basic tests', () => {
     assert.equal(element.selectedIndex, 2);
     assert.isTrue(elementItems[2].hasAttribute('selected'));
 
-    const navStub = sinon.stub(GerritNav, 'navigateToChange');
     assert.equal(element.selectedIndex, 2);
     pressKey(element, Key.ENTER);
-    await waitUntil(() => navStub.callCount > 1);
     await element.updateComplete;
+    await waitUntil(() => navStub.callCount > 0);
     assert.deepEqual(
       navStub.lastCall.args[0],
       {...createChange(), _number: 2 as NumericChangeId},

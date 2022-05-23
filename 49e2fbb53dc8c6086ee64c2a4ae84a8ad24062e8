@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58d70e22_ec3e162c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-23T11:32:24Z",
+      "side": 1,
+      "message": "can you leave a knowledge comment like\n`// Cancel handling must be outside of makeCancelable otherwise it too will be canceled`",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 32
+      },
+      "revId": "49e2fbb53dc8c6086ee64c2a4ae84a8ad24062e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

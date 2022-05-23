@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7de22a10_a1485087",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-23T18:54:43Z",
+      "side": 1,
+      "message": "This kind of commit message was specifically discussed and strongly discouraged when the request to use Google-Bug-Id came up. Please include all the context in the commit message without reliance on an external system.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "2931a03b176fc9ad47e5e3b6bc72f72d01eb39ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

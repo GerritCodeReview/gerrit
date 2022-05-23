@@ -23,6 +23,7 @@ import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
 import {Auth} from './gr-auth/gr-auth_impl';
 import {GrRestApiServiceImpl} from './gr-rest-api/gr-rest-api-impl';
 import {ChangeModel, changeModelToken} from '../models/change/change-model';
+import {ViewModel, viewModelToken} from '../models/view/view-model';
 import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrStorageService} from './storage/gr-storage_impl';
@@ -117,6 +118,9 @@ export function createAppDependencies(
   );
 
   dependencies.set(checksModelToken, checksModel);
+
+  const viewModel = new ViewModel();
+  dependencies.set(viewModelToken, viewModel);
 
   return dependencies;
 }

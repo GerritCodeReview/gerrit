@@ -100,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7816cbbf_4bd64d97",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-23T11:42:32Z",
+      "side": 1,
+      "message": "Moved to the top, however we can\u0027t define selected-index-changed as it\u0027s already defined elsewhere.",
+      "parentUuid": "543c1fd3_b36756fc",
+      "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da5f8537_fab06850",
@@ -113,6 +131,30 @@
       "writtenOn": "2022-05-20T13:31:14Z",
       "side": 1,
       "message": "Maybe consider not computing `showDynamicColumns` and `showPrependedDynamicColumns` early, but instead do it further down, even if that means computing it multiple times. It is super cheap to compute, and it would make the code simpler and would the information more tied to the DOM where they are directly relevant.",
+      "range": {
+        "startLine": 829,
+        "startChar": 10,
+        "endLine": 829,
+        "endChar": 28
+      },
+      "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bdab9ef_57abff4e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-23T11:42:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da5f8537_fab06850",
       "range": {
         "startLine": 829,
         "startChar": 10,
@@ -140,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a594a48_a6f1f68c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 2339,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-23T11:42:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23814f03_ca2ce6b5",
+      "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "894ed039_cffa03a3",
@@ -153,6 +213,30 @@
       "writtenOn": "2022-05-20T13:31:14Z",
       "side": 1,
       "message": "Why these additions? Aren\u0027t they declared identically in the parent type `DiffPreferenceInfoApi`?",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 22
+      },
+      "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28ec7b9d_a8438ff3",
+        "filename": "polygerrit-ui/app/types/diff.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-23T11:42:32Z",
+      "side": 1,
+      "message": "I swear I had looked, must have missed it.",
+      "parentUuid": "894ed039_cffa03a3",
       "range": {
         "startLine": 106,
         "startChar": 2,

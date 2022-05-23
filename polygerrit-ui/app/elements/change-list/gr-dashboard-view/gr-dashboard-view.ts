@@ -59,6 +59,8 @@ import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators';
 import {ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
+import {resolve} from '../../../models/dependency';
+import {viewModelToken} from '../../../models/view/view-model';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
 
@@ -91,9 +93,6 @@ export class GrDashboardView extends LitElement {
   preferences?: PreferencesInput;
 
   @property({type: Object})
-  viewState?: DashboardViewState;
-
-  @property({type: Object})
   params?: AppElementDashboardParams;
 
   // private but used in test
@@ -114,6 +113,8 @@ export class GrDashboardView extends LitElement {
   private reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getViewModel = resolve(this, viewModelToken);
 
   private lastVisibleTimestampMs = 0;
 
@@ -380,7 +381,6 @@ export class GrDashboardView extends LitElement {
       this.selectedChangeIndex === undefined
     )
       return;
-    if (!this.viewState) throw new Error('view state undefined');
     if (!this.params.user) throw new Error('user for dashboard is undefined');
     this.viewState[this.params.user] = this.selectedChangeIndex;
   }

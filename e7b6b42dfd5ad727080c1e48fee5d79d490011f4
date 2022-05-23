@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3a95e31_55983183",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-23T16:24:02Z",
+      "side": 1,
+      "message": "You need to exclude the inferred approvals with a value \u003d\u003d 0 because they would never be persisted from ChangeUpdate:\n\n```\n  private void addCopiedLabelFooter(StringBuilder msg, PatchSetApproval patchSetApproval) {\n    if (patchSetApproval.value() \u003d\u003d 0) {\n      // Can only happen if we removed a vote. There is no need to persist removed votes.\n      return;\n    }\n```",
+      "revId": "e7b6b42dfd5ad727080c1e48fee5d79d490011f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

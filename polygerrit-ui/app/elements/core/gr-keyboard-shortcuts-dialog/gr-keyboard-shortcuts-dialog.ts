@@ -26,6 +26,7 @@ import {
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {getAppContext} from '../../../services/app-context';
 import {ShortcutViewListener} from '../../../services/shortcuts/shortcuts-service';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -53,6 +54,8 @@ export class GrKeyboardShortcutsDialog extends LitElement {
   _right?: SectionShortcut[];
 
   private readonly shortcutListener: ShortcutViewListener;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private readonly shortcuts = getAppContext().shortcutsService;
 
@@ -137,6 +140,13 @@ export class GrKeyboardShortcutsDialog extends LitElement {
   }
 
   private renderSection(section: SectionShortcut) {
+    let shortcuts = section.shortcuts ?? [];
+    if (section.section === ShortcutSection.ACTIONS) {
+      shortcuts = shortcuts.filter(shortcut => {
+        if (!shortcut.binding[0].includes('x')) return true;
+        return this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS);
+      });
+    }
     return html`<table>
       <caption class="heading-3">
         ${section.section}
@@ -148,7 +158,7 @@ export class GrKeyboardShortcutsDialog extends LitElement {
         </tr>
       </thead>
       <tbody>
-        ${section.shortcuts?.map(
+        ${shortcuts.map(
           shortcut => html`<tr>
             <td>${shortcut.text}</td>
             <td>

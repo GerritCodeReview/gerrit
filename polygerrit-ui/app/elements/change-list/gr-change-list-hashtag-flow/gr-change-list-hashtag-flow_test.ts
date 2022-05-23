@@ -133,8 +133,8 @@ suite('gr-change-list-hashtag-flow tests', () => {
     });
   });
 
-  suite('changes in existing hashtags', () => {
-    const changesWithHashtags: ChangeInfo[] = [
+  suite('hashtag flow', () => {
+    const changes: ChangeInfo[] = [
       {
         ...createChange(),
         _number: 1 as NumericChangeId,
@@ -147,6 +147,11 @@ suite('gr-change-list-hashtag-flow tests', () => {
         subject: 'Subject 2',
         hashtags: ['hashtag2' as Hashtag],
       },
+      {
+        ...createChange(),
+        _number: 3 as NumericChangeId,
+        subject: 'Subject 3',
+      },
     ];
     let setChangeHashtagPromises: MockPromise<string>[];
     let setChangeHashtagStub: sinon.SinonStub;
@@ -158,20 +163,18 @@ suite('gr-change-list-hashtag-flow tests', () => {
     }
 
     setup(async () => {
-      stubRestApi('getDetailedChangesWithActions').resolves(
-        changesWithHashtags
-      );
+      stubRestApi('getDetailedChangesWithActions').resolves(changes);
       setChangeHashtagPromises = [];
       setChangeHashtagStub = stubRestApi('setChangeHashtag');
-      for (let i = 0; i < changesWithHashtags.length; i++) {
+      for (let i = 0; i < changes.length; i++) {
         const promise = mockPromise<string>();
         setChangeHashtagPromises.push(promise);
         setChangeHashtagStub
-          .withArgs(changesWithHashtags[i]._number, sinon.match.any)
+          .withArgs(changes[i]._number, sinon.match.any)
           .returns(promise);
       }
       model = new BulkActionsModel(getAppContext().restApiService);
-      model.sync(changesWithHashtags);
+      model.sync(changes);
 
       element = (
         await fixture(
@@ -184,9 +187,10 @@ suite('gr-change-list-hashtag-flow tests', () => {
       ).querySelector('gr-change-list-hashtag-flow')!;
 
       // select changes
-      await selectChange(changesWithHashtags[0]);
-      await selectChange(changesWithHashtags[1]);
-      await waitUntilObserved(model.selectedChanges$, s => s.length === 2);
+      await selectChange(changes[0]);
+      await selectChange(changes[1]);
+      await selectChange(changes[2]);
+      await waitUntilObserved(model.selectedChanges$, s => s.length === 3);
       await element.updateComplete;
 
       // open flow
@@ -195,7 +199,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
       await flush();
     });
 
-    test('renders existing-hashtags flow', () => {
+    test('renders hashtags flow', () => {
       expect(element).shadowDom.to.equal(
         /* HTML */ `
           <gr-button
@@ -221,214 +225,6 @@ suite('gr-change-list-hashtag-flow tests', () => {
                   >hashtag2</span
                 >
               </div>
-              <div class="footer">
-                <div class="loadingOrError"></div>
-                <div class="buttons">
-                  <gr-button
-                    id="apply-to-all-button"
-                    flatten=""
-                    aria-disabled="true"
-                    disabled=""
-                    role="button"
-                    tabindex="-1"
-                    >Apply to all</gr-button
-                  >
-                  <gr-button
-                    id="remove-hashtags-button"
-                    flatten=""
-                    aria-disabled="true"
-                    disabled=""
-                    role="button"
-                    tabindex="-1"
-                    >Remove</gr-button
-                  >
-                </div>
-              </div>
-            </div>
-          </iron-dropdown>
-        `,
-        {
-          // iron-dropdown sizing seems to vary between local & CI
-          ignoreAttributes: [{tags: ['iron-dropdown'], attributes: ['style']}],
-        }
-      );
-    });
-
-    test('remove single hashtag', async () => {
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
-      await element.updateComplete;
-      queryAndAssert<GrButton>(element, '#remove-hashtags-button').click();
-      await element.updateComplete;
-
-      assert.equal(
-        queryAndAssert(element, '.loadingText').textContent,
-        'Removing hashtag...'
-      );
-
-      await resolvePromises();
-      await element.updateComplete;
-
-      // not called for second change which as a different hashtag
-      assert.isTrue(setChangeHashtagStub.calledOnce);
-      assert.deepEqual(setChangeHashtagStub.firstCall.args, [
-        changesWithHashtags[0]._number,
-        {remove: ['hashtag1']},
-      ]);
-    });
-
-    test('remove multiple hashtags', async () => {
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
-      queryAll<HTMLSpanElement>(element, 'span.chip')[1].click();
-      await element.updateComplete;
-      queryAndAssert<GrButton>(element, '#remove-hashtags-button').click();
-      await element.updateComplete;
-
-      assert.equal(
-        queryAndAssert(element, '.loadingText').textContent,
-        'Removing hashtags...'
-      );
-
-      await resolvePromises();
-      await element.updateComplete;
-
-      // not called for second change which as a different hashtag
-      assert.isTrue(setChangeHashtagStub.calledTwice);
-      assert.deepEqual(setChangeHashtagStub.firstCall.args, [
-        changesWithHashtags[0]._number,
-        {remove: ['hashtag1', 'hashtag2']},
-      ]);
-      assert.deepEqual(setChangeHashtagStub.secondCall.args, [
-        changesWithHashtags[1]._number,
-        {remove: ['hashtag1', 'hashtag2']},
-      ]);
-    });
-
-    test('can only apply a single hashtag', async () => {
-      assert.isTrue(
-        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
-      );
-
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
-      await element.updateComplete;
-
-      assert.isFalse(
-        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
-      );
-
-      queryAll<HTMLSpanElement>(element, 'span.chip')[1].click();
-      await element.updateComplete;
-
-      assert.isTrue(
-        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
-      );
-    });
-
-    test('applies hashtag to all changes', async () => {
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
-      await element.updateComplete;
-
-      queryAndAssert<GrButton>(element, '#apply-to-all-button').click();
-      await element.updateComplete;
-
-      assert.equal(
-        queryAndAssert(element, '.loadingText').textContent,
-        'Applying hashtag to all'
-      );
-
-      await resolvePromises();
-      await element.updateComplete;
-
-      assert.isTrue(setChangeHashtagStub.calledTwice);
-      assert.deepEqual(setChangeHashtagStub.firstCall.args, [
-        changesWithHashtags[0]._number,
-        {add: ['hashtag1']},
-      ]);
-      assert.deepEqual(setChangeHashtagStub.secondCall.args, [
-        changesWithHashtags[1]._number,
-        {add: ['hashtag1']},
-      ]);
-    });
-  });
-
-  suite('change have no existing hashtags', () => {
-    const changesWithNoHashtags: ChangeInfo[] = [
-      {
-        ...createChange(),
-        _number: 1 as NumericChangeId,
-        subject: 'Subject 1',
-      },
-      {
-        ...createChange(),
-        _number: 2 as NumericChangeId,
-        subject: 'Subject 2',
-      },
-    ];
-    let setChangeHashtagPromises: MockPromise<string>[];
-    let setChangeHashtagStub: sinon.SinonStub;
-
-    async function resolvePromises() {
-      setChangeHashtagPromises[0].resolve('foo');
-      setChangeHashtagPromises[1].resolve('foo');
-      await element.updateComplete;
-    }
-
-    setup(async () => {
-      stubRestApi('getDetailedChangesWithActions').resolves(
-        changesWithNoHashtags
-      );
-      setChangeHashtagPromises = [];
-      setChangeHashtagStub = stubRestApi('setChangeHashtag');
-      for (let i = 0; i < changesWithNoHashtags.length; i++) {
-        const promise = mockPromise<string>();
-        setChangeHashtagPromises.push(promise);
-        setChangeHashtagStub
-          .withArgs(changesWithNoHashtags[i]._number, sinon.match.any)
-          .returns(promise);
-      }
-
-      model = new BulkActionsModel(getAppContext().restApiService);
-      model.sync(changesWithNoHashtags);
-
-      element = (
-        await fixture(
-          wrapInProvider(
-            html`<gr-change-list-hashtag-flow></gr-change-list-hashtag-flow>`,
-            bulkActionsModelToken,
-            model
-          )
-        )
-      ).querySelector('gr-change-list-hashtag-flow')!;
-
-      // select changes
-      await selectChange(changesWithNoHashtags[0]);
-      await selectChange(changesWithNoHashtags[1]);
-      await waitUntilObserved(model.selectedChanges$, s => s.length === 2);
-      await element.updateComplete;
-
-      // open flow
-      queryAndAssert<GrButton>(element, 'gr-button#start-flow').click();
-      await element.updateComplete;
-      await flush();
-    });
-
-    test('renders no-existing-hashtags flow', () => {
-      expect(element).shadowDom.to.equal(
-        /* HTML */ `
-          <gr-button
-            id="start-flow"
-            flatten=""
-            down-arrow=""
-            aria-disabled="false"
-            role="button"
-            tabindex="0"
-            >Hashtag</gr-button
-          >
-          <iron-dropdown
-            aria-disabled="false"
-            vertical-align="auto"
-            horizontal-align="auto"
-          >
-            <div slot="dropdown-content">
               <gr-autocomplete
                 placeholder="Type hashtag name to create or filter hashtags"
                 show-blue-focus-border=""
@@ -466,6 +262,79 @@ suite('gr-change-list-hashtag-flow tests', () => {
       );
     });
 
+    test('apply hashtag from selected change', async () => {
+      // selects "hashtag1"
+      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
+      await element.updateComplete;
+
+      queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
+      await element.updateComplete;
+
+      assert.equal(
+        queryAndAssert(element, '.loadingText').textContent,
+        'Applying hashtag...'
+      );
+
+      await resolvePromises();
+      await element.updateComplete;
+
+      assert.isTrue(setChangeHashtagStub.calledThrice);
+      assert.deepEqual(setChangeHashtagStub.firstCall.args, [
+        changes[0]._number,
+        {add: ['hashtag1']},
+      ]);
+      assert.deepEqual(setChangeHashtagStub.secondCall.args, [
+        changes[1]._number,
+        {add: ['hashtag1']},
+      ]);
+      assert.deepEqual(setChangeHashtagStub.thirdCall.args, [
+        changes[2]._number,
+        {add: ['hashtag1']},
+      ]);
+    });
+
+    test('apply existing hashtag not on selected changes', async () => {
+      const getHashtagsStub = stubRestApi(
+        'getChangesWithSimilarHashtag'
+      ).resolves([{...createChange(), hashtags: ['foo' as Hashtag]}]);
+      const autocomplete = queryAndAssert<GrAutocomplete>(
+        element,
+        'gr-autocomplete'
+      );
+
+      autocomplete.focus();
+      autocomplete.text = 'foo';
+      await element.updateComplete;
+      await waitUntilCalled(getHashtagsStub, 'getHashtagsStub');
+      assert.isTrue(
+        queryAndAssert<GrButton>(element, '#create-new-hashtag-button').disabled
+      );
+
+      queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
+      await element.updateComplete;
+
+      assert.equal(
+        queryAndAssert(element, '.loadingText').textContent,
+        'Applying hashtag...'
+      );
+
+      await resolvePromises();
+
+      assert.isTrue(setChangeHashtagStub.calledThrice);
+      assert.deepEqual(setChangeHashtagStub.firstCall.args, [
+        changes[0]._number,
+        {add: ['foo']},
+      ]);
+      assert.deepEqual(setChangeHashtagStub.secondCall.args, [
+        changes[1]._number,
+        {add: ['foo']},
+      ]);
+      assert.deepEqual(setChangeHashtagStub.thirdCall.args, [
+        changes[2]._number,
+        {add: ['foo']},
+      ]);
+    });
+
     test('create new hashtag', async () => {
       const getHashtagsStub = stubRestApi(
         'getChangesWithSimilarHashtag'
@@ -493,51 +362,17 @@ suite('gr-change-list-hashtag-flow tests', () => {
       await resolvePromises();
       await element.updateComplete;
 
-      assert.isTrue(setChangeHashtagStub.calledTwice);
+      assert.isTrue(setChangeHashtagStub.calledThrice);
       assert.deepEqual(setChangeHashtagStub.firstCall.args, [
-        changesWithNoHashtags[0]._number,
+        changes[0]._number,
         {add: ['foo']},
       ]);
       assert.deepEqual(setChangeHashtagStub.secondCall.args, [
-        changesWithNoHashtags[1]._number,
+        changes[1]._number,
         {add: ['foo']},
       ]);
-    });
-
-    test('apply hashtag', async () => {
-      const getHashtagsStub = stubRestApi(
-        'getChangesWithSimilarHashtag'
-      ).resolves([{...createChange(), hashtags: ['foo' as Hashtag]}]);
-      const autocomplete = queryAndAssert<GrAutocomplete>(
-        element,
-        'gr-autocomplete'
-      );
-
-      autocomplete.focus();
-      autocomplete.text = 'foo';
-      await element.updateComplete;
-      await waitUntilCalled(getHashtagsStub, 'getHashtagsStub');
-      assert.isTrue(
-        queryAndAssert<GrButton>(element, '#create-new-hashtag-button').disabled
-      );
-
-      queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
-      await element.updateComplete;
-
-      assert.equal(
-        queryAndAssert(element, '.loadingText').textContent,
-        'Applying hashtag...'
-      );
-
-      await resolvePromises();
-
-      assert.isTrue(setChangeHashtagStub.calledTwice);
-      assert.deepEqual(setChangeHashtagStub.firstCall.args, [
-        changesWithNoHashtags[0]._number,
-        {add: ['foo']},
-      ]);
-      assert.deepEqual(setChangeHashtagStub.secondCall.args, [
-        changesWithNoHashtags[1]._number,
+      assert.deepEqual(setChangeHashtagStub.thirdCall.args, [
+        changes[2]._number,
         {add: ['foo']},
       ]);
     });

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bfa4400_04b55187",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-23T13:00:49Z",
+      "side": 1,
+      "message": "This isn\u0027t enough, because of the grant-date being different than the original one that was inferred.\n\nWe should just compare on who gave which label and the score value, not the time.",
+      "range": {
+        "startLine": 375,
+        "startChar": 10,
+        "endLine": 375,
+        "endChar": 32
+      },
+      "revId": "e85263873aaf498203bdaf4e938078bf1652562d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -29,6 +29,8 @@ import {
   ShortcutViewListener,
 } from '../../../services/shortcuts/shortcuts-service';
 import {resolve} from '../../../models/dependency';
+import {getAppContext} from '../../../services/app-context';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -58,6 +60,8 @@ export class GrKeyboardShortcutsDialog extends LitElement {
   private readonly shortcutListener: ShortcutViewListener;
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
+
+  private readonly flagsService = getAppContext().flagsService;
 
   constructor() {
     super();
@@ -140,6 +144,13 @@ export class GrKeyboardShortcutsDialog extends LitElement {
   }
 
   private renderSection(section: SectionShortcut) {
+    let shortcuts = section.shortcuts ?? [];
+    if (section.section === ShortcutSection.ACTIONS) {
+      shortcuts = shortcuts.filter(shortcut => {
+        if (!shortcut.binding[0].includes('x')) return true;
+        return this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS);
+      });
+    }
     return html`<table>
       <caption class="heading-3">
         ${section.section}
@@ -151,7 +162,7 @@ export class GrKeyboardShortcutsDialog extends LitElement {
         </tr>
       </thead>
       <tbody>
-        ${section.shortcuts?.map(
+        ${shortcuts.map(
           shortcut => html`<tr>
             <td>${shortcut.text}</td>
             <td>

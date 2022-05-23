@@ -684,6 +684,10 @@ export class GrChangeListItem extends LitElement {
     return str;
   }
 
+  toggleCheckbox() {
+    this.handleChangeSelectionClick();
+  }
+
   // private but used in test
   computeTruncatedRepoDisplay() {
     if (!this.change?.project) {

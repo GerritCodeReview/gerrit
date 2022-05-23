@@ -204,7 +204,8 @@ suite('gr-change-list basic tests', () => {
     );
   });
 
-  test('keyboard shortcuts', async () => {
+  test.only('keyboard shortcuts', async () => {
+    debugger;
     sinon.stub(element, 'computeLabelNames');
     element.sections = [{results: new Array(1)}, {results: new Array(2)}];
     element.selectedIndex = 0;

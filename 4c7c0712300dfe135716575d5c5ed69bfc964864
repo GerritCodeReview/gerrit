@@ -22,6 +22,30 @@
       },
       "revId": "4c7c0712300dfe135716575d5c5ed69bfc964864",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ec2a61c_73065ff4",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-05-23T08:33:16Z",
+      "side": 1,
+      "message": "Yes, I think this is the case today. I abandoned this change in favor of \nchange 337615, since most implementations actually throw the exception instead of returning the messages in line #253, which would make logging too noisy",
+      "parentUuid": "2a15d7fa_98e9faaf",
+      "range": {
+        "startLine": 256,
+        "startChar": 6,
+        "endLine": 256,
+        "endChar": 43
+      },
+      "revId": "4c7c0712300dfe135716575d5c5ed69bfc964864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

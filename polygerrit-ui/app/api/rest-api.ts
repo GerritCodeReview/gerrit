@@ -130,7 +130,7 @@ export enum HttpMethod {
 export enum InheritedBooleanInfoConfiguredValue {
   TRUE = 'TRUE',
   FALSE = 'FALSE',
-  INHERITED = 'INHERITED',
+  INHERIT = 'INHERIT',
 }
 
 /**

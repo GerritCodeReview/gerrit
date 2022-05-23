@@ -586,33 +586,4 @@ suite('gr-dashboard-view tests', () => {
     await paramsChangedPromise;
     assert.isTrue(dashboardDisplayedStub.calledOnce);
   });
-
-  test('selectedChangeIndex is derived from the params', async () => {
-    stubRestApi('getDashboard').returns(
-      Promise.resolve({
-        id: '' as DashboardId,
-        project: 'project' as RepoName,
-        defining_project: '' as RepoName,
-        ref: '',
-        path: '',
-        url: '',
-        title: 'title',
-        foreach: 'foreach for ${project}',
-        sections: [],
-      })
-    );
-    element.viewState = {
-      101001: 23,
-    };
-    element.params = {
-      view: GerritView.DASHBOARD,
-      dashboard: 'dashboard' as DashboardId,
-      project: 'project' as RepoName,
-      user: '101001',
-    };
-    await element.updateComplete;
-    stubReporting('dashboardDisplayed');
-    await paramsChangedPromise;
-    assert.equal(element.selectedChangeIndex, 23);
-  });
 });

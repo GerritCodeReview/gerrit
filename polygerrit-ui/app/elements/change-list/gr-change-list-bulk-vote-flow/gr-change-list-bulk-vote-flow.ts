@@ -105,7 +105,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
           color: var(--red-700);
         }
         .code-review-message-container iron-icon {
-          color: var(--blue-800);
+          color: var(--selected-foreground);
         }
         .error-container span,
         .code-review-message-container span {

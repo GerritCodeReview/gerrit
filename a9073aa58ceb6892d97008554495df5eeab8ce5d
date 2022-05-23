@@ -73,6 +73,57 @@
       "message": "name boolean function using is... or has.... prefix:\n\n  isEnabledSignedPushOnRepo",
       "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34650d3f_f3cb9615",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-23T08:47:19Z",
+      "side": 1,
+      "message": "I do not know TypeScript but comparing this line and the line 944 I wonder is:\n\n  InheritedBooleanInfoConfiguredvalue.INHERITED\n  \nnot used here?",
+      "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78fd58f9_3f154cf1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-23T08:47:19Z",
+      "side": 1,
+      "message": "isn\u0027t this equivalent to just:\n\n  enabledSignedPush.inherited_value\n \n?",
+      "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e4ebd5a_a97b2257",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-23T08:47:19Z",
+      "side": 1,
+      "message": "combine both expressions (lines 934 - 945) into one:\n\n  enabledSignedPush.configured_value \u003d\u003d\u003d INHERITED \u0026\u0026 enableSignedPush.inherited_value\n  ||\n  enabledSignedPush.configured_value \u003d\u003d\u003d InheritedBooleanInfoConfiguredValue.TRUE",
+      "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

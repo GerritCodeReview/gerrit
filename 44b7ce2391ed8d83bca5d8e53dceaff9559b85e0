@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7021daa1_4a6bb57e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-23T15:14:07Z",
+      "side": 1,
+      "message": "To reduce the scope of this change and simplify the review, this could be done in a follow-up change.",
+      "parentUuid": "4a5e6332_0cd59ec7",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "44b7ce2391ed8d83bca5d8e53dceaff9559b85e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ad087542_9bdafc6f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -71,6 +95,30 @@
       "writtenOn": "2022-05-17T13:53:19Z",
       "side": 1,
       "message": "Why not getting the project name as a paraemter?\nThe user may want to decide which ones to run and when: scanning all projects would definitely use a lot of heap and, eventually, collapse the JVM.",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 32
+      },
+      "revId": "44b7ce2391ed8d83bca5d8e53dceaff9559b85e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35e161ae_011bc540",
+        "filename": "java/com/google/gerrit/server/approval/RecursiveApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-23T15:14:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ed6eb5d_6ba32119",
       "range": {
         "startLine": 42,
         "startChar": 2,

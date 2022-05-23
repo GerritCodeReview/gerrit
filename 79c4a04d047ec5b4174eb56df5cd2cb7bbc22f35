@@ -16,6 +16,24 @@
       "message": "Adapt comment to this tool or remove it",
       "revId": "79c4a04d047ec5b4174eb56df5cd2cb7bbc22f35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e2f9af0_257639d1",
+        "filename": "java/com/google/gerrit/pgm/FindDuplicateUsernames.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-05-23T09:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95a435ab_67719a0b",
+      "revId": "79c4a04d047ec5b4174eb56df5cd2cb7bbc22f35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

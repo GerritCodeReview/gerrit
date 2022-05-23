@@ -27,7 +27,11 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {Key} from '../../../utils/dom-util';
-import {ColumnNames, TimeFormat} from '../../../constants/constants';
+import {
+  ColumnNames,
+  createDefaultPreferences,
+  TimeFormat,
+} from '../../../constants/constants';
 import {AccountId, NumericChangeId} from '../../../types/common';
 import {
   createChange,
@@ -208,22 +212,7 @@ suite('gr-change-list basic tests', () => {
     sinon.stub(element, 'computeLabelNames');
     element.sections = [{results: new Array(1)}, {results: new Array(2)}];
     element.selectedIndex = 0;
-    element.preferences = {
-      legacycid_in_change_table: true,
-      time_format: TimeFormat.HHMM_12,
-      change_table: [
-        'Subject',
-        'Status',
-        'Owner',
-        'Reviewers',
-        'Comments',
-        'Repo',
-        'Branch',
-        'Updated',
-        'Size',
-        ColumnNames.STATUS2,
-      ],
-    };
+    element.preferences = createDefaultPreferences();
     element.config = createServerInfo();
     element.changes = [
       {...createChange(), _number: 0 as NumericChangeId},
@@ -289,6 +278,88 @@ suite('gr-change-list basic tests', () => {
     pressKey(element, 'k');
     pressKey(element, 'k');
     assert.equal(element.selectedIndex, 0);
+  });
+
+  test('toggle checkbox keyboard shortcut', async () => {
+    stubFlags('isEnabled').returns(true);
+    element.requestUpdate();
+    await element.updateComplete;
+
+    const getCheckbox = (item: GrChangeListItem) =>
+      queryAndAssert<HTMLInputElement>(query(item, '.selection'), 'input');
+
+    sinon.stub(element, 'computeLabelNames');
+    element.sections = [{results: new Array(1)}, {results: new Array(2)}];
+    element.selectedIndex = 0;
+    element.preferences = createDefaultPreferences();
+    element.config = createServerInfo();
+    element.changes = [
+      {...createChange(), _number: 0 as NumericChangeId},
+      {...createChange(), _number: 1 as NumericChangeId},
+      {...createChange(), _number: 2 as NumericChangeId},
+    ];
+    // explicitly trigger sectionsChanged so that cursor stops are properly
+    // updated
+    await element.sectionsChanged();
+    await element.updateComplete;
+    const section = queryAndAssert<GrChangeListSection>(
+      element,
+      'gr-change-list-section'
+    );
+    await section.updateComplete;
+    const elementItems = queryAll<GrChangeListItem>(
+      section,
+      'gr-change-list-item'
+    );
+    assert.equal(elementItems.length, 3);
+
+    assert.isTrue(elementItems[0].hasAttribute('selected'));
+    await element.updateComplete;
+
+    pressKey(element, 'x');
+    await element.updateComplete;
+    await section.updateComplete;
+
+    assert.isTrue(getCheckbox(elementItems[0]).checked);
+
+    pressKey(element, 'x');
+    await element.updateComplete;
+    await section.updateComplete;
+    assert.isFalse(getCheckbox(elementItems[0]).checked);
+
+    pressKey(element, 'j');
+    await element.updateComplete;
+    await section.updateComplete;
+
+    assert.equal(element.selectedIndex, 1);
+    assert.isTrue(elementItems[1].hasAttribute('selected'));
+
+    pressKey(element, 'x');
+    await element.updateComplete;
+    await section.updateComplete;
+
+    assert.isTrue(getCheckbox(elementItems[1]).checked);
+
+    pressKey(element, 'x');
+    await element.updateComplete;
+    await section.updateComplete;
+    assert.isFalse(getCheckbox(elementItems[1]).checked);
+
+    pressKey(element, 'j');
+    await element.updateComplete;
+    assert.equal(element.selectedIndex, 2);
+    assert.isTrue(elementItems[2].hasAttribute('selected'));
+
+    pressKey(element, 'x');
+    await element.updateComplete;
+    await section.updateComplete;
+
+    assert.isTrue(getCheckbox(elementItems[2]).checked);
+
+    pressKey(element, 'x');
+    await element.updateComplete;
+    await section.updateComplete;
+    assert.isFalse(getCheckbox(elementItems[2]).checked);
   });
 
   test('no changes', async () => {

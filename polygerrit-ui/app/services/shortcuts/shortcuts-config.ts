@@ -112,6 +112,8 @@ export enum Shortcut {
   SEND_REPLY = 'SEND_REPLY',
   EMOJI_DROPDOWN = 'EMOJI_DROPDOWN',
   TOGGLE_BLAME = 'TOGGLE_BLAME',
+
+  TOGGLE_CHECKBOX = 'TOGGLE_CHECKBOX',
 }
 
 export interface ShortcutHelpItem {

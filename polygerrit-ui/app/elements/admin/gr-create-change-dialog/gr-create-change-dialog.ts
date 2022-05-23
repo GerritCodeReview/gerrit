@@ -180,6 +180,7 @@ export class GrCreateChangeDialog extends PolymerElement {
       });
   }
 
+<<<<<<< HEAD   (2993c6 rest-api-projects: Fix documentation for #inherited-boolean-)
   _formatBooleanString(config: InheritedBooleanInfo) {
     if (
       config &&
@@ -198,6 +199,21 @@ export class GrCreateChangeDialog extends PolymerElement {
       return !!(config && config.inherited_value);
     } else {
       return false;
+=======
+  // private but used in test
+  formatPrivateByDefaultBoolean() {
+    const config = this.privateByDefault;
+    if (config === undefined) return false;
+    switch (config.configured_value) {
+      case InheritedBooleanInfoConfiguredValue.TRUE:
+        return true;
+      case InheritedBooleanInfoConfiguredValue.FALSE:
+        return false;
+      case InheritedBooleanInfoConfiguredValue.INHERIT:
+        return !!config.inherited_value;
+      default:
+        return false;
+>>>>>>> CHANGE (4d71f2 Fix typo in InheritedBooleanInfoConfiguredValue enum)
     }
   }
 

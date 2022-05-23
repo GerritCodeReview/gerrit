@@ -30,6 +30,8 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.function.Consumer;
+import javax.annotation.Nullable;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -56,11 +58,11 @@ public class RecursiveApprovalCopier {
   public void persist()
       throws UpdateException, RestApiException, RepositoryNotFoundException, IOException {
     for (Project.NameKey project : repositoryManager.list()) {
-      persist(project);
+      persist(project, null);
     }
   }
 
-  public void persist(Project.NameKey project)
+  public void persist(Project.NameKey project, @Nullable Consumer<Change> labelsCopiedListener)
       throws IOException, UpdateException, RestApiException, RepositoryNotFoundException {
     try (BatchUpdate bu =
             batchUpdateFactory.create(project, internalUserFactory.create(), TimeUtil.nowTs());
@@ -70,7 +72,7 @@ public class RecursiveApprovalCopier {
               .filter(r -> r.getName().endsWith(RefNames.META_SUFFIX))
               .collect(toImmutableList())) {
         Change.Id changeId = Change.Id.fromRef(changeMetaRef.getName());
-        bu.addOp(changeId, new PersistCopiedVotesOp(approvalsUtil));
+        bu.addOp(changeId, new PersistCopiedVotesOp(approvalsUtil, labelsCopiedListener));
       }
       bu.execute();
     }
@@ -81,28 +83,39 @@ public class RecursiveApprovalCopier {
     try (BatchUpdate bu =
         batchUpdateFactory.create(project, internalUserFactory.create(), TimeUtil.nowTs())) {
       Change.Id changeId = change.getId();
-      bu.addOp(changeId, new PersistCopiedVotesOp(approvalsUtil));
+      bu.addOp(changeId, new PersistCopiedVotesOp(approvalsUtil, null));
       bu.execute();
     }
   }
 
   private static class PersistCopiedVotesOp implements BatchUpdateOp {
     private final ApprovalsUtil approvalsUtil;
+    private final Consumer<Change> listener;
 
-    PersistCopiedVotesOp(ApprovalsUtil approvalsUtil) {
+    PersistCopiedVotesOp(
+        ApprovalsUtil approvalsUtil, @Nullable Consumer<Change> labelsCopiedListener) {
       this.approvalsUtil = approvalsUtil;
+      this.listener = labelsCopiedListener;
     }
 
     @Override
     public boolean updateChange(ChangeContext ctx) throws IOException {
-      ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
+      Change change = ctx.getChange();
+      ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
       approvalsUtil.persistCopiedApprovals(
           ctx.getNotes(),
           ctx.getNotes().getCurrentPatchSet(),
           ctx.getRevWalk(),
           ctx.getRepoView().getConfig(),
           update);
-      return update.hasCopiedApprovals();
+
+      boolean labelsCopied = update.hasCopiedApprovals();
+
+      if (labelsCopied && listener != null) {
+        listener.accept(change);
+      }
+
+      return labelsCopied;
     }
   }
 }

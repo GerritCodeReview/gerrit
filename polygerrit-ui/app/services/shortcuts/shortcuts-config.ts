@@ -112,6 +112,8 @@ export enum Shortcut {
   SEND_REPLY = 'SEND_REPLY',
   EMOJI_DROPDOWN = 'EMOJI_DROPDOWN',
   TOGGLE_BLAME = 'TOGGLE_BLAME',
+
+  TOGGLE_CHECKBOX = 'TOGGLE_CHECKBOX',
 }
 
 export interface ShortcutHelpItem {
@@ -326,9 +328,14 @@ export function createShortCutConfig(_flagsService: FlagsService) {
     'Move cursor to currently visible code',
     {key: '.'}
   );
-  describe(Shortcut.NEXT_CHUNK, ShortcutSection.DIFFS, 'Go to next diff chunk', {
-    key: 'n',
-  });
+  describe(
+    Shortcut.NEXT_CHUNK,
+    ShortcutSection.DIFFS,
+    'Go to next diff chunk',
+    {
+      key: 'n',
+    }
+  );
   describe(
     Shortcut.PREV_CHUNK,
     ShortcutSection.DIFFS,

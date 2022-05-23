@@ -78,7 +78,7 @@ export function createAppContext(): AppContext & Finalizable {
         ctx.userModel,
         ctx.flagsService,
         ctx.reportingService
-        );
+      );
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {

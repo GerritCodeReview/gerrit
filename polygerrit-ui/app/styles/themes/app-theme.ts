@@ -391,7 +391,7 @@ const appThemeCss = safeStyleSheet`
     --diff-moved-out-background: var(--purple-50);
     --diff-moved-in-label-color: var(--cyan-900);
     --diff-moved-out-label-color: var(--purple-900);
-    --light-remove-add-highlight-color: #fff8dc;
+    --light-rebased-remove-highlight-color: #fff8dc;
     --light-remove-highlight-color: #ffebee;
     --coverage-covered: #e0f2f1;
     --coverage-not-covered: #ffd1a4;

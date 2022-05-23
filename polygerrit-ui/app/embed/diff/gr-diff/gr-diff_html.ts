@@ -349,7 +349,7 @@ export const htmlTemplate = html`
       background-color: var(--dark-rebased-remove-highlight-color);
     }
     .dueToRebase .content.remove .contentText {
-      background-color: var(--light-remove-add-highlight-color);
+      background-color: var(--light-rebased-remove-highlight-color);
     }
 
     /* dueToMove */

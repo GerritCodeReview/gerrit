@@ -99,12 +99,13 @@ export class ShortcutsService implements Finalizable {
   private readonly keydownListener: (e: KeyboardEvent) => void;
 
   private readonly subscriptions: Subscription[] = [];
+
   private readonly config: Map<ShortcutSection, ShortcutHelpItem[]>;
 
   constructor(
     readonly userModel: UserModel,
     readonly flagsService: FlagsService,
-    readonly reporting?: ReportingService,
+    readonly reporting?: ReportingService
   ) {
     this.config = createShortCutConfig(flagsService);
     for (const section of this.config.keys()) {

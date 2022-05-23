@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cee6142a_36b0c659",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-23T12:07:47Z",
+      "side": 1,
+      "message": "* I added a comment on the bug with links to specs and spacings, PTAL.\n* Are we also adding dark theme with this change or in a follow-up?",
+      "revId": "a69dfba3cf144957ac1838d7a23b66c792fbde98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

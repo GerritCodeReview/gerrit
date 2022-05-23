@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5856c6aa_53623c69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-23T18:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65317a63_81d378ec",
+      "revId": "55db1958eeb29554151e002214750a00b98499f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6de168bb_2d8709b7",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32778ece_85f4bd28",
+        "filename": "java/com/google/gerrit/sshd/commands/CopyApprovalsCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-23T18:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6de168bb_2d8709b7",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "55db1958eeb29554151e002214750a00b98499f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "392e9c6b_649976c6",
@@ -54,6 +96,24 @@
       "writtenOn": "2022-05-23T17:41:52Z",
       "side": 1,
       "message": "Another alternative is to use MAINTAIN_SERVER like used for reindex command.",
+      "revId": "55db1958eeb29554151e002214750a00b98499f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cd837a7_65080b03",
+        "filename": "java/com/google/gerrit/sshd/commands/CopyApprovalsCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-23T18:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "392e9c6b_649976c6",
       "revId": "55db1958eeb29554151e002214750a00b98499f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

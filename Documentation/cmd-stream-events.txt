@@ -324,6 +324,19 @@ approvals:: all votes as link:json.html#approval[approval attributes]
 
 comment:: Review comment cover message.
 
+=== Project Head Updated
+
+Sent when project's head is updated.
+
+type:: "project-head-updated"
+
+oldHead:: The old project head name
+
+newHead:: The new project head name
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
 == SEE ALSO
 
 * link:json.html[JSON Data Formats]

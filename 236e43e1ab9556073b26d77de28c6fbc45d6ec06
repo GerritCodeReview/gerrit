@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "581a62a7_4d6c726f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-23T18:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1483f429_46e5094a",
+      "range": {
+        "startLine": 10,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "236e43e1ab9556073b26d77de28c6fbc45d6ec06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81b9e493_53d542c1",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-21T06:41:31Z",
       "side": 1,
       "message": "pedantically, that should be \"on\", i think.",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "236e43e1ab9556073b26d77de28c6fbc45d6ec06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fb854f6_6f0e4604",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-23T18:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81b9e493_53d542c1",
       "range": {
         "startLine": 14,
         "startChar": 11,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91ac5846_aa125ff9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-23T18:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1dc8fc6_8681ad1f",
+      "range": {
+        "startLine": 18,
+        "startChar": 61,
+        "endLine": 18,
+        "endChar": 62
+      },
+      "revId": "236e43e1ab9556073b26d77de28c6fbc45d6ec06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf3402a6_4912a6dd",
@@ -87,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b04daf72_5e3be6a6",
+        "filename": "javatests/com/google/gerrit/index/query/QueryParserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-23T18:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf3402a6_4912a6dd",
+      "revId": "236e43e1ab9556073b26d77de28c6fbc45d6ec06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7614551_36ee5ddb",
@@ -100,6 +190,24 @@
       "writtenOn": "2022-05-21T06:41:31Z",
       "side": 1,
       "message": "pedantically, it\u0027s not necessary to test mixing dashes and underscores, as from a parser perspective the underscores aren\u0027t anything special at this level. that makes this and the next case redundant, and the last one could be simplified.",
+      "revId": "236e43e1ab9556073b26d77de28c6fbc45d6ec06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09c88552_033cbbf4",
+        "filename": "javatests/com/google/gerrit/index/query/QueryParserTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-23T18:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7614551_36ee5ddb",
       "revId": "236e43e1ab9556073b26d77de28c6fbc45d6ec06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

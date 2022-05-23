@@ -35,7 +35,7 @@ import {fire, fireEvent, fireReload} from '../../../utils/event-util';
 import {ColumnNames, ScrollMode} from '../../../constants/constants';
 import {getRequirements} from '../../../utils/label-util';
 import {addGlobalShortcut, Key} from '../../../utils/dom-util';
-import {unique} from '../../../utils/common-util';
+import {assertIsDefined, unique} from '../../../utils/common-util';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -175,6 +175,9 @@ export class GrChangeList extends LitElement {
     this.shortcuts.addAbstract(Shortcut.REFRESH_CHANGE_LIST, () =>
       this.refreshChangeList()
     );
+    this.shortcuts.addAbstract(Shortcut.TOGGLE_CHECKBOX, () =>
+      this.toggleCheckbox()
+    );
     addGlobalShortcut({key: Key.ENTER}, () => this.openChange());
   }
 
@@ -288,6 +291,24 @@ export class GrChangeList extends LitElement {
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('sections')) {
       this.sectionsChanged();
+    }
+  }
+
+  private toggleCheckbox() {
+    assertIsDefined(this.selectedIndex, 'selectedIndex');
+    let selectedIndex = this.selectedIndex;
+    assertIsDefined(this.sections, 'sections');
+    const changeSections = queryAll<GrChangeListSection>(
+      this,
+      'gr-change-list-section'
+    );
+    for (let i = 0; i < this.sections.length; i++) {
+      if (selectedIndex >= this.sections[i].results.length) {
+        selectedIndex -= this.sections[i].results.length;
+        continue;
+      }
+      changeSections[i].toggleChange(selectedIndex);
+      return;
     }
   }
 

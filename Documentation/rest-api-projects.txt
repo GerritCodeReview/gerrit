@@ -3978,7 +3978,7 @@ A boolean value that can also be inherited.
 |`value`            ||
 The effective boolean value.
 |`configured_value` ||
-The configured value, can be `TRUE`, `FALSE` or `INHERITED`.
+The configured value, can be `TRUE`, `FALSE` or `INHERIT`.
 |`inherited_value`  |optional|
 The boolean value inherited from the parent. +
 Not set if there is no parent.

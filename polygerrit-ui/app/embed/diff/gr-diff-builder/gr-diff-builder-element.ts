@@ -209,28 +209,27 @@ export class GrDiffBuilderElement implements GroupConsumer {
 
     this.fireDiffEvent('render-start');
     this.cancelableRenderPromise = makeCancelable(
-      this.processor
-        .process(this.diff.content, isBinary)
-        .then(() => {
-          if (this.isImageDiff) {
-            (this.builder as GrDiffBuilderImage).renderDiff();
-          }
-          return this.untilGroupsRendered();
-        })
-        .then(() => {
-          this.fireDiffEvent('render-content');
-        })
-        // Mocha testing does not like uncaught rejections, so we catch
-        // the cancels which are expected and should not throw errors in
-        // tests.
-        .catch(e => {
-          if (!e.isCanceled) return Promise.reject(e);
-          return;
-        })
-        .finally(() => {
-          this.cancelableRenderPromise = null;
-        })
+      this.processor.process(this.diff.content, isBinary).then(() => {
+        if (this.isImageDiff) {
+          (this.builder as GrDiffBuilderImage).renderDiff();
+        }
+      })
     );
+    this.cancelableRenderPromise
+      .then(async () => {
+        await this.untilGroupsRendered();
+        this.fireDiffEvent('render-content');
+      })
+      // Mocha testing does not like uncaught rejections, so we catch
+      // the cancels which are expected and should not throw errors in
+      // tests.
+      .catch(e => {
+        if (!e.isCanceled) return Promise.reject(e);
+        return;
+      })
+      .finally(() => {
+        this.cancelableRenderPromise = null;
+      });
   }
 
   // visible for testing

@@ -208,29 +208,30 @@ export class GrDiffBuilderElement implements GroupConsumer {
     const isBinary = !!(this.isImageDiff || this.diff.binary);
 
     this.fireDiffEvent('render-start');
+    // TODO: processor.process() returns a cancelable promise already.
+    // Why wrap another one around it?
     this.cancelableRenderPromise = makeCancelable(
-      this.processor
-        .process(this.diff.content, isBinary)
-        .then(() => {
-          if (this.isImageDiff) {
-            (this.builder as GrDiffBuilderImage).renderDiff();
-          }
-          return this.untilGroupsRendered();
-        })
-        .then(() => {
-          this.fireDiffEvent('render-content');
-        })
-        // Mocha testing does not like uncaught rejections, so we catch
-        // the cancels which are expected and should not throw errors in
-        // tests.
-        .catch(e => {
-          if (!e.isCanceled) return Promise.reject(e);
-          return;
-        })
-        .finally(() => {
-          this.cancelableRenderPromise = null;
-        })
+      this.processor.process(this.diff.content, isBinary)
     );
+    // All then/catch/finally clauses must be outside of makeCancelable().
+    this.cancelableRenderPromise
+      .then(async () => {
+        if (this.isImageDiff) {
+          (this.builder as GrDiffBuilderImage).renderDiff();
+        }
+        await this.untilGroupsRendered();
+        this.fireDiffEvent('render-content');
+      })
+      // Mocha testing does not like uncaught rejections, so we catch
+      // the cancels which are expected and should not throw errors in
+      // tests.
+      .catch(e => {
+        if (!e.isCanceled) return Promise.reject(e);
+        return;
+      })
+      .finally(() => {
+        this.cancelableRenderPromise = null;
+      });
   }
 
   // visible for testing

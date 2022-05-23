@@ -138,6 +138,12 @@ export class GrDiffProcessor {
       return Promise.resolve();
     }
 
+    // TODO: Canceling this promise does not help much. `nextStep` will continue
+    // to be scheduled anyway. So either just remove the cancelable promise, so
+    // future programmers are not fooled about this promise can do. Or fix the
+    // scheduling of `nextStep` such that cancellation is taken into account.
+    // The easiest approach is likely to just not re-use the processor for
+    // multiple processing passes. There is no benefit from doing so.
     this.processPromise = makeCancelable(
       new Promise(resolve => {
         const state = {

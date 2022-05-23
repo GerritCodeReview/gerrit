@@ -221,26 +221,30 @@ suite('gr-change-list-hashtag-flow tests', () => {
                   >hashtag2</span
                 >
               </div>
+              <gr-autocomplete
+                placeholder="Type hashtag name to create or filter hashtags"
+                show-blue-focus-border=""
+              ></gr-autocomplete>
               <div class="footer">
                 <div class="loadingOrError"></div>
                 <div class="buttons">
                   <gr-button
-                    id="apply-to-all-button"
+                    id="create-new-hashtag-button"
                     flatten=""
                     aria-disabled="true"
                     disabled=""
                     role="button"
                     tabindex="-1"
-                    >Apply to all</gr-button
+                    >Create new hashtag</gr-button
                   >
                   <gr-button
-                    id="remove-hashtags-button"
+                    id="apply-hashtag-button"
                     flatten=""
                     aria-disabled="true"
                     disabled=""
                     role="button"
                     tabindex="-1"
-                    >Remove</gr-button
+                    >Apply</gr-button
                   >
                 </div>
               </div>
@@ -254,85 +258,16 @@ suite('gr-change-list-hashtag-flow tests', () => {
       );
     });
 
-    test('remove single hashtag', async () => {
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
-      await element.updateComplete;
-      queryAndAssert<GrButton>(element, '#remove-hashtags-button').click();
-      await element.updateComplete;
-
-      assert.equal(
-        queryAndAssert(element, '.loadingText').textContent,
-        'Removing hashtag...'
-      );
-
-      await resolvePromises();
-      await element.updateComplete;
-
-      // not called for second change which as a different hashtag
-      assert.isTrue(setChangeHashtagStub.calledOnce);
-      assert.deepEqual(setChangeHashtagStub.firstCall.args, [
-        changesWithHashtags[0]._number,
-        {remove: ['hashtag1']},
-      ]);
-    });
-
-    test('remove multiple hashtags', async () => {
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
-      queryAll<HTMLSpanElement>(element, 'span.chip')[1].click();
-      await element.updateComplete;
-      queryAndAssert<GrButton>(element, '#remove-hashtags-button').click();
-      await element.updateComplete;
-
-      assert.equal(
-        queryAndAssert(element, '.loadingText').textContent,
-        'Removing hashtags...'
-      );
-
-      await resolvePromises();
-      await element.updateComplete;
-
-      // not called for second change which as a different hashtag
-      assert.isTrue(setChangeHashtagStub.calledTwice);
-      assert.deepEqual(setChangeHashtagStub.firstCall.args, [
-        changesWithHashtags[0]._number,
-        {remove: ['hashtag1', 'hashtag2']},
-      ]);
-      assert.deepEqual(setChangeHashtagStub.secondCall.args, [
-        changesWithHashtags[1]._number,
-        {remove: ['hashtag1', 'hashtag2']},
-      ]);
-    });
-
-    test('can only apply a single hashtag', async () => {
-      assert.isTrue(
-        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
-      );
-
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
-      await element.updateComplete;
-
-      assert.isFalse(
-        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
-      );
-
-      queryAll<HTMLSpanElement>(element, 'span.chip')[1].click();
-      await element.updateComplete;
-
-      assert.isTrue(
-        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
-      );
-    });
-
     test('applies hashtag to all changes', async () => {
       queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
       await element.updateComplete;
 
-      queryAndAssert<GrButton>(element, '#apply-to-all-button').click();
+      queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
       await element.updateComplete;
 
       assert.equal(
         queryAndAssert(element, '.loadingText').textContent,
-        'Applying hashtag to all'
+        'Applying hashtag...'
       );
 
       await resolvePromises();
@@ -429,6 +364,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
             horizontal-align="auto"
           >
             <div slot="dropdown-content">
+              <div class="chips"></div>
               <gr-autocomplete
                 placeholder="Type hashtag name to create or filter hashtags"
                 show-blue-focus-border=""

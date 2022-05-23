@@ -33,6 +33,21 @@ If votes get outdated due to creating a new patch set the user of the
 removed vote is added to the attention set of the change, as they need
 to re-review the change and renew their vote.
 
+If a vote is applied on an outdated patch set (i.e. a patch set that is
+not the current patch set) the vote is copied forward to follow-up
+patch sets if possible. A newly added or updated vote on an outdated
+patch set is copied to follow-up patch sets if:
+
+* the vote is copyable (i.e. it matches the
+link:#label_copyCondition[copyCondition] of the label)
+* neither the follow-up patch set nor an intermediate patch set has a
+  non-copied vote or a deletion vote (vote with value `0`) that
+  overrides the copy vote
+
+If an approval on an outdated patch set is removed or updated to a
+value that is not copyable, existing copies of that approval on
+follow-up patch sets are removed.
+
 [[label_Code-Review]]
 == Label: Code-Review
 

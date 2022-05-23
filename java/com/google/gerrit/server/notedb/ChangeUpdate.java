@@ -57,6 +57,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 import com.google.common.collect.TreeBasedTable;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
@@ -312,6 +313,23 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public void putCopiedApproval(PatchSetApproval copiedPatchSetApproval) {
     checkArgument(copiedPatchSetApproval.copied(), "Approval that should be copied is not copied.");
     copiedApprovals.add(copiedPatchSetApproval);
+  }
+
+  public void removeCopiedApprovalFor(
+      @Nullable Account.Id realUserId, Account.Id reviewerId, String label) {
+    PatchSetApproval.Builder psaBuilder =
+        PatchSetApproval.builder()
+            .copied(true)
+            .key(PatchSetApproval.key(getPatchSetId(), reviewerId, LabelId.create(label)))
+            .value(0)
+            .uuid(Optional.empty())
+            .granted(when);
+
+    if (realUserId != null) {
+      psaBuilder.realAccountId(realUserId);
+    }
+
+    copiedApprovals.add(psaBuilder.build());
   }
 
   public void merge(SubmissionId submissionId, Iterable<SubmitRecord> submitRecords) {
@@ -885,7 +903,20 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private void addCopiedLabelFooter(StringBuilder msg, PatchSetApproval patchSetApproval) {
     if (patchSetApproval.value() == 0) {
-      // Can only happen if we removed a vote. There is no need to persist removed votes.
+      addFooter(msg, FOOTER_COPIED_LABEL);
+
+      // Mark the copied approval as deleted.
+      msg.append('-').append(patchSetApproval.label());
+
+      noteUtil.appendAccountIdIdentString(msg.append(' '), patchSetApproval.accountId());
+
+      // In the non-copied labels, we don't need to pass the real account id since it's already
+      // in FOOTER_REAL_USER. Here, we want to retain the original real account id.
+      if (!patchSetApproval.realAccountId().equals(patchSetApproval.accountId())) {
+        noteUtil.appendAccountIdIdentString(msg.append(","), patchSetApproval.realAccountId());
+      }
+
+      msg.append('\n');
       return;
     }
     addFooter(msg, FOOTER_COPIED_LABEL);

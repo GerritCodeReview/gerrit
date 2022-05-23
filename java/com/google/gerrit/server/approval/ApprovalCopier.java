@@ -15,6 +15,7 @@
 package com.google.gerrit.server.approval;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.auto.value.AutoValue;
@@ -34,8 +35,10 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -58,6 +61,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
@@ -114,9 +118,11 @@ public class ApprovalCopier {
     }
   }
 
+  private final GitRepositoryManager repoManager;
   private final DiffOperations diffOperations;
   private final ProjectCache projectCache;
   private final ChangeKindCache changeKindCache;
+  private final PatchSetUtil psUtil;
   private final LabelNormalizer labelNormalizer;
   private final ApprovalQueryBuilder approvalQueryBuilder;
   private final OneOffRequestContext requestContext;
@@ -124,16 +130,20 @@ public class ApprovalCopier {
 
   @Inject
   ApprovalCopier(
+      GitRepositoryManager repoManager,
       DiffOperations diffOperations,
       ProjectCache projectCache,
       ChangeKindCache changeKindCache,
+      PatchSetUtil psUtil,
       LabelNormalizer labelNormalizer,
       ApprovalQueryBuilder approvalQueryBuilder,
       OneOffRequestContext requestContext,
       ListOfFilesUnchangedPredicate listOfFilesUnchangedPredicate) {
+    this.repoManager = repoManager;
     this.diffOperations = diffOperations;
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
+    this.psUtil = psUtil;
     this.labelNormalizer = labelNormalizer;
     this.approvalQueryBuilder = approvalQueryBuilder;
     this.requestContext = requestContext;
@@ -166,6 +176,102 @@ public class ApprovalCopier {
               .orElseThrow(illegalState(notes.getProjectName()));
       return computeForPatchSet(project.getLabelTypes(), notes, ps, rw, repoConfig);
     }
+  }
+
+  /**
+   * Returns all follow-up patch sets of the given patch set to which the given approval is
+   * copyable.
+   *
+   * <p>An approval is considered as copyable to a follow-up patch set if it matches the copy rules
+   * of the label and it is copyable to all intermediate follow-up patch sets as well.
+   *
+   * <p>The returned follow-up patch sets are returned in the order of their patch set IDs.
+   *
+   * <p>Note: This method only checks the copy rules to detect if the approval is copyable. There
+   * are other factors, not checked here, that can prevent the copying of the approval to the
+   * returned follow-up patch sets (e.g. if they already have a matching non-copy approval that
+   * prevents the copying).
+   *
+   * @param changeNotes the change notes
+   * @param patchSet the patch set on which the approval was applied
+   * @param psaKey the key of the approval that was applied
+   * @param psaValue the value of the approval that was applied
+   * @return the follow-up patch sets to which the approval is copyable, ordered by patch set ID
+   */
+  public ImmutableList<PatchSet.Id> forApproval(
+      ChangeNotes changeNotes, PatchSet patchSet, PatchSetApproval.Key psaKey, short psaValue)
+      throws IOException {
+    ImmutableList.Builder<PatchSet.Id> targetPatchSetsBuilder = ImmutableList.builder();
+
+    Optional<LabelType> labelType =
+        projectCache
+            .get(changeNotes.getProjectName())
+            .orElseThrow(illegalState(changeNotes.getProjectName()))
+            .getLabelTypes()
+            .byLabel(psaKey.labelId().get());
+    if (!labelType.isPresent()) {
+      // no label type exists for this label, hence this approval cannot be copied
+      return ImmutableList.of();
+    }
+
+    try (Repository repo = repoManager.openRepository(changeNotes.getProjectName());
+        RevWalk revWalk = new RevWalk(repo)) {
+      ImmutableList<PatchSet.Id> followUpPatchSets =
+          changeNotes.getPatchSets().keySet().stream()
+              .filter(psId -> psId.get() > patchSet.id().get())
+              .collect(toImmutableList());
+      PatchSet priorPatchSet = patchSet;
+      for (PatchSet.Id followUpPatchSetId : followUpPatchSets) {
+        PatchSet followUpPatchSet = psUtil.get(changeNotes, followUpPatchSetId);
+        ChangeKind changeKind =
+            changeKindCache.getChangeKind(
+                changeNotes.getProjectName(),
+                revWalk,
+                repo.getConfig(),
+                priorPatchSet.commitId(),
+                followUpPatchSet.commitId());
+        boolean isMerge = isMerge(changeNotes.getProjectName(), revWalk, followUpPatchSet);
+
+        Map<String, ModifiedFile> baseVsCurrent = null;
+        Map<String, ModifiedFile> baseVsPrior = null;
+        Map<String, ModifiedFile> priorVsCurrent = null;
+        if (labelType.get().isCopyAllScoresIfListOfFilesDidNotChange()) {
+          baseVsCurrent =
+              listModifiedFiles(
+                  changeNotes.getProjectName(), followUpPatchSet, revWalk, repo.getConfig());
+          baseVsPrior =
+              listModifiedFiles(
+                  changeNotes.getProjectName(), priorPatchSet, revWalk, repo.getConfig());
+          priorVsCurrent =
+              listModifiedFiles(
+                  changeNotes.getProjectName(),
+                  priorPatchSet.commitId(),
+                  followUpPatchSet.commitId(),
+                  revWalk,
+                  repo.getConfig());
+        }
+
+        if (canCopy(
+            changeNotes,
+            followUpPatchSet,
+            psaKey,
+            psaValue,
+            revWalk,
+            repo.getConfig(),
+            changeKind,
+            isMerge,
+            labelType.get(),
+            baseVsCurrent,
+            baseVsPrior,
+            priorVsCurrent)) {
+          targetPatchSetsBuilder.add(followUpPatchSetId);
+        } else {
+          break;
+        }
+        priorPatchSet = followUpPatchSet;
+      }
+    }
+    return targetPatchSetsBuilder.build();
   }
 
   private boolean canCopyBasedOnBooleanLabelConfigs(
@@ -469,33 +575,26 @@ public class ApprovalCopier {
         outdatedApprovalsBuilder.add(psa);
         continue;
       }
-      if (!canCopyBasedOnBooleanLabelConfigs(
-              projectName,
-              psa.key(),
-              psa.value(),
-              patchSet.id(),
-              changeKind,
-              isMerge,
-              type.get(),
-              baseVsCurrent,
-              baseVsPrior,
-              priorVsCurrent)
-          && !canCopyBasedOnCopyCondition(
-              notes,
-              psa.key(),
-              psa.value(),
-              patchSet,
-              type.get(),
-              changeKind,
-              isMerge,
-              rw,
-              repoConfig)) {
+      if (canCopy(
+          notes,
+          patchSet,
+          psa.key(),
+          psa.value(),
+          rw,
+          repoConfig,
+          changeKind,
+          isMerge,
+          type.get(),
+          baseVsCurrent,
+          baseVsPrior,
+          priorVsCurrent)) {
+        if (!currentApprovalsByUser.contains(psa.label(), psa.accountId())) {
+          copiedApprovalsByUser.put(
+              psa.label(), psa.accountId(), psa.copyWithPatchSet(patchSet.id()));
+        }
+      } else {
         outdatedApprovalsBuilder.add(psa);
         continue;
-      }
-      if (!currentApprovalsByUser.contains(psa.label(), psa.accountId())) {
-        copiedApprovalsByUser.put(
-            psa.label(), psa.accountId(), psa.copyWithPatchSet(patchSet.id()));
       }
     }
 
@@ -556,5 +655,36 @@ public class ApprovalCopier {
               + "copyAllIfListOfFilesDidNotChange",
           ex);
     }
+  }
+
+  private boolean canCopy(
+      ChangeNotes notes,
+      PatchSet patchSet,
+      PatchSetApproval.Key psaKey,
+      short psaValue,
+      RevWalk revWalk,
+      Config repoConfig,
+      ChangeKind changeKind,
+      boolean isMerge,
+      LabelType type,
+      @Nullable Map<String, ModifiedFile> baseVsCurrentDiff,
+      @Nullable Map<String, ModifiedFile> baseVsPriorDiff,
+      @Nullable Map<String, ModifiedFile> priorVsCurrentDiff) {
+    if (!canCopyBasedOnBooleanLabelConfigs(
+            notes.getProjectName(),
+            psaKey,
+            psaValue,
+            patchSet.id(),
+            changeKind,
+            isMerge,
+            type,
+            baseVsCurrentDiff,
+            baseVsPriorDiff,
+            priorVsCurrentDiff)
+        && !canCopyBasedOnCopyCondition(
+            notes, psaKey, psaValue, patchSet, type, changeKind, isMerge, revWalk, repoConfig)) {
+      return false;
+    }
+    return true;
   }
 }

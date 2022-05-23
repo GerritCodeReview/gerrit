@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90678d35_6079af57",
+        "filename": "java/com/google/gerrit/sshd/commands/CopyApprovalsCommand.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-23T19:39:18Z",
+      "side": 1,
+      "message": "This should also trigger the reindex of the change.\nThat is needed when performing a rolling upgrade from v3.5 to v3.6: the new upgraded nodes may have a stale index because of the missing copied labels, so they would need to receive a reindex event to calculate the newly updated change notes.",
+      "revId": "2849b7a1806ea8a66538a6ccac88d20a50feddb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

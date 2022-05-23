@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "627a23a2_4142efb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-23T10:40:21Z",
+      "side": 1,
+      "message": "since they share the same `change` object, updates should propagate without needing events",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 55
+      },
+      "revId": "50b5b8ae178e07cc876a6c0d6865c66fea77c70b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

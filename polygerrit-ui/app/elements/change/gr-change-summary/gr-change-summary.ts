@@ -821,30 +821,6 @@ export class GrChangeSummary extends LitElement {
     return html`
       <div>
         <table>
-          <tr ?hidden=${!this.showChecksSummary}>
-            <td class="key">Checks</td>
-            <td class="value">
-              <div class="checksSummary">
-                ${this.renderChecksZeroState()}${this.renderChecksChipForCategory(
-                  Category.ERROR
-                )}${this.renderChecksChipForCategory(
-                  Category.WARNING
-                )}${this.renderChecksChipForCategory(
-                  Category.INFO
-                )}${this.renderChecksChipForCategory(
-                  Category.SUCCESS
-                )}${hasNonRunningChip && hasRunningChip
-                  ? html`<br />`
-                  : ''}${this.renderChecksChipRunning()}
-                <span
-                  class="loadingSpin"
-                  ?hidden=${!this.someProvidersAreLoading}
-                ></span>
-                ${this.renderErrorMessages()} ${this.renderChecksLogin()}
-                ${this.renderSummaryMessage()} ${this.renderActions()}
-              </div>
-            </td>
-          </tr>
           <tr>
             <td class="key">Comments</td>
             <td class="value">
@@ -882,6 +858,30 @@ export class GrChangeSummary extends LitElement {
                 ?hidden=${!countResolvedComments}
                 >${countResolvedComments} resolved</gr-summary-chip
               >
+            </td>
+          </tr>
+          <tr ?hidden=${!this.showChecksSummary}>
+            <td class="key">Checks</td>
+            <td class="value">
+              <div class="checksSummary">
+                ${this.renderChecksZeroState()}${this.renderChecksChipForCategory(
+                  Category.ERROR
+                )}${this.renderChecksChipForCategory(
+                  Category.WARNING
+                )}${this.renderChecksChipForCategory(
+                  Category.INFO
+                )}${this.renderChecksChipForCategory(
+                  Category.SUCCESS
+                )}${hasNonRunningChip && hasRunningChip
+                  ? html`<br />`
+                  : ''}${this.renderChecksChipRunning()}
+                <span
+                  class="loadingSpin"
+                  ?hidden=${!this.someProvidersAreLoading}
+                ></span>
+                ${this.renderErrorMessages()} ${this.renderChecksLogin()}
+                ${this.renderSummaryMessage()} ${this.renderActions()}
+              </div>
             </td>
           </tr>
           <tr hidden>

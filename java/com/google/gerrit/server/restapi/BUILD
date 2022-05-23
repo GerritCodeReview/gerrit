@@ -31,6 +31,7 @@ java_library(
         "//lib:jgit",
         "//lib:servlet-api",
         "//lib/antlr:java-runtime",
+        "//lib/auto:auto-factory",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/commons:compress",

@@ -193,6 +193,157 @@ suite('gr-reply-dialog tests', () => {
     return promise;
   }
 
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div tabindex="-1">
+        <section class="peopleContainer">
+          <gr-endpoint-decorator name="reply-reviewers">
+            <gr-endpoint-param name="change"> </gr-endpoint-param>
+            <gr-endpoint-param name="reviewers"> </gr-endpoint-param>
+            <div class="peopleList">
+              <div class="peopleListLabel">Reviewers</div>
+              <gr-account-list id="reviewers"> </gr-account-list>
+              <gr-endpoint-slot name="right"> </gr-endpoint-slot>
+            </div>
+            <gr-endpoint-slot name="below"> </gr-endpoint-slot>
+          </gr-endpoint-decorator>
+          <div class="peopleList">
+            <div class="peopleListLabel">CC</div>
+            <gr-account-list allow-any-input="" id="ccs"> </gr-account-list>
+          </div>
+          <gr-overlay
+            aria-hidden="true"
+            id="reviewerConfirmationOverlay"
+            style="outline: none; display: none;"
+          >
+            <div class="reviewerConfirmation">
+              Group
+              <span class="groupName"> </span>
+              has
+              <span class="groupSize"> </span>
+              members.
+              <br />
+              Are you sure you want to add them all?
+            </div>
+            <div class="reviewerConfirmationButtons">
+              <gr-button aria-disabled="false" role="button" tabindex="0">
+                Yes
+              </gr-button>
+              <gr-button aria-disabled="false" role="button" tabindex="0">
+                No
+              </gr-button>
+            </div>
+          </gr-overlay>
+        </section>
+        <section class="labelsContainer">
+          <gr-endpoint-decorator name="reply-label-scores">
+            <gr-label-scores id="labelScores"> </gr-label-scores>
+            <gr-endpoint-param name="change"> </gr-endpoint-param>
+          </gr-endpoint-decorator>
+          <div id="pluginMessage"></div>
+        </section>
+        <section class="newReplyDialog textareaContainer">
+          <div class="patchsetLevelContainer resolved">
+            <gr-endpoint-decorator name="reply-text">
+              <gr-textarea
+                class="message monospace newReplyDialog"
+                id="textarea"
+                monospace=""
+              >
+              </gr-textarea>
+              <gr-endpoint-param name="change"> </gr-endpoint-param>
+            </gr-endpoint-decorator>
+            <div class="labelContainer">
+              <label>
+                <input
+                  checked=""
+                  id="resolvedPatchsetLevelCommentCheckbox"
+                  type="checkbox"
+                />
+                Resolved
+              </label>
+              <label class="preview-formatting">
+                <input type="checkbox" />
+                Preview formatting
+              </label>
+            </div>
+          </div>
+        </section>
+        <div class="newReplyDialog stickyBottom">
+          <gr-endpoint-decorator name="reply-bottom">
+            <gr-endpoint-param name="change"> </gr-endpoint-param>
+            <section class="attention">
+              <div class="attentionSummary">
+                <div>
+                  <span> No changes to the attention set. </span>
+                  <gr-tooltip-content
+                    has-tooltip=""
+                    title="Edit attention set changes"
+                  >
+                    <gr-button
+                      aria-disabled="false"
+                      class="edit-attention-button"
+                      data-action-key="edit"
+                      data-action-type="change"
+                      data-label="Edit"
+                      link=""
+                      position-below=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      <iron-icon icon="gr-icons:edit"> </iron-icon>
+                      Modify
+                    </gr-button>
+                  </gr-tooltip-content>
+                </div>
+                <div>
+                  <a
+                    href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
+                    target="_blank"
+                  >
+                    <iron-icon
+                      icon="gr-icons:help-outline"
+                      title="read documentation"
+                    >
+                    </iron-icon>
+                  </a>
+                </div>
+              </div>
+            </section>
+            <gr-endpoint-slot name="above-actions"> </gr-endpoint-slot>
+            <section class="actions">
+              <div class="left"></div>
+              <div class="right">
+                <gr-button
+                  aria-disabled="false"
+                  class="action cancel"
+                  id="cancelButton"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Cancel
+                </gr-button>
+                <gr-tooltip-content has-tooltip="" title="Send reply">
+                  <gr-button
+                    aria-disabled="false"
+                    class="action send"
+                    id="sendButton"
+                    primary=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Send
+                  </gr-button>
+                </gr-tooltip-content>
+              </div>
+            </section>
+          </gr-endpoint-decorator>
+        </div>
+      </div>
+    `);
+  });
+
   test('default to publishing draft comments with reply', async () => {
     // Async tick is needed because iron-selector content is distributed and
     // distributed content requires an observer to be set up.

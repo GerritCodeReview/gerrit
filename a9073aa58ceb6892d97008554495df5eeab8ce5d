@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb999fbe_96e6d3c1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-23T15:01:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1ecf61f0_1123b23b",
+      "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "748acc3f_51627475",
@@ -75,6 +93,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89c6abae_3fd71e49",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-23T15:01:14Z",
+      "side": 1,
+      "message": "Fixed, thanks.",
+      "parentUuid": "748acc3f_51627475",
+      "range": {
+        "startLine": 930,
+        "startChar": 26,
+        "endLine": 930,
+        "endChar": 32
+      },
+      "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dccaba4_a14ba451",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-23T15:01:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c7d90eae_765e405a",
+      "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34650d3f_f3cb9615",
@@ -88,6 +148,24 @@
       "writtenOn": "2022-05-23T08:47:19Z",
       "side": 1,
       "message": "I do not know TypeScript but comparing this line and the line 944 I wonder is:\n\n  InheritedBooleanInfoConfiguredvalue.INHERITED\n  \nnot used here?",
+      "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74805747_15a1e885",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-23T15:01:14Z",
+      "side": 1,
+      "message": "This was based on typo thus didn\u0027t work, noted here [0].\n\nI\u0027ve uploaded a fix to fix the typo in the documentation [1].\n\nFollow-up will be to fix it in the UI.\n\n[0] https://gerrit-review.googlesource.com/c/gerrit/+/337063/comment/623b53ea_5e380e4e/\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/337734\n\n\nFixed.",
+      "parentUuid": "34650d3f_f3cb9615",
       "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -109,6 +187,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "372f0dfd_4c1bb55e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-23T15:01:14Z",
+      "side": 1,
+      "message": "Yeh, fixed, thanks",
+      "parentUuid": "78fd58f9_3f154cf1",
+      "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e4ebd5a_a97b2257",
@@ -122,6 +218,24 @@
       "writtenOn": "2022-05-23T08:47:19Z",
       "side": 1,
       "message": "combine both expressions (lines 934 - 945) into one:\n\n  enabledSignedPush.configured_value \u003d\u003d\u003d INHERITED \u0026\u0026 enableSignedPush.inherited_value\n  ||\n  enabledSignedPush.configured_value \u003d\u003d\u003d InheritedBooleanInfoConfiguredValue.TRUE",
+      "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec36a108_aba8c2fc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-23T15:01:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5e4ebd5a_a97b2257",
       "revId": "a9073aa58ceb6892d97008554495df5eeab8ce5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

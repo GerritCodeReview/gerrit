@@ -135,7 +135,7 @@ public class CopyApprovalsIT extends AbstractDaemonTest {
       u.save();
     }
 
-    recursiveApprovalCopier.persist(project);
+    recursiveApprovalCopier.persist(project, null);
 
     for (PushOneCommit.Result change : changes) {
       ApprovalInfo vote1 =

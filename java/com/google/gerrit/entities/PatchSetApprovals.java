@@ -41,6 +41,17 @@ public abstract class PatchSetApprovals {
         Multimaps.filterEntries(all(), entry -> !entry.getValue().copied()));
   }
 
+  /**
+   * Returns copied approvals by patch set.
+   *
+   * <p>Approvals that have not been copied from a previous patch set are filtered out.
+   */
+  @Memoized
+  public ImmutableListMultimap<PatchSet.Id, PatchSetApproval> onlyCopied() {
+    return ImmutableListMultimap.copyOf(
+        Multimaps.filterEntries(all(), entry -> entry.getValue().copied()));
+  }
+
   public static PatchSetApprovals create(
       ImmutableListMultimap<PatchSet.Id, PatchSetApproval> approvalsByPatchSet) {
     return new AutoValue_PatchSetApprovals(approvalsByPatchSet);

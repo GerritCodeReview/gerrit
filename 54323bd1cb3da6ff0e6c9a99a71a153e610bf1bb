@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af1dcacd_43bf9208",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-23T08:54:05Z",
+      "side": 1,
+      "message": "Only show the warning if change is already Active.",
+      "range": {
+        "startLine": 3,
+        "startChar": 16,
+        "endLine": 4,
+        "endChar": 34
+      },
+      "revId": "54323bd1cb3da6ff0e6c9a99a71a153e610bf1bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

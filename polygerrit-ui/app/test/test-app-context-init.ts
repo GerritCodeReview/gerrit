@@ -40,6 +40,7 @@ import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
 import {MockHighlightService} from '../services/highlight/highlight-service-mock';
+import {ViewModel, viewModelToken} from '../models/view/view-model';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -120,6 +121,9 @@ export function createTestDependencies(
     );
 
   dependencies.set(checksModelToken, checksModelCreator);
+
+  const viewModelCreator = () => new ViewModel();
+  dependencies.set(viewModelToken, viewModelCreator);
 
   return dependencies;
 }

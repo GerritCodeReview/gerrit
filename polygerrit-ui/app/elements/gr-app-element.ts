@@ -273,7 +273,6 @@ export class GrAppElement extends LitElement {
         offset: 0,
         selectedChangeIndex: 0,
       },
-      dashboardView: {},
     };
   }
 
@@ -453,7 +452,6 @@ export class GrAppElement extends LitElement {
       <gr-dashboard-view
         .account=${this.account}
         .params=${this.params}
-        .viewState=${this.viewState?.dashboardView}
       ></gr-dashboard-view>
     `;
   }

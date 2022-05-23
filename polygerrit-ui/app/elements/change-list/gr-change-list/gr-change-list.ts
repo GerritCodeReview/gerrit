@@ -31,7 +31,7 @@ import {
   ServerInfo,
   PreferencesInput,
 } from '../../../types/common';
-import {fire, fireEvent, fireReload} from '../../../utils/event-util';
+import {fireEvent, fireReload} from '../../../utils/event-util';
 import {ColumnNames, ScrollMode} from '../../../constants/constants';
 import {getRequirements} from '../../../utils/label-util';
 import {addGlobalShortcut, Key} from '../../../utils/dom-util';
@@ -47,6 +47,11 @@ import {queryAll} from '../../../utils/common-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 import {Execution} from '../../../constants/reporting';
+import {resolve} from '../../../models/dependency';
+import {viewModelToken} from '../../../models/view/view-model';
+import {subscribe} from '../../lit/subscription-controller';
+
+const CHANGE_LIST = 'CHANGE_LIST';
 
 export interface ChangeListSection {
   countLabel?: string;
@@ -143,6 +148,10 @@ export class GrChangeList extends LitElement {
   @property({type: Boolean})
   isCursorMoving = false;
 
+  // UserId in case the dashboard is open
+  @property({type: String})
+  user?: string;
+
   // private but used in test
   @state() config?: ServerInfo;
 
@@ -151,6 +160,8 @@ export class GrChangeList extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly getViewModel = resolve(this, viewModelToken);
 
   private readonly shortcuts = new ShortcutController(this);
 
@@ -176,6 +187,14 @@ export class GrChangeList extends LitElement {
       this.refreshChangeList()
     );
     addGlobalShortcut({key: Key.ENTER}, () => this.openChange());
+    subscribe(
+      this,
+      () => this.getViewModel().selectedIndexForDashboard$,
+      selectedIndexForDashboard => {
+        this.selectedIndex =
+          selectedIndexForDashboard.get(this.user ?? CHANGE_LIST) ?? 0;
+      }
+    );
   }
 
   override connectedCallback() {
@@ -359,16 +378,20 @@ export class GrChangeList extends LitElement {
     this.isCursorMoving = true;
     this.cursor.next();
     this.isCursorMoving = false;
-    this.selectedIndex = this.cursor.index;
-    fire(this, 'selected-index-changed', {value: this.cursor.index});
+    this.getViewModel().setSelectedIndexForDashboard(
+      this.user ?? CHANGE_LIST,
+      this.cursor.index
+    );
   }
 
   private prevChange() {
     this.isCursorMoving = true;
     this.cursor.previous();
     this.isCursorMoving = false;
-    this.selectedIndex = this.cursor.index;
-    fire(this, 'selected-index-changed', {value: this.cursor.index});
+    this.getViewModel().setSelectedIndexForDashboard(
+      this.user ?? CHANGE_LIST,
+      this.cursor.index
+    );
   }
 
   private async openChange() {

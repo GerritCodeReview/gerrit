@@ -107,5 +107,5 @@ suite('compare-util tests', () => {
 
   test('deepEqual nested', () => {
     assert.isFalse(deepEqual({foo: new Set([])}, {foo: new Map([])}));
-  })
+  });
 });

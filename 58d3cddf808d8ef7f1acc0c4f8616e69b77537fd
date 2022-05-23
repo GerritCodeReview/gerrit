@@ -43,6 +43,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c3f7311_c1c6b5e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-23T18:47:58Z",
+      "side": 1,
+      "message": "@Patrick curious what your thoughts are on this. It feels like there\u0027s several naming/API/organization challenges here that aren\u0027t new problems with this change, but are existing with the current \"Apply Fix\" API. It\u0027s things like what\u0027s a FixReplacement? Is it a \"Fix\" or a \"Replacement\"? How can it be both?\n\nI don\u0027t want to burden Sharad with fixing all of that, but it\u0027s going to be hard to build on top of it in a clear way without some improvements. Do you have ideas for how to approach it and what\u0027s manageable now vs what needs to happen later?",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7b8b524_728a9686",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28
@@ -78,6 +95,30 @@
       "side": 1,
       "message": "I do agree, but we need to rename an API that is currently in use. Which purely for the sake of naming, I think is too much effort. So my suggestion is to leave as-is.\n\nDo we have other naming options that would allow us to keep the name of the existing API?",
       "parentUuid": "c7b8b524_728a9686",
+      "range": {
+        "startLine": 5378,
+        "startChar": 4,
+        "endLine": 5378,
+        "endChar": 20
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4175182c_52d7803f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5378,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-23T18:47:58Z",
+      "side": 1,
+      "message": "\u003e I do agree, but we need to rename an API that is currently in use. Which purely for the sake of naming, I think is too much effort. So my suggestion is to leave as-is.\n\nWe wouldn\u0027t be changing the API signature, just the docs, correct? I know that\u0027s still not preferred, but does that actually create a lot of effort? I\u0027m asking for future knowledge here too; we\u0027ll inevitably mess up an API sometime and need to rename it, so I\u0027m curious how much of an impact you see that having.\n\n\u003e \n\u003e Do we have other naming options that would allow us to keep the name of the existing API?\n\nCalling this \"Apply Fix Directly\" was my only idea there. Maybe \"Apply Provided Fix\"?",
+      "parentUuid": "ee8f2c7b_77d12011",
       "range": {
         "startLine": 5378,
         "startChar": 4,
@@ -207,6 +248,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bf06bdc9_5ee72b33",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5385,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-23T18:47:58Z",
+      "side": 1,
+      "message": "Right! Yeah, if this mentioned \u0027revision-id\u0027 somehow, I think I would have made the connection.",
+      "parentUuid": "ff4f93e6_60007c42",
+      "range": {
+        "startLine": 5385,
+        "startChar": 27,
+        "endLine": 5385,
+        "endChar": 62
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "681a4eb4_3addde76",
         "filename": "java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
         "patchSetId": 28
@@ -259,6 +324,24 @@
       "side": 1,
       "message": "+1 maybe:\n\n\"Input containing a fix to apply a fix directly to the change.\"",
       "parentUuid": "33b34ef3_24c991d2",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ea0e161_721b51ee",
+        "filename": "java/com/google/gerrit/extensions/common/DirectFixInput.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-23T18:47:58Z",
+      "side": 1,
+      "message": "\u003e +1 maybe:\n\u003e \n\u003e \"Input containing a fix to apply a fix directly to the change.\"\n\nThere\u0027s a list of fixes, so I think you\u0027d want: \"Input containing fixes to apply directly to the change.\"\n\nbut \u0027directly\u0027 in that statement seems both unnecessary and insufficient (\"apply to the change\" would work, but that still leaves out that the fixes are provided in the API and not stored on the server).\n\nI mostly like \"Input containing fix definitions to apply directly to the change.\" but I don\u0027t like the mismatch between \"fix definitions\" and \"FixReplacementInfos\". I guess you could reference FixReplacementInfos instead, but that name doesn\u0027t tell me what the object is (see my patchset level comment), so I think I was unconsciously avoiding it.",
+      "parentUuid": "99f1c50e_cc35af29",
       "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -948,9 +948,15 @@ class ChangeNotesParser {
       realAccountId = parseIdent(realIdent);
     }
 
-    LabelVote l;
+    LabelVote labelVote;
     try {
-      l = LabelVote.parseWithEquals(parsedPatchSetApproval.labelVote());
+      if (!parsedPatchSetApproval.isRemoval()) {
+        labelVote = LabelVote.parseWithEquals(parsedPatchSetApproval.labelVote());
+      } else {
+        String labelName = parsedPatchSetApproval.labelVote();
+        LabelType.checkNameInternal(labelName);
+        labelVote = LabelVote.create(labelName, (short) 0);
+      }
     } catch (IllegalArgumentException e) {
       ConfigInvalidException pe =
           parseException(
@@ -961,9 +967,9 @@ class ChangeNotesParser {
 
     PatchSetApproval.Builder psa =
         PatchSetApproval.builder()
-            .key(PatchSetApproval.key(psId, accountId, LabelId.create(l.label())))
+            .key(PatchSetApproval.key(psId, accountId, LabelId.create(labelVote.label())))
             .uuid(parsedPatchSetApproval.uuid().map(PatchSetApproval::uuid))
-            .value(l.value())
+            .value(labelVote.value())
             .granted(ts)
             .tag(parsedPatchSetApproval.tag())
             .copied(true);

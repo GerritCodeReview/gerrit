@@ -380,18 +380,26 @@ public class ChangeNoteUtil {
    *   <li>The label, vote, and the Gerrit account are mandatory (unlike FOOTER_LABEL where Gerrit
    *       Account is also optional since by default it's the committer).
    * </ul>
+   *
+   * <p>Footer example for removal: Copied-Label: -<LABEL> <Gerrit Account>,<Gerrit Real Account>
+   *
+   * <ul>
+   *   <li><Gerrit Real Account> is also optional, if it was not set.
+   * </ul>
    */
   public static ParsedPatchSetApproval parseCopiedApproval(String labelLine)
       throws ConfigInvalidException {
     try {
-      // Copied approvals can't be explicitly removed. They are removed the same way as non-copied
-      // approvals.
-      checkFooter(!labelLine.startsWith("-"), FOOTER_COPIED_LABEL, labelLine);
       ParsedPatchSetApproval.Builder rawPatchSetApproval =
-          ParsedPatchSetApproval.builder().footerLine(labelLine).isRemoval(false);
+          ParsedPatchSetApproval.builder().footerLine(labelLine);
 
-      int tagStart = labelLine.indexOf(":\"");
-      int uuidStart = labelLine.indexOf(", ");
+      boolean isRemoval = labelLine.startsWith("-");
+      rawPatchSetApproval.isRemoval(isRemoval);
+      int labelStart = isRemoval ? 1 : 0;
+      int uuidStart = isRemoval ? -1 : labelLine.indexOf(", ");
+      int tagStart = isRemoval ? -1 : labelLine.indexOf(":\"");
+
+      checkFooter(!isRemoval || uuidStart == -1, FOOTER_LABEL, labelLine);
 
       // Weird tag that contains uuid delimiter. The uuid is actually not present.
       if (tagStart != -1 && uuidStart > tagStart) {
@@ -404,7 +412,8 @@ public class ChangeNoteUtil {
           FOOTER_COPIED_LABEL,
           labelLine);
 
-      String labelVoteStr = labelLine.substring(0, uuidStart != -1 ? uuidStart : identitiesStart);
+      String labelVoteStr =
+          labelLine.substring(labelStart, uuidStart != -1 ? uuidStart : identitiesStart);
       rawPatchSetApproval.labelVote(labelVoteStr);
       if (uuidStart != -1) {
         String uuid = labelLine.substring(uuidStart + 2, identitiesStart);

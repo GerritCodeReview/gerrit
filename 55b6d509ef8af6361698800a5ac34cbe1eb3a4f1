@@ -45,6 +45,52 @@
       },
       "revId": "55b6d509ef8af6361698800a5ac34cbe1eb3a4f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a727e241_9896d28a",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-23T13:26:54Z",
+      "side": 1,
+      "message": "Please leave a comment explaining that this is needed for old data, and a bit about what going on in the inner if statement",
+      "range": {
+        "startLine": 365,
+        "startChar": 0,
+        "endLine": 365,
+        "endChar": 27
+      },
+      "revId": "55b6d509ef8af6361698800a5ac34cbe1eb3a4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71e029ff_10afeb09",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-23T13:26:54Z",
+      "side": 1,
+      "message": "Please add a test case in gr-message_test.ts where tag is missing. There should be other similar test cases you can copy and adjust from",
+      "range": {
+        "startLine": 371,
+        "startChar": 17,
+        "endLine": 371,
+        "endChar": 22
+      },
+      "revId": "55b6d509ef8af6361698800a5ac34cbe1eb3a4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

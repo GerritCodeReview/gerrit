@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01c65211_d798017d",
+        "filename": "java/com/google/gerrit/pgm/FindDuplicateUsernames.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-23T14:57:37Z",
+      "side": 1,
+      "message": "elasticsearch support was moved to a libmodule, see\nhttps://gerrit-review.googlesource.com/c/gerrit/+/323676\nhttps://gerrit.googlesource.com/modules/index-elasticsearch/+/refs/heads/master",
+      "revId": "86773cff89e978cd94adb17672b10e23411caba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

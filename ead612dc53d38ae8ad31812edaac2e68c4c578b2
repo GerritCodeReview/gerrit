@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d751f20c_d9497cc6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-05-23T11:53:25Z",
+      "side": 1,
+      "message": "Spacing between last requiremen\u0027s vote (for example, Verified in https://imgur.com/a/7Uz4p3t) and the dialog buttons should be `--spacing-m`",
+      "revId": "ead612dc53d38ae8ad31812edaac2e68c4c578b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

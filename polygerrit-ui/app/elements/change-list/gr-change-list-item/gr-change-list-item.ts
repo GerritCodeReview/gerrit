@@ -304,7 +304,7 @@ export class GrChangeListItem extends LitElement {
         <input
           type="checkbox"
           .checked=${this.checked}
-          @click=${() => this.handleChangeSelectionClick()}
+          @click=${() => this.toggleCheckbox()}
         />
       </td>
     `;
@@ -619,15 +619,6 @@ export class GrChangeListItem extends LitElement {
     `;
   }
 
-  private handleChangeSelectionClick() {
-    assertIsDefined(this.change, 'change');
-    this.checked = !this.checked;
-    if (this.checked)
-      this.getBulkActionsModel().addSelectedChangeNum(this.change._number);
-    else
-      this.getBulkActionsModel().removeSelectedChangeNum(this.change._number);
-  }
-
   private changeStatuses() {
     if (!this.change) return [];
     return changeStatuses(this.change);
@@ -682,6 +673,15 @@ export class GrChangeListItem extends LitElement {
     }
     str += this.change.project;
     return str;
+  }
+
+  toggleCheckbox() {
+    assertIsDefined(this.change, 'change');
+    this.checked = !this.checked;
+    if (this.checked)
+      this.getBulkActionsModel().addSelectedChangeNum(this.change._number);
+    else
+      this.getBulkActionsModel().removeSelectedChangeNum(this.change._number);
   }
 
   // private but used in test

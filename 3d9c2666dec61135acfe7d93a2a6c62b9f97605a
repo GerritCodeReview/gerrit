@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94aa6e72_77c4181f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-24T23:53:43Z",
+      "side": 1,
+      "message": "Did a test on my local env to verify that hashtags are returned when changes are queried via SSH.",
+      "revId": "3d9c2666dec61135acfe7d93a2a6c62b9f97605a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

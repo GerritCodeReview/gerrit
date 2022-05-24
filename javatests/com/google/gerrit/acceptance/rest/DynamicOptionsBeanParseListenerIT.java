@@ -25,7 +25,7 @@ import com.google.gerrit.server.restapi.project.ListProjects;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.AbstractModule;
-import java.util.Map;
+import java.util.List;
 import org.junit.Test;
 
 public class DynamicOptionsBeanParseListenerIT extends AbstractDaemonTest {
@@ -40,9 +40,9 @@ public class DynamicOptionsBeanParseListenerIT extends AbstractDaemonTest {
     }
   }
 
-  protected Map<String, Object> getProjects(RestResponse res) throws Exception {
+  protected List<Object> getProjects(RestResponse res) throws Exception {
     res.assertOK();
-    return GSON.fromJson(res.getReader(), new TypeToken<Map<String, Object>>() {}.getType());
+    return GSON.fromJson(res.getReader(), new TypeToken<List<Object>>() {}.getType());
   }
 
   protected static class ListProjectsBeanListener implements DynamicOptions.BeanParseListener {

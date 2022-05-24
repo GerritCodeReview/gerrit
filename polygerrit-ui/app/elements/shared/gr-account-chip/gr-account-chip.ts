@@ -82,9 +82,6 @@ export class GrAccountChip extends LitElement {
   @property({type: Boolean, reflect: true})
   showAvatar?: boolean;
 
-  @property({type: Boolean})
-  transparentBackground = false;
-
   @property({type: Object})
   vote?: ApprovalInfo;
 
@@ -126,10 +123,6 @@ export class GrAccountChip extends LitElement {
         :host:focus .container,
         :host:focus gr-button {
           background: #ccc;
-        }
-        .transparentBackground,
-        gr-button.transparentBackground {
-          background-color: transparent;
         }
         :host([disabled]) {
           opacity: 0.6;
@@ -190,7 +183,6 @@ export class GrAccountChip extends LitElement {
         class=${classMap({
           ...this.computeVoteClasses(),
           container: true,
-          transparentBackground: this.transparentBackground,
           closeShown: this.removable,
         })}
       >
@@ -211,11 +203,8 @@ export class GrAccountChip extends LitElement {
           link=""
           ?hidden=${!this.removable}
           aria-label="Remove"
-          class=${classMap({
-            remove: true,
-            transparentBackground: this.transparentBackground,
-          })}
-          @click=${this._handleRemoveTap}
+          class="remove"
+          @click=${this.handleRemoveTap}
         >
           <iron-icon icon="gr-icons:close"></iron-icon>
         </gr-button>
@@ -224,12 +213,12 @@ export class GrAccountChip extends LitElement {
 
   constructor() {
     super();
-    this._getHasAvatars().then(hasAvatars => {
+    this.getHasAvatars().then(hasAvatars => {
       this.showAvatar = hasAvatars;
     });
   }
 
-  _handleRemoveTap(e: MouseEvent) {
+  private handleRemoveTap(e: MouseEvent) {
     e.preventDefault();
     this.dispatchEvent(
       new CustomEvent('remove', {
@@ -240,7 +229,7 @@ export class GrAccountChip extends LitElement {
     );
   }
 
-  _getHasAvatars() {
+  private getHasAvatars() {
     return this.restApiService
       .getConfig()
       .then(cfg =>

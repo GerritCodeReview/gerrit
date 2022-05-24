@@ -19,7 +19,7 @@ import '../gr-key-binding-display/gr-key-binding-display';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, state} from 'lit/decorators';
 import {
   ShortcutSection,
   SectionView,
@@ -46,11 +46,11 @@ export class GrKeyboardShortcutsDialog extends LitElement {
    * @event close
    */
 
-  @property({type: Array})
-  _left?: SectionShortcut[];
+  // private but used in tests
+  @state() left?: SectionShortcut[];
 
-  @property({type: Array})
-  _right?: SectionShortcut[];
+  // private but used in tests
+  @state() right?: SectionShortcut[];
 
   private readonly shortcutListener: ShortcutViewListener;
 
@@ -59,7 +59,7 @@ export class GrKeyboardShortcutsDialog extends LitElement {
   constructor() {
     super();
     this.shortcutListener = (d?: Map<ShortcutSection, SectionView>) =>
-      this._onDirectoryUpdated(d);
+      this.onDirectoryUpdated(d);
   }
 
   static override get styles() {
@@ -126,10 +126,10 @@ export class GrKeyboardShortcutsDialog extends LitElement {
       </header>
       <main>
         <div class="column">
-          ${this._left?.map(section => this.renderSection(section))}
+          ${this.left?.map(section => this.renderSection(section))}
         </div>
         <div class="column">
-          ${this._right?.map(section => this.renderSection(section))}
+          ${this.right?.map(section => this.renderSection(section))}
         </div>
       </main>
       <footer></footer>
@@ -182,7 +182,7 @@ export class GrKeyboardShortcutsDialog extends LitElement {
     );
   }
 
-  _onDirectoryUpdated(directory?: Map<ShortcutSection, SectionView>) {
+  onDirectoryUpdated(directory?: Map<ShortcutSection, SectionView>) {
     if (!directory) {
       return;
     }
@@ -231,7 +231,7 @@ export class GrKeyboardShortcutsDialog extends LitElement {
       });
     }
 
-    this._right = right;
-    this._left = left;
+    this.right = right;
+    this.left = left;
   }
 }

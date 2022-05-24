@@ -33,6 +33,24 @@
       "message": "LGTM. You might also need to increase the cache version in ChangeNotesCache (SubmitRequirementResultProto is part of ChangeNotesState) to invalidate existing entries.",
       "revId": "bb55e47b02fd8c746b6115b970d9d817c0bc4b4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4330ac64_46e637f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-05-24T18:23:23Z",
+      "side": 1,
+      "message": "There is test coverage by unit tests. The bug was not caught by IT since we do not have persistent caches there and the proto serializaion logic is not invoked.",
+      "parentUuid": "88ddd834_af0d210d",
+      "revId": "bb55e47b02fd8c746b6115b970d9d817c0bc4b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

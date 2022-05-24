@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d66146b_761d5078",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-24T07:40:45Z",
+      "side": 1,
+      "message": "I am still reviewing code, but I have a general question - what is the plan for rolling out this change within google? Is there a recommended/default way for it? \nWe can make a GVC to discuss it.",
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abbe893a_547e9a6d",
+        "filename": "proto/cache.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-24T07:40:45Z",
+      "side": 1,
+      "message": "Could you please provide some background, why enum is stored as a string?\nCan we define enum in the proto and then use it? In this case proto library will handle a new values (and our code should only process UNRECOGNIZED enum value).",
+      "range": {
+        "startLine": 736,
+        "startChar": 2,
+        "endLine": 736,
+        "endChar": 42
+      },
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ba1825a_144e67c2",
+        "filename": "proto/cache.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-24T07:40:45Z",
+      "side": 1,
+      "message": "Same question - can we use proto enum here?",
+      "range": {
+        "startLine": 748,
+        "startChar": 4,
+        "endLine": 748,
+        "endChar": 43
+      },
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76be9d5b_9b384c30",
+        "filename": "proto/cache.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-24T07:40:45Z",
+      "side": 1,
+      "message": "Same question - can we use proto enum here?",
+      "range": {
+        "startLine": 755,
+        "startChar": 2,
+        "endLine": 755,
+        "endChar": 38
+      },
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

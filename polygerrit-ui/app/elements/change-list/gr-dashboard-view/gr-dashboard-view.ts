@@ -59,6 +59,8 @@ import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators';
 import {ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
+import {Shortcut} from '../../../services/shortcuts/shortcuts-config';
+import {ShortcutController} from '../../lit/shortcut-controller';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
 
@@ -117,9 +119,12 @@ export class GrDashboardView extends LitElement {
 
   private lastVisibleTimestampMs = 0;
 
+  private readonly shortcuts = new ShortcutController(this);
+
   constructor() {
     super();
     this.addEventListener('reload', () => this.reload());
+    this.shortcuts.addAbstract(Shortcut.UP_TO_DASHBOARD, () => this.reload());
   }
 
   private readonly visibilityChangeListener = () => {

@@ -89,7 +89,6 @@ export class GrKeyboardShortcutsDialog extends LitElement {
         }
         table caption {
           padding-top: var(--spacing-l);
-          text-align: left;
         }
         td {
           padding: var(--spacing-xs) 0;

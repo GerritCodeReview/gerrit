@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eb40839_d99857a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-24T08:49:19Z",
+      "side": 1,
+      "message": "add before\u0026after screenshots",
+      "revId": "db20b9265bd85ebd227e755cee717ffa9146bafc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8544d837_fd09caf9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-24T08:49:19Z",
+      "side": 1,
+      "message": "optional: will you also change any of these to be inline so the actions end up on the same row as other checks?",
+      "range": {
+        "startLine": 882,
+        "startChar": 0,
+        "endLine": 884,
+        "endChar": 0
+      },
+      "revId": "db20b9265bd85ebd227e755cee717ffa9146bafc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

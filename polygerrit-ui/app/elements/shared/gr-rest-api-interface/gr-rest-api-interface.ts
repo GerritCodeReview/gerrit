@@ -1409,35 +1409,22 @@ export class GrRestApiInterface
     reposPerPage: number,
     offset?: number
   ) {
-    const defaultFilter = 'state:active OR state:read-only';
-    const namePartDelimiters = /[@.\-\s/_]/g;
+    const defaultFilter = '';
     offset = offset || 0;
 
-    if (filter && !filter.includes(':') && filter.match(namePartDelimiters)) {
-      // The query language specifies hyphens as operators. Split the string
-      // by hyphens and 'AND' the parts together as 'inname:' queries.
+    if (filter && filter.includes(':')) {
       // If the filter includes a semicolon, the user is using a more complex
       // query so we trust them and don't do any magic under the hood.
-      const originalFilter = filter;
-      filter = '';
-      originalFilter.split(namePartDelimiters).forEach(part => {
-        if (part) {
-          filter += (filter === '' ? 'inname:' : ' AND inname:') + part;
-        }
-      });
+      return (
+        `/projects/?n=${reposPerPage + 1}&S=${offset}` + `&query=${filter}`
+      );
     }
-    // Check if filter is now empty which could be either because the user did
-    // not provide it or because the user provided only a split character.
+
     if (!filter) {
       filter = defaultFilter;
     }
 
-    filter = filter.trim();
-    const encodedFilter = encodeURIComponent(filter);
-
-    return (
-      `/projects/?n=${reposPerPage + 1}&S=${offset}` + `&query=${encodedFilter}`
-    );
+    return `/projects/?n=${reposPerPage + 1}&S=${offset}` + `&m=${filter}`;
   }
 
   invalidateGroupsCache() {

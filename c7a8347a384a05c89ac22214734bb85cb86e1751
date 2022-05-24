@@ -20,6 +20,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b66077bc_77226373",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-24T08:12:46Z",
+      "side": 1,
+      "message": "I didn\u0027t do a complete review - I would like first resolve written comments.",
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c5aa8fb_44c6ef62",
+        "filename": "java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-24T08:12:46Z",
+      "side": 1,
+      "message": "This class has exactly the same properties as IntraLineDiffKeyProto and the serializer copies properties between proto and this class. Is it possible to drop this class and use IntraLineDiffKeyProto instead? (and also rename IntraLineDiffKeyProto to IntraLineDiffKey).\n\n\nOr another alternative (if you want to keep .create method) - put IntralineProto as a field of IntraLineDiffKey, so we can avoid copying fields between IntraLineDiffKey and IntraLineDiffKeyProto\n\nThe only problem I see is a Whitespace enum, but it can be converted to proto enum when IntralineDiffKey is created in gerrit code.",
+      "range": {
+        "startLine": 26,
+        "startChar": 22,
+        "endLine": 26,
+        "endChar": 38
+      },
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a947be95_3e0788ea",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/IntraLineDiffKeySerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-24T08:12:46Z",
+      "side": 1,
+      "message": "Could you please add test(s) for different Whitespace values? I would like to see at least one other Whitespace value in tests to avoid situation when a fixed value is used for serialization/deserialization",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 23
+      },
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "abbe893a_547e9a6d",
         "filename": "proto/cache.proto",
         "patchSetId": 4

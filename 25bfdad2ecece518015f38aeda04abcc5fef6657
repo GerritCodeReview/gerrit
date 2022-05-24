@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2363cd9_18dd9ef4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-24T14:52:55Z",
+      "side": 1,
+      "message": "CR+1 because I am not confident to approve UI code changes.",
+      "revId": "25bfdad2ecece518015f38aeda04abcc5fef6657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

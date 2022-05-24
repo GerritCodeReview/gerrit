@@ -51,8 +51,8 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.lib.Config;
 
 /** Delayed execution of tasks using a background thread pool. */
@@ -530,11 +530,14 @@ public class WorkQueue {
     public enum State {
       // Ordered like this so ordinal matches the order we would
       // prefer to see tasks sorted in: done before running,
-      // running before ready, ready before sleeping.
+      // stopping before running, running before starting,
+      // starting before ready, ready before sleeping.
       //
       DONE,
       CANCELLED,
+      STOPPING,
       RUNNING,
+      STARTING,
       READY,
       SLEEPING,
       OTHER
@@ -544,7 +547,7 @@ public class WorkQueue {
     private final RunnableScheduledFuture<V> task;
     private final Executor executor;
     private final int taskId;
-    private final AtomicBoolean running;
+    private final AtomicReference<State> runningState = new AtomicReference<State>();
     private final Instant startTime;
 
     Task(Runnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId) {
@@ -552,7 +555,6 @@ public class WorkQueue {
       this.task = task;
       this.executor = executor;
       this.taskId = taskId;
-      this.running = new AtomicBoolean();
       this.startTime = Instant.now();
     }
 
@@ -563,10 +565,13 @@ public class WorkQueue {
     public State getState() {
       if (isCancelled()) {
         return State.CANCELLED;
+      }
+
+      State r = runningState.get();
+      if (r != null) {
+        return r;
       } else if (isDone() && !isPeriodic()) {
         return State.DONE;
-      } else if (running.get()) {
-        return State.RUNNING;
       }
 
       final long delay = getDelay(TimeUnit.MILLISECONDS);
@@ -587,14 +592,14 @@ public class WorkQueue {
     @Override
     public boolean cancel(boolean mayInterruptIfRunning) {
       if (task.cancel(mayInterruptIfRunning)) {
-        // Tiny abuse of running: if the task needs to know it was
-        // canceled (to clean up resources) and it hasn't started
+        // Tiny abuse of runningState: if the task needs to know it
+        // was canceled (to clean up resources) and it hasn't started
         // yet the task's run method won't execute. So we tag it
         // as running and allow it to clean up. This ensures we do
         // not invoke cancel twice.
         //
         if (runnable instanceof CancelableRunnable) {
-          if (running.compareAndSet(false, true)) {
+          if (runningState.compareAndSet(null, State.RUNNING)) {
             ((CancelableRunnable) runnable).cancel();
           } else if (runnable instanceof CanceledWhileRunning) {
             ((CanceledWhileRunning) runnable).setCanceledWhileRunning();
@@ -654,18 +659,21 @@ public class WorkQueue {
 
     @Override
     public void run() {
-      if (running.compareAndSet(false, true)) {
+      if (runningState.compareAndSet(null, State.STARTING)) {
         String oldThreadName = Thread.currentThread().getName();
         try {
           executor.onStart(this);
+          runningState.set(State.RUNNING);
           Thread.currentThread().setName(oldThreadName + "[" + task.toString() + "]");
           task.run();
         } finally {
           Thread.currentThread().setName(oldThreadName);
+          runningState.set(State.STOPPING);
           executor.onStop(this);
           if (isPeriodic()) {
-            running.set(false);
+            runningState.set(null);
           } else {
+            runningState.set(State.DONE);
             executor.remove(this);
           }
         }

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b42c73b_36f6e285",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-24T16:23:09Z",
+      "side": 1,
+      "message": "inline?",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 37
+      },
+      "revId": "da6e7805cc8526930dd1735bd36d7df16e3cc71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b5dd63f_1945c8a8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-24T16:23:09Z",
+      "side": 1,
+      "message": "Optional nit:\nThis is repeated three times in this file. Could use a variable to minimise duplication.",
+      "range": {
+        "startLine": 431,
+        "startChar": 12,
+        "endLine": 437,
+        "endChar": 14
+      },
+      "revId": "da6e7805cc8526930dd1735bd36d7df16e3cc71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96b50b8b_72e1ddb3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1938,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-24T16:23:09Z",
+      "side": 1,
+      "message": "maybe `!` since we expect the property to be there?",
+      "range": {
+        "startLine": 1938,
+        "startChar": 27,
+        "endLine": 1938,
+        "endChar": 28
+      },
+      "revId": "da6e7805cc8526930dd1735bd36d7df16e3cc71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5d09b6b_4030f9dc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2125,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-24T16:23:09Z",
+      "side": 1,
+      "message": "feels like this belongs in a util?",
+      "range": {
+        "startLine": 2122,
+        "startChar": 6,
+        "endLine": 2125,
+        "endChar": 8
+      },
+      "revId": "da6e7805cc8526930dd1735bd36d7df16e3cc71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9417984_ba022f6b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2442,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-24T16:23:09Z",
+      "side": 1,
+      "message": "nit: Create a generator function for FileInfo?\nI saw that `size` is a required property.",
+      "range": {
+        "startLine": 2442,
+        "startChar": 21,
+        "endLine": 2442,
+        "endChar": 35
+      },
+      "revId": "da6e7805cc8526930dd1735bd36d7df16e3cc71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

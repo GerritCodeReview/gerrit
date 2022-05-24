@@ -144,9 +144,6 @@ export class GrRepoList extends ListViewMixin(PolymerElement) {
         if (filter !== this._filter || !repos) {
           return;
         }
-        this._repos = repos.filter(repo =>
-          repo.name.toLowerCase().includes(filter.toLowerCase())
-        );
         this._loading = false;
       });
   }

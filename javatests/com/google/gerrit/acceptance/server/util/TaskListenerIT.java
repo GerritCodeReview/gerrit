@@ -236,6 +236,29 @@ public class TaskListenerIT extends AbstractDaemonTest {
     assertAwaitQueueSize(--size);
   }
 
+  @Test
+  public void states() throws Exception {
+    executor.execute(runnable);
+    listener.onStart.assertAwait();
+    assertStateIs(Task.State.STARTING);
+
+    listener.onStart.complete();
+    runnable.run.assertAwait();
+    assertStateIs(Task.State.RUNNING);
+
+    runnable.run.complete();
+    listener.onStop.assertAwait();
+    assertStateIs(Task.State.STOPPING);
+
+    listener.onStop.complete();
+    assertAwaitQueueIsEmpty();
+    assertStateIs(Task.State.DONE);
+  }
+
+  private void assertStateIs(Task.State state) {
+    assertThat(forwarder.task.getState()).isEqualTo(state);
+  }
+
   private int assertQueueBlockedOnExecution(Runnable runnable) {
     int expectedSize = workQueue.getTasks().size() + 1;
     executor.execute(runnable);
@@ -245,6 +268,10 @@ public class TaskListenerIT extends AbstractDaemonTest {
 
   private void assertQueueSize(int size) {
     assertThat(workQueue.getTasks().size()).isEqualTo(size);
+  }
+
+  private void assertAwaitQueueIsEmpty() throws InterruptedException {
+    assertAwaitQueueSize(0);
   }
 
   /** Fails if the waiting time elapses before the count is reached, otherwise passes */

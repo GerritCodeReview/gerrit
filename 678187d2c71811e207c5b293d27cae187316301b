@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5dbe9bb_681f348c",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-24T08:54:09Z",
+      "side": 1,
+      "message": "it\u0027s confusing to me why this has \u0027light\u0027 prefix \u003dP",
+      "range": {
+        "startLine": 229,
+        "startChar": 6,
+        "endLine": 229,
+        "endChar": 11
+      },
+      "revId": "678187d2c71811e207c5b293d27cae187316301b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

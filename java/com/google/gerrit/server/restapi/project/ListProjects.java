@@ -318,7 +318,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
               .setContentType("text/plain")
               .setCharacterEncoding(UTF_8));
     }
-    return Response.ok(apply());
+    return Response.ok(applyAsList());
   }
 
   public SortedMap<String, ProjectInfo> apply()
@@ -330,6 +330,17 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
     format = OutputFormat.JSON;
     return display(null);
+  }
+
+  private List<ProjectInfo> applyAsList() throws BadRequestException, PermissionBackendException {
+    SortedMap<String, ProjectInfo> result = apply();
+    List<ProjectInfo> output = new ArrayList<>();
+    for (Map.Entry<String, ProjectInfo> entry : result.entrySet()) {
+      ProjectInfo project = entry.getValue();
+      project.name = entry.getKey();
+      output.add(project);
+    }
+    return output;
   }
 
   private Optional<String> expressAsProjectsQuery() {

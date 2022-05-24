@@ -52,9 +52,9 @@ import './gr-related-changes-list';
 import {
   ChangeMarkersInList,
   GrRelatedChangesList,
-  GrRelatedCollapse,
   Section,
 } from './gr-related-changes-list';
+import {GrRelatedCollapse} from './gr-related-collapse';
 
 const basicFixture = fixtureFromElement('gr-related-changes-list');
 

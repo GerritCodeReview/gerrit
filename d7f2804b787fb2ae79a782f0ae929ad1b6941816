@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58085f80_56214782",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-24T07:31:54Z",
+      "side": 1,
+      "message": "My fingers are itching to also\n1) align naming (highlight-color vs background)\n2) change dark to intense or so as in dark theme, the dark color is \nactually lighter than the light color.\n3) reorder the words so that alphabetizing would lead to a\nlogical ordering (diff-background-add-intense)\n\nBut that would require some changes in places where folks override these - does this typically happen, beyond my own fork?",
+      "revId": "d7f2804b787fb2ae79a782f0ae929ad1b6941816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

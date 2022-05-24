@@ -60,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9911bb69_23222ef3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-24T11:57:08Z",
+      "side": 1,
+      "message": "I am all for better entity names and names in documentation, I\u0027d rather not change the actual endpoint names as that entails migrating callers (i.e. existing fixes are called \u0027fixes\u0027 and that is part if the API: /changes/1/revisions/2/fixes/...).\n\nI wonder what we would name things on the green field. Maybe \"suggested edit\" though that\u0027s a bit verbose.\n\nWe have two cases:\n\n(1) We stored a suggested edit in the robot comment. That was posted by a linter, CI etc.\n(2) Same case, but we didn\u0027t store it in Gerrit before, instead, a checker (frontend plugin) is suggesting them directly on the diff page and the user just accepts.\n\nSo in both cases a robot suggested a modification for the human to accept.\n\nSuggestion 1:\n\nchanges/1/revisions/1/fixes/12/apply\nhandler: ApplyStoredFix\nresource: FixResurce\nentity: Replacement(Info/Input) (was: FixReplacement)\n\nchanges/1/revisions/1/apply_fix\nhandler: ApplyFix (new class in this change)\nresource: none (working atop patch set)\nentity: Replacements(Info/Input) (was: DirectFixInput, holds a list of Replacement).\n\nFeel free to nit-pick these names. I think if we reach a naming we like, we can change all names that this change adds here and the names of existing classes in a predecessor change.",
+      "parentUuid": "0c3f7311_c1c6b5e9",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7b8b524_728a9686",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28
@@ -119,6 +137,30 @@
       "side": 1,
       "message": "\u003e I do agree, but we need to rename an API that is currently in use. Which purely for the sake of naming, I think is too much effort. So my suggestion is to leave as-is.\n\nWe wouldn\u0027t be changing the API signature, just the docs, correct? I know that\u0027s still not preferred, but does that actually create a lot of effort? I\u0027m asking for future knowledge here too; we\u0027ll inevitably mess up an API sometime and need to rename it, so I\u0027m curious how much of an impact you see that having.\n\n\u003e \n\u003e Do we have other naming options that would allow us to keep the name of the existing API?\n\nCalling this \"Apply Fix Directly\" was my only idea there. Maybe \"Apply Provided Fix\"?",
       "parentUuid": "ee8f2c7b_77d12011",
+      "range": {
+        "startLine": 5378,
+        "startChar": 4,
+        "endLine": 5378,
+        "endChar": 20
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59e3ebfa_92b55128",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5378,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-24T11:57:08Z",
+      "side": 1,
+      "message": "\u003e We wouldn\u0027t be changing the API signature, just the docs, correct? \n\nAren\u0027t the headings here consistent with the endpoint name? \n\nSo \u0027POST /changes/\u003c\u003cchange-id,\\{change-id\\}\u003e\u003e/revisions/\u003c\u003crevision-id,\\{revision-id\\}\u003e\u003e/apply_direct_fix\u0027 means this section is called Apply Direct Fix.\n\nIf that is not the case, we can change the header here. In any case we can be more verbose in documentation.",
+      "parentUuid": "4175182c_52d7803f",
       "range": {
         "startLine": 5378,
         "startChar": 4,

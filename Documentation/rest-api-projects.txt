@@ -18,9 +18,8 @@ Lists the projects accessible by the caller. This is the same as
 using the link:cmd-ls-projects.html[ls-projects] command over SSH,
 and accepts the same options as query parameters.
 
-As result a map is returned that maps the project names to
-link:#project-info[ProjectInfo] entries. The entries in the map are sorted
-by project name.
+As result a list is returned that list the project names to
+link:#project-info[ProjectInfo] entries.
 
 .Request
 ----
@@ -34,23 +33,27 @@ by project name.
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "external/bison": {
+  [
+    {
       "id": "external%2Fbison",
+      "name": "external/bison",
       "description": "GNU parser generator"
     },
-    "external/gcc": {
-      "id": "external%2Fgcc"
+    {
+      "id": "external%2Fgcc",
+      "name": "external/gcc"
     },
-    "external/openssl": {
+    {
       "id": "external%2Fopenssl",
+      "name": "external/openssl",
       "description": "encryption\ncrypto routines"
     },
-    "test": {
+    {
       "id": "test",
+      "name": "test",
       "description": "\u003chtml\u003e is escaped"
     }
-  }
+  ]
 ----
 
 [[project-options]]
@@ -74,20 +77,22 @@ GET /projects/?b=master HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "some-project": {
+  [
+    {
       "id": "some-project",
+      "name": "some-project",
       "branches": {
         "master": "c5ed9dfcbf002ca0e432d788dab6ca2387829ca7"
       }
     },
-    "some-other-project": {
+    {
       "id": "some-other-project",
+      "name": "some-other-project",
       "branches": {
         "master": "ef1c270142f9581ecf768f4193fc8f8a81102ec2"
       }
     },
-  }
+  ]
 ----
 
 Description(d)::
@@ -107,17 +112,18 @@ GET /projects/?d HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "some-project": {
+  [
+    {
       "id": "some-project",
+      "name": "some-project",
       "description": "Description of some project."
     },
-    "some-other-project": {
+    {
       "id": "some-other-project",
-       "description": "Description of some other project."
-      }
+      "name": "some-other-project",
+      "description": "Description of some other project."
     },
-  }
+  ]
 ----
 
 Limit(n)::
@@ -137,11 +143,12 @@ Query the first project in the project list:
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "some-project": {
-      "id": "some-project"
+  [
+    {
+      "id": "some-project",
+      "name": "some-project"
     }
-  }
+  ]
 ----
 
 
@@ -166,14 +173,16 @@ List all projects that start with `platform/`:
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "platform/drivers": {
-      "id": "platform%2Fdrivers"
+  [
+    {
+      "id": "platform%2Fdrivers",
+      "name": "platform/drivers"
     },
-    "platform/tools": {
-      "id": "platform%2Ftools"
+    {
+      "id": "platform%2Ftools",
+      "name": "platform/tools"
     }
-  }
+  ]
 ----
 +
 E.g. this feature can be used by suggestion client UI's to limit results.
@@ -201,14 +210,16 @@ List all projects that match regex `test.*project`:
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "test/some-project": {
-      "id": "test%2Fsome-project"
+  [
+    {
+      "id": "test%2Fsome-project",
+      "name": "test/some-project"
     },
-    "test/some-other-project": {
-      "id": "test%2Fsome-other-project"
+    {
+      "id": "test%2Fsome-other-project",
+      "name": "test/some-other-project"
     }
-  }
+  ]
 
 ----
 
@@ -229,11 +240,12 @@ Query the second project in the project list:
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "some-other-project": {
-      "id": "some-other-project"
+  [
+    {
+      "id": "some-other-project",
+      "name": "some-other-project"
     }
-  }
+  ]
 ----
 
 Substring(m)::
@@ -255,14 +267,16 @@ List all projects that match substring `test/`:
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "test/some-project": {
-      "id": "test%2Fsome-project"
+  [
+    {
+      "id": "test%2Fsome-project",
+      "name": "test/some-project"
     },
-    "some-path/test/some-other-project": {
-      "id": "some-path%2Ftest%2Fsome-other-project"
+    {
+      "id": "some-path%2Ftest%2Fsome-other-project",
+      "name": "some-path/test/some-other-project"
     }
-  }
+  ]
 ----
 
 Tree(t)::
@@ -283,19 +297,22 @@ GET /projects/?t HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "All-Projects" {
-      "id": "All-Projects"
+  [
+    {
+      "id": "All-Projects",
+      "name": "All-Projects"
     },
-    "child-project": {
+    {
       "id": "child-project",
+      "name": "child-project",
       "parent": "parent-project"
     },
-    "parent-project": {
+    {
       "id": "parent-project",
+      "name": "parent-project",
       "parent": "All-Projects"
     }
-  }
+  ]
 ----
 
 Type(type)::
@@ -315,14 +332,16 @@ GET /projects/?type=PERMISSIONS HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "All-Projects" {
-      "id": "All-Projects"
+  [
+    {
+      "id": "All-Projects",
+      "name": "All-Projects"
     },
-    "some-parent-project": {
-      "id": "some-parent-project"
+    {
+      "id": "some-parent-project",
+      "name": "some-parent-project"
     }
-  }
+  ]
 ----
 
 All::
@@ -341,16 +360,18 @@ GET /projects/?all HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "All-Projects" {
+  [
+    {
       "id": "All-Projects",
+      "name": "All-Projects"
       "state": "ACTIVE"
     },
-    "some-other-project": {
+    {
       "id": "some-other-project",
+      "name": "some-other-project",
       "state": "HIDDEN"
     }
-  }
+  ]
 ----
 
 State(s)::
@@ -369,12 +390,13 @@ GET /projects/?state=HIDDEN HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
-    "some-other-project": {
+  [
+    {
       "id": "some-other-project",
+      "name": "some-other-project",
       "state": "HIDDEN"
     }
-  }
+  ]
 ----
 
 [[query-projects]]

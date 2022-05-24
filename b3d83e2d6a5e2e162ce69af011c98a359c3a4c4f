@@ -22,6 +22,30 @@
       },
       "revId": "b3d83e2d6a5e2e162ce69af011c98a359c3a4c4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88580af1_658408a3",
+        "filename": "java/com/google/gerrit/server/restapi/config/TasksCollection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-24T12:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ba38b5f_0d8964af",
+      "range": {
+        "startLine": 97,
+        "startChar": 10,
+        "endLine": 97,
+        "endChar": 11
+      },
+      "revId": "b3d83e2d6a5e2e162ce69af011c98a359c3a4c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

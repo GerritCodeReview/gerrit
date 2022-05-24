@@ -37,6 +37,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fce0a101_8e957c21",
+        "filename": "java/com/google/gerrit/server/patch/IntraLineDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-05-24T08:13:30Z",
+      "side": 1,
+      "message": "The same question about replacing class with a proto as here:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/316947/comments/4c5aa8fb_44c6ef62",
+      "range": {
+        "startLine": 31,
+        "startChar": 22,
+        "endLine": 31,
+        "endChar": 35
+      },
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c5aa8fb_44c6ef62",
         "filename": "java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
         "patchSetId": 4

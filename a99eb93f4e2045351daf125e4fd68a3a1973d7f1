@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "72ecec8a_cfd1d6c1",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2022-05-24T20:19:22Z",
+      "side": 1,
+      "message": "Just to be sure, you are suggesting multiplier on the reserved batch, right ?",
+      "parentUuid": "95908480_a7a8b234",
+      "range": {
+        "startLine": 359,
+        "startChar": 6,
+        "endLine": 359,
+        "endChar": 27
+      },
+      "revId": "a99eb93f4e2045351daf125e4fd68a3a1973d7f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "225691bf_5288c736",
         "filename": "java/com/google/gerrit/server/query/account/AccountQueryProcessor.java",
         "patchSetId": 2

@@ -353,6 +353,16 @@ export const htmlTemplate = html`
     }
 
     /* dueToMove */
+    .dueToMove .content.add .contentText .intraline,
+    .dueToMove .content.add.no-intraline-info .contentText {
+      background-color: var(--diff-moved-in-highlight);
+    }
+
+    .dueToMove .content.remove .contentText .intraline,
+    .dueToMove .content.remove.no-intraline-info .contentText {
+      background-color: var(--diff-moved-out-highlight);
+    }
+
     .dueToMove .sign.add,
     .dueToMove .content.add .contentText,
     .dueToMove .moveControls.movedIn .sign.right,

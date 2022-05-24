@@ -744,6 +744,7 @@ public class ChangeNotesStateTest {
                 ImmutableList.of(
                     SubmitRequirementResult.builder()
                         .legacy(Optional.of(true))
+                        .hidden(Optional.of(true))
                         .patchSetCommitId(
                             ObjectId.fromString("26e50c7d315a33a13e5cc00902781fa876bc36cd"))
                         .submitRequirement(
@@ -774,6 +775,7 @@ public class ChangeNotesStateTest {
             .addSubmitRequirementResult(
                 SubmitRequirementResultProto.newBuilder()
                     .setLegacy(true)
+                    .setHidden(true)
                     .setCommit(
                         ObjectIdConverter.create()
                             .toByteString(

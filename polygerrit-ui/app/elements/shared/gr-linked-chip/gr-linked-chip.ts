@@ -43,9 +43,6 @@ export class GrLinkedChip extends LitElement {
   @property({type: String})
   text = '';
 
-  @property({type: Boolean})
-  transparentBackground = false;
-
   /**  If provided, sets the maximum length of the content. */
   @property({type: Number})
   limit?: number;
@@ -64,10 +61,6 @@ export class GrLinkedChip extends LitElement {
           border-radius: 0.75em;
           display: inline-flex;
           padding: 0 var(--spacing-m);
-        }
-        .transparentBackground,
-        gr-button.transparentBackground {
-          background-color: transparent;
         }
         :host([disabled]) {
           opacity: 0.6;
@@ -108,11 +101,7 @@ export class GrLinkedChip extends LitElement {
       </style>
     `;
     return html`${customStyle}
-      <div
-        class="container ${this._getBackgroundClass(
-          this.transparentBackground
-        )}"
-      >
+      <div class="container">
         <a href=${this.href}>
           <gr-limited-text
             .limit=${this.limit}
@@ -123,19 +112,15 @@ export class GrLinkedChip extends LitElement {
           id="remove"
           link=""
           ?hidden=${!this.removable}
-          class="remove ${this._getBackgroundClass(this.transparentBackground)}"
-          @click=${this._handleRemoveTap}
+          class="remove"
+          @click=${this.handleRemoveTap}
         >
           <iron-icon icon="gr-icons:close"></iron-icon>
         </gr-button>
       </div>`;
   }
 
-  _getBackgroundClass(transparent: boolean) {
-    return transparent ? 'transparentBackground' : '';
-  }
-
-  _handleRemoveTap(e: Event) {
+  handleRemoveTap(e: Event) {
     e.preventDefault();
     fireEvent(this, 'remove');
   }

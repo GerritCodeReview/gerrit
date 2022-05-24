@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57758116_1d5ff9b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-24T21:40:54Z",
+      "side": 1,
+      "message": "The bug now has some screenshots describing the issue. It looks like Frank was able to triage/reproduce the issue. Let me know if otherwise.",
+      "parentUuid": "71028149_f06ebcd9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "55b6d509ef8af6361698800a5ac34cbe1eb3a4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31a15490_d55ecfe8",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-20T07:50:43Z",
       "side": 1,
       "message": "Can you link the bug 15927 in the footer similar to the commit message for https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/337461?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "55b6d509ef8af6361698800a5ac34cbe1eb3a4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94597716_3af0b2c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-24T21:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31a15490_d55ecfe8",
       "range": {
         "startLine": 13,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a84f294_a85a8c9f",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-24T21:40:54Z",
+      "side": 1,
+      "message": "Done. I have tried to improve the logic as it was a bit hacky in PS1.",
+      "parentUuid": "a727e241_9896d28a",
+      "range": {
+        "startLine": 365,
+        "startChar": 0,
+        "endLine": 365,
+        "endChar": 27
+      },
+      "revId": "55b6d509ef8af6361698800a5ac34cbe1eb3a4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71e029ff_10afeb09",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-05-23T13:26:54Z",
       "side": 1,
       "message": "Please add a test case in gr-message_test.ts where tag is missing. There should be other similar test cases you can copy and adjust from",
+      "range": {
+        "startLine": 371,
+        "startChar": 17,
+        "endLine": 371,
+        "endChar": 22
+      },
+      "revId": "55b6d509ef8af6361698800a5ac34cbe1eb3a4f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31f5d4c7_46ea120c",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-24T21:40:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71e029ff_10afeb09",
       "range": {
         "startLine": 371,
         "startChar": 17,

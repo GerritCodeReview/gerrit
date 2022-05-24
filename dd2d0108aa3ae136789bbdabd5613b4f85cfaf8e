@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9df90dfe_2d00ec46",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 25
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-24T07:13:03Z",
+      "side": 1,
+      "message": "Optional: Not your change, but this type comment can be removed.\n\nThere is a proper type for `NormalizedFileInfo` above.",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 3
+      },
+      "revId": "dd2d0108aa3ae136789bbdabd5613b4f85cfaf8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

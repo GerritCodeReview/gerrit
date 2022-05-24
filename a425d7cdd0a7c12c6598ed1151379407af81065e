@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cea8588_dc888aba",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-24T07:13:03Z",
+      "side": 1,
+      "message": "Oh nice. gr-file-list-header is separate and already migrated. 👍",
+      "parentUuid": "b5f2041c_49668909",
+      "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da93b65b_a83da551",
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "I think that makes sense once gr-change-view is migrated to Lit.",
       "parentUuid": "da93b65b_a83da551",
+      "range": {
+        "startLine": 553,
+        "startChar": 0,
+        "endLine": 554,
+        "endChar": 45
+      },
+      "revId": "a425d7cdd0a7c12c6598ed1151379407af81065e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53edb8c2_439ae229",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-24T07:13:03Z",
+      "side": 1,
+      "message": "Ha, I was about to leave the same comment as paladox, and then also realized that will rather be part of the change-view migration, not the file-list migration. Let me resolve this for Chris.",
+      "parentUuid": "6d28f99f_802f9fbf",
       "range": {
         "startLine": 553,
         "startChar": 0,

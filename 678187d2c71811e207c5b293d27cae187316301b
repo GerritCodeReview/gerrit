@@ -22,6 +22,30 @@
       },
       "revId": "678187d2c71811e207c5b293d27cae187316301b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11d8b0c6_5a44b6b7",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-24T08:55:01Z",
+      "side": 1,
+      "message": "your other change to move it near the --dark ones makes it more clear, thanks!",
+      "parentUuid": "c5dbe9bb_681f348c",
+      "range": {
+        "startLine": 229,
+        "startChar": 6,
+        "endLine": 229,
+        "endChar": 11
+      },
+      "revId": "678187d2c71811e207c5b293d27cae187316301b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

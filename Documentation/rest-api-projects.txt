@@ -19,8 +19,8 @@ using the link:cmd-ls-projects.html[ls-projects] command over SSH,
 and accepts the same options as query parameters.
 
 As result a map is returned that maps the project names to
-link:#project-info[ProjectInfo] entries. The entries in the map are sorted
-by project name.
+link:#project-info[ProjectInfo] entries. The entries in the map are stored 
+by project name .
 
 .Request
 ----
@@ -74,7 +74,7 @@ GET /projects/?b=master HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  {
+   {
     "some-project": {
       "id": "some-project",
       "branches": {

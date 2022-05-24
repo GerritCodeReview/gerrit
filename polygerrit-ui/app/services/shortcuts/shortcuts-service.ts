@@ -17,7 +17,7 @@
 import {Subscription} from 'rxjs';
 import {map, distinctUntilChanged} from 'rxjs/operators';
 import {
-  config,
+  createShortCutConfig,
   Shortcut,
   ShortcutHelpItem,
   ShortcutSection,
@@ -34,6 +34,7 @@ import {
 import {ReportingService} from '../gr-reporting/gr-reporting';
 import {Finalizable} from '../registry';
 import {UserModel} from '../../models/user/user-model';
+import {FlagsService} from '../flags/flags';
 
 export type SectionView = Array<{binding: string[][]; text: string}>;
 
@@ -98,13 +99,16 @@ export class ShortcutsService implements Finalizable {
   private readonly keydownListener: (e: KeyboardEvent) => void;
 
   private readonly subscriptions: Subscription[] = [];
+  private readonly config: Map<ShortcutSection, ShortcutHelpItem[]>;
 
   constructor(
     readonly userModel: UserModel,
-    readonly reporting?: ReportingService
+    readonly flagsService: FlagsService,
+    readonly reporting?: ReportingService,
   ) {
-    for (const section of config.keys()) {
-      const items = config.get(section) ?? [];
+    this.config = createShortCutConfig(flagsService);
+    for (const section of this.config.keys()) {
+      const items = this.config.get(section) ?? [];
       for (const item of items) {
         this.bindings.set(item.shortcut, item.bindings);
       }
@@ -268,7 +272,7 @@ export class ShortcutsService implements Finalizable {
   }
 
   getDescription(section: ShortcutSection, shortcutName: Shortcut) {
-    const bindings = config.get(section);
+    const bindings = this.config.get(section);
     if (!bindings) return '';
     const binding = bindings.find(binding => binding.shortcut === shortcutName);
     return binding?.text ?? '';
@@ -287,7 +291,7 @@ export class ShortcutsService implements Finalizable {
       ShortcutSection,
       ShortcutHelpItem[]
     >();
-    config.forEach((shortcutList, section) => {
+    this.config.forEach((shortcutList, section) => {
       shortcutList.forEach(shortcutHelp => {
         if (this.activeShortcuts.has(shortcutHelp.shortcut)) {
           if (!activeShortcutsBySection.has(section)) {

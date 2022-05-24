@@ -64,8 +64,13 @@ export function createTestAppContext(): AppContext & Finalizable {
     },
     shortcutsService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.userModel, 'userModel');
+      assertIsDefined(ctx.flagsService, 'flagsService');
       assertIsDefined(ctx.reportingService, 'reportingService');
-      return new ShortcutsService(ctx.userModel, ctx.reportingService);
+      return new ShortcutsService(
+        ctx.userModel,
+        ctx.flagsService,
+        ctx.reportingService
+      );
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {

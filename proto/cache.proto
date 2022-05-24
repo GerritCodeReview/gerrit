@@ -501,6 +501,9 @@ message SubmitRequirementResultProto {
   // Whether the submit requirement was bypassed during submission (i.e. by
   // performing a push with the %submit option).
   bool forced = 7;
+  // Whether this submit requirement result should be filtered out when returned
+  // from REST API.
+  bool hidden = 8;
 }
 
 // Serialized form of com.google.gerrit.entities.SubmitRequirementExpressionResult.

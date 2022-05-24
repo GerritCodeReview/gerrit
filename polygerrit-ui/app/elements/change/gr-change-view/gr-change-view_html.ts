@@ -397,6 +397,7 @@ export const htmlTemplate = html`
             commit-info="[[_commitInfo]]"
             server-config="[[_serverConfig]]"
             parent-is-current="[[_parentIsCurrent]]"
+            repo-config="[[_projectConfig]]"
             on-show-reply-dialog="_handleShowReplyDialog"
           >
           </gr-change-metadata>

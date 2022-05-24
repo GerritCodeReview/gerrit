@@ -22,6 +22,30 @@
       },
       "revId": "d51e5137810faf58e22add1d74f81de2f3bd420d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "341601b6_60aa6e46",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitMessageOutputTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-24T12:55:21Z",
+      "side": 1,
+      "message": "Yes, it\u0027s relevant.\n\nOld code:\n\n 1. update.putApproval(LabelId.VERIFIED, (short) 1);\n    -\u003e adds the Verified approval\n 2. update.putApproval(LabelId.CODE_REVIEW, (short) -1);\n    -\u003e inserts the Code-Review label before the Verified label\n    (because the entries in the internal approval table are sorted by label name).\n 3. Approvals are persisted as Label footers\n    -\u003e generates UUIDs for the approvals in the order in which they appear in the\n    internal approval table (1. for Code-Review, 2. for Verified)\n 4. The expected UUIDs are verified by this test (they are hard-coded below in line 63+64)\n   \nNew code:\n\n 1. update.putApproval(LabelId.CODE_REVIEW, (short) -1);\n    -\u003e generates the UUID for the Code-Review label and adds it to the approval table\n 2. update.putApproval(LabelId.VERIFIED, (short) 1);\n    -\u003e generates the UUID for the Verified label and adds it to the approval table\n 3. Approvals are persisted as Label footers\n 4. The expected UUIDs are verified by this test (they are hard-coded below in line 63+64)\n\nSo by switching the order, we ensure that with the new code the UUIDs are still generated in the same order (1. for Code-Review, 2. for Verified) and hence we continue to generate \"1_1_1_code_review__1_1\" and \"1_1_1_verified_1_2\". If the order is switched the UUIDs will be  \"1_1_1_verified_1_1\" and \"1_1_1_code_review__1_2\". So alternatively we could have modified the expected UUIDs below.",
+      "parentUuid": "5a769f8a_5fd6f605",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 52
+      },
+      "revId": "d51e5137810faf58e22add1d74f81de2f3bd420d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

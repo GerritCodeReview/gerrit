@@ -39,8 +39,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   public void approvalsCommitFormatSimple() throws Exception {
     Change c = TestChanges.newChange(project, changeOwner.getAccountId(), 1);
     ChangeUpdate update = newUpdateForNewChange(c, changeOwner);
-    update.putApproval(LabelId.VERIFIED, (short) 1);
     update.putApproval(LabelId.CODE_REVIEW, (short) -1);
+    update.putApproval(LabelId.VERIFIED, (short) 1);
     update.putReviewer(changeOwner.getAccount().id(), REVIEWER);
     update.putReviewer(otherUser.getAccount().id(), CC);
     update.commit();

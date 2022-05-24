@@ -52,6 +52,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
@@ -141,7 +142,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final ServiceUserClassifier serviceUserClassifier;
   private final PatchSetApprovalUuidGenerator patchSetApprovalUuidGenerator;
 
-  private final Table<String, Account.Id, Optional<Short>> approvals;
+  private final Table<String, Account.Id, Optional<PatchSetApproval>> approvals;
   private final List<PatchSetApproval> copiedApprovals = new ArrayList<>();
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
   private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
@@ -215,7 +216,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         noteUtil);
   }
 
-  private static Table<String, Account.Id, Optional<Short>> approvals(
+  private static Table<String, Account.Id, Optional<PatchSetApproval>> approvals(
       Comparator<String> nameComparator) {
     return TreeBasedTable.create(nameComparator, naturalOrder());
   }
@@ -282,7 +283,18 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void putApprovalFor(Account.Id reviewer, String label, short value) {
-    approvals.put(label, reviewer, Optional.of(value));
+    PatchSetApproval psa =
+        PatchSetApproval.builder()
+            .key(PatchSetApproval.key(getPatchSetId(), reviewer, LabelId.create(label)))
+            .value(value)
+            .granted(when)
+            .uuid(patchSetApprovalUuidGenerator.get(getPatchSetId(), reviewer, label, value, when))
+            .build();
+    approvals.put(label, reviewer, Optional.of(psa));
+  }
+
+  public ImmutableTable<String, Account.Id, Optional<PatchSetApproval>> getApprovals() {
+    return ImmutableTable.copyOf(approvals);
   }
 
   void removeApproval(String label) {
@@ -760,8 +772,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, e.getValue().getByEmailFooterKey(), e.getKey().toString());
     }
 
-    for (Table.Cell<String, Account.Id, Optional<Short>> c : approvals.cellSet()) {
-      addLabelFooter(msg, c, patchSetId);
+    for (Table.Cell<String, Account.Id, Optional<PatchSetApproval>> c : approvals.cellSet()) {
+      addLabelFooter(msg, c);
     }
     for (PatchSetApproval patchSetApproval : copiedApprovals) {
       addCopiedLabelFooter(msg, patchSetApproval);
@@ -849,7 +861,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private void addLabelFooter(
-      StringBuilder msg, Cell<String, Account.Id, Optional<Short>> c, PatchSet.Id patchSetId) {
+      StringBuilder msg, Cell<String, Account.Id, Optional<PatchSetApproval>> c) {
     addFooter(msg, FOOTER_LABEL);
     String label = c.getRowKey();
     Account.Id reviewerId = c.getColumnKey();
@@ -860,10 +872,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       // Since vote removals do not need to be referenced, e.g. by the copy approvals, they do not
       // require a UUID.
     } else {
-      short value = c.getValue().get();
-      msg.append(LabelVote.create(label, c.getValue().get()).formatWithEquals());
+      short value = c.getValue().get().value();
+      msg.append(LabelVote.create(label, value).formatWithEquals());
       msg.append(", ");
-      msg.append(patchSetApprovalUuidGenerator.get(patchSetId, reviewerId, label, value, when));
+      msg.append(c.getValue().get().uuid().get());
     }
     if (!reviewerId.equals(getAccountId())) {
       noteUtil.appendAccountIdIdentString(msg.append(' '), reviewerId);

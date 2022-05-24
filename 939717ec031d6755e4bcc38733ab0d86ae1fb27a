@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "825b1ab9_695300c0",
+        "filename": "javatests/com/google/gerrit/index/query/QueryParserTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-05-24T09:17:21Z",
+      "side": 1,
+      "message": "arguably, the parser should outright reject this rather than accepting it as an arbitrary word. but that\u0027s a discussion for another change.",
+      "revId": "939717ec031d6755e4bcc38733ab0d86ae1fb27a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

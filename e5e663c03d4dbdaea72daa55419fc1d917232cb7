@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d21bd21_67c105ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-24T22:25:38Z",
+      "side": 1,
+      "message": "I think your ideas and suggestions have been great and they have steered me towards valuable improvements to these tests. You have not been a hindrance to me, but rather a guide to help me make progress, thank you.",
+      "parentUuid": "0e4376e2_8f0937f7",
+      "revId": "e5e663c03d4dbdaea72daa55419fc1d917232cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54339d81_1a45a19c",
@@ -96,6 +114,30 @@
       "side": 1,
       "message": "I\u0027m quite open to the idea that it\u0027s a shortcoming of mine that I needed to follow the entire call-stack and ponder upon the matter for a while until I realized what is attempted is to assert that the latched method is getting called. If you are open to the idea that it might not just be me there might be an issue with the name.\nTo me it\u0027s not interesting at all that you use await to assert the the method is getting called, to me \"assertAwait\" means \"assert that we are in a waiting state\" or possibly \"assert that await has been called\".",
       "parentUuid": "bf922cc8_e0537352",
+      "range": {
+        "startLine": 42,
+        "startChar": 16,
+        "endLine": 42,
+        "endChar": 27
+      },
+      "revId": "e5e663c03d4dbdaea72daa55419fc1d917232cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfafefbf_5f5cdc2b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-24T22:25:38Z",
+      "side": 1,
+      "message": "\u003e To me it\u0027s not interesting at all that you use await to assert the the method is getting called,\n\nAgree, it is not the intent of the naming to indicate what mechanism is used, but rather to borrow the word \"await\" from an existing java convention because the word \"await\" is a very good fit (better than \"wait\"), similar to how we often use (and you even suggested it on this change) \"isEmpty\" as an API to represent something having a size of 0. So please see the word \"await\" for its English meaning, not as a reflection of the underlying mechanism.\n\n\u003e to me \"assertAwait\" means \"assert that we are in a waiting state\" or possibly \"assert that await has been called\".\n\nIt means \"assert that the await for call() to be called does not time out\". This is overloading the term \"await\" to include the concept of timing out, which the java API for CountDownLatch happens to also be doing. Here again, I am trying to borrow a bit from an existing API pattern, not to reflect the internal mechanism.",
+      "parentUuid": "3db3eb9f_4c907564",
       "range": {
         "startLine": 42,
         "startChar": 16,
@@ -177,6 +219,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18c3c87f_8aaeb060",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-24T22:25:38Z",
+      "side": 1,
+      "message": "I think I understand better what you want now, I let the naming of your suggested helper distract me from you nice suggestion, sorry.\n\n\u003e The current implementation makes the exact same assumption,\n\nTo clarify, it is not an assumption of the test case, it is an assertion that under these specific conditions, the queue count will go up. This only happens because we happen to be setting up these tests to block the runnables from completing, in other tests that may not be the case, and we could not verify that the count goes up because if the runnable is not blocked it might be indeterminate. So, a simple \"execute()\" method would be deceive in those other cases. I am not against combing these two constructs given the right method name, I just don\u0027t want to obfuscate the  assertion.\n\n\u003e but additional it is making the implicit assumption that the queue-size is 0 before the call\n\nThis was being tested previously in the method, but since that is only verifying the test setup (and not the code under test), I moved this to the @Before method. I hope that the new use of a \"size\" variable makes the initial size irrelevant to the reader.\n\nDone.",
+      "parentUuid": "2d87a61e_8840bb1f",
+      "range": {
+        "startLine": 156,
+        "startChar": 4,
+        "endLine": 156,
+        "endChar": 31
+      },
+      "revId": "e5e663c03d4dbdaea72daa55419fc1d917232cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd17d72d_b221bdd7",
@@ -214,6 +280,30 @@
       "side": 1,
       "message": ".",
       "parentUuid": "bd17d72d_b221bdd7",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 157,
+        "endChar": 57
+      },
+      "revId": "e5e663c03d4dbdaea72daa55419fc1d917232cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1b2ba0f_646e8916",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-24T22:25:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19b4973c_a7b1c1c9",
       "range": {
         "startLine": 157,
         "startChar": 4,
@@ -295,6 +385,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5302454_55620ee1",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-24T22:25:38Z",
+      "side": 1,
+      "message": "\u003e To me it looks like you are asserting that #run was called on line #167 After which you assert that your LatchedRunnable test-class worked as expected, i.e. that it paused execution and did not complete and leave the work-queue on line #168.\n\nYeah, that one is probably superfluous, removed.\n\n\u003e After which you assert that it didn\u0027t complete and enter the #onStop method in the listener on line #169.\n\nNot quite, here we are not confirming that the runnable didn\u0027t complete, but rather that the code under test (the WorkQueue) did not call \"onStop\" prematurely before the runnable completed.",
+      "parentUuid": "2bb88ee8_1f4c6eab",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 37
+      },
+      "revId": "e5e663c03d4dbdaea72daa55419fc1d917232cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58e1301e_0f52ede0",
@@ -332,6 +446,30 @@
       "side": 1,
       "message": ".",
       "parentUuid": "58e1301e_0f52ede0",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 3
+      },
+      "revId": "e5e663c03d4dbdaea72daa55419fc1d917232cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85b2f130_e8eec452",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-24T22:25:38Z",
+      "side": 1,
+      "message": "While it is true that later assertUncalled() methods also confirm that the prior ones were also uncalled(), if the code under test were buggy, the earlier ones will help identify earlier where the code is going wrong, not just that the code went wrong. I feel that is important enough to keep them.",
+      "parentUuid": "aa733852_ac688b83",
       "range": {
         "startLine": 155,
         "startChar": 0,
@@ -403,6 +541,30 @@
       "side": 1,
       "message": ".",
       "parentUuid": "33fb218f_0840fde3",
+      "range": {
+        "startLine": 215,
+        "startChar": 15,
+        "endLine": 215,
+        "endChar": 53
+      },
+      "revId": "e5e663c03d4dbdaea72daa55419fc1d917232cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30cd842b_03ebefa9",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskListenerIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-24T22:25:38Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "58b65820_9e6c7b42",
       "range": {
         "startLine": 215,
         "startChar": 15,

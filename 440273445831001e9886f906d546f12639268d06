@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "45454322_233f4348",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-24T11:58:28Z",
+      "side": 1,
+      "message": "I think it is now common practice to have theme of website/app according to OS preference. But it\u0027s good idea to send a PSA about this before releasing. I need to wait 2 weeks for back-end to be prepared.",
+      "parentUuid": "43f6a770_dccaa3b4",
+      "revId": "440273445831001e9886f906d546f12639268d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d758f4c1_3f53a1da",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
         "patchSetId": 6
@@ -31,6 +49,24 @@
       "writtenOn": "2022-05-20T12:19:48Z",
       "side": 1,
       "message": "Maybe just `styleEl?.remove()`?",
+      "revId": "440273445831001e9886f906d546f12639268d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14567530_f222460d",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-24T11:58:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d758f4c1_3f53a1da",
       "revId": "440273445831001e9886f906d546f12639268d06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

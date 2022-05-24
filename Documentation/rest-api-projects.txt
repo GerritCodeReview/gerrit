@@ -3393,6 +3393,133 @@ If the label updates were done successfully the response is "`200 OK`".
   HTTP/1.1 200 OK
 ----
 
+[[submit-requirement-endpoints]]
+== Submit Requirement Endpoints
+
+[[create-submit-requirement]]
+=== Create Submit Requirement
+
+--
+'PUT /projects/link:#project-name[\{project-name\}]/submit_requirements/link:#submit-requirement-name[\{submit-requirement-name\}]'
+--
+
+Creates a new submit requirement definition in this project.
+
+The calling user must have write access to the `refs/meta/config` branch of the
+project.
+
+If a submit requirement with this name is already defined in this project, this
+submit requirement definition is updated
+(see link:#update-submit-requirement[Update Submit Requirement]).
+
+The submit requirement data must be provided in the request body as
+link:#submit-requirement-input[SubmitRequirementInput].
+
+.Request
+----
+  PUT /projects/My-Project/submit_requirements/Code-Review HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "name": "Code-Review",
+    "description": "At least one maximum vote for the Code-Review label is required",
+    "submittability_expression": "label:Code-Review=+2"
+  }
+----
+
+As response a link:#submit-requirement-info[SubmitRequirementInfo] entity is
+returned that describes the created submit requirement.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+      "name": "Code-Review",
+      "description": "At least one maximum vote for the Code-Review label is required",
+      "submittability_expression": "label:Code-Review=+2",
+      "allow_override_in_child_projects": false
+   }
+----
+
+[[update-submit-requirement]]
+=== Update Submit Requirement
+
+--
+'PUT /projects/link:#project-name[\{project-name\}]/submit_requirements/link:#submit-requirement-name[\{submit-requirement-name\}]'
+--
+
+Updates the definition of a submit requirement that is defined in this project.
+
+The calling user must have write access to the `refs/meta/config` branch of the
+project.
+
+The new submit requirement will overwrite the existing submit requirement.
+That is, unspecified attributes will be set to their defaults.
+
+.Request
+----
+  PUT /projects/My-Project/submit_requirements/Code-Review HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "name": "Code-Review",
+    "description": "At least one maximum vote for the Code-Review label is required",
+    "submittability_expression": "label:Code-Review=+2"
+  }
+----
+
+As response a link:#submit-requirement-info[SubmitRequirementInfo] entity is
+returned that describes the created submit requirement.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+      "name": "Code-Review",
+      "description": "At least one maximum vote for the Code-Review label is required",
+      "submittability_expression": "label:Code-Review=+2",
+      "allow_override_in_child_projects": false
+   }
+----
+
+[[get-submit-requirement]]
+=== Get Submit Requirement
+--
+'GET /projects/link:#project-name[\{project-name\}]/submit_requirements/link:#submit-requirement-name[\{submit-requirement-name\}]'
+--
+
+Retrieves the definition of a submit requirement that is defined in this project.
+
+The calling user must have read access to the `refs/meta/config` branch of the
+project.
+
+.Request
+----
+  GET /projects/All-Projects/submit-requirement/Code-Review HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+      "name": "Code-Review",
+      "description": "At least one maximum vote for the Code-Review label is required",
+      "submittability_expression": "label:Code-Review=+2",
+      "allow_override_in_child_projects": false
+   }
+----
 
 [[ids]]
 == IDs
@@ -3420,6 +3547,11 @@ dashboard of a project.
 [[label-name]]
 === \{label-name\}
 The name of a review label.
+
+[[submit-requirement-name]]
+=== \{submit-requirement-name\}
+The name of a submit requirement.
+
 
 [[project-name]]
 === \{project-name\}
@@ -4365,6 +4497,57 @@ statistics of a Git repository.
 |`size_of_loose_objects`   |Size of loose objects in bytes.
 |`size_of_packed_objects`  |Size of packed objects in bytes.
 |======================================
+
+[[submit-requirement-info]]
+=== SubmitRequirementInfo
+The `SubmitRequirementInfo` entity describes a submit requirement.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`name`||
+The submit requirement name.
+|`description`|optional|
+Description of the submit requirement.
+|`applicability_expression`|optional|
+Query expression that can be evaluated on any change. If evaluated to true on a
+change, the submit requirement is then applicable for this change.
+If not specified, the submit requirement is applicable for all changes.
+|`submittability_expression`||
+Query expression that can be evaluated on any change. If evaluated to true on a
+change, the submit requirement is fulfilled and not blocking change submission.
+|`override_expression`|optional|
+Query expression that can be evaluated on any change. If evaluated to true on a
+change, the submit requirement is overridden and not blocking change submission.
+|`allow_override_in_child_projects`||
+Whether this submit requirement can be overridden in child projects.
+|===========================
+
+[[submit-requirement-input]]
+=== SubmitRequirementInput
+The `SubmitRequirementInput` entity describes a submit requirement.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`name`||
+The submit requirement name.
+|`description`|optional|
+Description of the submit requirement.
+|`applicability_expression`|optional|
+Query expression that can be evaluated on any change. If evaluated to true on a
+change, the submit requirement is then applicable for this change.
+If not specified, the submit requirement is applicable for all changes.
+|`submittability_expression`||
+Query expression that can be evaluated on any change. If evaluated to true on a
+change, the submit requirement is fulfilled and not blocking change submission.
+|`override_expression`|optional|
+Query expression that can be evaluated on any change. If evaluated to true on a
+change, the submit requirement is overridden and not blocking change submission.
+|`allow_override_in_child_projects`|optional|
+Whether this submit requirement can be overridden in child projects. Default is
+`false`.
+|===========================
 
 [[submit-type-info]]
 === SubmitTypeInfo

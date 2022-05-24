@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df118425_51b75aff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-24T08:57:38Z",
+      "side": 0,
+      "message": "is this still needed for light mode?",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 33
+      },
+      "revId": "4404e2fc5aff216e4113d9a9ff9177005b5c2ffd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95908480_a7a8b234",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-24T18:10:15Z",
+      "side": 1,
+      "message": "1% of total is probably not a great approximation. We want something that\u0027s a multiplier (100x is probably good) of the batch size so that we can account for multiple primaries each reserving a batch of sequence ids.",
+      "range": {
+        "startLine": 359,
+        "startChar": 6,
+        "endLine": 359,
+        "endChar": 27
+      },
+      "revId": "a99eb93f4e2045351daf125e4fd68a3a1973d7f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "225691bf_5288c736",
+        "filename": "java/com/google/gerrit/server/query/account/AccountQueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-24T18:10:15Z",
+      "side": 1,
+      "message": "Calling this method will force a notedb read [1] because it\u0027s actually getting the up-to-date value from the repo and we don\u0027t want that. We want something like the \"last returned value\" from the sequence, but that doesn\u0027t have an API yet.\n\n[1] https://gerrit.googlesource.com/gerrit/+/525189adaaace17f402bb1fca02dcf6ed70e39fa/java/com/google/gerrit/server/notedb/RepoSequence.java#325",
+      "range": {
+        "startLine": 89,
+        "startChar": 21,
+        "endLine": 89,
+        "endChar": 37
+      },
+      "revId": "a99eb93f4e2045351daf125e4fd68a3a1973d7f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

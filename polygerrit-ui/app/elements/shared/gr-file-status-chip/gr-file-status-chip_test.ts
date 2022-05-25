@@ -1,46 +1,76 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-file-status-chip';
 import {GrFileStatusChip} from './gr-file-status-chip';
-
-const fixture = fixtureFromElement('gr-file-status-chip');
+import {fixture} from '@open-wc/testing-helpers';
+import {FileInfoStatus} from '../../../api/rest-api';
+import {queryAndAssert} from '../../../utils/common-util';
+import {isVisible} from '../../../test/test-utils';
 
 suite('gr-file-status-chip tests', () => {
   let element: GrFileStatusChip;
 
-  setup(() => {
-    element = fixture.instantiate();
-  });
-
-  test('computed properties', () => {
-    assert.equal(element._computeFileStatus('A'), 'A');
-    assert.equal(element._computeFileStatus(undefined), 'M');
-
-    assert.equal(element._computeClass('clazz', '/foo/bar/baz'), 'clazz');
-    assert.equal(
-      element._computeClass('clazz', '/COMMIT_MSG'),
-      'clazz invisible'
+  setup(async () => {
+    element = await fixture<GrFileStatusChip>(
+      '<gr-file-status-chip></gr-file-status-chip>'
     );
+    await setFile();
   });
 
-  test('_computeFileStatusLabel', () => {
-    assert.equal(element._computeFileStatusLabel('A'), 'Added');
-    assert.equal(element._computeFileStatusLabel('M'), 'Modified');
+  const setFile = async (
+    status?: FileInfoStatus,
+    path = 'test-path/test-file.txt'
+  ) => {
+    element.file = {
+      status,
+      __path: path,
+    };
+    await element.updateComplete;
+  };
+
+  suite('semantic dom diff tests', () => {
+    test('modified by default', async () => {
+      expect(element).shadowDom.to.equal(/* HTML */ `
+        <span
+          class="M status"
+          aria-label="Modified"
+          tabindex="0"
+          title="Modified"
+          >Modified</span
+        >
+      `);
+      const span = queryAndAssert(element, 'span');
+      assert.isFalse(isVisible(span));
+    });
+
+    test('added', async () => {
+      await setFile(FileInfoStatus.ADDED);
+      expect(element).shadowDom.to.equal(/* HTML */ `
+        <span class="A status" aria-label="Added" tabindex="0" title="Added"
+          >Added</span
+        >
+      `);
+      const span = queryAndAssert(element, 'span');
+      assert.isTrue(isVisible(span));
+    });
+
+    test('invisible for special path', async () => {
+      await setFile(undefined, '/COMMIT_MSG');
+      expect(element).shadowDom.to.equal(/* HTML */ `
+        <span
+          class="M invisible status"
+          aria-label="Modified"
+          tabindex="0"
+          title="Modified"
+          >Modified</span
+        >
+      `);
+      const span = queryAndAssert(element, 'span');
+      assert.isFalse(isVisible(span));
+    });
   });
 });

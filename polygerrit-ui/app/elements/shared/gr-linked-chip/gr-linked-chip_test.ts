@@ -31,6 +31,23 @@ suite('gr-linked-chip tests', () => {
     await flush();
   });
 
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `<div class="container">
+      <a href=""> <gr-limited-text> </gr-limited-text> </a>
+      <gr-button
+        aria-disabled="false"
+        class="remove"
+        hidden=""
+        id="remove"
+        link=""
+        role="button"
+        tabindex="0"
+      >
+        <iron-icon icon="gr-icons:close"> </iron-icon>
+      </gr-button>
+    </div>`);
+  });
+
   test('remove fired', async () => {
     const spy = sinon.spy();
     element.addEventListener('remove', spy);

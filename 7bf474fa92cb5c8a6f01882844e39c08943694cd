@@ -22,6 +22,30 @@
       },
       "revId": "7bf474fa92cb5c8a6f01882844e39c08943694cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54c529a2_fec02b37",
+        "filename": "antlr3/com/google/gerrit/index/query/Query.g",
+        "patchSetId": 8
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-25T20:48:28Z",
+      "side": 1,
+      "message": "Agree that it is somewhat misleading. Updated now.",
+      "parentUuid": "39125bd1_5b51d721",
+      "range": {
+        "startLine": 155,
+        "startChar": 9,
+        "endLine": 155,
+        "endChar": 25
+      },
+      "revId": "7bf474fa92cb5c8a6f01882844e39c08943694cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

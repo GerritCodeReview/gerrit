@@ -68,4 +68,45 @@ suite('compare-util tests', () => {
     assert.isFalse(deepEqual([1, 2], [1]));
     assert.isFalse(deepEqual(['a', ['b']], ['a', ['c']]));
   });
+
+  test('deepEqual sets', () => {
+    assert.isTrue(deepEqual(new Set([]), new Set([])));
+    assert.isTrue(deepEqual(new Set([1]), new Set([1])));
+    assert.isTrue(deepEqual(new Set(['a', 'b']), new Set(['a', 'b'])));
+
+    assert.isFalse(deepEqual(undefined, new Set([])));
+    assert.isFalse(deepEqual(null, new Set([])));
+    assert.isFalse(deepEqual(new Set([]), undefined));
+    assert.isFalse(deepEqual(new Set([]), null));
+    assert.isFalse(deepEqual(new Set([]), new Set([1])));
+    assert.isFalse(deepEqual(new Set([1]), new Set([2])));
+    assert.isFalse(deepEqual(new Set([1, 2]), new Set([1])));
+  });
+
+  test('deepEqual maps', () => {
+    assert.isTrue(deepEqual(new Map([]), new Map([])));
+    assert.isTrue(deepEqual(new Map([[1, 'b']]), new Map([[1, 'b']])));
+    assert.isTrue(deepEqual(new Map([['a', 'b']]), new Map([['a', 'b']])));
+
+    assert.isFalse(deepEqual(undefined, new Map([])));
+    assert.isFalse(deepEqual(null, new Map([])));
+    assert.isFalse(deepEqual(new Map([]), undefined));
+    assert.isFalse(deepEqual(new Map([]), null));
+    assert.isFalse(deepEqual(new Map([]), new Map([[1, 'b']])));
+    assert.isFalse(deepEqual(new Map([[1, 'a']]), new Map([[1, 'b']])));
+    assert.isFalse(
+      deepEqual(
+        new Map([[1, 'a']]),
+        new Map([
+          [1, 'a'],
+          [2, 'b'],
+        ])
+      )
+    );
+  });
+
+  test('deepEqual nested', () => {
+    debugger;
+    assert.isFalse(deepEqual({foo: new Set([])}, {foo: new Map([])}));
+  })
 });

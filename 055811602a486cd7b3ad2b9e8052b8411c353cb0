@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a685f4dd_c52c4cbb",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-25T13:43:57Z",
+      "side": 1,
+      "message": "Could this just be a single warning:\n\n logger.atWarning().log(\"Detected %d additional zombie drafts (earliest at %s, latest at %s)\", numZombies, earliestZombieTs, latestZombieTs);",
+      "range": {
+        "startLine": 210,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 78
+      },
+      "revId": "055811602a486cd7b3ad2b9e8052b8411c353cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

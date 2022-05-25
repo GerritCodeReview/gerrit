@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "129089c8_ec4dfc6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-25T06:55:13Z",
+      "side": 1,
+      "message": "Patchset 1: Error thrown by running `bazel build polygerrit-ui/app:all`\nPatchset 2: No error thrown.",
+      "revId": "dd6c25ee919215ac15a1e86b3fd41d8342c61c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "Please use the newer short header here and throughout:\n\n```\n/**\n * @license\n * Copyright 2022 Google LLC\n * SPDX-License-Identifier: Apache-2.0\n */\n```",
       "revId": "5512073f5b21c02545a4c5f07b1bc77695021eff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c71cee20_f6c755fa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-checks-chip_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-25T08:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb2f2512_02f16be1",
+      "revId": "5512073f5b21c02545a4c5f07b1bc77695021eff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

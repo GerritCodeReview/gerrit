@@ -66,6 +66,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df597e25_d4b2de42",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-25T09:41:36Z",
+      "side": 1,
+      "message": "Nit: \n```\ndefault:\n      assertNever(status, `Unsupported status: ${status}`);\n\n```",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 5
+      },
+      "revId": "3920f5a5f73b260efc9854d19104c1eed26c0755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b9c7b642_c2522737",
         "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip.ts",
         "patchSetId": 2

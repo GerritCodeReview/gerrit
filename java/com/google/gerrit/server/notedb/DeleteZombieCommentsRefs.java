@@ -33,6 +33,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -168,6 +169,8 @@ public class DeleteZombieCommentsRefs {
   @VisibleForTesting
   public int getNumberOfDraftsThatAreAlsoPublished() throws IOException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
+      Timestamp earliestZombieTs = null;
+      Timestamp latestZombieTs = null;
       List<Ref> draftRefs = allUsersRepo.getRefDatabase().getRefsByPrefix(REFS_DRAFT_COMMENTS);
       int numZombies = 0;
       Set<ChangeUserIDsPair> visitedSet = new HashSet<>();
@@ -181,25 +184,32 @@ public class DeleteZombieCommentsRefs {
           }
           DraftCommentNotes draftNotes = draftNotesFactory.create(changeId, accountId).load();
           ChangeNotes notes = changeNotesFactory.createCheckedUsingIndexLookup(changeId);
-          Set<String> draftIds = toUuid(draftNotes.getComments().values().asList());
-          Set<String> publishedIds = toUuid(commentsUtil.publishedHumanCommentsByChange(notes));
-          List<String> zombieIds =
-              draftIds.stream()
-                  .filter(zombieId -> publishedIds.contains(zombieId))
+          List<HumanComment> drafts = draftNotes.getComments().values().asList();
+          List<HumanComment> published = commentsUtil.publishedHumanCommentsByChange(notes);
+          Set<String> publishedIds = toUuid(published);
+          List<HumanComment> zombieDrafts =
+              drafts.stream()
+                  .filter(draft -> publishedIds.contains(draft.key.uuid))
                   .collect(Collectors.toList());
-          zombieIds.forEach(
-              zombieId ->
+          for (HumanComment zombieDraft : zombieDrafts) {
+            earliestZombieTs = getEarlierTs(earliestZombieTs, zombieDraft.writtenOn);
+            latestZombieTs = getLaterTs(latestZombieTs, zombieDraft.writtenOn);
+          }
+          zombieDrafts.forEach(
+              zombieDraft ->
                   logger.atWarning().log(
-                      "Draft comment with uuid '%s' of change %s"
+                      "Draft comment with uuid '%s' of change %s, account %s, written on %s,"
                           + " is a zombie draft that is already published.",
-                      zombieId, changeId));
-          numZombies += zombieIds.size();
+                      zombieDraft.key.uuid, changeId, accountId, zombieDraft.writtenOn));
+          numZombies += zombieDrafts.size();
         } catch (Exception e) {
           logger.atWarning().withCause(e).log("Failed to process ref %s", draftRef.getName());
         }
       }
       if (numZombies > 0) {
-        logger.atWarning().log("Detected %d additional zombie drafts.", numZombies);
+        logger.atWarning().log(
+            "Detected %d additional zombie drafts (earliest at %s, latest at %s).",
+            numZombies, earliestZombieTs, latestZombieTs);
       }
       return numZombies;
     }
@@ -219,6 +229,20 @@ public class DeleteZombieCommentsRefs {
   /** Map the list of input comments to their UUIDs. */
   private Set<String> toUuid(List<HumanComment> in) {
     return in.stream().map(c -> c.key.uuid).collect(Collectors.toSet());
+  }
+
+  private Timestamp getEarlierTs(@Nullable Timestamp t1, Timestamp t2) {
+    if (t1 == null) {
+      return t2;
+    }
+    return t1.before(t2) ? t1 : t2;
+  }
+
+  private Timestamp getLaterTs(@Nullable Timestamp t1, Timestamp t2) {
+    if (t1 == null) {
+      return t2;
+    }
+    return t1.after(t2) ? t1 : t2;
   }
 
   private void deleteBatchZombieRefs(Repository allUsersRepo, List<Ref> refsBatch)

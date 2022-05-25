@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e39f9e81_f3d658e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-25T09:10:09Z",
+      "side": 1,
+      "message": "No. Each diff chunk type has two colors: A less intense one for the entire lines, and a more intense one for intraline diffs, or when we do not have intraline diffs and so on, or when the section is completely new etc.\n\nOnly moved chunks do not have this yet - and I am going to add it, to make moved-and-changed be ~as visible as added, while \"moved-without-changes\" stays fairly non intrusive.",
+      "parentUuid": "255a89cc_05ea905e",
+      "range": {
+        "startLine": 9,
+        "startChar": 36,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "cf0aa1cc975ec8b834705e2c7d937ea52e4f27db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16d28bca_d2efadc7",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "74daa8fd_beca6361",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-25T09:10:09Z",
+      "side": 1,
+      "message": "Consistent with all the colors for diff chunks above, see:\n\n--dark-add-highlight-color: #aaf2aa;\n    --light-add-highlight-color: #d8fed8;\n    --dark-remove-highlight-color: #ffcdd2;\n    --light-remove-highlight-color: #ffebee;\n\n    --dark-rebased-add-highlight-color: #d7d7f9;\n    --light-rebased-add-highlight-color: #eef;\n    --dark-rebased-remove-highlight-color: #f7e8b7;\n    --light-rebased-remove-highlight-color: #fff8dc;",
+      "parentUuid": "16d28bca_d2efadc7",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "cf0aa1cc975ec8b834705e2c7d937ea52e4f27db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "074453b3_2f83fe35",
@@ -60,6 +108,24 @@
       "writtenOn": "2022-05-25T08:50:07Z",
       "side": 1,
       "message": "I think the naming is very confusing because \u0027light\u0027 makes me think of the light theme.",
+      "revId": "cf0aa1cc975ec8b834705e2c7d937ea52e4f27db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "591ec492_ea0f9bfb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-05-25T09:10:09Z",
+      "side": 1,
+      "message": "I agree. \n\nThere is also the issue that in dark theme, the \"light\" colors are darker than the \"dark\" ones (because it is really about how intense/emphasized the portion is, and in dark theme lighter stands out more).\n\nHow much appetite is there for me to change it? It is relatively easy to do, but it does mean anyone overriding the color names needs to update that. Is that something you want? I can do that if that\u0027s something you want.",
+      "parentUuid": "074453b3_2f83fe35",
       "revId": "cf0aa1cc975ec8b834705e2c7d937ea52e4f27db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

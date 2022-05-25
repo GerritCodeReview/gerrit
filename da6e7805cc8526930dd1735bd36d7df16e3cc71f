@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe3cb564_ce0cf25b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-25T08:04:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b42c73b_36f6e285",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 37
+      },
+      "revId": "da6e7805cc8526930dd1735bd36d7df16e3cc71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b5dd63f_1945c8a8",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-05-24T16:23:09Z",
       "side": 1,
       "message": "Optional nit:\nThis is repeated three times in this file. Could use a variable to minimise duplication.",
+      "range": {
+        "startLine": 431,
+        "startChar": 12,
+        "endLine": 437,
+        "endChar": 14
+      },
+      "revId": "da6e7805cc8526930dd1735bd36d7df16e3cc71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c279a9d5_f148941b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-25T08:04:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b5dd63f_1945c8a8",
       "range": {
         "startLine": 431,
         "startChar": 12,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93c9a043_845b66fb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1938,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-25T08:04:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96b50b8b_72e1ddb3",
+      "range": {
+        "startLine": 1938,
+        "startChar": 27,
+        "endLine": 1938,
+        "endChar": 28
+      },
+      "revId": "da6e7805cc8526930dd1735bd36d7df16e3cc71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5d09b6b_4030f9dc",
@@ -110,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c665cb8e_bd2feb91",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2125,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-25T08:04:12Z",
+      "side": 1,
+      "message": "Even better: The util exists already! :-)",
+      "parentUuid": "b5d09b6b_4030f9dc",
+      "range": {
+        "startLine": 2122,
+        "startChar": 6,
+        "endLine": 2125,
+        "endChar": 8
+      },
+      "revId": "da6e7805cc8526930dd1735bd36d7df16e3cc71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9417984_ba022f6b",
@@ -123,6 +219,30 @@
       "writtenOn": "2022-05-24T16:23:09Z",
       "side": 1,
       "message": "nit: Create a generator function for FileInfo?\nI saw that `size` is a required property.",
+      "range": {
+        "startLine": 2442,
+        "startChar": 21,
+        "endLine": 2442,
+        "endChar": 35
+      },
+      "revId": "da6e7805cc8526930dd1735bd36d7df16e3cc71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5dcfd6d_9822002c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2442,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-25T08:04:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9417984_ba022f6b",
       "range": {
         "startLine": 2442,
         "startChar": 21,

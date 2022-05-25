@@ -44,7 +44,7 @@ export function create<TContext>(
             (this[name] as unknown as Finalizable).finalize();
           }
         } catch (e) {
-          console.info(`Failed to finalize ${name}`);
+          console.info(`Failed to finalize ${String(name)}`);
           throw e;
         }
       }

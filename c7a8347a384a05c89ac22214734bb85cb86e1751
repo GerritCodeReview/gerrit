@@ -37,6 +37,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15046d09_09a2d008",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-25T09:55:53Z",
+      "side": 1,
+      "message": "Thanks for bringing this up. My plan was to do a normal rollout, though it may be safer, though it might be better to split this in two changes:\n  1) start using cache version numbers: 1\n  2) rollout this change with cache version number: 2\n\nTests in this change assert correct de/serialization. If anything goes wrong on staging/canary we can rollback the release. i.e. since caches are versioned we shouldn\u0027t fall into any compatibility trap.\n\n\u003e We can make a GVC to discuss it.\n\nSure.",
+      "parentUuid": "3d66146b_761d5078",
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf2053fe_c4dfbc1b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-25T09:55:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b66077bc_77226373",
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fce0a101_8e957c21",
         "filename": "java/com/google/gerrit/server/patch/IntraLineDiff.java",
         "patchSetId": 4
@@ -48,6 +84,30 @@
       "writtenOn": "2022-05-24T08:13:30Z",
       "side": 1,
       "message": "The same question about replacing class with a proto as here:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/316947/comments/4c5aa8fb_44c6ef62",
+      "range": {
+        "startLine": 31,
+        "startChar": 22,
+        "endLine": 31,
+        "endChar": 35
+      },
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86e42407_5cfc9f44",
+        "filename": "java/com/google/gerrit/server/patch/IntraLineDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-25T09:55:53Z",
+      "side": 1,
+      "message": "Ack. Answered the other comment.",
+      "parentUuid": "fce0a101_8e957c21",
       "range": {
         "startLine": 31,
         "startChar": 22,
@@ -83,6 +143,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d312099b_a2e01ddf",
+        "filename": "java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-25T09:55:53Z",
+      "side": 1,
+      "message": "I think this is done by convention, e.g. see LabelValueProto [1]. I did not see any proto entity directly used in the codebase before. Though, it should be possible to drop this extra entity and substitute it with the proto (with adapting all references/callers of the existing entities).\n\nLMK your opinion.\n\n[1] https://gerrit.googlesource.com/gerrit/+/fa5bda72ab8c96fb1bd2591c52f2c0ae9bd2118a/java/com/google/gerrit/server/cache/serialize/entities/LabelValueSerializer.java#23",
+      "parentUuid": "4c5aa8fb_44c6ef62",
+      "range": {
+        "startLine": 26,
+        "startChar": 22,
+        "endLine": 26,
+        "endChar": 38
+      },
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a947be95_3e0788ea",
         "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/IntraLineDiffKeySerializerTest.java",
         "patchSetId": 4
@@ -94,6 +178,30 @@
       "writtenOn": "2022-05-24T08:12:46Z",
       "side": 1,
       "message": "Could you please add test(s) for different Whitespace values? I would like to see at least one other Whitespace value in tests to avoid situation when a fixed value is used for serialization/deserialization",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 23
+      },
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f63d7edb_3f4f889f",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/IntraLineDiffKeySerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-25T09:55:53Z",
+      "side": 1,
+      "message": "Done. I adapted all roundTrip tests for enums to test all values.",
+      "parentUuid": "a947be95_3e0788ea",
       "range": {
         "startLine": 28,
         "startChar": 14,
@@ -127,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6398fe50_6922241a",
+        "filename": "proto/cache.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-25T09:55:53Z",
+      "side": 1,
+      "message": "We do this for other enum fields (check other \"ENUM As a String\" in cache.proto). I checked the git history for this before but could not deduce why we do this.\n\nNot sure if there\u0027s an advantage substituting with an enum. I tried it out and it worked.\n\nRE: In this case proto library will handle a new values\n\nper https://developers.google.com/protocol-buffers/docs/proto3#enum, \n\u003e During deserialization, unrecognized enum values will be preserved in the message, though how this is represented when the message is deserialized is language-dependent... In languages with closed enum types such as Java, a case in the enum is used to represent an unrecognized value, and the underlying integer can be accessed with special accessors. In either case, if the message is serialized the unrecognized value will still be serialized with the message.\n\nI looked at the generated code, and proto creates an additional \"UNRECOGNIZED\" entry that is reserved for unknown values during deserialization. In our deserializers, we could check for this case and convert this to the default value: Done.\n\nLMK your opinion.",
+      "parentUuid": "abbe893a_547e9a6d",
+      "range": {
+        "startLine": 736,
+        "startChar": 2,
+        "endLine": 736,
+        "endChar": 42
+      },
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ba1825a_144e67c2",
@@ -150,6 +282,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "186b9924_5e056658",
+        "filename": "proto/cache.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-25T09:55:53Z",
+      "side": 1,
+      "message": "Done (replied on the other comment).",
+      "parentUuid": "9ba1825a_144e67c2",
+      "range": {
+        "startLine": 748,
+        "startChar": 4,
+        "endLine": 748,
+        "endChar": 43
+      },
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76be9d5b_9b384c30",
@@ -163,6 +319,30 @@
       "writtenOn": "2022-05-24T07:40:45Z",
       "side": 1,
       "message": "Same question - can we use proto enum here?",
+      "range": {
+        "startLine": 755,
+        "startChar": 2,
+        "endLine": 755,
+        "endChar": 38
+      },
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32d05907_dbc6877e",
+        "filename": "proto/cache.proto",
+        "patchSetId": 4
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-25T09:55:53Z",
+      "side": 1,
+      "message": "Done (replied on the other comment).",
+      "parentUuid": "76be9d5b_9b384c30",
       "range": {
         "startLine": 755,
         "startChar": 2,

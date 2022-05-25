@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "843c0450_9f04e386",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-25T11:46:19Z",
+      "side": 1,
+      "message": "Oh nice! Done.",
+      "parentUuid": "9e8155df_d4412cf1",
+      "range": {
+        "startLine": 16,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 14
+      },
+      "revId": "3920f5a5f73b260efc9854d19104c1eed26c0755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7cb0211f_11e8e33d",

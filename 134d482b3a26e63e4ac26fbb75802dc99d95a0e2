@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa2107ed_80e70f3d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-05-25T09:35:14Z",
+      "side": 1,
+      "message": "I feel like trying to use endOfSection and then walking back just makes code more confusing, for the sake of uniformity of calling `endOfSection in every if-branch.\n\nSomething like the following feels simpler to me.\n\n```\nlet lastPreFormat \u003d i\nfor (let j \u003d i + 1; j \u003c lines.length; ++j) {\n  if (this.isPreFormat(lines[j])) {\n    lastPreFormat \u003d j;\n  } else if (!this.isWhitespaceLine(line) \u0026\u0026 line.length !\u003d\u003d 0) {\n    break;\n  }\n}\n```",
+      "range": {
+        "startLine": 228,
+        "startChar": 8,
+        "endLine": 238,
+        "endChar": 9
+      },
+      "revId": "134d482b3a26e63e4ac26fbb75802dc99d95a0e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -206,6 +206,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bb67b24_d614e7dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2125,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-25T08:07:53Z",
+      "side": 1,
+      "message": "Thanks for updating other usages as well!",
+      "parentUuid": "c665cb8e_bd2feb91",
+      "range": {
+        "startLine": 2122,
+        "startChar": 6,
+        "endLine": 2125,
+        "endChar": 8
+      },
+      "revId": "da6e7805cc8526930dd1735bd36d7df16e3cc71f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9417984_ba022f6b",

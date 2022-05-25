@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb2dd233_af473280",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-25T10:32:02Z",
+      "side": 1,
+      "message": "```\ninterface File extends Partial\u003cNormalizedFileInfo\u003e {\n  status?: FileInfoStatus;\n  __path: string;\n}\n```\n\nSo if NormalizedFileInfo changes __path to _path then this will throw typescript exception",
+      "parentUuid": "7ca596ac_0eff9fcc",
+      "range": {
+        "startLine": 16,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 14
+      },
+      "revId": "3920f5a5f73b260efc9854d19104c1eed26c0755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7cb0211f_11e8e33d",
         "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip.ts",
         "patchSetId": 2

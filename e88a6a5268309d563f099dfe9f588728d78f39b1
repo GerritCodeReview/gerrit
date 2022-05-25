@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf9c511d_93527196",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-25T08:17:16Z",
+      "side": 1,
+      "message": "Thanks for the cleanup, could you add a basic shadowdom test for the new files?",
+      "revId": "e88a6a5268309d563f099dfe9f588728d78f39b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

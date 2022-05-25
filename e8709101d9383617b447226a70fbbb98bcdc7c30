@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b000da78_ca623d79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1143612
+      },
+      "writtenOn": "2022-05-25T14:03:31Z",
+      "side": 1,
+      "message": "The current change doesn\u0027t rewrite the preferredEmail in the account ref but I think https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d15948 would be the more principled approach to dealing with that instead of writing more rewrite logic here.",
+      "revId": "e8709101d9383617b447226a70fbbb98bcdc7c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

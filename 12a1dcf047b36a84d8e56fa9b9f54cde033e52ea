@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fa3f519_f57bfd84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-25T12:18:01Z",
+      "side": 1,
+      "message": "Submit only after [1] has been fully rolled out at Google.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/337700",
+      "revId": "12a1dcf047b36a84d8e56fa9b9f54cde033e52ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

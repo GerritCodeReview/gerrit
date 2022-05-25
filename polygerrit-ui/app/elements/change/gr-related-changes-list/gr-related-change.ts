@@ -28,7 +28,7 @@ import {ifDefined} from 'lit/directives/if-defined';
 
 @customElement('gr-related-change')
 export class GrRelatedChange extends LitElement {
-  @property()
+  @property({type: Object})
   change?: ChangeInfo | RelatedChangeAndCommitInfo;
 
   @property()
@@ -37,17 +37,17 @@ export class GrRelatedChange extends LitElement {
   @property()
   label?: string;
 
-  @property()
+  @property({type: Boolean, attribute: 'show-submittable-check'})
   showSubmittableCheck = false;
 
-  @property()
+  @property({type: Boolean, attribute: 'show-change-status'})
   showChangeStatus = false;
 
   /*
    * Needed for calculation if change is direct or indirect ancestor/descendant
    * to current change.
    */
-  @property()
+  @property({type: Array})
   connectedRevisions?: CommitId[];
 
   static override get styles() {

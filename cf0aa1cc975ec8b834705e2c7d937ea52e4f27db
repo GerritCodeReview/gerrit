@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "074453b3_2f83fe35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-25T08:50:07Z",
+      "side": 1,
+      "message": "I think the naming is very confusing because \u0027light\u0027 makes me think of the light theme.",
+      "revId": "cf0aa1cc975ec8b834705e2c7d937ea52e4f27db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -450,48 +450,44 @@ suite('gr-formatted-text tests', () => {
     assertSimpleTextBlock(outerQuoteBlock.blocks[1], 'next');
   });
 
-  test('code 1', () => {
+  test('code entire text', () => {
     const comment = '```\n// test code\n```';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
     assertCodeBlock(result[0], '// test code');
   });
 
-  test('code 2', () => {
-    const comment = 'test code\n```// test code```';
+  test('code first line is descriptor not part of code', () => {
+    const comment = 'test code\n```descr\n// test code\n```\nsomething else';
+    const result = element._computeBlocks(comment);
+    assert.lengthOf(result, 3);
+    assertSimpleTextBlock(result[0], 'test code');
+    // 'descr' is omitted.
+    assertCodeBlock(result[1], '// test code');
+    assertSimpleTextBlock(result[2], 'something else')
+  });
+
+  test('code open without close eats everything', () => {
+    const comment = 'test code\n```\n// test code\n// more code';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
     assertSimpleTextBlock(result[0], 'test code');
-    assertCodeBlock(result[1], '// test code');
+    assertCodeBlock(result[1], '// test code\n// more code');
   });
 
-  test('not a code block', () => {
-    const comment = 'test code\n```// test code';
+  test('backticks inside line not code', () => {
+    debugger;
+    const comment = 'test code\nwords ```\n// test code```';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
-    assertSimpleTextBlock(result[0], 'test code\n```// test code');
-  });
-
-  test('not a code block 2', () => {
-    const comment = 'test code\n```\n// test code';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 2);
-    assertSimpleTextBlock(result[0], 'test code');
-    assertSimpleTextBlock(result[1], '```\n// test code');
-  });
-
-  test('not a code block 3', () => {
-    const comment = 'test code\n```';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 2);
-    assertSimpleTextBlock(result[0], 'test code');
-    assertSimpleTextBlock(result[1], '```');
+    // We don't care how paragraph itself is parsed for this test.
+    assert.equal(result[0].type, 'paragraph');
   });
 
   test('mix all 1', () => {
     const comment =
       ' bullets:\n- bullet 1\n- bullet 2\n\ncode example:\n' +
-      '```// test code```\n\n> reference is here';
+      '```\n// test code\n```\n\n> reference is here';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 5);
     assert.equal(result[0].type, 'pre');

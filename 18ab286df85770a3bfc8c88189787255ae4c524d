@@ -16,6 +16,24 @@
       "message": "Note that this is private but used in test? Same for below.",
       "revId": "18ab286df85770a3bfc8c88189787255ae4c524d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "633702b2_e3ee2948",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-25T08:11:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efd45247_ae55545b",
+      "revId": "18ab286df85770a3bfc8c88189787255ae4c524d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59273b35_5d828a81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-25T20:39:22Z",
+      "side": 1,
+      "message": "Does this invalidate existing entries in the cache?",
+      "revId": "8116877b2fb9b4c33d1825e97368a85fbaf04299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

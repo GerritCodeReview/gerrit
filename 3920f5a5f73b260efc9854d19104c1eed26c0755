@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ca596ac_0eff9fcc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-25T10:08:21Z",
+      "side": 1,
+      "message": "I have considered that, but Partial\u003c\u003e does not tell you which of properties are selected.",
+      "parentUuid": "636dff96_39143869",
+      "range": {
+        "startLine": 16,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 14
+      },
+      "revId": "3920f5a5f73b260efc9854d19104c1eed26c0755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7cb0211f_11e8e33d",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "beac1d31_fbe97c89",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-25T10:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cb0211f_11e8e33d",
+      "revId": "3920f5a5f73b260efc9854d19104c1eed26c0755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cb0868d_2a0c36c9",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-05-25T09:40:07Z",
       "side": 1,
       "message": "nit: maybe you can use classMap",
+      "range": {
+        "startLine": 60,
+        "startChar": 14,
+        "endLine": 60,
+        "endChar": 31
+      },
+      "revId": "3920f5a5f73b260efc9854d19104c1eed26c0755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60faae9a_59b792d7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-25T10:08:21Z",
+      "side": 1,
+      "message": "I have considered that, but that does not work well with variable class names such as `this.status()`. `this.status()` cannot be the key of an object.",
+      "parentUuid": "1cb0868d_2a0c36c9",
       "range": {
         "startLine": 60,
         "startChar": 14,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8a7a06e_f3e8b976",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-25T10:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df597e25_d4b2de42",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 5
+      },
+      "revId": "3920f5a5f73b260efc9854d19104c1eed26c0755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9c7b642_c2522737",
@@ -100,6 +190,24 @@
       "writtenOn": "2022-05-25T09:29:56Z",
       "side": 1,
       "message": "Make this ?? instead of ||",
+      "revId": "3920f5a5f73b260efc9854d19104c1eed26c0755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "397cefb8_b050fa41",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-25T10:08:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c7b642_c2522737",
       "revId": "3920f5a5f73b260efc9854d19104c1eed26c0755",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

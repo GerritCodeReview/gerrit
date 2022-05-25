@@ -16,6 +16,29 @@
       "message": "PTAL 😊",
       "revId": "5058066d251495886f3e66f0bf7af16e6f87898e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "707222f4_0d59427a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-25T11:07:24Z",
+      "side": 1,
+      "message": "nit: s/j/i. `j` makes it seem like there is/was an outerloop using `i` that reader also needs to worry about.",
+      "range": {
+        "startLine": 296,
+        "startChar": 53,
+        "endLine": 296,
+        "endChar": 54
+      },
+      "revId": "5058066d251495886f3e66f0bf7af16e6f87898e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

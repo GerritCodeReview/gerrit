@@ -39,7 +39,8 @@ export class GrDiffModeSelector extends LitElement {
 
   @property({type: Boolean}) showTooltipBelow = false;
 
-  @state() private mode: DiffViewMode = DiffViewMode.SIDE_BY_SIDE;
+  // visible for testing
+  @state() mode: DiffViewMode = DiffViewMode.SIDE_BY_SIDE;
 
   private readonly getBrowserModel = resolve(this, browserModelToken);
 

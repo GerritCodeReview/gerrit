@@ -27,7 +27,7 @@
     "rollup": "^2.45.2",
     "terser": "^5.6.1",
     "ts-lit-plugin": "^1.2.1",
-    "typescript": "4.3.2"
+    "typescript": "^4.7.2"
   },
   "scripts": {
     "clean": "git clean -fdx && bazel clean --expunge",
@@ -51,8 +51,7 @@
     "url": "https://gerrit.googlesource.com/gerrit"
   },
   "resolutions": {
-    "lodash": "4.17.21",
-    "twinkie/typescript": "4.3.2"
+    "twinkie/typescript": "4.7.2"
   },
   "author": "",
   "license": "Apache-2.0"

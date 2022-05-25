@@ -784,7 +784,7 @@ suite('gr-change-metadata tests', () => {
       mutable = true;
       element.mutable = mutable;
       assert.isTrue(element.computeTopicReadOnly());
-      change!.actions!.topic!.enabled = true;
+      change.actions!.topic!.enabled = true;
       element.mutable = mutable;
       element.change = change;
       assert.isFalse(element.computeTopicReadOnly());
@@ -847,7 +847,7 @@ suite('gr-change-metadata tests', () => {
       element.mutable = mutable;
       await element.updateComplete;
       assert.isTrue(element.computeHashtagReadOnly());
-      change!.actions!.hashtags!.enabled = true;
+      change.actions!.hashtags!.enabled = true;
       element.change = change;
       element.mutable = mutable;
       await element.updateComplete;
@@ -880,7 +880,7 @@ suite('gr-change-metadata tests', () => {
     test('hashtag not read only does not hide delete button', async () => {
       await element.updateComplete;
       element.account = createAccountDetailWithId();
-      change!.actions!.hashtags!.enabled = true;
+      change.actions!.hashtags!.enabled = true;
       element.change = change;
       sinon
         .stub(GerritNav, 'getUrlForHashtag')

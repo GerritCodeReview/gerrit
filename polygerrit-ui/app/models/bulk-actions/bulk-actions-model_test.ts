@@ -104,7 +104,7 @@ suite('bulk actions model test', () => {
     bulkActionsModel.addSelectedChangeNum(c1._number);
     bulkActionsModel.addSelectedChangeNum(c2._number);
     let selectedChangeNums = await waitUntilObserved(
-      bulkActionsModel!.selectedChangeNums$,
+      bulkActionsModel.selectedChangeNums$,
       s => s.length === 2
     );
     let totalChangeCount = await waitUntilObserved(
@@ -116,7 +116,7 @@ suite('bulk actions model test', () => {
 
     bulkActionsModel.clearSelectedChangeNums();
     selectedChangeNums = await waitUntilObserved(
-      bulkActionsModel!.selectedChangeNums$,
+      bulkActionsModel.selectedChangeNums$,
       s => s.length === 0
     );
     totalChangeCount = await waitUntilObserved(
@@ -135,7 +135,7 @@ suite('bulk actions model test', () => {
     c2._number = 2 as NumericChangeId;
     bulkActionsModel.sync([c1, c2]);
     let selectedChangeNums = await waitUntilObserved(
-      bulkActionsModel!.selectedChangeNums$,
+      bulkActionsModel.selectedChangeNums$,
       s => s.length === 0
     );
     let totalChangeCount = await waitUntilObserved(
@@ -147,7 +147,7 @@ suite('bulk actions model test', () => {
 
     bulkActionsModel.selectAll();
     selectedChangeNums = await waitUntilObserved(
-      bulkActionsModel!.selectedChangeNums$,
+      bulkActionsModel.selectedChangeNums$,
       s => s.length === 2
     );
     totalChangeCount = await waitUntilObserved(
@@ -351,7 +351,7 @@ suite('bulk actions model test', () => {
     bulkActionsModel.addSelectedChangeNum(c2._number);
 
     let selectedChangeNums = await waitUntilObserved(
-      bulkActionsModel!.selectedChangeNums$,
+      bulkActionsModel.selectedChangeNums$,
       s => s.length === 2
     );
     let totalChangeCount = await waitUntilObserved(
@@ -364,7 +364,7 @@ suite('bulk actions model test', () => {
 
     bulkActionsModel.sync([c1]);
     selectedChangeNums = await waitUntilObserved(
-      bulkActionsModel!.selectedChangeNums$,
+      bulkActionsModel.selectedChangeNums$,
       s => s.length === 1
     );
     totalChangeCount = await waitUntilObserved(

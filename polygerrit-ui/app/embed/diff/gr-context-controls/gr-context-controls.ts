@@ -58,7 +58,7 @@ const PARTIAL_CONTEXT_AMOUNT = 10;
  * It finds the closest block that contains the whole line and
  * returns the whole path from the syntax layer (blocks) sent as parameter
  * to the most nested block - the complete path from the top to bottom layer of
- * a syntax tree. Example: [myNamepace, MyClass, myMethod1, aLocalFunctionInsideMethod1]
+ * a syntax tree. Example: [myNamespace, MyClass, myMethod1, aLocalFunctionInsideMethod1]
  *
  * @param lineNum line number for the targeted line.
  * @param blocks Blocks for a specific syntax level in the file (to allow recursive calls)
@@ -445,7 +445,7 @@ export class GrContextControls extends LitElement {
     linesToExpand: number
   ) {
     // Create breadcrumb string:
-    // myNamepace > MyClass > myMethod1 > aLocalFunctionInsideMethod1 > (anonymous)
+    // myNamespace > MyClass > myMethod1 > aLocalFunctionInsideMethod1 > (anonymous)
     const tooltipText = syntaxPath.length
       ? syntaxPath.map(b => b.name || '(anonymous)').join(' > ')
       : `${linesToExpand} common lines`;

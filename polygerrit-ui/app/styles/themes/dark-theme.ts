@@ -216,9 +216,9 @@ const darkThemeCss = safeStyleSheet`
     --dark-rebased-remove-highlight-color: rgba(255, 139, 6, 0.15);
     --light-rebased-remove-highlight-color: #2f3f2f;
 
-    --diff-moved-in-background: #1d4042;
+    --light-moved-in-highlight-color: #1d4042;
     --diff-moved-in-label-color: var(--cyan-50);
-    --diff-moved-out-background: #230e34;
+    --light-moved-out-highlight-color: #230e34;
     --diff-moved-out-label-color: var(--purple-50);
 
     --diff-blank-background-color: var(--background-color-secondary);

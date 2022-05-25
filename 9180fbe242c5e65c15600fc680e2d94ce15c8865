@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c07cc3c7_f8ebdf8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-25T09:57:26Z",
+      "side": 1,
+      "message": "Should we also upgrade our npm deps to 4.7? Or somehow else make this an error in our compile?",
+      "revId": "9180fbe242c5e65c15600fc680e2d94ce15c8865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

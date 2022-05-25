@@ -1,35 +1,13 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-import {SpecialFilePath} from '../../../constants/constants';
+import {FileInfoStatus, SpecialFilePath} from '../../../constants/constants';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
-
-const FileStatus = {
-  A: 'Added',
-  C: 'Copied',
-  D: 'Deleted',
-  M: 'Modified',
-  R: 'Renamed',
-  W: 'Rewritten',
-  U: 'Unchanged',
-};
 
 @customElement('gr-file-status-chip')
 export class GrFileStatusChip extends LitElement {
@@ -67,12 +45,12 @@ export class GrFileStatusChip extends LitElement {
 
   override render() {
     return html` <span
-      class=${this._computeStatusClass(this.file)}
+      class=${this.computeStatusClass(this.file)}
       tabindex="0"
-      title=${this._computeFileStatusLabel(this.file?.status)}
-      aria-label=${this._computeFileStatusLabel(this.file?.status)}
+      title=${this.computeLabel(this.file?.status)}
+      aria-label=${this.computeLabel(this.file?.status)}
     >
-      ${this._computeFileStatusLabel(this.file?.status)}
+      ${this.computeLabel(this.file?.status)}
     </span>`;
   }
 
@@ -80,14 +58,29 @@ export class GrFileStatusChip extends LitElement {
    * Get a descriptive label for use in the status indicator's tooltip and
    * ARIA label.
    */
-  _computeFileStatusLabel(status?: keyof typeof FileStatus) {
-    const statusCode = this._computeFileStatus(status);
-    return hasOwnProperty(FileStatus, statusCode)
-      ? FileStatus[statusCode]
-      : 'Status Unknown';
+  // visible for testing
+  computeLabel(status?: FileInfoStatus) {
+    const statusCode = this.computeFileStatus(status);
+    switch (statusCode) {
+      case FileInfoStatus.ADDED:
+        return 'Added';
+      case FileInfoStatus.COPIED:
+        return 'Copied';
+      case FileInfoStatus.DELETED:
+        return 'Deleted';
+      case FileInfoStatus.MODIFIED:
+        return 'Modified';
+      case FileInfoStatus.RENAMED:
+        return 'Renamed';
+      case FileInfoStatus.REWRITTEN:
+        return 'Rewritten';
+      case FileInfoStatus.UNMODIFIED:
+        return 'Unchanged';
+    }
   }
 
-  _computeClass(baseClass?: string, path?: string) {
+  // visible for testing
+  computeClass(baseClass?: string, path?: string) {
     const classes = [];
     if (baseClass) {
       classes.push(baseClass);
@@ -101,16 +94,15 @@ export class GrFileStatusChip extends LitElement {
     return classes.join(' ');
   }
 
-  _computeFileStatus(
-    status?: keyof typeof FileStatus
-  ): keyof typeof FileStatus {
-    return status || 'M';
+  // visible for testing
+  computeFileStatus(status?: FileInfoStatus): FileInfoStatus {
+    return status || FileInfoStatus.MODIFIED;
   }
 
-  _computeStatusClass(file?: NormalizedFileInfo) {
+  private computeStatusClass(file?: NormalizedFileInfo) {
     if (!file) return '';
-    const classStr = this._computeClass('status', file.__path);
-    return `${classStr} ${this._computeFileStatus(file.status)}`;
+    const classStr = this.computeClass('status', file.__path);
+    return `${classStr} ${this.computeFileStatus(file.status)}`;
   }
 }
 

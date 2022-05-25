@@ -21,6 +21,19 @@ export function deepEqual<T>(a: T, b: T): boolean {
   if (a instanceof Date && b instanceof Date)
     return a.getTime() === b.getTime();
 
+  if (a instanceof Set && b instanceof Set) {
+    if (a.size !== b.size) return false;
+    for (const ai of a) if (!b.has(ai)) return false;
+    return true;
+  }
+  if (a instanceof Map && b instanceof Map) {
+    if (a.size !== b.size) return false;
+    for (const [akey, avalue] of a.entries()) {
+      if (!b.has(akey) || !deepEqual(avalue, b.get(akey))) return false;
+    }
+    return true;
+  }
+
   if (typeof a === 'object') {
     if (typeof b !== 'object') return false;
     const aObj = a as Record<string, unknown>;

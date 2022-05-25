@@ -22,6 +22,30 @@
       },
       "revId": "171003f5c7551af08ee66e0b32d0eca729783b75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b6d679b_9f7f5c85",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-25T18:33:30Z",
+      "side": 1,
+      "message": "\u003e what is this check for length \u003d\u003d\u003d 4 for?\n\u003e I still don\u0027t understand what exactly it\u0027s checking for 😞\nIt tries to check if the string is a label with score (for example \u0027Code-Review+1\u0027) by matching it against `LABEL_TITLE_SCORE_PATTERN`. The check for `length\u003d\u003d\u003d4` is to make the match strict and ensure that all groups of the regex are matched.\n\n\u003e \n\u003e Could you perhaps use more descriptive variable names instead of `s` and `ms`?\nI used those because we already have some something similar and I wanted to be consistent with the naming. See lines 489-499. I think, `s` is the \u0027string\u0027 we are trying to match the regex against and `ms` is \u0027matched-string\u0027.",
+      "parentUuid": "61fc93ff_87e99a0b",
+      "range": {
+        "startLine": 390,
+        "startChar": 28,
+        "endLine": 390,
+        "endChar": 43
+      },
+      "revId": "171003f5c7551af08ee66e0b32d0eca729783b75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

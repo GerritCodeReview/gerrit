@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "400d402a_224bdcf0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-25T19:45:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dadd4789_0b561550",
+      "revId": "939717ec031d6755e4bcc38733ab0d86ae1fb27a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "825b1ab9_695300c0",
         "filename": "javatests/com/google/gerrit/index/query/QueryParserTest.java",
         "patchSetId": 7

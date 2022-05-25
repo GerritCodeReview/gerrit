@@ -224,13 +224,19 @@ export class GrFormattedText extends LitElement {
         });
         i = endOfQuote - 1;
       } else if (this.isPreFormat(lines[i])) {
-        // include pre or all regular lines but stop at next new line
+        // include pre and whitespace or empty lines.
         const predicate = (line: string) =>
           this.isPreFormat(line) ||
-          (this.isRegularLine(line) &&
-            !this.isWhitespaceLine(line) &&
-            line.length > 0);
-        const endOfPre = this.getEndOfSection(lines, i + 1, predicate);
+          (this.isWhitespaceLine(line) || line.length == 0);
+        let endOfPre = this.getEndOfSection(lines, i + 1, predicate);
+        // Now walk back for the last isPreFormat.
+        for (let j = endOfPre; j > i; --j) {
+          if (this.isPreFormat(lines[j - 1])) {
+            endOfPre = j;
+            break;
+          }
+        }
+
         result.push({
           type: 'pre',
           text: lines.slice(i, endOfPre).join('\n'),

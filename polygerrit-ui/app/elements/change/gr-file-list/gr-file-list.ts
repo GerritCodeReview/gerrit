@@ -1037,7 +1037,7 @@ export class GrFileList extends LitElement {
         file.old_path,
         () => html`
           <div class="oldPath" title=${ifDefined(file.old_path)}>
-            [[file.old_path]]
+            ${file.old_path}
             <gr-copy-clipboard
               ?hideInput=${true}
               .text=${file.old_path}

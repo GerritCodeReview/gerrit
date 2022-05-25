@@ -16,6 +16,24 @@
       "message": "Should we also upgrade our npm deps to 4.7? Or somehow else make this an error in our compile?",
       "revId": "9180fbe242c5e65c15600fc680e2d94ce15c8865",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc8f67e3_52900d02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-25T10:12:01Z",
+      "side": 1,
+      "message": "I am not sure why we are back at 4.3. I will try to upgrade us in another change",
+      "parentUuid": "c07cc3c7_f8ebdf8d",
+      "revId": "9180fbe242c5e65c15600fc680e2d94ce15c8865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2264f5c_262a5793",
+        "filename": "package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-25T13:13:44Z",
+      "side": 0,
+      "message": "unused since lodash was removed",
+      "range": {
+        "startLine": 54,
+        "startChar": 15,
+        "endLine": 54,
+        "endChar": 22
+      },
+      "revId": "b0c08b8413c0c5d6225ad6b74293b93f887dbfc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

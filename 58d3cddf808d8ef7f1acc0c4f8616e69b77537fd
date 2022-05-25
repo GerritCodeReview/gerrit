@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6cc7428_6dac4a47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-25T07:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbdb8863_074d4612",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c75e1a14_82abbc08",
@@ -265,6 +289,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5312350_a0b0c032",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5384,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-25T07:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0049d38_a5eead08",
+      "range": {
+        "startLine": 5384,
+        "startChar": 52,
+        "endLine": 5384,
+        "endChar": 53
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "905d764b_5ee257f4",
@@ -338,6 +386,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "11a2a93c_0c506b05",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5385,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-25T07:07:31Z",
+      "side": 1,
+      "message": "Does this look better? I am not sure if I am accurate here. I think we need to allow the `Apply Direct Fix` on only current patchset.",
+      "parentUuid": "bf06bdc9_5ee72b33",
+      "range": {
+        "startLine": 5385,
+        "startChar": 27,
+        "endLine": 5385,
+        "endChar": 62
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "681a4eb4_3addde76",
         "filename": "java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
         "patchSetId": 28
@@ -349,6 +421,30 @@
       "writtenOn": "2022-05-20T06:48:17Z",
       "side": 1,
       "message": "nit: \"Instead of using a fix stored at the server, this applies the fix provided in {@code DirectFixInput}\"",
+      "range": {
+        "startLine": 122,
+        "startChar": 53,
+        "endLine": 123,
+        "endChar": 21
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6beb621d_05c9cfa6",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-25T07:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "681a4eb4_3addde76",
       "range": {
         "startLine": 122,
         "startChar": 53,
@@ -414,6 +510,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5165a8df_d87a58f7",
+        "filename": "java/com/google/gerrit/extensions/common/DirectFixInput.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-25T07:07:31Z",
+      "side": 1,
+      "message": "Does the uploaded definition look good?\n\nI will rename this class to `ApplyFixInput` in a later patchset, as commented in your comments on file rest-api-changes.txt",
+      "parentUuid": "9ea0e161_721b51ee",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3d22554_1dcc4325",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyDirectFix.java",
         "patchSetId": 28
@@ -425,6 +539,24 @@
       "writtenOn": "2022-05-20T06:52:09Z",
       "side": 1,
       "message": "Please check if the user has \"ADD_PATCH_SET\" permission (via PermissionBackend)\n\nAnd add a test that the operation fails in case the user lacks that permission.",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b86e834_551cd934",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyDirectFix.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-25T07:07:31Z",
+      "side": 1,
+      "message": "added the code. Trying to figure out the test.\n\nI am guessing the test case will be: a change is created by admin. A user (non-admin without ADD_PATCH_SET permission) calls apply_direct_fix and the user doesn\u0027t have the ADD_PATCH_SET permission. Does this sound like the right test case?\nI am trying to figure out how to make a custom user, call apply_direct_fix. Any example will help.\nAlso, is it possible that a non-author can upload a patchset?",
+      "parentUuid": "c3d22554_1dcc4325",
       "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -452,6 +584,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f84126c1_f8ff5df5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyDirectFixIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-25T07:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72d1557f_38c4a849",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 53
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00a7ddb3_0463486b",
@@ -465,6 +621,30 @@
       "writtenOn": "2022-05-20T06:48:17Z",
       "side": 1,
       "message": "remove this and other commented out lines",
+      "range": {
+        "startLine": 283,
+        "startChar": 4,
+        "endLine": 283,
+        "endChar": 56
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9216424c_b30ffed1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyDirectFixIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-25T07:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00a7ddb3_0463486b",
       "range": {
         "startLine": 283,
         "startChar": 4,

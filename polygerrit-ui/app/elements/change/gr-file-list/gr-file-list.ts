@@ -2076,7 +2076,7 @@ export class GrFileList extends LitElement {
       })
     );
 
-    // Start the timer for the rendering work hwere because this is where the
+    // Start the timer for the rendering work here because this is where the
     // shownFiles property is being set, and shownFiles is used in the
     // dom-repeat binding.
     this.reporting.time(Timing.FILE_RENDER);
@@ -2262,7 +2262,7 @@ export class GrFileList extends LitElement {
         !this.diffPrefs.manual_review &&
         files.length === 1
       ) {
-        this.reviewFile(path, true);
+        await this.reviewFile(path, true);
       }
       await diffElem.reload();
     });

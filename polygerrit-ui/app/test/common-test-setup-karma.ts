@@ -58,7 +58,9 @@ suiteSetup(() => {
       throw new Error();
     } catch (e) {
       console.error('Page reloading attempt detected.');
-      console.error(e.stack.toString());
+      if (e instanceof Error) {
+        console.error(e.stack?.toString());
+      }
     }
     if (originalOnBeforeUnload) {
       originalOnBeforeUnload.call(window, e);

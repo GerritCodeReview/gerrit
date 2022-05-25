@@ -70,6 +70,30 @@
       },
       "revId": "4998e94ce79329da2adbcff15ab0ae4a3234ffaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8af42e35_582727af",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2022-05-25T20:54:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38a36181_36db4b9d",
+      "range": {
+        "startLine": 345,
+        "startChar": 4,
+        "endLine": 345,
+        "endChar": 22
+      },
+      "revId": "4998e94ce79329da2adbcff15ab0ae4a3234ffaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

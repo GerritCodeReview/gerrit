@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24c2c9c4_a30bf9b7",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-25T18:47:29Z",
+      "side": 1,
+      "message": "Do we really want to acquire a lock as we\u0027d only be reading what the last value was and don\u0027t intend to update it.\n\nAlso, this method can use a javadoc to highlight that it is only meant to be used when we want to read the last handed out sequence number.",
+      "range": {
+        "startLine": 345,
+        "startChar": 4,
+        "endLine": 345,
+        "endChar": 22
+      },
+      "revId": "4998e94ce79329da2adbcff15ab0ae4a3234ffaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "636dff96_39143869",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-25T09:40:07Z",
+      "side": 1,
+      "message": "Maybe you can use Partial\u003cNormalizedFileInfo\u003e https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype",
+      "range": {
+        "startLine": 16,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 14
+      },
+      "revId": "3920f5a5f73b260efc9854d19104c1eed26c0755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7cb0211f_11e8e33d",
         "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip.ts",
         "patchSetId": 2
@@ -20,6 +43,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1cb0868d_2a0c36c9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-25T09:40:07Z",
+      "side": 1,
+      "message": "nit: maybe you can use classMap",
+      "range": {
+        "startLine": 60,
+        "startChar": 14,
+        "endLine": 60,
+        "endChar": 31
+      },
+      "revId": "3920f5a5f73b260efc9854d19104c1eed26c0755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b9c7b642_c2522737",
         "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip.ts",
         "patchSetId": 2
@@ -31,6 +77,29 @@
       "writtenOn": "2022-05-25T09:29:56Z",
       "side": 1,
       "message": "Make this ?? instead of ||",
+      "revId": "3920f5a5f73b260efc9854d19104c1eed26c0755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c2fda7c_5eba7904",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status-chip_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-05-25T09:40:07Z",
+      "side": 1,
+      "message": "Thanks for new unit tests!",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 7
+      },
       "revId": "3920f5a5f73b260efc9854d19104c1eed26c0755",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

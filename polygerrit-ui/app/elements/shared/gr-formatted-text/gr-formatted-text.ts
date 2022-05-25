@@ -188,18 +188,13 @@ export class GrFormattedText extends LitElement {
           startOfCode,
           line => !this.isCodeMarkLine(line)
         );
-        // If the code extends to the end then there is no closing``` and the
-        // opening``` should not be counted as a multiline code block.
-        const lineAfterCode = lines[endOfCode];
-        if (lineAfterCode && this.isCodeMarkLine(lineAfterCode)) {
-          result.push({
-            type: 'code',
-            // Does not include either of the ``` lines
-            text: lines.slice(startOfCode, endOfCode).join('\n'),
-          });
-          i = endOfCode; // advances past the closing```
-          continue;
-        }
+        result.push({
+          type: 'code',
+          // Does not include either of the ``` lines
+          text: lines.slice(startOfCode, endOfCode).join('\n'),
+        });
+        i = endOfCode; // advances past the closing```
+        continue;
       }
       if (this.isSingleLineCode(lines[i])) {
         // no guard check as _isSingleLineCode tested on the pattern
@@ -339,7 +334,7 @@ export class GrFormattedText extends LitElement {
   }
 
   private isCodeMarkLine(line: string): boolean {
-    return line.trim() === '```';
+    return /^\s{0,3}```/.test(line);
   }
 
   private isSingleLineCode(line: string): boolean {

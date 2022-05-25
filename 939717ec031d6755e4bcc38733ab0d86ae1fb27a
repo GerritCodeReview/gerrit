@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "dadd4789_0b561550",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-25T19:25:04Z",
+      "side": 1,
+      "message": "Although technically this is what this change is doing, I think both in the release notes and the commit message we should highlight the intent of this change instead. The intent is \"to allow plugins with hyphens in their names to define query operators\" (not \"to allow hyphens in query operators\"). i.e this isn\u0027t a just a side effect of this change. Also, I think we should highlight that this in many ways should be seen as a bug fix for the fact that Gerrit allows hyphens in plugin names in some places, but doesn\u0027t quite support hyphens in plugin names fully.",
+      "revId": "939717ec031d6755e4bcc38733ab0d86ae1fb27a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "825b1ab9_695300c0",

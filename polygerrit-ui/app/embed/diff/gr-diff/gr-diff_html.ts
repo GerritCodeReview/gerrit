@@ -310,10 +310,10 @@ export const htmlTemplate = html`
       width: var(--content-width, 80ch);
     }
     .content.add .contentText .intraline,
-      /* If there are no intraline info, consider everything changed */
-      .content.add.no-intraline-info .contentText,
-      .sign.add.no-intraline-info,
-      .delta.total .content.add .contentText {
+    /* If there are no intraline info, consider everything changed */
+    .content.add.no-intraline-info .contentText,
+    .sign.add.no-intraline-info,
+    .delta.total .content.add .contentText {
       background-color: var(--dark-add-highlight-color);
     }
     .content.add .contentText,
@@ -321,10 +321,10 @@ export const htmlTemplate = html`
       background-color: var(--light-add-highlight-color);
     }
     .content.remove .contentText .intraline,
-      /* If there are no intraline info, consider everything changed */
-      .content.remove.no-intraline-info .contentText,
-      .delta.total .content.remove .contentText,
-      .sign.remove.no-intraline-info {
+    /* If there are no intraline info, consider everything changed */
+    .content.remove.no-intraline-info .contentText,
+    .delta.total .content.remove .contentText,
+    .sign.remove.no-intraline-info {
       background-color: var(--dark-remove-highlight-color);
     }
     .content.remove .contentText,
@@ -358,7 +358,7 @@ export const htmlTemplate = html`
     .dueToMove .moveControls.movedIn .sign.right,
     .dueToMove .moveControls.movedIn .moveHeader,
     .delta.total.dueToMove .content.add .contentText {
-      background-color: var(--diff-moved-in-background);
+      background-color: var(--light-moved-in-highlight-color);
     }
 
     .dueToMove .sign.remove,
@@ -366,7 +366,7 @@ export const htmlTemplate = html`
     .dueToMove .moveControls.movedOut .moveHeader,
     .dueToMove .moveControls.movedOut .sign.left,
     .delta.total.dueToMove .content.remove .contentText {
-      background-color: var(--diff-moved-out-background);
+      background-color: var(--light-moved-out-highlight-color);
     }
 
     .delta.dueToMove .movedIn .moveHeader {

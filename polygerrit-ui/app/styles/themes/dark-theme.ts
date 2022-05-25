@@ -222,8 +222,8 @@ const darkThemeCss = safeStyleSheet`
     --focused-line-outline-color: var(--blue-200);
     --light-add-highlight-color: #182b1f;
     --light-rebased-add-highlight-color: #487165;
-    --diff-moved-in-background: #1d4042;
-    --diff-moved-out-background: #230e34;
+    --light-moved-in-highlight-color: #1d4042;
+    --light-moved-out-highlight-color: #230e34;
     --diff-moved-in-label-color: var(--cyan-50);
     --diff-moved-out-label-color: var(--purple-50);
     --light-remove-add-highlight-color: #2f3f2f;

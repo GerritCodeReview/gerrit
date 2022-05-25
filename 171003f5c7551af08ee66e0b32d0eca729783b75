@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61fc93ff_87e99a0b",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-25T07:24:56Z",
+      "side": 1,
+      "message": "what is this check for length \u003d\u003d\u003d 4 for?\nI still don\u0027t understand what exactly it\u0027s checking for 😞\n\nCould you perhaps use more descriptive variable names instead of `s` and `ms`?",
+      "range": {
+        "startLine": 390,
+        "startChar": 28,
+        "endLine": 390,
+        "endChar": 43
+      },
+      "revId": "171003f5c7551af08ee66e0b32d0eca729783b75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

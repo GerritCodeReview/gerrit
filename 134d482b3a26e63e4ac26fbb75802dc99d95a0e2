@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b16388e_6444c9b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-05-25T09:54:30Z",
+      "side": 1,
+      "message": "Is there a visual change? If so can you include before/after screenshots",
+      "revId": "134d482b3a26e63e4ac26fbb75802dc99d95a0e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aa2107ed_80e70f3d",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
         "patchSetId": 2

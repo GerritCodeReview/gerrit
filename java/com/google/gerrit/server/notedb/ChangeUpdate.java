@@ -902,7 +902,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     // In the non-copied labels, we don't need to pass the real account id since it's already
     // in FOOTER_REAL_USER. Here, we want to retain the original real account id.
-    if (patchSetApproval.realAccountId() != null) {
+    if (!patchSetApproval.realAccountId().equals(patchSetApproval.accountId())) {
       noteUtil.appendAccountIdIdentString(msg.append(","), patchSetApproval.realAccountId());
     }
 

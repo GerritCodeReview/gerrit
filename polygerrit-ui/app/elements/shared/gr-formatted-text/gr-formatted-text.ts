@@ -224,13 +224,7 @@ export class GrFormattedText extends LitElement {
         });
         i = endOfQuote - 1;
       } else if (this.isPreFormat(lines[i])) {
-        // include pre or all regular lines but stop at next new line
-        const predicate = (line: string) =>
-          this.isPreFormat(line) ||
-          (this.isRegularLine(line) &&
-            !this.isWhitespaceLine(line) &&
-            line.length > 0);
-        const endOfPre = this.getEndOfSection(lines, i + 1, predicate);
+        const endOfPre = this.findEndOfPreBlock(lines, i);
         result.push({
           type: 'pre',
           text: lines.slice(i, endOfPre).join('\n'),
@@ -292,6 +286,22 @@ export class GrFormattedText extends LitElement {
       .slice(startIndex)
       .findIndex(line => !sectionPredicate(line));
     return index === -1 ? lines.length : index + startIndex;
+  }
+
+  private findEndOfPreBlock(
+    lines: string[],
+    startIndex: number,
+  ) {
+    let lastPreFormat = startIndex;
+    for (let j = startIndex + 1; j < lines.length; ++j) {
+      const line = lines[j]
+      if (this.isPreFormat(lines[j])) {
+        lastPreFormat = j;
+      } else if (!this.isWhitespaceLine(line) && line.length !== 0) {
+        break;
+      }
+    }
+    return lastPreFormat + 1;
   }
 
   /**

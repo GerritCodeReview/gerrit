@@ -412,6 +412,14 @@ suite('gr-formatted-text tests', () => {
     assertSimpleTextBlock(result[1], ' \nB');
   });
 
+  test('pre format 6', () => {
+    const comment = '  Q\n    <R>\n\n  S\n \nB';
+    const result = element._computeBlocks(comment);
+    assert.lengthOf(result, 2);
+    assertPreBlock(result[0], '  Q\n    <R>\n\n  S');
+    assertSimpleTextBlock(result[1], ' \nB');
+  });
+
   test('quote 1', () => {
     const comment = "> I'm happy with quotes!!";
     const result = element._computeBlocks(comment);

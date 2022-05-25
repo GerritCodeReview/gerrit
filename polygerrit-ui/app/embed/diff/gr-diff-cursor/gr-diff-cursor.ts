@@ -296,6 +296,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
    * reset the scroll behavior, use reInit() instead.
    */
   reInitCursor() {
+    this._updateStops();
     if (!this.diffRow) {
       // does not scroll during init unless requested
       this.cursorManager.scrollMode = this.initialLineNumber
@@ -329,7 +330,6 @@ export class GrDiffCursor implements GrDiffCursorApi {
   }
 
   handleDiffUpdate() {
-    this._updateStops();
     this.reInitCursor();
   }
 

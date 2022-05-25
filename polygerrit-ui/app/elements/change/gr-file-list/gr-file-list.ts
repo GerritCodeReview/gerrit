@@ -1146,7 +1146,7 @@ export class GrFileList extends LitElement {
   }
 
   private renderDynamicContentEndpointsForFile(file: NormalizedFileInfo) {
-    this.dynamicContentEndpoints?.map(
+    return this.dynamicContentEndpoints?.map(
       contentEndpoint => html` <div
         class=${this.computeClass('', file.__path)}
         role="gridcell"

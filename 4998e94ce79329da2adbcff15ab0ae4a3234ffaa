@@ -46,6 +46,30 @@
       },
       "revId": "4998e94ce79329da2adbcff15ab0ae4a3234ffaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38a36181_36db4b9d",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-25T19:16:48Z",
+      "side": 1,
+      "message": "\u003e \u003e Do we really want to acquire a lock as we\u0027d only be reading what the last value was and don\u0027t intend to update it.\n\u003e \n\u003e Other threads could update it ?\n\nYes, but they can update it after this call returns anyway outside of the lock?",
+      "parentUuid": "58178dff_3c2c7e5b",
+      "range": {
+        "startLine": 345,
+        "startChar": 4,
+        "endLine": 345,
+        "endChar": 22
+      },
+      "revId": "4998e94ce79329da2adbcff15ab0ae4a3234ffaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

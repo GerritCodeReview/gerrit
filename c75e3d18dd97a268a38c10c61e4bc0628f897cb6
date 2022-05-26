@@ -16,6 +16,52 @@
       "message": "Removing WIP as the destination ref is now stable-3.3 which includes https://gerrit-review.googlesource.com/c/gerrit/+/337537 ",
       "revId": "c75e3d18dd97a268a38c10c61e4bc0628f897cb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "895b4be9_8923952b",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-26T22:55:36Z",
+      "side": 1,
+      "message": "Move this near the other addCommitMessage() on 346? Maybe call that one from here too?",
+      "range": {
+        "startLine": 558,
+        "startChar": 15,
+        "endLine": 558,
+        "endChar": 31
+      },
+      "revId": "c75e3d18dd97a268a38c10c61e4bc0628f897cb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b03ae98_7b150022",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-26T22:55:36Z",
+      "side": 1,
+      "message": "Since we have the ChangeNotes object already, we should probably use create(ChangeNotes notes)?",
+      "range": {
+        "startLine": 560,
+        "startChar": 56,
+        "endLine": 560,
+        "endChar": 70
+      },
+      "revId": "c75e3d18dd97a268a38c10c61e4bc0628f897cb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

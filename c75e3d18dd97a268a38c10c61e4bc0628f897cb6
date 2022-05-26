@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4c63847_228fe642",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-26T21:50:02Z",
+      "side": 1,
+      "message": "Removing WIP as the destination ref is now stable-3.3 which includes https://gerrit-review.googlesource.com/c/gerrit/+/337537 ",
+      "revId": "c75e3d18dd97a268a38c10c61e4bc0628f897cb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

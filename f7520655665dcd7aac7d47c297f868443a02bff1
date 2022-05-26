@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6f34510_b628afc0",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-26T00:28:54Z",
+      "side": 1,
+      "message": "Should we also mention that this method is meant for use-cases where we only need to read the last sequence number and don\u0027t intend to use the returned value to update the sequence?",
+      "range": {
+        "startLine": 345,
+        "startChar": 48,
+        "endLine": 345,
+        "endChar": 49
+      },
+      "revId": "f7520655665dcd7aac7d47c297f868443a02bff1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

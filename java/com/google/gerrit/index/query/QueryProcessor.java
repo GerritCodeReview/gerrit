@@ -56,6 +56,7 @@ import java.util.stream.IntStream;
  */
 public abstract class QueryProcessor<T> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final int MAX_LIMIT_BUFFER_MULTIPLIER = 100;
 
   protected static class Metrics {
     final Timer1<String> executionTime;
@@ -356,7 +357,7 @@ public abstract class QueryProcessor<T> {
 
   private int getEffectiveLimit(Predicate<T> p) {
     if (isNoLimit == true) {
-      return Integer.MAX_VALUE;
+      return getIndexSize() + MAX_LIMIT_BUFFER_MULTIPLIER * getBatchSize();
     }
     List<Integer> possibleLimits = new ArrayList<>(4);
     possibleLimits.add(getBackendSupportedLimit());
@@ -384,4 +385,8 @@ public abstract class QueryProcessor<T> {
   }
 
   protected abstract String formatForLogging(T t);
+
+  protected abstract int getIndexSize();
+
+  protected abstract int getBatchSize();
 }

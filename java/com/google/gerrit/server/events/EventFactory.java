@@ -124,12 +124,6 @@ public class EventFactory {
     a.id = change.getKey().get();
     a.number = change.getId().get();
     a.subject = change.getSubject();
-    try {
-      a.commitMessage = changeDataFactory.create(change).commitMessage();
-    } catch (Exception e) {
-      logger.atSevere().withCause(e).log(
-          "Error while getting full commit message for change %d", a.number);
-    }
     a.url = getChangeUrl(change);
     a.owner = asAccountAttribute(change.getOwner());
     a.assignee = asAccountAttribute(change.getAssignee());
@@ -147,11 +141,8 @@ public class EventFactory {
   /** Create a {@link ChangeAttribute} instance from the specified change. */
   public ChangeAttribute asChangeAttribute(Change change, ChangeNotes notes) {
     ChangeAttribute a = asChangeAttribute(change);
-    Set<String> hashtags = notes.load().getHashtags();
-    if (!hashtags.isEmpty()) {
-      a.hashtags = new ArrayList<>(hashtags.size());
-      a.hashtags.addAll(hashtags);
-    }
+    addHashTags(a, notes);
+    addCommitMessage(a, change);
     return a;
   }
   /**
@@ -562,5 +553,22 @@ public class EventFactory {
       return urlFormatter.get().getChangeViewUrl(change.getProject(), change.getId()).orElse(null);
     }
     return null;
+  }
+
+  private void addCommitMessage(ChangeAttribute changeAttribute, Change change) {
+    try {
+      changeAttribute.commitMessage = changeDataFactory.create(change).commitMessage();
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log(
+          "Error while getting full commit message for change %d", changeAttribute.number);
+    }
+  }
+
+  private void addHashTags(ChangeAttribute changeAttribute, ChangeNotes notes) {
+    Set<String> hashtags = notes.load().getHashtags();
+    if (!hashtags.isEmpty()) {
+      changeAttribute.hashtags = new ArrayList<>(hashtags.size());
+      changeAttribute.hashtags.addAll(hashtags);
+    }
   }
 }

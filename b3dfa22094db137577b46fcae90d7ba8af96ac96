@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eae0cf47_4a5a918e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-05-26T21:39:30Z",
+      "side": 1,
+      "message": "Marked as WIP for now as this change depends on https://gerrit-review.googlesource.com/c/gerrit/+/337537?forceReload\u003dtrue which is yet to be up-merged to 3.5",
+      "revId": "b3dfa22094db137577b46fcae90d7ba8af96ac96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -93,6 +93,30 @@
       },
       "revId": "899c9ebb5496d289f3d363df74aa41525b3c26f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b75939f2_7e129874",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1412,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2022-05-26T19:33:03Z",
+      "side": 1,
+      "message": "Will it keep the same behaviuor of \"state:active OR state:read-only\u0027\"?",
+      "parentUuid": "83532f47_117b2b51",
+      "range": {
+        "startLine": 1412,
+        "startChar": 26,
+        "endLine": 1412,
+        "endChar": 28
+      },
+      "revId": "899c9ebb5496d289f3d363df74aa41525b3c26f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

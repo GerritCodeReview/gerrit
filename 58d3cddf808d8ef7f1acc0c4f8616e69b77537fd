@@ -102,6 +102,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a94a90f9_c25890b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-26T07:04:07Z",
+      "side": 1,
+      "message": "I don\u0027t fully understand why we should have the two cases. Specifically my doubts are\nIn case of 1) Won\u0027t user also need to accept the suggestions before it is applied?  \nI am not sure of the definition of Robot comment. Isn\u0027t case 2 also a Robot comment as no human generated it?\n\nIn longer term shouldn\u0027t both cases be merged?\n\nI like the Suggestion 1. With handler do you mean class name? In that case the current class name for name for the changes/1/revisions/1/fixes/12/apply is already ApplyFix, so renaming the new API\u0027s class to be ApplyFix and the existing one to something else maybe confusing to people who are familiar with the code.\n\n\nRegarding Replacemnt(Info/Input), we already have two class `FixReplacementInfo` and `FixReplacement`. Both hold exactly the same thing, I am not sure why do we have two different entities holding exact same thing.",
+      "parentUuid": "9911bb69_23222ef3",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9e576b1_d67514dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-26T07:04:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c75e1a14_82abbc08",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7b8b524_728a9686",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28
@@ -221,6 +257,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "757cc8df_d5e24105",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5378,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-26T07:04:07Z",
+      "side": 1,
+      "message": "So, do we agree that we can name this section of the doc as \u0027Apply Fix Directly\u0027? \nI can also rename the API to `apply_fix_directly` so that we are consistent with the naming and the documentation.\nAs I am introducing this API, I am fine even if a lot of code change is needed to make the API\u0027s purpose self-evident.\n\nJust some history. In naming this API as \u0027apply_direct_fix\u0027, I was thinking of communicating the idea that in this case the fix is directly provided by the user through the REST API body and it is directly applied on the Gerrit UI without needing any `fix-id` as is the case with the existing API `apply`.  \nIdeal name would have been something like \u0027apply_fix_provided_in_request_body_directly\u0027 but this will be too long.",
+      "parentUuid": "da128a17_1fd1f47b",
+      "range": {
+        "startLine": 5378,
+        "startChar": 4,
+        "endLine": 5378,
+        "endChar": 20
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e66e7d95_9c78c022",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28
@@ -256,6 +316,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "e66e7d95_9c78c022",
+      "range": {
+        "startLine": 5383,
+        "startChar": 19,
+        "endLine": 5383,
+        "endChar": 33
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2be287c8_e970253d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5383,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-26T07:04:07Z",
+      "side": 1,
+      "message": "We already have an existing section named \u0027Apply Fix\u0027 that doesn\u0027t need any input. Will naming this entity as `ApplyFixInput` become confusing?  \nI think this will also depend, on what we end up naming the new API, whether it will remain as `apply_direct_fix` or something else, that we are discussing in the previous comments.",
+      "parentUuid": "089b67ff_0bb8f0eb",
       "range": {
         "startLine": 5383,
         "startChar": 19,
@@ -557,6 +641,24 @@
       "side": 1,
       "message": "added the code. Trying to figure out the test.\n\nI am guessing the test case will be: a change is created by admin. A user (non-admin without ADD_PATCH_SET permission) calls apply_direct_fix and the user doesn\u0027t have the ADD_PATCH_SET permission. Does this sound like the right test case?\nI am trying to figure out how to make a custom user, call apply_direct_fix. Any example will help.\nAlso, is it possible that a non-author can upload a patchset?",
       "parentUuid": "c3d22554_1dcc4325",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ad8f98f_4a75858d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyDirectFix.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-26T07:04:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b86e834_551cd934",
       "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

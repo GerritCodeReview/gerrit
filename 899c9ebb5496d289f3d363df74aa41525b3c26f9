@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ffdd260a_4819160c",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2022-05-26T19:21:12Z",
+      "side": 1,
+      "message": "I tried your suggestion but Intellij showed me a warning and suggested this format.",
+      "parentUuid": "99930d57_5e05abca",
+      "range": {
+        "startLine": 338,
+        "startChar": 1,
+        "endLine": 342,
+        "endChar": 11
+      },
+      "revId": "899c9ebb5496d289f3d363df74aa41525b3c26f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c1ddc6b_efffb9d5",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
         "patchSetId": 6
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-26T19:16:32Z",
       "side": 1,
       "message": "why empty this?",
+      "range": {
+        "startLine": 1412,
+        "startChar": 26,
+        "endLine": 1412,
+        "endChar": 28
+      },
+      "revId": "899c9ebb5496d289f3d363df74aa41525b3c26f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83532f47_117b2b51",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1412,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2022-05-26T19:21:12Z",
+      "side": 1,
+      "message": "Now that is using the matching operator in the query. Any project will match the empty string. This is to not break the behaviour before this change",
+      "parentUuid": "6c1ddc6b_efffb9d5",
       "range": {
         "startLine": 1412,
         "startChar": 26,

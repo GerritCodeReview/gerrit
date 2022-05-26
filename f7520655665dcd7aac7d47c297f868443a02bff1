@@ -22,6 +22,30 @@
       },
       "revId": "f7520655665dcd7aac7d47c297f868443a02bff1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "deedf981_ea971de1",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-05-26T00:47:44Z",
+      "side": 1,
+      "message": "\u003e Should we also mention that this method is meant for use-cases where we only need to read the last sequence number and don\u0027t intend to use the returned value to update the sequence?\n\nI don\u0027t think that is necessary. No getter of global data could ever be used that way safely in a threaded environment.\n\ni.e. even the \"current\" one above can\u0027t be used that way (and it is actually a waste for it to have a lock around it).",
+      "parentUuid": "e6f34510_b628afc0",
+      "range": {
+        "startLine": 345,
+        "startChar": 48,
+        "endLine": 345,
+        "endChar": 49
+      },
+      "revId": "f7520655665dcd7aac7d47c297f868443a02bff1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

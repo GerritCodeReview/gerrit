@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c90d0fa_dbd1e7e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-27T12:58:41Z",
+      "side": 1,
+      "message": "I think the reasoning is more complex than that. E.g. when we remove a field, how does not adding one at the same time simplify the rollback?",
+      "parentUuid": "6f32e6f4_b6b6cf39",
+      "range": {
+        "startLine": 10,
+        "startChar": 36,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "de27598c21671e9c9bd9aa81bfdadc578b534506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d11bafec_e93e8ccf",
         "filename": "java/com/google/gerrit/index/FieldType.java",
         "patchSetId": 7
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-25T14:36:40Z",
       "side": 1,
       "message": "Should this comment be in FieldDef instead?",
+      "range": {
+        "startLine": 57,
+        "startChar": 5,
+        "endLine": 57,
+        "endChar": 31
+      },
+      "revId": "de27598c21671e9c9bd9aa81bfdadc578b534506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "847f6f32_d28c18db",
+        "filename": "java/com/google/gerrit/index/FieldType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-27T12:58:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d11bafec_e93e8ccf",
       "range": {
         "startLine": 57,
         "startChar": 5,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50c1980e_ed4aeab5",
+        "filename": "javatests/com/google/gerrit/index/IndexUpgradeTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-27T12:58:41Z",
+      "side": 1,
+      "message": "Old schemas are eventually removed. If we reference them here that operations becomes more cumbersome because the code here would have to be updated.",
+      "parentUuid": "9c545820_4d95d468",
+      "range": {
+        "startLine": 24,
+        "startChar": 46,
+        "endLine": 24,
+        "endChar": 48
+      },
+      "revId": "de27598c21671e9c9bd9aa81bfdadc578b534506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe1b448d_adb29222",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-05-25T14:36:40Z",
       "side": 1,
       "message": "What if getter/setter of the field is modified? This also looks like an invalid change, since it will require re-indexing all old data (otherwise old docs can not be parsed by the new parser, new doc can not be parsed by the old parser).\n\nI think we won\u0027t even bump the index version in this case, though it is entirely on the author/reviewer to not violate this.",
+      "range": {
+        "startLine": 57,
+        "startChar": 14,
+        "endLine": 57,
+        "endChar": 46
+      },
+      "revId": "de27598c21671e9c9bd9aa81bfdadc578b534506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad948eb9_17d1c4f2",
+        "filename": "javatests/com/google/gerrit/index/IndexUpgradeValidatorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-27T12:58:41Z",
+      "side": 1,
+      "message": "Someone could even not change the getter, but the method that the getter calls. I don\u0027t think we can guard against that. If the index version doesn\u0027t change, i.e. the latest index is modified in-place, we don\u0027t have a comparison reference.",
+      "parentUuid": "fe1b448d_adb29222",
       "range": {
         "startLine": 57,
         "startChar": 14,

@@ -14,6 +14,7 @@ import {
   mockPromise,
   query,
   stubRestApi,
+  waitUntil,
 } from '../../../test/test-utils';
 import {
   BasePatchSetNum,
@@ -27,6 +28,7 @@ import {
   RevisionPatchSetNum,
   Timestamp,
   UrlEncodedCommentId,
+  FileNameToFileInfoMap,
 } from '../../../types/common';
 import {createCommentThreads} from '../../../utils/comment-util';
 import {
@@ -127,7 +129,7 @@ suite('gr-file-list tests', () => {
             </div>
             <div class="desktop sizeBars" role="columnheader">Size</div>
             <div class="header-stats" role="columnheader">Delta</div>
-            <div aria-hidden="true" class="hideOnEdit reviewed" hidden=""></div>
+            <div aria-hidden="true" class="hideOnEdit reviewed"></div>
             <div aria-hidden="true" class="editFileControls showOnEdit"></div>
             <div aria-hidden="true" class="show-hide"></div>
           </div>
@@ -205,6 +207,24 @@ suite('gr-file-list tests', () => {
             </span>
             <span hidden=""> +/-0 B </span>
           </div>
+        </div>
+        <div class="hideOnEdit reviewed" role="gridcell">
+          <span aria-hidden="true" class="reviewedLabel"> Reviewed </span>
+          <span
+            aria-checked="false"
+            aria-label="Reviewed"
+            class="reviewedSwitch"
+            role="switch"
+            tabindex="0"
+          >
+            <span
+              class="markReviewed"
+              tabindex="-1"
+              title="Mark as reviewed (shortcut: r)"
+            >
+              MARK REVIEWED
+            </span>
+          </span>
         </div>
         <div
           aria-hidden="true"
@@ -1028,7 +1048,6 @@ suite('gr-file-list tests', () => {
         'file_added_in_rev2.txt': {size: 0, size_delta: 0},
         'myfile.txt': {size: 0, size_delta: 0},
       };
-      element.loggedIn = true;
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
         basePatchNum: 'PARENT' as BasePatchSetNum,
@@ -1104,12 +1123,13 @@ suite('gr-file-list tests', () => {
       );
 
       // Click on the expand button, resulting in toggleFileExpanded being
-      // called and not resulting in a call to reviewFile.
+      // called and resulting in a call to reviewFile().
       queryAndAssert<HTMLDivElement>(row, 'div.show-hide').click();
       await element.updateComplete;
+
       assert.isTrue(clickSpy.calledOnce);
       assert.isTrue(toggleExpandSpy.calledOnce);
-      assert.isFalse(reviewStub.called);
+      await waitUntil(() => reviewStub.calledOnce);
 
       // Click inside the diff. This should result in no additional calls to
       // toggleFileExpanded or reviewFile.
@@ -1117,7 +1137,7 @@ suite('gr-file-list tests', () => {
       await element.updateComplete;
       assert.isTrue(clickSpy.calledTwice);
       assert.isTrue(toggleExpandSpy.calledOnce);
-      assert.isFalse(reviewStub.called);
+      assert.isTrue(reviewStub.calledOnce);
     });
 
     test('handleFileListClick editMode', async () => {
@@ -1414,7 +1434,6 @@ suite('gr-file-list tests', () => {
     });
 
     test('renderInOrder logged in', async () => {
-      element.loggedIn = true;
       const reviewStub = sinon.stub(element, 'reviewFile');
       let callCount = 0;
       // Have to type as any because the type is 'GrDiffHost'
@@ -1438,7 +1457,6 @@ suite('gr-file-list tests', () => {
     });
 
     test('renderInOrder respects diffPrefs.manual_review', async () => {
-      element.loggedIn = true;
       element.diffPrefs = {
         context: 10,
         tab_size: 8,
@@ -1481,13 +1499,14 @@ suite('gr-file-list tests', () => {
     });
 
     test('loadingChanged fired from reload in debouncer', async () => {
-      const reloadBlocker = mockPromise();
-      stubRestApi('getChangeOrEditFiles').resolves({
-        'foo.bar': {size: 0, size_delta: 0},
-      });
+      const reloadBlocker = mockPromise<FileNameToFileInfoMap | undefined>();
+      stubRestApi('getChangeOrEditFiles').returns(
+        reloadBlocker.then(() => {
+          return {'foo.bar': {size: 0, size_delta: 0}};
+        })
+      );
       stubRestApi('getReviewedFiles').resolves(undefined);
       stubRestApi('getDiffPreferences').resolves(createDefaultDiffPrefs());
-      stubRestApi('getLoggedIn').returns(reloadBlocker.then(() => false));
 
       element.changeNum = 123 as NumericChangeId;
       element.patchRange = {patchNum: 12 as RevisionPatchSetNum} as PatchRange;
@@ -1515,8 +1534,6 @@ suite('gr-file-list tests', () => {
     });
 
     test('loadingChanged does not set class when there are no files', () => {
-      const reloadBlocker = mockPromise();
-      stubRestApi('getLoggedIn').returns(reloadBlocker.then(() => false));
       element.changeNum = 123 as NumericChangeId;
       element.patchRange = {patchNum: 12 as RevisionPatchSetNum} as PatchRange;
       element.change = {
@@ -1573,7 +1590,7 @@ suite('gr-file-list tests', () => {
 
       test('displays cleanly merged file count', async () => {
         await element.reload();
-        await element.updateComplete;
+        await waitUntil(() => !!query(element, '.cleanlyMergedText'));
 
         const message = queryAndAssert<HTMLSpanElement>(
           element,
@@ -1594,7 +1611,7 @@ suite('gr-file-list tests', () => {
             'anotherCleanlyMergedFile.js': {size: 0, size_delta: 0},
           });
         await element.reload();
-        await element.updateComplete;
+        await waitUntil(() => !!query(element, '.cleanlyMergedText'));
 
         const message = queryAndAssert(
           element,
@@ -1605,7 +1622,7 @@ suite('gr-file-list tests', () => {
 
       test('displays button for navigating to parent 1 base', async () => {
         await element.reload();
-        await element.updateComplete;
+        await waitUntil(() => !!query(element, '.showParentButton'));
 
         queryAndAssert(element, '.showParentButton');
       });
@@ -2019,7 +2036,6 @@ suite('gr-file-list tests', () => {
         },
       };
       element.reviewed = ['/COMMIT_MSG', 'myfile.txt'];
-      element.loggedIn = true;
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
         basePatchNum: 'PARENT' as BasePatchSetNum,

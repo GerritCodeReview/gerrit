@@ -710,6 +710,13 @@ export class GrFileList extends LitElement {
     );
     subscribe(
       this,
+      () => this.userModel.loggedIn$,
+      loggedIn => {
+        this.loggedIn = loggedIn;
+      }
+    );
+    subscribe(
+      this,
       () => this.getChangeModel().reviewedFiles$,
       reviewedFiles => {
         this.reviewed = reviewedFiles ?? [];
@@ -1394,35 +1401,19 @@ export class GrFileList extends LitElement {
     </div>`;
   }
 
-  reload() {
-    if (!this.changeNum || !this.patchRange?.patchNum) {
-      return Promise.resolve();
-    }
-    const changeNum = this.changeNum;
-    const patchRange = this.patchRange;
-
+  async reload() {
+    if (!this.changeNum || !this.patchRange?.patchNum) return;
     this.loading = true;
-
     this.collapseAllDiffs();
-    const promises: Promise<boolean | void>[] = [];
 
-    promises.push(
-      this.restApiService
-        .getChangeOrEditFiles(changeNum, patchRange)
-        .then(filesByPath => {
-          this.filesByPath = filesByPath;
-        })
+    this.filesByPath = await this.restApiService.getChangeOrEditFiles(
+      this.changeNum,
+      this.patchRange
     );
 
-    promises.push(
-      this.getLoggedIn().then(loggedIn => (this.loggedIn = loggedIn))
-    );
-
-    return Promise.all(promises).then(() => {
-      this.loading = false;
-      this.detectChromiteButler();
-      this.reporting.fileListDisplayed();
-    });
+    this.loading = false;
+    this.detectChromiteButler();
+    this.reporting.fileListDisplayed();
   }
 
   private async updateCleanlyMergedPaths() {
@@ -1658,10 +1649,6 @@ export class GrFileList extends LitElement {
       path,
       reviewed
     );
-  }
-
-  private getLoggedIn() {
-    return this.restApiService.getLoggedIn();
   }
 
   private normalizeChangeFilesResponse(

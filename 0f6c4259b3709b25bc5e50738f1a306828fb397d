@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5639f94_65c1bf90",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-27T19:54:02Z",
+      "side": 1,
+      "message": "These types *only* make sense in the context of a patch range. And a patch range is typically chosen for the left and right side of Gerrit\u0027s diffing. So yes, I think it is vital to comment about this association. I have expanded the comment a bit.",
+      "parentUuid": "1df111dd_c8d7cc62",
+      "range": {
+        "startLine": 781,
+        "startChar": 0,
+        "endLine": 781,
+        "endChar": 32
+      },
+      "revId": "0f6c4259b3709b25bc5e50738f1a306828fb397d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f7cdf65_0cad12df",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-05-27T17:17:36Z",
       "side": 1,
       "message": "we have the type `current` as well for the latest patchset?\nShould we group the type here as well?",
+      "revId": "0f6c4259b3709b25bc5e50738f1a306828fb397d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb19f312_16fd43c3",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-27T19:54:02Z",
+      "side": 1,
+      "message": "`current` cannot be used as a PatchSetNum, e.g. in the context of a patch range. I think the only purpose of `current` is when making Rest API calls to the backend. So `current` should never occur in Rest API responses of in client models.\n\nBut there is definitely more room for improvement here. Maybe we should move `current` and `RevisionId` here and rename `RevisionId` to something like `RestApiPatchSetNum` or so? Anyway, I have already gone a bit deeper than I should, so I am not this here and now.",
+      "parentUuid": "4f7cdf65_0cad12df",
       "revId": "0f6c4259b3709b25bc5e50738f1a306828fb397d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af0ffcb9_4f9cb222",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-27T19:54:02Z",
+      "side": 1,
+      "message": "In some contexts we are referring to patch set numbers, but we are sure that `PARENT` and `edit` are impossible values. For example the checks model makes a lot of use of that (search for `PatchSetNumber` in the code base). So I think the type is useful and should stay around.",
+      "parentUuid": "76911a2a_2f5a8812",
+      "range": {
+        "startLine": 787,
+        "startChar": 0,
+        "endLine": 787,
+        "endChar": 60
+      },
+      "revId": "0f6c4259b3709b25bc5e50738f1a306828fb397d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "833463f9_72e39bda",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-05-27T17:17:36Z",
       "side": 1,
       "message": "should this be `PatchSetNumber`?\notherwise not sure when that should be used.",
+      "range": {
+        "startLine": 41,
+        "startChar": 30,
+        "endLine": 41,
+        "endChar": 49
+      },
+      "revId": "0f6c4259b3709b25bc5e50738f1a306828fb397d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10d086a8_0d007271",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-27T19:54:02Z",
+      "side": 1,
+      "message": "Yes, thinking about it: When we use numbers and then do `... as ...PatchSetNum` then can we better just do `... as PatchSetNumber`. I have changed it everywhere.\n\nWell, I did change it everywhere, that created a million merge conflicts, which took me 15 minutes to resolve, then I messed up the rebase continuation and did not manage to restore my work. :-( So as this is optional I will either not do it, or do it in a follow-up change.",
+      "parentUuid": "833463f9_72e39bda",
       "range": {
         "startLine": 41,
         "startChar": 30,

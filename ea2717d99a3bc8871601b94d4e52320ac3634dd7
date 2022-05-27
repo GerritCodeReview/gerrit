@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43f69e32_d973fb47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148730
+      },
+      "writtenOn": "2022-05-27T10:43:36Z",
+      "side": 1,
+      "message": "https://sds-waab.com/",
+      "revId": "ea2717d99a3bc8871601b94d4e52320ac3634dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

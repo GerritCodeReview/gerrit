@@ -21,11 +21,14 @@ import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.config.AllUsersName;
@@ -35,8 +38,10 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -171,9 +176,14 @@ public class DeleteZombieCommentsRefs {
     try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
       Timestamp earliestZombieTs = null;
       Timestamp latestZombieTs = null;
-      List<Ref> draftRefs = allUsersRepo.getRefDatabase().getRefsByPrefix(REFS_DRAFT_COMMENTS);
       int numZombies = 0;
+      List<Ref> draftRefs = allUsersRepo.getRefDatabase().getRefsByPrefix(REFS_DRAFT_COMMENTS);
       Set<ChangeUserIDsPair> visitedSet = new HashSet<>();
+      Set<Change.Id> changeIds =
+          draftRefs.stream()
+              .map(d -> Change.Id.fromAllUsersRef(d.getName()))
+              .collect(Collectors.toSet());
+      Map<Change.Id, Project.NameKey> changeProjectMap = mapChangeIdsToProjects(changeIds);
       for (Ref draftRef : draftRefs) {
         try {
           Change.Id changeId = Change.Id.fromAllUsersRef(draftRef.getName());
@@ -182,8 +192,15 @@ public class DeleteZombieCommentsRefs {
           if (!visitedSet.add(changeUserIDsPair)) {
             continue;
           }
+          if (!changeProjectMap.containsKey(changeId)) {
+            logger.atWarning().log(
+                "Could not find a project associated with change ID %s. Skipping draft ref %s.",
+                changeId, draftRef.getName());
+            continue;
+          }
           DraftCommentNotes draftNotes = draftNotesFactory.create(changeId, accountId).load();
-          ChangeNotes notes = changeNotesFactory.createCheckedUsingIndexLookup(changeId);
+          ChangeNotes notes =
+              changeNotesFactory.createChecked(changeProjectMap.get(changeId), changeId);
           List<HumanComment> drafts = draftNotes.getComments().values().asList();
           List<HumanComment> published = commentsUtil.publishedHumanCommentsByChange(notes);
           Set<String> publishedIds = toUuid(published);
@@ -224,6 +241,34 @@ public class DeleteZombieCommentsRefs {
     static ChangeUserIDsPair create(Change.Id changeId, Account.Id accountId) {
       return new AutoValue_DeleteZombieCommentsRefs_ChangeUserIDsPair(changeId, accountId);
     }
+  }
+
+  private Map<Change.Id, Project.NameKey> mapChangeIdsToProjects(Set<Change.Id> changeIds) {
+    Map<Change.Id, Project.NameKey> result = new HashMap<>();
+    Set<Change.Id> found = new HashSet<>();
+    for (Project.NameKey project : repoManager.list()) {
+      try (Repository repo = repoManager.openRepository(project)) {
+        for (Change.Id changeId : Sets.difference(changeIds, found)) {
+          Ref ref = repo.getRefDatabase().exactRef(RefNames.changeMetaRef(changeId));
+          if (ref != null) {
+            result.put(changeId, project);
+            found.add(changeId);
+          }
+        }
+      } catch (Exception e) {
+        logger.atWarning().withCause(e).log("Failed to open repository for project '%s'.", project);
+      }
+      if (changeIds.size() == found.size()) {
+        // We do not need to scan the remaining repositories
+        break;
+      }
+    }
+    if (found.size() != changeIds.size()) {
+      logger.atWarning().log(
+          "Failed to associate the following change Ids to a project: %s",
+          Sets.difference(changeIds, found));
+    }
+    return result;
   }
 
   /** Map the list of input comments to their UUIDs. */

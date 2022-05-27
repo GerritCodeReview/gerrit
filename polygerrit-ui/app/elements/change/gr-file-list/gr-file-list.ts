@@ -50,6 +50,7 @@ import {
   FileInfo,
   FileNameToFileInfoMap,
   NumericChangeId,
+  PARENT,
   PatchRange,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
@@ -1427,7 +1428,7 @@ export class GrFileList extends LitElement {
       this.changeNum &&
       this.patchRange?.patchNum &&
       new RevisionInfo(this.change).isMergeCommit(this.patchRange.patchNum) &&
-      this.patchRange.basePatchNum === 'PARENT' &&
+      this.patchRange.basePatchNum === PARENT &&
       this.patchRange.patchNum !== EditPatchSetNum
     ) {
       const allFilesByPath = await this.restApiService.getChangeOrEditFiles(

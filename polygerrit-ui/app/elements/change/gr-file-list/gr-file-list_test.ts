@@ -21,7 +21,7 @@ import {
   CommitId,
   EditPatchSetNum,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   PatchRange,
   RepoName,
   RevisionPatchSetNum,
@@ -102,7 +102,7 @@ suite('gr-file-list tests', () => {
       };
       element.numFilesShown = 200;
       element.patchRange = {
-        basePatchNum: 'PARENT' as BasePatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 2 as RevisionPatchSetNum,
       };
       saveStub = sinon
@@ -519,12 +519,12 @@ suite('gr-file-list tests', () => {
     test('comment filtering', () => {
       element.changeComments = createChangeComments();
       const parentTo1 = {
-        basePatchNum: 'PARENT' as BasePatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
 
       const parentTo2 = {
-        basePatchNum: 'PARENT' as BasePatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 2 as RevisionPatchSetNum,
       };
 
@@ -809,7 +809,7 @@ suite('gr-file-list tests', () => {
         };
         element.changeNum = 42 as NumericChangeId;
         element.patchRange = {
-          basePatchNum: 'PARENT' as BasePatchSetNum,
+          basePatchNum: PARENT,
           patchNum: 2 as RevisionPatchSetNum,
         };
         element.change = {_number: 42 as NumericChangeId} as ParsedChangeInfo;
@@ -1049,7 +1049,7 @@ suite('gr-file-list tests', () => {
       };
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
-        basePatchNum: 'PARENT' as BasePatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 2 as RevisionPatchSetNum,
       };
       element.fileCursor.setCursorAtIndex(0);
@@ -1107,7 +1107,7 @@ suite('gr-file-list tests', () => {
       };
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
-        basePatchNum: 'PARENT' as BasePatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 2 as RevisionPatchSetNum,
       };
       await element.updateComplete;
@@ -1147,7 +1147,7 @@ suite('gr-file-list tests', () => {
       };
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
-        basePatchNum: 'PARENT' as BasePatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 2 as RevisionPatchSetNum,
       };
       element.editMode = true;
@@ -1170,7 +1170,7 @@ suite('gr-file-list tests', () => {
       };
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
-        basePatchNum: 'PARENT' as BasePatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 2 as RevisionPatchSetNum,
       };
       element.fileCursor.setCursorAtIndex(0);
@@ -1200,7 +1200,7 @@ suite('gr-file-list tests', () => {
       };
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
-        basePatchNum: 'PARENT' as BasePatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 2 as RevisionPatchSetNum,
       };
       const updateDiffPrefSpy = sinon.spy(element, 'updateDiffPreferences');
@@ -1231,7 +1231,7 @@ suite('gr-file-list tests', () => {
       };
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
-        basePatchNum: 'PARENT' as BasePatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 2 as RevisionPatchSetNum,
       };
       sinon.stub(element, 'expandedFilesChanged');
@@ -1580,7 +1580,7 @@ suite('gr-file-list tests', () => {
         element.changeNum = changeWithMultipleParents._number;
         element.change = changeWithMultipleParents;
         element.patchRange = {
-          basePatchNum: 'PARENT' as BasePatchSetNum,
+          basePatchNum: PARENT,
           patchNum: 1 as RevisionPatchSetNum,
         };
         await element.updateComplete;
@@ -1685,7 +1685,7 @@ suite('gr-file-list tests', () => {
         project: 'gerrit' as RepoName,
       };
       element.patchRange = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
       const path = 'index.php';
@@ -1704,7 +1704,7 @@ suite('gr-file-list tests', () => {
         project: 'gerrit' as RepoName,
       };
       element.patchRange = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
       element.editMode = false;
@@ -1723,7 +1723,7 @@ suite('gr-file-list tests', () => {
         project: 'gerrit' as RepoName,
       };
       element.patchRange = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
       element.editMode = true;
@@ -1745,7 +1745,7 @@ suite('gr-file-list tests', () => {
         project: 'gerrit' as RepoName,
       };
       element.patchRange = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
       element.editMode = true;
@@ -2037,7 +2037,7 @@ suite('gr-file-list tests', () => {
       element.reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
-        basePatchNum: 'PARENT' as BasePatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 2 as RevisionPatchSetNum,
       };
       sinon

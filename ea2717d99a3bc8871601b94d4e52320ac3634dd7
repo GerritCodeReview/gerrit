@@ -16,6 +16,23 @@
       "message": "https://sds-waab.com/",
       "revId": "ea2717d99a3bc8871601b94d4e52320ac3634dd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02233481_16503e95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148706
+      },
+      "writtenOn": "2022-05-27T11:22:04Z",
+      "side": 1,
+      "message": "Seems like we got a spam comment here. Never seen that before in Gerrit :)",
+      "revId": "ea2717d99a3bc8871601b94d4e52320ac3634dd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

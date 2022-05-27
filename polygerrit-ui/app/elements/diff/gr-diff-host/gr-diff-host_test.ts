@@ -37,7 +37,7 @@ import {
   EditPatchSetNum,
   ImageInfo,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   PatchSetNum,
   RepoName,
   RevisionPatchSetNum,
@@ -1323,7 +1323,7 @@ suite('gr-diff-host tests', () => {
 
       const diffSide = Side.LEFT;
       element.patchRange = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: EditPatchSetNum,
       };
       element.dispatchEvent(

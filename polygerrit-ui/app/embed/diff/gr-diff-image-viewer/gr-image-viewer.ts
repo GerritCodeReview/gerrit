@@ -575,18 +575,20 @@ export class GrImageViewer extends LitElement {
     /* eslint-disable lit/prefer-static-styles */
     const customStyle = html`
       <style>
+        /* prettier formatter removes semi-colons after css mixins. */
+        /* prettier-ignore */
         paper-item {
           --paper-item-min-height: 48;
           --paper-item: {
             min-height: 48px;
             padding: 0 var(--spacing-xl);
-          }
+          };
           --paper-item-focused-before: {
             background-color: var(--selection-background-color);
-          }
+          };
           --paper-item-focused: {
             background-color: var(--selection-background-color);
-          }
+          };
         }
       </style>
     `;

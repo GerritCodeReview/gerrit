@@ -13,6 +13,8 @@ export class GrCssMixins extends PolymerElement {
   static get template() {
     return html`
       <style>
+        /* prettier formatter removes semi-colons after css mixins. */
+        /* prettier-ignore */
         :host {
           /* If you want to use css-mixins in Lit elements, then you have to first
           use them in a PolymerElement somewhere. We are collecting all css-
@@ -23,27 +25,27 @@ export class GrCssMixins extends PolymerElement {
           */
           --paper-input-container: {
             padding: 8px 0;
-          }
+          };
           --paper-input-container-input: {
             font-size: var(--font-size-normal);
             line-height: var(--line-height-normal);
             color: var(--primary-text-color);
-          }
+          };
           --paper-input-container-underline: {
             height: 0;
             display: none;
-          }
+          };
           --paper-input-container-underline-focus: {
             height: 0;
             display: none;
-          }
+          };
           --paper-input-container-underline-disabled: {
             height: 0;
             display: none;
-          }
+          };
           --paper-input-container-label: {
             display: none;
-          }
+          };
         }
       </style>
     `;

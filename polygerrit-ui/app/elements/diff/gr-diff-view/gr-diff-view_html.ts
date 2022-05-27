@@ -176,15 +176,17 @@ export const htmlTemplate = html`
         width: 100%;
         word-break: break-all;
       }
+      /* prettier formatter removes semi-colons after css mixins. */
+      /* prettier-ignore */
       gr-dropdown-list {
         width: 100%;
         --gr-select-style: {
           display: block;
           width: 100%;
-        }
+        };
         --native-select-style: {
           width: 100%;
-        }
+        };
       }
     }
     :host(.hideComments) {

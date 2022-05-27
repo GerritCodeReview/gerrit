@@ -373,8 +373,6 @@ export function getPatchRangeForCommentUrl(
 
   // TODO(dhruvsri): Add handling for comment left on parents of merge commits
   if (comment.side === CommentSide.PARENT) {
-    if (comment.patch_set === ParentPatchSetNum)
-      throw new Error('comment.patch_set cannot be PARENT');
     return {
       patchNum: comment.patch_set,
       basePatchNum: ParentPatchSetNum,

@@ -10,7 +10,12 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {queryAll, stubRestApi, waitUntil} from '../../../test/test-utils';
 import {createChange, createRevision} from '../../../test/test-data-generators';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
-import {CommitId, NumericChangeId, PatchSetNum} from '../../../types/common';
+import {
+  CommitId,
+  NumericChangeId,
+  PatchSetNum,
+  RevisionPatchSetNum,
+} from '../../../types/common';
 import {RepoName} from '../../../api/rest-api';
 import {queryAndAssert} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
@@ -31,7 +36,7 @@ suite('gr-edit-controls tests', () => {
       <gr-edit-controls></gr-edit-controls>
     `);
     element.change = createChange();
-    element.patchNum = 1 as PatchSetNum;
+    element.patchNum = 1 as RevisionPatchSetNum;
     showDialogSpy = sinon.spy(element, 'showDialog');
     closeDialogSpy = sinon.spy(element, 'closeDialog');
     hideDialogStub = sinon.stub(element, 'hideAllDialogs');
@@ -73,7 +78,7 @@ suite('gr-edit-controls tests', () => {
     test('open', async () => {
       assert.isFalse(hideDialogStub.called);
       MockInteractions.tap(queryAndAssert(element, '#open'));
-      element.patchNum = 1 as PatchSetNum;
+      element.patchNum = 1 as RevisionPatchSetNum;
       await showDialogSpy.lastCall.returnValue;
       assert.isTrue(hideDialogStub.called);
       assert.isTrue(element.openDialog!.disabled);

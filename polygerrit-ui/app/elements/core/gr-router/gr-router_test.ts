@@ -38,7 +38,6 @@ import {
   GroupId,
   NumericChangeId,
   ParentPatchSetNum,
-  PatchSetNum,
   RepoName,
   RevisionPatchSetNum,
   TopicName,
@@ -394,7 +393,7 @@ suite('gr-router tests', () => {
 
       assert.equal(router.generateUrl(params), '/c/test/+/1234');
 
-      params.patchNum = 10 as PatchSetNum;
+      params.patchNum = 10 as RevisionPatchSetNum;
       assert.equal(router.generateUrl(params), '/c/test/+/1234/10');
 
       params.basePatchNum = 5 as BasePatchSetNum;
@@ -421,7 +420,7 @@ suite('gr-router tests', () => {
         view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         path: 'x+y/path.cpp' as RepoName,
-        patchNum: 12 as PatchSetNum,
+        patchNum: 12 as RevisionPatchSetNum,
         project: '' as RepoName,
       };
       assert.equal(router.generateUrl(params), '/c/42/12/x%252By/path.cpp');
@@ -439,7 +438,7 @@ suite('gr-router tests', () => {
       );
 
       params.path = 'foo bar/my+file.txt%';
-      params.patchNum = 2 as PatchSetNum;
+      params.patchNum = 2 as RevisionPatchSetNum;
       delete params.basePatchNum;
       assert.equal(
         router.generateUrl(params),
@@ -459,7 +458,7 @@ suite('gr-router tests', () => {
         view: GerritView.DIFF,
         changeNum: 42 as NumericChangeId,
         path: 'x+y/path.cpp',
-        patchNum: 12 as PatchSetNum,
+        patchNum: 12 as RevisionPatchSetNum,
         project: 'x+/y' as RepoName,
       };
       assert.equal(
@@ -474,7 +473,7 @@ suite('gr-router tests', () => {
         changeNum: 42 as NumericChangeId,
         project: 'test' as RepoName,
         path: 'x+y/path.cpp',
-        patchNum: 'edit' as PatchSetNum,
+        patchNum: 'edit' as RevisionPatchSetNum,
       };
       assert.equal(
         router.generateUrl(params),
@@ -487,7 +486,7 @@ suite('gr-router tests', () => {
       let actual = router.getPatchRangeExpression(params);
       assert.equal(actual, '');
 
-      params.patchNum = 4 as PatchSetNum;
+      params.patchNum = 4 as RevisionPatchSetNum;
       actual = router.getPatchRangeExpression(params);
       assert.equal(actual, '4');
 
@@ -621,12 +620,12 @@ suite('gr-router tests', () => {
       test('range n..n normalizes to n', () => {
         const params: PatchRangeParams = {
           basePatchNum: 4 as BasePatchSetNum,
-          patchNum: 4 as PatchSetNum,
+          patchNum: 4 as RevisionPatchSetNum,
         };
         const needsRedirect = router.normalizePatchRangeParams(params);
         assert.isTrue(needsRedirect);
         assert.equal(params.basePatchNum, ParentPatchSetNum);
-        assert.equal(params.patchNum, 4 as PatchSetNum);
+        assert.equal(params.patchNum, 4 as RevisionPatchSetNum);
       });
 
       test('range n.. normalizes to n', () => {
@@ -634,7 +633,7 @@ suite('gr-router tests', () => {
         const needsRedirect = router.normalizePatchRangeParams(params);
         assert.isFalse(needsRedirect);
         assert.equal(params.basePatchNum, ParentPatchSetNum);
-        assert.equal(params.patchNum, 4 as PatchSetNum);
+        assert.equal(params.patchNum, 4 as RevisionPatchSetNum);
       });
     });
   });
@@ -1689,7 +1688,7 @@ suite('gr-router tests', () => {
           changeNum: 1234 as NumericChangeId,
           view: GerritNav.View.EDIT,
           path: 'foo/bar/baz',
-          patchNum: 3 as PatchSetNum,
+          patchNum: 3 as RevisionPatchSetNum,
           lineNum: '',
         };
 
@@ -1722,7 +1721,7 @@ suite('gr-router tests', () => {
           changeNum: 1234 as NumericChangeId,
           view: GerritNav.View.EDIT,
           path: 'foo/bar/baz',
-          patchNum: 3 as PatchSetNum,
+          patchNum: 3 as RevisionPatchSetNum,
           lineNum: '4',
         };
 
@@ -1753,7 +1752,7 @@ suite('gr-router tests', () => {
           project: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.CHANGE,
-          patchNum: 3 as PatchSetNum,
+          patchNum: 3 as RevisionPatchSetNum,
           edit: true,
           tab: '',
         };

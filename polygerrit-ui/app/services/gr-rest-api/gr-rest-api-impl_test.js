@@ -656,11 +656,11 @@ suite('gr-rest-api-service-impl tests', () => {
   test('queryChangeFiles', () => {
     const fetchStub = sinon.stub(element, '_getChangeURLAndFetch')
         .returns(Promise.resolve());
-    return element.queryChangeFiles('42', 'edit', 'test/path.js').then(() => {
+    return element.queryChangeFiles('42', EDIT, 'test/path.js').then(() => {
       assert.equal(fetchStub.lastCall.args[0].changeNum, '42');
       assert.equal(fetchStub.lastCall.args[0].endpoint,
           '/files?q=test%2Fpath.js');
-      assert.equal(fetchStub.lastCall.args[0].revision, 'edit');
+      assert.equal(fetchStub.lastCall.args[0].revision, EDIT);
     });
   });
 
@@ -1278,7 +1278,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const getChangeEditFilesStub = sinon.stub(element, 'getChangeEditFiles')
         .returns(Promise.resolve({}));
 
-    return fn('1', {patchNum: 'edit'}).then(() => {
+    return fn('1', {patchNum: EDIT}).then(() => {
       assert.isTrue(getChangeEditFilesStub.calledOnce);
       assert.isFalse(getChangeFilesStub.called);
       return fn('1', {patchNum: '1'}).then(() => {

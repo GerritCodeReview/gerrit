@@ -89,7 +89,7 @@ import {
   MergeableInfo,
   NameToProjectInfoMap,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   ParsedJSON,
   Password,
   PatchRange,
@@ -1280,7 +1280,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     let params = undefined;
     if (isMergeParent(patchRange.basePatchNum)) {
       params = {parent: getParentIndex(patchRange.basePatchNum)};
-    } else if (patchRange.basePatchNum !== ParentPatchSetNum) {
+    } else if (patchRange.basePatchNum !== PARENT) {
       params = {base: patchRange.basePatchNum};
     }
     return this._getChangeURLAndFetch({
@@ -1299,7 +1299,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<{files: FileNameToFileInfoMap} | undefined> {
     let endpoint = '/edit?list';
     let anonymizedEndpoint = endpoint;
-    if (patchRange.basePatchNum !== ParentPatchSetNum) {
+    if (patchRange.basePatchNum !== PARENT) {
       endpoint += '&base=' + encodeURIComponent(`${patchRange.basePatchNum}`);
       anonymizedEndpoint += '&base=*';
     }
@@ -2218,7 +2218,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     };
     if (isMergeParent(basePatchNum)) {
       params.parent = getParentIndex(basePatchNum);
-    } else if (basePatchNum !== ParentPatchSetNum) {
+    } else if (basePatchNum !== PARENT) {
       params.base = basePatchNum;
     }
     const endpoint = `/files/${encodeURIComponent(path)}/diff`;
@@ -2434,7 +2434,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       // in a single pass.
       comments = this._setRanges(comments);
 
-      if (basePatchNum === ParentPatchSetNum) {
+      if (basePatchNum === PARENT) {
         baseComments = comments.filter(onlyParent);
         baseComments.forEach(setPath);
       }
@@ -2444,7 +2444,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
     promises.push(fetchPromise);
 
-    if (basePatchNum !== ParentPatchSetNum) {
+    if (basePatchNum !== PARENT) {
       fetchPromise = fetchComments(basePatchNum).then(response => {
         baseComments = ((response && path && response[path]) || []).filter(
           withoutParent
@@ -2660,7 +2660,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     let promiseB;
 
     if (diff.meta_a?.content_type.startsWith('image/')) {
-      if (patchRange.basePatchNum === ParentPatchSetNum) {
+      if (patchRange.basePatchNum === PARENT) {
         // Note: we only attempt to get the image from the first parent.
         promiseA = this.getB64FileContents(
           changeNum,

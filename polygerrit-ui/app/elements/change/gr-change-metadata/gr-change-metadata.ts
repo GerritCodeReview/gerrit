@@ -45,6 +45,7 @@ import {
   LabelInfo,
   LabelNameToInfoMap,
   NumericChangeId,
+  PARENT,
   ParentCommitInfo,
   RevisionPatchSetNum,
   RepoName,

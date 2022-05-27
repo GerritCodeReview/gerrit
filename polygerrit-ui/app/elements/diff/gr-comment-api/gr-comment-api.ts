@@ -10,7 +10,7 @@ import {
   UrlEncodedCommentId,
   PathToCommentsInfoMap,
   FileInfo,
-  ParentPatchSetNum,
+  PARENT,
   CommentInfo,
 } from '../../../types/common';
 import {
@@ -330,10 +330,7 @@ export class ChangeComments {
 
       if (thread.commentSide === CommentSide.PARENT) {
         // TODO(dhruvsri): Add handling for merge parents
-        if (
-          patchRange.basePatchNum !== ParentPatchSetNum ||
-          !!thread.mergeParentNum
-        )
+        if (patchRange.basePatchNum !== PARENT || !!thread.mergeParentNum)
           return false;
       }
 

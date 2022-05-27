@@ -19,12 +19,13 @@ import {
   BasePatchSetNum,
   ChangeId,
   NumericChangeId,
+  PARENT,
   PatchSetNum,
   RevisionPatchSetNum,
-} from '../../../types/common.js';
-import {ChangeInfo, ChangeStatus} from '../../../api/rest-api.js';
+} from '../../../types/common';
+import {ChangeInfo, ChangeStatus} from '../../../api/rest-api';
 import {PatchSet} from '../../../utils/patch-set-util';
-import {createDefaultDiffPrefs} from '../../../constants/constants.js';
+import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {fixture, html} from '@open-wc/testing-helpers';
 import {GrButton} from '../../shared/gr-button/gr-button';
 
@@ -90,7 +91,7 @@ suite('gr-file-list-header tests', () => {
 
   test('show/hide diffs disabled for large amounts of files', async () => {
     element.changeNum = 42 as NumericChangeId;
-    element.basePatchNum = 'PARENT' as BasePatchSetNum;
+    element.basePatchNum = PARENT;
     element.patchNum = '2' as PatchSetNum;
     element.shownFileCount = 1;
     await element.updateComplete;

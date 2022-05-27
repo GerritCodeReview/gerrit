@@ -153,10 +153,12 @@ export class GrPatchRangeSelect extends LitElement {
           .filesWeblinks {
             display: none;
           }
+          /* prettier formatter removes semi-colons after css mixins. */
+          /* prettier-ignore */
           gr-dropdown-list {
             --native-select-style: {
               max-width: 5.25em;
-            }
+            };
           }
         }
       `,

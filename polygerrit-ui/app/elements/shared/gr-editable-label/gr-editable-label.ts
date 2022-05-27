@@ -120,14 +120,16 @@ export class GrEditableLabel extends LitElement {
         .buttons gr-button {
           margin-left: var(--spacing-m);
         }
+        /* prettier formatter removes semi-colons after css mixins. */
+        /* prettier-ignore */
         paper-input {
           --paper-input-container: {
             padding: 0;
             min-width: 15em;
-          }
+          };
           --paper-input-container-input: {
             font-size: inherit;
-          }
+          };
           --paper-input-container-focus-color: var(--link-color);
         }
         gr-button iron-icon {

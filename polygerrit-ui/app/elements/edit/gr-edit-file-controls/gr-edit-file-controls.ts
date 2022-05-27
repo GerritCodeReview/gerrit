@@ -54,12 +54,14 @@ export class GrEditFileControls extends LitElement {
     /* eslint-disable lit/prefer-static-styles */
     const customStyle = html`
       <style>
+        /* prettier formatter removes semi-colons after css mixins. */
+        /* prettier-ignore */
         gr-dropdown {
           --gr-dropdown-item: {
             background-color: transparent;
             border: none;
             text-transform: uppercase;
-          }
+          };
         }
       </style>
     `;

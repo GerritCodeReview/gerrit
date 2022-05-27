@@ -26,11 +26,15 @@ export const htmlTemplate = html`
       max-height: 70vh;
       min-width: 266px;
     }
+    /* prettier formatter removes semi-colons after css mixins. */
+    /* prettier-ignore */
     paper-listbox {
       --paper-listbox: {
         padding: 0;
-      }
+      };
     }
+    /* prettier formatter removes semi-colons after css mixins. */
+    /* prettier-ignore */
     paper-item {
       cursor: pointer;
       flex-direction: column;
@@ -42,13 +46,13 @@ export const htmlTemplate = html`
       --paper-item: {
         min-height: 0;
         padding: 10px 16px;
-      }
+      };
       --paper-item-focused-before: {
         background-color: var(--selection-background-color);
-      }
+      };
       --paper-item-focused: {
         background-color: var(--selection-background-color);
-      }
+      };
     }
     paper-item:hover {
       background-color: var(--hover-background-color);

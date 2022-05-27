@@ -496,13 +496,15 @@ document.head.appendChild(styleEl);
 // removed from Gerrit.
 
 const appThemeCssPolymerLegacy = safeStyleSheet`
+  /* prettier formatter removes semi-colons after css mixins. */
+  /* prettier-ignore */
   html {
     --paper-tooltip: {
       font-size: var(--font-size-small);
-    }
+    };
     --iron-overlay-backdrop: {
       transition: none;
-    }
+    };
   }
 `;
 

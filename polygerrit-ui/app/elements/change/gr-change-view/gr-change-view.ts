@@ -107,6 +107,7 @@ import {
   RelatedChangeAndCommitInfo,
   RelatedChangesInfo,
   RevisionInfo,
+  RevisionPatchSetNum,
   ServerInfo,
   UrlEncodedCommentId,
 } from '../../../types/common';
@@ -1701,7 +1702,7 @@ export class GrChangeView extends base {
       return;
     }
     GerritNav.navigateToChange(this._change, {
-      patchNum: this._patchRange.basePatchNum,
+      patchNum: this._patchRange.basePatchNum as RevisionPatchSetNum,
     });
   }
 

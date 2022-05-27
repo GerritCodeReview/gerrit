@@ -39,7 +39,7 @@ import {
   DashboardId,
   GroupId,
   NumericChangeId,
-  PatchSetNum,
+  RevisionPatchSetNum,
   RepoName,
   ServerInfo,
   UrlEncodedCommentId,
@@ -270,7 +270,7 @@ export interface PageContextWithQueryMap extends PageContext {
 type QueryStringItem = [string, string]; // [key, value]
 
 export interface PatchRangeParams {
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
 }
 
@@ -301,6 +301,8 @@ export class GrRouter {
       view: params.view,
       changeNum: 'changeNum' in params ? params.changeNum : undefined,
       patchNum: 'patchNum' in params ? params.patchNum ?? undefined : undefined,
+      basePatchNum:
+        'basePatchNum' in params ? params.basePatchNum ?? undefined : undefined,
     });
     this.appElement().params = params;
   }
@@ -680,7 +682,7 @@ export class GrRouter {
     } else if (!hasPatchNum) {
       // Regexes set basePatchNum instead of patchNum when only one is
       // specified. Redirect is not needed in this case.
-      params.patchNum = params.basePatchNum;
+      params.patchNum = params.basePatchNum as RevisionPatchSetNum;
       params.basePatchNum = ParentPatchSetNum;
     }
     return needsRedirect;
@@ -1676,7 +1678,7 @@ export class GrRouter {
       project: ctx.params[0] as RepoName,
       changeNum,
       basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
-      patchNum: convertToPatchSetNum(ctx.params[6]),
+      patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
     };
 
@@ -1742,7 +1744,7 @@ export class GrRouter {
       project: ctx.params[0] as RepoName,
       changeNum,
       basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
-      patchNum: convertToPatchSetNum(ctx.params[6]),
+      patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
       path: ctx.params[8],
       view: GerritView.DIFF,
     };
@@ -1785,7 +1787,7 @@ export class GrRouter {
       project,
       changeNum,
       // for edit view params, patchNum cannot be undefined
-      patchNum: convertToPatchSetNum(ctx.params[2])!,
+      patchNum: convertToPatchSetNum(ctx.params[2]) as RevisionPatchSetNum,
       path: ctx.params[3],
       lineNum: ctx.hash,
       view: GerritView.EDIT,
@@ -1801,7 +1803,7 @@ export class GrRouter {
     const params: GenerateUrlChangeViewParameters = {
       project,
       changeNum,
-      patchNum: convertToPatchSetNum(ctx.params[3]),
+      patchNum: convertToPatchSetNum(ctx.params[3]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
       edit: true,
       tab: ctx.queryMap.get('tab') ?? '',

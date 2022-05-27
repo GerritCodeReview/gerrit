@@ -1027,7 +1027,7 @@ suite('gr-diff-host tests', () => {
       assert.equal(threads[0].thread?.commentSide, CommentSide.PARENT);
       assert.equal(threads[0].getAttribute('diff-side'), Side.LEFT);
       assert.equal(threads[0].thread?.range, undefined);
-      assert.equal(threads[0].thread?.patchNum, 1 as PatchSetNum);
+      assert.equal(threads[0].thread?.patchNum, 1 as RevisionPatchSetNum);
 
       // Try to fetch a thread with a different range.
       const range = {
@@ -1056,7 +1056,7 @@ suite('gr-diff-host tests', () => {
       assert.equal(threads[0].thread?.commentSide, CommentSide.PARENT);
       assert.equal(threads[0].getAttribute('diff-side'), Side.LEFT);
       assert.equal(threads[1].thread?.range, range);
-      assert.equal(threads[1].thread?.patchNum, 1 as PatchSetNum);
+      assert.equal(threads[1].thread?.patchNum, 1 as RevisionPatchSetNum);
     });
 
     test('should not be on parent if on the right', async () => {
@@ -1200,7 +1200,7 @@ suite('gr-diff-host tests', () => {
           end_line: 2,
           end_character: 2,
         },
-        patch_set: 3 as PatchSetNum,
+        patch_set: 3 as RevisionPatchSetNum,
       };
       const thread = createCommentThread([comment]);
       element.threads = [thread];
@@ -1250,7 +1250,7 @@ suite('gr-diff-host tests', () => {
       const draftThread = createCommentThread([
         {
           path: element.path,
-          patch_set: 3 as PatchSetNum,
+          patch_set: 3 as RevisionPatchSetNum,
           line: 13,
           __draft: true,
         },

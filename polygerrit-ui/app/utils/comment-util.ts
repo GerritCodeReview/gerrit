@@ -210,7 +210,7 @@ export interface CommentThread {
      Same as `parent` in CommentInfo.
   */
   mergeParentNum?: number;
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
   /* Different from CommentInfo, which just keeps the line undefined for
      FILE comments. */
   line?: LineNumber;
@@ -376,7 +376,7 @@ export function getPatchRangeForCommentUrl(
     if (comment.patch_set === ParentPatchSetNum)
       throw new Error('comment.patch_set cannot be PARENT');
     return {
-      patchNum: comment.patch_set as RevisionPatchSetNum,
+      patchNum: comment.patch_set,
       basePatchNum: ParentPatchSetNum,
     };
   } else if (latestPatchNum === comment.patch_set) {

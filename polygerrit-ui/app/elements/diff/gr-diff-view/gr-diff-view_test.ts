@@ -75,7 +75,7 @@ function createComment(
     ...createCommentGeneric(),
     id: id as UrlEncodedCommentId,
     line,
-    patch_set: ps as PatchSetNum,
+    patch_set: ps as RevisionPatchSetNum,
     path,
   };
 }
@@ -302,7 +302,7 @@ suite('gr-diff-view tests', () => {
           diffNavStub.lastCall.calledWithExactly(
             element._change!,
             '/COMMIT_MSG',
-            2 as PatchSetNum,
+            2 as RevisionPatchSetNum,
             ParentPatchSetNum,
             10
           )
@@ -476,7 +476,7 @@ suite('gr-diff-view tests', () => {
         diffNavStub.lastCall.calledWith(
           element._change,
           'wheatley.md',
-          10 as PatchSetNum,
+          10 as RevisionPatchSetNum,
           ParentPatchSetNum
         ),
         'Should navigate to /c/42/10/wheatley.md'
@@ -490,7 +490,7 @@ suite('gr-diff-view tests', () => {
         diffNavStub.lastCall.calledWith(
           element._change,
           'glados.txt',
-          10 as PatchSetNum,
+          10 as RevisionPatchSetNum,
           ParentPatchSetNum
         ),
         'Should navigate to /c/42/10/glados.txt'
@@ -504,7 +504,7 @@ suite('gr-diff-view tests', () => {
         diffNavStub.lastCall.calledWith(
           element._change,
           'chell.go',
-          10 as PatchSetNum,
+          10 as RevisionPatchSetNum,
           ParentPatchSetNum
         ),
         'Should navigate to /c/42/10/chell.go'
@@ -627,7 +627,7 @@ suite('gr-diff-view tests', () => {
         diffNavStub.calledWithExactly(
           element._change,
           'wheatley.md',
-          10 as PatchSetNum,
+          10 as RevisionPatchSetNum,
           ParentPatchSetNum,
           21
         )
@@ -656,7 +656,7 @@ suite('gr-diff-view tests', () => {
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffAgainstBase();
       const args = diffNavStub.getCall(0).args;
-      assert.equal(args[2], 10 as PatchSetNum);
+      assert.equal(args[2], 10 as RevisionPatchSetNum);
       assert.isNotOk(args[3]);
     });
 
@@ -672,7 +672,7 @@ suite('gr-diff-view tests', () => {
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffAgainstLatest();
       const args = diffNavStub.getCall(0).args;
-      assert.equal(args[2], 12 as PatchSetNum);
+      assert.equal(args[2], 12 as RevisionPatchSetNum);
       assert.equal(args[3], 5 as BasePatchSetNum);
     });
 
@@ -693,7 +693,7 @@ suite('gr-diff-view tests', () => {
       element._handleDiffBaseAgainstLeft();
       assert(diffNavStub.called);
       const args = diffNavStub.getCall(0).args;
-      assert.equal(args[2], 1 as PatchSetNum);
+      assert.equal(args[2], 1 as RevisionPatchSetNum);
       assert.equal(args[3], ParentPatchSetNum);
       assert.isNotOk(args[4]);
     });
@@ -718,7 +718,7 @@ suite('gr-diff-view tests', () => {
       element._handleDiffBaseAgainstLeft();
       assert(diffNavStub.called);
       const args = diffNavStub.getCall(0).args;
-      assert.equal(args[2], 1 as PatchSetNum);
+      assert.equal(args[2], 1 as RevisionPatchSetNum);
       assert.equal(args[3], ParentPatchSetNum);
       assert.equal(args[4], 10);
     });
@@ -736,7 +736,7 @@ suite('gr-diff-view tests', () => {
       element._handleDiffRightAgainstLatest();
       assert(diffNavStub.called);
       const args = diffNavStub.getCall(0).args;
-      assert.equal(args[2], 10 as PatchSetNum);
+      assert.equal(args[2], 10 as RevisionPatchSetNum);
       assert.equal(args[3], 3 as BasePatchSetNum);
     });
 
@@ -753,7 +753,7 @@ suite('gr-diff-view tests', () => {
       element._handleDiffBaseAgainstLatest();
       assert(diffNavStub.called);
       const args = diffNavStub.getCall(0).args;
-      assert.equal(args[2], 10 as PatchSetNum);
+      assert.equal(args[2], 10 as RevisionPatchSetNum);
       assert.isNotOk(args[3]);
     });
 
@@ -876,7 +876,7 @@ suite('gr-diff-view tests', () => {
         diffNavStub.lastCall.calledWithExactly(
           element._change,
           'wheatley.md',
-          10 as PatchSetNum,
+          10 as RevisionPatchSetNum,
           5 as BasePatchSetNum,
           undefined
         ),
@@ -890,7 +890,7 @@ suite('gr-diff-view tests', () => {
         diffNavStub.lastCall.calledWithExactly(
           element._change,
           'glados.txt',
-          10 as PatchSetNum,
+          10 as RevisionPatchSetNum,
           5 as BasePatchSetNum,
           undefined
         ),
@@ -904,7 +904,7 @@ suite('gr-diff-view tests', () => {
         diffNavStub.lastCall.calledWithExactly(
           element._change,
           'chell.go',
-          10 as PatchSetNum,
+          10 as RevisionPatchSetNum,
           5 as BasePatchSetNum,
           undefined
         ),
@@ -967,7 +967,7 @@ suite('gr-diff-view tests', () => {
         diffNavStub.lastCall.calledWithExactly(
           element._change,
           'wheatley.md',
-          1 as PatchSetNum,
+          1 as RevisionPatchSetNum,
           ParentPatchSetNum,
           undefined
         ),
@@ -980,7 +980,7 @@ suite('gr-diff-view tests', () => {
         diffNavStub.lastCall.calledWithExactly(
           element._change,
           'glados.txt',
-          1 as PatchSetNum,
+          1 as RevisionPatchSetNum,
           ParentPatchSetNum,
           undefined
         ),
@@ -993,7 +993,7 @@ suite('gr-diff-view tests', () => {
         diffNavStub.lastCall.calledWithExactly(
           element._change,
           'chell.go',
-          1 as PatchSetNum,
+          1 as RevisionPatchSetNum,
           ParentPatchSetNum,
           undefined
         ),
@@ -1405,7 +1405,7 @@ suite('gr-diff-view tests', () => {
         navigateStub.lastCall.calledWithExactly(
           element._change,
           element._path,
-          1 as PatchSetNum,
+          1 as RevisionPatchSetNum,
           ParentPatchSetNum
         )
       );
@@ -1435,7 +1435,7 @@ suite('gr-diff-view tests', () => {
           loadingStatus: LoadingStatus.LOADED,
         });
 
-        element.routerModel.setState({
+        element.routerModel.updateState({
           changeNum: TEST_NUMERIC_CHANGE_ID,
           view: GerritView.DIFF,
           patchNum: 2 as RevisionPatchSetNum,
@@ -1476,10 +1476,10 @@ suite('gr-diff-view tests', () => {
         loadingStatus: LoadingStatus.LOADED,
       });
 
-      element.routerModel.setState({
+      element.routerModel.updateState({
         changeNum: TEST_NUMERIC_CHANGE_ID,
         view: GerritView.DIFF,
-        patchNum: 22 as PatchSetNum,
+        patchNum: 22 as RevisionPatchSetNum,
       });
       element._patchRange = {
         patchNum: 2 as RevisionPatchSetNum,
@@ -1506,7 +1506,7 @@ suite('gr-diff-view tests', () => {
 
       element.userModel.setDiffPreferences(createDefaultDiffPrefs());
 
-      element.routerModel.setState({
+      element.routerModel.updateState({
         changeNum: TEST_NUMERIC_CHANGE_ID,
         view: GerritView.DIFF,
         patchNum: 2 as RevisionPatchSetNum,

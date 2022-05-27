@@ -46,6 +46,30 @@
       },
       "revId": "171003f5c7551af08ee66e0b32d0eca729783b75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "493b857b_82ede949",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-27T06:59:11Z",
+      "side": 1,
+      "message": "Ohh I didn\u0027t see it used in 489-499. Thanks for the explanation.",
+      "parentUuid": "7b6d679b_9f7f5c85",
+      "range": {
+        "startLine": 390,
+        "startChar": 28,
+        "endLine": 390,
+        "endChar": 43
+      },
+      "revId": "171003f5c7551af08ee66e0b32d0eca729783b75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

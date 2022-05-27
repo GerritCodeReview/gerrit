@@ -780,7 +780,7 @@ export type PatchSetNumber = BrandType<number, '_patchSet'>;
 
 export type EditPatchSet = BrandType<'edit', '_patchSet'>;
 
-export const EditPatchSetNum = 'edit' as EditPatchSet;
+export const EDIT = 'edit' as EditPatchSet;
 
 export type ParentPatchSet = BrandType<'PARENT', '_patchSet'>;
 

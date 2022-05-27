@@ -5,7 +5,7 @@
  */
 import {
   EditInfo,
-  EditPatchSetNum,
+  EDIT,
   NumericChangeId,
   PatchSetNum,
   RevisionPatchSetNum,
@@ -87,7 +87,7 @@ export function updateChangeWithEdit(
   assertIsDefined(edit.commit.commit, 'edit.commit.commit');
   if (!change.revisions) change.revisions = {};
   change.revisions[edit.commit.commit] = {
-    _number: EditPatchSetNum,
+    _number: EDIT,
     basePatchNum: edit.base_patch_set_number,
     commit: edit.commit,
     fetch: edit.fetch,

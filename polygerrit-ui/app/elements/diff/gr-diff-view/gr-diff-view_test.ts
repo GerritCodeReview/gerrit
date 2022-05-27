@@ -42,7 +42,7 @@ import {
   CommentInfo,
   CommitId,
   DashboardId,
-  EditPatchSetNum,
+  EDIT,
   FileInfo,
   NumericChangeId,
   PARENT,
@@ -1574,7 +1574,7 @@ suite('gr-diff-view tests', () => {
 
       element._patchRange = {
         basePatchNum: 1 as BasePatchSetNum,
-        patchNum: EditPatchSetNum,
+        patchNum: EDIT,
       };
       flush();
 
@@ -2009,7 +2009,7 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(
         callCompute({
           basePatchNum: 1 as BasePatchSetNum,
-          patchNum: EditPatchSetNum,
+          patchNum: EDIT,
         })
       );
     });
@@ -2076,7 +2076,7 @@ suite('gr-diff-view tests', () => {
         element._patchRange = createPatchRange();
         // Reviewed checkbox should be shown.
         assert.isTrue(isVisible(element.$.reviewed));
-        element.set('_patchRange.patchNum', EditPatchSetNum);
+        element.set('_patchRange.patchNum', EDIT);
         flush();
 
         assert.isFalse(isVisible(element.$.reviewed));

@@ -9,13 +9,12 @@ import {ChangeComments} from './gr-comment-api.js';
 import {isInRevisionOfPatchRange, isInBaseOfPatchRange, isDraftThread, isUnresolved, createCommentThreads} from '../../../utils/comment-util.js';
 import {createDraft, createComment, createChangeComments, createCommentThread} from '../../../test/test-data-generators.js';
 import {CommentSide} from '../../../constants/constants.js';
+import {PARENT} from '../../../types/common.js';
 import {stubRestApi} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-comment-api');
 
 suite('gr-comment-api tests', () => {
-  const PARENT = 'PARENT';
-
   let element;
 
   setup(() => {
@@ -116,7 +115,7 @@ suite('gr-comment-api tests', () => {
             2);
 
         const portedThreads = changeComments._getPortedCommentThreads(
-            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'});
+            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: PARENT});
 
         assert.equal(portedThreads.length, 1);
         // check that the location of the thread matches the ported comment
@@ -137,7 +136,7 @@ suite('gr-comment-api tests', () => {
         // shown
         // original thread attached to right side
         assert.equal(changeComments._getPortedCommentThreads(
-            {path: 'karma.conf.js'}, {patchNum: 2, basePatchNum: 'PARENT'}
+            {path: 'karma.conf.js'}, {patchNum: 2, basePatchNum: PARENT}
         ).length, 0);
         assert.equal(changeComments._getPortedCommentThreads(
             {path: 'karma.conf.js'}, {patchNum: 2, basePatchNum: 1}
@@ -168,7 +167,7 @@ suite('gr-comment-api tests', () => {
         assert.equal(createCommentThreads(changeComments
             .getAllCommentsForPath('karma.conf.js')).length, 1);
         assert.equal(changeComments._getPortedCommentThreads(
-            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'}
+            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: PARENT}
         ).length, 0);
       });
 
@@ -193,7 +192,7 @@ suite('gr-comment-api tests', () => {
         );
 
         const portedThreads = changeComments._getPortedCommentThreads(
-            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'});
+            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: PARENT});
         assert.equal(portedThreads.length, 1);
         assert.equal(portedThreads[0].line, 31);
 
@@ -227,7 +226,7 @@ suite('gr-comment-api tests', () => {
         );
 
         const portedThreads = changeComments._getPortedCommentThreads(
-            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'});
+            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: PARENT});
         assert.equal(portedThreads.length, 0);
 
         assert.equal(changeComments._getPortedCommentThreads(
@@ -241,12 +240,12 @@ suite('gr-comment-api tests', () => {
 
       test('ported comments contribute to comment count', () => {
         assert.equal(changeComments.computeCommentsString(
-            {basePatchNum: 'PARENT', patchNum: 2}, 'karma.conf.js',
+            {basePatchNum: PARENT, patchNum: 2}, 'karma.conf.js',
             {__path: 'karma.conf.js'}), '2 comments (1 unresolved)');
 
         // comment1 is ported over to patchset 4
         assert.equal(changeComments.computeCommentsString(
-            {basePatchNum: 'PARENT', patchNum: 4}, 'karma.conf.js',
+            {basePatchNum: PARENT, patchNum: 4}, 'karma.conf.js',
             {__path: 'karma.conf.js'}), '1 comment (1 unresolved)');
       });
 
@@ -277,7 +276,7 @@ suite('gr-comment-api tests', () => {
         );
 
         const portedThreads = changeComments._getPortedCommentThreads(
-            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'});
+            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: PARENT});
 
         // resolved draft is ported over
         assert.equal(portedThreads.length, 2);
@@ -292,7 +291,7 @@ suite('gr-comment-api tests', () => {
 
         assert.equal(createCommentThreads(
             changeComments.getAllCommentsForPath('karma.conf.js'),
-            {patchNum: 4, basePatchNum: 'PARENT'}).length, 0);
+            {patchNum: 4, basePatchNum: PARENT}).length, 0);
       });
     });
 
@@ -646,11 +645,11 @@ suite('gr-comment-api tests', () => {
       test('computeCommentsString', () => {
         const changeComments = createChangeComments();
         const parentTo1 = {
-          basePatchNum: 'PARENT',
+          basePatchNum: PARENT,
           patchNum: 1,
         };
         const parentTo2 = {
-          basePatchNum: 'PARENT',
+          basePatchNum: PARENT,
           patchNum: 2,
         };
         const _1To2 = {

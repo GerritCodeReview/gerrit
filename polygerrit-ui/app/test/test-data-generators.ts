@@ -44,6 +44,7 @@ import {
   MaxObjectSizeLimitInfo,
   MergeableInfo,
   NumericChangeId,
+  PARENT,
   PatchRange,
   PatchSetNum,
   PluginConfigInfo,
@@ -256,7 +257,7 @@ export function createPatchRange(
   patchNum?: number
 ): PatchRange {
   return {
-    basePatchNum: (basePatchNum ?? 'PARENT') as BasePatchSetNum,
+    basePatchNum: (basePatchNum ?? PARENT) as BasePatchSetNum,
     patchNum: (patchNum ?? 1) as RevisionPatchSetNum,
   };
 }

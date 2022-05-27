@@ -37,7 +37,7 @@ import {
   DashboardId,
   GroupId,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   RepoName,
   RevisionPatchSetNum,
   TopicName,
@@ -624,7 +624,7 @@ suite('gr-router tests', () => {
         };
         const needsRedirect = router.normalizePatchRangeParams(params);
         assert.isTrue(needsRedirect);
-        assert.equal(params.basePatchNum, ParentPatchSetNum);
+        assert.equal(params.basePatchNum, PARENT);
         assert.equal(params.patchNum, 4 as RevisionPatchSetNum);
       });
 
@@ -632,7 +632,7 @@ suite('gr-router tests', () => {
         const params: PatchRangeParams = {basePatchNum: 4 as BasePatchSetNum};
         const needsRedirect = router.normalizePatchRangeParams(params);
         assert.isFalse(needsRedirect);
-        assert.equal(params.basePatchNum, ParentPatchSetNum);
+        assert.equal(params.basePatchNum, PARENT);
         assert.equal(params.patchNum, 4 as RevisionPatchSetNum);
       });
     });

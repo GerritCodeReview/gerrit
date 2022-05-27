@@ -45,7 +45,7 @@ import {
   EditPatchSetNum,
   FileInfo,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   PatchRange,
   PatchSetNum,
   PathToCommentsInfoMap,
@@ -118,7 +118,7 @@ suite('gr-diff-view tests', () => {
       element._changeComments = new ChangeComments({
         '/COMMIT_MSG': [
           createComment('c1', 10, 2, '/COMMIT_MSG'),
-          createComment('c3', 10, ParentPatchSetNum, '/COMMIT_MSG'),
+          createComment('c3', 10, PARENT, '/COMMIT_MSG'),
         ],
       });
       await flush();
@@ -188,7 +188,7 @@ suite('gr-diff-view tests', () => {
           comments: {
             '/COMMIT_MSG': [
               createComment('c1', 10, 2, '/COMMIT_MSG'),
-              createComment('c3', 10, ParentPatchSetNum, '/COMMIT_MSG'),
+              createComment('c3', 10, PARENT, '/COMMIT_MSG'),
             ],
           },
           robotComments: {},
@@ -265,7 +265,7 @@ suite('gr-diff-view tests', () => {
         comments: {
           '/COMMIT_MSG': [
             createComment('c1', 10, 2, '/COMMIT_MSG'),
-            createComment('c3', 10, ParentPatchSetNum, '/COMMIT_MSG'),
+            createComment('c3', 10, PARENT, '/COMMIT_MSG'),
           ],
         },
         robotComments: {},
@@ -303,7 +303,7 @@ suite('gr-diff-view tests', () => {
             element._change!,
             '/COMMIT_MSG',
             2 as RevisionPatchSetNum,
-            ParentPatchSetNum,
+            PARENT,
             10
           )
         );
@@ -316,7 +316,7 @@ suite('gr-diff-view tests', () => {
         comments: {
           '/COMMIT_MSG': [
             createComment('c1', 10, 2, '/COMMIT_MSG'),
-            createComment('c3', 10, ParentPatchSetNum, '/COMMIT_MSG'),
+            createComment('c3', 10, PARENT, '/COMMIT_MSG'),
           ],
         },
         robotComments: {},
@@ -390,7 +390,7 @@ suite('gr-diff-view tests', () => {
         comments: {
           '/COMMIT_MSG': [
             createComment('c1', 10, 2, '/COMMIT_MSG'),
-            createComment('c3', 10, ParentPatchSetNum, '/COMMIT_MSG'),
+            createComment('c3', 10, PARENT, '/COMMIT_MSG'),
           ],
         },
         robotComments: {},
@@ -443,7 +443,7 @@ suite('gr-diff-view tests', () => {
       element._changeNum = 42 as NumericChangeId;
       element.getBrowserModel().setScreenWidth(0);
       element._patchRange = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 10 as RevisionPatchSetNum,
       };
       element._change = {
@@ -477,7 +477,7 @@ suite('gr-diff-view tests', () => {
           element._change,
           'wheatley.md',
           10 as RevisionPatchSetNum,
-          ParentPatchSetNum
+          PARENT
         ),
         'Should navigate to /c/42/10/wheatley.md'
       );
@@ -491,7 +491,7 @@ suite('gr-diff-view tests', () => {
           element._change,
           'glados.txt',
           10 as RevisionPatchSetNum,
-          ParentPatchSetNum
+          PARENT
         ),
         'Should navigate to /c/42/10/glados.txt'
       );
@@ -505,7 +505,7 @@ suite('gr-diff-view tests', () => {
           element._change,
           'chell.go',
           10 as RevisionPatchSetNum,
-          ParentPatchSetNum
+          PARENT
         ),
         'Should navigate to /c/42/10/chell.go'
       );
@@ -602,7 +602,7 @@ suite('gr-diff-view tests', () => {
       };
       element._changeComments = new ChangeComments(comment);
       element._patchRange = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 10 as RevisionPatchSetNum,
       };
       element._change = {
@@ -628,7 +628,7 @@ suite('gr-diff-view tests', () => {
           element._change,
           'wheatley.md',
           10 as RevisionPatchSetNum,
-          ParentPatchSetNum,
+          PARENT,
           21
         )
       );
@@ -694,7 +694,7 @@ suite('gr-diff-view tests', () => {
       assert(diffNavStub.called);
       const args = diffNavStub.getCall(0).args;
       assert.equal(args[2], 1 as RevisionPatchSetNum);
-      assert.equal(args[3], ParentPatchSetNum);
+      assert.equal(args[3], PARENT);
       assert.isNotOk(args[4]);
     });
 
@@ -719,7 +719,7 @@ suite('gr-diff-view tests', () => {
       assert(diffNavStub.called);
       const args = diffNavStub.getCall(0).args;
       assert.equal(args[2], 1 as RevisionPatchSetNum);
-      assert.equal(args[3], ParentPatchSetNum);
+      assert.equal(args[3], PARENT);
       assert.equal(args[4], 10);
     });
 
@@ -809,7 +809,7 @@ suite('gr-diff-view tests', () => {
     test('A navigates to change with old patch number with logged in', async () => {
       element._changeNum = 42 as NumericChangeId;
       element._patchRange = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
       element._change = {
@@ -830,7 +830,7 @@ suite('gr-diff-view tests', () => {
       assert(
         changeNavStub.lastCall.calledWithExactly(element._change, {
           patchNum: 1 as RevisionPatchSetNum,
-          basePatchNum: ParentPatchSetNum,
+          basePatchNum: PARENT,
         }),
         'Should navigate to /c/42/1'
       );
@@ -932,7 +932,7 @@ suite('gr-diff-view tests', () => {
     test('keyboard shortcuts with old patch number', () => {
       element._changeNum = 42 as NumericChangeId;
       element._patchRange = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
       element._change = {
@@ -957,7 +957,7 @@ suite('gr-diff-view tests', () => {
       assert(
         changeNavStub.lastCall.calledWithExactly(element._change, {
           patchNum: 1 as RevisionPatchSetNum,
-          basePatchNum: ParentPatchSetNum,
+          basePatchNum: PARENT,
         }),
         'Should navigate to /c/42/1'
       );
@@ -968,7 +968,7 @@ suite('gr-diff-view tests', () => {
           element._change,
           'wheatley.md',
           1 as RevisionPatchSetNum,
-          ParentPatchSetNum,
+          PARENT,
           undefined
         ),
         'Should navigate to /c/42/1/wheatley.md'
@@ -981,7 +981,7 @@ suite('gr-diff-view tests', () => {
           element._change,
           'glados.txt',
           1 as RevisionPatchSetNum,
-          ParentPatchSetNum,
+          PARENT,
           undefined
         ),
         'Should navigate to /c/42/1/glados.txt'
@@ -994,7 +994,7 @@ suite('gr-diff-view tests', () => {
           element._change,
           'chell.go',
           1 as RevisionPatchSetNum,
-          ParentPatchSetNum,
+          PARENT,
           undefined
         ),
         'Should navigate to /c/42/1/chell.go'
@@ -1006,7 +1006,7 @@ suite('gr-diff-view tests', () => {
       assert(
         changeNavStub.lastCall.calledWithExactly(element._change, {
           patchNum: 1 as RevisionPatchSetNum,
-          basePatchNum: ParentPatchSetNum,
+          basePatchNum: PARENT,
         }),
         'Should navigate to /c/42/1'
       );
@@ -1017,7 +1017,7 @@ suite('gr-diff-view tests', () => {
       element._loggedIn = true;
       element._path = 't.txt';
       element._patchRange = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
       element._change = {
@@ -1052,7 +1052,7 @@ suite('gr-diff-view tests', () => {
       element._loggedIn = true;
       element._path = 't.txt';
       element._patchRange = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
       element._change = {
@@ -1097,7 +1097,7 @@ suite('gr-diff-view tests', () => {
         element._loggedIn = loggedIn;
         element._path = 't.txt';
         element._patchRange = {
-          basePatchNum: ParentPatchSetNum,
+          basePatchNum: PARENT,
           patchNum: 1 as RevisionPatchSetNum,
         };
         element._change = {
@@ -1213,7 +1213,7 @@ suite('gr-diff-view tests', () => {
       test('_formattedFiles', () => {
         element._changeNum = 42 as NumericChangeId;
         element._patchRange = {
-          basePatchNum: ParentPatchSetNum,
+          basePatchNum: PARENT,
           patchNum: 10 as RevisionPatchSetNum,
         };
         element._change = {
@@ -1288,7 +1288,7 @@ suite('gr-diff-view tests', () => {
       test('prev/up/next links', () => {
         element._changeNum = 42 as NumericChangeId;
         element._patchRange = {
-          basePatchNum: ParentPatchSetNum,
+          basePatchNum: PARENT,
           patchNum: 10 as RevisionPatchSetNum,
         };
         element._change = {
@@ -1388,12 +1388,12 @@ suite('gr-diff-view tests', () => {
       element._path = 'path/to/file.txt';
 
       element._patchRange = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 3 as RevisionPatchSetNum,
       };
 
       const detail = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
 
@@ -1406,7 +1406,7 @@ suite('gr-diff-view tests', () => {
           element._change,
           element._path,
           1 as RevisionPatchSetNum,
-          ParentPatchSetNum
+          PARENT
         )
       );
     });
@@ -2002,7 +2002,7 @@ suite('gr-diff-view tests', () => {
         element._computeEditMode({base: range, path: '', value: range});
       assert.isFalse(
         callCompute({
-          basePatchNum: ParentPatchSetNum,
+          basePatchNum: PARENT,
           patchNum: 1 as RevisionPatchSetNum,
         })
       );
@@ -2238,7 +2238,7 @@ suite('gr-diff-view tests', () => {
       };
       element._patchRange = {
         patchNum: 1 as RevisionPatchSetNum,
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
       };
       element._change = {
         ...createParsedChange(),
@@ -2263,7 +2263,7 @@ suite('gr-diff-view tests', () => {
       };
       element._patchRange = {
         patchNum: 1 as RevisionPatchSetNum,
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
       };
 
       // No extra call
@@ -2288,7 +2288,7 @@ suite('gr-diff-view tests', () => {
 
       const base = {
         patchNum: 1 as RevisionPatchSetNum,
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
       };
 
       assert.deepEqual(
@@ -2343,7 +2343,7 @@ suite('gr-diff-view tests', () => {
     test('_computeDownloadFileLink', () => {
       const base = {
         patchNum: 1 as RevisionPatchSetNum,
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
       };
 
       assert.equal(
@@ -2374,7 +2374,7 @@ suite('gr-diff-view tests', () => {
         element._computeDownloadPatchLink(
           'test' as RepoName,
           12 as NumericChangeId,
-          {basePatchNum: ParentPatchSetNum, patchNum: 1 as RevisionPatchSetNum},
+          {basePatchNum: PARENT, patchNum: 1 as RevisionPatchSetNum},
           'index.php'
         ),
         '/changes/test~12/revisions/1/patch?zip&path=index.php'

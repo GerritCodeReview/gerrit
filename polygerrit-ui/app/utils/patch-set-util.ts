@@ -3,7 +3,7 @@ import {
   ChangeInfo,
   PatchSetNum,
   EditPatchSetNum,
-  ParentPatchSetNum,
+  PARENT,
   PatchSetNumber,
   BasePatchSetNum,
   RevisionPatchSetNum,
@@ -53,12 +53,12 @@ export function isMergeParent(n: PatchSetNum) {
  * parent.
  */
 export function isAParent(n: PatchSetNum) {
-  return n === ParentPatchSetNum || isMergeParent(n);
+  return n === PARENT || isMergeParent(n);
 }
 
 export function isPatchSetNum(patchset: string) {
   if (!isNaN(Number(patchset))) return true;
-  return patchset === EditPatchSetNum || patchset === ParentPatchSetNum;
+  return patchset === EditPatchSetNum || patchset === PARENT;
 }
 
 export function convertToPatchSetNum(
@@ -270,14 +270,10 @@ export function computeLatestPatchNum(
 export function computePredecessor(
   patchset?: PatchSetNum
 ): BasePatchSetNum | undefined {
-  if (
-    !patchset ||
-    patchset === ParentPatchSetNum ||
-    patchset === EditPatchSetNum
-  ) {
+  if (!patchset || patchset === PARENT || patchset === EditPatchSetNum) {
     return undefined;
   }
-  if (patchset === 1) return ParentPatchSetNum;
+  if (patchset === 1) return PARENT;
   return (Number(patchset) - 1) as BasePatchSetNum;
 }
 

@@ -99,7 +99,7 @@ import {
   EditPatchSetNum,
   LabelNameToInfoMap,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   PatchRange,
   PatchSetNum,
   PreferencesInfo,
@@ -1290,8 +1290,7 @@ export class GrChangeView extends base {
       this.restApiService.setInProjectLookup(value.changeNum, value.project);
     }
 
-    if (value.basePatchNum === undefined)
-      value.basePatchNum = ParentPatchSetNum;
+    if (value.basePatchNum === undefined) value.basePatchNum = PARENT;
 
     if (value.patchNum === undefined) {
       value.patchNum = computeLatestPatchNum(this._allPatchSets);
@@ -1575,12 +1574,12 @@ export class GrChangeView extends base {
     change: ChangeInfo | ParsedChangeInfo,
     patchRange: ChangeViewPatchRange
   ) {
-    if (patchRange.basePatchNum && patchRange.basePatchNum !== 'PARENT') {
+    if (patchRange.basePatchNum && patchRange.basePatchNum !== PARENT) {
       return patchRange.basePatchNum;
     }
 
     const revisionInfo = this._getRevisionInfo(change);
-    if (!revisionInfo) return 'PARENT';
+    if (!revisionInfo) return PARENT;
 
     const parentCounts = revisionInfo.getParentCountMap();
     // check that there is at least 2 parents otherwise fall back to 1,
@@ -1595,7 +1594,7 @@ export class GrChangeView extends base {
       return -1;
     }
 
-    return 'PARENT';
+    return PARENT;
   }
 
   // Polymer was converting true to "true"(type string) automatically hence
@@ -1684,7 +1683,7 @@ export class GrChangeView extends base {
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
-    if (this._patchRange.basePatchNum === ParentPatchSetNum) {
+    if (this._patchRange.basePatchNum === PARENT) {
       fireAlert(this, 'Base is already selected.');
       return;
     }
@@ -1697,7 +1696,7 @@ export class GrChangeView extends base {
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
-    if (this._patchRange.basePatchNum === ParentPatchSetNum) {
+    if (this._patchRange.basePatchNum === PARENT) {
       fireAlert(this, 'Left is already base.');
       return;
     }
@@ -1743,7 +1742,7 @@ export class GrChangeView extends base {
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (
       this._patchRange.patchNum === latestPatchNum &&
-      this._patchRange.basePatchNum === ParentPatchSetNum
+      this._patchRange.basePatchNum === PARENT
     ) {
       fireAlert(this, 'Already diffing base against latest.');
       return;

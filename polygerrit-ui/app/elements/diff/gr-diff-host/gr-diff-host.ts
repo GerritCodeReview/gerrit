@@ -43,7 +43,7 @@ import {
   ChangeInfo,
   EditPatchSetNum,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   PatchRange,
   PatchSetNum,
   RepoName,
@@ -832,7 +832,7 @@ export class GrDiffHost extends DIPolymerElement {
     // Report the due_to_rebase percentage in the "diff" category when
     // applicable.
     assertIsDefined(this.patchRange, 'patchRange');
-    if (this.patchRange.basePatchNum === 'PARENT') {
+    if (this.patchRange.basePatchNum === PARENT) {
       this.reporting.reportInteraction(EVENT_AGAINST_PARENT);
     } else if (percentRebaseDelta === 0) {
       this.reporting.reportInteraction(EVENT_ZERO_REBASE);
@@ -1007,8 +1007,7 @@ export class GrDiffHost extends DIPolymerElement {
 
     const isEdit = patchNum === EditPatchSetNum;
     const isEditBase =
-      patchNum === ParentPatchSetNum &&
-      this.patchRange.patchNum === EditPatchSetNum;
+      patchNum === PARENT && this.patchRange.patchNum === EditPatchSetNum;
 
     if (isEdit) {
       fireAlert(this, 'You cannot comment on an edit.');

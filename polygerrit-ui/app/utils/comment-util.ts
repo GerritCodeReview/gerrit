@@ -12,7 +12,7 @@ import {
   UrlEncodedCommentId,
   CommentRange,
   PatchRange,
-  ParentPatchSetNum,
+  PARENT,
   ContextLine,
   BasePatchSetNum,
   RevisionPatchSetNum,
@@ -322,7 +322,7 @@ export function isInBaseOfPatchRange(
 
   // If the base of the range is the parent of the patch:
   if (
-    range.basePatchNum === ParentPatchSetNum &&
+    range.basePatchNum === PARENT &&
     comment.side === CommentSide.PARENT &&
     comment.patch_set === range.patchNum
   ) {
@@ -330,7 +330,7 @@ export function isInBaseOfPatchRange(
   }
   // If the base of the range is not the parent of the patch:
   return (
-    range.basePatchNum !== ParentPatchSetNum &&
+    range.basePatchNum !== PARENT &&
     comment.side !== CommentSide.PARENT &&
     comment.patch_set === range.basePatchNum
   );
@@ -375,12 +375,12 @@ export function getPatchRangeForCommentUrl(
   if (comment.side === CommentSide.PARENT) {
     return {
       patchNum: comment.patch_set,
-      basePatchNum: ParentPatchSetNum,
+      basePatchNum: PARENT,
     };
   } else if (latestPatchNum === comment.patch_set) {
     return {
       patchNum: latestPatchNum,
-      basePatchNum: ParentPatchSetNum,
+      basePatchNum: PARENT,
     };
   } else {
     return {

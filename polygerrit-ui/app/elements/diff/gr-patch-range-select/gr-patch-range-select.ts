@@ -21,7 +21,7 @@ import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
-  ParentPatchSetNum,
+  PARENT,
   PatchSetNum,
   RevisionInfo,
   Timestamp,
@@ -243,7 +243,7 @@ export class GrPatchRangeSelect extends LitElement {
 
     dropdownContent.push({
       text: isMerge ? 'Auto Merge' : 'Base',
-      value: 'PARENT',
+      value: PARENT,
     });
 
     for (let idx = 0; isMerge && idx < maxParents; idx++) {
@@ -345,7 +345,7 @@ export class GrPatchRangeSelect extends LitElement {
    * is sorted in reverse order (higher patchset nums first), invalid patch
    * nums have an index greater than the index of basePatchNum.
    *
-   * In addition, if the current basePatchNum is 'PARENT', all patchNums are
+   * In addition, if the current basePatchNum is PARENT, all patchNums are
    * valid.
    *
    * If the current basePatchNum is a parent index, then only patches that have
@@ -360,7 +360,7 @@ export class GrPatchRangeSelect extends LitElement {
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum
   ): boolean {
-    if (basePatchNum === ParentPatchSetNum) {
+    if (basePatchNum === PARENT) {
       return false;
     }
 

@@ -15,7 +15,7 @@ import {
   GroupId,
   Hashtag,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   PatchSetNum,
   RepoName,
   RevisionPatchSetNum,
@@ -536,14 +536,14 @@ export const GerritNav = {
   },
 
   /**
-   * @param basePatchNum The string 'PARENT' can be used for none.
+   * @param basePatchNum The string PARENT can be used for none.
    */
   getUrlForChange(
     change: Pick<ChangeInfo, '_number' | 'project' | 'internalHost'>,
     options: ChangeUrlParams = {}
   ) {
     let {patchNum, basePatchNum, isEdit, messageHash, forceReload} = options;
-    if (basePatchNum === ParentPatchSetNum) {
+    if (basePatchNum === PARENT) {
       basePatchNum = undefined;
     }
 
@@ -575,7 +575,7 @@ export const GerritNav = {
   },
 
   /**
-   * @param basePatchNum The string 'PARENT' can be used for none.
+   * @param basePatchNum The string PARENT can be used for none.
    * @param redirect redirect to a change - if true, the current
    *     location (i.e. page which makes redirect) is not added to a history.
    *     I.e. back/forward buttons skip current location
@@ -600,7 +600,7 @@ export const GerritNav = {
   },
 
   /**
-   * @param basePatchNum The string 'PARENT' can be used for none.
+   * @param basePatchNum The string PARENT can be used for none.
    */
   getUrlForDiff(
     change: ChangeInfo | ParsedChangeInfo,
@@ -646,7 +646,7 @@ export const GerritNav = {
   },
 
   /**
-   * @param basePatchNum The string 'PARENT' can be used for none.
+   * @param basePatchNum The string PARENT can be used for none.
    */
   getUrlForDiffById(
     changeNum: NumericChangeId,
@@ -657,7 +657,7 @@ export const GerritNav = {
     lineNum?: number,
     leftSide?: boolean
   ) {
-    if (basePatchNum === ParentPatchSetNum) {
+    if (basePatchNum === PARENT) {
       basePatchNum = undefined;
     }
 
@@ -712,7 +712,7 @@ export const GerritNav = {
   },
 
   /**
-   * @param basePatchNum The string 'PARENT' can be used for none.
+   * @param basePatchNum The string PARENT can be used for none.
    */
   navigateToDiff(
     change: ChangeInfo | ParsedChangeInfo,

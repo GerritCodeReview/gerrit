@@ -43,7 +43,7 @@ import {
   RepoName,
   ServerInfo,
   UrlEncodedCommentId,
-  ParentPatchSetNum,
+  PARENT,
 } from '../../../types/common';
 import {
   AppElement,
@@ -656,7 +656,7 @@ export class GrRouter {
     if (params.patchNum) {
       range = `${params.patchNum}`;
     }
-    if (params.basePatchNum && params.basePatchNum !== ParentPatchSetNum) {
+    if (params.basePatchNum && params.basePatchNum !== PARENT) {
       range = `${params.basePatchNum}..${range}`;
     }
     return range;
@@ -678,12 +678,12 @@ export class GrRouter {
     // patches are equal clear the base.
     if (params.patchNum && params.basePatchNum === params.patchNum) {
       needsRedirect = true;
-      params.basePatchNum = ParentPatchSetNum;
+      params.basePatchNum = PARENT;
     } else if (!hasPatchNum) {
       // Regexes set basePatchNum instead of patchNum when only one is
       // specified. Redirect is not needed in this case.
       params.patchNum = params.basePatchNum as RevisionPatchSetNum;
-      params.basePatchNum = ParentPatchSetNum;
+      params.basePatchNum = PARENT;
     }
     return needsRedirect;
   }

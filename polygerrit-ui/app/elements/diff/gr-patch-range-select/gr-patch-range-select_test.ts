@@ -15,6 +15,7 @@ import {
   BasePatchSetNum,
   EditPatchSetNum,
   RevisionPatchSetNum,
+  PARENT,
   PatchSetNum,
   RevisionInfo,
   Timestamp,
@@ -75,12 +76,11 @@ suite('gr-patch-range-select tests', () => {
     ];
     await element.updateComplete;
 
-    const parent = 'PARENT' as PatchSetNum;
     const edit = EditPatchSetNum;
 
     for (const patchNum of [1, 2, 3]) {
       assert.isFalse(
-        element.computeRightDisabled(parent, patchNum as PatchSetNum)
+        element.computeRightDisabled(PARENT, patchNum as PatchSetNum)
       );
     }
     for (const basePatchNum of [1, 2]) {
@@ -152,11 +152,11 @@ suite('gr-patch-range-select tests', () => {
       } as DropdownItem,
       {
         text: 'Base',
-        value: 'PARENT',
+        value: PARENT,
       } as DropdownItem,
     ];
     element.patchNum = 1 as PatchSetNum;
-    element.basePatchNum = 'PARENT' as BasePatchSetNum;
+    element.basePatchNum = PARENT;
     await element.updateComplete;
 
     assert.deepEqual(element.computeBaseDropdownContent(), expectedResult);
@@ -177,7 +177,7 @@ suite('gr-patch-range-select tests', () => {
       {num: 'edit', sha: '4'} as PatchSet,
     ];
     element.patchNum = 2 as PatchSetNum;
-    element.basePatchNum = 'PARENT' as BasePatchSetNum;
+    element.basePatchNum = PARENT as BasePatchSetNum;
     await element.updateComplete;
 
     const baseDropDownStub = sinon.stub(element, 'computeBaseDropdownContent');
@@ -202,7 +202,7 @@ suite('gr-patch-range-select tests', () => {
       {num: 1, sha: '4'} as PatchSet,
     ];
     element.patchNum = 2 as PatchSetNum;
-    element.basePatchNum = 'PARENT' as BasePatchSetNum;
+    element.basePatchNum = PARENT as BasePatchSetNum;
     await element.updateComplete;
 
     // Should be recomputed for each available patch
@@ -228,7 +228,7 @@ suite('gr-patch-range-select tests', () => {
       {num: 'edit', sha: '4'} as PatchSet,
     ];
     element.patchNum = 2 as PatchSetNum;
-    element.basePatchNum = 'PARENT' as BasePatchSetNum;
+    element.basePatchNum = PARENT as BasePatchSetNum;
     await element.updateComplete;
 
     // Should be recomputed for each available patch

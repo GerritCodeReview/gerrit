@@ -13,7 +13,7 @@ import {
 import {createComment, createCommentThread} from '../test/test-data-generators';
 import {CommentSide} from '../constants/constants';
 import {
-  ParentPatchSetNum,
+  PARENT,
   RevisionPatchSetNum,
   Timestamp,
   UrlEncodedCommentId,
@@ -70,7 +70,7 @@ suite('comment-util', () => {
       assert.deepEqual(
         getPatchRangeForCommentUrl(comment, 11 as RevisionPatchSetNum),
         {
-          basePatchNum: ParentPatchSetNum,
+          basePatchNum: PARENT,
           patchNum: 4 as RevisionPatchSetNum,
         }
       );

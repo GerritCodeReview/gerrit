@@ -385,7 +385,7 @@ export class ChecksModel extends Model<ChecksState> implements Finalizable {
         if (latestPs === undefined) {
           this.setPatchset(undefined);
         } else if (typeof routerPs === 'number') {
-          this.setPatchset(routerPs as PatchSetNumber);
+          this.setPatchset(routerPs);
         } else {
           this.setPatchset(latestPs);
         }

@@ -12,7 +12,7 @@ import {
 import {
   BasePatchSetNum,
   ChangeInfo,
-  EditPatchSetNum,
+  EDIT,
   PatchSetNum,
   PatchSetNumber,
   ReviewInputTag,
@@ -149,7 +149,7 @@ suite('gr-patch-set-util tests', () => {
   test('isMergeParent', () => {
     assert.isFalse(isMergeParent(1 as PatchSetNum));
     assert.isFalse(isMergeParent(4321 as PatchSetNum));
-    assert.isFalse(isMergeParent('edit' as PatchSetNum));
+    assert.isFalse(isMergeParent(EDIT as PatchSetNum));
     assert.isFalse(isMergeParent(PARENT as PatchSetNum));
     assert.isFalse(isMergeParent(0 as PatchSetNum));
 
@@ -163,7 +163,7 @@ suite('gr-patch-set-util tests', () => {
 
     revisions.push({
       ...createRevision(),
-      _number: EditPatchSetNum,
+      _number: EDIT,
       basePatchNum: 3 as BasePatchSetNum,
     });
     assert.strictEqual(findEditParentRevision(revisions), null);
@@ -179,7 +179,7 @@ suite('gr-patch-set-util tests', () => {
     revisions.push(
       {
         ...createRevision(),
-        _number: EditPatchSetNum,
+        _number: EDIT,
         basePatchNum: 3 as BasePatchSetNum,
       },
       createRevision(3)
@@ -196,12 +196,12 @@ suite('gr-patch-set-util tests', () => {
     // Edit patchset should follow directly after its basePatchNum.
     revisions.push({
       ...createRevision(),
-      _number: EditPatchSetNum,
+      _number: EDIT,
       basePatchNum: 2 as BasePatchSetNum,
     });
     sorted.unshift({
       ...createRevision(),
-      _number: EditPatchSetNum,
+      _number: EDIT,
       basePatchNum: 2 as BasePatchSetNum,
     });
     assert.deepEqual(sortRevisions(revisions), sorted);

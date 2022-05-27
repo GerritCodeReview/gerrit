@@ -59,7 +59,7 @@ import {
   ChangeId,
   ChangeInfo,
   CommitId,
-  EditPatchSetNum,
+  EDIT,
   NumericChangeId,
   PARENT,
   PatchRange,
@@ -1816,7 +1816,7 @@ suite('gr-change-view tests', () => {
     );
     assert.isTrue(
       callCompute(
-        {basePatchNum: 1 as BasePatchSetNum, patchNum: EditPatchSetNum},
+        {basePatchNum: 1 as BasePatchSetNum, patchNum: EDIT},
         createAppElementChangeViewParams()
       )
     );
@@ -1837,7 +1837,7 @@ suite('gr-change-view tests', () => {
     assert.equal(element._patchRange.patchNum, undefined);
 
     change.revisions['bar'] = {
-      _number: EditPatchSetNum,
+      _number: EDIT,
       basePatchNum: 1 as BasePatchSetNum,
       commit: {
         ...createCommit(),
@@ -1848,7 +1848,7 @@ suite('gr-change-view tests', () => {
 
     // When edit is set, but not patchNum, then switch to edit ps.
     element._processEdit(change);
-    assert.equal(element._patchRange.patchNum, EditPatchSetNum);
+    assert.equal(element._patchRange.patchNum, EDIT);
 
     // When edit is set, but patchNum as well, then keep patchNum.
     element._patchRange.patchNum = 5 as RevisionPatchSetNum;
@@ -1991,7 +1991,7 @@ suite('gr-change-view tests', () => {
     sinon
       .stub(element, '_getPreferences')
       .returns(Promise.resolve(createPreferences()));
-    element._patchRange = {patchNum: EditPatchSetNum};
+    element._patchRange = {patchNum: EDIT};
     await element.performPostChangeLoadTasks();
     assert.strictEqual(element._selectedRevision, revision3);
   });
@@ -2064,12 +2064,12 @@ suite('gr-change-view tests', () => {
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
         assert.equal(args.length, 2);
-        assert.equal(args[1]!.patchNum, EditPatchSetNum); // patchNum
+        assert.equal(args[1]!.patchNum, EDIT); // patchNum
         promise.resolve();
       });
 
       element.set('_change.revisions.rev2', {
-        _number: EditPatchSetNum,
+        _number: EDIT,
       });
       await flush();
 

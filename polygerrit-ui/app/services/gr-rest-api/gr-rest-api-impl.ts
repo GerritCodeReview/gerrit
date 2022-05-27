@@ -63,7 +63,7 @@ import {
   DiffPreferenceInput,
   DocResult,
   EditInfo,
-  EditPatchSetNum,
+  EDIT,
   EditPreferencesInfo,
   EmailAddress,
   EmailInfo,
@@ -1327,7 +1327,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     patchRange: PatchRange
   ): Promise<FileNameToFileInfoMap | undefined> {
-    if (patchRange.patchNum === EditPatchSetNum) {
+    if (patchRange.patchNum === EDIT) {
       return this.getChangeEditFiles(changeNum, patchRange).then(
         res => res && res.files
       );
@@ -1940,7 +1940,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     // 404s indicate the file does not exist yet in the revision, so suppress
     // them.
     const promise =
-      patchNum === EditPatchSetNum
+      patchNum === EDIT
         ? this._getFileInChangeEdit(changeNum, path)
         : this._getFileInRevision(changeNum, path, patchNum, suppress404s);
 
@@ -2232,7 +2232,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     };
 
     // Invalidate the cache if its edit patch to make sure we always get latest.
-    if (patchNum === EditPatchSetNum) {
+    if (patchNum === EDIT) {
       if (!req.fetchOptions) req.fetchOptions = {};
       if (!req.fetchOptions.headers) req.fetchOptions.headers = new Headers();
       req.fetchOptions.headers.append('Cache-Control', 'no-cache');

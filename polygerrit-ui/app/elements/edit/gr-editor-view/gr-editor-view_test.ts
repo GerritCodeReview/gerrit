@@ -14,11 +14,7 @@ import {
   stubRestApi,
   stubStorage,
 } from '../../../test/test-utils';
-import {
-  EditPatchSetNum,
-  NumericChangeId,
-  PatchSetNum,
-} from '../../../types/common';
+import {EDIT, NumericChangeId, PatchSetNum} from '../../../types/common';
 import {
   createChangeViewChange,
   createGenerateUrlEditViewParameters,
@@ -69,7 +65,7 @@ suite('gr-editor-view tests', () => {
       assert.deepEqual(fileStub.lastCall.args, [
         changeNum,
         'foo/bar.baz',
-        EditPatchSetNum as PatchSetNum,
+        EDIT as PatchSetNum,
       ]);
 
       return promises?.then(() => {
@@ -301,11 +297,7 @@ suite('gr-editor-view tests', () => {
 
       // Ensure no data is set with a bad response.
       return element
-        .getFileData(
-          1 as NumericChangeId,
-          'test/path',
-          EditPatchSetNum as PatchSetNum
-        )
+        .getFileData(1 as NumericChangeId, 'test/path', EDIT as PatchSetNum)
         .then(() => {
           assert.equal(element.newContent, 'new content');
           assert.equal(element.content, 'new content');
@@ -320,11 +312,7 @@ suite('gr-editor-view tests', () => {
 
       // Ensure no data is set with a bad response.
       return element
-        .getFileData(
-          1 as NumericChangeId,
-          'test/path',
-          EditPatchSetNum as PatchSetNum
-        )
+        .getFileData(1 as NumericChangeId, 'test/path', EDIT as PatchSetNum)
         .then(() => {
           assert.equal(element.newContent, '');
           assert.equal(element.content, '');
@@ -342,11 +330,7 @@ suite('gr-editor-view tests', () => {
       );
 
       return element
-        .getFileData(
-          1 as NumericChangeId,
-          'test/path',
-          EditPatchSetNum as PatchSetNum
-        )
+        .getFileData(1 as NumericChangeId, 'test/path', EDIT as PatchSetNum)
         .then(() => {
           assert.equal(element.newContent, '');
           assert.equal(element.content, '');
@@ -360,11 +344,7 @@ suite('gr-editor-view tests', () => {
       );
 
       return element
-        .getFileData(
-          1 as NumericChangeId,
-          'test/path',
-          EditPatchSetNum as PatchSetNum
-        )
+        .getFileData(1 as NumericChangeId, 'test/path', EDIT as PatchSetNum)
         .then(() => {
           assert.equal(element.newContent, '');
           assert.equal(element.content, '');
@@ -389,7 +369,7 @@ suite('gr-editor-view tests', () => {
     element.change = createChangeViewChange();
     navigateStub.restore();
     const navStub = sinon.stub(GerritNav, 'navigateToChange');
-    element.patchNum = EditPatchSetNum;
+    element.patchNum = EDIT;
     element.viewEditInChangeView();
     assert.equal(navStub.lastCall.args[1]!.patchNum, undefined);
     assert.equal(navStub.lastCall.args[1]!.isEdit, true);

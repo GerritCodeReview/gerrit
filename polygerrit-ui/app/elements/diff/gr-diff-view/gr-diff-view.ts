@@ -65,7 +65,7 @@ import {
   EditPatchSetNum,
   FileInfo,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   PatchRange,
   PatchSetNum,
   PreferencesInfo,
@@ -967,7 +967,7 @@ export class GrDiffView extends base {
   _displayDiffAgainstLatestToast(latestPatchNum?: PatchSetNum) {
     if (!this._patchRange) return;
     const leftPatchset =
-      this._patchRange.basePatchNum === ParentPatchSetNum
+      this._patchRange.basePatchNum === PARENT
         ? 'Base'
         : `Patchset ${this._patchRange.basePatchNum}`;
     fireAlert(
@@ -980,7 +980,7 @@ export class GrDiffView extends base {
 
   _displayToasts() {
     if (!this._patchRange) return;
-    if (this._patchRange.basePatchNum !== ParentPatchSetNum) {
+    if (this._patchRange.basePatchNum !== PARENT) {
       this._displayDiffBaseAgainstLeftToast();
       return;
     }
@@ -1003,10 +1003,7 @@ export class GrDiffView extends base {
         commit = commitSha as CommitId;
         const commitObj = revision.commit;
         const parents = commitObj?.parents || [];
-        if (
-          this._patchRange.basePatchNum === ParentPatchSetNum &&
-          parents.length
-        ) {
+        if (this._patchRange.basePatchNum === PARENT && parents.length) {
           baseCommit = parents[parents.length - 1].commit;
         }
       } else if (patchNum === this._patchRange.basePatchNum) {
@@ -1061,7 +1058,7 @@ export class GrDiffView extends base {
       if (this.params.patchNum) {
         this._patchRange = {
           patchNum: this.params.patchNum,
-          basePatchNum: this.params.basePatchNum || ParentPatchSetNum,
+          basePatchNum: this.params.basePatchNum || PARENT,
         };
       }
       if (this.params.lineNum) {
@@ -1187,7 +1184,7 @@ export class GrDiffView extends base {
           assertIsDefined(this._path, '_path');
           assertIsDefined(this._patchRange, '_patchRange');
 
-          if (this._patchRange.basePatchNum === ParentPatchSetNum) {
+          if (this._patchRange.basePatchNum === PARENT) {
             // file is unchanged between Base vs X
             // hence should not show diff between Base vs Base
             return;
@@ -1204,7 +1201,7 @@ export class GrDiffView extends base {
             this._change,
             this._path,
             this._patchRange.basePatchNum as RevisionPatchSetNum,
-            ParentPatchSetNum,
+            PARENT,
             this._focusLineNum
           );
           return;
@@ -1297,7 +1294,7 @@ export class GrDiffView extends base {
     }
     if (!patchRange) return {patchNum, basePatchNum};
     if (
-      patchRange.basePatchNum !== ParentPatchSetNum ||
+      patchRange.basePatchNum !== PARENT ||
       patchRange.patchNum !== latestPatchNum
     ) {
       patchNum = patchRange.patchNum;
@@ -1494,7 +1491,7 @@ export class GrDiffView extends base {
   ) {
     let patchNum = patchRange.patchNum;
 
-    const comparedAgainstParent = patchRange.basePatchNum === 'PARENT';
+    const comparedAgainstParent = patchRange.basePatchNum === PARENT;
 
     if (isBase && !comparedAgainstParent) {
       patchNum = patchRange.basePatchNum as RevisionPatchSetNum;
@@ -1648,7 +1645,7 @@ export class GrDiffView extends base {
     if (!this._path) return;
     if (!this._patchRange) return;
 
-    if (this._patchRange.basePatchNum === ParentPatchSetNum) {
+    if (this._patchRange.basePatchNum === PARENT) {
       fireAlert(this, 'Base is already selected.');
       return;
     }
@@ -1664,7 +1661,7 @@ export class GrDiffView extends base {
     if (!this._path) return;
     if (!this._patchRange) return;
 
-    if (this._patchRange.basePatchNum === ParentPatchSetNum) {
+    if (this._patchRange.basePatchNum === PARENT) {
       fireAlert(this, 'Left is already base.');
       return;
     }
@@ -1672,7 +1669,7 @@ export class GrDiffView extends base {
       this._change,
       this._path,
       this._patchRange.basePatchNum as RevisionPatchSetNum,
-      ParentPatchSetNum,
+      PARENT,
       this.params?.view === GerritView.DIFF && this.params?.commentLink
         ? this._focusLineNum
         : undefined
@@ -1724,7 +1721,7 @@ export class GrDiffView extends base {
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (
       this._patchRange.patchNum === latestPatchNum &&
-      this._patchRange.basePatchNum === ParentPatchSetNum
+      this._patchRange.basePatchNum === PARENT
     ) {
       fireAlert(this, 'Already diffing base against latest.');
       return;

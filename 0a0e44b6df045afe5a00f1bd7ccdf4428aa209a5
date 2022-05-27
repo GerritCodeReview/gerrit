@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dfb18c1_cea582b3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-27T16:46:08Z",
+      "side": 1,
+      "message": "nit: personally I prefer a more precise `waitUntil` awaiting the exact condition we need before proceeding with the test.\n\nThis feels fragile and might require more edits in the future.\nLMK what you think.",
+      "range": {
+        "startLine": 1127,
+        "startChar": 6,
+        "endLine": 1129,
+        "endChar": 35
+      },
+      "revId": "0a0e44b6df045afe5a00f1bd7ccdf4428aa209a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

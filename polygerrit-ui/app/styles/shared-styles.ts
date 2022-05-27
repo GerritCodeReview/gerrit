@@ -122,13 +122,20 @@ export const sharedStyles = css`
     /* iron-autogrow-textarea has a "-webkit-appearance: textarea" :host
         css rule, which prevents overriding the border color. Clear that. */
     -webkit-appearance: none;
-
+  }
+  /* We are putting css mixin defs in a separate rule, because they actually
+     require a semi-colon at the end after the curly bracket, but
+     auto-formatting removes that. */
+  iron-autogrow-textarea {
     --iron-autogrow-textarea: {
       box-sizing: border-box;
       padding: var(--spacing-s);
     }
+  }
+  iron-autogrow-textarea {
     --iron-autogrow-textarea_-_box-sizing: border-box;
     --iron-autogrow-textarea_-_padding: var(--spacing-s);
+    --iron-autogrow-textarea_-_white-space: pre-wrap;
   }
   a {
     color: var(--link-color);
@@ -179,10 +186,6 @@ export const sharedStyles = css`
   }
   .separator.transparent {
     border-color: transparent;
-  }
-  iron-autogrow-textarea {
-    /** This is needed for firefox */
-    --iron-autogrow-textarea_-_white-space: pre-wrap;
   }
 
   /**

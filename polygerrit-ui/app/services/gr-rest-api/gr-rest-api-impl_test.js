@@ -65,18 +65,18 @@ suite('gr-rest-api-service-impl tests', () => {
               message: 'this isn’t quite right',
             },
             {
-              side: 'PARENT',
+              side: PARENT,
               message: 'how did this work in the first place?',
               updated: '2017-02-03 22:33:28.000000000',
             },
           ],
         }));
-    return element._getDiffComments('42', '', undefined, 'PARENT', 1,
+    return element._getDiffComments('42', '', undefined, PARENT, 1,
         'sieve.go').then(
         obj => {
           assert.equal(obj.baseComments.length, 1);
           assert.deepEqual(obj.baseComments[0], {
-            side: 'PARENT',
+            side: PARENT,
             message: 'how did this work in the first place?',
             path: 'sieve.go',
             updated: '2017-02-03 22:33:28.000000000',
@@ -94,7 +94,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const comments = [
       {
         id: 1,
-        side: 'PARENT',
+        side: PARENT,
         message: 'how did this work in the first place?',
         updated: '2017-02-03 22:32:28.000000000',
         range: {
@@ -143,7 +143,7 @@ suite('gr-rest-api-service-impl tests', () => {
       },
       {
         id: 1,
-        side: 'PARENT',
+        side: PARENT,
         message: 'how did this work in the first place?',
         updated: '2017-02-03 22:32:28.000000000',
         range: {
@@ -157,7 +157,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const expectedResult = [
       {
         id: 1,
-        side: 'PARENT',
+        side: PARENT,
         message: 'how did this work in the first place?',
         updated: '2017-02-03 22:32:28.000000000',
         range: {
@@ -209,7 +209,7 @@ suite('gr-rest-api-service-impl tests', () => {
               updated: '2017-02-03 22:32:28.000000000',
             },
             {
-              side: 'PARENT',
+              side: PARENT,
               message: 'how did this work in the first place?',
               updated: '2017-02-03 22:33:28.000000000',
             },
@@ -224,7 +224,7 @@ suite('gr-rest-api-service-impl tests', () => {
               updated: '2017-02-03 22:32:28.000000000',
             },
             {
-              side: 'PARENT',
+              side: PARENT,
               message: 'Yeah not sure how this worked either?',
               updated: '2017-02-03 22:33:28.000000000',
             },
@@ -1138,7 +1138,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('patch only', () => {
       const fetchStub = sinon.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
-      const range = {basePatchNum: 'PARENT', patchNum: 2};
+      const range = {basePatchNum: PARENT, patchNum: 2};
       return element.getChangeFiles(123, range).then(() => {
         assert.isTrue(fetchStub.calledOnce);
         assert.equal(fetchStub.lastCall.args[0].revision, 2);
@@ -1177,7 +1177,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('patchOnly', () => {
       const fetchStub = sinon.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
-      return element.getDiff(123, 'PARENT', 2, 'foo/bar.baz').then(() => {
+      return element.getDiff(123, PARENT, 2, 'foo/bar.baz').then(() => {
         assert.isTrue(fetchStub.calledOnce);
         assert.equal(fetchStub.lastCall.args[0].revision, 2);
         assert.isOk(fetchStub.lastCall.args[0].params);

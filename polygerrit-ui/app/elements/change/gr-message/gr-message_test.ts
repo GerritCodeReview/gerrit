@@ -26,6 +26,7 @@ import {
   ChangeMessageId,
   EmailAddress,
   NumericChangeId,
+  PARENT,
   RevisionPatchSetNum,
   ReviewInputTag,
   Timestamp,
@@ -371,7 +372,7 @@ suite('gr-message tests', () => {
         assert.isTrue(
           navStub.calledWithExactly(element.change!, {
             patchNum: 1 as RevisionPatchSetNum,
-            basePatchNum: 'PARENT' as BasePatchSetNum,
+            basePatchNum: PARENT,
           })
         );
       });

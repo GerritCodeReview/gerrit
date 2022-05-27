@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f61f1a0c_5bca7dae",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-27T16:16:28Z",
+      "side": 1,
+      "message": "Yeah, expanded the commit message a bit. This is mainly due to `loggedIn` being true by default, and then also async behavior changing slightly with the observable firing at a different time.",
+      "parentUuid": "d89fed73_20f1abfe",
+      "range": {
+        "startLine": 210,
+        "startChar": 8,
+        "endLine": 227,
+        "endChar": 14
+      },
+      "revId": "54a868955f68abe946e2fe327d36b0ac6ff72a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ce8dab3_19bcfad1",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-27T12:59:09Z",
       "side": 1,
       "message": "do you still need these loggedin stubs and `element.loggedIn \u003d true/false;` in the file?",
+      "range": {
+        "startLine": 1513,
+        "startChar": 19,
+        "endLine": 1513,
+        "endChar": 30
+      },
+      "revId": "54a868955f68abe946e2fe327d36b0ac6ff72a2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bbc0d91_c83d6570",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1513,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-27T16:16:28Z",
+      "side": 1,
+      "message": "Good point. Removed them all! :-)",
+      "parentUuid": "1ce8dab3_19bcfad1",
       "range": {
         "startLine": 1513,
         "startChar": 19,

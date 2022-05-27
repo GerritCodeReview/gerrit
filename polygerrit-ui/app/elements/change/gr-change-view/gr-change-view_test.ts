@@ -61,7 +61,7 @@ import {
   CommitId,
   EditPatchSetNum,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   PatchRange,
   RelatedChangeAndCommitInfo,
   ReviewInputTag,
@@ -368,7 +368,7 @@ suite('gr-change-view tests', () => {
   test('_handleMessageAnchorTap', () => {
     element._changeNum = 1 as NumericChangeId;
     element._patchRange = {
-      basePatchNum: ParentPatchSetNum,
+      basePatchNum: PARENT,
       patchNum: 1 as RevisionPatchSetNum,
     };
     element._change = createChangeViewChange();
@@ -814,7 +814,7 @@ suite('gr-change-view tests', () => {
     setup(() => {
       element._changeNum = TEST_NUMERIC_CHANGE_ID;
       element._patchRange = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
       element._change = {
@@ -1211,7 +1211,7 @@ suite('gr-change-view tests', () => {
     };
     element._changeNum = TEST_NUMERIC_CHANGE_ID;
     element._patchRange = {
-      basePatchNum: ParentPatchSetNum,
+      basePatchNum: PARENT,
       patchNum: 1 as RevisionPatchSetNum,
     };
     const change = {
@@ -1272,7 +1272,7 @@ suite('gr-change-view tests', () => {
     } as ParsedChangeInfo;
     element._changeNum = undefined;
     element._patchRange = {
-      basePatchNum: ParentPatchSetNum,
+      basePatchNum: PARENT,
       patchNum: 2 as RevisionPatchSetNum,
     };
     element._change = change;
@@ -1578,9 +1578,9 @@ suite('gr-change-view tests', () => {
       },
     };
     const _patchRange: ChangeViewPatchRange = {
-      basePatchNum: ParentPatchSetNum,
+      basePatchNum: PARENT,
     };
-    assert.equal(element._getBasePatchNum(_change, _patchRange), 'PARENT');
+    assert.equal(element._getBasePatchNum(_change, _patchRange), PARENT);
 
     element._prefs = {
       ...createPreferences(),
@@ -1611,7 +1611,7 @@ suite('gr-change-view tests', () => {
     assert.equal(element._getBasePatchNum(_change2, _patchRange), -1);
 
     _patchRange.patchNum = 1 as RevisionPatchSetNum;
-    assert.equal(element._getBasePatchNum(_change2, _patchRange), 'PARENT');
+    assert.equal(element._getBasePatchNum(_change2, _patchRange), PARENT);
   });
 
   test('_openReplyDialog called with `ANY` when coming from tap event', async () => {
@@ -1686,7 +1686,7 @@ suite('gr-change-view tests', () => {
       .callsFake(() => Promise.resolve());
 
     element._patchRange = {
-      basePatchNum: ParentPatchSetNum,
+      basePatchNum: PARENT,
       patchNum: 2 as RevisionPatchSetNum,
     };
     element._change = {
@@ -1804,13 +1804,13 @@ suite('gr-change-view tests', () => {
       );
     assert.isTrue(
       callCompute(
-        {basePatchNum: ParentPatchSetNum, patchNum: 1 as RevisionPatchSetNum},
+        {basePatchNum: PARENT, patchNum: 1 as RevisionPatchSetNum},
         {...createAppElementChangeViewParams(), edit: true}
       )
     );
     assert.isFalse(
       callCompute(
-        {basePatchNum: ParentPatchSetNum, patchNum: 1 as RevisionPatchSetNum},
+        {basePatchNum: PARENT, patchNum: 1 as RevisionPatchSetNum},
         createAppElementChangeViewParams()
       )
     );
@@ -1859,7 +1859,7 @@ suite('gr-change-view tests', () => {
 
   test('file-action-tap handling', async () => {
     element._patchRange = {
-      basePatchNum: ParentPatchSetNum,
+      basePatchNum: PARENT,
       patchNum: 1 as RevisionPatchSetNum,
     };
     element._change = {
@@ -2024,13 +2024,13 @@ suite('gr-change-view tests', () => {
     assert.isFalse(element.hasPatchRangeChanged(params));
     assert.isFalse(element.hasPatchNumChanged(params));
 
-    params.basePatchNum = ParentPatchSetNum;
+    params.basePatchNum = PARENT;
     // undefined means navigate to latest patchset
     params.patchNum = undefined;
 
     element._patchRange = {
       patchNum: 2 as RevisionPatchSetNum,
-      basePatchNum: ParentPatchSetNum,
+      basePatchNum: PARENT,
     };
 
     assert.isTrue(element.hasPatchRangeChanged(params));
@@ -2038,7 +2038,7 @@ suite('gr-change-view tests', () => {
 
     element._patchRange = {
       patchNum: 4 as RevisionPatchSetNum,
-      basePatchNum: ParentPatchSetNum,
+      basePatchNum: PARENT,
     };
 
     assert.isFalse(element.hasPatchRangeChanged(params));
@@ -2209,7 +2209,7 @@ suite('gr-change-view tests', () => {
   suite('gr-reporting tests', () => {
     setup(() => {
       element._patchRange = {
-        basePatchNum: ParentPatchSetNum,
+        basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
       sinon

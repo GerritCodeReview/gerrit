@@ -10,7 +10,7 @@ import {
   NumericChangeId,
   RevisionPatchSetNum,
   BasePatchSetNum,
-  ParentPatchSetNum,
+  PARENT,
 } from '../../types/common';
 import {Model} from '../../models/model';
 
@@ -48,7 +48,7 @@ export class RouterModel extends Model<RouterState> implements Finalizable {
 
   constructor() {
     super({
-      basePatchNum: ParentPatchSetNum,
+      basePatchNum: PARENT,
     });
     this.routerView$ = this.state$.pipe(
       map(state => state.view),

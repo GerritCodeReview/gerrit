@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma.js';
 import {addListener} from '@polymer/polymer/lib/utils/gestures.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';

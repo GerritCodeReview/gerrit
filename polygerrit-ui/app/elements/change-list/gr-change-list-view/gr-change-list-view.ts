@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../shared/gr-icons/gr-icons';
 import '../gr-change-list/gr-change-list';
 import '../gr-repo-header/gr-repo-header';

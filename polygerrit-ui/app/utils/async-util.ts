@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {Observable} from 'rxjs';
 import {filter, take} from 'rxjs/operators';
 

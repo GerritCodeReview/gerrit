@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-avatar/gr-avatar';

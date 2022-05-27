@@ -3,7 +3,6 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement} from '@polymer/decorators';
 import {html} from '@polymer/polymer/lib/utils/html-tag';

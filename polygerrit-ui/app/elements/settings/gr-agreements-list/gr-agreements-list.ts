@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {getBaseUrl} from '../../../utils/url-util';
 import {ContributorAgreementInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';

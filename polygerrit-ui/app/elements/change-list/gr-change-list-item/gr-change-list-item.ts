@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-change-star/gr-change-star';
 import '../../shared/gr-change-status/gr-change-status';

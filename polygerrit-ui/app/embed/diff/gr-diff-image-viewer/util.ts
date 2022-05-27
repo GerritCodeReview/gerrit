@@ -3,7 +3,6 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {ImageDiffAction} from '../../../api/diff';
 
 export interface Point {

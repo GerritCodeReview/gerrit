@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {StorageLocation, StorageObject, StorageService} from './gr-storage';
 import {Finalizable} from '../registry';
 import {NumericChangeId} from '../../types/common';

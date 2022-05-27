@@ -3,7 +3,6 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {getBaseUrl} from '../../../utils/url-util';
 import {HttpMethod} from '../../../constants/constants';
 import {RequestPayload} from '../../../types/common';

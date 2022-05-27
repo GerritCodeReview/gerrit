@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {ChangeInfo, CommitInfo, ServerInfo} from '../../../types/common';

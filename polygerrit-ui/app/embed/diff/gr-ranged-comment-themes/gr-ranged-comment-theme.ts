@@ -3,7 +3,6 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {css} from 'lit';
 
 const $_documentContainer = document.createElement('template');

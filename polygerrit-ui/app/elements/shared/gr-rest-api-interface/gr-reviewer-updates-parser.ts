@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {parseDate} from '../../../utils/date-util';
 import {MessageTag, ReviewerState} from '../../../constants/constants';
 import {

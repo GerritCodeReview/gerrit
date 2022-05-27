@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class';
 import {PolymerElement} from '@polymer/polymer/polymer-element';

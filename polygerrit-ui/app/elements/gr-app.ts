@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {safeTypesBridge} from '../utils/safe-types-util';
 import './font-roboto-local-loader';
 // Sets up global Polymer variable, because plugins requires it.

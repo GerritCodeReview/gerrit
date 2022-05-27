@@ -3,7 +3,6 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-diff-preferences/gr-diff-preferences';
 import '../../shared/gr-overlay/gr-overlay';

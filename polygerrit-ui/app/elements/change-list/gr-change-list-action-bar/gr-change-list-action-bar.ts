@@ -3,7 +3,6 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {css, html, LitElement, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';

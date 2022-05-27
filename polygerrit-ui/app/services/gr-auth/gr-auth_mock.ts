@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {EventEmitterService} from '../gr-event-interface/gr-event-interface';
 import {
   AuthRequestInit,

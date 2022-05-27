@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../shared/gr-dropdown/gr-dropdown';
 import {GrEditConstants} from '../gr-edit-constants';
 import {sharedStyles} from '../../../styles/shared-styles';

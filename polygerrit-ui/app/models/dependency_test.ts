@@ -3,7 +3,6 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {define, provide, resolve, DIPolymerElement} from './dependency';
 import {html, LitElement} from 'lit';
 import {customElement as polyCustomElement} from '@polymer/decorators';

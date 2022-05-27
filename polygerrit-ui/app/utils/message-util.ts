@@ -3,7 +3,6 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {MessageTag} from '../constants/constants';
 import {ChangeId, ChangeMessageInfo} from '../types/common';
 

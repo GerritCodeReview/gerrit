@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {RepoName} from '../../../types/common';
 import {WebLinkInfo} from '../../../types/diff';

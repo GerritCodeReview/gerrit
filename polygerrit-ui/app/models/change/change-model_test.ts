@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {Subject} from 'rxjs';
 import {ChangeStatus} from '../../constants/constants';
 import '../../test/common-test-setup-karma';

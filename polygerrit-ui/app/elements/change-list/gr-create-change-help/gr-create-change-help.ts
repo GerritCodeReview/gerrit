@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
 import {fireEvent} from '../../../utils/event-util';

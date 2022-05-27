@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-admin-view';
 import {AdminSubsectionLink, GrAdminView} from './gr-admin-view';

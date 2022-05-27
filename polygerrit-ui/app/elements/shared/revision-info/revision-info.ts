@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {ChangeInfo, PatchSetNum} from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 

@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma.js';
 import './gr-date-formatter.js';
 import {parseDate} from '../../../utils/date-util.js';

@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import '../gr-comment-api/gr-comment-api';
 import '../../shared/revision-info/revision-info';

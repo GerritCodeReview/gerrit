@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../gr-access-section/gr-access-section';
 import {encodeURL, getBaseUrl, singleDecodeURL} from '../../../utils/url-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';

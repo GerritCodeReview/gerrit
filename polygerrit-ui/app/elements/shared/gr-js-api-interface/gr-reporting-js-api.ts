@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {getAppContext} from '../../../services/app-context';
 import {PluginApi} from '../../../api/plugin';
 import {EventDetails, ReportingPluginApi} from '../../../api/reporting';

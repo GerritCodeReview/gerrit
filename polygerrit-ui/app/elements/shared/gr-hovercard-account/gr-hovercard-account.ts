@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '@polymer/iron-icon/iron-icon';
 import '../gr-avatar/gr-avatar';
 import '../gr-button/gr-button';

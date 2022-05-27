@@ -3,7 +3,6 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {customElement, query, state} from 'lit/decorators';
 import {LitElement, html, css, nothing} from 'lit';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';

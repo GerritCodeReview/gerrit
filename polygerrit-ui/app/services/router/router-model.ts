@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {Observable} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Finalizable} from '../registry';

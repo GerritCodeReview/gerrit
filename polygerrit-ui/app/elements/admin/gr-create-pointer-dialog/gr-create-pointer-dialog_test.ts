@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-create-pointer-dialog';
 import {GrCreatePointerDialog} from './gr-create-pointer-dialog';

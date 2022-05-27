@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma.js';
 import './gr-cursor-manager.js';
 import {fixture, html} from '@open-wc/testing-helpers';

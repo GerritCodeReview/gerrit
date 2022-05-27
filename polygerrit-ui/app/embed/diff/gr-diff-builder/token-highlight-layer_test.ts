@@ -3,7 +3,6 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {Side, TokenHighlightEventDetails} from '../../../api/diff';

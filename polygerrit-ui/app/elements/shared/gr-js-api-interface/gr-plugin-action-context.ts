@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {RevisionInfo, ChangeInfo, RequestPayload} from '../../../types/common';
 import {ShowAlertEventDetail} from '../../../types/events';
 import {PluginApi} from '../../../api/plugin';

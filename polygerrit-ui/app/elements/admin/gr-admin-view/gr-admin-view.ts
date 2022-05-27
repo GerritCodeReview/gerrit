@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-page-nav/gr-page-nav';

@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-watched-projects-editor';
 import {GrWatchedProjectsEditor} from './gr-watched-projects-editor';

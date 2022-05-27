@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-repo-branch-picker/gr-repo-branch-picker';

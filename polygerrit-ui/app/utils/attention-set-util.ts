@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {AccountInfo, ChangeInfo, ServerInfo} from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
 import {

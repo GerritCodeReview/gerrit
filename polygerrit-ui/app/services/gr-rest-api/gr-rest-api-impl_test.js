@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../test/common-test-setup-karma.js';
 import {addListenerForTest, mockPromise, stubAuth} from '../../test/test-utils.js';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js';

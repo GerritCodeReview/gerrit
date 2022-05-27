@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import 'ba-linkify/ba-linkify';
 import {getBaseUrl} from '../../../utils/url-util';
 import {CommentLinkInfo} from '../../../types/common';

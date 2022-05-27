@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../test/common-test-setup-karma';
 import {Auth} from './gr-auth_impl';
 import {getAppContext} from '../app-context';

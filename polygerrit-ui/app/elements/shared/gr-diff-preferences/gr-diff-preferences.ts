@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '@polymer/iron-input/iron-input';
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';

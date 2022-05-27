@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma.js';
 import '../../change/gr-reply-dialog/gr-reply-dialog.js';
 import {stubRestApi} from '../../../test/test-utils.js';

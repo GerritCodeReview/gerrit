@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '@polymer/paper-toggle-button/paper-toggle-button';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';

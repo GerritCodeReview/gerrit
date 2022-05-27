@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {create, Registry, Finalizable} from '../services/registry';
 import {AppContext} from '../services/app-context';
 import {AuthService} from '../services/gr-auth/gr-auth';

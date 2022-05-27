@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../shared/gr-cursor-manager/gr-cursor-manager';
 import '../gr-change-list-item/gr-change-list-item';
 import '../gr-change-list-section/gr-change-list-section';

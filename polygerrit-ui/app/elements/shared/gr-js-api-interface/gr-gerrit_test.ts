@@ -3,7 +3,6 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import {getPluginLoader} from './gr-plugin-loader';
 import {resetPlugins} from '../../../test/test-utils';

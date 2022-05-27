@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../shared/gr-list-view/gr-list-view';
 import {PluginInfo} from '../../../types/common';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';

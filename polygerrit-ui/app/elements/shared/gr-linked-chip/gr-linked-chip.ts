@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
 import '../gr-limited-text/gr-limited-text';

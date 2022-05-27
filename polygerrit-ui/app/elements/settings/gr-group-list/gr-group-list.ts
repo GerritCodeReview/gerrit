@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GroupInfo, GroupId} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';

@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import '../../../test/common-test-setup-karma';
 import './gr-dialog';

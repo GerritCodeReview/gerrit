@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-behavior';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class';
 import {PolymerElement} from '@polymer/polymer/polymer-element';

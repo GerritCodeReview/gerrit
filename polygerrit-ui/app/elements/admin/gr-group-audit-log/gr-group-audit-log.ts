@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../shared/gr-account-label/gr-account-label';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {

@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../change/gr-submit-requirement-dashboard-hovercard/gr-submit-requirement-dashboard-hovercard';
 import '../../shared/gr-change-status/gr-change-status';
 import {LitElement, css, html, TemplateResult} from 'lit';

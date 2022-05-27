@@ -3,7 +3,6 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {LitElement, html, css, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';

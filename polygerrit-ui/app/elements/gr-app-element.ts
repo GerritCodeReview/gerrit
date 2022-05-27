@@ -3,7 +3,6 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../styles/themes/app-theme';
 import '../styles/themes/dark-theme';
 import {applyTheme as applyDarkTheme} from '../styles/themes/dark-theme';

@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {AccountDetailInfo, GroupId, RepoName, Timestamp} from '../api/rest-api';
 import '../test/common-test-setup-karma';
 import {AdminNavLinksOption, getAdminLinks} from './admin-nav-util';

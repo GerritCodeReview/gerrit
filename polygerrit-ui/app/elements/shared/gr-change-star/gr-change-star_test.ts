@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {IronIconElement} from '@polymer/iron-icon';
 import '../../../test/common-test-setup-karma';
 import {queryAndAssert} from '../../../test/test-utils';

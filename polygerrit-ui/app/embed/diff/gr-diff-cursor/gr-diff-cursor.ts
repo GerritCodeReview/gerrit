@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {Subscription} from 'rxjs';
 import {AbortStop, CursorMoveResult, Stop} from '../../../api/core';

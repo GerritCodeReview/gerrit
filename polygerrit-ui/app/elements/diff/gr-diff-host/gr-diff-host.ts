@@ -41,7 +41,7 @@ import {
   Base64ImageFile,
   BlameInfo,
   ChangeInfo,
-  EditPatchSetNum,
+  EDIT,
   NumericChangeId,
   PARENT,
   PatchRange,
@@ -482,7 +482,7 @@ export class GrDiffHost extends DIPolymerElement {
 
     const path = this.path;
     const patchNum = this.patchRange?.patchNum;
-    if (!path || !patchNum || patchNum === EditPatchSetNum) return;
+    if (!path || !patchNum || patchNum === EDIT) return;
     this.checksSubscription = this.getChecksModel()
       .allResults$.pipe(
         map(results =>
@@ -1005,9 +1005,8 @@ export class GrDiffHost extends DIPolymerElement {
       return false;
     }
 
-    const isEdit = patchNum === EditPatchSetNum;
-    const isEditBase =
-      patchNum === PARENT && this.patchRange.patchNum === EditPatchSetNum;
+    const isEdit = patchNum === EDIT;
+    const isEditBase = patchNum === PARENT && this.patchRange.patchNum === EDIT;
 
     if (isEdit) {
       fireAlert(this, 'You cannot comment on an edit.');

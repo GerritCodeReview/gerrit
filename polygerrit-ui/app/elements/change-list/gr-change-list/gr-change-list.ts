@@ -51,7 +51,7 @@ import {resolve} from '../../../models/dependency';
 import {viewModelToken} from '../../../models/view/view-model';
 import {subscribe} from '../../lit/subscription-controller';
 
-const CHANGE_LIST = 'CHANGE_LIST';
+export const CHANGE_LIST = 'CHANGE_LIST';
 
 export interface ChangeListSection {
   countLabel?: string;

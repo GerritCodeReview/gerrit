@@ -40,6 +40,9 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators';
 import {ValueChangedEvent} from '../../../types/events';
+import {resolve} from '../../../models/dependency';
+import {viewModelToken} from '../../../models/view/view-model';
+import {CHANGE_LIST} from '../gr-change-list/gr-change-list';
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [
   /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
@@ -102,6 +105,8 @@ export class GrChangeListView extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private reporting = getAppContext().reportingService;
+
+  private readonly getViewModel = resolve(this, viewModelToken);
 
   private lastVisibleTimestampMs = 0;
 
@@ -295,6 +300,9 @@ export class GrChangeListView extends LitElement {
     if (!value || value.view !== GerritView.SEARCH) return;
 
     this.loading = true;
+    if (this.query !== value.query) {
+      this.getViewModel().setSelectedIndexForDashboard(CHANGE_LIST, 0);
+    }
     this.query = value.query;
     const offset = Number(value.offset);
     this.offset = isNaN(offset) ? 0 : offset;

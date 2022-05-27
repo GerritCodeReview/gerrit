@@ -291,10 +291,7 @@ export function hasEditBasedOnCurrentPatchSet(
 }
 
 export function hasEditPatchsetLoaded(patchRange: PatchRange) {
-  return (
-    patchRange.patchNum === EditPatchSetNum ||
-    patchRange.basePatchNum === EditPatchSetNum
-  );
+  return patchRange.patchNum === EditPatchSetNum;
 }
 
 /**

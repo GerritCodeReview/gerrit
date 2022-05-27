@@ -776,19 +776,23 @@ export declare interface ParentCommitInfo {
   subject: string;
 }
 
-export type PatchSetNum = BrandType<'PARENT' | 'edit' | number, '_patchSet'>;
-
-// for the "left" side of a diff or the base of a patch range
-export type BasePatchSetNum = BrandType<'PARENT' | number, '_patchSet'>;
-
-// for the "right" side of a diff or the revision of a patch range
-export type RevisionPatchSetNum = BrandType<'edit' | number, '_patchSet'>;
-
 export type PatchSetNumber = BrandType<number, '_patchSet'>;
 
-export const EditPatchSetNum = 'edit' as RevisionPatchSetNum;
+export type EditPatchSet = BrandType<'edit', '_patchSet'>;
 
-export const ParentPatchSetNum = 'PARENT' as BasePatchSetNum;
+export const EditPatchSetNum = 'edit' as EditPatchSet;
+
+export type ParentPatchSet = BrandType<'PARENT', '_patchSet'>;
+
+export const ParentPatchSetNum = 'PARENT' as ParentPatchSet;
+
+export type PatchSetNum = PatchSetNumber | ParentPatchSet | EditPatchSet;
+
+// for the "left" side of a diff or the base of a patch range
+export type BasePatchSetNum = PatchSetNumber | ParentPatchSet;
+
+// for the "right" side of a diff or the revision of a patch range
+export type RevisionPatchSetNum = PatchSetNumber | EditPatchSet;
 
 /**
  * The PluginConfigInfo entity contains information about Gerrit extensions by

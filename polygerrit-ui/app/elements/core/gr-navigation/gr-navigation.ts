@@ -11,7 +11,7 @@ import {
   CommentLinks,
   CommitId,
   DashboardId,
-  EditPatchSetNum,
+  EDIT,
   GroupId,
   Hashtag,
   NumericChangeId,
@@ -691,7 +691,7 @@ export const GerritNav = {
 
   /**
    * @param patchNum The patchNum the file content should be based on, or
-   *   ${EditPatchSetNum} if left undefined.
+   *   ${EDIT} if left undefined.
    * @param lineNum The line number to pass to the inline editor.
    */
   getEditUrlForDiffById(
@@ -706,7 +706,7 @@ export const GerritNav = {
       changeNum,
       project,
       path: filePath,
-      patchNum: patchNum || EditPatchSetNum,
+      patchNum: patchNum || EDIT,
       lineNum,
     });
   },

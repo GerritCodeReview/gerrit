@@ -46,7 +46,7 @@ import {
 import {customElement, property, query, state} from 'lit/decorators';
 import {
   BasePatchSetNum,
-  EditPatchSetNum,
+  EDIT,
   FileInfo,
   FileNameToFileInfoMap,
   NumericChangeId,
@@ -1429,7 +1429,7 @@ export class GrFileList extends LitElement {
       this.patchRange?.patchNum &&
       new RevisionInfo(this.change).isMergeCommit(this.patchRange.patchNum) &&
       this.patchRange.basePatchNum === PARENT &&
-      this.patchRange.patchNum !== EditPatchSetNum
+      this.patchRange.patchNum !== EDIT
     ) {
       const allFilesByPath = await this.restApiService.getChangeOrEditFiles(
         this.changeNum,

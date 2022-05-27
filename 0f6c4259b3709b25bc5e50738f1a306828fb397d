@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1df111dd_c8d7cc62",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-27T17:17:36Z",
+      "side": 1,
+      "message": "optional: are these types really that associated with the diff?\nI would personally just remove the comments.",
+      "range": {
+        "startLine": 781,
+        "startChar": 0,
+        "endLine": 781,
+        "endChar": 32
+      },
+      "revId": "0f6c4259b3709b25bc5e50738f1a306828fb397d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f7cdf65_0cad12df",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-27T17:17:36Z",
+      "side": 1,
+      "message": "we have the type `current` as well for the latest patchset?\nShould we group the type here as well?",
+      "revId": "0f6c4259b3709b25bc5e50738f1a306828fb397d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76911a2a_2f5a8812",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-27T17:17:36Z",
+      "side": 1,
+      "message": "Where is this type used and what is the purpose of this type?\nIf we are defining patchset wrt the diffs then this should be removed?",
+      "range": {
+        "startLine": 787,
+        "startChar": 0,
+        "endLine": 787,
+        "endChar": 60
+      },
+      "revId": "0f6c4259b3709b25bc5e50738f1a306828fb397d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "833463f9_72e39bda",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-27T17:17:36Z",
+      "side": 1,
+      "message": "should this be `PatchSetNumber`?\notherwise not sure when that should be used.",
+      "range": {
+        "startLine": 41,
+        "startChar": 30,
+        "endLine": 41,
+        "endChar": 49
+      },
+      "revId": "0f6c4259b3709b25bc5e50738f1a306828fb397d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

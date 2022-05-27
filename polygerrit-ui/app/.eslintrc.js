@@ -230,6 +230,13 @@ module.exports = {
     // Prevents certain identifiers being used.
     // Prefer flush() over flushAsynchronousOperations().
     'id-blacklist': ['error', 'flushAsynchronousOperations'],
+    'regex/invalid': [
+      'error', [{
+        // eslint-disable-next-line regex/invalid
+        regex: 'Licensed under',
+        message: 'Please use SPDX license headers.',
+      }],
+    ],
   },
 
   // List of allowed globals in all files

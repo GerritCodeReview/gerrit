@@ -497,55 +497,38 @@ suite('gr-diff-processor tests', () => {
       const content = [
         {
           ab: [
-            'Copyright (C) 2015 The Android Open Source Project',
+            'copy',
             '',
-            'Licensed under the Apache License, Version 2.0 (the "License");',
-            'you may not use this file except in compliance with the ' +
-              'License.',
-            'You may obtain a copy of the License at',
+            'asdf',
+            'qwer',
+            'zxcv',
             '',
-            'http://www.apache.org/licenses/LICENSE-2.0',
+            'http',
             '',
-            'Unless required by applicable law or agreed to in writing, ',
-            'software distributed under the License is distributed on an ',
-            '"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, ',
-            'either express or implied. See the License for the specific ',
-            'language governing permissions and limitations under the ' +
-              'License.',
+            'vbnm',
+            'dfgh',
+            'yuio',
+            'sdfg',
+            '1234',
           ],
         },
       ];
       const result = element.splitCommonChunksWithKeyLocations(content);
       assert.deepEqual(result, [
         {
-          ab: ['Copyright (C) 2015 The Android Open Source Project'],
+          ab: ['copy'],
           keyLocation: true,
         },
         {
-          ab: [
-            '',
-            'Licensed under the Apache License, Version 2.0 (the "License");',
-            'you may not use this file except in compliance with the ' +
-              'License.',
-            'You may obtain a copy of the License at',
-            '',
-            'http://www.apache.org/licenses/LICENSE-2.0',
-            '',
-            'Unless required by applicable law or agreed to in writing, ',
-          ],
+          ab: ['', 'asdf', 'qwer', 'zxcv', '', 'http', '', 'vbnm'],
           keyLocation: false,
         },
         {
-          ab: ['software distributed under the License is distributed on an '],
+          ab: ['dfgh'],
           keyLocation: true,
         },
         {
-          ab: [
-            '"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, ',
-            'either express or implied. See the License for the specific ',
-            'language governing permissions and limitations under the ' +
-              'License.',
-          ],
+          ab: ['yuio', 'sdfg', '1234'],
           keyLocation: false,
         },
       ]);

@@ -20,6 +20,7 @@ import {
   ChangeId,
   NumericChangeId,
   PatchSetNum,
+  RevisionPatchSetNum,
 } from '../../../types/common.js';
 import {ChangeInfo, ChangeStatus} from '../../../api/rest-api.js';
 import {PatchSet} from '../../../utils/patch-set-util';
@@ -164,7 +165,7 @@ suite('gr-file-list-header tests', () => {
     assert.equal(navigateToChangeStub.callCount, 1);
     assert.isTrue(
       navigateToChangeStub.lastCall.calledWithExactly(change, {
-        patchNum: 3 as PatchSetNum,
+        patchNum: 3 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
       })
     );

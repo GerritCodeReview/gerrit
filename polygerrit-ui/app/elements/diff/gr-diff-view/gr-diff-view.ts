@@ -1203,7 +1203,7 @@ export class GrDiffView extends base {
           GerritNav.navigateToDiff(
             this._change,
             this._path,
-            this._patchRange.basePatchNum,
+            this._patchRange.basePatchNum as RevisionPatchSetNum,
             ParentPatchSetNum,
             this._focusLineNum
           );
@@ -1671,8 +1671,8 @@ export class GrDiffView extends base {
     GerritNav.navigateToDiff(
       this._change,
       this._path,
-      this._patchRange.basePatchNum,
-      'PARENT' as BasePatchSetNum,
+      this._patchRange.basePatchNum as RevisionPatchSetNum,
+      ParentPatchSetNum,
       this.params?.view === GerritView.DIFF && this.params?.commentLink
         ? this._focusLineNum
         : undefined

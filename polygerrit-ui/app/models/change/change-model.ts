@@ -8,6 +8,7 @@ import {
   EditPatchSetNum,
   NumericChangeId,
   PatchSetNum,
+  RevisionPatchSetNum,
 } from '../../types/common';
 import {
   combineLatest,
@@ -156,7 +157,9 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
    * Note that this selector can emit a patchNum without the change being
    * available!
    */
-  public readonly currentPatchNum$: Observable<PatchSetNum | undefined> =
+  public readonly currentPatchNum$: Observable<
+    RevisionPatchSetNum | undefined
+  > =
     /**
      * If you depend on both, router and change state, then you want to filter
      * out inconsistent state, e.g. router changeNum already updated, change not

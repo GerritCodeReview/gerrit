@@ -36,7 +36,7 @@ import {
   RevisionInfo,
   ParentCommitInfo,
   TopicName,
-  PatchSetNum,
+  RevisionPatchSetNum,
   NumericChangeId,
   LabelValueToDescriptionMap,
   Hashtag,
@@ -736,7 +736,7 @@ suite('gr-change-metadata tests', () => {
     await element.updateComplete;
     assert.isFalse(element.showCherryPickOf());
     change.cherry_pick_of_change = 123 as NumericChangeId;
-    change.cherry_pick_of_patch_set = 1 as PatchSetNum;
+    change.cherry_pick_of_patch_set = 1 as RevisionPatchSetNum;
     element.change = change;
     await element.updateComplete;
     assert.isTrue(element.showCherryPickOf());

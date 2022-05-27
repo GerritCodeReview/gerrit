@@ -47,6 +47,7 @@ import {
   PatchRange,
   PatchSetNum,
   RepoName,
+  RevisionPatchSetNum,
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {
@@ -982,7 +983,7 @@ export class GrDiffHost extends DIPolymerElement {
     const newThread: CommentThread = {
       rootId: undefined,
       comments: [],
-      patchNum,
+      patchNum: patchNum as RevisionPatchSetNum,
       commentSide,
       // TODO: Maybe just compute from patchRange.base on the fly?
       mergeParentNum: this._parentIndex ?? undefined,

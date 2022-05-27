@@ -63,7 +63,6 @@ import {
   NumericChangeId,
   ParentPatchSetNum,
   PatchRange,
-  PatchSetNum,
   RelatedChangeAndCommitInfo,
   ReviewInputTag,
   RevisionInfo,
@@ -115,7 +114,7 @@ suite('gr-change-view tests', () => {
             name: 'user',
             username: 'user',
           },
-          patch_set: 2 as PatchSetNum,
+          patch_set: 2 as RevisionPatchSetNum,
           robot_id: 'rb1' as RobotId,
           id: 'ecf0b9fa_fe1a5f62' as UrlEncodedCommentId,
           line: 5,
@@ -130,7 +129,7 @@ suite('gr-change-view tests', () => {
             name: 'user',
             username: 'user',
           },
-          patch_set: 4 as PatchSetNum,
+          patch_set: 4 as RevisionPatchSetNum,
           id: 'ecf0b9fa_fe1a5f62_1' as UrlEncodedCommentId,
           line: 5,
           updated: '2018-02-08 18:49:18.000000000' as Timestamp,
@@ -146,7 +145,7 @@ suite('gr-change-view tests', () => {
           message: 'draft',
           unresolved: false,
           __draft: true,
-          patch_set: 2 as PatchSetNum,
+          patch_set: 2 as RevisionPatchSetNum,
         },
       ],
       patchNum: 4 as RevisionPatchSetNum,
@@ -164,7 +163,7 @@ suite('gr-change-view tests', () => {
             name: 'user',
             username: 'user',
           },
-          patch_set: 3 as PatchSetNum,
+          patch_set: 3 as RevisionPatchSetNum,
           id: 'ecf0b9fa_fe5f62' as UrlEncodedCommentId,
           robot_id: 'rb2' as RobotId,
           line: 5,
@@ -179,7 +178,7 @@ suite('gr-change-view tests', () => {
             name: 'user',
             username: 'user',
           },
-          patch_set: 3 as PatchSetNum,
+          patch_set: 3 as RevisionPatchSetNum,
           id: '09a9fb0a_1484e6cf' as UrlEncodedCommentId,
           side: CommentSide.PARENT,
           updated: '2018-02-13 22:47:19.000000000' as Timestamp,
@@ -187,7 +186,7 @@ suite('gr-change-view tests', () => {
           unresolved: false,
         },
       ],
-      patchNum: 3 as PatchSetNum,
+      patchNum: 3 as RevisionPatchSetNum,
       path: 'test.txt',
       rootId: '09a9fb0a_1484e6cf' as UrlEncodedCommentId,
       commentSide: CommentSide.PARENT,
@@ -201,7 +200,7 @@ suite('gr-change-view tests', () => {
             name: 'user',
             username: 'user',
           },
-          patch_set: 2 as PatchSetNum,
+          patch_set: 2 as RevisionPatchSetNum,
           id: '8caddf38_44770ec1' as UrlEncodedCommentId,
           line: 4,
           updated: '2018-02-13 22:48:40.000000000' as Timestamp,
@@ -225,7 +224,7 @@ suite('gr-change-view tests', () => {
             name: 'user',
             username: 'user',
           },
-          patch_set: 2 as PatchSetNum,
+          patch_set: 2 as RevisionPatchSetNum,
           id: 'scaddf38_44770ec1' as UrlEncodedCommentId,
           line: 4,
           updated: '2018-02-14 22:48:40.000000000' as Timestamp,
@@ -249,7 +248,7 @@ suite('gr-change-view tests', () => {
           message: 'resolved draft',
           unresolved: false,
           __draft: true,
-          patch_set: 2 as PatchSetNum,
+          patch_set: 2 as RevisionPatchSetNum,
         },
       ],
       patchNum: 4 as RevisionPatchSetNum,
@@ -267,7 +266,7 @@ suite('gr-change-view tests', () => {
             name: 'user',
             username: 'user',
           },
-          patch_set: 4 as PatchSetNum,
+          patch_set: 4 as RevisionPatchSetNum,
           id: 'rc1' as UrlEncodedCommentId,
           line: 5,
           updated: '2019-02-08 18:49:18.000000000' as Timestamp,
@@ -291,7 +290,7 @@ suite('gr-change-view tests', () => {
             name: 'user',
             username: 'user',
           },
-          patch_set: 4 as PatchSetNum,
+          patch_set: 4 as RevisionPatchSetNum,
           id: 'rc2' as UrlEncodedCommentId,
           line: 5,
           updated: '2019-03-08 18:49:18.000000000' as Timestamp,
@@ -306,7 +305,7 @@ suite('gr-change-view tests', () => {
             name: 'user',
             username: 'user',
           },
-          patch_set: 4 as PatchSetNum,
+          patch_set: 4 as RevisionPatchSetNum,
           id: 'c2_1' as UrlEncodedCommentId,
           line: 5,
           updated: '2019-03-08 18:49:18.000000000' as Timestamp,
@@ -396,7 +395,7 @@ suite('gr-change-view tests', () => {
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[0], element._change);
-    assert.equal(args[1]!.patchNum, 3 as PatchSetNum);
+    assert.equal(args[1]!.patchNum, 3 as RevisionPatchSetNum);
   });
 
   test('_handleDiffAgainstLatest', () => {
@@ -412,7 +411,7 @@ suite('gr-change-view tests', () => {
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[0], element._change);
-    assert.equal(args[1]!.patchNum, 10 as PatchSetNum);
+    assert.equal(args[1]!.patchNum, 10 as RevisionPatchSetNum);
     assert.equal(args[1]!.basePatchNum, 1 as BasePatchSetNum);
   });
 
@@ -429,7 +428,7 @@ suite('gr-change-view tests', () => {
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[0], element._change);
-    assert.equal(args[1]!.patchNum, 1 as PatchSetNum);
+    assert.equal(args[1]!.patchNum, 1 as RevisionPatchSetNum);
   });
 
   test('_handleDiffRightAgainstLatest', () => {
@@ -444,7 +443,7 @@ suite('gr-change-view tests', () => {
     element._handleDiffRightAgainstLatest();
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
-    assert.equal(args[1]!.patchNum, 10 as PatchSetNum);
+    assert.equal(args[1]!.patchNum, 10 as RevisionPatchSetNum);
     assert.equal(args[1]!.basePatchNum, 3 as BasePatchSetNum);
   });
 
@@ -460,7 +459,7 @@ suite('gr-change-view tests', () => {
     element._handleDiffBaseAgainstLatest();
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
-    assert.equal(args[1]!.patchNum, 10 as PatchSetNum);
+    assert.equal(args[1]!.patchNum, 10 as RevisionPatchSetNum);
     assert.isNotOk(args[1]!.basePatchNum);
   });
 
@@ -1935,7 +1934,10 @@ suite('gr-change-view tests', () => {
 
     assert.isTrue(getEditUrlForDiffStub.called);
     assert.equal(getEditUrlForDiffStub.lastCall.args[1], 'foo');
-    assert.equal(getEditUrlForDiffStub.lastCall.args[2], 1 as PatchSetNum);
+    assert.equal(
+      getEditUrlForDiffStub.lastCall.args[2],
+      1 as RevisionPatchSetNum
+    );
     assert.isTrue(navigateToRelativeUrlStub.called);
   });
 
@@ -2079,7 +2081,7 @@ suite('gr-change-view tests', () => {
       const promise = mockPromise();
       sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
         assert.equal(args.length, 2);
-        assert.equal(args[1]!.patchNum, 1 as PatchSetNum); // patchNum
+        assert.equal(args[1]!.patchNum, 1 as RevisionPatchSetNum); // patchNum
         assert.equal(args[1]!.isEdit, true); // opt_isEdit
         promise.resolve();
       });
@@ -2120,7 +2122,7 @@ suite('gr-change-view tests', () => {
     const promise = mockPromise();
     sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
       assert.equal(args.length, 2);
-      assert.equal(args[1]!.patchNum, 1 as PatchSetNum); // patchNum
+      assert.equal(args[1]!.patchNum, 1 as RevisionPatchSetNum); // patchNum
       promise.resolve();
     });
 

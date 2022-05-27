@@ -210,7 +210,7 @@ export interface CommentThread {
      Same as `parent` in CommentInfo.
   */
   mergeParentNum?: number;
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
   /* Different from CommentInfo, which just keeps the line undefined for
      FILE comments. */
   line?: LineNumber;

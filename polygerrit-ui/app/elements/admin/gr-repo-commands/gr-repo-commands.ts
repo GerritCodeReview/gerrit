@@ -14,7 +14,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   BranchName,
   ConfigInfo,
-  PatchSetNum,
+  RevisionPatchSetNum,
   RepoName,
 } from '../../../types/common';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -38,7 +38,7 @@ const GC_MESSAGE = 'Garbage collection completed successfully.';
 const CONFIG_BRANCH = 'refs/meta/config' as BranchName;
 const CONFIG_PATH = 'project.config';
 const EDIT_CONFIG_SUBJECT = 'Edit Repo Config';
-const INITIAL_PATCHSET = 1 as PatchSetNum;
+const INITIAL_PATCHSET = 1 as RevisionPatchSetNum;
 const CREATE_CHANGE_FAILED_MESSAGE = 'Failed to create change.';
 const CREATE_CHANGE_SUCCEEDED_MESSAGE = 'Navigating to change';
 

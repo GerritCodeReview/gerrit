@@ -334,9 +334,7 @@ export declare interface AvatarInfo {
   width: number;
 }
 
-export type BasePatchSetNum = BrandType<'PARENT' | number, '_patchSet'>;
 // The refs/heads/ prefix is omitted in Branch name
-
 export type BranchName = BrandType<string, '_branchName'>;
 
 /**
@@ -406,7 +404,7 @@ export declare interface ChangeInfo {
   revert_of?: NumericChangeId;
   submission_id?: ChangeSubmissionId;
   cherry_pick_of_change?: NumericChangeId;
-  cherry_pick_of_patch_set?: PatchSetNum;
+  cherry_pick_of_patch_set?: RevisionPatchSetNum;
   contains_git_conflicts?: boolean;
   internalHost?: string; // TODO(TS): provide an explanation what is its
   submit_requirements?: SubmitRequirementResultInfo[];
@@ -779,6 +777,18 @@ export declare interface ParentCommitInfo {
 }
 
 export type PatchSetNum = BrandType<'PARENT' | 'edit' | number, '_patchSet'>;
+
+// for the "left" side of a diff or the base of a patch range
+export type BasePatchSetNum = BrandType<'PARENT' | number, '_patchSet'>;
+
+// for the "right" side of a diff or the revision of a patch range
+export type RevisionPatchSetNum = BrandType<'edit' | number, '_patchSet'>;
+
+export type PatchSetNumber = BrandType<number, '_patchSet'>;
+
+export const EditPatchSetNum = 'edit' as RevisionPatchSetNum;
+
+export const ParentPatchSetNum = 'PARENT' as BasePatchSetNum;
 
 /**
  * The PluginConfigInfo entity contains information about Gerrit extensions by

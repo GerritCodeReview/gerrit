@@ -14,7 +14,6 @@ import {createComment, createCommentThread} from '../test/test-data-generators';
 import {CommentSide} from '../constants/constants';
 import {
   ParentPatchSetNum,
-  PatchSetNum,
   RevisionPatchSetNum,
   Timestamp,
   UrlEncodedCommentId,
@@ -64,7 +63,7 @@ suite('comment-util', () => {
         ...createComment(),
         id: 'c4' as UrlEncodedCommentId,
         line: 10,
-        patch_set: 4 as PatchSetNum,
+        patch_set: 4 as RevisionPatchSetNum,
         side: CommentSide.PARENT,
         path: '/COMMIT_MSG',
       };
@@ -72,7 +71,7 @@ suite('comment-util', () => {
         getPatchRangeForCommentUrl(comment, 11 as RevisionPatchSetNum),
         {
           basePatchNum: ParentPatchSetNum,
-          patchNum: 4 as PatchSetNum,
+          patchNum: 4 as RevisionPatchSetNum,
         }
       );
     });
@@ -114,7 +113,7 @@ suite('comment-util', () => {
           message: 'i like you, jack',
           updated: '2015-12-23 15:00:20.396000000' as Timestamp,
           line: 1,
-          patch_set: 1 as PatchSetNum,
+          patch_set: 1 as RevisionPatchSetNum,
           path: 'some/path',
         },
         {
@@ -123,7 +122,7 @@ suite('comment-util', () => {
           updated: '2015-12-24 15:01:20.396000000' as Timestamp,
           line: 1,
           in_reply_to: 'sallys_confession' as UrlEncodedCommentId,
-          patch_set: 1 as PatchSetNum,
+          patch_set: 1 as RevisionPatchSetNum,
           path: 'some/path',
         },
         {
@@ -131,7 +130,7 @@ suite('comment-util', () => {
           message: 'i do not like either of you' as UrlEncodedCommentId,
           __draft: true,
           updated: '2015-12-20 15:01:20.396000000' as Timestamp,
-          patch_set: 1 as PatchSetNum,
+          patch_set: 1 as RevisionPatchSetNum,
           path: 'some/path',
         },
       ];
@@ -143,12 +142,12 @@ suite('comment-util', () => {
       assert.equal(actualThreads[0].comments.length, 2);
       assert.deepEqual(actualThreads[0].comments[0], comments[0]);
       assert.deepEqual(actualThreads[0].comments[1], comments[1]);
-      assert.equal(actualThreads[0].patchNum, 1 as PatchSetNum);
+      assert.equal(actualThreads[0].patchNum, 1 as RevisionPatchSetNum);
       assert.equal(actualThreads[0].line, 1);
 
       assert.equal(actualThreads[1].comments.length, 1);
       assert.deepEqual(actualThreads[1].comments[0], comments[2]);
-      assert.equal(actualThreads[1].patchNum, 1 as PatchSetNum);
+      assert.equal(actualThreads[1].patchNum, 1 as RevisionPatchSetNum);
       assert.equal(actualThreads[1].line, 'FILE');
     });
 
@@ -164,7 +163,7 @@ suite('comment-util', () => {
             end_line: 1,
             end_character: 2,
           },
-          patch_set: 5 as PatchSetNum,
+          patch_set: 5 as RevisionPatchSetNum,
           path: '/p',
           line: 1,
         },
@@ -188,11 +187,11 @@ suite('comment-util', () => {
                 end_line: 1,
                 end_character: 2,
               },
-              patch_set: 5 as PatchSetNum,
+              patch_set: 5 as RevisionPatchSetNum,
               line: 1,
             },
           ],
-          patchNum: 5 as PatchSetNum,
+          patchNum: 5 as RevisionPatchSetNum,
           range: {
             start_line: 1,
             start_character: 1,

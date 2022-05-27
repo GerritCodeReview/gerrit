@@ -6,7 +6,12 @@
 import {Observable} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Finalizable} from '../registry';
-import {NumericChangeId, PatchSetNum} from '../../types/common';
+import {
+  NumericChangeId,
+  RevisionPatchSetNum,
+  BasePatchSetNum,
+  ParentPatchSetNum,
+} from '../../types/common';
 import {Model} from '../../models/model';
 
 export enum GerritView {
@@ -28,7 +33,8 @@ export enum GerritView {
 export interface RouterState {
   view?: GerritView;
   changeNum?: NumericChangeId;
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
+  basePatchNum: BasePatchSetNum;
 }
 
 export class RouterModel extends Model<RouterState> implements Finalizable {
@@ -36,10 +42,14 @@ export class RouterModel extends Model<RouterState> implements Finalizable {
 
   readonly routerChangeNum$: Observable<NumericChangeId | undefined>;
 
-  readonly routerPatchNum$: Observable<PatchSetNum | undefined>;
+  readonly routerPatchNum$: Observable<RevisionPatchSetNum | undefined>;
+
+  readonly routerBasePatchNum$: Observable<BasePatchSetNum>;
 
   constructor() {
-    super({});
+    super({
+      basePatchNum: ParentPatchSetNum,
+    });
     this.routerView$ = this.state$.pipe(
       map(state => state.view),
       distinctUntilChanged()
@@ -50,6 +60,10 @@ export class RouterModel extends Model<RouterState> implements Finalizable {
     );
     this.routerPatchNum$ = this.state$.pipe(
       map(state => state.patchNum),
+      distinctUntilChanged()
+    );
+    this.routerBasePatchNum$ = this.state$.pipe(
+      map(state => state.basePatchNum),
       distinctUntilChanged()
     );
   }

@@ -26,7 +26,7 @@ import {
   ChangeMessageId,
   EmailAddress,
   NumericChangeId,
-  PatchSetNum,
+  RevisionPatchSetNum,
   ReviewInputTag,
   Timestamp,
   UrlEncodedCommentId,
@@ -62,7 +62,7 @@ suite('gr-message tests', () => {
         },
         date: '2016-01-12 20:24:49.448000000' as Timestamp,
         message: 'Uploaded patch set 1.',
-        _revision_number: 1 as PatchSetNum,
+        _revision_number: 1 as RevisionPatchSetNum,
         expanded: true,
       };
 
@@ -88,7 +88,7 @@ suite('gr-message tests', () => {
         },
         date: '2016-01-12 20:24:49.448000000' as Timestamp,
         message: 'Uploaded patch set 1.',
-        _revision_number: 1 as PatchSetNum,
+        _revision_number: 1 as RevisionPatchSetNum,
         expanded: true,
       };
       await element.updateComplete;
@@ -108,7 +108,7 @@ suite('gr-message tests', () => {
         },
         date: '2016-01-12 20:24:49.448000000' as Timestamp,
         message: 'Uploaded patch set 1.',
-        _revision_number: 1 as PatchSetNum,
+        _revision_number: 1 as RevisionPatchSetNum,
         expanded: true,
       };
       await element.updateComplete;
@@ -370,7 +370,7 @@ suite('gr-message tests', () => {
         element.handleViewPatchsetDiff(new MouseEvent('click'));
         assert.isTrue(
           navStub.calledWithExactly(element.change!, {
-            patchNum: 1 as PatchSetNum,
+            patchNum: 1 as RevisionPatchSetNum,
             basePatchNum: 'PARENT' as BasePatchSetNum,
           })
         );
@@ -384,7 +384,7 @@ suite('gr-message tests', () => {
         element.handleViewPatchsetDiff(new MouseEvent('click'));
         assert.isTrue(
           navStub.calledWithExactly(element.change!, {
-            patchNum: 2 as PatchSetNum,
+            patchNum: 2 as RevisionPatchSetNum,
             basePatchNum: 1 as BasePatchSetNum,
           })
         );
@@ -396,7 +396,7 @@ suite('gr-message tests', () => {
         element.handleViewPatchsetDiff(new MouseEvent('click'));
         assert.isTrue(
           navStub.calledWithExactly(element.change!, {
-            patchNum: 200 as PatchSetNum,
+            patchNum: 200 as RevisionPatchSetNum,
             basePatchNum: 199 as BasePatchSetNum,
           })
         );
@@ -410,7 +410,7 @@ suite('gr-message tests', () => {
         element.handleViewPatchsetDiff(new MouseEvent('click'));
         assert.isTrue(
           navStub.calledWithExactly(element.change!, {
-            patchNum: 4 as PatchSetNum,
+            patchNum: 4 as RevisionPatchSetNum,
             basePatchNum: 3 as BasePatchSetNum,
           })
         );
@@ -424,7 +424,7 @@ suite('gr-message tests', () => {
         element.handleViewPatchsetDiff(new MouseEvent('click'));
         assert.isTrue(
           navStub.calledWithExactly(element.change!, {
-            patchNum: 4 as PatchSetNum,
+            patchNum: 4 as RevisionPatchSetNum,
             basePatchNum: 3 as BasePatchSetNum,
           })
         );
@@ -568,7 +568,7 @@ suite('gr-message tests', () => {
         },
         date: '2016-01-12 20:24:49.448000000' as Timestamp,
         message: 'Uploaded patch set 1.',
-        _revision_number: 1 as PatchSetNum,
+        _revision_number: 1 as RevisionPatchSetNum,
         expanded: true,
       };
 
@@ -596,7 +596,7 @@ suite('gr-message tests', () => {
               ...createComment(),
               change_message_id:
                 '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3' as ChangeMessageId,
-              patch_set: 1 as PatchSetNum,
+              patch_set: 1 as RevisionPatchSetNum,
               id: 'e365b138_bed65caa' as UrlEncodedCommentId,
               updated: '2020-05-15 13:35:56.000000000' as Timestamp,
               message: 'testing the load',
@@ -604,7 +604,7 @@ suite('gr-message tests', () => {
               path: '/PATCHSET_LEVEL',
             },
           ],
-          patchNum: 1 as PatchSetNum,
+          patchNum: 1 as RevisionPatchSetNum,
           path: '/PATCHSET_LEVEL',
           rootId: 'e365b138_bed65caa' as UrlEncodedCommentId,
           commentSide: CommentSide.REVISION,
@@ -623,7 +623,7 @@ suite('gr-message tests', () => {
           comments: [
             {
               ...createComment(),
-              patch_set: 1 as PatchSetNum,
+              patch_set: 1 as RevisionPatchSetNum,
               id: 'e365b138_bed65caa' as UrlEncodedCommentId,
               updated: '2020-05-15 13:35:56.000000000' as Timestamp,
               message: 'testing the load',
@@ -632,7 +632,7 @@ suite('gr-message tests', () => {
             },
             {
               change_message_id: '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3',
-              patch_set: 1 as PatchSetNum,
+              patch_set: 1 as RevisionPatchSetNum,
               id: 'd6efcc85_4cbbb6f4' as UrlEncodedCommentId,
               in_reply_to: 'e365b138_bed65caa' as UrlEncodedCommentId,
               updated: '2020-05-15 16:55:28.000000000' as Timestamp,
@@ -642,7 +642,7 @@ suite('gr-message tests', () => {
               __draft: true,
             },
           ],
-          patchNum: 1 as PatchSetNum,
+          patchNum: 1 as RevisionPatchSetNum,
           path: '/PATCHSET_LEVEL',
           rootId: 'e365b138_bed65caa' as UrlEncodedCommentId,
           commentSide: CommentSide.REVISION,
@@ -673,7 +673,7 @@ suite('gr-message tests', () => {
         },
         date: '2016-01-12 20:24:49.448000000' as Timestamp,
         message: 'Uploaded patch set 1.',
-        _revision_number: 1 as PatchSetNum,
+        _revision_number: 1 as RevisionPatchSetNum,
         expanded: true,
       };
       await element.updateComplete;
@@ -701,7 +701,7 @@ suite('gr-message tests', () => {
         },
         date: '2016-01-12 20:24:49.448000000' as Timestamp,
         message: 'not empty',
-        _revision_number: 1 as PatchSetNum,
+        _revision_number: 1 as RevisionPatchSetNum,
         expanded: true,
       };
       await element.updateComplete;

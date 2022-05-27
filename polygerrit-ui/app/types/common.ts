@@ -57,6 +57,7 @@ import {
   DetailedLabelInfo,
   DownloadInfo,
   DownloadSchemeInfo,
+  EditPatchSetNum,
   EmailAddress,
   FetchInfo,
   FileInfo,
@@ -81,7 +82,9 @@ import {
   MaxObjectSizeLimitInfo,
   NumericChangeId,
   ParentCommitInfo,
+  ParentPatchSetNum,
   PatchSetNum,
+  PatchSetNumber,
   PluginConfigInfo,
   PluginNameToPluginParametersMap,
   PluginParameterToConfigParameterInfoMap,
@@ -97,6 +100,7 @@ import {
   ReviewerUpdateInfo,
   Reviewers,
   RevisionInfo,
+  RevisionPatchSetNum,
   SchemesInfoMap,
   ServerInfo,
   SubmitTypeInfo,
@@ -147,6 +151,7 @@ export {
   DetailedLabelInfo,
   DownloadInfo,
   DownloadSchemeInfo,
+  EditPatchSetNum,
   EmailAddress,
   FileInfo,
   GerritInfo,
@@ -170,7 +175,9 @@ export {
   MaxObjectSizeLimitInfo,
   NumericChangeId,
   ParentCommitInfo,
+  ParentPatchSetNum,
   PatchSetNum,
+  PatchSetNumber,
   PluginConfigInfo,
   PluginNameToPluginParametersMap,
   PluginParameterToConfigParameterInfoMap,
@@ -185,6 +192,7 @@ export {
   ReviewerUpdateInfo,
   Reviewers,
   RevisionInfo,
+  RevisionPatchSetNum,
   SchemesInfoMap,
   ServerInfo,
   SubmitTypeInfo,
@@ -217,16 +225,6 @@ export type ElementPropertyDeepChange<
  * Type alias for parsed json object to make code cleaner
  */
 export type ParsedJSON = BrandType<unknown, '_parsedJSON'>;
-
-export type RevisionPatchSetNum = BrandType<'edit' | number, '_patchSet'>;
-
-export type PatchSetNumber = BrandType<number, '_patchSet'>;
-
-export const EditPatchSetNum = 'edit' as RevisionPatchSetNum;
-
-// TODO(TS): This is not correct, it is better to have a separate ApiPatchSetNum
-// without 'parent'.
-export const ParentPatchSetNum = 'PARENT' as BasePatchSetNum;
 
 export type RobotId = BrandType<string, '_robotId'>;
 
@@ -686,7 +684,7 @@ export interface CommentInfo {
   id: UrlEncodedCommentId;
   updated: Timestamp;
   // TODO(TS): Make this required. Every comment must have patch_set set.
-  patch_set?: PatchSetNum;
+  patch_set?: RevisionPatchSetNum;
   path?: string;
   side?: CommentSide;
   parent?: number;

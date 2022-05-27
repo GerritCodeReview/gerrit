@@ -23,7 +23,6 @@ import {
   NumericChangeId,
   ParentPatchSetNum,
   PatchRange,
-  PatchSetNum,
   RepoName,
   RevisionPatchSetNum,
   Timestamp,
@@ -872,7 +871,7 @@ suite('gr-file-list tests', () => {
           navStub.lastCall.calledWith(
             element.change,
             'file_added_in_rev2.txt',
-            2 as PatchSetNum
+            2 as RevisionPatchSetNum
           ),
           'Should navigate to /c/42/2/file_added_in_rev2.txt'
         );
@@ -1922,7 +1921,7 @@ suite('gr-file-list tests', () => {
 
     const commitMsgComments = [
       {
-        patch_set: 2 as PatchSetNum,
+        patch_set: 2 as RevisionPatchSetNum,
         path: '/p',
         id: 'ecf0b9fa_fe1a5f62' as UrlEncodedCommentId,
         line: 20,
@@ -1931,7 +1930,7 @@ suite('gr-file-list tests', () => {
         unresolved: true,
       },
       {
-        patch_set: 2 as PatchSetNum,
+        patch_set: 2 as RevisionPatchSetNum,
         path: '/p',
         id: '503008e2_0ab203ee' as UrlEncodedCommentId,
         line: 10,
@@ -1940,7 +1939,7 @@ suite('gr-file-list tests', () => {
         unresolved: true,
       },
       {
-        patch_set: 2 as PatchSetNum,
+        patch_set: 2 as RevisionPatchSetNum,
         path: '/p',
         id: 'cc788d2c_cb1d728c' as UrlEncodedCommentId,
         line: 20,

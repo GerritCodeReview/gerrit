@@ -46,7 +46,7 @@ import {
   LabelNameToInfoMap,
   NumericChangeId,
   ParentCommitInfo,
-  PatchSetNum,
+  RevisionPatchSetNum,
   RepoName,
   RevisionInfo,
   ServerInfo,
@@ -959,7 +959,7 @@ export class GrChangeMetadata extends LitElement {
 
   private computeCherryPickOfUrl(
     change?: NumericChangeId,
-    patchset?: PatchSetNum,
+    patchset?: RevisionPatchSetNum,
     project?: RepoName
   ) {
     if (!change || !project) {

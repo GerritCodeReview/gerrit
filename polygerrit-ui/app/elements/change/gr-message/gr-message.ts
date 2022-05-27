@@ -21,7 +21,7 @@ import {
   ReviewInputTag,
   NumericChangeId,
   ChangeMessageId,
-  PatchSetNum,
+  RevisionPatchSetNum,
   AccountInfo,
   BasePatchSetNum,
 } from '../../../types/common';
@@ -552,13 +552,13 @@ export class GrMessage extends LitElement {
   // Private but used in tests
   handleViewPatchsetDiff(e: Event) {
     if (!this.message || !this.change) return;
-    let patchNum: PatchSetNum;
-    let basePatchNum: PatchSetNum;
+    let patchNum: RevisionPatchSetNum;
+    let basePatchNum: BasePatchSetNum;
     if (this.message.message.match(UPLOADED_NEW_PATCHSET_PATTERN)) {
       const match = this.message.message.match(UPLOADED_NEW_PATCHSET_PATTERN)!;
       if (isNaN(Number(match[1])))
         throw new Error('invalid patchnum in message');
-      patchNum = Number(match[1]) as PatchSetNum;
+      patchNum = Number(match[1]) as RevisionPatchSetNum;
       basePatchNum = computePredecessor(patchNum)!;
     } else if (this.message.message.match(MERGED_PATCHSET_PATTERN)) {
       const match = this.message.message.match(MERGED_PATCHSET_PATTERN)!;

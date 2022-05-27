@@ -669,7 +669,7 @@ export function createGenerateUrlEditViewParameters(): GenerateUrlEditViewParame
   return {
     view: GerritView.EDIT,
     changeNum: TEST_NUMERIC_CHANGE_ID,
-    patchNum: EditPatchSetNum as PatchSetNum,
+    patchNum: EditPatchSetNum,
     path: 'foo/bar.baz',
     project: TEST_PROJECT_NAME,
   };
@@ -704,7 +704,7 @@ export function createComment(
   extra: Partial<CommentInfo | DraftInfo> = {}
 ): CommentInfo {
   return {
-    patch_set: 1 as PatchSetNum,
+    patch_set: 1 as RevisionPatchSetNum,
     id: '12345' as UrlEncodedCommentId,
     side: CommentSide.REVISION,
     line: 1,
@@ -764,7 +764,7 @@ export function createChangeComments(): ChangeComments {
       },
       {
         ...createComment(),
-        patch_set: 2 as PatchSetNum,
+        patch_set: 2 as RevisionPatchSetNum,
         message: 'hello',
         updated: '2017-02-10 16:40:49' as Timestamp,
         id: '3' as UrlEncodedCommentId,
@@ -779,14 +779,14 @@ export function createChangeComments(): ChangeComments {
       },
       {
         ...createComment(),
-        patch_set: 2 as PatchSetNum,
+        patch_set: 2 as RevisionPatchSetNum,
         message: 'wat!?',
         updated: '2017-02-09 16:40:49' as Timestamp,
         id: '5' as UrlEncodedCommentId,
       },
       {
         ...createComment(),
-        patch_set: 2 as PatchSetNum,
+        patch_set: 2 as RevisionPatchSetNum,
         message: 'hi',
         updated: '2017-02-10 16:40:49' as Timestamp,
         id: '6' as UrlEncodedCommentId,
@@ -795,7 +795,7 @@ export function createChangeComments(): ChangeComments {
     'unresolved.file': [
       {
         ...createComment(),
-        patch_set: 2 as PatchSetNum,
+        patch_set: 2 as RevisionPatchSetNum,
         message: 'wat!?',
         updated: '2017-02-09 16:40:49' as Timestamp,
         id: '7' as UrlEncodedCommentId,
@@ -803,7 +803,7 @@ export function createChangeComments(): ChangeComments {
       },
       {
         ...createComment(),
-        patch_set: 2 as PatchSetNum,
+        patch_set: 2 as RevisionPatchSetNum,
         message: 'hi',
         updated: '2017-02-10 16:40:49' as Timestamp,
         id: '8' as UrlEncodedCommentId,
@@ -812,7 +812,7 @@ export function createChangeComments(): ChangeComments {
       },
       {
         ...createComment(),
-        patch_set: 2 as PatchSetNum,
+        patch_set: 2 as RevisionPatchSetNum,
         message: 'good news!',
         updated: '2017-02-08 16:40:49' as Timestamp,
         id: '9' as UrlEncodedCommentId,
@@ -858,7 +858,7 @@ export function createThread(
     rootId: 'test-root-id-comment-thread' as UrlEncodedCommentId,
     path: 'test-path-comment-thread',
     commentSide: CommentSide.REVISION,
-    patchNum: 1 as PatchSetNum,
+    patchNum: 1 as RevisionPatchSetNum,
     line: 314,
   };
 }

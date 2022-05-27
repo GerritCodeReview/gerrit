@@ -23,6 +23,7 @@ import {
   NumericChangeId,
   PatchSetNum,
   ReviewInputTag,
+  RevisionPatchSetNum,
   Timestamp,
   UrlEncodedCommentId,
 } from '../../../types/common';
@@ -44,7 +45,7 @@ const createComment = function () {
     change_message_id: '8a7b6c5d',
     updated: '2016-01-01 01:02:03.000000000' as Timestamp,
     line: 1,
-    patch_set: 1 as PatchSetNum,
+    patch_set: 1 as RevisionPatchSetNum,
     author,
   };
 };

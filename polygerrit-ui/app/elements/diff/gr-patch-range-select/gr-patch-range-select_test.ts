@@ -14,6 +14,7 @@ import {stubRestApi} from '../../../test/test-utils';
 import {
   BasePatchSetNum,
   EditPatchSetNum,
+  RevisionPatchSetNum,
   PatchSetNum,
   RevisionInfo,
   Timestamp,
@@ -327,7 +328,7 @@ suite('gr-patch-range-select tests', () => {
         {
           id: '27dcee4d_f7b77cfa' as UrlEncodedCommentId,
           message: 'test',
-          patch_set: 1 as PatchSetNum,
+          patch_set: 1 as RevisionPatchSetNum,
           unresolved: true,
           updated: '2017-10-11 20:48:40.000000000' as Timestamp,
         },
@@ -336,13 +337,13 @@ suite('gr-patch-range-select tests', () => {
         {
           id: '27dcee4d_f7b77cfa' as UrlEncodedCommentId,
           message: 'test',
-          patch_set: 1 as PatchSetNum,
+          patch_set: 1 as RevisionPatchSetNum,
           updated: '2017-10-12 20:48:40.000000000' as Timestamp,
         },
         {
           id: '27dcee4d_f7b77cfa' as UrlEncodedCommentId,
           message: 'test',
-          patch_set: 1 as PatchSetNum,
+          patch_set: 1 as RevisionPatchSetNum,
           updated: '2017-10-13 20:48:40.000000000' as Timestamp,
         },
       ],
@@ -352,7 +353,7 @@ suite('gr-patch-range-select tests', () => {
         {
           id: '27dcee4d_f7b77cfa' as UrlEncodedCommentId,
           message: 'test',
-          patch_set: 1 as PatchSetNum,
+          patch_set: 1 as RevisionPatchSetNum,
           unresolved: true,
           updated: '2017-10-11 20:48:40.000000000' as Timestamp,
         },

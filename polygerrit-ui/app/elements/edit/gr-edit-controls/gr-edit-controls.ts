@@ -11,7 +11,7 @@ import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-overlay/gr-overlay';
 import {GrEditAction, GrEditConstants} from '../gr-edit-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {ChangeInfo, PatchSetNum} from '../../../types/common';
+import {ChangeInfo, RevisionPatchSetNum} from '../../../types/common';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {
   AutocompleteQuery,
@@ -55,7 +55,7 @@ export class GrEditControls extends LitElement {
   change?: ChangeInfo;
 
   @property({type: String})
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
 
   @property({type: Array})
   hiddenActions: string[] = [GrEditConstants.Actions.RESTORE.id];

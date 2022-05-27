@@ -13,12 +13,13 @@ import {LitElement, css, html, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
-  SubmittedTogetherInfo,
   ChangeInfo,
+  CommitId,
+  PatchSetNum,
   RelatedChangeAndCommitInfo,
   RelatedChangesInfo,
-  PatchSetNum,
-  CommitId,
+  RevisionPatchSetNum,
+  SubmittedTogetherInfo,
 } from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -210,7 +211,7 @@ export class GrRelatedChangesList extends LitElement {
                   ? GerritNav.getUrlForChangeById(
                       change._change_number,
                       change.project,
-                      change._revision_number as PatchSetNum
+                      change._revision_number as RevisionPatchSetNum
                     )
                   : ''}
                 show-change-status

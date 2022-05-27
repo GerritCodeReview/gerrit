@@ -62,7 +62,7 @@ import {
   ChangeInfo,
   CommitId,
   ConfigInfo,
-  EditPatchSetNum,
+  EDIT,
   FileInfo,
   NumericChangeId,
   PARENT,
@@ -1595,7 +1595,7 @@ export class GrDiffView extends base {
     patchRangeRecord: PolymerDeepPropertyChange<PatchRange, PatchRange>
   ) {
     const patchRange = patchRangeRecord.base || {};
-    return patchRange.patchNum === EditPatchSetNum;
+    return patchRange.patchNum === EDIT;
   }
 
   _computeBlameToggleLabel(loaded?: boolean, loading?: boolean) {

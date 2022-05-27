@@ -10,7 +10,7 @@ import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {GrApplyFixDialog} from './gr-apply-fix-dialog';
 import {
   BasePatchSetNum,
-  EditPatchSetNum,
+  EDIT,
   PatchSetNum,
   RobotCommentInfo,
   RobotId,
@@ -277,7 +277,7 @@ suite('gr-apply-fix-dialog tests', () => {
       '123'
     );
     sinon.assert.calledWithExactly(navigateToChangeStub, element.change!, {
-      patchNum: EditPatchSetNum,
+      patchNum: EDIT,
       basePatchNum: element.change!.revisions[2]._number as BasePatchSetNum,
     });
 

@@ -21,6 +21,7 @@ import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
+  EDIT,
   PARENT,
   PatchSetNum,
   RevisionInfo,
@@ -282,7 +283,7 @@ export class GrPatchRangeSelect extends LitElement {
       const patchNum = patch.num;
       const entry = this.createDropdownEntry(
         patchNum,
-        patchNum === 'edit' ? '' : 'Patchset ',
+        patchNum === EDIT ? '' : 'Patchset ',
         getShaForPatch(patch)
       );
       dropdownContent.push({

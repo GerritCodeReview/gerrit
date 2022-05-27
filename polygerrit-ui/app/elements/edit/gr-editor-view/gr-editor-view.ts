@@ -18,7 +18,7 @@ import {
   EditPreferencesInfo,
   Base64FileContent,
   NumericChangeId,
-  EditPatchSetNum,
+  EDIT,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
@@ -301,7 +301,7 @@ export class GrEditorView extends LitElement {
 
     this.changeNum = this.params.changeNum;
     this.path = this.params.path;
-    this.patchNum = this.params.patchNum || (EditPatchSetNum as PatchSetNum);
+    this.patchNum = this.params.patchNum || (EDIT as PatchSetNum);
     this.lineNum =
       typeof this.params.lineNum === 'string'
         ? Number(this.params.lineNum)

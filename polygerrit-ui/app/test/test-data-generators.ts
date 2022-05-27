@@ -29,7 +29,7 @@ import {
   ConfigInfo,
   DownloadInfo,
   EditInfo,
-  EditPatchSetNum,
+  EDIT,
   EmailAddress,
   FixId,
   FixSuggestionInfo,
@@ -290,7 +290,7 @@ export function createEditInfo(): EditInfo {
 
 export function createEditRevision(basePatchNum = 1): EditRevisionInfo {
   return {
-    _number: EditPatchSetNum,
+    _number: EDIT,
     basePatchNum: basePatchNum as BasePatchSetNum,
     commit: {
       ...createCommit(),
@@ -670,7 +670,7 @@ export function createGenerateUrlEditViewParameters(): GenerateUrlEditViewParame
   return {
     view: GerritView.EDIT,
     changeNum: TEST_NUMERIC_CHANGE_ID,
-    patchNum: EditPatchSetNum,
+    patchNum: EDIT,
     path: 'foo/bar.baz',
     project: TEST_PROJECT_NAME,
   };

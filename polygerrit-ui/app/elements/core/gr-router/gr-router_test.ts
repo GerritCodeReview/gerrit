@@ -35,6 +35,7 @@ import {
   BranchName,
   CommitId,
   DashboardId,
+  EDIT,
   GroupId,
   NumericChangeId,
   PARENT,
@@ -467,13 +468,13 @@ suite('gr-router tests', () => {
       );
     });
 
-    test('edit', () => {
+    test(EDIT, () => {
       const params: GenerateUrlEditViewParameters = {
         view: GerritView.EDIT,
         changeNum: 42 as NumericChangeId,
         project: 'test' as RepoName,
         path: 'x+y/path.cpp',
-        patchNum: 'edit' as RevisionPatchSetNum,
+        patchNum: EDIT as RevisionPatchSetNum,
       };
       assert.equal(
         router.generateUrl(params),

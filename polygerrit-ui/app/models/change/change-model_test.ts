@@ -18,12 +18,7 @@ import {
   stubRestApi,
   waitUntilObserved,
 } from '../../test/test-utils';
-import {
-  CommitId,
-  EditPatchSetNum,
-  NumericChangeId,
-  PatchSetNum,
-} from '../../types/common';
+import {CommitId, EDIT, NumericChangeId, PatchSetNum} from '../../types/common';
 import {ParsedChangeInfo} from '../../types/types';
 import {getAppContext} from '../../services/app-context';
 import {GerritView} from '../../services/router/router-model';
@@ -46,7 +41,7 @@ suite('updateChangeWithEdit() tests', () => {
     change = updateChangeWithEdit(change, edit);
     const editRev = change?.revisions[`${edit.commit.commit}`];
     assert.isDefined(editRev);
-    assert.equal(editRev?._number, EditPatchSetNum);
+    assert.equal(editRev?._number, EDIT);
     assert.equal(editRev?.basePatchNum, edit.base_patch_set_number);
     assert.equal(change?.current_revision, edit.commit.commit);
   });

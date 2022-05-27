@@ -11,7 +11,7 @@ import '../../../embed/diff/gr-diff/gr-diff';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   NumericChangeId,
-  EditPatchSetNum,
+  EDIT,
   FixId,
   FixSuggestionInfo,
   PatchSetNum,
@@ -321,7 +321,7 @@ export class GrApplyFixDialog extends LitElement {
     );
     if (res && res.ok) {
       GerritNav.navigateToChange(change, {
-        patchNum: EditPatchSetNum,
+        patchNum: EDIT,
         basePatchNum: patchNum as BasePatchSetNum,
       });
       this.close(true);

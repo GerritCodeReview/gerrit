@@ -13,7 +13,7 @@ import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {stubRestApi} from '../../../test/test-utils';
 import {
   BasePatchSetNum,
-  EditPatchSetNum,
+  EDIT,
   RevisionPatchSetNum,
   PARENT,
   PatchSetNum,
@@ -76,7 +76,7 @@ suite('gr-patch-range-select tests', () => {
     ];
     await element.updateComplete;
 
-    const edit = EditPatchSetNum;
+    const edit = EDIT;
 
     for (const patchNum of [1, 2, 3]) {
       assert.isFalse(
@@ -102,7 +102,7 @@ suite('gr-patch-range-select tests', () => {
 
   test('computeBaseDropdownContent', async () => {
     element.availablePatches = [
-      {num: 'edit', sha: '1'} as PatchSet,
+      {num: EDIT, sha: '1'} as PatchSet,
       {num: 3, sha: '2'} as PatchSet,
       {num: 2, sha: '3'} as PatchSet,
       {num: 1, sha: '4'} as PatchSet,
@@ -119,9 +119,9 @@ suite('gr-patch-range-select tests', () => {
         disabled: true,
         triggerText: 'Patchset edit',
         text: 'Patchset edit | 1',
-        mobileText: 'edit',
+        mobileText: EDIT,
         bottomText: '',
-        value: 'edit',
+        value: EDIT,
       },
       {
         disabled: true,
@@ -174,7 +174,7 @@ suite('gr-patch-range-select tests', () => {
       {num: 1, sha: '1'} as PatchSet,
       {num: 2, sha: '2'} as PatchSet,
       {num: 3, sha: '3'} as PatchSet,
-      {num: 'edit', sha: '4'} as PatchSet,
+      {num: EDIT, sha: '4'} as PatchSet,
     ];
     element.patchNum = 2 as PatchSetNum;
     element.basePatchNum = PARENT as BasePatchSetNum;
@@ -225,7 +225,7 @@ suite('gr-patch-range-select tests', () => {
       {num: 1, sha: '1'} as PatchSet,
       {num: 2, sha: '2'} as PatchSet,
       {num: 3, sha: '3'} as PatchSet,
-      {num: 'edit', sha: '4'} as PatchSet,
+      {num: EDIT, sha: '4'} as PatchSet,
     ];
     element.patchNum = 2 as PatchSetNum;
     element.basePatchNum = PARENT as BasePatchSetNum;
@@ -240,7 +240,7 @@ suite('gr-patch-range-select tests', () => {
 
   test('computePatchDropdownContent', async () => {
     element.availablePatches = [
-      {num: 'edit', sha: '1'} as PatchSet,
+      {num: EDIT, sha: '1'} as PatchSet,
       {num: 3, sha: '2'} as PatchSet,
       {num: 2, sha: '3'} as PatchSet,
       {num: 1, sha: '4'} as PatchSet,
@@ -257,11 +257,11 @@ suite('gr-patch-range-select tests', () => {
     const expectedResult: DropdownItem[] = [
       {
         disabled: false,
-        triggerText: 'edit',
+        triggerText: EDIT,
         text: 'edit | 1',
-        mobileText: 'edit',
+        mobileText: EDIT,
         bottomText: '',
-        value: 'edit',
+        value: EDIT,
       },
       {
         disabled: false,
@@ -400,10 +400,10 @@ suite('gr-patch-range-select tests', () => {
     queryAndAssert<GrDropdownList>(
       element,
       '#patchNumDropdown'
-    )._handleValueChange('edit', [{text: '', value: 'edit'}]);
+    )._handleValueChange(EDIT, [{text: '', value: EDIT}]);
     assert.deepEqual(handler.lastCall.args[0].detail, {
       basePatchNum: 1,
-      patchNum: 'edit',
+      patchNum: EDIT,
     });
   });
 });

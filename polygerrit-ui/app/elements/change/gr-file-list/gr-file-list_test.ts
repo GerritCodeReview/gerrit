@@ -19,7 +19,7 @@ import {
 import {
   BasePatchSetNum,
   CommitId,
-  EditPatchSetNum,
+  EDIT,
   NumericChangeId,
   PARENT,
   PatchRange,
@@ -1663,7 +1663,7 @@ suite('gr-file-list tests', () => {
       test('not shown in edit mode', async () => {
         element.patchRange = {
           basePatchNum: 1 as BasePatchSetNum,
-          patchNum: EditPatchSetNum,
+          patchNum: EDIT,
         };
         await element.reload();
         await element.updateComplete;

@@ -2,7 +2,7 @@ import {
   RevisionInfo,
   ChangeInfo,
   PatchSetNum,
-  EditPatchSetNum,
+  EDIT,
   PARENT,
   PatchSetNumber,
   BasePatchSetNum,
@@ -58,7 +58,7 @@ export function isAParent(n: PatchSetNum) {
 
 export function isPatchSetNum(patchset: string) {
   if (!isNaN(Number(patchset))) return true;
-  return patchset === EditPatchSetNum || patchset === PARENT;
+  return patchset === EDIT || patchset === PARENT;
 }
 
 export function convertToPatchSetNum(
@@ -112,7 +112,7 @@ export function getShaByPatchNum(
 export function findEdit(
   revisions: Array<RevisionInfo | EditRevisionInfo>
 ): EditRevisionInfo | undefined {
-  const editRev = revisions.find(info => info._number === EditPatchSetNum);
+  const editRev = revisions.find(info => info._number === EDIT);
   return editRev as EditRevisionInfo | undefined;
 }
 
@@ -141,8 +141,8 @@ export function findEditParentPatchNum(
   revisions: Array<RevisionInfo | EditRevisionInfo>
 ) {
   const revisionInfo = findEditParentRevision(revisions);
-  // finding parent of 'edit' patchset, hence revisionInfo._number cannot be
-  // 'edit' and must be a number
+  // finding parent of EDIT patchset, hence revisionInfo._number cannot be
+  // EDIT and must be a number
   // TODO(TS): find a way to avoid 'as'
   return revisionInfo ? (revisionInfo._number as number) : -1;
 }
@@ -151,7 +151,7 @@ export function findEditParentPatchNum(
  * Sort given revisions array according to the patch set number, in
  * descending order.
  * The sort algorithm is change edit aware. Change edit has patch set number
- * equals 'edit', but must appear after the patch set it was based on.
+ * equals EDIT, but must appear after the patch set it was based on.
  * Example: change edit is based on patch set 2, and another patch set was
  * uploaded after change edit creation, the sorted order should be:
  * 3, edit, 2, 1.
@@ -166,9 +166,7 @@ export function sortRevisions<T extends RevisionInfo | EditRevisionInfo>(
   // Map an edit to the patchNum of parent*2... I.e. edit on 2 -> 4.
   // TODO(TS): find a way to avoid 'as'
   const num = (r: T) =>
-    r._number === EditPatchSetNum
-      ? 2 * editParent
-      : 2 * ((r._number as number) - 1) + 1;
+    r._number === EDIT ? 2 * editParent : 2 * ((r._number as number) - 1) + 1;
   return revisions.sort((a, b) => num(b) - num(a));
 }
 
@@ -260,7 +258,7 @@ export function computeLatestPatchNum(
     return undefined;
   }
   let latest = allPatchSets[0].num;
-  if (latest === EditPatchSetNum) {
+  if (latest === EDIT) {
     latest = allPatchSets[1].num;
   }
   check(isNumber(latest), 'Latest patchset cannot be EDIT or PARENT.');
@@ -270,7 +268,7 @@ export function computeLatestPatchNum(
 export function computePredecessor(
   patchset?: PatchSetNum
 ): BasePatchSetNum | undefined {
-  if (!patchset || patchset === PARENT || patchset === EditPatchSetNum) {
+  if (!patchset || patchset === PARENT || patchset === EDIT) {
     return undefined;
   }
   if (patchset === 1) return PARENT;
@@ -283,11 +281,11 @@ export function hasEditBasedOnCurrentPatchSet(
   if (!allPatchSets || allPatchSets.length < 2) {
     return false;
   }
-  return allPatchSets[0].num === EditPatchSetNum;
+  return allPatchSets[0].num === EDIT;
 }
 
 export function hasEditPatchsetLoaded(patchRange: PatchRange) {
-  return patchRange.patchNum === EditPatchSetNum;
+  return patchRange.patchNum === EDIT;
 }
 
 /**

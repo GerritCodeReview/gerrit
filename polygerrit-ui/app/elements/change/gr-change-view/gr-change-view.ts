@@ -96,7 +96,7 @@ import {
   CommitId,
   CommitInfo,
   ConfigInfo,
-  EditPatchSetNum,
+  EDIT,
   LabelNameToInfoMap,
   NumericChangeId,
   PARENT,
@@ -1061,7 +1061,7 @@ export class GrChangeView extends base {
     if (!change || !commentThreads || !change.revisions) return [];
 
     return Object.values(change.revisions)
-      .filter(patch => patch._number !== 'edit')
+      .filter(patch => patch._number !== EDIT)
       .map(patch => {
         return {
           text: this._computeText(patch, commentThreads),
@@ -1872,7 +1872,7 @@ export class GrChangeView extends base {
     const editParentRev = findEditParentRevision(revisions);
     if (
       !editRev &&
-      this._patchRange?.patchNum === EditPatchSetNum &&
+      this._patchRange?.patchNum === EDIT &&
       changeIsOpen(change)
     ) {
       fireAlert(this, 'Change edit not found. Please create a change edit.');
@@ -1908,7 +1908,7 @@ export class GrChangeView extends base {
     // also be model managed, so we can reconcile these two code snippets into
     // one location.
     if (!this.routerPatchNum && latestPsNum === editParentRev._number) {
-      this.set('_patchRange.patchNum', EditPatchSetNum);
+      this.set('_patchRange.patchNum', EDIT);
       // The file list is not reactive (yet) with regards to patch range
       // changes, so we have to actively trigger it.
       this._reloadPatchNumDependentResources();
@@ -2012,7 +2012,7 @@ export class GrChangeView extends base {
         revision => {
           // edit patchset is a special one
           const thePatchNum = this._patchRange!.patchNum;
-          if (thePatchNum === 'edit') {
+          if (thePatchNum === EDIT) {
             return revision._number === thePatchNum;
           }
           return revision._number === Number(`${thePatchNum}`);
@@ -2466,7 +2466,7 @@ export class GrChangeView extends base {
     }
 
     const patchRange = patchRangeRecord.base || {};
-    return patchRange.patchNum === EditPatchSetNum;
+    return patchRange.patchNum === EDIT;
   }
 
   _handleFileActionTap(e: CustomEvent<{path: string; action: string}>) {
@@ -2514,8 +2514,8 @@ export class GrChangeView extends base {
     assertIsDefined(this._change, '_change');
 
     let patchNum: PatchSetNum;
-    if (patchNumStr === 'edit') {
-      patchNum = EditPatchSetNum;
+    if (patchNumStr === EDIT) {
+      patchNum = EDIT;
     } else {
       patchNum = Number(`${patchNumStr}`) as PatchSetNum;
     }
@@ -2537,11 +2537,11 @@ export class GrChangeView extends base {
     if (!this._change || !this._change.revisions)
       throw new Error('missing required change property');
     const editInfo = Object.values(this._change.revisions).find(
-      info => info._number === EditPatchSetNum
+      info => info._number === EDIT
     );
 
     if (editInfo) {
-      GerritNav.navigateToChange(this._change, {patchNum: EditPatchSetNum});
+      GerritNav.navigateToChange(this._change, {patchNum: EDIT});
       return;
     }
 

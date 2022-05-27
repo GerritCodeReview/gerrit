@@ -34,7 +34,7 @@ import {
   BlameInfo,
   CommentRange,
   CommitId,
-  EditPatchSetNum,
+  EDIT,
   ImageInfo,
   NumericChangeId,
   PARENT,
@@ -1300,7 +1300,7 @@ suite('gr-diff-host tests', () => {
       const diffSide = Side.RIGHT;
       element.patchRange = {
         basePatchNum: 3 as BasePatchSetNum,
-        patchNum: EditPatchSetNum,
+        patchNum: EDIT,
       };
       element.dispatchEvent(
         new CustomEvent('create-comment', {
@@ -1324,7 +1324,7 @@ suite('gr-diff-host tests', () => {
       const diffSide = Side.LEFT;
       element.patchRange = {
         basePatchNum: PARENT,
-        patchNum: EditPatchSetNum,
+        patchNum: EDIT,
       };
       element.dispatchEvent(
         new CustomEvent('create-comment', {

@@ -18,6 +18,7 @@ import {
   ParentPatchSetNum,
   PatchSetNum,
   RepoName,
+  RevisionPatchSetNum,
   ServerInfo,
   TopicName,
   UrlEncodedCommentId,
@@ -165,7 +166,7 @@ export interface GenerateUrlChangeViewParameters {
   // TODO(TS): NumericChangeId - not sure about it, may be it can be removed
   changeNum: NumericChangeId;
   project: RepoName;
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
   edit?: boolean;
   host?: string;
@@ -210,7 +211,7 @@ export interface GenerateUrlEditViewParameters {
   changeNum: NumericChangeId;
   project: RepoName;
   path: string;
-  patchNum: PatchSetNum;
+  patchNum: RevisionPatchSetNum;
   lineNum?: number | string;
 }
 
@@ -227,7 +228,7 @@ export interface GenerateUrlDiffViewParameters {
   changeNum: NumericChangeId;
   project: RepoName;
   path?: string;
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
   lineNum?: number | string;
   leftSide?: boolean;
@@ -354,7 +355,7 @@ export enum WeblinkType {
 }
 
 interface NavigateToChangeParams {
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
   isEdit?: boolean;
   redirect?: boolean;
@@ -563,7 +564,7 @@ export const GerritNav = {
   getUrlForChangeById(
     changeNum: NumericChangeId,
     project: RepoName,
-    patchNum?: PatchSetNum
+    patchNum?: RevisionPatchSetNum
   ) {
     return this._getUrlFor({
       view: GerritView.CHANGE,
@@ -604,7 +605,7 @@ export const GerritNav = {
   getUrlForDiff(
     change: ChangeInfo | ParsedChangeInfo,
     filePath: string,
-    patchNum?: PatchSetNum,
+    patchNum?: RevisionPatchSetNum,
     basePatchNum?: BasePatchSetNum,
     lineNum?: number
   ) {
@@ -651,7 +652,7 @@ export const GerritNav = {
     changeNum: NumericChangeId,
     project: RepoName,
     filePath: string,
-    patchNum?: PatchSetNum,
+    patchNum?: RevisionPatchSetNum,
     basePatchNum?: BasePatchSetNum,
     lineNum?: number,
     leftSide?: boolean
@@ -676,7 +677,7 @@ export const GerritNav = {
   getEditUrlForDiff(
     change: ChangeInfo | ParsedChangeInfo,
     filePath: string,
-    patchNum?: PatchSetNum,
+    patchNum?: RevisionPatchSetNum,
     lineNum?: number
   ) {
     return this.getEditUrlForDiffById(
@@ -697,7 +698,7 @@ export const GerritNav = {
     changeNum: NumericChangeId,
     project: RepoName,
     filePath: string,
-    patchNum?: PatchSetNum,
+    patchNum?: RevisionPatchSetNum,
     lineNum?: number
   ) {
     return this._getUrlFor({
@@ -716,7 +717,7 @@ export const GerritNav = {
   navigateToDiff(
     change: ChangeInfo | ParsedChangeInfo,
     filePath: string,
-    patchNum?: PatchSetNum,
+    patchNum?: RevisionPatchSetNum,
     basePatchNum?: BasePatchSetNum,
     lineNum?: number
   ) {

@@ -45,6 +45,7 @@ import {
   LabelInfo,
   LabelNameToInfoMap,
   NumericChangeId,
+  PARENT,
   ParentCommitInfo,
   RevisionPatchSetNum,
   RepoName,
@@ -517,7 +518,7 @@ export class GrChangeMetadata extends LitElement {
   private renderParent() {
     return html`<section class=${this.computeDisplayState(Metadata.PARENT)}>
       <span class="title"
-        >${this.currentParents.length > 1 ? 'Parents' : 'Parent'}</span
+        >${this.currentParents.length > 1 ? 'Parents' : PARENT}</span
       >
       <span class="value">
         <ol class=${this.computeParentListClass()}>

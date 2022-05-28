@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "020600f8_1a98cefe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1143440
+      },
+      "writtenOn": "2022-05-28T00:53:41Z",
+      "side": 1,
+      "message": "338098: Refactoring: Replace `EditPatchSetNum` with EDIT | https://gerrit-review.googlesource.com/c/gerrit/+/338098",
+      "revId": "d431143d8ba9fa88c57e0afced2226861cf41709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

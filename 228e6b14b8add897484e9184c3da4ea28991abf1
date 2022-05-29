@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0f04b0a_455bda1b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-29T21:24:51Z",
+      "side": 1,
+      "message": "The impact of this change is reduced and also it won\u0027t cause any additional change queries when merging multiple changes with a single push.",
+      "revId": "228e6b14b8add897484e9184c3da4ea28991abf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

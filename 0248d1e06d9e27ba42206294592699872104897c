@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efd63de7_3f0e5f76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-29T21:09:46Z",
+      "side": 1,
+      "message": "This is causing the execution of multiple Lucene queries when pushing multiple changes at once to the same branch.\n\nWhy not just avoiding to load the change notes instead for all the keys that aren\u0027t used?",
+      "revId": "0248d1e06d9e27ba42206294592699872104897c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -3105,7 +3105,7 @@ class ReceiveCommits {
               }
 
               ListMultimap<ObjectId, Ref> byCommit = changeRefsById();
-              Map<Change.Key, ChangeNotes> byKey = null;
+              ChangeNotes changeNotesbyKey = null;
               List<ReplaceRequest> replaceAndClose = new ArrayList<>();
 
               int existingPatchSets = 0;
@@ -3128,11 +3128,14 @@ class ReceiveCommits {
                 }
 
                 for (String changeId : c.getFooterLines(CHANGE_ID)) {
-                  if (byKey == null) {
-                    byKey = executeIndexQuery(() -> openChangesByKeyByBranch(branch));
+                  if (changeNotesbyKey == null) {
+                    changeNotesbyKey =
+                        executeIndexQuery(
+                            () ->
+                                changeNotesByKeyByBranch(branch, new Change.Key(changeId.trim())));
                   }
 
-                  ChangeNotes onto = byKey.get(new Change.Key(changeId.trim()));
+                  ChangeNotes onto = changeNotesbyKey;
                   if (onto != null) {
                     newPatchSets++;
                     // Hold onto this until we're done with the walk, as the call to
@@ -3207,17 +3210,18 @@ class ReceiveCommits {
     }
   }
 
-  private Map<Change.Key, ChangeNotes> openChangesByKeyByBranch(Branch.NameKey branch)
+  private ChangeNotes changeNotesByKeyByBranch(Branch.NameKey branch, Change.Key changeKey)
       throws OrmException {
-    Map<Change.Key, ChangeNotes> r = new HashMap<>();
     for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
       try {
-        r.put(cd.change().getKey(), cd.notes());
+        if (cd.change().getKey().equals(changeKey)) {
+          return cd.notes();
+        }
       } catch (NoSuchChangeException e) {
         // Ignore deleted change
       }
     }
-    return r;
+    return null;
   }
 
   // allRefsWatcher hooks into the protocol negotation to get a list of all known refs.

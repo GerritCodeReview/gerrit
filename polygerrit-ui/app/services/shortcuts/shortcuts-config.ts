@@ -326,9 +326,14 @@ export function createShortCutConfig(_flagsService: FlagsService) {
     'Move cursor to currently visible code',
     {key: '.'}
   );
-  describe(Shortcut.NEXT_CHUNK, ShortcutSection.DIFFS, 'Go to next diff chunk', {
-    key: 'n',
-  });
+  describe(
+    Shortcut.NEXT_CHUNK,
+    ShortcutSection.DIFFS,
+    'Go to next diff chunk',
+    {
+      key: 'n',
+    }
+  );
   describe(
     Shortcut.PREV_CHUNK,
     ShortcutSection.DIFFS,

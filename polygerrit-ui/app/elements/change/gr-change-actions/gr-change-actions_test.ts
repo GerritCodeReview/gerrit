@@ -37,6 +37,7 @@ import {
   CommitId,
   NumericChangeId,
   PatchSetNum,
+  PatchSetNumber,
   RepoName,
   ReviewInput,
   TopicName,
@@ -297,18 +298,20 @@ suite('gr-change-actions tests', () => {
 
     test('get revision object from change', () => {
       const revObj = {
-        ...createRevision(),
-        _number: 2 as PatchSetNum,
+        ...createRevision(2),
         foo: 'bar',
       };
       const change = {
         ...createChangeViewChange(),
         revisions: {
-          rev1: {...createRevision(), _number: 1 as PatchSetNum},
+          rev1: createRevision(1),
           rev2: revObj,
         },
       };
-      assert.deepEqual(element.getRevision(change, 2 as PatchSetNum), revObj);
+      assert.deepEqual(
+        element.getRevision(change, 2 as PatchSetNumber),
+        revObj
+      );
     });
 
     test('actionComparator sort order', () => {
@@ -342,11 +345,11 @@ suite('gr-change-actions tests', () => {
       element.change = {
         ...createChangeViewChange(),
         revisions: {
-          rev1: {...createRevision(), _number: 1 as PatchSetNum},
-          rev2: {...createRevision(), _number: 2 as PatchSetNum},
+          rev1: {...createRevision(), _number: 1 as PatchSetNumber},
+          rev2: {...createRevision(), _number: 2 as PatchSetNumber},
         },
       };
-      element.latestPatchNum = 2 as PatchSetNum;
+      element.latestPatchNum = 2 as PatchSetNumber;
 
       queryAndAssert<GrButton>(
         element,
@@ -381,8 +384,8 @@ suite('gr-change-actions tests', () => {
       element.change = {
         ...createChangeViewChange(),
         revisions: {
-          rev1: {...createRevision(), _number: 1 as PatchSetNum},
-          rev2: {...createRevision(), _number: 2 as PatchSetNum},
+          rev1: {...createRevision(), _number: 1 as PatchSetNumber},
+          rev2: {...createRevision(), _number: 2 as PatchSetNumber},
         },
       };
       element.latestPatchNum = 2 as PatchSetNum;

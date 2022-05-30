@@ -1289,8 +1289,9 @@ export class GrChangeView extends base {
       this.restApiService.setInProjectLookup(value.changeNum, value.project);
     }
 
-    if (value.basePatchNum === undefined)
+    if (value.basePatchNum === undefined) {
       value.basePatchNum = ParentPatchSetNum;
+    }
 
     if (value.patchNum === undefined) {
       value.patchNum = computeLatestPatchNum(this._allPatchSets);
@@ -1324,6 +1325,19 @@ export class GrChangeView extends base {
         patchNumChanged = true;
       }
       if (patchChanged) {
+        // We have to do this to ensure when we call reload() within
+        // _reloadPatchNumDependentResources it has the correct basePatchNum set.
+        // Going from the change screen to change list and then clicking on the
+        // change causes the basePatchNum change within _changeChanged not
+        // to be picked up as it is done later.
+        // To workaround this we do it here as well.
+        if (value.basePatchNum === ParentPatchSetNum) {
+          this.set(
+            '_patchRange.basePatchNum',
+            this._getBasePatchNum({basePatchNum: value.basePatchNum})
+          );
+        }
+
         // We need to collapse all diffs when params change so that a non
         // existing diff is not requested. See Issue 125270 for more details.
         this.$.fileList.collapseAllDiffs();
@@ -1555,14 +1569,14 @@ export class GrChangeView extends base {
 
     // We get the parent first so we keep the original value for basePatchNum
     // and not the updated value.
-    const parent = this._getBasePatchNum(change, this._patchRange);
+    const basePatchNum = this._getBasePatchNum(this._patchRange);
 
     this.set(
       '_patchRange.patchNum',
       this._patchRange.patchNum || computeLatestPatchNum(this._allPatchSets)
     );
 
-    this.set('_patchRange.basePatchNum', parent);
+    this.set('_patchRange.basePatchNum', basePatchNum);
     this.updateTitle(change);
   }
 
@@ -1570,16 +1584,18 @@ export class GrChangeView extends base {
    * Gets base patch number, if it is a parent try and decide from
    * preference whether to default to `auto merge`, `Parent 1` or `PARENT`.
    */
-  _getBasePatchNum(
-    change: ChangeInfo | ParsedChangeInfo,
-    patchRange: ChangeViewPatchRange
-  ) {
-    if (patchRange.basePatchNum && patchRange.basePatchNum !== 'PARENT') {
+  _getBasePatchNum(patchRange: ChangeViewPatchRange) {
+    if (
+      patchRange.basePatchNum &&
+      patchRange.basePatchNum !== ParentPatchSetNum
+    ) {
       return patchRange.basePatchNum;
     }
 
-    const revisionInfo = this._getRevisionInfo(change);
-    if (!revisionInfo) return 'PARENT';
+    const revisionInfo = this._change
+      ? new RevisionInfoClass(this._change)
+      : false;
+    if (!revisionInfo) return ParentPatchSetNum;
 
     const parentCounts = revisionInfo.getParentCountMap();
     // check that there is at least 2 parents otherwise fall back to 1,
@@ -1590,11 +1606,11 @@ export class GrChangeView extends base {
       this._prefs &&
       this._prefs.default_base_for_merges === DefaultBase.FIRST_PARENT;
 
-    if (parentCount > 1 && preferFirst && !patchRange.patchNum) {
-      return -1;
+    if (parentCount > 1 && preferFirst && !this.routerPatchNum) {
+      return -1 as BasePatchSetNum;
     }
 
-    return 'PARENT';
+    return ParentPatchSetNum;
   }
 
   // Polymer was converting true to "true"(type string) automatically hence
@@ -1964,10 +1980,7 @@ export class GrChangeView extends base {
   async performPostChangeLoadTasks() {
     assertIsDefined(this._changeNum, '_changeNum');
 
-    const prefCompletes = this._getPreferences();
     await this.untilModelLoaded();
-
-    this._prefs = await prefCompletes;
 
     if (!this._change) return false;
 
@@ -2126,6 +2139,10 @@ export class GrChangeView extends base {
     // Array to house all promises related to data requests.
     const allDataPromises: Promise<unknown>[] = [];
 
+    // We have to load preferences before changes so that
+    // _changeChanged has access to _prefs.
+    allDataPromises.push(this.loadPreferences());
+
     // Resolves when the change detail and the edit patch set (if available)
     // are loaded.
     const detailCompletes = this.untilModelLoaded();
@@ -2224,6 +2241,10 @@ export class GrChangeView extends base {
     });
 
     return coreDataPromise;
+  }
+
+  private async loadPreferences() {
+    this._prefs = await this._getPreferences();
   }
 
   /**

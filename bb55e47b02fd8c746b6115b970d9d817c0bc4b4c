@@ -51,6 +51,24 @@
       "parentUuid": "88ddd834_af0d210d",
       "revId": "bb55e47b02fd8c746b6115b970d9d817c0bc4b4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "571f711d_53717a42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2022-05-30T09:44:03Z",
+      "side": 1,
+      "message": "Is this the same code that was implicated with the recent outage?",
+      "parentUuid": "4330ac64_46e637f4",
+      "revId": "bb55e47b02fd8c746b6115b970d9d817c0bc4b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

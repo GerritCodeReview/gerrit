@@ -78,6 +78,11 @@ export interface ChangeState {
    * Undefined means it's still loading and empty set means no files reviewed.
    */
   reviewedFiles?: string[];
+  /**
+   * For which files is the reviewed state currently being saved? This allows us
+   * to prevent race conditions and to show some indication to the user.
+   */
+  reviewedFilesSaving?: string[];
 }
 
 /**
@@ -166,7 +171,12 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
 
   public readonly reviewedFiles$ = select(
     this.state$,
-    changeState => changeState?.reviewedFiles
+    changeState => changeState?.reviewedFiles ?? []
+  );
+
+  public readonly reviewedFilesSaving$ = select(
+    this.state$,
+    changeState => changeState?.reviewedFilesSaving ?? []
   );
 
   public readonly changeNum$ = select(this.change$, change => change?._number);
@@ -327,6 +337,8 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
       return;
     }
     const reviewedFiles = [...current.reviewedFiles];
+    const reviewedFilesSaving = [...(current.reviewedFilesSaving ?? [])];
+    reviewedFilesSaving.splice(reviewedFilesSaving.indexOf(file), 1);
 
     // File is already reviewed and is being marked reviewed
     if (reviewedFiles.includes(file) && reviewed) return;
@@ -335,7 +347,15 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
 
     if (reviewed) reviewedFiles.push(file);
     else reviewedFiles.splice(reviewedFiles.indexOf(file), 1);
-    this.setState({...current, reviewedFiles});
+    this.setState({...current, reviewedFiles, reviewedFilesSaving});
+  }
+
+  updateStateFileReviewedSaving(file: string, saving: boolean) {
+    const current = this.subject$.getValue();
+    const reviewedFilesSaving = [...(current.reviewedFilesSaving ?? [])];
+    if (saving) reviewedFilesSaving.push(file);
+    else reviewedFilesSaving.splice(reviewedFilesSaving.indexOf(file), 1);
+    this.setState({...current, reviewedFilesSaving});
   }
 
   fetchReviewedFiles(patchNum: PatchSetNum, changeNum: NumericChangeId) {
@@ -354,6 +374,13 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
     file: string,
     reviewed: boolean
   ) {
+    const current = this.subject$.getValue();
+    const saving = (current.reviewedFilesSaving ?? []).includes(file);
+    if (saving) {
+      fireAlert(document, 'Concurrent attempt for marking a file reviewed');
+      return;
+    }
+    this.updateStateFileReviewedSaving(file, true);
     return this.restApiService
       .saveFileReviewed(changeNum, patchNum, file, reviewed)
       .then(() => {
@@ -363,6 +390,9 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
       })
       .catch(() => {
         fireAlert(document, ERR_REVIEW_STATUS);
+      })
+      .finally(() => {
+        this.updateStateFileReviewedSaving(file, false);
       });
   }
 

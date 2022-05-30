@@ -17,6 +17,7 @@ import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-file-status-chip/gr-file-status-chip';
+import {assertIsDefined} from '../../../utils/common-util';
 import {asyncForeach} from '../../../utils/async-util';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {pluralize} from '../../../utils/string-util';
@@ -89,11 +90,7 @@ const SIZE_BAR_MIN_WIDTH = 1.5;
 
 const FILE_ROW_CLASS = 'file-row';
 
-interface ReviewedFileInfo extends FileInfo {
-  isReviewed?: boolean;
-}
-
-export interface NormalizedFileInfo extends ReviewedFileInfo {
+export interface NormalizedFileInfo extends FileInfo {
   __path: string;
 }
 
@@ -141,8 +138,6 @@ interface FileRow {
   file: PatchSetFile;
   element: HTMLElement;
 }
-
-export type FileNameToReviewedFileInfoMap = {[name: string]: ReviewedFileInfo};
 
 /**
  * Type for FileInfo
@@ -218,8 +213,19 @@ export class GrFileList extends LitElement {
   @state()
   loggedIn = false;
 
-  @property({type: Array})
-  reviewed?: string[] = [];
+  /**
+   * List of paths of files that are marked as reviewed. Direct model
+   * subscription.
+   */
+  @state()
+  reviewed: string[] = [];
+
+  /**
+   * List of paths of files where the "mark as reviewed" state is currently
+   * being saved. Direct model subscription.
+   */
+  @state()
+  reviewedFilesSaving: string[] = [];
 
   @property({type: Object, attribute: 'diff-prefs'})
   diffPrefs?: DiffPreferencesInfo;
@@ -709,7 +715,14 @@ export class GrFileList extends LitElement {
       this,
       () => this.getChangeModel().reviewedFiles$,
       reviewedFiles => {
-        this.reviewed = reviewedFiles ?? [];
+        this.reviewed = [...reviewedFiles];
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().reviewedFilesSaving$,
+      reviewedFilesSaving => {
+        this.reviewedFilesSaving = [...reviewedFilesSaving];
       }
     );
   }
@@ -727,8 +740,7 @@ export class GrFileList extends LitElement {
     if (
       changedProperties.has('filesByPath') ||
       changedProperties.has('changeComments') ||
-      changedProperties.has('patchRange') ||
-      changedProperties.has('reviewed')
+      changedProperties.has('patchRange')
     ) {
       changedProperties.set('files', this.files);
       this.computeFiles();
@@ -1149,10 +1161,20 @@ export class GrFileList extends LitElement {
 
   private renderReviewed(file: NormalizedFileInfo) {
     if (!this.loggedIn) return nothing;
+    const isReviewed = this.isReviewed(file.__path);
+    const isReviewedSaving = this.isReviewedSaving(file.__path);
+    const reviewedTitle = `Mark as ${
+      isReviewed ? 'not ' : ''
+    }reviewed (shortcut: r)`;
+    const reviewedText = isReviewedSaving
+      ? 'Saving...'
+      : isReviewed
+      ? 'MARK UNREVIEWED'
+      : 'MARK REVIEWED';
     return html` <div class="reviewed hideOnEdit" role="gridcell">
       <span
-        class=${`reviewedLabel ${this.computeReviewedClass(file.isReviewed)}`}
-        aria-hidden=${this.booleanToString(!file.isReviewed)}
+        class=${`reviewedLabel ${isReviewed ? 'isReviewed' : ''}`}
+        aria-hidden=${this.booleanToString(!isReviewed)}
         >Reviewed</span
       >
       <!-- Do not use input type="checkbox" with hidden input and
@@ -1166,15 +1188,12 @@ export class GrFileList extends LitElement {
         @click=${(e: MouseEvent) => this.reviewedClick(e)}
         @keydown=${(e: KeyboardEvent) => this.reviewedClick(e)}
         aria-label="Reviewed"
-        aria-checked=${this.booleanToString(file.isReviewed)}
+        aria-checked=${this.booleanToString(isReviewed)}
       >
         <!-- Trick with tabindex to avoid outline on mouse focus, but
             preserve focus outline for keyboard navigation -->
-        <span
-          tabindex="-1"
-          class="markReviewed"
-          title=${this.reviewedTitle(file.isReviewed)}
-          >${this.computeReviewedText(file.isReviewed)}</span
+        <span tabindex="-1" class="markReviewed" title=${reviewedTitle}
+          >${reviewedText}</span
         >
       </span>
     </div>`;
@@ -1613,23 +1632,14 @@ export class GrFileList extends LitElement {
 
   // Private but used in tests.
   reviewFile(path: string, reviewed?: boolean) {
-    if (this.editMode) {
-      return Promise.resolve();
-    }
-    const index = this.files.findIndex(file => file.__path === path);
-    reviewed = reviewed || !this.files[index].isReviewed;
-    this.files[index].isReviewed = reviewed;
-    if (index < this.shownFiles.length) {
-      this.requestUpdate('shownFiles');
-    }
-    this.requestUpdate('files');
+    if (this.editMode) return Promise.resolve();
+    reviewed = reviewed ?? !this.isReviewed(path);
     return this._saveReviewedState(path, reviewed);
   }
 
   _saveReviewedState(path: string, reviewed: boolean) {
-    if (!this.changeNum || !this.patchRange) {
-      throw new Error('changeNum and patchRange must be set');
-    }
+    assertIsDefined(this.changeNum, 'changeNum');
+    assertIsDefined(this.patchRange, 'patchRange');
 
     return this.getChangeModel().setReviewedFilesStatus(
       this.changeNum,
@@ -1640,7 +1650,7 @@ export class GrFileList extends LitElement {
   }
 
   private normalizeChangeFilesResponse(
-    response: FileNameToReviewedFileInfoMap
+    response: FileNameToFileInfoMap
   ): NormalizedFileInfo[] {
     const paths = Object.keys(response).sort(specialFilePathCompare);
     const files: NormalizedFileInfo[] = [];
@@ -2006,21 +2016,24 @@ export class GrFileList extends LitElement {
     if (
       this.filesByPath === undefined ||
       this.changeComments === undefined ||
-      this.patchRange === undefined ||
-      this.reviewed === undefined
+      this.patchRange === undefined
     ) {
       return;
     }
     // Await all promises resolving from reload. @See Issue 9057
     if (!this.changeComments) return;
     const commentedPaths = this.changeComments.getPaths(this.patchRange);
-    const files: FileNameToReviewedFileInfoMap = {...this.filesByPath};
+    const files = {...this.filesByPath};
     addUnmodifiedFiles(files, commentedPaths);
-    const reviewedSet = new Set(this.reviewed || []);
-    for (const [filePath, reviewedFileInfo] of Object.entries(files)) {
-      reviewedFileInfo.isReviewed = reviewedSet.has(filePath);
-    }
     this.files = this.normalizeChangeFilesResponse(files);
+  }
+
+  private isReviewed(path: string): boolean {
+    return this.reviewed.includes(path);
+  }
+
+  private isReviewedSaving(path: string): boolean {
+    return this.reviewedFilesSaving.includes(path);
   }
 
   private computeFilesShown(): NormalizedFileInfo[] {
@@ -2272,14 +2285,6 @@ export class GrFileList extends LitElement {
     this.displayLine = false;
   }
 
-  private computeReviewedClass(isReviewed?: boolean) {
-    return isReviewed ? 'isReviewed' : '';
-  }
-
-  private computeReviewedText(isReviewed?: boolean) {
-    return isReviewed ? 'MARK UNREVIEWED' : 'MARK REVIEWED';
-  }
-
   /**
    * Given a file path, return whether that path should have visible size bars
    * and be included in the size bars calculation.
@@ -2439,15 +2444,6 @@ export class GrFileList extends LitElement {
         });
       }, 1);
     }
-  }
-
-  // Private but used in tests.
-  reviewedTitle(reviewed?: boolean) {
-    if (reviewed) {
-      return 'Mark as not reviewed (shortcut: r)';
-    }
-
-    return 'Mark as reviewed (shortcut: r)';
   }
 
   private handleReloadingDiffPreference() {

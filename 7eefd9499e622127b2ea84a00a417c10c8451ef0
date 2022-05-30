@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "378b7ebd_adec6ea3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-30T14:44:52Z",
+      "side": 1,
+      "message": "Brief description as to why.",
+      "revId": "7eefd9499e622127b2ea84a00a417c10c8451ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "427768a8_85eefaec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-30T14:44:52Z",
+      "side": 1,
+      "message": "Looks good, some minor nits.",
+      "revId": "7eefd9499e622127b2ea84a00a417c10c8451ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10a6ae25_56744427",
+        "filename": "polygerrit-ui/app/elements/lit/shortcut-controller.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-30T14:44:52Z",
+      "side": 1,
+      "message": "Consider doing `const shortcutService \u003d this.getShortcutService()` once at the beginning of the function to avoid calling it each loop iteration.\n\nMakes it a bit shorter 😊",
+      "revId": "7eefd9499e622127b2ea84a00a417c10c8451ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

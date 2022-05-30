@@ -2117,6 +2117,20 @@ export class GrChangeView extends LitElement {
         patchNumChanged = true;
       }
       if (patchChanged) {
+        // We have to do this to ensure when we call reload() within
+        // _reloadPatchNumDependentResources it has the correct basePatchNum set.
+        // Going from the change screen to change list and then clicking on the
+        // change causes the basePatchNum change within _changeChanged not
+        // to be picked up as it is done later.
+        // To workaround this we do it here as well.
+        if (this.params.basePatchNum === PARENT) {
+          this.patchRange.basePatchNum = this.params.basePatchNum;
+          this.patchRange = {
+            ...this.patchRange,
+            basePatchNum: this.getBasePatchNum(),
+          };
+        }
+
         // We need to collapse all diffs when params change so that a non
         // existing diff is not requested. See Issue 125270 for more details.
         this.fileList?.resetNumFilesShown();
@@ -2309,11 +2323,11 @@ export class GrChangeView extends LitElement {
 
     // We get the parent first so we keep the original value for basePatchNum
     // and not the updated value.
-    const parent = this.getBasePatchNum();
+    const basePatchNum = this.getBasePatchNum();
 
     this.patchRange = {
       ...this.patchRange,
-      basePatchNum: parent,
+      basePatchNum,
       patchNum:
         this.patchRange.patchNum || computeLatestPatchNum(this.allPatchSets),
     };
@@ -2345,12 +2359,7 @@ export class GrChangeView extends LitElement {
       this.prefs &&
       this.prefs.default_base_for_merges === DefaultBase.FIRST_PARENT;
 
-    // TODO: I think checking `!patchRange.patchNum` here is a bug and means
-    // that the feature is actually broken at the moment. Looking at the
-    // `changeChanged` method, `patchRange.patchNum` is set before
-    // `getBasePatchNum` is called, so it is unlikely that this method will
-    // ever return -1.
-    if (isMerge && preferFirst && !this.patchRange?.patchNum) {
+    if (isMerge && preferFirst && !this.routerPatchNum) {
       this.reporting.reportExecution(Execution.PREFER_MERGE_FIRST_PARENT);
       return -1 as BasePatchSetNum;
     }
@@ -2708,10 +2717,7 @@ export class GrChangeView extends LitElement {
   async performPostChangeLoadTasks() {
     assertIsDefined(this.changeNum, 'changeNum');
 
-    const prefCompletes = this.restApiService.getPreferences();
     await this.untilModelLoaded();
-
-    this.prefs = await prefCompletes;
 
     if (!this.change) return false;
 
@@ -2863,6 +2869,10 @@ export class GrChangeView extends LitElement {
     // Array to house all promises related to data requests.
     const allDataPromises: Promise<unknown>[] = [];
 
+    // We have to load preferences before changes so that
+    // changeChanged has access to prefs.
+    allDataPromises.push(this.loadPreferences());
+
     // Resolves when the change detail and the edit patch set (if available)
     // are loaded.
     const detailCompletes = this.untilModelLoaded();
@@ -2953,6 +2963,10 @@ export class GrChangeView extends LitElement {
     });
 
     return coreDataPromise;
+  }
+
+  private async loadPreferences() {
+    this.prefs = await this.restApiService.getPreferences();
   }
 
   /**

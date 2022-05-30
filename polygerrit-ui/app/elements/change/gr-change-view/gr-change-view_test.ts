@@ -1676,9 +1676,52 @@ suite('gr-change-view tests', () => {
     assert.equal(element.getBasePatchNum(), -1 as BasePatchSetNum);
 
     element.patchRange.basePatchNum = PARENT;
-    element.patchRange.patchNum = 1 as RevisionPatchSetNum;
+    element.routerPatchNum = 1 as RevisionPatchSetNum;
     await element.updateComplete;
     assert.equal(element.getBasePatchNum(), PARENT);
+  });
+
+  test('changeChanged calls getBasePatchNum which triggers basePatchNum', async () => {
+    // prefs has to be set before _change is set so that
+    // changeChanged can access prefs as it is used within
+    // getBasePatchNum.
+    element.prefs = {
+      ...createPreferences(),
+      default_base_for_merges: DefaultBase.FIRST_PARENT,
+    };
+    // Params needs to be set before _change so that _patchRange can be populated.
+    element.params = {
+      ...createAppElementChangeViewParams(),
+      view: GerritView.CHANGE,
+    };
+    element.change = {
+      ...createChangeViewChange(),
+      revisions: {
+        '98da160735fb81604b4c40e93c368f380539dd0e': {
+          ...createRevision(1),
+          commit: {
+            ...createCommit(),
+            parents: [
+              {
+                commit: '6e12bdf1176eb4ab24d8491ba3b6d0704409cde8' as CommitId,
+                subject: 'test',
+              },
+              {
+                commit: '22f7db4754b5d9816fc581f3d9a6c0ef8429c841' as CommitId,
+                subject: 'test3',
+              },
+            ],
+          },
+        },
+      },
+    };
+    await element.updateComplete;
+
+    assert.equal(element.patchRange!.basePatchNum, -1 as BasePatchSetNum);
+
+    element.patchRange!.basePatchNum = -2 as BasePatchSetNum;
+
+    assert.equal(element.patchRange!.basePatchNum, -2 as BasePatchSetNum);
   });
 
   test('openReplyDialog called with `ANY` when coming from tap event', async () => {

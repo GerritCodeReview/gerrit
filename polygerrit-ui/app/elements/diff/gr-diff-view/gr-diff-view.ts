@@ -450,14 +450,14 @@ export class GrDiffView extends base {
           filter(diffPath => !!diffPath),
           switchMap(() =>
             combineLatest(
-              this.getChangeModel().currentPatchNum$,
+              this.getChangeModel().patchNum$,
               this.routerModel.routerView$,
               this.userModel.diffPreferences$,
               this.getChangeModel().reviewedFiles$
             ).pipe(
               filter(
-                ([currentPatchNum, routerView, diffPrefs, reviewedFiles]) =>
-                  !!currentPatchNum &&
+                ([patchNum, routerView, diffPrefs, reviewedFiles]) =>
+                  !!patchNum &&
                   routerView === GerritView.DIFF &&
                   !!diffPrefs &&
                   !!reviewedFiles
@@ -466,8 +466,8 @@ export class GrDiffView extends base {
             )
           )
         )
-        .subscribe(([currentPatchNum, _routerView, diffPrefs]) => {
-          this.setReviewedStatus(currentPatchNum!, diffPrefs);
+        .subscribe(([patchNum, _routerView, diffPrefs]) => {
+          this.setReviewedStatus(patchNum!, diffPrefs);
         })
     );
     this.subscriptions.push(
@@ -508,13 +508,13 @@ export class GrDiffView extends base {
    */
 
   async setReviewedStatus(
-    currentPatchNum: PatchSetNum,
+    patchNum: RevisionPatchSetNum,
     diffPrefs: DiffPreferencesInfo
   ) {
     const loggedIn = await this._getLoggedIn();
     if (!loggedIn) return;
     if (!diffPrefs.manual_review) {
-      this._setReviewed(true, currentPatchNum as RevisionPatchSetNum);
+      this._setReviewed(true, patchNum);
     }
   }
 

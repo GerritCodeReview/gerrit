@@ -289,18 +289,18 @@ export class GrApplyFixDialog extends LitElement {
 
   private computeTooltip() {
     if (!this.change || !this.patchNum) return '';
-    const currentPatchNum =
+    const latestPatchNum =
       this.change.revisions[this.change.current_revision]._number;
-    return currentPatchNum !== this.patchNum
+    return latestPatchNum !== this.patchNum
       ? 'Fix can only be applied to the latest patchset'
       : '';
   }
 
   private computeDisableApplyFixButton() {
     if (!this.change || !this.patchNum) return true;
-    const currentPatchNum =
+    const latestPatchNum =
       this.change.revisions[this.change.current_revision]._number;
-    return this.patchNum !== currentPatchNum || this.isApplyFixLoading;
+    return this.patchNum !== latestPatchNum || this.isApplyFixLoading;
   }
 
   // visible for testing

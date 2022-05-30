@@ -15,6 +15,7 @@ import {
   query,
   stubRestApi,
   waitUntil,
+  pressKey,
 } from '../../../test/test-utils';
 import {
   BasePatchSetNum,
@@ -40,7 +41,7 @@ import {
   DiffViewMode,
 } from '../../../constants/constants';
 import {queryAll, queryAndAssert} from '../../../utils/common-util';
-import {GrFileList, NormalizedFileInfo} from './gr-file-list';
+import {GrFileList} from './gr-file-list';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -785,18 +786,6 @@ suite('gr-file-list tests', () => {
       );
     });
 
-    test('reviewedTitle', () => {
-      assert.equal(
-        element.reviewedTitle(true),
-        'Mark as not reviewed (shortcut: r)'
-      );
-
-      assert.equal(
-        element.reviewedTitle(false),
-        'Mark as reviewed (shortcut: r)'
-      );
-    });
-
     suite('keyboard shortcuts', () => {
       setup(async () => {
         element.filesByPath = {
@@ -932,25 +921,29 @@ suite('gr-file-list tests', () => {
         assert.equal(element.expandedFiles.length, 0);
       });
 
-      test('r key toggles reviewed flag', async () => {
-        const reducer = (accum: number, file: NormalizedFileInfo) =>
-          file.isReviewed ? ++accum : accum;
-        const getNumReviewed = () => element.files.reduce(reducer, 0);
+      test('r key sets reviewed flag', async () => {
         await element.updateComplete;
 
-        // Default state should be unreviewed.
-        assert.equal(getNumReviewed(), 0);
-
-        // Press the review key to toggle it (set the flag).
         element.handleCursorNext(new KeyboardEvent('keydown'));
-        MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+        pressKey(element, 'r');
         await element.updateComplete;
-        assert.equal(getNumReviewed(), 1);
 
-        // Press the review key to toggle it (clear the flag).
-        MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+        assert.isTrue(saveStub.called);
+        assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', true));
+      });
+
+      test('r key clears reviewed flag', async () => {
+        element.reviewed = ['/COMMIT_MSG'];
         await element.updateComplete;
-        assert.equal(getNumReviewed(), 0);
+
+        element.handleCursorNext(new KeyboardEvent('keydown'));
+        pressKey(element, 'r');
+        await element.updateComplete;
+
+        assert.isTrue(saveStub.called);
+        assert.isTrue(
+          saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false)
+        );
       });
 
       suite('handleOpenFile', () => {
@@ -1077,23 +1070,30 @@ suite('gr-file-list tests', () => {
       MockInteractions.tap(markReviewLabel!);
       await element.updateComplete;
 
-      // assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
-      // assert.isFalse(commitReviewLabel.classList.contains('isReviewed'));
-      assert.equal(markReviewLabel!.textContent, 'MARK REVIEWED');
       assert.isTrue(clickSpy.calledOnce);
       assert.isTrue(clickSpy.lastCall.args[0].defaultPrevented);
       assert.isTrue(reviewSpy.calledOnce);
+      assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
+
+      element.reviewed = ['myfile.txt'];
+      await element.updateComplete;
+
+      assert.isFalse(commitReviewLabel!.classList.contains('isReviewed'));
+      assert.equal(markReviewLabel!.textContent, 'MARK REVIEWED');
 
       MockInteractions.tap(markReviewLabel!);
       await element.updateComplete;
 
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', true));
-      assert.isTrue(commitReviewLabel!.classList.contains('isReviewed'));
-      assert.equal(markReviewLabel!.textContent, 'MARK UNREVIEWED');
       assert.isTrue(clickSpy.lastCall.args[0].defaultPrevented);
       assert.isTrue(reviewSpy.calledTwice);
-
       assert.isFalse(toggleExpandSpy.called);
+
+      element.reviewed = ['/COMMIT_MSG', 'myfile.txt'];
+      await element.updateComplete;
+
+      assert.isTrue(commitReviewLabel!.classList.contains('isReviewed'));
+      assert.equal(markReviewLabel!.textContent, 'MARK UNREVIEWED');
     });
 
     test('handleFileListClick', async () => {

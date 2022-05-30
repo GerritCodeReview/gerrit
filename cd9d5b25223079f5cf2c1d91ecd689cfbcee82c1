@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99a5a794_1afad5b0",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-30T13:16:29Z",
+      "side": 1,
+      "message": "I think this nomenclature is a bit counterintuitive.\n\nUsually \"Base\" is the most common thing.\n\n```\nexport type LeftPatchSetNum \u003d ..\nexport type RightPatchSetNum \u003d ...\n```\n\nThen you also get rid of the comment :D\n\nAlternatives also welcome, but `BaseFoo` is typically the subtype of `Foo` and `SpecialFoo`",
+      "revId": "cd9d5b25223079f5cf2c1d91ecd689cfbcee82c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

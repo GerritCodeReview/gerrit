@@ -16,6 +16,24 @@
       "message": "Does this invalidate existing entries in the cache?",
       "revId": "8116877b2fb9b4c33d1825e97368a85fbaf04299",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "294a15d8_fb6139a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-05-30T08:49:58Z",
+      "side": 1,
+      "message": "Yes. Cache entries are versioned (default is -1). This change sets the new cache version to 1 - replacing default - hence invalidating existing entries.",
+      "parentUuid": "59273b35_5d828a81",
+      "revId": "8116877b2fb9b4c33d1825e97368a85fbaf04299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

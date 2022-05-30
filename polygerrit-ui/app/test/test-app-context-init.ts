@@ -24,7 +24,10 @@ import {
   commentsModelToken,
 } from '../models/comments/comments-model';
 import {RouterModel} from '../services/router/router-model';
-import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
+import {
+  ShortcutsService,
+  shortcutsServiceToken,
+} from '../services/shortcuts/shortcuts-service';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
@@ -50,11 +53,6 @@ export function createTestAppContext(): AppContext & Finalizable {
     userModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new UserModel(ctx.restApiService);
-    },
-    shortcutsService: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.userModel, 'userModel');
-      assertIsDefined(ctx.reportingService, 'reportingService');
-      return new ShortcutsService(ctx.userModel, ctx.reportingService);
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {
@@ -109,6 +107,10 @@ export function createTestDependencies(
     );
 
   dependencies.set(checksModelToken, checksModelCreator);
+
+  const shortcutServiceCreator = () =>
+    new ShortcutsService(appContext.userModel, appContext.reportingService);
+  dependencies.set(shortcutsServiceToken, shortcutServiceCreator);
 
   return dependencies;
 }

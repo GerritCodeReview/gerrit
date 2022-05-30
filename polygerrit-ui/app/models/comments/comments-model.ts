@@ -293,7 +293,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
       this.drafts$.subscribe(x => (this.drafts = x ?? {}))
     );
     this.subscriptions.push(
-      this.changeModel.currentPatchNum$.subscribe(x => (this.patchNum = x))
+      this.changeModel.patchNum$.subscribe(x => (this.patchNum = x))
     );
     this.subscriptions.push(
       this.routerModel.routerChangeNum$.subscribe(changeNum => {
@@ -305,7 +305,7 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     this.subscriptions.push(
       combineLatest([
         this.changeModel.changeNum$,
-        this.changeModel.currentPatchNum$,
+        this.changeModel.patchNum$,
       ]).subscribe(([changeNum, patchNum]) => {
         this.changeNum = changeNum;
         this.patchNum = patchNum;

@@ -16,6 +16,7 @@ import {GrAuthMock} from '../services/gr-auth/gr-auth_mock';
 import {FlagsServiceImplementation} from '../services/flags/flags_impl';
 import {EventEmitter} from '../services/gr-event-interface/gr-event-interface_impl';
 import {ChangeModel, changeModelToken} from '../models/change/change-model';
+import {FilesModel, filesModelToken} from '../models/change/files-model';
 import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {UserModel} from '../models/user/user-model';
@@ -86,6 +87,10 @@ export function createTestDependencies(
       appContext.userModel
     );
   dependencies.set(changeModelToken, changeModelCreator);
+
+  const filesModelCreator = () =>
+    new FilesModel(resolver(changeModelToken), appContext.restApiService);
+  dependencies.set(filesModelToken, filesModelCreator);
 
   const commentsModelCreator = () =>
     new CommentsModel(

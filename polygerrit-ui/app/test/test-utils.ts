@@ -24,7 +24,6 @@ import {StorageService} from '../services/storage/gr-storage';
 import {AuthService} from '../services/gr-auth/gr-auth';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
 import {UserModel} from '../models/user/user-model';
-import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {queryAndAssert, query} from '../utils/common-util';
 import {FlagsService} from '../services/flags/flags';
 import {Key, Modifier} from '../utils/dom-util';
@@ -122,10 +121,6 @@ export function spyRestApi<K extends keyof RestApiService>(method: K) {
 
 export function stubUsers<K extends keyof UserModel>(method: K) {
   return sinon.stub(getAppContext().userModel, method);
-}
-
-export function stubShortcuts<K extends keyof ShortcutsService>(method: K) {
-  return sinon.stub(getAppContext().shortcutsService, method);
 }
 
 export function stubHighlightService<K extends keyof HighlightService>(

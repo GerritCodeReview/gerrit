@@ -35,7 +35,10 @@ import {
   commentsModelToken,
 } from '../models/comments/comments-model';
 import {RouterModel} from '../services/router/router-model';
-import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
+import {
+  ShortcutsService,
+  shortcutsServiceToken,
+} from '../services/shortcuts/shortcuts-service';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {PluginsModel} from '../models/plugins/plugins-model';
@@ -125,6 +128,14 @@ export function createTestDependencies(
     );
 
   dependencies.set(checksModelToken, checksModelCreator);
+
+  const shortcutServiceCreator = () =>
+    new ShortcutsService(
+      appContext.userModel,
+      appContext.flagsService,
+      appContext.reportingService
+    );
+  dependencies.set(shortcutsServiceToken, shortcutServiceCreator);
 
   return dependencies;
 }

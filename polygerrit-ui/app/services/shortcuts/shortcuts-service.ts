@@ -35,6 +35,7 @@ import {ReportingService} from '../gr-reporting/gr-reporting';
 import {Finalizable} from '../registry';
 import {UserModel} from '../../models/user/user-model';
 import {FlagsService} from '../flags/flags';
+import {define} from '../../models/dependency';
 
 export type SectionView = Array<{binding: string[][]; text: string}>;
 
@@ -62,6 +63,9 @@ function isComboKey(key: string): key is ComboKey {
 }
 
 export const COMBO_TIMEOUT_MS = 1000;
+
+export const shortcutsServiceToken =
+  define<ShortcutsService>('shortcuts-service');
 
 /**
  * Shortcuts service, holds all hosts, bindings and listeners.
@@ -99,12 +103,13 @@ export class ShortcutsService implements Finalizable {
   private readonly keydownListener: (e: KeyboardEvent) => void;
 
   private readonly subscriptions: Subscription[] = [];
+
   private readonly config: Map<ShortcutSection, ShortcutHelpItem[]>;
 
   constructor(
     readonly userModel: UserModel,
     readonly flagsService: FlagsService,
-    readonly reporting?: ReportingService,
+    readonly reporting?: ReportingService
   ) {
     this.config = createShortCutConfig(flagsService);
     for (const section of this.config.keys()) {

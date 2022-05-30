@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00463330_1141a444",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-30T10:17:42Z",
+      "side": 1,
+      "message": "I\u0027ve added a more detailed description of the add/remove process.",
+      "parentUuid": "cb6be901_5e1df427",
+      "range": {
+        "startLine": 10,
+        "startChar": 36,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "de27598c21671e9c9bd9aa81bfdadc578b534506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d11bafec_e93e8ccf",
@@ -227,6 +251,30 @@
       "side": 1,
       "message": "Waybe add a warning that the new field has to be added on any getter/setter modifications (since the fields are used in predicates too, and it is not immediately obvious that changing them would change the storage format.",
       "parentUuid": "ad948eb9_17d1c4f2",
+      "range": {
+        "startLine": 57,
+        "startChar": 14,
+        "endLine": 57,
+        "endChar": 46
+      },
+      "revId": "de27598c21671e9c9bd9aa81bfdadc578b534506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "538d1d35_61a5e248",
+        "filename": "javatests/com/google/gerrit/index/IndexUpgradeValidatorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-30T10:17:42Z",
+      "side": 1,
+      "message": "I\u0027ve added a comment to FieldDef#Getter and linked to it from Setter, LMK if you can think of other places to document this.",
+      "parentUuid": "f7ca6430_352da0fb",
       "range": {
         "startLine": 57,
         "startChar": 14,

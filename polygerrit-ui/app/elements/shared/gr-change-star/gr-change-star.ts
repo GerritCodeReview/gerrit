@@ -10,10 +10,11 @@ import {
   Shortcut,
   ShortcutSection,
 } from '../../../services/shortcuts/shortcuts-config';
-import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
+import {resolve} from '../../../models/dependency';
+import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -37,7 +38,7 @@ export class GrChangeStar extends LitElement {
   @property({type: Object})
   change?: ChangeInfo;
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   static override get styles() {
     return [
@@ -73,7 +74,7 @@ export class GrChangeStar extends LitElement {
     return html`
       <button
         role="checkbox"
-        title=${this.shortcuts.createTitle(
+        title=${this.getShortcutsService().createTitle(
           Shortcut.TOGGLE_CHANGE_STAR,
           ShortcutSection.ACTIONS
         )}

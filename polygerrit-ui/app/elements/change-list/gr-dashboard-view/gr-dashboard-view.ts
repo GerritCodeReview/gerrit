@@ -112,7 +112,9 @@ export class GrDashboardView extends LitElement {
   constructor() {
     super();
     this.addEventListener('reload', () => this.reload());
-    this.shortcuts.addAbstract(Shortcut.UP_TO_DASHBOARD, () => this.reload());
+    this.getShortcutsService().addAbstract(Shortcut.UP_TO_DASHBOARD, () =>
+      this.reload()
+    );
   }
 
   private readonly visibilityChangeListener = () => {

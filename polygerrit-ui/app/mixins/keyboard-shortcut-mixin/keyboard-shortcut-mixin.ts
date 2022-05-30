@@ -6,7 +6,6 @@
 import {property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer';
 import {check, Constructor} from '../../utils/common-util';
-import {getAppContext} from '../../services/app-context';
 import {
   Shortcut,
   ShortcutSection,
@@ -15,7 +14,9 @@ import {
 import {
   SectionView,
   ShortcutListener,
+  shortcutsServiceToken,
 } from '../../services/shortcuts/shortcuts-service';
+import {resolve} from '../../models/dependency';
 
 export {
   Shortcut,
@@ -39,7 +40,7 @@ export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
     // This enables `ShortcutSection` to be used in the html template.
     ShortcutSection = ShortcutSection;
 
-    private readonly shortcuts = getAppContext().shortcutsService;
+    private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
     /** Used to disable shortcuts when the element is not visible. */
     private observer?: IntersectionObserver;
@@ -103,7 +104,7 @@ export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
       if (this.bindingsEnabled) return;
       this.bindingsEnabled = true;
 
-      this.shortcuts.attachHost(this, this.keyboardShortcuts());
+      this.getShortcutsService().attachHost(this, this.keyboardShortcuts());
     }
 
     /**
@@ -114,7 +115,7 @@ export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
     private disableBindings() {
       if (!this.bindingsEnabled) return;
       this.bindingsEnabled = false;
-      this.shortcuts.detachHost(this);
+      this.getShortcutsService().detachHost(this);
     }
 
     private hasKeyboardShortcuts() {

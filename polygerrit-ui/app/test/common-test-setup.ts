@@ -148,8 +148,8 @@ setup(() => {
   // tests.
   initGlobalVariables(appContext);
 
-  const shortcuts = appContext.shortcutsService;
-  assert.isTrue(shortcuts._testOnly_isEmpty());
+  // const shortcuts = appContext.shortcutsService;
+  // assert.isTrue(shortcuts._testOnly_isEmpty());
   const selection = document.getSelection();
   if (selection) {
     selection.removeAllRanges();

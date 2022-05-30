@@ -4,12 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
+  BasePatchSetNum,
   EditInfo,
   EDIT,
+  PARENT,
   NumericChangeId,
   PatchSetNum,
+  PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../types/common';
+import {DefaultBase} from '../../constants/constants';
 import {
   combineLatest,
   from,
@@ -43,6 +47,7 @@ import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
+import {RevisionInfo} from '../../elements/shared/revision-info/revision-info';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -154,8 +159,9 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
    * patchset num, then this selector waits for the change to be defined and
    * returns the number of the latest patchset.
    *
-   * Note that this selector can emit a patchNum without the change being
-   * available!
+   * Note that this selector can emit without the change being available!
+   *
+   * TODO: Rename to just `patchNum`.
    */
   public readonly currentPatchNum$: Observable<
     RevisionPatchSetNum | undefined
@@ -177,6 +183,51 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
       .pipe(
         withLatestFrom(this.routerModel.routerPatchNum$, this.latestPatchNum$),
         map(([_, routerPatchN, latestPatchN]) => routerPatchN || latestPatchN),
+        distinctUntilChanged()
+      );
+
+  /**
+   * Emits the base patchset number. This is identical to the
+   * `routerBasePatchNum$`, but has some special logic for merges.
+   *
+   * Note that this selector can emit without the change being available!
+   */
+  public readonly basePatchNum$: Observable<BasePatchSetNum | undefined> =
+    /**
+     * If you depend on both, router and change state, then you want to filter
+     * out inconsistent state, e.g. router changeNum already updated, change not
+     * yet reset to undefined.
+     */
+    combineLatest([this.routerModel.state$, this.state$, this.userModel.state$])
+      .pipe(
+        filter(([routerState, changeState, _]) => {
+          const changeNum = changeState.change?._number;
+          const routerChangeNum = routerState.changeNum;
+          return changeNum === undefined || changeNum === routerChangeNum;
+        }),
+        distinctUntilChanged()
+      )
+      .pipe(
+        withLatestFrom(
+          this.routerModel.routerBasePatchNum$,
+          this.currentPatchNum$,
+          this.change$,
+          this.userModel.preferences$
+        ),
+        map(([_, routerBasePatchNum, patchNum, change, preferences]) => {
+          if (routerBasePatchNum && routerBasePatchNum !== PARENT) {
+            return routerBasePatchNum;
+          }
+          if (!change) return PARENT;
+          if (!patchNum) return PARENT;
+          const preferFirst =
+            preferences.default_base_for_merges === DefaultBase.FIRST_PARENT;
+          if (!preferFirst) return PARENT;
+
+          const revisionInfo = new RevisionInfo(change);
+          const isMergeCommit = revisionInfo.isMergeCommit(patchNum);
+          return isMergeCommit ? (-1 as PatchSetNumber) : PARENT;
+        }),
         distinctUntilChanged()
       );
 

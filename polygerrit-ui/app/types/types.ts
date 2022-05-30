@@ -15,6 +15,7 @@ import {
   ChangeViewChangeInfo,
   CommitId,
   CommitInfo,
+  EditPatchSet,
   NumericChangeId,
   PatchRange,
   PatchSetNum,
@@ -249,7 +250,7 @@ export interface FormattedReviewerUpdateInfo {
 
 export interface EditRevisionInfo extends Partial<RevisionInfo> {
   // EditRevisionInfo has less required properties then RevisionInfo
-  _number: PatchSetNum;
+  _number: EditPatchSet;
   basePatchNum: BasePatchSetNum;
   commit: CommitInfo;
 }

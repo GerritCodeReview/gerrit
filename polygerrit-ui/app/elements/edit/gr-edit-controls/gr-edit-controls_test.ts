@@ -13,7 +13,7 @@ import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {
   CommitId,
   NumericChangeId,
-  PatchSetNum,
+  PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../../types/common';
 import {RepoName} from '../../../api/rest-api';
@@ -393,11 +393,11 @@ suite('gr-edit-controls tests', () => {
         revisions: {
           abcd: {
             ...createRevision(1),
-            _number: 1 as PatchSetNum,
+            _number: 1 as PatchSetNumber,
           },
           efgh: {
             ...createRevision(2),
-            _number: 2 as PatchSetNum,
+            _number: 2 as PatchSetNumber,
           },
         },
         current_revision: 'efgh' as CommitId,

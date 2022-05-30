@@ -18,7 +18,13 @@ import {
   stubRestApi,
   waitUntilObserved,
 } from '../../test/test-utils';
-import {CommitId, EDIT, NumericChangeId, PatchSetNum} from '../../types/common';
+import {
+  CommitId,
+  EDIT,
+  NumericChangeId,
+  PatchSetNum,
+  PatchSetNumber,
+} from '../../types/common';
 import {ParsedChangeInfo} from '../../types/types';
 import {getAppContext} from '../../services/app-context';
 import {GerritView} from '../../services/router/router-model';
@@ -83,12 +89,12 @@ suite('change service tests', () => {
         sha1: {
           ...createRevision(1),
           description: 'patch 1',
-          _number: 1 as PatchSetNum,
+          _number: 1 as PatchSetNumber,
         },
         sha2: {
           ...createRevision(2),
           description: 'patch 2',
-          _number: 2 as PatchSetNum,
+          _number: 2 as PatchSetNumber,
         },
       },
       status: ChangeStatus.NEW,
@@ -235,7 +241,7 @@ suite('change service tests', () => {
         sha3: {
           ...createRevision(3),
           description: 'patch 3',
-          _number: 3 as PatchSetNum,
+          _number: 3 as PatchSetNumber,
         },
       },
     };

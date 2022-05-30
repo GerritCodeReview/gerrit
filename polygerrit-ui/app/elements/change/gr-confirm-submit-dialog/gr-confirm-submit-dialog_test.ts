@@ -10,7 +10,7 @@ import {
   createThread,
 } from '../../../test/test-data-generators';
 import {queryAndAssert} from '../../../test/test-utils';
-import {EDIT, PatchSetNum} from '../../../types/common';
+import {EDIT, PatchSetNumber} from '../../../types/common';
 import {GrConfirmSubmitDialog} from './gr-confirm-submit-dialog';
 import './gr-confirm-submit-dialog';
 
@@ -74,7 +74,7 @@ suite('gr-confirm-submit-dialog tests', () => {
       revisions: {
         d442ff05d6c4f2a3af0eeca1f67374b39f9dc3d8: {
           ...createRevision(),
-          _number: 2 as PatchSetNum,
+          _number: 2 as PatchSetNumber,
         },
       },
     };

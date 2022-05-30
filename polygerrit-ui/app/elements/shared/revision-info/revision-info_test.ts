@@ -9,7 +9,7 @@ import {
   createCommit,
   createRevision,
 } from '../../../test/test-data-generators';
-import {ChangeInfo, CommitId, PatchSetNum} from '../../../types/common';
+import {ChangeInfo, CommitId, PatchSetNumber} from '../../../types/common';
 import './revision-info';
 import {RevisionInfo} from './revision-info';
 
@@ -22,7 +22,7 @@ suite('revision-info tests', () => {
       revisions: {
         r1: {
           ...createRevision(),
-          _number: 1 as PatchSetNum,
+          _number: 1 as PatchSetNumber,
           commit: {
             ...createCommit(),
             parents: [
@@ -34,7 +34,7 @@ suite('revision-info tests', () => {
         },
         r2: {
           ...createRevision(),
-          _number: 2 as PatchSetNum,
+          _number: 2 as PatchSetNumber,
           commit: {
             ...createCommit(),
             parents: [
@@ -45,7 +45,7 @@ suite('revision-info tests', () => {
         },
         r3: {
           ...createRevision(),
-          _number: 3 as PatchSetNum,
+          _number: 3 as PatchSetNumber,
           commit: {
             ...createCommit(),
             parents: [{commit: 'p5' as CommitId, subject: ''}],
@@ -53,7 +53,7 @@ suite('revision-info tests', () => {
         },
         r4: {
           ...createRevision(),
-          _number: 4 as PatchSetNum,
+          _number: 4 as PatchSetNumber,
           commit: {
             ...createCommit(),
             parents: [
@@ -64,7 +64,7 @@ suite('revision-info tests', () => {
         },
         r5: {
           ...createRevision(),
-          _number: 5 as PatchSetNum,
+          _number: 5 as PatchSetNumber,
           commit: {
             ...createCommit(),
             parents: [
@@ -85,25 +85,34 @@ suite('revision-info tests', () => {
 
   test('getParentCountMap', () => {
     const ri = new RevisionInfo(mockChange);
-    assert.deepEqual(ri.getParentCountMap(), {1: 3, 2: 2, 3: 1, 4: 2, 5: 3});
+    assert.deepEqual(
+      ri.getParentCountMap(),
+      new Map([
+        [1 as PatchSetNumber, 3],
+        [2 as PatchSetNumber, 2],
+        [3 as PatchSetNumber, 1],
+        [4 as PatchSetNumber, 2],
+        [5 as PatchSetNumber, 3],
+      ])
+    );
   });
 
   test('getParentCount', () => {
     const ri = new RevisionInfo(mockChange);
-    assert.deepEqual(ri.getParentCount(1 as PatchSetNum), 3);
-    assert.deepEqual(ri.getParentCount(3 as PatchSetNum), 1);
+    assert.deepEqual(ri.getParentCount(1 as PatchSetNumber), 3);
+    assert.deepEqual(ri.getParentCount(3 as PatchSetNumber), 1);
   });
 
   test('getParentCount', () => {
     const ri = new RevisionInfo(mockChange);
-    assert.deepEqual(ri.getParentCount(1 as PatchSetNum), 3);
-    assert.deepEqual(ri.getParentCount(3 as PatchSetNum), 1);
+    assert.deepEqual(ri.getParentCount(1 as PatchSetNumber), 3);
+    assert.deepEqual(ri.getParentCount(3 as PatchSetNumber), 1);
   });
 
   test('getParentId', () => {
     const ri = new RevisionInfo(mockChange);
-    assert.deepEqual(ri.getParentId(1 as PatchSetNum, 2), 'p3' as CommitId);
-    assert.deepEqual(ri.getParentId(2 as PatchSetNum, 1), 'p4' as CommitId);
-    assert.deepEqual(ri.getParentId(3 as PatchSetNum, 0), 'p5' as CommitId);
+    assert.deepEqual(ri.getParentId(1 as PatchSetNumber, 2), 'p3' as CommitId);
+    assert.deepEqual(ri.getParentId(2 as PatchSetNumber, 1), 'p4' as CommitId);
+    assert.deepEqual(ri.getParentId(3 as PatchSetNumber, 0), 'p5' as CommitId);
   });
 });

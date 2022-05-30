@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06c8ae2f_85381d95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-05-30T08:44:47Z",
+      "side": 1,
+      "message": "nit: missing \u0027.\u0027",
+      "range": {
+        "startLine": 17,
+        "startChar": 66,
+        "endLine": 17,
+        "endChar": 69
+      },
+      "revId": "228e6b14b8add897484e9184c3da4ea28991abf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "149f4000_e48e5082",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

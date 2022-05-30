@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "149f4000_e48e5082",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-30T06:37:22Z",
+      "side": 1,
+      "message": "In the latest patch set, the full scanning still takes place. Can you re-phrase and emphasize the lazy loading vs. eagerly loading, or avoiding change notes materialization?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "228e6b14b8add897484e9184c3da4ea28991abf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34cce090_6b949861",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-30T06:37:22Z",
+      "side": 1,
+      "message": "Release-Notes is missing.",
+      "revId": "228e6b14b8add897484e9184c3da4ea28991abf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e0f04b0a_455bda1b",
@@ -14,6 +54,69 @@
       "writtenOn": "2022-05-29T21:24:51Z",
       "side": 1,
       "message": "The impact of this change is reduced and also it won\u0027t cause any additional change queries when merging multiple changes with a single push.",
+      "revId": "228e6b14b8add897484e9184c3da4ea28991abf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "957b1520_f63fb3c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-30T06:37:22Z",
+      "side": 1,
+      "message": "Nice performance improvement and non-invasive approach!",
+      "revId": "228e6b14b8add897484e9184c3da4ea28991abf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee0fbc54_a631ad2f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-30T06:37:22Z",
+      "side": 1,
+      "message": "Optional: I noticed patch set 1 of this change, where you renamed it to changeDataBykey. I liked it, given this is one of the biggest classes in the code base with 4k LoC.",
+      "range": {
+        "startLine": 3108,
+        "startChar": 42,
+        "endLine": 3108,
+        "endChar": 47
+      },
+      "revId": "228e6b14b8add897484e9184c3da4ea28991abf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "033b373b_e56a90df",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3216,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-30T06:37:22Z",
+      "side": 1,
+      "message": "Would it make sense to add a comment on this line, and emphasize, that the lazy-loading change date done on purpose?",
+      "range": {
+        "startLine": 3216,
+        "startChar": 8,
+        "endLine": 3216,
+        "endChar": 40
+      },
       "revId": "228e6b14b8add897484e9184c3da4ea28991abf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

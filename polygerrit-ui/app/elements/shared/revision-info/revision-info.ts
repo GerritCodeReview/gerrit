@@ -3,10 +3,12 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {ChangeInfo, PatchSetNum} from '../../../types/common';
+import {
+  ChangeInfo,
+  PatchSetNum,
+  RevisionPatchSetNum,
+} from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
-
-type RevNumberToParentCountMap = {[revNumber: number]: number};
 
 export class RevisionInfo {
   /**
@@ -35,22 +37,23 @@ export class RevisionInfo {
    * Get an object that maps revision numbers to the number of parents of the
    * commit of that revision.
    */
-  getParentCountMap() {
-    const result: RevNumberToParentCountMap = {};
+  getParentCountMap(): Map<RevisionPatchSetNum, number> {
+    const result: Map<RevisionPatchSetNum, number> = new Map();
     if (!this.change || !this.change.revisions) {
-      return {};
+      return result;
     }
     Object.values(this.change.revisions).forEach(rev => {
-      if (rev.commit) result[rev._number as number] = rev.commit.parents.length;
+      if (rev.commit) result.set(rev._number, rev.commit.parents.length);
     });
     return result;
   }
 
-  getParentCount(patchNum: PatchSetNum) {
-    return this.getParentCountMap()[patchNum as number];
+  getParentCount(patchNum: RevisionPatchSetNum): number {
+    return this.getParentCountMap().get(patchNum) ?? 1;
   }
 
-  isMergeCommit(patchNum: PatchSetNum) {
+  isMergeCommit(patchNum?: RevisionPatchSetNum) {
+    if (patchNum === undefined) return false;
     return this.getParentCount(patchNum) > 1;
   }
 

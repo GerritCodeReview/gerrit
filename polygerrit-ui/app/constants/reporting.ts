@@ -23,6 +23,7 @@ export enum Execution {
   CHECKS_API_NOT_LOGGED_IN = 'checks-api not-logged-in',
   CHECKS_API_ERROR = 'checks-api error',
   USER_PREFERENCES_COLUMNS = 'user-preferences-columns',
+  PREFER_MERGE_FIRST_PARENT = 'prefer-merge-first-parent',
 }
 
 export enum Timing {

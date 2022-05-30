@@ -10,7 +10,6 @@ import {
   NumericChangeId,
   RevisionPatchSetNum,
   BasePatchSetNum,
-  PARENT,
 } from '../../types/common';
 import {Model} from '../../models/model';
 
@@ -34,7 +33,7 @@ export interface RouterState {
   view?: GerritView;
   changeNum?: NumericChangeId;
   patchNum?: RevisionPatchSetNum;
-  basePatchNum: BasePatchSetNum;
+  basePatchNum?: BasePatchSetNum;
 }
 
 export class RouterModel extends Model<RouterState> implements Finalizable {
@@ -44,12 +43,10 @@ export class RouterModel extends Model<RouterState> implements Finalizable {
 
   readonly routerPatchNum$: Observable<RevisionPatchSetNum | undefined>;
 
-  readonly routerBasePatchNum$: Observable<BasePatchSetNum>;
+  readonly routerBasePatchNum$: Observable<BasePatchSetNum | undefined>;
 
   constructor() {
-    super({
-      basePatchNum: PARENT,
-    });
+    super({});
     this.routerView$ = this.state$.pipe(
       map(state => state.view),
       distinctUntilChanged()

@@ -55,7 +55,7 @@ suite('gr-patch-set-util tests', () => {
     // to compare against an expected value for a particular patch set.
     const compute = (
       initialWip: boolean,
-      tagsByRevision: Map<PatchSetNum, (ReviewInputTag | undefined)[]>
+      tagsByRevision: Map<PatchSetNumber, (ReviewInputTag | undefined)[]>
     ) => {
       const change: ChangeInfo = {
         ...createChange(),
@@ -220,10 +220,10 @@ suite('gr-patch-set-util tests', () => {
 
   test('computeAllPatchSets', () => {
     const expected = [
-      {num: 4 as PatchSetNum, desc: 'test', sha: 'rev4'},
-      {num: 3 as PatchSetNum, desc: 'test', sha: 'rev3'},
-      {num: 2 as PatchSetNum, desc: 'test', sha: 'rev2'},
-      {num: 1 as PatchSetNum, desc: 'test', sha: 'rev1'},
+      {num: 4 as PatchSetNumber, desc: 'test', sha: 'rev4'},
+      {num: 3 as PatchSetNumber, desc: 'test', sha: 'rev3'},
+      {num: 2 as PatchSetNumber, desc: 'test', sha: 'rev2'},
+      {num: 1 as PatchSetNumber, desc: 'test', sha: 'rev1'},
     ];
     const patchNums = computeAllPatchSets({
       ...createChange(),

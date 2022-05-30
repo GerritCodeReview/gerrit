@@ -102,6 +102,7 @@ import {
   PARENT,
   PatchRange,
   PatchSetNum,
+  PatchSetNumber,
   PreferencesInfo,
   QuickLabelInfo,
   RelatedChangeAndCommitInfo,
@@ -117,11 +118,7 @@ import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
 import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
-import {
-  assertIsDefined,
-  hasOwnProperty,
-  query,
-} from '../../../utils/common-util';
+import {assertIsDefined, query} from '../../../utils/common-util';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {
   CommentThread,
@@ -1581,16 +1578,20 @@ export class GrChangeView extends base {
     const revisionInfo = this._getRevisionInfo(change);
     if (!revisionInfo) return PARENT;
 
-    const parentCounts = revisionInfo.getParentCountMap();
-    // check that there is at least 2 parents otherwise fall back to 1,
-    // which means there is only one parent.
-    const parentCount = hasOwnProperty(parentCounts, 1) ? parentCounts[1] : 1;
-
+    // It is a bit unclear why `1` is used here instad of
+    // `patchRange.patchNum`. Maybe that is a bug? Maybe if one patchset
+    // is a merge commit, then all patchsets are merge commits??
+    const isMerge = revisionInfo.isMergeCommit(1 as PatchSetNumber);
     const preferFirst =
       this._prefs &&
       this._prefs.default_base_for_merges === DefaultBase.FIRST_PARENT;
 
-    if (parentCount > 1 && preferFirst && !patchRange.patchNum) {
+    // TODO: I think checking `!patchRange.patchNum` here is a bug and means
+    // that the feature is actually broken at the moment. Looking at the
+    // `_changeChanged` method, `patchRange.patchNum` is set before
+    // `_getBasePatchNum` is called, so it is unlikely that this method will
+    // ever return -1.
+    if (isMerge && preferFirst && !patchRange.patchNum) {
       return -1;
     }
 

@@ -948,7 +948,7 @@ export type ReviewInputTag = BrandType<string, '_reviewInputTag'>;
  */
 export declare interface RevisionInfo {
   kind: RevisionKind;
-  _number: PatchSetNum;
+  _number: RevisionPatchSetNum;
   created: Timestamp;
   uploader: AccountInfo;
   ref: GitRef;

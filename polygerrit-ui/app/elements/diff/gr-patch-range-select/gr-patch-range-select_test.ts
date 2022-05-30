@@ -17,6 +17,7 @@ import {
   RevisionPatchSetNum,
   PARENT,
   PatchSetNum,
+  PatchSetNumber,
   RevisionInfo,
   Timestamp,
   UrlEncodedCommentId,
@@ -76,11 +77,9 @@ suite('gr-patch-range-select tests', () => {
     ];
     await element.updateComplete;
 
-    const edit = EDIT;
-
     for (const patchNum of [1, 2, 3]) {
       assert.isFalse(
-        element.computeRightDisabled(PARENT, patchNum as PatchSetNum)
+        element.computeRightDisabled(PARENT, patchNum as PatchSetNumber)
       );
     }
     for (const basePatchNum of [1, 2]) {
@@ -94,10 +93,6 @@ suite('gr-patch-range-select tests', () => {
     assert.isTrue(
       element.computeLeftDisabled(3 as PatchSetNum, 3 as PatchSetNum)
     );
-    assert.isTrue(element.computeRightDisabled(edit, 1 as PatchSetNum));
-    assert.isTrue(element.computeRightDisabled(edit, 2 as PatchSetNum));
-    assert.isFalse(element.computeRightDisabled(edit, 3 as PatchSetNum));
-    assert.isTrue(element.computeRightDisabled(edit, edit));
   });
 
   test('computeBaseDropdownContent', async () => {
@@ -155,7 +150,7 @@ suite('gr-patch-range-select tests', () => {
         value: PARENT,
       } as DropdownItem,
     ];
-    element.patchNum = 1 as PatchSetNum;
+    element.patchNum = 1 as PatchSetNumber;
     element.basePatchNum = PARENT;
     await element.updateComplete;
 
@@ -176,14 +171,14 @@ suite('gr-patch-range-select tests', () => {
       {num: 3, sha: '3'} as PatchSet,
       {num: EDIT, sha: '4'} as PatchSet,
     ];
-    element.patchNum = 2 as PatchSetNum;
+    element.patchNum = 2 as PatchSetNumber;
     element.basePatchNum = PARENT as BasePatchSetNum;
     await element.updateComplete;
 
     const baseDropDownStub = sinon.stub(element, 'computeBaseDropdownContent');
 
     // Should be recomputed for each available patch
-    element.patchNum = 1 as PatchSetNum;
+    element.patchNum = 1 as PatchSetNumber;
     await element.updateComplete;
     assert.equal(baseDropDownStub.callCount, 1);
   });
@@ -201,7 +196,7 @@ suite('gr-patch-range-select tests', () => {
       {num: 2, sha: '3'} as PatchSet,
       {num: 1, sha: '4'} as PatchSet,
     ];
-    element.patchNum = 2 as PatchSetNum;
+    element.patchNum = 2 as PatchSetNumber;
     element.basePatchNum = PARENT as BasePatchSetNum;
     await element.updateComplete;
 
@@ -227,7 +222,7 @@ suite('gr-patch-range-select tests', () => {
       {num: 3, sha: '3'} as PatchSet,
       {num: EDIT, sha: '4'} as PatchSet,
     ];
-    element.patchNum = 2 as PatchSetNum;
+    element.patchNum = 2 as PatchSetNumber;
     element.basePatchNum = PARENT as BasePatchSetNum;
     await element.updateComplete;
 
@@ -383,7 +378,7 @@ suite('gr-patch-range-select tests', () => {
   test('patch-range-change fires', () => {
     const handler = sinon.stub();
     element.basePatchNum = 1 as BasePatchSetNum;
-    element.patchNum = 3 as PatchSetNum;
+    element.patchNum = 3 as PatchSetNumber;
     element.addEventListener('patch-range-change', handler);
 
     queryAndAssert<GrDropdownList>(

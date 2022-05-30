@@ -46,7 +46,7 @@ import {
   NumericChangeId,
   PARENT,
   PatchRange,
-  PatchSetNum,
+  PatchSetNumber,
   PluginConfigInfo,
   PreferencesInfo,
   RelatedChangeAndCommitInfo,
@@ -267,7 +267,7 @@ export function createRevision(
   description = ''
 ): RevisionInfo {
   return {
-    _number: patchSetNum as PatchSetNum,
+    _number: patchSetNum as PatchSetNumber,
     commit: createCommit(),
     created: dateToTimestamp(TEST_CHANGE_CREATED),
     kind: RevisionKind.REWORK,

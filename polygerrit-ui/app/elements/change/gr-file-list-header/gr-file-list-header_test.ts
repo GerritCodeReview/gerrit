@@ -21,6 +21,7 @@ import {
   NumericChangeId,
   PARENT,
   PatchSetNum,
+  PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../../types/common';
 import {ChangeInfo, ChangeStatus} from '../../../api/rest-api';
@@ -174,9 +175,9 @@ suite('gr-file-list-header tests', () => {
 
   test('class is applied to file list on old patch set', () => {
     const allPatchSets: PatchSet[] = [
-      {num: 4 as PatchSetNum, desc: undefined, sha: ''},
-      {num: 2 as PatchSetNum, desc: undefined, sha: ''},
-      {num: 1 as PatchSetNum, desc: undefined, sha: ''},
+      {num: 4 as PatchSetNumber, desc: undefined, sha: ''},
+      {num: 2 as PatchSetNumber, desc: undefined, sha: ''},
+      {num: 1 as PatchSetNumber, desc: undefined, sha: ''},
     ];
     assert.equal(
       element.computePatchInfoClass(1 as PatchSetNum, allPatchSets),
@@ -201,9 +202,9 @@ suite('gr-file-list-header tests', () => {
     test('patch specific elements', async () => {
       element.editMode = true;
       element.allPatchSets = [
-        {num: 1 as PatchSetNum, desc: undefined, sha: ''},
-        {num: 2 as PatchSetNum, desc: undefined, sha: ''},
-        {num: 3 as PatchSetNum, desc: undefined, sha: ''},
+        {num: 1 as PatchSetNumber, desc: undefined, sha: ''},
+        {num: 2 as PatchSetNumber, desc: undefined, sha: ''},
+        {num: 3 as PatchSetNumber, desc: undefined, sha: ''},
       ];
       await element.updateComplete;
 

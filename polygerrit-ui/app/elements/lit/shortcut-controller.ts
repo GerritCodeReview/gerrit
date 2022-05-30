@@ -5,9 +5,9 @@
  */
 import {ReactiveController, ReactiveControllerHost} from 'lit';
 import {Binding} from '../../utils/dom-util';
-import {ShortcutsService} from '../../services/shortcuts/shortcuts-service';
-import {getAppContext} from '../../services/app-context';
+import {shortcutsServiceToken} from '../../services/shortcuts/shortcuts-service';
 import {Shortcut} from '../../services/shortcuts/shortcuts-config';
+import {resolve} from '../../models/dependency';
 
 interface ShortcutListener {
   binding: Binding;
@@ -22,7 +22,10 @@ interface AbstractListener {
 type Cleanup = () => void;
 
 export class ShortcutController implements ReactiveController {
-  private readonly service: ShortcutsService = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(
+    this.host,
+    shortcutsServiceToken
+  );
 
   private readonly listenersLocal: ShortcutListener[] = [];
 
@@ -62,17 +65,25 @@ export class ShortcutController implements ReactiveController {
 
   hostConnected() {
     for (const {binding, listener} of this.listenersLocal) {
-      const cleanup = this.service.addShortcut(this.host, binding, listener, {
-        shouldSuppress: false,
-      });
+      const cleanup = this.getShortcutsService().addShortcut(
+        this.host,
+        binding,
+        listener,
+        {
+          shouldSuppress: false,
+        }
+      );
       this.cleanups.push(cleanup);
     }
     for (const {shortcut, listener} of this.listenersAbstract) {
-      const cleanup = this.service.addShortcutListener(shortcut, listener);
+      const cleanup = this.getShortcutsService().addShortcutListener(
+        shortcut,
+        listener
+      );
       this.cleanups.push(cleanup);
     }
     for (const {binding, listener} of this.listenersGlobal) {
-      const cleanup = this.service.addShortcut(
+      const cleanup = this.getShortcutsService().addShortcut(
         document.body,
         binding,
         listener

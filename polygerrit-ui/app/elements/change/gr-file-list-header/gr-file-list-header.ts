@@ -32,11 +32,12 @@ import {
   Shortcut,
   ShortcutSection,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when';
 import {ifDefined} from 'lit/directives/if-defined';
+import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
+import {resolve} from '../../../models/dependency';
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends LitElement {
@@ -110,7 +111,7 @@ export class GrFileListHeader extends LitElement {
   @query('#collapseBtn')
   collapseBtn?: GrButton;
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   // Caps the number of files that can be shown and have the 'show diffs' /
   // 'hide diffs' buttons still be functional.
@@ -427,7 +428,7 @@ export class GrFileListHeader extends LitElement {
   }
 
   private createTitle(shortcutName: Shortcut, section: ShortcutSection) {
-    return this.shortcuts.createTitle(shortcutName, section);
+    return this.getShortcutsService().createTitle(shortcutName, section);
   }
 }
 

@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "464334d6_8a00f379",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-30T14:21:01Z",
+      "side": 1,
+      "message": "I think this is still missing. (NP, it\u0027s just a transient job.)",
+      "parentUuid": "b5c4518f_9fde96dd",
+      "revId": "10db00b40e0887f48ca0e9702bc1c24dcbbb2da3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2eaff9c6_ac9d42ed",
         "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
         "patchSetId": 2

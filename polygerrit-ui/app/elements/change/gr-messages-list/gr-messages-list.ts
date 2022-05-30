@@ -319,7 +319,7 @@ export class GrMessagesList extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   constructor() {
     super();

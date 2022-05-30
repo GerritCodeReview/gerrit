@@ -36,9 +36,13 @@ import {
   initPerformanceReporter,
   initErrorReporter,
 } from '../services/gr-reporting/gr-reporting_impl';
-import {injectAppContext} from '../services/app-context';
+import {getAppContext, injectAppContext} from '../services/app-context';
 import {html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators';
+import {
+  ShortcutsService,
+  shortcutsServiceToken,
+} from '../services/shortcuts/shortcuts-service';
 
 const appContext = createAppContext();
 injectAppContext(appContext);
@@ -60,6 +64,15 @@ export class GrApp extends LitElement {
       this.finalizables.push(service);
       provide(this, token, () => service);
     }
+    provide(
+      this,
+      shortcutsServiceToken,
+      () =>
+        new ShortcutsService(
+          getAppContext().userModel,
+          getAppContext().reportingService
+        )
+    );
   }
 
   override disconnectedCallback() {

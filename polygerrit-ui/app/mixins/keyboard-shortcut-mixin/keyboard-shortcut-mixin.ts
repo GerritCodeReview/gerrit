@@ -39,7 +39,7 @@ export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
     // This enables `ShortcutSection` to be used in the html template.
     ShortcutSection = ShortcutSection;
 
-    private readonly shortcuts = getAppContext().shortcutsService;
+    private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
     /** Used to disable shortcuts when the element is not visible. */
     private observer?: IntersectionObserver;

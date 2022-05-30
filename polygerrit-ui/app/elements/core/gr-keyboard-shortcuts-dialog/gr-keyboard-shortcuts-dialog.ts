@@ -43,7 +43,7 @@ export class GrKeyboardShortcutsDialog extends LitElement {
 
   private readonly shortcutListener: ShortcutViewListener;
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   constructor() {
     super();

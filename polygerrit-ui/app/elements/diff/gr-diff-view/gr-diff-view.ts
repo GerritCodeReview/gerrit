@@ -371,7 +371,7 @@ export class GrDiffView extends base {
   // Private but used in tests.
   readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   _throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 

@@ -37,7 +37,7 @@ export class GrChangeStar extends LitElement {
   @property({type: Object})
   change?: ChangeInfo;
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   static override get styles() {
     return [

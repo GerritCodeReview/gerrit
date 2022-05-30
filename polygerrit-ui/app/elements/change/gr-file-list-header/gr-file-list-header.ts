@@ -110,7 +110,7 @@ export class GrFileListHeader extends LitElement {
   @query('#collapseBtn')
   collapseBtn?: GrButton;
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   // Caps the number of files that can be shown and have the 'show diffs' /
   // 'hide diffs' buttons still be functional.

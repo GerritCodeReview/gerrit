@@ -18,13 +18,13 @@ import {
   convertToPatchSetNum,
 } from '../../../utils/patch-set-util';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
   EDIT,
   PARENT,
   PatchSetNum,
   RevisionInfo,
+  RevisionPatchSetNum,
   Timestamp,
 } from '../../../types/common';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
@@ -96,7 +96,7 @@ export class GrPatchRangeSelect extends LitElement {
   filesWeblinks?: FilesWebLinks;
 
   @property({type: String})
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
 
   @property({type: String})
   basePatchNum?: BasePatchSetNum;
@@ -221,12 +221,9 @@ export class GrPatchRangeSelect extends LitElement {
       return [];
     }
 
-    const parentCounts = this.revisionInfo.getParentCountMap();
-    const currentParentCount = hasOwnProperty(parentCounts, this.patchNum)
-      ? parentCounts[this.patchNum as number]
-      : 1;
     const maxParents = this.revisionInfo.getMaxParents();
-    const isMerge = currentParentCount > 1;
+    const isMerge = this.revisionInfo.isMergeCommit(this.patchNum);
+    const parentCount = this.revisionInfo.getParentCount(this.patchNum);
 
     const dropdownContent: DropdownItem[] = [];
     for (const basePatch of this.availablePatches) {
@@ -249,7 +246,7 @@ export class GrPatchRangeSelect extends LitElement {
 
     for (let idx = 0; isMerge && idx < maxParents; idx++) {
       dropdownContent.push({
-        disabled: idx >= currentParentCount,
+        disabled: idx >= parentCount,
         triggerText: `Parent ${idx + 1}`,
         text: `Parent ${idx + 1}`,
         mobileText: `Parent ${idx + 1}`,
@@ -358,8 +355,8 @@ export class GrPatchRangeSelect extends LitElement {
    * @param patchNum The possible patch num.
    */
   computeRightDisabled(
-    basePatchNum: PatchSetNum,
-    patchNum: PatchSetNum
+    basePatchNum: BasePatchSetNum,
+    patchNum: RevisionPatchSetNum
   ): boolean {
     if (basePatchNum === PARENT) {
       return false;

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3756e262_f168f40b",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-30T12:45:50Z",
+      "side": 1,
+      "message": "I think the change description would be more visible simply as a comment for this method.",
+      "revId": "10db00b40e0887f48ca0e9702bc1c24dcbbb2da3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b0a9109_2ff3f911",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-30T12:45:50Z",
+      "side": 1,
+      "message": "You could use SetView to express that the set will not be changed.",
+      "range": {
+        "startLine": 246,
+        "startChar": 65,
+        "endLine": 246,
+        "endChar": 67
+      },
+      "revId": "10db00b40e0887f48ca0e9702bc1c24dcbbb2da3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eaff9c6_ac9d42ed",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-05-30T12:45:50Z",
+      "side": 1,
+      "message": "Can you use result.keySet() instead, or is that expensive?",
+      "revId": "10db00b40e0887f48ca0e9702bc1c24dcbbb2da3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

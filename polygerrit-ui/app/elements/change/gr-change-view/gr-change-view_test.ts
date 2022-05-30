@@ -1571,7 +1571,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('_getBasePatchNum', () => {
-    const _change: ChangeInfo = {
+    element._change = {
       ...createChangeViewChange(),
       revisions: {
         '98da160735fb81604b4c40e93c368f380539dd0e': createRevision(),
@@ -1580,14 +1580,14 @@ suite('gr-change-view tests', () => {
     const _patchRange: ChangeViewPatchRange = {
       basePatchNum: PARENT,
     };
-    assert.equal(element._getBasePatchNum(_change, _patchRange), PARENT);
+    assert.equal(element._getBasePatchNum(_patchRange), PARENT);
 
     element._prefs = {
       ...createPreferences(),
       default_base_for_merges: DefaultBase.FIRST_PARENT,
     };
 
-    const _change2: ChangeInfo = {
+    element._change = {
       ...createChangeViewChange(),
       revisions: {
         '98da160735fb81604b4c40e93c368f380539dd0e': {
@@ -1608,10 +1608,53 @@ suite('gr-change-view tests', () => {
         },
       },
     };
-    assert.equal(element._getBasePatchNum(_change2, _patchRange), -1);
+    assert.equal(element._getBasePatchNum(_patchRange), -1 as BasePatchSetNum);
 
-    _patchRange.patchNum = 1 as RevisionPatchSetNum;
-    assert.equal(element._getBasePatchNum(_change2, _patchRange), PARENT);
+    element.routerPatchNum = 1 as RevisionPatchSetNum;
+    assert.equal(element._getBasePatchNum(_patchRange), PARENT);
+  });
+
+  test('_changeChanged calls _getBasePatchNum which triggers basePatchNum', async () => {
+    // _prefs has to be set before _change is set so that
+    // _changeChanged can access _prefs as it is used within
+    // _getBasePatchNum.
+    element._prefs = {
+      ...createPreferences(),
+      default_base_for_merges: DefaultBase.FIRST_PARENT,
+    };
+    // Params needs to be set before _change so that _patchRange can be populated.
+    element.params = {
+      ...createAppElementChangeViewParams(),
+      view: GerritView.CHANGE,
+    };
+    element._change = {
+      ...createChangeViewChange(),
+      revisions: {
+        '98da160735fb81604b4c40e93c368f380539dd0e': {
+          ...createRevision(1),
+          commit: {
+            ...createCommit(),
+            parents: [
+              {
+                commit: '6e12bdf1176eb4ab24d8491ba3b6d0704409cde8' as CommitId,
+                subject: 'test',
+              },
+              {
+                commit: '22f7db4754b5d9816fc581f3d9a6c0ef8429c841' as CommitId,
+                subject: 'test3',
+              },
+            ],
+          },
+        },
+      },
+    };
+    await flush();
+
+    assert.equal(element._patchRange!.basePatchNum, -1 as BasePatchSetNum);
+
+    element._patchRange!.basePatchNum = -2 as BasePatchSetNum;
+
+    assert.equal(element._patchRange!.basePatchNum, -2 as BasePatchSetNum);
   });
 
   test('_openReplyDialog called with `ANY` when coming from tap event', async () => {

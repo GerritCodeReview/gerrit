@@ -22,6 +22,30 @@
       },
       "revId": "ceda4839520b07c5f62a7306b59e7215ba6fb3a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7721c397_a0c0d51c",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-30T11:15:01Z",
+      "side": 0,
+      "message": "Because a `RevisionPatchSetNum` cannot be parent. Only a `BasePatchSetNum` can. Being able to safely remove this line is one of the benefits of this clearer typing.",
+      "parentUuid": "7f6a74ec_0fc57dc8",
+      "range": {
+        "startLine": 377,
+        "startChar": 59,
+        "endLine": 377,
+        "endChar": 60
+      },
+      "revId": "ceda4839520b07c5f62a7306b59e7215ba6fb3a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

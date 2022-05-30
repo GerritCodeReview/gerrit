@@ -1,4 +1,4 @@
-/**
+l/**
  * @license
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
@@ -1964,10 +1964,7 @@ export class GrChangeView extends base {
   async performPostChangeLoadTasks() {
     assertIsDefined(this._changeNum, '_changeNum');
 
-    const prefCompletes = this._getPreferences();
     await this.untilModelLoaded();
-
-    this._prefs = await prefCompletes;
 
     if (!this._change) return false;
 
@@ -2126,6 +2123,10 @@ export class GrChangeView extends base {
     // Array to house all promises related to data requests.
     const allDataPromises: Promise<unknown>[] = [];
 
+    // We have to load preferences before changes so that
+    // _changeChanged has access to _prefs.
+    allDataPromises.push(this.loadPreferences());
+
     // Resolves when the change detail and the edit patch set (if available)
     // are loaded.
     const detailCompletes = this.untilModelLoaded();
@@ -2224,6 +2225,10 @@ export class GrChangeView extends base {
     });
 
     return coreDataPromise;
+  }
+
+  private async loadPreferences() {
+    this._prefs = await this._getPreferences();
   }
 
   /**

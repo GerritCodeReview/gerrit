@@ -17,7 +17,7 @@ import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-file-status-chip/gr-file-status-chip';
-import {asyncForeach, debounce, DelayedTask} from '../../../utils/async-util';
+import {asyncForeach} from '../../../utils/async-util';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {pluralize} from '../../../utils/string-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -82,7 +82,6 @@ import {ifDefined} from 'lit/directives/if-defined';
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
 const WARN_SHOW_ALL_THRESHOLD = 1000;
-const LOADING_DEBOUNCE_INTERVAL = 100;
 
 const SIZE_BAR_MAX_WIDTH = 61;
 const SIZE_BAR_GAP_WIDTH = 1;
@@ -244,9 +243,6 @@ export class GrFileList extends LitElement {
   @state()
   displayLine?: boolean;
 
-  @state()
-  loading?: boolean;
-
   // Private but used in tests.
   @state()
   showSizeBars = true;
@@ -262,8 +258,6 @@ export class GrFileList extends LitElement {
   cleanlyMergedOldPaths: string[] = [];
 
   private cancelForEachDiff?: () => void;
-
-  loadingTask?: DelayedTask;
 
   @state()
   private dynamicHeaderEndpoints?: string[];
@@ -333,9 +327,6 @@ export class GrFileList extends LitElement {
           + span.noCommentsScreenReaderText {
           /* inline-block instead of block, such that it can control width */
           display: inline-block;
-        }
-        :host(.loading) .row {
-          opacity: 0.5;
         }
         :host(.editMode) .hideOnEdit {
           display: none;
@@ -737,15 +728,10 @@ export class GrFileList extends LitElement {
       changedProperties.has('filesByPath') ||
       changedProperties.has('changeComments') ||
       changedProperties.has('patchRange') ||
-      changedProperties.has('reviewed') ||
-      changedProperties.has('loading')
+      changedProperties.has('reviewed')
     ) {
       changedProperties.set('files', this.files);
       this.computeFiles();
-    }
-    if (changedProperties.has('loading')) {
-      // Should run after files has been updated.
-      this.loadingChanged();
     }
     if (changedProperties.has('files')) {
       this.filesChanged();
@@ -822,7 +808,6 @@ export class GrFileList extends LitElement {
     this.diffCursor?.dispose();
     this.fileCursor.unsetCursor();
     this.cancelDiffs();
-    this.loadingTask?.cancel();
     for (const cleanup of this.cleanups) cleanup();
     this.cleanups = [];
     super.disconnectedCallback();
@@ -1404,7 +1389,6 @@ export class GrFileList extends LitElement {
 
   async reload() {
     if (!this.changeNum || !this.patchRange?.patchNum) return;
-    this.loading = true;
     this.collapseAllDiffs();
 
     this.filesByPath = await this.restApiService.getChangeOrEditFiles(
@@ -1412,7 +1396,6 @@ export class GrFileList extends LitElement {
       this.patchRange
     );
 
-    this.loading = false;
     this.detectChromiteButler();
     this.reporting.fileListDisplayed();
   }
@@ -2024,15 +2007,12 @@ export class GrFileList extends LitElement {
       this.filesByPath === undefined ||
       this.changeComments === undefined ||
       this.patchRange === undefined ||
-      this.reviewed === undefined ||
-      this.loading === undefined
+      this.reviewed === undefined
     ) {
       return;
     }
     // Await all promises resolving from reload. @See Issue 9057
-    if (this.loading || !this.changeComments) {
-      return;
-    }
+    if (!this.changeComments) return;
     const commentedPaths = this.changeComments.getPaths(this.patchRange);
     const files: FileNameToReviewedFileInfoMap = {...this.filesByPath};
     addUnmodifiedFiles(files, commentedPaths);
@@ -2290,24 +2270,6 @@ export class GrFileList extends LitElement {
   // Private but used in tests.
   handleEscKey() {
     this.displayLine = false;
-  }
-
-  /**
-   * Update the loading class for the file list rows. The update is inside a
-   * debouncer so that the file list doesn't flash gray when the API requests
-   * are reasonably fast.
-   */
-  private loadingChanged() {
-    const loading = this.loading;
-    this.loadingTask = debounce(
-      this.loadingTask,
-      () => {
-        // Only show set the loading if there have been files loaded to show. In
-        // this way, the gray loading style is not shown on initial loads.
-        this.classList.toggle('loading', loading && !!this.files.length);
-      },
-      LOADING_DEBOUNCE_INTERVAL
-    );
   }
 
   private computeReviewedClass(isReviewed?: boolean) {

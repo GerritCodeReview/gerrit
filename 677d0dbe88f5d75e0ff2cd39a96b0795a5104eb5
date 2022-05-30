@@ -16,6 +16,24 @@
       "message": "Don\u0027t do this here. Do it in createAppDependencies.",
       "revId": "677d0dbe88f5d75e0ff2cd39a96b0795a5104eb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7089e7b4_2c7d4879",
+        "filename": "polygerrit-ui/app/elements/gr-app.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-30T14:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "437ba217_bea3410d",
+      "revId": "677d0dbe88f5d75e0ff2cd39a96b0795a5104eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

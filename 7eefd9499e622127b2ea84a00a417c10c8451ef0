@@ -50,6 +50,24 @@
       "message": "Consider doing `const shortcutService \u003d this.getShortcutService()` once at the beginning of the function to avoid calling it each loop iteration.\n\nMakes it a bit shorter 😊",
       "revId": "7eefd9499e622127b2ea84a00a417c10c8451ef0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c576b1cd_5b79dd59",
+        "filename": "polygerrit-ui/app/elements/lit/shortcut-controller.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-30T14:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10a6ae25_56744427",
+      "revId": "7eefd9499e622127b2ea84a00a417c10c8451ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

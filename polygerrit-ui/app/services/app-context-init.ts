@@ -12,6 +12,7 @@ import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
 import {Auth} from './gr-auth/gr-auth_impl';
 import {GrRestApiServiceImpl} from './gr-rest-api/gr-rest-api-impl';
 import {ChangeModel, changeModelToken} from '../models/change/change-model';
+import {FilesModel, filesModelToken} from '../models/change/files-model';
 import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
 import {GrJsApiInterface} from '../elements/shared/gr-js-api-interface/gr-js-api-interface-element';
 import {GrStorageService} from './storage/gr-storage_impl';
@@ -86,6 +87,9 @@ export function createAppDependencies(
     appContext.userModel
   );
   dependencies.set(changeModelToken, changeModel);
+
+  const filesModel = new FilesModel(changeModel, appContext.restApiService);
+  dependencies.set(filesModelToken, filesModel);
 
   const commentsModel = new CommentsModel(
     appContext.routerModel,

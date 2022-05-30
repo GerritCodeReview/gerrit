@@ -67,6 +67,7 @@ import {resolve} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
+import {filesModelToken} from '../../../models/change/files-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {Shortcut} from '../../../services/shortcuts/shortcuts-config';
@@ -289,6 +290,8 @@ export class GrFileList extends LitElement {
   private readonly userModel = getAppContext().userModel;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getFilesModel = resolve(this, filesModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
@@ -681,6 +684,13 @@ export class GrFileList extends LitElement {
       () => this.getCommentsModel().changeComments$,
       changeComments => {
         this.changeComments = changeComments;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getFilesModel().files$,
+      files => {
+        console.log(`files model: ${JSON.stringify(files)}`);
       }
     );
     subscribe(

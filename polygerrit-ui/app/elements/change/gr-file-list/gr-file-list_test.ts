@@ -22,12 +22,10 @@ import {
   EDIT,
   NumericChangeId,
   PARENT,
-  PatchRange,
   RepoName,
   RevisionPatchSetNum,
   Timestamp,
   UrlEncodedCommentId,
-  FileNameToFileInfoMap,
 } from '../../../types/common';
 import {createCommentThreads} from '../../../utils/comment-util';
 import {
@@ -86,7 +84,6 @@ suite('gr-file-list tests', () => {
 
       element = basicFixture.instantiate();
 
-      element.loading = false;
       element.diffPrefs = {
         context: 10,
         tab_size: 8,
@@ -1497,57 +1494,6 @@ suite('gr-file-list tests', () => {
       assert.isTrue(reviewStub.calledWithExactly('p', true));
     });
 
-    test('loadingChanged fired from reload in debouncer', async () => {
-      const reloadBlocker = mockPromise<FileNameToFileInfoMap | undefined>();
-      stubRestApi('getChangeOrEditFiles').returns(
-        reloadBlocker.then(() => {
-          return {'foo.bar': {size: 0, size_delta: 0}};
-        })
-      );
-      stubRestApi('getReviewedFiles').resolves(undefined);
-      stubRestApi('getDiffPreferences').resolves(createDefaultDiffPrefs());
-
-      element.changeNum = 123 as NumericChangeId;
-      element.patchRange = {patchNum: 12 as RevisionPatchSetNum} as PatchRange;
-      element.filesByPath = {'foo.bar': {size: 0, size_delta: 0}};
-      element.change = {
-        ...createParsedChange(),
-        _number: 123 as NumericChangeId,
-      };
-      await element.updateComplete;
-      await flush();
-
-      const reloaded = element.reload();
-      await element.updateComplete;
-      assert.isTrue(element.loading);
-      assert.isFalse(element.classList.contains('loading'));
-      element.loadingTask!.flush();
-      assert.isTrue(element.classList.contains('loading'));
-
-      reloadBlocker.resolve();
-      await reloaded;
-
-      assert.isFalse(element.loading);
-      element.loadingTask!.flush();
-      assert.isFalse(element.classList.contains('loading'));
-    });
-
-    test('loadingChanged does not set class when there are no files', () => {
-      element.changeNum = 123 as NumericChangeId;
-      element.patchRange = {patchNum: 12 as RevisionPatchSetNum} as PatchRange;
-      element.change = {
-        ...createParsedChange(),
-        _number: 123 as NumericChangeId,
-      };
-      element.reload();
-
-      assert.isTrue(element.loading);
-
-      element.loadingTask!.flush();
-
-      assert.isFalse(element.classList.contains('loading'));
-    });
-
     suite('for merge commits', () => {
       let filesStub: sinon.SinonStub;
 
@@ -2016,7 +1962,6 @@ suite('gr-file-list tests', () => {
       };
       reviewFileStub = sinon.stub(element, 'reviewFile');
 
-      element.loading = false;
       element.numFilesShown = 75;
       element.selectedIndex = 0;
       element.filesByPath = {

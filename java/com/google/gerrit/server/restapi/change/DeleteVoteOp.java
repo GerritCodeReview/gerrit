@@ -61,7 +61,8 @@ public class DeleteVoteOp implements BatchUpdateOp {
         Project.NameKey projectState,
         AccountState reviewerToDeleteVoteFor,
         String label,
-        DeleteVoteInput input);
+        DeleteVoteInput input,
+        boolean enforcePermissions);
   }
 
   private final Project.NameKey projectName;
@@ -79,6 +80,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
 
   private final String label;
   private final DeleteVoteInput input;
+  private final boolean enforcePermissions;
 
   private String mailMessage;
   private Change change;
@@ -99,7 +101,8 @@ public class DeleteVoteOp implements BatchUpdateOp {
       @Assisted Project.NameKey projectName,
       @Assisted AccountState reviewerToDeleteVoteFor,
       @Assisted String label,
-      @Assisted DeleteVoteInput input) {
+      @Assisted DeleteVoteInput input,
+      @Assisted boolean enforcePermissions) {
     this.projectCache = projectCache;
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
@@ -113,6 +116,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
     this.reviewerToDeleteVoteFor = reviewerToDeleteVoteFor;
     this.label = label;
     this.input = input;
+    this.enforcePermissions = enforcePermissions;
   }
 
   @Override
@@ -138,7 +142,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
         // Populate map for non-matching labels, needed by VoteDeleted.
         newApprovals.put(a.label(), a.value());
         continue;
-      } else if (!ctx.getUser().isInternalUser()) {
+      } else if (enforcePermissions) {
         // For regular users, check if they are allowed to remove the vote.
         try {
           removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), a);

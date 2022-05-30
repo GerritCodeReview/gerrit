@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb6be901_5e1df427",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-05-30T07:40:57Z",
+      "side": 1,
+      "message": "This depends on how out rollout too. E.g if removing/adding a field in the following order:\n1) remove a filed -\u003e new search version\n2) add a filed -\u003e new write version\n3) remove a field -\u003e new write version\n4) add a field -\u003e new search version\n\nIf the problem is discovered after #3, you cannot rollback to the prior write version, because the data for remove field is not there.\n\nSo I think we both are right: both rollout and rollback are simplified, though I still think it is worth including more details (e.g. maybe even mention there is different rollout procedure for add field/remove field upgrade).",
+      "parentUuid": "3c90d0fa_dbd1e7e5",
+      "range": {
+        "startLine": 10,
+        "startChar": 36,
+        "endLine": 11,
+        "endChar": 29
+      },
+      "revId": "de27598c21671e9c9bd9aa81bfdadc578b534506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d11bafec_e93e8ccf",
         "filename": "java/com/google/gerrit/index/FieldType.java",
         "patchSetId": 7
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "Someone could even not change the getter, but the method that the getter calls. I don\u0027t think we can guard against that. If the index version doesn\u0027t change, i.e. the latest index is modified in-place, we don\u0027t have a comparison reference.",
       "parentUuid": "fe1b448d_adb29222",
+      "range": {
+        "startLine": 57,
+        "startChar": 14,
+        "endLine": 57,
+        "endChar": 46
+      },
+      "revId": "de27598c21671e9c9bd9aa81bfdadc578b534506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7ca6430_352da0fb",
+        "filename": "javatests/com/google/gerrit/index/IndexUpgradeValidatorTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-05-30T07:40:57Z",
+      "side": 1,
+      "message": "Waybe add a warning that the new field has to be added on any getter/setter modifications (since the fields are used in predicates too, and it is not immediately obvious that changing them would change the storage format.",
+      "parentUuid": "ad948eb9_17d1c4f2",
       "range": {
         "startLine": 57,
         "startChar": 14,

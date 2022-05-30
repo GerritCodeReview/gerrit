@@ -34,6 +34,98 @@
       "parentUuid": "8bec7c7c_7e9b57d4",
       "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be4b9db7_32458f92",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1593,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-30T13:11:07Z",
+      "side": 1,
+      "message": "I think we had a way to use reporting to verify if a certain chunk is executed.\nUse here?",
+      "range": {
+        "startLine": 1592,
+        "startChar": 8,
+        "endLine": 1593,
+        "endChar": 22
+      },
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cb3c681_af6aaa52",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-30T13:11:07Z",
+      "side": 1,
+      "message": "Nice!",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 0
+      },
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ce2efb1_9fff7eaa",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-30T13:11:07Z",
+      "side": 1,
+      "message": "why is this required?\nIIUC this is when a new change is loaded then we go from undefined to a new changeNum set but that means we can reset the basePatchNum when changeNum does get defined?",
+      "range": {
+        "startLine": 206,
+        "startChar": 17,
+        "endLine": 206,
+        "endChar": 40
+      },
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22e87b85_a818cba8",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-30T13:11:07Z",
+      "side": 1,
+      "message": "nit: merge?",
+      "range": {
+        "startLine": 221,
+        "startChar": 10,
+        "endLine": 222,
+        "endChar": 39
+      },
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

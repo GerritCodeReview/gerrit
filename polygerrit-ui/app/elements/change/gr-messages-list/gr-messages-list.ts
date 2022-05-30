@@ -43,6 +43,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {when} from 'lit/directives/when';
 import {ifDefined} from 'lit/directives/if-defined';
+import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -319,7 +320,7 @@ export class GrMessagesList extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   constructor() {
     super();
@@ -468,13 +469,13 @@ export class GrMessagesList extends LitElement {
 
   private computeExpandAllTitle() {
     if (this.expandAllState === ExpandAllState.COLLAPSE_ALL) {
-      return this.shortcuts.createTitle(
+      return this.getShortcutsService().createTitle(
         Shortcut.COLLAPSE_ALL_MESSAGES,
         ShortcutSection.ACTIONS
       );
     }
     if (this.expandAllState === ExpandAllState.EXPAND_ALL) {
-      return this.shortcuts.createTitle(
+      return this.getShortcutsService().createTitle(
         Shortcut.EXPAND_ALL_MESSAGES,
         ShortcutSection.ACTIONS
       );

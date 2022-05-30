@@ -188,7 +188,7 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
    *
    * Note that this selector can emit without the change being available!
    */
-  public readonly basePatchNum$: Observable<BasePatchSetNum | undefined> =
+  public readonly basePatchNum$: Observable<BasePatchSetNum> =
     /**
      * If you depend on both, router and change state, then you want to filter
      * out inconsistent state, e.g. router changeNum already updated, change not

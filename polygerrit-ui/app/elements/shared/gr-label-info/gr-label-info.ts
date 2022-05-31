@@ -195,7 +195,7 @@ export class GrLabelInfo extends LitElement {
     if (this.labelInfo && isDetailedLabelInfo(this.labelInfo)) {
       const approvalInfo = getApprovalInfo(this.labelInfo, reviewer);
       if (approvalInfo?.permitted_voting_range) {
-        const {min, max} = approvalInfo?.permitted_voting_range;
+        const {min, max} = approvalInfo.permitted_voting_range;
         return html`<span class="no-votes"
           >Can vote ${valueString(min)}/${valueString(max)}</span
         >`;

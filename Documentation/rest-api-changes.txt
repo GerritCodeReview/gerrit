@@ -7072,6 +7072,9 @@ link:#notify-info[NotifyInfo] entity.
 |`ignore_automatic_attention_set_rules`|optional|
 If set to true, ignore all automatic attention set rules described in the
 link:#attention-set[attention set]. When not set, the default is false.
+|`reason`         |optional|
+The reason why this vote is deleted. Will +
+go into the change message.
 |=============================
 
 [[description-input]]

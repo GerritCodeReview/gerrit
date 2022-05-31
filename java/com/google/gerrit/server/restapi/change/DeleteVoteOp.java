@@ -167,7 +167,11 @@ public class DeleteVoteOp implements BatchUpdateOp {
     StringBuilder msg = new StringBuilder();
     msg.append("Removed ");
     LabelVote.appendTo(msg, label, requireNonNull(oldApprovals.get(label)));
-    msg.append(" by ").append(AccountTemplateUtil.getAccountTemplate(accountId)).append("\n");
+    msg.append(" by ").append(AccountTemplateUtil.getAccountTemplate(accountId));
+    if (input.reason != null) {
+      msg.append("\n\n" + input.reason);
+    }
+    msg.append("\n");
     mailMessage = cmUtil.setChangeMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_VOTE);
     return true;
   }

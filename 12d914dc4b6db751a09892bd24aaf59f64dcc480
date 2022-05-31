@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6bfa4cea_05f26dd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2022-05-31T15:26:10Z",
+      "side": 1,
+      "message": "The different solutions that I tried so far are the following:\nI tried using the query with other operators described in [1]. Te closest one is parent: but it matches the parent instead of the name which is not exactly the wanted result.\nI tried many times with front-end solutions replacing the query with the \u0026m operator but it fails to convert to any type. It renders a generic Object type. I identified a class but typescript fails to render at runtime. If I can have the help of a front-end team member we can make the conversion in front-end level right after receiving the promise in the Rest-Api (in gr-rest-api-interface.ts) @Ben.\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-search-projects.html#_search_operators",
+      "parentUuid": "a15b9443_12e7603d",
+      "revId": "12d914dc4b6db751a09892bd24aaf59f64dcc480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9486f939_68233b38",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 9

@@ -77,8 +77,7 @@ export class GrKeyboardShortcutsDialog extends LitElement {
           justify-content: space-between;
         }
         table caption {
-          padding-top: var(--spacing-l);
-          text-align: left;
+          padding: var(--spacing-l) var(--spacing-s);
         }
         td {
           padding: var(--spacing-xs) 0;

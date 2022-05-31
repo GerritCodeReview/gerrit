@@ -94,7 +94,8 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
               r.getReviewerUser().state(),
               rsrc.getLabel(),
               input,
-              true));
+              true,
+              null));
       if (!input.ignoreAutomaticAttentionSetRules
           && !r.getReviewerUser().getAccountId().equals(currentUserProvider.get().getAccountId())) {
         bu.addOp(

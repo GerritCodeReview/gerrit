@@ -18,6 +18,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelTypes;
@@ -62,7 +63,8 @@ public class DeleteVoteOp implements BatchUpdateOp {
         AccountState reviewerToDeleteVoteFor,
         String label,
         DeleteVoteInput input,
-        boolean enforcePermissions);
+        boolean enforcePermissions,
+        @Nullable String reasonForChangeMessage);
   }
 
   private final Project.NameKey projectName;
@@ -81,6 +83,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
   private final String label;
   private final DeleteVoteInput input;
   private final boolean enforcePermissions;
+  @Nullable private final String reasonForChangeMessage;
 
   private String mailMessage;
   private Change change;
@@ -102,7 +105,8 @@ public class DeleteVoteOp implements BatchUpdateOp {
       @Assisted AccountState reviewerToDeleteVoteFor,
       @Assisted String label,
       @Assisted DeleteVoteInput input,
-      @Assisted boolean enforcePermissions) {
+      @Assisted boolean enforcePermissions,
+      @Assisted @Nullable String reasonForChangeMessage) {
     this.projectCache = projectCache;
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
@@ -117,6 +121,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
     this.label = label;
     this.input = input;
     this.enforcePermissions = enforcePermissions;
+    this.reasonForChangeMessage = reasonForChangeMessage;
   }
 
   @Override
@@ -167,7 +172,11 @@ public class DeleteVoteOp implements BatchUpdateOp {
     StringBuilder msg = new StringBuilder();
     msg.append("Removed ");
     LabelVote.appendTo(msg, label, requireNonNull(oldApprovals.get(label)));
-    msg.append(" by ").append(AccountTemplateUtil.getAccountTemplate(accountId)).append("\n");
+    msg.append(" by ").append(AccountTemplateUtil.getAccountTemplate(accountId));
+    if (reasonForChangeMessage != null) {
+      msg.append(" " + reasonForChangeMessage);
+    }
+    msg.append("\n");
     mailMessage = cmUtil.setChangeMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_VOTE);
     return true;
   }

@@ -302,21 +302,6 @@ node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app/$YOUR_DIR_HE
 git diff --name-only HEAD | xargs node_modules/eslint/bin/eslint.js --ext .html,.js
 ```
 
-We also use the `polylint` tool to lint use of Polymer. To install polylint,
-execute the following command.
-
-To run polylint, execute the following command.
-
-```sh
-bazel test //polygerrit-ui/app:polylint_test
-```
-
-or
-
-```sh
-npm run polylint
-```
-
 ## Migrating tests to Typescript
 
 You can use the following steps for migrating tests to Typescript:

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddf4301d_ee37d76f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-31T11:55:10Z",
+      "side": 1,
+      "message": "If projectConfigRequirements is not expected to contain legacy SRs, but it does, shouldn\u0027t we fix the root cause of this, rather than silently ignoring them?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 39
+      },
+      "revId": "41d1dd767d465fff13bf5e66ddfbb5b74ff5a16a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

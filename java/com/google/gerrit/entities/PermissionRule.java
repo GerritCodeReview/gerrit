@@ -15,18 +15,24 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.extensions.client.DefaultEnum;
 
 @AutoValue
 public abstract class PermissionRule implements Comparable<PermissionRule> {
   public static final boolean DEF_FORCE = false;
 
-  public enum Action {
+  public enum Action implements DefaultEnum<Action> {
     ALLOW,
     DENY,
     BLOCK,
 
     INTERACTIVE,
-    BATCH
+    BATCH;
+
+    @Override
+    public Action getDefaultValue() {
+      return BLOCK;
+    }
   }
 
   public abstract Action getAction();

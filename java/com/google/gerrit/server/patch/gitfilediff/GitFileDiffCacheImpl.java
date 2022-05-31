@@ -30,6 +30,7 @@ import com.google.common.collect.Multimaps;
 import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.DefaultEnum;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
@@ -111,9 +112,14 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
   }
 
   /** Enum for the supported diff algorithms for the file diff computation. */
-  public enum DiffAlgorithm {
+  public enum DiffAlgorithm implements DefaultEnum<DiffAlgorithm> {
     HISTOGRAM_WITH_FALLBACK_MYERS,
-    HISTOGRAM_NO_FALLBACK
+    HISTOGRAM_NO_FALLBACK;
+
+    @Override
+    public DiffAlgorithm getDefaultValue() {
+      return HISTOGRAM_NO_FALLBACK;
+    }
   }
 
   /** Creates a new JGit diff algorithm instance using the Gerrit's {@link DiffAlgorithm} enum. */

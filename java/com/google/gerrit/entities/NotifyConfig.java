@@ -19,18 +19,24 @@ import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.client.DefaultEnum;
 import java.util.EnumSet;
 import java.util.Set;
 
 @AutoValue
 public abstract class NotifyConfig implements Comparable<NotifyConfig> {
-  public enum Header {
+  public enum Header implements DefaultEnum<Header> {
     TO,
     CC,
-    BCC
+    BCC;
+
+    @Override
+    public Header getDefaultValue() {
+      return TO;
+    }
   }
 
-  public enum NotifyType {
+  public enum NotifyType implements DefaultEnum<NotifyType> {
     // sort by name, except 'ALL' which should stay last
     ABANDONED_CHANGES,
     ALL_COMMENTS,
@@ -38,7 +44,12 @@ public abstract class NotifyConfig implements Comparable<NotifyConfig> {
     NEW_PATCHSETS,
     SUBMITTED_CHANGES,
 
-    ALL
+    ALL;
+
+    @Override
+    public NotifyType getDefaultValue() {
+      return ALL;
+    }
   }
 
   public abstract String getName();

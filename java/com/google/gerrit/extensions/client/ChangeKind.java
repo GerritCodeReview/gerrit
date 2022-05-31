@@ -15,7 +15,7 @@
 package com.google.gerrit.extensions.client;
 
 /** Operation performed by a change relative to its parent. */
-public enum ChangeKind {
+public enum ChangeKind implements DefaultEnum<ChangeKind> {
   /** Nontrivial content changes. */
   REWORK,
 
@@ -66,5 +66,10 @@ public enum ChangeKind {
 
     // NO_CHANGE is a more trivial case of MERGE_FIRST_PARENT_UPDATE and hence matched as well
     return this == NO_CHANGE || this == MERGE_FIRST_PARENT_UPDATE;
+  }
+
+  @Override
+  public ChangeKind getDefaultValue() {
+    return REWORK;
   }
 }

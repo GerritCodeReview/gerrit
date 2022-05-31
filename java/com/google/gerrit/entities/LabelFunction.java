@@ -16,6 +16,7 @@ package com.google.gerrit.entities;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.SubmitRecord.Label;
+import com.google.gerrit.extensions.client.DefaultEnum;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -30,7 +31,7 @@ import java.util.Optional;
  * <p>Function semantics are documented in {@code config-labels.txt}, and actual behavior is
  * implemented both in Prolog in {@code gerrit_common.pl} and in the {@link #check} method.
  */
-public enum LabelFunction {
+public enum LabelFunction implements DefaultEnum<LabelFunction> {
   ANY_WITH_BLOCK("AnyWithBlock", true, false, false),
   MAX_WITH_BLOCK("MaxWithBlock", true, true, true),
   MAX_NO_BLOCK("MaxNoBlock", false, true, true),
@@ -119,5 +120,10 @@ public enum LabelFunction {
     }
 
     return submitRecordLabel;
+  }
+
+  @Override
+  public LabelFunction getDefaultValue() {
+    return MAX_WITH_BLOCK;
   }
 }

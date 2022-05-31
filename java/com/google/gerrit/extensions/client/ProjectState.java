@@ -14,7 +14,7 @@
 
 package com.google.gerrit.extensions.client;
 
-public enum ProjectState {
+public enum ProjectState implements DefaultEnum<ProjectState> {
   /** Permits reading project state and contents as well as mutating data. */
   ACTIVE(true, true),
   /** Permits reading project state and contents. Does not permit any modifications. */
@@ -39,5 +39,10 @@ public enum ProjectState {
 
   public boolean permitsWrite() {
     return permitsWrite;
+  }
+
+  @Override
+  public ProjectState getDefaultValue() {
+    return ACTIVE;
   }
 }

@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.gerrit.extensions.client.DefaultEnum;
 import com.google.gerrit.extensions.client.ReviewerState;
 import java.util.Arrays;
 import org.eclipse.jgit.revwalk.FooterKey;
 
 /** State of a reviewer on a change. */
-public enum ReviewerStateInternal {
+public enum ReviewerStateInternal implements DefaultEnum<ReviewerStateInternal> {
   /** The user has contributed at least one nonzero vote on the change. */
   REVIEWER("Reviewer", ReviewerState.REVIEWER),
 
@@ -68,5 +69,10 @@ public enum ReviewerStateInternal {
 
   public ReviewerState asReviewerState() {
     return state;
+  }
+
+  @Override
+  public ReviewerStateInternal getDefaultValue() {
+    return REVIEWER;
   }
 }

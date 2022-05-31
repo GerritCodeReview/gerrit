@@ -17,14 +17,13 @@ package com.google.gerrit.server.change;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.base.Converter;
-import com.google.common.base.Enums;
 import com.google.common.base.MoreObjects;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.converter.SafeEnumStringConverter;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.CacheModule;
@@ -137,8 +136,8 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     enum Serializer implements CacheSerializer<EntryKey> {
       INSTANCE;
 
-      private static final Converter<String, SubmitType> SUBMIT_TYPE_CONVERTER =
-          Enums.stringConverter(SubmitType.class);
+      private static final SafeEnumStringConverter<SubmitType> SUBMIT_TYPE_CONVERTER =
+          new SafeEnumStringConverter(SubmitType.class);
 
       @Override
       public byte[] serialize(EntryKey object) {
@@ -147,7 +146,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
             MergeabilityKeyProto.newBuilder()
                 .setCommit(idConverter.toByteString(object.getCommit()))
                 .setInto(idConverter.toByteString(object.getInto()))
-                .setSubmitType(SUBMIT_TYPE_CONVERTER.reverse().convert(object.getSubmitType()))
+                .setSubmitType(SUBMIT_TYPE_CONVERTER.reverseConvert(object.getSubmitType()))
                 .setMergeStrategy(object.getMergeStrategy())
                 .build());
       }

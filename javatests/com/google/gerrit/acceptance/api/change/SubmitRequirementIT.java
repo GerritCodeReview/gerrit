@@ -34,7 +34,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
-import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -68,7 +67,6 @@ import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.TestLabels;
@@ -1903,13 +1901,8 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_SR_EXPRESSIONS_NOT_EVALUATED)
-  public void
-      submitRequirement_nonApplicable_submittabilityAndOverrideNotEvaluatedIfExperimentEnabled()
-          throws Exception {
+  public void submitRequirement_nonApplicable_submittabilityAndOverrideNotEvaluated()
+      throws Exception {
     configSubmitRequirement(
         project,
         SubmitRequirement.builder()
@@ -1946,42 +1939,6 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         .isEqualTo(SubmitRequirementExpressionInfo.Status.NOT_EVALUATED);
     assertThat(requirement.overrideExpressionResult.expression)
         .isEqualTo("project:" + project.get());
-  }
-
-  @Test
-  public void
-      submitRequirement_nonApplicable_submittabilityAndOverrideAreEmptyIfExperimentNotEnabled()
-          throws Exception {
-    configSubmitRequirement(
-        project,
-        SubmitRequirement.builder()
-            .setName("Code-Review")
-            .setApplicabilityExpression(
-                SubmitRequirementExpression.of("branch:refs/heads/non-existent"))
-            .setSubmittabilityExpression(SubmitRequirementExpression.maxCodeReview())
-            .setOverrideExpression(SubmitRequirementExpression.of("project:" + project.get()))
-            .setAllowOverrideInChildProjects(false)
-            .build());
-
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-
-    voteLabel(changeId, "Code-Review", 2);
-
-    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    assertSubmitRequirementStatus(
-        changeInfo.submitRequirements, "Code-Review", Status.NOT_APPLICABLE, /* isLegacy= */ false);
-    SubmitRequirementResultInfo requirement =
-        changeInfo.submitRequirements.stream().collect(MoreCollectors.onlyElement());
-    assertSubmitRequirementExpression(
-        requirement.applicabilityExpressionResult,
-        /* expression= */ null,
-        /* passingAtoms= */ null,
-        /* failingAtoms= */ null,
-        /* status= */ SubmitRequirementExpressionInfo.Status.FAIL,
-        /* fulfilled= */ false);
-    assertThat(requirement.submittabilityExpressionResult).isNull();
-    assertThat(requirement.overrideExpressionResult).isNull();
   }
 
   @Test

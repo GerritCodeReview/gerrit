@@ -16,6 +16,24 @@
       "message": "I think this nomenclature is a bit counterintuitive.\n\nUsually \"Base\" is the most common thing.\n\n```\nexport type LeftPatchSetNum \u003d ..\nexport type RightPatchSetNum \u003d ...\n```\n\nThen you also get rid of the comment :D\n\nAlternatives also welcome, but `BaseFoo` is typically the subtype of `Foo` and `SpecialFoo`",
       "revId": "cd9d5b25223079f5cf2c1d91ecd689cfbcee82c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fecf666_0c566648",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T08:08:38Z",
+      "side": 1,
+      "message": "I have not changed the names in my changes, but I would be open to the suggested renames. Let\u0027s discuss in team meeting and do this in a separate change. WDYT?",
+      "parentUuid": "99a5a794_1afad5b0",
+      "revId": "cd9d5b25223079f5cf2c1d91ecd689cfbcee82c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

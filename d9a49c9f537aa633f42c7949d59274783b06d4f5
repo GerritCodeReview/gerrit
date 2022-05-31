@@ -16,6 +16,23 @@
       "message": "Test with GERRIT_NOTEDB\u003dON and without it.",
       "revId": "d9a49c9f537aa633f42c7949d59274783b06d4f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dacae1c6_3e35f11b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-05-31T16:14:50Z",
+      "side": 1,
+      "message": "@davido @dmitrii?",
+      "revId": "d9a49c9f537aa633f42c7949d59274783b06d4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bf81a14_8a2726d9",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteVoteOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-31T07:00:50Z",
+      "side": 1,
+      "message": "I think here too the label and the reasonForChangeMessage parameters must have an @Assisted annotation that specifies the parameter name.",
+      "range": {
+        "startLine": 106,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 15
+      },
+      "revId": "533731d388c794a22be50fec23d3779685462dc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d04e5d1_12a02e9e",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteVoteOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-31T07:00:50Z",
+      "side": 1,
+      "message": "Not sure if this message will be properly formatted when a reason is specified.\n\nShould this rather be something like\n\n  Removed Label+X by User.\n  \n  \u003cREASON\u003e\n  \nrather than\n \n  Removed Label+X by User \u003cREASON\u003e\n  \nThe latter only works if the caller knows exactly how this message looks like so it can provide a suitable subsentence.",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 21
+      },
+      "revId": "533731d388c794a22be50fec23d3779685462dc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

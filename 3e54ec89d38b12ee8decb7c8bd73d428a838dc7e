@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f954984_86e91539",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T06:49:02Z",
+      "side": 1,
+      "message": "Thanks for looking into this bug, but I have a chain of 10 changes in progress about managing the state of the patchset numbers: https://gerrit-review.googlesource.com/c/gerrit/+/338177\n\nSo I would like to continue with those. Your change is making the entire loading process and the setting of patchset numbers even more complicated, which will increase the burden of migrating the change view to lit and to be model based. So I would prefer to fix this in a change where we switch the change view to be model based. ",
+      "revId": "3e54ec89d38b12ee8decb7c8bd73d428a838dc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "957d105a_7137df08",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T09:58:04Z",
+      "side": 1,
+      "message": "`createRevision()` already has such a parameter. Let\u0027s use that! :-) Done.",
+      "parentUuid": "f4c32cd7_581c4931",
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8bec7c7c_7e9b57d4",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 2
@@ -88,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "065aac57_e8efc014",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1581,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T09:58:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7a029cc_dea8c45a",
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4688996f_dcf7bbe7",
@@ -101,6 +137,24 @@
       "writtenOn": "2022-05-31T08:33:14Z",
       "side": 1,
       "message": "Please add a TODO here.",
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d390db5_d7180746",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1583,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T09:58:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4688996f_dcf7bbe7",
       "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -236,6 +290,30 @@
       "side": 1,
       "message": "`If  changeNum  is actually defined, but different from the changeNum of the router`\nThis should be covered by the `changeNum \u003d\u003d\u003d routerChangeNum` router condition.\n\nI am asking why we want to handle `changeNum\u003dundefined` case.",
       "parentUuid": "25c614e9_e0421fa4",
+      "range": {
+        "startLine": 206,
+        "startChar": 17,
+        "endLine": 206,
+        "endChar": 40
+      },
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a656992_ef4415f5",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T09:58:04Z",
+      "side": 1,
+      "message": "Because the `basePatchNum` is mostly driven by the router state. And we want to set it early even before the change is loaded.\n\nIt is not a big deal, if we dropped `changeNum \u003d\u003d\u003d undefined` from the condition, but keeping it makes sense.",
+      "parentUuid": "c079f955_d0d544ec",
       "range": {
         "startLine": 206,
         "startChar": 17,

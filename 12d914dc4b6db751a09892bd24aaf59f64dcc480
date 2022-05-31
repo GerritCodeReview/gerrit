@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a15b9443_12e7603d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T07:30:13Z",
+      "side": 1,
+      "message": "@Mark can\u0027t we fix the issue without changing the REST-API? The project list has returned a map for a very long time, at least v2.16 onwards.",
+      "revId": "12d914dc4b6db751a09892bd24aaf59f64dcc480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9486f939_68233b38",
@@ -14,6 +31,30 @@
       "writtenOn": "2022-05-31T06:32:53Z",
       "side": 1,
       "message": "This looks like an non-backwards compatible API change that will break existing callers. I\u0027m afraid we can\u0027t do this.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 40
+      },
+      "revId": "12d914dc4b6db751a09892bd24aaf59f64dcc480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3587c7b4_00b9ab31",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T07:30:13Z",
+      "side": 1,
+      "message": "+1 agreed with @Edwin on this.\n\nI checked Gerrit v2.16 and the REST-API did return a map and not a list of project names; that means that the GWT UI was able to render a correct project list using the current API.",
+      "parentUuid": "9486f939_68233b38",
       "range": {
         "startLine": 21,
         "startChar": 0,

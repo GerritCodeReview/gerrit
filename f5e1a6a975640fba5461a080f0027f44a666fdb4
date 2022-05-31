@@ -79,6 +79,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6e962ddc_40bd612a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1593,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T08:24:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be4b9db7_32458f92",
+      "range": {
+        "startLine": 1592,
+        "startChar": 8,
+        "endLine": 1593,
+        "endChar": 22
+      },
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8cb3c681_af6aaa52",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
         "patchSetId": 2
@@ -123,6 +147,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25c614e9_e0421fa4",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T08:24:55Z",
+      "side": 1,
+      "message": "Adding `changeNum \u003d\u003d\u003d undefined` to the clause means that we are fine with that situation. If `changeNum` is actually defined, but different from the changeNum of the router, then this must mean that the router change has not propagated to the change model yet, so at that point we don\u0027t want to do anything that does something with both models.",
+      "parentUuid": "0ce2efb1_9fff7eaa",
+      "range": {
+        "startLine": 206,
+        "startChar": 17,
+        "endLine": 206,
+        "endChar": 40
+      },
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22e87b85_a818cba8",
@@ -136,6 +184,30 @@
       "writtenOn": "2022-05-30T13:11:07Z",
       "side": 1,
       "message": "nit: merge?",
+      "range": {
+        "startLine": 221,
+        "startChar": 10,
+        "endLine": 222,
+        "endChar": 39
+      },
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd1a519_6e230ec4",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T08:24:55Z",
+      "side": 1,
+      "message": "Sometimes I actually prefer two separate lines for two guard clauses, but in this case I am fine either way. So done. :-)",
+      "parentUuid": "22e87b85_a818cba8",
       "range": {
         "startLine": 221,
         "startChar": 10,

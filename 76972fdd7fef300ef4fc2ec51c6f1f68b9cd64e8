@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1101790a_deae45e2",
+        "filename": "java/com/google/gerrit/index/FieldDef.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-05-31T10:47:57Z",
+      "side": 1,
+      "message": "Maybe add a line to FieldDef docstring, since this is likely more visible?\nE.g. FieldDef should not be changed once introduced to the codebase. Instead the new FieldDef must be added and old removed from the schema.",
+      "range": {
+        "startLine": 68,
+        "startChar": 5,
+        "endLine": 68,
+        "endChar": 26
+      },
+      "revId": "76972fdd7fef300ef4fc2ec51c6f1f68b9cd64e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -80,6 +80,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         <gr-button
           id="start-flow"
           flatten=""
+          down-arrow=""
           aria-disabled="false"
           role="button"
           tabindex="0"
@@ -200,6 +201,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
           <gr-button
             id="start-flow"
             flatten=""
+            down-arrow=""
             aria-disabled="false"
             role="button"
             tabindex="0"
@@ -415,6 +417,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
           <gr-button
             id="start-flow"
             flatten=""
+            down-arrow=""
             aria-disabled="false"
             role="button"
             tabindex="0"

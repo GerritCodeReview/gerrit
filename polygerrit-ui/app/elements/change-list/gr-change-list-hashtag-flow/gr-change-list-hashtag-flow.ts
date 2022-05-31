@@ -127,6 +127,7 @@ export class GrChangeListHashtagFlow extends LitElement {
       <gr-button
         id="start-flow"
         flatten
+        down-arrow
         @click=${this.toggleDropdown}
         .disabled=${isFlowDisabled}
         >Hashtag</gr-button

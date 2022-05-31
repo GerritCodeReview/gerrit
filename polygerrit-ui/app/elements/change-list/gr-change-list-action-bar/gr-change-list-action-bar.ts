@@ -45,6 +45,9 @@ export class GrChangeListActionBar extends LitElement {
         padding: var(--spacing-s);
         vertical-align: middle;
       }
+      .actionButtons {
+        margin-right: var(--spacing-l);
+      }
     `;
   }
 

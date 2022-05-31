@@ -18,10 +18,9 @@ import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.base.Strings.nullToEmpty;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
-import com.google.common.base.Converter;
-import com.google.common.base.Enums;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.converter.SafeEnumStringConverter;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -31,10 +30,10 @@ import java.util.Set;
 
 /** Helper to (de)serialize values for caches. */
 public class ProjectSerializer {
-  private static final Converter<String, ProjectState> PROJECT_STATE_CONVERTER =
-      Enums.stringConverter(ProjectState.class);
-  private static final Converter<String, SubmitType> SUBMIT_TYPE_CONVERTER =
-      Enums.stringConverter(SubmitType.class);
+  private static final SafeEnumStringConverter<ProjectState> PROJECT_STATE_CONVERTER =
+      new SafeEnumStringConverter(ProjectState.class);
+  private static final SafeEnumStringConverter<SubmitType> SUBMIT_TYPE_CONVERTER =
+      new SafeEnumStringConverter(SubmitType.class);
 
   public static Project deserialize(Cache.ProjectProto proto) {
     Project.Builder builder =
@@ -71,8 +70,8 @@ public class ProjectSerializer {
     Cache.ProjectProto.Builder builder =
         Cache.ProjectProto.newBuilder()
             .setName(autoValue.getName())
-            .setSubmitType(SUBMIT_TYPE_CONVERTER.reverse().convert(autoValue.getSubmitType()))
-            .setState(PROJECT_STATE_CONVERTER.reverse().convert(autoValue.getState()))
+            .setSubmitType(SUBMIT_TYPE_CONVERTER.reverseConvert(autoValue.getSubmitType()))
+            .setState(PROJECT_STATE_CONVERTER.reverseConvert(autoValue.getState()))
             .setDescription(nullToEmpty(autoValue.getDescription()))
             .setParent(nullToEmpty(autoValue.getParentName()))
             .setMaxObjectSizeLimit(nullToEmpty(autoValue.getMaxObjectSizeLimit()))

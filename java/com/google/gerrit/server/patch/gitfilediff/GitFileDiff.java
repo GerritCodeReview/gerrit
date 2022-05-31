@@ -18,13 +18,12 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.patch.DiffUtil.stringSize;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Converter;
-import com.google.common.base.Enums;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.Patch.PatchType;
+import com.google.gerrit.entities.converter.SafeEnumStringConverter;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.GitFileDiffProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
@@ -234,14 +233,14 @@ public abstract class GitFileDiff {
   public enum Serializer implements CacheSerializer<GitFileDiff> {
     INSTANCE;
 
-    private static final Converter<String, Patch.FileMode> FILE_MODE_CONVERTER =
-        Enums.stringConverter(Patch.FileMode.class);
+    private static final SafeEnumStringConverter<Patch.FileMode> FILE_MODE_CONVERTER =
+        new SafeEnumStringConverter(Patch.FileMode.class);
 
-    private static final Converter<String, Patch.ChangeType> CHANGE_TYPE_CONVERTER =
-        Enums.stringConverter(Patch.ChangeType.class);
+    private static final SafeEnumStringConverter<Patch.ChangeType> CHANGE_TYPE_CONVERTER =
+        new SafeEnumStringConverter(Patch.ChangeType.class);
 
-    private static final Converter<String, Patch.PatchType> PATCH_TYPE_CONVERTER =
-        Enums.stringConverter(Patch.PatchType.class);
+    private static final SafeEnumStringConverter<Patch.PatchType> PATCH_TYPE_CONVERTER =
+        new SafeEnumStringConverter(Patch.PatchType.class);
 
     private static final FieldDescriptor OLD_PATH_DESCRIPTOR =
         GitFileDiffProto.getDescriptor().findFieldByNumber(3);
@@ -269,7 +268,7 @@ public abstract class GitFileDiff {
               .setFileHeader(gitFileDiff.fileHeader())
               .setOldId(idConverter.toByteString(gitFileDiff.oldId().toObjectId()))
               .setNewId(idConverter.toByteString(gitFileDiff.newId().toObjectId()))
-              .setChangeType(CHANGE_TYPE_CONVERTER.reverse().convert(gitFileDiff.changeType()));
+              .setChangeType(CHANGE_TYPE_CONVERTER.reverseConvert(gitFileDiff.changeType()));
       gitFileDiff
           .edits()
           .forEach(
@@ -287,13 +286,13 @@ public abstract class GitFileDiff {
         builder.setNewPath(gitFileDiff.newPath().get());
       }
       if (gitFileDiff.oldMode().isPresent()) {
-        builder.setOldMode(FILE_MODE_CONVERTER.reverse().convert(gitFileDiff.oldMode().get()));
+        builder.setOldMode(FILE_MODE_CONVERTER.reverseConvert(gitFileDiff.oldMode().get()));
       }
       if (gitFileDiff.newMode().isPresent()) {
-        builder.setNewMode(FILE_MODE_CONVERTER.reverse().convert(gitFileDiff.newMode().get()));
+        builder.setNewMode(FILE_MODE_CONVERTER.reverseConvert(gitFileDiff.newMode().get()));
       }
       if (gitFileDiff.patchType().isPresent()) {
-        builder.setPatchType(PATCH_TYPE_CONVERTER.reverse().convert(gitFileDiff.patchType().get()));
+        builder.setPatchType(PATCH_TYPE_CONVERTER.reverseConvert(gitFileDiff.patchType().get()));
       }
       if (gitFileDiff.negative().isPresent()) {
         builder.setNegative(gitFileDiff.negative().get());

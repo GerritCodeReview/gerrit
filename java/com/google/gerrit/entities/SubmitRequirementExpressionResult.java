@@ -122,14 +122,14 @@ public abstract class SubmitRequirementExpressionResult {
   }
 
   public enum Status {
+    /** Submit requirement expression contains invalid syntax and is not parsable. */
+    ERROR,
+
     /** Submit requirement expression is fulfilled for a given change. */
     PASS,
 
     /** Submit requirement expression is failing for a given change. */
     FAIL,
-
-    /** Submit requirement expression contains invalid syntax and is not parsable. */
-    ERROR,
 
     /** Submit requirement expression was not evaluated. */
     NOT_EVALUATED

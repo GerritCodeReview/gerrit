@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4c32cd7_581c4931",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-31T08:33:14Z",
+      "side": 1,
+      "message": "Should createRevision just take a number as parameter?",
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "8bec7c7c_7e9b57d4",
@@ -50,6 +67,40 @@
       "side": 1,
       "message": "Fixed with https://gerrit-review.googlesource.com/c/gerrit/+/338194",
       "parentUuid": "49eac22a_12cf620c",
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7a029cc_dea8c45a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1581,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-31T08:33:14Z",
+      "side": 1,
+      "message": "instad -\u003e instead",
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4688996f_dcf7bbe7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1583,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-31T08:33:14Z",
+      "side": 1,
+      "message": "Please add a TODO here.",
       "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

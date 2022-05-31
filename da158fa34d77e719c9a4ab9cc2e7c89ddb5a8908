@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65b86a9c_e6447b84",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-05-31T20:29:59Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be got rid of including the above?\n\nAlso shouldn\u0027t polylint be stoped for the master branch for the CI?",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 1
+      },
+      "revId": "da158fa34d77e719c9a4ab9cc2e7c89ddb5a8908",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
+import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.cache.proto.Cache.PersonProto;
 import com.google.gerrit.server.cache.proto.Cache.SubmitRequirementExpressionResultProto;
 import java.util.Optional;
 import org.junit.Test;
@@ -59,4 +61,23 @@ public class SubmitRequirementExpressionResultSerializerTest {
     assertThat(deserialize(proto).status())
         .isEqualTo(SubmitRequirementExpressionResult.Status.ERROR);
   }
+
+  @Test
+  public void personGhareeb() throws Exception {
+
+    // Serialize
+    // String fileName = "/usr/local/google/home/ghareeb/data/proto.data";
+    // PersonProto person = PersonProto.newBuilder().setName("Ahmed").setAge(31).build();
+    // byte[] bytes = Protos.toByteArray(person);
+    // writeFile(fileName, bytes);
+
+    // deserialize
+    byte[] golden = new byte[] {10, 5, 65, 104, 109, 101, 100, 24, 31};
+    PersonProto personProto = Protos.parseUnchecked(PersonProto.parser(), golden);
+    assertThat(personProto.getAge()).isEqualTo(31);
+  }
+
+  // private void writeFile(String fileName, byte[] content) throws Exception {
+  //   Files.write(content, new File(fileName));
+  // }
 }

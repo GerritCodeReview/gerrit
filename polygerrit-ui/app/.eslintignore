@@ -2,4 +2,3 @@
 **/rollup.config.js
 node_modules_licenses
 !.eslintrc-bazel.js
-tmpl_out

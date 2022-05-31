@@ -33,6 +33,24 @@
       "message": "How does this relate to https://gerrit-review.googlesource.com/c/gerrit/+/338095",
       "revId": "ceda4839520b07c5f62a7306b59e7215ba6fb3a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bead9f94_14ebfa81",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T08:07:04Z",
+      "side": 1,
+      "message": "Here I am mainly moving the types over from common.ts.\n\nWould you prefer me to combine the two changes?",
+      "parentUuid": "7f4334a3_972dd3c1",
+      "revId": "ceda4839520b07c5f62a7306b59e7215ba6fb3a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

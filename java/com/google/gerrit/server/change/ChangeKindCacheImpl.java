@@ -15,6 +15,8 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -26,13 +28,13 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.converter.SafeEnumStringConverter;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
-import com.google.gerrit.server.cache.serialize.EnumCacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -74,7 +76,21 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
             .weigher(ChangeKindWeigher.class)
             .version(1)
             .keySerializer(new Key.Serializer())
-            .valueSerializer(new EnumCacheSerializer<>(ChangeKind.class));
+            .valueSerializer(
+                new CacheSerializer<>() {
+                  private final SafeEnumStringConverter<ChangeKind> converter =
+                      new SafeEnumStringConverter<>(ChangeKind.class);
+
+                  @Override
+                  public byte[] serialize(ChangeKind object) {
+                    return converter.reverseConvert(object).getBytes(UTF_8);
+                  }
+
+                  @Override
+                  public ChangeKind deserialize(byte[] in) {
+                    return converter.convert(new String(requireNonNull(in), UTF_8));
+                  }
+                });
       }
     };
   }

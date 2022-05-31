@@ -22,8 +22,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Converter;
-import com.google.common.base.Enums;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -38,6 +36,7 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
@@ -48,6 +47,7 @@ import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.converter.ChangeMessageProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
+import com.google.gerrit.entities.converter.SafeEnumStringConverter;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.AssigneeStatusUpdate;
@@ -468,10 +468,10 @@ public abstract class ChangeNotesState {
 
     @VisibleForTesting static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
 
-    private static final Converter<String, Change.Status> STATUS_CONVERTER =
-        Enums.stringConverter(Change.Status.class);
-    private static final Converter<String, ReviewerStateInternal> REVIEWER_STATE_CONVERTER =
-        Enums.stringConverter(ReviewerStateInternal.class);
+    private static final SafeEnumStringConverter<Status> STATUS_CONVERTER =
+        new SafeEnumStringConverter<>(Change.Status.class);
+    private static final SafeEnumStringConverter<ReviewerStateInternal> REVIEWER_STATE_CONVERTER =
+        new SafeEnumStringConverter(ReviewerStateInternal.class);
 
     @Override
     public byte[] serialize(ChangeNotesState object) {
@@ -564,7 +564,7 @@ public abstract class ChangeNotesState {
         b.setSubmissionId(cols.submissionId()).setHasSubmissionId(true);
       }
       if (cols.status() != null) {
-        b.setStatus(STATUS_CONVERTER.reverse().convert(cols.status())).setHasStatus(true);
+        b.setStatus(STATUS_CONVERTER.reverseConvert(cols.status())).setHasStatus(true);
       }
       b.setIsPrivate(cols.isPrivate())
           .setWorkInProgress(cols.workInProgress())
@@ -582,7 +582,7 @@ public abstract class ChangeNotesState {
     private static ReviewerSetEntryProto toReviewerSetEntry(
         Table.Cell<ReviewerStateInternal, Account.Id, Instant> c) {
       return ReviewerSetEntryProto.newBuilder()
-          .setState(REVIEWER_STATE_CONVERTER.reverse().convert(c.getRowKey()))
+          .setState(REVIEWER_STATE_CONVERTER.reverseConvert(c.getRowKey()))
           .setAccountId(c.getColumnKey().get())
           .setTimestampMillis(c.getValue().toEpochMilli())
           .build();
@@ -591,7 +591,7 @@ public abstract class ChangeNotesState {
     private static ReviewerByEmailSetEntryProto toReviewerByEmailSetEntry(
         Table.Cell<ReviewerStateInternal, Address, Instant> c) {
       return ReviewerByEmailSetEntryProto.newBuilder()
-          .setState(REVIEWER_STATE_CONVERTER.reverse().convert(c.getRowKey()))
+          .setState(REVIEWER_STATE_CONVERTER.reverseConvert(c.getRowKey()))
           .setAddress(c.getColumnKey().toHeaderString())
           .setTimestampMillis(c.getValue().toEpochMilli())
           .build();
@@ -602,7 +602,7 @@ public abstract class ChangeNotesState {
           .setTimestampMillis(u.date().toEpochMilli())
           .setUpdatedBy(u.updatedBy().get())
           .setReviewer(u.reviewer().get())
-          .setState(REVIEWER_STATE_CONVERTER.reverse().convert(u.state()))
+          .setState(REVIEWER_STATE_CONVERTER.reverseConvert(u.state()))
           .build();
     }
 

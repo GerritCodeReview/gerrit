@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Enums;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -25,6 +24,7 @@ import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.converter.SafeEnumStringConverter;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
@@ -127,7 +127,8 @@ public abstract class CachedAccountDetails {
             .forEach(
                 n ->
                     proto.addNotifyType(
-                        Enums.stringConverter(NotifyConfig.NotifyType.class).reverse().convert(n)));
+                        new SafeEnumStringConverter(NotifyConfig.NotifyType.class)
+                            .reverseConvert(n)));
         serialized.addProjectWatchProto(proto);
       }
 
@@ -160,7 +161,10 @@ public abstract class CachedAccountDetails {
                       ProjectWatches.ProjectWatchKey.create(
                           Project.nameKey(p.getProject()), p.getFilter()),
                       p.getNotifyTypeList().stream()
-                          .map(e -> Enums.stringConverter(NotifyConfig.NotifyType.class).convert(e))
+                          .map(
+                              e ->
+                                  new SafeEnumStringConverter<>(NotifyConfig.NotifyType.class)
+                                      .convert(e))
                           .collect(toImmutableSet())));
 
       return CachedAccountDetails.create(

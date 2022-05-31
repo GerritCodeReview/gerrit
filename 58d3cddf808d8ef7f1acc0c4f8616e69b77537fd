@@ -138,6 +138,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a3853033_b9fbb85e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-31T21:18:56Z",
+      "side": 1,
+      "message": "Any thoughts?",
+      "parentUuid": "a94a90f9_c25890b3",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7b8b524_728a9686",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28
@@ -305,6 +323,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9b6c7989_44843b10",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5378,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-31T21:18:56Z",
+      "side": 1,
+      "message": "Ok, I will start making changes to name the API as `apply_provided_fix` and update the documentation here. I will also update \n1) The new class created with this change, to be `ApplyProvidedFix` instead of `ApplyDirectFix`.  \n2) test names that refer to the original name.  \n3) The new class holding the content of the REST body, from `DirectFixInput` to `ApplyProvidedFixInput`",
+      "parentUuid": "98ac3020_18b3a74f",
+      "range": {
+        "startLine": 5378,
+        "startChar": 4,
+        "endLine": 5378,
+        "endChar": 20
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e66e7d95_9c78c022",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28
@@ -364,6 +406,30 @@
       "side": 1,
       "message": "We already have an existing section named \u0027Apply Fix\u0027 that doesn\u0027t need any input. Will naming this entity as `ApplyFixInput` become confusing?  \nI think this will also depend, on what we end up naming the new API, whether it will remain as `apply_direct_fix` or something else, that we are discussing in the previous comments.",
       "parentUuid": "089b67ff_0bb8f0eb",
+      "range": {
+        "startLine": 5383,
+        "startChar": 19,
+        "endLine": 5383,
+        "endChar": 33
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cff330ff_bc1e7a95",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5383,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-31T21:18:56Z",
+      "side": 1,
+      "message": "As agreed in a different comment, I will rename the input to `ApplyProvidedFixInput`. There will be no confusions then.",
+      "parentUuid": "2be287c8_e970253d",
       "range": {
         "startLine": 5383,
         "startChar": 19,
@@ -672,6 +738,24 @@
       "side": 1,
       "message": "SGTM. Or ApplyProvidedFixInput depending on what name we end up with.",
       "parentUuid": "5165a8df_d87a58f7",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5976603_31236ede",
+        "filename": "java/com/google/gerrit/extensions/common/DirectFixInput.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-05-31T21:18:56Z",
+      "side": 1,
+      "message": "Will Update this class name to `ApplyProvidedFixInput`.",
+      "parentUuid": "02fc555c_171de233",
       "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

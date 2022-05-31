@@ -14,15 +14,14 @@
 
 package com.google.gerrit.server.cache.serialize.entities;
 
-import com.google.common.base.Converter;
-import com.google.common.base.Enums;
 import com.google.gerrit.entities.PermissionRule;
+import com.google.gerrit.entities.converter.SafeEnumStringConverter;
 import com.google.gerrit.server.cache.proto.Cache;
 
 /** Helper to (de)serialize values for caches. */
 public class PermissionRuleSerializer {
-  private static final Converter<String, PermissionRule.Action> ACTION_CONVERTER =
-      Enums.stringConverter(PermissionRule.Action.class);
+  private static final SafeEnumStringConverter<PermissionRule.Action> ACTION_CONVERTER =
+      new SafeEnumStringConverter<>(PermissionRule.Action.class);
 
   public static PermissionRule deserialize(Cache.PermissionRuleProto proto) {
     return PermissionRule.builder(GroupReferenceSerializer.deserialize(proto.getGroup()))
@@ -35,7 +34,7 @@ public class PermissionRuleSerializer {
 
   public static Cache.PermissionRuleProto serialize(PermissionRule autoValue) {
     return Cache.PermissionRuleProto.newBuilder()
-        .setAction(ACTION_CONVERTER.reverse().convert(autoValue.getAction()))
+        .setAction(ACTION_CONVERTER.reverseConvert(autoValue.getAction()))
         .setForce(autoValue.getForce())
         .setMin(autoValue.getMin())
         .setMax(autoValue.getMax())

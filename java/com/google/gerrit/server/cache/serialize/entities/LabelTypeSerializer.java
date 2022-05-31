@@ -16,20 +16,20 @@ package com.google.gerrit.server.cache.serialize.entities;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.common.base.Converter;
-import com.google.common.base.Enums;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.converter.SafeEnumStringConverter;
 import com.google.gerrit.server.cache.proto.Cache;
 import java.util.Optional;
 
 /** Helper to (de)serialize values for caches. */
 public class LabelTypeSerializer {
-  private static final Converter<String, LabelFunction> FUNCTION_CONVERTER =
-      Enums.stringConverter(LabelFunction.class);
+
+  private static final SafeEnumStringConverter<LabelFunction> FUNCTION_CONVERTER =
+      new SafeEnumStringConverter<>(LabelFunction.class);
 
   public static LabelType deserialize(Cache.LabelTypeProto proto) {
     return LabelType.builder(
@@ -71,7 +71,7 @@ public class LabelTypeSerializer {
                 .map(LabelValueSerializer::serialize)
                 .collect(toImmutableList()))
         .setDescription(autoValue.getDescription().orElse(""))
-        .setFunction(FUNCTION_CONVERTER.reverse().convert(autoValue.getFunction()))
+        .setFunction(FUNCTION_CONVERTER.reverseConvert(autoValue.getFunction()))
         .setCopyCondition(autoValue.getCopyCondition().orElse(""))
         .setCopyAnyScore(autoValue.isCopyAnyScore())
         .setCopyMinScore(autoValue.isCopyMinScore())

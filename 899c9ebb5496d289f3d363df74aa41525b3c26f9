@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2b66cacd_7d05dd83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2022-05-31T20:17:09Z",
+      "side": 1,
+      "message": "Please have a look, it is only front-end side now",
+      "parentUuid": "0077bff3_96d55a89",
+      "revId": "899c9ebb5496d289f3d363df74aa41525b3c26f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "99930d57_5e05abca",
         "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
         "patchSetId": 6

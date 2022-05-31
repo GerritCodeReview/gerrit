@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6596a018_62220e0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-31T08:36:35Z",
+      "side": 1,
+      "message": "Even for large changes with a lot of files? I would be interested in  some numbers especially since later in the message it says `if there are benefits` so perhaps we can spend more time here looking at the p50/p90/p99 to make a decision?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "77f9db16152a3f775c5b9e8a8e8cb9774a85b1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3fd716c_e4c7b43f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-31T08:36:35Z",
+      "side": 1,
+      "message": "typo: migration",
+      "range": {
+        "startLine": 21,
+        "startChar": 22,
+        "endLine": 21,
+        "endChar": 31
+      },
+      "revId": "77f9db16152a3f775c5b9e8a8e8cb9774a85b1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

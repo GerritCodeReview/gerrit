@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62e84dc3_47bb8097",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-tab.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-31T14:38:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be an object?",
+      "revId": "5f7dfa36a2ad98239c53d710751a9e2e83038883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

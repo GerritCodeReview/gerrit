@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0b2fd12a_c6489d53",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteVoteOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-31T09:28:02Z",
+      "side": 1,
+      "message": "Would it be better to add reason as field to DeleteVoteInput?",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 23
+      },
+      "revId": "533731d388c794a22be50fec23d3779685462dc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1bf81a14_8a2726d9",
         "filename": "java/com/google/gerrit/server/restapi/change/DeleteVoteOp.java",
         "patchSetId": 2

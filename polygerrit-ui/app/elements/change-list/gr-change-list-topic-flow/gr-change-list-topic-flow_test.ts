@@ -80,6 +80,7 @@ suite('gr-change-list-topic-flow tests', () => {
         <gr-button
           id="start-flow"
           flatten=""
+          down-arrow=""
           aria-disabled="false"
           role="button"
           tabindex="0"
@@ -198,6 +199,7 @@ suite('gr-change-list-topic-flow tests', () => {
           <gr-button
             id="start-flow"
             flatten=""
+            down-arrow=""
             aria-disabled="false"
             role="button"
             tabindex="0"
@@ -413,6 +415,7 @@ suite('gr-change-list-topic-flow tests', () => {
           <gr-button
             id="start-flow"
             flatten=""
+            down-arrow=""
             aria-disabled="false"
             role="button"
             tabindex="0"

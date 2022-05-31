@@ -127,6 +127,7 @@ export class GrChangeListTopicFlow extends LitElement {
       <gr-button
         id="start-flow"
         flatten
+        down-arrow
         @click=${this.toggleDropdown}
         .disabled=${isFlowDisabled}
         >Topic</gr-button

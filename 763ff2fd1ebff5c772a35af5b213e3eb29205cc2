@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ed7aa72_1d8b8ef7",
+        "filename": "polygerrit-ui/app/services/shortcuts/shortcuts-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-31T08:29:33Z",
+      "side": 1,
+      "message": "forEach is discouraged, can you make this a loop.",
+      "revId": "763ff2fd1ebff5c772a35af5b213e3eb29205cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

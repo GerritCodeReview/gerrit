@@ -173,6 +173,20 @@ module.exports = function(config) {
       showDiff: true
     },
 
+    // web server hostname
+    // See https://github.com/karma-runner/karma/blob/e17698f950af83bf2b3edc540d2a3e1fb73cba59/lib/utils/dns-utils.js#L3
+    //hostname: '127.0.0.1',
+
+    // Listen on localhost so it either listens to ipv4
+    // or ipv6. Some OS's default to ipv6 for localhost
+    // and others ipv4.
+    // Nodejs 17 changed the behaviour from prefering ipv4 to
+    // using the OS settings.
+    // The default is 127.0.0.1 thus if localhost is on ipv6 only
+    // it'll fail to connect to the karma server.
+    // See https://github.com/karma-runner/karma/blob/e17698f950af83bf2b3edc540d2a3e1fb73cba59/lib/utils/dns-utils.js#L3
+    listenAddress: 'localhost',
+
     // web server port
     port: 9876,
 

@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c51001a2_9104f082",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2022-05-31T20:08:56Z",
+      "side": 1,
+      "message": "The change is now from the FE.",
+      "parentUuid": "7f0d391a_a8200b39",
+      "range": {
+        "startLine": 338,
+        "startChar": 1,
+        "endLine": 342,
+        "endChar": 11
+      },
+      "revId": "899c9ebb5496d289f3d363df74aa41525b3c26f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c1ddc6b_efffb9d5",
@@ -198,6 +222,30 @@
       "side": 1,
       "message": "Ack.",
       "parentUuid": "b11bbe5f_390577cf",
+      "range": {
+        "startLine": 1412,
+        "startChar": 26,
+        "endLine": 1412,
+        "endChar": 28
+      },
+      "revId": "899c9ebb5496d289f3d363df74aa41525b3c26f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6772313d_1263c2ee",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1412,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2022-05-31T20:08:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aee642f_272c521e",
       "range": {
         "startLine": 1412,
         "startChar": 26,

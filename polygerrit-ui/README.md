@@ -45,9 +45,7 @@ If it doesn't help also try to run
 bazel clean --expunge
 ```
 
-The minimum nodejs version supported is 8.x+, the maximum is currently 16.x due
-to [an issue](https://github.com/karma-runner/karma/issues/3730) in our test
-runner, karma.
+The minimum nodejs version supported is 10.x+.
 
 ```sh
 # Debian experimental

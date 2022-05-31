@@ -61,7 +61,6 @@
     "styles/**/*",
     "types/**/*",
     "utils/**/*",
-    "test/**/*",
-    "tmpl_out/**/*" //Created by template checker in dev-mode
+    "test/**/*"
   ]
 }

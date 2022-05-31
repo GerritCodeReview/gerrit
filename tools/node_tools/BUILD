@@ -45,16 +45,3 @@ nodejs_binary(
     data = ["@tools_npm//:node_modules"],
     entry_point = "@tools_npm//:node_modules/typescript/lib/tsc.js",
 )
-
-# Wrap twinkie into a twinkie-bin binary.
-nodejs_binary(
-    name = "twinkie-bin",
-    # Point bazel to your node_modules to find the entry point
-    data = ["@npm//:node_modules"],
-    entry_point = "@npm//:node_modules/twinkie/src/app/index.js",
-    # Should not run sandboxed.
-    tags = [
-        "local",
-        "manual",
-    ],
-)

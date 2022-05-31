@@ -34,55 +34,49 @@ def _get_ts_output_files(outdir, srcs):
         result.append(_get_ts_compiled_path(outdir, f))
     return result
 
-def compile_ts(name, srcs, ts_outdir, additional_deps = [], ts_project = "tsconfig_bazel.json", emitJS = True, tags = []):
-    """Compiles srcs files with the typescript compiler. The following
-    dependencies are always passed:
-      the file specified by the ts_project argument
-      :tsconfig.json"
-      @ui_npm//:node_modules,
-    If compilation succeed, the file name+".success" is created. This is useful
-    for wrapping compilation in bazel test rules.
+def compile_ts(name, srcs, ts_outdir, include_tests = False):
+    """Compiles srcs files with the typescript compiler
 
     Args:
       name: rule name
       srcs: list of input files (.js, .d.ts and .ts)
-      ts_outdir: typescript output directory; ignored if emitJS is True
-      additional_deps: list of additional dependencies for compilation
-      ts_project: the file with typescript project. If it extends another
-        typescript file, ensure that this other file is either in the default or
-        in the additional_deps dependencies.
-      emitJS: True - the rule generates JS output; otherwise(False) the rule
-        just run a compiler (for error checking)
+      ts_outdir: typescript output directory
 
     Returns:
-      The list of compiled JS files if emitJS is True; otherwise returns an
-      empty list
+      The list of compiled files
     """
     ts_rule_name = name + "_ts_compiled"
 
     # List of files produced by the typescript compiler
-    generated_js = _get_ts_output_files(ts_outdir, srcs) if emitJS else []
+    generated_js = _get_ts_output_files(ts_outdir, srcs)
 
     all_srcs = srcs + [
         ":tsconfig.json",
+        ":tsconfig_bazel.json",
         "@ui_npm//:node_modules",
-    ] + [ts_project] + additional_deps
+    ]
+    ts_project = "tsconfig_bazel.json"
 
-    success_out = name + ".success"
+    if include_tests:
+        all_srcs = all_srcs + [
+            ":tsconfig_bazel_test.json",
+            "@ui_dev_npm//:node_modules",
+        ]
+        ts_project = "tsconfig_bazel_test.json"
 
     # Run the compiler
     native.genrule(
         name = ts_rule_name,
         srcs = all_srcs,
-        outs = generated_js + [success_out],
+        outs = generated_js,
         cmd = " && ".join([
-            "$(location //tools/node_tools:tsc-bin) --project $(location :{})".format(ts_project) +
-            (" --outdir $(RULEDIR)/{}".format(ts_outdir) if emitJS else "") +
+            "$(location //tools/node_tools:tsc-bin) --project $(location :" +
+            ts_project +
+            ") --outdir $(RULEDIR)/" +
+            ts_outdir +
             " --baseUrl ./external/ui_npm/node_modules/",
-            "touch $(location {})".format(success_out),
         ]),
         tools = ["//tools/node_tools:tsc-bin"],
-        tags = tags,
     )
 
     return generated_js

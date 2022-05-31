@@ -1,7 +1,5 @@
 load(":rules.bzl", "compile_ts", "polygerrit_bundle")
 load("//tools/js:eslint.bzl", "eslint")
-load("//tools/js:template_checker.bzl", "transform_polymer_templates")
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary", "nodejs_test", "npm_package_bin")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -50,176 +48,15 @@ compiled_pg_srcs_with_tests = compile_ts(
         exclude = [
             "node_modules/**",
             "node_modules_licenses/**",
-            "tmpl_out/**",  # This directory is created by template checker in dev-mode
+            "template_test_srcs/**",
             "rollup.config.js",
         ],
     ),
-    additional_deps = [
-        "@ui_dev_npm//:node_modules",
-        "tsconfig_bazel.json",
-    ],
+    include_tests = True,
     # The same outdir also appears in the following files:
     # wct_test.sh
     # karma.conf.js
     ts_outdir = "_pg_with_tests_out",
-    ts_project = "tsconfig_bazel_test.json",
-)
-
-# Template checker reports problems in the following files. Ignore the files,
-# so template tests pass.
-# TODO: fix problems reported by template checker in these files.
-ignore_templates_list = [
-    "elements/admin/gr-access-section/gr-access-section_html.ts",
-    "elements/admin/gr-admin-group-list/gr-admin-group-list_html.ts",
-    "elements/admin/gr-admin-view/gr-admin-view_html.ts",
-    "elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_html.ts",
-    "elements/admin/gr-create-change-dialog/gr-create-change-dialog_html.ts",
-    "elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog_html.ts",
-    "elements/admin/gr-create-repo-dialog/gr-create-repo-dialog_html.ts",
-    "elements/admin/gr-group-audit-log/gr-group-audit-log_html.ts",
-    "elements/admin/gr-group-members/gr-group-members_html.ts",
-    "elements/admin/gr-group/gr-group_html.ts",
-    "elements/admin/gr-permission/gr-permission_html.ts",
-    "elements/admin/gr-plugin-config-array-editor/gr-plugin-config-array-editor_html.ts",
-    "elements/admin/gr-plugin-list/gr-plugin-list_html.ts",
-    "elements/admin/gr-repo-access/gr-repo-access_html.ts",
-    "elements/admin/gr-repo-commands/gr-repo-commands_html.ts",
-    "elements/admin/gr-repo-dashboards/gr-repo-dashboards_html.ts",
-    "elements/admin/gr-repo-detail-list/gr-repo-detail-list_html.ts",
-    "elements/admin/gr-repo-plugin-config/gr-repo-plugin-config_html.ts",
-    "elements/admin/gr-repo/gr-repo_html.ts",
-    "elements/admin/gr-rule-editor/gr-rule-editor_html.ts",
-    "elements/change-list/gr-change-list-item/gr-change-list-item_html.ts",
-    "elements/change-list/gr-change-list-view/gr-change-list-view_html.ts",
-    "elements/change-list/gr-change-list/gr-change-list_html.ts",
-    "elements/change-list/gr-dashboard-view/gr-dashboard-view_html.ts",
-    "elements/change-list/gr-user-header/gr-user-header_html.ts",
-    "elements/change/gr-change-actions/gr-change-actions_html.ts",
-    "elements/change/gr-change-metadata/gr-change-metadata_html.ts",
-    "elements/change/gr-change-requirements/gr-change-requirements_html.ts",
-    "elements/change/gr-change-view/gr-change-view_html.ts",
-    "elements/change/gr-confirm-abandon-dialog/gr-confirm-abandon-dialog_html.ts",
-    "elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.ts",
-    "elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog_html.ts",
-    "elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog_html.ts",
-    "elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_html.ts",
-    "elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog_html.ts",
-    "elements/change/gr-download-dialog/gr-download-dialog_html.ts",
-    "elements/change/gr-file-list-header/gr-file-list-header_html.ts",
-    "elements/change/gr-file-list/gr-file-list_html.ts",
-    "elements/change/gr-label-score-row/gr-label-score-row_html.ts",
-    "elements/change/gr-message/gr-message_html.ts",
-    "elements/change/gr-messages-list/gr-messages-list_html.ts",
-    "elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
-    "elements/change/gr-reviewer-list/gr-reviewer-list_html.ts",
-    "elements/change/gr-thread-list/gr-thread-list_html.ts",
-    "elements/checks/gr-hovercard-run_html.ts",
-    "elements/core/gr-main-header/gr-main-header_html.ts",
-    "elements/core/gr-search-bar/gr-search-bar_html.ts",
-    "elements/core/gr-smart-search/gr-smart-search_html.ts",
-    "elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_html.ts",
-    "elements/diff/gr-diff-builder/gr-diff-builder-element_html.ts",
-    "elements/diff/gr-diff-host/gr-diff-host_html.ts",
-    "elements/diff/gr-diff-mode-selector/gr-diff-mode-selector_html.ts",
-    "elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog_html.ts",
-    "elements/diff/gr-diff-view/gr-diff-view_html.ts",
-    "elements/diff/gr-diff/gr-diff_html.ts",
-    "elements/diff/gr-patch-range-select/gr-patch-range-select_html.ts",
-    "elements/documentation/gr-documentation-search/gr-documentation-search_html.ts",
-    "elements/edit/gr-default-editor/gr-default-editor_html.ts",
-    "elements/edit/gr-edit-controls/gr-edit-controls_html.ts",
-    "elements/edit/gr-edit-file-controls/gr-edit-file-controls_html.ts",
-    "elements/edit/gr-editor-view/gr-editor-view_html.ts",
-    "elements/gr-app-element_html.ts",
-    "elements/settings/gr-cla-view/gr-cla-view_html.ts",
-    "elements/settings/gr-edit-preferences/gr-edit-preferences_html.ts",
-    "elements/settings/gr-email-editor/gr-email-editor_html.ts",
-    "elements/settings/gr-identities/gr-identities_html.ts",
-    "elements/settings/gr-registration-dialog/gr-registration-dialog_html.ts",
-    "elements/settings/gr-settings-view/gr-settings-view_html.ts",
-    "elements/settings/gr-watched-projects-editor/gr-watched-projects-editor_html.ts",
-    "elements/shared/gr-account-entry/gr-account-entry_html.ts",
-    "elements/shared/gr-account-label/gr-account-label_html.ts",
-    "elements/shared/gr-account-list/gr-account-list_html.ts",
-    "elements/shared/gr-autocomplete/gr-autocomplete_html.ts",
-    "elements/shared/gr-change-star/gr-change-star_html.ts",
-    "elements/shared/gr-change-status/gr-change-status_html.ts",
-    "elements/shared/gr-comment-thread/gr-comment-thread_html.ts",
-    "elements/shared/gr-comment/gr-comment_html.ts",
-    "elements/shared/gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog_html.ts",
-    "elements/shared/gr-copy-clipboard/gr-copy-clipboard_html.ts",
-    "elements/shared/gr-dialog/gr-dialog_html.ts",
-    "elements/shared/gr-diff-preferences/gr-diff-preferences_html.ts",
-    "elements/shared/gr-download-commands/gr-download-commands_html.ts",
-    "elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
-    "elements/shared/gr-dropdown/gr-dropdown_html.ts",
-    "elements/shared/gr-editable-content/gr-editable-content_html.ts",
-    "elements/shared/gr-editable-label/gr-editable-label_html.ts",
-    "elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
-    "elements/shared/gr-label-info/gr-label-info_html.ts",
-    "elements/shared/gr-labeled-autocomplete/gr-labeled-autocomplete_html.ts",
-    "elements/shared/gr-limited-text/gr-limited-text_html.ts",
-    "elements/shared/gr-linked-chip/gr-linked-chip_html.ts",
-    "elements/shared/gr-list-view/gr-list-view_html.ts",
-    "elements/shared/gr-repo-branch-picker/gr-repo-branch-picker_html.ts",
-    "elements/shared/gr-textarea/gr-textarea_html.ts",
-]
-
-# Transform templates into a .ts files.
-templates_srcs = transform_polymer_templates(
-    name = "template_test",
-    srcs = glob(
-        [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
-            ".ts",
-        ]],
-        exclude = [
-            "**/*_test.ts",
-        ] + ignore_templates_list,
-    ),
-    out_tsconfig = "tsconfig_template_test.json",
-    tsconfig = "tsconfig_bazel.json",
-    deps = [
-        "tsconfig.json",
-        "tsconfig_bazel.json",
-        "@ui_npm//:node_modules",
-    ],
-)
-
-# Compile transformed templates together with the polygerrit source. If
-# templates don't have problem, then the compilation ends without error.
-# Otherwise, the typescript compiler reports the error.
-# Note, that the compile_ts macro creates build rules. If the build succeed,
-# the macro creates the file compile_template_test.success. The
-# 'validate_polymer_templates' rule tests existence of the file.
-compile_ts(
-    name = "compile_template_test",
-    srcs = templates_srcs + glob(
-        [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
-            ".ts",
-        ]],
-        exclude = [
-            "**/*_test.ts",
-        ] + ignore_templates_list,
-    ),
-    additional_deps = [
-        "tsconfig_bazel.json",
-    ],
-    emitJS = False,
-    # Should not run sandboxed.
-    tags = [
-        "local",
-        "manual",
-    ],
-    ts_outdir = "_pg_template_test_out",
-    ts_project = "tsconfig_template_test.json",
-)
-
-# This rule allows to run polymer template checker with bazel test command.
-# For details - see compile_template_test rule.
-sh_test(
-    name = "validate_polymer_templates",
-    srcs = [":empty_test.sh"],
-    data = ["compile_template_test.success"],
 )
 
 polygerrit_bundle(

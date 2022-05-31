@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbed0eef_f28c5044",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-31T08:42:09Z",
+      "side": 1,
+      "message": "Can\u0027t this be undefined?",
+      "revId": "abaeacf300b7436996c6c0da7ff76a4f2fce987a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

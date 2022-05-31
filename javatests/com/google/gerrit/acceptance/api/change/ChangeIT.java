@@ -2767,6 +2767,27 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteVoteWithReason() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+
+    requestScopeOperations.setApiUser(user.id());
+    recommend(r.getChangeId());
+
+    requestScopeOperations.setApiUser(admin.id());
+    sender.clear();
+    DeleteVoteInput in = new DeleteVoteInput();
+    in.label = LabelId.CODE_REVIEW;
+    in.reason = "Internal conflict resolved";
+    gApi.changes().id(r.getChangeId()).reviewer(user.id().toString()).deleteVote(in);
+    assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).messages()).message)
+        .isEqualTo(
+            "Removed Code-Review+1 by User1 <user1@example.com>\n"
+                + "\n"
+                + "Internal conflict resolved\n");
+  }
+
+  @Test
   public void deleteVoteNotifyAccount() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());

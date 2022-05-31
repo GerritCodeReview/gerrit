@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8646797f_34a26a49",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-31T07:31:22Z",
+      "side": 1,
+      "message": "Typically we use break in a loop rather than return.",
+      "revId": "5c9a4a693f8e7e1b9b25bcf33c846c28edce1143",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "852e8257_aa2f0be7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-05-31T07:31:22Z",
+      "side": 1,
+      "message": "Could you comment why you need two awaits?",
+      "revId": "5c9a4a693f8e7e1b9b25bcf33c846c28edce1143",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

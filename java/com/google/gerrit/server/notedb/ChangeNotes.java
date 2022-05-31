@@ -763,14 +763,18 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         refs = newRefCache;
       }
 
+      boolean changeUpToDate = true;
       try {
-        if (!NoteDbChangeState.isChangeUpToDate(state, refs, getChangeId())) {
-          return rebuildAndOpen(repo, id);
-        }
+        changeUpToDate = NoteDbChangeState.isChangeUpToDate(state, refs, getChangeId());
       } finally {
         if (newRefCache != null) {
+          // RepoRefCache needs to be closed for preventing caching before
+          // any potential mutation happens with rebuildAndOpen()
           newRefCache.close();
         }
+      }
+      if (!changeUpToDate) {
+        return rebuildAndOpen(repo, id);
       }
     }
     return super.openHandle(repo);

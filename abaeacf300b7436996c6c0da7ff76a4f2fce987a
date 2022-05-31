@@ -16,6 +16,24 @@
       "message": "Can\u0027t this be undefined?",
       "revId": "abaeacf300b7436996c6c0da7ff76a4f2fce987a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b67c3fde_3c194ed9",
+        "filename": "polygerrit-ui/app/services/router/router-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T10:01:09Z",
+      "side": 1,
+      "message": "In this change no. I was choosing PARENT as the default and also set this as initial state. But I have later decided that allowing `undefined` is probably the better design choice, see change 338175.",
+      "parentUuid": "dbed0eef_f28c5044",
+      "revId": "abaeacf300b7436996c6c0da7ff76a4f2fce987a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

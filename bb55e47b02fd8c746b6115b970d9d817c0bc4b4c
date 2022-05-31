@@ -69,6 +69,24 @@
       "parentUuid": "4330ac64_46e637f4",
       "revId": "bb55e47b02fd8c746b6115b970d9d817c0bc4b4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "421096f1_2fb28252",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-05-31T10:43:37Z",
+      "side": 1,
+      "message": "You mean the last outage with the new SubmitRequirementStatus?\nYes, I believe it is (the SubmitRequirementExpressionResultSerializer class, which is called on proto conversion). The problem is different though, since in that case only the new protos looked \u0027invalid\u0027 for the old code.",
+      "parentUuid": "571f711d_53717a42",
+      "revId": "bb55e47b02fd8c746b6115b970d9d817c0bc4b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

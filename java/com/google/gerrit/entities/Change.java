@@ -20,6 +20,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.client.DefaultEnum;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -328,7 +329,7 @@ public final class Change {
    * that can be modified/refined further, while upper case codes ('A'..'Z') indicate a change that
    * is closed and cannot be further modified.
    */
-  public enum Status {
+  public enum Status implements DefaultEnum<Status> {
     /**
      * Change is open and pending review, or review is in progress.
      *
@@ -421,6 +422,11 @@ public final class Change {
         }
       }
       return null;
+    }
+
+    @Override
+    public Status getDefaultValue() {
+      return NEW;
     }
   }
 

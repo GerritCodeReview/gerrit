@@ -15,9 +15,8 @@
 package com.google.gerrit.server.patch.gitdiff;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Converter;
-import com.google.common.base.Enums;
 import com.google.gerrit.entities.Patch.ChangeType;
+import com.google.gerrit.entities.converter.SafeEnumStringConverter;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.ModifiedFileProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
@@ -86,8 +85,8 @@ public abstract class ModifiedFile {
   enum Serializer implements CacheSerializer<ModifiedFile> {
     INSTANCE;
 
-    private static final Converter<String, ChangeType> CHANGE_TYPE_CONVERTER =
-        Enums.stringConverter(ChangeType.class);
+    private static final SafeEnumStringConverter<ChangeType> CHANGE_TYPE_CONVERTER =
+        new SafeEnumStringConverter(ChangeType.class);
 
     private static final FieldDescriptor oldPathDescriptor =
         ModifiedFileProto.getDescriptor().findFieldByNumber(2);
@@ -102,7 +101,7 @@ public abstract class ModifiedFile {
 
     public ModifiedFileProto toProto(ModifiedFile modifiedFile) {
       ModifiedFileProto.Builder builder = ModifiedFileProto.newBuilder();
-      builder.setChangeType(CHANGE_TYPE_CONVERTER.reverse().convert(modifiedFile.changeType()));
+      builder.setChangeType(CHANGE_TYPE_CONVERTER.reverseConvert(modifiedFile.changeType()));
       if (modifiedFile.oldPath().isPresent()) {
         builder.setOldPath(modifiedFile.oldPath().get());
       }

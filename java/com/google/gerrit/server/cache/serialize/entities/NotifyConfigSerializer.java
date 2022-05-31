@@ -19,18 +19,18 @@ import static com.google.common.base.Strings.nullToEmpty;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
-import com.google.common.base.Converter;
-import com.google.common.base.Enums;
 import com.google.gerrit.entities.NotifyConfig;
+import com.google.gerrit.entities.NotifyConfig.Header;
+import com.google.gerrit.entities.converter.SafeEnumStringConverter;
 import com.google.gerrit.server.cache.proto.Cache;
 
 /** Helper to (de)serialize values for caches. */
 public class NotifyConfigSerializer {
-  private static final Converter<String, NotifyConfig.Header> HEADER_CONVERTER =
-      Enums.stringConverter(NotifyConfig.Header.class);
+  private static final SafeEnumStringConverter<Header> HEADER_CONVERTER =
+      new SafeEnumStringConverter(NotifyConfig.Header.class);
 
-  private static final Converter<String, NotifyConfig.NotifyType> NOTIFY_TYPE_CONVERTER =
-      Enums.stringConverter(NotifyConfig.NotifyType.class);
+  private static final SafeEnumStringConverter<NotifyConfig.NotifyType> NOTIFY_TYPE_CONVERTER =
+      new SafeEnumStringConverter(NotifyConfig.NotifyType.class);
 
   public static NotifyConfig deserialize(Cache.NotifyConfigProto proto) {
     NotifyConfig.Builder builder =
@@ -57,13 +57,13 @@ public class NotifyConfigSerializer {
         .setName(nullToEmpty(autoValue.getName()))
         .addAllType(
             autoValue.getNotify().stream()
-                .map(t -> NOTIFY_TYPE_CONVERTER.reverse().convert(t))
+                .map(t -> NOTIFY_TYPE_CONVERTER.reverseConvert(t))
                 .collect(toImmutableSet()))
         .setFilter(nullToEmpty(autoValue.getFilter()))
         .setHeader(
             autoValue.getHeader() == null
                 ? ""
-                : HEADER_CONVERTER.reverse().convert(autoValue.getHeader()))
+                : HEADER_CONVERTER.reverseConvert(autoValue.getHeader()))
         .addAllGroups(
             autoValue.getGroups().stream()
                 .map(GroupReferenceSerializer::serialize)

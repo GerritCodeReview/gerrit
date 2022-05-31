@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.cache.serialize.entities;
 
-import com.google.common.base.Converter;
-import com.google.common.base.Enums;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
+import com.google.gerrit.entities.SubmitRequirementExpressionResult.Status;
+import com.google.gerrit.entities.converter.SafeEnumStringConverter;
 import com.google.gerrit.server.cache.proto.Cache.SubmitRequirementExpressionResultProto;
 import java.util.Optional;
 
@@ -29,20 +29,14 @@ import java.util.Optional;
  */
 public class SubmitRequirementExpressionResultSerializer {
 
-  private static final Converter<String, SubmitRequirementExpressionResult.Status>
-      STATUS_CONVERTER = Enums.stringConverter(SubmitRequirementExpressionResult.Status.class);
+  private static final SafeEnumStringConverter<Status> STATUS_CONVERTER =
+      new SafeEnumStringConverter(SubmitRequirementExpressionResult.Status.class);
 
   public static SubmitRequirementExpressionResult deserialize(
       SubmitRequirementExpressionResultProto proto) {
-    SubmitRequirementExpressionResult.Status status;
-    try {
-      status = STATUS_CONVERTER.convert(proto.getStatus());
-    } catch (IllegalArgumentException e) {
-      status = SubmitRequirementExpressionResult.Status.ERROR;
-    }
     return SubmitRequirementExpressionResult.create(
         SubmitRequirementExpression.create(proto.getExpression()),
-        status,
+        STATUS_CONVERTER.convert(proto.getStatus()),
         proto.getPassingAtomsList().stream().collect(ImmutableList.toImmutableList()),
         proto.getFailingAtomsList().stream().collect(ImmutableList.toImmutableList()),
         Optional.ofNullable(Strings.emptyToNull(proto.getErrorMessage())));
@@ -52,7 +46,7 @@ public class SubmitRequirementExpressionResultSerializer {
       SubmitRequirementExpressionResult r) {
     return SubmitRequirementExpressionResultProto.newBuilder()
         .setExpression(r.expression().expressionString())
-        .setStatus(STATUS_CONVERTER.reverse().convert(r.status()))
+        .setStatus(STATUS_CONVERTER.reverseConvert(r.status()))
         .addAllPassingAtoms(r.passingAtoms())
         .addAllFailingAtoms(r.failingAtoms())
         .setErrorMessage(r.errorMessage().orElse(""))

@@ -20,6 +20,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.extensions.client.DefaultEnum;
 import java.util.List;
 
 /**
@@ -81,7 +82,7 @@ public final class Patch {
   /**
    * Type of modification made to the file path. Ordering of values matters (used by diff cache).
    */
-  public enum ChangeType implements CodedEnum {
+  public enum ChangeType implements CodedEnum, DefaultEnum<ChangeType> {
     /** Path is being created/introduced by this patch. */
     ADDED('A'),
 
@@ -120,10 +121,15 @@ public final class Patch {
       }
       return null;
     }
+
+    @Override
+    public ChangeType getDefaultValue() {
+      return MODIFIED;
+    }
   }
 
   /** Type of formatting for this patch. */
-  public enum PatchType implements CodedEnum {
+  public enum PatchType implements CodedEnum, DefaultEnum<PatchType> {
     /**
      * A textual difference between two versions.
      *
@@ -160,13 +166,18 @@ public final class Patch {
     public char getCode() {
       return code;
     }
+
+    @Override
+    public PatchType getDefaultValue() {
+      return UNIFIED;
+    }
   }
 
   /**
    * Constants describing various file modes recognized by GIT. This is the Gerrit entity for {@link
    * org.eclipse.jgit.lib.FileMode}.
    */
-  public enum FileMode implements CodedEnum {
+  public enum FileMode implements CodedEnum, DefaultEnum<FileMode> {
     /** Mode indicating an entry is a tree (aka directory). */
     TREE('T'),
 
@@ -194,6 +205,11 @@ public final class Patch {
     @Override
     public char getCode() {
       return code;
+    }
+
+    @Override
+    public FileMode getDefaultValue() {
+      return REGULAR_FILE;
     }
   }
 

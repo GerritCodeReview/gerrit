@@ -28,11 +28,16 @@ public class DiffPreferencesInfo {
   /** Default line length. */
   public static final int DEFAULT_LINE_LENGTH = 100;
 
-  public enum Whitespace {
+  public enum Whitespace implements DefaultEnum<Whitespace> {
     IGNORE_NONE,
     IGNORE_TRAILING,
     IGNORE_LEADING_AND_TRAILING,
-    IGNORE_ALL
+    IGNORE_ALL;
+
+    @Override
+    public Whitespace getDefaultValue() {
+      return IGNORE_ALL;
+    }
   }
 
   public Integer context;

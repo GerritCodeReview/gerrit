@@ -16,9 +16,8 @@ package com.google.gerrit.server.query.change;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Converter;
-import com.google.common.base.Enums;
 import com.google.common.collect.Ordering;
+import com.google.gerrit.entities.converter.SafeEnumStringConverter;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.proto.Cache.ConflictKeyProto;
@@ -64,8 +63,8 @@ public abstract class ConflictKey {
   public enum Serializer implements CacheSerializer<ConflictKey> {
     INSTANCE;
 
-    private static final Converter<String, SubmitType> SUBMIT_TYPE_CONVERTER =
-        Enums.stringConverter(SubmitType.class);
+    private static final SafeEnumStringConverter<SubmitType> SUBMIT_TYPE_CONVERTER =
+        new SafeEnumStringConverter(SubmitType.class);
 
     @Override
     public byte[] serialize(ConflictKey object) {
@@ -74,7 +73,7 @@ public abstract class ConflictKey {
           ConflictKeyProto.newBuilder()
               .setCommit(idConverter.toByteString(object.commit()))
               .setOtherCommit(idConverter.toByteString(object.otherCommit()))
-              .setSubmitType(SUBMIT_TYPE_CONVERTER.reverse().convert(object.submitType()))
+              .setSubmitType(SUBMIT_TYPE_CONVERTER.reverseConvert(object.submitType()))
               .setContentMerge(object.contentMerge())
               .build());
     }

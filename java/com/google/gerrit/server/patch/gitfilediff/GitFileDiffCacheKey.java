@@ -17,10 +17,9 @@ package com.google.gerrit.server.patch.gitfilediff;
 import static com.google.gerrit.server.patch.DiffUtil.stringSize;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Converter;
-import com.google.common.base.Enums;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.entities.converter.SafeEnumStringConverter;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.proto.Protos;
@@ -106,11 +105,11 @@ public abstract class GitFileDiffCacheKey {
   public enum Serializer implements CacheSerializer<GitFileDiffCacheKey> {
     INSTANCE;
 
-    private static final Converter<String, DiffAlgorithm> DIFF_ALGORITHM_CONVERTER =
-        Enums.stringConverter(DiffAlgorithm.class);
+    private static final SafeEnumStringConverter<DiffAlgorithm> DIFF_ALGORITHM_CONVERTER =
+        new SafeEnumStringConverter(DiffAlgorithm.class);
 
-    private static final Converter<String, Whitespace> WHITESPACE_CONVERTER =
-        Enums.stringConverter(Whitespace.class);
+    private static final SafeEnumStringConverter<Whitespace> WHITESPACE_CONVERTER =
+        new SafeEnumStringConverter(Whitespace.class);
 
     @Override
     public byte[] serialize(GitFileDiffCacheKey key) {
@@ -122,8 +121,8 @@ public abstract class GitFileDiffCacheKey {
               .setBTree(idConverter.toByteString(key.newTree()))
               .setFilePath(key.newFilePath())
               .setRenameScore(key.renameScore())
-              .setDiffAlgorithm(DIFF_ALGORITHM_CONVERTER.reverse().convert(key.diffAlgorithm()))
-              .setWhitepsace(WHITESPACE_CONVERTER.reverse().convert(key.whitespace()))
+              .setDiffAlgorithm(DIFF_ALGORITHM_CONVERTER.reverseConvert(key.diffAlgorithm()))
+              .setWhitepsace(WHITESPACE_CONVERTER.reverseConvert(key.whitespace()))
               .setUseTimeout(key.useTimeout())
               .build());
     }

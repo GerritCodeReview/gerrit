@@ -16,6 +16,7 @@ package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.extensions.client.DefaultEnum;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import java.util.Optional;
@@ -121,18 +122,23 @@ public abstract class SubmitRequirementExpressionResult {
     public abstract SubmitRequirementExpressionResult build();
   }
 
-  public enum Status {
+  public enum Status implements DefaultEnum<Status> {
+    /** Submit requirement expression contains invalid syntax and is not parsable. */
+    ERROR,
+
     /** Submit requirement expression is fulfilled for a given change. */
     PASS,
 
     /** Submit requirement expression is failing for a given change. */
     FAIL,
 
-    /** Submit requirement expression contains invalid syntax and is not parsable. */
-    ERROR,
-
     /** Submit requirement expression was not evaluated. */
-    NOT_EVALUATED
+    NOT_EVALUATED;
+
+    @Override
+    public Status getDefaultValue() {
+      return ERROR;
+    }
   }
 
   /**

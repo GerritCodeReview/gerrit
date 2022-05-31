@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2022 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,17 +14,12 @@
 
 package com.google.gerrit.extensions.client;
 
-public enum SubmitType implements DefaultEnum<SubmitType> {
-  INHERIT,
-  FAST_FORWARD_ONLY,
-  MERGE_IF_NECESSARY,
-  REBASE_IF_NECESSARY,
-  REBASE_ALWAYS,
-  MERGE_ALWAYS,
-  CHERRY_PICK;
-
-  @Override
-  public SubmitType getDefaultValue() {
-    return MERGE_IF_NECESSARY;
-  }
+/**
+ * This interface should be implemented by enums that want to provide a default value. The default
+ * value is used as a fallback while converting enums to / from proto to handle unrecognized values.
+ * This is used as a safety net to guard against forward-compatibility issues. See {@link
+ * com.google.gerrit.entities.converter.SafeEnumStringConverter}.
+ */
+public interface DefaultEnum<V> {
+  V getDefaultValue();
 }

@@ -969,8 +969,7 @@ public class ChangeData {
       Change c = change();
       if (c == null || !c.isClosed()) {
         // Open changes: Evaluate submit requirements online.
-        submitRequirements =
-            submitRequirementsEvaluator.evaluateAllRequirements(this, /* includeLegacy= */ false);
+        submitRequirements = submitRequirementsEvaluator.evaluateAllRequirements(this);
         return submitRequirements;
       }
       // Closed changes: Load submit requirement results from NoteDb.

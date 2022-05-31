@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "446b92a8_45e17ae1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-31T09:29:37Z",
+      "side": 1,
+      "message": "Got rid of the method `handleChangeSelectionClick` and just called toggleCheckbox directly.",
+      "parentUuid": "93564471_93d97ee4",
+      "revId": "2d298b331ee5d4b2b43ef598e8b021194d4f377a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63cf28cc_8355a21e",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-05-31T08:55:29Z",
       "side": 1,
       "message": "Reporting if you don\u0027t find it.",
+      "revId": "2d298b331ee5d4b2b43ef598e8b021194d4f377a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd21a80c_e88da11e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-31T09:29:37Z",
+      "side": 1,
+      "message": "Throwing an error since this should never happen",
+      "parentUuid": "63cf28cc_8355a21e",
       "revId": "2d298b331ee5d4b2b43ef598e8b021194d4f377a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

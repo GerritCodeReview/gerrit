@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6fd4f2e3_545579a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T15:37:36Z",
+      "side": 1,
+      "message": "Have you tried looking at the REST-API invoked by the GWT UI?",
+      "parentUuid": "6bfa4cea_05f26dd9",
+      "revId": "12d914dc4b6db751a09892bd24aaf59f64dcc480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9486f939_68233b38",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 9

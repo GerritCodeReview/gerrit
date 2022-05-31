@@ -164,7 +164,7 @@ export class GrChecksTab extends LitElement {
   private applyTabState() {
     if (!this.tabState?.checksTab) return;
     // Note that .filter is processed by <gr-checks-runs>.
-    const {select, filter, attempt} = this.tabState?.checksTab;
+    const {select, filter, attempt} = this.tabState?.checksTab ?? [];
     if (!select) {
       this.selectedRuns = [];
       this.selectedAttempts = new Map<string, number>();

@@ -224,6 +224,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c079f955_d0d544ec",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-31T08:33:36Z",
+      "side": 1,
+      "message": "`If  changeNum  is actually defined, but different from the changeNum of the router`\nThis should be covered by the `changeNum \u003d\u003d\u003d routerChangeNum` router condition.\n\nI am asking why we want to handle `changeNum\u003dundefined` case.",
+      "parentUuid": "25c614e9_e0421fa4",
+      "range": {
+        "startLine": 206,
+        "startChar": 17,
+        "endLine": 206,
+        "endChar": 40
+      },
+      "revId": "f5e1a6a975640fba5461a080f0027f44a666fdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "22e87b85_a818cba8",
         "filename": "polygerrit-ui/app/models/change/change-model.ts",
         "patchSetId": 2

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b5094d8_7bd29ded",
+        "filename": "polygerrit-ui/app/models/view/view-model.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T14:11:47Z",
+      "side": 1,
+      "message": "Add a comment about this state property. What is it used for? What exactly are these strings and numbers? Can they be empty or 0?",
+      "revId": "1f785a3bbf444504d3beb4049ad30c6fff0bf317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8d8217f_d4562b20",
+        "filename": "polygerrit-ui/app/models/view/view-model.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T14:11:47Z",
+      "side": 1,
+      "message": "A map only makes sense, if you want to retain this view state information even when dashboards are destroyed and then created again. Otherwise you could just have one ViewModel per dashboard, and the dashboard would create the model in the constructor. The change-list would be able to resolve the dependency on the correct model via its parent.\n\nSo do we actually have a use case for that? How often do users go from one dashboard to another dashboard and then go back to the first dashboard with the expectation that the selected change is still retained?\n\nOr is the problem that the dashboard is destroyed when going from dashboard to change page and back? I would expect Lit to keep the dashboard view around.",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 14,
+        "endChar": 32
+      },
+      "revId": "1f785a3bbf444504d3beb4049ad30c6fff0bf317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9041a60_a68ea70d",
+        "filename": "polygerrit-ui/app/models/view/view-model.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T14:11:47Z",
+      "side": 1,
+      "message": "Add a comment clarifying what the purposes of this model is.\n\nMaybe also consider finding a different name than just \"view\". Why \"view\" in this context?",
+      "revId": "1f785a3bbf444504d3beb4049ad30c6fff0bf317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ec8645b_a2a3eb1a",
+        "filename": "polygerrit-ui/app/models/view/view-model.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-05-31T14:11:47Z",
+      "side": 1,
+      "message": "Maybe `user` can just be renamed to `viewId`? Could this then be re-used also for change-list-view?",
+      "range": {
+        "startLine": 47,
+        "startChar": 31,
+        "endLine": 47,
+        "endChar": 35
+      },
+      "revId": "1f785a3bbf444504d3beb4049ad30c6fff0bf317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

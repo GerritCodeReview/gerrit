@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebce873b_4d6c861e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-31T19:17:21Z",
+      "side": 0,
+      "message": "All we want to achieve here, is to skip staleness check in the RepoRefCache after the change was rebuilt. Another way to express it, could be to leave this try/catch/finally unchanged, but add new method to the RepoRefCache#closeWithoutStalenessCheck, and use it here instead:\n\n  [...]\n  } finally {\n    if (newRefCache !\u003d null) {\n      newRefCache.closeWithoutStalenessCheck();\n    }\n  }\n\nThe method: closeWithoutStalenessCheck would be something like:\n\n  public void closeWithoutStalenessCheck() {\n    if (closed.getAndSet(true)) {\n      log.atWarning().log(\"RepoRefCache of {} closed more than once\", repo.getDirectory());\n      return;\n    }\n\n    repo.close();\n  }\n  \nThat would express the intent more clearly to skip staleness check as it could be false positive anyway.\n\nAlternative, you could add a comment to the extracted code block why it was extracted from try/catch/finally block.",
+      "range": {
+        "startLine": 772,
+        "startChar": 10,
+        "endLine": 772,
+        "endChar": 30
+      },
+      "revId": "4757ad473f87f953edfd1d6d6590839d395ab390",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

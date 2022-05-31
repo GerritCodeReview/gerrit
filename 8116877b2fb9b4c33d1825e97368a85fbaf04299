@@ -34,6 +34,24 @@
       "parentUuid": "59273b35_5d828a81",
       "revId": "8116877b2fb9b4c33d1825e97368a85fbaf04299",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb8af93d_8928be2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-05-31T19:57:23Z",
+      "side": 1,
+      "message": "Invalidating a (relatively expensive to populate) cache just \"to get\nrid of the default Java serialization\" seems unnecessary? If we really need to remove default serialization (and I haven\u0027t seen why we need to explained), can we do it in a way that we don\u0027t invalidate the cache?",
+      "parentUuid": "294a15d8_fb6139a5",
+      "revId": "8116877b2fb9b4c33d1825e97368a85fbaf04299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

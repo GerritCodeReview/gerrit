@@ -46,6 +46,30 @@
       },
       "revId": "4757ad473f87f953edfd1d6d6590839d395ab390",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ff90649_00bc45ea",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T20:51:37Z",
+      "side": 0,
+      "message": "I\u0027ve added a comment to clarify why we are closing the RepoRefCache",
+      "parentUuid": "64f06c20_eb12c3b2",
+      "range": {
+        "startLine": 772,
+        "startChar": 10,
+        "endLine": 772,
+        "endChar": 30
+      },
+      "revId": "4757ad473f87f953edfd1d6d6590839d395ab390",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

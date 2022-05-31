@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cac1397_403cd56a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T05:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06c8ae2f_85381d95",
+      "range": {
+        "startLine": 17,
+        "startChar": 66,
+        "endLine": 17,
+        "endChar": 69
+      },
+      "revId": "228e6b14b8add897484e9184c3da4ea28991abf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "149f4000_e48e5082",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d737a0f5_685c8773",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T05:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "149f4000_e48e5082",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "228e6b14b8add897484e9184c3da4ea28991abf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34cce090_6b949861",
@@ -60,6 +108,24 @@
       "writtenOn": "2022-05-30T06:37:22Z",
       "side": 1,
       "message": "Release-Notes is missing.",
+      "revId": "228e6b14b8add897484e9184c3da4ea28991abf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf84ebc8_db4a438e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T05:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34cce090_6b949861",
       "revId": "228e6b14b8add897484e9184c3da4ea28991abf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -121,6 +187,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a41ec21_5cdd8633",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T05:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee0fbc54_a631ad2f",
+      "range": {
+        "startLine": 3108,
+        "startChar": 42,
+        "endLine": 3108,
+        "endChar": 47
+      },
+      "revId": "228e6b14b8add897484e9184c3da4ea28991abf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "033b373b_e56a90df",
@@ -134,6 +224,30 @@
       "writtenOn": "2022-05-30T06:37:22Z",
       "side": 1,
       "message": "Would it make sense to add a comment on this line, and emphasize, that the lazy-loading change date done on purpose?",
+      "range": {
+        "startLine": 3216,
+        "startChar": 8,
+        "endLine": 3216,
+        "endChar": 40
+      },
+      "revId": "228e6b14b8add897484e9184c3da4ea28991abf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaab44b2_fbd4e9e3",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3216,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T05:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "033b373b_e56a90df",
       "range": {
         "startLine": 3216,
         "startChar": 8,

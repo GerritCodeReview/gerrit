@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9486f939_68233b38",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-05-31T06:32:53Z",
+      "side": 1,
+      "message": "This looks like an non-backwards compatible API change that will break existing callers. I\u0027m afraid we can\u0027t do this.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 40
+      },
+      "revId": "12d914dc4b6db751a09892bd24aaf59f64dcc480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

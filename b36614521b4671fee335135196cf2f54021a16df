@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "652b4dec_5bdcd937",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2012,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-05-31T08:50:10Z",
+      "side": 1,
+      "message": "`this.reviewed.includes(path)`?\ndo we need to create a set here?",
+      "range": {
+        "startLine": 2011,
+        "startChar": 4,
+        "endLine": 2012,
+        "endChar": 33
+      },
+      "revId": "b36614521b4671fee335135196cf2f54021a16df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.cache.serialize.entities;
 
+import com.google.common.base.Converter;
+import com.google.common.base.Enums;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.SubmitRequirementExpression;
@@ -26,11 +28,15 @@ import java.util.Optional;
  * SubmitRequirementExpressionResultProto}.
  */
 public class SubmitRequirementExpressionResultSerializer {
+
+  private static final Converter<String, SubmitRequirementExpressionResult.Status>
+      STATUS_CONVERTER = Enums.stringConverter(SubmitRequirementExpressionResult.Status.class);
+
   public static SubmitRequirementExpressionResult deserialize(
       SubmitRequirementExpressionResultProto proto) {
     SubmitRequirementExpressionResult.Status status;
     try {
-      status = SubmitRequirementExpressionResult.Status.valueOf(proto.getStatus());
+      status = STATUS_CONVERTER.convert(proto.getStatus());
     } catch (IllegalArgumentException e) {
       status = SubmitRequirementExpressionResult.Status.ERROR;
     }
@@ -46,7 +52,7 @@ public class SubmitRequirementExpressionResultSerializer {
       SubmitRequirementExpressionResult r) {
     return SubmitRequirementExpressionResultProto.newBuilder()
         .setExpression(r.expression().expressionString())
-        .setStatus(r.status().name())
+        .setStatus(STATUS_CONVERTER.reverse().convert(r.status()))
         .addAllPassingAtoms(r.passingAtoms())
         .addAllFailingAtoms(r.failingAtoms())
         .setErrorMessage(r.errorMessage().orElse(""))

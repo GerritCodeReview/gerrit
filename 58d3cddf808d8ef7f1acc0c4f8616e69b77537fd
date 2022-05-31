@@ -281,6 +281,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "98ac3020_18b3a74f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5378,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-31T06:15:28Z",
+      "side": 1,
+      "message": "\"Apply Fix Directly\" and \"Apply Provided Fix\" both work for me. I slightly like the latter more.\n\n\u003e so that we are consistent with the naming and the documentation.\n\nplease do so",
+      "parentUuid": "757cc8df_d5e24105",
+      "range": {
+        "startLine": 5378,
+        "startChar": 4,
+        "endLine": 5378,
+        "endChar": 20
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e66e7d95_9c78c022",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28
@@ -492,6 +516,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3cfb2b2_c4e1a559",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5385,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-31T06:15:28Z",
+      "side": 1,
+      "message": "\u003e I think we need to allow the  Apply Direct Fix  on only current patchset.\n\nCorrect. At least for now.",
+      "parentUuid": "11a2a93c_0c506b05",
+      "range": {
+        "startLine": 5385,
+        "startChar": 27,
+        "endLine": 5385,
+        "endChar": 62
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "681a4eb4_3addde76",
@@ -606,6 +654,24 @@
       "side": 1,
       "message": "Does the uploaded definition look good?\n\nI will rename this class to `ApplyFixInput` in a later patchset, as commented in your comments on file rest-api-changes.txt",
       "parentUuid": "9ea0e161_721b51ee",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02fc555c_171de233",
+        "filename": "java/com/google/gerrit/extensions/common/DirectFixInput.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-31T06:15:28Z",
+      "side": 1,
+      "message": "SGTM. Or ApplyProvidedFixInput depending on what name we end up with.",
+      "parentUuid": "5165a8df_d87a58f7",
       "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

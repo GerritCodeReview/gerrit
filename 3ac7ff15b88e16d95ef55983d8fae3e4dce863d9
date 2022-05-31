@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67387a8e_12eaf56c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-31T06:15:28Z",
+      "side": 1,
+      "message": "Nasser, any more input from your side?",
+      "revId": "3ac7ff15b88e16d95ef55983d8fae3e4dce863d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41339c0c_e3a61003",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyDirectFixIT.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-05-31T06:15:28Z",
+      "side": 1,
+      "message": "please add one more test that shows that when user A uploads the change and user B applies direct fixes, user B becomes the uploader.",
+      "range": {
+        "startLine": 113,
+        "startChar": 14,
+        "endLine": 113,
+        "endChar": 75
+      },
+      "revId": "3ac7ff15b88e16d95ef55983d8fae3e4dce863d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

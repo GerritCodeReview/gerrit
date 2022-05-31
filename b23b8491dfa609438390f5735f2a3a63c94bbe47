@@ -1,5 +1,46 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2db1d4de_58fa01a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 43
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T07:43:46Z",
+      "side": 1,
+      "message": "Post-review Verify -1 in ReviewDb mode :-(\nThe stale check has caused a P0 regression (Issue 15961)",
+      "revId": "b23b8491dfa609438390f5735f2a3a63c94bbe47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cbedcd6_f7add90a",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T07:43:46Z",
+      "side": 1,
+      "message": "It looks like the stale entries check has caused regression in the ReviewDb mode (see Issue 15961).\n\nI ran the latest tests in NoteDb mode because I assumed NoteDb isn\u0027t used in ReviewDb mode. However, that isn\u0027t true because you could do the migration to NoteDb whilst still being in ReviewDb.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 98
+      },
+      "revId": "b23b8491dfa609438390f5735f2a3a63c94bbe47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -22,6 +22,30 @@
       },
       "revId": "4757ad473f87f953edfd1d6d6590839d395ab390",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64f06c20_eb12c3b2",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T19:58:52Z",
+      "side": 0,
+      "message": "Actually, the purpose is to NOT have a caching window open on a ref that is getting mutated. The close() needs to happen *before* any mutation.\n\nThe staleness check is not done when code is run in production, however, it needs to be done during tests.",
+      "parentUuid": "ebce873b_4d6c861e",
+      "range": {
+        "startLine": 772,
+        "startChar": 10,
+        "endLine": 772,
+        "endChar": 30
+      },
+      "revId": "4757ad473f87f953edfd1d6d6590839d395ab390",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

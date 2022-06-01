@@ -93,7 +93,7 @@ import {
   getPatchRangeForCommentUrl,
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
-import {AppElementParams, AppElementDiffViewParam} from '../../gr-app-types';
+import {AppElementParams} from '../../gr-app-types';
 import {
   EventType,
   OpenFixPreviewEvent,
@@ -381,7 +381,7 @@ export class GrDiffView extends base {
   _onRenderHandler?: EventListener;
 
   // visible for testing
-  cursor = new GrDiffCursor();
+  cursor!: GrDiffCursor;
 
   private subscriptions: Subscription[] = [];
 
@@ -477,6 +477,7 @@ export class GrDiffView extends base {
       this.getChangeModel().diffPath$.subscribe(path => (this._path = path))
     );
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
+    this.cursor = new GrDiffCursor();
     this.cursor.replaceDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
       this.cursor.reInitCursor();
@@ -1088,14 +1089,6 @@ export class GrDiffView extends base {
     );
   }
 
-  private isSameDiffLoaded(value: AppElementDiffViewParam) {
-    return (
-      this._patchRange?.basePatchNum === value.basePatchNum &&
-      this._patchRange?.patchNum === value.patchNum &&
-      this._path === value.path
-    );
-  }
-
   private async untilModelLoaded() {
     // NOTE: Wait until this page is connected before determining whether the
     // model is loaded.  This can happen when params are changed when setting up
@@ -1127,11 +1120,6 @@ export class GrDiffView extends base {
     const changeChanged = this._changeNum !== value.changeNum;
     if (this._changeNum !== undefined && changeChanged) {
       fireEvent(this, EventType.RECREATE_DIFF_VIEW);
-      return;
-    } else if (this._changeNum !== undefined && this.isSameDiffLoaded(value)) {
-      // changeNum has not changed, so check if there are changes in patchRange
-      // path. If no changes then we can simply render the view as is.
-      this.reporting.reportInteraction('diff-view-re-rendered');
       return;
     }
 

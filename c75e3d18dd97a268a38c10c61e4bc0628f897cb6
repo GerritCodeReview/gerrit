@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07503523_55da83b6",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-01T00:29:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "895b4be9_8923952b",
+      "range": {
+        "startLine": 558,
+        "startChar": 15,
+        "endLine": 558,
+        "endChar": 31
+      },
+      "revId": "c75e3d18dd97a268a38c10c61e4bc0628f897cb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b03ae98_7b150022",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-05-26T22:55:36Z",
       "side": 1,
       "message": "Since we have the ChangeNotes object already, we should probably use create(ChangeNotes notes)?",
+      "range": {
+        "startLine": 560,
+        "startChar": 56,
+        "endLine": 560,
+        "endChar": 70
+      },
+      "revId": "c75e3d18dd97a268a38c10c61e4bc0628f897cb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc7237a6_0e53211e",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-01T00:29:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b03ae98_7b150022",
       "range": {
         "startLine": 560,
         "startChar": 56,

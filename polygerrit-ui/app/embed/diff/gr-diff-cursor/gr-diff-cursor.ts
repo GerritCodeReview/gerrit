@@ -119,9 +119,9 @@ export class GrDiffCursor implements GrDiffCursorApi {
   }
 
   dispose() {
+    this.cursorManager.unsetCursor();
     if (this.targetSubscription) this.targetSubscription.unsubscribe();
     window.removeEventListener('scroll', this._boundHandleWindowScroll);
-    this.cursorManager.unsetCursor();
   }
 
   // Don't remove - used by clients embedding gr-diff outside of Gerrit.

@@ -5,6 +5,7 @@
  */
 import {fixture, html} from '@open-wc/testing-helpers';
 import {IronDropdownElement} from '@polymer/iron-dropdown';
+import {ProgressStatus} from '../../../constants/constants';
 import {
   BulkActionsModel,
   bulkActionsModelToken,
@@ -549,6 +550,8 @@ suite('gr-change-list-topic-flow tests', () => {
       const getTopicsStub = stubRestApi('getChangesWithSimilarTopic').resolves([
         {...createChange(), topic: 'foo' as TopicName},
       ]);
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
       const autocomplete = queryAndAssert<GrAutocomplete>(
         element,
         'gr-autocomplete'
@@ -581,6 +584,14 @@ suite('gr-change-list-topic-flow tests', () => {
         changesWithNoTopics[1]._number,
         'foo',
       ]);
+
+      await waitUntil(
+        () => element.overallProgress === ProgressStatus.SUCCESSFUL
+      );
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: '2 Changes added to foo',
+        showDismiss: true,
+      });
     });
   });
 });

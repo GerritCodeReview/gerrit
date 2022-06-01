@@ -209,6 +209,10 @@ func handleSrcRequest(compiledSrcPath string, dirListingMux *http.ServeMux, writ
 		moduleImportRegexp = regexp.MustCompile("(?m)^((import|export).*'/node_modules/)immer.js';$")
 		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}/immer/dist/immer.esm.js';"))
 
+		// 'webvital' imports
+		moduleImportRegexp = regexp.MustCompile("(?m)^((import|export).*'/node_modules/)web-vitals.js';$")
+		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}/web-vitals/dist/web-vitals.js';"))
+
 		if strings.HasSuffix(normalizedContentPath, "/node_modules/page/page.js") {
 			// Can't import page.js directly, because this is undefined.
 			// Replace it with window

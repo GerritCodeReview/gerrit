@@ -35,6 +35,7 @@ import {
   initVisibilityReporter,
   initPerformanceReporter,
   initErrorReporter,
+  initWebVitals,
 } from '../services/gr-reporting/gr-reporting_impl';
 import {injectAppContext} from '../services/app-context';
 import {html, LitElement} from 'lit';
@@ -45,6 +46,7 @@ injectAppContext(appContext);
 const reportingService = appContext.reportingService;
 initVisibilityReporter(reportingService);
 initPerformanceReporter(reportingService);
+initWebVitals(reportingService);
 initErrorReporter(reportingService);
 
 installPolymerResin(safeTypesBridge);

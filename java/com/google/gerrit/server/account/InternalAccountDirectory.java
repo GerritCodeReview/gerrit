@@ -32,6 +32,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.avatar.AvatarProvider;
+import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -52,6 +53,9 @@ import java.util.stream.Stream;
 @Singleton
 public class InternalAccountDirectory extends AccountDirectory {
   static final Set<FillOptions> ID_ONLY = Collections.unmodifiableSet(EnumSet.of(FillOptions.ID));
+  static final Set<FillOptions> ALL_ACCOUNT_ATTRIBUTES =
+      Collections.unmodifiableSet(
+          EnumSet.of(FillOptions.NAME, FillOptions.EMAIL, FillOptions.USERNAME));
 
   public static class InternalAccountDirectoryModule extends AbstractModule {
     @Override
@@ -126,6 +130,44 @@ public class InternalAccountDirectory extends AccountDirectory {
       } else {
         info._accountId = options.contains(FillOptions.ID) ? id.get() : null;
       }
+    }
+  }
+
+  @Override
+  public void fillAccountAttributeInfo(Iterable<? extends AccountAttribute> in) {
+    Set<Account.Id> ids = stream(in).map(a -> Account.id(a.accountId)).collect(toSet());
+    Map<Account.Id, AccountState> accountStates = accountCache.get(ids);
+    for (AccountAttribute accountAttribute : in) {
+      Account.Id id = Account.id(accountAttribute.accountId);
+      AccountState accountState = accountStates.get(id);
+      if (accountState != null) {
+        fill(accountAttribute, accountState, ALL_ACCOUNT_ATTRIBUTES);
+      } else {
+        accountAttribute.accountId = null;
+      }
+    }
+  }
+
+  private void fill(
+      AccountAttribute accountAttribute, AccountState accountState, Set<FillOptions> options) {
+    Account account = accountState.account();
+    if (options.contains(FillOptions.NAME)) {
+      accountAttribute.name = Strings.emptyToNull(account.fullName());
+      if (accountAttribute.name == null) {
+        accountAttribute.name = accountState.userName().orElse(null);
+      }
+    }
+    if (options.contains(FillOptions.EMAIL)) {
+      accountAttribute.email = account.preferredEmail();
+    }
+    if (options.contains(FillOptions.USERNAME)) {
+      accountAttribute.username = accountState.userName().orElse(null);
+    }
+    if (options.contains(FillOptions.ID)) {
+      accountAttribute.accountId = account.id().get();
+    } else {
+      // Was previously set to look up account for filling.
+      accountAttribute.accountId = null;
     }
   }
 

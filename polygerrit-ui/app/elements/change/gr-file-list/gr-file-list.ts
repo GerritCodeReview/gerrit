@@ -303,7 +303,7 @@ export class GrFileList extends LitElement {
   fileCursor = new GrCursorManager();
 
   // private but used in test
-  diffCursor = new GrDiffCursor();
+  diffCursor!: GrDiffCursor;
 
   static override get styles() {
     return [
@@ -816,6 +816,8 @@ export class GrFileList extends LitElement {
         shouldSuppress: true,
       })
     );
+    this.diffCursor = new GrDiffCursor();
+    this.diffCursor.replaceDiffs(this.diffs);
   }
 
   override disconnectedCallback() {

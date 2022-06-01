@@ -24,6 +24,7 @@ suite('gr-diff-cursor tests', () => {
   setup(async () => {
     diffElement = await fixture(html`<gr-diff></gr-diff>`);
     cursor = new GrDiffCursor();
+    cursor.setup();
 
     // Register the diff with the cursor.
     cursor.replaceDiffs([diffElement]);
@@ -627,6 +628,7 @@ suite('gr-diff-cursor tests', () => {
         await fixture(html`<gr-diff></gr-diff>`),
       ];
       cursor = new GrDiffCursor();
+      cursor.setup();
 
       // Register the diff with the cursor.
       cursor.replaceDiffs(diffElements);

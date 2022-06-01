@@ -155,6 +155,16 @@ export class GrChangeListTopicFlow extends LitElement {
     `;
   }
 
+  private disableApplyToAllButton() {
+    if (this.selectedExistingTopics.size !== 1) return true;
+    // Ensure there is one selected change that does not have this topic
+    // already
+    return !this.selectedChanges
+      .map(change => change.topic)
+      .filter(unique)
+      .some(topic => !topic || !this.selectedExistingTopics.has(topic));
+  }
+
   private renderExistingTopicsMode() {
     const topics = this.selectedChanges
       .map(change => change.topic)
@@ -173,7 +183,7 @@ export class GrChangeListTopicFlow extends LitElement {
           <gr-button
             id="apply-to-all-button"
             flatten
-            ?disabled=${this.selectedExistingTopics.size !== 1}
+            ?disabled=${this.disableApplyToAllButton()}
             @click=${this.applyTopicToAll}
             >Apply${this.selectedChanges.length > 1
               ? ' to all'

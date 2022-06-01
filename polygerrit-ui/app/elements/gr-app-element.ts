@@ -258,9 +258,7 @@ export class GrAppElement extends LitElement {
       changeListView: {
         query: null,
         offset: 0,
-        selectedChangeIndex: 0,
       },
-      dashboardView: {},
     };
   }
 

@@ -19,7 +19,7 @@ import {
   ServerInfo,
   PreferencesInput,
 } from '../../../types/common';
-import {fire, fireEvent, fireReload} from '../../../utils/event-util';
+import {fireEvent, fireReload} from '../../../utils/event-util';
 import {ColumnNames, ScrollMode} from '../../../constants/constants';
 import {getRequirements} from '../../../utils/label-util';
 import {addGlobalShortcut, Key} from '../../../utils/dom-util';
@@ -32,7 +32,6 @@ import {customElement, property, state} from 'lit/decorators';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {queryAll} from '../../../utils/common-util';
-import {ValueChangedEvent} from '../../../types/events';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 import {Execution} from '../../../constants/reporting';
 
@@ -107,7 +106,7 @@ export class GrChangeList extends LitElement {
 
   @state() private dynamicHeaderEndpoints?: string[];
 
-  @property({type: Number, attribute: 'selected-index'})
+  @state()
   selectedIndex?: number;
 
   @property({type: Boolean})
@@ -370,7 +369,6 @@ export class GrChangeList extends LitElement {
     this.cursor.next();
     this.isCursorMoving = false;
     this.selectedIndex = this.cursor.index;
-    fire(this, 'selected-index-changed', {value: this.cursor.index});
   }
 
   private prevChange() {
@@ -378,7 +376,6 @@ export class GrChangeList extends LitElement {
     this.cursor.previous();
     this.isCursorMoving = false;
     this.selectedIndex = this.cursor.index;
-    fire(this, 'selected-index-changed', {value: this.cursor.index});
   }
 
   private async openChange() {
@@ -451,9 +448,6 @@ export class GrChangeList extends LitElement {
 }
 
 declare global {
-  interface HTMLElementEventMap {
-    'selected-index-changed': ValueChangedEvent<number>;
-  }
   interface HTMLElementTagNameMap {
     'gr-change-list': GrChangeList;
   }

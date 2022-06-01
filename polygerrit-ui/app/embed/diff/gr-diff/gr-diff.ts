@@ -299,6 +299,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     super.connectedCallback();
     this._observeNodes();
     this.isAttached = true;
+    this._debounceRenderDiffTable();
   }
 
   override disconnectedCallback() {

@@ -20,7 +20,7 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "mocha": "8.3.2",
-    "sinon": "^10.0.0",
+    "sinon": "^13.0.0",
     "source-map-support": "^0.5.19"
   },
   "license": "Apache-2.0",

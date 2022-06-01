@@ -178,7 +178,6 @@ export class GrChangeListHashtagFlow extends LitElement {
             @click=${this.applyHashtagToAll}
             >Apply${this.selectedChanges.length > 1 ? ' to all' : nothing}
           </gr-button>
-          >
           <gr-button
             id="remove-hashtags-button"
             flatten

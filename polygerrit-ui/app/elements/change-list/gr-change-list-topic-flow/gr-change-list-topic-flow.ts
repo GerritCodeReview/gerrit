@@ -24,6 +24,8 @@ import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {ProgressStatus} from '../../../constants/constants';
 import {allSettled} from '../../../utils/async-util';
 import {fireReload} from '../../../utils/event-util';
+import {fireAlert} from '../../../utils/event-util';
+import {pluralize} from '../../../utils/string-util';
 
 @customElement('gr-change-list-topic-flow')
 export class GrChangeListTopicFlow extends LitElement {
@@ -262,7 +264,7 @@ export class GrChangeListTopicFlow extends LitElement {
           <gr-button
             id="create-new-topic-button"
             flatten
-            @click=${() => this.addTopic('Creating topic...')}
+            @click=${() => this.addTopic('Creating topic...', true)}
             .disabled=${isCreateNewTopicDisabled}
             >Create new topic</gr-button
           >
@@ -329,37 +331,49 @@ export class GrChangeListTopicFlow extends LitElement {
           change =>
             change.topic && this.selectedExistingTopics.has(change.topic)
         )
-        .map(change => this.restApiService.setChangeTopic(change._number, ''))
+        .map(change => this.restApiService.setChangeTopic(change._number, '')),
+      `${this.selectedChanges[0].topic} removed from changes`
     );
   }
 
   private applyTopicToAll() {
     this.loadingText = 'Applying to all';
+    const topic = Array.from(this.selectedExistingTopics.values())[0];
     this.trackPromises(
       this.selectedChanges.map(change =>
-        this.restApiService.setChangeTopic(
-          change._number,
-          Array.from(this.selectedExistingTopics.values())[0]
-        )
-      )
+        this.restApiService.setChangeTopic(change._number, topic)
+      ),
+      `${topic} applied to all changes`
     );
   }
 
-  private addTopic(loadingText: string) {
+  private addTopic(loadingText: string, creatingTopic?: boolean) {
+    let alert = '';
+    if (creatingTopic) {
+      alert = `${this.topicToAdd} created`;
+    } else {
+      alert = `${pluralize(this.selectedChanges.length, 'Change')} added to ${
+        this.topicToAdd
+      }`;
+    }
     this.loadingText = loadingText;
     this.trackPromises(
       this.selectedChanges.map(change =>
         this.restApiService.setChangeTopic(change._number, this.topicToAdd)
-      )
+      ),
+      alert
     );
   }
 
-  private async trackPromises(promises: Promise<string>[]) {
+  private async trackPromises(promises: Promise<string>[], alert: string) {
     this.overallProgress = ProgressStatus.RUNNING;
     const results = await allSettled(promises);
     if (results.every(result => result.status === 'fulfilled')) {
       this.overallProgress = ProgressStatus.SUCCESSFUL;
       this.closeDropdown();
+      if (alert) {
+        fireAlert(this, alert);
+      }
       fireReload(this);
     } else {
       this.overallProgress = ProgressStatus.FAILED;

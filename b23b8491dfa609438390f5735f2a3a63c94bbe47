@@ -39,6 +39,30 @@
       },
       "revId": "b23b8491dfa609438390f5735f2a3a63c94bbe47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f9d0578_750ef594",
+        "filename": "java/com/google/gerrit/server/git/RepoRefCache.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-01T06:33:06Z",
+      "side": 1,
+      "message": "Fixed with Change-Id: Iac642eb7a9b",
+      "parentUuid": "5cbedcd6_f7add90a",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 98
+      },
+      "revId": "b23b8491dfa609438390f5735f2a3a63c94bbe47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

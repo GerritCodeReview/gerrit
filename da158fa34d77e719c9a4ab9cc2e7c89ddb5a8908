@@ -46,6 +46,30 @@
       },
       "revId": "da158fa34d77e719c9a4ab9cc2e7c89ddb5a8908",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1c65ce6_0624ca2c",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-01T08:26:34Z",
+      "side": 1,
+      "message": "Yes, I removed it. We need to remove it from CI as well. https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/338381",
+      "parentUuid": "d366fbb8_c04d5612",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 1
+      },
+      "revId": "da158fa34d77e719c9a4ab9cc2e7c89ddb5a8908",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

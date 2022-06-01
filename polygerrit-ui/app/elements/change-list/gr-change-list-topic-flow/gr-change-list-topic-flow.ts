@@ -175,8 +175,8 @@ export class GrChangeListTopicFlow extends LitElement {
             flatten
             ?disabled=${this.selectedExistingTopics.size !== 1}
             @click=${this.applyTopicToAll}
-            >Apply to all</gr-button
-          >
+            >Apply${this.selectedChanges.length > 1 ? ' to all' : nothing}
+          </gr-button>
           <gr-button
             id="remove-topics-button"
             flatten

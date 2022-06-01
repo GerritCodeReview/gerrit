@@ -24,6 +24,7 @@ import {ReportingService} from '../gr-reporting/gr-reporting';
 import {Finalizable} from '../registry';
 import {UserModel} from '../../models/user/user-model';
 import {FlagsService} from '../flags/flags';
+import {define} from '../../models/dependency';
 
 export type SectionView = Array<{binding: string[][]; text: string}>;
 
@@ -51,6 +52,9 @@ function isComboKey(key: string): key is ComboKey {
 }
 
 export const COMBO_TIMEOUT_MS = 1000;
+
+export const shortcutsServiceToken =
+  define<ShortcutsService>('shortcuts-service');
 
 /**
  * Shortcuts service, holds all hosts, bindings and listeners.

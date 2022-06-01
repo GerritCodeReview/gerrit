@@ -6,7 +6,7 @@
 
 /** Enum for all special shortcuts */
 import {ComboKey, Key, Modifier, Binding} from '../../utils/dom-util';
-import {FlagsService} from '../flags/flags';
+import {FlagsService, KnownExperimentId} from '../flags/flags';
 
 export enum SPECIAL_SHORTCUT {
   DOC_ONLY = 'DOC_ONLY',
@@ -101,6 +101,8 @@ export enum Shortcut {
   SEND_REPLY = 'SEND_REPLY',
   EMOJI_DROPDOWN = 'EMOJI_DROPDOWN',
   TOGGLE_BLAME = 'TOGGLE_BLAME',
+
+  TOGGLE_CHECKBOX = 'TOGGLE_CHECKBOX',
 }
 
 export interface ShortcutHelpItem {
@@ -109,7 +111,7 @@ export interface ShortcutHelpItem {
   bindings: Binding[];
 }
 
-export function createShortCutConfig(_flagsService: FlagsService) {
+export function createShortCutConfig(flagsService: FlagsService) {
   const config = new Map<ShortcutSection, ShortcutHelpItem[]>();
   function describe(
     shortcut: Shortcut,
@@ -165,6 +167,16 @@ export function createShortCutConfig(_flagsService: FlagsService) {
     {key: 'w', combo: ComboKey.G}
   );
 
+  if (flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) {
+    describe(
+      Shortcut.TOGGLE_CHECKBOX,
+      ShortcutSection.ACTIONS,
+      'Toggle checkbox',
+      {
+        key: 'x',
+      }
+    );
+  }
   describe(
     Shortcut.CURSOR_NEXT_CHANGE,
     ShortcutSection.ACTIONS,

@@ -112,7 +112,10 @@ import {CursorMoveResult} from '../../../api/core';
 import {isFalse, throttleWrap, until} from '../../../utils/async-util';
 import {filter, take, switchMap} from 'rxjs/operators';
 import {combineLatest, Subscription} from 'rxjs';
-import {listen} from '../../../services/shortcuts/shortcuts-service';
+import {
+  listen,
+  shortcutsServiceToken,
+} from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../models/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
@@ -371,7 +374,7 @@ export class GrDiffView extends base {
   // Private but used in tests.
   readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   _throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 
@@ -1816,7 +1819,7 @@ export class GrDiffView extends base {
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {
-    return this.shortcuts.createTitle(shortcutName, section);
+    return this.getShortcutsService().createTitle(shortcutName, section);
   }
 }
 

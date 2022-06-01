@@ -183,7 +183,10 @@ import {
   getRemovedByReason,
   hasAttention,
 } from '../../../utils/attention-set-util';
-import {listen} from '../../../services/shortcuts/shortcuts-service';
+import {
+  listen,
+  shortcutsServiceToken,
+} from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../models/change/change-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
@@ -600,7 +603,7 @@ export class GrChangeView extends base {
   // Private but used in tests.
   readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   private subscriptions: Subscription[] = [];
 
@@ -2654,7 +2657,7 @@ export class GrChangeView extends base {
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {
-    return this.shortcuts.createTitle(shortcutName, section);
+    return this.getShortcutsService().createTitle(shortcutName, section);
   }
 
   _handleRevisionActionsChanged(

@@ -22,6 +22,30 @@
       },
       "revId": "0d9666051c065fb3547f9995bbf7d574136fa731",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28a122ab_245d57ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-06-01T11:48:34Z",
+      "side": 1,
+      "message": "Nope, this doesn’t move the minimum version to node 17 rather it adds support for 17+ whilst keeping compatibility with older node versions.\n\nI’ve also updated this in a separate change https://gerrit-review.googlesource.com/c/gerrit/+/338355 which is not required for this change.",
+      "parentUuid": "652bb04d_94bbdcac",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "0d9666051c065fb3547f9995bbf7d574136fa731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

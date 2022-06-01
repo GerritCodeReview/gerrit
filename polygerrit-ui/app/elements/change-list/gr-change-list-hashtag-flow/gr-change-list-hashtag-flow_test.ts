@@ -5,6 +5,7 @@
  */
 import {fixture, html} from '@open-wc/testing-helpers';
 import {IronDropdownElement} from '@polymer/iron-dropdown';
+import {ProgressStatus} from '../../../constants/constants';
 import {
   BulkActionsModel,
   bulkActionsModelToken,
@@ -375,6 +376,14 @@ suite('gr-change-list-hashtag-flow tests', () => {
         changes[2]._number,
         {add: ['foo']},
       ]);
+
+      await waitUntil(
+        () => element.overallProgress === ProgressStatus.SUCCESSFUL
+      );
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: '2 Changes added to foo',
+        showDismiss: true,
+      });
     });
   });
 });

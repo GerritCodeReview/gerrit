@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "feffaef0_db8d642f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-01T16:41:26Z",
+      "side": 1,
+      "message": "@Luca, @Matthias, what are your thoughts on fixing this bug? It\u0027s been around for 9 years now, so I\u0027m worried users might expect the broken behavior.",
+      "revId": "503c5d57174017d61b3db33b0e802d71e079880b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5df22570_a5db307e",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-01T16:41:26Z",
+      "side": 1,
+      "message": "Swap the order of this and the method below since private should go below public",
+      "range": {
+        "startLine": 337,
+        "startChar": 2,
+        "endLine": 337,
+        "endChar": 9
+      },
+      "revId": "503c5d57174017d61b3db33b0e802d71e079880b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "307ec19d_d8e20b01",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-01T16:41:26Z",
+      "side": 1,
+      "message": "This doesn\u0027t really belong here. You could leave it at the bottom or put it below the public caller (after line 147).",
+      "revId": "503c5d57174017d61b3db33b0e802d71e079880b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

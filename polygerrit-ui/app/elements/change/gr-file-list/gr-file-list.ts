@@ -303,7 +303,7 @@ export class GrFileList extends LitElement {
   fileCursor = new GrCursorManager();
 
   // private but used in test
-  diffCursor = new GrDiffCursor();
+  diffCursor?: GrDiffCursor;
 
   static override get styles() {
     return [
@@ -816,10 +816,12 @@ export class GrFileList extends LitElement {
         shouldSuppress: true,
       })
     );
+    this.diffCursor = new GrDiffCursor();
+    this.diffCursor.replaceDiffs(this.diffs);
   }
 
   override disconnectedCallback() {
-    this.diffCursor.dispose();
+    this.diffCursor?.dispose();
     this.fileCursor.unsetCursor();
     this.cancelDiffs();
     this.loadingTask?.cancel();
@@ -1775,12 +1777,12 @@ export class GrFileList extends LitElement {
 
   private handleLeftPane() {
     if (this.noDiffsExpanded()) return;
-    this.diffCursor.moveLeft();
+    this.diffCursor?.moveLeft();
   }
 
   private handleRightPane() {
     if (this.noDiffsExpanded()) return;
-    this.diffCursor.moveRight();
+    this.diffCursor?.moveRight();
   }
 
   private handleToggleInlineDiff() {
@@ -1791,7 +1793,7 @@ export class GrFileList extends LitElement {
   // Private but used in tests.
   handleCursorNext(e: KeyboardEvent) {
     if (this.filesExpanded === FilesExpandedState.ALL) {
-      this.diffCursor.moveDown();
+      this.diffCursor?.moveDown();
       this.displayLine = true;
     } else {
       if (e.key === Key.DOWN) return;
@@ -1804,7 +1806,7 @@ export class GrFileList extends LitElement {
   // Private but used in tests.
   handleCursorPrev(e: KeyboardEvent) {
     if (this.filesExpanded === FilesExpandedState.ALL) {
-      this.diffCursor.moveUp();
+      this.diffCursor?.moveUp();
       this.displayLine = true;
     } else {
       if (e.key === Key.UP) return;
@@ -1816,7 +1818,7 @@ export class GrFileList extends LitElement {
 
   private handleNewComment() {
     this.classList.remove('hideComments');
-    this.diffCursor.createCommentInPlace();
+    this.diffCursor?.createCommentInPlace();
   }
 
   // Private but used in tests.
@@ -1830,22 +1832,22 @@ export class GrFileList extends LitElement {
 
   private handleNextChunk() {
     if (this.noDiffsExpanded()) return;
-    this.diffCursor.moveToNextChunk();
+    this.diffCursor?.moveToNextChunk();
   }
 
   private handleNextComment() {
     if (this.noDiffsExpanded()) return;
-    this.diffCursor.moveToNextCommentThread();
+    this.diffCursor?.moveToNextCommentThread();
   }
 
   private handlePrevChunk() {
     if (this.noDiffsExpanded()) return;
-    this.diffCursor.moveToPreviousChunk();
+    this.diffCursor?.moveToPreviousChunk();
   }
 
   private handlePrevComment() {
     if (this.noDiffsExpanded()) return;
-    this.diffCursor.moveToPreviousCommentThread();
+    this.diffCursor?.moveToPreviousCommentThread();
   }
 
   private handleToggleFileReviewed() {
@@ -1871,7 +1873,7 @@ export class GrFileList extends LitElement {
 
   // Private but used in tests.
   openCursorFile() {
-    const diff = this.diffCursor.getTargetDiffElement();
+    const diff = this.diffCursor?.getTargetDiffElement();
     if (!this.change || !diff || !this.patchRange || !diff.path) {
       throw new Error('change, diff and patchRange must be all set and valid');
     }
@@ -2070,7 +2072,7 @@ export class GrFileList extends LitElement {
   // Private but used in tests.
   updateDiffCursor() {
     // Overwrite the cursor's list of diffs:
-    this.diffCursor.replaceDiffs(this.diffs);
+    this.diffCursor?.replaceDiffs(this.diffs);
   }
 
   async filesChanged() {
@@ -2179,7 +2181,7 @@ export class GrFileList extends LitElement {
       await this.renderInOrder(newFiles, this.diffs);
     }
     this.updateDiffCursor();
-    this.diffCursor.reInitAndUpdateStops();
+    this.diffCursor?.reInitAndUpdateStops();
   }
 
   // private but used in test
@@ -2261,7 +2263,7 @@ export class GrFileList extends LitElement {
     * prevented the issue of scrolling to top when we expand the second
     * file individually.
     */
-    this.diffCursor.reInitAndUpdateStops();
+    this.diffCursor?.reInitAndUpdateStops();
   }
 
   /** Cancel the rendering work of every diff in the list */

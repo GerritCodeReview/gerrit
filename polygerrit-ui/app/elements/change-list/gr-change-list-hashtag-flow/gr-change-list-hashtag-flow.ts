@@ -23,6 +23,8 @@ import {classMap} from 'lit/directives/class-map';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {ProgressStatus} from '../../../constants/constants';
 import {allSettled} from '../../../utils/async-util';
+import {fireAlert} from '../../../utils/event-util';
+import {pluralize} from '../../../utils/string-util';
 
 @customElement('gr-change-list-hashtag-flow')
 export class GrChangeListHashtagFlow extends LitElement {
@@ -330,11 +332,20 @@ export class GrChangeListHashtagFlow extends LitElement {
 
   private applyHashtagToAll() {
     this.loadingText = 'Applying hashtag to all';
+    const hashtags = Array.from(this.selectedExistingHashtags.values());
+    let alert;
+    if (hashtags.length === 1) {
+      alert = `${hashtags[0]} applied to all changes`;
+    } else {
+      alert = `${hashtags.length} hashtags applied to all changes`;
+    }
     this.trackPromises(
-      this.selectedChanges.map(change =>
-        this.restApiService.setChangeHashtag(change._number, {
-          add: Array.from(this.selectedExistingHashtags.values()),
-        })
+      this.selectedChanges.map(
+        change =>
+          this.restApiService.setChangeHashtag(change._number, {
+            add: hashtags,
+          }),
+        alert
       )
     );
   }
@@ -342,20 +353,27 @@ export class GrChangeListHashtagFlow extends LitElement {
   private addHashtag(loadingText: string) {
     this.loadingText = loadingText;
     this.trackPromises(
-      this.selectedChanges.map(change =>
-        this.restApiService.setChangeHashtag(change._number, {
-          add: [this.hashtagToAdd],
-        })
+      this.selectedChanges.map(
+        change =>
+          this.restApiService.setChangeHashtag(change._number, {
+            add: [this.hashtagToAdd],
+          }),
+        `${pluralize(this.selectedChanges.length, 'Change')} added to ${
+          this.hashtagToAdd
+        }`
       )
     );
   }
 
-  private async trackPromises(promises: Promise<Hashtag[]>[]) {
+  private async trackPromises(promises: Promise<Hashtag[]>[], alert?: string) {
     this.overallProgress = ProgressStatus.RUNNING;
     const results = await allSettled(promises);
     if (results.every(result => result.status === 'fulfilled')) {
       this.overallProgress = ProgressStatus.SUCCESSFUL;
       this.closeDropdown();
+      if (alert) {
+        fireAlert(this, alert);
+      }
       // TODO: fire reload of dashboard
     } else {
       this.overallProgress = ProgressStatus.FAILED;

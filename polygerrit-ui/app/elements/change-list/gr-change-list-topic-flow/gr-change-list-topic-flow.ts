@@ -23,6 +23,8 @@ import {classMap} from 'lit/directives/class-map';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {ProgressStatus} from '../../../constants/constants';
 import {allSettled} from '../../../utils/async-util';
+import {fireAlert} from '../../../utils/event-util';
+import {pluralize} from '../../../utils/string-util';
 
 @customElement('gr-change-list-topic-flow')
 export class GrChangeListTopicFlow extends LitElement {
@@ -322,12 +324,11 @@ export class GrChangeListTopicFlow extends LitElement {
 
   private applyTopicToAll() {
     this.loadingText = 'Applying to all';
+    const topic = Array.from(this.selectedExistingTopics.values())[0];
     this.trackPromises(
-      this.selectedChanges.map(change =>
-        this.restApiService.setChangeTopic(
-          change._number,
-          Array.from(this.selectedExistingTopics.values())[0]
-        )
+      this.selectedChanges.map(
+        change => this.restApiService.setChangeTopic(change._number, topic),
+        `${topic} applied to all changes`
       )
     );
   }
@@ -337,17 +338,23 @@ export class GrChangeListTopicFlow extends LitElement {
     this.trackPromises(
       this.selectedChanges.map(change =>
         this.restApiService.setChangeTopic(change._number, this.topicToAdd)
-      )
+      ),
+      `${pluralize(this.selectedChanges.length, 'Change')} added to ${
+        this.topicToAdd
+      }`
     );
   }
 
-  private async trackPromises(promises: Promise<string>[]) {
+  private async trackPromises(promises: Promise<string>[], alert?: string) {
     this.overallProgress = ProgressStatus.RUNNING;
     const results = await allSettled(promises);
     if (results.every(result => result.status === 'fulfilled')) {
       this.overallProgress = ProgressStatus.SUCCESSFUL;
       this.dropdown?.close();
       this.isDropdownOpen = false;
+      if (alert) {
+        fireAlert(this, alert);
+      }
       // TODO: fire reload of dashboard
     } else {
       this.overallProgress = ProgressStatus.FAILED;

@@ -198,8 +198,9 @@ export enum SubmitType {
 
 // This is a "meta type", so it comes first and is not sored alphabetically with
 // the other types.
-export type BrandType<T, BrandName extends string> = T &
-  {[__brand in BrandName]: never};
+export type BrandType<T, BrandName extends string> = T & {
+  [__brand in BrandName]: never;
+};
 
 export type AccountId = BrandType<number, '_accountId'>;
 

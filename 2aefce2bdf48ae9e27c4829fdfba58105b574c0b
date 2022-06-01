@@ -22,6 +22,30 @@
       },
       "revId": "2aefce2bdf48ae9e27c4829fdfba58105b574c0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54568401_0e815a5a",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-01T09:30:17Z",
+      "side": 1,
+      "message": "Good question.  I\u0027m not sure why typescript is happy auto-casting arrays to strings but not propertykeys.  The short answer is to make the type-system happy.",
+      "parentUuid": "88bf33e6_5146a6a3",
+      "range": {
+        "startLine": 319,
+        "startChar": 51,
+        "endLine": 319,
+        "endChar": 55
+      },
+      "revId": "2aefce2bdf48ae9e27c4829fdfba58105b574c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

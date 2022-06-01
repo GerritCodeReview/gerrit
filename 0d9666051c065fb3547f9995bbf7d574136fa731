@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "652bb04d_94bbdcac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-01T05:31:35Z",
+      "side": 1,
+      "message": "But wouldn\u0027t we need to bump nodeJs version in bazel build? Currently we are saying this in WORKSPACE file:\n\n  node_repositories(\n    node_version \u003d \"16.13.2\",\n    yarn_version \u003d \"1.22.17\",\n  )",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "0d9666051c065fb3547f9995bbf7d574136fa731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

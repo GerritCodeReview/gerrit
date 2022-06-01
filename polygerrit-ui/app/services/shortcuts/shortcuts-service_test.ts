@@ -20,6 +20,7 @@ suite('shortcuts-service tests', () => {
   setup(() => {
     service = new ShortcutsService(
       getAppContext().userModel,
+      getAppContext().flagsService,
       getAppContext().reportingService
     );
   });

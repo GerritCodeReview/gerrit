@@ -309,3 +309,19 @@ export function assertFails(promise: Promise<unknown>, error?: unknown) {
       }
     });
 }
+
+export function logProxy<T extends object>(obj: T, name?: string): T {
+  const handler = {
+    get(target: object, prop: PropertyKey, receiver: any) {
+      const result = Reflect.get(target, prop, receiver);
+      if (result instanceof Function) {
+        return (...rest: unknown[]) => {
+          console.error(`${name}.${String(prop)}(${rest})`);
+          return result.call(target, ...rest);
+        }
+      }
+      return result
+    }
+  }
+  return new Proxy(obj, handler) as unknown as T;
+}

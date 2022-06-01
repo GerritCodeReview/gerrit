@@ -5,6 +5,7 @@
  */
 import {fixture, html} from '@open-wc/testing-helpers';
 import {IronDropdownElement} from '@polymer/iron-dropdown';
+import {ProgressStatus} from '../../../constants/constants';
 import {
   BulkActionsModel,
   bulkActionsModelToken,
@@ -365,6 +366,9 @@ suite('gr-change-list-topic-flow tests', () => {
     });
 
     test('applies topic to all changes', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+
       queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
       await element.updateComplete;
 
@@ -388,6 +392,14 @@ suite('gr-change-list-topic-flow tests', () => {
         changesWithTopics[1]._number,
         'topic1',
       ]);
+
+      await waitUntil(
+        () => element.overallProgress === ProgressStatus.SUCCESSFUL
+      );
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: 'topic1 applied to all changes',
+        showDismiss: true,
+      });
     });
   });
 
@@ -549,6 +561,8 @@ suite('gr-change-list-topic-flow tests', () => {
       const getTopicsStub = stubRestApi('getChangesWithSimilarTopic').resolves([
         {...createChange(), topic: 'foo' as TopicName},
       ]);
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
       const autocomplete = queryAndAssert<GrAutocomplete>(
         element,
         'gr-autocomplete'
@@ -581,6 +595,14 @@ suite('gr-change-list-topic-flow tests', () => {
         changesWithNoTopics[1]._number,
         'foo',
       ]);
+
+      await waitUntil(
+        () => element.overallProgress === ProgressStatus.SUCCESSFUL
+      );
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: '2 Changes added to foo',
+        showDismiss: true,
+      });
     });
   });
 });

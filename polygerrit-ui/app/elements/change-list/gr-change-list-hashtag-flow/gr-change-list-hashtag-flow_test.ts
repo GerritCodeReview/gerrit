@@ -5,6 +5,7 @@
  */
 import {fixture, html} from '@open-wc/testing-helpers';
 import {IronDropdownElement} from '@polymer/iron-dropdown';
+import {ProgressStatus} from '../../../constants/constants';
 import {
   BulkActionsModel,
   bulkActionsModelToken,
@@ -324,6 +325,9 @@ suite('gr-change-list-hashtag-flow tests', () => {
     });
 
     test('applies hashtag to all changes', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+
       queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
       await element.updateComplete;
 
@@ -347,6 +351,14 @@ suite('gr-change-list-hashtag-flow tests', () => {
         changesWithHashtags[1]._number,
         {add: ['hashtag1']},
       ]);
+
+      await waitUntil(
+        () => element.overallProgress === ProgressStatus.SUCCESSFUL
+      );
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: 'hashtag1 applied to all changes',
+        showDismiss: true,
+      });
     });
   });
 
@@ -513,6 +525,9 @@ suite('gr-change-list-hashtag-flow tests', () => {
         'gr-autocomplete'
       );
 
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+
       autocomplete.setFocus(true);
       autocomplete.text = 'foo';
       await element.updateComplete;
@@ -540,6 +555,14 @@ suite('gr-change-list-hashtag-flow tests', () => {
         changesWithNoHashtags[1]._number,
         {add: ['foo']},
       ]);
+
+      await waitUntil(
+        () => element.overallProgress === ProgressStatus.SUCCESSFUL
+      );
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: '2 Changes added to foo',
+        showDismiss: true,
+      });
     });
   });
 });

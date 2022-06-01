@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a566091_f1ddc7a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-01T07:58:45Z",
+      "side": 1,
+      "message": "Waiting for comments in parent change to be resolved.",
+      "revId": "b1cea14a411617bac3f8305d1b070c420330f323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

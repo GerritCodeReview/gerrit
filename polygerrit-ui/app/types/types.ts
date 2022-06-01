@@ -184,7 +184,6 @@ export interface ChangeViewState {
 export interface ChangeListViewState {
   changeNum?: ChangeId;
   patchRange?: PatchRange;
-  selectedChangeIndex?: number;
   showReplyDialog?: boolean;
   diffMode?: DiffViewMode;
   numFilesShown?: number;
@@ -193,14 +192,9 @@ export interface ChangeListViewState {
   offset?: number;
 }
 
-export interface DashboardViewState {
-  [key: string]: number;
-}
-
 export interface ViewState {
   changeView: ChangeViewState;
   changeListView: ChangeListViewState;
-  dashboardView: DashboardViewState;
 }
 
 export interface PatchSetFile {

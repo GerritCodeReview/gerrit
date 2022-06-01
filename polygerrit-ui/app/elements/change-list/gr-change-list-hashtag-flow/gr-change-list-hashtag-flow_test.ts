@@ -336,6 +336,9 @@ suite('gr-change-list-hashtag-flow tests', () => {
     });
 
     test('create new hashtag', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+
       const getHashtagsStub = stubRestApi(
         'getChangesWithSimilarHashtag'
       ).resolves([]);
@@ -375,6 +378,12 @@ suite('gr-change-list-hashtag-flow tests', () => {
         changes[2]._number,
         {add: ['foo']},
       ]);
+
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: '2 Changes added to foo',
+        showDismiss: true,
+      });
     });
   });
 });

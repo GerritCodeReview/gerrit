@@ -24,6 +24,8 @@ import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {ProgressStatus} from '../../../constants/constants';
 import {allSettled} from '../../../utils/async-util';
 import {fireReload} from '../../../utils/event-util';
+import {fireAlert} from '../../../utils/event-util';
+import {pluralize} from '../../../utils/string-util';
 
 @customElement('gr-change-list-hashtag-flow')
 export class GrChangeListHashtagFlow extends LitElement {
@@ -287,16 +289,22 @@ export class GrChangeListHashtagFlow extends LitElement {
         this.restApiService.setChangeHashtag(change._number, {
           add: allHashtagsToApply,
         })
-      )
+      ),
+      `${pluralize(this.selectedChanges.length, 'Change')} added to ${
+        this.hashtagToApply
+      }`
     );
   }
 
-  private async trackPromises(promises: Promise<Hashtag[]>[]) {
+  private async trackPromises(promises: Promise<Hashtag[]>[], alert: string) {
     this.overallProgress = ProgressStatus.RUNNING;
     const results = await allSettled(promises);
     if (results.every(result => result.status === 'fulfilled')) {
       this.overallProgress = ProgressStatus.SUCCESSFUL;
       this.closeDropdown();
+      if (alert) {
+        fireAlert(this, alert);
+      }
       fireReload(this);
     } else {
       this.overallProgress = ProgressStatus.FAILED;

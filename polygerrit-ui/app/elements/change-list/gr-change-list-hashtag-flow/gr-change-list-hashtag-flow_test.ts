@@ -159,6 +159,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
     async function resolvePromises() {
       setChangeHashtagPromises[0].resolve('foo');
       setChangeHashtagPromises[1].resolve('foo');
+      setChangeHashtagPromises[2].resolve('foo');
       await element.updateComplete;
     }
 
@@ -263,6 +264,8 @@ suite('gr-change-list-hashtag-flow tests', () => {
     });
 
     test('apply hashtag from selected change', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
       // selects "hashtag1"
       queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
       await element.updateComplete;
@@ -291,9 +294,61 @@ suite('gr-change-list-hashtag-flow tests', () => {
         changes[2]._number,
         {add: ['hashtag1']},
       ]);
+
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: '3 Changes added to hashtag1',
+        showDismiss: true,
+      });
+    });
+
+    test('apply multiple hashtag from selected change', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+      // selects "hashtag1"
+      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
+      await element.updateComplete;
+
+      // selects "hashtag2"
+      queryAll<HTMLSpanElement>(element, 'span.chip')[1].click();
+      await element.updateComplete;
+
+      queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
+      await element.updateComplete;
+
+      assert.equal(
+        queryAndAssert(element, '.loadingText').textContent,
+        'Applying hashtag...'
+      );
+
+      await resolvePromises();
+      await element.updateComplete;
+
+      assert.isTrue(setChangeHashtagStub.calledThrice);
+      assert.deepEqual(setChangeHashtagStub.firstCall.args, [
+        changes[0]._number,
+        {add: ['hashtag1', 'hashtag2']},
+      ]);
+      assert.deepEqual(setChangeHashtagStub.secondCall.args, [
+        changes[1]._number,
+        {add: ['hashtag1', 'hashtag2']},
+      ]);
+      assert.deepEqual(setChangeHashtagStub.thirdCall.args, [
+        changes[2]._number,
+        {add: ['hashtag1', 'hashtag2']},
+      ]);
+
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: '2 hashtags added to changes',
+        showDismiss: true,
+      });
     });
 
     test('apply existing hashtag not on selected changes', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+
       const getHashtagsStub = stubRestApi(
         'getChangesWithSimilarHashtag'
       ).resolves([{...createChange(), hashtags: ['foo' as Hashtag]}]);
@@ -333,9 +388,18 @@ suite('gr-change-list-hashtag-flow tests', () => {
         changes[2]._number,
         {add: ['foo']},
       ]);
+
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: '3 Changes added to foo',
+        showDismiss: true,
+      });
     });
 
     test('create new hashtag', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+
       const getHashtagsStub = stubRestApi(
         'getChangesWithSimilarHashtag'
       ).resolves([]);
@@ -375,6 +439,12 @@ suite('gr-change-list-hashtag-flow tests', () => {
         changes[2]._number,
         {add: ['foo']},
       ]);
+
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: 'foo created',
+        showDismiss: true,
+      });
     });
   });
 });

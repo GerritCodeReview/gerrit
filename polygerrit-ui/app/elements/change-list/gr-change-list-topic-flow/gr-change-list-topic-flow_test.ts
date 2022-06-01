@@ -296,6 +296,8 @@ suite('gr-change-list-topic-flow tests', () => {
     });
 
     test('remove single topic', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
       queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
       await element.updateComplete;
       queryAndAssert<GrButton>(element, '#remove-topics-button').click();
@@ -315,6 +317,12 @@ suite('gr-change-list-topic-flow tests', () => {
         changesWithTopics[0]._number,
         '',
       ]);
+
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: 'topic1 removed from changes',
+        showDismiss: true,
+      });
     });
 
     test('remove multiple topics', async () => {
@@ -365,6 +373,9 @@ suite('gr-change-list-topic-flow tests', () => {
     });
 
     test('applies topic to all changes', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+
       queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
       await element.updateComplete;
 
@@ -388,6 +399,12 @@ suite('gr-change-list-topic-flow tests', () => {
         changesWithTopics[1]._number,
         'topic1',
       ]);
+
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: 'topic1 applied to all changes',
+        showDismiss: true,
+      });
     });
   });
 
@@ -508,6 +525,8 @@ suite('gr-change-list-topic-flow tests', () => {
     });
 
     test('create new topic', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
       const getTopicsStub = stubRestApi('getChangesWithSimilarTopic').resolves(
         []
       );
@@ -543,12 +562,20 @@ suite('gr-change-list-topic-flow tests', () => {
         changesWithNoTopics[1]._number,
         'foo',
       ]);
+
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: 'foo created',
+        showDismiss: true,
+      });
     });
 
     test('apply topic', async () => {
       const getTopicsStub = stubRestApi('getChangesWithSimilarTopic').resolves([
         {...createChange(), topic: 'foo' as TopicName},
       ]);
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
       const autocomplete = queryAndAssert<GrAutocomplete>(
         element,
         'gr-autocomplete'
@@ -581,6 +608,12 @@ suite('gr-change-list-topic-flow tests', () => {
         changesWithNoTopics[1]._number,
         'foo',
       ]);
+
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: '2 Changes added to foo',
+        showDismiss: true,
+      });
     });
   });
 });

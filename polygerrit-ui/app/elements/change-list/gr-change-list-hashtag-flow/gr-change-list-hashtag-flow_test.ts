@@ -159,6 +159,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
     async function resolvePromises() {
       setChangeHashtagPromises[0].resolve('foo');
       setChangeHashtagPromises[1].resolve('foo');
+      setChangeHashtagPromises[2].resolve('foo');
       await element.updateComplete;
     }
 
@@ -263,6 +264,8 @@ suite('gr-change-list-hashtag-flow tests', () => {
     });
 
     test('apply hashtag from selected change', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
       // selects "hashtag1"
       queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
       await element.updateComplete;
@@ -291,9 +294,18 @@ suite('gr-change-list-hashtag-flow tests', () => {
         changes[2]._number,
         {add: ['hashtag1']},
       ]);
+
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: '3 Changes added to hashtag1',
+        showDismiss: true,
+      });
     });
 
     test('apply existing hashtag not on selected changes', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+
       const getHashtagsStub = stubRestApi(
         'getChangesWithSimilarHashtag'
       ).resolves([{...createChange(), hashtags: ['foo' as Hashtag]}]);
@@ -333,9 +345,18 @@ suite('gr-change-list-hashtag-flow tests', () => {
         changes[2]._number,
         {add: ['foo']},
       ]);
+
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: '3 Changes added to foo',
+        showDismiss: true,
+      });
     });
 
     test('create new hashtag', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+
       const getHashtagsStub = stubRestApi(
         'getChangesWithSimilarHashtag'
       ).resolves([]);
@@ -375,6 +396,12 @@ suite('gr-change-list-hashtag-flow tests', () => {
         changes[2]._number,
         {add: ['foo']},
       ]);
+
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: 'foo created',
+        showDismiss: true,
+      });
     });
   });
 });

@@ -32,6 +32,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.avatar.AvatarProvider;
+import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -125,6 +126,27 @@ public class InternalAccountDirectory extends AccountDirectory {
 
       } else {
         info._accountId = options.contains(FillOptions.ID) ? id.get() : null;
+      }
+    }
+  }
+
+  @Override
+  public void fillAccountAttributeInfo(Iterable<? extends AccountAttribute> in) {
+    Set<Account.Id> ids = stream(in).map(a -> Account.id(a.accountId)).collect(toSet());
+    Map<Account.Id, AccountState> accountStates = accountCache.get(ids);
+    for (AccountAttribute accountAttribute : in) {
+      Account.Id id = Account.id(accountAttribute.accountId);
+      AccountState state = accountStates.get(id);
+      if (state != null) {
+        Account account = state.account();
+        accountAttribute.name = Strings.emptyToNull(account.fullName());
+        if (accountAttribute.name == null) {
+          accountAttribute.name = state.userName().orElse(null);
+        }
+        accountAttribute.email = account.preferredEmail();
+        accountAttribute.username = state.userName().orElse(null);
+      } else {
+        accountAttribute.accountId = null;
       }
     }
   }

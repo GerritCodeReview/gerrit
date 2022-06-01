@@ -93,7 +93,7 @@ import {
   getPatchRangeForCommentUrl,
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
-import {AppElementParams, AppElementDiffViewParam} from '../../gr-app-types';
+import {AppElementDiffViewParam, AppElementParams} from '../../gr-app-types';
 import {
   EventType,
   OpenFixPreviewEvent,
@@ -381,7 +381,7 @@ export class GrDiffView extends base {
   _onRenderHandler?: EventListener;
 
   // visible for testing
-  cursor = new GrDiffCursor();
+  cursor!: GrDiffCursor;
 
   private subscriptions: Subscription[] = [];
 
@@ -477,6 +477,7 @@ export class GrDiffView extends base {
       this.getChangeModel().diffPath$.subscribe(path => (this._path = path))
     );
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
+    this.cursor = new GrDiffCursor();
     this.cursor.replaceDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
       this.cursor.reInitCursor();
@@ -494,6 +495,7 @@ export class GrDiffView extends base {
     this.cursor.dispose();
     if (this._onRenderHandler) {
       this.$.diffHost.removeEventListener('render', this._onRenderHandler);
+      this._onRenderHandler = undefined;
     }
     for (const cleanup of this.cleanups) cleanup();
     this.cleanups = [];

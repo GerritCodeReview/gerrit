@@ -284,7 +284,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
    * This may grab the focus from the app.
    *
    * If you do not want to move the cursor or grab focus, and just want to
-   * reset the scroll behavior, use reInit() instead.
+   * reset the scroll behavior, use reInitAndUpdateStops() instead.
    */
   reInitCursor() {
     this._updateStops();

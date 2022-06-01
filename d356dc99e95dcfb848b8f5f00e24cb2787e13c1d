@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90aeebc1_4a68925e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-01T07:57:46Z",
+      "side": 1,
+      "message": "It would be help to understand what motivates such a version upgrade.",
+      "revId": "d356dc99e95dcfb848b8f5f00e24cb2787e13c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

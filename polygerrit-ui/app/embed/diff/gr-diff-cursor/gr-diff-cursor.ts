@@ -112,6 +112,9 @@ export class GrDiffCursor implements GrDiffCursorApi {
     this.cursorManager.scrollMode = ScrollMode.KEEP_VISIBLE;
     this.cursorManager.focusOnMove = true;
 
+  }
+
+  setup() {
     window.addEventListener('scroll', this._boundHandleWindowScroll);
     this.targetSubscription = this.cursorManager.target$.subscribe(target => {
       this.diffRow = target || undefined;

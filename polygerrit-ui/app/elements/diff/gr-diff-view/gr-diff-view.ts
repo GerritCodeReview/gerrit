@@ -477,6 +477,7 @@ export class GrDiffView extends base {
       this.getChangeModel().diffPath$.subscribe(path => (this._path = path))
     );
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
+    this.cursor.setup();
     this.cursor.replaceDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
       this.cursor.reInitCursor();

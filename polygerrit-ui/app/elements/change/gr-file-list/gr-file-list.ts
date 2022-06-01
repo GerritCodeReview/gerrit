@@ -816,6 +816,7 @@ export class GrFileList extends LitElement {
         shouldSuppress: true,
       })
     );
+    this.diffCursor.setup();
   }
 
   override disconnectedCallback() {

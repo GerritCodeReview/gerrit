@@ -49,8 +49,20 @@ import {
   createParsedChange,
   createRevision,
 } from '../../../test/test-data-generators';
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {queryAll, queryAndAssert} from '../../../utils/common-util';
+=======
+import {
+  createDefaultDiffPrefs,
+  DiffViewMode,
+} from '../../../constants/constants';
+import {
+  assertIsDefined,
+  queryAll,
+  queryAndAssert,
+} from '../../../utils/common-util';
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
 import {GrFileList, NormalizedFileInfo} from './gr-file-list';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -895,6 +907,7 @@ suite('gr-file-list tests', () => {
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
         assert.equal(element.fileCursor.index, 1);
         assert.equal(element.selectedIndex, 1);
+        assertIsDefined(element.diffCursor);
 
         const createCommentInPlaceStub = sinon.stub(
           element.diffCursor,
@@ -1012,6 +1025,7 @@ suite('gr-file-list tests', () => {
       });
 
       test('shift+left/shift+right', () => {
+        assertIsDefined(element.diffCursor);
         const moveLeftStub = sinon.stub(element.diffCursor, 'moveLeft');
         const moveRightStub = sinon.stub(element.diffCursor, 'moveRight');
 
@@ -1284,12 +1298,18 @@ suite('gr-file-list tests', () => {
       assert.equal(collapseStub.lastCall.args[0].length, 1);
     });
 
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
     test('expandAllDiffs and collapseAllDiffs', () => {
       const collapseStub = sinon.stub(element, '_clearCollapsedDiffs');
       const cursorUpdateStub = sinon.stub(
         element.diffCursor,
         'handleDiffUpdate'
       );
+=======
+    test('expandAllDiffs and collapseAllDiffs', async () => {
+      const collapseStub = sinon.stub(element, 'clearCollapsedDiffs');
+      assertIsDefined(element.diffCursor);
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
       const reInitStub = sinon.stub(element.diffCursor, 'reInitAndUpdateStops');
 
       const path = 'path/to/my/file.txt';
@@ -1958,7 +1978,12 @@ suite('gr-file-list tests', () => {
         await setupDiff(diffs[i]);
       }
 
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
       element._updateDiffCursor();
+=======
+      assertIsDefined(element.diffCursor);
+      element.updateDiffCursor();
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
       element.diffCursor.handleDiffUpdate();
       return diffs;
     }
@@ -2117,7 +2142,12 @@ suite('gr-file-list tests', () => {
       let fileRows: NodeListOf<HTMLDivElement>;
 
       setup(() => {
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
         sinon.stub(element, '_renderInOrder').returns(Promise.resolve());
+=======
+        sinon.stub(element, 'renderInOrder').returns(Promise.resolve());
+        assertIsDefined(element.diffCursor);
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
         nextCommentStub = sinon.stub(
           element.diffCursor,
           'moveToNextCommentThread'

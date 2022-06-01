@@ -373,7 +373,7 @@ export class GrFileList extends base {
   fileCursor = new GrCursorManager();
 
   // private but used in test
-  diffCursor = new GrDiffCursor();
+  diffCursor?: GrDiffCursor;
 
   constructor() {
     super();
@@ -453,14 +453,20 @@ export class GrFileList extends base {
         shouldSuppress: true,
       })
     );
+    this.diffCursor = new GrDiffCursor();
+    this.diffCursor.replaceDiffs(this.diffs);
   }
 
   override disconnectedCallback() {
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
     for (const s of this.subscriptions) {
       s.unsubscribe();
     }
     this.subscriptions = [];
     this.diffCursor.dispose();
+=======
+    this.diffCursor?.dispose();
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
     this.fileCursor.unsetCursor();
     this._cancelDiffs();
     this.loadingTask?.cancel();
@@ -883,14 +889,26 @@ export class GrFileList extends base {
     return fileData;
   }
 
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
   _handleLeftPane() {
     if (this._noDiffsExpanded()) return;
     this.diffCursor.moveLeft();
+=======
+  private handleLeftPane() {
+    if (this.noDiffsExpanded()) return;
+    this.diffCursor?.moveLeft();
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
   }
 
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
   _handleRightPane() {
     if (this._noDiffsExpanded()) return;
     this.diffCursor.moveRight();
+=======
+  private handleRightPane() {
+    if (this.noDiffsExpanded()) return;
+    this.diffCursor?.moveRight();
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
   }
 
   _handleToggleInlineDiff() {
@@ -900,8 +918,13 @@ export class GrFileList extends base {
 
   _handleCursorNext(e: KeyboardEvent) {
     if (this.filesExpanded === FilesExpandedState.ALL) {
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
       this.diffCursor.moveDown();
       this._displayLine = true;
+=======
+      this.diffCursor?.moveDown();
+      this.displayLine = true;
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
     } else {
       if (e.key === Key.DOWN) return;
       this.fileCursor.next({circular: true});
@@ -911,8 +934,13 @@ export class GrFileList extends base {
 
   _handleCursorPrev(e: KeyboardEvent) {
     if (this.filesExpanded === FilesExpandedState.ALL) {
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
       this.diffCursor.moveUp();
       this._displayLine = true;
+=======
+      this.diffCursor?.moveUp();
+      this.displayLine = true;
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
     } else {
       if (e.key === Key.UP) return;
       this.fileCursor.previous({circular: true});
@@ -922,7 +950,7 @@ export class GrFileList extends base {
 
   _handleNewComment() {
     this.classList.remove('hideComments');
-    this.diffCursor.createCommentInPlace();
+    this.diffCursor?.createCommentInPlace();
   }
 
   handleOpenFile() {
@@ -933,24 +961,48 @@ export class GrFileList extends base {
     this._openSelectedFile();
   }
 
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
   _handleNextChunk() {
     if (this._noDiffsExpanded()) return;
     this.diffCursor.moveToNextChunk();
+=======
+  private handleNextChunk() {
+    if (this.noDiffsExpanded()) return;
+    this.diffCursor?.moveToNextChunk();
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
   }
 
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
   _handleNextComment() {
     if (this._noDiffsExpanded()) return;
     this.diffCursor.moveToNextCommentThread();
+=======
+  private handleNextComment() {
+    if (this.noDiffsExpanded()) return;
+    this.diffCursor?.moveToNextCommentThread();
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
   }
 
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
   _handlePrevChunk() {
     if (this._noDiffsExpanded()) return;
     this.diffCursor.moveToPreviousChunk();
+=======
+  private handlePrevChunk() {
+    if (this.noDiffsExpanded()) return;
+    this.diffCursor?.moveToPreviousChunk();
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
   }
 
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
   _handlePrevComment() {
     if (this._noDiffsExpanded()) return;
     this.diffCursor.moveToPreviousCommentThread();
+=======
+  private handlePrevComment() {
+    if (this.noDiffsExpanded()) return;
+    this.diffCursor?.moveToPreviousCommentThread();
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
   }
 
   _handleToggleFileReviewed() {
@@ -974,8 +1026,14 @@ export class GrFileList extends base {
     }
   }
 
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
   _openCursorFile() {
     const diff = this.diffCursor.getTargetDiffElement();
+=======
+  // Private but used in tests.
+  openCursorFile() {
+    const diff = this.diffCursor?.getTargetDiffElement();
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
     if (!this.change || !diff || !this.patchRange || !diff.path) {
       throw new Error('change, diff and patchRange must be all set and valid');
     }
@@ -1192,7 +1250,7 @@ export class GrFileList extends base {
 
   _updateDiffCursor() {
     // Overwrite the cursor's list of diffs:
-    this.diffCursor.replaceDiffs(this.diffs);
+    this.diffCursor?.replaceDiffs(this.diffs);
   }
 
   _filesChanged() {
@@ -1323,9 +1381,14 @@ export class GrFileList extends base {
     if (newFiles.length) {
       this._renderInOrder(newFiles, this.diffs, newFiles.length);
     }
+<<<<<<< HEAD   (2d2066 Merge branch 'stable-3.5' into stable-3.6)
 
     this._updateDiffCursor();
     this.diffCursor.reInitAndUpdateStops();
+=======
+    this.updateDiffCursor();
+    this.diffCursor?.reInitAndUpdateStops();
+>>>>>>> CHANGE (195f95 Rerender a diff if it's reconnected and avoid reusing GrDiff)
   }
 
   // private but used in test
@@ -1407,7 +1470,7 @@ export class GrFileList extends base {
     * prevented the issue of scrolling to top when we expand the second
     * file individually.
     */
-    this.diffCursor.reInitAndUpdateStops();
+    this.diffCursor?.reInitAndUpdateStops();
   }
 
   /** Cancel the rendering work of every diff in the list */

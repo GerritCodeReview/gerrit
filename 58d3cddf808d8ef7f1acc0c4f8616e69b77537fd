@@ -156,6 +156,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0aa97601_dbc1618c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-01T22:28:35Z",
+      "side": 1,
+      "message": "Sorry for the delay in getting back to this, holiday and just busy.\n\n\u003e I\u0027d rather not change the actual endpoint names as that entails migrating callers\n\nAgreed! I think the actual endpoints are ok anyway, just the idea of a \"fix\" is a bit vague. It\u0027s fine once you understand it though.\n\n\u003e We have two cases: [snip]\n\n@Patrick, so it took me a few minutes to actually read all the words you had for your second use case, notably the \"frontend plugin\" part, and now I\u0027m pretty excited about that case. We should definitely have that example in the commit message.\n\nI assume the frontend plugin will have some way for a user to be able to accept/select multiple fixes suggested by the plugin at once? Or would they accept individually and each fix would update the same change edit (until the user publishes it)?\n\nI think your Suggestion 1 naming for both APIs makes sense. For the `apply` endpoint where is that `FixReplacement` entity actually used? `apply` has no input object, only the resource. Both endpoints should respond with an `EditInfo`, correct?\n\n\u003e so renaming the new API\u0027s class to be ApplyFix and the existing one to something else maybe confusing to people who are familiar with the code.\n\nI think this is ok. It\u0027s not an area of the code that\u0027s central to a lot of development, so renaming only affects a small set of folks.\n\n\u003e Regarding Replacement(Info/Input), we already have two class `FixReplacementInfo`  and `FixReplacement`. Both hold exactly the same thing, I am not sure why do we have two different entities holding exact same thing.\n\n`FixReplacement` is an \"entity\" and has more code vs the \"extension\" `FixReplacementInfo` which should just be more of a data container object. Subtly, you\u0027ll also notice they use different `Comment.Range` classes which also have different code. @Patrick, I would have assumed the entity classes would/should somehow leverage the extension classes. Does that make sense?",
+      "parentUuid": "a3853033_b9fbb85e",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7b8b524_728a9686",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28
@@ -335,6 +353,30 @@
       "side": 1,
       "message": "Ok, I will start making changes to name the API as `apply_provided_fix` and update the documentation here. I will also update \n1) The new class created with this change, to be `ApplyProvidedFix` instead of `ApplyDirectFix`.  \n2) test names that refer to the original name.  \n3) The new class holding the content of the REST body, from `DirectFixInput` to `ApplyProvidedFixInput`",
       "parentUuid": "98ac3020_18b3a74f",
+      "range": {
+        "startLine": 5378,
+        "startChar": 4,
+        "endLine": 5378,
+        "endChar": 20
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecd41994_b1d7e8fc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5378,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-01T22:28:35Z",
+      "side": 1,
+      "message": "Going with Patrick\u0027s suggestion above, I think the doc should have both of these listed as \"Apply Fix\", with the difference being the endpoint including the fix-id or not. To do that we probably need to break up the big \"Revision Endpoints\" section and at least create a \"Fix Endpoints\" subsection within it for the existing \"Apply Fix\" and \"Preview Fix\" endpoints. I think those sections are supposed to represent resources anyway? Even if not, it probably makes the API docs a lot nicer if things are grouped together like that. Is that reasonable to do as part of this series?",
+      "parentUuid": "9b6c7989_44843b10",
       "range": {
         "startLine": 5378,
         "startChar": 4,

@@ -107,7 +107,7 @@ export class GrChangeList extends LitElement {
 
   @state() private dynamicHeaderEndpoints?: string[];
 
-  @property({type: Number, attribute: 'selected-index'})
+  @state()
   selectedIndex?: number;
 
   @property({type: Boolean})
@@ -370,7 +370,6 @@ export class GrChangeList extends LitElement {
     this.cursor.next();
     this.isCursorMoving = false;
     this.selectedIndex = this.cursor.index;
-    fire(this, 'selected-index-changed', {value: this.cursor.index});
   }
 
   private prevChange() {
@@ -378,7 +377,6 @@ export class GrChangeList extends LitElement {
     this.cursor.previous();
     this.isCursorMoving = false;
     this.selectedIndex = this.cursor.index;
-    fire(this, 'selected-index-changed', {value: this.cursor.index});
   }
 
   private async openChange() {
@@ -451,9 +449,6 @@ export class GrChangeList extends LitElement {
 }
 
 declare global {
-  interface HTMLElementEventMap {
-    'selected-index-changed': ValueChangedEvent<number>;
-  }
   interface HTMLElementTagNameMap {
     'gr-change-list': GrChangeList;
   }

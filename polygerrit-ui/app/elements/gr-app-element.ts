@@ -260,7 +260,6 @@ export class GrAppElement extends LitElement {
         offset: 0,
         selectedChangeIndex: 0,
       },
-      dashboardView: {},
     };
   }
 

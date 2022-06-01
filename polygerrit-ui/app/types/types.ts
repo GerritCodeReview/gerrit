@@ -193,14 +193,9 @@ export interface ChangeListViewState {
   offset?: number;
 }
 
-export interface DashboardViewState {
-  [key: string]: number;
-}
-
 export interface ViewState {
   changeView: ChangeViewState;
   changeListView: ChangeListViewState;
-  dashboardView: DashboardViewState;
 }
 
 export interface PatchSetFile {

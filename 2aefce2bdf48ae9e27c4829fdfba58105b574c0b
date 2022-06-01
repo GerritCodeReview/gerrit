@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88bf33e6_5146a6a3",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-01T09:24:28Z",
+      "side": 1,
+      "message": "Why do we need a String cast for prop, but not for an array (rest)?",
+      "range": {
+        "startLine": 319,
+        "startChar": 51,
+        "endLine": 319,
+        "endChar": 55
+      },
+      "revId": "2aefce2bdf48ae9e27c4829fdfba58105b574c0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

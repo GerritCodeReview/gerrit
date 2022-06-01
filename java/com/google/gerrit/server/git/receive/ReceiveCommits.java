@@ -1007,7 +1007,7 @@ class ReceiveCommits {
             .setIsWorkInProgress(wip)
             .build();
     addMessage(changeFormatter.changeUpdated(input));
-    u.getOutdatedApprovalsMessage().map(msg -> "\n" + msg).ifPresent(this::addMessage);
+    u.getOutdatedApprovalsMessage().map(msg -> "\n" + msg + "\n").ifPresent(this::addMessage);
   }
 
   private void insertChangesAndPatchSets(

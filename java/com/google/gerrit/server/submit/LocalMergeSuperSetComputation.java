@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -53,6 +54,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -63,6 +65,8 @@ import org.eclipse.jgit.revwalk.RevSort;
  * sequentially on the local Gerrit instance.
  */
 public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
+  public static final int MAX_SUBMITTABLE_CHANGES_AT_ONCE =
+      32767; // Maximum number of terms in a SQL query to fetch changes
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class Module extends AbstractModule {
@@ -90,17 +94,21 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   private final Map<QueryKey, List<ChangeData>> queryCache;
   private final Map<Branch.NameKey, Optional<RevCommit>> heads;
   private final ProjectCache projectCache;
+  private final int maxSubmittableChangesAtOnce;
 
   @Inject
   LocalMergeSuperSetComputation(
       PermissionBackend permissionBackend,
       Provider<InternalChangeQuery> queryProvider,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      @GerritServerConfig Config gerritConfig) {
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.queryProvider = queryProvider;
     this.queryCache = new HashMap<>();
     this.heads = new HashMap<>();
+    this.maxSubmittableChangesAtOnce =
+        gerritConfig.getInt("change", "maxSubmittableAtOnce", MAX_SUBMITTABLE_CHANGES_AT_ONCE);
   }
 
   @Override
@@ -146,10 +154,12 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
       }
 
       Set<String> visibleHashes =
-          walkChangesByHashes(visibleCommits, Collections.emptySet(), or, b);
+          walkChangesByHashes(
+              visibleCommits, Collections.emptySet(), or, b, maxSubmittableChangesAtOnce);
       Iterables.addAll(visibleChanges, byCommitsOnBranchNotMerged(or, db, b, visibleHashes));
 
-      Set<String> nonVisibleHashes = walkChangesByHashes(nonVisibleCommits, visibleHashes, or, b);
+      Set<String> nonVisibleHashes =
+          walkChangesByHashes(nonVisibleCommits, visibleHashes, or, b, maxSubmittableChangesAtOnce);
       Iterables.addAll(nonVisibleChanges, byCommitsOnBranchNotMerged(or, db, b, nonVisibleHashes));
     }
 
@@ -229,7 +239,11 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private Set<String> walkChangesByHashes(
-      Collection<RevCommit> sourceCommits, Set<String> ignoreHashes, OpenRepo or, Branch.NameKey b)
+      Collection<RevCommit> sourceCommits,
+      Set<String> ignoreHashes,
+      OpenRepo or,
+      Branch.NameKey b,
+      int limit)
       throws IOException {
     Set<String> destHashes = new HashSet<>();
     or.rw.reset();
@@ -239,7 +253,9 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
       if (ignoreHashes.contains(name)) {
         continue;
       }
-      destHashes.add(name);
+      if (destHashes.size() < limit) {
+        destHashes.add(name);
+      }
       or.rw.markStart(c);
     }
     for (RevCommit c : or.rw) {
@@ -247,7 +263,9 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
       if (ignoreHashes.contains(name)) {
         continue;
       }
-      destHashes.add(name);
+      if (destHashes.size() < limit) {
+        destHashes.add(name);
+      }
     }
 
     return destHashes;

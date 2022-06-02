@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f74851c5_ffb065be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-02T08:11:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f82ad5f7_9e4069c8",
+      "revId": "18cf932ffc98644914e9771af71bb7e0c48cc00a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6835c593_c3a6c68c",
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9f88ee11_bc097610",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-02T08:11:19Z",
+      "side": 1,
+      "message": "This *should* stay also after stable-3.2: the PerThreadCache is used for caching the ACLs evaluation as well in the same thread.",
+      "parentUuid": "6835c593_c3a6c68c",
+      "revId": "18cf932ffc98644914e9771af71bb7e0c48cc00a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e6c69957_27f96806",
         "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
         "patchSetId": 1
@@ -48,6 +84,30 @@
       "writtenOn": "2022-06-02T08:02:26Z",
       "side": 1,
       "message": "Nit: untabify.",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 6
+      },
+      "revId": "18cf932ffc98644914e9771af71bb7e0c48cc00a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaed47ee_46447cc0",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-02T08:11:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6c69957_27f96806",
       "range": {
         "startLine": 130,
         "startChar": 0,

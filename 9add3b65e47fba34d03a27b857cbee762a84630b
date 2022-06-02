@@ -135,6 +135,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e929d9f_d4efbaf6",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-02T23:39:49Z",
+      "side": 1,
+      "message": "Yeah, I have two methods and had to cast to avoid ambiguity. Let me see if I can avoid doing that.\n\n asChangeAttribute(Change change, AccountAttributeLoader accountLoader)\n asChangeAttribute(Change change, ChangeNotes notes)",
+      "parentUuid": "6190d7c3_b27c7532",
+      "range": {
+        "startLine": 154,
+        "startChar": 37,
+        "endLine": 154,
+        "endChar": 61
+      },
+      "revId": "9add3b65e47fba34d03a27b857cbee762a84630b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "87396e87_832893f5",
         "filename": "java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 1

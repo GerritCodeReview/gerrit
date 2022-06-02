@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8947a272_ae03ae6c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-02T14:29:55Z",
+      "side": 1,
+      "message": "Rather than using a member variable, why not return two values from this function, the url string and a boolean.",
+      "revId": "3fa441ddea30ad54337ce8940659caccd3873657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d060d3c_b110d164",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1426,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-02T14:29:55Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we encodeURI the filter?",
+      "revId": "3fa441ddea30ad54337ce8940659caccd3873657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06341aad_7d2343dc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1434,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-02T14:29:55Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we encodeURI the filter?",
+      "revId": "3fa441ddea30ad54337ce8940659caccd3873657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

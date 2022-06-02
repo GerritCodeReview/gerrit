@@ -5,7 +5,7 @@
  */
 import '../gr-tooltip-content/gr-tooltip-content';
 import {css, html, LitElement} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {
   parseDate,
   fromNow,

@@ -12,7 +12,7 @@ import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../gr-message-scores/gr-message-scores';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {MessageTag, SpecialFilePath} from '../../../constants/constants';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {
   ChangeInfo,
   ServerInfo,
@@ -42,7 +42,7 @@ import {
 } from '../../../utils/patch-set-util';
 import {isServiceUser, replaceTemplates} from '../../../utils/account-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {when} from 'lit/directives/when';
+import {when} from 'lit/directives/when.js';
 import {FormattedReviewerUpdateInfo} from '../../../types/types';
 
 const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;

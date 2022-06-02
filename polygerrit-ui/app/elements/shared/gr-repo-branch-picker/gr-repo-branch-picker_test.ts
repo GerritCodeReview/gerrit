@@ -82,8 +82,9 @@ suite('gr-repo-branch-picker tests', () => {
     setup(() => {
       getRepoBranchesStub = stubRestApi('getRepoBranches').returns(
         Promise.resolve([
-          {ref: 'refs/heads/stable-2.10' as GitRef, revision: '123'},
-          {ref: 'refs/heads/stable-2.11' as GitRef, revision: '1234'},
+          {ref: 'HEAD' as GitRef, revision: 'main'},
+          {ref: 'refs/heads/stable-2.10' as GitRef, revision: '123af'},
+          {ref: 'refs/heads/stable-2.11' as GitRef, revision: '1234b'},
           {ref: 'refs/heads/stable-2.12' as GitRef, revision: '12345'},
           {ref: 'refs/heads/stable-2.13' as GitRef, revision: '123456'},
           {ref: 'refs/heads/stable-2.14' as GitRef, revision: '1234567'},

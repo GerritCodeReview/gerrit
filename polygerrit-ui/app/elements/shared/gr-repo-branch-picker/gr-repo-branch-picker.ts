@@ -140,15 +140,17 @@ export class GrRepoBranchPicker extends LitElement {
 
   private branchResponseToSuggestions(res: BranchInfo[] | undefined) {
     if (!res) return [];
-    return res.map(branchInfo => {
-      let branch;
-      if (branchInfo.ref.startsWith(REF_PREFIX)) {
-        branch = branchInfo.ref.substring(REF_PREFIX.length);
-      } else {
-        branch = branchInfo.ref;
-      }
-      return {name: branch, value: branch};
-    });
+    return res
+      .filter(branchInfo => branchInfo.ref !== 'HEAD')
+      .map(branchInfo => {
+        let branch;
+        if (branchInfo.ref.startsWith(REF_PREFIX)) {
+          branch = branchInfo.ref.substring(REF_PREFIX.length);
+        } else {
+          branch = branchInfo.ref;
+        }
+        return {name: branch, value: branch};
+      });
   }
 
   // private but used in test

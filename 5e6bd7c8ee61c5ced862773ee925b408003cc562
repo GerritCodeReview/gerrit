@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9274b48_07d631cc",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-02T08:58:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ebed935_e6516f88",
+      "revId": "5e6bd7c8ee61c5ced862773ee925b408003cc562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "667e6170_e4b3b029",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17a5dfd2_38ea05eb",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-02T08:58:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "667e6170_e4b3b029",
+      "range": {
+        "startLine": 662,
+        "startChar": 15,
+        "endLine": 662,
+        "endChar": 23
+      },
+      "revId": "5e6bd7c8ee61c5ced862773ee925b408003cc562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e72cbe4_a4b65697",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-06-02T06:46:48Z",
       "side": 1,
       "message": "This seems incorrect (or inconsistent): The PSA.Key is always the original, say for PS1. The target is evolving (say now it\u0027s PS4). The change kind then is for PS3 -\u003e PS4.\n\nI think that makes it hard to assess if the called logic is doing the right thing here. Could we evolve the PSA key also so that we call the copier only ever for single patch set increments?\n\nThe current logic in ApprovalCopier always only copies A-B B-C (one at a time). I think we should formalize this to reduce the chances of programming errors.",
+      "range": {
+        "startLine": 674,
+        "startChar": 7,
+        "endLine": 678,
+        "endChar": 23
+      },
+      "revId": "5e6bd7c8ee61c5ced862773ee925b408003cc562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15a51eee_a0b44cff",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-02T08:58:48Z",
+      "side": 1,
+      "message": "\u003e This seems incorrect (or inconsistent): The PSA.Key is always the original,\n\u003e say for PS1. The target is evolving (say now it\u0027s PS4). The change kind\n\u003e then is for PS3 -\u003e PS4.\n\nYeah, I also dislike using PSA.Key. I removed the need to use PSA.Key in [1] now, so that this gets easier to read.\n\n\u003e I think that makes it hard to assess if the called logic is doing the right\n\u003e thing here. Could we evolve the PSA key also so that we call the copier only\n\u003e ever for single patch set increments?\n\u003e \n\u003e The current logic in ApprovalCopier always only copies A-B B-C (one at a time).\n\u003e I think we should formalize this to reduce the chances of programming errors.\n\nWe\u0027ve tried this before and then had to revert this due to gaps in the patch set numbers [2]. There is still a TODO about this in ApprovalContext. I don\u0027t think we need to resolve this now.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/338494\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/312633",
+      "parentUuid": "7e72cbe4_a4b65697",
       "range": {
         "startLine": 674,
         "startChar": 7,

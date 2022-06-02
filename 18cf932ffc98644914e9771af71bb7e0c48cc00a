@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f82ad5f7_9e4069c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-02T08:02:26Z",
+      "side": 1,
+      "message": "Release-Notes are missing.",
+      "revId": "18cf932ffc98644914e9771af71bb7e0c48cc00a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6835c593_c3a6c68c",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-02T08:02:26Z",
+      "side": 1,
+      "message": "Would it make sense to add a comment that this shouldn\u0027t be merged starting from stable-3.2 branch?",
+      "revId": "18cf932ffc98644914e9771af71bb7e0c48cc00a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6c69957_27f96806",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-02T08:02:26Z",
+      "side": 1,
+      "message": "Nit: untabify.",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 6
+      },
+      "revId": "18cf932ffc98644914e9771af71bb7e0c48cc00a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4144eb7e_94e186c4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-06-02T16:03:24Z",
+      "side": 1,
+      "message": "Maybe add some comments why this explicit \"constructor\" exists? For `dispose` it is clear (JS does not have a constructor), but for setup less so. Is it supported to reuse the same object and `setup` and `dispose` it several times? When is `setup` expected to be called? Is this to delay initialization?\n\nNot challenging the need for it, just think it will be easier to understand with some comments here.",
+      "revId": "93157c5f04e57112ee256cba6e1be620592363b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

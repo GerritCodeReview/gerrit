@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47a972e1_b2587415",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-02T10:46:11Z",
+      "side": 1,
+      "message": "!this.selectedExistingTopics.has(topic)?",
+      "revId": "6c15ca4287658b3cbd7fd04e84f52d0741dd1191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "775c7a93_f49c51f7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-02T10:46:11Z",
+      "side": 1,
+      "message": "await?",
+      "revId": "6c15ca4287658b3cbd7fd04e84f52d0741dd1191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ec60557_8f0ab458",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-02T10:46:11Z",
+      "side": 1,
+      "message": "await?",
+      "revId": "6c15ca4287658b3cbd7fd04e84f52d0741dd1191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4df97da3_ac5fa578",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-02T10:46:11Z",
+      "side": 1,
+      "message": "This is duplicative with what selectChange does.",
+      "revId": "6c15ca4287658b3cbd7fd04e84f52d0741dd1191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

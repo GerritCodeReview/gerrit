@@ -12,7 +12,7 @@ import {ListViewParams} from '../../gr-app-types';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {LitElement, PropertyValues, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 
 @customElement('gr-documentation-search')
 export class GrDocumentationSearch extends LitElement {

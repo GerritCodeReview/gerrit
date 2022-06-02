@@ -26,7 +26,6 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -51,6 +50,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.approval.ApprovalCopier;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.EmailNewPatchSet;
@@ -157,7 +157,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private PatchSet newPatchSet;
   private ChangeKind changeKind;
   private String mailMessage;
-  private ImmutableSet<PatchSetApproval> outdatedApprovals;
+  private ApprovalCopier.Result approvalCopierResult;
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
   private ReviewerModificationList reviewerAdditions;
@@ -348,15 +348,9 @@ public class ReplaceOp implements BatchUpdateOp {
       update.putReviewer(ctx.getAccountId(), REVIEWER);
     }
 
-    outdatedApprovals =
-        approvalsUtil
-            .copyApprovalsToNewPatchSet(
-                ctx.getNotes(),
-                newPatchSet,
-                ctx.getRevWalk(),
-                ctx.getRepoView().getConfig(),
-                update)
-            .outdatedApprovals();
+    approvalCopierResult =
+        approvalsUtil.copyApprovalsToNewPatchSet(
+            ctx.getNotes(), newPatchSet, ctx.getRevWalk(), ctx.getRepoView().getConfig(), update);
 
     mailMessage = insertChangeMessage(update, ctx, reviewMessage);
     if (mergedByPushOp == null) {
@@ -430,6 +424,15 @@ public class ReplaceOp implements BatchUpdateOp {
     if (!Strings.isNullOrEmpty(reviewMessage)) {
       message.append("\n\n").append(reviewMessage);
     }
+    approvalsUtil
+        .formatApprovalCopierResult(approvalCopierResult, projectState.getLabelTypes())
+        .ifPresent(
+            msg -> {
+              if (Strings.isNullOrEmpty(reviewMessage) || !reviewMessage.endsWith("\n")) {
+                message.append("\n");
+              }
+              message.append("\n").append(msg);
+            });
     boolean workInProgress = ctx.getChange().isWorkInProgress();
     if (magicBranch != null && magicBranch.workInProgress) {
       workInProgress = true;
@@ -506,7 +509,7 @@ public class ReplaceOp implements BatchUpdateOp {
             ctx,
             newPatchSet,
             mailMessage,
-            outdatedApprovals,
+            approvalCopierResult.outdatedApprovals(),
             Streams.concat(
                     oldRecipients.getReviewers().stream(),
                     reviewerAdditions.flattenResults(ReviewerOp.Result::addedReviewers).stream()
@@ -584,13 +587,13 @@ public class ReplaceOp implements BatchUpdateOp {
   }
 
   public Optional<String> getOutdatedApprovalsMessage() {
-    if (outdatedApprovals == null || outdatedApprovals.isEmpty()) {
+    if (approvalCopierResult == null || approvalCopierResult.outdatedApprovals().isEmpty()) {
       return Optional.empty();
     }
 
     return Optional.of(
         "The following approvals got outdated and were removed:\n"
-            + outdatedApprovals.stream()
+            + approvalCopierResult.outdatedApprovals().stream()
                 .map(
                     outdatedApproval ->
                         String.format(

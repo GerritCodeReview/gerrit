@@ -1079,7 +1079,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     ci = get(r.getChangeId(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
     cr = ci.labels.get(LabelId.CODE_REVIEW);
     assertThat(Iterables.getLast(ci.messages).message)
-        .isEqualTo("Uploaded patch set 2: Code-Review+2.");
+        .isEqualTo(
+            "Uploaded patch set 2: Code-Review+2.\n"
+                + "\n"
+                + "Outdated Votes:\n"
+                + "* Code-Review+1 (copy condition: changekind:NO_CHANGE"
+                + " OR changekind:TRIVIAL_REBASE OR is:MIN)\n");
     // Check that the user who pushed the change was added as a reviewer since they added a vote.
     assertThatUserIsOnlyReviewer(ci, admin);
 
@@ -1098,7 +1103,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = push.to("refs/for/master%l=Code-Review+2");
     r.assertOkStatus();
     ci = get(r.getChangeId(), MESSAGES);
-    assertThat(Iterables.getLast(ci.messages).message).isEqualTo("Uploaded patch set 3.");
+    assertThat(Iterables.getLast(ci.messages).message)
+        .isEqualTo(
+            "Uploaded patch set 3.\n"
+                + "\n"
+                + "Outdated Votes:\n"
+                + "* Code-Review+2 (copy condition: changekind:NO_CHANGE"
+                + " OR changekind:TRIVIAL_REBASE OR is:MIN)\n");
   }
 
   @Test

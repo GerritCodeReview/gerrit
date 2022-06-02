@@ -70,6 +70,7 @@ suite('gr-repo-branch-picker tests', () => {
     setup(() => {
       getRepoBranchesStub = stubRestApi('getRepoBranches').returns(
         Promise.resolve([
+          {ref: 'HEAD' as GitRef, revision: 'main'},
           {ref: 'refs/heads/stable-2.10' as GitRef, revision: '123'},
           {ref: 'refs/heads/stable-2.11' as GitRef, revision: '1234'},
           {ref: 'refs/heads/stable-2.12' as GitRef, revision: '12345'},

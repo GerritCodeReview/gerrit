@@ -25,6 +25,7 @@ import {BindValueChangeEvent} from '../../../types/events';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
+const SHA1_REGEX = /\b[0-9a-f]{5,40}\b/;
 
 @customElement('gr-repo-branch-picker')
 export class GrRepoBranchPicker extends LitElement {
@@ -129,7 +130,8 @@ export class GrRepoBranchPicker extends LitElement {
 
   private branchResponseToSuggestions(res: BranchInfo[] | undefined) {
     if (!res) return [];
-    return res.map(branchInfo => {
+    return res.filter(branchInfo => branchInfo.revision.match(SHA1_REGEX))
+    .map(branchInfo => {
       let branch;
       if (branchInfo.ref.startsWith(REF_PREFIX)) {
         branch = branchInfo.ref.substring(REF_PREFIX.length);

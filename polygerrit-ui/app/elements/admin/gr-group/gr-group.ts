@@ -23,7 +23,7 @@ import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 

@@ -19,10 +19,10 @@ import {addShortcut, Key} from '../../../utils/dom-util';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import {LitElement, css, html} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {PropertyValues} from 'lit';
-import {classMap} from 'lit/directives/class-map';
+import {classMap} from 'lit/directives/class-map.js';
 
 const MAX_ITEMS_DROPDOWN = 10;
 

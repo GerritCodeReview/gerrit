@@ -101,8 +101,8 @@ import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html, nothing} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
-import {ifDefined} from 'lit/directives/if-defined';
+import {customElement, property, query, state} from 'lit/decorators.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {assertIsDefined, queryAll} from '../../../utils/common-util';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';

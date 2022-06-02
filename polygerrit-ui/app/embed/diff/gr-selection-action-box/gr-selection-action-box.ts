@@ -7,7 +7,7 @@ import '../../../elements/shared/gr-tooltip/gr-tooltip';
 import {GrTooltip} from '../../../elements/shared/gr-tooltip/gr-tooltip';
 import {fireEvent} from '../../../utils/event-util';
 import {css, html, LitElement} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 
 declare global {

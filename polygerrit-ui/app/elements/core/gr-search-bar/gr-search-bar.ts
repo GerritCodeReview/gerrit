@@ -20,7 +20,7 @@ import {
   property,
   state,
   query as queryDec,
-} from 'lit/decorators';
+} from 'lit/decorators.js';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {query as queryUtil} from '../../../utils/common-util';
 import {assertIsDefined} from '../../../utils/common-util';

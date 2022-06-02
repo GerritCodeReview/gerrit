@@ -13,7 +13,7 @@ import {getAppContext} from '../../../services/app-context';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, query, property} from 'lit/decorators';
+import {customElement, query, property} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fireEvent} from '../../../utils/event-util';
 

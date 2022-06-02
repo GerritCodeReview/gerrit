@@ -39,7 +39,7 @@ import {
 } from '../services/gr-reporting/gr-reporting_impl';
 import {injectAppContext} from '../services/app-context';
 import {html, LitElement} from 'lit';
-import {customElement} from 'lit/decorators';
+import {customElement} from 'lit/decorators.js';
 
 const appContext = createAppContext();
 injectAppContext(appContext);

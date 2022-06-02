@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
   ChangeInfo,
@@ -13,7 +13,7 @@ import {
 } from '../../../types/common';
 import {ChangeStatus} from '../../../constants/constants';
 import {isChangeInfo} from '../../../utils/change-util';
-import {ifDefined} from 'lit/directives/if-defined';
+import {ifDefined} from 'lit/directives/if-defined.js';
 
 @customElement('gr-related-change')
 export class GrRelatedChange extends LitElement {

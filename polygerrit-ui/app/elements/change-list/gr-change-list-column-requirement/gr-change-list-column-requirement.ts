@@ -6,7 +6,7 @@
 import '../../change/gr-submit-requirement-dashboard-hovercard/gr-submit-requirement-dashboard-hovercard';
 import '../../shared/gr-change-status/gr-change-status';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {
   ApprovalInfo,
   ChangeInfo,
@@ -27,7 +27,7 @@ import {
   iconForStatus,
 } from '../../../utils/label-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {ifDefined} from 'lit/directives/if-defined';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {capitalizeFirstLetter} from '../../../utils/string-util';
 
 @customElement('gr-change-list-column-requirement')

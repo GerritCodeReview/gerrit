@@ -28,7 +28,7 @@ import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
 import {css, html, LitElement} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
 

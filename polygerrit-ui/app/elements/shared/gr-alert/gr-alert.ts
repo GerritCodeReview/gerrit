@@ -8,7 +8,7 @@ import '../../../styles/shared-styles';
 import {getRootElement} from '../../../scripts/rootElement';
 import {ErrorType} from '../../../types/types';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 
 declare global {

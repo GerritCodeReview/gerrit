@@ -16,7 +16,7 @@ import {PropertyType} from '../../../types/common';
 import {modifierPressed} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css, PropertyValues} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;

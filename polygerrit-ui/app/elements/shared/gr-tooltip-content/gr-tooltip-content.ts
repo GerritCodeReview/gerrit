@@ -8,7 +8,7 @@ import '../gr-tooltip/gr-tooltip';
 import {getRootElement} from '../../../scripts/rootElement';
 import {GrTooltip} from '../gr-tooltip/gr-tooltip';
 import {css, html, LitElement, PropertyValues} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 
 const BOTTOM_OFFSET = 7.2; // Height of the arrow in tooltip.
 

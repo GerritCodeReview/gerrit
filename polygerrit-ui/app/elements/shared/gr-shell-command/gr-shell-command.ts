@@ -8,7 +8,7 @@ import {GrCopyClipboard} from '../gr-copy-clipboard/gr-copy-clipboard';
 import {queryAndAssert} from '../../../utils/common-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 
 declare global {
   interface HTMLElementTagNameMap {

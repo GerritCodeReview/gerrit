@@ -14,7 +14,7 @@ import {ChangeInfo} from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 
 export enum ChangeStates {
   ABANDONED = 'Abandoned',

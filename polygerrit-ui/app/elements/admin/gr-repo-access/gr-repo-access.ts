@@ -37,10 +37,10 @@ import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ValueChangedEvent} from '../../../types/events';
-import {ifDefined} from 'lit/directives/if-defined';
+import {ifDefined} from 'lit/directives/if-defined.js';
 
 const NOTHING_TO_SAVE = 'No changes to save.';
 

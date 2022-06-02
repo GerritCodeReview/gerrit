@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8951472c_dbb071e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-06-02T20:20:31Z",
+      "side": 1,
+      "message": "Test failing because codemirror-editor uses it, it seems.",
+      "revId": "5fed53af8197cc721a4f77f700bc991d3e76e5d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

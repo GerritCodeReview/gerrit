@@ -28,7 +28,7 @@ function requirePlugin(id) {
   return require(pluginPath);
 }
 
-const resolve = requirePlugin('rollup-plugin-node-resolve');
+const {nodeResolve} = requirePlugin('@rollup/plugin-node-resolve');
 const {terser} = requirePlugin('rollup-plugin-terser');
 
 // @polymer/font-roboto-local uses import.meta.url value
@@ -68,12 +68,14 @@ export default {
   },
   // Context must be set to window to correctly processing global variables
   context: 'window',
-  plugins: [resolve({
+  plugins: [nodeResolve({
     customResolveOptions: {
       // By default, it tries to use page.mjs file instead of page.js
       // when importing 'page/page'.
       extensions: ['.js'],
       moduleDirectory: 'external/ui_npm/node_modules',
     },
+    extensions: ['.js'],
+    fileExtensions: ['.js'],
   }), importLocalFontMetaUrlResolver()],
 };

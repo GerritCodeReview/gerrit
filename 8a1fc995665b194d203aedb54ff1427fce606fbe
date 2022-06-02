@@ -16,6 +16,24 @@
       "message": "Need Release-Notes",
       "revId": "8a1fc995665b194d203aedb54ff1427fce606fbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c2d225e_08a8e814",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-02T23:05:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ab81930_c44ed2d1",
+      "revId": "8a1fc995665b194d203aedb54ff1427fce606fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

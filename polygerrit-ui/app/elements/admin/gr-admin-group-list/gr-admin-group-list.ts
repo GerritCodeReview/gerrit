@@ -18,7 +18,7 @@ import {SHOWN_ITEMS_COUNT} from '../../../constants/constants';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html} from 'lit';
-import {customElement, query, property, state} from 'lit/decorators';
+import {customElement, query, property, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 
 declare global {

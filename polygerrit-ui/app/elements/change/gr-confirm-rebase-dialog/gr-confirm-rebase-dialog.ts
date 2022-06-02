@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {css, html, LitElement, PropertyValues} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {NumericChangeId, BranchName} from '../../../types/common';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-autocomplete/gr-autocomplete';

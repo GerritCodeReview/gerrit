@@ -3,11 +3,11 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {classMap} from 'lit/directives/class-map';
-import {repeat} from 'lit/directives/repeat';
-import {ifDefined} from 'lit/directives/if-defined';
+import {classMap} from 'lit/directives/class-map.js';
+import {repeat} from 'lit/directives/repeat.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {LitElement, css, html, PropertyValues, TemplateResult} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import './gr-checks-action';
 import './gr-hovercard-run';
 import '@polymer/paper-tooltip/paper-tooltip';

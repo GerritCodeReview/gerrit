@@ -10,7 +10,7 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import {getAppContext} from '../../../services/app-context';
 import {accountKey, isSelf} from '../../../utils/account-util';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {
   AccountInfo,
   ChangeInfo,
@@ -31,7 +31,7 @@ import {isInvolved, isRemovableReviewer} from '../../../utils/change-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {css, html, LitElement} from 'lit';
-import {ifDefined} from 'lit/directives/if-defined';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 

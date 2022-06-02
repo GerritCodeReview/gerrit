@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84728ee4_c7e10bd6",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-02T13:10:14Z",
+      "side": 0,
+      "message": "With this change the `dashboardView` property of `ViewState` is obsolete. So maybe remove it and also the `viewState` property in `GrDashboardView`.\n\nUltimately I think we want to completely get rid of the `ViewState`, see PoC in  change 338498. If the views are cached, then they can keep track of their own state (in models). And state that is used across views should be dealt with by the router/navigator.",
+      "revId": "ef896b1cd0f8832051f87c4dfb311ae0659336b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

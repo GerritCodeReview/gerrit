@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5a89f10_e77db781",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-02T14:24:18Z",
+      "side": 1,
+      "message": "Pass in an extra boolean. Triggering logic on user-displayed strings can easily lead to breakage as people might want to update the string that\u0027s displayed.",
+      "revId": "5177f186ffe8e88772606b6e84e159785921cfef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e759552_663d2de6",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-02T14:24:18Z",
+      "side": 1,
+      "message": "What\u0027s the dark-theme version of this?",
+      "revId": "5177f186ffe8e88772606b6e84e159785921cfef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

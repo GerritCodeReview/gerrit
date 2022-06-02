@@ -118,6 +118,12 @@ export class GrDiffCursor implements GrDiffCursorApi {
     });
   }
 
+  /**
+   * GrDiffCursor offers explicit lifecycle methods to allow its parent to
+   * initialize and tear down the global scroll event handlers it uses.
+   */
+  setup() {}
+
   dispose() {
     if (this.targetSubscription) this.targetSubscription.unsubscribe();
     window.removeEventListener('scroll', this._boundHandleWindowScroll);

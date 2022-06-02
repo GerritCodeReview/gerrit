@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.common.Nullable;
+import java.util.Objects;
 
 /** Result of evaluating a submit requirement on a change. */
 public class SubmitRequirementResultInfo {
@@ -72,4 +73,34 @@ public class SubmitRequirementResultInfo {
 
   /** Result of evaluating the override expression. */
   @Nullable public SubmitRequirementExpressionInfo overrideExpressionResult;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof SubmitRequirementResultInfo)) {
+      return false;
+    }
+    SubmitRequirementResultInfo that = (SubmitRequirementResultInfo) o;
+    return isLegacy == that.isLegacy
+        && Objects.equals(name, that.name)
+        && Objects.equals(description, that.description)
+        && status == that.status
+        && Objects.equals(applicabilityExpressionResult, that.applicabilityExpressionResult)
+        && Objects.equals(submittabilityExpressionResult, that.submittabilityExpressionResult)
+        && Objects.equals(overrideExpressionResult, that.overrideExpressionResult);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        name,
+        description,
+        status,
+        isLegacy,
+        applicabilityExpressionResult,
+        submittabilityExpressionResult,
+        overrideExpressionResult);
+  }
 }

@@ -192,6 +192,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d8af1e85_aecf265c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-02T20:12:57Z",
+      "side": 1,
+      "message": "\u003e \u003e so it took me a few minutes to actually read all the words you had for your second use case, notably the \"frontend plugin\" part, and now I\u0027m pretty excited about that case. We should definitely have that example in the commit message.\n\u003e \n\u003e Please see the new commit message and see if it makes sense.\n\nWill do.\n\n\u003e \n\u003e \u003e I assume the frontend plugin will have some way for a user to be able to accept/select multiple fixes suggested by the plugin at once? Or would they accept individually and each fix would update the same change edit (until the user publishes it)?\n\u003e \n\u003e @Patrick please guide, I am unsure of the answer.\n\nThis isn\u0027t critical to this change, I\u0027m just curious.\n\n\u003e \n\u003e \u003e I think your Suggestion 1 naming for both APIs makes sense\n\u003e I had started making changes before you had replied. The new API is named as `apply_provided_fix` and the existing one remains as `apply`. Please let me know if we should still change something.\n\nI think the existing one remains `apply` and the new one becomes `fix:apply` or `fix.apply`.",
+      "parentUuid": "a54a0c31_27a80ae2",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7b8b524_728a9686",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28
@@ -419,6 +437,30 @@
       "side": 1,
       "message": "Made subsecions inside the section \u0027Apply Fix\u0027.\nDoes the new subsection names and details looks good?\n\nFYI, the subsection \u0027Apply Fix From Server\u0027 and \u0027Apply Provided Fix\u0027 don\u0027t show on the left side panel that has a hyperlink to all APIs. The left side panel has link only to \u0027Apply Fix\u0027 apart from whatever was there previously.",
       "parentUuid": "ecd41994_b1d7e8fc",
+      "range": {
+        "startLine": 5378,
+        "startChar": 4,
+        "endLine": 5378,
+        "endChar": 20
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59ef4302_bc46b4d6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5378,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-02T20:12:57Z",
+      "side": 1,
+      "message": "\u003e Made subsections inside the section \u0027Apply Fix\u0027.\n\u003e Does the new subsection names and details looks good?\n\nThat\u0027s not quite what I was suggesting. I was thinking the endpoints under `/changes/{change-id}/revisions/{revision-id}/fixes/{fix-id}/` would share a subsection. And because those exist before this change, I think that refactor should happen in a separate change. But see below, I don\u0027t think we need to do this now.\n\n\u003e \n\u003e FYI, the subsection \u0027Apply Fix From Server\u0027 and \u0027Apply Provided Fix\u0027 don\u0027t show on the left side panel that has a hyperlink to all APIs. The left side panel has link only to \u0027Apply Fix\u0027 apart from whatever was there previously.\n\nMaybe there\u0027s a setting for what depth to show there?\n\nOr you could follow the pattern of Revision Reviewer Endpoints (which are all under `/revisions/`) and create this new section at a higher level.\n\nNew thoughts:\nSeeing the existing cases of List Revision Reviewers [1] and List Reviewers [2] and some of the Change Edit endpoints [3], it seems we have a lot of options (too many probably, our APIs don\u0027t have a lot of consistency). Based on those, we\u0027d still want different names in the doc, but we could use \u0027/apply\u0027 as the endpoint base name for both. But `apply` doesn\u0027t tell you enough about the API when it\u0027s on the revision and not the fix, so I think for the new API, use `/fix.apply` or `/fix:apply` (again, both syntaxes are used in the APIs...).\n\nSince we have those different names anyway, I don\u0027t know that we need a new subsection [4]. @Patrick, how do you feel about that?\n\nSummary (with a couple options for doc naming, I have a slight preference for option 2 for all cases, but I think either option would be acceptable):\n\n Existing \"Apply Fix\" API:\n POST /changes/1/revisions/1/fixes/12/apply\n handler: ApplyStoredFix (rename from ApplyFix, done in a parent change)\n resource: FixResource (existing)\n entity: none (no input provided, uses fix-id in resource)\n response: EditInfo (existing)\n doc name (option 1): Apply Fix From Server\n doc name (option 2): Apply Previously Suggested Fix\n\n New API:\n POST /changes/1/revisions/1/fix.apply\n handler: ApplyFix (new class in this change)\n resource: RevisionResource (existing)\n entity: ApplyProvidedFixInput (new class in this change)\n response: EditInfo (existing)\n doc name (option 1): Apply Provided Fix\n doc name (option 2): Apply Fix\n\n Existing \"Preview Fix\" API (relevant to child change):\n GET /changes/1/revisions/1/fixes/12/preview\n handler: GetFixPreview (existing)\n resource: FixResource (existing)\n entity: none (no input provided, uses fix-id in resource)\n response: DiffInfo (existing)\n doc name (option 1): Preview Fix From Server\n doc name (option 2): Preview Previously Suggested Fix\n \n New API in child change (not a GET since we have to provide the input):\n POST /changes/1/revisions/1/fix.preview\n handler: PreviewFix (new class in that change)\n resource: RevisionResource (existing)\n entity: ApplyProvidedFixInput (new class in this change)\n response: DiffInfo (existing)\n doc name (option 1): Preview Provided Fix\n doc name (option 2): Preview Fix\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#list-revision-reviewers\n[2] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#list-reviewers\n[3] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-edit-message\n[4] The subsection isn\u0027t needed for this, but it would be nice to group all the `/revisions/{rev-id}/files/` APIs together if you just wanted to do some doc cleanup.",
+      "parentUuid": "24cc60d2_08b1b732",
       "range": {
         "startLine": 5378,
         "startChar": 4,

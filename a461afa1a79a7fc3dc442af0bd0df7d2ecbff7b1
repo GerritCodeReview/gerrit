@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac1c8c77_a46d7abc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-02T20:12:57Z",
+      "side": 1,
+      "message": "nit: git commit subject lines don\u0027t typically have a trailing \u0027.\u0027",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39d16ba0_59eef696",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-02T20:12:57Z",
+      "side": 1,
+      "message": "maybe s/loaded from a/already stored on the Gerrit/",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54349980_1f31b71c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-02T20:12:57Z",
+      "side": 1,
+      "message": "Need some line wrapping here.",
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2ce385f_ec0e3507",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-02T20:12:57Z",
+      "side": 1,
+      "message": "I would include more of the endpoint so that a reader can compare it to the new one below.",
+      "range": {
+        "startLine": 9,
+        "startChar": 23,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08bdd5df_a212c831",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-02T20:12:57Z",
+      "side": 1,
+      "message": "That API doesn\u0027t store, it uses/applies a stored suggested edit that was stored during a `review` API call when it was given a `RobotCommentInput` that contained the fix suggestions. I would combine this sentence with the one below to state that all together.",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "344bcf64_841c0d3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-02T20:12:57Z",
+      "side": 1,
+      "message": "\"picks up\" isn\u0027t accurate. This API will be called by the frontend plugin itself to apply a fix it\u0027s suggesting in the UI and that the user has selected. Can you clarify that here?",
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56b534df_4eb18231",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-02T20:12:57Z",
+      "side": 1,
+      "message": "This should say something like \"The fix(es) to apply to a new or existing change edit.\"",
+      "range": {
+        "startLine": 125,
+        "startChar": 34,
+        "endLine": 125,
+        "endChar": 84
+      },
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec433594_dca94dac",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 40
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-02T20:12:57Z",
+      "side": 1,
+      "message": "What\u0027s the expected ordering in this file?",
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

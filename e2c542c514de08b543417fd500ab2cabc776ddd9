@@ -46,6 +46,30 @@
       },
       "revId": "e2c542c514de08b543417fd500ab2cabc776ddd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "118f3de7_b17cd72a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-repo-branch-picker/gr-repo-branch-picker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-02T14:18:28Z",
+      "side": 1,
+      "message": "So far I only know about this issue being with HEAD.\n\nGoing with simpler solution.",
+      "parentUuid": "823104c0_7151f0c3",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 40
+      },
+      "revId": "e2c542c514de08b543417fd500ab2cabc776ddd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

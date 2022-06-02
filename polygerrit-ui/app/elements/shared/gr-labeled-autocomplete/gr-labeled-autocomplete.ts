@@ -6,7 +6,7 @@
 import '../gr-autocomplete/gr-autocomplete';
 import '../../../styles/shared-styles';
 import {LitElement, css, html, PropertyValues} from 'lit';
-import {customElement, property, query} from 'lit/decorators';
+import {customElement, property, query} from 'lit/decorators.js';
 import {
   GrAutocomplete,
   AutocompleteQuery,

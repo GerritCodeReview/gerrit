@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "194f8905_9be783a2",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-02T06:01:22Z",
+      "side": 1,
+      "message": "This isn\u0027t working as expected when a change is merged from a git-receive-pack.\n\nThat is due to the absence of a thread-local RepoRefCache in the Receive-Commit thread pool.",
+      "range": {
+        "startLine": 446,
+        "startChar": 11,
+        "endLine": 446,
+        "endChar": 84
+      },
+      "revId": "bba801e223d64e26a0ef7537fef7935db3ca46de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

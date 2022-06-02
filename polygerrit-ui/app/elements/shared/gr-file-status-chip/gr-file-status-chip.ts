@@ -6,7 +6,7 @@
 import {FileInfoStatus, SpecialFilePath} from '../../../constants/constants';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {assertNever} from '../../../utils/common-util';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 

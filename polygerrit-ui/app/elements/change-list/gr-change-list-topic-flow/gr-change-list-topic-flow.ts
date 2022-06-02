@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {css, html, LitElement, nothing} from 'lit';
-import {customElement, query, state} from 'lit/decorators';
+import {customElement, query, state} from 'lit/decorators.js';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
 import {ChangeInfo, TopicName} from '../../../types/common';
@@ -17,9 +17,9 @@ import {getAppContext} from '../../../services/app-context';
 import {notUndefined} from '../../../types/types';
 import {unique} from '../../../utils/common-util';
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
-import {when} from 'lit/directives/when';
+import {when} from 'lit/directives/when.js';
 import {ValueChangedEvent} from '../../../types/events';
-import {classMap} from 'lit/directives/class-map';
+import {classMap} from 'lit/directives/class-map.js';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {ProgressStatus} from '../../../constants/constants';
 import {allSettled} from '../../../utils/async-util';

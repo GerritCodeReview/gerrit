@@ -48,11 +48,11 @@ import {
 import {windowLocationReload} from '../../../utils/dom-util';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {LitElement, css, html, nothing} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {when} from 'lit/directives/when';
+import {when} from 'lit/directives/when.js';
 import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {formStyles} from '../../../styles/gr-form-styles';

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {LitElement, html, css, PropertyValues} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import '../gr-change-list-action-bar/gr-change-list-action-bar';
 import {
@@ -20,7 +20,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {Metadata} from '../../../utils/change-metadata-util';
 import {WAITING} from '../../../constants/constants';
-import {ifDefined} from 'lit/directives/if-defined';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {provide} from '../../../models/dependency';
 import {
   bulkActionsModelToken,

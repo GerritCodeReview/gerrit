@@ -7,7 +7,7 @@ import '../../shared/gr-button/gr-button';
 import {ServerInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {PropertyValues} from 'lit';

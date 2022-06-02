@@ -9,7 +9,7 @@ import '../gr-comment/gr-comment';
 import '../../../embed/diff/gr-diff/gr-diff';
 import '../gr-copy-clipboard/gr-copy-clipboard';
 import {css, html, LitElement, PropertyValues} from 'lit';
-import {customElement, property, query, queryAll, state} from 'lit/decorators';
+import {customElement, property, query, queryAll, state} from 'lit/decorators.js';
 import {
   computeDiffFromContext,
   isDraft,
@@ -54,8 +54,8 @@ import {generateAbsoluteUrl} from '../../../utils/url-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {subscribe} from '../../lit/subscription-controller';
-import {repeat} from 'lit/directives/repeat';
-import {classMap} from 'lit/directives/class-map';
+import {repeat} from 'lit/directives/repeat.js';
+import {classMap} from 'lit/directives/class-map.js';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {ValueChangedEvent} from '../../../types/events';
 import {notDeepEqual} from '../../../utils/deep-util';

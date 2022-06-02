@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b242654_dba72dd0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-02T08:15:59Z",
+      "side": 1,
+      "message": "With this commit running the test locally started failing for me:\n\n$ bazel test //... --test_tag_filters\u003d-flaky,-elastic,-local,-manual\n\n...\n\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nERROR: /usr/local/google/home/ekempin/git/gerrit/tools/node_tools/node_modules_licenses/BUILD:9:11: Compiling TypeScript (devmode) //tools/node_tools/node_modules_licenses:licenses-map [for host] failed: (Exit 1): tsc_wrapped-bin.sh failed: error executing command bazel-out/host/bin/tools/node_tools/tsc_wrapped-bin.sh @@bazel-out/host/bin/tools/node_tools/node_modules_licenses/licenses-map_es5_tsconfig.json\nCompilation failed TypeError [ERR_INVALID_ARG_TYPE]: The \"path\" argument must be of type string. Received an instance of Object\n    at new NodeError (node:internal/errors:371:5)\n    at validateString (node:internal/validators:119:11)\n    at Object.join (node:path:1172:7)\n    at /usr/local/google/home/ekempin/.cache/bazel/_bazel_ekempin/04250bee69fe54b0ca9e02f8a8931c32/execroot/gerrit/node_modules/@bazel/concatjs/internal/tsc_wrapped/compiler_host.js:337:79\n    at Array.forEach (\u003canonymous\u003e)\n    at /usr/local/google/home/ekempin/.cache/bazel/_bazel_ekempin/04250bee69fe54b0ca9e02f8a8931c32/execroot/gerrit/node_modules/@bazel/concatjs/internal/tsc_wrapped/compiler_host.js:335:40\n    at Array.forEach (\u003canonymous\u003e)\n    at CompilerHost.resolveTypeReferenceDirectives (/usr/local/google/home/ekempin/.cache/bazel/_bazel_ekempin/04250bee69fe54b0ca9e02f8a8931c32/execroot/gerrit/node_modules/@bazel/concatjs/internal/tsc_wrapped/compiler_host.js:331:15)\n    at actualResolveTypeReferenceDirectiveNamesWorker (/usr/local/google/home/ekempin/.cache/bazel/_bazel_ekempin/04250bee69fe54b0ca9e02f8a8931c32/execroot/gerrit/node_modules/typescript/lib/typescript.js:116611:163)\n    at resolveTypeReferenceDirectiveNamesWorker (/usr/local/google/home/ekempin/.cache/bazel/_bazel_ekempin/04250bee69fe54b0ca9e02f8a8931c32/execroot/gerrit/node_modules/typescript/lib/typescript.js:116911:26)\nERROR: /usr/local/google/home/ekempin/git/gerrit/polygerrit-ui/app/node_modules_licenses/BUILD:11:11 Compiling TypeScript (devmode) //polygerrit-ui/app/node_modules_licenses:licenses-config [for host] failed: (Exit 1): tsc_wrapped-bin.sh failed: error executing command bazel-out/host/bin/tools/node_tools/tsc_wrapped-bin.sh @@bazel-out/host/bin/tools/node_tools/node_modules_licenses/licenses-map_es5_tsconfig.json\nINFO: Elapsed time: 18.588s, Critical Path: 3.75s\n\n...\n",
+      "revId": "2d2d9ab0086e20da0de90daab6adb210f97bc1f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -26,7 +26,7 @@ import {GerritView} from '../../../services/router/router-model';
 import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property, state, query} from 'lit/decorators';
+import {customElement, property, state, query} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [

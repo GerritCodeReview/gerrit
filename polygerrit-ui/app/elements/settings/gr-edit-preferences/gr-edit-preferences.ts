@@ -12,7 +12,7 @@ import {formStyles} from '../../../styles/gr-form-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css} from 'lit';
-import {customElement, query, state} from 'lit/decorators';
+import {customElement, query, state} from 'lit/decorators.js';
 import {convertToString} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
 

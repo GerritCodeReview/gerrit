@@ -16,14 +16,14 @@ import {queryAndAssert} from '../../../utils/common-util';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {Interaction} from '../../../constants/reporting';
 import {LitElement, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
 import {PropertyValues} from 'lit';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {nothing} from 'lit';
-import {classMap} from 'lit/directives/class-map';
-import {when} from 'lit/directives/when';
+import {classMap} from 'lit/directives/class-map.js';
+import {when} from 'lit/directives/when.js';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;

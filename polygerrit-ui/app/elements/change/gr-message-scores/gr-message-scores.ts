@@ -5,7 +5,7 @@
  */
 import '../gr-trigger-vote/gr-trigger-vote';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {ChangeInfo} from '../../../api/rest-api';
 import {
   ChangeMessage,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {html, LitElement} from 'lit';
-import {customElement, state} from 'lit/decorators';
+import {customElement, state} from 'lit/decorators.js';
 import {define, resolve} from './dependency';
 import '../test/common-test-setup-karma.js';
 import {fixture} from '@open-wc/testing-helpers';

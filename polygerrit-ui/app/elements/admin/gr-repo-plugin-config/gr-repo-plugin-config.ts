@@ -13,7 +13,7 @@ import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-plugin-config-array-editor/gr-plugin-config-array-editor';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {ConfigParameterInfoType} from '../../../constants/constants';
 import {
   ConfigParameterInfo,

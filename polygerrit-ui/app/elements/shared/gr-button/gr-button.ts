@@ -7,10 +7,10 @@ import '@polymer/paper-button/paper-button';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {votingStyles} from '../../../styles/gr-voting-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {addShortcut, getEventPath, Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
-import {classMap} from 'lit/directives/class-map';
+import {classMap} from 'lit/directives/class-map.js';
 
 declare global {
   interface HTMLElementTagNameMap {

@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UsedAt;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ReceiveCommitsExecutor;
@@ -125,7 +126,9 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     @Override
     public void run() {
-      receiveCommits.processCommands(commands, progress);
+      try (PerThreadCache threadLocalCache = PerThreadCache.create(null)) {
+        receiveCommits.processCommands(commands, progress);
+      }
     }
 
     @Override

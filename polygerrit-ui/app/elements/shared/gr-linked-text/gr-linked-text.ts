@@ -7,7 +7,7 @@ import '../../../styles/shared-styles';
 import {GrLinkTextParser, LinkTextParserConfig} from './link-text-parser';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {LitElement, css, html, PropertyValues} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 
 declare global {

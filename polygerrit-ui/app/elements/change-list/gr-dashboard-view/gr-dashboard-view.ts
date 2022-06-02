@@ -43,7 +43,7 @@ import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property, state, query} from 'lit/decorators';
+import {customElement, property, state, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Shortcut} from '../../../services/shortcuts/shortcuts-config';
 import {ShortcutController} from '../../lit/shortcut-controller';

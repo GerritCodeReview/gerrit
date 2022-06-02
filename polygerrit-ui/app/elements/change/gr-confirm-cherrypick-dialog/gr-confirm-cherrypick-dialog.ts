@@ -17,7 +17,7 @@ import {
   CommitId,
   ChangeInfoId,
 } from '../../../types/common';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {
   AutocompleteQuery,
   AutocompleteSuggestion,
@@ -32,8 +32,8 @@ import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {fireEvent} from '../../../utils/event-util';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {choose} from 'lit/directives/choose';
-import {when} from 'lit/directives/when';
+import {choose} from 'lit/directives/choose.js';
+import {when} from 'lit/directives/when.js';
 import {BindValueChangeEvent} from '../../../types/events';
 
 const SUGGESTIONS_LIMIT = 15;

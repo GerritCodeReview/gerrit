@@ -107,7 +107,8 @@ public class ApprovalCopier {
           /* copiedApprovals= */ ImmutableSet.of(), /* outdatedApprovals= */ ImmutableSet.of());
     }
 
-    static Result create(
+    @VisibleForTesting
+    public static Result create(
         ImmutableSet<PatchSetApproval> copiedApprovals,
         ImmutableSet<PatchSetApproval> outdatedApprovals) {
       return new AutoValue_ApprovalCopier_Result(copiedApprovals, outdatedApprovals);

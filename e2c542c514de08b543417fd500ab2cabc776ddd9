@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec0449e5_11358c89",
+        "filename": "polygerrit-ui/app/elements/shared/gr-repo-branch-picker/gr-repo-branch-picker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-02T14:08:26Z",
+      "side": 1,
+      "message": "How many undesired branch options are there? Can we go a simpler route and only filter out \"HEAD\"?\n\nEspecially since this accepts any lowercase alphanum.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 40
+      },
+      "revId": "e2c542c514de08b543417fd500ab2cabc776ddd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

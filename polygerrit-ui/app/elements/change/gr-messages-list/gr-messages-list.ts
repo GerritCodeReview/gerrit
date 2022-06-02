@@ -15,7 +15,7 @@ import {
 import {parseDate} from '../../../utils/date-util';
 import {MessageTag} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {
   ChangeId,
   ChangeMessageId,
@@ -41,8 +41,8 @@ import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {paperStyles} from '../../../styles/gr-paper-styles';
-import {when} from 'lit/directives/when';
-import {ifDefined} from 'lit/directives/if-defined';
+import {when} from 'lit/directives/when.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
 
 /**

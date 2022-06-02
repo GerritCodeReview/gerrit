@@ -75,12 +75,12 @@ import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {Interaction} from '../../../constants/reporting';
 import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';
 import {LitElement, css, html, nothing, PropertyValues} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {changeMetadataStyles} from '../../../styles/gr-change-metadata-shared-styles';
-import {when} from 'lit/directives/when';
-import {ifDefined} from 'lit/directives/if-defined';
+import {when} from 'lit/directives/when.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 

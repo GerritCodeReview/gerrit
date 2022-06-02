@@ -25,9 +25,7 @@ import com.google.gerrit.acceptance.testsuite.change.ChangeKindCreator;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.change.ChangeKindCache;
@@ -303,7 +301,9 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
         RevWalk rw = new RevWalk(repo.newObjectReader())) {
       return ApprovalContext.create(
           changeNotes,
-          PatchSetApproval.key(psId, approver, LabelId.create("Code-Review")),
+          psId,
+          approver,
+          projectCache.get(project).get().getLabelTypes().byLabel("Code-Review").get(),
           (short) value,
           changeNotes.getPatchSets().get(newPsId),
           changeKind,

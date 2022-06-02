@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ebed935_e6516f88",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-06-02T06:46:48Z",
+      "side": 1,
+      "message": "nit: make a comment that we are always trying to copy forward one patch set at a time (i.e. A-\u003eB B-\u003eC, not A-\u003eC).",
+      "revId": "5e6bd7c8ee61c5ced862773ee925b408003cc562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "667e6170_e4b3b029",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-06-02T06:46:48Z",
+      "side": 1,
+      "message": "nit: name `target`?",
+      "range": {
+        "startLine": 662,
+        "startChar": 15,
+        "endLine": 662,
+        "endChar": 23
+      },
+      "revId": "5e6bd7c8ee61c5ced862773ee925b408003cc562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e72cbe4_a4b65697",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-06-02T06:46:48Z",
+      "side": 1,
+      "message": "This seems incorrect (or inconsistent): The PSA.Key is always the original, say for PS1. The target is evolving (say now it\u0027s PS4). The change kind then is for PS3 -\u003e PS4.\n\nI think that makes it hard to assess if the called logic is doing the right thing here. Could we evolve the PSA key also so that we call the copier only ever for single patch set increments?\n\nThe current logic in ApprovalCopier always only copies A-B B-C (one at a time). I think we should formalize this to reduce the chances of programming errors.",
+      "range": {
+        "startLine": 674,
+        "startChar": 7,
+        "endLine": 678,
+        "endChar": 23
+      },
+      "revId": "5e6bd7c8ee61c5ced862773ee925b408003cc562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

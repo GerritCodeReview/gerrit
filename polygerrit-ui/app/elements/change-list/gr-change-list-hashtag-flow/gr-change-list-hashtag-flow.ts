@@ -23,6 +23,7 @@ import {classMap} from 'lit/directives/class-map';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {ProgressStatus} from '../../../constants/constants';
 import {allSettled} from '../../../utils/async-util';
+import {fireReload} from '../../../utils/event-util';
 
 @customElement('gr-change-list-hashtag-flow')
 export class GrChangeListHashtagFlow extends LitElement {
@@ -356,7 +357,7 @@ export class GrChangeListHashtagFlow extends LitElement {
     if (results.every(result => result.status === 'fulfilled')) {
       this.overallProgress = ProgressStatus.SUCCESSFUL;
       this.closeDropdown();
-      // TODO: fire reload of dashboard
+      fireReload(this);
     } else {
       this.overallProgress = ProgressStatus.FAILED;
       // TODO: when some are rejected, show error and Cancel button

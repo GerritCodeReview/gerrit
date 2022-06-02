@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41b4eef1_07077963",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-06-02T18:44:53Z",
+      "side": 1,
+      "message": "A no-op, one-line change and I have 3 comments - I am sorry. It took me some time to understand the lifetime of this class, its parents and children and now I feelit should probably be improved.\n\nHowever, I also realize that you are trying to get somewhere and that my concerns equally apply to preexisting code, so I just left my thoughts but am okay if you want to move forward with this. +1.",
+      "revId": "e93bbf5b9c8dad81a67b1a55d6c8253911ae4fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "093f6997_c4f35a33",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-06-02T18:44:53Z",
+      "side": 1,
+      "message": "Nit: Here in embed/, ideally we would not mention Gerrit-specific views that other apps embedding a GrDiff would not have. Maybe the idea can be conveyed more generally like this:\n\n\"GrDiffCursor offers explicit lifecycle methods to allow its parent to initialize and tear down the global scroll event handlers it uses.\"",
+      "range": {
+        "startLine": 121,
+        "startChar": 35,
+        "endLine": 121,
+        "endChar": 45
+      },
+      "revId": "e93bbf5b9c8dad81a67b1a55d6c8253911ae4fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5582eebf_ebb0c227",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-06-02T18:44:53Z",
+      "side": 1,
+      "message": "Supernit: Is this not an API comment? Do you have a convention to use /** */ for those?",
+      "range": {
+        "startLine": 121,
+        "startChar": 2,
+        "endLine": 121,
+        "endChar": 4
+      },
+      "revId": "e93bbf5b9c8dad81a67b1a55d6c8253911ae4fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bb9874c_797d12a5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-06-02T18:44:53Z",
+      "side": 1,
+      "message": "FWIW, it is not completely clear to me why the instance would be reused as the GrDiffView is reconstructed. It looks to me as if no state is intentionally kept, and this actually increases the risk of accidentally leaking any state unintentionally.\nFor example, line 129 calls `cursorManager.unsetCursor`, but only after unsubscribing from `cursorManager.target$` which means `diffRow[Internal]` is not reset. \n\nI think I would find it cleaner if GrDiffView.connectedCallback would create a new GrDiffCursor each time it is connected. But you may have a deeper understanding of this and have your reasons why you want to reuse the instance?",
+      "range": {
+        "startLine": 121,
+        "startChar": 18,
+        "endLine": 121,
+        "endChar": 29
+      },
+      "revId": "e93bbf5b9c8dad81a67b1a55d6c8253911ae4fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

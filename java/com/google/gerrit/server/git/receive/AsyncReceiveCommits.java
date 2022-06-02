@@ -32,12 +32,14 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UsedAt;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ReceiveCommitsExecutor;
 import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.ProjectRunnable;
+import com.google.gerrit.server.git.RepoRefCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
@@ -125,7 +127,9 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     @Override
     public void run() {
+    	try (PerThreadCache threadLocalCache = PerThreadCache.create(null)) {
       receiveCommits.processCommands(commands, progress);
+    	}
     }
 
     @Override

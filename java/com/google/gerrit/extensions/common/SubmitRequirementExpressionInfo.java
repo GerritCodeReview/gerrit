@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import java.util.List;
+import java.util.Objects;
 
 /** Result of evaluating a single submit requirement expression. */
 public class SubmitRequirementExpressionInfo {
@@ -42,4 +43,25 @@ public class SubmitRequirementExpressionInfo {
    * during its evaluation.
    */
   public String errorMessage;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof SubmitRequirementExpressionInfo)) {
+      return false;
+    }
+    SubmitRequirementExpressionInfo that = (SubmitRequirementExpressionInfo) o;
+    return fulfilled == that.fulfilled
+        && Objects.equals(expression, that.expression)
+        && Objects.equals(passingAtoms, that.passingAtoms)
+        && Objects.equals(failingAtoms, that.failingAtoms)
+        && Objects.equals(errorMessage, that.errorMessage);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(expression, fulfilled, passingAtoms, failingAtoms, errorMessage);
+  }
 }

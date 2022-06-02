@@ -6,7 +6,7 @@
 import '../gr-label-score-row/gr-label-score-row';
 import '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {
   ChangeInfo,
   AccountInfo,

@@ -8,7 +8,7 @@ import './gr-summary-chip';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../checks/gr-checks-action';
 import {LitElement, css, html} from 'lit';
-import {customElement, state} from 'lit/decorators';
+import {customElement, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {getAppContext} from '../../../services/app-context';

@@ -6,7 +6,7 @@
 import '@polymer/paper-tooltip/paper-tooltip';
 import '@polymer/iron-icon/iron-icon';
 import {LitElement, css, html, PropertyValues, nothing} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {RunResult} from '../../models/checks/checks-model';
 import {iconFor} from '../../models/checks/checks-util';
 import {modifierPressed} from '../../utils/dom-util';

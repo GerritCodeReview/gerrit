@@ -63,9 +63,9 @@ import {resolve} from '../models/dependency';
 import {browserModelToken} from '../models/browser/browser-model';
 import {sharedStyles} from '../styles/shared-styles';
 import {LitElement, PropertyValues, html, css, nothing} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {ShortcutController} from './lit/shortcut-controller';
-import {cache} from 'lit/directives/cache';
+import {cache} from 'lit/directives/cache.js';
 import {assertIsDefined} from '../utils/common-util';
 import './gr-css-mixins';
 

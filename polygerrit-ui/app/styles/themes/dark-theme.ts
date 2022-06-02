@@ -91,6 +91,8 @@ const darkThemeCss = safeStyleSheet`
     --not-working-hours-icon-background-color: var(--purple-tonal);
     --not-working-hours-icon-color: var(--purple-100);
     --unavailability-icon-color: var(--gray-500);
+    --unavailability-chip-icon-color: var(--orange-700);
+    --unavailability-chip-background-color: var(--orange-tonal);
 
     /* text colors */
     --primary-text-color: var(--gray-200);

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c825b2d_b3d9f747",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-02T17:52:28Z",
+      "side": 1,
+      "message": "I asked at the Community Meeting today and no one had concerns with making this fix, so I\u0027m going to approve it.",
+      "parentUuid": "feffaef0_db8d642f",
+      "revId": "503c5d57174017d61b3db33b0e802d71e079880b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5df22570_a5db307e",

@@ -174,6 +174,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a54a0c31_27a80ae2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-02T07:11:04Z",
+      "side": 1,
+      "message": "\u003e so it took me a few minutes to actually read all the words you had for your second use case, notably the \"frontend plugin\" part, and now I\u0027m pretty excited about that case. We should definitely have that example in the commit message.\n\nPlease see the new commit message and see if it makes sense.\n\n\u003e I assume the frontend plugin will have some way for a user to be able to accept/select multiple fixes suggested by the plugin at once? Or would they accept individually and each fix would update the same change edit (until the user publishes it)?\n\n@Patrick please guide, I am unsure of the answer.\n\n\u003e I think your Suggestion 1 naming for both APIs makes sense\nI had started making changes before you had replied. The new API is named as `apply_provided_fix` and the existing one remains as `apply`. Please let me know if we should still change something.\n\n\u003e For the  apply  endpoint where is that  FixReplacement  entity actually used?  apply  has no input object, only the resource. Both endpoints should respond with an  EditInfo , correct?\n\nThe apply endpoint doesn\u0027t use or expects \u0027FixReplacement`. Yes, both the endpoints respond with an `EditInfo`.\n\n\u003e I think this is ok. It\u0027s not an area of the code that\u0027s central to a lot of development, so renaming only affects a small set of folks.\n\nOk, Please take a fresh look with the new patchset and documentation and let me know if I should still rename or move anything.\n\n\u003e FixReplacement  is an \"entity\" and has more code vs the \"extension\"  FixReplacementInfo  which should just be more of a data container object. Subtly, you\u0027ll also notice they use different  Comment.Range  classes which also have different code. @Patrick, I would have assumed the entity classes would/should somehow leverage the extension classes. Does that make sense?\n\nThanks",
+      "parentUuid": "0aa97601_dbc1618c",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7b8b524_728a9686",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28
@@ -377,6 +395,30 @@
       "side": 1,
       "message": "Going with Patrick\u0027s suggestion above, I think the doc should have both of these listed as \"Apply Fix\", with the difference being the endpoint including the fix-id or not. To do that we probably need to break up the big \"Revision Endpoints\" section and at least create a \"Fix Endpoints\" subsection within it for the existing \"Apply Fix\" and \"Preview Fix\" endpoints. I think those sections are supposed to represent resources anyway? Even if not, it probably makes the API docs a lot nicer if things are grouped together like that. Is that reasonable to do as part of this series?",
       "parentUuid": "9b6c7989_44843b10",
+      "range": {
+        "startLine": 5378,
+        "startChar": 4,
+        "endLine": 5378,
+        "endChar": 20
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24cc60d2_08b1b732",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5378,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-02T07:11:04Z",
+      "side": 1,
+      "message": "Made subsecions inside the section \u0027Apply Fix\u0027.\nDoes the new subsection names and details looks good?\n\nFYI, the subsection \u0027Apply Fix From Server\u0027 and \u0027Apply Provided Fix\u0027 don\u0027t show on the left side panel that has a hyperlink to all APIs. The left side panel has link only to \u0027Apply Fix\u0027 apart from whatever was there previously.",
+      "parentUuid": "ecd41994_b1d7e8fc",
       "range": {
         "startLine": 5378,
         "startChar": 4,
@@ -798,6 +840,24 @@
       "side": 1,
       "message": "Will Update this class name to `ApplyProvidedFixInput`.",
       "parentUuid": "02fc555c_171de233",
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94b8d713_b041bc4e",
+        "filename": "java/com/google/gerrit/extensions/common/DirectFixInput.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-02T07:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5976603_31236ede",
       "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

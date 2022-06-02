@@ -14,7 +14,7 @@ import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html, PropertyValues} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fire} from '../../../utils/event-util';

@@ -39,11 +39,11 @@ import {EditRevisionInfo} from '../../../types/types';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
-import {ifDefined} from 'lit/directives/if-defined';
+import {ifDefined} from 'lit/directives/if-defined.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;

@@ -7,7 +7,7 @@ import {define, provide, resolve, DIPolymerElement} from './dependency';
 import {html, LitElement} from 'lit';
 import {customElement as polyCustomElement} from '@polymer/decorators';
 import {html as polyHtml} from '@polymer/polymer/lib/utils/html-tag';
-import {customElement, property, query} from 'lit/decorators';
+import {customElement, property, query} from 'lit/decorators.js';
 import '../test/common-test-setup-karma.js';
 
 interface FooService {

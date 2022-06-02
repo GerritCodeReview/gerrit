@@ -100,10 +100,10 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {ConfigInfo, LabelNameToValuesMap} from '../../../api/rest-api';
 import {css, html, PropertyValues, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {when} from 'lit/directives/when';
-import {classMap} from 'lit/directives/class-map';
+import {when} from 'lit/directives/when.js';
+import {classMap} from 'lit/directives/class-map.js';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
-import {customElement, property, state, query} from 'lit/decorators';
+import {customElement, property, state, query} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;

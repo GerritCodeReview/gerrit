@@ -25,7 +25,7 @@ import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {fireEvent} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';

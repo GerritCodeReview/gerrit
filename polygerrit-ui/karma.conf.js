@@ -106,18 +106,28 @@ module.exports = function(config) {
       { pattern: testFilesPattern, type: 'module' },
     ],
     esm: {
-      nodeResolve: {
-        // By default, it tries to use page.mjs file instead of page.js
-        // when importing 'page/page', so we shouldn't use .mjs extension
-        // in node resolve.
-        // The .ts extension is required to display source code in browser
-        // (otherwise esm plugin crashes)
+      /*nodeResolve: {
+        jsnext: true,
+        browser: true,
+        // set default to false because es-dev-server always
+        // runs in the browser
+        preferBuiltins: true,
+        // will overwrite es-dev-server's fileExtensions option
         extensions: ['.js', '.ts'],
-      },
+        // will overwrite es-dev-server's dedupe option
+        dedupe: ['lit-html'],
+        customResolveOptions: {
+          // will overwrite es-dev-server's moduleDirs option
+          moduleDirectory: getModulesDir(),
+          preserveSymlinks: true,
+        },
+      },*/
+      nodeResolve: true,
       moduleDirs: getModulesDir(),
       // Bazel and yarn uses symlinks for files.
       // preserveSymlinks is necessary for correct modules paths resolving
       preserveSymlinks: true,
+      fileExtensions: ['.js', '.ts'],
       // By default, esm-dev-server uses 'auto' compatibility mode.
       // In the 'auto' mode it incorrectly applies polyfills and
       // breaks tests in some browser versions

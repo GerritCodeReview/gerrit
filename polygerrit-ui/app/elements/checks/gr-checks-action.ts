@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {Action} from '../../api/checks';
 import {checkRequiredProperty} from '../../utils/common-util';
 import {resolve} from '../../models/dependency';

@@ -14,7 +14,7 @@ import {
   PermissionArray,
   AccessPermissionId,
 } from '../../../utils/access-util';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {
   LabelNameToLabelTypeInfoMap,
   LabelTypeInfoValues,
@@ -39,7 +39,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
-import {when} from 'lit/directives/when';
+import {when} from 'lit/directives/when.js';
 import {ValueChangedEvent} from '../../../types/events';
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;

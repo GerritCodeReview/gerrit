@@ -6,7 +6,7 @@
 import '../../test/common-test-setup-karma.js';
 import {HovercardMixin} from './hovercard-mixin.js';
 import {html, LitElement} from 'lit';
-import {customElement} from 'lit/decorators';
+import {customElement} from 'lit/decorators.js';
 import {MockPromise, mockPromise, pressKey} from '../../test/test-utils.js';
 import {findActiveElement, Key} from '../../utils/dom-util.js';
 

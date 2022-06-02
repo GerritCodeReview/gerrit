@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e3ae666_2802e9bd",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-02T13:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47a972e1_b2587415",
+      "revId": "6c15ca4287658b3cbd7fd04e84f52d0741dd1191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "775c7a93_f49c51f7",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-02T10:46:11Z",
       "side": 1,
       "message": "await?",
+      "revId": "6c15ca4287658b3cbd7fd04e84f52d0741dd1191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65bdc7e0_563ac12e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-02T13:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "775c7a93_f49c51f7",
       "revId": "6c15ca4287658b3cbd7fd04e84f52d0741dd1191",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7904ba4c_3ab4f072",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-02T13:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ec60557_8f0ab458",
+      "revId": "6c15ca4287658b3cbd7fd04e84f52d0741dd1191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4df97da3_ac5fa578",
@@ -65,6 +119,24 @@
       "writtenOn": "2022-06-02T10:46:11Z",
       "side": 1,
       "message": "This is duplicative with what selectChange does.",
+      "revId": "6c15ca4287658b3cbd7fd04e84f52d0741dd1191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ca812dc_ef656c92",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-02T13:54:39Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "4df97da3_ac5fa578",
       "revId": "6c15ca4287658b3cbd7fd04e84f52d0741dd1191",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

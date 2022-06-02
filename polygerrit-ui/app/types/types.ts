@@ -4,20 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {DiffLayer as DiffLayerApi} from '../api/diff';
-import {DiffViewMode, MessageTag, Side} from '../constants/constants';
+import {MessageTag, Side} from '../constants/constants';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {
   AccountInfo,
   BasePatchSetNum,
-  ChangeId,
   ChangeViewChangeInfo,
   CommitId,
   CommitInfo,
   EditPatchSet,
-  NumericChangeId,
-  PatchRange,
   PatchSetNum,
   ReviewerUpdateInfo,
   RevisionInfo,
@@ -171,39 +168,6 @@ export type DiffLayerListener = (
 export interface DiffLayer extends DiffLayerApi {
   addListener?(listener: DiffLayerListener): void;
   removeListener?(listener: DiffLayerListener): void;
-}
-
-export interface ChangeViewState {
-  changeNum: NumericChangeId | null;
-  patchRange: PatchRange | null;
-  selectedFileIndex: number;
-  showReplyDialog: boolean;
-  diffMode: DiffViewMode | null;
-  numFilesShown: number | null;
-}
-
-export interface ChangeListViewState {
-  changeNum?: ChangeId;
-  patchRange?: PatchRange;
-  // TODO(TS): seems only one of 2 selected... is required
-  selectedFileIndex?: number;
-  selectedChangeIndex?: number;
-  showReplyDialog?: boolean;
-  diffMode?: DiffViewMode;
-  numFilesShown?: number;
-  scrollTop?: number;
-  query?: string | null;
-  offset?: number;
-}
-
-export interface DashboardViewState {
-  [key: string]: number;
-}
-
-export interface ViewState {
-  changeView: ChangeViewState;
-  changeListView: ChangeListViewState;
-  dashboardView: DashboardViewState;
 }
 
 export interface PatchSetFile {

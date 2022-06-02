@@ -459,7 +459,6 @@ suite('gr-diff-view tests', () => {
         'wheatley.md',
       ]);
       element._path = 'glados.txt';
-      element.changeViewState.selectedFileIndex = 1;
       element._loggedIn = true;
 
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
@@ -482,7 +481,6 @@ suite('gr-diff-view tests', () => {
         'Should navigate to /c/42/10/wheatley.md'
       );
       element._path = 'wheatley.md';
-      assert.equal(element.changeViewState.selectedFileIndex, 2);
       assert.isTrue(element._loading);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
@@ -496,7 +494,6 @@ suite('gr-diff-view tests', () => {
         'Should navigate to /c/42/10/glados.txt'
       );
       element._path = 'glados.txt';
-      assert.equal(element.changeViewState.selectedFileIndex, 1);
       assert.isTrue(element._loading);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
@@ -510,7 +507,6 @@ suite('gr-diff-view tests', () => {
         'Should navigate to /c/42/10/chell.go'
       );
       element._path = 'chell.go';
-      assert.equal(element.changeViewState.selectedFileIndex, 0);
       assert.isTrue(element._loading);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
@@ -518,7 +514,6 @@ suite('gr-diff-view tests', () => {
         changeNavStub.lastCall.calledWith(element._change),
         'Should navigate to /c/42/'
       );
-      assert.equal(element.changeViewState.selectedFileIndex, 0);
       assert.isTrue(element._loading);
 
       const showPrefsStub = sinon
@@ -618,7 +613,6 @@ suite('gr-diff-view tests', () => {
         'wheatley.md',
       ]);
       element._path = 'glados.txt';
-      element.changeViewState.selectedFileIndex = 1;
       element._loggedIn = true;
 
       MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'N');
@@ -795,7 +789,6 @@ suite('gr-diff-view tests', () => {
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       await flush();
-      assert.isTrue(element.changeViewState.showReplyDialog);
       assert(
         changeNavStub.lastCall.calledWithExactly(element._change, {
           patchNum: 10 as RevisionPatchSetNum,
@@ -826,7 +819,6 @@ suite('gr-diff-view tests', () => {
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       await flush();
-      assert.isTrue(element.changeViewState.showReplyDialog);
       assert(
         changeNavStub.lastCall.calledWithExactly(element._change, {
           patchNum: 1 as RevisionPatchSetNum,

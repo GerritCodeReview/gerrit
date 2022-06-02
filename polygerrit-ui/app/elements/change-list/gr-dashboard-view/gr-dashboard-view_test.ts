@@ -589,9 +589,6 @@ suite('gr-dashboard-view tests', () => {
         sections: [],
       })
     );
-    element.viewState = {
-      101001: 23,
-    };
     element.params = {
       view: GerritView.DASHBOARD,
       dashboard: 'dashboard' as DashboardId,

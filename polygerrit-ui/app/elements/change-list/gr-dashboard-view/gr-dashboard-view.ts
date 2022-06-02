@@ -36,7 +36,6 @@ import {
 } from '../gr-create-destination-dialog/gr-create-destination-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
-import {DashboardViewState} from '../../../types/types';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
@@ -79,9 +78,6 @@ export class GrDashboardView extends LitElement {
 
   @property({type: Object})
   preferences?: PreferencesInput;
-
-  @property({type: Object})
-  viewState?: DashboardViewState;
 
   @property({type: Object})
   params?: AppElementDashboardParams;
@@ -306,10 +302,6 @@ export class GrDashboardView extends LitElement {
     if (changedProperties.has('params')) {
       this.paramsChanged();
     }
-
-    if (changedProperties.has('selectedChangeIndex')) {
-      this.selectedChangeIndexChanged();
-    }
   }
 
   private loadPreferences() {
@@ -366,27 +358,8 @@ export class GrDashboardView extends LitElement {
     return params.view === GerritView.DASHBOARD;
   }
 
-  private selectedChangeIndexChanged() {
-    if (
-      !this.params ||
-      !this.isViewActive(this.params) ||
-      this.selectedChangeIndex === undefined
-    )
-      return;
-    if (!this.viewState) throw new Error('view state undefined');
-    if (!this.params.user) throw new Error('user for dashboard is undefined');
-    this.viewState[this.params.user] = this.selectedChangeIndex;
-  }
-
   // private but used in test
   paramsChanged() {
-    if (
-      this.params &&
-      this.isViewActive(this.params) &&
-      this.params.user &&
-      this.viewState
-    )
-      this.selectedChangeIndex = this.viewState[this.params.user] || 0;
     return this.reload();
   }
 

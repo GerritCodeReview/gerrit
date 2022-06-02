@@ -76,7 +76,6 @@ import {
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {
-  ChangeViewState,
   CommitRange,
   EditRevisionInfo,
   FileRange,
@@ -94,17 +93,8 @@ import {
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
 import {AppElementParams, AppElementDiffViewParam} from '../../gr-app-types';
-import {
-  EventType,
-  OpenFixPreviewEvent,
-  ValueChangedEvent,
-} from '../../../types/events';
-import {
-  fire,
-  fireAlert,
-  fireEvent,
-  fireTitleChange,
-} from '../../../utils/event-util';
+import {EventType, OpenFixPreviewEvent} from '../../../types/events';
+import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {addGlobalShortcut, Key, toggleClass} from '../../../utils/dom-util';
@@ -182,9 +172,6 @@ export class GrDiffView extends base {
 
   @property({type: Object, observer: '_paramsChanged'})
   params?: AppElementParams;
-
-  @property({type: Object})
-  changeViewState: Partial<ChangeViewState> = {};
 
   @property({type: Object})
   _patchRange?: PatchRange;
@@ -773,12 +760,6 @@ export class GrDiffView extends base {
         fireEvent(this, 'show-auth-required');
         return;
       }
-
-      this.set('changeViewState.showReplyDialog', true);
-      fire(this, 'view-state-change-view-changed', {
-        value: this.changeViewState as ChangeViewState,
-      });
-      this._navToChangeView();
     });
   }
 
@@ -1255,13 +1236,7 @@ export class GrDiffView extends base {
     if (path) {
       fireTitleChange(this, computeTruncatedPath(path));
     }
-
     if (!this._fileList || this._fileList.length === 0) return;
-
-    this.set('changeViewState.selectedFileIndex', this._fileList.indexOf(path));
-    fire(this, 'view-state-change-view-changed', {
-      value: this.changeViewState as ChangeViewState,
-    });
   }
 
   _getDiffUrl(
@@ -1824,9 +1799,6 @@ export class GrDiffView extends base {
 }
 
 declare global {
-  interface HTMLElementEventMap {
-    'view-state-change-view-changed': ValueChangedEvent<ChangeViewState>;
-  }
   interface HTMLElementTagNameMap {
     'gr-diff-view': GrDiffView;
   }

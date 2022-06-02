@@ -19,15 +19,13 @@ import {
   RepoName,
 } from '../../../types/common';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
-import {ChangeListViewState} from '../../../types/types';
-import {fire, fireTitleChange} from '../../../utils/event-util';
+import {fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
 import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators';
-import {ValueChangedEvent} from '../../../types/events';
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [
   /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
@@ -59,9 +57,6 @@ export class GrChangeListView extends LitElement {
 
   @property({type: Object})
   account: AccountDetailInfo | null = null;
-
-  @property({type: Object})
-  viewState: ChangeListViewState = {};
 
   @property({type: Object})
   preferences?: PreferencesInput;
@@ -189,11 +184,7 @@ export class GrChangeListView extends LitElement {
           .account=${this.account}
           .changes=${this.changes}
           .preferences=${this.preferences}
-          .selectedIndex=${this.viewState.selectedChangeIndex}
           .showStar=${loggedIn}
-          @selected-index-changed=${(e: ValueChangedEvent<number>) => {
-            this.handleSelectedIndexChanged(e);
-          }}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}
@@ -286,17 +277,6 @@ export class GrChangeListView extends LitElement {
     this.query = value.query;
     const offset = Number(value.offset);
     this.offset = isNaN(offset) ? 0 : offset;
-    if (
-      this.viewState.query !== this.query ||
-      this.viewState.offset !== this.offset
-    ) {
-      this.viewState.selectedChangeIndex = 0;
-      this.viewState.query = this.query;
-      this.viewState.offset = this.offset;
-      fire(this, 'view-state-change-list-view-changed', {
-        value: this.viewState,
-      });
-    }
 
     // NOTE: This method may be called before attachment. Fire title-change
     // in an async so that attachment to the DOM can take place first.
@@ -416,18 +396,9 @@ export class GrChangeListView extends LitElement {
       e.detail.starred
     );
   }
-
-  private handleSelectedIndexChanged(e: ValueChangedEvent<number>) {
-    if (!this.viewState) return;
-    this.viewState.selectedChangeIndex = e.detail.value;
-    fire(this, 'view-state-change-list-view-changed', {value: this.viewState});
-  }
 }
 
 declare global {
-  interface HTMLElementEventMap {
-    'view-state-change-list-view-changed': ValueChangedEvent<ChangeListViewState>;
-  }
   interface HTMLElementTagNameMap {
     'gr-change-list-view': GrChangeListView;
   }

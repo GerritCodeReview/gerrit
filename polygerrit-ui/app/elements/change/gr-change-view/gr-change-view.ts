@@ -140,7 +140,6 @@ import {
   GrFileList,
 } from '../gr-file-list/gr-file-list';
 import {
-  ChangeViewState,
   EditRevisionInfo,
   isPolymerSpliceChange,
   ParsedChangeInfo,
@@ -161,7 +160,6 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {
-  fire,
   fireAlert,
   fireDialogChange,
   fireEvent,
@@ -273,9 +271,6 @@ export class GrChangeView extends base {
    */
   @property({type: Object, observer: '_paramsChanged'})
   params?: AppElementChangeViewParams;
-
-  @property({type: Object, observer: '_viewStateChanged'})
-  viewState: Partial<ChangeViewState> = {};
 
   @property({type: String})
   backPage?: string;
@@ -1408,7 +1403,6 @@ export class GrChangeView extends base {
   }
 
   _performPostLoadTasks() {
-    this._maybeShowReplyDialog();
     this._maybeShowRevertDialog();
 
     this._sendShowChangeEvent();
@@ -1428,30 +1422,6 @@ export class GrChangeView extends base {
     if (!value || !change) {
       return;
     }
-
-    if (!this._patchRange)
-      throw new Error('missing required _patchRange property');
-    // If the change number or patch range is different, then reset the
-    // selected file index.
-    const patchRangeState = this.viewState.patchRange;
-    if (
-      this.viewState.changeNum !== this._changeNum ||
-      !patchRangeState ||
-      patchRangeState.basePatchNum !== this._patchRange.basePatchNum ||
-      patchRangeState.patchNum !== this._patchRange.patchNum
-    ) {
-      this._resetFileListViewState();
-    }
-  }
-
-  _viewStateChanged(viewState: ChangeViewState) {
-    this._numFilesShown = viewState.numFilesShown
-      ? viewState.numFilesShown
-      : DEFAULT_NUM_FILES_SHOWN;
-  }
-
-  _numFilesShownChanged(numFilesShown: number) {
-    this.viewState.numFilesShown = numFilesShown;
   }
 
   _handleMessageAnchorTap(e: CustomEvent<{id: string}>) {
@@ -1509,37 +1479,6 @@ export class GrChangeView extends base {
           this.$.actions.showRevertDialog();
         }
       });
-  }
-
-  _maybeShowReplyDialog() {
-    this._getLoggedIn().then(loggedIn => {
-      if (!loggedIn) {
-        return;
-      }
-
-      if (this.viewState.showReplyDialog) {
-        this._openReplyDialog(FocusTarget.ANY);
-        this.set('viewState.showReplyDialog', false);
-        fire(this, 'view-state-change-view-changed', {
-          value: this.viewState as ChangeViewState,
-        });
-      }
-    });
-  }
-
-  _resetFileListViewState() {
-    this.set('viewState.selectedFileIndex', 0);
-    if (
-      !!this.viewState.changeNum &&
-      this.viewState.changeNum !== this._changeNum
-    ) {
-      this.set('_numFilesShown', DEFAULT_NUM_FILES_SHOWN);
-    }
-    this.set('viewState.changeNum', this._changeNum);
-    this.set('viewState.patchRange', this._patchRange);
-    fire(this, 'view-state-change-view-changed', {
-      value: this.viewState as ChangeViewState,
-    });
   }
 
   private updateTitle(change?: ChangeInfo | ParsedChangeInfo) {
@@ -2670,7 +2609,6 @@ export class GrChangeView extends base {
 declare global {
   interface HTMLElementEventMap {
     'toggle-star': CustomEvent<ChangeStarToggleStarDetail>;
-    'view-state-change-view-changed': ValueChangedEvent<ChangeViewState>;
   }
   interface HTMLElementTagNameMap {
     'gr-change-view': GrChangeView;

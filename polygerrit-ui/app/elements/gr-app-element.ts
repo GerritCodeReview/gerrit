@@ -53,9 +53,7 @@ import {
   PageErrorEventDetail,
   RpcLogEvent,
   TitleChangeEventDetail,
-  ValueChangedEvent,
 } from '../types/events';
-import {ChangeListViewState, ChangeViewState, ViewState} from '../types/types';
 import {GerritView} from '../services/router/router-model';
 import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
@@ -126,8 +124,6 @@ export class GrAppElement extends LitElement {
   @state() private showPluginScreen?: boolean;
 
   @state() private showDocumentationSearch?: boolean;
-
-  @state() private viewState?: ViewState;
 
   @state() private lastError?: ErrorInfo;
 
@@ -246,23 +242,6 @@ export class GrAppElement extends LitElement {
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
     this.settingsUrl = GerritNav.getUrlForSettings();
-
-    this.viewState = {
-      changeView: {
-        changeNum: null,
-        patchRange: null,
-        selectedFileIndex: 0,
-        showReplyDialog: false,
-        diffMode: null,
-        numFilesShown: null,
-      },
-      changeListView: {
-        query: null,
-        offset: 0,
-        selectedChangeIndex: 0,
-      },
-      dashboardView: {},
-    };
   }
 
   static override get styles() {
@@ -429,8 +408,6 @@ export class GrAppElement extends LitElement {
       <gr-change-list-view
         .params=${this.params}
         .account=${this.account}
-        .viewState=${this.viewState?.changeListView}
-        @view-state-change-list-view-changed=${this.handleViewStateChanged}
       ></gr-change-list-view>
     `;
   }
@@ -441,7 +418,6 @@ export class GrAppElement extends LitElement {
       <gr-dashboard-view
         .account=${this.account}
         .params=${this.params}
-        .viewState=${this.viewState?.dashboardView}
       ></gr-dashboard-view>
     `;
   }
@@ -459,9 +435,7 @@ export class GrAppElement extends LitElement {
     return html`
       <gr-change-view
         .params=${this.params}
-        .viewState=${this.viewState?.changeView}
         .backPage=${this.lastSearchPage}
-        @view-state-change-view-changed=${this.handleViewStateChangeViewChanged}
       ></gr-change-view>
     `;
   }
@@ -480,13 +454,7 @@ export class GrAppElement extends LitElement {
   }
 
   private diffViewTemplate() {
-    return html`
-      <gr-diff-view
-        .params=${this.params}
-        .changeViewState=${this.viewState?.changeView}
-        @view-state-change-view-changed=${this.handleViewStateChangeViewChanged}
-      ></gr-diff-view>
-    `;
+    return html` <gr-diff-view .params=${this.params}></gr-diff-view> `;
   }
 
   private renderSettingsView() {
@@ -834,24 +802,6 @@ export class GrAppElement extends LitElement {
     return window.localStorage.getItem('dark-theme')
       ? 'app-theme-dark'
       : 'app-theme-light';
-  }
-
-  private handleViewStateChanged(e: ValueChangedEvent<ChangeListViewState>) {
-    if (!this.viewState) return;
-    this.viewState.changeListView = {
-      ...this.viewState.changeListView,
-      ...e.detail.value,
-    };
-  }
-
-  private handleViewStateChangeViewChanged(
-    e: ValueChangedEvent<ChangeViewState>
-  ) {
-    if (!this.viewState) return;
-    this.viewState.changeView = {
-      ...this.viewState.changeView,
-      ...e.detail.value,
-    };
   }
 }
 

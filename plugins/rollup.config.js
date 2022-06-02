@@ -38,7 +38,7 @@ function requirePlugin(id) {
   return require(pluginPath);
 }
 
-const resolve = requirePlugin('rollup-plugin-node-resolve');
+const {nodeResolve} = requirePlugin('@rollup/plugin-node-resolve');
 
 export default {
   treeshake: false,
@@ -51,7 +51,7 @@ export default {
   },
   // Context must be set to window to correctly process global variables
   context: 'window',
-  plugins: [resolve({
+  plugins: [nodeResolve({
     customResolveOptions: {
       moduleDirectory: 'external/plugins_npm/node_modules',
     },

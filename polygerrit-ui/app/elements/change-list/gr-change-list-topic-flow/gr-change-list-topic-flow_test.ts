@@ -41,6 +41,15 @@ suite('gr-change-list-topic-flow tests', () => {
     await element.updateComplete;
   }
 
+  async function deselectChange(change: ChangeInfo) {
+    model.removeSelectedChangeNum(change._number);
+    await waitUntilObserved(
+      model.selectedChanges$,
+      selected => !selected.some(other => other._number === change._number)
+    );
+    await element.updateComplete;
+  }
+
   suite('dropdown closed', () => {
     const changes: ChangeInfo[] = [
       {
@@ -249,6 +258,40 @@ suite('gr-change-list-topic-flow tests', () => {
           // iron-dropdown sizing seems to vary between local & CI
           ignoreAttributes: [{tags: ['iron-dropdown'], attributes: ['style']}],
         }
+      );
+    });
+
+    test('apply all button is disabled if all changes have the same topic', async () => {
+      assert.isTrue(
+        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
+      );
+
+      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
+      await element.updateComplete;
+
+      assert.isFalse(
+        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
+      );
+
+      await deselectChange(changesWithTopics[1]);
+
+      const allChanges = model.getState().allChanges;
+      const change2 = {
+        ...createChange(),
+        _number: 2 as NumericChangeId,
+        subject: 'Subject 2',
+        topic: 'topic1' as TopicName, // same as changesWithTopics[0]
+      };
+      allChanges.set(2 as NumericChangeId, change2);
+      model.setState({
+        ...model.getState(),
+        allChanges,
+      });
+
+      await selectChange(change2);
+
+      assert.isTrue(
+        queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
       );
     });
 

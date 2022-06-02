@@ -23,7 +23,7 @@ import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 
 declare global {
   interface HTMLElementTagNameMap {

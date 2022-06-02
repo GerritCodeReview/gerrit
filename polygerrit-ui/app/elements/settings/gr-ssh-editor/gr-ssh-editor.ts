@@ -16,7 +16,7 @@ import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, html} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
 import {BindValueChangeEvent} from '../../../types/events';

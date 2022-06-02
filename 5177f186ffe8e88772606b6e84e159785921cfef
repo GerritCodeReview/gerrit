@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eb10fe1_12013db4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-02T17:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5a89f10_e77db781",
+      "revId": "5177f186ffe8e88772606b6e84e159785921cfef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e759552_663d2de6",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-02T14:24:18Z",
       "side": 1,
       "message": "What\u0027s the dark-theme version of this?",
+      "revId": "5177f186ffe8e88772606b6e84e159785921cfef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a88549e8_65d7bbf2",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-02T17:15:53Z",
+      "side": 1,
+      "message": "Change 337695 for adding dark theme colors.",
+      "parentUuid": "3e759552_663d2de6",
       "revId": "5177f186ffe8e88772606b6e84e159785921cfef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

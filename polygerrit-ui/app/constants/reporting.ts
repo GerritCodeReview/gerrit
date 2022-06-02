@@ -113,4 +113,12 @@ export enum Interaction {
   CHECKS_RUNS_PANEL_TOGGLE = 'checks-runs-panel-toggle',
   CHECKS_RUNS_SELECTED_TRIGGERED = 'checks-runs-selected-triggered',
   CHECKS_STATS = 'checks-stats',
+  // The following interactions are logged for investigating a spurious bug of
+  // auto-closing draft comments.
+  COMMENTS_AUTOCLOSE_FIRST_UPDATE = 'comments-autoclose-first-update',
+  COMMENTS_AUTOCLOSE_EDITING_FALSE_SAVE = 'comments-autoclose-editing-false-save',
+  COMMENTS_AUTOCLOSE_EDITING_DISCONNECTED = 'comments-autoclose-editing-disconnected',
+  COMMENTS_AUTOCLOSE_EDITING_THREAD_DISCONNECTED = 'comments-autoclose-editing-thread-disconnected',
+  COMMENTS_AUTOCLOSE_CHECKS_UPDATED = 'comments-autoclose-checks-updated',
+  COMMENTS_AUTOCLOSE_THREADS_UPDATED = 'comments-autoclose-threads-updated',
 }

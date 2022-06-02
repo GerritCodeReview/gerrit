@@ -118,6 +118,11 @@ export class GrDiffCursor implements GrDiffCursorApi {
     });
   }
 
+  // GrDiffCursor gets reused when GrDiffView is disconnected and reconnected.
+  // Therefore, we must reinstantiate the scroll handler and target
+  // subscription.
+  setup() {}
+
   dispose() {
     if (this.targetSubscription) this.targetSubscription.unsubscribe();
     window.removeEventListener('scroll', this._boundHandleWindowScroll);

@@ -17,8 +17,9 @@ export type Factory<TContext, K extends keyof TContext> = (
 ) => TContext[K] & Finalizable;
 
 // A registry contains a factory for each key in TContext.
-export type Registry<TContext> = {[P in keyof TContext]: Factory<TContext, P>} &
-  Record<string, (_: TContext) => Finalizable>;
+export type Registry<TContext> = {
+  [P in keyof TContext]: Factory<TContext, P>;
+} & Record<string, (_: TContext) => Finalizable>;
 
 // Creates a context given a registry.
 export function create<TContext>(

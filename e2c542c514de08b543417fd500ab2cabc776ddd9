@@ -22,6 +22,30 @@
       },
       "revId": "e2c542c514de08b543417fd500ab2cabc776ddd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "823104c0_7151f0c3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-repo-branch-picker/gr-repo-branch-picker.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-02T14:12:26Z",
+      "side": 1,
+      "message": "If the filtering by by regex is the best option, I would like to have a comment in the function below, to explain why we do the filtering, as it\u0027s unclear without knowing the context of this change",
+      "parentUuid": "ec0449e5_11358c89",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 40
+      },
+      "revId": "e2c542c514de08b543417fd500ab2cabc776ddd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

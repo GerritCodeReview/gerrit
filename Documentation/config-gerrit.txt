@@ -1213,6 +1213,14 @@ performance improvements by reducing the number of refs in the repo.
 +
 Default is true.
 
+[[change.maxSubmittableAtOnce]]change.maxSubmittableAtOnce::
++
+Maximum number of changes that can be chained together in the same repository
+to be submitted at once.
++
+Default is 32767.
+
+
 [[change.showAssigneeInChangesTable]]change.showAssigneeInChangesTable::
 +
 Show assignee field in changes table. If set to false, assignees will

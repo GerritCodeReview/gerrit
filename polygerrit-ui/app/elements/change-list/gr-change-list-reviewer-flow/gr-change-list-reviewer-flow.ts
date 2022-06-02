@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {css, html, LitElement, nothing} from 'lit';
-import {customElement, query, state} from 'lit/decorators';
+import {customElement, query, state} from 'lit/decorators.js';
 import {ProgressStatus, ReviewerState} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {configModelToken} from '../../../models/config/config-model';

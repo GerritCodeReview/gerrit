@@ -118,6 +118,9 @@ export class GrDiffCursor implements GrDiffCursorApi {
     });
   }
 
+  setup() {
+  }
+
   dispose() {
     if (this.targetSubscription) this.targetSubscription.unsubscribe();
     window.removeEventListener('scroll', this._boundHandleWindowScroll);

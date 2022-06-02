@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ecc2c90_55c5fa88",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-02T12:41:10Z",
+      "side": 1,
+      "message": "This seems like an unrelated change?",
+      "revId": "cd9253b68b806d3e2f46929254031ef566cf235d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac466100_56c1bbd4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-02T12:41:10Z",
+      "side": 1,
+      "message": "What is this for?",
+      "revId": "cd9253b68b806d3e2f46929254031ef566cf235d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

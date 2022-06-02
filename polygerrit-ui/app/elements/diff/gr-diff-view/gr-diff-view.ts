@@ -467,7 +467,7 @@ export class GrDiffView extends base {
           )
         )
         .subscribe(([patchNum, _routerView, diffPrefs]) => {
-          this.setReviewedStatus(patchNum!, diffPrefs);
+          if (patchNum) this.setReviewedStatus(patchNum, diffPrefs);
         })
     );
     this.subscriptions.push(

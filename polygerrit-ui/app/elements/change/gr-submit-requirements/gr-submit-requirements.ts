@@ -10,7 +10,7 @@ import '../gr-change-summary/gr-change-summary';
 import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-vote-chip/gr-vote-chip';
 import {LitElement, css, html, TemplateResult} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators.js';
 import {ParsedChangeInfo} from '../../../types/types';
 import {
   AccountInfo,
@@ -41,8 +41,8 @@ import {PrimaryTab} from '../../../constants/constants';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
-import {join} from 'lit/directives/join';
-import {map} from 'lit/directives/map';
+import {join} from 'lit/directives/join.js';
+import {map} from 'lit/directives/map.js';
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view

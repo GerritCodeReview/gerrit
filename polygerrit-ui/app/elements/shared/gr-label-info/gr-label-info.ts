@@ -20,7 +20,7 @@ import {
   isDetailedLabelInfo,
 } from '../../../types/common';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {GrButton} from '../gr-button/gr-button';
 import {
   canVote,
@@ -34,7 +34,7 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {votingStyles} from '../../../styles/gr-voting-styles';
-import {ifDefined} from 'lit/directives/if-defined';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {fireReload} from '../../../utils/event-util';
 import {sortReviewers} from '../../../utils/attention-set-util';
 

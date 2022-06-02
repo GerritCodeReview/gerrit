@@ -16,6 +16,7 @@ import {
   LifeCycle,
   Timing,
 } from '../../constants/reporting';
+import {getCLS, getFID, getLCP, Metric} from 'web-vitals';
 
 // Latency reporting constants.
 
@@ -183,6 +184,23 @@ export function initVisibilityReporter(reportingService: ReportingService) {
   document.addEventListener('visibilitychange', () => {
     reportingService.onVisibilityChange();
   });
+}
+
+export function initWebVitals(reportingService: ReportingService) {
+  function reportWebVitalMetric(name: Timing, metric: Metric) {
+    reportingService.reporter(
+      TIMING.TYPE,
+      TIMING.CATEGORY.UI_LATENCY,
+      name,
+      metric.value,
+      JSON.stringify(metric),
+      false
+    );
+  }
+
+  getCLS(metric => reportWebVitalMetric(Timing.CLS, metric));
+  getFID(metric => reportWebVitalMetric(Timing.FID, metric));
+  getLCP(metric => reportWebVitalMetric(Timing.LCP, metric));
 }
 
 // Calculates the time of Gerrit being in a background tab. When Gerrit reports

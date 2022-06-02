@@ -8,10 +8,10 @@ import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
 import {IronIconElement} from '@polymer/iron-icon';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
-import {classMap} from 'lit/directives/class-map';
-import {ifDefined} from 'lit/directives/if-defined';
+import {classMap} from 'lit/directives/class-map.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 import {GrButton} from '../gr-button/gr-button';
 
 const COPY_TIMEOUT_MS = 1000;

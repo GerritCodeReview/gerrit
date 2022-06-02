@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-icon/iron-icon';
-import {classMap} from 'lit/directives/class-map';
+import {classMap} from 'lit/directives/class-map.js';
 import './gr-hovercard-run';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import './gr-checks-attempt';
 import {Action, Link, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';

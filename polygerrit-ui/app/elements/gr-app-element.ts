@@ -424,26 +424,32 @@ export class GrAppElement extends LitElement {
   }
 
   private renderChangeListView() {
-    if (!this.showChangeListView) return nothing;
-    return html`
-      <gr-change-list-view
-        .params=${this.params}
-        .account=${this.account}
-        .viewState=${this.viewState?.changeListView}
-        @view-state-change-list-view-changed=${this.handleViewStateChanged}
-      ></gr-change-list-view>
-    `;
+    return cache(
+      this.showChangeListView
+        ? html`
+            <gr-change-list-view
+              .params=${this.params}
+              .account=${this.account}
+              .viewState=${this.viewState?.changeListView}
+              @view-state-change-list-view-changed=${this
+                .handleViewStateChanged}
+            ></gr-change-list-view>
+          `
+        : nothing
+    );
   }
 
   private renderDashboardView() {
-    if (!this.showDashboardView) return nothing;
-    return html`
-      <gr-dashboard-view
-        .account=${this.account}
-        .params=${this.params}
-        .viewState=${this.viewState?.dashboardView}
-      ></gr-dashboard-view>
-    `;
+    return cache(
+      this.showDashboardView
+        ? html`
+            <gr-dashboard-view
+              .account=${this.account}
+              .params=${this.params}
+            ></gr-dashboard-view>
+          `
+        : nothing
+    );
   }
 
   private renderChangeView() {

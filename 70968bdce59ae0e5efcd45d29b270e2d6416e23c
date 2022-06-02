@@ -16,6 +16,24 @@
       "message": "Sounds like you want to rebase this out of the chain?",
       "revId": "70968bdce59ae0e5efcd45d29b270e2d6416e23c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "440cdf18_c294eb6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-02T15:32:18Z",
+      "side": 1,
+      "message": "Good catch.",
+      "parentUuid": "ba04d3ef_075b18de",
+      "revId": "70968bdce59ae0e5efcd45d29b270e2d6416e23c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

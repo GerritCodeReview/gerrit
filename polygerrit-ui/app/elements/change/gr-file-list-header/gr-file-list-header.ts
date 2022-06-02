@@ -13,7 +13,7 @@ import '../gr-commit-info/gr-commit-info';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {computeLatestPatchNum, PatchSet} from '../../../utils/patch-set-util';
-import {property, customElement, query, state} from 'lit/decorators';
+import {property, customElement, query, state} from 'lit/decorators.js';
 import {
   AccountInfo,
   ChangeInfo,
@@ -34,8 +34,8 @@ import {
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {when} from 'lit/directives/when';
-import {ifDefined} from 'lit/directives/if-defined';
+import {when} from 'lit/directives/when.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
 import {resolve} from '../../../models/dependency';
 import {getAppContext} from '../../../services/app-context';

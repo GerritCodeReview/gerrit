@@ -3,7 +3,7 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {customElement} from 'lit/decorators';
+import {customElement} from 'lit/decorators.js';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {css, html, LitElement} from 'lit';
 

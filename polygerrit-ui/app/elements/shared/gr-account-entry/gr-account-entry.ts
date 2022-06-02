@@ -10,7 +10,7 @@ import {
 } from '../gr-autocomplete/gr-autocomplete';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {SuggestedReviewerInfo} from '../../../types/common';
 

@@ -15,7 +15,7 @@ import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {LitElement, css, html, PropertyValues} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property} from 'lit/decorators.js';
 
 @customElement('gr-user-header')
 export class GrUserHeader extends LitElement {

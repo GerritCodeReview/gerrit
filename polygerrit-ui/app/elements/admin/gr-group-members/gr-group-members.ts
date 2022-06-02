@@ -37,8 +37,8 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
-import {ifDefined} from 'lit/directives/if-defined';
+import {customElement, property, query, state} from 'lit/decorators.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 
 const SUGGESTIONS_LIMIT = 15;
 const SAVING_ERROR_TEXT =

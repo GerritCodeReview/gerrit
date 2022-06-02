@@ -57,6 +57,7 @@ import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {configModelToken} from '../../../models/config/config-model';
 import {changeModelToken} from '../../../models/change/change-model';
+import {Interaction} from '../../../constants/reporting';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -276,6 +277,11 @@ export class GrComment extends LitElement {
   override disconnectedCallback() {
     // Clean up emoji dropdown.
     if (this.textarea) this.textarea.closeDropdown();
+    if (this.editing) {
+      this.reporting.reportInteraction(
+        Interaction.COMMENTS_AUTOCLOSE_EDITING_DISCONNECTED
+      );
+    }
     super.disconnectedCallback();
   }
 
@@ -833,6 +839,10 @@ export class GrComment extends LitElement {
     this.unresolved = this.comment.unresolved ?? true;
     if (isUnsaved(this.comment)) this.editing = true;
     if (isDraftOrUnsaved(this.comment)) {
+      this.reporting.reportInteraction(
+        Interaction.COMMENTS_AUTOCLOSE_FIRST_UPDATE,
+        {editing: this.editing, unsaved: isUnsaved(this.comment)}
+      );
       this.collapsed = false;
     } else {
       this.collapsed = !!this.initiallyCollapsed;
@@ -997,6 +1007,9 @@ export class GrComment extends LitElement {
           await this.rawSave(messageToSave, {showToast: true});
         }
       }
+      this.reporting.reportInteraction(
+        Interaction.COMMENTS_AUTOCLOSE_EDITING_FALSE_SAVE
+      );
       this.editing = false;
     } catch (e) {
       this.unableToSave = true;

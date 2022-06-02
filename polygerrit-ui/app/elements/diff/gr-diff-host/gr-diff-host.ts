@@ -76,7 +76,7 @@ import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader
 import {assertIsDefined} from '../../../utils/common-util';
 import {DiffContextExpandedEventDetail} from '../../../embed/diff/gr-diff-builder/gr-diff-builder';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
-import {Timing} from '../../../constants/reporting';
+import {Timing, Interaction} from '../../../constants/reporting';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
 import {DisplayLine, RenderPreferences} from '../../../api/diff';
@@ -508,6 +508,12 @@ export class GrDiffHost extends DIPolymerElement {
     const idToEl = new Map<string, GrDiffCheckResult>();
     const checkEls = this.getCheckEls();
     const dontRemove = new Set<GrDiffCheckResult>();
+    let createdCount = 0;
+    let updatedCount = 0;
+    let removedCount = 0;
+    const checksCount = checks.length;
+    const checkElsCount = checks.length;
+    if (checksCount === 0 && checkElsCount === 0) return;
     for (const el of checkEls) {
       const id = el.result?.internalResultId;
       assertIsDefined(id, 'result.internalResultId of gr-diff-check-result');
@@ -519,16 +525,23 @@ export class GrDiffHost extends DIPolymerElement {
       if (existingEl) {
         existingEl.result = check;
         dontRemove.add(existingEl);
+        updatedCount++;
       } else {
         const newEl = this.createCheckEl(check);
         dontRemove.add(newEl);
+        createdCount++;
       }
     }
     // Remove all check els that don't have a matching check anymore.
     for (const el of checkEls) {
       if (dontRemove.has(el)) continue;
       el.remove();
+      removedCount++;
     }
+    this.reporting.reportInteraction(
+      Interaction.COMMENTS_AUTOCLOSE_CHECKS_UPDATED,
+      {createdCount, updatedCount, removedCount, checksCount, checkElsCount}
+    );
   }
 
   /**
@@ -864,7 +877,8 @@ export class GrDiffHost extends DIPolymerElement {
   _threadsChanged(threads: CommentThread[]) {
     const rootIdToThreadEl = new Map<UrlEncodedCommentId, GrCommentThread>();
     const unsavedThreadEls: GrCommentThread[] = [];
-    for (const threadEl of this.getThreadEls()) {
+    const threadEls = this.getThreadEls();
+    for (const threadEl of threadEls) {
       if (threadEl.rootId) {
         rootIdToThreadEl.set(threadEl.rootId, threadEl);
       } else {
@@ -873,6 +887,13 @@ export class GrDiffHost extends DIPolymerElement {
       }
     }
     const dontRemove = new Set<GrCommentThread>();
+    let createdCount = 0;
+    let updatedCount = 0;
+    let removedCount = 0;
+    const threadCount = threads.length;
+    const threadElCount = threadEls.length;
+    if (threadCount === 0 && threadElCount === 0) return;
+
     for (const thread of threads) {
       // Let's find an existing DOM element matching the thread. Normally this
       // is as simple as matching the rootIds.
@@ -910,10 +931,12 @@ export class GrDiffHost extends DIPolymerElement {
       ) {
         existingThreadEl.thread = thread;
         dontRemove.add(existingThreadEl);
+        updatedCount++;
       } else {
         const threadEl = this._createThreadElement(thread);
         this._attachThreadElement(threadEl);
         dontRemove.add(threadEl);
+        createdCount++;
       }
     }
     // Remove all threads that are no longer existing.
@@ -923,8 +946,13 @@ export class GrDiffHost extends DIPolymerElement {
       // might be unsaved and thus not be reflected in `threads` yet, so let's
       // keep them open.
       if (threadEl.editing && threadEl.thread?.comments.length === 0) continue;
+      removedCount++;
       threadEl.remove();
     }
+    this.reporting.reportInteraction(
+      Interaction.COMMENTS_AUTOCLOSE_THREADS_UPDATED,
+      {createdCount, updatedCount, removedCount, threadCount, threadElCount}
+    );
     const portedThreadsCount = threads.filter(thread => thread.ported).length;
     const portedThreadsWithoutRange = threads.filter(
       thread => thread.ported && thread.rangeInfoLost

@@ -63,6 +63,7 @@ import {resolve} from '../../../models/dependency';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {whenRendered} from '../../../utils/dom-util';
+import {Interaction} from '../../../constants/reporting';
 
 const NEWLINE_PATTERN = /\n/g;
 
@@ -245,6 +246,8 @@ export class GrCommentThread extends LitElement {
 
   private readonly userModel = getAppContext().userModel;
 
+  private readonly reporting = getAppContext().reportingService;
+
   private readonly shortcuts = new ShortcutController(this);
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker();
@@ -296,6 +299,15 @@ export class GrCommentThread extends LitElement {
         };
       }
     );
+  }
+
+  override disconnectedCallback() {
+    if (this.editing) {
+      this.reporting.reportInteraction(
+        Interaction.COMMENTS_AUTOCLOSE_EDITING_THREAD_DISCONNECTED
+      );
+    }
+    super.disconnectedCallback();
   }
 
   static override get styles() {

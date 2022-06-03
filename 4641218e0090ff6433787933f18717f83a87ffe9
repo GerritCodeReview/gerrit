@@ -16,6 +16,24 @@
       "message": "Even though this is a \"fix\" it alters functionality and will potentially break scripts/automation that rely on the space-bar-heater[1].\nCould you mention this in the release notes?\n\n[1] https://xkcd.com/1172/",
       "revId": "4641218e0090ff6433787933f18717f83a87ffe9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16195d89_08d33069",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-03T15:25:29Z",
+      "side": 1,
+      "message": "Definitely and I share the same concern. I\u0027ll make sure we add some \"warning\" text in the release notes for the affected versions.",
+      "parentUuid": "1624a5f0_03e43ad6",
+      "revId": "4641218e0090ff6433787933f18717f83a87ffe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

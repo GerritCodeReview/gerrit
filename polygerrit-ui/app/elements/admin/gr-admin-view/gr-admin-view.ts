@@ -111,6 +111,8 @@ export class GrAdminView extends LitElement {
   // private but used in test
   @state() filteredLinks?: NavLink[];
 
+  private reloading = false;
+
   // private but used in the tests
   readonly jsAPI = getAppContext().jsApiService;
 
@@ -458,6 +460,7 @@ export class GrAdminView extends LitElement {
   }
 
   async reload() {
+    this.reloading = true;
     const promises: [Promise<AccountDetailInfo | undefined>, Promise<void>] = [
       this.restApiService.getAccount(),
       getPluginLoader().awaitPluginsLoaded(),
@@ -477,6 +480,7 @@ export class GrAdminView extends LitElement {
         isAdmin,
         groupOwner: isOwner,
       };
+      this.reloading = false;
     }
 
     const res = await getAdminLinks(
@@ -543,6 +547,7 @@ export class GrAdminView extends LitElement {
     // This is when it gets set initially.
     if (this.selectedIsCurrentPage(selected)) return;
     if (selected.url === undefined) return;
+    if (this.reloading) return;
     GerritNav.navigateToRelativeUrl(selected.url);
   }
 

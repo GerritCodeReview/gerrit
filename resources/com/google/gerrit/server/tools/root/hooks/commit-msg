@@ -70,8 +70,14 @@ if git interpret-trailers --parse < "$1" | grep -q "^$token: $pattern$" ; then
   exit 0
 fi
 
+# Make sure the trailer appeares before any Signed-off-by trailers by inserting
+# it as if it was a Signed-off-by trailer and then use sed to remove the
+# Signed-off-by prefix.
 # Avoid the --in-place option which only appeared in Git 2.8
-if ! git interpret-trailers --trailer "$token: $value" < "$1" > "$dest" ; then
+# Avoid the --where option which only appeared in Git 2.15
+if ! git -c trailer.where=before interpret-trailers \
+         --trailer "Signed-off-by: $token: $value" < "$1" |
+     sed -re "s/^Signed-off-by: ($token: )/\1/" > "$dest" ; then
   echo "cannot insert $token line in $1"
   exit 1
 fi

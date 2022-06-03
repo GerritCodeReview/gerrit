@@ -85,6 +85,78 @@
       },
       "revId": "e93bbf5b9c8dad81a67b1a55d6c8253911ae4fe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dab75a0_1c08c9be",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-03T06:54:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5582eebf_ebb0c227",
+      "range": {
+        "startLine": 121,
+        "startChar": 2,
+        "endLine": 121,
+        "endChar": 4
+      },
+      "revId": "e93bbf5b9c8dad81a67b1a55d6c8253911ae4fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4c4c99f_16b705c7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-03T06:54:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "093f6997_c4f35a33",
+      "range": {
+        "startLine": 121,
+        "startChar": 35,
+        "endLine": 121,
+        "endChar": 45
+      },
+      "revId": "e93bbf5b9c8dad81a67b1a55d6c8253911ae4fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cccaaba0_f25ef0c3",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-03T06:54:11Z",
+      "side": 1,
+      "message": "The advantage of not recreating the GrDiffCursor is that we don\u0027t have to recompute updateStops each time we go back between change page and the first file. Though arguably that\u0027s not a common enough scenario to optimize for.",
+      "parentUuid": "0bb9874c_797d12a5",
+      "range": {
+        "startLine": 121,
+        "startChar": 18,
+        "endLine": 121,
+        "endChar": 29
+      },
+      "revId": "e93bbf5b9c8dad81a67b1a55d6c8253911ae4fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

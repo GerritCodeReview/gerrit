@@ -157,6 +157,30 @@
       },
       "revId": "e93bbf5b9c8dad81a67b1a55d6c8253911ae4fe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f19619ce_95a1a882",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-06-03T07:53:27Z",
+      "side": 1,
+      "message": "Are you sure? `updateStops` seems to be called whenever a diff renders (Line 339) and also whenever diffs are replaced (Line 530) which I would expect to happen as you switch between CL page and file page. I think in a bright future, GrDiffCursor and GrCursorManager would not depend on the DOM, but on a view model of what is shown to the user. Then indeed certain precomputations could be made and kept even when the page is re-rendered. As it stands, I at least do not understand how such an optimization would work if the entire DOM is replaced.\n\nBut again, I do not insist that this has to be changed now, I just wanted to point it out, in case you decide that the cleaner fix is after all to recreate this class, and then this new method would not be needed. I have a certain aversion to classes that are in some kind of uninitialized state - I think that is what constructors are for. But obviously that is a general rule and this may be an exception.",
+      "parentUuid": "cccaaba0_f25ef0c3",
+      "range": {
+        "startLine": 121,
+        "startChar": 18,
+        "endLine": 121,
+        "endChar": 29
+      },
+      "revId": "e93bbf5b9c8dad81a67b1a55d6c8253911ae4fe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

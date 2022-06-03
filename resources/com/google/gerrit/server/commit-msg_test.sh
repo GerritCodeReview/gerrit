@@ -147,6 +147,25 @@ EOF
   fi
 }
 
+# Change-Id goes before Signed-off-by trailers.
+function test_before_signed_off_by {
+  cat << EOF > input
+bla bla
+
+Bug: #123
+Signed-off-by: Joe User
+EOF
+
+  ${hook} input || fail "failed hook execution"
+  result=$(tail -2 input | head -1 | grep ^Change-Id) || :
+  if [[ -z "${result}" ]] ; then
+    echo "after: "
+    cat input
+
+    fail "did not find Change-Id before Signed-off-by"
+  fi
+}
+
 function test_dash_at_end {
   if [[ ! -x /bin/dash ]] ; then
     echo "/bin/dash not installed; skipping dash test."

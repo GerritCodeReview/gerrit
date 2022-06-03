@@ -16,6 +16,24 @@
       "message": "What about this line?",
       "revId": "9b4636d7d66d3f0f6512648cdf705b868ecf4848",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "209fbce2_eeb86357",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-03T09:48:38Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "b9c740ab_f0cc2d76",
+      "revId": "9b4636d7d66d3f0f6512648cdf705b868ecf4848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -157,6 +157,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fbba3f9_29b1e78c",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-03T04:58:56Z",
+      "side": 1,
+      "message": "It\u0027s ok if it\u0027s for that reason. I suspect the few other cases in the code base are for the same reason.",
+      "parentUuid": "6e929d9f_d4efbaf6",
+      "range": {
+        "startLine": 154,
+        "startChar": 37,
+        "endLine": 154,
+        "endChar": 61
+      },
+      "revId": "9add3b65e47fba34d03a27b857cbee762a84630b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87396e87_832893f5",

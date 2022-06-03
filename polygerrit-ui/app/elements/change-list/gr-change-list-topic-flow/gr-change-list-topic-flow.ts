@@ -23,6 +23,7 @@ import {classMap} from 'lit/directives/class-map';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {ProgressStatus} from '../../../constants/constants';
 import {allSettled} from '../../../utils/async-util';
+import {fireReload} from '../../../utils/event-util';
 
 @customElement('gr-change-list-topic-flow')
 export class GrChangeListTopicFlow extends LitElement {
@@ -360,7 +361,7 @@ export class GrChangeListTopicFlow extends LitElement {
       this.overallProgress = ProgressStatus.SUCCESSFUL;
       this.dropdown?.close();
       this.isDropdownOpen = false;
-      // TODO: fire reload of dashboard
+      fireReload(this);
     } else {
       this.overallProgress = ProgressStatus.FAILED;
       // TODO: when some are rejected, show error and Cancel button

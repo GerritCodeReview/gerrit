@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f6fd2b8_fab16f3d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1131,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-03T10:10:16Z",
+      "side": 0,
+      "message": "This optimisation was added in Change 320976 submitted in Oct 2021.\n\nWhy is the bug happening now? This doesn\u0027t seem to be the cause of the bug or was it happening since the change was submitted?",
+      "range": {
+        "startLine": 1131,
+        "startChar": 10,
+        "endLine": 1131,
+        "endChar": 70
+      },
+      "revId": "4c83d31c571c5a52ed5cd660a6d1650cb285f159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

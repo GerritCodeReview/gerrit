@@ -173,7 +173,6 @@ declare global {
 @customElement('gr-file-list')
 export class GrFileList extends LitElement {
   /**
-   * @event selected-index-changed
    * @event files-expanded-changed
    * @event num-files-shown-changed
    * @event diff-prefs-changed
@@ -1797,7 +1796,6 @@ export class GrFileList extends LitElement {
       if (e.key === Key.DOWN) return;
       this.fileCursor.next({circular: true});
       this.selectedIndex = this.fileCursor.index;
-      fire(this, 'selected-index-changed', {value: this.fileCursor.index});
     }
   }
 
@@ -1810,7 +1808,6 @@ export class GrFileList extends LitElement {
       if (e.key === Key.UP) return;
       this.fileCursor.previous({circular: true});
       this.selectedIndex = this.fileCursor.index;
-      fire(this, 'selected-index-changed', {value: this.fileCursor.index});
     }
   }
 

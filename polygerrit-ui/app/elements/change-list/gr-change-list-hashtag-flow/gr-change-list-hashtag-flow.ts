@@ -63,9 +63,6 @@ export class GrChangeListHashtagFlow extends LitElement {
         [slot='dropdown-content'] {
           padding: var(--spacing-xl) var(--spacing-l) var(--spacing-l);
         }
-        gr-autocomplete {
-          --border-color: var(--gray-800);
-        }
         .footer {
           display: flex;
           justify-content: space-between;

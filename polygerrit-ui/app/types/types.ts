@@ -176,7 +176,6 @@ export interface DiffLayer extends DiffLayerApi {
 export interface ChangeViewState {
   changeNum: NumericChangeId | null;
   patchRange: PatchRange | null;
-  selectedFileIndex: number;
   showReplyDialog: boolean;
   diffMode: DiffViewMode | null;
   numFilesShown: number | null;
@@ -185,8 +184,6 @@ export interface ChangeViewState {
 export interface ChangeListViewState {
   changeNum?: ChangeId;
   patchRange?: PatchRange;
-  // TODO(TS): seems only one of 2 selected... is required
-  selectedFileIndex?: number;
   selectedChangeIndex?: number;
   showReplyDialog?: boolean;
   diffMode?: DiffViewMode;

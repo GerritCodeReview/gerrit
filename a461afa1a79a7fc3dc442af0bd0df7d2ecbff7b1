@@ -129,6 +129,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09eea0a7_0fc64834",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-06-03T09:44:38Z",
+      "side": 1,
+      "message": "The current state looks good to me, but my +2 doesn\u0027t mean \"merge as is\" it means \"I am going on a longer leave and want to mark my approval for this change, please work on Nasser\u0027s comments, give him one more chance to take a look afterwards and then submit this change\".\n\nThanks for all your work on this, I appreciate the contribution you made to Gerrit.",
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56b534df_4eb18231",
         "filename": "java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
         "patchSetId": 40

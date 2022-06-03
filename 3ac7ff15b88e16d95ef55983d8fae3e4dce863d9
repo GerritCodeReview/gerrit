@@ -63,6 +63,30 @@
       },
       "revId": "3ac7ff15b88e16d95ef55983d8fae3e4dce863d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cd61cfc_05ffc17c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyDirectFixIT.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-06-03T09:44:38Z",
+      "side": 1,
+      "message": "I would still like to see this test.",
+      "parentUuid": "d8835d9e_7758efb3",
+      "range": {
+        "startLine": 113,
+        "startChar": 14,
+        "endLine": 113,
+        "endChar": 75
+      },
+      "revId": "3ac7ff15b88e16d95ef55983d8fae3e4dce863d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

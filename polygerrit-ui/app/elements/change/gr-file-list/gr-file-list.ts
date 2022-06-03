@@ -2246,7 +2246,8 @@ export class GrFileList extends LitElement {
       count: files.length,
       height: this.clientHeight,
     });
-    /* Block diff cursor from auto scrolling after files are done rendering.
+    /*
+    * Block diff cursor from auto scrolling after files are done rendering.
     * This prevents the bug where the screen jumps to the first diff chunk
     * after files are done being rendered after the user has already begun
     * scrolling.
@@ -2254,7 +2255,7 @@ export class GrFileList extends LitElement {
     * focus on the first diff chunk on a small screen. This is however, a use
     * case we are willing to not support for now.
 
-    * Using handleDiffUpdate resulted in diffCursor.row being set which
+    * Using reInit resulted in diffCursor.row being set which
     * prevented the issue of scrolling to top when we expand the second
     * file individually.
     */

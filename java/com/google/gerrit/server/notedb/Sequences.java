@@ -55,6 +55,9 @@ public class Sequences {
   private final RepoSequence changeSeq;
   private final RepoSequence groupSeq;
   private final Timer2<SequenceType, Boolean> nextIdLatency;
+  private final int accountBatchSize;
+  private final int changeBatchSize;
+  private final int groupBatchSize = 1;
 
   @Inject
   public Sequences(
@@ -65,7 +68,7 @@ public class Sequences {
       AllUsersName allUsers,
       MetricMaker metrics) {
 
-    int accountBatchSize =
+    accountBatchSize =
         cfg.getInt(
             SECTION_NOTEDB,
             NAME_ACCOUNTS,
@@ -80,7 +83,7 @@ public class Sequences {
             () -> FIRST_ACCOUNT_ID,
             accountBatchSize);
 
-    int changeBatchSize =
+    changeBatchSize =
         cfg.getInt(
             SECTION_NOTEDB,
             NAME_CHANGES,
@@ -95,7 +98,6 @@ public class Sequences {
             () -> FIRST_CHANGE_ID,
             changeBatchSize);
 
-    int groupBatchSize = 1;
     groupSeq =
         new RepoSequence(
             repoManager,
@@ -144,6 +146,18 @@ public class Sequences {
     }
   }
 
+  public int changeBatchSize() {
+    return changeBatchSize;
+  }
+
+  public int groupBatchSize() {
+    return groupBatchSize;
+  }
+
+  public int accountBatchSize() {
+    return accountBatchSize;
+  }
+
   public int currentChangeId() {
     return changeSeq.current();
   }
@@ -154,6 +168,18 @@ public class Sequences {
 
   public int currentGroupId() {
     return groupSeq.current();
+  }
+
+  public int lastChangeId() {
+    return changeSeq.last();
+  }
+
+  public int lastGroupId() {
+    return groupSeq.last();
+  }
+
+  public int lastAccountId() {
+    return accountSeq.last();
   }
 
   public void setChangeIdValue(int value) {

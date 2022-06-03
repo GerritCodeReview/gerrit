@@ -175,6 +175,23 @@
       "parentUuid": "074453b3_2f83fe35",
       "revId": "cf0aa1cc975ec8b834705e2c7d937ea52e4f27db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1d02ca7_078b1b94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2022-06-03T11:20:33Z",
+      "side": 1,
+      "message": "Adding Peter for awareness. Unfortunately I could not get alignment here on the desired names, and now do not have sufficient time before my leave to get this in and do the necessary follow up in our internal tool using gr-diff. I will abandon the change, but am CC\u0027ing Peter for context in case you decide in future to improve this.",
+      "revId": "cf0aa1cc975ec8b834705e2c7d937ea52e4f27db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

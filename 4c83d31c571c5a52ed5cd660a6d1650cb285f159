@@ -22,6 +22,30 @@
       },
       "revId": "4c83d31c571c5a52ed5cd660a6d1650cb285f159",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a77816ce_435df292",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1131,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-03T12:58:59Z",
+      "side": 0,
+      "message": "This is not the cause of the bug but it vastly simplifies how to reason about.\n\nThat being said, I found a more direct fix to the bug.",
+      "parentUuid": "7f6fd2b8_fab16f3d",
+      "range": {
+        "startLine": 1131,
+        "startChar": 10,
+        "endLine": 1131,
+        "endChar": 70
+      },
+      "revId": "4c83d31c571c5a52ed5cd660a6d1650cb285f159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1980,7 +1980,7 @@ suite('gr-file-list tests', () => {
       }
 
       element.updateDiffCursor();
-      element.diffCursor.handleDiffUpdate();
+      element.diffCursor.reInitCursor();
       return diffs;
     }
 

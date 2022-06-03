@@ -128,6 +128,30 @@
       },
       "revId": "5e6bd7c8ee61c5ced862773ee925b408003cc562",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd0e0a41_ff5f604b",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2022-06-03T09:30:46Z",
+      "side": 1,
+      "message": "\u003e We\u0027ve tried this before and then had to revert this due to gaps in the patch set numbers [2]. There is still a TODO about this in ApprovalContext. I don\u0027t think we need to resolve this now.\n\nI agree. Maybe we can add a check in the future that checks based on a list of all patch sets (allPs.nextLower(target) \u003d\u003d current) instead of trivially saying checkState(current +1 \u003d\u003d target).",
+      "parentUuid": "15a51eee_a0b44cff",
+      "range": {
+        "startLine": 674,
+        "startChar": 7,
+        "endLine": 678,
+        "endChar": 23
+      },
+      "revId": "5e6bd7c8ee61c5ced862773ee925b408003cc562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

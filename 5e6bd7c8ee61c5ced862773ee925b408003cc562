@@ -152,6 +152,30 @@
       },
       "revId": "5e6bd7c8ee61c5ced862773ee925b408003cc562",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "345225de_8f87cd06",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-03T09:39:48Z",
+      "side": 1,
+      "message": "Yes, I was thinking the same yesterday, but didn\u0027t have time to give it a try yet :)",
+      "parentUuid": "cd0e0a41_ff5f604b",
+      "range": {
+        "startLine": 674,
+        "startChar": 7,
+        "endLine": 678,
+        "endChar": 23
+      },
+      "revId": "5e6bd7c8ee61c5ced862773ee925b408003cc562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

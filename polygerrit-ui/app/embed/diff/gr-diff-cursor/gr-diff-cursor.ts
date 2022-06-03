@@ -317,10 +317,6 @@ export class GrDiffCursor implements GrDiffCursorApi {
     this._updateStops();
   }
 
-  handleDiffUpdate() {
-    this.reInitCursor();
-  }
-
   private boundHandleDiffLoadingChanged = () => {
     this._updateStops();
   };

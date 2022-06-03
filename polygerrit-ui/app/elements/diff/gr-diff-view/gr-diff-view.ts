@@ -1255,13 +1255,6 @@ export class GrDiffView extends base {
     if (path) {
       fireTitleChange(this, computeTruncatedPath(path));
     }
-
-    if (!this._fileList || this._fileList.length === 0) return;
-
-    this.set('changeViewState.selectedFileIndex', this._fileList.indexOf(path));
-    fire(this, 'view-state-change-view-changed', {
-      value: this.changeViewState as ChangeViewState,
-    });
   }
 
   _getDiffUrl(

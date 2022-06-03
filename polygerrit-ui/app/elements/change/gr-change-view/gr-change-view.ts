@@ -1528,7 +1528,6 @@ export class GrChangeView extends base {
   }
 
   _resetFileListViewState() {
-    this.set('viewState.selectedFileIndex', 0);
     if (
       !!this.viewState.changeNum &&
       this.viewState.changeNum !== this._changeNum

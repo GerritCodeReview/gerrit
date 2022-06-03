@@ -537,7 +537,6 @@ export const htmlTemplate = html`
           change="[[_change]]"
           change-num="[[_changeNum]]"
           patch-range="[[_patchRange]]"
-          selected-index="{{viewState.selectedFileIndex}}"
           diff-view-mode="[[viewState.diffMode]]"
           edit-mode="[[_editMode]]"
           num-files-shown="{{_numFilesShown}}"

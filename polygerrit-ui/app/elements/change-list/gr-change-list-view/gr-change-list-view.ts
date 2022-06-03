@@ -189,11 +189,7 @@ export class GrChangeListView extends LitElement {
           .account=${this.account}
           .changes=${this.changes}
           .preferences=${this.preferences}
-          .selectedIndex=${this.viewState.selectedChangeIndex}
           .showStar=${loggedIn}
-          @selected-index-changed=${(e: ValueChangedEvent<number>) => {
-            this.handleSelectedIndexChanged(e);
-          }}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}
@@ -290,7 +286,6 @@ export class GrChangeListView extends LitElement {
       this.viewState.query !== this.query ||
       this.viewState.offset !== this.offset
     ) {
-      this.viewState.selectedChangeIndex = 0;
       this.viewState.query = this.query;
       this.viewState.offset = this.offset;
       fire(this, 'view-state-change-list-view-changed', {
@@ -415,12 +410,6 @@ export class GrChangeListView extends LitElement {
       e.detail.change._number,
       e.detail.starred
     );
-  }
-
-  private handleSelectedIndexChanged(e: ValueChangedEvent<number>) {
-    if (!this.viewState) return;
-    this.viewState.selectedChangeIndex = e.detail.value;
-    fire(this, 'view-state-change-list-view-changed', {value: this.viewState});
   }
 }
 

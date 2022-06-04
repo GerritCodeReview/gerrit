@@ -16,6 +16,8 @@ package com.google.gerrit.server.mail.send;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -29,8 +31,11 @@ public class AddToAttentionSetSender extends AttentionSetSender {
 
   @Inject
   public AddToAttentionSetSender(
-      EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
-    super(args, "addToAttentionSet", project, changeId);
+      EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
+      @Assisted Project.NameKey project,
+      @Assisted Change.Id changeId) {
+    super(args, email, project, changeId);
   }
 
   @Override

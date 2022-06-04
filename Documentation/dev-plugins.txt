@@ -2895,6 +2895,12 @@ cause into one metric bucket.
 This extension point allows to provide soy templates for registration
 so that they can be used for sending emails from a plugin.
 
+[[preferred-notification-email-provider]]
+== PreferredNotificationEmailProvider
+
+This extension point allows plugins to provide a destination address for
+outgoing emails from Gerrit.
+
 [[quota-enforcer]]
 == Quota Enforcer
 

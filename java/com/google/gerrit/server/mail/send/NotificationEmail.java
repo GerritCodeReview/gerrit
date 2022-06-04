@@ -24,7 +24,9 @@ import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.mail.MailHeader;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers.WatcherList;
 import java.util.HashMap;
@@ -36,8 +38,12 @@ public abstract class NotificationEmail extends OutgoingEmail {
 
   protected BranchNameKey branch;
 
-  protected NotificationEmail(EmailArguments args, String messageClass, BranchNameKey branch) {
-    super(args, messageClass);
+  protected NotificationEmail(
+      EmailArguments args,
+      String messageClass,
+      DynamicItem<PreferredNotificationEmailProvider> email,
+      BranchNameKey branch) {
+    super(args, messageClass, email);
     this.branch = branch;
   }
 

@@ -19,7 +19,9 @@ import static java.util.Objects.requireNonNull;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.mail.MailHeader;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import org.apache.james.mime4j.dom.field.FieldName;
@@ -48,10 +50,11 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
   @Inject
   public InboundEmailRejectionSender(
       EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
       @Assisted Address to,
       @Assisted String threadId,
       @Assisted InboundEmailError reason) {
-    super(args, "error");
+    super(args, "error", email);
     this.to = requireNonNull(to);
     this.threadId = requireNonNull(threadId);
     this.reason = requireNonNull(reason);

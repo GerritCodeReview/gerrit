@@ -17,8 +17,10 @@ package com.google.gerrit.server.mail.send;
 import com.google.common.base.Joiner;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountSshKey;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.List;
@@ -39,10 +41,11 @@ public class AddKeySender extends OutgoingEmail {
   @AssistedInject
   public AddKeySender(
       EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
       MessageIdGenerator messageIdGenerator,
       @Assisted IdentifiedUser user,
       @Assisted AccountSshKey sshKey) {
-    super(args, "addkey");
+    super(args, "addkey", email);
     this.messageIdGenerator = messageIdGenerator;
     this.user = user;
     this.sshKey = sshKey;
@@ -52,10 +55,11 @@ public class AddKeySender extends OutgoingEmail {
   @AssistedInject
   public AddKeySender(
       EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
       MessageIdGenerator messageIdGenerator,
       @Assisted IdentifiedUser user,
       @Assisted List<String> gpgKeys) {
-    super(args, "addkey");
+    super(args, "addkey", email);
     this.messageIdGenerator = messageIdGenerator;
     this.user = user;
     this.sshKey = null;

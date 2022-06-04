@@ -18,6 +18,8 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.gerrit.server.query.change.ChangeData;
 
 /** Alert a user to a reply to a change, usually commentary made during review. */
@@ -26,8 +28,12 @@ public abstract class ReplyToChangeSender extends ChangeEmail {
     T create(Project.NameKey project, Change.Id id);
   }
 
-  protected ReplyToChangeSender(EmailArguments args, String messageClass, ChangeData changeData) {
-    super(args, messageClass, changeData);
+  protected ReplyToChangeSender(
+      EmailArguments args,
+      String messageClass,
+      DynamicItem<PreferredNotificationEmailProvider> email,
+      ChangeData changeData) {
+    super(args, messageClass, email, changeData);
   }
 
   @Override

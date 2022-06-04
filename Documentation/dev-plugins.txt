@@ -2895,6 +2895,12 @@ cause into one metric bucket.
 This extension point allows to provide soy templates for registration
 so that they can be used for sending emails from a plugin.
 
+[[preferred-notification-email-provider]]
+== PreferredNotificationEmailProvider
+
+This extension point enables managing where emails are sent by providing
+the preferred notification email address for the specified account.
+
 [[quota-enforcer]]
 == Quota Enforcer
 

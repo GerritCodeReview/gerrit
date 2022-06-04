@@ -26,6 +26,8 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Optional;
@@ -43,10 +45,11 @@ public class MergedSender extends ReplyToChangeSender {
   @Inject
   public MergedSender(
       EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
       @Assisted Project.NameKey project,
       @Assisted Change.Id changeId,
       @Assisted Optional<String> stickyApprovalDiff) {
-    super(args, "merged", newChangeData(args, project, changeId));
+    super(args, "merged", email, newChangeData(args, project, changeId));
     labelTypes = changeData.getLabelTypes();
     this.stickyApprovalDiff = stickyApprovalDiff;
   }

@@ -37,10 +37,12 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
@@ -102,8 +104,12 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected boolean emailOnlyAuthors;
   protected boolean emailOnlyAttentionSetIfEnabled;
 
-  protected ChangeEmail(EmailArguments args, String messageClass, ChangeData changeData) {
-    super(args, messageClass, changeData.change().getDest());
+  protected ChangeEmail(
+      EmailArguments args,
+      String messageClass,
+      DynamicItem<PreferredNotificationEmailProvider> email,
+      ChangeData changeData) {
+    super(args, messageClass, email, changeData.change().getDest());
     this.changeData = changeData;
     change = changeData.change();
     emailOnlyAuthors = false;

@@ -39,10 +39,12 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.NoSuchEntityException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.gerrit.server.mail.receive.Protocol;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
@@ -130,6 +132,7 @@ public class CommentSender extends ReplyToChangeSender {
   @Inject
   public CommentSender(
       EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
       CommentsUtil commentsUtil,
       @GerritServerConfig Config cfg,
       @Assisted Project.NameKey project,
@@ -137,7 +140,7 @@ public class CommentSender extends ReplyToChangeSender {
       @Assisted ObjectId preUpdateMetaId,
       @Assisted
           Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
-    super(args, "comment", newChangeData(args, project, changeId));
+    super(args, "comment", email, newChangeData(args, project, changeId));
     this.commentsUtil = commentsUtil;
     this.incomingEmailEnabled =
         cfg.getEnum("receiveemail", null, "protocol", Protocol.NONE).ordinal()

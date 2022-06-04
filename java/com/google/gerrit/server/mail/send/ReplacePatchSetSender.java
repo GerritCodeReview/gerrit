@@ -32,6 +32,8 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -67,13 +69,14 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   @Inject
   public ReplacePatchSetSender(
       EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
       @Assisted Project.NameKey project,
       @Assisted Change.Id changeId,
       @Assisted ChangeKind changeKind,
       @Assisted ObjectId preUpdateMetaId,
       @Assisted
           Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
-    super(args, "newpatchset", newChangeData(args, project, changeId));
+    super(args, "newpatchset", email, newChangeData(args, project, changeId));
     this.changeKind = changeKind;
 
     this.preUpdateSubmitRequirementResultsSupplier =
@@ -91,7 +94,8 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   protected boolean shouldSendMessage() {
     if (!isChangeNoLongerSubmittable() && changeKind.isTrivialRebase()) {
       logger.atFine().log(
-          "skip email because new patch set is a trivial rebase that didn't make the change non-submittable");
+          "skip email because new patch set is a trivial rebase that didn't make the change"
+              + " non-submittable");
       return false;
     }
 

@@ -19,7 +19,9 @@ import static java.util.Objects.requireNonNull;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -41,10 +43,11 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   @Inject
   public RegisterNewEmailSender(
       EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
       EmailTokenVerifier tokenVerifier,
       IdentifiedUser callingUser,
       @Assisted final String address) {
-    super(args, "registernewemail");
+    super(args, "registernewemail", email);
     this.tokenVerifier = tokenVerifier;
     this.user = callingUser;
     this.addr = address;

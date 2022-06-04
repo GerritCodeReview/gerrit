@@ -21,6 +21,8 @@ import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
@@ -41,8 +43,11 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
 
   @Inject
   public DeleteReviewerSender(
-      EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
-    super(args, "deleteReviewer", newChangeData(args, project, changeId));
+      EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
+      @Assisted Project.NameKey project,
+      @Assisted Change.Id changeId) {
+    super(args, "deleteReviewer", email, newChangeData(args, project, changeId));
   }
 
   public void addReviewers(Collection<Account.Id> cc) {

@@ -18,6 +18,8 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -30,8 +32,11 @@ public class AbandonedSender extends ReplyToChangeSender {
 
   @Inject
   public AbandonedSender(
-      EmailArguments args, @Assisted Project.NameKey project, @Assisted Change.Id changeId) {
-    super(args, "abandon", ChangeEmail.newChangeData(args, project, changeId));
+      EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
+      @Assisted Project.NameKey project,
+      @Assisted Change.Id changeId) {
+    super(args, "abandon", email, ChangeEmail.newChangeData(args, project, changeId));
   }
 
   @Override

@@ -18,6 +18,8 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,8 +36,11 @@ public abstract class NewChangeSender extends ChangeEmail {
   private final Set<Account.Id> removedReviewers = new HashSet<>();
   private final Set<Address> removedByEmailReviewers = new HashSet<>();
 
-  protected NewChangeSender(EmailArguments args, ChangeData changeData) {
-    super(args, "newchange", changeData);
+  protected NewChangeSender(
+      EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
+      ChangeData changeData) {
+    super(args, "newchange", email, changeData);
   }
 
   public void addReviewers(Collection<Account.Id> cc) {

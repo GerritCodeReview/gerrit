@@ -31,10 +31,12 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
@@ -68,6 +70,7 @@ public abstract class OutgoingEmail {
   private final Map<String, EmailHeader> headers;
   private final Set<Address> smtpRcptTo = new HashSet<>();
   private final Set<Address> smtpBccRcptTo = new HashSet<>();
+  private final DynamicItem<PreferredNotificationEmailProvider> email;
   private Address smtpFromAddress;
   private StringBuilder textBody;
   private StringBuilder htmlBody;
@@ -79,9 +82,13 @@ public abstract class OutgoingEmail {
   protected Account.Id fromId;
   protected NotifyResolver.Result notify = NotifyResolver.Result.all();
 
-  protected OutgoingEmail(EmailArguments args, String messageClass) {
+  protected OutgoingEmail(
+      EmailArguments args,
+      String messageClass,
+      DynamicItem<PreferredNotificationEmailProvider> email) {
     this.args = args;
     this.messageClass = messageClass;
+    this.email = email;
     this.headers = new LinkedHashMap<>();
   }
 
@@ -601,10 +608,21 @@ public abstract class OutgoingEmail {
     }
 
     Account account = accountState.get();
-    String e = account.preferredEmail();
-    if (!account.isActive() || e == null) {
+    if (!account.isActive()) {
       return null;
     }
+
+    String e;
+    PreferredNotificationEmailProvider pnep = email.get();
+    if (pnep != null) {
+      e = pnep.getPreferredNotificationEmail(account);
+    } else {
+      e = account.preferredEmail();
+    }
+    if (e == null) {
+      return null;
+    }
+
     return Address.create(account.fullName(), e);
   }
 

@@ -18,6 +18,8 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 
 /** Base class for Attention Set email senders */
 public abstract class AttentionSetSender extends ReplyToChangeSender {
@@ -25,8 +27,11 @@ public abstract class AttentionSetSender extends ReplyToChangeSender {
   private String reason;
 
   public AttentionSetSender(
-      EmailArguments args, String messageClass, Project.NameKey project, Change.Id changeId) {
-    super(args, messageClass, ChangeEmail.newChangeData(args, project, changeId));
+      EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
+      Project.NameKey project,
+      Change.Id changeId) {
+    super(args, "addToAttentionSet", email, ChangeEmail.newChangeData(args, project, changeId));
   }
 
   @Override

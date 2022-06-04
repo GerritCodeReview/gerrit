@@ -17,8 +17,10 @@ package com.google.gerrit.server.mail.send;
 import com.google.common.base.Joiner;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountSshKey;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.Collections;
@@ -42,10 +44,11 @@ public class DeleteKeySender extends OutgoingEmail {
   @AssistedInject
   public DeleteKeySender(
       EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
       MessageIdGenerator messageIdGenerator,
       @Assisted IdentifiedUser user,
       @Assisted AccountSshKey sshKey) {
-    super(args, "deletekey");
+    super(args, "deletekey", email);
     this.messageIdGenerator = messageIdGenerator;
     this.user = user;
     this.gpgKeyFingerprints = Collections.emptyList();
@@ -55,10 +58,11 @@ public class DeleteKeySender extends OutgoingEmail {
   @AssistedInject
   public DeleteKeySender(
       EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
       MessageIdGenerator messageIdGenerator,
       @Assisted IdentifiedUser user,
       @Assisted List<String> gpgKeyFingerprints) {
-    super(args, "deletekey");
+    super(args, "deletekey", email);
     this.messageIdGenerator = messageIdGenerator;
     this.user = user;
     this.gpgKeyFingerprints = gpgKeyFingerprints;

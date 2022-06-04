@@ -19,6 +19,8 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -39,10 +41,11 @@ public class SetAssigneeSender extends ChangeEmail {
   @Inject
   public SetAssigneeSender(
       EmailArguments args,
+      DynamicItem<PreferredNotificationEmailProvider> email,
       @Assisted Project.NameKey project,
       @Assisted Change.Id changeId,
       @Assisted Account.Id assignee) {
-    super(args, "setassignee", newChangeData(args, project, changeId));
+    super(args, "setassignee", email, newChangeData(args, project, changeId));
     this.assignee = assignee;
   }
 

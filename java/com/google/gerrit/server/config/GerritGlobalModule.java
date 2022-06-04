@@ -128,6 +128,7 @@ import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.change.RevisionJson;
 import com.google.gerrit.server.comment.CommentContextCacheImpl;
+import com.google.gerrit.server.email.PreferredNotificationEmailProvider;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventsMetrics;
@@ -412,6 +413,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), OutgoingEmailValidationListener.class);
     DynamicSet.setOf(binder(), AccountActivationValidationListener.class);
     DynamicItem.itemOf(binder(), AvatarProvider.class);
+    DynamicItem.itemOf(binder(), PreferredNotificationEmailProvider.class);
     DynamicSet.setOf(binder(), LifecycleListener.class);
     DynamicSet.setOf(binder(), TopMenu.class);
     DynamicMap.mapOf(binder(), DownloadScheme.class);

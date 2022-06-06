@@ -64,7 +64,7 @@ import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.restapi.change.ApplyFix;
+import com.google.gerrit.server.restapi.change.ApplyStoredFix;
 import com.google.gerrit.server.restapi.change.CherryPick;
 import com.google.gerrit.server.restapi.change.Comments;
 import com.google.gerrit.server.restapi.change.CreateDraftComment;
@@ -132,7 +132,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   private final ListRobotComments listRobotComments;
   private final ListPortedComments listPortedComments;
   private final ListPortedDrafts listPortedDrafts;
-  private final ApplyFix applyFix;
+  private final ApplyStoredFix applyStoredFix;
   private final GetFixPreview getFixPreview;
   private final Fixes fixes;
   private final ListRevisionDrafts listDrafts;
@@ -178,7 +178,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       ListRobotComments listRobotComments,
       ListPortedComments listPortedComments,
       ListPortedDrafts listPortedDrafts,
-      ApplyFix applyFix,
+      ApplyStoredFix applyStoredFix,
       GetFixPreview getFixPreview,
       Fixes fixes,
       ListRevisionDrafts listDrafts,
@@ -223,7 +223,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
     this.listRobotComments = listRobotComments;
     this.listPortedComments = listPortedComments;
     this.listPortedDrafts = listPortedDrafts;
-    this.applyFix = applyFix;
+    this.applyStoredFix = applyStoredFix;
     this.getFixPreview = getFixPreview;
     this.fixes = fixes;
     this.listDrafts = listDrafts;
@@ -475,9 +475,9 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   }
 
   @Override
-  public EditInfo applyFix(String fixId) throws RestApiException {
+  public EditInfo applyStoredFix(String fixId) throws RestApiException {
     try {
-      return applyFix.apply(fixes.parse(revision, IdString.fromDecoded(fixId)), null).value();
+      return applyStoredFix.apply(fixes.parse(revision, IdString.fromDecoded(fixId)), null).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot apply fix", e);
     }

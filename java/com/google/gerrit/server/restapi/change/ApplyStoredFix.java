@@ -44,7 +44,7 @@ import java.io.IOException;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-public class ApplyFix implements RestModifyView<FixResource, Input> {
+public class ApplyStoredFix implements RestModifyView<FixResource, Input> {
 
   private final GitRepositoryManager gitRepositoryManager;
   private final FixReplacementInterpreter fixReplacementInterpreter;
@@ -53,7 +53,7 @@ public class ApplyFix implements RestModifyView<FixResource, Input> {
   private final ProjectCache projectCache;
 
   @Inject
-  public ApplyFix(
+  public ApplyStoredFix(
       GitRepositoryManager gitRepositoryManager,
       FixReplacementInterpreter fixReplacementInterpreter,
       ChangeEditModifier changeEditModifier,

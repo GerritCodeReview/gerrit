@@ -5306,8 +5306,8 @@ This endpoint requires authentication.
   }
 ----
 
-[[apply-fix]]
-=== Apply Fix
+[[apply-previously-suggested-fix]]
+=== Apply Previously Suggested Fix
 --
 'POST /changes/<<change-id,\{change-id\}>>/revisions/<<revision-id,\{revision-id\}>>/fixes/<<fix-id,\{fix-id\}>>/apply'
 --

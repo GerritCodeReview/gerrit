@@ -90,7 +90,7 @@ export const grRestApiMock: RestApiService = {
   addToAttentionSet(): Promise<Response> {
     return Promise.resolve(new Response());
   },
-  applyFixSuggestion(): Promise<Response> {
+  applyStoredFixSuggestion(): Promise<Response> {
     return Promise.resolve(new Response());
   },
   awaitPendingDiffDrafts(): Promise<void> {

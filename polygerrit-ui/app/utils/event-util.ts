@@ -104,7 +104,7 @@ export function fireShowPrimaryTab(
 }
 
 export function fireCloseFixPreview(target: EventTarget, fixApplied: boolean) {
-  fire(target, EventType.CLOSE_FIX_PREVIEW, {fixApplied});
+  fire(target, EventType.CLOSE_STORED_FIX_PREVIEW, {fixApplied});
 }
 
 export function fireReload(target: EventTarget, clearPatchset?: boolean) {

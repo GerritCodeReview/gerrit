@@ -631,12 +631,12 @@ export const htmlTemplate = html`
     </section>
   </div>
 
-  <gr-apply-fix-dialog
-    id="applyFixDialog"
+  <gr-apply-stored-fix-dialog
+    id="applyStoredFixDialog"
     prefs="[[_diffPrefs]]"
     change="[[_change]]"
     change-num="[[_changeNum]]"
-  ></gr-apply-fix-dialog>
+  ></gr-apply-stored-fix-dialog>
   <gr-overlay id="downloadOverlay" with-backdrop="">
     <gr-download-dialog
       id="downloadDialog"

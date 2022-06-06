@@ -54,14 +54,14 @@ import java.util.Map;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-public class GetFixPreview implements RestReadView<FixResource> {
+public class GetStoredFixPreview implements RestReadView<FixResource> {
 
   private final ProjectCache projectCache;
   private final GitRepositoryManager repoManager;
   private final PatchScriptFactoryForAutoFix.Factory patchScriptFactoryFactory;
 
   @Inject
-  GetFixPreview(
+  GetStoredFixPreview(
       ProjectCache projectCache,
       GitRepositoryManager repoManager,
       PatchScriptFactoryForAutoFix.Factory patchScriptFactoryFactory) {
@@ -89,7 +89,7 @@ public class GetFixPreview implements RestReadView<FixResource> {
             fixReplacementsPerFilePath.entrySet()) {
           String fileName = entry.getKey();
           DiffInfo diffInfo =
-              getFixPreviewForSingleFile(
+              getStoredFixPreviewForSingleFile(
                   git, patchSet, state, notes, fileName, ImmutableList.copyOf(entry.getValue()));
           result.put(fileName, diffInfo);
         }
@@ -102,7 +102,7 @@ public class GetFixPreview implements RestReadView<FixResource> {
     return Response.ok(result);
   }
 
-  private DiffInfo getFixPreviewForSingleFile(
+  private DiffInfo getStoredFixPreviewForSingleFile(
       Repository git,
       PatchSet patchSet,
       ProjectState state,

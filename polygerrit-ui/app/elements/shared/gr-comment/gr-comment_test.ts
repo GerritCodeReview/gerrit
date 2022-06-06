@@ -35,7 +35,7 @@ import {
 } from '../../../test/test-data-generators';
 import {
   CreateFixCommentEvent,
-  OpenFixPreviewEventDetail,
+  OpenStoredFixPreviewEventDetail,
 } from '../../../types/events';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {DraftInfo} from '../../../utils/comment-util';
@@ -646,10 +646,10 @@ suite('gr-comment tests', () => {
       assert.isNotOk(actions);
     });
 
-    test('handleShowFix fires open-fix-preview event', async () => {
-      const listener = listenOnce<CustomEvent<OpenFixPreviewEventDetail>>(
+    test('handleShowFix fires open-stored-fix-preview event', async () => {
+      const listener = listenOnce<CustomEvent<OpenStoredFixPreviewEventDetail>>(
         element,
-        'open-fix-preview'
+        'open-stored-fix-preview'
       );
       element.comment = {
         ...createRobotComment(),

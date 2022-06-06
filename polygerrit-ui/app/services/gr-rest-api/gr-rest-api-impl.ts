@@ -2081,7 +2081,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<FilePathToDiffInfoMap | undefined>;
   }
 
-  applyFixSuggestion(
+  applyStoredFixSuggestion(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     fixId: string

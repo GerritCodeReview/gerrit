@@ -21,7 +21,7 @@ import {
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {isRobot} from '../../../utils/comment-util';
-import {OpenFixPreviewEvent} from '../../../types/events';
+import {OpenStoredFixPreviewEvent} from '../../../types/events';
 import {getAppContext} from '../../../services/app-context';
 import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
@@ -36,10 +36,10 @@ interface FilePreview {
   preview: DiffInfo;
 }
 
-@customElement('gr-apply-fix-dialog')
-export class GrApplyFixDialog extends LitElement {
-  @query('#applyFixOverlay')
-  applyFixOverlay?: GrOverlay;
+@customElement('gr-apply-stored-fix-dialog')
+export class GrApplyStoredFixDialog extends LitElement {
+  @query('#applyStoredFixOverlay')
+  applyStoredFixOverlay?: GrOverlay;
 
   @query('#nextFix')
   nextFix?: GrButton;
@@ -69,7 +69,7 @@ export class GrApplyFixDialog extends LitElement {
   fixSuggestions?: FixSuggestionInfo[];
 
   @state()
-  isApplyFixLoading = false;
+  isApplyStoredFixLoading = false;
 
   @state()
   selectedFixIdx = 0;
@@ -88,7 +88,7 @@ export class GrApplyFixDialog extends LitElement {
       }
     });
     this.addEventListener('diff-context-expanded', () => {
-      if (this.applyFixOverlay) fireEvent(this.applyFixOverlay, 'iron-resize');
+      if (this.applyStoredFixOverlay) fireEvent(this.applyStoredFixOverlay, 'iron-resize');
     });
   }
 
@@ -121,13 +121,13 @@ export class GrApplyFixDialog extends LitElement {
 
   override render() {
     return html`
-      <gr-overlay id="applyFixOverlay" with-backdrop="">
+      <gr-overlay id="applyStoredFixOverlay" with-backdrop="">
         <gr-dialog
-          id="applyFixDialog"
-          .confirmLabel=${this.isApplyFixLoading ? 'Saving...' : 'Apply Fix'}
+          id="applyStoredFixDialog"
+          .confirmLabel=${this.isApplyStoredFixLoading ? 'Saving...' : 'Apply Fix'}
           .confirmTooltip=${this.computeTooltip()}
-          ?disabled=${this.computeDisableApplyFixButton()}
-          @confirm=${this.handleApplyFix}
+          ?disabled=${this.computeDisableApplyStoredFixButton()}
+          @confirm=${this.handleApplyStoredFix}
           @cancel=${this.onCancel}
         >
           ${this.renderHeader()} ${this.renderMain()} ${this.renderFooter()}
@@ -196,7 +196,7 @@ export class GrApplyFixDialog extends LitElement {
    * @return Promise that resolves either when all
    * preview diffs are fetched or no fix suggestions in custom event detail.
    */
-  open(e: OpenFixPreviewEvent) {
+  open(e: OpenStoredFixPreviewEvent) {
     const detail = e.detail;
     const comment = detail.comment;
     if (!detail.patchNum || !comment || !isRobot(comment)) {
@@ -212,10 +212,10 @@ export class GrApplyFixDialog extends LitElement {
     const promises = [];
     promises.push(
       this.showSelectedFixSuggestion(this.fixSuggestions[0]),
-      this.applyFixOverlay?.open()
+      this.applyStoredFixOverlay?.open()
     );
     return Promise.all(promises).then(() => {
-      if (this.applyFixOverlay) fireEvent(this.applyFixOverlay, 'iron-resize');
+      if (this.applyStoredFixOverlay) fireEvent(this.applyStoredFixOverlay, 'iron-resize');
     });
   }
 
@@ -281,10 +281,10 @@ export class GrApplyFixDialog extends LitElement {
   private close(fixApplied: boolean) {
     this.currentFix = undefined;
     this.currentPreviews = [];
-    this.isApplyFixLoading = false;
+    this.isApplyStoredFixLoading = false;
 
     fireCloseFixPreview(this, fixApplied);
-    this.applyFixOverlay?.close();
+    this.applyStoredFixOverlay?.close();
   }
 
   private computeTooltip() {
@@ -296,15 +296,15 @@ export class GrApplyFixDialog extends LitElement {
       : '';
   }
 
-  private computeDisableApplyFixButton() {
+  private computeDisableApplyStoredFixButton() {
     if (!this.change || !this.patchNum) return true;
     const latestPatchNum =
       this.change.revisions[this.change.current_revision]._number;
-    return this.patchNum !== latestPatchNum || this.isApplyFixLoading;
+    return this.patchNum !== latestPatchNum || this.isApplyStoredFixLoading;
   }
 
   // visible for testing
-  async handleApplyFix(e: Event) {
+  async handleApplyStoredFix(e: Event) {
     if (e) e.stopPropagation();
 
     const changeNum = this.changeNum;
@@ -313,8 +313,8 @@ export class GrApplyFixDialog extends LitElement {
     if (!changeNum || !patchNum || !change || !this.currentFix) {
       throw new Error('Not all required properties are set.');
     }
-    this.isApplyFixLoading = true;
-    const res = await this.restApiService.applyFixSuggestion(
+    this.isApplyStoredFixLoading = true;
+    const res = await this.restApiService.applyStoredFixSuggestion(
       changeNum,
       patchNum,
       this.currentFix.fix_id
@@ -326,12 +326,12 @@ export class GrApplyFixDialog extends LitElement {
       });
       this.close(true);
     }
-    this.isApplyFixLoading = false;
+    this.isApplyStoredFixLoading = false;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-apply-fix-dialog': GrApplyFixDialog;
+    'gr-apply-stored-fix-dialog': GrApplyStoredFixDialog;
   }
 }

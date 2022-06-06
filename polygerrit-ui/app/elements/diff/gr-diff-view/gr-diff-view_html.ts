@@ -402,13 +402,13 @@ export const htmlTemplate = html`
     on-diff-changed="_onDiffChanged"
   >
   </gr-diff-host>
-  <gr-apply-fix-dialog
-    id="applyFixDialog"
+  <gr-apply-stored-fix-dialog
+    id="applyStoredFixDialog"
     prefs="[[_prefs]]"
     change="[[_change]]"
     change-num="[[_changeNum]]"
   >
-  </gr-apply-fix-dialog>
+  </gr-apply-stored-fix-dialog>
   <gr-diff-preferences-dialog
     id="diffPreferencesDialog"
     on-reload-diff-preference="_handleReloadingDiffPreference"

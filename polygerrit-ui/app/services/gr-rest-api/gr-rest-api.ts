@@ -635,7 +635,7 @@ export interface RestApiService extends Finalizable {
     fixId: FixId
   ): Promise<FilePathToDiffInfoMap | undefined>;
 
-  applyFixSuggestion(
+  applyStoredFixSuggestion(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     fixId: string

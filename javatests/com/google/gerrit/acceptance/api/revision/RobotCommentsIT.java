@@ -716,7 +716,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixWithinALineCanBeApplied() throws Exception {
+  public void applyStoredFixWithinALineCanBeApplied() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
@@ -727,7 +727,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    gApi.changes().id(changeId).current().applyFix(fixId);
+    gApi.changes().id(changeId).current().applyStoredFix(fixId);
 
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
     BinaryResultSubject.assertThat(file)
@@ -739,7 +739,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixSpanningMultipleLinesCanBeApplied() throws Exception {
+  public void applyStoredFixSpanningMultipleLinesCanBeApplied() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content\n5";
     fixReplacementInfo.range = createRange(3, 2, 5, 3);
@@ -749,7 +749,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    gApi.changes().id(changeId).current().applyFix(fixId);
+    gApi.changes().id(changeId).current().applyStoredFix(fixId);
 
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
     BinaryResultSubject.assertThat(file)
@@ -761,7 +761,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixWithTwoCloseReplacementsOnSameFileCanBeApplied() throws Exception {
+  public void applyStoredFixWithTwoCloseReplacementsOnSameFileCanBeApplied() throws Exception {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
     fixReplacementInfo1.range = createRange(2, 0, 3, 0);
@@ -781,7 +781,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    gApi.changes().id(changeId).current().applyFix(fixId);
+    gApi.changes().id(changeId).current().applyStoredFix(fixId);
 
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
     BinaryResultSubject.assertThat(file)
@@ -793,7 +793,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void twoFixesOnSameFileCanBeApplied() throws Exception {
+  public void twoApplyStoredFixesOnSameFileCanBeApplied() throws Exception {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
     fixReplacementInfo1.range = createRange(2, 0, 3, 0);
@@ -815,8 +815,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
-    gApi.changes().id(changeId).current().applyFix(fixIds.get(0));
-    gApi.changes().id(changeId).current().applyFix(fixIds.get(1));
+    gApi.changes().id(changeId).current().applyStoredFix(fixIds.get(0));
+    gApi.changes().id(changeId).current().applyStoredFix(fixIds.get(1));
 
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
     BinaryResultSubject.assertThat(file)
@@ -828,7 +828,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void twoConflictingFixesOnSameFileCannotBeApplied() throws Exception {
+  public void twoConflictingApplyStoredFixesOnSameFileCannotBeApplied() throws Exception {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
     fixReplacementInfo1.range = createRange(2, 0, 3, 1);
@@ -850,16 +850,16 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
-    gApi.changes().id(changeId).current().applyFix(fixIds.get(0));
+    gApi.changes().id(changeId).current().applyStoredFix(fixIds.get(0));
     ResourceConflictException thrown =
         assertThrows(
             ResourceConflictException.class,
-            () -> gApi.changes().id(changeId).current().applyFix(fixIds.get(1)));
+            () -> gApi.changes().id(changeId).current().applyStoredFix(fixIds.get(1)));
     assertThat(thrown).hasMessageThat().contains("merge");
   }
 
   @Test
-  public void twoFixesOfSameRobotCommentCanBeApplied() throws Exception {
+  public void twoApplyStoredFixesOfSameRobotCommentCanBeApplied() throws Exception {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
     fixReplacementInfo1.range = createRange(2, 0, 3, 0);
@@ -879,8 +879,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
-    gApi.changes().id(changeId).current().applyFix(fixIds.get(0));
-    gApi.changes().id(changeId).current().applyFix(fixIds.get(1));
+    gApi.changes().id(changeId).current().applyStoredFix(fixIds.get(0));
+    gApi.changes().id(changeId).current().applyStoredFix(fixIds.get(1));
 
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
     BinaryResultSubject.assertThat(file)
@@ -892,7 +892,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixReferringToDifferentFileThanRobotCommentCanBeApplied() throws Exception {
+  public void applyStoredFixReferringToDifferentFileThanRobotCommentCanBeApplied()
+      throws Exception {
     fixReplacementInfo.path = FILE_NAME2;
     fixReplacementInfo.range = createRange(2, 0, 3, 0);
     fixReplacementInfo.replacement = "Modified content\n";
@@ -902,7 +903,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    gApi.changes().id(changeId).current().applyFix(fixId);
+    gApi.changes().id(changeId).current().applyStoredFix(fixId);
 
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME2);
     BinaryResultSubject.assertThat(file)
@@ -912,7 +913,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixInvolvingTwoFilesCanBeApplied() throws Exception {
+  public void applyStoredFixInvolvingTwoFilesCanBeApplied() throws Exception {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
     fixReplacementInfo1.range = createRange(2, 0, 3, 0);
@@ -932,7 +933,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    gApi.changes().id(changeId).current().applyFix(fixId);
+    gApi.changes().id(changeId).current().applyStoredFix(fixId);
 
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
     BinaryResultSubject.assertThat(file)
@@ -949,7 +950,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixReferringToNonExistentFileCannotBeApplied() throws Exception {
+  public void applyStoredFixReferringToNonExistentFileCannotBeApplied() throws Exception {
     fixReplacementInfo.path = "a_non_existent_file.txt";
     fixReplacementInfo.range = createRange(1, 0, 2, 0);
     fixReplacementInfo.replacement = "Modified content\n";
@@ -961,11 +962,11 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     assertThrows(
         ResourceNotFoundException.class,
-        () -> gApi.changes().id(changeId).current().applyFix(fixId));
+        () -> gApi.changes().id(changeId).current().applyStoredFix(fixId));
   }
 
   @Test
-  public void fixOnPreviousPatchSetWithoutChangeEditCannotBeApplied() throws Exception {
+  public void applyStoredFixOnPreviousPatchSetWithoutChangeEditCannotBeApplied() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
@@ -983,12 +984,13 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     ResourceConflictException thrown =
         assertThrows(
             ResourceConflictException.class,
-            () -> gApi.changes().id(changeId).revision(previousRevision).applyFix(fixId));
+            () -> gApi.changes().id(changeId).revision(previousRevision).applyStoredFix(fixId));
     assertThat(thrown).hasMessageThat().contains("current");
   }
 
   @Test
-  public void fixOnPreviousPatchSetWithExistingChangeEditCanBeApplied() throws Exception {
+  public void applyStoredFixOnPreviousPatchSetWithExistingChangeEditCanBeApplied()
+      throws Exception {
     // Create an empty change edit.
     gApi.changes().id(changeId).edit().create();
 
@@ -1006,7 +1008,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    EditInfo editInfo = gApi.changes().id(changeId).revision(previousRevision).applyFix(fixId);
+    EditInfo editInfo =
+        gApi.changes().id(changeId).revision(previousRevision).applyStoredFix(fixId);
 
     Optional<BinaryResult> file = gApi.changes().id(changeId).edit().getFile(FILE_NAME);
     BinaryResultSubject.assertThat(file)
@@ -1019,7 +1022,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixOnCurrentPatchSetWithChangeEditOnPreviousPatchSetCannotBeApplied()
+  public void applyStoredFixOnCurrentPatchSetWithChangeEditOnPreviousPatchSetCannotBeApplied()
       throws Exception {
     // Create an empty change edit.
     gApi.changes().id(changeId).edit().create();
@@ -1040,12 +1043,12 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     ResourceConflictException thrown =
         assertThrows(
             ResourceConflictException.class,
-            () -> gApi.changes().id(changeId).current().applyFix(fixId));
+            () -> gApi.changes().id(changeId).current().applyStoredFix(fixId));
     assertThat(thrown).hasMessageThat().contains("based");
   }
 
   @Test
-  public void fixDoesNotModifyCommitMessageOfChangeEdit() throws Exception {
+  public void applyStoredFixDoesNotModifyCommitMessageOfChangeEdit() throws Exception {
     String changeEditCommitMessage =
         "This is the commit message of the change edit.\n\nChange-Id: " + changeId + "\n";
     gApi.changes().id(changeId).edit().modifyCommitMessage(changeEditCommitMessage);
@@ -1057,14 +1060,14 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     String fixId = Iterables.getOnlyElement(getFixIds(getRobotComments()));
 
-    gApi.changes().id(changeId).current().applyFix(fixId);
+    gApi.changes().id(changeId).current().applyStoredFix(fixId);
 
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
     assertThat(commitMessage).isEqualTo(changeEditCommitMessage);
   }
 
   @Test
-  public void fixOnCommitMessageCanBeApplied() throws Exception {
+  public void applyStoredFixOnCommitMessageCanBeApplied() throws Exception {
     // Set a dedicated commit message.
     String footer = "\nChange-Id: " + changeId + "\n";
     String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n" + footer;
@@ -1079,14 +1082,14 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     String fixId = Iterables.getOnlyElement(getFixIds(getRobotComments()));
 
-    gApi.changes().id(changeId).current().applyFix(fixId);
+    gApi.changes().id(changeId).current().applyStoredFix(fixId);
 
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
     assertThat(commitMessage).isEqualTo("Modified line\nLine 2 of commit message\n" + footer);
   }
 
   @Test
-  public void fixOnHeaderPartOfCommitMessageCannotBeApplied() throws Exception {
+  public void applyStoredFixOnHeaderPartOfCommitMessageCannotBeApplied() throws Exception {
     // Set a dedicated commit message.
     String footer = "Change-Id: " + changeId;
     String originalCommitMessage =
@@ -1105,12 +1108,13 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     ResourceConflictException exception =
         assertThrows(
             ResourceConflictException.class,
-            () -> gApi.changes().id(changeId).current().applyFix(fixId));
+            () -> gApi.changes().id(changeId).current().applyStoredFix(fixId));
     assertThat(exception).hasMessageThat().contains("header");
   }
 
   @Test
-  public void fixContainingSeveralModificationsOfCommitMessageCanBeApplied() throws Exception {
+  public void applyStoredFixContainingSeveralModificationsOfCommitMessageCanBeApplied()
+      throws Exception {
     // Set a dedicated commit message.
     String footer = "\nChange-Id: " + changeId + "\n";
     String originalCommitMessage =
@@ -1136,7 +1140,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     String fixId = Iterables.getOnlyElement(getFixIds(getRobotComments()));
 
-    gApi.changes().id(changeId).current().applyFix(fixId);
+    gApi.changes().id(changeId).current().applyStoredFix(fixId);
 
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
     assertThat(commitMessage)
@@ -1144,7 +1148,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixModifyingTheCommitMessageAndAFileCanBeApplied() throws Exception {
+  public void applyStoredFixModifyingTheCommitMessageAndAFileCanBeApplied() throws Exception {
     // Set a dedicated commit message.
     String footer = "\nChange-Id: " + changeId + "\n";
     String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n" + footer;
@@ -1168,7 +1172,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     String fixId = Iterables.getOnlyElement(getFixIds(getRobotComments()));
 
-    gApi.changes().id(changeId).current().applyFix(fixId);
+    gApi.changes().id(changeId).current().applyStoredFix(fixId);
 
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
     assertThat(commitMessage).isEqualTo("Modified line 1\nLine 2 of commit message\n" + footer);
@@ -1180,7 +1184,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void twoFixesOnCommitMessageCanBeAppliedOneAfterTheOther() throws Exception {
+  public void twoApplyStoredFixesOnCommitMessageCanBeAppliedOneAfterTheOther() throws Exception {
     // Set a dedicated commit message.
     String footer = "\nChange-Id: " + changeId + "\n";
     String originalCommitMessage =
@@ -1208,8 +1212,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     testCommentHelper.addRobotComment(changeId, robotCommentInput2);
     List<String> fixIds = getFixIds(getRobotComments());
 
-    gApi.changes().id(changeId).current().applyFix(fixIds.get(0));
-    gApi.changes().id(changeId).current().applyFix(fixIds.get(1));
+    gApi.changes().id(changeId).current().applyStoredFix(fixIds.get(0));
+    gApi.changes().id(changeId).current().applyStoredFix(fixIds.get(1));
 
     String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
     assertThat(commitMessage)
@@ -1217,7 +1221,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void twoConflictingFixesOnCommitMessageCanNotBeAppliedOneAfterTheOther() throws Exception {
+  public void twoConflictingApplyStoredFixesOnCommitMessageCanNotBeAppliedOneAfterTheOther()
+      throws Exception {
     // Set a dedicated commit message.
     String footer = "Change-Id: " + changeId;
     String originalCommitMessage =
@@ -1247,14 +1252,14 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     testCommentHelper.addRobotComment(changeId, robotCommentInput2);
     List<String> fixIds = getFixIds(getRobotComments());
 
-    gApi.changes().id(changeId).current().applyFix(fixIds.get(0));
+    gApi.changes().id(changeId).current().applyStoredFix(fixIds.get(0));
     assertThrows(
         ResourceConflictException.class,
-        () -> gApi.changes().id(changeId).current().applyFix(fixIds.get(1)));
+        () -> gApi.changes().id(changeId).current().applyStoredFix(fixIds.get(1)));
   }
 
   @Test
-  public void applyingFixTwiceIsIdempotent() throws Exception {
+  public void applyingStoredFixTwiceIsIdempotent() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
@@ -1265,19 +1270,19 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    gApi.changes().id(changeId).current().applyFix(fixId);
+    gApi.changes().id(changeId).current().applyStoredFix(fixId);
     String expectedEditCommit =
         gApi.changes().id(changeId).edit().get().map(edit -> edit.commit.commit).orElse("");
 
     // Apply the fix again.
-    gApi.changes().id(changeId).current().applyFix(fixId);
+    gApi.changes().id(changeId).current().applyStoredFix(fixId);
 
     Optional<EditInfo> editInfo = gApi.changes().id(changeId).edit().get();
     assertThat(editInfo).value().commit().commit().isEqualTo(expectedEditCommit);
   }
 
   @Test
-  public void nonExistentFixCannotBeApplied() throws Exception {
+  public void nonExistentStoredFixCannotBeApplied() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
@@ -1291,11 +1296,11 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     assertThrows(
         ResourceNotFoundException.class,
-        () -> gApi.changes().id(changeId).current().applyFix(nonExistentFixId));
+        () -> gApi.changes().id(changeId).current().applyStoredFix(nonExistentFixId));
   }
 
   @Test
-  public void applyingFixReturnsEditInfoForCreatedChangeEdit() throws Exception {
+  public void applyingStoredFixReturnsEditInfoForCreatedChangeEdit() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
@@ -1306,7 +1311,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    EditInfo editInfo = gApi.changes().id(changeId).current().applyFix(fixId);
+    EditInfo editInfo = gApi.changes().id(changeId).current().applyStoredFix(fixId);
 
     Optional<EditInfo> expectedEditInfo = gApi.changes().id(changeId).edit().get();
     String expectedEditCommit = expectedEditInfo.map(edit -> edit.commit.commit).orElse("");
@@ -1316,7 +1321,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void applyingFixOnTopOfChangeEditReturnsEditInfoForUpdatedChangeEdit() throws Exception {
+  public void applyingStoredFixOnTopOfChangeEditReturnsEditInfoForUpdatedChangeEdit()
+      throws Exception {
     gApi.changes().id(changeId).edit().create();
 
     fixReplacementInfo.path = FILE_NAME;
@@ -1329,7 +1335,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    EditInfo editInfo = gApi.changes().id(changeId).current().applyFix(fixId);
+    EditInfo editInfo = gApi.changes().id(changeId).current().applyStoredFix(fixId);
 
     Optional<EditInfo> expectedEditInfo = gApi.changes().id(changeId).edit().get();
     String expectedEditCommit = expectedEditInfo.map(edit -> edit.commit.commit).orElse("");
@@ -1352,7 +1358,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    EditInfo editInfo = gApi.changes().id(changeId).current().applyFix(fixId);
+    EditInfo editInfo = gApi.changes().id(changeId).current().applyStoredFix(fixId);
 
     assertThat(editInfo).baseRevision().isEqualTo(currentRevision);
   }
@@ -1379,16 +1385,16 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getFixPreviewWithNonexistingFixId() throws Exception {
+  public void getStoredFixPreviewWithNonexistentFixId() throws Exception {
     testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 
     assertThrows(
         ResourceNotFoundException.class,
-        () -> gApi.changes().id(changeId).current().getFixPreview("Non existing fixId"));
+        () -> gApi.changes().id(changeId).current().getStoredFixPreview("Non existing fixId"));
   }
 
   @Test
-  public void getFixPreviewForCommitMsg() throws Exception {
+  public void getStoredFixPreviewForCommitMsg() throws Exception {
     String footer = "Change-Id: " + changeId;
     updateCommitMessage(
         changeId,
@@ -1410,7 +1416,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().getFixPreview(fixId);
+    Map<String, DiffInfo> fixPreview =
+        gApi.changes().id(changeId).current().getStoredFixPreview(fixId);
     assertThat(fixPreview).hasSize(1);
     assertThat(fixPreview).containsKey(Patch.COMMIT_MSG);
 
@@ -1447,7 +1454,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getFixPreviewForNonExistingFile() throws Exception {
+  public void getStoredFixPreviewForNonExistingFile() throws Exception {
     FixReplacementInfo replacement = new FixReplacementInfo();
     replacement.path = "a_non_existent_file.txt";
     replacement.range = createRange(1, 0, 2, 0);
@@ -1464,11 +1471,11 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     assertThrows(
         ResourceNotFoundException.class,
-        () -> gApi.changes().id(changeId).current().getFixPreview(fixId));
+        () -> gApi.changes().id(changeId).current().getStoredFixPreview(fixId));
   }
 
   @Test
-  public void getFixPreview() throws Exception {
+  public void getStoredFixPreview() throws Exception {
     FixReplacementInfo fixReplacementInfoFile1 = new FixReplacementInfo();
     fixReplacementInfoFile1.path = FILE_NAME;
     fixReplacementInfoFile1.replacement = "some replacement code";
@@ -1490,7 +1497,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().getFixPreview(fixId);
+    Map<String, DiffInfo> fixPreview =
+        gApi.changes().id(changeId).current().getStoredFixPreview(fixId);
     assertThat(fixPreview).hasSize(2);
     assertThat(fixPreview).containsKey(FILE_NAME);
     assertThat(fixPreview).containsKey(FILE_NAME2);
@@ -1578,7 +1586,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getFixPreviewAddNewLineAtEnd() throws Exception {
+  public void getStoredFixPreviewAddNewLineAtEnd() throws Exception {
     FixReplacementInfo replacement = new FixReplacementInfo();
     replacement.path = FILE_NAME3;
     replacement.range = createRange(2, 8, 2, 8);
@@ -1594,7 +1602,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().getFixPreview(fixId);
+    Map<String, DiffInfo> fixPreview =
+        gApi.changes().id(changeId).current().getStoredFixPreview(fixId);
 
     assertThat(fixPreview).hasSize(1);
     assertThat(fixPreview).containsKey(FILE_NAME3);

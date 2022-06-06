@@ -15,7 +15,7 @@ import '../../shared/gr-select/gr-select';
 import '../../shared/revision-info/revision-info';
 import '../gr-comment-api/gr-comment-api';
 import '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
-import '../gr-apply-fix-dialog/gr-apply-fix-dialog';
+import '../gr-apply-stored-fix-dialog/gr-apply-stored-fix-dialog';
 import '../gr-diff-host/gr-diff-host';
 import '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
@@ -85,7 +85,7 @@ import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
-import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
+import {GrApplyStoredFixDialog} from '../gr-apply-stored-fix-dialog/gr-apply-stored-fix-dialog';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
 import {
   CommentMap,
@@ -95,7 +95,7 @@ import {
 import {AppElementDiffViewParam, AppElementParams} from '../../gr-app-types';
 import {
   EventType,
-  OpenFixPreviewEvent,
+  OpenStoredFixPreviewEvent,
   ValueChangedEvent,
 } from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
@@ -143,7 +143,7 @@ export interface GrDiffView {
     reviewed: HTMLInputElement;
     dropdown: GrDropdownList;
     diffPreferencesDialog: GrOverlay;
-    applyFixDialog: GrApplyFixDialog;
+    applyStoredFixDialog: GrApplyStoredFixDialog;
     modeSelect: GrDiffModeSelector;
     downloadOverlay: GrOverlay;
     downloadDialog: GrDownloadDialog;
@@ -467,7 +467,7 @@ export class GrDiffView extends base {
     this.subscriptions.push(
       this.getChangeModel().diffPath$.subscribe(path => (this._path = path))
     );
-    this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
+    this.addEventListener('open-stored-fix-preview', e => this._onOpenStoredFixPreview(e));
     this.cursor = new GrDiffCursor();
     this.cursor.replaceDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
@@ -631,8 +631,8 @@ export class GrDiffView extends base {
     this.cursor?.moveUp();
   }
 
-  _onOpenFixPreview(e: OpenFixPreviewEvent) {
-    this.$.applyFixDialog.open(e);
+  _onOpenStoredFixPreview(e: OpenStoredFixPreviewEvent) {
+    this.$.applyStoredFixDialog.open(e);
   }
 
   _handleNextLine() {

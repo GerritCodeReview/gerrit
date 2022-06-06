@@ -39,7 +39,7 @@ import {
   isUnsaved,
 } from '../../../utils/comment-util';
 import {
-  OpenFixPreviewEventDetail,
+  OpenStoredFixPreviewEventDetail,
   ValueChangedEvent,
 } from '../../../types/events';
 import {fire, fireEvent} from '../../../utils/event-util';
@@ -92,7 +92,7 @@ export class GrComment extends LitElement {
   /**
    * Fired when the show fix preview action is triggered.
    *
-   * @event open-fix-preview
+   * @event open-stored-fix-preview
    */
 
   /**
@@ -897,7 +897,7 @@ export class GrComment extends LitElement {
   }
 
   // private, but visible for testing
-  getEventPayload(): OpenFixPreviewEventDetail {
+  getEventPayload(): OpenStoredFixPreviewEventDetail {
     assertIsDefined(this.comment?.patch_set, 'comment.patch_set');
     return {comment: this.comment, patchNum: this.comment.patch_set};
   }
@@ -946,7 +946,7 @@ export class GrComment extends LitElement {
 
   private handleShowFix() {
     // Handled top-level in the diff and change view components.
-    fire(this, 'open-fix-preview', this.getEventPayload());
+    fire(this, 'open-stored-fix-preview', this.getEventPayload());
   }
 
   // private, but visible for testing

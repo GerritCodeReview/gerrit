@@ -25,8 +25,8 @@ export enum EventType {
   LOCATION_CHANGE = 'location-change',
   MOVED_LINK_CLICKED = 'moved-link-clicked',
   NETWORK_ERROR = 'network-error',
-  OPEN_FIX_PREVIEW = 'open-fix-preview',
-  CLOSE_FIX_PREVIEW = 'close-fix-preview',
+  OPEN_STORED_FIX_PREVIEW = 'open-stored-fix-preview',
+  CLOSE_STORED_FIX_PREVIEW = 'close-stored-fix-preview',
   PAGE_ERROR = 'page-error',
   RECREATE_CHANGE_VIEW = 'recreate-change-view',
   RECREATE_DIFF_VIEW = 'recreate-diff-view',
@@ -64,8 +64,8 @@ declare global {
     'line-cursor-moved-in': LineNumberEvent;
     'line-cursor-moved-out': LineNumberEvent;
     'moved-link-clicked': MovedLinkClickedEvent;
-    'open-fix-preview': OpenFixPreviewEvent;
-    'close-fix-preview': CloseFixPreviewEvent;
+    'open-stored-fix-preview': OpenStoredFixPreviewEvent;
+    'close-stored-fix-preview': CloseStoredFixPreviewEvent;
     'create-fix-comment': CreateFixCommentEvent;
     /* prettier-ignore */
     'reload': ReloadEvent;
@@ -154,16 +154,16 @@ export interface NetworkErrorEventDetail {
 }
 export type NetworkErrorEvent = CustomEvent<NetworkErrorEventDetail>;
 
-export interface OpenFixPreviewEventDetail {
+export interface OpenStoredFixPreviewEventDetail {
   patchNum?: PatchSetNum;
   comment?: Comment;
 }
-export type OpenFixPreviewEvent = CustomEvent<OpenFixPreviewEventDetail>;
+export type OpenStoredFixPreviewEvent = CustomEvent<OpenStoredFixPreviewEventDetail>;
 
-export interface CloseFixPreviewEventDetail {
+export interface CloseStoredFixPreviewEventDetail {
   fixApplied: boolean;
 }
-export type CloseFixPreviewEvent = CustomEvent<CloseFixPreviewEventDetail>;
+export type CloseStoredFixPreviewEvent = CustomEvent<CloseStoredFixPreviewEventDetail>;
 export interface CreateFixCommentEventDetail {
   patchNum?: PatchSetNum;
   comment?: Comment;

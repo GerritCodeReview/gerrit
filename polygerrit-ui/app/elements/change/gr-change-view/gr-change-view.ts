@@ -28,7 +28,7 @@ import '../gr-file-list/gr-file-list';
 import '../gr-included-in-dialog/gr-included-in-dialog';
 import '../gr-messages-list/gr-messages-list';
 import '../gr-related-changes-list/gr-related-changes-list';
-import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
+import '../../diff/gr-apply-stored-fix-dialog/gr-apply-stored-fix-dialog';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
 import '../../checks/gr-checks-tab';
@@ -80,7 +80,7 @@ import {
 } from '../../../utils/change-util';
 import {EventType as PluginEventType} from '../../../api/plugin';
 import {customElement, observe, property} from '@polymer/decorators';
-import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
+import {GrApplyStoredFixDialog} from '../../diff/gr-apply-stored-fix-dialog/gr-apply-stored-fix-dialog';
 import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
 import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -144,10 +144,10 @@ import {
 } from '../../../types/types';
 import {
   ChecksTabState,
-  CloseFixPreviewEvent,
+  CloseStoredFixPreviewEvent,
   EditableContentSaveEvent,
   EventType,
-  OpenFixPreviewEvent,
+  OpenStoredFixPreviewEvent,
   ShowAlertEventDetail,
   SwitchTabEvent,
   SwitchTabEventDetail,
@@ -215,7 +215,7 @@ const ROBOT_COMMENTS_LIMIT = 10;
 
 export interface GrChangeView {
   $: {
-    applyFixDialog: GrApplyFixDialog;
+    applyStoredFixDialog: GrApplyStoredFixDialog;
     fileList: GrFileList & Element;
     fileListHeader: GrFileListHeader;
     commitMessageEditor: GrEditableContent;
@@ -646,8 +646,8 @@ export class GrChangeView extends base {
     this.addEventListener('editable-content-cancel', () =>
       this._handleCommitMessageCancel()
     );
-    this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
-    this.addEventListener('close-fix-preview', e => this._onCloseFixPreview(e));
+    this.addEventListener('open-stored-fix-preview', e => this._onOpenStoredFixPreview(e));
+    this.addEventListener('close-stored-fix-preview', e => this._onCloseStoredFixPreview(e));
 
     this.addEventListener(EventType.SHOW_PRIMARY_TAB, e =>
       this._setActivePrimaryTab(e)
@@ -791,11 +791,11 @@ export class GrChangeView extends base {
     );
   };
 
-  _onOpenFixPreview(e: OpenFixPreviewEvent) {
-    this.$.applyFixDialog.open(e);
+  _onOpenStoredFixPreview(e: OpenStoredFixPreviewEvent) {
+    this.$.applyStoredFixDialog.open(e);
   }
 
-  _onCloseFixPreview(e: CloseFixPreviewEvent) {
+  _onCloseStoredFixPreview(e: CloseStoredFixPreviewEvent) {
     if (e.detail.fixApplied) fireReload(this);
   }
 

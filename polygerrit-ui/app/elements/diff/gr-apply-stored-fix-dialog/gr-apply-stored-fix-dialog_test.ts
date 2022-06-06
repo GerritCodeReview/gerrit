@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
-import './gr-apply-fix-dialog';
+import './gr-apply-stored-fix-dialog';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
-import {GrApplyFixDialog} from './gr-apply-fix-dialog';
+import {GrApplyStoredFixDialog} from './gr-apply-stored-fix-dialog';
 import {
   BasePatchSetNum,
   EDIT,
@@ -28,15 +28,15 @@ import {
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {DiffInfo} from '../../../types/diff';
 import {
-  CloseFixPreviewEventDetail,
+  CloseStoredFixPreviewEventDetail,
   EventType,
-  OpenFixPreviewEventDetail,
+  OpenStoredFixPreviewEventDetail,
 } from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fixture, html} from '@open-wc/testing-helpers';
 
-suite('gr-apply-fix-dialog tests', () => {
-  let element: GrApplyFixDialog;
+suite('gr-apply-stored-fix-dialog tests', () => {
+  let element: GrApplyStoredFixDialog;
 
   const ROBOT_COMMENT_WITH_TWO_FIXES: RobotCommentInfo = {
     id: '1' as UrlEncodedCommentId,
@@ -61,14 +61,14 @@ suite('gr-apply-fix-dialog tests', () => {
 
   function getConfirmButton(): GrButton {
     return queryAndAssert(
-      queryAndAssert(element, '#applyFixDialog'),
+      queryAndAssert(element, '#applyStoredFixDialog'),
       '#confirm'
     );
   }
 
   async function open(comment: Comment) {
     await element.open(
-      new CustomEvent<OpenFixPreviewEventDetail>(EventType.OPEN_FIX_PREVIEW, {
+      new CustomEvent<OpenStoredFixPreviewEventDetail>(EventType.OPEN_STORED_FIX_PREVIEW, {
         detail: {
           patchNum: 2 as PatchSetNum,
           comment,
@@ -79,8 +79,8 @@ suite('gr-apply-fix-dialog tests', () => {
   }
 
   setup(async () => {
-    element = await fixture<GrApplyFixDialog>(
-      html`<gr-apply-fix-dialog></gr-apply-fix-dialog>`
+    element = await fixture<GrApplyStoredFixDialog>(
+      html`<gr-apply-stored-fix-dialog></gr-apply-stored-fix-dialog>`
     );
     const change = {
       ...createParsedChange(),
@@ -159,7 +159,7 @@ suite('gr-apply-fix-dialog tests', () => {
           f2: diffInfo2,
         })
       );
-      sinon.stub(element.applyFixOverlay!, 'open').returns(Promise.resolve());
+      sinon.stub(element.applyStoredFixOverlay!, 'open').returns(Promise.resolve());
     });
 
     test('dialog opens fetch and sets previews', async () => {
@@ -173,7 +173,7 @@ suite('gr-apply-fix-dialog tests', () => {
     });
 
     test('tooltip is hidden if apply fix is loading', async () => {
-      element.isApplyFixLoading = true;
+      element.isApplyStoredFixLoading = true;
       await open(ROBOT_COMMENT_WITH_TWO_FIXES);
       const button = getConfirmButton();
       assert.isTrue(button.hasAttribute('disabled'));
@@ -200,8 +200,8 @@ suite('gr-apply-fix-dialog tests', () => {
     await open(ROBOT_COMMENT_WITH_TWO_FIXES);
     expect(element).shadowDom.to.equal(
       /* HTML */ `
-        <gr-overlay id="applyFixOverlay" tabindex="-1" with-backdrop="">
-          <gr-dialog id="applyFixDialog" role="dialog">
+        <gr-overlay id="applyStoredFixOverlay" tabindex="-1" with-backdrop="">
+          <gr-dialog id="applyStoredFixDialog" role="dialog">
             <div slot="header">robot_1 - Fix fix_1</div>
             <div slot="main"></div>
             <div class="fix-picker" slot="footer">
@@ -233,7 +233,7 @@ suite('gr-apply-fix-dialog tests', () => {
 
   test('next button state updated when suggestions changed', async () => {
     stubRestApi('getRobotCommentFixPreview').returns(Promise.resolve({}));
-    sinon.stub(element.applyFixOverlay!, 'open').returns(Promise.resolve());
+    sinon.stub(element.applyStoredFixOverlay!, 'open').returns(Promise.resolve());
 
     await open(ROBOT_COMMENT_WITH_ONE_FIX);
     await element.updateComplete;
@@ -256,7 +256,7 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('apply fix button should call apply, navigate to change view and fire close', async () => {
-    const applyFixSuggestionStub = stubRestApi('applyFixSuggestion').returns(
+    const applyStoredFixSuggestionStub = stubRestApi('applyStoredFixSuggestion').returns(
       Promise.resolve(new Response(null, {status: 200}))
     );
     const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
@@ -265,13 +265,13 @@ suite('gr-apply-fix-dialog tests', () => {
     const closeFixPreviewEventSpy = sinon.spy();
     // Element is recreated after each test, removeEventListener isn't required
     element.addEventListener(
-      EventType.CLOSE_FIX_PREVIEW,
+      EventType.CLOSE_STORED_FIX_PREVIEW,
       closeFixPreviewEventSpy
     );
-    await element.handleApplyFix(new CustomEvent('confirm'));
+    await element.handleApplyStoredFix(new CustomEvent('confirm'));
 
     sinon.assert.calledOnceWithExactly(
-      applyFixSuggestionStub,
+      applyStoredFixSuggestionStub,
       element.change!._number,
       2 as PatchSetNum,
       '123'
@@ -283,39 +283,39 @@ suite('gr-apply-fix-dialog tests', () => {
 
     sinon.assert.calledOnceWithExactly(
       closeFixPreviewEventSpy,
-      new CustomEvent<CloseFixPreviewEventDetail>(EventType.CLOSE_FIX_PREVIEW, {
+      new CustomEvent<CloseStoredFixPreviewEventDetail>(EventType.CLOSE_STORED_FIX_PREVIEW, {
         detail: {
           fixApplied: true,
         },
       })
     );
 
-    // reset gr-apply-fix-dialog and close
+    // reset gr-apply-stored-fix-dialog and close
     assert.equal(element.currentFix, undefined);
     assert.equal(element.currentPreviews.length, 0);
   });
 
   test('should not navigate to change view if incorect reponse', async () => {
-    const applyFixSuggestionStub = stubRestApi('applyFixSuggestion').returns(
+    const applyStoredFixSuggestionStub = stubRestApi('applyStoredFixSuggestion').returns(
       Promise.resolve(new Response(null, {status: 500}))
     );
     const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
     element.currentFix = createFixSuggestionInfo('fix_123');
 
-    await element.handleApplyFix(new CustomEvent('confirm'));
+    await element.handleApplyStoredFix(new CustomEvent('confirm'));
     sinon.assert.calledWithExactly(
-      applyFixSuggestionStub,
+      applyStoredFixSuggestionStub,
       element.change!._number,
       2 as PatchSetNum,
       'fix_123'
     );
     assert.isTrue(navigateToChangeStub.notCalled);
 
-    assert.equal(element.isApplyFixLoading, false);
+    assert.equal(element.isApplyStoredFixLoading, false);
   });
 
   test('select fix forward and back of multiple suggested fixes', async () => {
-    sinon.stub(element.applyFixOverlay!, 'open').returns(Promise.resolve());
+    sinon.stub(element.applyStoredFixOverlay!, 'open').returns(Promise.resolve());
 
     await open(ROBOT_COMMENT_WITH_TWO_FIXES);
     element.onNextFixClick(new CustomEvent('click'));
@@ -325,7 +325,7 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('server-error should throw for failed apply call', async () => {
-    stubRestApi('applyFixSuggestion').returns(
+    stubRestApi('applyStoredFixSuggestion').returns(
       Promise.reject(new Error('backend error'))
     );
     const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
@@ -334,12 +334,12 @@ suite('gr-apply-fix-dialog tests', () => {
     const closeFixPreviewEventSpy = sinon.spy();
     // Element is recreated after each test, removeEventListener isn't required
     element.addEventListener(
-      EventType.CLOSE_FIX_PREVIEW,
+      EventType.CLOSE_STORED_FIX_PREVIEW,
       closeFixPreviewEventSpy
     );
 
     let expectedError;
-    await element.handleApplyFix(new CustomEvent('click')).catch(e => {
+    await element.handleApplyStoredFix(new CustomEvent('click')).catch(e => {
       expectedError = e;
     });
     assert.isOk(expectedError);
@@ -351,13 +351,13 @@ suite('gr-apply-fix-dialog tests', () => {
     const closeFixPreviewEventSpy = sinon.spy();
     // Element is recreated after each test, removeEventListener isn't required
     element.addEventListener(
-      EventType.CLOSE_FIX_PREVIEW,
+      EventType.CLOSE_STORED_FIX_PREVIEW,
       closeFixPreviewEventSpy
     );
     element.onCancel(new CustomEvent('cancel'));
     sinon.assert.calledOnceWithExactly(
       closeFixPreviewEventSpy,
-      new CustomEvent<CloseFixPreviewEventDetail>(EventType.CLOSE_FIX_PREVIEW, {
+      new CustomEvent<CloseStoredFixPreviewEventDetail>(EventType.CLOSE_STORED_FIX_PREVIEW, {
         detail: {
           fixApplied: false,
         },

@@ -64,7 +64,7 @@ import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.restapi.change.ApplyFix;
+import com.google.gerrit.server.restapi.change.ApplyStoredFix;
 import com.google.gerrit.server.restapi.change.CherryPick;
 import com.google.gerrit.server.restapi.change.Comments;
 import com.google.gerrit.server.restapi.change.CreateDraftComment;
@@ -74,11 +74,11 @@ import com.google.gerrit.server.restapi.change.Fixes;
 import com.google.gerrit.server.restapi.change.GetArchive;
 import com.google.gerrit.server.restapi.change.GetCommit;
 import com.google.gerrit.server.restapi.change.GetDescription;
-import com.google.gerrit.server.restapi.change.GetFixPreview;
 import com.google.gerrit.server.restapi.change.GetMergeList;
 import com.google.gerrit.server.restapi.change.GetPatch;
 import com.google.gerrit.server.restapi.change.GetRelated;
 import com.google.gerrit.server.restapi.change.GetRevisionActions;
+import com.google.gerrit.server.restapi.change.GetStoredFixPreview;
 import com.google.gerrit.server.restapi.change.ListPortedComments;
 import com.google.gerrit.server.restapi.change.ListPortedDrafts;
 import com.google.gerrit.server.restapi.change.ListRevisionComments;
@@ -132,8 +132,8 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   private final ListRobotComments listRobotComments;
   private final ListPortedComments listPortedComments;
   private final ListPortedDrafts listPortedDrafts;
-  private final ApplyFix applyFix;
-  private final GetFixPreview getFixPreview;
+  private final ApplyStoredFix applyStoredFix;
+  private final GetStoredFixPreview getStoredFixPreview;
   private final Fixes fixes;
   private final ListRevisionDrafts listDrafts;
   private final CreateDraftComment createDraft;
@@ -178,8 +178,8 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       ListRobotComments listRobotComments,
       ListPortedComments listPortedComments,
       ListPortedDrafts listPortedDrafts,
-      ApplyFix applyFix,
-      GetFixPreview getFixPreview,
+      ApplyStoredFix applyStoredFix,
+      GetStoredFixPreview getStoredFixPreview,
       Fixes fixes,
       ListRevisionDrafts listDrafts,
       CreateDraftComment createDraft,
@@ -223,8 +223,8 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
     this.listRobotComments = listRobotComments;
     this.listPortedComments = listPortedComments;
     this.listPortedDrafts = listPortedDrafts;
-    this.applyFix = applyFix;
-    this.getFixPreview = getFixPreview;
+    this.applyStoredFix = applyStoredFix;
+    this.getStoredFixPreview = getStoredFixPreview;
     this.fixes = fixes;
     this.listDrafts = listDrafts;
     this.createDraft = createDraft;
@@ -475,18 +475,18 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   }
 
   @Override
-  public EditInfo applyFix(String fixId) throws RestApiException {
+  public EditInfo applyStoredFix(String fixId) throws RestApiException {
     try {
-      return applyFix.apply(fixes.parse(revision, IdString.fromDecoded(fixId)), null).value();
+      return applyStoredFix.apply(fixes.parse(revision, IdString.fromDecoded(fixId)), null).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot apply fix", e);
     }
   }
 
   @Override
-  public Map<String, DiffInfo> getFixPreview(String fixId) throws RestApiException {
+  public Map<String, DiffInfo> getStoredFixPreview(String fixId) throws RestApiException {
     try {
-      return getFixPreview.apply(fixes.parse(revision, IdString.fromDecoded(fixId))).value();
+      return getStoredFixPreview.apply(fixes.parse(revision, IdString.fromDecoded(fixId))).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get fix preview", e);
     }

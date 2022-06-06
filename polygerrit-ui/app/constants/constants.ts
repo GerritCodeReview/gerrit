@@ -131,6 +131,7 @@ export enum MergeStrategy {
   THEIRS = 'theirs',
 }
 
+
 /**
  * Enum for possible PermissionRuleInfo actions
  * https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#permission-info

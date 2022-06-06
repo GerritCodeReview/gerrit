@@ -115,9 +115,9 @@ public interface RevisionApi {
    * @param fixId the ID of the fix which should be applied
    * @throws RestApiException if the fix couldn't be applied
    */
-  EditInfo applyFix(String fixId) throws RestApiException;
+  EditInfo applyStoredFix(String fixId) throws RestApiException;
 
-  Map<String, DiffInfo> getFixPreview(String fixId) throws RestApiException;
+  Map<String, DiffInfo> getStoredFixPreview(String fixId) throws RestApiException;
 
   DraftApi createDraft(DraftInput in) throws RestApiException;
 
@@ -308,12 +308,12 @@ public interface RevisionApi {
     }
 
     @Override
-    public EditInfo applyFix(String fixId) throws RestApiException {
+    public EditInfo applyStoredFix(String fixId) throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
-    public Map<String, DiffInfo> getFixPreview(String fixId) throws RestApiException {
+    public Map<String, DiffInfo> getStoredFixPreview(String fixId) throws RestApiException {
       throw new NotImplementedException();
     }
 

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b661091_8f50a88b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-06T22:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71c0f88c_79fc0118",
+      "revId": "9add3b65e47fba34d03a27b857cbee762a84630b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa89919c_4e1afd98",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-06-02T22:48:32Z",
       "side": 1,
       "message": "Do this on line 31.",
+      "range": {
+        "startLine": 36,
+        "startChar": 14,
+        "endLine": 36,
+        "endChar": 30
+      },
+      "revId": "9add3b65e47fba34d03a27b857cbee762a84630b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dd18713_be939f2b",
+        "filename": "java/com/google/gerrit/server/account/AccountAttributeLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-06T22:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa89919c_4e1afd98",
       "range": {
         "startLine": 36,
         "startChar": 14,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d06e716_c4574c8a",
+        "filename": "java/com/google/gerrit/server/account/AccountAttributeLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-06T22:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f95ba0a_1e3c56b9",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "9add3b65e47fba34d03a27b857cbee762a84630b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8371fcf9_dc73ae7e",
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65dc1ced_f51df6a0",
+        "filename": "java/com/google/gerrit/server/account/AccountDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-06T22:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8371fcf9_dc73ae7e",
+      "range": {
+        "startLine": 28,
+        "startChar": 35,
+        "endLine": 28,
+        "endChar": 39
+      },
+      "revId": "9add3b65e47fba34d03a27b857cbee762a84630b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a033f0f6_c3995bcf",
@@ -100,6 +190,30 @@
       "writtenOn": "2022-06-02T22:48:32Z",
       "side": 1,
       "message": "For consistency with the code above, you should make a small fill() helper for this that you pass FillOptions to. You can hardcode NAME, EMAIL, and USERNAME as a constant above like ID_ONLY.\n\n void fill(AccountAttribute attribute, AccountState accountState, Set\u003cFillOptions\u003e options)\n fill(accountAttribute, state, ALL_ACCOUNT_ATTRIBUTES)",
+      "range": {
+        "startLine": 141,
+        "startChar": 8,
+        "endLine": 147,
+        "endChar": 66
+      },
+      "revId": "9add3b65e47fba34d03a27b857cbee762a84630b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1fe85bb_9bde2b3a",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-06T22:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a033f0f6_c3995bcf",
       "range": {
         "startLine": 141,
         "startChar": 8,
@@ -194,6 +308,30 @@
       "writtenOn": "2022-06-02T22:48:32Z",
       "side": 1,
       "message": "accountLoader does this for you, don\u0027t repeat it.",
+      "range": {
+        "startLine": 526,
+        "startChar": 4,
+        "endLine": 528,
+        "endChar": 5
+      },
+      "revId": "9add3b65e47fba34d03a27b857cbee762a84630b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2ad02b2_4af1a25c",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-06T22:55:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87396e87_832893f5",
       "range": {
         "startLine": 526,
         "startChar": 4,

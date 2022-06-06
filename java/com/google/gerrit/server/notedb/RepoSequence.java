@@ -340,4 +340,16 @@ public class RepoSequence {
       counterLock.unlock();
     }
   }
+
+  /**
+   * Retrieves the last returned sequence number.
+   *
+   * <p>Explicitly calls {@link #next()} if this instance didn't return sequence number until now.
+   */
+  public int last() {
+    if (counter == 0) {
+      next();
+    }
+    return counter - 1;
+  }
 }

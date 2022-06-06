@@ -5306,8 +5306,8 @@ This endpoint requires authentication.
   }
 ----
 
-[[apply-fix]]
-=== Apply Fix
+[[apply-previously-suggested-fix]]
+=== Apply Previously Suggested Fix
 --
 'POST /changes/<<change-id,\{change-id\}>>/revisions/<<revision-id,\{revision-id\}>>/fixes/<<fix-id,\{fix-id\}>>/apply'
 --
@@ -5730,8 +5730,8 @@ The `whitespace` parameter can be specified to control how whitespace
 differences are reported in the result.  Valid values are `IGNORE_NONE`,
 `IGNORE_TRAILING`, `IGNORE_LEADING_AND_TRAILING` or `IGNORE_ALL`.
 
-[[preview-fix]]
-=== Preview fix
+[[preview-previously-suggested-fix]]
+=== Preview Previously Suggested Fix
 --
 'GET /changes/<<change-id,\{change-id\}>>/revisions/<<revision-id,\{revision-id\}>>/fixes/<<fix-id,\{fix-id\}>>/preview'
 --

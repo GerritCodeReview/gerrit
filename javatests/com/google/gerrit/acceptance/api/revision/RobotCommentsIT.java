@@ -716,7 +716,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixWithinALineCanBeApplied() throws Exception {
+  public void storedFixWithinALineCanBeApplied() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
@@ -739,7 +739,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixSpanningMultipleLinesCanBeApplied() throws Exception {
+  public void storedFixSpanningMultipleLinesCanBeApplied() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content\n5";
     fixReplacementInfo.range = createRange(3, 2, 5, 3);
@@ -761,7 +761,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixWithTwoCloseReplacementsOnSameFileCanBeApplied() throws Exception {
+  public void storedFixWithTwoCloseReplacementsOnSameFileCanBeApplied() throws Exception {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
     fixReplacementInfo1.range = createRange(2, 0, 3, 0);
@@ -793,7 +793,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void twoFixesOnSameFileCanBeApplied() throws Exception {
+  public void twoStoredFixesOnSameFileCanBeApplied() throws Exception {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
     fixReplacementInfo1.range = createRange(2, 0, 3, 0);
@@ -828,7 +828,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void twoConflictingFixesOnSameFileCannotBeApplied() throws Exception {
+  public void twoConflictingStoredFixesOnSameFileCannotBeApplied() throws Exception {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
     fixReplacementInfo1.range = createRange(2, 0, 3, 1);
@@ -859,7 +859,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void twoFixesOfSameRobotCommentCanBeApplied() throws Exception {
+  public void twoStoredFixesOfSameRobotCommentCanBeApplied() throws Exception {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
     fixReplacementInfo1.range = createRange(2, 0, 3, 0);
@@ -892,7 +892,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixReferringToDifferentFileThanRobotCommentCanBeApplied() throws Exception {
+  public void storedFixReferringToDifferentFileThanRobotCommentCanBeApplied() throws Exception {
     fixReplacementInfo.path = FILE_NAME2;
     fixReplacementInfo.range = createRange(2, 0, 3, 0);
     fixReplacementInfo.replacement = "Modified content\n";
@@ -912,7 +912,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixInvolvingTwoFilesCanBeApplied() throws Exception {
+  public void storedFixInvolvingTwoFilesCanBeApplied() throws Exception {
     FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
     fixReplacementInfo1.path = FILE_NAME;
     fixReplacementInfo1.range = createRange(2, 0, 3, 0);
@@ -949,7 +949,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixReferringToNonExistentFileCannotBeApplied() throws Exception {
+  public void storedFixReferringToNonExistentFileCannotBeApplied() throws Exception {
     fixReplacementInfo.path = "a_non_existent_file.txt";
     fixReplacementInfo.range = createRange(1, 0, 2, 0);
     fixReplacementInfo.replacement = "Modified content\n";
@@ -965,7 +965,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixOnPreviousPatchSetWithoutChangeEditCannotBeApplied() throws Exception {
+  public void storedFixOnPreviousPatchSetWithoutChangeEditCannotBeApplied() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
@@ -988,7 +988,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixOnPreviousPatchSetWithExistingChangeEditCanBeApplied() throws Exception {
+  public void storedFixOnPreviousPatchSetWithExistingChangeEditCanBeApplied() throws Exception {
     // Create an empty change edit.
     gApi.changes().id(changeId).edit().create();
 
@@ -1019,7 +1019,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixOnCurrentPatchSetWithChangeEditOnPreviousPatchSetCannotBeApplied()
+  public void storedFixOnCurrentPatchSetWithChangeEditOnPreviousPatchSetCannotBeApplied()
       throws Exception {
     // Create an empty change edit.
     gApi.changes().id(changeId).edit().create();
@@ -1045,7 +1045,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixDoesNotModifyCommitMessageOfChangeEdit() throws Exception {
+  public void storedFixDoesNotModifyCommitMessageOfChangeEdit() throws Exception {
     String changeEditCommitMessage =
         "This is the commit message of the change edit.\n\nChange-Id: " + changeId + "\n";
     gApi.changes().id(changeId).edit().modifyCommitMessage(changeEditCommitMessage);
@@ -1064,7 +1064,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixOnCommitMessageCanBeApplied() throws Exception {
+  public void storedFixOnCommitMessageCanBeApplied() throws Exception {
     // Set a dedicated commit message.
     String footer = "\nChange-Id: " + changeId + "\n";
     String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n" + footer;
@@ -1086,7 +1086,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixOnHeaderPartOfCommitMessageCannotBeApplied() throws Exception {
+  public void storedFixOnHeaderPartOfCommitMessageCannotBeApplied() throws Exception {
     // Set a dedicated commit message.
     String footer = "Change-Id: " + changeId;
     String originalCommitMessage =
@@ -1110,7 +1110,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixContainingSeveralModificationsOfCommitMessageCanBeApplied() throws Exception {
+  public void storedFixContainingSeveralModificationsOfCommitMessageCanBeApplied()
+      throws Exception {
     // Set a dedicated commit message.
     String footer = "\nChange-Id: " + changeId + "\n";
     String originalCommitMessage =
@@ -1144,7 +1145,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void fixModifyingTheCommitMessageAndAFileCanBeApplied() throws Exception {
+  public void storedFixModifyingTheCommitMessageAndAFileCanBeApplied() throws Exception {
     // Set a dedicated commit message.
     String footer = "\nChange-Id: " + changeId + "\n";
     String originalCommitMessage = "Line 1 of commit message\nLine 2 of commit message\n" + footer;
@@ -1180,7 +1181,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void twoFixesOnCommitMessageCanBeAppliedOneAfterTheOther() throws Exception {
+  public void twoStoredFixesOnCommitMessageCanBeAppliedOneAfterTheOther() throws Exception {
     // Set a dedicated commit message.
     String footer = "\nChange-Id: " + changeId + "\n";
     String originalCommitMessage =
@@ -1217,7 +1218,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void twoConflictingFixesOnCommitMessageCanNotBeAppliedOneAfterTheOther() throws Exception {
+  public void twoConflictingStoredFixesOnCommitMessageCanNotBeAppliedOneAfterTheOther()
+      throws Exception {
     // Set a dedicated commit message.
     String footer = "Change-Id: " + changeId;
     String originalCommitMessage =
@@ -1254,7 +1256,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void applyingFixTwiceIsIdempotent() throws Exception {
+  public void applyingStoredFixTwiceIsIdempotent() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
@@ -1277,7 +1279,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void nonExistentFixCannotBeApplied() throws Exception {
+  public void nonExistentStoredFixCannotBeApplied() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
@@ -1295,7 +1297,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void applyingFixReturnsEditInfoForCreatedChangeEdit() throws Exception {
+  public void applyingStoredFixReturnsEditInfoForCreatedChangeEdit() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";
     fixReplacementInfo.range = createRange(3, 1, 3, 3);
@@ -1316,7 +1318,8 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void applyingFixOnTopOfChangeEditReturnsEditInfoForUpdatedChangeEdit() throws Exception {
+  public void applyingStoredFixOnTopOfChangeEditReturnsEditInfoForUpdatedChangeEdit()
+      throws Exception {
     gApi.changes().id(changeId).edit().create();
 
     fixReplacementInfo.path = FILE_NAME;
@@ -1379,7 +1382,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getFixPreviewWithNonexistingFixId() throws Exception {
+  public void previewStoredFixWithNonexistentFixId() throws Exception {
     testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
 
     assertThrows(
@@ -1388,7 +1391,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getFixPreviewForCommitMsg() throws Exception {
+  public void previewStoredFixForCommitMsg() throws Exception {
     String footer = "Change-Id: " + changeId;
     updateCommitMessage(
         changeId,
@@ -1447,7 +1450,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getFixPreviewForNonExistingFile() throws Exception {
+  public void PreviewStoredFixForNonExistingFile() throws Exception {
     FixReplacementInfo replacement = new FixReplacementInfo();
     replacement.path = "a_non_existent_file.txt";
     replacement.range = createRange(1, 0, 2, 0);
@@ -1468,7 +1471,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getFixPreview() throws Exception {
+  public void PreviewStoredFix() throws Exception {
     FixReplacementInfo fixReplacementInfoFile1 = new FixReplacementInfo();
     fixReplacementInfoFile1.path = FILE_NAME;
     fixReplacementInfoFile1.replacement = "some replacement code";
@@ -1578,7 +1581,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getFixPreviewAddNewLineAtEnd() throws Exception {
+  public void PreviewStoredFixAddNewLineAtEnd() throws Exception {
     FixReplacementInfo replacement = new FixReplacementInfo();
     replacement.path = FILE_NAME3;
     replacement.range = createRange(2, 8, 2, 8);

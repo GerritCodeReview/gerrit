@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec6190d2_deca8658",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2022-06-06T15:19:01Z",
+      "side": 1,
+      "message": "@Simply Chris Can you review this change? Your previous review score was removed",
+      "revId": "50d134efcde6b30b7c2c56478c22161fbe87d8f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78b99e30_145fccee",
+        "filename": "java/com/google/gerrit/server/account/AccountAttributeLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-07T23:24:10Z",
+      "side": 1,
+      "message": "nit: extra \u0027;\u0027",
+      "range": {
+        "startLine": 31,
+        "startChar": 76,
+        "endLine": 31,
+        "endChar": 77
+      },
+      "revId": "0633c296dfd6cda54dfb7be21841b9cc91d93274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7462c990_19b926c7",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-07T23:24:10Z",
+      "side": 1,
+      "message": "You could do this same thing (and not change the definition of ALL_ACCOUNT_ATTRIBUTES above) in the fill method above to remove the accountId field, correct? If it\u0027s that simple, it\u0027s probably worth doing so that we don\u0027t change the SSH output.",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 5
+      },
+      "revId": "0633c296dfd6cda54dfb7be21841b9cc91d93274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

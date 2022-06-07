@@ -519,9 +519,12 @@ export class GrRouter {
       range = '/' + range;
     }
     let suffix = `${range}`;
-    let queryString = '';
+    const queries = [];
     if (params.forceReload) {
-      queryString = 'forceReload=true';
+      queries.push('forceReload=true');
+    }
+    if (params.openReplyDialog) {
+      queries.push('openReplyDialog=true');
     }
     if (params.edit) {
       suffix += ',edit';
@@ -529,8 +532,8 @@ export class GrRouter {
     if (params.commentId) {
       suffix = suffix + `/comments/${params.commentId}`;
     }
-    if (queryString) {
-      suffix += '?' + queryString;
+    if (queries.length > 0) {
+      suffix += '?' + queries.join('&');
     }
     if (params.messageHash) {
       suffix += params.messageHash;
@@ -1688,6 +1691,15 @@ export class GrRouter {
         null,
         '',
         location.href.replace(/[?&]forceReload=true/, '')
+      );
+    }
+
+    if (ctx.queryMap.has('openReplyDialog')) {
+      params.openReplyDialog = true;
+      history.replaceState(
+        null,
+        '',
+        location.href.replace(/[?&]openReplyDialog=true/, '')
       );
     }
 

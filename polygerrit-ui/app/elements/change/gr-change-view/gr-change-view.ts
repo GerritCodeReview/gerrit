@@ -1516,13 +1516,8 @@ export class GrChangeView extends base {
       if (!loggedIn) {
         return;
       }
-
-      if (this.viewState.showReplyDialog) {
+      if (this.params?.openReplyDialog) {
         this._openReplyDialog(FocusTarget.ANY);
-        this.set('viewState.showReplyDialog', false);
-        fire(this, 'view-state-change-view-changed', {
-          value: this.viewState as ChangeViewState,
-        });
       }
     });
   }

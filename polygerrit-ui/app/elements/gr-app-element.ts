@@ -251,7 +251,6 @@ export class GrAppElement extends LitElement {
       changeView: {
         changeNum: null,
         patchRange: null,
-        showReplyDialog: false,
         diffMode: null,
         numFilesShown: null,
       },

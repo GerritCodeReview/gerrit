@@ -93,6 +93,30 @@
       },
       "revId": "8116877b2fb9b4c33d1825e97368a85fbaf04299",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "316a2c63_8ab2f1ab",
+        "filename": "java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-07T16:15:20Z",
+      "side": 1,
+      "message": "Seems this risk was accepted here: https://gerrit-review.git.corp.google.com/c/gerrit/+/173552/comments/e9e0d558_81edaf12\n\nSo, this is a separate question, out of scope of this change.",
+      "parentUuid": "e3538745_8fdfdad9",
+      "range": {
+        "startLine": 49,
+        "startChar": 13,
+        "endLine": 49,
+        "endChar": 30
+      },
+      "revId": "8116877b2fb9b4c33d1825e97368a85fbaf04299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

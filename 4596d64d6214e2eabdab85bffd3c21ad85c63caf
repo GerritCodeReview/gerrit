@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe78469c_f7287a9b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-07T15:44:43Z",
+      "side": 1,
+      "message": "Optional: would it make sense to change the variable name and add Promise suffix? Here and below?",
+      "revId": "4596d64d6214e2eabdab85bffd3c21ad85c63caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5163dfc_32e9f643",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
         "patchSetId": 9

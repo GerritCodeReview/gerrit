@@ -52,6 +52,24 @@
       "parentUuid": "1809b927_96e5da96",
       "revId": "c7fd108e2d78fcb5129025bcc21e8a2c7d673b55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bb984a0_614c593f",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T07:53:34Z",
+      "side": 0,
+      "message": "git grep \u0027@npm\u0027\ngit grep \u0027@ui_npm\u0027\ngit grep \u0027@ui_dev_npm\u0027\n...",
+      "parentUuid": "1809b927_96e5da96",
+      "revId": "c7fd108e2d78fcb5129025bcc21e8a2c7d673b55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

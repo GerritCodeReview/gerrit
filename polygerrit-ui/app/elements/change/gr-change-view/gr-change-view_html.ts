@@ -539,7 +539,6 @@ export const htmlTemplate = html`
           patch-range="[[_patchRange]]"
           diff-view-mode="[[viewState.diffMode]]"
           edit-mode="[[_editMode]]"
-          num-files-shown="{{_numFilesShown}}"
           files-expanded="{{_filesExpanded}}"
           file-list-increment="[[_numFilesShown]]"
           on-files-shown-changed="_setShownFiles"

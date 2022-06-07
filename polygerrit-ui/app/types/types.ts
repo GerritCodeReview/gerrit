@@ -176,7 +176,6 @@ export interface ChangeViewState {
   changeNum: NumericChangeId | null;
   patchRange: PatchRange | null;
   diffMode: DiffViewMode | null;
-  numFilesShown: number | null;
 }
 export interface ViewState {
   changeView: ChangeViewState;

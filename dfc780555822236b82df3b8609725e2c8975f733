@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c0591cc_8aca560b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-07T11:18:49Z",
+      "side": 1,
+      "message": "Hi Edwin, could you please review these three changes? the purpose is to disallow new modifications to the \"label function\" attribute of labels. Modifications to {MAX_WITH_BLOCK, etc...} are disallowed. For these cases, users should define a submit requirement.",
+      "revId": "dfc780555822236b82df3b8609725e2c8975f733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

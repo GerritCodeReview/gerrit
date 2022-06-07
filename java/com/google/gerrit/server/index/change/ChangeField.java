@@ -61,10 +61,14 @@ import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.entities.converter.ProtoConverter;
+import com.google.gerrit.index.Field;
+import com.google.gerrit.index.Field.FieldSpec;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
+import com.google.gerrit.index.SearchOptions;
 import com.google.gerrit.json.OutputFormat;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -84,6 +88,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -872,6 +877,12 @@ public class ChangeField {
   public static final FieldDef<ChangeData, String> COMMIT_MESSAGE_EXACT =
       exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT).build(ChangeData::commitMessage);
 
+
+  public static final Field<ChangeData, String> COMMIT_MESSAGE_FIELD = Field.<ChangeData, String>builder("CommitMessage", String.class).build(ChangeData::commitMessage);
+
+  public static final FieldSpec COMMIT_MESSAGE_FULL_TEXT_SPEC = COMMIT_MESSAGE_FIELD.addFieldSpec(ChangeQueryBuilder.FIELD_MESSAGE, SearchOptions.FULL_TEXT);
+
+
   /** Summary or inline comment. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
       fullText(ChangeQueryBuilder.FIELD_COMMENT)
@@ -941,6 +952,16 @@ public class ChangeField {
                   cd.setLinesInserted(field);
                 }
               });
+
+  public static final Field<ChangeData, Integer> ADDED_FIELD = Field.<ChangeData, Integer>builder("LinesAdded").build(cd -> cd.changedLines().isPresent() ? cd.changedLines().get().insertions : null,
+  (cd, field) -> {
+    if (field != null) {
+      cd.setLinesInserted(field);
+    }
+  });
+
+  public static final FieldSpec ADDED_SPEC = ADDED_FIELD.addFieldSpec(ChangeQueryBuilder.FIELD_ADDED, SearchOptions.RANGE);
+
 
   /** The number of deleted lines in this change. */
   public static final FieldDef<ChangeData, Integer> DELETED =
@@ -1012,6 +1033,17 @@ public class ChangeField {
 
   /** Serialized patch set object, used for pre-populating results. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> PATCH_SET =
+      storedOnly("_patch_set")
+          .buildRepeatable(
+              cd -> toProtos(PatchSetProtoConverter.INSTANCE, cd.patchSets()),
+              (cd, field) -> cd.setPatchSets(decodeProtos(field, PatchSetProtoConverter.INSTANCE)));
+
+
+  public static final Field<ChangeData, Collection<Entities.PatchSet>> PATCH_SET_FIELD = Field.<ChangeData, Collection<Entities.PatchSet>>builder("PatchSet",   (Class<Collection<Entities.PatchSet>>)Collections.<Entities.PatchSet>emptyList().getClass()).repeatable(true).stored(true).build();
+
+  public static final FieldSpec PATCH_SET_SPEC = PATCH_SET_FIELD.addFieldSpec("_patch_set", SearchOptions.STORE_ONLY);
+
+  public static final FieldSpec<ChangeData, Iterable<byte[]>> PATCH_SET =
       storedOnly("_patch_set")
           .buildRepeatable(
               cd -> toProtos(PatchSetProtoConverter.INSTANCE, cd.patchSets()),

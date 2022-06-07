@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../../styles/gr-form-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-overlay/gr-overlay';
+import '../../shared/gr-textarea/gr-textarea';
 import '../../../styles/shared-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {SshKeyInfo} from '../../../types/common';
@@ -26,13 +26,10 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {getAppContext} from '../../../services/app-context';
-import {LitElement, html} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {LitElement, css, html} from 'lit';
+import {customElement, property, PropertyValues, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css} from 'lit';
-import {BindValueChangeEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
-import {PropertyValues} from 'lit';
 import {formStyles} from '../../../styles/gr-form-styles';
 
 declare global {
@@ -167,15 +164,18 @@ export class GrSshEditor extends LitElement {
           <section>
             <span class="title">New SSH key</span>
             <span class="value">
-              <iron-autogrow-textarea
+              <gr-textarea
                 id="newKey"
                 autocomplete="on"
-                .bindValue=${this.newKey}
                 placeholder="New SSH Key"
-                @bind-value-changed=${(e: BindValueChangeEvent) => {
+                rows="4"
+                monospace
+                .text=${this.newKey}
+                @text-changed=${(e: CustomEvent) => {
                   this.newKey = e.detail.value;
                 }}
-              ></iron-autogrow-textarea>
+                text-changed=
+              ></gr-textarea>
             </span>
           </section>
           <gr-button

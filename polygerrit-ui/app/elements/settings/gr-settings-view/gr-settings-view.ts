@@ -59,7 +59,13 @@ import {columnNames} from '../../change-list/gr-change-list/gr-change-list';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {LitElement, css, html} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
+import {
+  customElement,
+  property,
+  query,
+  queryAsync,
+  state,
+} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -106,9 +112,9 @@ export class GrSettingsView extends LitElement {
 
   @query('#diffPrefs') diffPrefs!: GrDiffPreferences;
 
-  @query('#sshEditor') sshEditor?: GrSshEditor;
+  @queryAsync('#sshEditor') sshEditorPromise!: Promise<GrSshEditor>;
 
-  @query('#gpgEditor') gpgEditor?: GrGpgEditor;
+  @queryAsync('#gpgEditor') gpgEditorPromise!: Promise<GrGpgEditor>;
 
   @query('#emailEditor', true) emailEditor!: GrEmailEditor;
 
@@ -240,12 +246,16 @@ export class GrSettingsView extends LitElement {
         this.serverConfig = config;
         const configPromises: Array<Promise<void>> = [];
 
-        if (this.serverConfig?.sshd && this.sshEditor) {
-          configPromises.push(this.sshEditor.loadData());
+        if (this.serverConfig?.sshd) {
+          configPromises.push(
+            this.sshEditorPromise.then(sshEditor => sshEditor.loadData())
+          );
         }
 
-        if (this.serverConfig?.receive?.enable_signed_push && this.gpgEditor) {
-          configPromises.push(this.gpgEditor.loadData());
+        if (this.serverConfig?.receive?.enable_signed_push) {
+          configPromises.push(
+            this.gpgEditorPromise.then(gpgEditor => gpgEditor.loadData())
+          );
         }
 
         configPromises.push(

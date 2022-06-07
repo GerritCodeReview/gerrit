@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88963fcd_ae146904",
+        "filename": "java/com/google/gerrit/server/project/validator/CopyValuesLabelConfigValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-07T12:28:42Z",
+      "side": 1,
+      "message": "The logic of this validator is tightly related to the logic in DeprecatedFlagsLabelConfigValidator (both validators check that deprecated approval copying fields are no longer used). I think it\u0027s better to keep this logic together in a single validator, or is there a good reason to split this?",
+      "revId": "f66f2b747313a4db8d2bca756d51008e79688da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0431c471_4564cd12",
+        "filename": "java/com/google/gerrit/server/project/validator/LabelConfigValidatorChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-07T12:28:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure this name makes sense to me. \"LabelConfigValidatorChecker\" sounds to me like it\u0027s \"a checker for label config validators\" but what is being checked here is the label config not the validator. Can we find a better name for this extension point?\n\nIf possible, please avoid having both LabelConfigValidator and LabelConfigChecker at the same time, because from this naming it would unclear what would be the difference between them.",
+      "range": {
+        "startLine": 28,
+        "startChar": 17,
+        "endLine": 28,
+        "endChar": 44
+      },
+      "revId": "f66f2b747313a4db8d2bca756d51008e79688da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e7af620_b4e2e5ca",
+        "filename": "java/com/google/gerrit/server/project/validator/LabelConfigValidatorChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-07T12:28:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure whether Config is the right representation of the project configuration for all project config validators. I think in most cases it would be better to use ProjectConfig instead. ProjectConfig already has logic to parse project.config and hence is more comfortable to use than the plain JGit Config API.\n\nFYI the existing LabelConfigValidator is using Config rather than ProjectConfig, only because it checks deprecated fields that will be dropped from the ProjectConfig API soon and we still want to keep this validator after the deprecated fields and their API has been removed from ProjectConfig.",
+      "range": {
+        "startLine": 39,
+        "startChar": 24,
+        "endLine": 39,
+        "endChar": 68
+      },
+      "revId": "f66f2b747313a4db8d2bca756d51008e79688da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7a6948a_fd512f8d",
+        "filename": "java/com/google/gerrit/server/project/validator/LabelConfigValidatorChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-07T12:28:42Z",
+      "side": 1,
+      "message": "If this is the only method that stays in this interface (as commented below I don\u0027t think flagChangedOrNewlySet should be part of this API) then this interface has nothing specific about label config validation. Hence I would suggest naming this interface \"ProjectConfigValidator\" (only if we can find another name for the existing ProjectConfigValidator class) or similar.",
+      "revId": "f66f2b747313a4db8d2bca756d51008e79688da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b59521e1_79325e5c",
+        "filename": "java/com/google/gerrit/server/project/validator/LabelConfigValidatorChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-07T12:28:42Z",
+      "side": 1,
+      "message": "It doesn\u0027t look right to me to have this method as part of the interface:\n\n1. It\u0027s never called by users of LabelConfigValidatorChecker, but only from the implementations, hence it doesn\u0027t need to be part of the public API.\n\n2. A default method suggests that there may be reason to override it, but this method should never be overridden by implementations (it should rather be a final, than a default method).\n\nMaybe have a AbstractLabelConfigValidator class with this method that is extended by all label config validators.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 3
+      },
+      "revId": "f66f2b747313a4db8d2bca756d51008e79688da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

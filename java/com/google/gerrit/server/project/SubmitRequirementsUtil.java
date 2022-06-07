@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.metrics.Counter2;
@@ -29,6 +30,7 @@ import com.google.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -37,6 +39,12 @@ import java.util.stream.Collectors;
  */
 @Singleton
 public class SubmitRequirementsUtil {
+
+  /**
+   * Submit requirement name can only contain alphanumeric characters or hyphen. Name cannot start
+   * with a hyphen or number.
+   */
+  private static final Pattern SUBMIT_REQ_NAME_PATTERN = Pattern.compile("[a-zA-Z][a-zA-Z0-9\\-]*");
 
   @Singleton
   static class Metrics {
@@ -134,6 +142,10 @@ public class SubmitRequirementsUtil {
     result.putAll(projectConfigRequirements);
     Map<String, SubmitRequirementResult> requirementsByName =
         projectConfigRequirements.entrySet().stream()
+            // filter out legacy entries as a safety guard for duplicate entries
+            // (projectConfigRequirements should not contain legacy entries)
+            // TODO(ghareeb): remove the filter statement
+            .filter(entry -> !entry.getValue().isLegacy())
             .collect(Collectors.toMap(sr -> sr.getKey().name().toLowerCase(), sr -> sr.getValue()));
     for (Map.Entry<SubmitRequirement, SubmitRequirementResult> legacy :
         legacyRequirements.entrySet()) {
@@ -177,6 +189,20 @@ public class SubmitRequirementsUtil {
     }
 
     return ImmutableMap.copyOf(result);
+  }
+
+  /** Validates the name of submit requirements. */
+  public static void validateName(@Nullable String name) throws IllegalArgumentException {
+    if (name == null || name.isEmpty()) {
+      throw new IllegalArgumentException("Empty submit requirement name");
+    }
+    if (!SUBMIT_REQ_NAME_PATTERN.matcher(name).matches()) {
+      throw new IllegalArgumentException(
+          String.format(
+              "Illegal submit requirement name \"%s\". Name can only consist of "
+                  + "alphanumeric characters and '-'. Name cannot start with '-' or number.",
+              name));
+    }
   }
 
   private static boolean shouldReportMetric(ChangeData cd) {

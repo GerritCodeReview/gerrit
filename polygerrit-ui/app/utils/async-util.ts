@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import {Observable} from 'rxjs';
 import {filter, take} from 'rxjs/operators';
 
@@ -146,3 +134,27 @@ export function until<T>(obs$: Observable<T>, predicate: (t: T) => boolean) {
 }
 
 export const isFalse = (b: boolean) => b === false;
+
+export type PromiseResult<T> =
+  | {status: 'fulfilled'; value: T}
+  | {status: 'rejected'; reason: string};
+export function isFulfilled<T>(
+  promiseResult?: PromiseResult<T>
+): promiseResult is PromiseResult<T> & {status: 'fulfilled'} {
+  return promiseResult?.status === 'fulfilled';
+}
+
+// An equivalent to Promise.allSettled from ES2020.
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled
+// TODO: Migrate our tooling to ES2020 and remove this method.
+export function allSettled<T>(
+  promises: Promise<T>[]
+): Promise<PromiseResult<T>[]> {
+  return Promise.all(
+    promises.map(promise =>
+      promise
+        .then(value => ({status: 'fulfilled', value} as const))
+        .catch(reason => ({status: 'rejected', reason} as const))
+    )
+  );
+}

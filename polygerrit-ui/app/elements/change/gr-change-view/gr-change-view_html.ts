@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
@@ -363,7 +352,7 @@ export const htmlTemplate = html`
             disable-edit="[[disableEdit]]"
             has-parent="[[hasParent]]"
             actions="[[_change.actions]]"
-            revision-actions="{{_currentRevisionActions}}"
+            revision-actions="[[_currentRevisionActions]]"
             account="[[_account]]"
             change-num="[[_changeNum]]"
             change-status="[[_change.status]]"
@@ -379,6 +368,7 @@ export const htmlTemplate = html`
             on-stop-edit-tap="_handleStopEditTap"
             on-download-tap="_handleOpenDownloadDialog"
             on-included-tap="_handleOpenIncludedInDialog"
+            on-revision-actions-changed="_handleRevisionActionsChanged"
           ></gr-change-actions>
         </div>
         <!-- end commit actions -->
@@ -396,6 +386,7 @@ export const htmlTemplate = html`
             commit-info="[[_commitInfo]]"
             server-config="[[_serverConfig]]"
             parent-is-current="[[_parentIsCurrent]]"
+            repo-config="[[_projectConfig]]"
             on-show-reply-dialog="_handleShowReplyDialog"
           >
           </gr-change-metadata>
@@ -545,13 +536,12 @@ export const htmlTemplate = html`
           diff-prefs="{{_diffPrefs}}"
           change="[[_change]]"
           change-num="[[_changeNum]]"
-          patch-range="{{_patchRange}}"
-          selected-index="{{viewState.selectedFileIndex}}"
+          patch-range="[[_patchRange]]"
           diff-view-mode="[[viewState.diffMode]]"
           edit-mode="[[_editMode]]"
           num-files-shown="{{_numFilesShown}}"
           files-expanded="{{_filesExpanded}}"
-          file-list-increment="{{_numFilesShown}}"
+          file-list-increment="[[_numFilesShown]]"
           on-files-shown-changed="_setShownFiles"
           on-file-action-tap="_handleFileActionTap"
           observer-target="[[_computeObserverTarget()]]"

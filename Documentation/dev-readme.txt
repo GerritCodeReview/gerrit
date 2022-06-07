@@ -178,6 +178,9 @@ copying to the test site:
 NOTE: To learn why using `java -jar` isn't sufficient, see
 <<special_bazel_java_version,this explanation>>.
 
+NOTE: When launching the daemong this way, the settings from the `[container]` section from the
+`$GERRIT_SITE/etc/gerrit.config` are not honored.
+
 To debug the Gerrit server of this test site:
 
 .  Open a debug port (such as port 5005). To do so, insert the following code
@@ -186,6 +189,49 @@ IntelliJ, see <<dev-intellij#remote-debug,Debugging a remote Gerrit server>>.
 
 ----
 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+----
+
+=== Running the Daemon honoring the [container] section settings
+
+To run the Daemon and honor the `[container]` section settings use the `gerrit.sh` script:
+
+----
+  $ cd $GERRIT_SITE
+  $ bin/gerrit.sh run
+----
+
+To run the Daemon in debug mode use the `--debug` option:
+
+----
+  $ bin/gerrit.sh run --debug
+----
+
+The default debug port is `8000`. To specify a different debug port use the `--debug-port` option:
+
+----
+  $ bin/gerrit.sh run --debug --debug-port=5005
+----
+
+The `--debug-address` option also exists and is a synonym for the ``--debug-port` option:
+
+----
+  $ bin/gerrit.sh run --debug --debug-address=5005
+----
+
+Note that, by default, the debugger will only accept connections from the localhost. To enable
+debug connections from other host(s) provide also a host name or wildcard in the `--debug-address`
+value:
+
+----
+  $ bin/gerrit.sh run --debug --debug-address=*:5005
+----
+
+Debugging the Daemon startup requires starting the JVM in suspended debug mode. The JVM will await
+for a debugger to attach before proceeding with the start. Use the `--suspend` option for that
+scenario:
+
+----
+  $ bin/gerrit.sh run --debug --suspend
 ----
 
 === Running the Daemon with Gerrit Inspector

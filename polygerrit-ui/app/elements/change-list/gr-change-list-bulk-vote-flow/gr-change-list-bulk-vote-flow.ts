@@ -3,7 +3,6 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {customElement, query, state} from 'lit/decorators';
 import {LitElement, html, css, nothing} from 'lit';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -24,6 +23,7 @@ import {
 import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {queryAndAssert} from '../../../utils/common-util';
+import '@polymer/iron-icon/iron-icon';
 import {
   LabelNameToValuesMap,
   ReviewInput,
@@ -35,12 +35,17 @@ import {fireAlert, fireReload} from '../../../utils/event-util';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../change/gr-label-score-row/gr-label-score-row';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
+import {allSettled} from '../../../utils/async-util';
+import {pluralize} from '../../../utils/string-util';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 
 @customElement('gr-change-list-bulk-vote-flow')
 export class GrChangeListBulkVoteFlow extends LitElement {
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
   private readonly userModel = getAppContext().userModel;
+
+  private readonly reportingService = getAppContext().reportingService;
 
   @state() selectedChanges: ChangeInfo[] = [];
 
@@ -54,8 +59,12 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     return [
       fontStyles,
       css`
+        gr-dialog {
+          width: 840px;
+        }
         .scoresTable {
           display: table;
+          width: 100%;
         }
         .scoresTable.newSubmitRequirements {
           table-layout: fixed;
@@ -66,24 +75,65 @@ export class GrChangeListBulkVoteFlow extends LitElement {
         gr-label-score-row {
           display: table-row;
         }
-        .heading-3 {
-          padding-left: var(--spacing-xl);
-          margin-bottom: var(--spacing-m);
-          margin-top: var(--spacing-l);
+        /* TODO(dhruvsri): Consider using flex column with gap */
+        .scoresTable:not(:first-of-type) {
+          margin-top: var(--spacing-m);
+        }
+        .vote-type {
+          margin-bottom: var(--spacing-s);
+          margin-top: 0;
           display: table-caption;
         }
-        .heading-3:first-of-type {
-          margin-top: 0;
+        .main-heading {
+          margin-bottom: var(--spacing-m);
+          font-weight: var(--font-weight-h2);
+        }
+        .error-container {
+          background-color: var(--error-background);
+          margin-top: var(--spacing-l);
+        }
+        .code-review-message-container iron-icon,
+        .error-container iron-icon {
+          padding: 10px var(--spacing-xl);
+          color: var(--error-foreground);
+          --iron-icon-height: 20px;
+          --iron-icon-width: 20px;
+        }
+        .error-container iron-icon {
+          color: var(--red-700);
+        }
+        .code-review-message-container iron-icon {
+          color: var(--blue-800);
+        }
+        .error-container span,
+        .code-review-message-container span {
+          position: relative;
+          top: 1px;
+        }
+        .code-review-message-container {
+          display: table-caption;
+          background-color: var(--light-error-background);
+          margin-bottom: var(--spacing-m);
+        }
+        .code-review-message-layout-container {
+          display: flex;
+        }
+        .code-review-message-container gr-button {
+          margin-top: 6px;
+          margin-right: var(--spacing-xl);
+        }
+        .flex-space {
+          flex-grow: 1;
         }
       `,
     ];
   }
 
-  override connectedCallback() {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getBulkActionsModel().selectedChanges$,
+      () => this.getBulkActionsModel().selectedChanges$,
       selectedChanges => {
         this.selectedChanges = selectedChanges;
         this.resetFlow();
@@ -91,7 +141,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     );
     subscribe(
       this,
-      this.userModel.account$,
+      () => this.userModel.account$,
       account => (this.account = account)
     );
   }
@@ -118,33 +168,87 @@ export class GrChangeListBulkVoteFlow extends LitElement {
           .loadingLabel=${'Voting in progress...'}
           @confirm=${() => this.handleConfirm()}
           @cancel=${() => this.handleClose()}
-          .cancelLabel=${'Close'}
+          .confirmLabel=${'Vote'}
+          .cancelLabel=${'Cancel'}
         >
+          <div slot="header">
+            <span class="main-heading"> Vote on selected changes </span>
+          </div>
           <div slot="main">
             ${this.renderLabels(
               nonTriggerLabels,
               'Submit requirements votes',
-              permittedLabels
+              permittedLabels,
+              true
             )}
             ${this.renderLabels(
               triggerLabels,
               'Trigger Votes',
               permittedLabels
             )}
+            ${this.renderErrors()}
           </div>
-          <!-- TODO: Add error handling status if something fails -->
         </gr-dialog>
       </gr-overlay>
+    `;
+  }
+
+  private renderCodeReviewMessage() {
+    return html`
+      <div class="code-review-message-container">
+        <div class="code-review-message-layout-container">
+          <div>
+            <iron-icon icon="gr-icons:info-outline"></iron-icon>
+            <span>
+              Code Review vote is only available on the individual change page
+            </span>
+          </div>
+          <div class="flex-space"></div>
+          <div>
+            <gr-button flatten link @click=${this.handleOpenChanges}
+              >Open ${pluralize(this.selectedChanges.length, 'change')}
+            </gr-button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  private handleOpenChanges() {
+    for (const change of this.selectedChanges) {
+      window.open(GerritNav.getUrlForChange(change));
+    }
+  }
+
+  private renderErrors() {
+    if (getOverallStatus(this.progressByChange) !== ProgressStatus.FAILED) {
+      return nothing;
+    }
+    return html`
+      <div class="error-container">
+        <iron-icon icon="gr-icons:error"></iron-icon>
+        <span>
+          <!-- prettier-ignore -->
+          Failed to vote on ${pluralize(
+            Array.from(this.progressByChange.values()).filter(
+              status => status === ProgressStatus.FAILED
+            ).length,
+            'change'
+          )}
+        </span>
+      </div>
     `;
   }
 
   private renderLabels(
     labels: Label[],
     heading: string,
-    permittedLabels?: LabelNameToValuesMap
+    permittedLabels?: LabelNameToValuesMap,
+    showCodeReviewWarning?: boolean
   ) {
     return html` <div class="scoresTable newSubmitRequirements">
-      <h3 class="heading-3">${labels.length ? heading : nothing}</h3>
+      <h3 class="heading-4 vote-type">${labels.length ? heading : nothing}</h3>
+      ${showCodeReviewWarning ? this.renderCodeReviewMessage() : nothing}
       ${labels
         .filter(
           label =>
@@ -195,8 +299,12 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     fireReload(this, true);
   }
 
-  private handleConfirm() {
+  private async handleConfirm() {
     this.progressByChange.clear();
+    this.reportingService.reportInteraction('bulk-action', {
+      type: 'vote',
+      selectedChangeCount: this.selectedChanges.length,
+    });
     const reviewInput: ReviewInput = {
       labels: this.getLabelValues(
         this.computeCommonPermittedLabels(this.computePermittedLabels())
@@ -207,25 +315,36 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     }
     this.requestUpdate();
     const promises = this.getBulkActionsModel().voteChanges(reviewInput);
-    for (let index = 0; index < promises.length; index++) {
-      const changeNum = this.selectedChanges[index]._number;
-      promises[index]
-        .then(() => {
-          this.progressByChange.set(changeNum, ProgressStatus.SUCCESSFUL);
-        })
-        .catch(() => {
-          this.progressByChange.set(changeNum, ProgressStatus.FAILED);
-        })
-        .finally(() => {
-          this.requestUpdate();
-          if (
-            getOverallStatus(this.progressByChange) ===
-            ProgressStatus.SUCCESSFUL
-          ) {
-            fireAlert(this, 'Votes added');
-            this.handleClose();
-          }
-        });
+
+    await allSettled(
+      promises.map((promise, index) => {
+        const changeNum = this.selectedChanges[index]._number;
+        return promise
+          .then(() => {
+            this.progressByChange.set(changeNum, ProgressStatus.SUCCESSFUL);
+          })
+          .catch(() => {
+            this.progressByChange.set(changeNum, ProgressStatus.FAILED);
+          })
+          .finally(() => {
+            this.requestUpdate();
+            if (
+              getOverallStatus(this.progressByChange) ===
+              ProgressStatus.SUCCESSFUL
+            ) {
+              fireAlert(this, 'Votes added');
+              this.handleClose();
+            }
+          });
+      })
+    );
+    if (getOverallStatus(this.progressByChange) === ProgressStatus.FAILED) {
+      this.reportingService.reportInteraction('bulk-action-failure', {
+        type: 'vote',
+        count: Array.from(this.progressByChange.values()).filter(
+          status => status === ProgressStatus.FAILED
+        ).length,
+      });
     }
   }
 

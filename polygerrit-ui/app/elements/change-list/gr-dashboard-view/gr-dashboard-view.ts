@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../gr-change-list/gr-change-list';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
@@ -48,7 +36,6 @@ import {
 } from '../gr-create-destination-dialog/gr-create-destination-dialog';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
-import {DashboardViewState} from '../../../types/types';
 import {firePageError, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
@@ -57,8 +44,9 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators';
-import {ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
+import {Shortcut} from '../../../services/shortcuts/shortcuts-config';
+import {ShortcutController} from '../../lit/shortcut-controller';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\${project}/g;
 
@@ -91,9 +79,6 @@ export class GrDashboardView extends LitElement {
   preferences?: PreferencesInput;
 
   @property({type: Object})
-  viewState?: DashboardViewState;
-
-  @property({type: Object})
   params?: AppElementDashboardParams;
 
   // private but used in test
@@ -108,18 +93,18 @@ export class GrDashboardView extends LitElement {
   // private but used in test
   @state() showNewUserHelp = false;
 
-  // private but used in test
-  @state() selectedChangeIndex?: number;
-
   private reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
 
   private lastVisibleTimestampMs = 0;
 
+  private readonly shortcuts = new ShortcutController(this);
+
   constructor() {
     super();
     this.addEventListener('reload', () => this.reload());
+    this.shortcuts.addAbstract(Shortcut.UP_TO_DASHBOARD, () => this.reload());
   }
 
   private readonly visibilityChangeListener = () => {
@@ -261,11 +246,7 @@ export class GrDashboardView extends LitElement {
           ?showStar=${true}
           .account=${this.account}
           .preferences=${this.preferences}
-          .selectedIndex=${this.selectedChangeIndex}
           .sections=${this.results}
-          @selected-index-changed=${(e: ValueChangedEvent<number>) => {
-            this.handleSelectedIndexChanged(e);
-          }}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}
@@ -312,10 +293,6 @@ export class GrDashboardView extends LitElement {
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('params')) {
       this.paramsChanged();
-    }
-
-    if (changedProperties.has('selectedChangeIndex')) {
-      this.selectedChangeIndexChanged();
     }
   }
 
@@ -373,27 +350,8 @@ export class GrDashboardView extends LitElement {
     return params.view === GerritView.DASHBOARD;
   }
 
-  private selectedChangeIndexChanged() {
-    if (
-      !this.params ||
-      !this.isViewActive(this.params) ||
-      this.selectedChangeIndex === undefined
-    )
-      return;
-    if (!this.viewState) throw new Error('view state undefined');
-    if (!this.params.user) throw new Error('user for dashboard is undefined');
-    this.viewState[this.params.user] = this.selectedChangeIndex;
-  }
-
   // private but used in test
   paramsChanged() {
-    if (
-      this.params &&
-      this.isViewActive(this.params) &&
-      this.params.user &&
-      this.viewState
-    )
-      this.selectedChangeIndex = this.viewState[this.params.user] || 0;
     return this.reload();
   }
 
@@ -634,10 +592,6 @@ export class GrDashboardView extends LitElement {
     assertIsDefined(this.commandsDialog, 'commandsDialog');
     this.commandsDialog.branch = e.detail.branch;
     this.commandsDialog.open();
-  }
-
-  private handleSelectedIndexChanged(e: ValueChangedEvent<number>) {
-    this.selectedChangeIndex = e.detail.value;
   }
 }
 

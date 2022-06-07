@@ -14,11 +14,16 @@
 
 package com.google.gerrit.server.mail.send;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.FilenameComparator;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -28,6 +33,8 @@ import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.NoSuchEntityException;
 import com.google.gerrit.exceptions.StorageException;
@@ -55,6 +62,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
@@ -64,7 +72,11 @@ public class CommentSender extends ReplyToChangeSender {
 
   public interface Factory {
 
-    CommentSender create(Project.NameKey project, Change.Id changeId);
+    CommentSender create(
+        Project.NameKey project,
+        Change.Id changeId,
+        ObjectId preUpdateMetaId,
+        Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults);
   }
 
   private class FileCommentGroup {
@@ -106,11 +118,14 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   private List<? extends Comment> inlineComments = Collections.emptyList();
-  private String patchSetComment;
-  private List<LabelVote> labels = Collections.emptyList();
+  @Nullable private String patchSetComment;
+  private ImmutableList<LabelVote> labels = ImmutableList.of();
   private final CommentsUtil commentsUtil;
   private final boolean incomingEmailEnabled;
   private final String replyToAddress;
+  private final Supplier<Map<SubmitRequirement, SubmitRequirementResult>>
+      preUpdateSubmitRequirementResultsSupplier;
+  private final Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults;
 
   @Inject
   public CommentSender(
@@ -118,24 +133,35 @@ public class CommentSender extends ReplyToChangeSender {
       CommentsUtil commentsUtil,
       @GerritServerConfig Config cfg,
       @Assisted Project.NameKey project,
-      @Assisted Change.Id changeId) {
+      @Assisted Change.Id changeId,
+      @Assisted ObjectId preUpdateMetaId,
+      @Assisted
+          Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
     super(args, "comment", newChangeData(args, project, changeId));
     this.commentsUtil = commentsUtil;
     this.incomingEmailEnabled =
         cfg.getEnum("receiveemail", null, "protocol", Protocol.NONE).ordinal()
             > Protocol.NONE.ordinal();
     this.replyToAddress = cfg.getString("sendemail", null, "replyToAddress");
+    this.preUpdateSubmitRequirementResultsSupplier =
+        Suppliers.memoize(
+            () ->
+                // Triggers an (expensive) evaluation of the submit requirements. This is OK since
+                // all callers sent this email asynchronously, see EmailReviewComments.
+                newChangeData(args, project, changeId, preUpdateMetaId)
+                    .submitRequirementsIncludingLegacy());
+    this.postUpdateSubmitRequirementResults = postUpdateSubmitRequirementResults;
   }
 
   public void setComments(List<? extends Comment> comments) {
     inlineComments = comments;
   }
 
-  public void setPatchSetComment(String comment) {
+  public void setPatchSetComment(@Nullable String comment) {
     this.patchSetComment = comment;
   }
 
-  public void setLabels(List<LabelVote> labels) {
+  public void setLabels(ImmutableList<LabelVote> labels) {
     this.labels = labels;
   }
 
@@ -506,6 +532,15 @@ public class CommentSender extends ReplyToChangeSender {
     soyContext.put(
         "coverLetterBlocks", commentBlocksToSoyData(CommentFormatter.parse(getCoverLetter())));
 
+    if (isChangeNoLongerSubmittable()) {
+      soyContext.put("unsatisfiedSubmitRequirements", formatUnsatisfiedSubmitRequirements());
+      soyContext.put(
+          "oldSubmitRequirements",
+          formatSubmitRequirments(preUpdateSubmitRequirementResultsSupplier.get()));
+      soyContext.put(
+          "newSubmitRequirements", formatSubmitRequirments(postUpdateSubmitRequirementResults));
+    }
+
     footers.add(MailHeader.COMMENT_DATE.withDelimiter() + getCommentTimestamp());
     footers.add(MailHeader.HAS_COMMENTS.withDelimiter() + (hasComments ? "Yes" : "No"));
     footers.add(MailHeader.HAS_LABELS.withDelimiter() + (labels.isEmpty() ? "No" : "Yes"));
@@ -513,6 +548,59 @@ public class CommentSender extends ReplyToChangeSender {
     for (Account.Id account : getReplyAccounts()) {
       footers.add(MailHeader.COMMENT_IN_REPLY_TO.withDelimiter() + getNameEmailFor(account));
     }
+  }
+
+  /**
+   * Checks whether the change is no longer submittable.
+   *
+   * @return {@code true} if the change has been submittable before the update and is no longer
+   *     submittable after the update has been applied, otherwise {@code false}
+   */
+  private boolean isChangeNoLongerSubmittable() {
+    boolean isSubmittablePreUpdate =
+        preUpdateSubmitRequirementResultsSupplier.get().values().stream()
+            .allMatch(SubmitRequirementResult::fulfilled);
+    logger.atFine().log(
+        "the submitability of change %s before the update is %s",
+        change.getId(), isSubmittablePreUpdate);
+    if (!isSubmittablePreUpdate) {
+      return false;
+    }
+
+    boolean isSubmittablePostUpdate =
+        postUpdateSubmitRequirementResults.values().stream()
+            .allMatch(SubmitRequirementResult::fulfilled);
+    logger.atFine().log(
+        "the submitability of change %s after the update is %s",
+        change.getId(), isSubmittablePostUpdate);
+    return !isSubmittablePostUpdate;
+  }
+
+  private ImmutableList<String> formatUnsatisfiedSubmitRequirements() {
+    return postUpdateSubmitRequirementResults.entrySet().stream()
+        .filter(e -> SubmitRequirementResult.Status.UNSATISFIED.equals(e.getValue().status()))
+        .map(Map.Entry::getKey)
+        .map(SubmitRequirement::name)
+        .sorted()
+        .collect(toImmutableList());
+  }
+
+  private static ImmutableList<String> formatSubmitRequirments(
+      Map<SubmitRequirement, SubmitRequirementResult> submitRequirementResults) {
+    return submitRequirementResults.entrySet().stream()
+        .map(
+            e -> {
+              if (e.getValue().errorMessage().isPresent()) {
+                return String.format(
+                    "%s: %s (%s)",
+                    e.getKey().name(),
+                    e.getValue().status().name(),
+                    e.getValue().errorMessage().get());
+              }
+              return String.format("%s: %s", e.getKey().name(), e.getValue().status().name());
+            })
+        .sorted()
+        .collect(toImmutableList());
   }
 
   private String getLine(PatchFile fileInfo, short side, int lineNbr) {
@@ -535,8 +623,8 @@ public class CommentSender extends ReplyToChangeSender {
     }
   }
 
-  private List<Map<String, Object>> getLabelVoteSoyData(List<LabelVote> votes) {
-    List<Map<String, Object>> result = new ArrayList<>();
+  private ImmutableList<Map<String, Object>> getLabelVoteSoyData(ImmutableList<LabelVote> votes) {
+    ImmutableList.Builder<Map<String, Object>> result = ImmutableList.builder();
     for (LabelVote vote : votes) {
       Map<String, Object> data = new HashMap<>();
       data.put("label", vote.label());
@@ -546,7 +634,7 @@ public class CommentSender extends ReplyToChangeSender {
       data.put("value", (int) vote.value());
       result.add(data);
     }
-    return result;
+    return result.build();
   }
 
   private String getCommentTimestamp() {

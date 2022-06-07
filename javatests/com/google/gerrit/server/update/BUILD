@@ -1,8 +1,8 @@
 load("//tools/bzl:junit.bzl", "junit_tests")
 
 junit_tests(
-    name = "small_tests",
-    size = "small",
+    name = "update_tests",
+    size = "medium",
     srcs = glob(["*.java"]),
     runtime_deps = [
         "//java/com/google/gerrit/lucene",

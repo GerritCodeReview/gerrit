@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2019 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2019 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {DiffLayer as DiffLayerApi} from '../api/diff';
 import {DiffViewMode, MessageTag, Side} from '../constants/constants';
@@ -26,6 +15,7 @@ import {
   ChangeViewChangeInfo,
   CommitId,
   CommitInfo,
+  EditPatchSet,
   NumericChangeId,
   PatchRange,
   PatchSetNum,
@@ -186,7 +176,6 @@ export interface DiffLayer extends DiffLayerApi {
 export interface ChangeViewState {
   changeNum: NumericChangeId | null;
   patchRange: PatchRange | null;
-  selectedFileIndex: number;
   showReplyDialog: boolean;
   diffMode: DiffViewMode | null;
   numFilesShown: number | null;
@@ -195,9 +184,6 @@ export interface ChangeViewState {
 export interface ChangeListViewState {
   changeNum?: ChangeId;
   patchRange?: PatchRange;
-  // TODO(TS): seems only one of 2 selected... is required
-  selectedFileIndex?: number;
-  selectedChangeIndex?: number;
   showReplyDialog?: boolean;
   diffMode?: DiffViewMode;
   numFilesShown?: number;
@@ -206,14 +192,9 @@ export interface ChangeListViewState {
   offset?: number;
 }
 
-export interface DashboardViewState {
-  [key: string]: number;
-}
-
 export interface ViewState {
   changeView: ChangeViewState;
   changeListView: ChangeListViewState;
-  dashboardView: DashboardViewState;
 }
 
 export interface PatchSetFile {
@@ -260,7 +241,7 @@ export interface FormattedReviewerUpdateInfo {
 
 export interface EditRevisionInfo extends Partial<RevisionInfo> {
   // EditRevisionInfo has less required properties then RevisionInfo
-  _number: PatchSetNum;
+  _number: EditPatchSet;
   basePatchNum: BasePatchSetNum;
   commit: CommitInfo;
 }

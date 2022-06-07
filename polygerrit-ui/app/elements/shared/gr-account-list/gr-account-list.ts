@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-account-chip/gr-account-chip';
 import '../gr-account-entry/gr-account-entry';
@@ -25,6 +14,7 @@ import {
   EmailAddress,
   SuggestedReviewerGroupInfo,
   SuggestedReviewerAccountInfo,
+  SuggestedReviewerInfo,
 } from '../../../types/common';
 import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
@@ -166,13 +156,10 @@ export class GrAccountList extends LitElement {
   @property({type: Array})
   removableValues?: AccountInput[];
 
-  @property({type: Number})
-  maxCount = 0;
-
   /**
    * Returns suggestion items
    */
-  @state() private querySuggestions: AutocompleteQuery;
+  @state() private querySuggestions: AutocompleteQuery<SuggestedReviewerInfo>;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -202,7 +189,7 @@ export class GrAccountList extends LitElement {
       .group {
         --account-label-suffix: ' (group)';
       }
-      .pending-add {
+      .pendingAdd {
         font-style: italic;
       }
       .list {
@@ -233,8 +220,7 @@ export class GrAccountList extends LitElement {
       </div>
       <gr-account-entry
         borderless=""
-        ?hidden=${(this.maxCount && this.maxCount <= this.accounts.length) ||
-        this.readonly}
+        ?hidden=${this.readonly}
         id="entry"
         .placeholder=${this.placeholder}
         @add=${this.handleAdd}
@@ -265,7 +251,9 @@ export class GrAccountList extends LitElement {
     return this.entry?.focusStart;
   }
 
-  getSuggestions(input: string): Promise<AutocompleteSuggestion[]> {
+  getSuggestions(
+    input: string
+  ): Promise<AutocompleteSuggestion<SuggestedReviewerInfo>[]> {
     const provider = this.suggestionsProvider;
     if (!provider) return Promise.resolve([]);
     return provider.getSuggestions(input).then(suggestions => {
@@ -407,7 +395,7 @@ export class GrAccountList extends LitElement {
   private handleInputKeydown(e: KeyboardEvent) {
     const target = e.target as GrAccountEntry;
     const entryInput = queryAndAssert<GrAutocomplete>(target, '#input');
-    const input = this.getOwnNativeInput(entryInput.$.input);
+    const input = this.getOwnNativeInput(entryInput.input!);
     if (
       input.selectionStart !== input.selectionEnd ||
       input.selectionStart !== 0

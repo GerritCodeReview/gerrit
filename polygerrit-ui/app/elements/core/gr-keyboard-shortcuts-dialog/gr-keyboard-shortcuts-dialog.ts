@@ -1,31 +1,23 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-button/gr-button';
 import '../gr-key-binding-display/gr-key-binding-display';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, state} from 'lit/decorators';
 import {
   ShortcutSection,
   SectionView,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {getAppContext} from '../../../services/app-context';
-import {ShortcutViewListener} from '../../../services/shortcuts/shortcuts-service';
+import {
+  shortcutsServiceToken,
+  ShortcutViewListener,
+} from '../../../services/shortcuts/shortcuts-service';
+import {resolve} from '../../../models/dependency';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -46,20 +38,20 @@ export class GrKeyboardShortcutsDialog extends LitElement {
    * @event close
    */
 
-  @property({type: Array})
-  _left?: SectionShortcut[];
+  // private but used in tests
+  @state() left?: SectionShortcut[];
 
-  @property({type: Array})
-  _right?: SectionShortcut[];
+  // private but used in tests
+  @state() right?: SectionShortcut[];
 
   private readonly shortcutListener: ShortcutViewListener;
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   constructor() {
     super();
     this.shortcutListener = (d?: Map<ShortcutSection, SectionView>) =>
-      this._onDirectoryUpdated(d);
+      this.onDirectoryUpdated(d);
   }
 
   static override get styles() {
@@ -88,8 +80,7 @@ export class GrKeyboardShortcutsDialog extends LitElement {
           justify-content: space-between;
         }
         table caption {
-          padding-top: var(--spacing-l);
-          text-align: left;
+          padding: var(--spacing-l) var(--spacing-s);
         }
         td {
           padding: var(--spacing-xs) 0;
@@ -126,10 +117,10 @@ export class GrKeyboardShortcutsDialog extends LitElement {
       </header>
       <main>
         <div class="column">
-          ${this._left?.map(section => this.renderSection(section))}
+          ${this.left?.map(section => this.renderSection(section))}
         </div>
         <div class="column">
-          ${this._right?.map(section => this.renderSection(section))}
+          ${this.right?.map(section => this.renderSection(section))}
         </div>
       </main>
       <footer></footer>
@@ -163,11 +154,11 @@ export class GrKeyboardShortcutsDialog extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.shortcuts.addListener(this.shortcutListener);
+    this.getShortcutsService().addListener(this.shortcutListener);
   }
 
   override disconnectedCallback() {
-    this.shortcuts.removeListener(this.shortcutListener);
+    this.getShortcutsService().removeListener(this.shortcutListener);
     super.disconnectedCallback();
   }
 
@@ -182,7 +173,7 @@ export class GrKeyboardShortcutsDialog extends LitElement {
     );
   }
 
-  _onDirectoryUpdated(directory?: Map<ShortcutSection, SectionView>) {
+  onDirectoryUpdated(directory?: Map<ShortcutSection, SectionView>) {
     if (!directory) {
       return;
     }
@@ -231,7 +222,7 @@ export class GrKeyboardShortcutsDialog extends LitElement {
       });
     }
 
-    this._right = right;
-    this._left = left;
+    this.right = right;
+    this.left = left;
   }
 }

@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {
   BasePatchSetNum,
@@ -22,13 +11,14 @@ import {
   CommentLinks,
   CommitId,
   DashboardId,
-  EditPatchSetNum,
+  EDIT,
   GroupId,
   Hashtag,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   PatchSetNum,
   RepoName,
+  RevisionPatchSetNum,
   ServerInfo,
   TopicName,
   UrlEncodedCommentId,
@@ -176,7 +166,7 @@ export interface GenerateUrlChangeViewParameters {
   // TODO(TS): NumericChangeId - not sure about it, may be it can be removed
   changeNum: NumericChangeId;
   project: RepoName;
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
   edit?: boolean;
   host?: string;
@@ -221,7 +211,7 @@ export interface GenerateUrlEditViewParameters {
   changeNum: NumericChangeId;
   project: RepoName;
   path: string;
-  patchNum: PatchSetNum;
+  patchNum: RevisionPatchSetNum;
   lineNum?: number | string;
 }
 
@@ -238,7 +228,7 @@ export interface GenerateUrlDiffViewParameters {
   changeNum: NumericChangeId;
   project: RepoName;
   path?: string;
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
   lineNum?: number | string;
   leftSide?: boolean;
@@ -365,7 +355,7 @@ export enum WeblinkType {
 }
 
 interface NavigateToChangeParams {
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
   basePatchNum?: BasePatchSetNum;
   isEdit?: boolean;
   redirect?: boolean;
@@ -546,14 +536,14 @@ export const GerritNav = {
   },
 
   /**
-   * @param basePatchNum The string 'PARENT' can be used for none.
+   * @param basePatchNum The string PARENT can be used for none.
    */
   getUrlForChange(
     change: Pick<ChangeInfo, '_number' | 'project' | 'internalHost'>,
     options: ChangeUrlParams = {}
   ) {
     let {patchNum, basePatchNum, isEdit, messageHash, forceReload} = options;
-    if (basePatchNum === ParentPatchSetNum) {
+    if (basePatchNum === PARENT) {
       basePatchNum = undefined;
     }
 
@@ -574,7 +564,7 @@ export const GerritNav = {
   getUrlForChangeById(
     changeNum: NumericChangeId,
     project: RepoName,
-    patchNum?: PatchSetNum
+    patchNum?: RevisionPatchSetNum
   ) {
     return this._getUrlFor({
       view: GerritView.CHANGE,
@@ -585,7 +575,7 @@ export const GerritNav = {
   },
 
   /**
-   * @param basePatchNum The string 'PARENT' can be used for none.
+   * @param basePatchNum The string PARENT can be used for none.
    * @param redirect redirect to a change - if true, the current
    *     location (i.e. page which makes redirect) is not added to a history.
    *     I.e. back/forward buttons skip current location
@@ -610,12 +600,12 @@ export const GerritNav = {
   },
 
   /**
-   * @param basePatchNum The string 'PARENT' can be used for none.
+   * @param basePatchNum The string PARENT can be used for none.
    */
   getUrlForDiff(
     change: ChangeInfo | ParsedChangeInfo,
     filePath: string,
-    patchNum?: PatchSetNum,
+    patchNum?: RevisionPatchSetNum,
     basePatchNum?: BasePatchSetNum,
     lineNum?: number
   ) {
@@ -656,18 +646,18 @@ export const GerritNav = {
   },
 
   /**
-   * @param basePatchNum The string 'PARENT' can be used for none.
+   * @param basePatchNum The string PARENT can be used for none.
    */
   getUrlForDiffById(
     changeNum: NumericChangeId,
     project: RepoName,
     filePath: string,
-    patchNum?: PatchSetNum,
+    patchNum?: RevisionPatchSetNum,
     basePatchNum?: BasePatchSetNum,
     lineNum?: number,
     leftSide?: boolean
   ) {
-    if (basePatchNum === ParentPatchSetNum) {
+    if (basePatchNum === PARENT) {
       basePatchNum = undefined;
     }
 
@@ -687,7 +677,7 @@ export const GerritNav = {
   getEditUrlForDiff(
     change: ChangeInfo | ParsedChangeInfo,
     filePath: string,
-    patchNum?: PatchSetNum,
+    patchNum?: RevisionPatchSetNum,
     lineNum?: number
   ) {
     return this.getEditUrlForDiffById(
@@ -701,14 +691,14 @@ export const GerritNav = {
 
   /**
    * @param patchNum The patchNum the file content should be based on, or
-   *   ${EditPatchSetNum} if left undefined.
+   *   ${EDIT} if left undefined.
    * @param lineNum The line number to pass to the inline editor.
    */
   getEditUrlForDiffById(
     changeNum: NumericChangeId,
     project: RepoName,
     filePath: string,
-    patchNum?: PatchSetNum,
+    patchNum?: RevisionPatchSetNum,
     lineNum?: number
   ) {
     return this._getUrlFor({
@@ -716,18 +706,18 @@ export const GerritNav = {
       changeNum,
       project,
       path: filePath,
-      patchNum: patchNum || EditPatchSetNum,
+      patchNum: patchNum || EDIT,
       lineNum,
     });
   },
 
   /**
-   * @param basePatchNum The string 'PARENT' can be used for none.
+   * @param basePatchNum The string PARENT can be used for none.
    */
   navigateToDiff(
     change: ChangeInfo | ParsedChangeInfo,
     filePath: string,
-    patchNum?: PatchSetNum,
+    patchNum?: RevisionPatchSetNum,
     basePatchNum?: BasePatchSetNum,
     lineNum?: number
   ) {

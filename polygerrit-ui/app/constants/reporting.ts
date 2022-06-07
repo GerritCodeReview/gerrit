@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2021 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http =//www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 export enum LifeCycle {
@@ -34,6 +23,7 @@ export enum Execution {
   CHECKS_API_NOT_LOGGED_IN = 'checks-api not-logged-in',
   CHECKS_API_ERROR = 'checks-api error',
   USER_PREFERENCES_COLUMNS = 'user-preferences-columns',
+  PREFER_MERGE_FIRST_PARENT = 'prefer-merge-first-parent',
 }
 
 export enum Timing {
@@ -95,6 +85,12 @@ export enum Timing {
   DRAFT_DISCARD = 'DiscardDraftComment',
   // Time to load checks from all providers for the first time.
   CHECKS_LOAD = 'ChecksLoad',
+  // Webvitals - Cumulative Layout Shift (CLS): measures visual stability
+  CLS = 'CLS',
+  // WebVitals - First Input Delay (FID): measures interactivity
+  FID = 'FID',
+  // WebVitals - Largest Contentful Paint (LCP): measures loading performance.
+  LCP = 'LCP',
 }
 
 export enum Interaction {
@@ -123,4 +119,12 @@ export enum Interaction {
   CHECKS_RUNS_PANEL_TOGGLE = 'checks-runs-panel-toggle',
   CHECKS_RUNS_SELECTED_TRIGGERED = 'checks-runs-selected-triggered',
   CHECKS_STATS = 'checks-stats',
+  // The following interactions are logged for investigating a spurious bug of
+  // auto-closing draft comments.
+  COMMENTS_AUTOCLOSE_FIRST_UPDATE = 'comments-autoclose-first-update',
+  COMMENTS_AUTOCLOSE_EDITING_FALSE_SAVE = 'comments-autoclose-editing-false-save',
+  COMMENTS_AUTOCLOSE_EDITING_DISCONNECTED = 'comments-autoclose-editing-disconnected',
+  COMMENTS_AUTOCLOSE_EDITING_THREAD_DISCONNECTED = 'comments-autoclose-editing-thread-disconnected',
+  COMMENTS_AUTOCLOSE_CHECKS_UPDATED = 'comments-autoclose-checks-updated',
+  COMMENTS_AUTOCLOSE_THREADS_UPDATED = 'comments-autoclose-threads-updated',
 }

@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../styles/shared-styles';
 import '../../../styles/gr-font-styles';
@@ -29,7 +18,6 @@ import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-linked-chip/gr-linked-chip';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-submit-requirements/gr-submit-requirements';
-import '../gr-change-requirements/gr-change-requirements';
 import '../gr-commit-info/gr-commit-info';
 import '../gr-reviewer-list/gr-reviewer-list';
 import '../../shared/gr-account-list/gr-account-list';
@@ -37,6 +25,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   ChangeStatus,
   GpgKeyInfoStatus,
+  InheritedBooleanInfoConfiguredValue,
   SubmitType,
 } from '../../../constants/constants';
 import {changeIsOpen, isOwner} from '../../../utils/change-util';
@@ -48,6 +37,7 @@ import {
   ChangeInfo,
   CommitId,
   CommitInfo,
+  ConfigInfo,
   GpgKeyInfo,
   Hashtag,
   isAccount,
@@ -56,7 +46,7 @@ import {
   LabelNameToInfoMap,
   NumericChangeId,
   ParentCommitInfo,
-  PatchSetNum,
+  RevisionPatchSetNum,
   RepoName,
   RevisionInfo,
   ServerInfo,
@@ -83,11 +73,7 @@ import {
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {Interaction} from '../../../constants/reporting';
-import {
-  getApprovalInfo,
-  getCodeReviewLabel,
-  showNewSubmitRequirements,
-} from '../../../utils/label-util';
+import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';
 import {LitElement, css, html, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -150,6 +136,8 @@ export class GrChangeMetadata extends LitElement {
 
   @property({type: Boolean}) parentIsCurrent?: boolean;
 
+  @property({type: Object}) repoConfig?: ConfigInfo;
+
   // private but used in test
   @state() mutable = false;
 
@@ -173,15 +161,16 @@ export class GrChangeMetadata extends LitElement {
 
   @state() private queryTopic?: AutocompleteQuery;
 
+  @state() private queryHashtag?: AutocompleteQuery;
+
   private restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
 
-  private readonly flagsService = getAppContext().flagsService;
-
   constructor() {
     super();
     this.queryTopic = (input: string) => this.getTopicSuggestions(input);
+    this.queryHashtag = (input: string) => this.getHashtagSuggestions(input);
   }
 
   static override styles = [
@@ -192,7 +181,6 @@ export class GrChangeMetadata extends LitElement {
       :host {
         display: table;
       }
-      gr-change-requirements,
       gr-submit-requirements {
         --requirements-horizontal-padding: var(--metadata-horizontal-padding);
       }
@@ -689,6 +677,8 @@ export class GrChangeMetadata extends LitElement {
               .readOnly=${this.hashtagReadOnly}
               @changed=${this.handleHashtagChanged}
               showAsEditPencil
+              autocomplete
+              .query=${this.queryHashtag}
             ></gr-editable-label>
           `
         )}
@@ -697,23 +687,13 @@ export class GrChangeMetadata extends LitElement {
   }
 
   private renderSubmitRequirements() {
-    if (this.showNewSubmitRequirements()) {
-      return html`<div class="separatedSection">
-        <gr-submit-requirements
-          .change=${this.change}
-          .account=${this.account}
-          .mutable=${this.mutable}
-        ></gr-submit-requirements>
-      </div>`;
-    } else {
-      return html` <div class="oldSeparatedSection">
-        <gr-change-requirements
-          .change=${this.change}
-          .account=${this.account}
-          .mutable=${this.mutable}
-        ></gr-change-requirements>
-      </div>`;
-    }
+    return html`<div class="separatedSection">
+      <gr-submit-requirements
+        .change=${this.change}
+        .account=${this.account}
+        .mutable=${this.mutable}
+      ></gr-submit-requirements>
+    </div>`;
   }
 
   private renderWeblinks() {
@@ -749,7 +729,8 @@ export class GrChangeMetadata extends LitElement {
     }
     if (
       changedProperties.has('serverConfig') ||
-      changedProperties.has('change')
+      changedProperties.has('change') ||
+      changedProperties.has('repoConfig')
     ) {
       this.pushCertificateValidation = this.computePushCertificateValidation();
     }
@@ -887,6 +868,9 @@ export class GrChangeMetadata extends LitElement {
     if (!this.change || !this.serverConfig?.receive?.enable_signed_push)
       return undefined;
 
+    if (!this.isEnabledSignedPushOnRepo()) {
+      return undefined;
+    }
     const rev = this.change.revisions[this.change.current_revision];
     if (!rev.push_certificate?.key) {
       return {
@@ -930,6 +914,20 @@ export class GrChangeMetadata extends LitElement {
     }
   }
 
+  // private but used in test
+  isEnabledSignedPushOnRepo() {
+    if (!this.repoConfig?.enable_signed_push) return false;
+
+    const enableSignedPush = this.repoConfig.enable_signed_push;
+    return (
+      (enableSignedPush.configured_value ===
+        InheritedBooleanInfoConfiguredValue.INHERIT &&
+        enableSignedPush.inherited_value) ||
+      enableSignedPush.configured_value ===
+        InheritedBooleanInfoConfiguredValue.TRUE
+    );
+  }
+
   private problems(msg: string, key: GpgKeyInfo) {
     if (!key?.problems || key.problems.length === 0) {
       return msg;
@@ -961,7 +959,7 @@ export class GrChangeMetadata extends LitElement {
 
   private computeCherryPickOfUrl(
     change?: NumericChangeId,
-    patchset?: PatchSetNum,
+    patchset?: RevisionPatchSetNum,
     project?: RepoName
   ) {
     if (!change || !project) {
@@ -1192,8 +1190,20 @@ export class GrChangeMetadata extends LitElement {
       );
   }
 
-  private showNewSubmitRequirements() {
-    return showNewSubmitRequirements(this.flagsService, this.change);
+  private getHashtagSuggestions(
+    input: string
+  ): Promise<AutocompleteSuggestion[]> {
+    return this.restApiService
+      .getChangesWithSimilarHashtag(input)
+      .then(response =>
+        (response ?? [])
+          .flatMap(change => change.hashtags ?? [])
+          .filter(notUndefined)
+          .filter(unique)
+          .map(hashtag => {
+            return {name: hashtag, value: hashtag};
+          })
+      );
   }
 
   private computeVoteForRole(role: ChangeRole) {

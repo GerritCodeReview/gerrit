@@ -1,26 +1,20 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import {
+  BasePatchSetNum,
   EditInfo,
-  EditPatchSetNum,
+  EDIT,
+  PARENT,
   NumericChangeId,
   PatchSetNum,
+  PatchSetNumber,
+  PreferencesInfo,
+  RevisionPatchSetNum,
 } from '../../types/common';
+import {DefaultBase} from '../../constants/constants';
 import {
   combineLatest,
   from,
@@ -54,6 +48,7 @@ import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
+import {RevisionInfo} from '../../elements/shared/revision-info/revision-info';
 
 export enum LoadingStatus {
   NOT_LOADED = 'NOT_LOADED',
@@ -98,7 +93,7 @@ export function updateChangeWithEdit(
   assertIsDefined(edit.commit.commit, 'edit.commit.commit');
   if (!change.revisions) change.revisions = {};
   change.revisions[edit.commit.commit] = {
-    _number: EditPatchSetNum,
+    _number: EDIT,
     basePatchNum: edit.base_patch_set_number,
     commit: edit.commit,
     fetch: edit.fetch,
@@ -117,6 +112,30 @@ export function updateChangeWithEdit(
   return change;
 }
 
+/**
+ * Derives the base patchset number from all the data that can potentially
+ * influence it. Mostly just returns `routerBasePatchNum` or PARENT, but has
+ * some special logic when looking at merge commits.
+ */
+function computeBase(
+  routerBasePatchNum: BasePatchSetNum | undefined,
+  patchNum: RevisionPatchSetNum | undefined,
+  change: ParsedChangeInfo | undefined,
+  preferences: PreferencesInfo
+): BasePatchSetNum {
+  if (routerBasePatchNum && routerBasePatchNum !== PARENT) {
+    return routerBasePatchNum;
+  }
+  if (!change || !patchNum) return PARENT;
+  const preferFirst =
+    preferences.default_base_for_merges === DefaultBase.FIRST_PARENT;
+  if (!preferFirst) return PARENT;
+
+  const revisionInfo = new RevisionInfo(change);
+  const isMergeCommit = revisionInfo.isMergeCommit(patchNum);
+  return isMergeCommit ? (-1 as PatchSetNumber) : PARENT;
+}
+
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
 // Use DeepReadOnly?
 const initialState: ChangeState = {
@@ -128,7 +147,7 @@ export const changeModelToken = define<ChangeModel>('change-model');
 export class ChangeModel extends Model<ChangeState> implements Finalizable {
   private change?: ParsedChangeInfo;
 
-  private currentPatchNum?: PatchSetNum;
+  private patchNum?: PatchSetNum;
 
   public readonly change$ = select(
     this.state$,
@@ -165,10 +184,9 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
    * patchset num, then this selector waits for the change to be defined and
    * returns the number of the latest patchset.
    *
-   * Note that this selector can emit a patchNum without the change being
-   * available!
+   * Note that this selector can emit without the change being available!
    */
-  public readonly currentPatchNum$: Observable<PatchSetNum | undefined> =
+  public readonly patchNum$: Observable<RevisionPatchSetNum | undefined> =
     /**
      * If you depend on both, router and change state, then you want to filter
      * out inconsistent state, e.g. router changeNum already updated, change not
@@ -186,6 +204,40 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
       .pipe(
         withLatestFrom(this.routerModel.routerPatchNum$, this.latestPatchNum$),
         map(([_, routerPatchN, latestPatchN]) => routerPatchN || latestPatchN),
+        distinctUntilChanged()
+      );
+
+  /**
+   * Emits the base patchset number. This is identical to the
+   * `routerBasePatchNum$`, but has some special logic for merges.
+   *
+   * Note that this selector can emit without the change being available!
+   */
+  public readonly basePatchNum$: Observable<BasePatchSetNum | undefined> =
+    /**
+     * If you depend on both, router and change state, then you want to filter
+     * out inconsistent state, e.g. router changeNum already updated, change not
+     * yet reset to undefined.
+     */
+    combineLatest([this.routerModel.state$, this.state$, this.userModel.state$])
+      .pipe(
+        filter(([routerState, changeState, _]) => {
+          const changeNum = changeState.change?._number;
+          const routerChangeNum = routerState.changeNum;
+          return changeNum === undefined || changeNum === routerChangeNum;
+        }),
+        distinctUntilChanged()
+      )
+      .pipe(
+        withLatestFrom(
+          this.routerModel.routerBasePatchNum$,
+          this.patchNum$,
+          this.change$,
+          this.userModel.preferences$
+        ),
+        map(([_, routerBasePatchNum, patchNum, change, preferences]) =>
+          computeBase(routerBasePatchNum, patchNum, change, preferences)
+        ),
         distinctUntilChanged()
       );
 
@@ -230,21 +282,15 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
           this.updateStateChange(change ?? undefined);
         }),
       this.change$.subscribe(change => (this.change = change)),
-      this.currentPatchNum$.subscribe(
-        currentPatchNum => (this.currentPatchNum = currentPatchNum)
-      ),
-      combineLatest([
-        this.currentPatchNum$,
-        this.changeNum$,
-        this.userModel.loggedIn$,
-      ])
+      this.patchNum$.subscribe(patchNum => (this.patchNum = patchNum)),
+      combineLatest([this.patchNum$, this.changeNum$, this.userModel.loggedIn$])
         .pipe(
-          switchMap(([currentPatchNum, changeNum, loggedIn]) => {
-            if (!changeNum || !currentPatchNum || !loggedIn) {
+          switchMap(([patchNum, changeNum, loggedIn]) => {
+            if (!changeNum || !patchNum || !loggedIn) {
               this.updateStateReviewedFiles([]);
               return of(undefined);
             }
-            return from(this.fetchReviewedFiles(currentPatchNum, changeNum));
+            return from(this.fetchReviewedFiles(patchNum, changeNum));
           })
         )
         .subscribe(),
@@ -292,14 +338,11 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
     this.setState({...current, reviewedFiles});
   }
 
-  fetchReviewedFiles(currentPatchNum: PatchSetNum, changeNum: NumericChangeId) {
+  fetchReviewedFiles(patchNum: PatchSetNum, changeNum: NumericChangeId) {
     return this.restApiService
-      .getReviewedFiles(changeNum, currentPatchNum)
+      .getReviewedFiles(changeNum, patchNum)
       .then(files => {
-        if (
-          changeNum !== this.change?._number ||
-          currentPatchNum !== this.currentPatchNum
-        )
+        if (changeNum !== this.change?._number || patchNum !== this.patchNum)
           return;
         this.updateStateReviewedFiles(files ?? []);
       });
@@ -314,10 +357,7 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
     return this.restApiService
       .saveFileReviewed(changeNum, patchNum, file, reviewed)
       .then(() => {
-        if (
-          changeNum !== this.change?._number ||
-          patchNum !== this.currentPatchNum
-        )
+        if (changeNum !== this.change?._number || patchNum !== this.patchNum)
           return;
         this.updateStateFileReviewed(file, reviewed);
       })

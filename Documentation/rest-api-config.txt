@@ -1380,7 +1380,14 @@ Using this endpoint Gerrit admins can also index change(s) which are not visible
   POST /config/server/index.changes HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
-  {changes: ["foo~101", "bar~202"]}
+  {
+    "changes": [
+      "foo~101",
+      "bar~202",
+      "303"
+    ],
+    "delete_missing": "true"
+  }
 ----
 
 .Response
@@ -1388,6 +1395,9 @@ Using this endpoint Gerrit admins can also index change(s) which are not visible
   HTTP/1.1 200 OK
   Content-Disposition: attachment
 ----
+
+When `delete_missing` is set to `true` changes to be reindexed which are missing in NoteDb
+will be deleted in the index.
 
 
 [[ids]]
@@ -1876,6 +1886,10 @@ The `IndexChangesInput` contains a list of numerical changes IDs to index.
 |Field Name         ||Description
 |`changes`   ||
 List of link:rest-api-changes.html#change-id[change-ids]
+|`delete_missing`  |optional|
+Delete changes which are missing in NoteDb from the index. This can be used
+to get rid of stale index entries. Possible values are `true` and `false`.
+By default set to `false`.
 |================================
 
 [[jvm-summary-info]]

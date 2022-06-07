@@ -19,6 +19,8 @@ import static com.google.gerrit.index.query.QueryParser.COLON;
 import static com.google.gerrit.index.query.QueryParser.DEFAULT_FIELD;
 import static com.google.gerrit.index.query.QueryParser.EXACT_PHRASE;
 import static com.google.gerrit.index.query.QueryParser.FIELD_NAME;
+import static com.google.gerrit.index.query.QueryParser.NOT;
+import static com.google.gerrit.index.query.QueryParser.OR;
 import static com.google.gerrit.index.query.QueryParser.SINGLE_WORD;
 import static com.google.gerrit.index.query.QueryParser.parse;
 import static com.google.gerrit.index.query.testing.TreeSubject.assertThat;
@@ -240,6 +242,36 @@ public class QueryParserTest {
     assertThat(r).hasText("message");
     assertThat(r).child(0).hasType(EXACT_PHRASE);
     assertThat(r).child(0).hasText("A backslash \\ in phrase");
+  }
+
+  @Test
+  public void upperCaseParsedAsOperators() throws Exception {
+    Tree r = parse("project:foo:bar AND file:baz");
+    assertThat(r).hasType(AND);
+    assertThat(r).hasChildCount(2);
+
+    r = parse("project:foo:bar OR file:baz");
+    assertThat(r).hasType(OR);
+    assertThat(r).hasChildCount(2);
+
+    r = parse("NOT project:foo:bar");
+    assertThat(r).hasType(NOT);
+    assertThat(r).hasChildCount(1);
+  }
+
+  @Test
+  public void lowerCaseParsedAsOperators() throws Exception {
+    Tree r = parse("project:foo:bar and file:baz");
+    assertThat(r).hasType(AND);
+    assertThat(r).hasChildCount(2);
+
+    r = parse("project:foo:bar or file:baz");
+    assertThat(r).hasType(OR);
+    assertThat(r).hasChildCount(2);
+
+    r = parse("not project:foo:bar");
+    assertThat(r).hasType(NOT);
+    assertThat(r).hasChildCount(1);
   }
 
   private static void assertParseFails(String query) {

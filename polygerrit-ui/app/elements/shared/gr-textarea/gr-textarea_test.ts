@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-textarea';
 import {GrTextarea} from './gr-textarea';
@@ -34,15 +22,15 @@ suite('gr-textarea tests', () => {
 
   test('renders', () => {
     expect(element).shadowDom.to.equal(/* HTML */ `<div id="hiddenText"></div>
-      <span id="caratSpan"></span>
+      <span id="caratSpan"> </span>
       <gr-autocomplete-dropdown
         id="emojiSuggestions"
         is-hidden=""
-      ></gr-autocomplete-dropdown>
-      <iron-autogrow-textarea
-        aria-disabled="false"
-        id="textarea"
-      ></iron-autogrow-textarea>`);
+        style="position: fixed; top: 150px; left: 392.5px; box-sizing: border-box; max-height: 300px; max-width: 785px;"
+      >
+      </gr-autocomplete-dropdown>
+      <iron-autogrow-textarea aria-disabled="false" id="textarea">
+      </iron-autogrow-textarea> `);
   });
 
   test('monospace is set properly', () => {

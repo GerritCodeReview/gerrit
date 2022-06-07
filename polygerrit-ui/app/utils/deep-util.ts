@@ -1,25 +1,31 @@
 /**
  * @license
- * Copyright (C) 2021 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 export function deepEqual<T>(a: T, b: T): boolean {
   if (a === b) return true;
   if (a === undefined || b === undefined) return false;
   if (a === null || b === null) return false;
-  if (a instanceof Date && b instanceof Date)
+  if (a instanceof Date || b instanceof Date) {
+    if (!(a instanceof Date && b instanceof Date)) return false;
     return a.getTime() === b.getTime();
+  }
+
+  if (a instanceof Set || b instanceof Set) {
+    if (!(a instanceof Set && b instanceof Set)) return false;
+    if (a.size !== b.size) return false;
+    for (const ai of a) if (!b.has(ai)) return false;
+    return true;
+  }
+  if (a instanceof Map || b instanceof Map) {
+    if (!(a instanceof Map && b instanceof Map)) return false;
+    if (a.size !== b.size) return false;
+    for (const [aKey, aValue] of a.entries()) {
+      if (!b.has(aKey) || !deepEqual(aValue, b.get(aKey))) return false;
+    }
+    return true;
+  }
 
   if (typeof a === 'object') {
     if (typeof b !== 'object') return false;

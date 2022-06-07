@@ -25,14 +25,11 @@ import org.eclipse.jgit.lib.PersonIdent;
  * static utility methods.
  */
 public class CommonConverters {
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   public static GitPerson toGitPerson(PersonIdent ident) {
     GitPerson result = new GitPerson();
     result.name = ident.getName();
     result.email = ident.getEmailAddress();
-    result.setDate(ident.getWhen().toInstant());
+    result.setDate(ident.getWhenAsInstant());
     result.tz = ident.getTimeZoneOffset();
     return result;
   }

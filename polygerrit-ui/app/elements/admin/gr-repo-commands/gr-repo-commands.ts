@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
@@ -26,7 +14,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   BranchName,
   ConfigInfo,
-  PatchSetNum,
+  RevisionPatchSetNum,
   RepoName,
 } from '../../../types/common';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -50,7 +38,7 @@ const GC_MESSAGE = 'Garbage collection completed successfully.';
 const CONFIG_BRANCH = 'refs/meta/config' as BranchName;
 const CONFIG_PATH = 'project.config';
 const EDIT_CONFIG_SUBJECT = 'Edit Repo Config';
-const INITIAL_PATCHSET = 1 as PatchSetNum;
+const INITIAL_PATCHSET = 1 as RevisionPatchSetNum;
 const CREATE_CHANGE_FAILED_MESSAGE = 'Failed to create change.';
 const CREATE_CHANGE_SUCCEEDED_MESSAGE = 'Navigating to change';
 

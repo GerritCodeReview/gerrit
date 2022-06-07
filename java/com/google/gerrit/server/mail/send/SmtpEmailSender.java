@@ -385,7 +385,7 @@ public class SmtpEmailSender implements EmailSender {
     try (QuotedPrintableOutputStream qp = new QuotedPrintableOutputStream(s, false)) {
       qp.write(input.getBytes(UTF_8));
     }
-    return s.toString();
+    return s.toString(UTF_8);
   }
 
   private static void setMissingHeader(Map<String, EmailHeader> hdrs, String name, String value) {

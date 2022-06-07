@@ -15,6 +15,7 @@
 package com.google.gerrit.server.update;
 
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 
@@ -27,9 +28,13 @@ public interface PostUpdateContext extends Context {
    * an update or because this method has been invoked before, the cached change data instance is
    * returned.
    *
-   * @param change the change for which the change data should be returned
+   * @param changeId the ID of the change for which the change data should be returned
    */
-  ChangeData getChangeData(Change change);
+  ChangeData getChangeData(Project.NameKey projectName, Change.Id changeId);
+
+  default ChangeData getChangeData(Change change) {
+    return getChangeData(change.getProject(), change.getId());
+  }
 
   default ChangeData getChangeData(ChangeNotes changeNotes) {
     return getChangeData(changeNotes.getChange());

@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2021 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/paper-button/paper-button';
 import '@polymer/paper-card/paper-card';
@@ -58,7 +47,7 @@ const PARTIAL_CONTEXT_AMOUNT = 10;
  * It finds the closest block that contains the whole line and
  * returns the whole path from the syntax layer (blocks) sent as parameter
  * to the most nested block - the complete path from the top to bottom layer of
- * a syntax tree. Example: [myNamepace, MyClass, myMethod1, aLocalFunctionInsideMethod1]
+ * a syntax tree. Example: [myNamespace, MyClass, myMethod1, aLocalFunctionInsideMethod1]
  *
  * @param lineNum line number for the targeted line.
  * @param blocks Blocks for a specific syntax level in the file (to allow recursive calls)
@@ -200,8 +189,8 @@ export class GrContextControls extends LitElement {
     }
   `;
 
-  override connectedCallback() {
-    super.connectedCallback();
+  constructor() {
+    super();
     this.setupButtonHoverHandler();
   }
 
@@ -220,16 +209,17 @@ export class GrContextControls extends LitElement {
   private setupButtonHoverHandler() {
     subscribe(
       this,
-      this.expandButtonsHover.pipe(
-        switchMap(e => {
-          if (e.eventType === 'leave') {
-            // cancel any previous delay
-            // for mouse enter
-            return EMPTY;
-          }
-          return of(e).pipe(delay(500));
-        })
-      ),
+      () =>
+        this.expandButtonsHover.pipe(
+          switchMap(e => {
+            if (e.eventType === 'leave') {
+              // cancel any previous delay
+              // for mouse enter
+              return EMPTY;
+            }
+            return of(e).pipe(delay(500));
+          })
+        ),
       ({buttonType, linesToExpand}) => {
         fire(this, 'diff-context-button-hovered', {
           buttonType,
@@ -444,7 +434,7 @@ export class GrContextControls extends LitElement {
     linesToExpand: number
   ) {
     // Create breadcrumb string:
-    // myNamepace > MyClass > myMethod1 > aLocalFunctionInsideMethod1 > (anonymous)
+    // myNamespace > MyClass > myMethod1 > aLocalFunctionInsideMethod1 > (anonymous)
     const tooltipText = syntaxPath.length
       ? syntaxPath.map(b => b.name || '(anonymous)').join(' > ')
       : `${linesToExpand} common lines`;
@@ -461,7 +451,7 @@ export class GrContextControls extends LitElement {
     numLines: number,
     referenceLine: number
   ) {
-    assertIsDefined(this.diff, 'diff');
+    if (!this.diff?.meta_b) return;
     const syntaxTree = this.diff.meta_b.syntax_tree;
     const outlineSyntaxPath = findBlockTreePathForLine(
       referenceLine,

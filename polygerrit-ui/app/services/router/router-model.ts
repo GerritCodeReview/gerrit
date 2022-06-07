@@ -1,24 +1,16 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import {Observable} from 'rxjs';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Finalizable} from '../registry';
-import {NumericChangeId, PatchSetNum} from '../../types/common';
+import {
+  NumericChangeId,
+  RevisionPatchSetNum,
+  BasePatchSetNum,
+} from '../../types/common';
 import {Model} from '../../models/model';
 
 export enum GerritView {
@@ -40,7 +32,8 @@ export enum GerritView {
 export interface RouterState {
   view?: GerritView;
   changeNum?: NumericChangeId;
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
+  basePatchNum?: BasePatchSetNum;
 }
 
 export class RouterModel extends Model<RouterState> implements Finalizable {
@@ -48,7 +41,9 @@ export class RouterModel extends Model<RouterState> implements Finalizable {
 
   readonly routerChangeNum$: Observable<NumericChangeId | undefined>;
 
-  readonly routerPatchNum$: Observable<PatchSetNum | undefined>;
+  readonly routerPatchNum$: Observable<RevisionPatchSetNum | undefined>;
+
+  readonly routerBasePatchNum$: Observable<BasePatchSetNum | undefined>;
 
   constructor() {
     super({});
@@ -62,6 +57,10 @@ export class RouterModel extends Model<RouterState> implements Finalizable {
     );
     this.routerPatchNum$ = this.state$.pipe(
       map(state => state.patchNum),
+      distinctUntilChanged()
+    );
+    this.routerBasePatchNum$ = this.state$.pipe(
+      map(state => state.basePatchNum),
       distinctUntilChanged()
     );
   }

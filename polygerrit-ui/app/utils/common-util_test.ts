@@ -1,22 +1,15 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../test/common-test-setup-karma';
-import {hasOwnProperty, areSetsEqual, containsAll} from './common-util';
+import {
+  hasOwnProperty,
+  areSetsEqual,
+  containsAll,
+  intersection,
+} from './common-util';
 
 suite('common-util tests', () => {
   suite('hasOwnProperty', () => {
@@ -67,5 +60,32 @@ suite('common-util tests', () => {
     assert.isFalse(containsAll(new Set([1]), new Set([2])));
     assert.isFalse(containsAll(new Set([1, 2, 3, 4]), new Set([5])));
     assert.isFalse(containsAll(new Set([1, 2, 3, 4]), new Set([1, 2, 3, 5])));
+  });
+
+  test('intersections', () => {
+    const arrayWithValues = [1, 2, 3];
+    assert.sameDeepMembers(intersection([]), []);
+    assert.sameDeepMembers(intersection([arrayWithValues]), arrayWithValues);
+    // a new array is returned even if a single array is provided.
+    assert.notStrictEqual(intersection([arrayWithValues]), arrayWithValues);
+    assert.sameDeepMembers(
+      intersection([
+        [1, 2, 3],
+        [2, 3, 4],
+        [5, 3, 2],
+      ]),
+      [2, 3]
+    );
+
+    const foo1 = {value: 5};
+    const foo2 = {value: 5};
+
+    // these foo's will fail strict equality with each other, but a comparator
+    // can make them intersect.
+    assert.sameDeepMembers(intersection([[foo1], [foo2]]), []);
+    assert.sameDeepMembers(
+      intersection([[foo1], [foo2]], (a, b) => a.value === b.value),
+      [foo1]
+    );
   });
 });

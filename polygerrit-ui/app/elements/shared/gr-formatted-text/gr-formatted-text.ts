@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-linked-text/gr-linked-text';
 import {CommentLinks} from '../../../types/common';
@@ -90,6 +79,9 @@ export class GrFormattedText extends LitElement {
           display: block;
           font-family: var(--font-family);
         }
+        a {
+          color: var(--link-color);
+        }
         p,
         ul,
         code,
@@ -127,13 +119,11 @@ export class GrFormattedText extends LitElement {
           list-style-type: disc;
           margin-left: var(--spacing-xl);
         }
-        code,
-        gr-linked-text.pre {
+        .inline-code,
+        code {
           font-family: var(--monospace-font-family);
           font-size: var(--font-size-code);
           line-height: var(--line-height-mono);
-        }
-        gr-linked-text.pre {
           background-color: var(--background-color-secondary);
           border: 1px solid var(--border-color);
           padding: 1px var(--spacing-s);
@@ -187,18 +177,13 @@ export class GrFormattedText extends LitElement {
           startOfCode,
           line => !this.isCodeMarkLine(line)
         );
-        // If the code extends to the end then there is no closing``` and the
-        // opening``` should not be counted as a multiline code block.
-        const lineAfterCode = lines[endOfCode];
-        if (lineAfterCode && this.isCodeMarkLine(lineAfterCode)) {
-          result.push({
-            type: 'code',
-            // Does not include either of the ``` lines
-            text: lines.slice(startOfCode, endOfCode).join('\n'),
-          });
-          i = endOfCode; // advances past the closing```
-          continue;
-        }
+        result.push({
+          type: 'code',
+          // Does not include either of the ``` lines
+          text: lines.slice(startOfCode, endOfCode).join('\n'),
+        });
+        i = endOfCode; // advances past the closing```
+        continue;
       }
       if (this.isSingleLineCode(lines[i])) {
         // no guard check as _isSingleLineCode tested on the pattern
@@ -223,13 +208,7 @@ export class GrFormattedText extends LitElement {
         });
         i = endOfQuote - 1;
       } else if (this.isPreFormat(lines[i])) {
-        // include pre or all regular lines but stop at next new line
-        const predicate = (line: string) =>
-          this.isPreFormat(line) ||
-          (this.isRegularLine(line) &&
-            !this.isWhitespaceLine(line) &&
-            line.length > 0);
-        const endOfPre = this.getEndOfSection(lines, i + 1, predicate);
+        const endOfPre = this.findEndOfPreBlock(lines, i);
         result.push({
           type: 'pre',
           text: lines.slice(i, endOfPre).join('\n'),
@@ -293,6 +272,19 @@ export class GrFormattedText extends LitElement {
     return index === -1 ? lines.length : index + startIndex;
   }
 
+  private findEndOfPreBlock(lines: string[], startIndex: number) {
+    let lastPreFormat = startIndex;
+    for (let i = startIndex + 1; i < lines.length; ++i) {
+      const line = lines[i];
+      if (this.isPreFormat(line)) {
+        lastPreFormat = i;
+      } else if (!this.isWhitespaceLine(line) && line.length !== 0) {
+        break;
+      }
+    }
+    return lastPreFormat + 1;
+  }
+
   /**
    * Take a block of comment text that contains a list, generate appropriate
    * block objects and append them to the output list.
@@ -331,7 +323,7 @@ export class GrFormattedText extends LitElement {
   }
 
   private isCodeMarkLine(line: string): boolean {
-    return line.trim() === '```';
+    return /^\s{0,3}```/.test(line);
   }
 
   private isSingleLineCode(line: string): boolean {
@@ -350,21 +342,9 @@ export class GrFormattedText extends LitElement {
     return /^\s+$/.test(line);
   }
 
-  private renderText(content: string, isPre?: boolean): TemplateResult {
+  private renderInlineText(content: string): TemplateResult {
     return html`
       <gr-linked-text
-        class=${isPre ? 'pre' : ''}
-        .config=${this.config}
-        content=${content}
-        pre
-      ></gr-linked-text>
-    `;
-  }
-
-  private renderInlineText(content: string, isPre?: boolean): TemplateResult {
-    return html`
-      <gr-linked-text
-        class=${isPre ? 'pre' : ''}
         .config=${this.config}
         content=${content}
         pre
@@ -377,6 +357,10 @@ export class GrFormattedText extends LitElement {
     return html`<a href=${url}>${text}</a>`;
   }
 
+  private renderInlineCode(text: string): TemplateResult {
+    return html`<span class="inline-code">${text}</span>`;
+  }
+
   private renderInlineItem(span: InlineItem): TemplateResult {
     switch (span.type) {
       case 'text':
@@ -384,7 +368,7 @@ export class GrFormattedText extends LitElement {
       case 'link':
         return this.renderLink(span.text, span.url);
       case 'code':
-        return this.renderInlineText(span.text, true);
+        return this.renderInlineCode(span.text);
       default:
         return html``;
     }
@@ -411,7 +395,7 @@ export class GrFormattedText extends LitElement {
       case 'code':
         return html`<code>${block.text}</code>`;
       case 'pre':
-        return this.renderText(block.text, true);
+        return html`<pre><code>${block.text}</code></pre>`;
       case 'list':
         return html`
           <ul>

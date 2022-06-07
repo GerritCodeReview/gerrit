@@ -81,13 +81,11 @@ public class AddToAttentionSet
           String.format(
               "%s is a robot, and robots can't be added to the attention set.", input.user));
     }
-    try {
-      permissionBackend
-          .absentUser(attentionUserId)
-          .change(changeResource.getNotes())
-          .check(ChangePermission.READ);
-    } catch (AuthException e) {
-      throw new AuthException("read not permitted for " + attentionUserId, e);
+    if (!permissionBackend
+        .absentUser(attentionUserId)
+        .change(changeResource.getNotes())
+        .test(ChangePermission.READ)) {
+      throw new AuthException("read not permitted for " + attentionUserId);
     }
 
     try (BatchUpdate bu =

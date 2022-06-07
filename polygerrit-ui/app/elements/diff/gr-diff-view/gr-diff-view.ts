@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-dropdown/iron-dropdown';
 import '@polymer/iron-input/iron-input';
@@ -73,10 +62,10 @@ import {
   ChangeInfo,
   CommitId,
   ConfigInfo,
-  EditPatchSetNum,
+  EDIT,
   FileInfo,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   PatchRange,
   PatchSetNum,
   PreferencesInfo,
@@ -104,9 +93,18 @@ import {
   getPatchRangeForCommentUrl,
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
-import {AppElementParams, AppElementDiffViewParam} from '../../gr-app-types';
-import {EventType, OpenFixPreviewEvent} from '../../../types/events';
-import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
+import {AppElementDiffViewParam, AppElementParams} from '../../gr-app-types';
+import {
+  EventType,
+  OpenFixPreviewEvent,
+  ValueChangedEvent,
+} from '../../../types/events';
+import {
+  fire,
+  fireAlert,
+  fireEvent,
+  fireTitleChange,
+} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {addGlobalShortcut, Key, toggleClass} from '../../../utils/dom-util';
@@ -114,7 +112,10 @@ import {CursorMoveResult} from '../../../api/core';
 import {isFalse, throttleWrap, until} from '../../../utils/async-util';
 import {filter, take, switchMap} from 'rxjs/operators';
 import {combineLatest, Subscription} from 'rxjs';
-import {listen} from '../../../services/shortcuts/shortcuts-service';
+import {
+  listen,
+  shortcutsServiceToken,
+} from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../models/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
@@ -123,6 +124,7 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {BehaviorSubject} from 'rxjs';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -130,7 +132,8 @@ const LOADED_BLAME = 'Blame loaded';
 // Time in which pressing n key again after the toast navigates to next file
 const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
-interface Files {
+// visible for testing
+export interface Files {
   sortedFileList: string[];
   changeFilesByPath: {[path: string]: FileInfo};
 }
@@ -150,6 +153,9 @@ export interface GrDiffView {
     modeSelect: GrDiffModeSelector;
     downloadOverlay: GrOverlay;
     downloadDialog: GrDownloadDialog;
+    toggleBlame: GrButton;
+    diffPrefsContainer: HTMLElement;
+    rangeSelect: HTMLElement;
   };
 }
 
@@ -177,7 +183,7 @@ export class GrDiffView extends base {
   @property({type: Object, observer: '_paramsChanged'})
   params?: AppElementParams;
 
-  @property({type: Object, notify: true})
+  @property({type: Object})
   changeViewState: Partial<ChangeViewState> = {};
 
   @property({type: Object})
@@ -279,15 +285,16 @@ export class GrDiffView extends base {
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
 
-  private reviewedFiles = new Set<string>();
+  // visible for testing
+  reviewedFiles = new Set<string>();
 
   override keyboardShortcuts(): ShortcutListener[] {
     return [
-      listen(Shortcut.LEFT_PANE, _ => this.cursor.moveLeft()),
-      listen(Shortcut.RIGHT_PANE, _ => this.cursor.moveRight()),
+      listen(Shortcut.LEFT_PANE, _ => this.cursor?.moveLeft()),
+      listen(Shortcut.RIGHT_PANE, _ => this.cursor?.moveRight()),
       listen(Shortcut.NEXT_LINE, _ => this._handleNextLine()),
       listen(Shortcut.PREV_LINE, _ => this._handlePrevLine()),
-      listen(Shortcut.VISIBLE_LINE, _ => this.cursor.moveToVisibleArea()),
+      listen(Shortcut.VISIBLE_LINE, _ => this.cursor?.moveToVisibleArea()),
       listen(Shortcut.NEXT_FILE_WITH_COMMENTS, _ =>
         this._moveToNextFileWithComment()
       ),
@@ -367,13 +374,14 @@ export class GrDiffView extends base {
   // Private but used in tests.
   readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   _throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 
   _onRenderHandler?: EventListener;
 
-  private cursor = new GrDiffCursor();
+  // visible for testing
+  cursor?: GrDiffCursor;
 
   private subscriptions: Subscription[] = [];
 
@@ -445,14 +453,14 @@ export class GrDiffView extends base {
           filter(diffPath => !!diffPath),
           switchMap(() =>
             combineLatest(
-              this.getChangeModel().currentPatchNum$,
+              this.getChangeModel().patchNum$,
               this.routerModel.routerView$,
               this.userModel.diffPreferences$,
               this.getChangeModel().reviewedFiles$
             ).pipe(
               filter(
-                ([currentPatchNum, routerView, diffPrefs, reviewedFiles]) =>
-                  !!currentPatchNum &&
+                ([patchNum, routerView, diffPrefs, reviewedFiles]) =>
+                  !!patchNum &&
                   routerView === GerritView.DIFF &&
                   !!diffPrefs &&
                   !!reviewedFiles
@@ -461,17 +469,18 @@ export class GrDiffView extends base {
             )
           )
         )
-        .subscribe(([currentPatchNum, _routerView, diffPrefs]) => {
-          this.setReviewedStatus(currentPatchNum!, diffPrefs);
+        .subscribe(([patchNum, _routerView, diffPrefs]) => {
+          this.setReviewedStatus(patchNum!, diffPrefs);
         })
     );
     this.subscriptions.push(
       this.getChangeModel().diffPath$.subscribe(path => (this._path = path))
     );
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
+    this.cursor = new GrDiffCursor();
     this.cursor.replaceDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
-      this.cursor.reInitCursor();
+      this.cursor?.reInitCursor();
     };
     this.$.diffHost.addEventListener('render', this._onRenderHandler);
     this.cleanups.push(
@@ -483,9 +492,10 @@ export class GrDiffView extends base {
   }
 
   override disconnectedCallback() {
-    this.cursor.dispose();
+    this.cursor?.dispose();
     if (this._onRenderHandler) {
       this.$.diffHost.removeEventListener('render', this._onRenderHandler);
+      this._onRenderHandler = undefined;
     }
     for (const cleanup of this.cleanups) cleanup();
     this.cleanups = [];
@@ -503,13 +513,13 @@ export class GrDiffView extends base {
    */
 
   async setReviewedStatus(
-    currentPatchNum: PatchSetNum,
+    patchNum: RevisionPatchSetNum,
     diffPrefs: DiffPreferencesInfo
   ) {
     const loggedIn = await this._getLoggedIn();
     if (!loggedIn) return;
     if (!diffPrefs.manual_review) {
-      this._setReviewed(true, currentPatchNum as RevisionPatchSetNum);
+      this._setReviewed(true, patchNum);
     }
   }
 
@@ -627,7 +637,7 @@ export class GrDiffView extends base {
 
   _handlePrevLine() {
     this.$.diffHost.displayLine = true;
-    this.cursor.moveUp();
+    this.cursor?.moveUp();
   }
 
   _onOpenFixPreview(e: OpenFixPreviewEvent) {
@@ -636,7 +646,7 @@ export class GrDiffView extends base {
 
   _handleNextLine() {
     this.$.diffHost.displayLine = true;
-    this.cursor.moveDown();
+    this.cursor?.moveDown();
   }
 
   _moveToPreviousFileWithComment() {
@@ -680,7 +690,7 @@ export class GrDiffView extends base {
 
   _handleNewComment() {
     this.classList.remove('hideComments');
-    this.cursor.createCommentInPlace();
+    this.cursor?.createCommentInPlace();
   }
 
   _handlePrevFile() {
@@ -696,14 +706,14 @@ export class GrDiffView extends base {
   }
 
   _handleNextChunk() {
-    const result = this.cursor.moveToNextChunk();
-    if (result === CursorMoveResult.CLIPPED && this.cursor.isAtEnd()) {
+    const result = this.cursor?.moveToNextChunk();
+    if (result === CursorMoveResult.CLIPPED && this.cursor?.isAtEnd()) {
       this.showToastAndNavigateFile('next', 'n');
     }
   }
 
   _handleNextCommentThread() {
-    const result = this.cursor.moveToNextCommentThread();
+    const result = this.cursor?.moveToNextCommentThread();
     if (result === CursorMoveResult.CLIPPED) {
       this._navigateToNextFileWithCommentThread();
     }
@@ -748,14 +758,14 @@ export class GrDiffView extends base {
   }
 
   _handlePrevChunk() {
-    this.cursor.moveToPreviousChunk();
-    if (this.cursor.isAtStart()) {
+    this.cursor?.moveToPreviousChunk();
+    if (this.cursor?.isAtStart()) {
       this.showToastAndNavigateFile('previous', 'p');
     }
   }
 
   _handlePrevCommentThread() {
-    this.cursor.moveToPreviousCommentThread();
+    this.cursor?.moveToPreviousCommentThread();
   }
 
   // Similar to gr-change-view._handleOpenReplyDialog
@@ -767,6 +777,9 @@ export class GrDiffView extends base {
       }
 
       this.set('changeViewState.showReplyDialog', true);
+      fire(this, 'view-state-change-view-changed', {
+        value: this.changeViewState as ChangeViewState,
+      });
       this._navToChangeView();
     });
   }
@@ -895,7 +908,7 @@ export class GrDiffView extends base {
     if (!this._patchRange) return;
 
     // TODO(taoalpha): add a shortcut for editing
-    const cursorAddress = this.cursor.getAddress();
+    const cursorAddress = this.cursor?.getAddress();
     const editUrl = GerritNav.getEditUrlForDiff(
       this._change,
       this._path,
@@ -959,7 +972,7 @@ export class GrDiffView extends base {
   _displayDiffAgainstLatestToast(latestPatchNum?: PatchSetNum) {
     if (!this._patchRange) return;
     const leftPatchset =
-      this._patchRange.basePatchNum === ParentPatchSetNum
+      this._patchRange.basePatchNum === PARENT
         ? 'Base'
         : `Patchset ${this._patchRange.basePatchNum}`;
     fireAlert(
@@ -972,7 +985,7 @@ export class GrDiffView extends base {
 
   _displayToasts() {
     if (!this._patchRange) return;
-    if (this._patchRange.basePatchNum !== ParentPatchSetNum) {
+    if (this._patchRange.basePatchNum !== PARENT) {
       this._displayDiffBaseAgainstLeftToast();
       return;
     }
@@ -995,10 +1008,7 @@ export class GrDiffView extends base {
         commit = commitSha as CommitId;
         const commitObj = revision.commit;
         const parents = commitObj?.parents || [];
-        if (
-          this._patchRange.basePatchNum === ParentPatchSetNum &&
-          parents.length
-        ) {
+        if (this._patchRange.basePatchNum === PARENT && parents.length) {
           baseCommit = parents[parents.length - 1].commit;
         }
       } else if (patchNum === this._patchRange.basePatchNum) {
@@ -1053,7 +1063,7 @@ export class GrDiffView extends base {
       if (this.params.patchNum) {
         this._patchRange = {
           patchNum: this.params.patchNum,
-          basePatchNum: this.params.basePatchNum || ParentPatchSetNum,
+          basePatchNum: this.params.basePatchNum || PARENT,
         };
       }
       if (this.params.lineNum) {
@@ -1179,7 +1189,7 @@ export class GrDiffView extends base {
           assertIsDefined(this._path, '_path');
           assertIsDefined(this._patchRange, '_patchRange');
 
-          if (this._patchRange.basePatchNum === ParentPatchSetNum) {
+          if (this._patchRange.basePatchNum === PARENT) {
             // file is unchanged between Base vs X
             // hence should not show diff between Base vs Base
             return;
@@ -1195,8 +1205,8 @@ export class GrDiffView extends base {
           GerritNav.navigateToDiff(
             this._change,
             this._path,
-            this._patchRange.basePatchNum,
-            ParentPatchSetNum,
+            this._patchRange.basePatchNum as RevisionPatchSetNum,
+            PARENT,
             this._focusLineNum
           );
           return;
@@ -1222,6 +1232,7 @@ export class GrDiffView extends base {
     if (this._focusLineNum === undefined) {
       return;
     }
+    if (!this.cursor) return;
     if (leftSide) {
       this.cursor.side = Side.LEFT;
     } else {
@@ -1247,10 +1258,6 @@ export class GrDiffView extends base {
     if (path) {
       fireTitleChange(this, computeTruncatedPath(path));
     }
-
-    if (!this._fileList || this._fileList.length === 0) return;
-
-    this.set('changeViewState.selectedFileIndex', this._fileList.indexOf(path));
   }
 
   _getDiffUrl(
@@ -1286,7 +1293,7 @@ export class GrDiffView extends base {
     }
     if (!patchRange) return {patchNum, basePatchNum};
     if (
-      patchRange.basePatchNum !== ParentPatchSetNum ||
+      patchRange.basePatchNum !== PARENT ||
       patchRange.patchNum !== latestPatchNum
     ) {
       patchNum = patchRange.patchNum;
@@ -1483,7 +1490,7 @@ export class GrDiffView extends base {
   ) {
     let patchNum = patchRange.patchNum;
 
-    const comparedAgainstParent = patchRange.basePatchNum === 'PARENT';
+    const comparedAgainstParent = patchRange.basePatchNum === PARENT;
 
     if (isBase && !comparedAgainstParent) {
       patchNum = patchRange.basePatchNum as RevisionPatchSetNum;
@@ -1540,7 +1547,7 @@ export class GrDiffView extends base {
     }
   }
 
-  _getPaths(patchRange: PatchRange) {
+  _getPaths(patchRange: PatchRange): CommentMap {
     if (!this._changeComments) return {};
     return this._changeComments.getPaths(patchRange);
   }
@@ -1549,7 +1556,7 @@ export class GrDiffView extends base {
     commentMap?: CommentMap,
     fileList?: string[],
     path?: string
-  ) {
+  ): CommentSkips | undefined {
     if (!commentMap) return undefined;
     if (!fileList) return undefined;
     if (!path) return undefined;
@@ -1587,7 +1594,7 @@ export class GrDiffView extends base {
     patchRangeRecord: PolymerDeepPropertyChange<PatchRange, PatchRange>
   ) {
     const patchRange = patchRangeRecord.base || {};
-    return patchRange.patchNum === EditPatchSetNum;
+    return patchRange.patchNum === EDIT;
   }
 
   _computeBlameToggleLabel(loaded?: boolean, loading?: boolean) {
@@ -1637,7 +1644,7 @@ export class GrDiffView extends base {
     if (!this._path) return;
     if (!this._patchRange) return;
 
-    if (this._patchRange.basePatchNum === ParentPatchSetNum) {
+    if (this._patchRange.basePatchNum === PARENT) {
       fireAlert(this, 'Base is already selected.');
       return;
     }
@@ -1653,15 +1660,15 @@ export class GrDiffView extends base {
     if (!this._path) return;
     if (!this._patchRange) return;
 
-    if (this._patchRange.basePatchNum === ParentPatchSetNum) {
+    if (this._patchRange.basePatchNum === PARENT) {
       fireAlert(this, 'Left is already base.');
       return;
     }
     GerritNav.navigateToDiff(
       this._change,
       this._path,
-      this._patchRange.basePatchNum,
-      'PARENT' as BasePatchSetNum,
+      this._patchRange.basePatchNum as RevisionPatchSetNum,
+      PARENT,
       this.params?.view === GerritView.DIFF && this.params?.commentLink
         ? this._focusLineNum
         : undefined
@@ -1713,7 +1720,7 @@ export class GrDiffView extends base {
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (
       this._patchRange.patchNum === latestPatchNum &&
-      this._patchRange.basePatchNum === ParentPatchSetNum
+      this._patchRange.basePatchNum === PARENT
     ) {
       fireAlert(this, 'Already diffing base against latest.');
       return;
@@ -1808,11 +1815,14 @@ export class GrDiffView extends base {
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {
-    return this.shortcuts.createTitle(shortcutName, section);
+    return this.getShortcutsService().createTitle(shortcutName, section);
   }
 }
 
 declare global {
+  interface HTMLElementEventMap {
+    'view-state-change-view-changed': ValueChangedEvent<ChangeViewState>;
+  }
   interface HTMLElementTagNameMap {
     'gr-diff-view': GrDiffView;
   }

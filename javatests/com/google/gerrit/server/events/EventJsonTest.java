@@ -593,6 +593,24 @@ public class EventJsonTest {
                 .build());
   }
 
+  @Test
+  public void projectHeadUpdatedEvent() {
+    ProjectHeadUpdatedEvent event = new ProjectHeadUpdatedEvent();
+    event.projectName = PROJECT;
+    event.oldHead = "refs/heads/master";
+    event.newHead = REF;
+
+    assertThatJsonMap(event)
+        .isEqualTo(
+            ImmutableMap.builder()
+                .put("projectName", PROJECT)
+                .put("oldHead", "refs/heads/master")
+                .put("newHead", REF)
+                .put("type", "project-head-updated")
+                .put("eventCreatedOn", TS1)
+                .build());
+  }
+
   private Supplier<AccountAttribute> newAccount(String name) {
     AccountAttribute account = new AccountAttribute();
     account.name = name;

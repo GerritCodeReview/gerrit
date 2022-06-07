@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../../styles/shared-styles';
@@ -68,6 +57,7 @@ import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {configModelToken} from '../../../models/config/config-model';
 import {changeModelToken} from '../../../models/change/change-model';
+import {Interaction} from '../../../constants/reporting';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -248,27 +238,36 @@ export class GrComment extends LitElement {
         });
       }
     }
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
     subscribe(
       this,
-      this.configModel().repoCommentLinks$,
+      () => this.configModel().repoCommentLinks$,
       x => (this.commentLinks = x)
     );
-    subscribe(this, this.userModel.account$, x => (this.account = x));
-    subscribe(this, this.userModel.isAdmin$, x => (this.isAdmin = x));
-
-    subscribe(this, this.getChangeModel().repo$, x => (this.repoName = x));
     subscribe(
       this,
-      this.getChangeModel().changeNum$,
+      () => this.userModel.account$,
+      x => (this.account = x)
+    );
+    subscribe(
+      this,
+      () => this.userModel.isAdmin$,
+      x => (this.isAdmin = x)
+    );
+
+    subscribe(
+      this,
+      () => this.getChangeModel().repo$,
+      x => (this.repoName = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().changeNum$,
       x => (this.changeNum = x)
     );
     subscribe(
       this,
-      this.autoSaveTrigger$.pipe(debounceTime(AUTO_SAVE_DEBOUNCE_DELAY_MS)),
+      () =>
+        this.autoSaveTrigger$.pipe(debounceTime(AUTO_SAVE_DEBOUNCE_DELAY_MS)),
       () => {
         this.autoSave();
       }
@@ -278,6 +277,11 @@ export class GrComment extends LitElement {
   override disconnectedCallback() {
     // Clean up emoji dropdown.
     if (this.textarea) this.textarea.closeDropdown();
+    if (this.editing) {
+      this.reporting.reportInteraction(
+        Interaction.COMMENTS_AUTOCLOSE_EDITING_DISCONNECTED
+      );
+    }
     super.disconnectedCallback();
   }
 
@@ -835,6 +839,10 @@ export class GrComment extends LitElement {
     this.unresolved = this.comment.unresolved ?? true;
     if (isUnsaved(this.comment)) this.editing = true;
     if (isDraftOrUnsaved(this.comment)) {
+      this.reporting.reportInteraction(
+        Interaction.COMMENTS_AUTOCLOSE_FIRST_UPDATE,
+        {editing: this.editing, unsaved: isUnsaved(this.comment)}
+      );
       this.collapsed = false;
     } else {
       this.collapsed = !!this.initiallyCollapsed;
@@ -999,6 +1007,9 @@ export class GrComment extends LitElement {
           await this.rawSave(messageToSave, {showToast: true});
         }
       }
+      this.reporting.reportInteraction(
+        Interaction.COMMENTS_AUTOCLOSE_EDITING_FALSE_SAVE
+      );
       this.editing = false;
     } catch (e) {
       this.unableToSave = true;

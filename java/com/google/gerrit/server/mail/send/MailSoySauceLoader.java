@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.mail.send;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.io.CharStreams;
-import com.google.common.io.Resources;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
@@ -26,6 +27,7 @@ import com.google.template.soy.jbcsrc.api.SoySauce;
 import com.google.template.soy.shared.SoyAstCache;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -137,6 +139,8 @@ class MailSoySauceLoader {
     }
 
     // Otherwise load the template as a resource.
-    builder.add(Resources.getResource(logicalPath), logicalPath);
+    URL resource = this.getClass().getClassLoader().getResource(logicalPath);
+    checkArgument(resource != null, "resource %s not found.", logicalPath);
+    builder.add(resource, logicalPath);
   }
 }

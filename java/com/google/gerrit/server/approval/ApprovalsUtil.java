@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.joining;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -360,8 +361,9 @@ public class ApprovalsUtil {
    * @param repoConfig the repo config
    * @param changeUpdate changeUpdate that is used to persist the copied approvals and update the
    *     attention set
+   * @return the result of the approval copying
    */
-  public void copyApprovalsToNewPatchSet(
+  public ApprovalCopier.Result copyApprovalsToNewPatchSet(
       ChangeNotes notes,
       PatchSet patchSet,
       RevWalk revWalk,
@@ -371,26 +373,28 @@ public class ApprovalsUtil {
         approvalCopier.forPatchSet(notes, patchSet, revWalk, repoConfig);
     approvalCopierResult.copiedApprovals().forEach(a -> changeUpdate.putCopiedApproval(a));
 
-    // Add attention set updates for outdated approvals.
-    if (notes.getChange().isWorkInProgress()) {
+    if (!notes.getChange().isWorkInProgress()) {
       // The attention set should not be updated when the change is work-in-progress.
-      return;
+      addAttentionSetUpdatesForOutdatedApprovals(
+          changeUpdate, approvalCopierResult.outdatedApprovals());
     }
 
+    return approvalCopierResult;
+  }
+
+  private void addAttentionSetUpdatesForOutdatedApprovals(
+      ChangeUpdate changeUpdate, ImmutableSet<PatchSetApproval> outdatedApprovals) {
     Set<AttentionSetUpdate> updates = new HashSet<>();
 
-    // Add attention set updates for outdated approvals first, as these should take precedence.
     Multimap<Account.Id, PatchSetApproval> outdatedApprovalsByUser = ArrayListMultimap.create();
-    approvalCopierResult
-        .outdatedApprovals()
-        .forEach(psa -> outdatedApprovalsByUser.put(psa.accountId(), psa));
+    outdatedApprovals.forEach(psa -> outdatedApprovalsByUser.put(psa.accountId(), psa));
     for (Map.Entry<Account.Id, Collection<PatchSetApproval>> e :
         outdatedApprovalsByUser.asMap().entrySet()) {
       Account.Id approverId = e.getKey();
       Collection<PatchSetApproval> outdatedUserApprovals = e.getValue();
 
       String message;
-      if (outdatedApprovalsByUser.size() == 1) {
+      if (outdatedUserApprovals.size() == 1) {
         PatchSetApproval outdatedUserApproval = Iterables.getOnlyElement(outdatedUserApprovals);
         message =
             String.format(

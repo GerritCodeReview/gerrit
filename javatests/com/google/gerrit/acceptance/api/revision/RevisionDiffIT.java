@@ -3005,9 +3005,6 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     return "An unchanged patchset\n\nChange-Id: " + changeId;
   }
 
-  // TODO(issue-15517): Fix the JdkObsolete issue with Date once JGit's PersonIdent class supports
-  // Instants
-  @SuppressWarnings("JdkObsolete")
   private void assertDiffForNewFile(
       PushOneCommit.Result pushResult, String path, String expectedContentSideB) throws Exception {
     DiffInfo diff =
@@ -3030,14 +3027,14 @@ public class RevisionDiffIT extends AbstractDaemonTest {
       DateTimeFormatter fmt =
           DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z")
               .withLocale(Locale.US)
-              .withZone(author.getTimeZone().toZoneId());
+              .withZone(author.getZoneId());
       headers.add("Author:     " + author.getName() + " <" + author.getEmailAddress() + ">");
-      headers.add("AuthorDate: " + fmt.format(author.getWhen().toInstant()));
+      headers.add("AuthorDate: " + fmt.format(author.getWhenAsInstant()));
 
       PersonIdent committer = c.getCommitterIdent();
-      fmt = fmt.withZone(committer.getTimeZone().toZoneId());
+      fmt = fmt.withZone(committer.getZoneId());
       headers.add("Commit:     " + committer.getName() + " <" + committer.getEmailAddress() + ">");
-      headers.add("CommitDate: " + fmt.format(committer.getWhen().toInstant()));
+      headers.add("CommitDate: " + fmt.format(committer.getWhenAsInstant()));
       headers.add("");
     }
 

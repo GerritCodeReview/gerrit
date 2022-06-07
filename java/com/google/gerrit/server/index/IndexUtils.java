@@ -15,21 +15,18 @@
 package com.google.gerrit.server.index;
 
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE;
-import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID_STR;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.project.ProjectField;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.group.GroupField;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.GroupBackedUser;
 import java.io.IOException;
 import java.util.Set;
@@ -71,11 +68,9 @@ public final class IndexUtils {
 
   /**
    * Returns a sanitized set of fields for change index queries by removing fields that the current
-   * index version doesn't support and accounting for numeric vs. string primary keys. The primary
-   * key situation is temporary and should be removed after the migration is done.
+   * index version doesn't support.
    */
-  public static Set<String> changeFields(QueryOptions opts, boolean useLegacyNumericFields) {
-    FieldDef<ChangeData, ?> idField = useLegacyNumericFields ? LEGACY_ID : LEGACY_ID_STR;
+  public static Set<String> changeFields(QueryOptions opts) {
     // Ensure we request enough fields to construct a ChangeData. We need both
     // change ID and project, which can either come via the Change field or
     // separate fields.
@@ -84,10 +79,10 @@ public final class IndexUtils {
       // A Change is always sufficient.
       return fs;
     }
-    if (fs.contains(PROJECT.getName()) && fs.contains(idField.getName())) {
+    if (fs.contains(PROJECT.getName()) && fs.contains(LEGACY_ID_STR.getName())) {
       return fs;
     }
-    return Sets.union(fs, ImmutableSet.of(idField.getName(), PROJECT.getName()));
+    return Sets.union(fs, ImmutableSet.of(LEGACY_ID_STR.getName(), PROJECT.getName()));
   }
 
   /**

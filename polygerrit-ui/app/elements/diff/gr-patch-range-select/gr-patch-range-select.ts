@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import '../../shared/gr-select/gr-select';
@@ -29,12 +18,13 @@ import {
   convertToPatchSetNum,
 } from '../../../utils/patch-set-util';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {
   BasePatchSetNum,
-  ParentPatchSetNum,
+  EDIT,
+  PARENT,
   PatchSetNum,
   RevisionInfo,
+  RevisionPatchSetNum,
   Timestamp,
 } from '../../../types/common';
 import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
@@ -106,7 +96,7 @@ export class GrPatchRangeSelect extends LitElement {
   filesWeblinks?: FilesWebLinks;
 
   @property({type: String})
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
 
   @property({type: String})
   basePatchNum?: BasePatchSetNum;
@@ -131,11 +121,11 @@ export class GrPatchRangeSelect extends LitElement {
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  override connectedCallback() {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getCommentsModel().changeComments$,
+      () => this.getCommentsModel().changeComments$,
       x => (this.changeComments = x)
     );
   }
@@ -231,12 +221,9 @@ export class GrPatchRangeSelect extends LitElement {
       return [];
     }
 
-    const parentCounts = this.revisionInfo.getParentCountMap();
-    const currentParentCount = hasOwnProperty(parentCounts, this.patchNum)
-      ? parentCounts[this.patchNum as number]
-      : 1;
     const maxParents = this.revisionInfo.getMaxParents();
-    const isMerge = currentParentCount > 1;
+    const isMerge = this.revisionInfo.isMergeCommit(this.patchNum);
+    const parentCount = this.revisionInfo.getParentCount(this.patchNum);
 
     const dropdownContent: DropdownItem[] = [];
     for (const basePatch of this.availablePatches) {
@@ -254,12 +241,12 @@ export class GrPatchRangeSelect extends LitElement {
 
     dropdownContent.push({
       text: isMerge ? 'Auto Merge' : 'Base',
-      value: 'PARENT',
+      value: PARENT,
     });
 
     for (let idx = 0; isMerge && idx < maxParents; idx++) {
       dropdownContent.push({
-        disabled: idx >= currentParentCount,
+        disabled: idx >= parentCount,
         triggerText: `Parent ${idx + 1}`,
         text: `Parent ${idx + 1}`,
         mobileText: `Parent ${idx + 1}`,
@@ -293,7 +280,7 @@ export class GrPatchRangeSelect extends LitElement {
       const patchNum = patch.num;
       const entry = this.createDropdownEntry(
         patchNum,
-        patchNum === 'edit' ? '' : 'Patchset ',
+        patchNum === EDIT ? '' : 'Patchset ',
         getShaForPatch(patch)
       );
       dropdownContent.push({
@@ -356,7 +343,7 @@ export class GrPatchRangeSelect extends LitElement {
    * is sorted in reverse order (higher patchset nums first), invalid patch
    * nums have an index greater than the index of basePatchNum.
    *
-   * In addition, if the current basePatchNum is 'PARENT', all patchNums are
+   * In addition, if the current basePatchNum is PARENT, all patchNums are
    * valid.
    *
    * If the current basePatchNum is a parent index, then only patches that have
@@ -368,10 +355,10 @@ export class GrPatchRangeSelect extends LitElement {
    * @param patchNum The possible patch num.
    */
   computeRightDisabled(
-    basePatchNum: PatchSetNum,
-    patchNum: PatchSetNum
+    basePatchNum: BasePatchSetNum,
+    patchNum: RevisionPatchSetNum
   ): boolean {
-    if (basePatchNum === ParentPatchSetNum) {
+    if (basePatchNum === PARENT) {
       return false;
     }
 

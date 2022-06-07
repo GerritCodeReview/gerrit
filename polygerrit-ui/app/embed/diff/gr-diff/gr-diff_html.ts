@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {html} from '@polymer/polymer/lib/utils/html-tag';
 
@@ -349,7 +338,7 @@ export const htmlTemplate = html`
       background-color: var(--dark-rebased-remove-highlight-color);
     }
     .dueToRebase .content.remove .contentText {
-      background-color: var(--light-remove-add-highlight-color);
+      background-color: var(--light-rebased-remove-highlight-color);
     }
 
     /* dueToMove */
@@ -486,6 +475,10 @@ export const htmlTemplate = html`
       border-bottom: 1px solid var(--border-color);
       color: var(--link-color);
       padding: var(--spacing-m) 0 var(--spacing-m) 48px;
+    }
+    #diffTable {
+      /* for gr-selection-action-box positioning */
+      position: relative;
     }
     #diffTable:focus {
       outline: none;
@@ -670,6 +663,14 @@ export const htmlTemplate = html`
     .token-highlight {
       background-color: var(--token-highlighting-color, #fffd54);
     }
+
+    gr-selection-action-box {
+      /**
+       * Needs z-index to appear above wrapped content, since it's inserted
+       * into DOM before it.
+       */
+      z-index: 10;
+    }
   </style>
   <style include="gr-syntax-theme">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
@@ -686,44 +687,22 @@ export const htmlTemplate = html`
     class$="[[_computeContainerClass(loggedIn, viewMode, displayLine)]]"
     on-click="_handleTap"
   >
-    <gr-diff-selection diff="[[diff]]">
-      <gr-diff-highlight
-        id="highlights"
-        logged-in="[[loggedIn]]"
-        comment-ranges="{{_commentRanges}}"
-      >
-        <gr-diff-builder
-          id="diffBuilder"
-          comment-ranges="[[_commentRanges]]"
-          coverage-ranges="[[coverageRanges]]"
-          diff="[[diff]]"
-          path="[[path]]"
-          view-mode="[[viewMode]]"
-          is-image-diff="[[isImageDiff]]"
-          base-image="[[baseImage]]"
-          layers="[[layers]]"
-          revision-image="[[revisionImage]]"
-          use-new-image-diff-ui="[[useNewImageDiffUi]]"
-        >
-          <table
-            id="diffTable"
-            class$="[[_diffTableClass]]"
-            role="presentation"
-            contenteditable$="[[isContentEditable]]"
-          ></table>
+    <table
+      id="diffTable"
+      class$="[[_diffTableClass]]"
+      role="presentation"
+      contenteditable$="[[isContentEditable]]"
+    ></table>
 
-          <template
-            is="dom-if"
-            if="[[showNoChangeMessage(_loading, prefs, _diffLength, diff)]]"
-          >
-            <div class="whitespace-change-only-message">
-              This file only contains whitespace changes. Modify the whitespace
-              setting to see the changes.
-            </div>
-          </template>
-        </gr-diff-builder>
-      </gr-diff-highlight>
-    </gr-diff-selection>
+    <template
+      is="dom-if"
+      if="[[showNoChangeMessage(_loading, prefs, _diffLength, diff)]]"
+    >
+      <div class="whitespace-change-only-message">
+        This file only contains whitespace changes. Modify the whitespace
+        setting to see the changes.
+      </div>
+    </template>
   </div>
   <div class$="[[_computeNewlineWarningClass(_newlineWarning, _loading)]]">
     [[_newlineWarning]]

@@ -20,7 +20,6 @@ import {isLongCommentRange} from '../gr-diff/gr-diff-utils';
 export interface CommentRangeLayer {
   side: Side;
   range: CommentRange;
-  hovering: boolean;
   // New drafts don't have a rootId.
   rootId?: string;
 }
@@ -40,7 +39,6 @@ function id(r: CommentRangeLayer): string {
  * highlights.
  */
 interface CommentRangeLineLayer {
-  hovering: boolean;
   longRange: boolean;
   id: string;
   // start char (0-based)
@@ -59,7 +57,7 @@ type RangesMap = {
 
 const RANGE_BASE_ONLY = 'style-scope gr-diff range';
 const RANGE_HIGHLIGHT = 'style-scope gr-diff range rangeHighlight';
-const HOVER_HIGHLIGHT = 'style-scope gr-diff range rangeHoverHighlight';
+// Note that there is also `rangeHoverHighlight` being set by GrDiffHighlight.
 
 export class GrRangedCommentLayer implements DiffLayer {
   private knownRanges: CommentRangeLayer[] = [];
@@ -95,11 +93,8 @@ export class GrRangedCommentLayer implements DiffLayer {
         el,
         range.start,
         range.end - range.start,
-        (range.hovering
-          ? HOVER_HIGHLIGHT
-          : range.longRange
-          ? RANGE_BASE_ONLY
-          : RANGE_HIGHLIGHT) + ` ${strToClassName(range.id)}`
+        (range.longRange ? RANGE_BASE_ONLY : RANGE_HIGHLIGHT) +
+          ` ${strToClassName(range.id)}`
       );
     }
   }
@@ -139,17 +134,15 @@ export class GrRangedCommentLayer implements DiffLayer {
   }
 
   private addRange(commentRange: CommentRangeLayer) {
-    const {side, range, hovering} = commentRange;
+    const {side, range} = commentRange;
     const longRange = isLongCommentRange(range);
     this.updateRangesMap({
       side,
       range,
-      hovering,
-      operation: (forLine, startChar, endChar, hovering) => {
+      operation: (forLine, startChar, endChar) => {
         forLine.push({
           start: startChar,
           end: endChar,
-          hovering,
           id: id(commentRange),
           longRange,
         });
@@ -158,11 +151,10 @@ export class GrRangedCommentLayer implements DiffLayer {
   }
 
   private removeRange(commentRange: CommentRangeLayer) {
-    const {side, range, hovering} = commentRange;
+    const {side, range} = commentRange;
     this.updateRangesMap({
       side,
       range,
-      hovering,
       operation: forLine => {
         const index = forLine.findIndex(
           lineRange => id(commentRange) === lineRange.id
@@ -175,21 +167,19 @@ export class GrRangedCommentLayer implements DiffLayer {
   private updateRangesMap(options: {
     side: Side;
     range: CommentRange;
-    hovering: boolean;
     operation: (
       forLine: CommentRangeLineLayer[],
       start: number,
-      end: number,
-      hovering: boolean
+      end: number
     ) => void;
   }) {
-    const {side, range, hovering, operation} = options;
+    const {side, range, operation} = options;
     const forSide = this.rangesMap[side] || (this.rangesMap[side] = {});
     for (let line = range.start_line; line <= range.end_line; line++) {
       const forLine = forSide[line] || (forSide[line] = []);
       const start = line === range.start_line ? range.start_character : 0;
       const end = line === range.end_line ? range.end_character : -1;
-      operation(forLine, start, end, hovering);
+      operation(forLine, start, end);
     }
     this.notifyUpdateRange(range.start_line, range.end_line, side);
   }
@@ -199,25 +189,20 @@ export class GrRangedCommentLayer implements DiffLayer {
     const lineNum = side === Side.LEFT ? line.beforeNumber : line.afterNumber;
     if (lineNum === 'FILE' || lineNum === 'LOST') return [];
     const ranges: CommentRangeLineLayer[] = this.rangesMap[side][lineNum] || [];
-    return (
-      ranges
-        .map(range => {
-          // Make a copy, so that the normalization below does not mess with
-          // our map.
-          range = {...range};
-          range.end = range.end === -1 ? line.text.length : range.end;
+    return ranges.map(range => {
+      // Make a copy, so that the normalization below does not mess with
+      // our map.
+      range = {...range};
+      range.end = range.end === -1 ? line.text.length : range.end;
 
-          // Normalize invalid ranges where the start is after the end but the
-          // start still makes sense. Set the end to the end of the line.
-          // @see Issue 5744
-          if (range.start >= range.end && range.start < line.text.length) {
-            range.end = line.text.length;
-          }
+      // Normalize invalid ranges where the start is after the end but the
+      // start still makes sense. Set the end to the end of the line.
+      // @see Issue 5744
+      if (range.start >= range.end && range.start < line.text.length) {
+        range.end = line.text.length;
+      }
 
-          return range;
-        })
-        // Sort the ranges so that hovering highlights are on top.
-        .sort((a, b) => (a.hovering && !b.hovering ? 1 : 0))
-    );
+      return range;
+    });
   }
 }

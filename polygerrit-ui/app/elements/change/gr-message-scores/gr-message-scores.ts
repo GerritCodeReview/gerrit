@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2021 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-trigger-vote/gr-trigger-vote';
 import {LitElement, css, html} from 'lit';
@@ -25,8 +14,6 @@ import {
 } from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {getTriggerVotes} from '../../../utils/label-util';
-import {getAppContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 const VOTE_RESET_TEXT = '0 (vote reset)';
 
@@ -102,8 +89,6 @@ export class GrMessageScores extends LitElement {
     `;
   }
 
-  private readonly flagsService = getAppContext().flagsService;
-
   override render() {
     const scores = this._getScores(this.message, this.labelExtremes);
     const triggerVotes = getTriggerVotes(this.change);
@@ -112,7 +97,6 @@ export class GrMessageScores extends LitElement {
 
   private renderScore(score: Score, triggerVotes: string[]) {
     if (
-      this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI) &&
       score.label &&
       triggerVotes.includes(score.label) &&
       !score.value?.includes(VOTE_RESET_TEXT)

@@ -3,7 +3,6 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {customElement, state, query} from 'lit/decorators';
 import {LitElement, html, css} from 'lit';
 import {resolve} from '../../../models/dependency';
@@ -35,11 +34,11 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
     ];
   }
 
-  override connectedCallback() {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getBulkActionsModel().selectedChanges$,
+      () => this.getBulkActionsModel().selectedChanges$,
       selectedChanges => (this.selectedChanges = selectedChanges)
     );
   }

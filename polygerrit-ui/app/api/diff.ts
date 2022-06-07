@@ -5,19 +5,8 @@
  * which are used as inputs to gr-diff.
  *
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 import {CommentRange, CursorMoveResult} from './core';
@@ -38,10 +27,16 @@ export enum DiffViewMode {
  * If the weblinks-only parameter is specified, only the web_links field is set.
  */
 export declare interface DiffInfo {
-  /** Meta information about the file on side A as a DiffFileMetaInfo entity. */
-  meta_a: DiffFileMetaInfo;
-  /** Meta information about the file on side B as a DiffFileMetaInfo entity. */
-  meta_b: DiffFileMetaInfo;
+  /**
+   * Meta information about the file on side A as a DiffFileMetaInfo entity.
+   * Not set when change_type is ADDED.
+   */
+  meta_a?: DiffFileMetaInfo;
+  /**
+   * Meta information about the file on side B as a DiffFileMetaInfo entity.
+   * Not set when change_type is DELETED.
+   */
+  meta_b?: DiffFileMetaInfo;
   /** The type of change (ADDED, MODIFIED, DELETED, RENAMED COPIED, REWRITE). */
   change_type: ChangeType;
   /** Intraline status (OK, ERROR, TIMEOUT). */
@@ -167,7 +162,7 @@ export declare interface MoveDetails {
    * Indicates the range (line numbers) on the other side of the comparison
    * where the code related to the current chunk came from/went to.
    */
-  range: {
+  range?: {
     start: number;
     end: number;
   };
@@ -332,6 +327,11 @@ export declare interface MovedLinkClickedEventDetail {
 export declare interface LineNumberEventDetail {
   side: Side;
   lineNum: LineNumber;
+}
+
+// TODO: Currently unused and not fired.
+export declare interface RenderProgressEventDetail {
+  linesRendered: number;
 }
 
 export declare interface DisplayLine {

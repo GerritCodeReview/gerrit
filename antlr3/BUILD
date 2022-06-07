@@ -22,6 +22,7 @@ java_library(
     srcs = [":query"],
     visibility = [
         "//java/com/google/gerrit/index:__subpackages__",
+        "//java/com/google/gerrit/server:__subpackages__",
         "//javatests/com/google/gerrit:__subpackages__",
         "//javatests/com/google/gerrit/index:__pkg__",
         "//plugins:__pkg__",

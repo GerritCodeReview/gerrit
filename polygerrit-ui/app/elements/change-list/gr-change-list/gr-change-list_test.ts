@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
 import './gr-change-list';
@@ -27,14 +16,27 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {Key} from '../../../utils/dom-util';
-import {TimeFormat} from '../../../constants/constants';
+import {
+  ColumnNames,
+  createDefaultPreferences,
+  TimeFormat,
+} from '../../../constants/constants';
 import {AccountId, NumericChangeId} from '../../../types/common';
 import {
   createChange,
   createServerInfo,
+  createSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
+import {getAppContext} from '../../../services/app-context';
+import {fixture} from '@open-wc/testing-helpers';
+import {wrapInProvider} from '../../../models/di-provider-element';
+import {
+  ShortcutsService,
+  shortcutsServiceToken,
+} from '../../../services/shortcuts/shortcuts-service';
+import {html} from 'lit';
 
 const basicFixture = fixtureFromElement('gr-change-list');
 
@@ -165,23 +167,36 @@ suite('gr-change-list basic tests', () => {
             {
               ...createChange(),
               _number: 0 as NumericChangeId,
-              labels: {Verified: {approved: {}}},
+              submit_requirements: [
+                {
+                  ...createSubmitRequirementResultInfo(),
+                  name: 'Verified',
+                },
+              ],
             },
             {
               ...createChange(),
               _number: 1 as NumericChangeId,
-              labels: {
-                Verified: {approved: {}},
-                'Code-Review': {approved: {}},
-              },
+              submit_requirements: [
+                {
+                  ...createSubmitRequirementResultInfo(),
+                  name: 'Verified',
+                },
+                {
+                  ...createSubmitRequirementResultInfo(),
+                  name: 'Code-Review',
+                },
+              ],
             },
             {
               ...createChange(),
               _number: 2 as NumericChangeId,
-              labels: {
-                Verified: {approved: {}},
-                'Library-Compliance': {approved: {}},
-              },
+              submit_requirements: [
+                {
+                  ...createSubmitRequirementResultInfo(),
+                  name: 'Library-Compliance',
+                },
+              ],
             },
           ],
         },
@@ -194,22 +209,7 @@ suite('gr-change-list basic tests', () => {
     sinon.stub(element, 'computeLabelNames');
     element.sections = [{results: new Array(1)}, {results: new Array(2)}];
     element.selectedIndex = 0;
-    element.preferences = {
-      legacycid_in_change_table: true,
-      time_format: TimeFormat.HHMM_12,
-      change_table: [
-        'Subject',
-        'Status',
-        'Owner',
-        'Reviewers',
-        'Comments',
-        'Repo',
-        'Branch',
-        'Updated',
-        'Size',
-        ' Status ',
-      ],
-    };
+    element.preferences = createDefaultPreferences();
     element.config = createServerInfo();
     element.changes = [
       {...createChange(), _number: 0 as NumericChangeId},
@@ -275,6 +275,90 @@ suite('gr-change-list basic tests', () => {
     pressKey(element, 'k');
     pressKey(element, 'k');
     assert.equal(element.selectedIndex, 0);
+  });
+
+  test('toggle checkbox keyboard shortcut', async () => {
+    const flagsService = getAppContext().flagsService;
+    sinon.stub(flagsService, 'isEnabled').returns(true);
+    element = (
+      await fixture(
+        wrapInProvider(
+          html`<gr-change-list></gr-change-list>`,
+          shortcutsServiceToken,
+          new ShortcutsService(getAppContext().userModel, flagsService)
+        )
+      )
+    ).querySelector('gr-change-list')!;
+    await element.updateComplete;
+
+    const getCheckbox = (item: GrChangeListItem) =>
+      queryAndAssert<HTMLInputElement>(query(item, '.selection'), 'input');
+
+    sinon.stub(element, 'computeLabelNames');
+    element.sections = [{results: new Array(1)}, {results: new Array(2)}];
+    element.selectedIndex = 0;
+    element.preferences = createDefaultPreferences();
+    element.config = createServerInfo();
+    element.changes = [
+      {...createChange(), _number: 0 as NumericChangeId},
+      {...createChange(), _number: 1 as NumericChangeId},
+      {...createChange(), _number: 2 as NumericChangeId},
+    ];
+    // explicitly trigger sectionsChanged so that cursor stops are properly
+    // updated
+    await element.sectionsChanged();
+    await element.updateComplete;
+    const section = queryAndAssert<GrChangeListSection>(
+      element,
+      'gr-change-list-section'
+    );
+    await section.updateComplete;
+    const elementItems = queryAll<GrChangeListItem>(
+      section,
+      'gr-change-list-item'
+    );
+    assert.equal(elementItems.length, 3);
+
+    assert.isTrue(elementItems[0].hasAttribute('selected'));
+    await element.updateComplete;
+
+    pressKey(element, 'x');
+    await element.updateComplete;
+
+    assert.isTrue(getCheckbox(elementItems[0]).checked);
+
+    pressKey(element, 'x');
+    await element.updateComplete;
+    assert.isFalse(getCheckbox(elementItems[0]).checked);
+
+    pressKey(element, 'j');
+    await element.updateComplete;
+
+    assert.equal(element.selectedIndex, 1);
+    assert.isTrue(elementItems[1].hasAttribute('selected'));
+
+    pressKey(element, 'x');
+    await element.updateComplete;
+
+    assert.isTrue(getCheckbox(elementItems[1]).checked);
+
+    pressKey(element, 'x');
+    await element.updateComplete;
+    assert.isFalse(getCheckbox(elementItems[1]).checked);
+
+    pressKey(element, 'j');
+    await element.updateComplete;
+    assert.equal(element.selectedIndex, 2);
+    assert.isTrue(elementItems[2].hasAttribute('selected'));
+
+    pressKey(element, 'x');
+    await element.updateComplete;
+
+    assert.isTrue(getCheckbox(elementItems[2]).checked);
+
+    pressKey(element, 'x');
+    await element.updateComplete;
+    assert.isFalse(getCheckbox(elementItems[2]).checked);
   });
 
   test('no changes', async () => {
@@ -363,7 +447,7 @@ suite('gr-change-list basic tests', () => {
           'Branch',
           'Updated',
           'Size',
-          ' Status ',
+          ColumnNames.STATUS2,
         ],
       };
       element.config = createServerInfo();
@@ -401,7 +485,7 @@ suite('gr-change-list basic tests', () => {
           'Branch',
           'Updated',
           'Size',
-          ' Status ',
+          ColumnNames.STATUS2,
         ],
       };
       element.config = createServerInfo();
@@ -419,11 +503,23 @@ suite('gr-change-list basic tests', () => {
         }
       }
     });
+
+    test('show default order not preferences order', async () => {
+      element.preferences = {
+        legacycid_in_change_table: true,
+        time_format: TimeFormat.HHMM_12,
+        change_table: ['Owner', 'Subject'],
+      };
+      element.config = createServerInfo();
+      await element.updateComplete;
+      assert.equal(element.visibleChangeTableColumns?.[0], 'Subject');
+      assert.equal(element.visibleChangeTableColumns?.[1], 'Owner');
+    });
   });
 
   test('obsolete column in preferences not visible', () => {
-    assert.isTrue(element._isColumnEnabled('Subject'));
-    assert.isFalse(element._isColumnEnabled('Assignee'));
+    assert.isTrue(element.isColumnEnabled('Subject'));
+    assert.isFalse(element.isColumnEnabled('Assignee'));
   });
 
   test('showStar and showNumber', async () => {
@@ -442,7 +538,7 @@ suite('gr-change-list basic tests', () => {
         'Branch',
         'Updated',
         'Size',
-        ' Status ',
+        ColumnNames.STATUS2,
       ],
     };
     element.config = createServerInfo();
@@ -506,7 +602,7 @@ suite('gr-change-list basic tests', () => {
     element.config = createServerInfo();
     await element.updateComplete;
     assert.isTrue(
-      element.visibleChangeTableColumns?.includes(' Status '),
+      element.visibleChangeTableColumns?.includes(ColumnNames.STATUS2),
       'Show new status'
     );
     const section = queryAndAssert(element, 'gr-change-list-section');

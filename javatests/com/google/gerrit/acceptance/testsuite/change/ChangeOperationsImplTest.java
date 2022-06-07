@@ -24,6 +24,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -607,6 +608,25 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
     ChangeInfo change = getChangeFromServer(changeId);
     assertThat(change.owner._accountId).isEqualTo(changeOwner.get());
+  }
+
+  @Test
+  public void createdChangeHasSpecifiedTopic() throws Exception {
+    Change.Id changeId = changeOperations.newChange().topic("test-topic").create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThat(change.topic).isEqualTo("test-topic");
+  }
+
+  @Test
+  public void createdChangeHasSpecifiedApprovals() throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().approvals(ImmutableMap.of("Code-Review", (short) 1)).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThat(change.labels).hasSize(1);
+    assertThat(change.labels.get("Code-Review").recommended._accountId)
+        .isEqualTo(change.owner._accountId);
   }
 
   @Test

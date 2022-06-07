@@ -28,6 +28,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -96,13 +97,13 @@ public class SubmitDryRun {
   }
 
   private final ProjectCache projectCache;
-  private final MergeUtil.Factory mergeUtilFactory;
+  private final MergeUtilFactory mergeUtilFactory;
   private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
   SubmitDryRun(
       ProjectCache projectCache,
-      MergeUtil.Factory mergeUtilFactory,
+      MergeUtilFactory mergeUtilFactory,
       Provider<InternalChangeQuery> queryProvider) {
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;

@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../test/common-test-setup-karma.js';
 import {addListenerForTest, mockPromise, stubAuth} from '../../test/test-utils.js';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js';
@@ -25,6 +13,8 @@ import {CURRENT} from '../../utils/patch-set-util.js';
 import {parsePrefixedJSON, readResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
 import {JSON_PREFIX} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
 import {GrRestApiServiceImpl} from './gr-rest-api-impl.js';
+import {CommentSide} from '../../constants/constants.js';
+import {EDIT, PARENT} from '../../types/common.js';
 
 const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
     ListChangesOption.CHANGE_ACTIONS,
@@ -77,18 +67,18 @@ suite('gr-rest-api-service-impl tests', () => {
               message: 'this isn’t quite right',
             },
             {
-              side: 'PARENT',
+              side: CommentSide.PARENT,
               message: 'how did this work in the first place?',
               updated: '2017-02-03 22:33:28.000000000',
             },
           ],
         }));
-    return element._getDiffComments('42', '', undefined, 'PARENT', 1,
+    return element._getDiffComments('42', '', undefined, PARENT, 1,
         'sieve.go').then(
         obj => {
           assert.equal(obj.baseComments.length, 1);
           assert.deepEqual(obj.baseComments[0], {
-            side: 'PARENT',
+            side: CommentSide.PARENT,
             message: 'how did this work in the first place?',
             path: 'sieve.go',
             updated: '2017-02-03 22:33:28.000000000',
@@ -106,7 +96,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const comments = [
       {
         id: 1,
-        side: 'PARENT',
+        side: CommentSide.PARENT,
         message: 'how did this work in the first place?',
         updated: '2017-02-03 22:32:28.000000000',
         range: {
@@ -155,7 +145,7 @@ suite('gr-rest-api-service-impl tests', () => {
       },
       {
         id: 1,
-        side: 'PARENT',
+        side: CommentSide.PARENT,
         message: 'how did this work in the first place?',
         updated: '2017-02-03 22:32:28.000000000',
         range: {
@@ -169,7 +159,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const expectedResult = [
       {
         id: 1,
-        side: 'PARENT',
+        side: CommentSide.PARENT,
         message: 'how did this work in the first place?',
         updated: '2017-02-03 22:32:28.000000000',
         range: {
@@ -221,7 +211,7 @@ suite('gr-rest-api-service-impl tests', () => {
               updated: '2017-02-03 22:32:28.000000000',
             },
             {
-              side: 'PARENT',
+              side: CommentSide.PARENT,
               message: 'how did this work in the first place?',
               updated: '2017-02-03 22:33:28.000000000',
             },
@@ -236,7 +226,7 @@ suite('gr-rest-api-service-impl tests', () => {
               updated: '2017-02-03 22:32:28.000000000',
             },
             {
-              side: 'PARENT',
+              side: CommentSide.PARENT,
               message: 'Yeah not sure how this worked either?',
               updated: '2017-02-03 22:33:28.000000000',
             },
@@ -668,11 +658,11 @@ suite('gr-rest-api-service-impl tests', () => {
   test('queryChangeFiles', () => {
     const fetchStub = sinon.stub(element, '_getChangeURLAndFetch')
         .returns(Promise.resolve());
-    return element.queryChangeFiles('42', 'edit', 'test/path.js').then(() => {
+    return element.queryChangeFiles('42', EDIT, 'test/path.js').then(() => {
       assert.equal(fetchStub.lastCall.args[0].changeNum, '42');
       assert.equal(fetchStub.lastCall.args[0].endpoint,
           '/files?q=test%2Fpath.js');
-      assert.equal(fetchStub.lastCall.args[0].revision, 'edit');
+      assert.equal(fetchStub.lastCall.args[0].revision, EDIT);
     });
   });
 
@@ -1150,7 +1140,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('patch only', () => {
       const fetchStub = sinon.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
-      const range = {basePatchNum: 'PARENT', patchNum: 2};
+      const range = {basePatchNum: PARENT, patchNum: 2};
       return element.getChangeFiles(123, range).then(() => {
         assert.isTrue(fetchStub.calledOnce);
         assert.equal(fetchStub.lastCall.args[0].revision, 2);
@@ -1189,7 +1179,7 @@ suite('gr-rest-api-service-impl tests', () => {
     test('patchOnly', () => {
       const fetchStub = sinon.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
-      return element.getDiff(123, 'PARENT', 2, 'foo/bar.baz').then(() => {
+      return element.getDiff(123, PARENT, 2, 'foo/bar.baz').then(() => {
         assert.isTrue(fetchStub.calledOnce);
         assert.equal(fetchStub.lastCall.args[0].revision, 2);
         assert.isOk(fetchStub.lastCall.args[0].params);
@@ -1290,7 +1280,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const getChangeEditFilesStub = sinon.stub(element, 'getChangeEditFiles')
         .returns(Promise.resolve({}));
 
-    return fn('1', {patchNum: 'edit'}).then(() => {
+    return fn('1', {patchNum: EDIT}).then(() => {
       assert.isTrue(getChangeEditFilesStub.calledOnce);
       assert.isFalse(getChangeFilesStub.called);
       return fn('1', {patchNum: '1'}).then(() => {

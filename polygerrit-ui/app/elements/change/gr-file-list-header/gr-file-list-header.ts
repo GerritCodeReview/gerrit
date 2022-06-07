@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import '../../diff/gr-patch-range-select/gr-patch-range-select';
@@ -43,11 +32,12 @@ import {
   Shortcut,
   ShortcutSection,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when';
 import {ifDefined} from 'lit/directives/if-defined';
+import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
+import {resolve} from '../../../models/dependency';
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends LitElement {
@@ -121,7 +111,7 @@ export class GrFileListHeader extends LitElement {
   @query('#collapseBtn')
   collapseBtn?: GrButton;
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   // Caps the number of files that can be shown and have the 'show diffs' /
   // 'hide diffs' buttons still be functional.
@@ -438,7 +428,7 @@ export class GrFileListHeader extends LitElement {
   }
 
   private createTitle(shortcutName: Shortcut, section: ShortcutSection) {
-    return this.shortcuts.createTitle(shortcutName, section);
+    return this.getShortcutsService().createTitle(shortcutName, section);
   }
 }
 

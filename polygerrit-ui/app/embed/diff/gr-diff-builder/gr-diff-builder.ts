@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the 'License');
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an 'AS IS' BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {
   ContentLoadNeededEventDetail,
@@ -89,7 +78,8 @@ export abstract class GrDiffBuilder implements DiffBuilder {
 
   protected readonly numLinesLeft: number;
 
-  protected readonly _prefs: DiffPreferencesInfo;
+  // visible for testing
+  readonly _prefs: DiffPreferencesInfo;
 
   protected readonly renderPrefs?: RenderPreferences;
 
@@ -194,7 +184,8 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     group.element = element;
   }
 
-  private getGroupsByLineRange(
+  // visible for testing
+  getGroupsByLineRange(
     startLine: LineNumber,
     endLine: LineNumber,
     side: Side
@@ -257,7 +248,8 @@ export abstract class GrDiffBuilder implements DiffBuilder {
    *        TODO: Change `null` to `undefined` in paramete type. Also: Do we
    *        really need to support null/undefined? Also change to camelCase.
    */
-  protected findLinesByRange(
+  // visible for testing
+  findLinesByRange(
     start: LineNumber,
     end: LineNumber,
     side: Side,
@@ -352,9 +344,8 @@ export abstract class GrDiffBuilder implements DiffBuilder {
    *
    * @return The commit information.
    */
-  protected getBlameCommitForBaseLine(
-    lineNum: LineNumber
-  ): BlameInfo | undefined {
+  // visible for testing
+  getBlameCommitForBaseLine(lineNum: LineNumber): BlameInfo | undefined {
     for (const blameCommit of this.blameInfo) {
       for (const range of blameCommit.ranges) {
         if (range.start <= lineNum && range.end >= lineNum) {

@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-dropdown/iron-dropdown';
 import '../gr-cursor-manager/gr-cursor-manager';
@@ -55,6 +44,10 @@ export interface ItemSelectedEvent {
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = IronFitMixin(PolymerElement, IronFitBehavior as IronFitBehavior);
 
+/**
+ * @attr {String} vertical-align - inherited from IronOverlay
+ * @attr {String} horizontal-align - inherited from IronOverlay
+ */
 @customElement('gr-autocomplete-dropdown')
 export class GrAutocompleteDropdown extends base {
   static get template() {
@@ -132,9 +125,7 @@ export class GrAutocompleteDropdown extends base {
 
   open() {
     this.isHidden = false;
-    this._resetCursorStops();
-    // Refit should run after we call Polymer.flush inside _resetCursorStops
-    this.refit();
+    this.onSuggestionsChanged();
   }
 
   getCurrentText() {
@@ -219,7 +210,7 @@ export class GrAutocompleteDropdown extends base {
   }
 
   @observe('suggestions')
-  _resetCursorStops() {
+  onSuggestionsChanged() {
     if (this.suggestions.length > 0) {
       if (!this.isHidden) {
         flush();
@@ -231,6 +222,7 @@ export class GrAutocompleteDropdown extends base {
     } else {
       this.cursor.stops = [];
     }
+    this.refit();
   }
 
   @observe('index')

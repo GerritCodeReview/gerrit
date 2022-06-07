@@ -67,6 +67,7 @@ import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.OnPostReview;
@@ -79,6 +80,7 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -1060,8 +1062,16 @@ public class PostReviewIT extends AbstractDaemonTest {
 
     @Override
     public Optional<SubmitRecord> evaluate(ChangeData changeData) {
-      count++;
+      if (!isAsyncCallForSendingReviewCommentsEmail()) {
+        count++;
+      }
       return Optional.empty();
+    }
+
+    private boolean isAsyncCallForSendingReviewCommentsEmail() {
+      return Arrays.stream(Thread.currentThread().getStackTrace())
+          .map(StackTraceElement::getClassName)
+          .anyMatch(className -> EmailReviewComments.class.getName().equals(className));
     }
   }
 

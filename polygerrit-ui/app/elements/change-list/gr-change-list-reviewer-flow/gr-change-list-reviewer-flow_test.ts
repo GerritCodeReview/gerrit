@@ -4,26 +4,31 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {fixture, html} from '@open-wc/testing-helpers';
-import {AccountInfo, ReviewerState} from '../../../api/rest-api';
+import {SinonStubbedMember} from 'sinon';
+import {AccountInfo, GroupInfo, ReviewerState} from '../../../api/rest-api';
 import {
   BulkActionsModel,
   bulkActionsModelToken,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {getAppContext} from '../../../services/app-context';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import '../../../test/common-test-setup-karma';
 import {
   createAccountWithIdNameAndEmail,
   createChange,
+  createGroupInfo,
 } from '../../../test/test-data-generators';
 import {
   MockPromise,
   mockPromise,
   queryAndAssert,
+  stubReporting,
   stubRestApi,
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {ChangeInfo, NumericChangeId} from '../../../types/common';
+import {ValueChangedEvent} from '../../../types/events';
 import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -39,6 +44,7 @@ const accounts: AccountInfo[] = [
   createAccountWithIdNameAndEmail(4),
   createAccountWithIdNameAndEmail(5),
 ];
+const groups: GroupInfo[] = [createGroupInfo('groupId')];
 const changes: ChangeInfo[] = [
   {
     ...createChange(),
@@ -60,6 +66,7 @@ const changes: ChangeInfo[] = [
 suite('gr-change-list-reviewer-flow tests', () => {
   let element: GrChangeListReviewerFlow;
   let model: BulkActionsModel;
+  let reportingStub: SinonStubbedMember<ReportingService['reportInteraction']>;
 
   async function selectChange(change: ChangeInfo) {
     model.addSelectedChangeNum(change._number);
@@ -71,6 +78,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
 
   setup(async () => {
     stubRestApi('getDetailedChangesWithActions').resolves(changes);
+    reportingStub = stubReporting('reportInteraction');
     model = new BulkActionsModel(getAppContext().restApiService);
     model.sync(changes);
 
@@ -181,12 +189,14 @@ suite('gr-change-list-reviewer-flow tests', () => {
           style="outline: none; display: none;"
         >
           <gr-dialog role="dialog">
-            <div slot="header">Add Reviewer / CC</div>
-            <div slot="main" class="grid">
-              <span>Reviewers</span>
-              <gr-account-list id="reviewer-list"></gr-account-list>
-              <span>CC</span>
-              <gr-account-list id="cc-list"></gr-account-list>
+            <div slot="header">Add reviewer / CC</div>
+            <div slot="main">
+              <div class="grid">
+                <span>Reviewers</span>
+                <gr-account-list id="reviewer-list"></gr-account-list>
+                <span>CC</span>
+                <gr-account-list id="cc-list"></gr-account-list>
+              </div>
             </div>
           </gr-dialog>
         </gr-overlay>
@@ -217,11 +227,16 @@ suite('gr-change-list-reviewer-flow tests', () => {
         dialog,
         'gr-account-list#cc-list'
       );
-      reviewerList.accounts.push(accounts[2]);
+      reviewerList.accounts.push(accounts[2], groups[0]);
       ccList.accounts.push(accounts[5]);
       await flush();
       dialog.confirmButton!.click();
       await element.updateComplete;
+
+      assert.deepEqual(reportingStub.lastCall.args[1], {
+        type: 'add-reviewer',
+        selectedChangeCount: 2,
+      });
 
       assert.isTrue(saveChangeReviewStub.calledTwice);
       assert.sameDeepOrderedMembers(saveChangeReviewStub.firstCall.args, [
@@ -230,7 +245,20 @@ suite('gr-change-list-reviewer-flow tests', () => {
         {
           reviewers: [
             {reviewer: accounts[2]._account_id, state: ReviewerState.REVIEWER},
+            {reviewer: groups[0].id, state: ReviewerState.REVIEWER},
             {reviewer: accounts[5]._account_id, state: ReviewerState.CC},
+          ],
+          ignore_automatic_attention_set_rules: true,
+          // only the reviewer is added to the attention set, not the cc
+          add_to_attention_set: [
+            {
+              reason: '<GERRIT_ACCOUNT_1> replied on the change',
+              user: accounts[2]._account_id,
+            },
+            {
+              reason: '<GERRIT_ACCOUNT_1> replied on the change',
+              user: groups[0].id,
+            },
           ],
         },
       ]);
@@ -240,10 +268,75 @@ suite('gr-change-list-reviewer-flow tests', () => {
         {
           reviewers: [
             {reviewer: accounts[2]._account_id, state: ReviewerState.REVIEWER},
+            {reviewer: groups[0].id, state: ReviewerState.REVIEWER},
             {reviewer: accounts[5]._account_id, state: ReviewerState.CC},
+          ],
+          ignore_automatic_attention_set_rules: true,
+          // only the reviewer is added to the attention set, not the cc
+          add_to_attention_set: [
+            {
+              reason: '<GERRIT_ACCOUNT_1> replied on the change',
+              user: accounts[2]._account_id,
+            },
+            {
+              reason: '<GERRIT_ACCOUNT_1> replied on the change',
+              user: groups[0].id,
+            },
           ],
         },
       ]);
+    });
+
+    test('removes from reviewer list when added to cc', async () => {
+      const ccList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#cc-list'
+      );
+      const reviewerList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#reviewer-list'
+      );
+      assert.sameOrderedMembers(reviewerList.accounts, [accounts[0]]);
+
+      ccList.handleAdd(
+        new CustomEvent('add', {
+          detail: {
+            value: {
+              account: accounts[0],
+              count: 1,
+            },
+          },
+        }) as unknown as ValueChangedEvent<string>
+      );
+      await flush();
+
+      assert.isEmpty(reviewerList.accounts);
+    });
+
+    test('removes from cc list when added to reviewer', async () => {
+      const ccList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#cc-list'
+      );
+      const reviewerList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#reviewer-list'
+      );
+      assert.sameOrderedMembers(ccList.accounts, [accounts[3]]);
+
+      reviewerList.handleAdd(
+        new CustomEvent('add', {
+          detail: {
+            value: {
+              account: accounts[3],
+              count: 1,
+            },
+          },
+        }) as unknown as ValueChangedEvent<string>
+      );
+      await flush();
+
+      assert.isEmpty(ccList.accounts);
     });
 
     test('confirm button text updates', async () => {
@@ -258,6 +351,83 @@ suite('gr-change-list-reviewer-flow tests', () => {
       await element.updateComplete;
 
       assert.equal(dialog.confirmLabel, 'Close');
+    });
+
+    test('renders warnings when reviewer/cc are overwritten', async () => {
+      const ccList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#cc-list'
+      );
+      const reviewerList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#reviewer-list'
+      );
+
+      reviewerList.handleAdd(
+        new CustomEvent('add', {
+          detail: {
+            value: {
+              account: accounts[4],
+              count: 1,
+            },
+          },
+        }) as unknown as ValueChangedEvent<string>
+      );
+      ccList.handleAdd(
+        new CustomEvent('add', {
+          detail: {
+            value: {
+              account: accounts[1],
+              count: 1,
+            },
+          },
+        }) as unknown as ValueChangedEvent<string>
+      );
+      await flush();
+
+      // prettier and shadowDom string don't agree on long text in divs
+      expect(element).shadowDom.to.equal(
+        /* prettier-ignore */
+        /* HTML */ `
+          <gr-button
+            id="start-flow"
+            flatten=""
+            aria-disabled="false"
+            role="button"
+            tabindex="0"
+            >add reviewer/cc</gr-button
+          >
+          <gr-overlay with-backdrop="" tabindex="-1">
+            <gr-dialog role="dialog">
+              <div slot="header">Add reviewer / CC</div>
+              <div slot="main">
+                <div class="grid">
+                  <span>Reviewers</span>
+                  <gr-account-list id="reviewer-list"></gr-account-list>
+                  <span>CC</span>
+                  <gr-account-list id="cc-list"></gr-account-list>
+                </div>
+                <div class="warning">
+                  <iron-icon icon="gr-icons:warning"></iron-icon>
+                  User-1 is a reviewer
+        on some selected changes and will be moved to CC on all
+        changes.
+                </div>
+                <div class="warning">
+                  <iron-icon icon="gr-icons:warning"></iron-icon>
+                  User-4 is a CC
+        on some selected changes and will be moved to reviewer on all
+        changes.
+                </div>
+              </div>
+            </gr-dialog>
+          </gr-overlay>
+        `,
+        {
+          // gr-overlay sizing seems to vary between local & CI
+          ignoreAttributes: [{tags: ['gr-overlay'], attributes: ['style']}],
+        }
+      );
     });
   });
 });

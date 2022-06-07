@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2021 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import {fixture} from '@open-wc/testing-helpers';
 import {html} from 'lit';
@@ -28,9 +16,15 @@ import {
   createSubmitRequirementExpressionInfo,
   createSubmitRequirementResultInfo,
   createNonApplicableSubmitRequirementResultInfo,
+  createRunResult,
+  createCheckResult,
 } from '../../../test/test-data-generators';
-import {SubmitRequirementResultInfo} from '../../../api/rest-api';
+import {
+  SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
+} from '../../../api/rest-api';
 import {ParsedChangeInfo} from '../../../types/types';
+import {RunStatus} from '../../../api/checks';
 
 suite('gr-submit-requirements tests', () => {
   let element: GrSubmitRequirements;
@@ -93,7 +87,7 @@ suite('gr-submit-requirements tests', () => {
               </iron-icon>
             </td>
             <td class="name">
-              <gr-limited-text class="name" limit="25"></gr-limited-text>
+              <gr-limited-text class="name"></gr-limited-text>
             </td>
             <td>
               <gr-endpoint-decorator
@@ -152,6 +146,117 @@ suite('gr-submit-requirements tests', () => {
       expect(votesCell?.[0]).dom.equal(/* HTML */ `
         <div class="votes-cell">Satisfied</div>
       `);
+    });
+
+    test('checks', async () => {
+      element.runs = [
+        {
+          ...createRunResult(),
+          labelName: 'Verified',
+          results: [createCheckResult()],
+        },
+      ];
+      await element.updateComplete;
+      const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
+      expect(votesCell?.[0]).dom.equal(/* HTML */ `
+        <div class="votes-cell">
+          <gr-vote-chip></gr-vote-chip>
+          <gr-checks-chip></gr-checks-chip>
+        </div>
+      `);
+    });
+
+    test('running checks', async () => {
+      element.runs = [
+        {
+          ...createRunResult(),
+          status: RunStatus.RUNNING,
+          labelName: 'Verified',
+          results: [createCheckResult()],
+        },
+      ];
+      await element.updateComplete;
+      const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
+      expect(votesCell?.[0]).dom.equal(/* HTML */ `
+        <div class="votes-cell">
+          <gr-vote-chip></gr-vote-chip>
+          <gr-checks-chip></gr-checks-chip>
+        </div>
+      `);
+    });
+
+    test('with override label', async () => {
+      const modifiedChange = {...change};
+      modifiedChange.labels = {
+        Override: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createApproval(),
+              value: 2,
+            },
+          ],
+        },
+      };
+      modifiedChange.submit_requirements = [
+        {
+          ...createSubmitRequirementResultInfo(),
+          status: SubmitRequirementStatus.OVERRIDDEN,
+          override_expression_result: createSubmitRequirementExpressionInfo(
+            'label:Override=MAX -label:Override=MIN'
+          ),
+        },
+      ];
+      element.change = modifiedChange;
+      await element.updateComplete;
+      const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
+      expect(votesCell?.[0]).dom.equal(/* HTML */ `<div class="votes-cell">
+        <gr-vote-chip> </gr-vote-chip>
+        <span class="overrideLabel"> Override </span>
+      </div>`);
+    });
+
+    test('with override with 2 labels', async () => {
+      const modifiedChange = {...change};
+      modifiedChange.labels = {
+        Override: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createApproval(),
+              value: 2,
+            },
+          ],
+        },
+        Override2: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createApproval(),
+              value: 2,
+            },
+          ],
+        },
+      };
+      modifiedChange.submit_requirements = [
+        {
+          ...createSubmitRequirementResultInfo(),
+          status: SubmitRequirementStatus.OVERRIDDEN,
+          override_expression_result: createSubmitRequirementExpressionInfo(
+            'label:Override=MAX label:Override2=MAX'
+          ),
+        },
+      ];
+      element.change = modifiedChange;
+      await element.updateComplete;
+      const votesCell = element.shadowRoot?.querySelectorAll('.votes-cell');
+      expect(votesCell?.[0]).dom.equal(/* HTML */ `<div class="votes-cell">
+        <gr-vote-chip> </gr-vote-chip>
+        <span class="overrideLabel"> Override </span>
+        <span class="separator"></span>
+        <gr-vote-chip> </gr-vote-chip>
+        <span class="overrideLabel"> Override2 </span>
+      </div>`);
     });
   });
 

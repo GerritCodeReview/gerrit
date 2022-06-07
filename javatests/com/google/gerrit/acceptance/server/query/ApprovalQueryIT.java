@@ -25,9 +25,7 @@ import com.google.gerrit.acceptance.testsuite.change.ChangeKindCreator;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.change.ChangeKindCache;
@@ -35,7 +33,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.approval.ApprovalContext;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.inject.Inject;
-import java.time.Instant;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
@@ -300,18 +297,14 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
     ChangeKind changeKind =
         changeKindCache.getChangeKind(
             changeNotes.getChange(), changeNotes.getPatchSets().get(newPsId));
-    PatchSetApproval approval =
-        PatchSetApproval.builder()
-            .postSubmit(false)
-            .granted(Instant.now())
-            .key(PatchSetApproval.key(psId, approver, LabelId.create("Code-Review")))
-            .value(value)
-            .build();
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo.newObjectReader())) {
       return ApprovalContext.create(
           changeNotes,
-          approval,
+          psId,
+          approver,
+          projectCache.get(project).get().getLabelTypes().byLabel("Code-Review").get(),
+          (short) value,
           changeNotes.getPatchSets().get(newPsId),
           changeKind,
           /* isMerge= */ false,

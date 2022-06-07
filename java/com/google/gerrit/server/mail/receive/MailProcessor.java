@@ -366,16 +366,13 @@ public class MailProcessor {
       // Send email notifications
       outgoingMailFactory
           .create(
-              ctx.getNotify(notes.getChangeId()),
-              notes,
+              ctx,
               patchSet,
-              ctx.getUser().asIdentifiedUser(),
+              notes.getMetaId(),
               mailMessage,
-              ctx.getWhen(),
               comments,
               patchSetComment,
-              ImmutableList.of(),
-              ctx.getRepoView())
+              ImmutableList.of())
           .sendAsync();
       // Get previous approvals from this user
       Map<String, Short> approvals = new HashMap<>();

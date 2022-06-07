@@ -35,12 +35,16 @@ export class GrMenuEditor extends LitElement {
 
   private readonly userModel = getAppContext().userModel;
 
-  override connectedCallback() {
-    super.connectedCallback();
-    subscribe(this, this.userModel.preferences$, prefs => {
-      this.originalPrefs = prefs;
-      this.menuItems = [...prefs.my];
-    });
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.userModel.preferences$,
+      prefs => {
+        this.originalPrefs = prefs;
+        this.menuItems = [...prefs.my];
+      }
+    );
   }
 
   static override styles = [

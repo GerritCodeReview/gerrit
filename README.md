@@ -60,7 +60,7 @@ The instruction how to configure GerritForge/BinTray repositories is
 
 On Debian/Ubuntu run:
 
-        apt-get update & apt-get install gerrit=<version>-<release>
+        apt-get update && apt-get install gerrit=<version>-<release>
 
 _NOTE: release is a counter that starts with 1 and indicates the number of packages that have
 been released with the same version of the software._

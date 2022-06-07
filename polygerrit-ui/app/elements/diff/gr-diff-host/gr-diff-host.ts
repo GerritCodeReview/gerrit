@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2018 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
@@ -52,12 +41,13 @@ import {
   Base64ImageFile,
   BlameInfo,
   ChangeInfo,
-  EditPatchSetNum,
+  EDIT,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   PatchRange,
   PatchSetNum,
   RepoName,
+  RevisionPatchSetNum,
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {
@@ -86,7 +76,7 @@ import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader
 import {assertIsDefined} from '../../../utils/common-util';
 import {DiffContextExpandedEventDetail} from '../../../embed/diff/gr-diff-builder/gr-diff-builder';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
-import {Timing} from '../../../constants/reporting';
+import {Timing, Interaction} from '../../../constants/reporting';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
 import {DisplayLine, RenderPreferences} from '../../../api/diff';
@@ -116,7 +106,8 @@ function isImageDiff(diff?: DiffInfo) {
   return !!(diff.binary && (isA || isB));
 }
 
-interface LineInfo {
+// visible for testing
+export interface LineInfo {
   beforeNumber?: LineNumber;
   afterNumber?: LineNumber;
 }
@@ -277,17 +268,18 @@ export class GrDiffHost extends DIPolymerElement {
 
   private readonly getChecksModel = resolve(this, checksModelToken);
 
-  private readonly flagService = getAppContext().flagsService;
-
-  private readonly reporting = getAppContext().reportingService;
+  // visible for testing
+  readonly reporting = getAppContext().reportingService;
 
   private readonly flags = getAppContext().flagsService;
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private readonly jsAPI = getAppContext().jsApiService;
+  // visible for testing
+  readonly jsAPI = getAppContext().jsApiService;
 
-  private readonly syntaxLayer: GrSyntaxLayerWorker;
+  // visible for testing
+  readonly syntaxLayer: GrSyntaxLayerWorker;
 
   private checksSubscription?: Subscription;
 
@@ -315,13 +307,6 @@ export class GrDiffHost extends DIPolymerElement {
     this.addEventListener('diff-context-expanded', event =>
       this._handleDiffContextExpanded(event)
     );
-  }
-
-  override ready() {
-    super.ready();
-    if (this._canReload()) {
-      this.reload();
-    }
   }
 
   override connectedCallback() {
@@ -392,7 +377,6 @@ export class GrDiffHost extends DIPolymerElement {
       // assets in parallel.
       const layerPromise = this.initLayers();
       const diff = await this._getDiff();
-      this.subscribeToChecks();
       this._loadedWhitespaceLevel = whitespaceLevel;
       this._reportDiff(diff);
 
@@ -410,8 +394,10 @@ export class GrDiffHost extends DIPolymerElement {
       this.reporting.timeEnd(Timing.DIFF_LOAD, this.timingDetails());
 
       this.reporting.time(Timing.DIFF_CONTENT);
+
       const syntaxLayerPromise = this.syntaxLayer.process(diff);
       await waitForEventOnce(this, 'render');
+      this.subscribeToChecks();
       this.reporting.timeEnd(Timing.DIFF_CONTENT, this.timingDetails());
 
       if (shouldReportMetric) {
@@ -494,12 +480,9 @@ export class GrDiffHost extends DIPolymerElement {
       this.checksChanged([]);
     }
 
-    const experiment = KnownExperimentId.CHECK_RESULTS_IN_DIFFS;
-    if (!this.flagService.isEnabled(experiment)) return;
-
     const path = this.path;
     const patchNum = this.patchRange?.patchNum;
-    if (!path || !patchNum || patchNum === EditPatchSetNum) return;
+    if (!path || !patchNum || patchNum === EDIT) return;
     this.checksSubscription = this.getChecksModel()
       .allResults$.pipe(
         map(results =>
@@ -525,6 +508,12 @@ export class GrDiffHost extends DIPolymerElement {
     const idToEl = new Map<string, GrDiffCheckResult>();
     const checkEls = this.getCheckEls();
     const dontRemove = new Set<GrDiffCheckResult>();
+    let createdCount = 0;
+    let updatedCount = 0;
+    let removedCount = 0;
+    const checksCount = checks.length;
+    const checkElsCount = checks.length;
+    if (checksCount === 0 && checkElsCount === 0) return;
     for (const el of checkEls) {
       const id = el.result?.internalResultId;
       assertIsDefined(id, 'result.internalResultId of gr-diff-check-result');
@@ -536,16 +525,23 @@ export class GrDiffHost extends DIPolymerElement {
       if (existingEl) {
         existingEl.result = check;
         dontRemove.add(existingEl);
+        updatedCount++;
       } else {
         const newEl = this.createCheckEl(check);
         dontRemove.add(newEl);
+        createdCount++;
       }
     }
     // Remove all check els that don't have a matching check anymore.
     for (const el of checkEls) {
       if (dontRemove.has(el)) continue;
       el.remove();
+      removedCount++;
     }
+    this.reporting.reportInteraction(
+      Interaction.COMMENTS_AUTOCLOSE_CHECKS_UPDATED,
+      {createdCount, updatedCount, removedCount, checksCount, checkElsCount}
+    );
   }
 
   /**
@@ -757,12 +753,6 @@ export class GrDiffHost extends DIPolymerElement {
     return this.restApiService.getLoggedIn();
   }
 
-  _canReload() {
-    return (
-      !!this.changeNum && !!this.patchRange && !!this.path && !this.noAutoRender
-    );
-  }
-
   // TODO(milutin): Use rest-api with fetchCacheURL instead of this.
   prefetchDiff() {
     if (
@@ -855,7 +845,7 @@ export class GrDiffHost extends DIPolymerElement {
     // Report the due_to_rebase percentage in the "diff" category when
     // applicable.
     assertIsDefined(this.patchRange, 'patchRange');
-    if (this.patchRange.basePatchNum === 'PARENT') {
+    if (this.patchRange.basePatchNum === PARENT) {
       this.reporting.reportInteraction(EVENT_AGAINST_PARENT);
     } else if (percentRebaseDelta === 0) {
       this.reporting.reportInteraction(EVENT_ZERO_REBASE);
@@ -887,7 +877,8 @@ export class GrDiffHost extends DIPolymerElement {
   _threadsChanged(threads: CommentThread[]) {
     const rootIdToThreadEl = new Map<UrlEncodedCommentId, GrCommentThread>();
     const unsavedThreadEls: GrCommentThread[] = [];
-    for (const threadEl of this.getThreadEls()) {
+    const threadEls = this.getThreadEls();
+    for (const threadEl of threadEls) {
       if (threadEl.rootId) {
         rootIdToThreadEl.set(threadEl.rootId, threadEl);
       } else {
@@ -896,6 +887,13 @@ export class GrDiffHost extends DIPolymerElement {
       }
     }
     const dontRemove = new Set<GrCommentThread>();
+    let createdCount = 0;
+    let updatedCount = 0;
+    let removedCount = 0;
+    const threadCount = threads.length;
+    const threadElCount = threadEls.length;
+    if (threadCount === 0 && threadElCount === 0) return;
+
     for (const thread of threads) {
       // Let's find an existing DOM element matching the thread. Normally this
       // is as simple as matching the rootIds.
@@ -933,10 +931,12 @@ export class GrDiffHost extends DIPolymerElement {
       ) {
         existingThreadEl.thread = thread;
         dontRemove.add(existingThreadEl);
+        updatedCount++;
       } else {
         const threadEl = this._createThreadElement(thread);
         this._attachThreadElement(threadEl);
         dontRemove.add(threadEl);
+        createdCount++;
       }
     }
     // Remove all threads that are no longer existing.
@@ -946,8 +946,13 @@ export class GrDiffHost extends DIPolymerElement {
       // might be unsaved and thus not be reflected in `threads` yet, so let's
       // keep them open.
       if (threadEl.editing && threadEl.thread?.comments.length === 0) continue;
+      removedCount++;
       threadEl.remove();
     }
+    this.reporting.reportInteraction(
+      Interaction.COMMENTS_AUTOCLOSE_THREADS_UPDATED,
+      {createdCount, updatedCount, removedCount, threadCount, threadElCount}
+    );
     const portedThreadsCount = threads.filter(thread => thread.ported).length;
     const portedThreadsWithoutRange = threads.filter(
       thread => thread.ported && thread.rangeInfoLost
@@ -1006,7 +1011,7 @@ export class GrDiffHost extends DIPolymerElement {
     const newThread: CommentThread = {
       rootId: undefined,
       comments: [],
-      patchNum,
+      patchNum: patchNum as RevisionPatchSetNum,
       commentSide,
       // TODO: Maybe just compute from patchRange.base on the fly?
       mergeParentNum: this._parentIndex ?? undefined,
@@ -1028,10 +1033,8 @@ export class GrDiffHost extends DIPolymerElement {
       return false;
     }
 
-    const isEdit = patchNum === EditPatchSetNum;
-    const isEditBase =
-      patchNum === ParentPatchSetNum &&
-      this.patchRange.patchNum === EditPatchSetNum;
+    const isEdit = patchNum === EDIT;
+    const isEditBase = patchNum === PARENT && this.patchRange.patchNum === EDIT;
 
     if (isEdit) {
       fireAlert(this, 'You cannot comment on an edit.');
@@ -1167,7 +1170,9 @@ export class GrDiffHost extends DIPolymerElement {
     if (prefsChangeRecord === undefined) return;
     if (prefsChangeRecord.path !== 'prefs.syntax_highlighting') return;
 
-    if (!noRenderOnPrefsChange) this.reload();
+    if (!noRenderOnPrefsChange) {
+      this.reload();
+    }
   }
 
   _computeParentIndex(

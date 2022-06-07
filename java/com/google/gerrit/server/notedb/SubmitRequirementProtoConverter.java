@@ -40,6 +40,8 @@ public enum SubmitRequirementProtoConverter
       SubmitRequirementResultProto.getDescriptor().findFieldByNumber(6);
   private static final FieldDescriptor SR_FORCED_FIELD =
       SubmitRequirementResultProto.getDescriptor().findFieldByNumber(7);
+  private static final FieldDescriptor SR_HIDDEN_FIELD =
+      SubmitRequirementResultProto.getDescriptor().findFieldByNumber(8);
 
   @Override
   public SubmitRequirementResultProto toProto(SubmitRequirementResult r) {
@@ -52,6 +54,9 @@ public enum SubmitRequirementProtoConverter
     }
     if (r.forced().isPresent()) {
       builder.setForced(r.forced().get());
+    }
+    if (r.hidden().isPresent()) {
+      builder.setHidden(r.hidden().get());
     }
     if (r.applicabilityExpressionResult().isPresent()) {
       builder.setApplicabilityExpressionResult(
@@ -83,6 +88,9 @@ public enum SubmitRequirementProtoConverter
     }
     if (proto.hasField(SR_FORCED_FIELD)) {
       builder.forced(Optional.of(proto.getForced()));
+    }
+    if (proto.hasField(SR_HIDDEN_FIELD)) {
+      builder.hidden(Optional.of(proto.getHidden()));
     }
     if (proto.hasField(SR_APPLICABILITY_EXPR_RESULT_FIELD)) {
       builder.applicabilityExpressionResult(

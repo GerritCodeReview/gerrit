@@ -1,36 +1,32 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-file-list-header';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {createChange, createRevision} from '../../../test/test-data-generators';
-import {query, queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {
+  isVisible,
+  query,
+  queryAndAssert,
+  stubRestApi,
+} from '../../../test/test-utils';
 import {GrFileListHeader} from './gr-file-list-header';
 import {
   BasePatchSetNum,
   ChangeId,
   NumericChangeId,
+  PARENT,
   PatchSetNum,
-} from '../../../types/common.js';
-import {ChangeInfo, ChangeStatus} from '../../../api/rest-api.js';
+  PatchSetNumber,
+  RevisionPatchSetNum,
+} from '../../../types/common';
+import {ChangeInfo, ChangeStatus} from '../../../api/rest-api';
 import {PatchSet} from '../../../utils/patch-set-util';
-import {createDefaultDiffPrefs} from '../../../constants/constants.js';
+import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {fixture, html} from '@open-wc/testing-helpers';
 import {GrButton} from '../../shared/gr-button/gr-button';
 
@@ -96,7 +92,7 @@ suite('gr-file-list-header tests', () => {
 
   test('show/hide diffs disabled for large amounts of files', async () => {
     element.changeNum = 42 as NumericChangeId;
-    element.basePatchNum = 'PARENT' as BasePatchSetNum;
+    element.basePatchNum = PARENT;
     element.patchNum = '2' as PatchSetNum;
     element.shownFileCount = 1;
     await element.updateComplete;
@@ -171,7 +167,7 @@ suite('gr-file-list-header tests', () => {
     assert.equal(navigateToChangeStub.callCount, 1);
     assert.isTrue(
       navigateToChangeStub.lastCall.calledWithExactly(change, {
-        patchNum: 3 as PatchSetNum,
+        patchNum: 3 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
       })
     );
@@ -179,9 +175,9 @@ suite('gr-file-list-header tests', () => {
 
   test('class is applied to file list on old patch set', () => {
     const allPatchSets: PatchSet[] = [
-      {num: 4 as PatchSetNum, desc: undefined, sha: ''},
-      {num: 2 as PatchSetNum, desc: undefined, sha: ''},
-      {num: 1 as PatchSetNum, desc: undefined, sha: ''},
+      {num: 4 as PatchSetNumber, desc: undefined, sha: ''},
+      {num: 2 as PatchSetNumber, desc: undefined, sha: ''},
+      {num: 1 as PatchSetNumber, desc: undefined, sha: ''},
     ];
     assert.equal(
       element.computePatchInfoClass(1 as PatchSetNum, allPatchSets),
@@ -203,17 +199,12 @@ suite('gr-file-list-header tests', () => {
       await element.updateComplete;
     });
 
-    function isVisible(el: HTMLElement) {
-      assert.ok(el);
-      return getComputedStyle(el).getPropertyValue('display') !== 'none';
-    }
-
     test('patch specific elements', async () => {
       element.editMode = true;
       element.allPatchSets = [
-        {num: 1 as PatchSetNum, desc: undefined, sha: ''},
-        {num: 2 as PatchSetNum, desc: undefined, sha: ''},
-        {num: 3 as PatchSetNum, desc: undefined, sha: ''},
+        {num: 1 as PatchSetNumber, desc: undefined, sha: ''},
+        {num: 2 as PatchSetNumber, desc: undefined, sha: ''},
+        {num: 3 as PatchSetNumber, desc: undefined, sha: ''},
       ];
       await element.updateComplete;
 

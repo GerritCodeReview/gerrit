@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup-karma';
 import './gr-account-list';
@@ -28,12 +17,16 @@ import {
   GroupBaseInfo,
   GroupId,
   GroupName,
+  SuggestedReviewerInfo,
   Suggestion,
 } from '../../../types/common';
-import {queryAll, queryAndAssert} from '../../../test/test-utils';
+import {queryAll, queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {GrAutocomplete} from '../gr-autocomplete/gr-autocomplete';
+import {
+  AutocompleteSuggestion,
+  GrAutocomplete,
+} from '../gr-autocomplete/gr-autocomplete';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 
 const basicFixture = fixtureFromElement('gr-account-list');
@@ -45,7 +38,9 @@ class MockSuggestionsProvider implements ReviewerSuggestionsProvider {
     return Promise.resolve([]);
   }
 
-  makeSuggestionItem(_: Suggestion) {
+  makeSuggestionItem(
+    _: Suggestion
+  ): AutocompleteSuggestion<SuggestedReviewerInfo> {
     return {
       name: 'test',
       value: {
@@ -53,7 +48,7 @@ class MockSuggestionsProvider implements ReviewerSuggestionsProvider {
           _account_id: 1 as AccountId,
         } as AccountInfo,
         count: 1,
-      } as unknown as string,
+      },
     };
   }
 }
@@ -234,7 +229,7 @@ suite('gr-account-list tests', () => {
           value: {
             account: suggestion as AccountInfo,
             count: 1,
-          } as unknown as string,
+          },
         };
       });
 
@@ -259,7 +254,7 @@ suite('gr-account-list tests', () => {
             value: {
               account: originalSuggestions[0] as AccountInfo,
               count: 1,
-            } as unknown as string,
+            },
           },
         ]);
       });
@@ -394,16 +389,6 @@ suite('gr-account-list tests', () => {
     assert.equal(element.accounts.length, 1);
   });
 
-  test('max-count', async () => {
-    element.maxCount = 1;
-    const acct = makeAccount();
-    handleAdd({account: acct, count: 1});
-    await element.updateComplete;
-    assert.isTrue(
-      queryAndAssert<GrAccountEntry>(element, '#entry').hasAttribute('hidden')
-    );
-  });
-
   test('enter text calls suggestions provider', async () => {
     const suggestions: Suggestion[] = [
       {
@@ -429,12 +414,12 @@ suite('gr-account-list tests', () => {
       '#input'
     );
     input.text = 'newTest';
-    MockInteractions.focus(input.$.input);
+    MockInteractions.focus(input.input!);
     input.noDebounce = true;
     await element.updateComplete;
     assert.isTrue(getSuggestionsStub.calledOnce);
     assert.equal(getSuggestionsStub.lastCall.args[0], 'newTest');
-    assert.equal(makeSuggestionItemSpy.getCalls().length, 2);
+    await waitUntil(() => makeSuggestionItemSpy.getCalls().length === 2);
   });
 
   suite('allowAnyInput', () => {
@@ -466,28 +451,28 @@ suite('gr-account-list tests', () => {
         queryAndAssert<GrAccountEntry>(element, '#entry'),
         '#input'
       );
-      sinon.stub(input, '_updateSuggestions');
+      sinon.stub(input, 'updateSuggestions');
       sinon.stub(element, 'computeRemovable').returns(true);
-      await await element.updateComplete;
+      await element.updateComplete;
       // Next line is a workaround for Firefox not moving cursor
       // on input field update
-      assert.equal(element.getOwnNativeInput(input.$.input).selectionStart, 0);
+      assert.equal(element.getOwnNativeInput(input.input!).selectionStart, 0);
       input.text = 'test';
-      MockInteractions.focus(input.$.input);
+      MockInteractions.focus(input.input!);
       await element.updateComplete;
       assert.equal(element.accounts.length, 2);
       MockInteractions.pressAndReleaseKeyOn(
-        element.getOwnNativeInput(input.$.input),
+        element.getOwnNativeInput(input.input!),
         8
       ); // Backspace
-      assert.equal(element.accounts.length, 2);
+      await waitUntil(() => element.accounts.length === 2);
       input.text = '';
+      await input.updateComplete;
       MockInteractions.pressAndReleaseKeyOn(
-        element.getOwnNativeInput(input.$.input),
+        element.getOwnNativeInput(input.input!),
         8
       ); // Backspace
-      await element.updateComplete;
-      assert.equal(element.accounts.length, 1);
+      await waitUntil(() => element.accounts.length === 1);
     });
 
     test('arrow key navigation', async () => {
@@ -498,11 +483,11 @@ suite('gr-account-list tests', () => {
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];
       await element.updateComplete;
-      MockInteractions.focus(input.$.input);
-      await await element.updateComplete;
+      MockInteractions.focus(input.input!);
+      await element.updateComplete;
       const chips = element.accountChips;
       const chipsOneSpy = sinon.spy(chips[1], 'focus');
-      MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
+      MockInteractions.pressAndReleaseKeyOn(input.input!, 37); // Left
       assert.isTrue(chipsOneSpy.called);
       const chipsZeroSpy = sinon.spy(chips[0], 'focus');
       MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left

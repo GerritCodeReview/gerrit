@@ -11,7 +11,7 @@ import '../../../embed/diff/gr-diff/gr-diff';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   NumericChangeId,
-  EditPatchSetNum,
+  EDIT,
   FixId,
   FixSuggestionInfo,
   PatchSetNum,
@@ -289,18 +289,18 @@ export class GrApplyFixDialog extends LitElement {
 
   private computeTooltip() {
     if (!this.change || !this.patchNum) return '';
-    const currentPatchNum =
+    const latestPatchNum =
       this.change.revisions[this.change.current_revision]._number;
-    return currentPatchNum !== this.patchNum
+    return latestPatchNum !== this.patchNum
       ? 'Fix can only be applied to the latest patchset'
       : '';
   }
 
   private computeDisableApplyFixButton() {
     if (!this.change || !this.patchNum) return true;
-    const currentPatchNum =
+    const latestPatchNum =
       this.change.revisions[this.change.current_revision]._number;
-    return this.patchNum !== currentPatchNum || this.isApplyFixLoading;
+    return this.patchNum !== latestPatchNum || this.isApplyFixLoading;
   }
 
   // visible for testing
@@ -321,7 +321,7 @@ export class GrApplyFixDialog extends LitElement {
     );
     if (res && res.ok) {
       GerritNav.navigateToChange(change, {
-        patchNum: EditPatchSetNum,
+        patchNum: EDIT,
         basePatchNum: patchNum as BasePatchSetNum,
       });
       this.close(true);

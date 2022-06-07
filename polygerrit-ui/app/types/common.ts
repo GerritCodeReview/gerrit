@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {CommentRange} from '../api/core';
 import {
@@ -68,6 +57,8 @@ import {
   DetailedLabelInfo,
   DownloadInfo,
   DownloadSchemeInfo,
+  EDIT,
+  EditPatchSet,
   EmailAddress,
   FetchInfo,
   FileInfo,
@@ -92,7 +83,9 @@ import {
   MaxObjectSizeLimitInfo,
   NumericChangeId,
   ParentCommitInfo,
+  PARENT,
   PatchSetNum,
+  PatchSetNumber,
   PluginConfigInfo,
   PluginNameToPluginParametersMap,
   PluginParameterToConfigParameterInfoMap,
@@ -108,6 +101,7 @@ import {
   ReviewerUpdateInfo,
   Reviewers,
   RevisionInfo,
+  RevisionPatchSetNum,
   SchemesInfoMap,
   ServerInfo,
   SubmitTypeInfo,
@@ -158,6 +152,8 @@ export {
   DetailedLabelInfo,
   DownloadInfo,
   DownloadSchemeInfo,
+  EDIT,
+  EditPatchSet,
   EmailAddress,
   FileInfo,
   GerritInfo,
@@ -181,7 +177,9 @@ export {
   MaxObjectSizeLimitInfo,
   NumericChangeId,
   ParentCommitInfo,
+  PARENT,
   PatchSetNum,
+  PatchSetNumber,
   PluginConfigInfo,
   PluginNameToPluginParametersMap,
   PluginParameterToConfigParameterInfoMap,
@@ -196,6 +194,7 @@ export {
   ReviewerUpdateInfo,
   Reviewers,
   RevisionInfo,
+  RevisionPatchSetNum,
   SchemesInfoMap,
   ServerInfo,
   SubmitTypeInfo,
@@ -228,16 +227,6 @@ export type ElementPropertyDeepChange<
  * Type alias for parsed json object to make code cleaner
  */
 export type ParsedJSON = BrandType<unknown, '_parsedJSON'>;
-
-export type RevisionPatchSetNum = BrandType<'edit' | number, '_patchSet'>;
-
-export type PatchSetNumber = BrandType<number, '_patchSet'>;
-
-export const EditPatchSetNum = 'edit' as RevisionPatchSetNum;
-
-// TODO(TS): This is not correct, it is better to have a separate ApiPatchSetNum
-// without 'parent'.
-export const ParentPatchSetNum = 'PARENT' as BasePatchSetNum;
 
 export type RobotId = BrandType<string, '_robotId'>;
 
@@ -697,7 +686,7 @@ export interface CommentInfo {
   id: UrlEncodedCommentId;
   updated: Timestamp;
   // TODO(TS): Make this required. Every comment must have patch_set set.
-  patch_set?: PatchSetNum;
+  patch_set?: RevisionPatchSetNum;
   path?: string;
   side?: CommentSide;
   parent?: number;

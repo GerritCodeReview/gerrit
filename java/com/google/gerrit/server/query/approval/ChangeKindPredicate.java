@@ -32,39 +32,7 @@ public class ChangeKindPredicate extends ApprovalPredicate {
 
   @Override
   public boolean match(ApprovalContext ctx) {
-    if (ctx.changeKind().equals(changeKind)) {
-      // The configured change kind (changeKind) on which approvals should be copied matches the
-      // actual change kind (ctx.changeKind()).
-      return true;
-    }
-
-    // If the configured change kind (changeKind) is REWORK it means that all kind of change kinds
-    // should be matched, since any other change kind is just a more trivial version of a rework.
-    if (changeKind == ChangeKind.REWORK) {
-      return true;
-    }
-
-    // If the actual change kind (ctx.changeKind()) is NO_CHANGE it is also matched if the
-    // configured change kind (changeKind) is:
-    // * TRIVIAL_REBASE: since NO_CHANGE is a special kind of a trivial rebase
-    // * NO_CODE_CHANGE: if there is no change, there is also no code change
-    // * MERGE_FIRST_PARENT_UPDATE (only if the new patch set is a merge commit): if votes should be
-    //   copied on first parent update, they should also be copied if there was no change
-    //
-    // Motivation:
-    // * https://gerrit-review.googlesource.com/c/gerrit/+/74690
-    // * There is no practical use case where you would want votes to be copied on
-    //   TRIVIAL_REBASE|NO_CODE_CHANGE|MERGE_FIRST_PARENT_UPDATE but not on NO_CHANGE. Matching
-    //   NO_CHANGE implicitly for these change kinds makes configuring copy conditions easier (as
-    //   users can simply configure "changekind:<CHANGE-KIND>", rather than
-    //   "changekind:<CHANGE-KIND> OR changekind:NO_CHANGE").
-    // * This preserves backwards compatibility with the deprecated boolean flags for copying
-    //   approvals based on the change kind ('copyAllScoresOnTrivialRebase',
-    //   'copyAllScoresIfNoCodeChange' and 'copyAllScoresOnMergeFirstParentUpdate').
-    return ctx.changeKind() == ChangeKind.NO_CHANGE
-        && (changeKind == ChangeKind.TRIVIAL_REBASE
-            || changeKind == ChangeKind.NO_CODE_CHANGE
-            || (ctx.isMerge() && changeKind == ChangeKind.MERGE_FIRST_PARENT_UPDATE));
+    return ctx.changeKind().matches(changeKind, ctx.isMerge());
   }
 
   @Override

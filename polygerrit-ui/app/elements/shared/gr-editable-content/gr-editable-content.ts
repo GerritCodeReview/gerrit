@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../../styles/shared-styles';
@@ -147,15 +136,7 @@ export class GrEditableContent extends LitElement {
           background-color: var(--view-background-color);
           width: 100%;
           display: block;
-
-          /* You have to also repeat everything from shared-styles here, because
-              you can only *replace* --iron-autogrow-textarea vars as a whole. */
-          --iron-autogrow-textarea: {
-            box-sizing: border-box;
-            padding: var(--spacing-m);
-            overflow-y: hidden;
-            white-space: pre;
-          }
+          --iron-autogrow-textarea_-_padding: var(--spacing-m);
         }
         .editButtons {
           display: flex;
@@ -432,8 +413,9 @@ export class GrEditableContent extends LitElement {
     }
   }
 
-  handleEditCommitMessage() {
+  async handleEditCommitMessage() {
     this.editing = true;
+    await this.updateComplete;
     this.focusTextarea();
   }
 }

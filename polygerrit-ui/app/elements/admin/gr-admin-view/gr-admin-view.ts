@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import '../../shared/gr-icons/gr-icons';
 import '../../shared/gr-page-nav/gr-page-nav';
@@ -122,6 +110,8 @@ export class GrAdminView extends LitElement {
 
   // private but used in test
   @state() filteredLinks?: NavLink[];
+
+  private reloading = false;
 
   // private but used in the tests
   readonly jsAPI = getAppContext().jsApiService;
@@ -470,60 +460,68 @@ export class GrAdminView extends LitElement {
   }
 
   async reload() {
-    const promises: [Promise<AccountDetailInfo | undefined>, Promise<void>] = [
-      this.restApiService.getAccount(),
-      getPluginLoader().awaitPluginsLoaded(),
-    ];
-    const result = await Promise.all(promises);
-    this.account = result[0];
-    let options: AdminNavLinksOption | undefined = undefined;
-    if (this.repoName) {
-      options = {repoName: this.repoName};
-    } else if (this.groupId) {
-      const isAdmin = await this.restApiService.getIsAdmin();
-      const isOwner = await this.restApiService.getIsGroupOwner(this.groupName);
-      options = {
-        groupId: this.groupId,
-        groupName: this.groupName,
-        groupIsInternal: this.groupIsInternal,
-        isAdmin,
-        groupOwner: isOwner,
-      };
-    }
-
-    const res = await getAdminLinks(
-      this.account,
-      () =>
-        this.restApiService.getAccountCapabilities().then(capabilities => {
-          if (!capabilities) {
-            throw new Error('getAccountCapabilities returns undefined');
-          }
-          return capabilities;
-        }),
-      () => this.jsAPI.getAdminMenuLinks(),
-      options
-    );
-    this.filteredLinks = res.links;
-    this.breadcrumbParentName = res.expandedSection
-      ? res.expandedSection.name
-      : '';
-
-    if (!res.expandedSection) {
-      this.subsectionLinks = [];
-      return;
-    }
-    this.subsectionLinks = [res.expandedSection]
-      .concat(res.expandedSection.children ?? [])
-      .map(section => {
-        return {
-          text: !section.detailType ? 'Home' : section.name,
-          value: section.view + (section.detailType ?? ''),
-          view: section.view,
-          url: section.url,
-          detailType: section.detailType,
-          parent: this.groupId ?? this.repoName,
+    try {
+      this.reloading = true;
+      const promises: [Promise<AccountDetailInfo | undefined>, Promise<void>] =
+        [
+          this.restApiService.getAccount(),
+          getPluginLoader().awaitPluginsLoaded(),
+        ];
+      const result = await Promise.all(promises);
+      this.account = result[0];
+      let options: AdminNavLinksOption | undefined = undefined;
+      if (this.repoName) {
+        options = {repoName: this.repoName};
+      } else if (this.groupId) {
+        const isAdmin = await this.restApiService.getIsAdmin();
+        const isOwner = await this.restApiService.getIsGroupOwner(
+          this.groupName
+        );
+        options = {
+          groupId: this.groupId,
+          groupName: this.groupName,
+          groupIsInternal: this.groupIsInternal,
+          isAdmin,
+          groupOwner: isOwner,
         };
-      });
+      }
+
+      const res = await getAdminLinks(
+        this.account,
+        () =>
+          this.restApiService.getAccountCapabilities().then(capabilities => {
+            if (!capabilities) {
+              throw new Error('getAccountCapabilities returns undefined');
+            }
+            return capabilities;
+          }),
+        () => this.jsAPI.getAdminMenuLinks(),
+        options
+      );
+      this.filteredLinks = res.links;
+      this.breadcrumbParentName = res.expandedSection
+        ? res.expandedSection.name
+        : '';
+
+      if (!res.expandedSection) {
+        this.subsectionLinks = [];
+        return;
+      }
+      this.subsectionLinks = [res.expandedSection]
+        .concat(res.expandedSection.children ?? [])
+        .map(section => {
+          return {
+            text: !section.detailType ? 'Home' : section.name,
+            value: section.view + (section.detailType ?? ''),
+            view: section.view,
+            url: section.url,
+            detailType: section.detailType,
+            parent: this.groupId ?? this.repoName,
+          };
+        });
+    } finally {
+      this.reloading = false;
+    }
   }
 
   private computeSelectValue() {
@@ -555,6 +553,7 @@ export class GrAdminView extends LitElement {
     // This is when it gets set initially.
     if (this.selectedIsCurrentPage(selected)) return;
     if (selected.url === undefined) return;
+    if (this.reloading) return;
     GerritNav.navigateToRelativeUrl(selected.url);
   }
 

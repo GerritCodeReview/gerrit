@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {BehaviorSubject, Subscription} from 'rxjs';
 import '@polymer/paper-tabs/paper-tabs';
@@ -107,17 +96,19 @@ import {
   CommitId,
   CommitInfo,
   ConfigInfo,
-  EditPatchSetNum,
+  EDIT,
   LabelNameToInfoMap,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   PatchRange,
   PatchSetNum,
+  PatchSetNumber,
   PreferencesInfo,
   QuickLabelInfo,
   RelatedChangeAndCommitInfo,
   RelatedChangesInfo,
   RevisionInfo,
+  RevisionPatchSetNum,
   ServerInfo,
   UrlEncodedCommentId,
 } from '../../../types/common';
@@ -127,11 +118,7 @@ import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
 import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
-import {
-  assertIsDefined,
-  hasOwnProperty,
-  query,
-} from '../../../utils/common-util';
+import {assertIsDefined, query} from '../../../utils/common-util';
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {
   CommentThread,
@@ -174,6 +161,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {
+  fire,
   fireAlert,
   fireDialogChange,
   fireEvent,
@@ -187,7 +175,7 @@ import {
   throttleWrap,
   until,
 } from '../../../utils/async-util';
-import {Interaction, Timing} from '../../../constants/reporting';
+import {Interaction, Timing, Execution} from '../../../constants/reporting';
 import {ChangeStates} from '../../shared/gr-change-status/gr-change-status';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {
@@ -195,7 +183,10 @@ import {
   getRemovedByReason,
   hasAttention,
 } from '../../../utils/attention-set-util';
-import {listen} from '../../../services/shortcuts/shortcuts-service';
+import {
+  listen,
+  shortcutsServiceToken,
+} from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../models/change/change-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
@@ -283,7 +274,7 @@ export class GrChangeView extends base {
   @property({type: Object, observer: '_paramsChanged'})
   params?: AppElementChangeViewParams;
 
-  @property({type: Object, notify: true, observer: '_viewStateChanged'})
+  @property({type: Object, observer: '_viewStateChanged'})
   viewState: Partial<ChangeViewState> = {};
 
   @property({type: String})
@@ -612,7 +603,7 @@ export class GrChangeView extends base {
   // Private but used in tests.
   readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  private readonly shortcuts = getAppContext().shortcutsService;
+  private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   private subscriptions: Subscription[] = [];
 
@@ -632,6 +623,12 @@ export class GrChangeView extends base {
 
   private connected$ = new BehaviorSubject(false);
 
+  /**
+   * For `connectedCallback()` to distinguish between connecting to the DOM for
+   * the first time or if just re-connecting.
+   */
+  private isFirstConnection = true;
+
   /** Simply reflects the router-model value. */
   // visible for testing
   routerPatchNum?: PatchSetNum;
@@ -648,12 +645,29 @@ export class GrChangeView extends base {
       'fullscreen-overlay-opened',
       () => this._handleHideBackgroundContent()
     );
-
     this.addEventListener('fullscreen-overlay-closed', () =>
       this._handleShowBackgroundContent()
     );
-
     this.addEventListener('open-reply-dialog', () => this._openReplyDialog());
+    this.addEventListener('change-message-deleted', () => fireReload(this));
+    this.addEventListener('editable-content-save', e =>
+      this._handleCommitMessageSave(e)
+    );
+    this.addEventListener('editable-content-cancel', () =>
+      this._handleCommitMessageCancel()
+    );
+    this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
+    this.addEventListener('close-fix-preview', e => this._onCloseFixPreview(e));
+
+    this.addEventListener(EventType.SHOW_PRIMARY_TAB, e =>
+      this._setActivePrimaryTab(e)
+    );
+    this.addEventListener('reload', e => {
+      this.loadData(
+        /* isLocationChange= */ false,
+        /* clearPatchset= */ e.detail && e.detail.clearPatchset
+      );
+    });
   }
 
   private setupSubscriptions() {
@@ -698,24 +712,23 @@ export class GrChangeView extends base {
 
   override connectedCallback() {
     super.connectedCallback();
+    this.firstConnectedCallback();
     this.connected$.next(true);
-    this.setupSubscriptions();
-    this._throttledToggleChangeStar = throttleWrap<KeyboardEvent>(_ =>
-      this._handleToggleChangeStar()
-    );
-    this._getServerConfig().then(config => {
-      this._serverConfig = config;
-      this._replyDisabled = false;
-    });
 
-    this._getLoggedIn().then(loggedIn => {
-      this._loggedIn = loggedIn;
-      if (loggedIn) {
-        this.restApiService.getAccount().then(acct => {
-          this._account = acct;
-        });
-      }
-    });
+    // Make sure to reverse everything below this line in disconnectedCallback().
+    // Or consider using either firstConnectedCallback() or constructor().
+    this.setupSubscriptions();
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+    document.addEventListener('scroll', this.handleScroll);
+  }
+
+  /**
+   * For initialization that should only happen once, not again when
+   * re-connecting to the DOM later.
+   */
+  private firstConnectedCallback() {
+    if (!this.isFirstConnection) return;
+    this.isFirstConnection = false;
 
     getPluginLoader()
       .awaitPluginsLoaded()
@@ -733,26 +746,21 @@ export class GrChangeView extends base {
       })
       .then(() => this._initActiveTabs(this.params));
 
-    this.addEventListener('change-message-deleted', () => fireReload(this));
-    this.addEventListener('editable-content-save', e =>
-      this._handleCommitMessageSave(e)
+    this._throttledToggleChangeStar = throttleWrap<KeyboardEvent>(_ =>
+      this._handleToggleChangeStar()
     );
-    this.addEventListener('editable-content-cancel', () =>
-      this._handleCommitMessageCancel()
-    );
-    this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
-    this.addEventListener('close-fix-preview', e => this._onCloseFixPreview(e));
-    document.addEventListener('visibilitychange', this.handleVisibilityChange);
-    document.addEventListener('scroll', this.handleScroll);
+    this._getServerConfig().then(config => {
+      this._serverConfig = config;
+      this._replyDisabled = false;
+    });
 
-    this.addEventListener(EventType.SHOW_PRIMARY_TAB, e =>
-      this._setActivePrimaryTab(e)
-    );
-    this.addEventListener('reload', e => {
-      this.loadData(
-        /* isLocationChange= */ false,
-        /* clearPatchset= */ e.detail && e.detail.clearPatchset
-      );
+    this._getLoggedIn().then(loggedIn => {
+      this._loggedIn = loggedIn;
+      if (loggedIn) {
+        this.restApiService.getAccount().then(acct => {
+          this._account = acct;
+        });
+      }
     });
   }
 
@@ -943,6 +951,8 @@ export class GrChangeView extends base {
     assertIsDefined(this._change, '_change');
     if (!this._changeNum)
       throw new Error('missing required changeNum property');
+    // to prevent 2 requests at the same time
+    if (this.$.commitMessageEditor.disabled) return;
     // Trim trailing whitespace from each line.
     const message = e.detail.content.replace(TRAILING_WHITESPACE_REGEX, '');
 
@@ -1051,7 +1061,7 @@ export class GrChangeView extends base {
     if (!change || !commentThreads || !change.revisions) return [];
 
     return Object.values(change.revisions)
-      .filter(patch => patch._number !== 'edit')
+      .filter(patch => patch._number !== EDIT)
       .map(patch => {
         return {
           text: this._computeText(patch, commentThreads),
@@ -1280,8 +1290,11 @@ export class GrChangeView extends base {
       this.restApiService.setInProjectLookup(value.changeNum, value.project);
     }
 
-    if (value.basePatchNum === undefined)
-      value.basePatchNum = ParentPatchSetNum;
+    if (value.basePatchNum === undefined) value.basePatchNum = PARENT;
+
+    if (value.patchNum === undefined) {
+      value.patchNum = computeLatestPatchNum(this._allPatchSets);
+    }
 
     const patchChanged = this.hasPatchRangeChanged(value);
     let patchNumChanged = this.hasPatchNumChanged(value);
@@ -1507,12 +1520,14 @@ export class GrChangeView extends base {
       if (this.viewState.showReplyDialog) {
         this._openReplyDialog(FocusTarget.ANY);
         this.set('viewState.showReplyDialog', false);
+        fire(this, 'view-state-change-view-changed', {
+          value: this.viewState as ChangeViewState,
+        });
       }
     });
   }
 
   _resetFileListViewState() {
-    this.set('viewState.selectedFileIndex', 0);
     if (
       !!this.viewState.changeNum &&
       this.viewState.changeNum !== this._changeNum
@@ -1521,6 +1536,9 @@ export class GrChangeView extends base {
     }
     this.set('viewState.changeNum', this._changeNum);
     this.set('viewState.patchRange', this._patchRange);
+    fire(this, 'view-state-change-view-changed', {
+      value: this.viewState as ChangeViewState,
+    });
   }
 
   private updateTitle(change?: ChangeInfo | ParsedChangeInfo) {
@@ -1555,27 +1573,32 @@ export class GrChangeView extends base {
     change: ChangeInfo | ParsedChangeInfo,
     patchRange: ChangeViewPatchRange
   ) {
-    if (patchRange.basePatchNum && patchRange.basePatchNum !== 'PARENT') {
+    if (patchRange.basePatchNum && patchRange.basePatchNum !== PARENT) {
       return patchRange.basePatchNum;
     }
 
     const revisionInfo = this._getRevisionInfo(change);
-    if (!revisionInfo) return 'PARENT';
+    if (!revisionInfo) return PARENT;
 
-    const parentCounts = revisionInfo.getParentCountMap();
-    // check that there is at least 2 parents otherwise fall back to 1,
-    // which means there is only one parent.
-    const parentCount = hasOwnProperty(parentCounts, 1) ? parentCounts[1] : 1;
-
+    // TODO: It is a bit unclear why `1` is used here instead of
+    // `patchRange.patchNum`. Maybe that is a bug? Maybe if one patchset
+    // is a merge commit, then all patchsets are merge commits??
+    const isMerge = revisionInfo.isMergeCommit(1 as PatchSetNumber);
     const preferFirst =
       this._prefs &&
       this._prefs.default_base_for_merges === DefaultBase.FIRST_PARENT;
 
-    if (parentCount > 1 && preferFirst && !patchRange.patchNum) {
+    // TODO: I think checking `!patchRange.patchNum` here is a bug and means
+    // that the feature is actually broken at the moment. Looking at the
+    // `_changeChanged` method, `patchRange.patchNum` is set before
+    // `_getBasePatchNum` is called, so it is unlikely that this method will
+    // ever return -1.
+    if (isMerge && preferFirst && !patchRange.patchNum) {
+      this.reporting.reportExecution(Execution.PREFER_MERGE_FIRST_PARENT);
       return -1;
     }
 
-    return 'PARENT';
+    return PARENT;
   }
 
   // Polymer was converting true to "true"(type string) automatically hence
@@ -1664,7 +1687,7 @@ export class GrChangeView extends base {
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
-    if (this._patchRange.basePatchNum === ParentPatchSetNum) {
+    if (this._patchRange.basePatchNum === PARENT) {
       fireAlert(this, 'Base is already selected.');
       return;
     }
@@ -1677,12 +1700,12 @@ export class GrChangeView extends base {
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)
       throw new Error('missing required _patchRange property');
-    if (this._patchRange.basePatchNum === ParentPatchSetNum) {
+    if (this._patchRange.basePatchNum === PARENT) {
       fireAlert(this, 'Left is already base.');
       return;
     }
     GerritNav.navigateToChange(this._change, {
-      patchNum: this._patchRange.basePatchNum,
+      patchNum: this._patchRange.basePatchNum as RevisionPatchSetNum,
     });
   }
 
@@ -1723,7 +1746,7 @@ export class GrChangeView extends base {
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (
       this._patchRange.patchNum === latestPatchNum &&
-      this._patchRange.basePatchNum === ParentPatchSetNum
+      this._patchRange.basePatchNum === PARENT
     ) {
       fireAlert(this, 'Already diffing base against latest.');
       return;
@@ -1802,7 +1825,7 @@ export class GrChangeView extends base {
   _openReplyDialog(focusTarget?: FocusTarget, quote?: string) {
     if (!this._change) return;
     const overlay = this.$.replyOverlay;
-    overlay.open().finally(async () => {
+    overlay.open().finally(() => {
       // the following code should be executed no matter open succeed or not
       const dialog = query<GrReplyDialog>(this, '#replyDialog');
       assertIsDefined(dialog, 'reply dialog');
@@ -1853,7 +1876,7 @@ export class GrChangeView extends base {
     const editParentRev = findEditParentRevision(revisions);
     if (
       !editRev &&
-      this._patchRange?.patchNum === EditPatchSetNum &&
+      this._patchRange?.patchNum === EDIT &&
       changeIsOpen(change)
     ) {
       fireAlert(this, 'Change edit not found. Please create a change edit.');
@@ -1889,7 +1912,7 @@ export class GrChangeView extends base {
     // also be model managed, so we can reconcile these two code snippets into
     // one location.
     if (!this.routerPatchNum && latestPsNum === editParentRev._number) {
-      this.set('_patchRange.patchNum', EditPatchSetNum);
+      this.set('_patchRange.patchNum', EDIT);
       // The file list is not reactive (yet) with regards to patch range
       // changes, so we have to actively trigger it.
       this._reloadPatchNumDependentResources();
@@ -1993,7 +2016,7 @@ export class GrChangeView extends base {
         revision => {
           // edit patchset is a special one
           const thePatchNum = this._patchRange!.patchNum;
-          if (thePatchNum === 'edit') {
+          if (thePatchNum === EDIT) {
             return revision._number === thePatchNum;
           }
           return revision._number === Number(`${thePatchNum}`);
@@ -2447,7 +2470,7 @@ export class GrChangeView extends base {
     }
 
     const patchRange = patchRangeRecord.base || {};
-    return patchRange.patchNum === EditPatchSetNum;
+    return patchRange.patchNum === EDIT;
   }
 
   _handleFileActionTap(e: CustomEvent<{path: string; action: string}>) {
@@ -2495,8 +2518,8 @@ export class GrChangeView extends base {
     assertIsDefined(this._change, '_change');
 
     let patchNum: PatchSetNum;
-    if (patchNumStr === 'edit') {
-      patchNum = EditPatchSetNum;
+    if (patchNumStr === EDIT) {
+      patchNum = EDIT;
     } else {
       patchNum = Number(`${patchNumStr}`) as PatchSetNum;
     }
@@ -2518,11 +2541,11 @@ export class GrChangeView extends base {
     if (!this._change || !this._change.revisions)
       throw new Error('missing required change property');
     const editInfo = Object.values(this._change.revisions).find(
-      info => info._number === EditPatchSetNum
+      info => info._number === EDIT
     );
 
     if (editInfo) {
-      GerritNav.navigateToChange(this._change, {patchNum: EditPatchSetNum});
+      GerritNav.navigateToChange(this._change, {patchNum: EDIT});
       return;
     }
 
@@ -2633,13 +2656,20 @@ export class GrChangeView extends base {
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {
-    return this.shortcuts.createTitle(shortcutName, section);
+    return this.getShortcutsService().createTitle(shortcutName, section);
+  }
+
+  _handleRevisionActionsChanged(
+    e: CustomEvent<{value: ActionNameToActionInfoMap}>
+  ) {
+    this._currentRevisionActions = e.detail.value;
   }
 }
 
 declare global {
   interface HTMLElementEventMap {
     'toggle-star': CustomEvent<ChangeStarToggleStarDetail>;
+    'view-state-change-view-changed': ValueChangedEvent<ChangeViewState>;
   }
   interface HTMLElementTagNameMap {
     'gr-change-view': GrChangeView;

@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the 'License');
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an 'AS IS' BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-icon/iron-icon';
 import {classMap} from 'lit/directives/class-map';
@@ -317,6 +306,8 @@ export class GrChecksRun extends LitElement {
   renderETA() {
     if (this.run.status !== RunStatus.RUNNING) return;
     if (!this.run.finishedTimestamp) return;
+    const now = new Date();
+    if (this.run.finishedTimestamp.getTime() < now.getTime()) return;
     const eta = durationString(new Date(), this.run.finishedTimestamp, true);
     return html`<span class="eta">ETA: ${eta}</span>`;
   }
@@ -427,21 +418,21 @@ export class GrChecksRuns extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  override connectedCallback(): void {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getChecksModel().allRunsSelectedPatchset$,
+      () => this.getChecksModel().allRunsSelectedPatchset$,
       x => (this.runs = x)
     );
     subscribe(
       this,
-      this.getChecksModel().errorMessagesLatest$,
+      () => this.getChecksModel().errorMessagesLatest$,
       x => (this.errorMessages = x)
     );
     subscribe(
       this,
-      this.getChecksModel().loginCallbackLatest$,
+      () => this.getChecksModel().loginCallbackLatest$,
       x => (this.loginCallback = x)
     );
   }

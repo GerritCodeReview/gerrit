@@ -3,7 +3,6 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {LitElement, html, css, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
@@ -28,6 +27,8 @@ import {
   BulkActionsModel,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {subscribe} from '../../lit/subscription-controller';
+import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
+import {queryAll} from '../../../utils/common-util';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -111,6 +112,20 @@ export class GrChangeListSection extends LitElement {
           font-weight: var(--font-weight-normal);
           line-height: var(--line-height-small);
         }
+        /*
+         * checkbox styles match checkboxes in <gr-change-list-item> rows to
+         * vertically align with them.
+         */
+        input.selection-checkbox {
+          background-color: var(--background-color-primary);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          box-sizing: border-box;
+          color: var(--primary-text-color);
+          margin: 0px;
+          padding: var(--spacing-s);
+          vertical-align: middle;
+        }
       `,
     ];
   }
@@ -118,13 +133,9 @@ export class GrChangeListSection extends LitElement {
   constructor() {
     super();
     provide(this, bulkActionsModelToken, () => this.bulkActionsModel);
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
     subscribe(
       this,
-      this.bulkActionsModel.selectedChangeNums$,
+      () => this.bulkActionsModel.selectedChangeNums$,
       selectedChanges =>
         (this.showBulkActionsHeader = selectedChanges.length > 0)
     );
@@ -187,7 +198,6 @@ export class GrChangeListSection extends LitElement {
       <tbody>
         <tr class="groupHeader">
           <td aria-hidden="true" class="leftPadding"></td>
-          ${this.renderSelectionHeader()}
           <td aria-hidden="true" class="star" ?hidden=${!this.showStar}></td>
           <td class="cell" colspan=${colSpan}>
             <h2 class="heading-3">
@@ -234,7 +244,18 @@ export class GrChangeListSection extends LitElement {
 
   private renderSelectionHeader() {
     if (!this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)) return;
-    return html`<td aria-hidden="true" class="selection"></td>`;
+    // TODO: Currently the action bar replaces this checkbox and has it's own
+    // deselect checkbox. Instead, this checkbox should do both select/deselect
+    // and always be visible.
+    return html`
+      <td aria-hidden="true" class="selection">
+        <input
+          class="selection-checkbox"
+          type="checkbox"
+          @click=${() => this.bulkActionsModel.selectAll()}
+        />
+      </td>
+    `;
   }
 
   private renderHeaderCell(item: string) {
@@ -299,6 +320,12 @@ export class GrChangeListSection extends LitElement {
       cols[updatedIndex] = Metadata.SUBMITTED;
     }
     return cols;
+  }
+
+  toggleChange(index: number) {
+    const items = queryAll<GrChangeListItem>(this, 'gr-change-list-item');
+    if (index >= items.length) throw new Error('invalid item index');
+    items[index].toggleCheckbox();
   }
 
   // private but used in test

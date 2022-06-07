@@ -550,6 +550,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return submitRequirementSections;
   }
 
+  /** Adds or replaces the given {@link SubmitRequirement} in this config. */
   public void upsertSubmitRequirement(SubmitRequirement requirement) {
     submitRequirementSections.put(requirement.name(), requirement);
   }
@@ -1018,7 +1019,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         continue;
       }
 
-      // The expressions are validated in SubmitRequirementExpressionsValidator.
+      // The expressions are validated in SubmitRequirementConfigValidator.
 
       SubmitRequirement submitRequirement =
           SubmitRequirement.builder()

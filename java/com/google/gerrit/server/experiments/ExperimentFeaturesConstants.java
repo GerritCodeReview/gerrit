@@ -22,6 +22,8 @@ public class ExperimentFeaturesConstants {
   /** Features that are known experiments and can be referenced in the code. */
   public static String UI_FEATURE_PATCHSET_COMMENTS = "UiFeature__patchset_comments";
 
+  public static String UI_FEATURE_SUBMIT_REQUIREMENTS_UI = "UiFeature__submit_requirements_ui";
+
   public static String GERRIT_BACKEND_REQUEST_FEATURE_REMOVE_REVISION_ETAG =
       "GerritBackendRequestFeature__remove_revision_etag";
 
@@ -32,16 +34,7 @@ public class ExperimentFeaturesConstants {
   public static final String GERRIT_BACKEND_REQUEST_FEATURE_COMPUTE_FROM_ALL_USERS_REPOSITORY =
       "GerritBackendRequestFeature__compute_from_all_users_repository";
 
-  /**
-   * When set, the result status of submit requirement expressions might hold the value
-   * "NOT_EVALUATED". For example if the change is not applicable, the submit / override expression
-   * results will be set to this value. If not set, the submit / override expressions will be set to
-   * empty optionals.
-   */
-  public static final String GERRIT_BACKEND_REQUEST_FEATURE_SR_EXPRESSIONS_NOT_EVALUATED =
-      "GerritBackendRequestFeature__sr_expressions_not_evaluated";
-
   /** Features, enabled by default in the current release. */
   public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES =
-      ImmutableSet.of(UI_FEATURE_PATCHSET_COMMENTS);
+      ImmutableSet.of(UI_FEATURE_PATCHSET_COMMENTS, UI_FEATURE_SUBMIT_REQUIREMENTS_UI);
 }

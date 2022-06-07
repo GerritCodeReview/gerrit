@@ -46,6 +46,7 @@ const appThemeCss = safeStyleSheet`
     --blue-50: #e8f0fe;
     --blue-tonal: #314972;
     --orange-900: #b06000;
+    --orange-800: #c26401;
     --orange-700: #d56e0c;
     --orange-700-04: #d56e0c0a;
     --orange-700-10: #d56e0c1a;
@@ -119,6 +120,8 @@ const appThemeCss = safeStyleSheet`
       ),
       var(--red-50);
     --error-ripple: var(--red-700-10);
+
+    --light-error-background: var(--blue-50);
 
     --warning-foreground: var(--orange-700);
     --warning-background: var(--orange-50);
@@ -338,7 +341,8 @@ const appThemeCss = safeStyleSheet`
     --font-weight-bold: 500;
     --font-weight-h1: 400;
     --font-weight-h2: 400;
-    --font-weight-h3: var(--font-weight-bold, 500);
+    --font-weight-h3: 400;
+    --font-weight-h4: 600;
     --context-control-button-font: var(--font-weight-normal)
       var(--font-size-normal) var(--font-family);
     --code-hint-font-weight: 500;
@@ -370,9 +374,20 @@ const appThemeCss = safeStyleSheet`
 
     /* diff colors */
     --dark-add-highlight-color: #aaf2aa;
-    --dark-rebased-add-highlight-color: #d7d7f9;
-    --dark-rebased-remove-highlight-color: #f7e8b7;
+    --light-add-highlight-color: #d8fed8;
     --dark-remove-highlight-color: #ffcdd2;
+    --light-remove-highlight-color: #ffebee;
+
+    --dark-rebased-add-highlight-color: #d7d7f9;
+    --light-rebased-add-highlight-color: #eef;
+    --dark-rebased-remove-highlight-color: #f7e8b7;
+    --light-rebased-remove-highlight-color: #fff8dc;
+
+    --diff-moved-in-background: var(--cyan-50);
+    --diff-moved-in-label-color: var(--cyan-900);
+    --diff-moved-out-background: var(--purple-50);
+    --diff-moved-out-label-color: var(--purple-900);
+
     --diff-blank-background-color: var(--background-color-secondary);
     --diff-context-control-background-color: #fff7d4;
     --diff-context-control-border-color: #f6e6a5;
@@ -383,14 +398,6 @@ const appThemeCss = safeStyleSheet`
     --diff-tab-indicator-color: var(--deemphasized-text-color);
     --diff-trailing-whitespace-indicator: #ff9ad2;
     --focused-line-outline-color: var(--blue-700);
-    --light-add-highlight-color: #d8fed8;
-    --light-rebased-add-highlight-color: #eef;
-    --diff-moved-in-background: var(--cyan-50);
-    --diff-moved-out-background: var(--purple-50);
-    --diff-moved-in-label-color: var(--cyan-900);
-    --diff-moved-out-label-color: var(--purple-900);
-    --light-remove-add-highlight-color: #fff8dc;
-    --light-remove-highlight-color: #ffebee;
     --coverage-covered: #e0f2f1;
     --coverage-not-covered: #ffd1a4;
     --ranged-comment-hint-text-color: var(--orange-900);

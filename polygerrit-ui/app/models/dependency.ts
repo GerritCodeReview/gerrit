@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2021 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {ReactiveController, ReactiveControllerHost} from 'lit';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
@@ -102,7 +91,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
  * Type Safety
  * ---
  *
- * Dependency injection is guaranteed npmtype-safe by construction due to the
+ * Dependency injection is guaranteed type-safe by construction due to the
  * typing of the token used to tie together dependency providers and dependency
  * consumers.
  *
@@ -133,16 +122,38 @@ export function define<ValueType>(name: string) {
  */
 export type Provider<T> = () => T;
 
+// Symbols to cache the providers and resolvers to avoid duplicate registration.
+const PROVIDERS_SYMBOL = Symbol('providers');
+const RESOLVERS_SYMBOL = Symbol('resolvers');
+
+interface Registrations {
+  [PROVIDERS_SYMBOL]?: Map<
+    DependencyToken<unknown>,
+    DependencyProvider<unknown>
+  >;
+  [RESOLVERS_SYMBOL]?: Map<DependencyToken<unknown>, Provider<unknown>>;
+}
 /**
  * A producer of a dependency expresses this as a need that results in a promise
  * for the given dependency.
  */
 export function provide<T>(
-  host: ReactiveControllerHost & HTMLElement,
+  host: ReactiveControllerHost & HTMLElement & Registrations,
   dependency: DependencyToken<T>,
   provider: Provider<T>
 ) {
-  host.addController(new DependencyProvider<T>(host, dependency, provider));
+  const hostProviders = (host[PROVIDERS_SYMBOL] ||= new Map<
+    DependencyToken<unknown>,
+    DependencyProvider<unknown>
+  >());
+  const oldController = hostProviders.get(dependency);
+  if (oldController) {
+    host.removeController(oldController);
+    oldController.hostDisconnected();
+  }
+  const controller = new DependencyProvider<T>(host, dependency, provider);
+  hostProviders.set(dependency, controller);
+  host.addController(controller);
 }
 
 /**
@@ -151,12 +162,21 @@ export function provide<T>(
  * the injected value.
  */
 export function resolve<T>(
-  host: ReactiveControllerHost & HTMLElement,
+  host: ReactiveControllerHost & HTMLElement & Registrations,
   dependency: DependencyToken<T>
 ): Provider<T> {
-  const controller = new DependencySubscriber(host, dependency);
-  host.addController(controller);
-  return () => controller.get();
+  const hostResolvers = (host[RESOLVERS_SYMBOL] ||= new Map<
+    DependencyToken<unknown>,
+    Provider<unknown>
+  >());
+  let resolver = hostResolvers.get(dependency);
+  if (!resolver) {
+    const controller = new DependencySubscriber(host, dependency);
+    host.addController(controller);
+    resolver = () => controller.get();
+    hostResolvers.set(dependency, resolver);
+  }
+  return resolver as Provider<T>;
 }
 
 /**
@@ -249,7 +269,7 @@ export class DependencyRequestEvent<T>
 }
 
 /**
- * A resolved dependency is valid within the econnectd lifetime of a component,
+ * A resolved dependency is valid within the connected lifetime of a component,
  * namely between connectedCallback and disconnectedCallback.
  */
 interface ResolvedDependency<T> {

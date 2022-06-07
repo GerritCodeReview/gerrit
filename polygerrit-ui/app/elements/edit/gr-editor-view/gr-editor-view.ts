@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
@@ -30,7 +18,7 @@ import {
   EditPreferencesInfo,
   Base64FileContent,
   NumericChangeId,
-  EditPatchSetNum,
+  EDIT,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
@@ -122,13 +110,17 @@ export class GrEditorView extends LitElement {
     this.addEventListener('content-change', e => {
       this.handleContentChange(e as CustomEvent<{value: string}>);
     });
+    subscribe(
+      this,
+      () => this.userModel.editPreferences$,
+      editPreferences => {
+        this.editPrefs = editPreferences;
+      }
+    );
   }
 
   override connectedCallback() {
     super.connectedCallback();
-    subscribe(this, this.userModel.editPreferences$, editPreferences => {
-      this.editPrefs = editPreferences;
-    });
     this.cleanups.push(
       addShortcut(this, {key: 's', modifiers: [Modifier.CTRL_KEY]}, () =>
         this.handleSaveShortcut()
@@ -309,7 +301,7 @@ export class GrEditorView extends LitElement {
 
     this.changeNum = this.params.changeNum;
     this.path = this.params.path;
-    this.patchNum = this.params.patchNum || (EditPatchSetNum as PatchSetNum);
+    this.patchNum = this.params.patchNum || (EDIT as PatchSetNum);
     this.lineNum =
       typeof this.params.lineNum === 'string'
         ? Number(this.params.lineNum)

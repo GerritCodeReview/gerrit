@@ -27,7 +27,6 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -45,7 +44,6 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.project.SubmitRequirementEvaluationException;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -170,7 +168,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
               false);
       configSubmitRequirement(project, projectSubmitRequirement);
       Map<SubmitRequirement, SubmitRequirementResult> results =
-          evaluator.evaluateAllRequirements(changeData, /* includeLegacy= */ false);
+          evaluator.evaluateAllRequirements(changeData);
       assertThat(results).hasSize(2);
       assertThat(results.get(globalSubmitRequirement).status())
           .isEqualTo(SubmitRequirementResult.Status.SATISFIED);
@@ -201,7 +199,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
               false);
       configSubmitRequirement(project, projectSubmitRequirement);
       Map<SubmitRequirement, SubmitRequirementResult> results =
-          evaluator.evaluateAllRequirements(changeData, /* includeLegacy= */ false);
+          evaluator.evaluateAllRequirements(changeData);
       assertThat(results).hasSize(1);
       assertThat(results.get(projectSubmitRequirement).status())
           .isEqualTo(SubmitRequirementResult.Status.SATISFIED);
@@ -230,7 +228,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
               false);
       configSubmitRequirement(project, projectSubmitRequirement);
       Map<SubmitRequirement, SubmitRequirementResult> results =
-          evaluator.evaluateAllRequirements(changeData, /* includeLegacy= */ false);
+          evaluator.evaluateAllRequirements(changeData);
       assertThat(results).hasSize(1);
       assertThat(results.get(globalSubmitRequirement).status())
           .isEqualTo(SubmitRequirementResult.Status.SATISFIED);
@@ -275,10 +273,6 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value =
-          ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_SR_EXPRESSIONS_NOT_EVALUATED)
   public void submittabilityAndOverrideNotEvaluated_whenApplicabilityIsFalse() throws Exception {
     SubmitRequirement sr =
         createSubmitRequirement(
@@ -293,21 +287,6 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
         .isEqualTo(Status.NOT_EVALUATED);
     assertThat(result.submittabilityExpressionResult().get().expression().expressionString())
         .isEqualTo("message:\"Fix bug\"");
-    assertThat(result.overrideExpressionResult().isPresent()).isFalse();
-  }
-
-  @Test
-  public void submittabilityAndOverrideAreEmpty_whenApplicabilityIsFalse() throws Exception {
-    SubmitRequirement sr =
-        createSubmitRequirement(
-            /* applicabilityExpr= */ "project:non-existent-project",
-            /* submittabilityExpr= */ "message:\"Fix bug\"",
-            /* overrideExpr= */ "");
-
-    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
-    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.NOT_APPLICABLE);
-    assertThat(result.applicabilityExpressionResult().get().status()).isEqualTo(Status.FAIL);
-    assertThat(result.submittabilityExpressionResult().isPresent()).isFalse();
     assertThat(result.overrideExpressionResult().isPresent()).isFalse();
   }
 

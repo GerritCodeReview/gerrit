@@ -17,6 +17,7 @@ package com.google.gerrit.server.extensions.events;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -98,7 +99,7 @@ public class EventUtil {
     return revisionJsonFactory.create(changeOptions).getRevisionInfo(cd, ps);
   }
 
-  public AccountInfo accountInfo(AccountState accountState) {
+  public AccountInfo accountInfo(@Nullable AccountState accountState) {
     if (accountState == null || accountState.account().id() == null) {
       return null;
     }

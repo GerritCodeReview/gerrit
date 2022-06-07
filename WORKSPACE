@@ -17,13 +17,6 @@
 #    usages of code from devDependencies in polygerrit bundle.
 workspace(
     name = "gerrit",
-    managed_directories = {
-        "@npm": ["node_modules"],
-        "@ui_npm": ["polygerrit-ui/app/node_modules"],
-        "@ui_dev_npm": ["polygerrit-ui/node_modules"],
-        "@tools_npm": ["tools/node_tools/node_modules"],
-        "@plugins_npm": ["plugins/node_modules"],
-    },
 )
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
@@ -32,6 +25,15 @@ load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "maven_jar")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
 load("//tools:deps.bzl", "CAFFEINE_VERS", "java_dependencies")
+
+http_archive(
+    name = "platforms",
+    sha256 = "379113459b0feaf6bfbb584a91874c065078aa673222846ac765f86661c27407",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/0.0.5/platforms-0.0.5.tar.gz",
+        "https://github.com/bazelbuild/platforms/releases/download/0.0.5/platforms-0.0.5.tar.gz",
+    ],
+)
 
 http_archive(
     name = "rbe_jdk11",
@@ -58,8 +60,8 @@ protobuf_deps()
 
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "c077680a307eb88f3e62b0b662c2e9c6315319385bc8c637a861ffdbed8ca247",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.1.0/rules_nodejs-5.1.0.tar.gz"],
+    sha256 = "0fad45a9bda7dc1990c47b002fd64f55041ea751fafc00cd34efb96107675778",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.5.0/rules_nodejs-5.5.0.tar.gz"],
 )
 
 load("@build_bazel_rules_nodejs//:repositories.bzl", "build_bazel_rules_nodejs_dependencies")
@@ -178,8 +180,8 @@ declare_nongoogle_deps()
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
 
 node_repositories(
-    node_version = "16.13.2",
-    yarn_version = "1.22.17",
+    node_version = "16.15.0",
+    yarn_version = "1.22.18",
 )
 
 yarn_install(

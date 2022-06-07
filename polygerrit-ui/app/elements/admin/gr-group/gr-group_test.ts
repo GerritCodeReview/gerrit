@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-group';
 import {GrGroup} from './gr-group';
@@ -23,6 +11,7 @@ import {
   mockPromise,
   queryAndAssert,
   stubRestApi,
+  waitUntil,
 } from '../../../test/test-utils';
 import {createGroupInfo} from '../../../test/test-data-generators.js';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
@@ -139,9 +128,8 @@ suite('gr-group tests', () => {
     queryAndAssert<GrAutocomplete>(element, '#groupNameInput').text =
       groupName2;
 
-    await element.updateComplete;
+    await waitUntil(() => button.hasAttribute('disabled') === false);
 
-    assert.isFalse(button.hasAttribute('disabled'));
     assert.isTrue(
       queryAndAssert<HTMLHeadingElement>(
         element,
@@ -184,8 +172,7 @@ suite('gr-group tests', () => {
     queryAndAssert<GrAutocomplete>(element, '#groupOwnerInput').text =
       'testId2';
 
-    await element.updateComplete;
-    assert.isFalse(button.disabled);
+    await waitUntil(() => button.disabled === false);
     assert.isTrue(
       queryAndAssert<HTMLHeadingElement>(
         element,

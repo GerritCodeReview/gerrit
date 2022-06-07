@@ -143,7 +143,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
     // option causes the usage info to be written to stderr. Instead, we assert on the
     // content of the stderr, which will always start with "gerrit command" when the --help
     // option is used.
-    logger.atFine().log(cmd);
+    logger.atFine().log("%s", cmd);
     adminSshSession.exec(String.format("%s --help", cmd));
     String response = adminSshSession.getError();
     assertWithMessage(String.format("command %s failed: %s", cmd, response))

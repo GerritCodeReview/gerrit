@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 /**
@@ -155,4 +144,27 @@ export function toggleSetMembership<T>(set: Set<T>, value: T): void {
 
 export function unique<T>(item: T, index: number, array: T[]) {
   return array.indexOf(item) === index;
+}
+
+/**
+ * Returns the elements that are present in every sub-array. If a compareBy
+ * predicate is passed in, it will be used instead of strict equality. A new
+ * array is always returned even if there is already just a single array.
+ */
+export function intersection<T>(
+  arrays: T[][],
+  compareBy: (t: T, u: T) => boolean = (t, u) => t === u
+): T[] {
+  // Array.prototype.reduce needs either an initialValue or a non-empty array.
+  // Since there is no good initialValue for intersecting (∅ ∩ X = ∅), the
+  // empty array must be checked separately.
+  if (arrays.length === 0) {
+    return [];
+  }
+  if (arrays.length === 1) {
+    return [...arrays[0]];
+  }
+  return arrays.reduce((result, array) =>
+    result.filter(t => array.find(u => compareBy(t, u)))
+  );
 }

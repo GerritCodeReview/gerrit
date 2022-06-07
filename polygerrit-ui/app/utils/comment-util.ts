@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {
   CommentBasics,
@@ -23,7 +12,7 @@ import {
   UrlEncodedCommentId,
   CommentRange,
   PatchRange,
-  ParentPatchSetNum,
+  PARENT,
   ContextLine,
   BasePatchSetNum,
   RevisionPatchSetNum,
@@ -38,6 +27,7 @@ import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-co
 import {isMergeParent, getParentIndex} from './patch-set-util';
 import {DiffInfo} from '../types/diff';
 import {LineNumber} from '../api/diff';
+import {FormattedReviewerUpdateInfo} from '../types/types';
 
 export interface DraftCommentProps {
   // This must be true for all drafts. Drafts received from the backend will be
@@ -96,6 +86,12 @@ export interface ChangeMessage extends ChangeMessageInfo {
   type: string;
   expanded: boolean;
   commentThreads: CommentThread[];
+}
+
+export function isFormattedReviewerUpdate(
+  message: ChangeMessage
+): message is ChangeMessage & FormattedReviewerUpdateInfo {
+  return message.type === 'REVIEWER_UPDATE';
 }
 
 export type LabelExtreme = {[labelName: string]: VotingRangeInfo};
@@ -214,7 +210,7 @@ export interface CommentThread {
      Same as `parent` in CommentInfo.
   */
   mergeParentNum?: number;
-  patchNum?: PatchSetNum;
+  patchNum?: RevisionPatchSetNum;
   /* Different from CommentInfo, which just keeps the line undefined for
      FILE comments. */
   line?: LineNumber;
@@ -326,7 +322,7 @@ export function isInBaseOfPatchRange(
 
   // If the base of the range is the parent of the patch:
   if (
-    range.basePatchNum === ParentPatchSetNum &&
+    range.basePatchNum === PARENT &&
     comment.side === CommentSide.PARENT &&
     comment.patch_set === range.patchNum
   ) {
@@ -334,7 +330,7 @@ export function isInBaseOfPatchRange(
   }
   // If the base of the range is not the parent of the patch:
   return (
-    range.basePatchNum !== ParentPatchSetNum &&
+    range.basePatchNum !== PARENT &&
     comment.side !== CommentSide.PARENT &&
     comment.patch_set === range.basePatchNum
   );
@@ -377,16 +373,14 @@ export function getPatchRangeForCommentUrl(
 
   // TODO(dhruvsri): Add handling for comment left on parents of merge commits
   if (comment.side === CommentSide.PARENT) {
-    if (comment.patch_set === ParentPatchSetNum)
-      throw new Error('comment.patch_set cannot be PARENT');
     return {
-      patchNum: comment.patch_set as RevisionPatchSetNum,
-      basePatchNum: ParentPatchSetNum,
+      patchNum: comment.patch_set,
+      basePatchNum: PARENT,
     };
   } else if (latestPatchNum === comment.patch_set) {
     return {
       patchNum: latestPatchNum,
-      basePatchNum: ParentPatchSetNum,
+      basePatchNum: PARENT,
     };
   } else {
     return {

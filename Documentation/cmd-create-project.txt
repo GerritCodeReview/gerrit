@@ -136,13 +136,13 @@ Submit Types].
 	project.  Disabled by default.
 
 --use-signed-off-by::
---so:
+--so::
 	If enabled, each change must contain a Signed-off-by line
 	from either the author or the uploader in the commit message.
 	Disabled by default.
 
 --create-new-change-for-all-not-in-target::
---ncfa:
+--ncfa::
 	If enabled, a new change is created for every commit that is not in
 	the target branch. If the pushed commit is a merge commit, this flag is
 	ignored for that push. To avoid accidental creation of a large number

@@ -14,21 +14,18 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import java.util.Map;
+    import java.util.Map;
 
 public class ApplyPatchInput {
-  public String message;  // required
-  public String destinationBranch;  // required
   public String patch;  // required
 
-  // 40-hex digit SHA-1 of the commit which will be the parent commit of the newly created change.
-  public String base;
-
+  public String message;
+  public String topic;
   public NotifyHandling notify = NotifyHandling.ALL;
   public Map<RecipientType, NotifyInfo> notifyDetails;
 
   public boolean allowConflicts;
-  public String topic;
-  public boolean allowEmpty;
+  public boolean allowEmpty; // DO NOT SUBMIT - never used. Is that needed?
+  public boolean workInProgress; // DO NOT SUBMIT - add to docs
   public Map<String, String> validationOptions;
 }

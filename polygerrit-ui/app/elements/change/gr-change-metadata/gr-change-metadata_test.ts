@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-change-metadata';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -32,11 +20,13 @@ import {
   createCommit,
   createRevision,
   createAccountDetailWithId,
+  createConfig,
 } from '../../../test/test-data-generators';
 import {
   ChangeStatus,
   SubmitType,
   GpgKeyInfoStatus,
+  InheritedBooleanInfoConfiguredValue,
 } from '../../../constants/constants';
 import {
   EmailAddress,
@@ -46,7 +36,7 @@ import {
   RevisionInfo,
   ParentCommitInfo,
   TopicName,
-  PatchSetNum,
+  RevisionPatchSetNum,
   NumericChangeId,
   LabelValueToDescriptionMap,
   Hashtag,
@@ -199,8 +189,8 @@ suite('gr-change-metadata tests', () => {
         <span class="title"> Hashtags </span>
         <span class="value"> </span>
       </section>
-      <div class="oldSeparatedSection">
-      <gr-change-requirements></gr-change-requirements>
+      <div class="separatedSection">
+      <gr-submit-requirements></gr-submit-requirements>
       </div>
       <gr-endpoint-decorator name="change-metadata-item">
         <gr-endpoint-param name="labels"> </gr-endpoint-param>
@@ -494,6 +484,13 @@ suite('gr-change-metadata tests', () => {
         labels: {},
         mergeable: true,
       };
+      element.repoConfig = {
+        ...createConfig(),
+        enable_signed_push: {
+          configured_value: 'TRUE' as InheritedBooleanInfoConfiguredValue,
+          value: true,
+        },
+      };
     });
 
     test('Push Certificate Validation test BAD', () => {
@@ -545,6 +542,38 @@ suite('gr-change-metadata tests', () => {
       );
       assert.equal(result?.icon, 'gr-icons:help');
       assert.equal(result?.class, 'help');
+    });
+
+    test('computePushCertificateValidation returns undefined', () => {
+      element.change = change;
+      delete serverConfig!.receive!.enable_signed_push;
+      element.serverConfig = serverConfig;
+      assert.isUndefined(element.computePushCertificateValidation());
+    });
+
+    test('isEnabledSignedPushOnRepo', () => {
+      change!.revisions.rev1!.push_certificate = {
+        certificate: 'Push certificate',
+        key: {
+          status: GpgKeyInfoStatus.TRUSTED,
+        },
+      };
+      element.change = change;
+      element.serverConfig = serverConfig;
+      element.repoConfig!.enable_signed_push!.configured_value =
+        InheritedBooleanInfoConfiguredValue.INHERIT;
+      element.repoConfig!.enable_signed_push!.inherited_value = true;
+      assert.isTrue(element.isEnabledSignedPushOnRepo());
+
+      element.repoConfig!.enable_signed_push!.inherited_value = false;
+      assert.isFalse(element.isEnabledSignedPushOnRepo());
+
+      element.repoConfig!.enable_signed_push!.configured_value =
+        InheritedBooleanInfoConfiguredValue.TRUE;
+      assert.isTrue(element.isEnabledSignedPushOnRepo());
+
+      element.repoConfig = undefined;
+      assert.isFalse(element.isEnabledSignedPushOnRepo());
     });
   });
 
@@ -707,7 +736,7 @@ suite('gr-change-metadata tests', () => {
     await element.updateComplete;
     assert.isFalse(element.showCherryPickOf());
     change.cherry_pick_of_change = 123 as NumericChangeId;
-    change.cherry_pick_of_patch_set = 1 as PatchSetNum;
+    change.cherry_pick_of_patch_set = 1 as RevisionPatchSetNum;
     element.change = change;
     await element.updateComplete;
     assert.isTrue(element.showCherryPickOf());
@@ -743,7 +772,7 @@ suite('gr-change-metadata tests', () => {
       mutable = true;
       element.mutable = mutable;
       assert.isTrue(element.computeTopicReadOnly());
-      change!.actions!.topic!.enabled = true;
+      change.actions!.topic!.enabled = true;
       element.mutable = mutable;
       element.change = change;
       assert.isFalse(element.computeTopicReadOnly());
@@ -806,7 +835,7 @@ suite('gr-change-metadata tests', () => {
       element.mutable = mutable;
       await element.updateComplete;
       assert.isTrue(element.computeHashtagReadOnly());
-      change!.actions!.hashtags!.enabled = true;
+      change.actions!.hashtags!.enabled = true;
       element.change = change;
       element.mutable = mutable;
       await element.updateComplete;
@@ -839,7 +868,7 @@ suite('gr-change-metadata tests', () => {
     test('hashtag not read only does not hide delete button', async () => {
       await element.updateComplete;
       element.account = createAccountDetailWithId();
-      change!.actions!.hashtags!.enabled = true;
+      change.actions!.hashtags!.enabled = true;
       element.change = change;
       sinon
         .stub(GerritNav, 'getUrlForHashtag')

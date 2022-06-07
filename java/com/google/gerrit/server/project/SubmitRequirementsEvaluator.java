@@ -28,11 +28,8 @@ public interface SubmitRequirementsEvaluator {
    * from the project config of the project containing the change as well as parent projects.
    *
    * @param cd change data corresponding to a specific gerrit change
-   * @param includeLegacy if set to true, evaluate legacy {@link
-   *     com.google.gerrit.entities.SubmitRecord}s and convert them to submit requirements.
    */
-  ImmutableMap<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(
-      ChangeData cd, boolean includeLegacy);
+  ImmutableMap<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(ChangeData cd);
 
   /** Evaluate a single {@link SubmitRequirement} using change data. */
   SubmitRequirementResult evaluateRequirement(SubmitRequirement sr, ChangeData cd);

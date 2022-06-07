@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../types/globals';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
@@ -24,7 +13,6 @@ import {StorageService} from '../services/storage/gr-storage';
 import {AuthService} from '../services/gr-auth/gr-auth';
 import {ReportingService} from '../services/gr-reporting/gr-reporting';
 import {UserModel} from '../models/user/user-model';
-import {ShortcutsService} from '../services/shortcuts/shortcuts-service';
 import {queryAndAssert, query} from '../utils/common-util';
 import {FlagsService} from '../services/flags/flags';
 import {Key, Modifier} from '../utils/dom-util';
@@ -122,10 +110,6 @@ export function spyRestApi<K extends keyof RestApiService>(method: K) {
 
 export function stubUsers<K extends keyof UserModel>(method: K) {
   return sinon.stub(getAppContext().userModel, method);
-}
-
-export function stubShortcuts<K extends keyof ShortcutsService>(method: K) {
-  return sinon.stub(getAppContext().shortcutsService, method);
 }
 
 export function stubHighlightService<K extends keyof HighlightService>(
@@ -296,6 +280,19 @@ export function pressKey(
   element.dispatchEvent(new KeyboardEvent('keydown', eventOptions));
 }
 
+export function mouseDown(element: HTMLElement) {
+  const rect = element.getBoundingClientRect();
+  const eventOptions = {
+    bubbles: true,
+    composed: true,
+    clientX: (rect.left + rect.right) / 2,
+    clientY: (rect.top + rect.bottom) / 2,
+    screenX: (rect.left + rect.right) / 2,
+    screenY: (rect.top + rect.bottom) / 2,
+  };
+  element.dispatchEvent(new MouseEvent('mousedown', eventOptions));
+}
+
 export function assertFails(promise: Promise<unknown>, error?: unknown) {
   promise
     .then((_v: unknown) => {
@@ -306,4 +303,20 @@ export function assertFails(promise: Promise<unknown>, error?: unknown) {
         assert.equal(e, error);
       }
     });
+}
+
+export function logProxy<T extends object>(obj: T, name?: string): T {
+  const handler = {
+    get(target: object, prop: PropertyKey, receiver: any) {
+      const result = Reflect.get(target, prop, receiver);
+      if (result instanceof Function) {
+        return (...rest: unknown[]) => {
+          console.error(`${name}.${String(prop)}(${rest})`);
+          return result.apply(target, rest);
+        };
+      }
+      return result;
+    },
+  };
+  return new Proxy(obj, handler) as unknown as T;
 }

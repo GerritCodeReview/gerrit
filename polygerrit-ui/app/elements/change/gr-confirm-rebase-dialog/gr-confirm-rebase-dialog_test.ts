@@ -1,24 +1,12 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-confirm-rebase-dialog';
 import {GrConfirmRebaseDialog, RebaseChange} from './gr-confirm-rebase-dialog';
-import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {queryAndAssert, stubRestApi, waitUntil} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {NumericChangeId, BranchName} from '../../../types/common';
 import {createChangeViewChange} from '../../../test/test-data-generators';
@@ -36,56 +24,55 @@ suite('gr-confirm-rebase-dialog tests', () => {
   test('render', async () => {
     element.branch = 'test' as BranchName;
     await element.updateComplete;
-
-    expect(element).shadowDom.to.equal(/* HTML */ `
-      <gr-dialog id="confirmDialog" confirm-label="Rebase" role="dialog">
-        <div class="header" slot="header">Confirm rebase</div>
-        <div class="main" slot="main">
-          <div id="rebaseOnParent" class="rebaseOption" hidden="">
-            <input id="rebaseOnParentInput" name="rebaseOptions" type="radio" />
-            <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
-              Rebase on parent change
-            </label>
-          </div>
-          <div id="parentUpToDateMsg" class="message" hidden="">
-            This change is up to date with its parent.
-          </div>
-          <div id="rebaseOnTip" class="rebaseOption" hidden="">
-            <input
-              disabled=""
-              id="rebaseOnTipInput"
-              name="rebaseOptions"
-              type="radio"
-            />
-            <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
-              Rebase on top of the test branch<span hidden="">
-                (breaks relation chain)
-              </span>
-            </label>
-          </div>
-          <div id="tipUpToDateMsg" class="message">
-            Change is up to date with the target branch already (test)
-          </div>
-          <div id="rebaseOnOther" class="rebaseOption">
-            <input id="rebaseOnOtherInput" name="rebaseOptions" type="radio" />
-            <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
-              Rebase on a specific change, ref, or commit
-              <span hidden=""> (breaks relation chain) </span>
-            </label>
-          </div>
-          <div class="parentRevisionContainer">
-            <gr-autocomplete
-              id="parentInput"
-              no-debounce=""
-              allow-non-suggested-values
-              placeholder="Change number, ref, or commit hash"
-              text=""
-            >
-            </gr-autocomplete>
-          </div>
+    expect(element).shadowDom.to.equal(/* HTML */ `<gr-dialog
+      confirm-label="Rebase"
+      id="confirmDialog"
+      role="dialog"
+    >
+      <div class="header" slot="header">Confirm rebase</div>
+      <div class="main" slot="main">
+        <div class="rebaseOption" hidden="" id="rebaseOnParent">
+          <input id="rebaseOnParentInput" name="rebaseOptions" type="radio" />
+          <label for="rebaseOnParentInput" id="rebaseOnParentLabel">
+            Rebase on parent change
+          </label>
         </div>
-      </gr-dialog>
-    `);
+        <div class="message" hidden="" id="parentUpToDateMsg">
+          This change is up to date with its parent.
+        </div>
+        <div class="rebaseOption" hidden="" id="rebaseOnTip">
+          <input
+            disabled=""
+            id="rebaseOnTipInput"
+            name="rebaseOptions"
+            type="radio"
+          />
+          <label for="rebaseOnTipInput" id="rebaseOnTipLabel">
+            Rebase on top of the test branch
+            <span hidden=""> (breaks relation chain) </span>
+          </label>
+        </div>
+        <div class="message" id="tipUpToDateMsg">
+          Change is up to date with the target branch already (test)
+        </div>
+        <div class="rebaseOption" id="rebaseOnOther">
+          <input id="rebaseOnOtherInput" name="rebaseOptions" type="radio" />
+          <label for="rebaseOnOtherInput" id="rebaseOnOtherLabel">
+            Rebase on a specific change, ref, or commit
+            <span hidden=""> (breaks relation chain) </span>
+          </label>
+        </div>
+        <div class="parentRevisionContainer">
+          <gr-autocomplete
+            allow-non-suggested-values=""
+            id="parentInput"
+            no-debounce=""
+            placeholder="Change number, ref, or commit hash"
+          >
+          </gr-autocomplete>
+        </div>
+      </div>
+    </gr-dialog> `);
   });
 
   test('controls with parent and rebase on current available', async () => {
@@ -297,14 +284,13 @@ suite('gr-confirm-rebase-dialog tests', () => {
         null,
         'enter'
       );
+      await element.updateComplete;
       element.text = '1';
-      await element.updateComplete;
 
-      assert.isTrue(recentChangesSpy.calledOnce);
+      await waitUntil(() => recentChangesSpy.calledOnce);
       element.text = '12';
-      await element.updateComplete;
 
-      assert.isTrue(recentChangesSpy.calledTwice);
+      await waitUntil(() => recentChangesSpy.calledTwice);
     });
   });
 });

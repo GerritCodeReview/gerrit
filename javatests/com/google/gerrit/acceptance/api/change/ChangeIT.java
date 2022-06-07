@@ -83,8 +83,10 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
+import com.google.gerrit.acceptance.api.change.ChangeIT.TestAttentionSetListenerModule.TestAttentionSetListener;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -146,7 +148,9 @@ import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
+import com.google.gerrit.extensions.events.AttentionSetListener;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -232,6 +236,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private IndexOperations.Change changeIndexOperations;
 
   @Inject
   @Named("diff_intraline")
@@ -1534,6 +1539,39 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void attentionSetListener_firesOnChange() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    AttentionSetInput addUser = new AttentionSetInput(user.email(), "some reason");
+    TestAttentionSetListener attentionSetListener = new TestAttentionSetListener();
+
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(attentionSetListener)) {
+
+      gApi.changes().id(r1.getChangeId()).addReviewer(user.email());
+      gApi.changes().id(r1.getChangeId()).addToAttentionSet(addUser);
+
+      assertThat(attentionSetListener.fired).isTrue();
+      assertThat(attentionSetListener.lastEvent.usersAdded().size()).isEqualTo(1);
+      attentionSetListener
+          .lastEvent
+          .usersAdded()
+          .forEach(u -> assertThat(u).isEqualTo(user.id().get()));
+      assertThat(attentionSetListener.lastEvent.usersRemoved()).isEmpty();
+
+      attentionSetListener.fired = false;
+      gApi.changes().id(r1.getChangeId()).attention(user.username()).remove(addUser);
+
+      assertThat(attentionSetListener.fired).isTrue();
+      assertThat(attentionSetListener.lastEvent.usersAdded()).isEmpty();
+      assertThat(attentionSetListener.lastEvent.usersRemoved().size()).isEqualTo(1);
+      attentionSetListener
+          .lastEvent
+          .usersRemoved()
+          .forEach(u -> assertThat(u).isEqualTo(user.id().get()));
+    }
+  }
+
+  @Test
   public void rebaseChangeBase() throws Exception {
     PushOneCommit.Result r1 = createChange();
     PushOneCommit.Result r2 = createChange();
@@ -2729,6 +2767,27 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteVoteWithReason() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+
+    requestScopeOperations.setApiUser(user.id());
+    recommend(r.getChangeId());
+
+    requestScopeOperations.setApiUser(admin.id());
+    sender.clear();
+    DeleteVoteInput in = new DeleteVoteInput();
+    in.label = LabelId.CODE_REVIEW;
+    in.reason = "Internal conflict resolved";
+    gApi.changes().id(r.getChangeId()).reviewer(user.id().toString()).deleteVote(in);
+    assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).messages()).message)
+        .isEqualTo(
+            "Removed Code-Review+1 by User1 <user1@example.com>\n"
+                + "\n"
+                + "Internal conflict resolved\n");
+  }
+
+  @Test
   public void deleteVoteNotifyAccount() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
@@ -3155,11 +3214,8 @@ public class ChangeIT extends AbstractDaemonTest {
   public void submitStaleChange() throws Exception {
     PushOneCommit.Result r = createChange();
 
-    disableChangeIndexWrites();
-    try {
+    try (AutoCloseable ignored = changeIndexOperations.disableWrites()) {
       r = amendChange(r.getChangeId());
-    } finally {
-      enableChangeIndexWrites();
     }
 
     gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
@@ -4700,7 +4756,7 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result change = createChange();
     int number = gApi.changes().id(change.getChangeId()).get()._number;
 
-    try (AutoCloseable ignored = disableChangeIndex()) {
+    try (AutoCloseable ignored = changeIndexOperations.disableReadsAndWrites()) {
       assertThat(gApi.changes().id(project.get(), number).get(options).changeId)
           .isEqualTo(change.getChangeId());
     }
@@ -4750,6 +4806,27 @@ public class ChangeIT extends AbstractDaemonTest {
       this.invoked = true;
       this.wip =
           event.getChange().workInProgress != null ? event.getChange().workInProgress : false;
+    }
+  }
+
+  public static class TestAttentionSetListenerModule extends AbstractModule {
+    @Override
+    public void configure() {
+      DynamicSet.bind(binder(), AttentionSetListener.class).to(TestAttentionSetListener.class);
+    }
+
+    public static class TestAttentionSetListener implements AttentionSetListener {
+      Event lastEvent;
+      boolean fired;
+
+      @Inject
+      public TestAttentionSetListener() {}
+
+      @Override
+      public void onAttentionSetChanged(Event event) {
+        fired = true;
+        lastEvent = event;
+      }
     }
   }
 

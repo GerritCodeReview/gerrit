@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-group-members';
 import {GrGroupMembers, ItemType} from './gr-group-members';
@@ -25,6 +13,7 @@ import {
   queryAndAssert,
   stubBaseUrl,
   stubRestApi,
+  waitUntil,
 } from '../../../test/test-utils';
 import {
   AccountId,
@@ -191,8 +180,7 @@ suite('gr-group-members tests', () => {
     groupMemberSearchInput.text = memberName;
     groupMemberSearchInput.value = '1234';
 
-    await element.updateComplete;
-    assert.isFalse(button.hasAttribute('disabled'));
+    await waitUntil(() => !button.hasAttribute('disabled'));
 
     return element.handleSavingGroupMember().then(() => {
       assert.isTrue(button.hasAttribute('disabled'));
@@ -218,7 +206,7 @@ suite('gr-group-members tests', () => {
 
     const button = queryAndAssert<GrButton>(element, '#saveIncludedGroups');
 
-    assert.isTrue(button.hasAttribute('disabled'));
+    await waitUntil(() => button.hasAttribute('disabled'));
 
     const includedGroupSearchInput = queryAndAssert<GrAutocomplete>(
       element,
@@ -226,8 +214,8 @@ suite('gr-group-members tests', () => {
     );
     includedGroupSearchInput.text = includedGroupName;
     includedGroupSearchInput.value = 'testId';
-    await element.updateComplete;
-    assert.isFalse(button.hasAttribute('disabled'));
+
+    await waitUntil(() => !button.hasAttribute('disabled'));
 
     return element.handleSavingIncludedGroups().then(() => {
       assert.isTrue(button.hasAttribute('disabled'));

@@ -3,7 +3,6 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {css, html, LitElement, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
@@ -11,9 +10,10 @@ import {resolve} from '../../../models/dependency';
 import {pluralize} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
-import '../gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow';
 import '../gr-change-list-reviewer-flow/gr-change-list-reviewer-flow';
 import '../gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow';
+import '../gr-change-list-topic-flow/gr-change-list-topic-flow';
+import '../gr-change-list-hashtag-flow/gr-change-list-hashtag-flow';
 
 /**
  * An action bar for the top of a <gr-change-list-section> element. Assumes it
@@ -45,6 +45,9 @@ export class GrChangeListActionBar extends LitElement {
         padding: var(--spacing-s);
         vertical-align: middle;
       }
+      .actionButtons {
+        margin-right: var(--spacing-l);
+      }
     `;
   }
 
@@ -56,16 +59,16 @@ export class GrChangeListActionBar extends LitElement {
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
-  override connectedCallback(): void {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getBulkActionsModel().selectedChangeNums$,
+      () => this.getBulkActionsModel().selectedChangeNums$,
       selectedChangeNums => (this.numSelected = selectedChangeNums.length)
     );
     subscribe(
       this,
-      this.getBulkActionsModel().totalChangeCount$,
+      () => this.getBulkActionsModel().totalChangeCount$,
       totalChangeCount => (this.totalChangeCount = totalChangeCount)
     );
   }
@@ -110,9 +113,9 @@ export class GrChangeListActionBar extends LitElement {
           </div>
           <div class="actionButtons">
             <gr-change-list-bulk-vote-flow></gr-change-list-bulk-vote-flow>
+            <gr-change-list-topic-flow></gr-change-list-topic-flow>
+            <gr-change-list-hashtag-flow></gr-change-list-hashtag-flow>
             <gr-change-list-reviewer-flow></gr-change-list-reviewer-flow>
-            <gr-change-list-bulk-abandon-flow>
-            </gr-change-list-bulk-abandon-flow>
           </div>
         </div>
       </td>

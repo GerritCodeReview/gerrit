@@ -29,5 +29,42 @@ public enum ChangeKind {
   NO_CODE_CHANGE,
 
   /** Same tree, parent tree, same commit message. */
-  NO_CHANGE
+  NO_CHANGE;
+
+  public boolean matches(ChangeKind changeKind, boolean isMerge) {
+    switch (changeKind) {
+      case REWORK:
+        // REWORK inlcudes all other change kinds, since those are just more trivial cases of a
+        // rework
+        return true;
+      case TRIVIAL_REBASE:
+        return isTrivialRebase();
+      case MERGE_FIRST_PARENT_UPDATE:
+        return isMergeFirstParentUpdate(isMerge);
+      case NO_CHANGE:
+        return this == NO_CHANGE;
+      case NO_CODE_CHANGE:
+        return isNoCodeChange();
+    }
+    throw new IllegalStateException("unexpected change kind: " + changeKind);
+  }
+
+  public boolean isNoCodeChange() {
+    // NO_CHANGE is a more trivial case of NO_CODE_CHANGE and hence matched as well
+    return this == NO_CHANGE || this == NO_CODE_CHANGE;
+  }
+
+  public boolean isTrivialRebase() {
+    // NO_CHANGE is a more trivial case of TRIVIAL_REBASE and hence matched as well
+    return this == NO_CHANGE || this == TRIVIAL_REBASE;
+  }
+
+  public boolean isMergeFirstParentUpdate(boolean isMerge) {
+    if (!isMerge) {
+      return false;
+    }
+
+    // NO_CHANGE is a more trivial case of MERGE_FIRST_PARENT_UPDATE and hence matched as well
+    return this == NO_CHANGE || this == MERGE_FIRST_PARENT_UPDATE;
+  }
 }

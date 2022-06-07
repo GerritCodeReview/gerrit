@@ -1,25 +1,13 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-search-bar';
 import {GrSearchBar} from './gr-search-bar';
 import '../../../scripts/util';
-import {mockPromise} from '../../../test/test-utils';
+import {mockPromise, waitUntil} from '../../../test/test-utils';
 import {_testOnly_clearDocsBaseUrlCache} from '../../../utils/url-util';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {
@@ -93,7 +81,7 @@ suite('gr-search-bar tests', () => {
       null,
       'enter'
     );
-    assert.isTrue(blurSpy.called);
+    await waitUntil(() => blurSpy.called);
   });
 
   test('empty search query does not trigger nav', async () => {
@@ -138,7 +126,7 @@ suite('gr-search-bar tests', () => {
       null,
       'enter'
     );
-    assert.isTrue(searchSpy.called);
+    await waitUntil(() => searchSpy.called);
   });
 
   test('undefined predicate query triggers nav', async () => {
@@ -153,7 +141,7 @@ suite('gr-search-bar tests', () => {
       null,
       'enter'
     );
-    assert.isTrue(searchSpy.called);
+    await waitUntil(() => searchSpy.called);
   });
 
   test('empty undefined predicate query triggers nav', async () => {
@@ -168,7 +156,7 @@ suite('gr-search-bar tests', () => {
       null,
       'enter'
     );
-    assert.isTrue(searchSpy.called);
+    await waitUntil(() => searchSpy.called);
   });
 
   test('keyboard shortcuts', async () => {

@@ -1,33 +1,27 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-edit-controls';
 import {GrEditControls} from './gr-edit-controls';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {queryAll, stubRestApi} from '../../../test/test-utils';
+import {queryAll, stubRestApi, waitUntil} from '../../../test/test-utils';
 import {createChange, createRevision} from '../../../test/test-data-generators';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
-import {CommitId, NumericChangeId, PatchSetNum} from '../../../types/common';
+import {
+  CommitId,
+  NumericChangeId,
+  PatchSetNumber,
+  RevisionPatchSetNum,
+} from '../../../types/common';
 import {RepoName} from '../../../api/rest-api';
 import {queryAndAssert} from '../../../test/test-utils';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {fixture, html} from '@open-wc/testing-helpers';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import '../../shared/gr-dialog/gr-dialog';
 
 suite('gr-edit-controls tests', () => {
   let element: GrEditControls;
@@ -42,7 +36,7 @@ suite('gr-edit-controls tests', () => {
       <gr-edit-controls></gr-edit-controls>
     `);
     element.change = createChange();
-    element.patchNum = 1 as PatchSetNum;
+    element.patchNum = 1 as RevisionPatchSetNum;
     showDialogSpy = sinon.spy(element, 'showDialog');
     closeDialogSpy = sinon.spy(element, 'closeDialog');
     hideDialogStub = sinon.stub(element, 'hideAllDialogs');
@@ -84,7 +78,7 @@ suite('gr-edit-controls tests', () => {
     test('open', async () => {
       assert.isFalse(hideDialogStub.called);
       MockInteractions.tap(queryAndAssert(element, '#open'));
-      element.patchNum = 1 as PatchSetNum;
+      element.patchNum = 1 as RevisionPatchSetNum;
       await showDialogSpy.lastCall.returnValue;
       assert.isTrue(hideDialogStub.called);
       assert.isTrue(element.openDialog!.disabled);
@@ -96,11 +90,13 @@ suite('gr-edit-controls tests', () => {
       openAutoComplete.text = 'src/test.cpp';
       await element.updateComplete;
       assert.isTrue(queryStub.called);
-      assert.isFalse(element.openDialog!.disabled);
-      MockInteractions.tap(
-        queryAndAssert(element.openDialog, 'gr-button[primary]')
-      );
-      assert.isTrue(editDiffStub.called);
+      await waitUntil(() => !element.openDialog!.disabled);
+      queryAndAssert<GrButton>(
+        element.openDialog,
+        'gr-button[primary]'
+      ).click();
+      await waitUntil(() => editDiffStub.called);
+
       assert.isTrue(navStub.called);
       assert.deepEqual(editDiffStub.lastCall.args, [
         element.change,
@@ -117,13 +113,13 @@ suite('gr-edit-controls tests', () => {
         openAutoComplete.noDebounce = true;
         openAutoComplete.text = 'src/test.cpp';
         await element.updateComplete;
-        assert.isFalse(element.openDialog!.disabled);
+        await waitUntil(() => !element.openDialog!.disabled);
         MockInteractions.tap(
           queryAndAssert<GrButton>(element.openDialog, 'gr-button')
         );
         assert.isFalse(editDiffStub.called);
         assert.isFalse(navStub.called);
-        assert.isTrue(closeDialogSpy.called);
+        await waitUntil(() => closeDialogSpy.called);
         assert.equal(element.path, '');
       });
     });
@@ -157,7 +153,7 @@ suite('gr-edit-controls tests', () => {
       deleteAutocomplete.text = 'src/test.cpp';
       await element.updateComplete;
       assert.isTrue(queryStub.called);
-      assert.isFalse(element.deleteDialog!.disabled);
+      await waitUntil(() => !element.deleteDialog!.disabled);
       MockInteractions.tap(
         queryAndAssert(element.deleteDialog, 'gr-button[primary]')
       );
@@ -183,7 +179,7 @@ suite('gr-edit-controls tests', () => {
       deleteAutocomplete.text = 'src/test.cpp';
       await element.updateComplete;
       assert.isTrue(queryStub.called);
-      assert.isFalse(element.deleteDialog!.disabled);
+      await waitUntil(() => !element.deleteDialog!.disabled);
       MockInteractions.tap(
         queryAndAssert(element.deleteDialog, 'gr-button[primary]')
       );
@@ -205,11 +201,11 @@ suite('gr-edit-controls tests', () => {
           'gr-autocomplete'
         ).text = 'src/test.cpp';
         await element.updateComplete;
-        assert.isFalse(element.deleteDialog!.disabled);
+        await waitUntil(() => !element.deleteDialog!.disabled);
         MockInteractions.tap(queryAndAssert(element.deleteDialog, 'gr-button'));
         assert.isFalse(eventStub.called);
         assert.isTrue(closeDialogSpy.called);
-        assert.equal(element.path, '');
+        await waitUntil(() => element.path === '');
       });
     });
   });
@@ -305,8 +301,7 @@ suite('gr-edit-controls tests', () => {
         MockInteractions.tap(queryAndAssert(element.renameDialog, 'gr-button'));
         assert.isFalse(eventStub.called);
         assert.isTrue(closeDialogSpy.called);
-        assert.equal(element.path, '');
-        assert.equal(element.newPath, '');
+        await waitUntil(() => element.path === '');
       });
     });
   });
@@ -398,11 +393,11 @@ suite('gr-edit-controls tests', () => {
         revisions: {
           abcd: {
             ...createRevision(1),
-            _number: 1 as PatchSetNum,
+            _number: 1 as PatchSetNumber,
           },
           efgh: {
             ...createRevision(2),
-            _number: 2 as PatchSetNum,
+            _number: 2 as PatchSetNumber,
           },
         },
         current_revision: 'efgh' as CommitId,

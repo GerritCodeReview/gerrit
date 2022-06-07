@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-account-chip/gr-account-chip';
 import '../../shared/gr-button/gr-button';
@@ -29,12 +18,7 @@ import {
   LabelInfo,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {getAppContext} from '../../../services/app-context';
-import {
-  getApprovalInfo,
-  getCodeReviewLabel,
-  showNewSubmitRequirements,
-} from '../../../utils/label-util';
+import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';
 import {sortReviewers} from '../../../utils/attention-set-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
@@ -67,8 +51,6 @@ export class GrReviewerList extends LitElement {
   @state() hiddenReviewerCount?: number;
 
   @state() showAllReviewers = false;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   static override get styles() {
     return [
@@ -166,14 +148,12 @@ export class GrReviewerList extends LitElement {
         .vote=${this.computeVote(reviewer)}
         .label=${this.computeCodeReviewLabel()}
       >
-        ${showNewSubmitRequirements(this.flagsService, this.change)
-          ? html`<gr-vote-chip
-              slot="vote-chip"
-              .vote=${this.computeVote(reviewer)}
-              .label=${this.computeCodeReviewLabel()}
-              circle-shape
-            ></gr-vote-chip>`
-          : nothing}
+        <gr-vote-chip
+          slot="vote-chip"
+          .vote=${this.computeVote(reviewer)}
+          .label=${this.computeCodeReviewLabel()}
+          circle-shape
+        ></gr-vote-chip>
       </gr-account-chip>
     `;
   }

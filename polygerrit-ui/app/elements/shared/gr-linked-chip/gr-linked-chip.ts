@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../gr-button/gr-button';
 import '../gr-icons/gr-icons';
 import '../gr-limited-text/gr-limited-text';
@@ -43,9 +31,6 @@ export class GrLinkedChip extends LitElement {
   @property({type: String})
   text = '';
 
-  @property({type: Boolean})
-  transparentBackground = false;
-
   /**  If provided, sets the maximum length of the content. */
   @property({type: Number})
   limit?: number;
@@ -64,10 +49,6 @@ export class GrLinkedChip extends LitElement {
           border-radius: 0.75em;
           display: inline-flex;
           padding: 0 var(--spacing-m);
-        }
-        .transparentBackground,
-        gr-button.transparentBackground {
-          background-color: transparent;
         }
         :host([disabled]) {
           opacity: 0.6;
@@ -108,11 +89,7 @@ export class GrLinkedChip extends LitElement {
       </style>
     `;
     return html`${customStyle}
-      <div
-        class="container ${this._getBackgroundClass(
-          this.transparentBackground
-        )}"
-      >
+      <div class="container">
         <a href=${this.href}>
           <gr-limited-text
             .limit=${this.limit}
@@ -123,19 +100,15 @@ export class GrLinkedChip extends LitElement {
           id="remove"
           link=""
           ?hidden=${!this.removable}
-          class="remove ${this._getBackgroundClass(this.transparentBackground)}"
-          @click=${this._handleRemoveTap}
+          class="remove"
+          @click=${this.handleRemoveTap}
         >
           <iron-icon icon="gr-icons:close"></iron-icon>
         </gr-button>
       </div>`;
   }
 
-  _getBackgroundClass(transparent: boolean) {
-    return transparent ? 'transparentBackground' : '';
-  }
-
-  _handleRemoveTap(e: Event) {
+  private handleRemoveTap(e: Event) {
     e.preventDefault();
     fireEvent(this, 'remove');
   }

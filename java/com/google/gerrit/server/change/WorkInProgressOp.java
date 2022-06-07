@@ -19,21 +19,18 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.InputWithMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
-import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
+import org.eclipse.jgit.lib.ObjectId;
 
 /* Set work in progress or ready for review state on a change */
 public class WorkInProgressOp implements BatchUpdateOp {
@@ -61,8 +58,8 @@ public class WorkInProgressOp implements BatchUpdateOp {
   private final WorkInProgressStateChanged stateChanged;
 
   private boolean sendEmail = true;
+  private ObjectId preUpdateMetaId;
   private Change change;
-  private ChangeNotes notes;
   private PatchSet ps;
   private String mailMessage;
 
@@ -88,8 +85,8 @@ public class WorkInProgressOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx) {
+    preUpdateMetaId = ctx.getNotes().getMetaId();
     change = ctx.getChange();
-    notes = ctx.getNotes();
     ps = psUtil.get(ctx.getNotes(), change.currentPatchSetId());
     ChangeUpdate update = ctx.getUpdate(change.currentPatchSetId());
     change.setWorkInProgress(workInProgress);
@@ -131,25 +128,15 @@ public class WorkInProgressOp implements BatchUpdateOp {
         || !sendEmail) {
       return;
     }
-    RepoView repoView;
-    try {
-      repoView = ctx.getRepoView();
-    } catch (IOException ex) {
-      throw new StorageException(
-          String.format("Repository %s not found", ctx.getProject().get()), ex);
-    }
     email
         .create(
-            notify,
-            notes,
+            ctx,
             ps,
-            ctx.getIdentifiedUser(),
-            mailMessage,
-            ctx.getWhen(),
-            ImmutableList.of(),
+            preUpdateMetaId,
             mailMessage,
             ImmutableList.of(),
-            repoView)
+            mailMessage,
+            ImmutableList.of())
         .sendAsync();
   }
 }

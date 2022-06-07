@@ -51,7 +51,7 @@ fi
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me {start|stop|restart|check|status|run|supervise|threads} [-d site]"
+    echo >&2 "Usage: $me {start|stop|restart|check|status|run|supervise|threads} [-d site] [--debug [--debug_port|--debug_address ...] [--suspend]]"
     exit 1
 }
 
@@ -146,6 +146,27 @@ while test $# -gt 0 ; do
     ;;
   --site-path=*)
     GERRIT_SITE=${1##--site-path=}
+    shift
+    ;;
+  --debug)
+    JVM_DEBUG=true
+    shift
+    ;;
+  --suspend)
+    JVM_DEBUG_SUSPEND=true
+    shift
+    ;;
+  --debug-port=*)
+    DEBUG_ADDRESS=${1##--debug-port=}
+    shift
+    ;;
+  --debug-address=*)
+    DEBUG_ADDRESS=${1##--debug-address=}
+    shift
+    ;;
+  --debug-port|--debug-address)
+    shift
+    DEBUG_ADDRESS=$1
     shift
     ;;
 
@@ -315,6 +336,20 @@ fi
 GERRIT_MEMORY=`get_config --get container.heapLimit`
 if test -n "$GERRIT_MEMORY" ; then
   JAVA_OPTIONS="$JAVA_OPTIONS -Xmx$GERRIT_MEMORY"
+fi
+
+if test -n "$JVM_DEBUG" ; then
+  if test -z "$DEBUG_ADDRESS" ; then
+    DEBUG_ADDRESS=8000
+  fi
+  echo "Put JVM in debug mode, debugger listens to: $DEBUG_ADDRESS"
+  if test -n "$JVM_DEBUG_SUSPEND" ; then
+    SUSPEND=y
+    echo "JVM will await for a debugger to attach"
+  else
+    SUSPEND=n
+  fi
+  JAVA_OPTIONS="$JAVA_OPTIONS -agentlib:jdwp=transport=dt_socket,server=y,suspend=$SUSPEND,address=$DEBUG_ADDRESS"
 fi
 
 GERRIT_FDS=`get_config --int core.packedGitOpenFiles`

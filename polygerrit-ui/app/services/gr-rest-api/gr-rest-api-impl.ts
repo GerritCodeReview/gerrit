@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 /* NB: Order is important, because of namespaced classes. */
 
@@ -74,7 +63,7 @@ import {
   DiffPreferenceInput,
   DocResult,
   EditInfo,
-  EditPatchSetNum,
+  EDIT,
   EditPreferencesInfo,
   EmailAddress,
   EmailInfo,
@@ -100,7 +89,7 @@ import {
   MergeableInfo,
   NameToProjectInfoMap,
   NumericChangeId,
-  ParentPatchSetNum,
+  PARENT,
   ParsedJSON,
   Password,
   PatchRange,
@@ -1291,7 +1280,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     let params = undefined;
     if (isMergeParent(patchRange.basePatchNum)) {
       params = {parent: getParentIndex(patchRange.basePatchNum)};
-    } else if (patchRange.basePatchNum !== ParentPatchSetNum) {
+    } else if (patchRange.basePatchNum !== PARENT) {
       params = {base: patchRange.basePatchNum};
     }
     return this._getChangeURLAndFetch({
@@ -1310,7 +1299,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<{files: FileNameToFileInfoMap} | undefined> {
     let endpoint = '/edit?list';
     let anonymizedEndpoint = endpoint;
-    if (patchRange.basePatchNum !== ParentPatchSetNum) {
+    if (patchRange.basePatchNum !== PARENT) {
       endpoint += '&base=' + encodeURIComponent(`${patchRange.basePatchNum}`);
       anonymizedEndpoint += '&base=*';
     }
@@ -1338,7 +1327,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     patchRange: PatchRange
   ): Promise<FileNameToFileInfoMap | undefined> {
-    if (patchRange.patchNum === EditPatchSetNum) {
+    if (patchRange.patchNum === EDIT) {
       return this.getChangeEditFiles(changeNum, patchRange).then(
         res => res && res.files
       );
@@ -1817,11 +1806,22 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getChangesWithSimilarTopic(topic: string): Promise<ChangeInfo[] | undefined> {
-    const query = [`intopic:"${topic}"`].join(' ');
+    const query = `intopic:"${topic}"`;
     return this._restApiHelper.fetchJSON({
       url: '/changes/',
       params: {q: query},
       anonymizedUrl: '/changes/intopic:*',
+    }) as Promise<ChangeInfo[] | undefined>;
+  }
+
+  getChangesWithSimilarHashtag(
+    hashtag: string
+  ): Promise<ChangeInfo[] | undefined> {
+    const query = `inhashtag:"${hashtag}"`;
+    return this._restApiHelper.fetchJSON({
+      url: '/changes/',
+      params: {q: query},
+      anonymizedUrl: '/changes/inhashtag:*',
     }) as Promise<ChangeInfo[] | undefined>;
   }
 
@@ -1940,7 +1940,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     // 404s indicate the file does not exist yet in the revision, so suppress
     // them.
     const promise =
-      patchNum === EditPatchSetNum
+      patchNum === EDIT
         ? this._getFileInChangeEdit(changeNum, path)
         : this._getFileInRevision(changeNum, path, patchNum, suppress404s);
 
@@ -2218,7 +2218,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     };
     if (isMergeParent(basePatchNum)) {
       params.parent = getParentIndex(basePatchNum);
-    } else if (basePatchNum !== ParentPatchSetNum) {
+    } else if (basePatchNum !== PARENT) {
       params.base = basePatchNum;
     }
     const endpoint = `/files/${encodeURIComponent(path)}/diff`;
@@ -2232,7 +2232,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     };
 
     // Invalidate the cache if its edit patch to make sure we always get latest.
-    if (patchNum === EditPatchSetNum) {
+    if (patchNum === EDIT) {
       if (!req.fetchOptions) req.fetchOptions = {};
       if (!req.fetchOptions.headers) req.fetchOptions.headers = new Headers();
       req.fetchOptions.headers.append('Cache-Control', 'no-cache');
@@ -2434,7 +2434,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       // in a single pass.
       comments = this._setRanges(comments);
 
-      if (basePatchNum === ParentPatchSetNum) {
+      if (basePatchNum === PARENT) {
         baseComments = comments.filter(onlyParent);
         baseComments.forEach(setPath);
       }
@@ -2444,7 +2444,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
     promises.push(fetchPromise);
 
-    if (basePatchNum !== ParentPatchSetNum) {
+    if (basePatchNum !== PARENT) {
       fetchPromise = fetchComments(basePatchNum).then(response => {
         baseComments = ((response && path && response[path]) || []).filter(
           withoutParent
@@ -2660,7 +2660,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     let promiseB;
 
     if (diff.meta_a?.content_type.startsWith('image/')) {
-      if (patchRange.basePatchNum === ParentPatchSetNum) {
+      if (patchRange.basePatchNum === PARENT) {
         // Note: we only attempt to get the image from the first parent.
         promiseA = this.getB64FileContents(
           changeNum,
@@ -2691,20 +2691,22 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
     return Promise.all([promiseA, promiseB]).then(results => {
       // Sometimes the server doesn't send back the content type.
-      const baseImage: Base64ImageFile | null = results[0]
-        ? {
-            ...results[0],
-            _expectedType: diff.meta_a.content_type,
-            _name: diff.meta_a.name,
-          }
-        : null;
-      const revisionImage: Base64ImageFile | null = results[1]
-        ? {
-            ...results[1],
-            _expectedType: diff.meta_b.content_type,
-            _name: diff.meta_b.name,
-          }
-        : null;
+      const baseImage: Base64ImageFile | null =
+        results[0] && diff.meta_a
+          ? {
+              ...results[0],
+              _expectedType: diff.meta_a.content_type,
+              _name: diff.meta_a.name,
+            }
+          : null;
+      const revisionImage: Base64ImageFile | null =
+        results[1] && diff.meta_b
+          ? {
+              ...results[1],
+              _expectedType: diff.meta_b.content_type,
+              _name: diff.meta_b.name,
+            }
+          : null;
       const imagesForDiff: ImagesForDiff = {baseImage, revisionImage};
       return imagesForDiff;
     });

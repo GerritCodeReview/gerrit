@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2018 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-keyboard-shortcuts-dialog';
 import {GrKeyboardShortcutsDialog} from './gr-keyboard-shortcuts-dialog';
@@ -34,86 +22,86 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
   });
 
   function update(directory: Map<ShortcutSection, SectionView>) {
-    element._onDirectoryUpdated(directory);
+    element.onDirectoryUpdated(directory);
     flush();
   }
 
-  suite('_left and _right contents', () => {
+  suite('left and right contents', () => {
     test('empty dialog', () => {
-      assert.isEmpty(element._left);
-      assert.isEmpty(element._right);
+      assert.isEmpty(element.left);
+      assert.isEmpty(element.right);
     });
 
     test('everywhere goes on left', () => {
       const sectionView = [{binding: [], text: 'everywhere shortcuts'}];
       update(new Map([[ShortcutSection.EVERYWHERE, sectionView]]));
-      assert.deepEqual(element._left, [
+      assert.deepEqual(element.left, [
         {
           section: ShortcutSection.EVERYWHERE,
           shortcuts: sectionView,
         },
       ]);
-      assert.isEmpty(element._right);
+      assert.isEmpty(element.right);
     });
 
     test('navigation goes on left', () => {
       const sectionView = [{binding: [], text: 'navigation shortcuts'}];
       update(new Map([[ShortcutSection.NAVIGATION, sectionView]]));
-      assert.deepEqual(element._left, [
+      assert.deepEqual(element.left, [
         {
           section: ShortcutSection.NAVIGATION,
           shortcuts: sectionView,
         },
       ]);
-      assert.isEmpty(element._right);
+      assert.isEmpty(element.right);
     });
 
     test('actions go on right', () => {
       const sectionView = [{binding: [], text: 'actions shortcuts'}];
       update(new Map([[ShortcutSection.ACTIONS, sectionView]]));
-      assert.deepEqual(element._right, [
+      assert.deepEqual(element.right, [
         {
           section: ShortcutSection.ACTIONS,
           shortcuts: sectionView,
         },
       ]);
-      assert.isEmpty(element._left);
+      assert.isEmpty(element.left);
     });
 
     test('reply dialog goes on left', () => {
       const sectionView = [{binding: [], text: 'reply dialog shortcuts'}];
       update(new Map([[ShortcutSection.REPLY_DIALOG, sectionView]]));
-      assert.deepEqual(element._left, [
+      assert.deepEqual(element.left, [
         {
           section: ShortcutSection.REPLY_DIALOG,
           shortcuts: sectionView,
         },
       ]);
-      assert.isEmpty(element._right);
+      assert.isEmpty(element.right);
     });
 
     test('file list goes on left', () => {
       const sectionView = [{binding: [], text: 'file list shortcuts'}];
       update(new Map([[ShortcutSection.FILE_LIST, sectionView]]));
-      assert.deepEqual(element._left, [
+      assert.deepEqual(element.left, [
         {
           section: ShortcutSection.FILE_LIST,
           shortcuts: sectionView,
         },
       ]);
-      assert.isEmpty(element._right);
+      assert.isEmpty(element.right);
     });
 
     test('diffs go on right', () => {
       const sectionView = [{binding: [], text: 'diffs shortcuts'}];
       update(new Map([[ShortcutSection.DIFFS, sectionView]]));
-      assert.deepEqual(element._right, [
+      assert.deepEqual(element.right, [
         {
           section: ShortcutSection.DIFFS,
           shortcuts: sectionView,
         },
       ]);
-      assert.isEmpty(element._left);
+      assert.isEmpty(element.left);
     });
 
     test('multiple sections on each side', () => {
@@ -133,7 +121,7 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
           [ShortcutSection.NAVIGATION, navigationSectionView],
         ])
       );
-      assert.deepEqual(element._left, [
+      assert.deepEqual(element.left, [
         {
           section: ShortcutSection.EVERYWHERE,
           shortcuts: everywhereSectionView,
@@ -143,7 +131,7 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
           shortcuts: navigationSectionView,
         },
       ]);
-      assert.deepEqual(element._right, [
+      assert.deepEqual(element.right, [
         {
           section: ShortcutSection.ACTIONS,
           shortcuts: actionsSectionView,

@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2018 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-repo-branch-picker';
 import {GrRepoBranchPicker} from './gr-repo-branch-picker';
@@ -82,8 +70,9 @@ suite('gr-repo-branch-picker tests', () => {
     setup(() => {
       getRepoBranchesStub = stubRestApi('getRepoBranches').returns(
         Promise.resolve([
-          {ref: 'refs/heads/stable-2.10' as GitRef, revision: '123'},
-          {ref: 'refs/heads/stable-2.11' as GitRef, revision: '1234'},
+          {ref: 'HEAD' as GitRef, revision: 'main'},
+          {ref: 'refs/heads/stable-2.10' as GitRef, revision: '123af'},
+          {ref: 'refs/heads/stable-2.11' as GitRef, revision: '1234b'},
           {ref: 'refs/heads/stable-2.12' as GitRef, revision: '12345'},
           {ref: 'refs/heads/stable-2.13' as GitRef, revision: '123456'},
           {ref: 'refs/heads/stable-2.14' as GitRef, revision: '1234567'},

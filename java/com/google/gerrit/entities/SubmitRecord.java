@@ -70,7 +70,7 @@ public class SubmitRecord {
 
   // Name of the rule that created this submit record, formatted as '$pluginName~$ruleName'
   public String ruleName;
-  public Status status;
+  public SubmitRecord.Status status;
   public List<Label> labels;
   public List<LegacySubmitRequirement> requirements;
   public String errorMessage;
@@ -113,7 +113,7 @@ public class SubmitRecord {
     }
 
     public String label;
-    public Status status;
+    public Label.Status status;
     public Account.Id appliedBy;
 
     /**

@@ -1,23 +1,12 @@
 /**
  * @license
- * Copyright (C) 2021 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {Subscription} from 'rxjs';
 import {map, distinctUntilChanged} from 'rxjs/operators';
 import {
-  config,
+  createShortCutConfig,
   Shortcut,
   ShortcutHelpItem,
   ShortcutSection,
@@ -34,6 +23,8 @@ import {
 import {ReportingService} from '../gr-reporting/gr-reporting';
 import {Finalizable} from '../registry';
 import {UserModel} from '../../models/user/user-model';
+import {FlagsService} from '../flags/flags';
+import {define} from '../../models/dependency';
 
 export type SectionView = Array<{binding: string[][]; text: string}>;
 
@@ -61,6 +52,9 @@ function isComboKey(key: string): key is ComboKey {
 }
 
 export const COMBO_TIMEOUT_MS = 1000;
+
+export const shortcutsServiceToken =
+  define<ShortcutsService>('shortcuts-service');
 
 /**
  * Shortcuts service, holds all hosts, bindings and listeners.
@@ -99,12 +93,16 @@ export class ShortcutsService implements Finalizable {
 
   private readonly subscriptions: Subscription[] = [];
 
+  private readonly config: Map<ShortcutSection, ShortcutHelpItem[]>;
+
   constructor(
     readonly userModel: UserModel,
+    readonly flagsService: FlagsService,
     readonly reporting?: ReportingService
   ) {
-    for (const section of config.keys()) {
-      const items = config.get(section) ?? [];
+    this.config = createShortCutConfig(flagsService);
+    for (const section of this.config.keys()) {
+      const items = this.config.get(section) ?? [];
       for (const item of items) {
         this.bindings.set(item.shortcut, item.bindings);
       }
@@ -268,7 +266,7 @@ export class ShortcutsService implements Finalizable {
   }
 
   getDescription(section: ShortcutSection, shortcutName: Shortcut) {
-    const bindings = config.get(section);
+    const bindings = this.config.get(section);
     if (!bindings) return '';
     const binding = bindings.find(binding => binding.shortcut === shortcutName);
     return binding?.text ?? '';
@@ -287,7 +285,7 @@ export class ShortcutsService implements Finalizable {
       ShortcutSection,
       ShortcutHelpItem[]
     >();
-    config.forEach((shortcutList, section) => {
+    this.config.forEach((shortcutList, section) => {
       shortcutList.forEach(shortcutHelp => {
         if (this.activeShortcuts.has(shortcutHelp.shortcut)) {
           if (!activeShortcutsBySection.has(section)) {

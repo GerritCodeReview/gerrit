@@ -1,24 +1,13 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-reply-dialog';
 import {
   addListenerForTest,
+  isVisible,
   mockPromise,
   queryAll,
   queryAndAssert,
@@ -57,6 +46,7 @@ import {
   ReviewerInput,
   ReviewInput,
   ReviewResult,
+  RevisionPatchSetNum,
   Suggestion,
   UrlEncodedCommentId,
 } from '../../../types/common';
@@ -192,6 +182,157 @@ suite('gr-reply-dialog tests', () => {
     });
     return promise;
   }
+
+  test('renders', () => {
+    expect(element).shadowDom.to.equal(/* HTML */ `
+      <div tabindex="-1">
+        <section class="peopleContainer">
+          <gr-endpoint-decorator name="reply-reviewers">
+            <gr-endpoint-param name="change"> </gr-endpoint-param>
+            <gr-endpoint-param name="reviewers"> </gr-endpoint-param>
+            <div class="peopleList">
+              <div class="peopleListLabel">Reviewers</div>
+              <gr-account-list id="reviewers"> </gr-account-list>
+              <gr-endpoint-slot name="right"> </gr-endpoint-slot>
+            </div>
+            <gr-endpoint-slot name="below"> </gr-endpoint-slot>
+          </gr-endpoint-decorator>
+          <div class="peopleList">
+            <div class="peopleListLabel">CC</div>
+            <gr-account-list allow-any-input="" id="ccs"> </gr-account-list>
+          </div>
+          <gr-overlay
+            aria-hidden="true"
+            id="reviewerConfirmationOverlay"
+            style="outline: none; display: none;"
+          >
+            <div class="reviewerConfirmation">
+              Group
+              <span class="groupName"> </span>
+              has
+              <span class="groupSize"> </span>
+              members.
+              <br />
+              Are you sure you want to add them all?
+            </div>
+            <div class="reviewerConfirmationButtons">
+              <gr-button aria-disabled="false" role="button" tabindex="0">
+                Yes
+              </gr-button>
+              <gr-button aria-disabled="false" role="button" tabindex="0">
+                No
+              </gr-button>
+            </div>
+          </gr-overlay>
+        </section>
+        <section class="labelsContainer">
+          <gr-endpoint-decorator name="reply-label-scores">
+            <gr-label-scores id="labelScores"> </gr-label-scores>
+            <gr-endpoint-param name="change"> </gr-endpoint-param>
+          </gr-endpoint-decorator>
+          <div id="pluginMessage"></div>
+        </section>
+        <section class="newReplyDialog textareaContainer">
+          <div class="patchsetLevelContainer resolved">
+            <gr-endpoint-decorator name="reply-text">
+              <gr-textarea
+                class="message monospace newReplyDialog"
+                id="textarea"
+                monospace=""
+              >
+              </gr-textarea>
+              <gr-endpoint-param name="change"> </gr-endpoint-param>
+            </gr-endpoint-decorator>
+            <div class="labelContainer">
+              <label>
+                <input
+                  checked=""
+                  id="resolvedPatchsetLevelCommentCheckbox"
+                  type="checkbox"
+                />
+                Resolved
+              </label>
+              <label class="preview-formatting">
+                <input type="checkbox" />
+                Preview formatting
+              </label>
+            </div>
+          </div>
+        </section>
+        <div class="newReplyDialog stickyBottom">
+          <gr-endpoint-decorator name="reply-bottom">
+            <gr-endpoint-param name="change"> </gr-endpoint-param>
+            <section class="attention">
+              <div class="attentionSummary">
+                <div>
+                  <span> No changes to the attention set. </span>
+                  <gr-tooltip-content
+                    has-tooltip=""
+                    title="Edit attention set changes"
+                  >
+                    <gr-button
+                      aria-disabled="false"
+                      class="edit-attention-button"
+                      data-action-key="edit"
+                      data-action-type="change"
+                      data-label="Edit"
+                      link=""
+                      position-below=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      <iron-icon icon="gr-icons:edit"> </iron-icon>
+                      Modify
+                    </gr-button>
+                  </gr-tooltip-content>
+                </div>
+                <div>
+                  <a
+                    href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
+                    target="_blank"
+                  >
+                    <iron-icon
+                      icon="gr-icons:help-outline"
+                      title="read documentation"
+                    >
+                    </iron-icon>
+                  </a>
+                </div>
+              </div>
+            </section>
+            <gr-endpoint-slot name="above-actions"> </gr-endpoint-slot>
+            <section class="actions">
+              <div class="left"></div>
+              <div class="right">
+                <gr-button
+                  aria-disabled="false"
+                  class="action cancel"
+                  id="cancelButton"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Cancel
+                </gr-button>
+                <gr-tooltip-content has-tooltip="" title="Send reply">
+                  <gr-button
+                    aria-disabled="false"
+                    class="action send"
+                    id="sendButton"
+                    primary=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Send
+                  </gr-button>
+                </gr-tooltip-content>
+              </div>
+            </section>
+          </gr-endpoint-decorator>
+        </div>
+      </div>
+    `);
+  });
 
   test('default to publishing draft comments with reply', async () => {
     // Async tick is needed because iron-selector content is distributed and
@@ -1084,11 +1225,6 @@ suite('gr-reply-dialog tests', () => {
     return document.activeElement;
   }
 
-  function isVisible(el: Element) {
-    assert.ok(el);
-    return getComputedStyle(el).getPropertyValue('display') !== 'none';
-  }
-
   function overlayObserver(mode: string) {
     return new Promise(resolve => {
       function listener() {
@@ -1193,7 +1329,7 @@ suite('gr-reply-dialog tests', () => {
     const reviewersEntry = queryAndAssert<GrAccountList>(element, '#reviewers');
     assert.isTrue(
       isFocusInsideElement(
-        queryAndAssert<GrAutocomplete>(reviewersEntry.entry, '#input').$.input
+        queryAndAssert<GrAutocomplete>(reviewersEntry.entry, '#input').input!
       )
     );
 
@@ -1254,7 +1390,7 @@ suite('gr-reply-dialog tests', () => {
       const ccsEntry = queryAndAssert<GrAccountList>(element, '#ccs');
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAutocomplete>(ccsEntry.entry, '#input').$.input
+          queryAndAssert<GrAutocomplete>(ccsEntry.entry, '#input').input!
         )
       );
     } else {
@@ -1264,7 +1400,7 @@ suite('gr-reply-dialog tests', () => {
       );
       assert.isTrue(
         isFocusInsideElement(
-          queryAndAssert<GrAutocomplete>(reviewersEntry.entry, '#input').$.input
+          queryAndAssert<GrAutocomplete>(reviewersEntry.entry, '#input').input!
         )
       );
     }
@@ -1438,6 +1574,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('focusOn', async () => {
+    await element.updateComplete;
     const clock = sinon.useFakeTimers();
     const chooseFocusTargetSpy = sinon.spy(element, 'chooseFocusTarget');
     element.focusOn();
@@ -1847,6 +1984,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('Ignore removal requests if being added as reviewer/CC', async () => {
+    await element.updateComplete;
     const reviewers = queryAndAssert<GrAccountList>(element, '#reviewers');
     const ccs = queryAndAssert<GrAccountList>(element, '#ccs');
     const reviewer1 = makeAccount();
@@ -2214,7 +2352,7 @@ suite('gr-reply-dialog tests', () => {
             ...createDraft(),
             path: 'test',
             line: 1,
-            patch_set: 1 as PatchSetNum,
+            patch_set: 1 as RevisionPatchSetNum,
           },
         ]),
       },
@@ -2242,7 +2380,7 @@ suite('gr-reply-dialog tests', () => {
             ...createDraft(),
             path: 'test',
             line: 1,
-            patch_set: 1 as PatchSetNum,
+            patch_set: 1 as RevisionPatchSetNum,
           },
         ]),
       },

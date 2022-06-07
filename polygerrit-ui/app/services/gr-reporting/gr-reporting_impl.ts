@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {FlagsService} from '../flags/flags';
 import {EventValue, ReportingService, Timer} from './gr-reporting';
@@ -27,6 +16,8 @@ import {
   LifeCycle,
   Timing,
 } from '../../constants/reporting';
+import {getCLS, getFID, getLCP} from 'web-vitals';
+import {Metric} from 'web-vitals/src/types';
 
 // Latency reporting constants.
 
@@ -194,6 +185,23 @@ export function initVisibilityReporter(reportingService: ReportingService) {
   document.addEventListener('visibilitychange', () => {
     reportingService.onVisibilityChange();
   });
+}
+
+export function initWebVitals(reportingService: ReportingService) {
+  function reportWebVitalMetric(name: Timing, metric: Metric) {
+    reportingService.reporter(
+      TIMING.TYPE,
+      TIMING.CATEGORY.UI_LATENCY,
+      name,
+      metric.value,
+      JSON.stringify(metric),
+      false
+    );
+  }
+
+  getCLS(metric => reportWebVitalMetric(Timing.CLS, metric));
+  getFID(metric => reportWebVitalMetric(Timing.FID, metric));
+  getLCP(metric => reportWebVitalMetric(Timing.LCP, metric));
 }
 
 // Calculates the time of Gerrit being in a background tab. When Gerrit reports

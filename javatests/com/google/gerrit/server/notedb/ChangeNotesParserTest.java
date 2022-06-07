@@ -205,6 +205,8 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Copied-Label: Label2=+1 Account <1@gerrit>\n"
             + "Copied-Label: Label3=+1 Account <1@gerrit>,Other Account <2@Gerrit> :\"tag\"\n"
             + "Copied-Label: Label4=+1 Account <1@Gerrit> :\"tag with characters %^#@^( *::!\"\n"
+            + "Copied-Label: -Label1 Account <1@gerrit>,Other Account <2@Gerrit>\\n"
+            + "Copied-Label: -Label1 Account <1@gerrit>\n"
             + "Subject: This is a test change\n");
 
     assertParseFails("Update change\n\nPatch-set: 1\nCopied-Label: Label1=X\n");
@@ -220,6 +222,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         "Update change\n\nPatch-set: 1\nCopied-Label: Label1 Other Account <2@gerrit>,Other "
             + "Account <2@gerrit>,Other Account <2@gerrit> \n");
     assertParseFails("Update change\n\nPatch-set: 1\nCopied-Label: Label1 non-user\n");
+    assertParseFails("Update change\n\nPatch-set: 1\nCopied-Label: -Label1\n");
   }
 
   @Test
@@ -264,6 +267,14 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
         "Update change\n\nPatch-set: 1\nCopied-Label: Label1=+1, 577fb248e474018276351785930358ec0450e9f7");
     assertParseFails(
         "Update change\n\nPatch-set: 1\nCopied-Label: Label1=+1, 577fb248e474018276351785930358ec0450e9f7 :\"tag\"\n");
+
+    // UUID for removals is not supported.
+    assertParseFails(
+        "Update change\n\nPatch-set: 1\nCopied-Label: -Label1,"
+            + " 577fb248e474018276351785930358ec0450e9f7\n");
+    assertParseFails(
+        "Update change\n\nPatch-set: 1\nCopied-Label: -Label1,"
+            + " 577fb248e474018276351785930358ec0450e9f7 Other Account <2@gerrit>\n");
   }
 
   @Test

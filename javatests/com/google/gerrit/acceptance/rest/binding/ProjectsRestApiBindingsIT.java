@@ -32,6 +32,8 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.TagInput;
@@ -85,7 +87,8 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
               .build(),
           RestCall.get("/projects/%s/dashboards"),
           RestCall.put("/projects/%s/labels/new-label"),
-          RestCall.post("/projects/%s/labels/"));
+          RestCall.post("/projects/%s/labels/"),
+          RestCall.put("/projects/%s/submit_requirements/new-sr"));
 
   /**
    * Child project REST endpoints to be tested, each URL contains placeholders for the parent
@@ -175,6 +178,15 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
           // Label deletion must be tested last
           RestCall.delete("/projects/%s/labels/%s"));
 
+  /**
+   * Submit requirement REST endpoints to be tested, each URL contains placeholders for the project
+   * identifier and the submit requirement name.
+   */
+  private static final ImmutableList<RestCall> SUBMIT_REQUIREMENT_ENDPOINTS =
+      ImmutableList.of(
+          RestCall.get("/projects/%s/submit_requirements/%s"),
+          RestCall.put("/projects/%s/submit_requirements/%s"));
+
   private static final String FILENAME = "test.txt";
   @Inject private ProjectOperations projectOperations;
 
@@ -234,6 +246,20 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
     String label = "Foo-Review";
     configLabel(label, LabelFunction.NO_OP);
     RestApiCallHelper.execute(adminRestSession, LABEL_ENDPOINTS, project.get(), label);
+  }
+
+  @Test
+  public void submitRequirementsEndpoints() throws Exception {
+    // Create the SR, so that the GET endpoint succeeds
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("code-review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.maxCodeReview())
+            .setAllowOverrideInChildProjects(false)
+            .build());
+    RestApiCallHelper.execute(
+        adminRestSession, SUBMIT_REQUIREMENT_ENDPOINTS, project.get(), "code-review");
   }
 
   private String createAndSubmitChange(String filename) throws Exception {

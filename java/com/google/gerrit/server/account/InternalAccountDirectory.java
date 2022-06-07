@@ -27,7 +27,6 @@ import com.google.gerrit.extensions.common.AccountInfo.Tags;
 import com.google.gerrit.extensions.common.AvatarInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -97,12 +96,8 @@ public class InternalAccountDirectory extends AccountDirectory {
     Account.Id currentUserId = null;
     if (self.get().isIdentifiedUser()) {
       currentUserId = self.get().getAccountId();
-
-      try {
-        permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
+      if (permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)) {
         canModifyAccount = true;
-      } catch (AuthException e) {
-        canModifyAccount = false;
       }
     }
 

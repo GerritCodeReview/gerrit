@@ -25,6 +25,9 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
   {@param labels: ?}
   {@param patchSet: ?}
   {@param patchSetCommentBlocks: ?}
+  {@param unsatisfiedSubmitRequirements: ?}
+  {@param oldSubmitRequirements: ?}
+  {@param newSubmitRequirements: ?}
   {let $commentHeaderStyle kind="css"}
     margin-bottom: 4px;
   {/let}
@@ -96,6 +99,31 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
           </span>
         {/if}
       {/for}
+    </p>
+  {/if}
+
+  {if $unsatisfiedSubmitRequirements}
+    <p>
+      The change is no longer submittable:{sp}
+      {if length($unsatisfiedSubmitRequirements) > 0}
+        {for $unsatisfiedSubmitRequirement, $index in $unsatisfiedSubmitRequirements}
+          {if $index > 0}
+            {if $index == length($unsatisfiedSubmitRequirements) - 1}
+              {sp}and{sp}
+            {else}
+              ,{sp}
+            {/if}
+          {/if}
+          {$unsatisfiedSubmitRequirement}
+        {/for}
+        {sp}
+        {if length($unsatisfiedSubmitRequirements) == 1}
+          is
+        {else}
+          are
+        {/if}
+        {sp}unsatisfied now.
+      {/if}
     </p>
   {/if}
 

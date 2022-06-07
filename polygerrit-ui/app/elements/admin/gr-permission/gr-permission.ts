@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '@polymer/paper-toggle-button/paper-toggle-button';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
@@ -147,10 +135,7 @@ export class GrPermission extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues<GrPermission>): void {
     if (changedProperties.has('editing')) {
-      this.handleEditingChanged(
-        this.editing,
-        changedProperties.get('editing') as boolean
-      );
+      this.handleEditingChanged(changedProperties.get('editing'));
     }
     if (
       changedProperties.has('permission') ||
@@ -329,7 +314,7 @@ export class GrPermission extends LitElement {
     return permissionId === 'owner' || section === 'GLOBAL_CAPABILITIES';
   }
 
-  private handleEditingChanged(editing: boolean, editingOld: boolean) {
+  private handleEditingChanged(editingOld: boolean) {
     // Ignore when editing gets set initially.
     if (!editingOld) {
       return;
@@ -339,7 +324,7 @@ export class GrPermission extends LitElement {
     }
 
     // Restore original values if no longer editing.
-    if (!editing) {
+    if (!this.editing) {
       this.deleted = false;
       delete this.permission.value.deleted;
       this.groupFilter = '';

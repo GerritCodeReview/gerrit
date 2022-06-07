@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
@@ -74,6 +63,7 @@ import {resolve} from '../../../models/dependency';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {whenRendered} from '../../../utils/dom-util';
+import {Interaction} from '../../../constants/reporting';
 
 const NEWLINE_PATTERN = /\n/g;
 
@@ -256,6 +246,8 @@ export class GrCommentThread extends LitElement {
 
   private readonly userModel = getAppContext().userModel;
 
+  private readonly reporting = getAppContext().reportingService;
+
   private readonly shortcuts = new ShortcutController(this);
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker();
@@ -264,35 +256,58 @@ export class GrCommentThread extends LitElement {
     super();
     this.shortcuts.addGlobal({key: 'e'}, () => this.handleExpandShortcut());
     this.shortcuts.addGlobal({key: 'E'}, () => this.handleCollapseShortcut());
-  }
-
-  override connectedCallback(): void {
-    super.connectedCallback();
     subscribe(
       this,
-      this.getChangeModel().changeNum$,
+      () => this.getChangeModel().changeNum$,
       x => (this.changeNum = x)
     );
-    subscribe(this, this.userModel.account$, x => (this.account = x));
-    subscribe(this, this.getChangeModel().repo$, x => (this.repoName = x));
-    subscribe(this, this.userModel.diffPreferences$, x =>
-      this.syntaxLayer.setEnabled(!!x.syntax_highlighting)
+    subscribe(
+      this,
+      () => this.userModel.account$,
+      x => (this.account = x)
     );
-    subscribe(this, this.userModel.preferences$, prefs => {
-      const layers: DiffLayer[] = [this.syntaxLayer];
-      if (!prefs.disable_token_highlighting) {
-        layers.push(new TokenHighlightLayer(this));
+    subscribe(
+      this,
+      () => this.getChangeModel().repo$,
+      x => (this.repoName = x)
+    );
+    subscribe(
+      this,
+      () => this.userModel.diffPreferences$,
+      x => this.syntaxLayer.setEnabled(!!x.syntax_highlighting)
+    );
+    subscribe(
+      this,
+      () => this.userModel.preferences$,
+      prefs => {
+        const layers: DiffLayer[] = [this.syntaxLayer];
+        if (!prefs.disable_token_highlighting) {
+          layers.push(new TokenHighlightLayer(this));
+        }
+        this.layers = layers;
       }
-      this.layers = layers;
-    });
-    subscribe(this, this.userModel.diffPreferences$, prefs => {
-      this.prefs = {
-        ...prefs,
-        // set line_wrapping to true so that the context can take all the
-        // remaining space after comment card has rendered
-        line_wrapping: true,
-      };
-    });
+    );
+    subscribe(
+      this,
+      () => this.userModel.diffPreferences$,
+      prefs => {
+        this.prefs = {
+          ...prefs,
+          // set line_wrapping to true so that the context can take all the
+          // remaining space after comment card has rendered
+          line_wrapping: true,
+        };
+      }
+    );
+  }
+
+  override disconnectedCallback() {
+    if (this.editing) {
+      this.reporting.reportInteraction(
+        Interaction.COMMENTS_AUTOCLOSE_EDITING_THREAD_DISCONNECTED
+      );
+    }
+    super.disconnectedCallback();
   }
 
   static override get styles() {

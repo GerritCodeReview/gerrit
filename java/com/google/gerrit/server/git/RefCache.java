@@ -37,4 +37,7 @@ public interface RefCache {
    *     present with a value of {@link ObjectId#zeroId()}.
    */
   Optional<ObjectId> get(String refName) throws IOException;
+
+  /** Closes this cache, releasing the references to any underlying resources. */
+  void close();
 }

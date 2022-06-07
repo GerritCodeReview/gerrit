@@ -3,10 +3,10 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import {
   createAccountWithIdNameAndEmail,
   createChange,
+  createGroupInfo,
   createRevisions,
 } from '../../test/test-data-generators';
 import {
@@ -18,6 +18,7 @@ import {
   AccountInfo,
   ReviewerState,
   AccountId,
+  GroupInfo,
 } from '../../api/rest-api';
 import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
@@ -102,7 +103,7 @@ suite('bulk actions model test', () => {
     bulkActionsModel.addSelectedChangeNum(c1._number);
     bulkActionsModel.addSelectedChangeNum(c2._number);
     let selectedChangeNums = await waitUntilObserved(
-      bulkActionsModel!.selectedChangeNums$,
+      bulkActionsModel.selectedChangeNums$,
       s => s.length === 2
     );
     let totalChangeCount = await waitUntilObserved(
@@ -114,7 +115,7 @@ suite('bulk actions model test', () => {
 
     bulkActionsModel.clearSelectedChangeNums();
     selectedChangeNums = await waitUntilObserved(
-      bulkActionsModel!.selectedChangeNums$,
+      bulkActionsModel.selectedChangeNums$,
       s => s.length === 0
     );
     totalChangeCount = await waitUntilObserved(
@@ -123,6 +124,37 @@ suite('bulk actions model test', () => {
     );
 
     assert.isEmpty(selectedChangeNums);
+    assert.equal(totalChangeCount, 2);
+  });
+
+  test('selects all changes', async () => {
+    const c1 = createChange();
+    c1._number = 1 as NumericChangeId;
+    const c2 = createChange();
+    c2._number = 2 as NumericChangeId;
+    bulkActionsModel.sync([c1, c2]);
+    let selectedChangeNums = await waitUntilObserved(
+      bulkActionsModel.selectedChangeNums$,
+      s => s.length === 0
+    );
+    let totalChangeCount = await waitUntilObserved(
+      bulkActionsModel.totalChangeCount$,
+      totalChangeCount => totalChangeCount === 2
+    );
+    assert.isEmpty(selectedChangeNums);
+    assert.equal(totalChangeCount, 2);
+
+    bulkActionsModel.selectAll();
+    selectedChangeNums = await waitUntilObserved(
+      bulkActionsModel.selectedChangeNums$,
+      s => s.length === 2
+    );
+    totalChangeCount = await waitUntilObserved(
+      bulkActionsModel.totalChangeCount$,
+      totalChangeCount => totalChangeCount === 2
+    );
+
+    assert.sameMembers(selectedChangeNums, [c1._number, c2._number]);
     assert.equal(totalChangeCount, 2);
   });
 
@@ -169,6 +201,7 @@ suite('bulk actions model test', () => {
       createAccountWithIdNameAndEmail(0),
       createAccountWithIdNameAndEmail(1),
     ];
+    const groups: GroupInfo[] = [createGroupInfo('groupId')];
     const changes: ChangeInfo[] = [
       {
         ...createChange(),
@@ -203,20 +236,48 @@ suite('bulk actions model test', () => {
     test('adds reviewers/cc only to changes that need it', async () => {
       bulkActionsModel.addReviewers(
         new Map([
-          [ReviewerState.REVIEWER, [accounts[0]]],
+          [ReviewerState.REVIEWER, [accounts[0], groups[0]]],
           [ReviewerState.CC, [accounts[1]]],
-        ])
+        ]),
+        '<GERRIT_ACCOUNT_12345> replied on the change'
       );
 
-      // changes[0] is not updated since it already has the reviewer & CC
-      assert.isTrue(saveChangeReviewStub.calledOnce);
+      assert.isTrue(saveChangeReviewStub.calledTwice);
+      // changes[0] only adds the group since it already has the other
+      // reviewer/CCs
       assert.sameDeepOrderedMembers(saveChangeReviewStub.firstCall.args, [
+        changes[0]._number,
+        'current',
+        {
+          reviewers: [{reviewer: groups[0].id, state: ReviewerState.REVIEWER}],
+          ignore_automatic_attention_set_rules: true,
+          add_to_attention_set: [
+            {
+              reason: '<GERRIT_ACCOUNT_12345> replied on the change',
+              user: groups[0].id,
+            },
+          ],
+        },
+      ]);
+      assert.sameDeepOrderedMembers(saveChangeReviewStub.secondCall.args, [
         changes[1]._number,
         'current',
         {
           reviewers: [
             {reviewer: accounts[0]._account_id, state: ReviewerState.REVIEWER},
+            {reviewer: groups[0].id, state: ReviewerState.REVIEWER},
             {reviewer: accounts[1]._account_id, state: ReviewerState.CC},
+          ],
+          ignore_automatic_attention_set_rules: true,
+          add_to_attention_set: [
+            {
+              reason: '<GERRIT_ACCOUNT_12345> replied on the change',
+              user: accounts[0]._account_id,
+            },
+            {
+              reason: '<GERRIT_ACCOUNT_12345> replied on the change',
+              user: groups[0].id,
+            },
           ],
         },
       ]);
@@ -289,7 +350,7 @@ suite('bulk actions model test', () => {
     bulkActionsModel.addSelectedChangeNum(c2._number);
 
     let selectedChangeNums = await waitUntilObserved(
-      bulkActionsModel!.selectedChangeNums$,
+      bulkActionsModel.selectedChangeNums$,
       s => s.length === 2
     );
     let totalChangeCount = await waitUntilObserved(
@@ -302,7 +363,7 @@ suite('bulk actions model test', () => {
 
     bulkActionsModel.sync([c1]);
     selectedChangeNums = await waitUntilObserved(
-      bulkActionsModel!.selectedChangeNums$,
+      bulkActionsModel.selectedChangeNums$,
       s => s.length === 1
     );
     totalChangeCount = await waitUntilObserved(

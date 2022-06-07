@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.gpg.GerritPushCertificateChecker;
+import com.google.gerrit.gpg.GerritPushCertificateCheckerFactory;
 import com.google.gerrit.gpg.PushCertificateChecker;
 import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.server.PostGpgKeys;
@@ -44,14 +44,14 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
   private final Provider<PostGpgKeys> postGpgKeys;
   private final Provider<GpgKeys> gpgKeys;
   private final GpgKeyApiImpl.Factory gpgKeyApiFactory;
-  private final GerritPushCertificateChecker.Factory pushCertCheckerFactory;
+  private final GerritPushCertificateCheckerFactory pushCertCheckerFactory;
 
   @Inject
   GpgApiAdapterImpl(
       Provider<PostGpgKeys> postGpgKeys,
       Provider<GpgKeys> gpgKeys,
       GpgKeyApiImpl.Factory gpgKeyApiFactory,
-      GerritPushCertificateChecker.Factory pushCertCheckerFactory) {
+      GerritPushCertificateCheckerFactory pushCertCheckerFactory) {
     this.postGpgKeys = postGpgKeys;
     this.gpgKeys = gpgKeys;
     this.gpgKeyApiFactory = gpgKeyApiFactory;

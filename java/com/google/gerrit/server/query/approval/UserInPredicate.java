@@ -53,10 +53,10 @@ public class UserInPredicate extends ApprovalPredicate {
   public boolean match(ApprovalContext ctx) {
     Account.Id accountId;
     if (field == Field.UPLOADER) {
-      PatchSet patchSet = ctx.target();
+      PatchSet patchSet = ctx.targetPatchSet();
       accountId = patchSet.uploader();
     } else if (field == Field.APPROVER) {
-      accountId = ctx.patchSetApproval().accountId();
+      accountId = ctx.approverId();
     } else {
       throw new IllegalStateException("unknown field in group membership check: " + field);
     }

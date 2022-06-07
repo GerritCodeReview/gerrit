@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-formatted-text';
 import {
@@ -412,6 +400,14 @@ suite('gr-formatted-text tests', () => {
     assertSimpleTextBlock(result[1], ' \nB');
   });
 
+  test('pre format 6', () => {
+    const comment = '  Q\n    <R>\n\n  S\n \nB';
+    const result = element._computeBlocks(comment);
+    assert.lengthOf(result, 2);
+    assertPreBlock(result[0], '  Q\n    <R>\n\n  S');
+    assertSimpleTextBlock(result[1], ' \nB');
+  });
+
   test('quote 1', () => {
     const comment = "> I'm happy with quotes!!";
     const result = element._computeBlocks(comment);
@@ -454,48 +450,43 @@ suite('gr-formatted-text tests', () => {
     assertSimpleTextBlock(outerQuoteBlock.blocks[1], 'next');
   });
 
-  test('code 1', () => {
+  test('code entire text', () => {
     const comment = '```\n// test code\n```';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
     assertCodeBlock(result[0], '// test code');
   });
 
-  test('code 2', () => {
-    const comment = 'test code\n```// test code```';
+  test('code first line is descriptor not part of code', () => {
+    const comment = 'test code\n```descr\n// test code\n```\nsomething else';
+    const result = element._computeBlocks(comment);
+    assert.lengthOf(result, 3);
+    assertSimpleTextBlock(result[0], 'test code');
+    // 'descr' is omitted.
+    assertCodeBlock(result[1], '// test code');
+    assertSimpleTextBlock(result[2], 'something else');
+  });
+
+  test('code open without close eats everything', () => {
+    const comment = 'test code\n```\n// test code\n// more code';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 2);
     assertSimpleTextBlock(result[0], 'test code');
-    assertCodeBlock(result[1], '// test code');
+    assertCodeBlock(result[1], '// test code\n// more code');
   });
 
-  test('not a code block', () => {
-    const comment = 'test code\n```// test code';
+  test('backticks inside line not code', () => {
+    const comment = 'test code\nwords ```\n// test code```';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 1);
-    assertSimpleTextBlock(result[0], 'test code\n```// test code');
-  });
-
-  test('not a code block 2', () => {
-    const comment = 'test code\n```\n// test code';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 2);
-    assertSimpleTextBlock(result[0], 'test code');
-    assertSimpleTextBlock(result[1], '```\n// test code');
-  });
-
-  test('not a code block 3', () => {
-    const comment = 'test code\n```';
-    const result = element._computeBlocks(comment);
-    assert.lengthOf(result, 2);
-    assertSimpleTextBlock(result[0], 'test code');
-    assertSimpleTextBlock(result[1], '```');
+    // We don't care how paragraph itself is parsed for this test.
+    assert.equal(result[0].type, 'paragraph');
   });
 
   test('mix all 1', () => {
     const comment =
       ' bullets:\n- bullet 1\n- bullet 2\n\ncode example:\n' +
-      '```// test code```\n\n> reference is here';
+      '```\n// test code\n```\n\n> reference is here';
     const result = element._computeBlocks(comment);
     assert.lengthOf(result, 5);
     assert.equal(result[0].type, 'pre');

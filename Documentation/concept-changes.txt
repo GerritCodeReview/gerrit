@@ -34,6 +34,11 @@ properties about that change.
 |Owner
 |The contributor who created the change.
 
+|Uploader
+|The user that uploaded the current patch set (e.g. the user that executed the
+`git push` command, or the user that triggered the patch set creation through
+an action in the UI).
+
 |Assignee
 |The contributor responsible for the change. Often used when a change has
 mulitple reviewers to identify the individual responsible for final approval.

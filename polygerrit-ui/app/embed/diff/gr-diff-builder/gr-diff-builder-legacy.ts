@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the 'License');
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an 'AS IS' BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {
   MovedLinkClickedEventDetail,
@@ -162,10 +151,8 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
    *
    * TODO(brohlfs): Consolidate this with getLineEl... methods in html file.
    */
-  private getLineNumberEl(
-    content: HTMLElement,
-    side: Side
-  ): HTMLElement | null {
+  // visible for testing
+  getLineNumberEl(content: HTMLElement, side: Side): HTMLElement | null {
     let row: HTMLElement | null = content;
     while (row && !row.classList.contains('diff-row')) row = row.parentElement;
     return row ? (row.querySelector('.lineNum.' + side) as HTMLElement) : null;
@@ -349,7 +336,8 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
     });
   }
 
-  protected createTextEl(
+  // visible for testing
+  createTextEl(
     lineNumberEl: HTMLElement | null,
     line: GrDiffLine,
     side?: Side
@@ -491,7 +479,8 @@ export abstract class GrDiffBuilderLegacy extends GrDiffBuilder {
    * Create a blame cell for the given base line. Blame information will be
    * included in the cell if available.
    */
-  protected createBlameCell(lineNumber: LineNumber): HTMLTableCellElement {
+  // visible for testing
+  createBlameCell(lineNumber: LineNumber): HTMLTableCellElement {
     const blameTd = createElementDiff('td', 'blame') as HTMLTableCellElement;
     blameTd.setAttribute('data-line-number', lineNumber.toString());
     if (!lineNumber) return blameTd;

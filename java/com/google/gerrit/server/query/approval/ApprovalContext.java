@@ -17,8 +17,9 @@ package com.google.gerrit.server.query.approval;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import org.eclipse.jgit.lib.Config;
@@ -27,15 +28,21 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /** Entity representing all required information to match predicates for copying approvals. */
 @AutoValue
 public abstract class ApprovalContext {
-  /** Approval on the source patch set to be copied. */
-  public abstract PatchSetApproval patchSetApproval();
+  public abstract PatchSet.Id sourcePatchSetId();
+
+  public abstract Account.Id approverId();
+
+  public abstract LabelType labelType();
+
+  /** Value of the approval on the source patch set to be copied. */
+  public abstract short approvalValue();
 
   /**
    * Target change and patch set for the approval. This must be used instead of getting the PatchSet
    * from {@link #changeNotes()} because it is possible we are now creating the patch-set, so it
    * doesn't exist in changeNotes yet.
    */
-  public abstract PatchSet target();
+  public abstract PatchSet targetPatchSet();
 
   /** {@link ChangeNotes} of the change in question. */
   public abstract ChangeNotes changeNotes();
@@ -54,17 +61,20 @@ public abstract class ApprovalContext {
 
   public static ApprovalContext create(
       ChangeNotes changeNotes,
-      PatchSetApproval psa,
-      PatchSet patchSet,
+      PatchSet.Id sourcePatchSetId,
+      Account.Id approverId,
+      LabelType labelType,
+      short approvalValue,
+      PatchSet targetPatchSet,
       ChangeKind changeKind,
       boolean isMerge,
       RevWalk revWalk,
       Config repoConfig) {
     checkState(
-        psa.patchSetId().changeId().equals(patchSet.id().changeId()),
+        sourcePatchSetId.changeId().equals(targetPatchSet.id().changeId()),
         "approval and target must be the same change. got: %s, %s",
-        psa.patchSetId(),
-        patchSet.id());
+        sourcePatchSetId,
+        targetPatchSet.id());
     // TODO(ekempin): Use checkState to verify that psa.patchSetId().get() + 1 == id.get() so that
     // it's ensured that approvals are only copied to the next consecutive patch set. To add back
     // this verification https://gerrit-review.googlesource.com/c/gerrit/+/312633 can be reverted.
@@ -72,6 +82,15 @@ public abstract class ApprovalContext {
     // are no changes with gaps in patch set numbers. Since it's planned to fix-up old changes with
     // gaps in patch set numbers, this todo is a reminder to add back the check once this is done.
     return new AutoValue_ApprovalContext(
-        psa, patchSet, changeNotes, changeKind, isMerge, revWalk, repoConfig);
+        sourcePatchSetId,
+        approverId,
+        labelType,
+        approvalValue,
+        targetPatchSet,
+        changeNotes,
+        changeKind,
+        isMerge,
+        revWalk,
+        repoConfig);
   }
 }

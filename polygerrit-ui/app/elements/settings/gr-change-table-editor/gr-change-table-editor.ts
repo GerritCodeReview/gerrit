@@ -1,24 +1,11 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-button/gr-button';
 import {ServerInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
-import {columnNames} from '../../change-list/gr-change-list/gr-change-list';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -26,6 +13,7 @@ import {formStyles} from '../../../styles/gr-form-styles';
 import {PropertyValues} from 'lit';
 import {fire} from '../../../utils/event-util';
 import {ValueChangedEvent} from '../../../types/events';
+import {ColumnNames} from '../../../constants/constants';
 
 @customElement('gr-change-table-editor')
 export class GrChangeTableEditor extends LitElement {
@@ -119,7 +107,7 @@ export class GrChangeTableEditor extends LitElement {
   }
 
   private configChanged() {
-    this.defaultColumns = columnNames.filter(column =>
+    this.defaultColumns = Object.values(ColumnNames).filter(column =>
       this.isColumnEnabled(column)
     );
     if (!this.displayedColumns) return;
@@ -134,16 +122,9 @@ export class GrChangeTableEditor extends LitElement {
    */
   isColumnEnabled(column: string) {
     if (!this.serverConfig?.change) return true;
-    if (column === 'Comments')
+    if (column === ColumnNames.COMMENTS)
       return this.flagsService.isEnabled('comments-column');
-    if (column === 'Status')
-      return !this.flagsService.isEnabled(
-        KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-      );
-    if (column === ' Status ')
-      return this.flagsService.isEnabled(
-        KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-      );
+    if (column === ColumnNames.STATUS) return false;
     return true;
   }
 

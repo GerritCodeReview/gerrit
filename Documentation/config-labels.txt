@@ -11,6 +11,28 @@ labels to be voted before a change can be submittable. See the
 link:config-submit-requirements.html[submit requirements] documentation to
 configure such rules.
 
+[[sticky_votes]]
+== Sticky Votes
+
+Whether votes are sticky when a new patch set is created depends on the
+link:#label_copyCondition[copyCondition] of the label. If an approval
+matches the configured condition it is copied from the old current
+patch set to the new current patch set. Votes that are not copied to
+the new patch set, are called `outdated`.
+
+If votes get outdated due to pushing a new patch set the uploader is
+informed about this by a message in the git output. In addition,
+outdated votes are also listed in the email notification that is sent
+for the new patch set (unless this is disabled by a custom email
+template). Note, that the uploader only get this email notification if
+they have configured `Every Comment` for `Email notifications` in their
+user preferences. With any other email preference the email sender, the
+uploader in this case, is not included in the email recipients.
+
+If votes get outdated due to creating a new patch set the user of the
+removed vote is added to the attention set of the change, as they need
+to re-review the change and renew their vote.
+
 [[label_Code-Review]]
 == Label: Code-Review
 

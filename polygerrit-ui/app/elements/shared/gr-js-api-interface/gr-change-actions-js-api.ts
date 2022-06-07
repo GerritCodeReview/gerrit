@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {PluginApi, TargetElement} from '../../../api/plugin';
 import {ActionInfo, RequireProperties} from '../../../types/common';
@@ -25,6 +14,7 @@ import {
   PrimaryActionKey,
   RevisionActions,
 } from '../../../api/change-actions';
+import {PropertyDeclaration} from 'lit';
 
 export interface UIActionInfo extends RequireProperties<ActionInfo, 'label'> {
   __key: string;
@@ -40,7 +30,6 @@ export interface GrChangeActionsElement extends Element {
   ChangeActions: Record<string, string>;
   ActionType: Record<string, string>;
   primaryActionKeys: string[];
-  push(propName: 'primaryActionKeys', value: string): void;
   hideQuickApproveAction(): void;
   setActionOverflow(type: ActionType, key: string, overflow: boolean): void;
   setActionPriority(
@@ -57,6 +46,11 @@ export interface GrChangeActionsElement extends Element {
     value: UIActionInfo[T]
   ): void;
   getActionDetails(actionName: string): ActionInfo | undefined;
+  requestUpdate(
+    name?: PropertyKey,
+    oldValue?: unknown,
+    options?: PropertyDeclaration
+  ): void;
 }
 
 export class GrChangeActionsInterface implements ChangeActionsPluginApi {
@@ -111,7 +105,8 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
       return;
     }
 
-    el.push('primaryActionKeys', key);
+    el.primaryActionKeys.push(key);
+    el.requestUpdate();
   }
 
   removePrimaryActionKey(key: string) {
@@ -127,19 +122,16 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
 
   setActionOverflow(type: ActionType, key: string, overflow: boolean) {
     this.reporting.trackApi(this.plugin, 'actions', 'setActionOverflow');
-    // TODO(TS): remove return, unclear why it was written
     this.ensureEl().setActionOverflow(type, key, overflow);
   }
 
   setActionPriority(type: ActionType, key: string, priority: ActionPriority) {
     this.reporting.trackApi(this.plugin, 'actions', 'setActionPriority');
-    // TODO(TS): remove return, unclear why it was written
     this.ensureEl().setActionPriority(type, key, priority);
   }
 
   setActionHidden(type: ActionType, key: string, hidden: boolean) {
     this.reporting.trackApi(this.plugin, 'actions', 'setActionHidden');
-    // TODO(TS): remove return, unclear why it was written
     this.ensureEl().setActionHidden(type, key, hidden);
   }
 
@@ -150,7 +142,6 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
 
   remove(key: string) {
     this.reporting.trackApi(this.plugin, 'actions', 'remove');
-    // TODO(TS): remove return, unclear why it was written
     this.ensureEl().removeActionButton(key);
   }
 

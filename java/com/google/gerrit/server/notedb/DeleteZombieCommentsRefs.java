@@ -15,19 +15,38 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.entities.RefNames.REFS_DRAFT_COMMENTS;
+import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+import com.google.common.collect.Sets.SetView;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.git.RefUpdateUtil;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -39,15 +58,19 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * href="https://gerrit-review.googlesource.com/c/gerrit/+/246233">
  * https://gerrit-review.googlesource.com/c/gerrit/+/246233 </a>
  *
- * <p>An earlier bug in the deletion of draft comments {@code
- * refs/draft-comments/$change_id_short/$change_id/$user_id} caused some draft refs to remain in Git
- * and not get deleted. These refs point to an empty tree.
+ * <p>The implementation has two cases for detecting zombie drafts:
+ *
+ * <ul>
+ *   <li>An earlier bug in the deletion of draft comments {@code
+ *       refs/draft-comments/$change_id_short/$change_id/$user_id} caused some draft refs to remain
+ *       in Git and not get deleted. These refs point to an empty tree. We delete such refs.
+ *   <li>Inspecting all draft-comment refs. Check for each draft if there exists a published comment
+ *       with the same UUID. For now this runs in logging-only mode and does not remove these zombie
+ *       drafts.
+ * </uL>
  */
 public class DeleteZombieCommentsRefs {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  private static final String EMPTY_TREE_ID = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
-  private static final String DRAFT_REFS_PREFIX = "refs/draft-comments";
 
   // Number of refs deleted at once in a batch ref-update.
   // Log progress after deleting every CHUNK_SIZE refs
@@ -56,8 +79,10 @@ public class DeleteZombieCommentsRefs {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final int cleanupPercentage;
-  private Repository allUsersRepo;
   private final Consumer<String> uiConsumer;
+  @Nullable private final DraftCommentNotes.Factory draftNotesFactory;
+  @Nullable private final ChangeNotes.Factory changeNotesFactory;
+  @Nullable private final CommentsUtil commentsUtil;
 
   public interface Factory {
     DeleteZombieCommentsRefs create(int cleanupPercentage);
@@ -67,8 +92,18 @@ public class DeleteZombieCommentsRefs {
   public DeleteZombieCommentsRefs(
       AllUsersName allUsers,
       GitRepositoryManager repoManager,
+      ChangeNotes.Factory changeNotesFactory,
+      DraftCommentNotes.Factory draftNotesFactory,
+      CommentsUtil commentsUtil,
       @Assisted Integer cleanupPercentage) {
-    this(allUsers, repoManager, cleanupPercentage, (msg) -> {});
+    this(
+        allUsers,
+        repoManager,
+        cleanupPercentage,
+        (msg) -> {},
+        changeNotesFactory,
+        draftNotesFactory,
+        commentsUtil);
   }
 
   public DeleteZombieCommentsRefs(
@@ -76,43 +111,198 @@ public class DeleteZombieCommentsRefs {
       GitRepositoryManager repoManager,
       Integer cleanupPercentage,
       Consumer<String> uiConsumer) {
+    this(allUsers, repoManager, cleanupPercentage, uiConsumer, null, null, null);
+  }
+
+  private DeleteZombieCommentsRefs(
+      AllUsersName allUsers,
+      GitRepositoryManager repoManager,
+      Integer cleanupPercentage,
+      Consumer<String> uiConsumer,
+      @Nullable ChangeNotes.Factory changeNotesFactory,
+      @Nullable DraftCommentNotes.Factory draftNotesFactory,
+      @Nullable CommentsUtil commentsUtil) {
     this.allUsers = allUsers;
     this.repoManager = repoManager;
     this.cleanupPercentage = (cleanupPercentage == null) ? 100 : cleanupPercentage;
     this.uiConsumer = uiConsumer;
+    this.draftNotesFactory = draftNotesFactory;
+    this.changeNotesFactory = changeNotesFactory;
+    this.commentsUtil = commentsUtil;
   }
 
   public void execute() throws IOException {
-    allUsersRepo = repoManager.openRepository(allUsers);
-
-    List<Ref> draftRefs = allUsersRepo.getRefDatabase().getRefsByPrefix(DRAFT_REFS_PREFIX);
-    List<Ref> zombieRefs = filterZombieRefs(draftRefs);
-
-    logInfo(
-        String.format(
-            "Found a total of %d zombie draft refs in %s repo.",
-            zombieRefs.size(), allUsers.get()));
-
-    logInfo(String.format("Cleanup percentage = %d", cleanupPercentage));
-    zombieRefs =
-        zombieRefs.stream()
-            .filter(ref -> Change.Id.fromAllUsersRef(ref.getName()).get() % 100 < cleanupPercentage)
-            .collect(toImmutableList());
-    logInfo(String.format("Number of zombie refs to be cleaned = %d", zombieRefs.size()));
-
-    long zombieRefsCnt = zombieRefs.size();
-    long deletedRefsCnt = 0;
-    long startTime = System.currentTimeMillis();
-
-    for (List<Ref> refsBatch : Iterables.partition(zombieRefs, CHUNK_SIZE)) {
-      deleteBatchZombieRefs(refsBatch);
-      long elapsed = (System.currentTimeMillis() - startTime) / 1000;
-      deletedRefsCnt += refsBatch.size();
-      logProgress(deletedRefsCnt, zombieRefsCnt, elapsed);
+    deleteDraftRefsThatPointToEmptyTree();
+    if (draftNotesFactory != null) {
+      getNumberOfDraftsThatAreAlsoPublished();
     }
   }
 
-  private void deleteBatchZombieRefs(List<Ref> refsBatch) throws IOException {
+  private void deleteDraftRefsThatPointToEmptyTree() throws IOException {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
+      List<Ref> draftRefs = allUsersRepo.getRefDatabase().getRefsByPrefix(REFS_DRAFT_COMMENTS);
+      List<Ref> zombieRefs = filterZombieRefs(allUsersRepo, draftRefs);
+
+      logInfo(
+          String.format(
+              "Found a total of %d zombie draft refs in %s repo.",
+              zombieRefs.size(), allUsers.get()));
+
+      logInfo(String.format("Cleanup percentage = %d", cleanupPercentage));
+      zombieRefs =
+          zombieRefs.stream()
+              .filter(
+                  ref -> Change.Id.fromAllUsersRef(ref.getName()).get() % 100 < cleanupPercentage)
+              .collect(toImmutableList());
+      logInfo(String.format("Number of zombie refs to be cleaned = %d", zombieRefs.size()));
+
+      long zombieRefsCnt = zombieRefs.size();
+      long deletedRefsCnt = 0;
+      long startTime = System.currentTimeMillis();
+
+      for (List<Ref> refsBatch : Iterables.partition(zombieRefs, CHUNK_SIZE)) {
+        deleteBatchZombieRefs(allUsersRepo, refsBatch);
+        long elapsed = (System.currentTimeMillis() - startTime) / 1000;
+        deletedRefsCnt += refsBatch.size();
+        logProgress(deletedRefsCnt, zombieRefsCnt, elapsed);
+      }
+    }
+  }
+
+  /**
+   * For each draft comment, check if there exists a published comment with the same UUID and log a
+   * warning if that's the case.
+   */
+  @VisibleForTesting
+  public int getNumberOfDraftsThatAreAlsoPublished() throws IOException {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
+      Timestamp earliestZombieTs = null;
+      Timestamp latestZombieTs = null;
+      int numZombies = 0;
+      List<Ref> draftRefs = allUsersRepo.getRefDatabase().getRefsByPrefix(REFS_DRAFT_COMMENTS);
+      Set<ChangeUserIDsPair> visitedSet = new HashSet<>();
+      ImmutableSet<Change.Id> changeIds =
+          draftRefs.stream()
+              .map(d -> Change.Id.fromAllUsersRef(d.getName()))
+              .collect(ImmutableSet.toImmutableSet());
+      Map<Change.Id, Project.NameKey> changeProjectMap = mapChangeIdsToProjects(changeIds);
+      for (Ref draftRef : draftRefs) {
+        try {
+          Change.Id changeId = Change.Id.fromAllUsersRef(draftRef.getName());
+          Account.Id accountId = Account.Id.fromRef(draftRef.getName());
+          ChangeUserIDsPair changeUserIDsPair = ChangeUserIDsPair.create(changeId, accountId);
+          if (!visitedSet.add(changeUserIDsPair)) {
+            continue;
+          }
+          if (!changeProjectMap.containsKey(changeId)) {
+            logger.atWarning().log(
+                "Could not find a project associated with change ID %s. Skipping draft ref %s.",
+                changeId, draftRef.getName());
+            continue;
+          }
+          DraftCommentNotes draftNotes = draftNotesFactory.create(changeId, accountId).load();
+          ChangeNotes notes =
+              changeNotesFactory.createChecked(changeProjectMap.get(changeId), changeId);
+          List<HumanComment> drafts = draftNotes.getComments().values().asList();
+          List<HumanComment> published = commentsUtil.publishedHumanCommentsByChange(notes);
+          Set<String> publishedIds = toUuid(published);
+          List<HumanComment> zombieDrafts =
+              drafts.stream()
+                  .filter(draft -> publishedIds.contains(draft.key.uuid))
+                  .collect(Collectors.toList());
+          for (HumanComment zombieDraft : zombieDrafts) {
+            earliestZombieTs = getEarlierTs(earliestZombieTs, zombieDraft.writtenOn);
+            latestZombieTs = getLaterTs(latestZombieTs, zombieDraft.writtenOn);
+          }
+          zombieDrafts.forEach(
+              zombieDraft ->
+                  logger.atWarning().log(
+                      "Draft comment with uuid '%s' of change %s, account %s, written on %s,"
+                          + " is a zombie draft that is already published.",
+                      zombieDraft.key.uuid, changeId, accountId, zombieDraft.writtenOn));
+          numZombies += zombieDrafts.size();
+        } catch (Exception e) {
+          logger.atWarning().withCause(e).log("Failed to process ref %s", draftRef.getName());
+        }
+      }
+      if (numZombies > 0) {
+        logger.atWarning().log(
+            "Detected %d additional zombie drafts (earliest at %s, latest at %s).",
+            numZombies, earliestZombieTs, latestZombieTs);
+      }
+      return numZombies;
+    }
+  }
+
+  @AutoValue
+  abstract static class ChangeUserIDsPair {
+    abstract Change.Id changeId();
+
+    abstract Account.Id accountId();
+
+    static ChangeUserIDsPair create(Change.Id changeId, Account.Id accountId) {
+      return new AutoValue_DeleteZombieCommentsRefs_ChangeUserIDsPair(changeId, accountId);
+    }
+  }
+
+  /**
+   * Map each change ID to its associated project.
+   *
+   * <p>When doing a ref scan of draft refs
+   * "refs/draft-comments/$change_id_short/$change_id/$user_id" we don't know which project this
+   * draft comment is associated with. The project name is needed to load published comments for the
+   * change, hence we map each change ID to its project here by scanning through the change meta ref
+   * of the change ID in all projects.
+   */
+  private Map<Change.Id, Project.NameKey> mapChangeIdsToProjects(
+      ImmutableSet<Change.Id> changeIds) {
+    Map<Change.Id, Project.NameKey> result = new HashMap<>();
+    for (Project.NameKey project : repoManager.list()) {
+      try (Repository repo = repoManager.openRepository(project)) {
+        SetView<Change.Id> unmappedChangeIds = Sets.difference(changeIds, result.keySet());
+        for (Change.Id changeId : unmappedChangeIds) {
+          Ref ref = repo.getRefDatabase().exactRef(RefNames.changeMetaRef(changeId));
+          if (ref != null) {
+            result.put(changeId, project);
+          }
+        }
+      } catch (Exception e) {
+        logger.atWarning().withCause(e).log("Failed to open repository for project '%s'.", project);
+      }
+      if (changeIds.size() == result.size()) {
+        // We do not need to scan the remaining repositories
+        break;
+      }
+    }
+    if (result.size() != changeIds.size()) {
+      logger.atWarning().log(
+          "Failed to associate the following change Ids to a project: %s",
+          Sets.difference(changeIds, result.keySet()));
+    }
+    return result;
+  }
+
+  /** Map the list of input comments to their UUIDs. */
+  private Set<String> toUuid(List<HumanComment> in) {
+    return in.stream().map(c -> c.key.uuid).collect(Collectors.toSet());
+  }
+
+  private Timestamp getEarlierTs(@Nullable Timestamp t1, Timestamp t2) {
+    if (t1 == null) {
+      return t2;
+    }
+    return t1.before(t2) ? t1 : t2;
+  }
+
+  private Timestamp getLaterTs(@Nullable Timestamp t1, Timestamp t2) {
+    if (t1 == null) {
+      return t2;
+    }
+    return t1.after(t2) ? t1 : t2;
+  }
+
+  private void deleteBatchZombieRefs(Repository allUsersRepo, List<Ref> refsBatch)
+      throws IOException {
     List<ReceiveCommand> deleteCommands =
         refsBatch.stream()
             .map(
@@ -126,18 +316,19 @@ public class DeleteZombieCommentsRefs {
     RefUpdateUtil.executeChecked(bru, allUsersRepo);
   }
 
-  private List<Ref> filterZombieRefs(List<Ref> allDraftRefs) throws IOException {
+  private List<Ref> filterZombieRefs(Repository allUsersRepo, List<Ref> allDraftRefs)
+      throws IOException {
     List<Ref> zombieRefs = new ArrayList<>((int) (allDraftRefs.size() * 0.5));
     for (Ref ref : allDraftRefs) {
-      if (isZombieRef(ref)) {
+      if (isZombieRef(allUsersRepo, ref)) {
         zombieRefs.add(ref);
       }
     }
     return zombieRefs;
   }
 
-  private boolean isZombieRef(Ref ref) throws IOException {
-    return allUsersRepo.parseCommit(ref.getObjectId()).getTree().getName().equals(EMPTY_TREE_ID);
+  private boolean isZombieRef(Repository allUsersRepo, Ref ref) throws IOException {
+    return allUsersRepo.parseCommit(ref.getObjectId()).getTree().getId().equals(EMPTY_TREE_ID);
   }
 
   private void logInfo(String message) {

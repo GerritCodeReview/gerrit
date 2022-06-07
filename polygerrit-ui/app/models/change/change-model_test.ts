@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import {Subject} from 'rxjs';
 import {ChangeStatus} from '../../constants/constants';
 import '../../test/common-test-setup-karma';
@@ -32,9 +20,10 @@ import {
 } from '../../test/test-utils';
 import {
   CommitId,
-  EditPatchSetNum,
+  EDIT,
   NumericChangeId,
   PatchSetNum,
+  PatchSetNumber,
 } from '../../types/common';
 import {ParsedChangeInfo} from '../../types/types';
 import {getAppContext} from '../../services/app-context';
@@ -58,7 +47,7 @@ suite('updateChangeWithEdit() tests', () => {
     change = updateChangeWithEdit(change, edit);
     const editRev = change?.revisions[`${edit.commit.commit}`];
     assert.isDefined(editRev);
-    assert.equal(editRev?._number, EditPatchSetNum);
+    assert.equal(editRev?._number, EDIT);
     assert.equal(editRev?.basePatchNum, edit.base_patch_set_number);
     assert.equal(change?.current_revision, edit.commit.commit);
   });
@@ -100,12 +89,12 @@ suite('change service tests', () => {
         sha1: {
           ...createRevision(1),
           description: 'patch 1',
-          _number: 1 as PatchSetNum,
+          _number: 1 as PatchSetNumber,
         },
         sha2: {
           ...createRevision(2),
           description: 'patch 2',
-          _number: 2 as PatchSetNum,
+          _number: 2 as PatchSetNumber,
         },
       },
       status: ChangeStatus.NEW,
@@ -128,7 +117,7 @@ suite('change service tests', () => {
     assert.equal(stub.callCount, 0);
     assert.isUndefined(state?.change);
 
-    changeModel.routerModel.setState({
+    changeModel.routerModel.updateState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });
@@ -147,7 +136,7 @@ suite('change service tests', () => {
     const promise = mockPromise<ParsedChangeInfo | undefined>();
     const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
     let state: ChangeState;
-    changeModel.routerModel.setState({
+    changeModel.routerModel.updateState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });
@@ -171,7 +160,7 @@ suite('change service tests', () => {
     let promise = mockPromise<ParsedChangeInfo | undefined>();
     const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
     let state: ChangeState;
-    changeModel.routerModel.setState({
+    changeModel.routerModel.updateState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });
@@ -185,7 +174,7 @@ suite('change service tests', () => {
       _number: 123 as NumericChangeId,
     };
     promise = mockPromise<ParsedChangeInfo | undefined>();
-    changeModel.routerModel.setState({
+    changeModel.routerModel.updateState({
       view: GerritView.CHANGE,
       changeNum: otherChange._number,
     });
@@ -204,7 +193,7 @@ suite('change service tests', () => {
     let promise = mockPromise<ParsedChangeInfo | undefined>();
     const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
     let state: ChangeState;
-    changeModel.routerModel.setState({
+    changeModel.routerModel.updateState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });
@@ -215,7 +204,7 @@ suite('change service tests', () => {
 
     promise = mockPromise<ParsedChangeInfo | undefined>();
     promise.resolve(undefined);
-    changeModel.routerModel.setState({
+    changeModel.routerModel.updateState({
       view: GerritView.CHANGE,
       changeNum: undefined,
     });
@@ -227,7 +216,7 @@ suite('change service tests', () => {
 
     promise = mockPromise<ParsedChangeInfo | undefined>();
     promise.resolve(knownChange);
-    changeModel.routerModel.setState({
+    changeModel.routerModel.updateState({
       view: GerritView.CHANGE,
       changeNum: knownChange._number,
     });
@@ -252,7 +241,7 @@ suite('change service tests', () => {
         sha3: {
           ...createRevision(3),
           description: 'patch 3',
-          _number: 3 as PatchSetNum,
+          _number: 3 as PatchSetNumber,
         },
       },
     };

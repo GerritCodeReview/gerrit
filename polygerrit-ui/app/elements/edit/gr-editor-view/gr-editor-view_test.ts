@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import './gr-editor-view';
 import {GrEditorView} from './gr-editor-view';
@@ -26,11 +14,7 @@ import {
   stubRestApi,
   stubStorage,
 } from '../../../test/test-utils';
-import {
-  EditPatchSetNum,
-  NumericChangeId,
-  PatchSetNum,
-} from '../../../types/common';
+import {EDIT, NumericChangeId, PatchSetNum} from '../../../types/common';
 import {
   createChangeViewChange,
   createGenerateUrlEditViewParameters,
@@ -81,7 +65,7 @@ suite('gr-editor-view tests', () => {
       assert.deepEqual(fileStub.lastCall.args, [
         changeNum,
         'foo/bar.baz',
-        EditPatchSetNum as PatchSetNum,
+        EDIT as PatchSetNum,
       ]);
 
       return promises?.then(() => {
@@ -313,11 +297,7 @@ suite('gr-editor-view tests', () => {
 
       // Ensure no data is set with a bad response.
       return element
-        .getFileData(
-          1 as NumericChangeId,
-          'test/path',
-          EditPatchSetNum as PatchSetNum
-        )
+        .getFileData(1 as NumericChangeId, 'test/path', EDIT as PatchSetNum)
         .then(() => {
           assert.equal(element.newContent, 'new content');
           assert.equal(element.content, 'new content');
@@ -332,11 +312,7 @@ suite('gr-editor-view tests', () => {
 
       // Ensure no data is set with a bad response.
       return element
-        .getFileData(
-          1 as NumericChangeId,
-          'test/path',
-          EditPatchSetNum as PatchSetNum
-        )
+        .getFileData(1 as NumericChangeId, 'test/path', EDIT as PatchSetNum)
         .then(() => {
           assert.equal(element.newContent, '');
           assert.equal(element.content, '');
@@ -354,11 +330,7 @@ suite('gr-editor-view tests', () => {
       );
 
       return element
-        .getFileData(
-          1 as NumericChangeId,
-          'test/path',
-          EditPatchSetNum as PatchSetNum
-        )
+        .getFileData(1 as NumericChangeId, 'test/path', EDIT as PatchSetNum)
         .then(() => {
           assert.equal(element.newContent, '');
           assert.equal(element.content, '');
@@ -372,11 +344,7 @@ suite('gr-editor-view tests', () => {
       );
 
       return element
-        .getFileData(
-          1 as NumericChangeId,
-          'test/path',
-          EditPatchSetNum as PatchSetNum
-        )
+        .getFileData(1 as NumericChangeId, 'test/path', EDIT as PatchSetNum)
         .then(() => {
           assert.equal(element.newContent, '');
           assert.equal(element.content, '');
@@ -401,7 +369,7 @@ suite('gr-editor-view tests', () => {
     element.change = createChangeViewChange();
     navigateStub.restore();
     const navStub = sinon.stub(GerritNav, 'navigateToChange');
-    element.patchNum = EditPatchSetNum;
+    element.patchNum = EDIT;
     element.viewEditInChangeView();
     assert.equal(navStub.lastCall.args[1]!.patchNum, undefined);
     assert.equal(navStub.lastCall.args[1]!.isEdit, true);

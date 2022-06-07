@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 const path = require('path');
@@ -35,7 +24,7 @@ const path = require('path');
 // file as rollup node module.
 function requirePlugin(id) {
   const rollupBinDir = path.dirname(process.argv[1]);
-  const pluginPath = require.resolve(id, {paths: [__dirname, rollupBinDir] });
+  const pluginPath = require.resolve(id, {paths: [__dirname, rollupBinDir]});
   return require(pluginPath);
 }
 
@@ -48,13 +37,13 @@ const {terser} = requirePlugin('rollup-plugin-terser');
 const importLocalFontMetaUrlResolver = function() {
   return {
     name: 'import-meta-url-resolver',
-    resolveImportMeta: function (property, data) {
-      if(property === 'url' && data.moduleId.endsWith('/@polymer/font-roboto-local/roboto.js')) {
+    resolveImportMeta(property, data) {
+      if (property === 'url' && data.moduleId.endsWith('/@polymer/font-roboto-local/roboto.js')) {
         return 'new URL("..", document.baseURI).href';
       }
       return null;
-    }
-  }
+    },
+  };
 };
 
 export default {
@@ -72,12 +61,12 @@ export default {
     plugins: [
       terser({
         output: {
-          comments: false
-        }
-      })
-    ]
+          comments: false,
+        },
+      }),
+    ],
   },
-  //Context must be set to window to correctly processing global variables
+  // Context must be set to window to correctly processing global variables
   context: 'window',
   plugins: [resolve({
     customResolveOptions: {
@@ -85,6 +74,6 @@ export default {
       // when importing 'page/page'.
       extensions: ['.js'],
       moduleDirectory: 'external/ui_npm/node_modules',
-    }
+    },
   }), importLocalFontMetaUrlResolver()],
 };

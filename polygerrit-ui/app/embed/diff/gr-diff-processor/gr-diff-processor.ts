@@ -15,7 +15,7 @@ import {
   GrDiffGroupType,
   hideInContextControl,
 } from '../gr-diff/gr-diff-group';
-import {CancelablePromise, util} from '../../../scripts/util';
+import {CancelablePromise, makeCancelable} from '../../../scripts/util';
 import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';
@@ -138,7 +138,13 @@ export class GrDiffProcessor {
       return Promise.resolve();
     }
 
-    this.processPromise = util.makeCancelable(
+    // TODO: Canceling this promise does not help much. `nextStep` will continue
+    // to be scheduled anyway. So either just remove the cancelable promise, so
+    // future programmers are not fooled about this promise can do. Or fix the
+    // scheduling of `nextStep` such that cancellation is taken into account.
+    // The easiest approach is likely to just not re-use the processor for
+    // multiple processing passes. There is no benefit from doing so.
+    this.processPromise = makeCancelable(
       new Promise(resolve => {
         const state = {
           lineNums: {left: 0, right: 0},
@@ -614,6 +620,7 @@ export class GrDiffProcessor {
     const result = [];
     let lastChunkEndOffset = 0;
     for (const {offset, keyLocation} of chunkEnds) {
+      if (lastChunkEndOffset === offset) continue;
       result.push({
         lines: lines.slice(lastChunkEndOffset, offset),
         keyLocation,

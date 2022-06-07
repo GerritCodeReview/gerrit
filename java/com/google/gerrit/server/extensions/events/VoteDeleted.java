@@ -15,6 +15,7 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -58,7 +59,7 @@ public class VoteDeleted {
       Map<String, Short> oldApprovals,
       NotifyHandling notify,
       String message,
-      AccountState remover,
+      @Nullable AccountState remover,
       Instant when) {
     if (listeners.isEmpty()) {
       return;
@@ -69,8 +70,8 @@ public class VoteDeleted {
               util.changeInfo(changeData),
               util.revisionInfo(changeData.project(), ps),
               util.accountInfo(reviewer),
-              util.approvals(remover, approvals, when),
-              util.approvals(remover, oldApprovals, when),
+              util.approvals(reviewer, approvals, when),
+              util.approvals(reviewer, oldApprovals, when),
               notify,
               message,
               util.accountInfo(remover),

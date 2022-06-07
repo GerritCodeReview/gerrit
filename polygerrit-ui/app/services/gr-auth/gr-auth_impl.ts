@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {getBaseUrl} from '../../utils/url-util';
 import {EventEmitterService} from '../gr-event-interface/gr-event-interface';
@@ -62,7 +51,7 @@ export class Auth implements AuthService, Finalizable {
 
   static CREDS_EXPIRED_MSG = 'Credentials expired.';
 
-  private authCheckPromise?: Promise<Response>;
+  private authCheckPromise?: Promise<boolean>;
 
   private _last_auth_check_time: number = Date.now();
 
@@ -100,37 +89,37 @@ export class Auth implements AuthService, Finalizable {
       Date.now() - this._last_auth_check_time > MAX_AUTH_CHECK_WAIT_TIME_MS
     ) {
       // Refetch after last check expired
-      this.authCheckPromise = fetch(`${this.baseUrl}/auth-check`);
+      this.authCheckPromise = fetch(`${this.baseUrl}/auth-check`)
+        .then(res => {
+          // Make a call that requires loading the body of the request. This makes it so that the browser
+          // can close the request even though callers of this method might only ever read headers.
+          // See https://stackoverflow.com/questions/45816743/how-to-solve-this-caution-request-is-not-finished-yet-in-chrome
+          try {
+            res.clone().text();
+          } catch {
+            // Ignore error
+          }
+
+          // auth-check will return 204 if authed
+          // treat the rest as unauthed
+          if (res.status === 204) {
+            this._setStatus(Auth.STATUS.AUTHED);
+            return true;
+          } else {
+            this._setStatus(Auth.STATUS.NOT_AUTHED);
+            return false;
+          }
+        })
+        .catch(() => {
+          this._setStatus(AuthStatus.ERROR);
+          // Reset authCheckPromise to avoid caching the failed promise
+          this.authCheckPromise = undefined;
+          return false;
+        });
       this._last_auth_check_time = Date.now();
     }
 
-    return this.authCheckPromise
-      .then(res => {
-        // Make a call that requires loading the body of the request. This makes it so that the browser
-        // can close the request even though callers of this method might only ever read headers.
-        // See https://stackoverflow.com/questions/45816743/how-to-solve-this-caution-request-is-not-finished-yet-in-chrome
-        try {
-          res.clone().text();
-        } catch {
-          // Ignore error
-        }
-
-        // auth-check will return 204 if authed
-        // treat the rest as unauthed
-        if (res.status === 204) {
-          this._setStatus(Auth.STATUS.AUTHED);
-          return true;
-        } else {
-          this._setStatus(Auth.STATUS.NOT_AUTHED);
-          return false;
-        }
-      })
-      .catch(() => {
-        this._setStatus(AuthStatus.ERROR);
-        // Reset authCheckPromise to avoid caching the failed promise
-        this.authCheckPromise = undefined;
-        return false;
-      });
+    return this.authCheckPromise;
   }
 
   clearCache() {

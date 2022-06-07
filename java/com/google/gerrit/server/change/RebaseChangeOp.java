@@ -35,6 +35,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -75,7 +76,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   }
 
   private final PatchSetInserter.Factory patchSetInserterFactory;
-  private final MergeUtil.Factory mergeUtilFactory;
+  private final MergeUtilFactory mergeUtilFactory;
   private final RebaseUtil rebaseUtil;
   private final ChangeResource.Factory changeResourceFactory;
 
@@ -106,7 +107,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   @Inject
   RebaseChangeOp(
       PatchSetInserter.Factory patchSetInserterFactory,
-      MergeUtil.Factory mergeUtilFactory,
+      MergeUtilFactory mergeUtilFactory,
       RebaseUtil rebaseUtil,
       ChangeResource.Factory changeResourceFactory,
       IdentifiedUser.GenericFactory identifiedUserFactory,

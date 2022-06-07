@@ -57,7 +57,7 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GpgApiAdapter;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -87,7 +87,7 @@ public class RevisionJson {
     RevisionJson create(Iterable<ListChangesOption> options);
   }
 
-  private final MergeUtil.Factory mergeUtilFactory;
+  private final MergeUtilFactory mergeUtilFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final FileInfoJson fileInfoJson;
   private final GpgApiAdapter gpgApi;
@@ -111,7 +111,7 @@ public class RevisionJson {
       AnonymousUser anonymous,
       ProjectCache projectCache,
       IdentifiedUser.GenericFactory userFactory,
-      MergeUtil.Factory mergeUtilFactory,
+      MergeUtilFactory mergeUtilFactory,
       FileInfoJson fileInfoJson,
       AccountLoader.Factory accountLoaderFactory,
       DynamicMap<DownloadScheme> downloadSchemes,

@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2021 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 // A finalizable object has a single method `finalize` that is called when
@@ -28,8 +17,9 @@ export type Factory<TContext, K extends keyof TContext> = (
 ) => TContext[K] & Finalizable;
 
 // A registry contains a factory for each key in TContext.
-export type Registry<TContext> = {[P in keyof TContext]: Factory<TContext, P>} &
-  Record<string, (_: TContext) => Finalizable>;
+export type Registry<TContext> = {
+  [P in keyof TContext]: Factory<TContext, P>;
+} & Record<string, (_: TContext) => Finalizable>;
 
 // Creates a context given a registry.
 export function create<TContext>(
@@ -44,7 +34,7 @@ export function create<TContext>(
             (this[name] as unknown as Finalizable).finalize();
           }
         } catch (e) {
-          console.info(`Failed to finalize ${name}`);
+          console.info(`Failed to finalize ${String(name)}`);
           throw e;
         }
       }
@@ -73,7 +63,7 @@ export function create<TContext>(
             initializing = true;
             initialized.set(name, factory(context));
           } catch (e) {
-            console.error(`Failed to initialize ${name}`, e);
+            console.error(`Failed to initialize ${String(name)}`, e);
           } finally {
             initializing = false;
           }

@@ -29,5 +29,6 @@ public class ProjectsModule extends FactoryModule {
     factory(CommitApiImpl.Factory.class);
     factory(DashboardApiImpl.Factory.class);
     factory(LabelApiImpl.Factory.class);
+    factory(SubmitRequirementApiImpl.Factory.class);
   }
 }

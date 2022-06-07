@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/paper-button/paper-button';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
@@ -22,7 +11,6 @@ import {customElement, property} from 'lit/decorators';
 import {addShortcut, getEventPath, Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
 import {classMap} from 'lit/directives/class-map';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -206,12 +194,6 @@ export class GrButton extends LitElement {
     ];
   }
 
-  private readonly flagsService = getAppContext().flagsService;
-
-  private readonly isSubmitRequirementsUiEnabled = this.flagsService.isEnabled(
-    KnownExperimentId.SUBMIT_REQUIREMENTS_UI
-  );
-
   override render() {
     return html`<paper-button
       ?raised=${!this.link && !this.flatten}
@@ -220,8 +202,7 @@ export class GrButton extends LitElement {
       tabindex="-1"
       part="paper-button"
       class=${classMap({
-        voteChip: this.voteChip && !this.isSubmitRequirementsUiEnabled,
-        newVoteChip: this.voteChip && this.isSubmitRequirementsUiEnabled,
+        newVoteChip: this.voteChip,
       })}
     >
       ${this.loading ? html`<span class="loadingSpin"></span>` : ''}

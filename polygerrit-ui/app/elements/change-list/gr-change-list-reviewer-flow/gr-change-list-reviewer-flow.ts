@@ -7,29 +7,37 @@ import {css, html, LitElement, nothing} from 'lit';
 import {customElement, query, state} from 'lit/decorators';
 import {ProgressStatus, ReviewerState} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
+import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
-import {AccountInfo, ChangeInfo, NumericChangeId} from '../../../types/common';
+import {
+  AccountDetailInfo,
+  ChangeInfo,
+  NumericChangeId,
+  ServerInfo,
+} from '../../../types/common';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-overlay/gr-overlay';
 import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-button/gr-button';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {getAppContext} from '../../../services/app-context';
 import {
   GrReviewerSuggestionsProvider,
   ReviewerSuggestionsProvider,
-  SUGGESTIONS_PROVIDERS_USERS_TYPES,
 } from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import '../../shared/gr-account-list/gr-account-list';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
-
-const SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE: Record<
-  ReviewerState,
-  SUGGESTIONS_PROVIDERS_USERS_TYPES
-> = {
-  REVIEWER: SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER,
-  CC: SUGGESTIONS_PROVIDERS_USERS_TYPES.CC,
-  REMOVED: SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY,
-};
+import {allSettled} from '../../../utils/async-util';
+import {listForSentence} from '../../../utils/string-util';
+import {getDisplayName} from '../../../utils/display-name-util';
+import {
+  AccountInput,
+  AccountInputDetail,
+} from '../../shared/gr-account-list/gr-account-list';
+import '@polymer/iron-icon/iron-icon';
+import {getReplyByReason} from '../../../utils/attention-set-util';
+import {intersection} from '../../../utils/common-util';
+import {accountOrGroupKey} from '../../../utils/account-util';
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
@@ -38,8 +46,11 @@ export class GrChangeListReviewerFlow extends LitElement {
   // contents are given to gr-account-lists to mutate
   @state() private updatedAccountsByReviewerState: Map<
     ReviewerState,
-    AccountInfo[]
-  > = new Map();
+    AccountInput[]
+  > = new Map([
+    [ReviewerState.REVIEWER, []],
+    [ReviewerState.CC, []],
+  ]);
 
   @state() private suggestionsProviderByReviewerState: Map<
     ReviewerState,
@@ -53,11 +64,21 @@ export class GrChangeListReviewerFlow extends LitElement {
 
   @state() private isOverlayOpen = false;
 
+  @state() private serverConfig?: ServerInfo;
+
   @query('gr-overlay') private overlay!: GrOverlay;
+
+  private readonly reportingService = getAppContext().reportingService;
 
   private getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
+  private getConfigModel = resolve(this, configModelToken);
+
   private restApiService = getAppContext().restApiService;
+
+  private isLoggedIn = false;
+
+  private account?: AccountDetailInfo;
 
   static override get styles() {
     return css`
@@ -73,17 +94,49 @@ export class GrChangeListReviewerFlow extends LitElement {
         display: flex;
         flex-wrap: wrap;
       }
+      .warning {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xl);
+        padding: var(--spacing-l);
+        padding-left: var(--spacing-xl);
+        background-color: var(--yellow-50);
+      }
+      .grid + .warning {
+        margin-top: var(--spacing-l);
+      }
+      .warning + .warning {
+        margin-top: var(--spacing-s);
+      }
+      iron-icon {
+        color: var(--orange-800);
+        --iron-icon-height: 18px;
+        --iron-icon-width: 18px;
+      }
     `;
   }
 
-  override connectedCallback(): void {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getBulkActionsModel().selectedChanges$,
-      selectedChanges => {
-        this.selectedChanges = selectedChanges;
-      }
+      () => this.getBulkActionsModel().selectedChanges$,
+      selectedChanges => (this.selectedChanges = selectedChanges)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      serverConfig => (this.serverConfig = serverConfig)
+    );
+    subscribe(
+      this,
+      () => getAppContext().userModel.loggedIn$,
+      isLoggedIn => (this.isLoggedIn = isLoggedIn)
+    );
+    subscribe(
+      this,
+      () => getAppContext().userModel.account$,
+      account => (this.account = account)
     );
   }
 
@@ -112,16 +165,19 @@ export class GrChangeListReviewerFlow extends LitElement {
         .confirmLabel=${this.getConfirmLabel(overallStatus)}
         .disabled=${overallStatus === ProgressStatus.RUNNING}
       >
-        <div slot="header">Add Reviewer / CC</div>
-        <div slot="main" class="grid">
-          <span>Reviewers</span>
-          ${this.renderAccountList(
-            ReviewerState.REVIEWER,
-            'reviewer-list',
-            'Add reviewer'
-          )}
-          <span>CC</span>
-          ${this.renderAccountList(ReviewerState.CC, 'cc-list', 'Add CC')}
+        <div slot="header">Add reviewer / CC</div>
+        <div slot="main">
+          <div class="grid">
+            <span>Reviewers</span>
+            ${this.renderAccountList(
+              ReviewerState.REVIEWER,
+              'reviewer-list',
+              'Add reviewer'
+            )}
+            <span>CC</span>
+            ${this.renderAccountList(ReviewerState.CC, 'cc-list', 'Add CC')}
+          </div>
+          ${this.renderAnyOverwriteWarnings()}
         </div>
       </gr-dialog>
     `;
@@ -139,6 +195,8 @@ export class GrChangeListReviewerFlow extends LitElement {
     if (!updatedAccounts || !suggestionsProvider) {
       return;
     }
+    // @accounts-changed will notify us when an account is added or removed, so
+    // we need to re-render to update warning messages.
     return html`
       <gr-account-list
         id=${id}
@@ -146,9 +204,66 @@ export class GrChangeListReviewerFlow extends LitElement {
         .removableValues=${[]}
         .suggestionsProvider=${suggestionsProvider}
         .placeholder=${placeholder}
+        @accounts-changed=${() => this.requestUpdate()}
+        @account-added=${(e: CustomEvent<AccountInputDetail>) =>
+          this.onAccountAdded(reviewerState, e)}
       >
       </gr-account-list>
     `;
+  }
+
+  private renderAnyOverwriteWarnings() {
+    return html`
+      ${this.renderAnyOverwriteWarning(ReviewerState.REVIEWER)}
+      ${this.renderAnyOverwriteWarning(ReviewerState.CC)}
+    `;
+  }
+
+  private renderAnyOverwriteWarning(currentReviewerState: ReviewerState) {
+    const updatedReviewerState =
+      currentReviewerState === ReviewerState.CC
+        ? ReviewerState.REVIEWER
+        : ReviewerState.CC;
+    const overwrittenNames =
+      this.getOverwrittenDisplayNames(currentReviewerState);
+    if (overwrittenNames.length === 0) {
+      return nothing;
+    }
+    const pluralizedVerb = overwrittenNames.length === 1 ? 'is a' : 'are';
+    const currentLabel = `${
+      currentReviewerState === ReviewerState.CC ? 'CC' : 'reviewer'
+    }${overwrittenNames.length > 1 ? 's' : ''}`;
+    const updatedLabel =
+      updatedReviewerState === ReviewerState.CC ? 'CC' : 'reviewer';
+    return html`
+      <div class="warning">
+        <iron-icon icon="gr-icons:warning"></iron-icon>
+        ${listForSentence(overwrittenNames)} ${pluralizedVerb} ${currentLabel}
+        on some selected changes and will be moved to ${updatedLabel} on all
+        changes.
+      </div>
+    `;
+  }
+
+  private getOverwrittenDisplayNames(
+    currentReviewerState: ReviewerState
+  ): string[] {
+    const updatedReviewerState =
+      currentReviewerState === ReviewerState.CC
+        ? ReviewerState.REVIEWER
+        : ReviewerState.CC;
+    const accountsInCurrentState = this.selectedChanges
+      .flatMap(change => change.reviewers[currentReviewerState] ?? [])
+      .filter(account => account?._account_id !== undefined);
+    return this.updatedAccountsByReviewerState
+      .get(updatedReviewerState)!
+      .filter(account =>
+        accountsInCurrentState.some(
+          otherAccount =>
+            accountOrGroupKey(otherAccount) === accountOrGroupKey(account)
+        )
+      )
+      .map(reviewer => getDisplayName(this.serverConfig, reviewer));
   }
 
   private openOverlay() {
@@ -169,7 +284,7 @@ export class GrChangeListReviewerFlow extends LitElement {
         ProgressStatus.NOT_STARTED,
       ])
     );
-    for (const state of [ReviewerState.REVIEWER, ReviewerState.CC]) {
+    for (const state of [ReviewerState.REVIEWER, ReviewerState.CC] as const) {
       this.updatedAccountsByReviewerState.set(
         state,
         this.getCurrentAccounts(state)
@@ -182,6 +297,27 @@ export class GrChangeListReviewerFlow extends LitElement {
       }
     }
     this.requestUpdate();
+  }
+
+  /* Removes accounts from one list when they are added to the other */
+  private onAccountAdded(
+    reviewerState: ReviewerState,
+    event: CustomEvent<AccountInputDetail>
+  ) {
+    const oppositeReviewerState =
+      reviewerState === ReviewerState.CC
+        ? ReviewerState.REVIEWER
+        : ReviewerState.CC;
+    const oppositeUpdatedAccounts = this.updatedAccountsByReviewerState.get(
+      oppositeReviewerState
+    )!;
+    const oppositeUpdatedAccountIndex = oppositeUpdatedAccounts.findIndex(
+      acc => accountOrGroupKey(acc) === accountOrGroupKey(event.detail.account)
+    );
+    if (oppositeUpdatedAccountIndex >= 0) {
+      oppositeUpdatedAccounts.splice(oppositeUpdatedAccountIndex, 1);
+      this.requestUpdate();
+    }
   }
 
   private onConfirm(overallStatus: ProgressStatus) {
@@ -198,7 +334,11 @@ export class GrChangeListReviewerFlow extends LitElement {
     }
   }
 
-  private saveReviewers() {
+  private async saveReviewers() {
+    this.reportingService.reportInteraction('bulk-action', {
+      type: 'add-reviewer',
+      selectedChangeCount: this.selectedChanges.length,
+    });
     this.progressByChangeNum = new Map(
       this.selectedChanges.map(change => [
         change._number,
@@ -206,22 +346,34 @@ export class GrChangeListReviewerFlow extends LitElement {
       ])
     );
     const inFlightActions = this.getBulkActionsModel().addReviewers(
-      this.updatedAccountsByReviewerState
+      this.updatedAccountsByReviewerState,
+      getReplyByReason(this.account, this.serverConfig)
     );
-    for (let index = 0; index < this.selectedChanges.length; index++) {
-      const change = this.selectedChanges[index];
-      inFlightActions[index]
-        .then(() => {
-          this.progressByChangeNum.set(
-            change._number,
-            ProgressStatus.SUCCESSFUL
-          );
-          this.requestUpdate();
-        })
-        .catch(() => {
-          this.progressByChangeNum.set(change._number, ProgressStatus.FAILED);
-          this.requestUpdate();
-        });
+
+    await allSettled(
+      inFlightActions.map((promise, index) => {
+        const change = this.selectedChanges[index];
+        return promise
+          .then(() => {
+            this.progressByChangeNum.set(
+              change._number,
+              ProgressStatus.SUCCESSFUL
+            );
+            this.requestUpdate();
+          })
+          .catch(() => {
+            this.progressByChangeNum.set(change._number, ProgressStatus.FAILED);
+            this.requestUpdate();
+          });
+      })
+    );
+    if (getOverallStatus(this.progressByChangeNum) === ProgressStatus.FAILED) {
+      this.reportingService.reportInteraction('bulk-action-failure', {
+        type: 'add-reviewer',
+        count: Array.from(this.progressByChangeNum.values()).filter(
+          status => status === ProgressStatus.FAILED
+        ).length,
+      });
     }
   }
 
@@ -243,25 +395,19 @@ export class GrChangeListReviewerFlow extends LitElement {
     const reviewersPerChange = this.selectedChanges.map(
       change => change.reviewers[reviewerState] ?? []
     );
-    if (reviewersPerChange.length === 0) {
-      return [];
-    }
-    // Gets reviewers present in all changes
-    return reviewersPerChange.reduce((a, b) =>
-      a.filter(reviewer => b.includes(reviewer))
-    );
+    return intersection(reviewersPerChange);
   }
 
   private createSuggestionsProvider(
-    state: ReviewerState
+    state: ReviewerState.CC | ReviewerState.REVIEWER
   ): ReviewerSuggestionsProvider {
-    const suggestionsProvider = GrReviewerSuggestionsProvider.create(
+    const suggestionsProvider = new GrReviewerSuggestionsProvider(
       this.restApiService,
-      // TODO: fan out and get suggestions allowed by all changes
-      this.selectedChanges[0]._number,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES_BY_REVIEWER_STATE[state]
+      state,
+      this.serverConfig,
+      this.isLoggedIn,
+      ...this.selectedChanges.map(change => change._number)
     );
-    suggestionsProvider.init();
     return suggestionsProvider;
   }
 }

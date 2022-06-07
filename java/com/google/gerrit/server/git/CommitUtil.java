@@ -222,7 +222,7 @@ public class CommitUtil {
 
     PersonIdent committerIdent = serverIdent.get();
     PersonIdent authorIdent =
-        user.asIdentifiedUser().newCommitterIdent(ts, committerIdent.getTimeZone());
+        user.asIdentifiedUser().newCommitterIdent(ts, committerIdent.getZoneId());
 
     RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
     revWalk.parseHeaders(parentToCommitToRevert);

@@ -10,7 +10,7 @@ import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {Side} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
-import {CancelablePromise, util} from '../../../scripts/util';
+import {CancelablePromise, makeCancelable} from '../../../scripts/util';
 
 const LANGUAGE_MAP = new Map<string, string>([
   ['application/dart', 'dart'],
@@ -287,7 +287,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     code?: string
   ): CancelablePromise<SyntaxLayerLine[]> {
     const hlPromise = this.highlightService.highlight(language, code);
-    return util.makeCancelable(hlPromise);
+    return makeCancelable(hlPromise);
   }
 
   notify() {

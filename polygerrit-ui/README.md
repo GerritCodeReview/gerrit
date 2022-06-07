@@ -45,9 +45,7 @@ If it doesn't help also try to run
 bazel clean --expunge
 ```
 
-The minimum nodejs version supported is 8.x+, the maximum is currently 16.x due
-to [an issue](https://github.com/karma-runner/karma/issues/3730) in our test
-runner, karma.
+The minimum nodejs version supported is 10.x+.
 
 ```sh
 # Debian experimental
@@ -55,7 +53,7 @@ sudo apt-get install nodejs
 sudo apt-get install npm
 
 # OS X with Homebrew
-brew install node
+brew install node@16
 brew install npm
 ```
 
@@ -96,7 +94,7 @@ yarn remove @bazel/...
 
 ## Setup typescript support in the IDE
 
-Modern IDE should automatically handle typescript settings from the 
+Modern IDE should automatically handle typescript settings from the
 `pollygerrit-ui/app/tsconfig.json` files. IDE places compiled files in the
 `.ts-out/pg` directory at the root of gerrit workspace and you can configure IDE
 to exclude the whole .ts-out directory. To do it in the IntelliJ IDEA click on
@@ -240,34 +238,6 @@ were changed, the plugin doesn't run compiler. As a workaround, setup
 the "Before launch" section for IntelliJ. This is a temporary problem until
 typescript migration is complete.
 
-## Running Templates Test
-The templates test validates polymer templates. The test convert polymer
-templates into a plain typescript code and then run TS compiler. The test fails
-if TS compiler reports errors; in this case you will see TS errors in
-the log/output. Gerrit-CI automatically runs templates test.
-
-**Note**: Files defined in `ignore_templates_list` (`polygerrit-ui/app/BUILD`)
-are excluded from code generation and checking. If you don't know how to fix
-a problem, you can add a problematic template in the list.
-
-* To run test locally, use npm command:
-``` sh
-npm run polytest
-```
-
-* Often, the output from the previous command is not clear (cryptic TS errors).
-In this case, run the command
-```sh
-npm run polytest:dev
-```
-This command (re)creates the `polygerrit-ui/app/tmpl_out` directory and put
-generated files into it. For each polygerrit .ts file there is a generated file
-in the `tmpl_out` directory. If an original file doesn't contain a polymer
-template, the generated file is empty.
-
-You can open a problematic file in IDE and fix the problem. Ensure, that IDE
-uses `polygerrit-ui/app/tsconfig.json` as a project (usually, this is default).
-
 ### Generated file overview
 
 A generated file starts with imports followed by a static content with
@@ -288,7 +258,7 @@ The converted template usually quite straightforward, but in some cases
 additional functions are added. For example, `<element x=[[y.a]]>` converts into
 `el.x = y!.a` if y is a simple type. However, if y has a union type, like - `y:A|B`,
 then the generated code looks like `el.x=__f(y)!.a` (`y!.a` may result in a TS error
-if `a` is defined only in one type of a union). 
+if `a` is defined only in one type of a union).
 
 ## Style guide
 
@@ -354,7 +324,7 @@ You can use the following steps for migrating tests to Typescript:
    ```
    // Before:
    import ... from 'x/y/z.js`
- 
+
    // After
    import .. from 'x/y/z'
    ```
@@ -423,16 +393,16 @@ const rows = element
 ...
 // The _robotCommentThreads declared as _robotCommentThreads?: CommentThread
 assert.equal(element._robotCommentThreads.length, 2);
-  
+
 // Fix with non-null assertion operator:
 const rows = element
   .shadowRoot!.querySelector('table')! // '!' after shadowRoot and querySelector
   .querySelectorAll('tbody tr');
 
-assert.equal(element._robotCommentThreads!.length, 2); 
+assert.equal(element._robotCommentThreads!.length, 2);
 
 // Fix with nullish coalescing operator:
- assert.equal(element._robotCommentThreads?.length, 2); 
+ assert.equal(element._robotCommentThreads?.length, 2);
 ```
 Usually the fix with `!` is preferable, because it gives more clear error
 when an intermediate property is `null/undefined`. If the _robotComments is
@@ -529,7 +499,7 @@ handle automatically.
 
 * If a test imports a library from `polygerrit_ui/node_modules` - update
 `paths` in `polygerrit-ui/app/tsconfig_bazel_test.json`.
- 
+
 ## Contributing
 
 Our users report bugs / feature requests related to the UI through [Monorail Issues - PolyGerrit](https://bugs.chromium.org/p/gerrit/issues/list?q=component%3APolyGerrit).

@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {AppContext} from './app-context';
 import {create, Finalizable, Registry} from './registry';
@@ -32,7 +21,10 @@ import {
   commentsModelToken,
 } from '../models/comments/comments-model';
 import {RouterModel} from './router/router-model';
-import {ShortcutsService} from './shortcuts/shortcuts-service';
+import {
+  ShortcutsService,
+  shortcutsServiceToken,
+} from './shortcuts/shortcuts-service';
 import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
@@ -69,11 +61,6 @@ export function createAppContext(): AppContext & Finalizable {
     userModel: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.restApiService, 'restApiService');
       return new UserModel(ctx.restApiService);
-    },
-    shortcutsService: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.userModel, 'userModel');
-      assertIsDefined(ctx.reportingService, 'reportingService');
-      return new ShortcutsService(ctx.userModel, ctx.reportingService);
     },
     pluginsModel: (_ctx: Partial<AppContext>) => new PluginsModel(),
     highlightService: (ctx: Partial<AppContext>) => {
@@ -117,6 +104,13 @@ export function createAppDependencies(
   );
 
   dependencies.set(checksModelToken, checksModel);
+
+  const shortcutsService = new ShortcutsService(
+    appContext.userModel,
+    appContext.flagsService,
+    appContext.reportingService
+  );
+  dependencies.set(shortcutsServiceToken, shortcutsService);
 
   return dependencies;
 }

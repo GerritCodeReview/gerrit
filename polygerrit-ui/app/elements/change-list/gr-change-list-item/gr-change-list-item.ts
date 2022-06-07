@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-change-star/gr-change-star';
 import '../../shared/gr-change-status/gr-change-status';
@@ -40,12 +28,9 @@ import {
   ChangeInfo,
   ServerInfo,
   AccountInfo,
-  QuickLabelInfo,
   Timestamp,
 } from '../../../types/common';
 import {hasOwnProperty, assertIsDefined} from '../../../utils/common-util';
-import {pluralize} from '../../../utils/string-util';
-import {showNewSubmitRequirements} from '../../../utils/label-util';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
@@ -53,7 +38,7 @@ import {customElement, property, state} from 'lit/decorators';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {ifDefined} from 'lit/directives/if-defined';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {WAITING} from '../../../constants/constants';
+import {ColumnNames, WAITING} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
@@ -125,6 +110,18 @@ export class GrChangeListItem extends LitElement {
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getBulkActionsModel().selectedChangeNums$,
+      selectedChangeNums => {
+        if (!this.change) return;
+        this.checked = selectedChangeNums.includes(this.change._number);
+      }
+    );
+  }
+
   override connectedCallback() {
     super.connectedCallback();
     getPluginLoader()
@@ -134,14 +131,6 @@ export class GrChangeListItem extends LitElement {
           'change-list-item-cell'
         );
       });
-    subscribe(
-      this,
-      this.getBulkActionsModel().selectedChangeNums$,
-      selectedChangeNums => {
-        if (!this.change) return;
-        this.checked = selectedChangeNums.includes(this.change._number);
-      }
-    );
   }
 
   static override get styles() {
@@ -244,22 +233,6 @@ export class GrChangeListItem extends LitElement {
         .subject:hover .content {
           text-decoration: underline;
         }
-        .u-monospace {
-          font-family: var(--monospace-font-family);
-          font-size: var(--font-size-mono);
-          line-height: var(--line-height-mono);
-        }
-        .u-green,
-        .u-green iron-icon {
-          color: var(--positive-green-text-color);
-        }
-        .u-red,
-        .u-red iron-icon {
-          color: var(--negative-red-text-color);
-        }
-        .u-gray-background {
-          background-color: var(--table-header-background-color);
-        }
         .comma,
         .placeholder {
           color: var(--deemphasized-text-color);
@@ -319,7 +292,7 @@ export class GrChangeListItem extends LitElement {
         <input
           type="checkbox"
           .checked=${this.checked}
-          @click=${() => this.handleChangeSelectionClick()}
+          @click=${() => this.toggleCheckbox()}
         />
       </td>
     `;
@@ -346,7 +319,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellSubject(changeUrl: string) {
-    if (this.computeIsColumnHidden('Subject', this.visibleChangeTableColumns))
+    if (
+      this.computeIsColumnHidden(
+        ColumnNames.SUBJECT,
+        this.visibleChangeTableColumns
+      )
+    )
       return;
 
     return html`
@@ -367,7 +345,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellStatus() {
-    if (this.computeIsColumnHidden('Status', this.visibleChangeTableColumns))
+    if (
+      this.computeIsColumnHidden(
+        ColumnNames.STATUS,
+        this.visibleChangeTableColumns
+      )
+    )
       return;
 
     return html` <td class="cell status">${this.renderChangeStatus()}</td> `;
@@ -387,7 +370,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellOwner() {
-    if (this.computeIsColumnHidden('Owner', this.visibleChangeTableColumns))
+    if (
+      this.computeIsColumnHidden(
+        ColumnNames.OWNER,
+        this.visibleChangeTableColumns
+      )
+    )
       return;
 
     return html`
@@ -403,7 +391,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellReviewers() {
-    if (this.computeIsColumnHidden('Reviewers', this.visibleChangeTableColumns))
+    if (
+      this.computeIsColumnHidden(
+        ColumnNames.REVIEWERS,
+        this.visibleChangeTableColumns
+      )
+    )
       return;
 
     return html`
@@ -455,7 +448,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellRepo() {
-    if (this.computeIsColumnHidden('Repo', this.visibleChangeTableColumns))
+    if (
+      this.computeIsColumnHidden(
+        ColumnNames.REPO,
+        this.visibleChangeTableColumns
+      )
+    )
       return;
 
     return html`
@@ -475,7 +473,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellBranch() {
-    if (this.computeIsColumnHidden('Branch', this.visibleChangeTableColumns))
+    if (
+      this.computeIsColumnHidden(
+        ColumnNames.BRANCH,
+        this.visibleChangeTableColumns
+      )
+    )
       return;
 
     return html`
@@ -567,7 +570,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellRequirements() {
-    if (this.computeIsColumnHidden(' Status ', this.visibleChangeTableColumns))
+    if (
+      this.computeIsColumnHidden(
+        ColumnNames.STATUS2,
+        this.visibleChangeTableColumns
+      )
+    )
       return;
 
     return html`
@@ -579,32 +587,13 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderChangeLabels(labelName: string) {
-    if (showNewSubmitRequirements(this.flagsService, this.change)) {
-      return html` <td class="cell label requirement">
-        <gr-change-list-column-requirement
-          .change=${this.change}
-          .labelName=${labelName}
-        >
-        </gr-change-list-column-requirement>
-      </td>`;
-    }
-    return html`
-      <td
-        title=${this.computeLabelTitle(labelName)}
-        class=${this.computeLabelClass(labelName)}
+    return html` <td class="cell label requirement">
+      <gr-change-list-column-requirement
+        .change=${this.change}
+        .labelName=${labelName}
       >
-        ${this.renderChangeHasLabelIcon(labelName)}
-      </td>
-    `;
-  }
-
-  private renderChangeHasLabelIcon(labelName: string) {
-    if (this.computeLabelIcon(labelName) === '')
-      return html`<span>${this.computeLabelValue(labelName)}</span>`;
-
-    return html`
-      <iron-icon icon=${this.computeLabelIcon(labelName)}></iron-icon>
-    `;
+      </gr-change-list-column-requirement>
+    </td>`;
   }
 
   private renderChangePluginEndpoint(pluginEndpointName: string) {
@@ -618,15 +607,6 @@ export class GrChangeListItem extends LitElement {
     `;
   }
 
-  private handleChangeSelectionClick() {
-    assertIsDefined(this.change, 'change');
-    this.checked = !this.checked;
-    if (this.checked)
-      this.getBulkActionsModel().addSelectedChangeNum(this.change._number);
-    else
-      this.getBulkActionsModel().removeSelectedChangeNum(this.change._number);
-  }
-
   private changeStatuses() {
     if (!this.change) return [];
     return changeStatuses(this.change);
@@ -635,118 +615,6 @@ export class GrChangeListItem extends LitElement {
   private computeChangeURL() {
     if (!this.change) return '';
     return GerritNav.getUrlForChange(this.change);
-  }
-
-  // private but used in test
-  computeLabelTitle(labelName: string) {
-    const label: QuickLabelInfo | undefined = this.change?.labels?.[labelName];
-    const category = this.computeLabelCategory(labelName);
-    if (!label || category === LabelCategory.NOT_APPLICABLE) {
-      return 'Label not applicable';
-    }
-    const titleParts: string[] = [];
-    if (category === LabelCategory.UNRESOLVED_COMMENTS) {
-      const num = this.change?.unresolved_comment_count ?? 0;
-      titleParts.push(pluralize(num, 'unresolved comment'));
-    }
-    const significantLabel =
-      label.rejected || label.approved || label.disliked || label.recommended;
-    if (significantLabel?.name) {
-      titleParts.push(`${labelName} by ${significantLabel.name}`);
-    }
-    if (titleParts.length > 0) {
-      return titleParts.join(',\n');
-    }
-    return labelName;
-  }
-
-  // private but used in test
-  computeLabelClass(labelName: string) {
-    const classes = ['cell', 'label'];
-    const category = this.computeLabelCategory(labelName);
-    switch (category) {
-      case LabelCategory.NOT_APPLICABLE:
-        classes.push('u-gray-background');
-        break;
-      case LabelCategory.APPROVED:
-        classes.push('u-green');
-        break;
-      case LabelCategory.POSITIVE:
-        classes.push('u-monospace');
-        classes.push('u-green');
-        break;
-      case LabelCategory.NEGATIVE:
-        classes.push('u-monospace');
-        classes.push('u-red');
-        break;
-      case LabelCategory.REJECTED:
-        classes.push('u-red');
-        break;
-    }
-    return classes.sort().join(' ');
-  }
-
-  // private but used in test
-  computeLabelIcon(labelName: string): string {
-    const category = this.computeLabelCategory(labelName);
-    switch (category) {
-      case LabelCategory.APPROVED:
-        return 'gr-icons:check';
-      case LabelCategory.UNRESOLVED_COMMENTS:
-        return 'gr-icons:comment';
-      case LabelCategory.REJECTED:
-        return 'gr-icons:close';
-      default:
-        return '';
-    }
-  }
-
-  // private but used in test
-  computeLabelCategory(labelName: string) {
-    const label: QuickLabelInfo | undefined = this.change?.labels?.[labelName];
-    if (!label) {
-      return LabelCategory.NOT_APPLICABLE;
-    }
-    if (label.rejected) {
-      return LabelCategory.REJECTED;
-    }
-    if (label.value && label.value < 0) {
-      return LabelCategory.NEGATIVE;
-    }
-    if (this.change?.unresolved_comment_count && labelName === 'Code-Review') {
-      return LabelCategory.UNRESOLVED_COMMENTS;
-    }
-    if (label.approved) {
-      return LabelCategory.APPROVED;
-    }
-    if (label.value && label.value > 0) {
-      return LabelCategory.POSITIVE;
-    }
-    return LabelCategory.NEUTRAL;
-  }
-
-  // private but used in test
-  computeLabelValue(labelName: string) {
-    const label: QuickLabelInfo | undefined = this.change?.labels?.[labelName];
-    const category = this.computeLabelCategory(labelName);
-    switch (category) {
-      case LabelCategory.NOT_APPLICABLE:
-        return '';
-      case LabelCategory.APPROVED:
-        return '\u2713'; // ✓
-      case LabelCategory.POSITIVE:
-        return `+${label?.value}`;
-      case LabelCategory.NEUTRAL:
-        return '';
-      case LabelCategory.UNRESOLVED_COMMENTS:
-        return 'u';
-      case LabelCategory.NEGATIVE:
-        return `${label?.value}`;
-      case LabelCategory.REJECTED:
-        return '\u2715'; // ✕
-      default:
-        return '';
-    }
   }
 
   private computeRepoUrl() {
@@ -793,6 +661,15 @@ export class GrChangeListItem extends LitElement {
     }
     str += this.change.project;
     return str;
+  }
+
+  toggleCheckbox() {
+    assertIsDefined(this.change, 'change');
+    this.checked = !this.checked;
+    if (this.checked)
+      this.getBulkActionsModel().addSelectedChangeNum(this.change._number);
+    else
+      this.getBulkActionsModel().removeSelectedChangeNum(this.change._number);
   }
 
   // private but used in test

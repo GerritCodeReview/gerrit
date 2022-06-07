@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2018 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2018 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../../test/common-test-setup-karma';
 import {
   createParsedChange,
@@ -22,7 +10,7 @@ import {
   createThread,
 } from '../../../test/test-data-generators';
 import {queryAndAssert} from '../../../test/test-utils';
-import {PatchSetNum} from '../../../types/common';
+import {EDIT} from '../../../types/common';
 import {GrConfirmSubmitDialog} from './gr-confirm-submit-dialog';
 import './gr-confirm-submit-dialog';
 
@@ -71,10 +59,7 @@ suite('gr-confirm-submit-dialog tests', () => {
     element.change = {
       ...createParsedChange(),
       revisions: {
-        d442ff05d6c4f2a3af0eeca1f67374b39f9dc3d8: {
-          ...createRevision(),
-          _number: 'edit' as PatchSetNum,
-        },
+        d442ff05d6c4f2a3af0eeca1f67374b39f9dc3d8: createRevision(EDIT),
       },
       unresolved_comment_count: 0,
     };
@@ -84,10 +69,7 @@ suite('gr-confirm-submit-dialog tests', () => {
     element.change = {
       ...createParsedChange(),
       revisions: {
-        d442ff05d6c4f2a3af0eeca1f67374b39f9dc3d8: {
-          ...createRevision(),
-          _number: 2 as PatchSetNum,
-        },
+        d442ff05d6c4f2a3af0eeca1f67374b39f9dc3d8: createRevision(2),
       },
     };
     assert.isFalse(element.computeHasChangeEdit());

@@ -9,6 +9,8 @@ GREENMAIL_VERS = "1.5.5"
 MAIL_VERS = "1.6.0"
 MIME4J_VERS = "0.8.1"
 OW2_VERS = "9.2"
+AUTO_COMMON_VERSION = "1.2.1"
+AUTO_FACTORY_VERSION = "1.0.1"
 AUTO_VALUE_VERSION = "1.7.4"
 AUTO_VALUE_GSON_VERSION = "1.3.1"
 PROLOG_VERS = "1.4.4"
@@ -62,8 +64,8 @@ def java_dependencies():
 
     maven_jar(
         name = "servlet-api",
-        artifact = "org.apache.tomcat:tomcat-servlet-api:8.5.23",
-        sha1 = "021a212688ec94fe77aff74ab34cc74f6f940e60",
+        artifact = "javax.servlet:javax.servlet-api:3.1.0",
+        sha1 = "3cd63d075497751784b2fa84be59432f4905bf7c",
     )
 
     # JGit's transitive dependencies
@@ -75,16 +77,10 @@ def java_dependencies():
         sha1 = "9feecc2b24d6bc9ff865af8d082f192238a293eb",
     )
 
-    # TODO(davido): Switch to official release once available.
-    # Use custom release that fixed compatibility with JDK 17:
-    # https://github.com/google/gson/issues/1875
-    java_import_external(
+    maven_jar(
         name = "gson",
-        jar_sha256 = "d68e2a0f4b97143988f2ceef593947acc3f9d9e9618569c26264e63179887d49",
-        jar_urls = [
-            "https://github.com/davido/gson/releases/download/v2.9.0/gson-2.9.0.jar",
-        ],
-        licenses = ["unencumbered"],  # public domain
+        artifact = "com.google.code.gson:gson:2.9.0",
+        sha1 = "8a1167e089096758b49f9b34066ef98b2f4b37aa",
     )
 
     maven_jar(
@@ -414,6 +410,24 @@ def java_dependencies():
         name = "ow2-asm-util",
         artifact = "org.ow2.asm:asm-util:" + OW2_VERS,
         sha1 = "fbc178fc5ba3dab50fd7e8a5317b8b647c8e8946",
+    )
+
+    maven_jar(
+        name = "auto-common",
+        artifact = "com.google.auto:auto-common:" + AUTO_COMMON_VERSION,
+        sha1 = "f6da26895f759010f5f170c8044e84c1b17ef83e",
+    )
+
+    maven_jar(
+        name = "auto-factory",
+        artifact = "com.google.auto.factory:auto-factory:" + AUTO_FACTORY_VERSION,
+        sha1 = "f81ece06b6525085da217cd900116f44caafe877",
+    )
+
+    maven_jar(
+        name = "auto-service-annotations",
+        artifact = "com.google.auto.service:auto-service-annotations:" + AUTO_FACTORY_VERSION,
+        sha1 = "ac86dacc0eb9285ea9d42eee6aad8629ca3a7432",
     )
 
     maven_jar(

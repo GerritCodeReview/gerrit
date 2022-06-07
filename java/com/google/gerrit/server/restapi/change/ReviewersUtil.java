@@ -256,7 +256,7 @@ public class ReviewersUtil {
       logger.atFine().log("accounts index query: %s", pred);
       accountIndexRewriter.validateMaxTermsInQuery(pred);
       boolean useLegacyNumericFields =
-          accountIndexes.getSearchIndex().getSchema().useLegacyNumericFields();
+          accountIndexes.getSearchIndex().getSchema().hasField(AccountField.ID);
       FieldDef<AccountState, ?> idField =
           useLegacyNumericFields ? AccountField.ID : AccountField.ID_STR;
       ResultSet<FieldBundle> result =

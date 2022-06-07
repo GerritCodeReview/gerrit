@@ -19,10 +19,8 @@ import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -37,7 +35,6 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -47,10 +44,9 @@ import com.google.gerrit.server.change.SetCherryPickOp;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -58,6 +54,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.restapi.change.utils.CommitUtils;
 import com.google.gerrit.server.submit.IntegrationConflictException;
 import com.google.gerrit.server.submit.MergeIdenticalTreeException;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -69,11 +66,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.HashSet;
+import java.time.ZoneId;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -89,8 +83,10 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
 public class CherryPickChange {
+
   @AutoValue
   abstract static class Result {
+
     static Result create(Change.Id changeId, ImmutableSet<String> filesWithGitConflicts) {
       return new AutoValue_CherryPickChange_Result(changeId, filesWithGitConflicts);
     }
@@ -103,12 +99,12 @@ public class CherryPickChange {
   private final Sequences seq;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitRepositoryManager gitManager;
-  private final TimeZone serverTimeZone;
+  private final ZoneId serverZoneId;
   private final Provider<IdentifiedUser> user;
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final SetCherryPickOp.Factory setCherryPickOfFactory;
-  private final MergeUtil.Factory mergeUtilFactory;
+  private final MergeUtilFactory mergeUtilFactory;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ProjectCache projectCache;
   private final ApprovalsUtil approvalsUtil;
@@ -125,7 +121,7 @@ public class CherryPickChange {
       ChangeInserter.Factory changeInserterFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       SetCherryPickOp.Factory setCherryPickOfFactory,
-      MergeUtil.Factory mergeUtilFactory,
+      MergeUtilFactory mergeUtilFactory,
       ChangeNotes.Factory changeNotesFactory,
       ProjectCache projectCache,
       ApprovalsUtil approvalsUtil,
@@ -134,7 +130,7 @@ public class CherryPickChange {
     this.seq = seq;
     this.queryProvider = queryProvider;
     this.gitManager = gitManager;
-    this.serverTimeZone = myIdent.getTimeZone();
+    this.serverZoneId = myIdent.getZoneId();
     this.user = user;
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
@@ -151,21 +147,21 @@ public class CherryPickChange {
    * This function is used for cherry picking a change.
    *
    * @param change Change to cherry pick.
-   * @param patch The patch of that change.
-   * @param input Input object for different configurations of cherry pick.
-   * @param dest Destination branch for the cherry pick.
+   * @param patch  The patch of that change.
+   * @param input  Input object for different configurations of cherry pick.
+   * @param dest   Destination branch for the cherry pick.
    * @return Result object that describes the cherry pick.
-   * @throws IOException Unable to open repository or read from the database.
+   * @throws IOException                     Unable to open repository or read from the database.
    * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
-   *     key exist in the branch.
-   * @throws UpdateException Problem updating the database using batchUpdateFactory.
-   * @throws RestApiException Error such as invalid SHA1
-   * @throws ConfigInvalidException Can't find account to notify.
-   * @throws NoSuchProjectException Can't find project state.
+   *                                         key exist in the branch.
+   * @throws UpdateException                 Problem updating the database using batchUpdateFactory.
+   * @throws RestApiException                Error such as invalid SHA1
+   * @throws ConfigInvalidException          Can't find account to notify.
+   * @throws NoSuchProjectException          Can't find project state.
    */
   public Result cherryPick(Change change, PatchSet patch, CherryPickInput input, BranchNameKey dest)
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
-          ConfigInvalidException, NoSuchProjectException {
+      ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
         change,
         change.getProject(),
@@ -184,19 +180,19 @@ public class CherryPickChange {
    * change as well as long as sourceChange is not null.
    *
    * @param sourceChange Change to cherry pick. Can be null, and then the function will only cherry
-   *     pick a commit.
-   * @param project Project name
+   *                     pick a commit.
+   * @param project      Project name
    * @param sourceCommit Id of the commit to be cherry picked.
-   * @param input Input object for different configurations of cherry pick.
-   * @param dest Destination branch for the cherry pick.
+   * @param input        Input object for different configurations of cherry pick.
+   * @param dest         Destination branch for the cherry pick.
    * @return Result object that describes the cherry pick.
-   * @throws IOException Unable to open repository or read from the database.
+   * @throws IOException                     Unable to open repository or read from the database.
    * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
-   *     key exist in the branch.
-   * @throws UpdateException Problem updating the database using batchUpdateFactory.
-   * @throws RestApiException Error such as invalid SHA1
-   * @throws ConfigInvalidException Can't find account to notify.
-   * @throws NoSuchProjectException Can't find project state.
+   *                                         key exist in the branch.
+   * @throws UpdateException                 Problem updating the database using batchUpdateFactory.
+   * @throws RestApiException                Error such as invalid SHA1
+   * @throws ConfigInvalidException          Can't find account to notify.
+   * @throws NoSuchProjectException          Can't find project state.
    */
   public Result cherryPick(
       @Nullable Change sourceChange,
@@ -205,7 +201,7 @@ public class CherryPickChange {
       CherryPickInput input,
       BranchNameKey dest)
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
-          ConfigInvalidException, NoSuchProjectException {
+      ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
         sourceChange, project, sourceCommit, input, dest, TimeUtil.now(), null, null, null, null);
   }
@@ -215,29 +211,30 @@ public class CherryPickChange {
    * null) with a few other parameters that are especially useful for cherry-picking a commit that
    * is the revert-of another change.
    *
-   * @param sourceChange Change to cherry pick. Can be null, and then the function will only cherry
-   *     pick a commit.
-   * @param project Project name
-   * @param sourceCommit Id of the commit to be cherry picked.
-   * @param input Input object for different configurations of cherry pick.
-   * @param dest Destination branch for the cherry pick.
-   * @param timestamp the current timestamp.
-   * @param revertedChange The id of the change that is reverted. This is used for the "revertOf"
-   *     field to mark the created cherry pick change as "revertOf" the original change that was
-   *     reverted.
+   * @param sourceChange         Change to cherry pick. Can be null, and then the function will only
+   *                             cherry pick a commit.
+   * @param project              Project name
+   * @param sourceCommit         Id of the commit to be cherry picked.
+   * @param input                Input object for different configurations of cherry pick.
+   * @param dest                 Destination branch for the cherry pick.
+   * @param timestamp            the current timestamp.
+   * @param revertedChange       The id of the change that is reverted. This is used for the
+   *                             "revertOf" field to mark the created cherry pick change as
+   *                             "revertOf" the original change that was reverted.
    * @param changeIdForNewChange The Change-Id that the new change of the cherry pick will have.
-   * @param idForNewChange The ID that the new change of the cherry pick will have. If provided and
-   *     the cherry-pick doesn't result in creating a new change, then
-   *     InvalidChangeOperationException is thrown.
+   * @param idForNewChange       The ID that the new change of the cherry pick will have. If
+   *                             provided and the cherry-pick doesn't result in creating a new
+   *                             change, then InvalidChangeOperationException is thrown.
    * @return Result object that describes the cherry pick.
-   * @throws IOException Unable to open repository or read from the database.
+   * @throws IOException                     Unable to open repository or read from the database.
    * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
-   *     key exist in the branch. Also thrown when idForNewChange is not null but cherry-pick only
-   *     creates a new patchset rather than a new change.
-   * @throws UpdateException Problem updating the database using batchUpdateFactory.
-   * @throws RestApiException Error such as invalid SHA1
-   * @throws ConfigInvalidException Can't find account to notify.
-   * @throws NoSuchProjectException Can't find project state.
+   *                                         key exist in the branch. Also thrown when
+   *                                         idForNewChange is not null but cherry-pick only creates
+   *                                         a new patchset rather than a new change.
+   * @throws UpdateException                 Problem updating the database using batchUpdateFactory.
+   * @throws RestApiException                Error such as invalid SHA1
+   * @throws ConfigInvalidException          Can't find account to notify.
+   * @throws NoSuchProjectException          Can't find project state.
    */
   public Result cherryPick(
       @Nullable Change sourceChange,
@@ -251,7 +248,7 @@ public class CherryPickChange {
       @Nullable Change.Id idForNewChange,
       @Nullable Boolean workInProgress)
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
-          ConfigInvalidException, NoSuchProjectException {
+      ConfigInvalidException, NoSuchProjectException {
     IdentifiedUser identifiedUser = user.get();
     try (Repository git = gitManager.openRepository(project);
         // This inserter and revwalk *must* be passed to any BatchUpdates
@@ -306,7 +303,7 @@ public class CherryPickChange {
       CodeReviewCommit cherryPickCommit;
       ProjectState projectState =
           projectCache.get(dest.project()).orElseThrow(noSuchProject(dest.project()));
-      PersonIdent committerIdent = identifiedUser.newCommitterIdent(timestamp, serverTimeZone);
+      PersonIdent committerIdent = identifiedUser.newCommitterIdent(timestamp, serverZoneId);
 
       try {
         MergeUtil mergeUtil;
@@ -351,31 +348,57 @@ public class CherryPickChange {
           // The change key exists on the destination branch. The cherry pick
           // will be added as a new patch set.
           changeId =
-              insertPatchSet(
+              CommitUtils.insertPatchSet(
                   bu,
                   git,
+                  patchSetInserterFactory,
                   destChange.notes(),
                   cherryPickCommit,
-                  sourceChange,
                   newTopic,
-                  input,
-                  workInProgress);
+                  workInProgress,
+                  input.validationOptions);
+          PatchSet.Id sourcePatchSetId =
+              sourceChange == null ? null : sourceChange.currentPatchSetId();
+          // If sourceChange is not provided, reset cherryPickOf to avoid stale value.
+          if (sourcePatchSetId == null) {
+            bu.addOp(destChange.getId(), new ResetCherryPickOp());
+          } else if (destChange.change().getCherryPickOf() == null
+              || !destChange.change().getCherryPickOf().equals(sourcePatchSetId)) {
+            SetCherryPickOp cherryPickOfUpdater = setCherryPickOfFactory.create(sourcePatchSetId);
+            bu.addOp(destChange.getId(), cherryPickOfUpdater);
+          }
         } else {
-          // Change key not found on destination branch. We can create a new
-          // change.
+          // For revert commits, the message should not include cherry-pick information.
+          String destCommitMessage = revertedChange == null
+              ? messageForDestinationChange(cherryPickCommit.getPatchsetId(),
+              sourceChange.getDest(), sourceCommit, cherryPickCommit)
+              : "Uploaded patch set 1.";
+          boolean destWorkInProgress = workInProgress;
+          if (workInProgress == null) {
+            destWorkInProgress = (sourceChange != null && sourceChange.isWorkInProgress())
+                || !cherryPickCommit.getFilesWithGitConflicts().isEmpty();
+          }
           changeId =
-              createNewChange(
+              CommitUtils.createNewChange(
                   bu,
                   cherryPickCommit,
+                  changeNotesFactory,
+                  changeInserterFactory,
+                  user,
+                  approvalsUtil,
+                  seq,
+                  queryProvider,
                   dest.branch(),
+                  destCommitMessage,
                   newTopic,
                   project,
-                  sourceChange,
-                  sourceCommit,
-                  input,
-                  revertedChange,
+                  input.validationOptions,
                   idForNewChange,
-                  workInProgress);
+                  destWorkInProgress,
+                  input.base,
+                  sourceChange,
+                  input.keepReviewers,
+                  revertedChange);
         }
         bu.execute();
         return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
@@ -434,143 +457,13 @@ public class CherryPickChange {
             change.getChangeId(), base, ChangeUtil.status(change)));
   }
 
-  private Change.Id insertPatchSet(
-      BatchUpdate bu,
-      Repository git,
-      ChangeNotes destNotes,
-      CodeReviewCommit cherryPickCommit,
-      @Nullable Change sourceChange,
-      String topic,
-      CherryPickInput input,
-      @Nullable Boolean workInProgress)
-      throws IOException {
-    Change destChange = destNotes.getChange();
-    PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
-    PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, cherryPickCommit);
-    inserter.setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".");
-    inserter.setTopic(topic);
-    if (workInProgress != null) {
-      inserter.setWorkInProgress(workInProgress);
-    }
-    if (shouldSetToReady(cherryPickCommit, destNotes, workInProgress)) {
-      inserter.setWorkInProgress(false);
-    }
-    inserter.setValidationOptions(getValidateOptionsAsMultimap(input.validationOptions));
-    bu.addOp(destChange.getId(), inserter);
-    PatchSet.Id sourcePatchSetId = sourceChange == null ? null : sourceChange.currentPatchSetId();
-    // If sourceChange is not provided, reset cherryPickOf to avoid stale value.
-    if (sourcePatchSetId == null) {
-      bu.addOp(destChange.getId(), new ResetCherryPickOp());
-    } else if (destChange.getCherryPickOf() == null
-        || !destChange.getCherryPickOf().equals(sourcePatchSetId)) {
-      SetCherryPickOp cherryPickOfUpdater = setCherryPickOfFactory.create(sourcePatchSetId);
-      bu.addOp(destChange.getId(), cherryPickOfUpdater);
-    }
-    return destChange.getId();
-  }
-
-  /**
-   * We should set the change to be "ready for review" if: 1. workInProgress is not already set on
-   * this request. 2. The patch-set doesn't have any git conflict markers. 3. The change used to be
-   * work in progress (because of a previous patch-set).
-   */
-  private boolean shouldSetToReady(
-      CodeReviewCommit cherryPickCommit,
-      ChangeNotes destChangeNotes,
-      @Nullable Boolean workInProgress) {
-    return workInProgress == null
-        && cherryPickCommit.getFilesWithGitConflicts().isEmpty()
-        && destChangeNotes.getChange().isWorkInProgress();
-  }
-
-  private Change.Id createNewChange(
-      BatchUpdate bu,
-      CodeReviewCommit cherryPickCommit,
-      String refName,
-      String topic,
-      Project.NameKey project,
-      @Nullable Change sourceChange,
-      @Nullable ObjectId sourceCommit,
-      CherryPickInput input,
-      @Nullable Change.Id revertOf,
-      @Nullable Change.Id idForNewChange,
-      @Nullable Boolean workInProgress)
-      throws IOException, InvalidChangeOperationException {
-    Change.Id changeId = idForNewChange != null ? idForNewChange : Change.id(seq.nextChangeId());
-    ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
-    ins.setRevertOf(revertOf);
-    if (workInProgress != null) {
-      ins.setWorkInProgress(workInProgress);
-    } else {
-      ins.setWorkInProgress(
-          (sourceChange != null && sourceChange.isWorkInProgress())
-              || !cherryPickCommit.getFilesWithGitConflicts().isEmpty());
-    }
-    ins.setValidationOptions(getValidateOptionsAsMultimap(input.validationOptions));
-    BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
-    PatchSet.Id sourcePatchSetId = sourceChange == null ? null : sourceChange.currentPatchSetId();
-    ins.setMessage(
-            revertOf == null
-                ? messageForDestinationChange(
-                    ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit)
-                : "Uploaded patch set 1.") // For revert commits, the message should not include
-        // cherry-pick information.
-        .setTopic(topic)
-        .setCherryPickOf(sourcePatchSetId);
-    if (input.keepReviewers && sourceChange != null) {
-      ReviewerSet reviewerSet =
-          approvalsUtil.getReviewers(changeNotesFactory.createChecked(sourceChange));
-      Set<Account.Id> reviewers =
-          new HashSet<>(reviewerSet.byState(ReviewerStateInternal.REVIEWER));
-      reviewers.add(sourceChange.getOwner());
-      reviewers.remove(user.get().getAccountId());
-      Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
-      ccs.remove(user.get().getAccountId());
-      ins.setReviewersAndCcs(reviewers, ccs);
-    }
-    // If there is a base, and the base is not merged, the groups will be overridden by the base's
-    // groups.
-    ins.setGroups(GroupCollector.getDefaultGroups(cherryPickCommit.getId()));
-    if (input.base != null) {
-      List<ChangeData> changes =
-          queryProvider.get().setLimit(2).byBranchCommitOpen(project.get(), refName, input.base);
-      if (changes.size() > 1) {
-        throw new InvalidChangeOperationException(
-            "Several changes with key "
-                + input.base
-                + " reside on the same branch. "
-                + "Cannot cherry-pick on target branch.");
-      }
-      if (changes.size() == 1) {
-        Change change = changes.get(0).change();
-        ins.setGroups(changeNotesFactory.createChecked(change).getCurrentPatchSet().groups());
-      }
-    }
-    bu.insertChange(ins);
-    return changeId;
-  }
-
-  private static ImmutableListMultimap<String, String> getValidateOptionsAsMultimap(
-      @Nullable Map<String, String> validationOptions) {
-    if (validationOptions == null) {
-      return ImmutableListMultimap.of();
-    }
-
-    ImmutableListMultimap.Builder<String, String> validationOptionsBuilder =
-        ImmutableListMultimap.builder();
-    validationOptions
-        .entrySet()
-        .forEach(e -> validationOptionsBuilder.put(e.getKey(), e.getValue()));
-    return validationOptionsBuilder.build();
-  }
-
   private NotifyResolver.Result resolveNotify(CherryPickInput input)
       throws BadRequestException, ConfigInvalidException, IOException {
     return notifyResolver.resolve(
         firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
   }
 
-  private String messageForDestinationChange(
+  private static String messageForDestinationChange(
       PatchSet.Id patchSetId,
       BranchNameKey sourceBranch,
       ObjectId sourceCommit,
@@ -604,13 +497,14 @@ public class CherryPickChange {
    *   <li>Provided in the input commit message.
    *   <li>Taken from the source commit if commit message was not set.
    * </ul>
-   *
+   * <p>
    * Otherwise should be generated.
    *
-   * @param commitMessage the commit message, as intended by the caller of cherry-pick operation.
+   * @param commitMessage        the commit message, as intended by the caller of cherry-pick
+   *                             operation.
    * @param changeIdForNewChange the explicitly provided Change-Id for the new change.
    * @return The Change-Id of destination change, {@code null} if Change-Id was not provided by the
-   *     caller of cherry-pick operation and should be generated.
+   * caller of cherry-pick operation and should be generated.
    */
   @Nullable
   private String getDestinationChangeId(
@@ -624,10 +518,10 @@ public class CherryPickChange {
   /**
    * Returns the change from the destination branch, if it exists and is valid for the cherry-pick.
    *
-   * @param destChangeId the Change-ID of the change in the destination branch.
-   * @param destBranch the branch to search by the Change-ID.
+   * @param destChangeId    the Change-ID of the change in the destination branch.
+   * @param destBranch      the branch to search by the Change-ID.
    * @param verifyIsMissing if {@code true}, verifies that the change should be missing in the
-   *     destination branch.
+   *                        destination branch.
    * @return the verified change or {@code null} if the change was not found.
    * @throws InvalidChangeOperationException if the change was found but failed validation
    */

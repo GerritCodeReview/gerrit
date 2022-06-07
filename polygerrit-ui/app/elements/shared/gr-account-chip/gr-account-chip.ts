@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-account-label/gr-account-label';
 import '../gr-button/gr-button';
@@ -27,7 +16,6 @@ import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {ClassInfo, classMap} from 'lit/directives/class-map';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {getLabelStatus, hasVoted, LabelStatus} from '../../../utils/label-util';
 
 @customElement('gr-account-chip')
@@ -83,9 +71,6 @@ export class GrAccountChip extends LitElement {
   @property({type: Boolean, reflect: true})
   showAvatar?: boolean;
 
-  @property({type: Boolean})
-  transparentBackground = false;
-
   @property({type: Object})
   vote?: ApprovalInfo;
 
@@ -93,8 +78,6 @@ export class GrAccountChip extends LitElement {
   label?: LabelInfo;
 
   private readonly restApiService = getAppContext().restApiService;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   static override get styles() {
     return [
@@ -129,10 +112,6 @@ export class GrAccountChip extends LitElement {
         :host:focus .container,
         :host:focus gr-button {
           background: #ccc;
-        }
-        .transparentBackground,
-        gr-button.transparentBackground {
-          background-color: transparent;
         }
         :host([disabled]) {
           opacity: 0.6;
@@ -193,7 +172,6 @@ export class GrAccountChip extends LitElement {
         class=${classMap({
           ...this.computeVoteClasses(),
           container: true,
-          transparentBackground: this.transparentBackground,
           closeShown: this.removable,
         })}
       >
@@ -214,11 +192,8 @@ export class GrAccountChip extends LitElement {
           link=""
           ?hidden=${!this.removable}
           aria-label="Remove"
-          class=${classMap({
-            remove: true,
-            transparentBackground: this.transparentBackground,
-          })}
-          @click=${this._handleRemoveTap}
+          class="remove"
+          @click=${this.handleRemoveTap}
         >
           <iron-icon icon="gr-icons:close"></iron-icon>
         </gr-button>
@@ -227,12 +202,12 @@ export class GrAccountChip extends LitElement {
 
   constructor() {
     super();
-    this._getHasAvatars().then(hasAvatars => {
+    this.getHasAvatars().then(hasAvatars => {
       this.showAvatar = hasAvatars;
     });
   }
 
-  _handleRemoveTap(e: MouseEvent) {
+  private handleRemoveTap(e: MouseEvent) {
     e.preventDefault();
     this.dispatchEvent(
       new CustomEvent('remove', {
@@ -243,7 +218,7 @@ export class GrAccountChip extends LitElement {
     );
   }
 
-  _getHasAvatars() {
+  private getHasAvatars() {
     return this.restApiService
       .getConfig()
       .then(cfg =>
@@ -252,12 +227,7 @@ export class GrAccountChip extends LitElement {
   }
 
   private computeVoteClasses(): ClassInfo {
-    if (
-      !this.flagsService.isEnabled(KnownExperimentId.SUBMIT_REQUIREMENTS_UI) ||
-      !this.label ||
-      !this.account ||
-      !hasVoted(this.label, this.account)
-    ) {
+    if (!this.label || !this.account || !hasVoted(this.label, this.account)) {
       return {};
     }
     const status = getLabelStatus(this.label, this.vote?.value);

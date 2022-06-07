@@ -37,6 +37,7 @@ import com.google.gerrit.server.CacheRefreshExecutor;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
@@ -243,13 +244,19 @@ public class InMemoryModule extends FactoryModule {
     bind(AllChangesIndexer.class).toProvider(Providers.of(null));
     bind(AllGroupsIndexer.class).toProvider(Providers.of(null));
 
-    String indexTypeCfg = cfg.getString("index", null, "type");
-    IndexType indexType = new IndexType(indexTypeCfg != null ? indexTypeCfg : "fake");
-    // For custom index types, callers must provide their own module.
-    if (indexType.isLucene()) {
-      install(luceneIndexModule());
-    } else if (indexType.isFake()) {
-      install(fakeIndexModule());
+    // Index lib module has a higher priority than index type configuration.
+    String indexModule =
+        cfg.getString("index", null, "install" + LibModuleType.INDEX_MODULE_TYPE.getConfigKey());
+    if (indexModule != null) {
+      install(indexModule(indexModule));
+    } else {
+      String indexTypeCfg = cfg.getString("index", null, "type");
+      IndexType indexType = new IndexType(indexTypeCfg != null ? indexTypeCfg : "fake");
+      if (indexType.isLucene()) {
+        install(luceneIndexModule());
+      } else if (indexType.isFake()) {
+        install(fakeIndexModule());
+      }
     }
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);

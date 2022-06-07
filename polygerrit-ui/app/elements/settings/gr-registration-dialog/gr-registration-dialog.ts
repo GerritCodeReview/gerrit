@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-form-styles';
@@ -146,7 +135,6 @@ export class GrRegistrationDialog extends LitElement {
           <span class="title">Full Name</span>
           ${when(
             this.nameMutable,
-            () => html`<span class="value">${this.account.name}</span>`,
             () => html`<span class="value">
               <iron-input
                 .bindValue=${this.account.name}
@@ -159,7 +147,8 @@ export class GrRegistrationDialog extends LitElement {
               >
                 <input id="name" ?disabled=${this.saving} />
               </iron-input>
-            </span>`
+            </span>`,
+            () => html`<span class="value">${this.account.name}</span>`
           )}
         </section>
         <section>
@@ -186,7 +175,6 @@ export class GrRegistrationDialog extends LitElement {
             <span class="title">Username</span>
             ${when(
               this.usernameMutable,
-              () => html`<span class="value">${this.username}</span>`,
               () => html` <span class="value">
                 <iron-input
                   .bindValue=${this.username}
@@ -199,7 +187,8 @@ export class GrRegistrationDialog extends LitElement {
                 >
                   <input id="username" ?disabled=${this.saving} />
                 </iron-input>
-              </span>`
+              </span>`,
+              () => html`<span class="value">${this.username}</span>`
             )}
           </section>`
         )}

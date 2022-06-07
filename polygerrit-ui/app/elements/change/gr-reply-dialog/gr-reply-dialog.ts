@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
@@ -27,10 +16,7 @@ import '../../shared/gr-account-list/gr-account-list';
 import '../gr-label-scores/gr-label-scores';
 import '../gr-thread-list/gr-thread-list';
 import '../../../styles/shared-styles';
-import {
-  GrReviewerSuggestionsProvider,
-  SUGGESTIONS_PROVIDERS_USERS_TYPES,
-} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
+import {GrReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import {getAppContext} from '../../../services/app-context';
 import {
   ChangeStatus,
@@ -118,6 +104,7 @@ import {when} from 'lit/directives/when';
 import {classMap} from 'lit/directives/class-map';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {customElement, property, state, query} from 'lit/decorators';
+import {subscribe} from '../../lit/subscription-controller';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -263,7 +250,7 @@ export class GrReplyDialog extends LitElement {
   account?: AccountInfo;
 
   @state()
-  ccs: (AccountInfoInput | GroupInfoInput)[] = [];
+  ccs: AccountInput[] = [];
 
   @state()
   attentionCcsCount = 0;
@@ -347,6 +334,8 @@ export class GrReplyDialog extends LitElement {
 
   storeTask?: DelayedTask;
 
+  private isLoggedIn = false;
+
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
 
@@ -357,6 +346,7 @@ export class GrReplyDialog extends LitElement {
         background-color: var(--dialog-background-color);
         display: block;
         max-height: 90vh;
+        --label-score-padding-left: var(--spacing-xl);
       }
       :host([disabled]) {
         pointer-events: none;
@@ -592,6 +582,60 @@ export class GrReplyDialog extends LitElement {
     `,
   ];
 
+  constructor() {
+    super();
+    this.filterReviewerSuggestion =
+      this.filterReviewerSuggestionGenerator(false);
+    this.filterCCSuggestion = this.filterReviewerSuggestionGenerator(true);
+    this.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
+    subscribe(
+      this,
+      () => getAppContext().userModel.loggedIn$,
+      isLoggedIn => (this.isLoggedIn = isLoggedIn)
+    );
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    (
+      IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
+    ).requestAvailability();
+    this.restApiService.getAccount().then(account => {
+      if (account) this.account = account;
+    });
+
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]}, _ =>
+        this.submit()
+      )
+    );
+    this.cleanups.push(
+      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.META_KEY]}, _ =>
+        this.submit()
+      )
+    );
+    this.cleanups.push(addShortcut(this, {key: Key.ESC}, _ => this.cancel()));
+    this.addEventListener('comment-editing-changed', e => {
+      this.commentEditing = (e as CustomEvent).detail;
+    });
+
+    // Plugins on reply-reviewers endpoint can take advantage of these
+    // events to add / remove reviewers
+
+    this.addEventListener('add-reviewer', e => {
+      // Only support account type, see more from:
+      // elements/shared/gr-account-list/gr-account-list.js#addAccountItem
+      this.reviewersList?.addAccountItem({
+        account: (e as CustomEvent).detail.reviewer,
+        count: 1,
+      });
+    });
+
+    this.addEventListener('remove-reviewer', e => {
+      this.reviewersList?.removeAccount((e as CustomEvent).detail.reviewer);
+    });
+  }
+
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('draft')) {
       this.draftChanged(changedProperties.get('draft') as string);
@@ -639,55 +683,6 @@ export class GrReplyDialog extends LitElement {
     }
   }
 
-  constructor() {
-    super();
-    this.filterReviewerSuggestion =
-      this.filterReviewerSuggestionGenerator(false);
-    this.filterCCSuggestion = this.filterReviewerSuggestionGenerator(true);
-    this.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    (
-      IronA11yAnnouncer as unknown as FixIronA11yAnnouncer
-    ).requestAvailability();
-    this.restApiService.getAccount().then(account => {
-      if (account) this.account = account;
-    });
-
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.CTRL_KEY]}, _ =>
-        this.submit()
-      )
-    );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ENTER, modifiers: [Modifier.META_KEY]}, _ =>
-        this.submit()
-      )
-    );
-    this.cleanups.push(addShortcut(this, {key: Key.ESC}, _ => this.cancel()));
-    this.addEventListener('comment-editing-changed', e => {
-      this.commentEditing = (e as CustomEvent).detail;
-    });
-
-    // Plugins on reply-reviewers endpoint can take advantage of these
-    // events to add / remove reviewers
-
-    this.addEventListener('add-reviewer', e => {
-      // Only support account type, see more from:
-      // elements/shared/gr-account-list/gr-account-list.js#addAccountItem
-      this.reviewersList?.addAccountItem({
-        account: (e as CustomEvent).detail.reviewer,
-        count: 1,
-      });
-    });
-
-    this.addEventListener('remove-reviewer', e => {
-      this.reviewersList?.removeAccount((e as CustomEvent).detail.reviewer);
-    });
-  }
-
   override disconnectedCallback() {
     this.storeTask?.cancel();
     for (const cleanup of this.cleanups) cleanup();
@@ -703,10 +698,10 @@ export class GrReplyDialog extends LitElement {
         <section class="peopleContainer">
           <gr-endpoint-decorator name="reply-reviewers">
             <gr-endpoint-param
-              .name=${'change'}
+              name="change"
               .value=${this.change}
             ></gr-endpoint-param>
-            <gr-endpoint-param .name=${'reviewers'} .value=${this.allReviewers}>
+            <gr-endpoint-param name="reviewers" .value=${this.allReviewers}>
             </gr-endpoint-param>
             ${this.renderReviewerList()}
             <gr-endpoint-slot name="below"></gr-endpoint-slot>
@@ -732,7 +727,7 @@ export class GrReplyDialog extends LitElement {
         <div class="stickyBottom newReplyDialog">
           <gr-endpoint-decorator name="reply-bottom">
             <gr-endpoint-param
-              .name=${'change'}
+              name="change"
               .value=${this.change}
             ></gr-endpoint-param>
             ${this.renderAttentionSummarySection()}
@@ -833,7 +828,7 @@ export class GrReplyDialog extends LitElement {
           .permittedLabels=${this.permittedLabels}
         ></gr-label-scores>
         <gr-endpoint-param
-          .name=${'change'}
+          name="change"
           .value=${this.change}
         ></gr-endpoint-param>
       </gr-endpoint-decorator>
@@ -868,7 +863,7 @@ export class GrReplyDialog extends LitElement {
             }}
           >
           </gr-textarea>
-          <gr-endpoint-param .name=${'change'} .value=${this.change}>
+          <gr-endpoint-param name="change" .value=${this.change}>
           </gr-endpoint-param>
         </gr-endpoint-decorator>
         <div class="labelContainer">
@@ -1481,7 +1476,7 @@ export class GrReplyDialog extends LitElement {
     const jsonPromise = this.restApiService.getResponseObject(response.clone());
     return jsonPromise.then((parsed: ParsedJSON) => {
       const result = parsed as ReviewResult;
-      // Only perform custom error handling for 400s and a parseable
+      // Only perform custom error handling for 400s and a parsable
       // ReviewResult response.
       if (response.status === 400 && result && result.reviewers) {
         const errors: string[] = [];
@@ -1521,8 +1516,8 @@ export class GrReplyDialog extends LitElement {
     if (!this.change?.owner || !this.change?.reviewers) return;
     this.owner = this.change.owner;
 
-    const reviewers = [];
-    const ccs = [];
+    const reviewers: AccountInput[] = [];
+    const ccs: AccountInput[] = [];
 
     if (this.change.reviewers) {
       for (const key of Object.keys(this.change.reviewers)) {
@@ -2078,23 +2073,25 @@ export class GrReplyDialog extends LitElement {
 
   getReviewerSuggestionsProvider(change?: ChangeInfo) {
     if (!change) return;
-    const provider = GrReviewerSuggestionsProvider.create(
+    const provider = new GrReviewerSuggestionsProvider(
       this.restApiService,
-      change._number,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER
+      ReviewerState.REVIEWER,
+      this.serverConfig,
+      this.isLoggedIn,
+      change._number
     );
-    provider.init();
     return provider;
   }
 
   getCcSuggestionsProvider(change?: ChangeInfo) {
     if (!change) return;
-    const provider = GrReviewerSuggestionsProvider.create(
+    const provider = new GrReviewerSuggestionsProvider(
       this.restApiService,
-      change._number,
-      SUGGESTIONS_PROVIDERS_USERS_TYPES.CC
+      ReviewerState.CC,
+      this.serverConfig,
+      this.isLoggedIn,
+      change._number
     );
-    provider.init();
     return provider;
   }
 

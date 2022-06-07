@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Stream;
 
 /**
  * Cache based on an index query of the most recent changes. The number of cached items depends on
@@ -116,22 +117,23 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
    * Additional stored fields are not loaded from the index.
    *
    * @param project project to read.
-   * @return list of known changes; empty if no changes.
+   * @return stream of known changes; empty if no changes.
    */
-  public List<ChangeData> getChangeData(Project.NameKey project) {
+  public Stream<ChangeData> getChangeData(Project.NameKey project) {
+    List<CachedChange> cached;
     try {
-      List<CachedChange> cached = cache.get(project);
-      List<ChangeData> cds = new ArrayList<>(cached.size());
-      for (CachedChange cc : cached) {
-        ChangeData cd = changeDataFactory.create(cc.change());
-        cd.setReviewers(cc.reviewers());
-        cds.add(cd);
-      }
-      return Collections.unmodifiableList(cds);
+      cached = cache.get(project);
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log("Cannot fetch changes for %s", project);
-      return Collections.emptyList();
+      return Stream.empty();
     }
+    return cached.stream()
+        .map(
+            cc -> {
+              ChangeData cd = changeDataFactory.create(cc.change());
+              cd.setReviewers(cc.reviewers());
+              return cd;
+            });
   }
 
   @Override

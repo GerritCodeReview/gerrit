@@ -1,40 +1,26 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-import {SpecialFilePath} from '../../../constants/constants';
-import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
-import {hasOwnProperty} from '../../../utils/common-util';
+import {FileInfoStatus, SpecialFilePath} from '../../../constants/constants';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
+import {assertNever} from '../../../utils/common-util';
+import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 
-const FileStatus = {
-  A: 'Added',
-  C: 'Copied',
-  D: 'Deleted',
-  M: 'Modified',
-  R: 'Renamed',
-  W: 'Rewritten',
-  U: 'Unchanged',
-};
+/**
+ * This component does not really care about the full glory of FileInfo and
+ * NormalizedFileInfo objects, so let's define the component's expectations
+ * in a dedicated narrow type.
+ */
+type File = Pick<NormalizedFileInfo, 'status' | '__path'>;
 
 @customElement('gr-file-status-chip')
 export class GrFileStatusChip extends LitElement {
   @property({type: Object})
-  file?: NormalizedFileInfo;
+  file?: File;
 
   static override get styles() {
     return [
@@ -66,51 +52,52 @@ export class GrFileStatusChip extends LitElement {
   }
 
   override render() {
-    return html` <span
-      class=${this._computeStatusClass(this.file)}
+    if (!this.file) return;
+    const classes = ['status', this.status()];
+    if (this.isSpecial()) classes.push('invisible');
+    const label = this.computeLabel();
+    return html`<span
+      class=${classes.join(' ')}
       tabindex="0"
-      title=${this._computeFileStatusLabel(this.file?.status)}
-      aria-label=${this._computeFileStatusLabel(this.file?.status)}
+      title=${label}
+      aria-label=${label}
     >
-      ${this._computeFileStatusLabel(this.file?.status)}
+      ${label}
     </span>`;
   }
 
-  /**
-   * Get a descriptive label for use in the status indicator's tooltip and
-   * ARIA label.
-   */
-  _computeFileStatusLabel(status?: keyof typeof FileStatus) {
-    const statusCode = this._computeFileStatus(status);
-    return hasOwnProperty(FileStatus, statusCode)
-      ? FileStatus[statusCode]
-      : 'Status Unknown';
+  private computeLabel() {
+    const status = this.status();
+    switch (status) {
+      case FileInfoStatus.ADDED:
+        return 'Added';
+      case FileInfoStatus.COPIED:
+        return 'Copied';
+      case FileInfoStatus.DELETED:
+        return 'Deleted';
+      case FileInfoStatus.MODIFIED:
+        return 'Modified';
+      case FileInfoStatus.RENAMED:
+        return 'Renamed';
+      case FileInfoStatus.REWRITTEN:
+        return 'Rewritten';
+      case FileInfoStatus.UNMODIFIED:
+        return 'Unchanged';
+      default:
+        assertNever(status, `Unsupported status: ${status}`);
+    }
   }
 
-  _computeClass(baseClass?: string, path?: string) {
-    const classes = [];
-    if (baseClass) {
-      classes.push(baseClass);
-    }
-    if (
+  private status(): FileInfoStatus {
+    return this.file?.status ?? FileInfoStatus.MODIFIED;
+  }
+
+  private isSpecial() {
+    const path = this.file?.__path;
+    return (
       path === SpecialFilePath.COMMIT_MESSAGE ||
       path === SpecialFilePath.MERGE_LIST
-    ) {
-      classes.push('invisible');
-    }
-    return classes.join(' ');
-  }
-
-  _computeFileStatus(
-    status?: keyof typeof FileStatus
-  ): keyof typeof FileStatus {
-    return status || 'M';
-  }
-
-  _computeStatusClass(file?: NormalizedFileInfo) {
-    if (!file) return '';
-    const classStr = this._computeClass('status', file.__path);
-    return `${classStr} ${this._computeFileStatus(file.status)}`;
+    );
   }
 }
 

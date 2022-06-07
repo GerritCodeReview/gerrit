@@ -1284,7 +1284,7 @@ any account.
   )]}'
   {
     "changes_per_page": 25,
-    "theme": "LIGHT",
+    "theme": "AUTO",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "diff_view": "SIDE_BY_SIDE",
@@ -2658,7 +2658,7 @@ The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
 |`theme`                        ||
 Which theme to use.
-Allowed values are `DARK` or `LIGHT`.
+Allowed values are `AUTO` or `DARK` or `LIGHT`.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
 (Gerrit web app UI only).
@@ -2729,7 +2729,7 @@ The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
 |`theme`                        |optional|
 Which theme to use.
-Allowed values are `DARK` or `LIGHT`.
+Allowed values are `AUTO` or `DARK` or `LIGHT`.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
 (Gerrit web app UI only).

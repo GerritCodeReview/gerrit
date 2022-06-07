@@ -1,20 +1,8 @@
 /**
  * @license
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2015 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
-
 import '../../shared/gr-icons/gr-icons';
 import '../gr-change-list/gr-change-list';
 import '../gr-repo-header/gr-repo-header';
@@ -201,11 +189,7 @@ export class GrChangeListView extends LitElement {
           .account=${this.account}
           .changes=${this.changes}
           .preferences=${this.preferences}
-          .selectedIndex=${this.viewState.selectedChangeIndex}
           .showStar=${loggedIn}
-          @selected-index-changed=${(e: ValueChangedEvent<number>) => {
-            this.handleSelectedIndexChanged(e);
-          }}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}
@@ -302,10 +286,11 @@ export class GrChangeListView extends LitElement {
       this.viewState.query !== this.query ||
       this.viewState.offset !== this.offset
     ) {
-      this.viewState.selectedChangeIndex = 0;
       this.viewState.query = this.query;
       this.viewState.offset = this.offset;
-      fire(this, 'view-state-changed', {value: this.viewState});
+      fire(this, 'view-state-change-list-view-changed', {
+        value: this.viewState,
+      });
     }
 
     // NOTE: This method may be called before attachment. Fire title-change
@@ -426,17 +411,11 @@ export class GrChangeListView extends LitElement {
       e.detail.starred
     );
   }
-
-  private handleSelectedIndexChanged(e: ValueChangedEvent<number>) {
-    if (!this.viewState) return;
-    this.viewState.selectedChangeIndex = e.detail.value;
-    fire(this, 'view-state-changed', {value: this.viewState});
-  }
 }
 
 declare global {
   interface HTMLElementEventMap {
-    'view-state-changed': ValueChangedEvent<ChangeListViewState>;
+    'view-state-change-list-view-changed': ValueChangedEvent<ChangeListViewState>;
   }
   interface HTMLElementTagNameMap {
     'gr-change-list-view': GrChangeListView;

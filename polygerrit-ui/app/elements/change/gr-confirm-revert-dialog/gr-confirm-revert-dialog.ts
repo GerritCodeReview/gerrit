@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-dialog/gr-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
@@ -20,7 +9,7 @@ import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {LitElement, html, css, nothing} from 'lit';
 import {customElement, state} from 'lit/decorators';
 import {ChangeInfo, CommitId} from '../../../types/common';
-import {fireAlert} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {BindValueChangeEvent} from '../../../types/events';
@@ -40,20 +29,23 @@ export interface ConfirmRevertEventDetail {
   message?: string;
 }
 
+export interface CancelRevertEventDetail {
+  revertType: RevertType;
+}
+
+declare global {
+  interface HTMLElementEventMap {
+    /** Fired when the confirm button is pressed. */
+    // prettier-ignore
+    'confirm': CustomEvent<ConfirmRevertEventDetail>;
+    /** Fired when the cancel button is pressed. */
+    // prettier-ignore
+    'cancel': CustomEvent<CancelRevertEventDetail>;
+  }
+}
+
 @customElement('gr-confirm-revert-dialog')
 export class GrConfirmRevertDialog extends LitElement {
-  /**
-   * Fired when the confirm button is pressed.
-   *
-   * @event confirm
-   */
-
-  /**
-   * Fired when the cancel button is pressed.
-   *
-   * @event cancel
-   */
-
   /* The revert message updated by the user
       The default value is set by the dialog */
   @state()
@@ -311,25 +303,16 @@ export class GrConfirmRevertDialog extends LitElement {
       revertType: this.revertType,
       message: this.message,
     };
-    this.dispatchEvent(
-      new CustomEvent('confirm', {
-        detail,
-        composed: true,
-        bubbles: false,
-      })
-    );
+    fire(this, 'confirm', detail);
   }
 
   private handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(
-      new CustomEvent('cancel', {
-        detail: {revertType: this.revertType},
-        composed: true,
-        bubbles: false,
-      })
-    );
+    const detail: ConfirmRevertEventDetail = {
+      revertType: this.revertType,
+    };
+    fire(this, 'cancel', detail);
   }
 }
 

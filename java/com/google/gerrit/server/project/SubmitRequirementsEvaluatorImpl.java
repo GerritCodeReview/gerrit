@@ -25,8 +25,6 @@ import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateRes
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
@@ -48,9 +46,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private final Provider<SubmitRequirementChangeQueryBuilder> queryBuilder;
   private final ProjectCache projectCache;
   private final PluginSetContext<SubmitRequirement> globalSubmitRequirements;
-  private final SubmitRequirementsUtil submitRequirementsUtil;
   private final OneOffRequestContext requestContext;
-  private final ExperimentFeatures experimentFeatures;
 
   public static Module module() {
     return new AbstractModule() {
@@ -68,15 +64,11 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       Provider<SubmitRequirementChangeQueryBuilder> queryBuilder,
       ProjectCache projectCache,
       PluginSetContext<SubmitRequirement> globalSubmitRequirements,
-      SubmitRequirementsUtil submitRequirementsUtil,
-      OneOffRequestContext requestContext,
-      ExperimentFeatures experimentFeatures) {
+      OneOffRequestContext requestContext) {
     this.queryBuilder = queryBuilder;
     this.projectCache = projectCache;
     this.globalSubmitRequirements = globalSubmitRequirements;
-    this.submitRequirementsUtil = submitRequirementsUtil;
     this.requestContext = requestContext;
-    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
@@ -87,16 +79,8 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
 
   @Override
   public ImmutableMap<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(
-      ChangeData cd, boolean includeLegacy) {
-    ImmutableMap<SubmitRequirement, SubmitRequirementResult> projectConfigRequirements =
-        getRequirements(cd);
-    if (!includeLegacy) {
-      return projectConfigRequirements;
-    }
-    Map<SubmitRequirement, SubmitRequirementResult> legacyReqs =
-        SubmitRequirementsAdapter.getLegacyRequirements(cd);
-    return submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
-        projectConfigRequirements, legacyReqs, cd);
+      ChangeData cd) {
+    return getRequirements(cd);
   }
 
   @Override
@@ -110,23 +94,14 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
           sr.applicabilityExpression().isPresent()
               ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
               : Optional.empty();
-      Optional<SubmitRequirementExpressionResult> submittabilityResult;
-      Optional<SubmitRequirementExpressionResult> overrideResult;
-      if (experimentFeatures.isFeatureEnabled(
-          ExperimentFeaturesConstants
-              .GERRIT_BACKEND_REQUEST_FEATURE_SR_EXPRESSIONS_NOT_EVALUATED)) {
-        submittabilityResult =
-            Optional.of(
-                SubmitRequirementExpressionResult.notEvaluated(sr.submittabilityExpression()));
-        overrideResult =
-            sr.overrideExpression().isPresent()
-                ? Optional.of(
-                    SubmitRequirementExpressionResult.notEvaluated(sr.overrideExpression().get()))
-                : Optional.empty();
-      } else {
-        submittabilityResult = Optional.empty();
-        overrideResult = Optional.empty();
-      }
+      Optional<SubmitRequirementExpressionResult> submittabilityResult =
+          Optional.of(
+              SubmitRequirementExpressionResult.notEvaluated(sr.submittabilityExpression()));
+      Optional<SubmitRequirementExpressionResult> overrideResult =
+          sr.overrideExpression().isPresent()
+              ? Optional.of(
+                  SubmitRequirementExpressionResult.notEvaluated(sr.overrideExpression().get()))
+              : Optional.empty();
       if (!sr.applicabilityExpression().isPresent()
           || SubmitRequirementResult.assertPass(applicabilityResult)) {
         submittabilityResult = Optional.of(evaluateExpression(sr.submittabilityExpression(), cd));

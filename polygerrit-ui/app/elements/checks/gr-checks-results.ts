@@ -1,18 +1,7 @@
 /**
  * @license
- * Copyright (C) 2020 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the 'License');
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an 'AS IS' BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
  */
 import {classMap} from 'lit/directives/class-map';
 import {repeat} from 'lit/directives/repeat';
@@ -114,9 +103,13 @@ class GrResultRow extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  override connectedCallback() {
-    super.connectedCallback();
-    subscribe(this, this.getChangeModel().labels$, x => (this.labels = x));
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChangeModel().labels$,
+      x => (this.labels = x)
+    );
   }
 
   static override get styles() {
@@ -608,11 +601,11 @@ class GrResultExpanded extends LitElement {
     ];
   }
 
-  override connectedCallback() {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getConfigModel().repoConfig$,
+      () => this.getConfigModel().repoConfig$,
       x => (this.repoConfig = x)
     );
   }
@@ -787,31 +780,31 @@ export class GrChecksResults extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
-  override connectedCallback() {
-    super.connectedCallback();
+  constructor() {
+    super();
     subscribe(
       this,
-      this.getChecksModel().topLevelActionsSelected$,
+      () => this.getChecksModel().topLevelActionsSelected$,
       x => (this.actions = x)
     );
     subscribe(
       this,
-      this.getChecksModel().topLevelLinksSelected$,
+      () => this.getChecksModel().topLevelLinksSelected$,
       x => (this.links = x)
     );
     subscribe(
       this,
-      this.getChecksModel().checksSelectedPatchsetNumber$,
+      () => this.getChecksModel().checksSelectedPatchsetNumber$,
       x => (this.checksPatchsetNumber = x)
     );
     subscribe(
       this,
-      this.getChangeModel().latestPatchNum$,
+      () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchsetNumber = x)
     );
     subscribe(
       this,
-      this.getChecksModel().someProvidersAreLoadingSelected$,
+      () => this.getChecksModel().someProvidersAreLoadingSelected$,
       x => (this.someProvidersAreLoading = x)
     );
   }

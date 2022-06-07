@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.AgreementSignupListener;
 import com.google.gerrit.extensions.events.AssigneeChangedListener;
+import com.google.gerrit.extensions.events.AttentionSetListener;
 import com.google.gerrit.extensions.events.ChangeAbandonedListener;
 import com.google.gerrit.extensions.events.ChangeDeletedListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
@@ -121,6 +122,7 @@ import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
+import com.google.gerrit.server.change.EmailNewPatchSet;
 import com.google.gerrit.server.change.FileInfoJsonModule;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.ReviewerSuggestion;
@@ -134,7 +136,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.GitModule;
-import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.NotesBranchUtil;
@@ -173,6 +174,7 @@ import com.google.gerrit.server.mail.send.MailSoySauceModule;
 import com.google.gerrit.server.mail.send.MailSoyTemplateProvider;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
+import com.google.gerrit.server.notedb.DeleteZombieCommentsRefs;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.notedb.StoreSubmitRequirementsOp;
 import com.google.gerrit.server.patch.DiffOperationsImpl;
@@ -188,7 +190,7 @@ import com.google.gerrit.server.project.CommentLinkProvider;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectNameLockManager;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.SubmitRequirementExpressionsValidator;
+import com.google.gerrit.server.project.SubmitRequirementConfigValidator;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.FileEditsPredicate;
@@ -297,7 +299,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ChangeIsVisibleToPredicate.Factory.class);
     factory(DistinctVotersPredicate.Factory.class);
     factory(DeadlineChecker.Factory.class);
-    factory(MergeUtil.Factory.class);
+    factory(EmailNewPatchSet.Factory.class);
     factory(MultiProgressMonitor.Factory.class);
     factory(PatchScriptFactory.Factory.class);
     factory(PatchScriptFactoryForAutoFix.Factory.class);
@@ -312,6 +314,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AccountDefaultDisplayName.class).toInstance(accountDefaultDisplayName);
     factory(ProjectOwnerGroupsProvider.Factory.class);
     factory(SubmitRuleEvaluator.Factory.class);
+    factory(DeleteZombieCommentsRefs.Factory.class);
 
     bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
     DynamicSet.setOf(binder(), AuthBackend.class);
@@ -397,7 +400,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), UserScopedEventListener.class);
     DynamicSet.setOf(binder(), CommitValidationListener.class);
     DynamicSet.bind(binder(), CommitValidationListener.class)
-        .to(SubmitRequirementExpressionsValidator.class);
+        .to(SubmitRequirementConfigValidator.class);
     DynamicSet.setOf(binder(), CommentValidator.class);
     DynamicSet.setOf(binder(), ChangeMessageModifier.class);
     DynamicSet.setOf(binder(), RefOperationValidationListener.class);
@@ -454,6 +457,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), MailSoyTemplateProvider.class);
     DynamicSet.setOf(binder(), OnPostReview.class);
     DynamicMap.mapOf(binder(), AccountTagProvider.class);
+    DynamicSet.setOf(binder(), AttentionSetListener.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);

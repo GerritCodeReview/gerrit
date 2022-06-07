@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee06575c_0a7f6962",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-07T13:01:06Z",
+      "side": 1,
+      "message": "Thank you for reviewing.\n\nI gave this a second though and I think this refactoring was over-engineered and not really needed. I reworked the last change - I2faf081ce74659cdb8d3a789ed79acced8503cfc - and will abandon the two refactoring changes.",
+      "revId": "f66f2b747313a4db8d2bca756d51008e79688da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88963fcd_ae146904",

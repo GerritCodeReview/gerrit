@@ -255,10 +255,6 @@ export class GrAppElement extends LitElement {
         diffMode: null,
         numFilesShown: null,
       },
-      changeListView: {
-        query: null,
-        offset: 0,
-      },
     };
   }
 
@@ -427,9 +423,6 @@ export class GrAppElement extends LitElement {
             <gr-change-list-view
               .params=${this.params}
               .account=${this.account}
-              .viewState=${this.viewState?.changeListView}
-              @view-state-change-list-view-changed=${this
-                .handleViewStateChanged}
             ></gr-change-list-view>
           `
         : nothing
@@ -837,14 +830,6 @@ export class GrAppElement extends LitElement {
     return window.localStorage.getItem('dark-theme')
       ? 'app-theme-dark'
       : 'app-theme-light';
-  }
-
-  private handleViewStateChanged(e: ValueChangedEvent<ChangeListViewState>) {
-    if (!this.viewState) return;
-    this.viewState.changeListView = {
-      ...this.viewState.changeListView,
-      ...e.detail.value,
-    };
   }
 
   private handleViewStateChangeViewChanged(

@@ -194,7 +194,6 @@ export interface ChangeListViewState {
 
 export interface ViewState {
   changeView: ChangeViewState;
-  changeListView: ChangeListViewState;
 }
 
 export interface PatchSetFile {

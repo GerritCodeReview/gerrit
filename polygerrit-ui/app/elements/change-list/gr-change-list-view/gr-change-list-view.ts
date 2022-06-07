@@ -20,7 +20,7 @@ import {
 } from '../../../types/common';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {ChangeListViewState} from '../../../types/types';
-import {fire, fireTitleChange} from '../../../utils/event-util';
+import {fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
 import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
@@ -59,9 +59,6 @@ export class GrChangeListView extends LitElement {
 
   @property({type: Object})
   account: AccountDetailInfo | null = null;
-
-  @property({type: Object})
-  viewState: ChangeListViewState = {};
 
   @property({type: Object})
   preferences?: PreferencesInput;
@@ -277,21 +274,11 @@ export class GrChangeListView extends LitElement {
   private paramsChanged() {
     const value = this.params;
     if (!value || value.view !== GerritView.SEARCH) return;
+    const offset = isNaN(Number(value.offset)) ? 0 : Number(value.offset);
 
     this.loading = true;
     this.query = value.query;
-    const offset = Number(value.offset);
-    this.offset = isNaN(offset) ? 0 : offset;
-    if (
-      this.viewState.query !== this.query ||
-      this.viewState.offset !== this.offset
-    ) {
-      this.viewState.query = this.query;
-      this.viewState.offset = this.offset;
-      fire(this, 'view-state-change-list-view-changed', {
-        value: this.viewState,
-      });
-    }
+    this.offset = offset;
 
     // NOTE: This method may be called before attachment. Fire title-change
     // in an async so that attachment to the DOM can take place first.

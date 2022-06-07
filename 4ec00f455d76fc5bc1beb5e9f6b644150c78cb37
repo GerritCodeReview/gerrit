@@ -16,6 +16,24 @@
       "message": "Kudos to Paladox for fixing the issue so quicky and to Ben/DavidO for reviewing it and approving it.\n\nI guess we do need a v3.6.1 at this point in time, isn\u0027t it?\nThis issue is a P0.",
       "revId": "4ec00f455d76fc5bc1beb5e9f6b644150c78cb37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccf0ba84_5f62dee3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-07T20:18:49Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "933863bd_bc2e9ad0",
+      "revId": "4ec00f455d76fc5bc1beb5e9f6b644150c78cb37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

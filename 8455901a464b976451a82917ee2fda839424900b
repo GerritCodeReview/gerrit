@@ -135,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45b1da88_bd033dd9",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T09:32:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ebe5e3e_7dec6c54",
+      "range": {
+        "startLine": 306,
+        "startChar": 12,
+        "endLine": 306,
+        "endChar": 13
+      },
+      "revId": "8455901a464b976451a82917ee2fda839424900b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba7944c4_d3bfe2cd",
@@ -148,6 +172,24 @@
       "writtenOn": "2022-06-07T09:01:01Z",
       "side": 1,
       "message": "Why re-render? If we re-render when re-connecting, then we are losing the performance gain of caching the gr-diff-view and could as well just re-create the entire component.",
+      "revId": "8455901a464b976451a82917ee2fda839424900b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bb1ab3c_91bea1b7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T09:32:20Z",
+      "side": 1,
+      "message": "I would rather attempt re-adding performance once we fixed the bug.\n\nDiscussed offline and added a comment for future reference.",
+      "parentUuid": "ba7944c4_d3bfe2cd",
       "revId": "8455901a464b976451a82917ee2fda839424900b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

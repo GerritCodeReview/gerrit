@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82919cf6_ae653dd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-07T15:04:46Z",
+      "side": 1,
+      "message": "I think it should work together with a recommendation about the default value for enum - it is recommended to have an \"UNSPECIFIED\" value as a default value (and in proto3 it was changed and a special UNRECOGNIZED value is added to all enums) - see\nhttps://developers.google.com/protocol-buffers/docs/style#enums\n\nIn gerrit, enums don\u0027t have an UNSPECIFIED/UNRECOGNIZED item. Using the first item looks dangerous, because this can lead to an unexpected behaviour when old code reads a new data.\n\nI think code should explicitly handle new values depending on the context. One possible solution - return Optional\u003cT\u003e from SafeEnumStringConverter.convert, so the caller have to process unexpected value (and a developer have to think how to handle it).",
+      "range": {
+        "startLine": 16,
+        "startChar": 56,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "4e4041d79788e1bc2f05c8867b0a1f08c0c95151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

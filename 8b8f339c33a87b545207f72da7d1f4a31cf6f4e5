@@ -70,6 +70,30 @@
       },
       "revId": "8b8f339c33a87b545207f72da7d1f4a31cf6f4e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "436fa049_6c3ce1a6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-07T08:14:56Z",
+      "side": 1,
+      "message": "prominent sound good",
+      "parentUuid": "484b97b5_1679de86",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 19
+      },
+      "revId": "8b8f339c33a87b545207f72da7d1f4a31cf6f4e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

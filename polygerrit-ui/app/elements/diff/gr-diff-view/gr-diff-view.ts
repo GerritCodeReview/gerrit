@@ -76,7 +76,6 @@ import {
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {
-  ChangeViewState,
   CommitRange,
   EditRevisionInfo,
   FileRange,
@@ -94,11 +93,7 @@ import {
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
 import {AppElementDiffViewParam, AppElementParams} from '../../gr-app-types';
-import {
-  EventType,
-  OpenFixPreviewEvent,
-  ValueChangedEvent,
-} from '../../../types/events';
+import {EventType, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -177,9 +172,6 @@ export class GrDiffView extends base {
 
   @property({type: Object, observer: '_paramsChanged'})
   params?: AppElementParams;
-
-  @property({type: Object})
-  changeViewState: Partial<ChangeViewState> = {};
 
   @property({type: Object})
   _patchRange?: PatchRange;
@@ -1813,9 +1805,6 @@ export class GrDiffView extends base {
 }
 
 declare global {
-  interface HTMLElementEventMap {
-    'view-state-change-view-changed': ValueChangedEvent<ChangeViewState>;
-  }
   interface HTMLElementTagNameMap {
     'gr-diff-view': GrDiffView;
   }

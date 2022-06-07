@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5554bc9_63db7da3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T16:07:59Z",
+      "side": 1,
+      "message": "maintained",
+      "revId": "d66c328cf1fc31856249de72db51d49c58fe731e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d013c79_d12f7fac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T16:07:59Z",
+      "side": 1,
+      "message": "maintaining",
+      "revId": "d66c328cf1fc31856249de72db51d49c58fe731e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bcbba29_99d068d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T16:07:59Z",
+      "side": 1,
+      "message": "It took me a bit to understand why this was 200.\n\nThis would be clearer if you said it was equal to `DEFAULT_NUM_FILES_SHOWN`",
+      "revId": "d66c328cf1fc31856249de72db51d49c58fe731e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

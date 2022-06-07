@@ -233,6 +233,8 @@ export class GrFileListHeader extends LitElement {
     if (!this.change || !this.diffPrefs) {
       return;
     }
+    console.log(this.patchNum);
+    console.log(this.allPatchSets);
     const editModeClass = this.computeEditModeClass(this.editMode);
     const patchInfoClass = this.computePatchInfoClass(
       this.patchNum,

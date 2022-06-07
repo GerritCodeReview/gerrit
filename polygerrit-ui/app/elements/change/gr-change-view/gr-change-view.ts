@@ -872,6 +872,15 @@ export class GrChangeView extends base {
     return tabName;
   }
 
+  @observe('_allPatchSets', 'routerPatchNum')
+  _test123(allPatchSets?: PatchSet[], routerPatchNum?: any) {
+    if (routerPatchNum === undefined && allPatchSets !== undefined) {
+      this.set('_patchRange.patchNum',  computeLatestPatchNum(allPatchSets));
+    }
+    console.log(`allPatchSets: ${JSON.stringify(allPatchSets)}`)
+    console.log(`routerPatchNum: ${routerPatchNum}`)
+  }
+
   /**
    * Changes active primary tab.
    */
@@ -1299,24 +1308,32 @@ export class GrChangeView extends base {
     const patchChanged = this.hasPatchRangeChanged(value);
     let patchNumChanged = this.hasPatchNumChanged(value);
 
+    console.log(`patchNumChanged: ${patchNumChanged}`)
     this._patchRange = {
       patchNum: value.patchNum,
       basePatchNum: value.basePatchNum,
     };
+    console.log(`patchNumOld: ${this._patchRange!.patchNum}`)
+    console.log(`patchNumNew: ${computeLatestPatchNum(this._allPatchSets)}`)
     this.scrollCommentId = value.commentId;
 
     const patchKnown =
-      !this._patchRange.patchNum ||
+      !this._patchRange!.patchNum ||
       (this._allPatchSets ?? []).some(
         ps => ps.num === this._patchRange!.patchNum
       );
+      console.log(`patchKnown: ${patchKnown}`)
     // _allPatchsets does not know value.patchNum so force a reload.
     const forceReload = value.forceReload || !patchKnown;
 
+    console.log(`forceReload: ${forceReload}`)
+
+    console.log(`_changeNum: ${this._changeNum}`)
     // If changeNum is defined that means the change has already been
     // rendered once before so a full reload is not required.
     if (this._changeNum !== undefined && !forceReload) {
-      if (!this._patchRange.patchNum) {
+      console.log(`nooooo: ${computeLatestPatchNum(this._allPatchSets)}`)
+      if (!this._patchRange!.patchNum) {
         this._patchRange = {
           ...this._patchRange,
           patchNum: computeLatestPatchNum(this._allPatchSets),
@@ -2117,6 +2134,7 @@ export class GrChangeView extends base {
    */
   loadData(isLocationChange?: boolean, clearPatchset?: boolean) {
     if (this.isChangeObsolete()) return Promise.resolve();
+    console.log(clearPatchset);
     if (clearPatchset && this._change) {
       GerritNav.navigateToChange(this._change, {
         forceReload: true,
@@ -2152,7 +2170,7 @@ export class GrChangeView extends base {
     let coreDataPromise;
 
     // If the patch number is specified
-    if (this._patchRange && this._patchRange.patchNum) {
+    if (this._patchRange?.patchNum) {
       // Because a specific patchset is specified, reload the resources that
       // are keyed by patch number or patch range.
       const patchResourcesLoaded = this._reloadPatchNumDependentResources();
@@ -2161,6 +2179,7 @@ export class GrChangeView extends base {
       // Promise resolves when the change detail and patch dependent resources
       // have loaded.
       coreDataPromise = Promise.all([patchResourcesLoaded, loadingFlagSet]);
+      console.log(`hellllloooooo: ${computeLatestPatchNum(this._allPatchSets)}`)
     } else {
       // Resolves when the file list has loaded.
       const fileListReload = loadingFlagSet.then(() =>
@@ -2178,6 +2197,7 @@ export class GrChangeView extends base {
       allDataPromises.push(latestCommitMessageLoaded);
 
       coreDataPromise = loadingFlagSet;
+      console.log(`nooooo: ${computeLatestPatchNum(this._allPatchSets)}`)
     }
     const mergeabilityLoaded = coreDataPromise.then(() =>
       this._getMergeability()

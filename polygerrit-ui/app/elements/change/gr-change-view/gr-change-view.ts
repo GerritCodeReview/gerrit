@@ -1450,10 +1450,6 @@ export class GrChangeView extends base {
       : DEFAULT_NUM_FILES_SHOWN;
   }
 
-  _numFilesShownChanged(numFilesShown: number) {
-    this.viewState.numFilesShown = numFilesShown;
-  }
-
   _handleMessageAnchorTap(e: CustomEvent<{id: string}>) {
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)

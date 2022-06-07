@@ -1278,12 +1278,10 @@ suite('gr-change-view tests', () => {
     element._change = change;
     element.viewState.changeNum = null;
     element.viewState.diffMode = DiffViewMode.UNIFIED;
-    assert.equal(element.viewState.numFilesShown, 200);
     assert.equal(element._numFilesShown, 200);
     element._numFilesShown = 150;
     flush();
     assert.equal(element.viewState.diffMode, DiffViewMode.UNIFIED);
-    assert.equal(element.viewState.numFilesShown, 150);
 
     element._changeNum = 1 as NumericChangeId;
     element.params = {
@@ -1302,7 +1300,6 @@ suite('gr-change-view tests', () => {
     flush();
     assert.equal(element.viewState.diffMode, DiffViewMode.UNIFIED);
     assert.equal(element.viewState.changeNum, 2);
-    assert.equal(element.viewState.numFilesShown, 200);
     assert.equal(element._numFilesShown, 200);
   });
 

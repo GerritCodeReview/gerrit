@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "939e5feb_9a149bba",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-07T06:59:11Z",
+      "side": 1,
+      "message": "Optional: You could make this a @state and change the UI while loading, e.g. using a spinner or graying out overlays.",
+      "revId": "e5d4f296d614d468201b65581265fa8df16069d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "953ace7f_60b3c349",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-07T06:59:11Z",
+      "side": 1,
+      "message": "Optional: This can be fragile, because a future developer might forget to set this to `false` when adding another return statement. You could consider a pattern like:\n\n```\nasync reload() {\n  try {\n    this.reloading \u003d true;\n    await reloadWrapped();\n  } finally {\n    this.reloading \u003d false;\n  }\n}\n```",
+      "revId": "e5d4f296d614d468201b65581265fa8df16069d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

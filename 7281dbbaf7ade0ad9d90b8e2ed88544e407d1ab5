@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3ae9fb0_1a0a35e5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-07T14:07:19Z",
+      "side": 1,
+      "message": "I will try it in a followup change. Need to understand why it was separate in the first place",
+      "parentUuid": "1ffa92d3_353bdc6f",
+      "range": {
+        "startLine": 241,
+        "startChar": 13,
+        "endLine": 241,
+        "endChar": 37
+      },
+      "revId": "7281dbbaf7ade0ad9d90b8e2ed88544e407d1ab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ed23cd4_565f57d2",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-20T14:37:41Z",
       "side": 1,
       "message": "NIT: I find solution in reply dialog with just 1 dialog in html better. But it\u0027s just minor thing.",
+      "range": {
+        "startLine": 245,
+        "startChar": 10,
+        "endLine": 245,
+        "endChar": 34
+      },
+      "revId": "7281dbbaf7ade0ad9d90b8e2ed88544e407d1ab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9f8fbc2_25fa22b7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-07T14:07:19Z",
+      "side": 1,
+      "message": "I don\u0027t think I understand what you mean. It looks like both places use 2 gr-overlay",
+      "parentUuid": "3ed23cd4_565f57d2",
       "range": {
         "startLine": 245,
         "startChar": 10,

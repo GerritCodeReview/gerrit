@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37cee22d_2b2c79ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T06:37:13Z",
+      "side": 1,
+      "message": "Could you explain why it is not needed?\n\nDoes the backend do the filtering in both of the new scenarios? Does it do it case-independently?",
+      "revId": "50d134efcde6b30b7c2c56478c22161fbe87d8f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec6190d2_deca8658",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 18
@@ -14,6 +31,40 @@
       "writtenOn": "2022-06-06T15:19:01Z",
       "side": 1,
       "message": "@Simply Chris Can you review this change? Your previous review score was removed",
+      "revId": "50d134efcde6b30b7c2c56478c22161fbe87d8f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "384e7c19_f08e3e45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T06:37:13Z",
+      "side": 1,
+      "message": "Some last comments. Feel free to ping me if you need another +2",
+      "revId": "50d134efcde6b30b7c2c56478c22161fbe87d8f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf278cd8_a9487e9e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1431,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T06:37:13Z",
+      "side": 1,
+      "message": "You can do this at the beginning.\n```\nfilter ??\u003d defaultFilter;\nconst encodedFilter \u003d encodeURIComponent(filter);\n```\n\nAnd the if can then be simplified to \n```\nif (filter.includes(\u0027:\u0027)) {\n...\n```",
       "revId": "50d134efcde6b30b7c2c56478c22161fbe87d8f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

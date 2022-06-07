@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82ae8f05_cb9b6189",
+        "filename": "java/com/google/gerrit/server/project/LabelConfigValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-07T13:18:28Z",
+      "side": 1,
+      "message": "Should PATCH_SET_LOCK be mentioned here too?\n\nSame below.",
+      "range": {
+        "startLine": 176,
+        "startChar": 23,
+        "endLine": 177,
+        "endChar": 43
+      },
+      "revId": "f72e31cfe82c1ef77021d120e70aeb0253b3136e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

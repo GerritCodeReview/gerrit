@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69fde357_ab0d4971",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-07T08:28:38Z",
+      "side": 1,
+      "message": "update here too I think: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts;l\u003d2257;drc\u003d5d7dd6a3f95e286e86a3bc000c1f4df1c523277c",
+      "revId": "f24c6b4026483ca6793835826ca252ff2b8b0ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

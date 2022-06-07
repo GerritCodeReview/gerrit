@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5300713_40ca1947",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-07T12:01:31Z",
+      "side": 1,
+      "message": "s/in/is a",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 7
+      },
+      "revId": "abad2c34cd1c77c0118f127059af8dca2b3f6a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afeda2c8_42cb213a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-07T12:01:31Z",
+      "side": 1,
+      "message": "Since this validator is not an interface that can be implemented, this phrasing confused me a bit. Maybe a better phrasing could be \"This is a preparation for adding further label config validators.\"?\n\nAlso can you please include a phrase about what\u0027s the expected use of the new package? Do you intent to put all label config validators here or all project validators? I\u0027m asking because the change series looks like you are doing the former while the new package name (com.google.gerrit.server.project.validator) sounds more like it\u0027s the latter (but then other project validators are not moved into this package). Have you considered, just moving this validator into the existing \"com.google.gerrit.server.git.validators\" package instead?",
+      "range": {
+        "startLine": 9,
+        "startChar": 24,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "abad2c34cd1c77c0118f127059af8dca2b3f6a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

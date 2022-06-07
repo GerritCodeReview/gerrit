@@ -125,6 +125,10 @@ public class AllProjectsCreator {
       // init labels.
       input.codeReviewLabel().ifPresent(codeReviewLabel -> config.upsertLabelType(codeReviewLabel));
 
+      input
+          .codeReviewSubmitRequirement()
+          .ifPresent(codeReviewSr -> config.upsertSubmitRequirement(codeReviewSr));
+
       if (input.initDefaultAcls()) {
         // init access sections.
         initDefaultAcls(config, input);

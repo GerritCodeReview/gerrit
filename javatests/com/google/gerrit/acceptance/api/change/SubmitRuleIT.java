@@ -86,7 +86,7 @@ public class SubmitRuleIT extends AbstractDaemonTest {
   private void assertCodeReviewApproved(List<SubmitRecord.Label> recordLabels) {
     SubmitRecord.Label haveCodeReview = new SubmitRecord.Label();
     haveCodeReview.label = "Code-Review";
-    haveCodeReview.status = SubmitRecord.Label.Status.OK;
+    haveCodeReview.status = SubmitRecord.Label.Status.MAY;
     haveCodeReview.appliedBy = admin.id();
     assertThat(recordLabels).contains(haveCodeReview);
   }

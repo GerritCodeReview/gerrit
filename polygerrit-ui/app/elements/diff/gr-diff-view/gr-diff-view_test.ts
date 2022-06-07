@@ -789,7 +789,6 @@ suite('gr-diff-view tests', () => {
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       await flush();
-      assert.isTrue(element.changeViewState.showReplyDialog);
       assert(
         changeNavStub.lastCall.calledWithExactly(element._change, {
           patchNum: 10 as RevisionPatchSetNum,
@@ -820,7 +819,6 @@ suite('gr-diff-view tests', () => {
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       await flush();
-      assert.isTrue(element.changeViewState.showReplyDialog);
       assert(
         changeNavStub.lastCall.calledWithExactly(element._change, {
           patchNum: 1 as RevisionPatchSetNum,

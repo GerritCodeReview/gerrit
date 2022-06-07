@@ -176,7 +176,6 @@ export interface DiffLayer extends DiffLayerApi {
 export interface ChangeViewState {
   changeNum: NumericChangeId | null;
   patchRange: PatchRange | null;
-  showReplyDialog: boolean;
   diffMode: DiffViewMode | null;
   numFilesShown: number | null;
 }

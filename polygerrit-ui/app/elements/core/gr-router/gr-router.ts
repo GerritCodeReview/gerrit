@@ -523,6 +523,10 @@ export class GrRouter {
     if (params.forceReload) {
       queryString = 'forceReload=true';
     }
+    if (params.openReplyDialog) {
+      if (queryString.length > 0) queryString += '&openReplyDialog=true';
+      else queryString = 'openReplyDialog=true';
+    }
     if (params.edit) {
       suffix += ',edit';
     }
@@ -1688,6 +1692,15 @@ export class GrRouter {
         null,
         '',
         location.href.replace(/[?&]forceReload=true/, '')
+      );
+    }
+
+    if (ctx.queryMap.has('openReplyDialog')) {
+      params.openReplyDialog = true;
+      history.replaceState(
+        null,
+        '',
+        location.href.replace(/[?&]openReplyDialog=true/, '')
       );
     }
 

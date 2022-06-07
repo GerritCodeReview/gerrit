@@ -34,6 +34,29 @@
       "parentUuid": "3ea828b1_8757e020",
       "revId": "08003af59c806ac9320ebf30c13abb93665401d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "838484f9_7000b492",
+        "filename": "java/com/google/gerrit/server/patch/IntraLineDiff.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-07T17:07:00Z",
+      "side": 0,
+      "message": "Please keep this comment",
+      "range": {
+        "startLine": 76,
+        "startChar": 3,
+        "endLine": 77,
+        "endChar": 91
+      },
+      "revId": "08003af59c806ac9320ebf30c13abb93665401d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

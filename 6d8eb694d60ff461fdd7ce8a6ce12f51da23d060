@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1787e667_45de55b2",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-07T23:15:47Z",
+      "side": 0,
+      "message": "This s/INHERITED/INHERIT/ fix needs to go into polygerrit-ui/app/api/rest-api.ts#133\n\nSee the 3.6 change: https://gerrit-review.googlesource.com/c/gerrit/+/337735",
+      "revId": "6d8eb694d60ff461fdd7ce8a6ce12f51da23d060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90831054_9ed42146",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-07T23:15:47Z",
+      "side": 1,
+      "message": "The auto merge is correct. This should be INHERIT (with a fix in polygerrit-ui/app/api/rest-api.ts).",
+      "range": {
+        "startLine": 194,
+        "startChar": 77,
+        "endLine": 194,
+        "endChar": 79
+      },
+      "revId": "9cf51f8f645c4c4e938a565c11c38aac272b05f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

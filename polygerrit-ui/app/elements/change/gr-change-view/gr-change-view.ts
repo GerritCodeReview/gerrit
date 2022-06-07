@@ -1230,6 +1230,10 @@ export class GrChangeView extends base {
     this.$.fileList.collapseAllDiffs();
   }
 
+  _diffPrefsChanged(e: ValueChangedEvent<DiffPreferencesInfo>) {
+    this._diffPrefs = e.detail.value;
+  }
+
   /**
    * ChangeView is never re-used for different changes. It is safer and simpler
    * to just re-create another change view when the user switches to a new
@@ -1452,6 +1456,10 @@ export class GrChangeView extends base {
 
   _numFilesShownChanged(numFilesShown: number) {
     this.viewState.numFilesShown = numFilesShown;
+  }
+
+  _numFilesShownChanged(e: ValueChangedEvent<number>) {
+    this._numFilesShown
   }
 
   _handleMessageAnchorTap(e: CustomEvent<{id: string}>) {

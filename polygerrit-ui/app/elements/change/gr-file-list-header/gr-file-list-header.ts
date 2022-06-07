@@ -251,7 +251,7 @@ export class GrFileListHeader extends LitElement {
               id="rangeSelect"
               .changeNum=${this.changeNum}
               .patchNum=${this.patchNum}
-              .basePatchNum=${this.basePatchNum}
+              .f=${this.basePatchNum}
               .availablePatches=${this.allPatchSets}
               .revisions=${this.change.revisions}
               .revisionInfo=${this.revisionInfo}

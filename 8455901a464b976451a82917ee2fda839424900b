@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bf86d4b_2d5733b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-07T07:54:10Z",
+      "side": 1,
+      "message": "Isn\u0027t this small performance regression?",
+      "range": {
+        "startLine": 20,
+        "startChar": 59,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "8455901a464b976451a82917ee2fda839424900b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "763b6ecf_ed307b89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-07T07:54:10Z",
+      "side": 1,
+      "message": "That\u0027s cool feature. I didn\u0027t know this can be parsed",
+      "range": {
+        "startLine": 26,
+        "startChar": 15,
+        "endLine": 26,
+        "endChar": 39
+      },
+      "revId": "8455901a464b976451a82917ee2fda839424900b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

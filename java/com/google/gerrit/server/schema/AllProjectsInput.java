@@ -20,8 +20,11 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.notedb.Sequences;
@@ -57,10 +60,22 @@ public abstract class AllProjectsInput {
                 LabelValue.create((short) -2, "This shall not be submitted")))
         // override the default which is true and rely on the copy condition instead
         .setCopyAllScoresIfNoChange(false)
+        .setFunction(LabelFunction.NO_BLOCK)
         .setCopyCondition(
             String.format(
                 "changekind:%s OR changekind:%s OR is:MIN",
                 ChangeKind.NO_CHANGE, ChangeKind.TRIVIAL_REBASE.name()))
+        .build();
+  }
+
+  public static SubmitRequirement getDefaultCodeReviewSubmitRequirement() {
+    return SubmitRequirement.builder()
+        .setName("Code-Review")
+        .setDescription(
+            Optional.of("At least one maximum vote for label 'Code-Review' is required"))
+        .setSubmittabilityExpression(
+            SubmitRequirementExpression.create("label:Code-Review=MAX AND -label:Code-Review=MIN"))
+        .setAllowOverrideInChildProjects(true)
         .build();
   }
 
@@ -81,6 +96,8 @@ public abstract class AllProjectsInput {
   @UsedAt(UsedAt.Project.GOOGLE)
   public abstract Optional<LabelType> codeReviewLabel();
 
+  public abstract Optional<SubmitRequirement> codeReviewSubmitRequirement();
+
   /** Description for the All-Projects. */
   public abstract Optional<String> projectDescription();
 
@@ -96,6 +113,7 @@ public abstract class AllProjectsInput {
     Builder builder =
         new AutoValue_AllProjectsInput.Builder()
             .codeReviewLabel(getDefaultCodeReviewLabel())
+            .codeReviewSubmitRequirement(getDefaultCodeReviewSubmitRequirement())
             .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
             .initDefaultAcls(true);
     DEFAULT_BOOLEAN_PROJECT_CONFIGS.forEach(builder::addBooleanProjectConfig);
@@ -119,6 +137,8 @@ public abstract class AllProjectsInput {
 
     @UsedAt(UsedAt.Project.GOOGLE)
     public abstract Builder codeReviewLabel(LabelType codeReviewLabel);
+
+    public abstract Builder codeReviewSubmitRequirement(SubmitRequirement codeReviewSr);
 
     @UsedAt(UsedAt.Project.GOOGLE)
     public abstract Builder projectDescription(String projectDescription);

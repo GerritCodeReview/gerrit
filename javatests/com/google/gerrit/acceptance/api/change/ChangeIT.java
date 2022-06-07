@@ -4132,6 +4132,8 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result2 =
         pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
 
+    approve(result1.getChangeId());
+    approve(result2.getChangeId());
     addComment(result1, "comment 1", true, false, null);
     addComment(result2, "comment 2", true, true, null);
 

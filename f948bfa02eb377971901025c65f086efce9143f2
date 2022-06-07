@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0761b693_c2847dcd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-07T11:12:17Z",
+      "side": 1,
+      "message": "adding delphine since this is applying to all buttons with this disabled + flattened case (I think there are no others right now).",
+      "revId": "f948bfa02eb377971901025c65f086efce9143f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

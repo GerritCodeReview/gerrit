@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4bf80af_69210fff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T07:56:38Z",
+      "side": 1,
+      "message": "Yes, it is. But it fixes a much worse functionality regression for a scenario that\u0027s unlikely enough to warrant optimization but likely enough to warrant working correctly.",
+      "parentUuid": "7bf86d4b_2d5733b4",
+      "range": {
+        "startLine": 20,
+        "startChar": 59,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "8455901a464b976451a82917ee2fda839424900b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "763b6ecf_ed307b89",

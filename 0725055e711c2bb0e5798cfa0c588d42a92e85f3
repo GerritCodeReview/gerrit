@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd9faf20_b86ea2c1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-06-07T13:55:23Z",
+      "side": 1,
+      "message": "Yup, removed, thanks, done.",
+      "parentUuid": "08e3a675_49b15f99",
+      "range": {
+        "startLine": 239,
+        "startChar": 12,
+        "endLine": 239,
+        "endChar": 18
+      },
+      "revId": "0725055e711c2bb0e5798cfa0c588d42a92e85f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06818749_141b4078",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-06-07T13:55:23Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0a936321_b91a188c",
+      "range": {
+        "startLine": 239,
+        "startChar": 24,
+        "endLine": 239,
+        "endChar": 42
+      },
+      "revId": "0725055e711c2bb0e5798cfa0c588d42a92e85f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66dac53c_e906eab6",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-06-07T13:48:39Z",
       "side": 1,
       "message": "This is now always true and could be removed?",
+      "range": {
+        "startLine": 245,
+        "startChar": 48,
+        "endLine": 245,
+        "endChar": 65
+      },
+      "revId": "0725055e711c2bb0e5798cfa0c588d42a92e85f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0c12af1_13b82a43",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-06-07T13:55:23Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "66dac53c_e906eab6",
       "range": {
         "startLine": 245,
         "startChar": 48,

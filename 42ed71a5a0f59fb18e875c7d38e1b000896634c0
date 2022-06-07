@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05b445e0_0762d462",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-07T06:31:46Z",
+      "side": 1,
+      "message": "This might be better:\n\n Add extension point that allows plugins to provide destination address for outgoing emails",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6694497_030f01ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-07T06:31:46Z",
+      "side": 1,
+      "message": "How about:\n\nThis new extension point is helpful when organizations want all outgoing emails from Gerrit sent to a specific address (for example, an alternate registered email) of the user rather than their preferred email.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9287e789_068cd6f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-07T06:31:46Z",
+      "side": 1,
+      "message": "Remove \u0027Impact\u0027 footer.\n\nAdd a \u0027Release-Notes\u0027 footer.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 66
+      },
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "648eafb5_550e2afd",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2902,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-07T06:31:46Z",
+      "side": 1,
+      "message": "How about:\n\nThis extension point allows plugins to provide a preferred destination address for all outgoing emails from Gerrit.",
+      "range": {
+        "startLine": 2901,
+        "startChar": 0,
+        "endLine": 2902,
+        "endChar": 67
+      },
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b32b4811_635b7c8d",
+        "filename": "java/com/google/gerrit/server/email/PreferredNotificationEmailProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-07T06:31:46Z",
+      "side": 1,
+      "message": "How about:\n\n Extension point to provide destination address for all outgoing emails from Gerrit.",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 42
+      },
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c052d21_42e0e511",
+        "filename": "java/com/google/gerrit/server/email/PreferredNotificationEmailProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-07T06:31:46Z",
+      "side": 1,
+      "message": "How about:\n\n Get preferred destination address for outgoing emails.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 46
+      },
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6e9d7b7_0110ef1f",
+        "filename": "java/com/google/gerrit/server/email/PreferredNotificationEmailProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-07T06:31:46Z",
+      "side": 1,
+      "message": "How about:\n\n The {@code Account} of the user whose destination address is to be obtained",
+      "range": {
+        "startLine": 30,
+        "startChar": 20,
+        "endLine": 30,
+        "endChar": 89
+      },
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44c99f91_01ba7ed0",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/PreferredNotificationEmailProviderIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2022-06-07T06:31:46Z",
+      "side": 1,
+      "message": "This might be more readable:\n\n ImmutableList\u003cMessage\u003e messages \u003d sender.getMessages();\n assertThat(messages).hasSize(1);\n ImmutableList\u003cAddress\u003e recipients \u003d messages.get(0).rcpt();\n assertThat(recipients.size()).isEqualTo(2);\n Set\u003cString\u003e recipient_emails \u003d recipients.stream().map(a -\u003e \n a.email()).collect(Collectors.toSet());\n assertThat(recipient_emails).contains(SET_BY_PLUGIN + admin.email());\n assertThat(recipient_emails).contains(SET_BY_PLUGIN + user.email());",
+      "range": {
+        "startLine": 69,
+        "startChar": 1,
+        "endLine": 74,
+        "endChar": 61
+      },
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

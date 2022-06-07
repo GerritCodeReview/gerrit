@@ -21,8 +21,11 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
-import com.google.gerrit.index.FieldDef;
+import com.google.common.reflect.TypeToken;
+import com.google.gerrit.index.Field;
+import com.google.gerrit.index.Field.FieldSpec;
 import com.google.gerrit.index.FieldType;
+import com.google.gerrit.index.SearchOptions;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.StreamSupport;
@@ -37,24 +40,52 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> implements 
    */
   private static final Splitter FULL_TEXT_SPLITTER = Splitter.on(CharMatcher.anyOf(" ,.-:\\/_=\n"));
 
-  private final FieldDef<I, ?> def;
+  private final Field<I, ?>.FieldSpec<I, ?> def;
 
-  protected IndexPredicate(FieldDef<I, ?> def, String value) {
+  protected IndexPredicate(Field<I, ?>.FieldSpec<I, ?> def, String value) {
     super(def.getName(), value);
     this.def = def;
   }
 
-  protected IndexPredicate(FieldDef<I, ?> def, String name, String value) {
+  protected IndexPredicate(Field<I, ?>.FieldSpec<I, ?> def, String name, String value) {
     super(name, value);
     this.def = def;
   }
 
-  public FieldDef<I, ?> getField() {
+  public Field<I, ?>.FieldSpec<I, ?> getField() {
     return def;
   }
 
   public FieldType<?> getType() {
-    return def.getType();
+    SearchOptions searchOptions = def.getSearchOptions();
+    TypeToken<?> fieldType = def.getField().fieldType();
+    if ((fieldType.equals(Field.INTEGER_TYPE) || fieldType.equals(Field.ITERABLE_INTEGER_TYPE))
+        && searchOptions.equals(SearchOptions.EXACT)) {
+      return FieldType.INTEGER;
+    } else if (fieldType.equals(Field.INTEGER_TYPE) && searchOptions.equals(SearchOptions.RANGE)) {
+      return FieldType.INTEGER_RANGE;
+    } else if (fieldType.equals(Field.LONG_TYPE)) {
+      return FieldType.LONG;
+    } else if (fieldType.equals(Field.TIMESTAMP_TYPE)) {
+      return FieldType.TIMESTAMP;
+    } else if (fieldType.equals(Field.STRING_TYPE)
+        || fieldType.equals(Field.ITERABLE_STRING_TYPE)) {
+      if (searchOptions.equals(SearchOptions.EXACT)) {
+        return FieldType.EXACT;
+      } else if (searchOptions.equals(SearchOptions.FULL_TEXT)) {
+        return FieldType.FULL_TEXT;
+      } else if (searchOptions.equals(SearchOptions.PREFIX)) {
+        return FieldType.PREFIX;
+      }
+    }
+    throw badSearch(def.getField(), def);
+  }
+
+  public IllegalArgumentException badSearch(Field<I, ?> field, FieldSpec fieldSpec) {
+    return new IllegalArgumentException(
+        String.format(
+            "search spec [%s, %s] is not supported on field [%s, %s]",
+            fieldSpec.getName(), fieldSpec.getSearchOptions(), field.name(), field.fieldType()));
   }
 
   /**
@@ -74,8 +105,8 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> implements 
    */
   @Override
   public boolean match(I doc) {
-    if (getField().isRepeatable()) {
-      Iterable<?> values = (Iterable<?>) getField().get(doc);
+    if (getField().getField().repeatable()) {
+      Iterable<?> values = (Iterable<?>) getField().getField().get(doc);
       for (Object v : values) {
         if (matchesSingleObject(v)) {
           return true;
@@ -83,7 +114,7 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> implements 
       }
       return false;
     }
-    return matchesSingleObject(getField().get(doc));
+    return matchesSingleObject(getField().getField().get(doc));
   }
 
   @Override
@@ -92,7 +123,7 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> implements 
   }
 
   private boolean matchesSingleObject(Object fieldValueFromObject) {
-    String fieldTypeName = getField().getType().getName();
+    String fieldTypeName = getType().getName();
     if (fieldTypeName.equals(FieldType.INTEGER.getName())) {
       return Objects.equals(fieldValueFromObject, Ints.tryParse(value));
     } else if (fieldTypeName.equals(FieldType.EXACT.getName())) {

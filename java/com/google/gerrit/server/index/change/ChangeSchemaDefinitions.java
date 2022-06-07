@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.gerrit.index.SchemaUtil.schema;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -26,101 +27,95 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   /** Added new field {@link ChangeField#IS_SUBMITTABLE} based on submit requirements. */
   static final Schema<ChangeData> V74 =
       schema(
-          ChangeField.ADDED,
-          ChangeField.APPROVAL,
-          ChangeField.ASSIGNEE,
-          ChangeField.ATTENTION_SET_FULL,
-          ChangeField.ATTENTION_SET_USERS,
-          ChangeField.ATTENTION_SET_USERS_COUNT,
-          ChangeField.AUTHOR,
-          ChangeField.CHANGE,
-          ChangeField.CHERRY_PICK,
-          ChangeField.CHERRY_PICK_OF_CHANGE,
-          ChangeField.CHERRY_PICK_OF_PATCHSET,
-          ChangeField.COMMENT,
-          ChangeField.COMMENTBY,
-          ChangeField.COMMIT,
-          ChangeField.COMMIT_MESSAGE,
-          ChangeField.COMMITTER,
-          ChangeField.DELETED,
-          ChangeField.DELTA,
-          ChangeField.DIRECTORY,
-          ChangeField.DRAFTBY,
-          ChangeField.EDITBY,
-          ChangeField.EXACT_AUTHOR,
-          ChangeField.EXACT_COMMIT,
-          ChangeField.EXACT_COMMITTER,
-          ChangeField.EXACT_TOPIC,
-          ChangeField.EXTENSION,
-          ChangeField.FILE_PART,
-          ChangeField.FOOTER,
-          ChangeField.FUZZY_HASHTAG,
-          ChangeField.FUZZY_TOPIC,
-          ChangeField.GROUP,
-          ChangeField.HASHTAG,
-          ChangeField.HASHTAG_CASE_AWARE,
-          ChangeField.ID,
-          ChangeField.IS_PURE_REVERT,
-          ChangeField.IS_SUBMITTABLE,
-          ChangeField.LABEL,
-          ChangeField.LEGACY_ID_STR,
-          ChangeField.MERGE,
-          ChangeField.MERGEABLE,
-          ChangeField.MERGED_ON,
-          ChangeField.ONLY_EXTENSIONS,
-          ChangeField.OWNER,
-          ChangeField.PATCH_SET,
-          ChangeField.PATH,
-          ChangeField.PENDING_REVIEWER,
-          ChangeField.PENDING_REVIEWER_BY_EMAIL,
-          ChangeField.PRIVATE,
-          ChangeField.PROJECT,
-          ChangeField.PROJECTS,
-          ChangeField.REF,
-          ChangeField.REF_STATE,
-          ChangeField.REF_STATE_PATTERN,
-          ChangeField.REVERT_OF,
-          ChangeField.REVIEWEDBY,
-          ChangeField.REVIEWER,
-          ChangeField.REVIEWER_BY_EMAIL,
-          ChangeField.STAR,
-          ChangeField.STARBY,
-          ChangeField.STARTED,
-          ChangeField.STATUS,
-          ChangeField.STORED_SUBMIT_RECORD_LENIENT,
-          ChangeField.STORED_SUBMIT_RECORD_STRICT,
-          ChangeField.STORED_SUBMIT_REQUIREMENTS,
-          ChangeField.SUBMISSIONID,
-          ChangeField.SUBMIT_RECORD,
-          ChangeField.SUBMIT_RULE_RESULT,
-          ChangeField.TOTAL_COMMENT_COUNT,
-          ChangeField.TR,
-          ChangeField.UNRESOLVED_COMMENT_COUNT,
-          ChangeField.UPDATED,
-          ChangeField.UPLOADER,
-          ChangeField.WIP);
+          ImmutableList.of(
+              ChangeField.LEGACY_ID_STR_FIELD,
+              ChangeField.CHANGE_ID_FIELD,
+              ChangeField.STATUS_FIELD,
+              ChangeField.PROJECT_FIELD,
+              ChangeField.REF_FIELD,
+              ChangeField.TOPIC_FIELD,
+              ChangeField.SUBMISSIONID_FIELD,
+              ChangeField.UPDATED_FIELD,
+              ChangeField.MERGED_ON_FIELD,
+              ChangeField.PATH_FIELD,
+              ChangeField.HASHTAG_FIELD,
+              ChangeField.HASHTAG_CASE_AWARE_FIELD,
+              ChangeField.OWNER_FIELD,
+              ChangeField.UPLOADER_FIELD,
+              ChangeField.ADDED_FIELD,
+              ChangeField.AUTHOR_NAME_EMAIL_FILED,
+              ChangeField.COMMITER_FILED,
+              ChangeField.COMMITER_NAME_EMAIL_FILED,
+              ChangeField.CHANGE_FIELD,
+              ChangeField.APPROVAL_FIELD,
+              ChangeField.COMMIT_MESSAGE_FIELD,
+              ChangeField.ADDED_FIELD,
+              ChangeField.PRIVATE_FIELD,
+              ChangeField.WIP_FIELD,
+              ChangeField.STARTED_FIELD,
+              ChangeField.COMMENTBY_FIELD,
+              ChangeField.PATCH_SET_FIELD,
+              ChangeField.STORED_SUBMIT_REQUIREMENTS_FILED,
+              ChangeField.REF_STATE_PATTERN_FIELD,
+              ChangeField.FOOTER_FIELD),
+          ImmutableList.of(
+              ChangeField.LEGACY_ID_STR_SPEC,
+              ChangeField.CHANGE_ID_SPEC,
+              ChangeField.STATUS_SPEC,
+              ChangeField.PROJECT_EXACT_SPEC,
+              ChangeField.PROJECT_PREFIX_SPEC,
+              ChangeField.REF_SPEC,
+              ChangeField.EXACT_TOPIC_SPEC,
+              ChangeField.FUZZY_TOPIC_SPEC,
+              ChangeField.SUBMISSIONID_SPEC,
+              ChangeField.UPDATED_SPEC,
+              ChangeField.MERGED_ON_SPEC,
+              ChangeField.PATH_FIELD_SPEC,
+              ChangeField.EXACT_HASHTAG_SPEC,
+              ChangeField.FUZZY_HASHTAG_SPEC,
+              ChangeField.HASHTAG_CASE_AWARE_SPEC,
+              ChangeField.OWNER_SPEC,
+              ChangeField.UPLOADER_SPEC,
+              ChangeField.AUTHOR_FULL_TEXT_SPEC,
+              ChangeField.AUTHOR_NAME_EMAIL_SPEC,
+              ChangeField.COMMITER_FULL_TEXT_SPEC,
+              ChangeField.COMMITER_NAME_EMAIL_SPEC,
+              ChangeField.CHANGE_SPEC,
+              ChangeField.APPROVAL_SPEC,
+              ChangeField.COMMIT_MESSAGE_FULL_TEXT_SPEC,
+              ChangeField.ADDED_SPEC,
+              ChangeField.PRIVATE_SPEC,
+              ChangeField.WIP_SPEC,
+              ChangeField.STARTED_SPEC,
+              ChangeField.COMMENTBY_SPEC,
+              ChangeField.PATCH_SET_SPEC,
+              ChangeField.STORED_SUBMIT_REQUIREMENTS_SPEC,
+              ChangeField.REF_STATE_PATTERN_SPEC,
+              ChangeField.FOOTER_SPEC));
 
   /**
-   * Added new field {@link ChangeField#PREFIX_HASHTAG} and {@link ChangeField#PREFIX_TOPIC} to
-   * allow easier search for topics.
+   * Added new field {@link ChangeField#PREFIX_HASHTAG_SPEC} and {@link
+   * ChangeField#PREFIX_TOPIC_SPEC} to allow easier search for topics.
    */
   @Deprecated
   static final Schema<ChangeData> V75 =
       new Schema.Builder<ChangeData>()
           .add(V74)
-          .add(ChangeField.PREFIX_HASHTAG)
-          .add(ChangeField.PREFIX_TOPIC)
+          .addFieldSpecs(ChangeField.PREFIX_HASHTAG_SPEC)
+          .addFieldSpecs(ChangeField.PREFIX_TOPIC_SPEC)
           .build();
 
-  /** Added new field {@link ChangeField#FOOTER_NAME}. */
+  /** Added new field {@link ChangeField#FOOTER_NAME_SPEC}. */
   @Deprecated
-  static final Schema<ChangeData> V76 =
-      new Schema.Builder<ChangeData>().add(V75).add(ChangeField.FOOTER_NAME).build();
+  static final Schema<ChangeData> V76 = new Schema.Builder<ChangeData>().add(V75).addIndexFields(ChangeField.FOOTER_NAME_FIELD).addFieldSpecs(ChangeField.FOOTER_NAME_SPEC).build();
 
-  /** Added new field {@link ChangeField#COMMIT_MESSAGE_EXACT}. */
+  /** Added new field {@link ChangeField#COMMIT_MESSAGE_EXACT_SPEC}. */
   @Deprecated
   static final Schema<ChangeData> V77 =
-      new Schema.Builder<ChangeData>().add(V76).add(ChangeField.COMMIT_MESSAGE_EXACT).build();
+      new Schema.Builder<ChangeData>()
+          .add(V76)
+          .addFieldSpecs(ChangeField.COMMIT_MESSAGE_EXACT_SPEC)
+          .build();
 
   // Upgrade Lucene to 7.x requires reindexing.
   static final Schema<ChangeData> V78 = schema(V77);

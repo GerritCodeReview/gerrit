@@ -64,6 +64,10 @@ public class QueryBuilder<V> {
     return IntPoint.newExactQuery(name, value);
   }
 
+  static Query longPoint(String name, long value) {
+    return LongPoint.newExactQuery(name, value);
+  }
+
   private final Schema<V> schema;
   private final org.apache.lucene.util.QueryBuilder queryBuilder;
 
@@ -148,6 +152,8 @@ public class QueryBuilder<V> {
     FieldType<?> type = p.getType();
     if (type == FieldType.INTEGER) {
       return intQuery(p);
+    } else if (type == FieldType.LONG) {
+      return longQuery(p);
     } else if (type == FieldType.INTEGER_RANGE) {
       return intRangeQuery(p);
     } else if (type == FieldType.TIMESTAMP) {
@@ -173,6 +179,16 @@ public class QueryBuilder<V> {
       throw new QueryParseException("not an integer: " + p.getValue(), e);
     }
     return intPoint(p.getField().getName(), value);
+  }
+
+  private Query longQuery(IndexPredicate<V> p) throws QueryParseException {
+    long value;
+    try {
+      value = Long.parseLong(p.getValue());
+    } catch (NumberFormatException e) {
+      throw new QueryParseException("not an integer: " + p.getValue(), e);
+    }
+    return longPoint(p.getField().getName(), value);
   }
 
   private Query intRangeQuery(IndexPredicate<V> p) throws QueryParseException {

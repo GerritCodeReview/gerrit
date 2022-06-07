@@ -20,6 +20,9 @@ import static com.google.gerrit.index.SchemaUtil.getPersonParts;
 import static com.google.gerrit.index.SchemaUtil.schema;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.gerrit.proto.Entities;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
@@ -34,6 +37,8 @@ public class SchemaUtilTest {
     // Ignored.
     static Schema<String> V10 = schema();
     final Schema<String> V11 = schema();
+    Class<List<Entities.PatchSet>> c =
+        (Class<List<Entities.PatchSet>>) Collections.<Entities.PatchSet>emptyList().getClass();
   }
 
   @Test

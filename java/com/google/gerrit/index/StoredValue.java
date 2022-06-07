@@ -14,6 +14,7 @@
 
 package com.google.gerrit.index;
 
+import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
 
 /**
@@ -47,4 +48,10 @@ public interface StoredValue {
 
   /** Returns the {@code byte[]} values of the field. */
   Iterable<byte[]> asByteArrays();
+
+  /** Returns the {@code MessageLite} value of the field. */
+  MessageLite asProto();
+
+  /** Returns the {@code MessageLite} values of the field. */
+  Iterable<MessageLite> asProtos();
 }

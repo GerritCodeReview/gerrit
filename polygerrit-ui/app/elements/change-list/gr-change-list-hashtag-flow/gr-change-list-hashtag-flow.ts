@@ -64,7 +64,7 @@ export class GrChangeListHashtagFlow extends LitElement {
           padding: var(--spacing-xl) var(--spacing-l) var(--spacing-l);
         }
         gr-autocomplete {
-          --border-color: var(--gray-800);
+          --prominent-border-color: var(--gray-800);
         }
         .footer {
           display: flex;

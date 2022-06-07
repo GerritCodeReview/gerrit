@@ -205,7 +205,7 @@ export class GrAutocomplete extends LitElement {
       paper-input {
         background-color: var(--view-background-color);
         color: var(--primary-text-color);
-        border: 1px solid var(--border-color);
+        border: 1px solid var(--prominent-border-color, --border-color);
         border-radius: var(--border-radius);
         padding: var(--spacing-s);
         --paper-input-container_-_padding: 0;

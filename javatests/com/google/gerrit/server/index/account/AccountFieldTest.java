@@ -40,7 +40,7 @@ public class AccountFieldTest {
     String metaId = "0e39795bb25dc914118224995c53c5c36923a461";
     account.setMetaId(metaId);
     List<String> values =
-        toStrings(AccountField.REF_STATE.get(AccountState.forAccount(account.build())));
+        toStrings(AccountField.REF_STATE_FIELD.get(AccountState.forAccount(account.build())));
     assertThat(values).hasSize(1);
     String expectedValue =
         allUsersName.get() + ":" + RefNames.refsUsers(account.id()) + ":" + metaId;
@@ -77,7 +77,7 @@ public class AccountFieldTest {
             ObjectId.fromString("483ea804e84282e15ddcdd1d15a797eb4796a760"));
     List<String> values =
         toStrings(
-            AccountField.EXTERNAL_ID_STATE.get(
+            AccountField.EXTERNAL_ID_STATE_FIELD.get(
                 AccountState.forAccount(account, ImmutableSet.of(extId1, extId2, extId3))));
     String expectedValue1 = extId1.key().sha1().name() + ":" + extId1.blobId().name();
     String expectedValue2 = extId2.key().sha1().name() + ":" + extId2.blobId().name();

@@ -38,7 +38,8 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.Field;
+import com.google.gerrit.index.Field.FieldSpec;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
@@ -140,7 +141,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private final QueryBuilder<ChangeData> queryBuilder;
   private final ChangeSubIndex openIndex;
   private final ChangeSubIndex closedIndex;
-  private final ImmutableSet<String> skipFields;
+  private final ImmutableSet<FieldSpec> skipFields;
 
   @Inject
   LuceneChangeIndex(
@@ -157,7 +158,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     this.skipFields =
         MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex()
             ? ImmutableSet.of()
-            : ImmutableSet.of(ChangeField.MERGEABLE.getName());
+            : ImmutableSet.of();
 
     GerritIndexWriterConfig openConfig = new GerritIndexWriterConfig(cfg, "changes_open");
     GerritIndexWriterConfig closedConfig = new GerritIndexWriterConfig(cfg, "changes_closed");
@@ -493,7 +494,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       cd = changeDataFactory.create(Project.nameKey(project.stringValue()), id);
     }
 
-    for (FieldDef<ChangeData, ?> field : getSchema().getFields().values()) {
+    for (Field<ChangeData, ?>.FieldSpec<ChangeData, ?> field :
+        getSchema().getFieldSpecs().values()) {
       if (fields.contains(field.getName()) && doc.get(field.getName()) != null) {
         field.setIfPossible(cd, new LuceneStoredValue(doc.get(field.getName())));
       }

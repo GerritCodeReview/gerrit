@@ -64,6 +64,10 @@ public class QueryBuilder<V> {
     return IntPoint.newExactQuery(name, value);
   }
 
+  static Query longPoint(String name, long value) {
+    return LongPoint.newExactQuery(name, value);
+  }
+
   private final Schema<V> schema;
   private final org.apache.lucene.util.QueryBuilder queryBuilder;
 
@@ -141,13 +145,15 @@ public class QueryBuilder<V> {
 
   private Query fieldQuery(IndexPredicate<V> p) throws QueryParseException {
     checkArgument(
-        schema.hasField(p.getField()),
+        schema.hasField(p.getFieldName()),
         "field not in schema v%s: %s",
         schema.getVersion(),
-        p.getField().getName());
+        p.getFieldName());
     FieldType<?> type = p.getType();
     if (type == FieldType.INTEGER) {
       return intQuery(p);
+    } else if (type == FieldType.LONG) {
+      return longQuery(p);
     } else if (type == FieldType.INTEGER_RANGE) {
       return intRangeQuery(p);
     } else if (type == FieldType.TIMESTAMP) {
@@ -172,13 +178,23 @@ public class QueryBuilder<V> {
     } catch (NumberFormatException e) {
       throw new QueryParseException("not an integer: " + p.getValue(), e);
     }
-    return intPoint(p.getField().getName(), value);
+    return intPoint(p.getFieldName(), value);
+  }
+
+  private Query longQuery(IndexPredicate<V> p) throws QueryParseException {
+    long value;
+    try {
+      value = Long.parseLong(p.getValue());
+    } catch (NumberFormatException e) {
+      throw new QueryParseException("not an integer: " + p.getValue(), e);
+    }
+    return longPoint(p.getFieldName(), value);
   }
 
   private Query intRangeQuery(IndexPredicate<V> p) throws QueryParseException {
     if (p instanceof IntegerRangePredicate) {
       IntegerRangePredicate<V> r = (IntegerRangePredicate<V>) p;
-      String name = r.getField().getName();
+      String name = r.getFieldName();
       int minimum = r.getMinimumValue();
       int maximum = r.getMaximumValue();
       if (minimum == maximum) {
@@ -194,9 +210,7 @@ public class QueryBuilder<V> {
     if (p instanceof TimestampRangePredicate) {
       TimestampRangePredicate<V> r = (TimestampRangePredicate<V>) p;
       return LongPoint.newRangeQuery(
-          r.getField().getName(),
-          r.getMinTimestamp().toEpochMilli(),
-          r.getMaxTimestamp().toEpochMilli());
+          r.getFieldName(), r.getMinTimestamp().toEpochMilli(), r.getMaxTimestamp().toEpochMilli());
     }
     throw new QueryParseException("not a timestamp: " + p);
   }
@@ -204,7 +218,7 @@ public class QueryBuilder<V> {
   private Query notTimestamp(TimestampRangePredicate<V> r) throws QueryParseException {
     if (r.getMinTimestamp().toEpochMilli() == 0) {
       return LongPoint.newRangeQuery(
-          r.getField().getName(), r.getMaxTimestamp().toEpochMilli(), Long.MAX_VALUE);
+          r.getFieldName(), r.getMaxTimestamp().toEpochMilli(), Long.MAX_VALUE);
     }
     throw new QueryParseException("cannot negate: " + r);
   }
@@ -213,7 +227,7 @@ public class QueryBuilder<V> {
     if (p instanceof RegexPredicate<?>) {
       return regexQuery(p);
     }
-    return new TermQuery(new Term(p.getField().getName(), p.getValue()));
+    return new TermQuery(new Term(p.getFieldName(), p.getValue()));
   }
 
   private Query regexQuery(IndexPredicate<V> p) {
@@ -224,11 +238,11 @@ public class QueryBuilder<V> {
     if (re.endsWith("$") && !re.endsWith("\\$")) {
       re = re.substring(0, re.length() - 1);
     }
-    return new RegexpQuery(new Term(p.getField().getName(), re));
+    return new RegexpQuery(new Term(p.getFieldName(), re));
   }
 
   private Query prefixQuery(IndexPredicate<V> p) {
-    return new PrefixQuery(new Term(p.getField().getName(), p.getValue()));
+    return new PrefixQuery(new Term(p.getFieldName(), p.getValue()));
   }
 
   private Query fullTextQuery(IndexPredicate<V> p) throws QueryParseException {
@@ -236,7 +250,7 @@ public class QueryBuilder<V> {
     if (value == null) {
       throw new QueryParseException("Full-text search over empty string not supported");
     }
-    Query query = queryBuilder.createPhraseQuery(p.getField().getName(), value);
+    Query query = queryBuilder.createPhraseQuery(p.getFieldName(), value);
     if (query == null) {
       throw new QueryParseException("Cannot create full-text query with value: " + value);
     }

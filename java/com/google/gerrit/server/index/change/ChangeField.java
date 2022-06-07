@@ -80,6 +80,7 @@ import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.MagicLabelValue;
 import com.google.gson.Gson;
 import com.google.protobuf.MessageLite;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -250,7 +251,7 @@ public class ChangeField {
    * <p>If the change contains multiple files with the same extension the extension is returned
    * multiple times in the stream (once per file).
    */
-  private static Stream<String> extensions(ChangeData cd) {
+  static Stream<String> extensions(ChangeData cd) {
     return cd.currentFilePaths().stream()
         // Use case-insensitive file extensions even though other file fields are case-sensitive.
         // If we want to find "all Java files", we want to match both .java and .JAVA, even if we
@@ -592,7 +593,7 @@ public class ChangeField {
     return ReviewerByEmailSet.fromTable(b.build());
   }
 
-  private static Optional<ReviewerStateInternal> getReviewerState(String value) {
+  static Optional<ReviewerStateInternal> getReviewerState(String value) {
     try {
       return Optional.of(ReviewerStateInternal.valueOf(value));
     } catch (IllegalArgumentException | NullPointerException e) {
@@ -600,13 +601,13 @@ public class ChangeField {
     }
   }
 
-  private static ImmutableSet<Integer> getAttentionSetUserIds(ChangeData changeData) {
+  static ImmutableSet<Integer> getAttentionSetUserIds(ChangeData changeData) {
     return additionsOnly(changeData.attentionSet()).stream()
         .map(update -> update.account().get())
         .collect(toImmutableSet());
   }
 
-  private static ImmutableSet<byte[]> storedAttentionSet(ChangeData changeData) {
+  static ImmutableSet<byte[]> storedAttentionSet(ChangeData changeData) {
     return changeData.attentionSet().stream()
         .map(StoredAttentionSetEntry::new)
         .map(storedAttentionSetEntry -> GSON.toJson(storedAttentionSetEntry).getBytes(UTF_8))
@@ -648,7 +649,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Iterable<String>> LABEL =
       exact("label2").buildRepeatable(cd -> getLabels(cd));
 
-  private static Iterable<String> getLabels(ChangeData cd) {
+  static Iterable<String> getLabels(ChangeData cd) {
     Set<String> allApprovals = new HashSet<>();
     Set<String> distinctApprovals = new HashSet<>();
     Table<String, Short, Integer> voteCounts = HashBasedTable.create();
@@ -671,7 +672,7 @@ public class ChangeField {
     return allApprovals;
   }
 
-  private static void increment(Table<String, Short, Integer> table, String k1, short k2) {
+  static void increment(Table<String, Short, Integer> table, String k1, short k2) {
     if (!table.contains(k1, k2)) {
       table.put(k1, k2, 1);
     } else {
@@ -680,7 +681,7 @@ public class ChangeField {
     }
   }
 
-  private static List<String> getCountLabelFormats(
+  static List<String> getCountLabelFormats(
       Table<String, Short, Integer> voteCounts, ChangeData cd) {
     List<String> allFormats = new ArrayList<>();
     for (String label : voteCounts.rowMap().keySet()) {
@@ -703,13 +704,13 @@ public class ChangeField {
   }
 
   /** Get magic label formats corresponding to the {MIN, MAX, ANY} label votes. */
-  private static List<String> getMagicLabelFormats(
+  static List<String> getMagicLabelFormats(
       String label, short labelVal, Optional<LabelType> labelType, @Nullable Account.Id accountId) {
     return getMagicLabelFormats(label, labelVal, labelType, accountId, /* count= */ null);
   }
 
   /** Get magic label formats corresponding to the {MIN, MAX, ANY} label votes. */
-  private static List<String> getMagicLabelFormats(
+  static List<String> getMagicLabelFormats(
       String label,
       short labelVal,
       Optional<LabelType> labelType,
@@ -1206,7 +1207,7 @@ public class ChangeField {
     return Lists.transform(records, r -> GSON.toJson(new StoredSubmitRecord(r)).getBytes(UTF_8));
   }
 
-  private static Iterable<byte[]> storedSubmitRecords(ChangeData cd, SubmitRuleOptions opts) {
+  static Iterable<byte[]> storedSubmitRecords(ChangeData cd, SubmitRuleOptions opts) {
     return storedSubmitRecords(cd.submitRecords(opts));
   }
 
@@ -1291,7 +1292,7 @@ public class ChangeField {
   }
 
   /** Serialized submit requirements, used for pre-populating results. */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_REQUIREMENTS =
+  static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_REQUIREMENTS =
       storedOnly("full_submit_requirements")
           .buildRepeatable(
               cd ->
@@ -1299,7 +1300,7 @@ public class ChangeField {
                       SubmitRequirementProtoConverter.INSTANCE, cd.submitRequirements().values()),
               (cd, field) -> parseSubmitRequirements(field, cd));
 
-  private static void parseSubmitRequirements(Iterable<byte[]> values, ChangeData out) {
+  static void parseSubmitRequirements(Iterable<byte[]> values, ChangeData out) {
     out.setSubmitRequirements(
         StreamSupport.stream(values.spliterator(), false)
             .map(
@@ -1317,7 +1318,7 @@ public class ChangeField {
    *
    * <p>Emitted as UTF-8 encoded strings of the form {@code project:ref/name:[hex sha]}.
    */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> REF_STATE =
+  static final FieldDef<ChangeData, Iterable<byte[]>> REF_STATE =
       storedOnly("ref_state")
           .buildRepeatable(
               cd -> {
@@ -1335,7 +1336,7 @@ public class ChangeField {
    * <p>Emitted as UTF-8 encoded strings of the form {@code project:ref/name/*}. See {@link
    * RefStatePattern} for the pattern format.
    */
-  public static final FieldDef<ChangeData, Iterable<byte[]>> REF_STATE_PATTERN =
+  static final FieldDef<ChangeData, Iterable<byte[]>> REF_STATE_PATTERN =
       storedOnly("ref_state_pattern")
           .buildRepeatable(
               cd -> {
@@ -1356,7 +1357,7 @@ public class ChangeField {
               },
               (cd, field) -> cd.setRefStatePatterns(field));
 
-  private static String getTopic(ChangeData cd) {
+  static String getTopic(ChangeData cd) {
     Change c = cd.change();
     if (c == null) {
       return null;
@@ -1364,31 +1365,41 @@ public class ChangeField {
     return firstNonNull(c.getTopic(), "");
   }
 
-  private static <T> List<byte[]> toProtos(ProtoConverter<?, T> converter, Collection<T> objects) {
+  static <T> List<byte[]> toProtos(ProtoConverter<?, T> converter, Collection<T> objects) {
     return objects.stream().map(object -> toProto(converter, object)).collect(toImmutableList());
   }
 
-  private static <T> byte[] toProto(ProtoConverter<?, T> converter, T object) {
+  static <T> byte[] toProto(ProtoConverter<?, T> converter, T object) {
     return Protos.toByteArray(converter.toProto(object));
   }
 
-  private static <T> List<T> decodeProtos(Iterable<byte[]> raw, ProtoConverter<?, T> converter) {
+  static <T> List<T> decodeProtos(Iterable<byte[]> raw, ProtoConverter<?, T> converter) {
     return StreamSupport.stream(raw.spliterator(), false)
         .map(bytes -> parseProtoFrom(bytes, converter))
         .collect(toImmutableList());
   }
 
-  private static <P extends MessageLite, T> T parseProtoFrom(
-      byte[] bytes, ProtoConverter<P, T> converter) {
+  static <P extends MessageLite, T> T parseProtoFrom(byte[] bytes, ProtoConverter<P, T> converter) {
     P message = Protos.parseUnchecked(converter.getParser(), bytes, 0, bytes.length);
     return converter.fromProto(message);
   }
 
-  private static <T> FieldDef.Getter<ChangeData, T> changeGetter(Function<Change, T> func) {
+  static <T> Getter<ChangeData, T> changeGetter(Function<Change, T> func) {
     return in -> in.change() != null ? func.apply(in.change()) : null;
   }
 
-  private static AllUsersName allUsers(ChangeData cd) {
+  static AllUsersName allUsers(ChangeData cd) {
     return cd.getAllUsersNameForIndexing();
+  }
+
+  @FunctionalInterface
+  public interface Getter<I, T> {
+    @Nullable
+    T get(I input) throws IOException;
+  }
+
+  @FunctionalInterface
+  public interface Setter<I, T> {
+    void set(I object, T value);
   }
 }

@@ -22,7 +22,8 @@ import static com.google.gerrit.server.index.change.ChangeSchemaDefinitions.NAME
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.Field;
+import com.google.gerrit.index.Field.FieldSpec;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
@@ -50,7 +51,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       Schema<ChangeData> schema,
       SitePaths sitePaths,
       Path path,
-      ImmutableSet<String> skipFields,
+      ImmutableSet<FieldSpec> skipFields,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory,
       AutoFlush autoFlush)
@@ -71,7 +72,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       SitePaths sitePaths,
       Directory dir,
       String subIndex,
-      ImmutableSet<String> skipFields,
+      ImmutableSet<FieldSpec> skipFields,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory,
       AutoFlush autoFlush)
@@ -118,7 +119,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
   @Override
   void add(Document doc, Values<ChangeData> values) {
     // Add separate DocValues fields for those fields needed for sorting.
-    FieldDef<ChangeData, ?> f = values.getField();
+    Field<ChangeData, ?>.FieldSpec<ChangeData, ?> f = values.getField();
     if (f == ChangeField.LEGACY_ID_STR) {
       String v = (String) getOnlyElement(values.getValues());
       doc.add(new NumericDocValuesField(ID_STR_SORT_FIELD, Integer.valueOf(v)));

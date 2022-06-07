@@ -23,6 +23,6 @@ public class BooleanPredicate extends ChangeIndexPredicate {
 
   @Override
   public boolean match(ChangeData object) {
-    return getValue().equals(getField().get(object));
+    return getValue().equals(retrieveValue(object));
   }
 }

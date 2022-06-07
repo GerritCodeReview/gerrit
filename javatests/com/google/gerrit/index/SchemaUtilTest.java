@@ -20,20 +20,21 @@ import static com.google.gerrit.index.SchemaUtil.getPersonParts;
 import static com.google.gerrit.index.SchemaUtil.schema;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.collect.ImmutableList;
 import java.util.Map;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
 
 public class SchemaUtilTest {
   static class TestSchemas {
-    static final Schema<String> V1 = schema();
-    static final Schema<String> V2 = schema();
-    static Schema<String> V3 = schema(); // Not final, ignored.
-    private static final Schema<String> V4 = schema();
+    static final Schema<String> V1 = schema(ImmutableList.of(), ImmutableList.of());
+    static final Schema<String> V2 = schema(V1);
+    static Schema<String> V3 = schema(V2); // Not final, ignored.
+    private static final Schema<String> V4 = schema(V3);
 
     // Ignored.
-    static Schema<String> V10 = schema();
-    final Schema<String> V11 = schema();
+    static Schema<String> V10 = schema(ImmutableList.of(), ImmutableList.of());
+    final Schema<String> V11 = schema(V10);
   }
 
   @Test

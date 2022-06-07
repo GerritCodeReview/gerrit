@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "54d04f19_48a0339c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-07T23:31:37Z",
+      "side": 1,
+      "message": "Looks like Kaushik has a parallel merge going [1]. FE guys, I was just about add you on that change to see if you could check if I missed anything in my comments. Maybe we should consolidate on one of the changes?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/338835",
+      "revId": "b8d661a118bf5ea9426198b24bcef1d1c71696a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33ad1112_92205244",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
         "patchSetId": 3

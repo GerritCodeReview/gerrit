@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.index.StoredValue;
+import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
 import java.util.List;
 import org.apache.lucene.index.IndexableField;
@@ -79,6 +80,18 @@ public class LuceneStoredValue implements StoredValue {
   @Override
   public Iterable<byte[]> asByteArrays() {
     return copyAsBytes(field);
+  }
+
+  // Protos are not stored in Lucine
+  @Override
+  public MessageLite asProto() {
+    return null;
+  }
+
+  // Protos are not stored in Lucine
+  @Override
+  public Iterable<MessageLite> asProtos() {
+    return null;
   }
 
   private static List<byte[]> copyAsBytes(List<IndexableField> fields) {

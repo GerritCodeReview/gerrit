@@ -35,7 +35,7 @@ public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
   }
 
   protected Timestamp getValueTimestamp(I object) {
-    return (Timestamp) this.getField().get(object);
+    return (Timestamp) this.retrieveValue(object);
   }
 
   public abstract Instant getMinTimestamp();

@@ -25,7 +25,6 @@ import com.google.common.collect.Iterables;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -66,22 +65,36 @@ public class SchemaUtil {
     return ImmutableSortedMap.copyOf(schemas);
   }
 
-  public static <V> Schema<V> schema(Collection<FieldDef<V, ?>> fields) {
-    return new Schema<>(ImmutableList.copyOf(fields));
+  @SafeVarargs
+  public static <V> Schema<V> schema(
+      com.google.gerrit.index.Field<V, ?>.FieldSpec<V, ?>... fieldSpecs) {
+    return new Schema.Builder<V>().addFieldSpecs(fieldSpecs).build();
   }
 
   @SafeVarargs
-  public static <V> Schema<V> schema(FieldDef<V, ?>... fields) {
-    return schema(ImmutableList.copyOf(fields));
+  public static <V> Schema<V> schema(com.google.gerrit.index.Field<V, ?>... fields) {
+    return new Schema.Builder<V>().addIndexFields(fields).build();
   }
 
-  @SafeVarargs
-  public static <V> Schema<V> schema(Schema<V> schema, FieldDef<V, ?>... moreFields) {
-    return new Schema<>(
-        new ImmutableList.Builder<FieldDef<V, ?>>()
-            .addAll(schema.getFields().values())
-            .addAll(ImmutableList.copyOf(moreFields))
-            .build());
+  public static <V> Schema<V> schema(
+      ImmutableList<com.google.gerrit.index.Field<V, ?>> moreFields,
+      ImmutableList<com.google.gerrit.index.Field<V, ?>.FieldSpec<V, ?>> moreFieldSpecs) {
+    return new Schema.Builder<V>().addIndexFields(moreFields).addFieldSpecs(moreFieldSpecs).build();
+  }
+
+  public static <V> Schema<V> schema(
+      Schema<V> schema,
+      ImmutableList<com.google.gerrit.index.Field<V, ?>> moreFields,
+      ImmutableList<com.google.gerrit.index.Field<V, ?>.FieldSpec<V, ?>> moreFieldSpecs) {
+    return new Schema.Builder<V>()
+        .add(schema)
+        .addIndexFields(moreFields)
+        .addFieldSpecs(moreFieldSpecs)
+        .build();
+  }
+
+  public static <V> Schema<V> schema(Schema<V> schema) {
+    return new Schema.Builder<V>().add(schema).build();
   }
 
   public static Set<String> getPersonParts(PersonIdent person) {

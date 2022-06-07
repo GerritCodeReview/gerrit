@@ -21,6 +21,9 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.index.Schema.SchemaField;
+import com.google.gerrit.server.index.change.ChangeField.Getter;
+import com.google.gerrit.server.index.change.ChangeField.Setter;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -32,7 +35,7 @@ import java.util.Optional;
  * @param <T> type that should be extracted from the input object when converting to an index
  *     document.
  */
-public final class FieldDef<I, T> {
+public final class FieldDef<I, T> implements SchemaField<I, T> {
   public static FieldDef.Builder<String> exact(String name) {
     return new FieldDef.Builder<>(FieldType.EXACT, name);
   }
@@ -61,17 +64,6 @@ public final class FieldDef<I, T> {
     return new FieldDef.Builder<>(FieldType.TIMESTAMP, name);
   }
 
-  @FunctionalInterface
-  public interface Getter<I, T> {
-    @Nullable
-    T get(I input) throws IOException;
-  }
-
-  @FunctionalInterface
-  public interface Setter<I, T> {
-    void set(I object, T value);
-  }
-
   public static class Builder<T> {
     private final FieldType<T> type;
     private final String name;
@@ -87,21 +79,36 @@ public final class FieldDef<I, T> {
       return this;
     }
 
+    public <I> FieldDef<I, T> build(Getter<I, T> getter, Optional<Field<I, T>.FieldSpec<I, T>> fieldSpec) {
+      return new FieldDef<>(name, type, stored, false, getter, null, fieldSpec);
+    }
     public <I> FieldDef<I, T> build(Getter<I, T> getter) {
-      return new FieldDef<>(name, type, stored, false, getter, null);
+      return new FieldDef<>(name, type, stored, false, getter, null, Optional.empty());
     }
 
+    public <I> FieldDef<I, T> build(Getter<I, T> getter, Setter<I, T> setter,  Optional<Field<I, T>.FieldSpec<I, T>> fieldSpec) {
+      return new FieldDef<>(name, type, stored, false, getter, setter, fieldSpec);
+    }
     public <I> FieldDef<I, T> build(Getter<I, T> getter, Setter<I, T> setter) {
-      return new FieldDef<>(name, type, stored, false, getter, setter);
+      return new FieldDef<>(name, type, stored, false, getter, setter, Optional.empty());
+    }
+
+    public <I> FieldDef<I, Iterable<T>> buildRepeatable(Getter<I, Iterable<T>> getter,  Optional<Field<I, Iterable<T>>.FieldSpec<I, Iterable<T>>> fieldSpec) {
+      return new FieldDef<>(name, type, stored, true, getter, null, fieldSpec);
+    }
+
+    public <I> FieldDef<I, Iterable<T>> buildRepeatable(
+        Getter<I, Iterable<T>> getter, Setter<I, Iterable<T>> setter, Optional<Field<I, Iterable<T>>.FieldSpec<I, Iterable<T>>> fieldSpec) {
+      return new FieldDef<>(name, type, stored, true, getter, setter, fieldSpec);
     }
 
     public <I> FieldDef<I, Iterable<T>> buildRepeatable(Getter<I, Iterable<T>> getter) {
-      return new FieldDef<>(name, type, stored, true, getter, null);
+      return new FieldDef<>(name, type, stored, true, getter, null, Optional.empty());
     }
 
     public <I> FieldDef<I, Iterable<T>> buildRepeatable(
         Getter<I, Iterable<T>> getter, Setter<I, Iterable<T>> setter) {
-      return new FieldDef<>(name, type, stored, true, getter, setter);
+      return new FieldDef<>(name, type, stored, true, getter, setter, Optional.empty());
     }
   }
 
@@ -114,13 +121,17 @@ public final class FieldDef<I, T> {
   private final Getter<I, T> getter;
   private final Optional<Setter<I, T>> setter;
 
+  private final Optional<Field<I, T>.FieldSpec<I, T>> fieldSpec;
+
   private FieldDef(
       String name,
       FieldType<?> type,
       boolean stored,
       boolean repeatable,
       Getter<I, T> getter,
-      @Nullable Setter<I, T> setter) {
+      @Nullable Setter<I, T> setter,
+      Optional<Field<I, T>.FieldSpec<I, T>> fieldSpec) {
+    this.fieldSpec = fieldSpec;
     checkArgument(
         !(repeatable && type == FieldType.INTEGER_RANGE),
         "Range queries against repeated fields are unsupported");
@@ -140,7 +151,15 @@ public final class FieldDef<I, T> {
 
   /** Returns name of the field. */
   public String getName() {
+    if(fieldSpec.isPresent()){
+      checkState(fieldSpec.get().getField().name().equals(name));
+    }
     return name;
+  }
+
+
+  public Optional<Field<I, T>.FieldSpec<I, T>> getFieldSpec() {
+    return fieldSpec;
   }
 
   /** Returns type of the field; for repeatable fields, the inner type, not the iterable type. */
@@ -150,6 +169,9 @@ public final class FieldDef<I, T> {
 
   /** Returns whether the field should be stored in the index. */
   public boolean isStored() {
+    if(fieldSpec.isPresent()){
+      checkState(fieldSpec.get().getField().stored() == stored);
+    }
     return stored;
   }
 
@@ -207,4 +229,5 @@ public final class FieldDef<I, T> {
   public boolean isRepeatable() {
     return repeatable;
   }
+
 }

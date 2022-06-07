@@ -336,7 +336,7 @@ public abstract class QueryProcessor<T> {
       return requestedFields;
     }
     Index<?, T> index = indexes.getSearchIndex();
-    return index != null ? index.getSchema().getStoredFields().keySet() : ImmutableSet.of();
+    return index != null ? index.getSchema().getStoredFields() : ImmutableSet.of();
   }
 
   /**

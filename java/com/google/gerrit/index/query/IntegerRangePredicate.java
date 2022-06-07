@@ -14,13 +14,14 @@
 
 package com.google.gerrit.index.query;
 
+import com.google.gerrit.index.Field;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.RangeUtil.Range;
 
 public abstract class IntegerRangePredicate<T> extends IndexPredicate<T> {
   private final Range range;
 
-  protected IntegerRangePredicate(FieldDef<T, Integer> type, String value)
+  protected IntegerRangePredicate(FieldDef<T,Integer> type, String value)
       throws QueryParseException {
     super(type, value);
     range = RangeUtil.getRange(value, Integer.MIN_VALUE, Integer.MAX_VALUE);

@@ -11,7 +11,6 @@ import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {
   AccountInfo,
   BasePatchSetNum,
-  ChangeId,
   ChangeViewChangeInfo,
   CommitId,
   CommitInfo,
@@ -179,20 +178,8 @@ export interface ChangeViewState {
   diffMode: DiffViewMode | null;
   numFilesShown: number | null;
 }
-
-export interface ChangeListViewState {
-  changeNum?: ChangeId;
-  patchRange?: PatchRange;
-  diffMode?: DiffViewMode;
-  numFilesShown?: number;
-  scrollTop?: number;
-  query?: string | null;
-  offset?: number;
-}
-
 export interface ViewState {
   changeView: ChangeViewState;
-  changeListView: ChangeListViewState;
 }
 
 export interface PatchSetFile {

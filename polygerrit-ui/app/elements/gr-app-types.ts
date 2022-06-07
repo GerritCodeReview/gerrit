@@ -116,6 +116,7 @@ export interface AppElementChangeViewParams {
   basePatchNum?: BasePatchSetNum;
   commentId?: UrlEncodedCommentId;
   forceReload?: boolean;
+  openReplyDialog?: boolean;
   tab?: string;
   /** regular expression for filtering check runs */
   filter?: string;

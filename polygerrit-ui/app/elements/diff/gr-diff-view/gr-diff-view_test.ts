@@ -789,11 +789,11 @@ suite('gr-diff-view tests', () => {
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       await flush();
-      assert.isTrue(element.changeViewState.showReplyDialog);
       assert(
         changeNavStub.lastCall.calledWithExactly(element._change, {
           patchNum: 10 as RevisionPatchSetNum,
           basePatchNum: 5 as BasePatchSetNum,
+          openReplyDialog: true,
         }),
         'Should navigate to /c/42/5..10'
       );
@@ -820,11 +820,11 @@ suite('gr-diff-view tests', () => {
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       await flush();
-      assert.isTrue(element.changeViewState.showReplyDialog);
       assert(
         changeNavStub.lastCall.calledWithExactly(element._change, {
           patchNum: 1 as RevisionPatchSetNum,
           basePatchNum: PARENT,
+          openReplyDialog: true,
         }),
         'Should navigate to /c/42/1'
       );
@@ -860,6 +860,7 @@ suite('gr-diff-view tests', () => {
         changeNavStub.lastCall.calledWithExactly(element._change, {
           patchNum: 10 as RevisionPatchSetNum,
           basePatchNum: 5 as BasePatchSetNum,
+          openReplyDialog: false,
         }),
         'Should navigate to /c/42/5..10'
       );
@@ -912,6 +913,7 @@ suite('gr-diff-view tests', () => {
         changeNavStub.lastCall.calledWithExactly(element._change, {
           patchNum: 10 as RevisionPatchSetNum,
           basePatchNum: 5 as BasePatchSetNum,
+          openReplyDialog: false,
         }),
         'Should navigate to /c/42/5..10'
       );
@@ -952,6 +954,7 @@ suite('gr-diff-view tests', () => {
         changeNavStub.lastCall.calledWithExactly(element._change, {
           patchNum: 1 as RevisionPatchSetNum,
           basePatchNum: PARENT,
+          openReplyDialog: false,
         }),
         'Should navigate to /c/42/1'
       );
@@ -1001,6 +1004,7 @@ suite('gr-diff-view tests', () => {
         changeNavStub.lastCall.calledWithExactly(element._change, {
           patchNum: 1 as RevisionPatchSetNum,
           basePatchNum: PARENT,
+          openReplyDialog: false,
         }),
         'Should navigate to /c/42/1'
       );

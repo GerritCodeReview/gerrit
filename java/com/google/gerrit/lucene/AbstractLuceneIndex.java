@@ -33,23 +33,30 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.index.Field.FieldSpec;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
+import com.google.gerrit.index.SearchOptions;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.ListResultSet;
 import com.google.gerrit.index.query.ResultSet;
+import com.google.gerrit.proto.Entities;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorService;
+import com.google.protobuf.MessageLite;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -97,7 +104,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final SitePaths sitePaths;
   private final Directory dir;
   private final String name;
-  private final ImmutableSet<String> skipFields;
+  private final ImmutableSet<FieldSpec> skipFields;
   private final ListeningExecutorService writerThread;
   private final IndexWriter writer;
   private final ReferenceManager<IndexSearcher> searcherManager;
@@ -112,7 +119,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       SitePaths sitePaths,
       Directory dir,
       String name,
-      ImmutableSet<String> skipFields,
+      ImmutableSet<FieldSpec> skipFields,
       String subIndex,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory,
@@ -339,10 +346,12 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
   void add(Document doc, Values<V> values) {
     String name = values.getField().getName();
-    FieldType<?> type = values.getField().getType();
+
+    com.google.gerrit.index.Field<V, ?>.FieldSpec<V, ?> type = values.getField();
     Store store = store(values.getField());
 
-    if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
+    if (type.getField().fieldType().equals(Integer.class) || type.getField().fieldType().equals(
+        Collections.<Integer>emptyList().getClass())) {
       for (Object value : values.getValues()) {
         Integer intValue = (Integer) value;
         doc.add(new IntPoint(name, intValue));
@@ -350,25 +359,25 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
           doc.add(new StoredField(name, intValue));
         }
       }
-    } else if (type == FieldType.LONG) {
+    } else if (type.getField().fieldType().equals(Long.class)) {
       for (Object value : values.getValues()) {
         addLongField(doc, name, store, (Long) value);
       }
-    } else if (type == FieldType.TIMESTAMP) {
+    } else if (type.getField().fieldType().equals(Timestamp.class)) {
       for (Object value : values.getValues()) {
         addLongField(doc, name, store, ((Timestamp) value).getTime());
       }
-    } else if (type == FieldType.EXACT || type == FieldType.PREFIX) {
+    } else if (type.getField().fieldType().equals(String.class) && type.getSearchOptions().equals(SearchOptions.EXACT) || type.getSearchOptions().equals(SearchOptions.PREFIX)) {
       for (Object value : values.getValues()) {
         doc.add(new StringField(name, (String) value, store));
       }
-    } else if (type == FieldType.FULL_TEXT) {
+    } else if (type.getField().fieldType().equals(String.class) && type.getSearchOptions().equals(SearchOptions.FULL_TEXT)) {
       for (Object value : values.getValues()) {
         doc.add(new TextField(name, (String) value, store));
       }
-    } else if (type == FieldType.STORED_ONLY) {
+    } else if (type.getSearchOptions().equals(SearchOptions.STORE_ONLY) ) {
       for (Object value : values.getValues()) {
-        doc.add(new StoredField(name, (byte[]) value));
+        doc.add(new StoredField(name, MessageLite.class.isAssignableFrom(type.getField().fieldType()) || Collection.class.isAssignableFrom(type.getField().fieldType().getP) ? Protos.toByteArray((MessageLite)value): (byte[]) value);
       }
     } else {
       throw FieldType.badFieldType(type);
@@ -383,20 +392,25 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   }
 
   protected FieldBundle toFieldBundle(Document doc) {
-    Map<String, FieldDef<V, ?>> allFields = getSchema().getFields();
+    Map<String, com.google.gerrit.index.Field<V, ?>.FieldSpec<V, ?>> allFields = getSchema().getFieldSpecs();
     ListMultimap<String, Object> rawFields = ArrayListMultimap.create();
     for (IndexableField field : doc.getFields()) {
       checkArgument(allFields.containsKey(field.name()), "Unrecognized field " + field.name());
-      FieldType<?> type = allFields.get(field.name()).getType();
-      if (type == FieldType.EXACT || type == FieldType.FULL_TEXT || type == FieldType.PREFIX) {
+      com.google.gerrit.index.Field<V, ?>.FieldSpec<V, ?> fieldSpec = allFields.get(field.name());
+      if(fieldSpec.getSearchOptions().equals(SearchOptions.STORE_ONLY)){
+        rawFields.put(field.name(), field.binaryValue().bytes);
+      }
+      Class<Object> type = fieldSpec.getField().fieldType();
+      if (type.equals(String.class)) {
         rawFields.put(field.name(), field.stringValue());
-      } else if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
+      } else if (type.equals(Integer.class)) {
         rawFields.put(field.name(), field.numericValue().intValue());
-      } else if (type == FieldType.LONG) {
+      } else if (type.equals(Long.class)) {
         rawFields.put(field.name(), field.numericValue().longValue());
-      } else if (type == FieldType.TIMESTAMP) {
+      } else if (type.equals(Timestamp.class)) {
         rawFields.put(field.name(), new Timestamp(field.numericValue().longValue()));
-      } else if (type == FieldType.STORED_ONLY) {
+        // protobuf? bytes?
+      } else if () {
         rawFields.put(field.name(), field.binaryValue().bytes);
       } else {
         throw FieldType.badFieldType(type);
@@ -405,8 +419,8 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     return new FieldBundle(rawFields);
   }
 
-  private static Field.Store store(FieldDef<?, ?> f) {
-    return f.isStored() ? Field.Store.YES : Field.Store.NO;
+  private static Field.Store store(com.google.gerrit.index.Field<?, ?>.FieldSpec<?, ?> f) {
+    return f.getField().stored() ? Field.Store.YES : Field.Store.NO;
   }
 
   private final class NrtFuture extends AbstractFuture<Void> {

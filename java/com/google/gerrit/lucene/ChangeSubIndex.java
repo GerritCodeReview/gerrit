@@ -22,6 +22,7 @@ import static com.google.gerrit.server.index.change.ChangeSchemaDefinitions.NAME
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.index.Field.FieldSpec;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
@@ -50,7 +51,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       Schema<ChangeData> schema,
       SitePaths sitePaths,
       Path path,
-      ImmutableSet<String> skipFields,
+      ImmutableSet<FieldSpec> skipFields,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory,
       AutoFlush autoFlush)
@@ -71,7 +72,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       SitePaths sitePaths,
       Directory dir,
       String subIndex,
-      ImmutableSet<String> skipFields,
+      ImmutableSet<FieldSpec> skipFields,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory,
       AutoFlush autoFlush)

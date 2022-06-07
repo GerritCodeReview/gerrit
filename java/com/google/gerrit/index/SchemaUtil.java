@@ -22,6 +22,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.index.Field.FieldSpec;
+import com.google.gerrit.server.query.change.ChangeData;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -66,22 +68,14 @@ public class SchemaUtil {
     return ImmutableSortedMap.copyOf(schemas);
   }
 
-  public static <V> Schema<V> schema(Collection<FieldDef<V, ?>> fields) {
-    return new Schema<>(ImmutableList.copyOf(fields));
+  @SafeVarargs
+  public static <V> Schema<V> schema(com.google.gerrit.index.Field<V, ?>.FieldSpec<V, ?>... fields) {
+    return new Schema.Builder<V>().add(fields).build();
   }
 
   @SafeVarargs
-  public static <V> Schema<V> schema(FieldDef<V, ?>... fields) {
-    return schema(ImmutableList.copyOf(fields));
-  }
-
-  @SafeVarargs
-  public static <V> Schema<V> schema(Schema<V> schema, FieldDef<V, ?>... moreFields) {
-    return new Schema<>(
-        new ImmutableList.Builder<FieldDef<V, ?>>()
-            .addAll(schema.getFields().values())
-            .addAll(ImmutableList.copyOf(moreFields))
-            .build());
+  public static <V> Schema<V> schema(Schema<V> schema, com.google.gerrit.index.Field<V, ?>.FieldSpec<V, ?>... moreFields) {
+    return new Schema.Builder<V>().add(schema).add(moreFields).build();
   }
 
   public static Set<String> getPersonParts(PersonIdent person) {

@@ -44,6 +44,7 @@ import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.Files;
 import com.google.common.primitives.Longs;
+import com.google.common.reflect.TypeToken;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
@@ -61,10 +62,14 @@ import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.entities.converter.ProtoConverter;
+import com.google.gerrit.index.Field;
+import com.google.gerrit.index.Field.FieldSpec;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
+import com.google.gerrit.index.SearchOptions;
 import com.google.gerrit.json.OutputFormat;
+import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -84,6 +89,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -872,6 +878,12 @@ public class ChangeField {
   public static final FieldDef<ChangeData, String> COMMIT_MESSAGE_EXACT =
       exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT).build(ChangeData::commitMessage);
 
+
+  public static final Field<ChangeData, String> COMMIT_MESSAGE_FIELD = Field.<ChangeData, String>builder("CommitMessage", new TypeToken<String>() {}).build(ChangeData::commitMessage);
+
+  public static final FieldSpec COMMIT_MESSAGE_FULL_TEXT_SPEC = COMMIT_MESSAGE_FIELD.addFieldSpec(ChangeQueryBuilder.FIELD_MESSAGE, SearchOptions.FULL_TEXT);
+
+
   /** Summary or inline comment. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
       fullText(ChangeQueryBuilder.FIELD_COMMENT)
@@ -941,6 +953,16 @@ public class ChangeField {
                   cd.setLinesInserted(field);
                 }
               });
+
+  public static final Field<ChangeData, Integer> ADDED_FIELD = Field.<ChangeData, Integer>builder("LinesAdded", new TypeToken<Integer>() {}).build(cd -> cd.changedLines().isPresent() ? cd.changedLines().get().insertions : null,
+  (cd, field) -> {
+    if (field != null) {
+      cd.setLinesInserted(field);
+    }
+  });
+
+  public static final FieldSpec ADDED_SPEC = ADDED_FIELD.addFieldSpec(ChangeQueryBuilder.FIELD_ADDED, SearchOptions.RANGE);
+
 
   /** The number of deleted lines in this change. */
   public static final FieldDef<ChangeData, Integer> DELETED =
@@ -1012,6 +1034,19 @@ public class ChangeField {
 
   /** Serialized patch set object, used for pre-populating results. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> PATCH_SET =
+      storedOnly("_patch_set")
+          .buildRepeatable(
+              cd -> toProtos(PatchSetProtoConverter.INSTANCE, cd.patchSets()),
+              (cd, field) -> cd.setPatchSets(decodeProtos(field, PatchSetProtoConverter.INSTANCE)));
+
+
+  public static final Field<ChangeData, Iterable<Entities.PatchSet>> PATCH_SET_FIELD
+      = Field.<ChangeData, Iterable<Entities.PatchSet>>builder("PatchSet",   new TypeToken<Iterable<Entities.PatchSet>>() {}).stored(true).
+      build((cd) -> toRawProtos(PatchSetProtoConverter.INSTANCE, cd.patchSets()), (cd, field) -> cd.setPatchSets(decodeRawProtos(field, PatchSetProtoConverter.INSTANCE)));
+
+  public static final FieldSpec PATCH_SET_SPEC = PATCH_SET_FIELD.addFieldSpec("_patch_set", SearchOptions.STORE_ONLY);
+
+  public static final FieldSpec<ChangeData, Iterable<byte[]>> PATCH_SET =
       storedOnly("_patch_set")
           .buildRepeatable(
               cd -> toProtos(PatchSetProtoConverter.INSTANCE, cd.patchSets()),
@@ -1372,10 +1407,29 @@ public class ChangeField {
     return Protos.toByteArray(converter.toProto(object));
   }
 
+  private static <P extends MessageLite, T> List<P> toRawProtos(ProtoConverter<P, T> converter, Collection<T> objects) {
+    return objects.stream().map(object -> toRawProto(converter, object)).collect(toImmutableList());
+  }
+
+  private static <P extends MessageLite, T> P toRawProto(ProtoConverter<P, T> converter, T object) {
+    return converter.toProto(object);
+  }
+
   private static <T> List<T> decodeProtos(Iterable<byte[]> raw, ProtoConverter<?, T> converter) {
     return StreamSupport.stream(raw.spliterator(), false)
         .map(bytes -> parseProtoFrom(bytes, converter))
         .collect(toImmutableList());
+  }
+
+  private static <P extends MessageLite, T> List<T> decodeRawProtos(Iterable<P> raw, ProtoConverter<P, T> converter) {
+    return StreamSupport.stream(raw.spliterator(), false)
+        .map(proto -> decodeRawProto(proto, converter))
+        .collect(toImmutableList());
+  }
+
+  private static <P extends MessageLite, T> T decodeRawProto(
+      P raw, ProtoConverter<P, T> converter) {
+    return converter.fromProto(raw);
   }
 
   private static <P extends MessageLite, T> T parseProtoFrom(

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33ad1112_92205244",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-06-07T20:45:13Z",
+      "side": 1,
+      "message": "Missing:\n\n```\n  @property({type: Object})\n  repoConfig?: ConfigInfo;\n```\n\nsee https://gerrit-review.googlesource.com/c/gerrit/+/337834",
+      "revId": "b8d661a118bf5ea9426198b24bcef1d1c71696a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

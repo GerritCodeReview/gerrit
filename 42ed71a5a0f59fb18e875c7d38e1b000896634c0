@@ -87,6 +87,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "30d56867_905b756a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-07T23:39:21Z",
+      "side": 1,
+      "message": "Thanks for pointing that issue out, I didn\u0027t realize it existed. That actually deals with the issue we want to tackle next (which identity to use for git operations). We have two needs, 1) apply server-wide policy on where emails should be sent (for us, we\u0027ll have a plugin that forces it to go to the user\u0027s LDAP address, not any other registered address), and 2) apply per-repo policy on which registered email address for a user should be used for git author/committer.\n\nThe bug you linked leads me to potentially see adding a user preference for \"Override my preferred email and use this identity for git author/committer instead\" as a core feature and as a step towards #2. I don\u0027t think it applies to #1, which is what this change is working towards.\n\nDoes that help clarify? (we\u0027ll be sure to update the commit message if it does)",
+      "parentUuid": "40b24ab2_9e8a6c6b",
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "648eafb5_550e2afd",

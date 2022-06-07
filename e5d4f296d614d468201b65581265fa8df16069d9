@@ -33,6 +33,24 @@
       "message": "Optional: This can be fragile, because a future developer might forget to set this to `false` when adding another return statement. You could consider a pattern like:\n\n```\nasync reload() {\n  try {\n    this.reloading \u003d true;\n    await reloadWrapped();\n  } finally {\n    this.reloading \u003d false;\n  }\n}\n```",
       "revId": "e5d4f296d614d468201b65581265fa8df16069d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "484089eb_5399f86e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T07:57:31Z",
+      "side": 1,
+      "message": "Good idea.",
+      "parentUuid": "953ace7f_60b3c349",
+      "revId": "e5d4f296d614d468201b65581265fa8df16069d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

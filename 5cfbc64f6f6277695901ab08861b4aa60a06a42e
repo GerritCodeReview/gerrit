@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1562a8b1_9031eef1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-07T12:09:37Z",
+      "side": 1,
+      "message": "This seems to be always null and caused regression in 3.6.0, where SSH keys are never loaded, see issue 15979.",
+      "range": {
+        "startLine": 243,
+        "startChar": 39,
+        "endLine": 243,
+        "endChar": 53
+      },
+      "revId": "5cfbc64f6f6277695901ab08861b4aa60a06a42e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

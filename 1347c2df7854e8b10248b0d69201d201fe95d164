@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "797a5af2_1a21af2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-07T17:10:17Z",
+      "side": 1,
+      "message": "Excellent! I love changes deleting obsolet code and making our code base more maintainable. :-)",
+      "revId": "1347c2df7854e8b10248b0d69201d201fe95d164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

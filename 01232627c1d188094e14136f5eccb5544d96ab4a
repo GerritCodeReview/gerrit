@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "855b2c60_3997f6d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T07:21:04Z",
+      "side": 1,
+      "message": "No, removed.",
+      "parentUuid": "e480f698_2330aeb1",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "01232627c1d188094e14136f5eccb5544d96ab4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd942ccc_e4f11127",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-06-03T14:39:11Z",
       "side": 1,
       "message": "is this necessary to move above?",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 122,
+        "endChar": 37
+      },
+      "revId": "01232627c1d188094e14136f5eccb5544d96ab4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7060a83c_72bf12bc",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T07:21:04Z",
+      "side": 1,
+      "message": "Technically, yes if we ever want to make GrDiffCursor reusable.\n\nthis.cursorManager.unsetCursor() will result in a new event for this.cursorManager.target$.  So we want to capture that change prior to dismantling the subscription.",
+      "parentUuid": "fd942ccc_e4f11127",
       "range": {
         "startLine": 122,
         "startChar": 4,

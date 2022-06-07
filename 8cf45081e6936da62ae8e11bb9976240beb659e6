@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "28f3ee96_787ab2cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-07T15:14:54Z",
+      "side": 1,
+      "message": "It\u0027s better to put the reasons here. Other reviewers shouldn\u0027t have to search for the reasoning.",
+      "range": {
+        "startLine": 10,
+        "startChar": 58,
+        "endLine": 11,
+        "endChar": 77
+      },
+      "revId": "8cf45081e6936da62ae8e11bb9976240beb659e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c23b748a_c59d7fd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-07T15:14:54Z",
+      "side": 1,
+      "message": "We don\u0027t usually mention refactors in the release notes, so you can use \"Release-Notes: skip\" for this.",
+      "revId": "8cf45081e6936da62ae8e11bb9976240beb659e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e460c5dd_af41e9ba",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -14,6 +54,47 @@
       "writtenOn": "2022-06-06T19:51:36Z",
       "side": 1,
       "message": "Hi Nasser\n\nPlease review this change.\n\nShould I rename the strings/variables of *applyFix* in the frontend files (ending with .ts) also. I don\u0027t have experience with front end so don\u0027t want to mess it up. Hence, being careful.",
+      "revId": "8cf45081e6936da62ae8e11bb9976240beb659e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d0cc0fa_f025cc8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-07T15:14:54Z",
+      "side": 1,
+      "message": "\u003e Should I rename the strings/variables of *applyFix* in the frontend files (ending with .ts) also. I don\u0027t have experience with front end so don\u0027t want to mess it up. Hence, being careful.\n\nI would assume yes, but I don\u0027t do much frontend work either. If it\u0027s easy for you, you can ask Ben/Frank/Dhruv what to do, or just rename the references and add those frontend folks as reviewers.",
+      "parentUuid": "e460c5dd_af41e9ba",
+      "revId": "8cf45081e6936da62ae8e11bb9976240beb659e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fe01c16_87778274",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5734,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-07T15:14:54Z",
+      "side": 1,
+      "message": "You can do this rename to \"Preview Previously Suggested Fix\" in this change too or you can do in its own change that follows this one.",
+      "range": {
+        "startLine": 5734,
+        "startChar": 4,
+        "endLine": 5734,
+        "endChar": 15
+      },
       "revId": "8cf45081e6936da62ae8e11bb9976240beb659e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

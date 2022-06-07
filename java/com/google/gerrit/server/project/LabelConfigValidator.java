@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -154,6 +155,47 @@ public class LabelConfigValidator implements CommitValidationListener {
                       ProjectConfig.KEY_COPY_CONDITION),
                   ValidationMessage.Type.ERROR));
         }
+
+        // Ban modifying label functions to any blocking function value
+        if (flagChangedOrNewlySet(
+            newConfig, oldConfig.orElse(null), labelName, ProjectConfig.KEY_FUNCTION)) {
+          String fnName =
+              newConfig.getString(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_FUNCTION);
+          Optional<LabelFunction> labelFn = LabelFunction.parse(fnName);
+          if (labelFn.isPresent() && !isLabelFunctionAllowed(labelFn.get())) {
+            validationMessageBuilder.add(
+                new CommitValidationMessage(
+                    String.format(
+                        "Value '%s' of '%s.%s.%s' is not allowed and cannot be set."
+                            + " Label functions can only be set to {%s, %s, %s}."
+                            + " Use submit requirements instead of label functions.",
+                        fnName,
+                        ProjectConfig.LABEL,
+                        labelName,
+                        ProjectConfig.KEY_FUNCTION,
+                        LabelFunction.NO_BLOCK,
+                        LabelFunction.NO_OP,
+                        LabelFunction.PATCH_SET_LOCK),
+                    ValidationMessage.Type.ERROR));
+          }
+        }
+
+        // Ban deletions of label functions as well since the default is MaxWithBlock
+        if (flagDeleted(newConfig, oldConfig.orElse(null), labelName, ProjectConfig.KEY_FUNCTION)) {
+          validationMessageBuilder.add(
+              new CommitValidationMessage(
+                  String.format(
+                      "Cannot delete '%s.%s.%s'."
+                          + " Label functions can only be set to {%s, %s, %s}."
+                          + " Use submit requirements instead of label functions.",
+                      ProjectConfig.LABEL,
+                      labelName,
+                      ProjectConfig.KEY_FUNCTION,
+                      LabelFunction.NO_BLOCK,
+                      LabelFunction.NO_OP,
+                      LabelFunction.PATCH_SET_LOCK),
+                  ValidationMessage.Type.ERROR));
+        }
       }
 
       ImmutableList<CommitValidationMessage> validationMessages = validationMessageBuilder.build();
@@ -257,6 +299,16 @@ public class LabelConfigValidator implements CommitValidationListener {
     return newValue != null && !newValue.equals(oldValue);
   }
 
+  private static boolean flagDeleted(
+      Config newConfig, @Nullable Config oldConfig, String labelName, String key) {
+    if (oldConfig == null) {
+      return false;
+    }
+    String oldValue = oldConfig.getString(ProjectConfig.LABEL, labelName, key);
+    String newValue = newConfig.getString(ProjectConfig.LABEL, labelName, key);
+    return oldValue != null && newValue == null;
+  }
+
   private static boolean copyValuesChangedOrNewlySet(
       Config newConfig, @Nullable Config oldConfig, String labelName) {
     if (oldConfig == null) {
@@ -274,5 +326,11 @@ public class LabelConfigValidator implements CommitValidationListener {
         ImmutableSet.copyOf(
             newConfig.getStringList(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_COPY_VALUE));
     return !newValues.isEmpty() && !Sets.difference(newValues, oldValues).isEmpty();
+  }
+
+  private static boolean isLabelFunctionAllowed(LabelFunction labelFunction) {
+    return labelFunction.equals(LabelFunction.NO_BLOCK)
+        || labelFunction.equals(LabelFunction.NO_OP)
+        || labelFunction.equals(LabelFunction.PATCH_SET_LOCK);
   }
 }

@@ -104,7 +104,7 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate {
   @Nullable private final Change.Status status;
 
   private ChangeStatusPredicate(@Nullable Change.Status status) {
-    super(ChangeField.STATUS, status != null ? canonicalize(status) : INVALID_STATUS);
+    super(ChangeField.STATUS_SPEC, status != null ? canonicalize(status) : INVALID_STATUS);
     this.status = status;
   }
 

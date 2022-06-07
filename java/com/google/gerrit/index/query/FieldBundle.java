@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.index.Field.FieldSpec;
 import com.google.gerrit.index.FieldDef;
 
 /** FieldBundle is an abstraction that allows retrieval of raw values from different sources. */
@@ -44,16 +45,16 @@ public class FieldBundle {
    *     check is only enforced on non-repeatable fields.
    */
   @SuppressWarnings("unchecked")
-  public <T> T getValue(FieldDef<?, T> fieldDef) {
-    checkArgument(fieldDef.isStored(), "Field must be stored");
+  public <T> T getValue(FieldSpec fieldSpec) {
+    checkArgument(fieldSpec.getField().stored(), "Field must be stored");
     checkArgument(
-        fields.containsKey(fieldDef.getName()) || fieldDef.isRepeatable(),
+        fields.containsKey(fieldSpec.getName()) || fieldSpec.getField().repeatable(),
         "Field %s is not in result set %s",
-        fieldDef.getName(),
+        fieldSpec.getName(),
         fields.keySet());
 
-    Iterable<Object> result = fields.get(fieldDef.getName());
-    if (fieldDef.isRepeatable()) {
+    Iterable<Object> result = fields.get(fieldSpec.getName());
+    if (fieldSpec.getField().repeatable()) {
       return (T) result;
     }
     return (T) Iterables.getOnlyElement(result);

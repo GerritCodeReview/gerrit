@@ -245,9 +245,8 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     }
     IndexPredicate<ChangeData> p = (IndexPredicate<ChangeData>) in;
 
-    FieldDef<ChangeData, ?> def = p.getField();
     Schema<ChangeData> schema = index.getSchema();
-    return schema.hasField(def);
+    return schema.hasField(p.getFieldName());
   }
 
   private Predicate<ChangeData> partitionChildren(

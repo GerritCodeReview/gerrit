@@ -14,16 +14,17 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.index.Field;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
 
 public class AddedPredicate extends IntegerRangeChangePredicate {
   public AddedPredicate(String value) throws QueryParseException {
-    super(ChangeField.ADDED, value);
+    super(ChangeField.ADDED_SPEC, value);
   }
 
   @Override
   protected Integer getValueInt(ChangeData changeData) {
-    return ChangeField.ADDED.get(changeData);
+    return ((Field<ChangeData, Integer>)ChangeField.ADDED_SPEC.getField()).get(changeData);
   }
 }

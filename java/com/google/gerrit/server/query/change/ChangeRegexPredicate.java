@@ -14,17 +14,18 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.index.Field;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.RegexPredicate;
 
 public abstract class ChangeRegexPredicate extends RegexPredicate<ChangeData>
     implements Matchable<ChangeData> {
-  protected ChangeRegexPredicate(FieldDef<ChangeData, ?> def, String value) {
+  protected ChangeRegexPredicate(Field<ChangeData, ?>.FieldSpec<ChangeData, ?> def, String value) {
     super(def, value);
   }
 
-  protected ChangeRegexPredicate(FieldDef<ChangeData, ?> def, String name, String value) {
+  protected ChangeRegexPredicate(Field<ChangeData, ?>.FieldSpec<ChangeData, ?>  def, String name, String value) {
     super(def, name, value);
   }
 }

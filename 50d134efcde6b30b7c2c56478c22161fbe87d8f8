@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4e5b332_f18cc7f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2022-06-07T12:41:08Z",
+      "side": 1,
+      "message": "Yes, the backend does the filtering in both scenarios. The query only gets 26 items, hence the second filter caused a bug because it filters those 26 items to correspond to the exact filter, it may then report that there are no more items to search for and hides the arrow for next page as the number of items can be lower than 25. Yes it is case independent, I tried it both lower case and upper case and got the same response. I added it in the commit message.",
+      "parentUuid": "37cee22d_2b2c79ef",
+      "revId": "50d134efcde6b30b7c2c56478c22161fbe87d8f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec6190d2_deca8658",
@@ -65,6 +83,24 @@
       "writtenOn": "2022-06-07T06:37:13Z",
       "side": 1,
       "message": "You can do this at the beginning.\n```\nfilter ??\u003d defaultFilter;\nconst encodedFilter \u003d encodeURIComponent(filter);\n```\n\nAnd the if can then be simplified to \n```\nif (filter.includes(\u0027:\u0027)) {\n...\n```",
+      "revId": "50d134efcde6b30b7c2c56478c22161fbe87d8f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96932eb1_135c1aab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1431,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2022-06-07T12:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf278cd8_a9487e9e",
       "revId": "50d134efcde6b30b7c2c56478c22161fbe87d8f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

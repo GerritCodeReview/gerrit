@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a79716c5_bfb8006b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-07T14:44:00Z",
+      "side": 1,
+      "message": "Thanks. I checked again - the default version number is 0 and 1-step rollout should work. Please correct me if I am wrong.",
+      "parentUuid": "15046d09_09a2d008",
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fce0a101_8e957c21",
         "filename": "java/com/google/gerrit/server/patch/IntraLineDiff.java",
         "patchSetId": 4
@@ -155,6 +173,30 @@
       "side": 1,
       "message": "I think this is done by convention, e.g. see LabelValueProto [1]. I did not see any proto entity directly used in the codebase before. Though, it should be possible to drop this extra entity and substitute it with the proto (with adapting all references/callers of the existing entities).\n\nLMK your opinion.\n\n[1] https://gerrit.googlesource.com/gerrit/+/fa5bda72ab8c96fb1bd2591c52f2c0ae9bd2118a/java/com/google/gerrit/server/cache/serialize/entities/LabelValueSerializer.java#23",
       "parentUuid": "4c5aa8fb_44c6ef62",
+      "range": {
+        "startLine": 26,
+        "startChar": 22,
+        "endLine": 26,
+        "endChar": 38
+      },
+      "revId": "c7a8347a384a05c89ac22214734bb85cb86e1751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cbb6c56_93b13470",
+        "filename": "java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-07T14:44:00Z",
+      "side": 1,
+      "message": "It is better to use proto entity directly, but I am ok with with wrapper (for values, not for key; for keys - see my other comment)",
+      "parentUuid": "d312099b_a2e01ddf",
       "range": {
         "startLine": 26,
         "startChar": 22,

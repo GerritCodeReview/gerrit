@@ -52,6 +52,47 @@
       "parentUuid": "294a15d8_fb6139a5",
       "revId": "8116877b2fb9b4c33d1825e97368a85fbaf04299",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dea913b_6ce11f81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-07T14:44:00Z",
+      "side": 1,
+      "message": "Youssef, could you please provide some more background about the reasoning behind this change? The commit message doesn\u0027t explain benefits of it.\nAlso note, that it is not recommended to use protobuf as a key in dictionary.",
+      "parentUuid": "fb8af93d_8928be2e",
+      "revId": "8116877b2fb9b4c33d1825e97368a85fbaf04299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3538745_8fdfdad9",
+        "filename": "java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-07T14:44:00Z",
+      "side": 1,
+      "message": "There is no guarantee that the protobuf toByteArray is a \"stable\"/\"determenistic\". The output can be changed if a new version of protobuf version is used. It is not recommended to use the protobuf as a key.",
+      "range": {
+        "startLine": 49,
+        "startChar": 13,
+        "endLine": 49,
+        "endChar": 30
+      },
+      "revId": "8116877b2fb9b4c33d1825e97368a85fbaf04299",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

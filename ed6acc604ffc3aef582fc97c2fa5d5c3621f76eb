@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cdd8af3_f11badd2",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T13:43:23Z",
+      "side": 1,
+      "message": "Make this an array.\nThis avoids that every query-param needs the if queryString.length \u003e 0 check and we solve it once at the consumption site as explained below.",
+      "revId": "ed6acc604ffc3aef582fc97c2fa5d5c3621f76eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c3b64a3_1e49a256",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T13:43:23Z",
+      "side": 1,
+      "message": "if (arrayYouCreated.length \u003e 0) {\n  suffix +\u003d \u0027?\u0027 + arrayYouCreated.join(\u0027\u0026\u0027);\n}",
+      "revId": "ed6acc604ffc3aef582fc97c2fa5d5c3621f76eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

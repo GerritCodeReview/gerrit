@@ -44,6 +44,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   ChangeStatus,
   GpgKeyInfoStatus,
+  InheritedBooleanInfoConfiguredValue,
   SubmitType,
 } from '../../../constants/constants';
 import {changeIsOpen} from '../../../utils/change-util';
@@ -55,6 +56,7 @@ import {
   ChangeInfo,
   CommitId,
   CommitInfo,
+  ConfigInfo,
   ElementPropertyDeepChange,
   GpgKeyInfo,
   Hashtag,
@@ -183,7 +185,8 @@ export class GrChangeMetadata extends PolymerElement {
 
   @property({
     type: Object,
-    computed: '_computePushCertificateValidation(serverConfig, change)',
+    computed:
+      '_computePushCertificateValidation(serverConfig, change, repoConfig)',
   })
   _pushCertificateValidation?: PushCertificateValidationInfo;
 
@@ -422,10 +425,14 @@ export class GrChangeMetadata extends PolymerElement {
    */
   _computePushCertificateValidation(
     serverConfig?: ServerInfo,
-    change?: ParsedChangeInfo
+    change?: ParsedChangeInfo,
+    repoConfig?: ConfigInfo
   ): PushCertificateValidationInfo | undefined {
     if (!change || !serverConfig?.receive?.enable_signed_push) return undefined;
 
+    if (!this.isEnabledSignedPushOnRepo(repoConfig)) {
+      return undefined;
+    }
     const rev = change.revisions[change.current_revision];
     if (!rev.push_certificate?.key) {
       return {
@@ -467,6 +474,20 @@ export class GrChangeMetadata extends PolymerElement {
       default:
         assertNever(key.status, `unknown certificate status: ${key.status}`);
     }
+  }
+
+  // private but used in test
+  isEnabledSignedPushOnRepo(repoConfig?: ConfigInfo) {
+    if (!repoConfig?.enable_signed_push) return false;
+
+    const enableSignedPush = repoConfig.enable_signed_push;
+    return (
+      (enableSignedPush.configured_value ===
+        InheritedBooleanInfoConfiguredValue.INHERITED &&
+        enableSignedPush.inherited_value) ||
+      enableSignedPush.configured_value ===
+        InheritedBooleanInfoConfiguredValue.TRUE
+    );
   }
 
   _problems(msg: string, key: GpgKeyInfo) {

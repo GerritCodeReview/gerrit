@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84861cc5_689a99ae",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-07T17:35:09Z",
+      "side": 1,
+      "message": "Remove spaces before and after the html code.",
+      "revId": "05bb1ee4711cb92c7fdaccc7ba837a1ab8903adb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

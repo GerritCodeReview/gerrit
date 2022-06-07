@@ -135,10 +135,7 @@ import {
 import {AppElementChangeViewParams} from '../../gr-app-types';
 import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
-import {
-  DEFAULT_NUM_FILES_SHOWN,
-  GrFileList,
-} from '../gr-file-list/gr-file-list';
+import {GrFileList} from '../gr-file-list/gr-file-list';
 import {
   ChangeViewState,
   EditRevisionInfo,
@@ -308,9 +305,6 @@ export class GrChangeView extends base {
 
   @property({type: Object})
   _diffPrefs?: DiffPreferencesInfo;
-
-  @property({type: Number, observer: '_numFilesShownChanged'})
-  _numFilesShown = DEFAULT_NUM_FILES_SHOWN;
 
   @property({type: Object})
   _account?: AccountDetailInfo;
@@ -1444,16 +1438,6 @@ export class GrChangeView extends base {
     }
   }
 
-  _viewStateChanged(viewState: ChangeViewState) {
-    this._numFilesShown = viewState.numFilesShown
-      ? viewState.numFilesShown
-      : DEFAULT_NUM_FILES_SHOWN;
-  }
-
-  _numFilesShownChanged(numFilesShown: number) {
-    this.viewState.numFilesShown = numFilesShown;
-  }
-
   _handleMessageAnchorTap(e: CustomEvent<{id: string}>) {
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)
@@ -1527,7 +1511,7 @@ export class GrChangeView extends base {
       !!this.viewState.changeNum &&
       this.viewState.changeNum !== this._changeNum
     ) {
-      this.set('_numFilesShown', DEFAULT_NUM_FILES_SHOWN);
+      this.$.fileList.resetNumFilesShown();
     }
     this.set('viewState.changeNum', this._changeNum);
     this.set('viewState.patchRange', this._patchRange);

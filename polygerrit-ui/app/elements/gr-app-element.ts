@@ -252,7 +252,6 @@ export class GrAppElement extends LitElement {
         changeNum: null,
         patchRange: null,
         diffMode: null,
-        numFilesShown: null,
       },
     };
   }

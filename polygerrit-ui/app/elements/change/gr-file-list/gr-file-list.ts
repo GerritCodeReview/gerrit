@@ -225,8 +225,7 @@ export class GrFileList extends LitElement {
   @property({type: Object, attribute: 'diff-prefs'})
   diffPrefs?: DiffPreferencesInfo;
 
-  @property({type: Number, attribute: 'num-files-shown'})
-  numFilesShown: number = DEFAULT_NUM_FILES_SHOWN;
+  @state() numFilesShown: number = DEFAULT_NUM_FILES_SHOWN;
 
   @property({type: Number, attribute: 'file-list-increment'})
   fileListIncrement: number = DEFAULT_NUM_FILES_SHOWN;
@@ -1468,6 +1467,10 @@ export class GrFileList extends LitElement {
     return Array.from(diffs).filter(
       el => !!el && !!el.style && el.style.display !== 'none'
     );
+  }
+
+  resetNumFilesShown() {
+    this.numFilesShown = DEFAULT_NUM_FILES_SHOWN;
   }
 
   openDiffPrefs() {

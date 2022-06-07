@@ -1,2 +1,6 @@
 eclipse-out
 node_modules
+polygerrit-ui/app/node_modules
+polygerrit-ui/node_modules
+plugins/node_modules
+tools/node_tools/node_modules

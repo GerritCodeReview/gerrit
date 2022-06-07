@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.index.Field.FieldSpec;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,27 +36,38 @@ public class Schema<T> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class Builder<T> {
-    private final List<FieldDef<T, ?>> fields = new ArrayList<>();
+
+    private final List<Field<T, ?>.FieldSpec<T, ?>> fieldSpecs = new ArrayList<>();
+    private final List<Field<T, ?>> indexFields = new ArrayList<>();
 
     public Builder<T> add(Schema<T> schema) {
-      this.fields.addAll(schema.getFields().values());
+      this.indexFields.addAll(schema.getIndexFields().values());
+      this.fieldSpecs.addAll(schema.getFieldSpecs().values());
+
       return this;
     }
 
+
     @SafeVarargs
-    public final Builder<T> add(FieldDef<T, ?>... fields) {
-      this.fields.addAll(Arrays.asList(fields));
+    public final Builder<T> add(Field<T, ?>... fields) {
+      this.indexFields.addAll(Arrays.asList(fields));
+      return this;
+    }
+    @SafeVarargs
+    public final Builder<T> add(Field<T, ?>.FieldSpec<T, ?>... fields) {
+      this.fieldSpecs.addAll(Arrays.asList(fields));
       return this;
     }
 
+    // Only allow to remove FieldSpec, the or check if all field specs correspond to an existing field.
     @SafeVarargs
-    public final Builder<T> remove(FieldDef<T, ?>... fields) {
-      this.fields.removeAll(Arrays.asList(fields));
+    public final Builder<T> remove(Field<T, ?>.FieldSpec<T, ?>... fields) {
+      this.fieldSpecs.removeAll(Arrays.asList(fields));
       return this;
     }
 
     public Schema<T> build() {
-      return new Schema<>(ImmutableList.copyOf(fields));
+      return new Schema<>(ImmutableList.copyOf(indexFields), ImmutableList.copyOf(fieldSpecs));
     }
   }
 
@@ -82,27 +94,36 @@ public class Schema<T> {
     return f1;
   }
 
-  private final ImmutableMap<String, FieldDef<T, ?>> fields;
-  private final ImmutableMap<String, FieldDef<T, ?>> storedFields;
+  private final ImmutableMap<String, Field<T, ?>.FieldSpec<T, ?>> storedFields;
+
+  private final ImmutableMap<String, Field<T, ?>.FieldSpec<T, ?>> fieldSpecs;
+  private final ImmutableMap<String, Field<T, ?>> indexFields;
 
   private int version;
 
-  public Schema(Iterable<FieldDef<T, ?>> fields) {
-    this(0, fields);
+  public Schema( Iterable<Field<T, ?>> indexFields,
+      Iterable<Field<T, ?>.FieldSpec<T, ?>> fieldSpecs) {
+    this(0, indexFields, fieldSpecs);
   }
 
-  public Schema(int version, Iterable<FieldDef<T, ?>> fields) {
+  public Schema(int version, Iterable<Field<T, ?>> indexFields,
+      Iterable <Field<T, ?>.FieldSpec<T, ?>> fieldSpecs) {
     this.version = version;
-    ImmutableMap.Builder<String, FieldDef<T, ?>> b = ImmutableMap.builder();
-    ImmutableMap.Builder<String, FieldDef<T, ?>> sb = ImmutableMap.builder();
-    for (FieldDef<T, ?> f : fields) {
-      b.put(f.getName(), f);
-      if (f.isStored()) {
-        sb.put(f.getName(), f);
-      }
+    ImmutableMap.Builder<String, Field<T, ?>.FieldSpec<T, ?>> sb = ImmutableMap.builder();
+    ImmutableMap.Builder<String, Field<T, ?>.FieldSpec<T, ?>> fieldSpecBuilder = ImmutableMap.builder();
+    ImmutableMap.Builder<String, Field<T, ?>> indexFieldsBuilder = ImmutableMap.builder();
+    for (Field<T, ?> f : indexFields) {
+      indexFieldsBuilder.put(f.name(), f);
     }
-    this.fields = b.build();
-    this.storedFields = sb.build();
+    for (Field<T, ?>.FieldSpec<T, ?> fieldSpec : fieldSpecs) {
+      if (fieldSpec.getField().stored()) {
+        sb.put(fieldSpec.getName(), fieldSpec);
+      }
+      fieldSpecBuilder.put(fieldSpec.getName(), fieldSpec);
+
+    }
+    this.fieldSpecs = fieldSpecBuilder.build();
+    this.indexFields = indexFieldsBuilder.build();
   }
 
   public final int getVersion() {
@@ -120,6 +141,14 @@ public class Schema<T> {
    */
   public final ImmutableMap<String, FieldDef<T, ?>> getFields() {
     return fields;
+  }
+
+  public final ImmutableMap<String, Field<T, ?>.FieldSpec<T, ?>> getFieldSpecs() {
+    return fieldSpecs;
+  }
+
+  public final ImmutableMap<String, Field<T, ?>> getIndexFields() {
+    return indexFields;
   }
 
   /** Returns all fields in this schema where {@link FieldDef#isStored()} is true. */

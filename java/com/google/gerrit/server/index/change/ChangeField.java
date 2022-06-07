@@ -61,9 +61,12 @@ import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.entities.converter.ProtoConverter;
+import com.google.gerrit.index.Field;
+import com.google.gerrit.index.Field.FieldSpec;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
+import com.google.gerrit.index.SearchOptions;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.ReviewerByEmailSet;
@@ -872,6 +875,12 @@ public class ChangeField {
   public static final FieldDef<ChangeData, String> COMMIT_MESSAGE_EXACT =
       exact(ChangeQueryBuilder.FIELD_MESSAGE_EXACT).build(ChangeData::commitMessage);
 
+
+  public static final Field<ChangeData, String> COMMIT_MESSAGE_FIELD = Field.<ChangeData, String>builder("CommitMessage", String.class).build(ChangeData::commitMessage);
+
+  public static final FieldSpec COMMIT_MESSAGE_FULL_TEXT_SPEC = COMMIT_MESSAGE_FIELD.addFieldSpec(ChangeQueryBuilder.FIELD_MESSAGE, SearchOptions.FULL_TEXT);
+
+
   /** Summary or inline comment. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
       fullText(ChangeQueryBuilder.FIELD_COMMENT)
@@ -941,6 +950,16 @@ public class ChangeField {
                   cd.setLinesInserted(field);
                 }
               });
+
+  public static final Field<ChangeData, Integer> ADDED_FIELD = Field.<ChangeData, Integer>builder("LinesAdded").build(cd -> cd.changedLines().isPresent() ? cd.changedLines().get().insertions : null,
+  (cd, field) -> {
+    if (field != null) {
+      cd.setLinesInserted(field);
+    }
+  });
+
+  public static final FieldSpec ADDED_SPEC = ADDED_FIELD.addFieldSpec(ChangeQueryBuilder.FIELD_ADDED, SearchOptions.RANGE);
+
 
   /** The number of deleted lines in this change. */
   public static final FieldDef<ChangeData, Integer> DELETED =

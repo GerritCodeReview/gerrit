@@ -61,17 +61,6 @@ public final class FieldDef<I, T> {
     return new FieldDef.Builder<>(FieldType.TIMESTAMP, name);
   }
 
-  @FunctionalInterface
-  public interface Getter<I, T> {
-    @Nullable
-    T get(I input) throws IOException;
-  }
-
-  @FunctionalInterface
-  public interface Setter<I, T> {
-    void set(I object, T value);
-  }
-
   public static class Builder<T> {
     private final FieldType<T> type;
     private final String name;

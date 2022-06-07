@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4f31698_6be2eb40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-07T13:09:53Z",
+      "side": 1,
+      "message": "Ack. \n\nFWIW, I would love to have a better abstraction / extention point for doing validation of project.config changes, but I think we should design this API carefully so that it\u0027s of general use for all existing project config validators. I agree doing this is not needed for added a new validator as you want to do now.",
+      "parentUuid": "ee06575c_0a7f6962",
+      "revId": "f66f2b747313a4db8d2bca756d51008e79688da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88963fcd_ae146904",

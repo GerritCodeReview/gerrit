@@ -16,6 +16,24 @@
       "message": "Remove spaces before and after the html code.",
       "revId": "05bb1ee4711cb92c7fdaccc7ba837a1ab8903adb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a285423f_7e70ffb5",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-07T19:29:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84861cc5_689a99ae",
+      "revId": "05bb1ee4711cb92c7fdaccc7ba837a1ab8903adb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -34,6 +34,24 @@
       "parentUuid": "808bf32e_2c526bcb",
       "revId": "c7fd108e2d78fcb5129025bcc21e8a2c7d673b55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "283f9045_d6a7f99d",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-07T07:52:38Z",
+      "side": 0,
+      "message": "Forgoot to mention, with this CL I can also build (again) gerrit with Bazel@HEAD.",
+      "parentUuid": "1809b927_96e5da96",
+      "revId": "c7fd108e2d78fcb5129025bcc21e8a2c7d673b55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26335dd8_477184be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1122032
+      },
+      "writtenOn": "2022-06-07T13:03:43Z",
+      "side": 1,
+      "message": "@Luca Can you help reviewing this change for release-notes to merge this change? Which files should I modify if any?",
+      "revId": "fb547c73a10922b948091898ffc1aa6c2280ed2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

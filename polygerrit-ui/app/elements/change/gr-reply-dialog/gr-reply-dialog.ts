@@ -1265,6 +1265,8 @@ export class GrReplyDialog extends LitElement {
     return selectorEl?.selectedValue;
   }
 
+  // TODO: Combine logic into handleReviewersChanged & handleCCsChanged and
+  // remove account-added event from GrAccountList.
   accountAdded(e: CustomEvent<AccountInputDetail>) {
     const account = e.detail.account;
     const key = accountOrGroupKey(account);

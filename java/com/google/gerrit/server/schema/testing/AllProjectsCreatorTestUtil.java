@@ -100,7 +100,7 @@ public class AllProjectsCreatorTestUtil {
   private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_LABEL_SECTION =
       ImmutableList.of(
           "[label \"Code-Review\"]",
-          "  function = MaxWithBlock",
+          "  function = NoBlock",
           "  defaultValue = 0",
           "  copyCondition = changekind:NO_CHANGE OR changekind:TRIVIAL_REBASE OR is:MIN",
           "  value = -2 This shall not be submitted",
@@ -108,6 +108,13 @@ public class AllProjectsCreatorTestUtil {
           "  value = 0 No score",
           "  value = +1 Looks good to me, but someone else must approve",
           "  value = +2 Looks good to me, approved");
+
+  private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_SUBMIT_REQUIREMENTS_SECTION =
+      ImmutableList.of(
+          "[submit-requirement \"Code-Review\"]",
+          "  description = At least one maximum vote for label 'Code-Review' is required",
+          "  submittableIf = label:Code-Review=MAX AND -label:Code-Review=MIN",
+          "  canOverrideInChildProjects = true");
 
   public static String getDefaultAllProjectsWithAllDefaultSections() {
     return Streams.stream(
@@ -117,7 +124,8 @@ public class AllProjectsCreatorTestUtil {
                 DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
                 DEFAULT_ALL_PROJECTS_CAPABILITY_SECTION,
                 DEFAULT_ALL_PROJECTS_ACCESS_SECTION,
-                DEFAULT_ALL_PROJECTS_LABEL_SECTION))
+                DEFAULT_ALL_PROJECTS_LABEL_SECTION,
+                DEFAULT_ALL_PROJECTS_SUBMIT_REQUIREMENTS_SECTION))
         .collect(Collectors.joining("\n"));
   }
 
@@ -127,7 +135,8 @@ public class AllProjectsCreatorTestUtil {
                 DEFAULT_ALL_PROJECTS_PROJECT_SECTION,
                 DEFAULT_ALL_PROJECTS_RECEIVE_SECTION,
                 DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
-                DEFAULT_ALL_PROJECTS_LABEL_SECTION))
+                DEFAULT_ALL_PROJECTS_LABEL_SECTION,
+                DEFAULT_ALL_PROJECTS_SUBMIT_REQUIREMENTS_SECTION))
         .collect(Collectors.joining("\n"));
   }
 

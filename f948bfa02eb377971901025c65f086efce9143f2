@@ -16,6 +16,24 @@
       "message": "adding delphine since this is applying to all buttons with this disabled + flattened case (I think there are no others right now).",
       "revId": "f948bfa02eb377971901025c65f086efce9143f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5077c821_c9f32b24",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-07T11:26:02Z",
+      "side": 1,
+      "message": "I reassigned the bug to her already to get her input on it, I think we want to update all usages.",
+      "parentUuid": "0761b693_c2847dcd",
+      "revId": "f948bfa02eb377971901025c65f086efce9143f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

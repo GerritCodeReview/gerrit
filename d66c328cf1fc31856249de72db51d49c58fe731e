@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d293a1a_b60d479e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-07T16:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5554bc9_63db7da3",
+      "revId": "d66c328cf1fc31856249de72db51d49c58fe731e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d013c79_d12f7fac",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d84e2bf5_4db0d894",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-07T16:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d013c79_d12f7fac",
+      "revId": "d66c328cf1fc31856249de72db51d49c58fe731e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bcbba29_99d068d2",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-06-07T16:07:59Z",
       "side": 1,
       "message": "It took me a bit to understand why this was 200.\n\nThis would be clearer if you said it was equal to `DEFAULT_NUM_FILES_SHOWN`",
+      "revId": "d66c328cf1fc31856249de72db51d49c58fe731e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cee1f383_fe2bc7e8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-07T16:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bcbba29_99d068d2",
       "revId": "d66c328cf1fc31856249de72db51d49c58fe731e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

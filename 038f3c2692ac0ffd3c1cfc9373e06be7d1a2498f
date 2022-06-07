@@ -22,6 +22,23 @@
       },
       "revId": "038f3c2692ac0ffd3c1cfc9373e06be7d1a2498f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cb02000_2881b9f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-07T13:49:13Z",
+      "side": 1,
+      "message": "Please, move this change to stable-3.6 branch.",
+      "revId": "038f3c2692ac0ffd3c1cfc9373e06be7d1a2498f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

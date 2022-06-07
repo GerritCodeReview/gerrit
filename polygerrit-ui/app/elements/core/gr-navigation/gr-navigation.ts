@@ -173,6 +173,7 @@ export interface GenerateUrlChangeViewParameters {
   messageHash?: string;
   commentId?: UrlEncodedCommentId;
   forceReload?: boolean;
+  openReplyDialog?: boolean;
   tab?: string;
   /** regular expression for filtering check runs */
   filter?: string;
@@ -360,6 +361,7 @@ interface NavigateToChangeParams {
   isEdit?: boolean;
   redirect?: boolean;
   forceReload?: boolean;
+  openReplyDialog?: boolean;
 }
 
 interface ChangeUrlParams extends NavigateToChangeParams {
@@ -542,7 +544,14 @@ export const GerritNav = {
     change: Pick<ChangeInfo, '_number' | 'project' | 'internalHost'>,
     options: ChangeUrlParams = {}
   ) {
-    let {patchNum, basePatchNum, isEdit, messageHash, forceReload} = options;
+    let {
+      patchNum,
+      basePatchNum,
+      isEdit,
+      messageHash,
+      forceReload,
+      openReplyDialog,
+    } = options;
     if (basePatchNum === PARENT) {
       basePatchNum = undefined;
     }
@@ -558,6 +567,7 @@ export const GerritNav = {
       host: change.internalHost || undefined,
       messageHash,
       forceReload,
+      openReplyDialog,
     });
   },
 
@@ -587,13 +597,21 @@ export const GerritNav = {
     change: Pick<ChangeInfo, '_number' | 'project' | 'internalHost'>,
     options: NavigateToChangeParams = {}
   ) {
-    const {patchNum, basePatchNum, isEdit, forceReload, redirect} = options;
+    const {
+      patchNum,
+      basePatchNum,
+      isEdit,
+      forceReload,
+      redirect,
+      openReplyDialog,
+    } = options;
     this._navigate(
       this.getUrlForChange(change, {
         patchNum,
         basePatchNum,
         isEdit,
         forceReload,
+        openReplyDialog,
       }),
       redirect
     );

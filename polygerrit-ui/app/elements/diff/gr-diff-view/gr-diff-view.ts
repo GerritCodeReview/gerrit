@@ -99,12 +99,7 @@ import {
   OpenFixPreviewEvent,
   ValueChangedEvent,
 } from '../../../types/events';
-import {
-  fire,
-  fireAlert,
-  fireEvent,
-  fireTitleChange,
-} from '../../../utils/event-util';
+import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {addGlobalShortcut, Key, toggleClass} from '../../../utils/dom-util';
@@ -773,12 +768,7 @@ export class GrDiffView extends base {
         fireEvent(this, 'show-auth-required');
         return;
       }
-
-      this.set('changeViewState.showReplyDialog', true);
-      fire(this, 'view-state-change-view-changed', {
-        value: this.changeViewState as ChangeViewState,
-      });
-      this._navToChangeView();
+      this._navToChangeView(true);
     });
   }
 
@@ -819,14 +809,15 @@ export class GrDiffView extends base {
     }
   }
 
-  _navToChangeView() {
+  _navToChangeView(openReplyDialog = false) {
     if (!this._changeNum || !this._patchRange?.patchNum) {
       return;
     }
     this._navigateToChange(
       this._change,
       this._patchRange,
-      this._change && this._change.revisions
+      this._change && this._change.revisions,
+      openReplyDialog
     );
   }
 
@@ -1317,13 +1308,15 @@ export class GrDiffView extends base {
   _navigateToChange(
     change?: ChangeInfo | ParsedChangeInfo,
     patchRange?: PatchRange,
-    revisions?: {[revisionId: string]: RevisionInfo | EditRevisionInfo}
+    revisions?: {[revisionId: string]: RevisionInfo | EditRevisionInfo},
+    openReplyDialog?: boolean
   ) {
     if (!change) return;
     const range = this._getChangeUrlRange(patchRange, revisions);
     GerritNav.navigateToChange(change, {
       patchNum: range.patchNum,
       basePatchNum: range.basePatchNum,
+      openReplyDialog: !!openReplyDialog,
     });
   }
 

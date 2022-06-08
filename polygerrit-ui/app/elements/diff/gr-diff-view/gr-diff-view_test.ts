@@ -103,7 +103,11 @@ suite('gr-diff-view tests', () => {
       stubRestApi('getConfig').returns(Promise.resolve(createServerInfo()));
       stubRestApi('getLoggedIn').returns(Promise.resolve(false));
       stubRestApi('getProjectConfig').returns(Promise.resolve(createConfig()));
-      stubRestApi('getChangeFiles').returns(Promise.resolve({}));
+      stubRestApi('getChangeFiles').returns(Promise.resolve({
+        'chell.go': createFileInfo(),
+        'glados.txt': createFileInfo(),
+        'wheatley.md': createFileInfo()
+      }));
       stubRestApi('saveFileReviewed').returns(Promise.resolve(new Response()));
       diffCommentsStub = stubRestApi('getDiffComments');
       diffCommentsStub.returns(Promise.resolve({}));
@@ -124,6 +128,7 @@ suite('gr-diff-view tests', () => {
         ],
       });
       await flush();
+      await element.$.diffHost.updateComplete;
 
       element.getCommentsModel().setState({
         comments: {},
@@ -440,7 +445,7 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(toggleLeftDiffStub.calledOnce);
     });
 
-    test('keyboard shortcuts', () => {
+    test('keyboard shortcuts', async () => {
       clock = sinon.useFakeTimers();
       element._changeNum = 42 as NumericChangeId;
       element.getBrowserModel().setScreenWidth(0);
@@ -462,6 +467,7 @@ suite('gr-diff-view tests', () => {
       ]);
       element._path = 'glados.txt';
       element._loggedIn = true;
+      await flush();
 
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
@@ -471,6 +477,7 @@ suite('gr-diff-view tests', () => {
         changeNavStub.lastCall.calledWith(element._change),
         'Should navigate to /c/42/'
       );
+      await flush();
 
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
       assert(
@@ -509,6 +516,7 @@ suite('gr-diff-view tests', () => {
         'Should navigate to /c/42/10/chell.go'
       );
       element._path = 'chell.go';
+      await flush();
       assert.isTrue(element._loading);
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
@@ -542,8 +550,9 @@ suite('gr-diff-view tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'P');
       assert(scrollStub.calledOnce);
 
+      assertIsDefined(element.$.diffHost.diffElement);
       const computeContainerClassStub = sinon.stub(
-        element.$.diffHost.$.diff,
+        element.$.diffHost.diffElement,
         '_computeContainerClass'
       );
       MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
@@ -1664,10 +1673,12 @@ suite('gr-diff-view tests', () => {
           },
         },
       };
-      setup(() => {
+      setup(async () => {
         sinon.stub(element.$.diffHost, 'reload');
         sinon.stub(element, '_initCursor');
         element._change = change;
+        await flush();
+        await element.$.diffHost.updateComplete;
       });
 
       test('uses the patchNum and basePatchNum ', async () => {
@@ -1680,6 +1691,7 @@ suite('gr-diff-view tests', () => {
         };
         element._change = change;
         await flush();
+        await element.$.diffHost.updateComplete;
         assert.deepEqual(element._commitRange, {
           baseCommit: 'commit-sha-2' as CommitId,
           commit: 'commit-sha-4' as CommitId,
@@ -1695,6 +1707,7 @@ suite('gr-diff-view tests', () => {
         };
         element._change = change;
         await flush();
+        await element.$.diffHost.updateComplete;
         assert.deepEqual(element._commitRange, {
           commit: 'commit-sha-5' as CommitId,
           baseCommit: 'sha-5-parent' as CommitId,

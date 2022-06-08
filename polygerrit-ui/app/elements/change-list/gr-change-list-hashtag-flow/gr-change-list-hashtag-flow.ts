@@ -13,6 +13,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '@polymer/iron-dropdown/iron-dropdown';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
+import '@polymer/iron-icon/iron-icon';
 import {getAppContext} from '../../../services/app-context';
 import {notUndefined} from '../../../types/types';
 import {unique} from '../../../utils/common-util';
@@ -62,6 +63,8 @@ export class GrChangeListHashtagFlow extends LitElement {
         }
         [slot='dropdown-content'] {
           padding: var(--spacing-xl) var(--spacing-l) var(--spacing-l);
+          display: flex;
+          flex-direction: column;
         }
         gr-autocomplete {
           --prominent-border-color: var(--gray-800);
@@ -71,8 +74,13 @@ export class GrChangeListHashtagFlow extends LitElement {
           justify-content: space-between;
           align-items: baseline;
         }
+        .chips + gr-autocomplete {
+          margin-top: var(--spacing-l);
+        }
+        gr-autocomplete + .footer {
+          margin-top: var(--spacing-m);
+        }
         .buttons {
-          padding-top: var(--spacing-m);
           display: flex;
           justify-content: flex-end;
           gap: var(--spacing-m);
@@ -81,21 +89,32 @@ export class GrChangeListHashtagFlow extends LitElement {
           display: flex;
           flex-wrap: wrap;
           gap: 6px;
-          padding-bottom: var(--spacing-l);
         }
         .chip {
-          padding: var(--spacing-s) var(--spacing-xl);
-          border-radius: 10px;
+          display: flex;
+          gap: 6px;
+          align-items: center;
+          padding: var(--spacing-s) var(--spacing-xl) var(--spacing-s) 0;
           width: fit-content;
+          border-radius: 10px;
+          font-weight: var(--font-weight-bold);
           cursor: pointer;
         }
         .chip:not(.selected) {
+          padding-left: var(--spacing-xl);
           border: var(--spacing-xxs) solid var(--gray-300);
+          color: var(--deemphasized-text-color);
         }
         .chip.selected {
+          padding-left: var(--spacing-m);
           color: var(--blue-800);
           background-color: var(--blue-50);
+          /* Matches the not(.selected) border so toggling doesn't move it */
           margin: var(--spacing-xxs);
+        }
+        iron-icon {
+          --iron-icon-height: 20px;
+          --iron-icon-width: 20px;
         }
         .loadingOrError {
           display: flex;
@@ -218,6 +237,10 @@ export class GrChangeListHashtagFlow extends LitElement {
         class=${classMap(chipClasses)}
         @click=${() => this.toggleExistingHashtagSelected(name)}
       >
+        ${when(
+          this.selectedExistingHashtags.has(name),
+          () => html`<iron-icon icon="gr-icons:check"></iron-icon>`
+        )}
         ${name}
       </span>
     `;

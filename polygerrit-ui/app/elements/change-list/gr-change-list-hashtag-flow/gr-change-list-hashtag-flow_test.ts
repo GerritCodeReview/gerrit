@@ -218,12 +218,12 @@ suite('gr-change-list-hashtag-flow tests', () => {
           >
             <div slot="dropdown-content">
               <div class="chips">
-                <span role="button" aria-label="hashtag1" class="chip"
-                  >hashtag1</span
-                >
-                <span role="button" aria-label="hashtag2" class="chip"
-                  >hashtag2</span
-                >
+                <span role="button" aria-label="hashtag1" class="chip">
+                  hashtag1
+                </span>
+                <span role="button" aria-label="hashtag2" class="chip">
+                  hashtag2
+                </span>
               </div>
               <gr-autocomplete
                 placeholder="Type hashtag name to create or filter hashtags"
@@ -248,6 +248,73 @@ suite('gr-change-list-hashtag-flow tests', () => {
                     disabled=""
                     role="button"
                     tabindex="-1"
+                    >Apply</gr-button
+                  >
+                </div>
+              </div>
+            </div>
+          </iron-dropdown>
+        `,
+        {
+          // iron-dropdown sizing seems to vary between local & CI
+          ignoreAttributes: [{tags: ['iron-dropdown'], attributes: ['style']}],
+        }
+      );
+    });
+
+    test('renders check on selected chip', async () => {
+      // selects "hashtag1"
+      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
+      await element.updateComplete;
+
+      expect(element).shadowDom.to.equal(
+        /* HTML */ `
+          <gr-button
+            id="start-flow"
+            flatten=""
+            down-arrow=""
+            aria-disabled="false"
+            role="button"
+            tabindex="0"
+            >Hashtag</gr-button
+          >
+          <iron-dropdown
+            aria-disabled="false"
+            vertical-align="auto"
+            horizontal-align="auto"
+          >
+            <div slot="dropdown-content">
+              <div class="chips">
+                <span role="button" aria-label="hashtag1" class="chip selected">
+                  <iron-icon icon="gr-icons:check"></iron-icon>
+                  hashtag1
+                </span>
+                <span role="button" aria-label="hashtag2" class="chip">
+                  hashtag2
+                </span>
+              </div>
+              <gr-autocomplete
+                placeholder="Type hashtag name to create or filter hashtags"
+                show-blue-focus-border=""
+              ></gr-autocomplete>
+              <div class="footer">
+                <div class="loadingOrError"></div>
+                <div class="buttons">
+                  <gr-button
+                    id="create-new-hashtag-button"
+                    flatten=""
+                    aria-disabled="true"
+                    disabled=""
+                    role="button"
+                    tabindex="-1"
+                    >Create new hashtag</gr-button
+                  >
+                  <gr-button
+                    id="apply-hashtag-button"
+                    flatten=""
+                    aria-disabled="false"
+                    role="button"
+                    tabindex="0"
                     >Apply</gr-button
                   >
                 </div>

@@ -302,7 +302,7 @@ export const htmlTemplate = html`
   <div
     id="mainContent"
     class="container"
-    hidden$="{{_loading}}"
+    hidden$="[[_loading]]"
     aria-hidden="[[_changeViewAriaHidden]]"
   >
     <section class="changeInfoSection">
@@ -379,7 +379,7 @@ export const htmlTemplate = html`
         <div class="changeInfo-column changeMetadata hideOnMobileOverlay">
           <gr-change-metadata
             id="metadata"
-            change="{{_change}}"
+            change="[[_change]]"
             reverted-change="[[revertedChange]]"
             account="[[_account]]"
             revision="[[_selectedRevision]]"
@@ -520,8 +520,8 @@ export const htmlTemplate = html`
           server-config="[[_serverConfig]]"
           shown-file-count="[[_shownFileCount]]"
           diff-prefs="[[_diffPrefs]]"
-          patch-num="{{_patchRange.patchNum}}"
-          base-patch-num="{{_patchRange.basePatchNum}}"
+          patch-num="[[_patchRange.patchNum]]"
+          base-patch-num="[[_patchRange.basePatchNum]]"
           files-expanded="[[_filesExpanded]]"
           diff-prefs-disabled="[[!_loggedIn]]"
           on-open-diff-prefs="_handleOpenDiffPrefs"
@@ -533,7 +533,7 @@ export const htmlTemplate = html`
         <gr-file-list
           id="fileList"
           class="hideOnMobileOverlay"
-          diff-prefs="{{_diffPrefs}}"
+          diff-prefs="[[_diffPrefs]]"
           change="[[_change]]"
           change-num="[[_changeNum]]"
           patch-range="[[_patchRange]]"
@@ -544,6 +544,7 @@ export const htmlTemplate = html`
           on-files-shown-changed="_setShownFiles"
           on-file-action-tap="_handleFileActionTap"
           observer-target="[[_computeObserverTarget()]]"
+          on-diff-prefs-changed="_diffPrefsChanged"
         >
         </gr-file-list>
       </div>
@@ -666,7 +667,7 @@ export const htmlTemplate = html`
     <template is="dom-if" if="[[replyOverlayOpened]]">
       <gr-reply-dialog
         id="replyDialog"
-        change="{{_change}}"
+        change="[[_change]]"
         patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
         permitted-labels="[[_change.permitted_labels]]"
         draft-comment-threads="[[_draftCommentThreads]]"

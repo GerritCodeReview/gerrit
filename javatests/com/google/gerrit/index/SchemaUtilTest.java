@@ -26,14 +26,14 @@ import org.junit.Test;
 
 public class SchemaUtilTest {
   static class TestSchemas {
-    static final Schema<String> V1 = schema();
-    static final Schema<String> V2 = schema();
-    static Schema<String> V3 = schema(); // Not final, ignored.
-    private static final Schema<String> V4 = schema();
+    static final Schema<String> V1 = schema(/* version= */ 1);
+    static final Schema<String> V2 = schema(/* version= */ 2);
+    static Schema<String> V3 = schema(V2); // Not final, ignored.
+    private static final Schema<String> V4 = schema(V3);
 
     // Ignored.
-    static Schema<String> V10 = schema();
-    final Schema<String> V11 = schema();
+    static Schema<String> V10 = schema(/* version= */ 10);
+    final Schema<String> V11 = schema(V10);
   }
 
   @Test
@@ -46,6 +46,14 @@ public class SchemaUtilTest {
     assertThrows(
         IllegalArgumentException.class,
         () -> SchemaUtil.schemasFromClass(TestSchemas.class, Object.class));
+  }
+
+  @Test
+  public void schemaVersion_incrementedOnVersionUpgrades() {
+    Schema<String> initialSchemaVersion = schema(/* version= */ 1);
+    Schema<String> schemaVersionUpgrade = schema(initialSchemaVersion);
+    assertThat(initialSchemaVersion.getVersion()).isEqualTo(1);
+    assertThat(schemaVersionUpgrade.getVersion()).isEqualTo(2);
   }
 
   @Test

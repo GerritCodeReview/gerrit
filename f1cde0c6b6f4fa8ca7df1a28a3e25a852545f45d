@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "911454a3_6e6773be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-06-08T08:12:14Z",
+      "side": 1,
+      "message": "sure about this?",
+      "revId": "f1cde0c6b6f4fa8ca7df1a28a3e25a852545f45d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "565e1cf6_e253e375",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -31,6 +48,24 @@
       "writtenOn": "2022-06-08T05:43:42Z",
       "side": 1,
       "message": "Yes, this seems decent. I\u0027m not sure if fireAlert is the best way to show informational messages, but we don\u0027t have something better atm afaik.",
+      "revId": "f1cde0c6b6f4fa8ca7df1a28a3e25a852545f45d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be6658da_f464d35a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-06-08T08:12:14Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure if fireAlert is the best way to show informational messages, \n\nafaict, that\u0027s the same non-intrusive status message type one gets for example for \"Draft Discarded\", which seems just right to me. one potential problem i see is that the initial message will just time out, while it would be preferable if it had to be explicitly canceled by the second one - is this what you mean?",
+      "parentUuid": "ca1ace6a_fc4c1cbb",
       "revId": "f1cde0c6b6f4fa8ca7df1a28a3e25a852545f45d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -475,6 +475,9 @@ export class GrCommentThread extends LitElement {
     `;
   }
 
+  // for logging only
+  private renderedCommentsCount = 0;
+
   renderComments() {
     assertIsDefined(this.thread, 'thread');
     const robotButtonDisabled = !this.account || this.isDraftOrUnsaved();
@@ -482,6 +485,18 @@ export class GrCommentThread extends LitElement {
     if (this.unsavedComment && !this.isDraft()) {
       comments.push(this.unsavedComment);
     }
+    // We are reporting when a thread renders less comments than before. That
+    // can happen legitimately when cancelling or discarding a comment. But we
+    // want to know, if this also happens temporarily: Comment removed and then
+    // added back immediately, which would explain <gr-comment> elements being
+    // destroyed and then re-created.
+    if (this.renderedCommentsCount > comments.length) {
+      this.reporting.reportInteraction(
+        Interaction.COMMENTS_AUTOCLOSE_COMMENT_REMOVED,
+        {before: this.renderedCommentsCount, after: comments.length}
+      );
+    }
+    this.renderedCommentsCount = comments.length;
     return repeat(
       comments,
       // We want to reuse <gr-comment> when unsaved changes to draft.

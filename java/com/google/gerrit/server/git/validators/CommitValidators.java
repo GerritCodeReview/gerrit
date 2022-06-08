@@ -408,11 +408,17 @@ public class CommitValidators {
         sshPort = 22;
       }
 
+      // TODO(15944): Remove once both SFTP/SCP protocol are supported.
+      //
+      // In newer versions of OpenSSH, the default hook installation command will fail with a
+      // cryptic error because the scp binary defaults to a different protocol.
+      String scpFlagHint = "(for OpenSSH >= 9.0 you need to add the flag '-O' to the scp command)";
+
       String sshHook =
           String.format(
               "gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/",
               sshPort, user.getUserName().orElse("<USERNAME>"), sshHost);
-      return String.format("  %s\nor, for http(s):\n  %s", sshHook, httpHook);
+      return String.format("  %s\n%s\nor, for http(s):\n  %s", sshHook, scpFlagHint, httpHook);
     }
   }
 

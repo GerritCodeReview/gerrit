@@ -1,20 +1,25 @@
-# npm packages are split into different node_modules directories based on their usage.
-# 1. /node_modules (referenced as @npm) - contains packages to run tests, check code, etc...
-#    It is expected that @npm is used ONLY to run tools. No packages from @npm are used by
-#    other code in gerrit.
-# 2. @tools_npm (tools/node_tools/node_modules) - the tools/node_tools folder contains self-written tools
-#    which are run for building and/or testing. The @tools_npm directory contains all the packages needed to
-#    run this tools.
-# 3. @ui_npm (polygerrit-ui/app/node_modules) - packages with source code which are necessary to run polygerrit
-#    and to bundle it. Only code from these packages can be included in the final bundle for polygerrit.
-#    @ui_npm folder must not have devDependencies. All dev dependencies must be placed in @ui_dev_npm
-# 4. @ui_dev_npm (polygerrit-ui/node_modules) - devDependencies for polygerrit. The packages from these
-#    folder can be used for testing, but must not be included in the final bundle.
-# 5. @plugins_npm (plugins/node_modules) - plugin dependencies for polygerrit plugins.
-#    The packages here are expected to be used in plugins.
-# Note: separation between @ui_npm and @ui_dev_npm is necessary because with bazel we can't generate
-#    two managed directories from the same package.json. At the same time we want to avoid accidental
-#    usages of code from devDependencies in polygerrit bundle.
+# npm packages are split into different node_modules directories based on their
+# usage.
+# 1. @npm (node_modules) - contains packages to run tests, check code, etc...
+#    It is expected that @npm is used ONLY to run tools. No packages from @npm
+#    are used by other code in gerrit.
+# 2. @tools_npm (tools/node_tools/node_modules) - the tools/node_tools folder
+#    contains self-written tools which are run for building and/or testing. The
+#    @tools_npm directory contains all the packages needed to run this tools.
+# 3. @ui_npm (polygerrit-ui/app/node_modules) - packages with source code which
+#    are necessary to run polygerrit and to bundle it. Only code from these
+#    packages can be included in the final bundle for polygerrit. @ui_npm folder
+#    must not have devDependencies. All devDependencies must be placed in
+#    @ui_dev_npm.
+# 4. @ui_dev_npm (polygerrit-ui/node_modules) - devDependencies for polygerrit.
+#    The packages from these folder can be used for testing, but must not be
+#    included in the final bundle.
+# 5. @plugins_npm (plugins/node_modules) - plugin dependencies for polygerrit
+#    plugins. The packages here are expected to be used in plugins.
+# Note: separation between @ui_npm and @ui_dev_npm is necessary because with
+#    rules_nodejs we can't generate two external repositories from the same
+#    package.json. At the same time we want to avoid accidental usages of code
+#    from devDependencies in polygerrit bundle.
 workspace(
     name = "gerrit",
 )

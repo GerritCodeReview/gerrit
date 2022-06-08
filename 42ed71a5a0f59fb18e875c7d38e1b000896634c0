@@ -105,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b1b5fdc_b9086436",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-06-08T08:50:38Z",
+      "side": 1,
+      "message": "\u003e Does that help clarify?\n\nat a high level, it certainly does.\nat the implementation level, the patch seems backwards, as it basically subverts the configuration done in the UI. you\u0027d at least need an additional mechanism to disable/replace the UI. it appears easier to obtain a clean implementation by just relaying it entirely to the configuration (after introducing purpose-bound address settings), though your requirement to make the addresses repo-specific makes this somewhat cumbersome (unless it was a pattern like foo-${repo}@mail.dns).\n\nfwiw, the case which got me interested in this issue was a guy who contributes to qt-project as an employee and consequently needs to present himself as such in commits and the gerrit UI, but wants to use a private address for notifications, as the company\u0027s restrictive security policy makes using the company address somewhat impractical for that. he worked it around by having two gerrit accounts, which is obviously suboptimal.",
+      "parentUuid": "30d56867_905b756a",
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "648eafb5_550e2afd",

@@ -16,6 +16,23 @@
       "message": "Chris, what do you think of this?",
       "revId": "f1cde0c6b6f4fa8ca7df1a28a3e25a852545f45d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca1ace6a_fc4c1cbb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-08T05:43:42Z",
+      "side": 1,
+      "message": "Yes, this seems decent. I\u0027m not sure if fireAlert is the best way to show informational messages, but we don\u0027t have something better atm afaik.",
+      "revId": "f1cde0c6b6f4fa8ca7df1a28a3e25a852545f45d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

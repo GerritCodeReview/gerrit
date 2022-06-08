@@ -439,7 +439,7 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(toggleLeftDiffStub.calledOnce);
     });
 
-    test('keyboard shortcuts', () => {
+    test('keyboard shortcuts', async () => {
       clock = sinon.useFakeTimers();
       element._changeNum = 42 as NumericChangeId;
       element.getBrowserModel().setScreenWidth(0);
@@ -461,6 +461,7 @@ suite('gr-diff-view tests', () => {
       ]);
       element._path = 'glados.txt';
       element._loggedIn = true;
+      await element.$.diffHost.updateComplete;
 
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
@@ -541,8 +542,9 @@ suite('gr-diff-view tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'P');
       assert(scrollStub.calledOnce);
 
+      assertIsDefined(element.$.diffHost.diffElement);
       const computeContainerClassStub = sinon.stub(
-        element.$.diffHost.$.diff,
+        element.$.diffHost.diffElement,
         '_computeContainerClass'
       );
       MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');

@@ -385,9 +385,6 @@ export const htmlTemplate = html`
     hidden=""
     hidden$="[[_loading]]"
     is-image-diff="{{_isImageDiff}}"
-    edit-weblinks="{{_editWeblinks}}"
-    files-weblinks="{{_filesWeblinks}}"
-    diff="{{_diff}}"
     change-num="[[_changeNum]]"
     change="[[_change]]"
     commit-range="[[_commitRange]]"
@@ -396,9 +393,12 @@ export const htmlTemplate = html`
     path="[[_path]]"
     prefs="[[_prefs]]"
     project-name="[[_change.project]]"
-    is-blame-loaded="{{_isBlameLoaded}}"
+    is-blame-loaded-changed="_onIsBlameLoadedChanged"
     on-comment-anchor-tap="_onLineSelected"
     on-line-selected="_onLineSelected"
+    on-diff-changed="_onDiffChanged"
+    edit-weblinks-changed="_onEditWeblinksChanged"
+    files-weblinks-changed="_onFilesWeblinksChanged"
   >
   </gr-diff-host>
   <gr-apply-fix-dialog

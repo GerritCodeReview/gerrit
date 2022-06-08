@@ -93,7 +93,11 @@ import {
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
 import {AppElementDiffViewParam, AppElementParams} from '../../gr-app-types';
-import {EventType, OpenFixPreviewEvent} from '../../../types/events';
+import {
+  EventType,
+  OpenFixPreviewEvent,
+  ValueChangedEvent,
+} from '../../../types/events';
 import {fireAlert, fireEvent, fireTitleChange} from '../../../utils/event-util';
 import {GerritView} from '../../../services/router/router-model';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -629,6 +633,22 @@ export class GrDiffView extends base {
 
   _onOpenFixPreview(e: OpenFixPreviewEvent) {
     this.$.applyFixDialog.open(e);
+  }
+
+  _onIsBlameLoadedchanged(e: ValueChangedEvent<boolean>) {
+    this._isBlameLoaded = e.detail.value;
+  }
+
+  onDiffChanged(e: ValueChangedEvent<DiffInfo>) {
+    this._diff = e.detail.value;
+  }
+
+  onEditWeblinksChanged(e: ValueChangedEvent<GeneratedWebLink[] | undefined>) {
+    this._editWeblinks = e.detail.value;
+  }
+
+  _onFilesWeblinksChanged(e: ValueChangedEvent<FilesWebLinks | undefined>) {
+    this._filesWeblinks = e.detail.value;
   }
 
   _handleNextLine() {

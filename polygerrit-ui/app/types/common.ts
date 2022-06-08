@@ -744,11 +744,7 @@ export interface BlameInfo {
  * HTML response.
  * TODO(TS): where is the source of this type ? I don't find it in doc
  */
-export interface ImageInfo {
-  body: string;
-  type: string;
-  _name?: string;
-  _expectedType?: string;
+export interface ImageInfo extends Base64ImageFile {
   _width?: number;
   _height?: number;
 }

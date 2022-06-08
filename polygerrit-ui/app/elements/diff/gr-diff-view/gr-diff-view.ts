@@ -39,6 +39,8 @@ import {
   computeAllPatchSets,
   computeLatestPatchNum,
   PatchSet,
+  isMergeParent,
+  getParentIndex,
 } from '../../../utils/patch-set-util';
 import {
   addUnmodifiedFiles,
@@ -68,6 +70,7 @@ import {
   PARENT,
   PatchRange,
   PatchSetNum,
+  PatchSetNumber,
   PreferencesInfo,
   RepoName,
   RevisionInfo,
@@ -1482,20 +1485,21 @@ export class GrDiffView extends base {
     isBase?: boolean
   ) {
     let patchNum = patchRange.patchNum;
+    let parent: number | undefined = undefined;
 
-    const comparedAgainstParent = patchRange.basePatchNum === PARENT;
-
-    if (isBase && !comparedAgainstParent) {
-      patchNum = patchRange.basePatchNum as RevisionPatchSetNum;
+    if (isBase) {
+      if (isMergeParent(patchRange.basePatchNum)) {
+        parent = getParentIndex(patchRange.basePatchNum);
+      } else if (patchRange.basePatchNum === PARENT) {
+        parent = 1;
+      } else {
+        patchNum = patchRange.basePatchNum as PatchSetNumber;
+      }
     }
-
     let url =
       changeBaseURL(project, changeNum, patchNum) +
       `/files/${encodeURIComponent(path)}/download`;
-
-    if (isBase && comparedAgainstParent) {
-      url += '?parent=1';
-    }
+    if (parent) url += `?parent=${parent}`;
 
     return url;
   }

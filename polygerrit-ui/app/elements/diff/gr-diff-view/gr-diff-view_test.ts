@@ -48,6 +48,7 @@ import {
   PARENT,
   PatchRange,
   PatchSetNum,
+  PatchSetNumber,
   PathToCommentsInfoMap,
   RepoName,
   RevisionPatchSetNum,
@@ -2343,17 +2344,12 @@ suite('gr-diff-view tests', () => {
       );
     });
 
-    test('_computeDownloadFileLink', () => {
-      const base = {
-        patchNum: 1 as RevisionPatchSetNum,
-        basePatchNum: PARENT,
-      };
-
+    test.only('_computeDownloadFileLink', () => {
       assert.equal(
         element._computeDownloadFileLink(
           'test' as RepoName,
           12 as NumericChangeId,
-          base,
+          {patchNum: 1 as PatchSetNumber, basePatchNum: PARENT},
           'index.php',
           true
         ),
@@ -2364,11 +2360,33 @@ suite('gr-diff-view tests', () => {
         element._computeDownloadFileLink(
           'test' as RepoName,
           12 as NumericChangeId,
-          base,
+          {patchNum: 1 as PatchSetNumber, basePatchNum: -2 as PatchSetNumber},
+          'index.php',
+          true
+        ),
+        '/changes/test~12/revisions/1/files/index.php/download?parent=2'
+      );
+
+      assert.equal(
+        element._computeDownloadFileLink(
+          'test' as RepoName,
+          12 as NumericChangeId,
+          {patchNum: 3 as PatchSetNumber, basePatchNum: 2 as PatchSetNumber},
+          'index.php',
+          true
+        ),
+        '/changes/test~12/revisions/2/files/index.php/download'
+      );
+
+      assert.equal(
+        element._computeDownloadFileLink(
+          'test' as RepoName,
+          12 as NumericChangeId,
+          {patchNum: 3 as PatchSetNumber, basePatchNum: 2 as PatchSetNumber},
           'index.php',
           false
         ),
-        '/changes/test~12/revisions/1/files/index.php/download'
+        '/changes/test~12/revisions/3/files/index.php/download'
       );
     });
 

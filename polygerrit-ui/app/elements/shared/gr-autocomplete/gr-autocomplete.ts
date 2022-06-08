@@ -18,7 +18,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {ValueChangedEvent} from '../../../types/events';
-import {IronInputElement} from '@polymer/iron-input';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -181,8 +180,7 @@ export class GrAutocomplete extends LitElement {
   private updateSuggestionsTask?: DelayedTask;
 
   get nativeInput() {
-    return (this.input!.inputElement as IronInputElement)
-      .inputElement as HTMLInputElement;
+    return this.input!.$.nativeInput as HTMLInputElement;
   }
 
   static override styles = [

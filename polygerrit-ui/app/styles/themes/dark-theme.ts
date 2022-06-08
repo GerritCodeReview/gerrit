@@ -28,6 +28,8 @@ const darkThemeCss = safeStyleSheet`
       var(--red-tonal);
     --error-ripple: var(--white-10);
 
+    --code-review-warning-background: var(--blue-tonal);
+
     --warning-foreground: var(--orange-200);
     --warning-background: var(--orange-tonal);
     --warning-background-hover: linear-gradient(

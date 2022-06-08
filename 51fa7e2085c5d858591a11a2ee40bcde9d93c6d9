@@ -70,6 +70,30 @@
       },
       "revId": "51fa7e2085c5d858591a11a2ee40bcde9d93c6d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6fdb49b_1188b141",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-08T13:40:18Z",
+      "side": 1,
+      "message": "Replaced expression with other usages.",
+      "parentUuid": "c7f40871_dd9d5534",
+      "range": {
+        "startLine": 12,
+        "startChar": 57,
+        "endLine": 12,
+        "endChar": 66
+      },
+      "revId": "51fa7e2085c5d858591a11a2ee40bcde9d93c6d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -87,7 +87,7 @@ public class Schema<T> {
 
   private int version;
 
-  public Schema(Iterable<FieldDef<T, ?>> fields) {
+  private Schema(Iterable<FieldDef<T, ?>> fields) {
     this(0, fields);
   }
 

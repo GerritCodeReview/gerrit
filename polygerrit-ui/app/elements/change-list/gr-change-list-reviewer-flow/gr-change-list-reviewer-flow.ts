@@ -410,7 +410,7 @@ export class GrChangeListReviewerFlow extends LitElement {
     if (ev.detail.value === null) {
       overlay?.close();
     } else {
-      overlay?.open();
+      await overlay?.open();
     }
   }
 

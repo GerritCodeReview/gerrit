@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.index.change;
 
-import com.google.common.collect.ImmutableList;
+import static com.google.gerrit.index.SchemaUtil.schema;
+
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
@@ -28,10 +29,10 @@ import org.junit.Ignore;
 
 @Ignore
 public class FakeChangeIndex implements ChangeIndex {
-  static final Schema<ChangeData> V1 = new Schema<>(1, ImmutableList.of(ChangeField.STATUS));
+  static final Schema<ChangeData> V1 = schema(1, ChangeField.STATUS);
 
   static final Schema<ChangeData> V2 =
-      new Schema<>(2, ImmutableList.of(ChangeField.STATUS, ChangeField.PATH, ChangeField.UPDATED));
+      schema(2, ChangeField.STATUS, ChangeField.PATH, ChangeField.UPDATED);
 
   private static class Source implements ChangeDataSource {
     private final Predicate<ChangeData> p;

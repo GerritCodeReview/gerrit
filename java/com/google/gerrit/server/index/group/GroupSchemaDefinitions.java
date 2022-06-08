@@ -25,6 +25,7 @@ public class GroupSchemaDefinitions extends SchemaDefinitions<InternalGroup> {
   @Deprecated
   static final Schema<InternalGroup> V5 =
       schema(
+          /* version= */ 5,
           GroupField.CREATED_ON,
           GroupField.DESCRIPTION,
           GroupField.ID,

@@ -26,6 +26,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   /** Added new field {@link ChangeField#IS_SUBMITTABLE} based on submit requirements. */
   static final Schema<ChangeData> V74 =
       schema(
+          /* version= */ 74,
           ChangeField.ADDED,
           ChangeField.APPROVAL,
           ChangeField.ASSIGNEE,

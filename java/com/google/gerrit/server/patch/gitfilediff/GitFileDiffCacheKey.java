@@ -17,6 +17,8 @@ package com.google.gerrit.server.patch.gitfilediff;
 import static com.google.gerrit.server.patch.DiffUtil.stringSize;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Converter;
+import com.google.common.base.Enums;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -104,6 +106,12 @@ public abstract class GitFileDiffCacheKey {
   public enum Serializer implements CacheSerializer<GitFileDiffCacheKey> {
     INSTANCE;
 
+    private static final Converter<String, DiffAlgorithm> DIFF_ALGORITHM_CONVERTER =
+        Enums.stringConverter(DiffAlgorithm.class);
+
+    private static final Converter<String, Whitespace> WHITESPACE_CONVERTER =
+        Enums.stringConverter(Whitespace.class);
+
     @Override
     public byte[] serialize(GitFileDiffCacheKey key) {
       ObjectIdConverter idConverter = ObjectIdConverter.create();
@@ -114,8 +122,8 @@ public abstract class GitFileDiffCacheKey {
               .setBTree(idConverter.toByteString(key.newTree()))
               .setFilePath(key.newFilePath())
               .setRenameScore(key.renameScore())
-              .setDiffAlgorithm(key.diffAlgorithm().name())
-              .setWhitepsace(key.whitespace().name())
+              .setDiffAlgorithm(DIFF_ALGORITHM_CONVERTER.reverse().convert(key.diffAlgorithm()))
+              .setWhitepsace(WHITESPACE_CONVERTER.reverse().convert(key.whitespace()))
               .setUseTimeout(key.useTimeout())
               .build());
     }
@@ -130,8 +138,8 @@ public abstract class GitFileDiffCacheKey {
           .newTree(idConverter.fromByteString(proto.getBTree()))
           .newFilePath(proto.getFilePath())
           .renameScore(proto.getRenameScore())
-          .diffAlgorithm(DiffAlgorithm.valueOf(proto.getDiffAlgorithm()))
-          .whitespace(Whitespace.valueOf(proto.getWhitepsace()))
+          .diffAlgorithm(DIFF_ALGORITHM_CONVERTER.convert(proto.getDiffAlgorithm()))
+          .whitespace(WHITESPACE_CONVERTER.convert(proto.getWhitepsace()))
           .useTimeout(proto.getUseTimeout())
           .build();
     }

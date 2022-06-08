@@ -36,9 +36,18 @@ public class Schema<T> {
 
   public static class Builder<T> {
     private final List<FieldDef<T, ?>> fields = new ArrayList<>();
+    private Optional<Integer> version = Optional.empty();
+
+    public Builder<T> version(int version) {
+      this.version = Optional.of(version);
+      return this;
+    }
 
     public Builder<T> add(Schema<T> schema) {
       this.fields.addAll(schema.getFields().values());
+      if (!version.isPresent()) {
+        version(schema.getVersion() + 1);
+      }
       return this;
     }
 
@@ -55,7 +64,8 @@ public class Schema<T> {
     }
 
     public Schema<T> build() {
-      return new Schema<>(ImmutableList.copyOf(fields));
+      checkState(version.isPresent());
+      return new Schema<>(version.get(), ImmutableList.copyOf(fields));
     }
   }
 
@@ -87,7 +97,7 @@ public class Schema<T> {
 
   private int version;
 
-  public Schema(Iterable<FieldDef<T, ?>> fields) {
+  private Schema(Iterable<FieldDef<T, ?>> fields) {
     this(0, fields);
   }
 

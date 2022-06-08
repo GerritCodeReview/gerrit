@@ -18,14 +18,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -49,7 +47,12 @@ public class SchemaUtil {
             @SuppressWarnings("unchecked")
             Schema<V> schema = (Schema<V>) f.get(null);
             checkArgument(f.getName().startsWith("V"));
-            schema.setVersion(Integer.parseInt(f.getName().substring(1)));
+            int versionName = Integer.parseInt(f.getName().substring(1));
+            checkArgument(
+                versionName == schema.getVersion(),
+                "Schema version %s does not match it's name %s",
+                schema.getVersion(),
+                f.getName());
             schemas.put(schema.getVersion(), schema);
           } catch (IllegalAccessException e) {
             throw new IllegalArgumentException(e);
@@ -66,22 +69,19 @@ public class SchemaUtil {
     return ImmutableSortedMap.copyOf(schemas);
   }
 
-  public static <V> Schema<V> schema(Collection<FieldDef<V, ?>> fields) {
-    return new Schema<>(ImmutableList.copyOf(fields));
+  @SafeVarargs
+  public static <V> Schema<V> schema(FieldDef<V, ?>... fields) {
+    return new Schema.Builder<V>().add(fields).build();
   }
 
   @SafeVarargs
-  public static <V> Schema<V> schema(FieldDef<V, ?>... fields) {
-    return schema(ImmutableList.copyOf(fields));
+  public static <V> Schema<V> schema(int version, FieldDef<V, ?>... fields) {
+    return new Schema.Builder<V>().version(version).add(fields).build();
   }
 
   @SafeVarargs
   public static <V> Schema<V> schema(Schema<V> schema, FieldDef<V, ?>... moreFields) {
-    return new Schema<>(
-        new ImmutableList.Builder<FieldDef<V, ?>>()
-            .addAll(schema.getFields().values())
-            .addAll(ImmutableList.copyOf(moreFields))
-            .build());
+    return new Schema.Builder<V>().add(schema).add(moreFields).build();
   }
 
   public static Set<String> getPersonParts(PersonIdent person) {

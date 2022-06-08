@@ -87,11 +87,11 @@ public class Schema<T> {
 
   private int version;
 
-  public Schema(Iterable<FieldDef<T, ?>> fields) {
+  private Schema(Iterable<FieldDef<T, ?>> fields) {
     this(0, fields);
   }
 
-  public Schema(int version, Iterable<FieldDef<T, ?>> fields) {
+  private Schema(int version, Iterable<FieldDef<T, ?>> fields) {
     this.version = version;
     ImmutableMap.Builder<String, FieldDef<T, ?>> b = ImmutableMap.builder();
     ImmutableMap.Builder<String, FieldDef<T, ?>> sb = ImmutableMap.builder();

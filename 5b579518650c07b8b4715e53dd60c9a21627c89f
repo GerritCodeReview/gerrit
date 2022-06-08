@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08db7f6c_7513c533",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-08T13:09:51Z",
+      "side": 1,
+      "message": "Why drop EOL ($)?",
+      "range": {
+        "startLine": 62,
+        "startChar": 32,
+        "endLine": 62,
+        "endChar": 33
+      },
+      "revId": "5b579518650c07b8b4715e53dd60c9a21627c89f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1d7b3ac_29e83737",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-08T13:09:51Z",
+      "side": 1,
+      "message": "A valid change-id should match \"I[0-9a-f]\\{40\\}$\"",
+      "range": {
+        "startLine": 66,
+        "startChar": 11,
+        "endLine": 66,
+        "endChar": 13
+      },
+      "revId": "5b579518650c07b8b4715e53dd60c9a21627c89f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

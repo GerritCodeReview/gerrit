@@ -127,4 +127,5 @@ export enum Interaction {
   COMMENTS_AUTOCLOSE_EDITING_THREAD_DISCONNECTED = 'comments-autoclose-editing-thread-disconnected',
   COMMENTS_AUTOCLOSE_CHECKS_UPDATED = 'comments-autoclose-checks-updated',
   COMMENTS_AUTOCLOSE_THREADS_UPDATED = 'comments-autoclose-threads-updated',
+  COMMENTS_AUTOCLOSE_COMMENT_REMOVED = 'comments-autoclose-comment-removed',
 }

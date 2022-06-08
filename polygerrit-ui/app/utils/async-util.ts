@@ -102,6 +102,64 @@ export function debounce(
   return new DelayedTask(callback, waitMs);
 }
 
+export interface DelayedPromise<T> extends Promise<T> {
+  resolve: (value?: T) => void;
+  reject: (reason?: unknown) => void;
+  cancel: () => void;
+  isActive: () => boolean;
+}
+
+function delayedPromise<T>(
+  callback: () => Promise<T>,
+  waitMs = 0
+): DelayedPromise<T> {
+  let res: (value?: T) => void;
+  let rej: (reason?: unknown) => void;
+  let timer: number | undefined;
+  const promise = new Promise<T | undefined>((resolve, reject) => {
+    res = resolve;
+    rej = reject;
+  }) as DelayedPromise<T>;
+  promise.resolve = res!;
+  promise.reject = rej!;
+  promise.cancel = () => {
+    if (!promise.isActive()) return;
+    window.clearTimeout(timer);
+    timer = undefined;
+  };
+  promise.isActive = () => timer !== undefined;
+  timer = window.setTimeout(async () => {
+    timer = undefined;
+    try {
+      const result = await callback();
+      promise.resolve(result);
+    } catch (e) {
+      promise.reject(e);
+    }
+  }, waitMs);
+  return promise;
+}
+
+/**
+ * The usage pattern is
+ * this.aDebouncedPromise = debounceP(this.aDebouncedPromise, () => {...}, 123)
+ */
+export function debounceP<T>(
+  existingPromise: DelayedPromise<T> | undefined,
+  callback: () => Promise<T>,
+  waitMs = 0
+): DelayedPromise<T> {
+  if (!existingPromise || !existingPromise.isActive()) {
+    return delayedPromise<T>(callback, waitMs);
+  } else {
+    existingPromise.cancel();
+    const promise = delayedPromise<T>(callback, waitMs);
+    promise
+      .then((v: T) => existingPromise.resolve(v))
+      .catch((e: unknown) => existingPromise.reject(e));
+    return promise;
+  }
+}
 const THROTTLE_INTERVAL_MS = 500;
 
 /**

@@ -6,7 +6,6 @@
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
 import '../../../embed/diff/gr-diff/gr-diff';
-import {htmlTemplate} from './gr-diff-host_html';
 import {
   GerritNav,
   GeneratedWebLink,
@@ -30,7 +29,6 @@ import {
   isInBaseOfPatchRange,
   isInRevisionOfPatchRange,
 } from '../../../utils/comment-util';
-import {customElement, observe, property} from '@polymer/decorators';
 import {
   CommitRange,
   CoverageRange,
@@ -60,7 +58,6 @@ import {
   GrDiff,
 } from '../../../embed/diff/gr-diff/gr-diff';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {LineNumber, FILE} from '../../../embed/diff/gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
@@ -71,6 +68,7 @@ import {
   fireServerError,
   fireEvent,
   waitForEventOnce,
+  fire,
 } from '../../../utils/event-util';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -80,7 +78,7 @@ import {Timing, Interaction} from '../../../constants/reporting';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
 import {DisplayLine, RenderPreferences} from '../../../api/diff';
-import {resolve, DIPolymerElement} from '../../../models/dependency';
+import {resolve} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {checksModelToken, RunResult} from '../../../models/checks/checks-model';
@@ -90,6 +88,9 @@ import {deepEqual} from '../../../utils/deep-util';
 import {Category} from '../../../api/checks';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {CODE_MAX_LINES} from '../../../services/highlight/highlight-service';
+import {html, LitElement, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators';
+import {ValueChangedEvent} from '../../../types/events';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -112,10 +113,18 @@ export interface LineInfo {
   afterNumber?: LineNumber;
 }
 
-export interface GrDiffHost {
-  $: {
-    diff: GrDiff;
-  };
+declare global {
+  interface HTMLElementEventMap {
+    /* prettier-ignore */
+    'render': CustomEvent;
+    'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
+    'create-comment': CustomEvent<CreateCommentEventDetail>;
+    'is-blame-loaded-changed': ValueChangedEvent<boolean>;
+    'diff-changed': ValueChangedEvent<DiffInfo | undefined>;
+    'edit-weblinks-changed': ValueChangedEvent<GeneratedWebLink[] | undefined>;
+    'files-weblinks-changed': ValueChangedEvent<FilesWebLinks | undefined>;
+    'is-image-diff-changed': ValueChangedEvent<boolean>;
+  }
 }
 
 /**
@@ -126,11 +135,7 @@ export interface GrDiffHost {
  * specific component, while <gr-diff> is a re-usable component.
  */
 @customElement('gr-diff-host')
-export class GrDiffHost extends DIPolymerElement {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrDiffHost extends LitElement {
   /**
    * Fired when the user selects a line.
    *
@@ -142,6 +147,9 @@ export class GrDiffHost extends DIPolymerElement {
    *
    * @event show-auth-required
    */
+
+  @query('#diff')
+  diffElement?: GrDiff;
 
   @property({type: Number})
   changeNum?: NumericChangeId;
@@ -170,30 +178,57 @@ export class GrDiffHost extends DIPolymerElement {
   @property({type: Boolean})
   displayLine = false;
 
-  @property({
-    type: Boolean,
-    computed: '_computeIsImageDiff(diff)',
-    notify: true,
-  })
-  isImageDiff?: boolean;
+  @state()
+  private _isImageDiff = false;
+  get isImageDiff() {
+    return this._isImageDiff;
+  }
+  set isImageDiff(isImageDiff: boolean) {
+    this._isImageDiff = isImageDiff;
+    fire(this, 'is-image-diff-changed', {value: isImageDiff});
+  }
 
   @property({type: Object})
   commitRange?: CommitRange;
 
-  @property({type: Object, notify: true})
-  editWeblinks?: GeneratedWebLink[];
+  @state()
+  private _editWeblinks?: GeneratedWebLink[];
+  get editWeblinks() {
+    return this._editWeblinks;
+  }
+  set editWeblinks(editWeblinks: GeneratedWebLink[] | undefined) {
+    this._editWeblinks = editWeblinks;
+    fire(this, 'edit-weblinks-changed', {value: editWeblinks});
+  }
 
-  @property({type: Object, notify: true})
-  filesWeblinks: FilesWebLinks | {} = {};
+  @state()
+  private _filesWeblinks?: FilesWebLinks;
+  get filesWeblinks() {
+    return this._filesWeblinks;
+  }
+  set filesWeblinks(filesWeblinks: FilesWebLinks | undefined) {
+    this._filesWeblinks = filesWeblinks;
+    fire(this, 'files-weblinks-changed', {value: filesWeblinks});
+  }
 
-  @property({type: Boolean, reflectToAttribute: true})
+  @property({type: Boolean, attribute: true})
   override hidden = false;
 
   @property({type: Boolean})
   noRenderOnPrefsChange = false;
 
-  @property({type: Object, observer: '_threadsChanged'})
-  threads?: CommentThread[];
+  // Do not use, use threads instead through the getters and setters.
+  @state()
+  private _threads: CommentThread[] = [];
+
+  get threads() {
+    return this._threads;
+  }
+
+  set threads(threads: CommentThread[]) {
+    this._threads = threads;
+    this.threadsChanged(threads);
+  }
 
   @property({type: Boolean})
   lineWrapping = false;
@@ -207,58 +242,61 @@ export class GrDiffHost extends DIPolymerElement {
   @property({type: Boolean})
   showLoadFailure?: boolean;
 
-  @property({
-    type: Boolean,
-    notify: true,
-    computed: '_computeIsBlameLoaded(_blame)',
-  })
-  isBlameLoaded?: boolean;
+  @state()
+  private loggedIn = false;
 
-  @property({type: Boolean})
-  _loggedIn = false;
+  // Private but used in tests.
+  @state()
+  errorMessage: string | null = null;
 
-  @property({type: String})
-  _errorMessage: string | null = null;
+  @state()
+  private baseImage?: Base64ImageFile;
 
-  @property({type: Object})
-  _baseImage: Base64ImageFile | null = null;
+  @state()
+  private revisionImage?: Base64ImageFile
 
-  @property({type: Object})
-  _revisionImage: Base64ImageFile | null = null;
+  // Do not use, use diff instead through the getters and setters.
+  @state()
+  private _diff?: DiffInfo;
 
-  @property({type: Object, notify: true})
-  diff?: DiffInfo;
+  get diff() {
+    return this._diff;
+  }
 
-  @property({type: Object})
-  changeComments?: ChangeComments;
+  set diff(diff: DiffInfo | undefined) {
+    this._diff = diff;
+    fire(this, 'diff-changed', {value: this._diff});
+  }
 
-  @property({type: Object})
-  _fetchDiffPromise: Promise<DiffInfo> | null = null;
+  @state()
+  private changeComments?: ChangeComments;
 
-  @property({type: Object})
-  _blame: BlameInfo[] | null = null;
+  @state()
+  private fetchDiffPromise: Promise<DiffInfo> | null = null;
 
-  @property({type: Array})
-  _coverageRanges: CoverageRange[] = [];
+  @state()
+  private _blame: BlameInfo[] | null = null;
 
-  @property({type: String})
-  _loadedWhitespaceLevel?: IgnoreWhitespaceType;
+  set blame(blame: BlameInfo[] | null) {
+    this._blame = blame;
+    fire(this, 'is-blame-loaded-changed', {value: !!this._blame});
+  }
 
-  @property({type: Number, computed: '_computeParentIndex(patchRange.*)'})
-  _parentIndex: number | null = null;
+  get blame() {
+    return this._blame;
+  }
 
-  @property({
-    type: Boolean,
-    computed: '_isSyntaxHighlightingEnabled(prefs.*, diff)',
-    observer: '_syntaxHighlightingEnabledChanged',
-  })
-  _syntaxHighlightingEnabled?: boolean;
+  @state()
+  private coverageRanges: CoverageRange[] = [];
 
-  @property({type: Array})
-  _layers: DiffLayer[] = [];
+  @state()
+  private loadedWhitespaceLevel?: IgnoreWhitespaceType;
 
-  @property({type: Object})
-  _renderPrefs: RenderPreferences = {
+  @state()
+  private layers: DiffLayer[] = [];
+
+  @state()
+  private renderPrefs: RenderPreferences = {
     num_lines_rendered_at_once: 128,
   };
 
@@ -288,8 +326,8 @@ export class GrDiffHost extends DIPolymerElement {
   constructor() {
     super();
     this.syntaxLayer = new GrSyntaxLayerWorker();
-    this._renderPrefs = {
-      ...this._renderPrefs,
+    this.renderPrefs = {
+      ...this.renderPrefs,
       use_lit_components: this.flags.isEnabled(
         KnownExperimentId.DIFF_RENDERING_LIT
       ),
@@ -302,10 +340,10 @@ export class GrDiffHost extends DIPolymerElement {
       // change in some way, and that we should update any models we may want
       // to keep in sync.
       'create-comment',
-      e => this._handleCreateThread(e)
+      e => this.handleCreateThread(e)
     );
     this.addEventListener('diff-context-expanded', event =>
-      this._handleDiffContextExpanded(event)
+      this.handleDiffContextExpanded(event)
     );
   }
 
@@ -316,8 +354,8 @@ export class GrDiffHost extends DIPolymerElement {
         diffView => (this.viewMode = diffView)
       )
     );
-    this._getLoggedIn().then(loggedIn => {
-      this._loggedIn = loggedIn;
+    this.restApiService.getLoggedIn().then(loggedIn => {
+      this.loggedIn = loggedIn;
     });
     this.subscriptions.push(
       this.getCommentsModel().changeComments$.subscribe(changeComments => {
@@ -340,6 +378,67 @@ export class GrDiffHost extends DIPolymerElement {
     super.disconnectedCallback();
   }
 
+  protected override update(changedProperties: PropertyValues) {
+    if (changedProperties.has('diff')) {
+      this.isImageDiff = isImageDiff(this.diff);
+    }
+    if (changedProperties.has('prefs') || changedProperties.has('diff')) {
+      const syntaxHighlightingEnabled = this.isSyntaxHighlightingEnabled();
+      this.syntaxLayer.setEnabled(syntaxHighlightingEnabled);
+    }
+    if (changedProperties.has('changeComments') ||
+        changedProperties.has('patchRange') ||
+        changedProperties.has('file')) {
+      this.computeFileThreads(this.changeComments, this.patchRange, this.file);
+    }
+    if (changedProperties.has('noRenderOnPrefsChange') ||
+        changedProperties.has('prefs')) {
+      this.syntaxHighlightingChanged(this.noRenderOnPrefsChange,
+        changedProperties.get('prefs'), this.prefs);
+    }
+    if (changedProperties.has('prefs') ||
+        changedProperties.has('loadedWhitespaceLevel') ||
+        changedProperties.has('noRenderOnPrefsChange')) {
+      this.whitespaceChanged(
+        this.prefs?.ignore_whitespace,
+        this.loadedWhitespaceLevel,
+        this.noRenderOnPrefsChange);
+    }
+  }
+
+  override render() {
+    const showNewlineWarningLeft =
+      this.hasTrailingNewlines(this.diff, true) === false;
+    const showNewlineWarningRight =
+      this.hasTrailingNewlines(this.diff, false) === false;
+    const useNewImageDiffUi =
+      this.flags.isEnabled(KnownExperimentId.NEW_IMAGE_DIFF_UI);
+    return html` <gr-diff
+      id="diff"
+      .noAutoRender=${this.noAutoRender}
+      .path=${this.path}
+      .prefs=${this.prefs}
+      .displayLine=${this.displayLine}
+      .isImageDiff=${this.isImageDiff}
+      ?hidden=${this.hidden}
+      .noRenderOnPrefsChange=${this.noRenderOnPrefsChange}
+      .renderPrefs=${this.renderPrefs}
+      .lineWrapping=${this.lineWrapping}
+      .viewMode=${this.viewMode}
+      .lineOfInterest=${this.lineOfInterest}
+      .loggedIn=${this.loggedIn}
+      .errorMessage=${this.errorMessage}
+      .baseImage=${this.baseImage}
+      .revisionImage=${this.revisionImage}
+      .coverageRanges=${this.coverageRanges}
+      .blame=${this.blame}
+      .layers=${this.layers}
+      .diff=${this.diff}
+      .showNewlineWarningLeft=${showNewlineWarningLeft}
+      .showNewlineWarningRight=${showNewlineWarningRight}
+      .useNewImageDiffUi=${useNewImageDiffUi}
+    ></gr-diff>`;
+  }
   async initLayers() {
     const preferencesPromise = this.restApiService.getPreferences();
     await getPluginLoader().awaitPluginsLoaded();
@@ -347,12 +446,12 @@ export class GrDiffHost extends DIPolymerElement {
     const enableTokenHighlight = !prefs?.disable_token_highlighting;
 
     assertIsDefined(this.path, 'path');
-    this._layers = this.getLayers(this.path, enableTokenHighlight);
-    this._coverageRanges = [];
+    this.layers = this.getLayers(this.path, enableTokenHighlight);
+    this.coverageRanges = [];
     // We kick off fetching the data here, but we don't return the promise,
     // so awaiting initLayers() will not wait for coverage data to be
     // completely loaded.
-    this._getCoverageData();
+    this.getCoverageData();
   }
 
   /**
@@ -366,8 +465,8 @@ export class GrDiffHost extends DIPolymerElement {
     assertIsDefined(this.path, 'path');
     assertIsDefined(this.changeNum, 'changeNum');
     this.diff = undefined;
-    this._errorMessage = null;
-    const whitespaceLevel = this._getIgnoreWhitespace();
+    this.errorMessage = null;
+    const whitespaceLevel = this.getIgnoreWhitespace();
 
     try {
       // We are carefully orchestrating operations that have to wait for another
@@ -376,11 +475,11 @@ export class GrDiffHost extends DIPolymerElement {
       // layers and proceed to rendering. OTOH we want to fetch diffs and diff
       // assets in parallel.
       const layerPromise = this.initLayers();
-      const diff = await this._getDiff();
-      this._loadedWhitespaceLevel = whitespaceLevel;
-      this._reportDiff(diff);
+      const diff = await this.getDiff();
+      this.loadedWhitespaceLevel = whitespaceLevel;
+      this.reportDiff(diff);
 
-      await this._loadDiffAssets(diff);
+      await this.loadDiffAssets(diff);
       // Only now we are awaiting layers (and plugin loading), which was kicked
       // off above.
       await layerPromise;
@@ -388,8 +487,8 @@ export class GrDiffHost extends DIPolymerElement {
       // Not waiting for coverage ranges intentionally as
       // plugin loading should not block the content rendering
 
-      this.editWeblinks = this._getEditWeblinks(diff);
-      this.filesWeblinks = this._getFilesWeblinks(diff);
+      this.editWeblinks = this.getEditWeblinks(diff);
+      this.filesWeblinks = this.getFilesWeblinks(diff);
       this.diff = diff;
       this.reporting.timeEnd(Timing.DIFF_LOAD, this.timingDetails());
 
@@ -411,7 +510,7 @@ export class GrDiffHost extends DIPolymerElement {
       this.reporting.timeEnd(Timing.DIFF_SYNTAX, this.timingDetails());
     } catch (e: unknown) {
       if (e instanceof Response) {
-        this._handleGetDiffError(e);
+        this.handleGetDiffError(e);
       } else if (e instanceof Error) {
         this.reporting.error(e);
       } else {
@@ -441,13 +540,15 @@ export class GrDiffHost extends DIPolymerElement {
       contentChanged += a + b;
       contentUnchanged += ab + ab;
     }
+    assertIsDefined(this.diffElement);
     return {
       metaLines,
       contentLines,
       contentUnchanged,
       contentChanged,
       height:
-        this.$.diff?.shadowRoot?.querySelector('.diffContainer')?.clientHeight,
+        this.diffElement.shadowRoot?.querySelector('.diffContainer')
+          ?.clientHeight,
     };
   }
 
@@ -464,7 +565,7 @@ export class GrDiffHost extends DIPolymerElement {
 
   clear() {
     if (this.path) this.jsAPI.disposeDiffLayers(this.path);
-    this._layers = [];
+    this.layers = [];
   }
 
   /**
@@ -500,7 +601,7 @@ export class GrDiffHost extends DIPolymerElement {
   }
 
   /**
-   * Similar to _threadsChanged(), but a bit simpler. We compare the elements
+   * Similar to threadsChanged(), but a bit simpler. We compare the elements
    * that are already in <gr-diff> with the current results emitted from the
    * model. Exists? Update. New? Create and attach. Old? Remove.
    */
@@ -573,11 +674,12 @@ export class GrDiffHost extends DIPolymerElement {
     ) {
       el.setAttribute('range', `${JSON.stringify(pointer.range)}`);
     }
-    this.$.diff.appendChild(el);
+    assertIsDefined(this.diffElement);
+    this.diffElement.appendChild(el);
     return el;
   }
 
-  _getCoverageData() {
+  private getCoverageData() {
     assertIsDefined(this.changeNum, 'changeNum');
     assertIsDefined(this.change, 'change');
     assertIsDefined(this.path, 'path');
@@ -612,8 +714,8 @@ export class GrDiffHost extends DIPolymerElement {
                 return;
               }
 
-              const existingCoverageRanges = this._coverageRanges;
-              this._coverageRanges = coverageRanges;
+              const existingCoverageRanges = this.coverageRanges;
+              this.coverageRanges = coverageRanges;
 
               // Notify with existing coverage ranges in case there is some
               // existing coverage data that needs to be removed
@@ -646,7 +748,16 @@ export class GrDiffHost extends DIPolymerElement {
       });
   }
 
-  _getEditWeblinks(diff: DiffInfo) {
+  private computeFileThreads(
+    changeComments?: ChangeComments,
+    patchRange?: PatchRange,
+    file?: PatchSetFile
+  ) {
+    if (!changeComments || !patchRange || !file) return;
+    this.threads = changeComments.getThreadsBySideForFile(file, patchRange);
+  }
+
+  private getEditWeblinks(diff: DiffInfo) {
     if (!this.projectName || !this.commitRange || !this.path) return undefined;
     return GerritNav.getEditWebLinks(
       this.projectName,
@@ -656,18 +767,8 @@ export class GrDiffHost extends DIPolymerElement {
     );
   }
 
-  @observe('changeComments', 'patchRange', 'file')
-  computeFileThreads(
-    changeComments?: ChangeComments,
-    patchRange?: PatchRange,
-    file?: PatchSetFile
-  ) {
-    if (!changeComments || !patchRange || !file) return;
-    this.threads = changeComments.getThreadsBySideForFile(file, patchRange);
-  }
-
-  _getFilesWeblinks(diff: DiffInfo) {
-    if (!this.projectName || !this.commitRange || !this.path) return {};
+  private getFilesWeblinks(diff: DiffInfo) {
+    if (!this.projectName || !this.commitRange || !this.path) return undefined;
     return {
       meta_a: GerritNav.getFileWebLinks(
         this.projectName,
@@ -686,23 +787,28 @@ export class GrDiffHost extends DIPolymerElement {
 
   /** Cancel any remaining diff builder rendering work. */
   cancel() {
-    this.$.diff.cancel();
+    assertIsDefined(this.diffElement);
+    this.diffElement.cancel();
   }
 
   getCursorStops() {
-    return this.$.diff.getCursorStops();
+    assertIsDefined(this.diffElement);
+    return this.diffElement.getCursorStops();
   }
 
   isRangeSelected() {
-    return this.$.diff.isRangeSelected();
+    assertIsDefined(this.diffElement);
+    return this.diffElement.isRangeSelected();
   }
 
   createRangeComment() {
-    this.$.diff.createRangeComment();
+    assertIsDefined(this.diffElement);
+    this.diffElement.createRangeComment();
   }
 
   toggleLeftDiff() {
-    this.$.diff.toggleLeftDiff();
+    assertIsDefined(this.diffElement);
+    this.diffElement.toggleLeftDiff();
   }
 
   /**
@@ -720,37 +826,40 @@ export class GrDiffHost extends DIPolymerElement {
           return Promise.reject(EMPTY_BLAME);
         }
 
-        this._blame = blame;
+        this.blame = blame;
         return blame;
       });
   }
 
   clearBlame() {
-    this._blame = null;
+    this.blame = null;
   }
 
   getThreadEls(): GrCommentThread[] {
-    return Array.from(this.$.diff.querySelectorAll('gr-comment-thread'));
+    assertIsDefined(this.diffElement);
+    return Array.from(this.diffElement.querySelectorAll('gr-comment-thread'));
   }
 
   getCheckEls(): GrDiffCheckResult[] {
-    return Array.from(this.$.diff.querySelectorAll('gr-diff-check-result'));
+    assertIsDefined(this.diffElement);
+    return Array.from(
+      this.diffElement.querySelectorAll('gr-diff-check-result')
+    );
   }
 
   addDraftAtLine(el: Element) {
-    this.$.diff.addDraftAtLine(el);
+    assertIsDefined(this.diffElement);
+    this.diffElement.addDraftAtLine(el);
   }
 
   clearDiffContent() {
-    this.$.diff.clearDiffContent();
+    assertIsDefined(this.diffElement);
+    this.diffElement.clearDiffContent();
   }
 
   toggleAllContext() {
-    this.$.diff.toggleAllContext();
-  }
-
-  _getLoggedIn() {
-    return this.restApiService.getLoggedIn();
+    assertIsDefined(this.diffElement);
+    this.diffElement.toggleAllContext();
   }
 
   // TODO(milutin): Use rest-api with fetchCacheURL instead of this.
@@ -759,16 +868,17 @@ export class GrDiffHost extends DIPolymerElement {
       !!this.changeNum &&
       !!this.patchRange &&
       !!this.path &&
-      this._fetchDiffPromise === null
+      this.fetchDiffPromise === null
     ) {
-      this._fetchDiffPromise = this._getDiff();
+      this.fetchDiffPromise = this.getDiff();
     }
   }
 
-  _getDiff(): Promise<DiffInfo> {
-    if (this._fetchDiffPromise !== null) {
-      const fetchDiffPromise = this._fetchDiffPromise;
-      this._fetchDiffPromise = null;
+  // Private but used in tests.
+  getDiff(): Promise<DiffInfo> {
+    if (this.fetchDiffPromise !== null) {
+      const fetchDiffPromise = this.fetchDiffPromise;
+      this.fetchDiffPromise = null;
       return fetchDiffPromise;
     }
     // Wrap the diff request in a new promise so that the error handler
@@ -783,14 +893,15 @@ export class GrDiffHost extends DIPolymerElement {
           this.patchRange.basePatchNum,
           this.patchRange.patchNum,
           this.path,
-          this._getIgnoreWhitespace(),
+          this.getIgnoreWhitespace(),
           reject
         )
         .then(diff => resolve(diff!)); // reject is called in case of error, so we can't get undefined here
     });
   }
 
-  _handleGetDiffError(response: Response) {
+  // Private but used in tests.
+  handleGetDiffError(response: Response) {
     // Loading the diff may respond with 409 if the file is too large. In this
     // case, use a toast error..
     if (response.status === 409) {
@@ -799,7 +910,7 @@ export class GrDiffHost extends DIPolymerElement {
     }
 
     if (this.showLoadFailure) {
-      this._errorMessage = [
+      this.errorMessage = [
         'Encountered error when loading the diff:',
         response.status,
         response.statusText,
@@ -812,8 +923,10 @@ export class GrDiffHost extends DIPolymerElement {
 
   /**
    * Report info about the diff response.
+   *
+   * Private but used in tests.
    */
-  _reportDiff(diff?: DiffInfo) {
+  reportDiff(diff?: DiffInfo) {
     if (!diff || !diff.content) return;
 
     // Count the delta lines stemming from normal deltas, and from
@@ -856,25 +969,21 @@ export class GrDiffHost extends DIPolymerElement {
     }
   }
 
-  _loadDiffAssets(diff?: DiffInfo) {
+  private loadDiffAssets(diff?: DiffInfo) {
     if (isImageDiff(diff)) {
       // diff! is justified, because isImageDiff() returns false otherwise
-      return this._getImages(diff!).then(images => {
-        this._baseImage = images.baseImage;
-        this._revisionImage = images.revisionImage;
+      return this.getImages(diff!).then(images => {
+        this.baseImage = images.baseImage ?? undefined;
+        this.revisionImage = images.revisionImage ?? undefined;
       });
     } else {
-      this._baseImage = null;
-      this._revisionImage = null;
+      this.baseImage = undefined;
+      this.revisionImage = undefined;
       return Promise.resolve();
     }
   }
 
-  _computeIsImageDiff(diff?: DiffInfo) {
-    return isImageDiff(diff);
-  }
-
-  _threadsChanged(threads: CommentThread[]) {
+  private threadsChanged(threads: CommentThread[]) {
     const rootIdToThreadEl = new Map<UrlEncodedCommentId, GrCommentThread>();
     const unsavedThreadEls: GrCommentThread[] = [];
     const threadEls = this.getThreadEls();
@@ -933,8 +1042,8 @@ export class GrDiffHost extends DIPolymerElement {
         dontRemove.add(existingThreadEl);
         updatedCount++;
       } else {
-        const threadEl = this._createThreadElement(thread);
-        this._attachThreadElement(threadEl);
+        const threadEl = this.createThreadElement(thread);
+        this.attachThreadElement(threadEl);
         dontRemove.add(threadEl);
         createdCount++;
       }
@@ -965,11 +1074,7 @@ export class GrDiffHost extends DIPolymerElement {
     }
   }
 
-  _computeIsBlameLoaded(blame: BlameInfo[] | null) {
-    return !!blame;
-  }
-
-  _getImages(diff: DiffInfo) {
+  private getImages(diff: DiffInfo) {
     assertIsDefined(this.changeNum, 'changeNum');
     assertIsDefined(this.patchRange, 'patchRange');
     return this.restApiService.getImagesForDiff(
@@ -979,7 +1084,7 @@ export class GrDiffHost extends DIPolymerElement {
     );
   }
 
-  _handleCreateThread(e: CustomEvent<CreateCommentEventDetail>) {
+  handleCreateThread(e: CustomEvent<CreateCommentEventDetail>) {
     if (!this.patchRange) throw Error('patch range not set');
 
     const {lineNum, side, range} = e.detail;
@@ -1008,23 +1113,24 @@ export class GrDiffHost extends DIPolymerElement {
         : this.path;
     assertIsDefined(path, 'path');
 
+    const parentIndex = this.computeParentIndex();
     const newThread: CommentThread = {
       rootId: undefined,
       comments: [],
       patchNum: patchNum as RevisionPatchSetNum,
       commentSide,
       // TODO: Maybe just compute from patchRange.base on the fly?
-      mergeParentNum: this._parentIndex ?? undefined,
+      mergeParentNum: parentIndex ?? undefined,
       path,
       line: lineNum,
       range,
     };
-    const el = this._createThreadElement(newThread);
-    this._attachThreadElement(el);
+    const el = this.createThreadElement(newThread);
+    this.attachThreadElement(el);
   }
 
   private canCommentOnPatchSetNum(patchNum: PatchSetNum) {
-    if (!this._loggedIn) {
+    if (!this.loggedIn) {
       fireEvent(this, 'show-auth-required');
       return false;
     }
@@ -1047,8 +1153,9 @@ export class GrDiffHost extends DIPolymerElement {
     return true;
   }
 
-  _attachThreadElement(threadEl: Element) {
-    this.$.diff.appendChild(threadEl);
+  private attachThreadElement(threadEl: Element) {
+    assertIsDefined(this.diffElement);
+    this.diffElement.appendChild(threadEl);
   }
 
   private getDiffSide(thread: CommentThread) {
@@ -1071,7 +1178,7 @@ export class GrDiffHost extends DIPolymerElement {
     return diffSide;
   }
 
-  _createThreadElement(thread: CommentThread) {
+  private createThreadElement(thread: CommentThread) {
     const diffSide = this.getDiffSide(thread);
 
     const threadEl = document.createElement('gr-comment-thread');
@@ -1091,7 +1198,8 @@ export class GrDiffHost extends DIPolymerElement {
     return threadEl;
   }
 
-  _filterThreadElsForLocation(
+  // Private but used in tests.
+  filterThreadElsForLocation(
     threadEls: GrCommentThread[],
     lineInfo: LineInfo,
     side: Side
@@ -1128,19 +1236,14 @@ export class GrDiffHost extends DIPolymerElement {
     );
   }
 
-  _getIgnoreWhitespace(): IgnoreWhitespaceType {
+  private getIgnoreWhitespace(): IgnoreWhitespaceType {
     if (!this.prefs || !this.prefs.ignore_whitespace) {
       return 'IGNORE_NONE';
     }
     return this.prefs.ignore_whitespace;
   }
 
-  @observe(
-    'prefs.ignore_whitespace',
-    '_loadedWhitespaceLevel',
-    'noRenderOnPrefsChange'
-  )
-  _whitespaceChanged(
+  private whitespaceChanged(
     preferredWhitespaceLevel?: IgnoreWhitespaceType,
     loadedWhitespaceLevel?: IgnoreWhitespaceType,
     noRenderOnPrefsChange?: boolean
@@ -1149,7 +1252,7 @@ export class GrDiffHost extends DIPolymerElement {
     if (loadedWhitespaceLevel === undefined) return;
     if (noRenderOnPrefsChange === undefined) return;
 
-    this._fetchDiffPromise = null;
+    this.fetchDiffPromise = null;
     if (
       preferredWhitespaceLevel !== loadedWhitespaceLevel &&
       !noRenderOnPrefsChange
@@ -1158,47 +1261,32 @@ export class GrDiffHost extends DIPolymerElement {
     }
   }
 
-  @observe('noRenderOnPrefsChange', 'prefs.*')
-  _syntaxHighlightingChanged(
+  private syntaxHighlightingChanged(
     noRenderOnPrefsChange?: boolean,
-    prefsChangeRecord?: PolymerDeepPropertyChange<
-      DiffPreferencesInfo,
-      DiffPreferencesInfo
-    >
+    oldPrefs?: DiffPreferencesInfo,
+    prefs?: DiffPreferencesInfo
   ) {
     if (noRenderOnPrefsChange === undefined) return;
-    if (prefsChangeRecord === undefined) return;
-    if (prefsChangeRecord.path !== 'prefs.syntax_highlighting') return;
+    if (prefs === undefined) return;
+    if (oldPrefs?.syntax_highlighting === prefs.syntax_highlighting) return;
 
     if (!noRenderOnPrefsChange) {
       this.reload();
     }
   }
 
-  _computeParentIndex(
-    patchRangeRecord: PolymerDeepPropertyChange<PatchRange, PatchRange>
-  ) {
-    if (!patchRangeRecord.base) return null;
-    return isMergeParent(patchRangeRecord.base.basePatchNum)
-      ? getParentIndex(patchRangeRecord.base.basePatchNum)
+  private computeParentIndex() {
+    if (!this.patchRange) return null;
+    return isMergeParent(this.patchRange.basePatchNum)
+      ? getParentIndex(this.patchRange.basePatchNum)
       : null;
   }
 
-  _syntaxHighlightingEnabledChanged(_syntaxHighlightingEnabled: boolean) {
-    this.syntaxLayer.setEnabled(_syntaxHighlightingEnabled);
-  }
-
-  _isSyntaxHighlightingEnabled(
-    preferenceChangeRecord?: PolymerDeepPropertyChange<
-      DiffPreferencesInfo,
-      DiffPreferencesInfo
-    >,
-    diff?: DiffInfo
-  ) {
-    if (!preferenceChangeRecord?.base?.syntax_highlighting || !diff) {
+  private isSyntaxHighlightingEnabled() {
+    if (!this.prefs?.syntax_highlighting || !this.diff) {
       return false;
     }
-    if (anyLineTooLong(diff)) {
+    if (anyLineTooLong(this.diff)) {
       fireAlert(
         this,
         `Files with line longer than ${SYNTAX_MAX_LINE_LENGTH} characters` +
@@ -1206,7 +1294,8 @@ export class GrDiffHost extends DIPolymerElement {
       );
       return false;
     }
-    if (this.$.diff.getDiffLength(diff) > CODE_MAX_LINES) {
+    assertIsDefined(this.diffElement);
+    if (this.diffElement.getDiffLength(this.diff) > CODE_MAX_LINES) {
       fireAlert(
         this,
         `Files with more than ${CODE_MAX_LINES} lines` +
@@ -1217,7 +1306,7 @@ export class GrDiffHost extends DIPolymerElement {
     return true;
   }
 
-  _handleDiffContextExpanded(e: CustomEvent<DiffContextExpandedEventDetail>) {
+  private handleDiffContextExpanded(e: CustomEvent<DiffContextExpandedEventDetail>) {
     this.reporting.reportInteraction('diff-context-expanded', {
       numLines: e.detail.numLines,
     });
@@ -1230,8 +1319,10 @@ export class GrDiffHost extends DIPolymerElement {
    * false if testing the revision.
    * @return returns the chunk object or null if there was
    * no chunk for that side.
+   *
+   * Private but used in tests.
    */
-  _lastChunkForSide(diff: DiffInfo | undefined, leftSide: boolean) {
+  lastChunkForSide(diff: DiffInfo | undefined, leftSide: boolean) {
     if (!diff?.content.length) {
       return null;
     }
@@ -1270,9 +1361,11 @@ export class GrDiffHost extends DIPolymerElement {
    * @return Return true if the side has a trailing newline.
    * Return false if it doesn't. Return null if not applicable (for
    * example, if the diff has no content on the specified side).
+   *
+   * Private but used in tests.
    */
-  _hasTrailingNewlines(diff: DiffInfo | undefined, leftSide: boolean) {
-    const chunk = this._lastChunkForSide(diff, leftSide);
+  hasTrailingNewlines(diff: DiffInfo | undefined, leftSide: boolean) {
+    const chunk = this.lastChunkForSide(diff, leftSide);
     if (!chunk) return null;
     let lines;
     if (chunk.ab) {
@@ -1283,18 +1376,6 @@ export class GrDiffHost extends DIPolymerElement {
     if (!lines) return null;
     return lines[lines.length - 1] === '';
   }
-
-  _showNewlineWarningLeft(diff?: DiffInfo) {
-    return this._hasTrailingNewlines(diff, true) === false;
-  }
-
-  _showNewlineWarningRight(diff?: DiffInfo) {
-    return this._hasTrailingNewlines(diff, false) === false;
-  }
-
-  _useNewImageDiffUi() {
-    return this.flags.isEnabled(KnownExperimentId.NEW_IMAGE_DIFF_UI);
-  }
 }
 
 declare global {
@@ -1303,14 +1384,4 @@ declare global {
   }
 }
 
-// TODO(TS): Be more specific than CustomEvent, which has detail:any.
-declare global {
-  interface HTMLElementEventMap {
-    /* prettier-ignore */
-    'render': CustomEvent;
-    'normalize-range': CustomEvent;
-    'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
-    'create-comment': CustomEvent;
-    'root-id-changed': CustomEvent;
-  }
-}
+

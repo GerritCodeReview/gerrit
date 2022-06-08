@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b7c74498_861a940f",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1135531
+      },
+      "writtenOn": "2022-06-08T18:23:23Z",
+      "side": 1,
+      "message": "Is there any reason to be strict about the formatting when parsing the trailer in this hook? What if someone adds some comment after the link, does that make the trailer invalid? I.e., is there an official definition of the Link trailer somewhere that says it must contain a URL _and_ nothing else?",
+      "parentUuid": "08db7f6c_7513c533",
+      "range": {
+        "startLine": 62,
+        "startChar": 32,
+        "endLine": 62,
+        "endChar": 33
+      },
+      "revId": "5b579518650c07b8b4715e53dd60c9a21627c89f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1d7b3ac_29e83737",
         "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2022-06-08T13:09:51Z",
       "side": 1,
       "message": "A valid change-id should match \"I[0-9a-f]\\{40\\}$\"",
+      "range": {
+        "startLine": 66,
+        "startChar": 11,
+        "endLine": 66,
+        "endChar": 13
+      },
+      "revId": "5b579518650c07b8b4715e53dd60c9a21627c89f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b70de94c_d2c5dc03",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1135531
+      },
+      "writtenOn": "2022-06-08T18:23:23Z",
+      "side": 1,
+      "message": "Well, not caring about the value corresponds to the old trailer.ifexists\u003ddoNothing option, which only checked if a Change-Id trailer exists. And as per above, is it the job of this hook to validate that the trailers are correctly formatted? In that case it should give an error about incorrectly formatted trailers rather than silently adding a new.",
+      "parentUuid": "f1d7b3ac_29e83737",
       "range": {
         "startLine": 66,
         "startChar": 11,

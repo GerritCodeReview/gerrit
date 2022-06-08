@@ -515,7 +515,7 @@ suite('gr-change-list-topic-flow tests', () => {
         element,
         'gr-autocomplete'
       );
-      autocomplete.focus();
+      autocomplete.setFocus(true);
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getTopicsStub, 'getTopicsStub');
@@ -554,7 +554,7 @@ suite('gr-change-list-topic-flow tests', () => {
         'gr-autocomplete'
       );
 
-      autocomplete.focus();
+      autocomplete.setFocus(true);
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getTopicsStub, 'getTopicsStub');

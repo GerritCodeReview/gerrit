@@ -4,25 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import '../../../styles/gr-form-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-overlay/gr-overlay';
-import '../../../styles/shared-styles';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {SshKeyInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {getAppContext} from '../../../services/app-context';
-import {LitElement, html} from 'lit';
+import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
-import {sharedStyles} from '../../../styles/shared-styles';
-import {css} from 'lit';
-import {BindValueChangeEvent} from '../../../types/events';
-import {fire} from '../../../utils/event-util';
-import {PropertyValues} from 'lit';
 import {formStyles} from '../../../styles/gr-form-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {fire} from '../../../utils/event-util';
+import {BindValueChangeEvent} from '../../../types/events';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -58,8 +54,8 @@ export class GrSshEditor extends LitElement {
 
   static override get styles() {
     return [
-      sharedStyles,
       formStyles,
+      sharedStyles,
       css`
         .statusHeader {
           width: 4em;
@@ -90,6 +86,9 @@ export class GrSshEditor extends LitElement {
         #existing .commentColumn {
           min-width: 27em;
           width: auto;
+        }
+        iron-autogrow-textarea {
+          background-color: var(--view-background-color);
         }
       `,
     ];
@@ -159,8 +158,8 @@ export class GrSshEditor extends LitElement {
               <iron-autogrow-textarea
                 id="newKey"
                 autocomplete="on"
-                .bindValue=${this.newKey}
                 placeholder="New SSH Key"
+                .bindValue=${this.newKey}
                 @bind-value-changed=${(e: BindValueChangeEvent) => {
                   this.newKey = e.detail.value;
                 }}

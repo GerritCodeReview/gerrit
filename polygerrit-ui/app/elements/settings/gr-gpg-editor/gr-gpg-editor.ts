@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import '../../../styles/gr-form-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-overlay/gr-overlay';
@@ -15,8 +14,8 @@ import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
-import {sharedStyles} from '../../../styles/shared-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
 import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
@@ -52,8 +51,8 @@ export class GrGpgEditor extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   static override styles = [
-    sharedStyles,
     formStyles,
+    sharedStyles,
     css`
       .keyHeader {
         width: 9em;
@@ -72,6 +71,9 @@ export class GrGpgEditor extends LitElement {
       }
       #existing {
         margin-bottom: var(--spacing-l);
+      }
+      iron-autogrow-textarea {
+        background-color: var(--view-background-color);
       }
     `,
   ];

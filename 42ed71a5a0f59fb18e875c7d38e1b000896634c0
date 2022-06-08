@@ -123,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef21af85_391158dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-08T18:44:19Z",
+      "side": 1,
+      "message": "\u003e \u003e Does that help clarify?\n\u003e \n\u003e at a high level, it certainly does.\n\nglad it helped!\n\n\u003e at the implementation level, the patch seems backwards, as it basically subverts the configuration done in the UI. you\u0027d at least need an additional mechanism to disable/replace the UI.\n\nYes, that\u0027s a missing piece in this change currently and needs to be addressed before it gets +2.\n\n\u003e it appears easier to obtain a clean implementation by just relaying it entirely to the configuration (after introducing purpose-bound address settings), though your requirement to make the addresses repo-specific makes this somewhat cumbersome (unless it was a pattern like foo-${repo}@mail.dns).\n\nWe could maybe add the email sending behavior as an auth configuration setting (it would work for LDAP, not sure about others), but we\u0027d still want the UI disabling you mention above. Is that the kind of configuration you have in mind?\n\n\u003e \n\u003e fwiw, the case which got me interested in this issue was a guy who contributes to qt-project as an employee and consequently needs to present himself as such in commits and the gerrit UI, but wants to use a private address for notifications, as the company\u0027s restrictive security policy makes using the company address somewhat impractical for that. he worked it around by having two gerrit accounts, which is obviously suboptimal.\n\nYeah, that\u0027s not a great setup. I\u0027ll keep in mind when we start #2 later this month.",
+      "parentUuid": "3b1b5fdc_b9086436",
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "648eafb5_550e2afd",

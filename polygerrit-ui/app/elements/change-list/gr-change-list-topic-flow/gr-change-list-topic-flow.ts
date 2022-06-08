@@ -359,8 +359,7 @@ export class GrChangeListTopicFlow extends LitElement {
     const results = await allSettled(promises);
     if (results.every(result => result.status === 'fulfilled')) {
       this.overallProgress = ProgressStatus.SUCCESSFUL;
-      this.dropdown?.close();
-      this.isDropdownOpen = false;
+      this.closeDropdown();
       fireReload(this);
     } else {
       this.overallProgress = ProgressStatus.FAILED;

@@ -30,6 +30,7 @@ import {
   queryAndAssert,
   stubReporting,
   stubRestApi,
+  waitUntil,
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {ChangeInfo, NumericChangeId} from '../../../types/common';
@@ -392,6 +393,59 @@ suite('gr-change-list-reviewer-flow tests', () => {
       assert.isEmpty(ccList.accounts);
     });
 
+    test('reloads page on success', async () => {
+      const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
+      const reviewerList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#reviewer-list'
+      );
+
+      reviewerList.accounts.push(accounts[2], groups[0]);
+      await flush();
+      dialog.confirmButton!.click();
+      await element.updateComplete;
+      await resolvePromises();
+      await element.updateComplete;
+
+      await waitUntil(
+        () => dispatchEventStub.calledOnce,
+        'dispatchEventStub never called'
+      );
+
+      assert.isTrue(dispatchEventStub.calledOnce);
+      assert.equal(dispatchEventStub.firstCall.args[0].type, 'reload');
+    });
+
+    test('does not reload page on failure', async () => {
+      const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
+      const reviewerList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#reviewer-list'
+      );
+
+      reviewerList.accounts.push(accounts[2], groups[0]);
+      await flush();
+      dialog.confirmButton!.click();
+      await element.updateComplete;
+      saveChangesPromises[0].reject(new Error('failed!'));
+      saveChangesPromises[1].reject(new Error('failed!'));
+      await element.updateComplete;
+
+      await waitUntil(
+        () => reportingStub.calledWith('bulk-action-failure'),
+        'reporting stub never called'
+      );
+
+      assert.deepEqual(reportingStub.lastCall.args, [
+        'bulk-action-failure',
+        {
+          type: 'add-reviewer',
+          count: 2,
+        },
+      ]);
+      assert.isTrue(dispatchEventStub.notCalled);
+    });
+
     test('confirm button text updates', async () => {
       assert.equal(dialog.confirmLabel, 'Add');
 
@@ -563,7 +617,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       );
     });
 
-    test('confirms large group', async () => {
+    test('"yes" button confirms large group', async () => {
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
         'gr-account-list#reviewer-list'
@@ -606,7 +660,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       });
     });
 
-    test('no confirmation dialog for small group', async () => {
+    test('confirmation dialog skipped for small group', async () => {
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
         'gr-account-list#reviewer-list'
@@ -644,7 +698,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       });
     });
 
-    test('no button cancels large group', async () => {
+    test('"no" button cancels large group', async () => {
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
         'gr-account-list#reviewer-list'

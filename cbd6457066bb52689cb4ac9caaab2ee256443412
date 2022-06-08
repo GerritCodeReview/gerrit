@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd7a850e_68d87a4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-08T06:59:45Z",
+      "side": 1,
+      "message": "As I can see, the existing code doesn\u0027t use Java default serialization, but instead it uses a custom serializer both for keys and values.\n\nThis change invalidates all diff caches - could you please estimate how this will affect running hosts? Should we prepare a rollout plan and precalculate new caches first?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "cbd6457066bb52689cb4ac9caaab2ee256443412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

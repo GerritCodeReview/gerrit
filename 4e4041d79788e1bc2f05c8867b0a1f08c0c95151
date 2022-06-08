@@ -22,6 +22,30 @@
       },
       "revId": "4e4041d79788e1bc2f05c8867b0a1f08c0c95151",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6de0283f_363a0331",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-08T12:12:05Z",
+      "side": 1,
+      "message": "mmm, you\u0027re right. That\u0027s not optimal but we are trying to mitigate the effect of unknown enum values instead of failing.\n\nI reworked the change such that each of the serialized enums implement a \"DefaultEnum\" interface and provide the default value. I did my guesses to the best possible defaults. The SafeEnumStringConverter will then fallback to the default.\n\nNote that ideally developers should manage their changes as not to fall into the compatibility traps. The SafeEnum is there to guard against any cases that slip.\n\nI also merged the next change - https://gerrit-review.googlesource.com/c/gerrit/+/338377/5 - into this: such that we migrate all enums altogether in this change.",
+      "parentUuid": "82919cf6_ae653dd9",
+      "range": {
+        "startLine": 16,
+        "startChar": 56,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "4e4041d79788e1bc2f05c8867b0a1f08c0c95151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

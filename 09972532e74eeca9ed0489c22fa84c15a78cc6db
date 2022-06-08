@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t you report the old one as well? Or at least the diff?",
       "revId": "09972532e74eeca9ed0489c22fa84c15a78cc6db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a543ad4b_d2458ec6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-08T08:05:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e6fbb2e_5be54c68",
+      "revId": "09972532e74eeca9ed0489c22fa84c15a78cc6db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

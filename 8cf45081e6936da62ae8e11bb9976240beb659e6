@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6108279_f9ecdcc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-08T14:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28f3ee96_787ab2cc",
+      "range": {
+        "startLine": 10,
+        "startChar": 58,
+        "endLine": 11,
+        "endChar": 77
+      },
+      "revId": "8cf45081e6936da62ae8e11bb9976240beb659e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c23b748a_c59d7fd7",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-06-07T15:14:54Z",
       "side": 1,
       "message": "We don\u0027t usually mention refactors in the release notes, so you can use \"Release-Notes: skip\" for this.",
+      "revId": "8cf45081e6936da62ae8e11bb9976240beb659e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67a52755_30c5895c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-08T14:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c23b748a_c59d7fd7",
       "revId": "8cf45081e6936da62ae8e11bb9976240beb659e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -89,6 +131,30 @@
       "writtenOn": "2022-06-07T15:14:54Z",
       "side": 1,
       "message": "You can do this rename to \"Preview Previously Suggested Fix\" in this change too or you can do in its own change that follows this one.",
+      "range": {
+        "startLine": 5734,
+        "startChar": 4,
+        "endLine": 5734,
+        "endChar": 15
+      },
+      "revId": "8cf45081e6936da62ae8e11bb9976240beb659e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97795922_a24d77e1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5734,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-08T14:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fe01c16_87778274",
       "range": {
         "startLine": 5734,
         "startChar": 4,

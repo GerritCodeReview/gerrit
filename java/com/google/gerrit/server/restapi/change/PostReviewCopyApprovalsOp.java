@@ -29,7 +29,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.approval.ApprovalCopier;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -49,7 +48,6 @@ public class PostReviewCopyApprovalsOp implements BatchUpdateOp {
   private ChangeContext ctx;
   private ImmutableList<PatchSet.Id> followUpPatchSets;
 
-  @Inject
   PostReviewCopyApprovalsOp(
       @Provided ApprovalCopier approvalCopier,
       @Provided PatchSetUtil patchSetUtil,

@@ -469,8 +469,10 @@ export class GrDiffView extends base {
     );
     this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.cursor = new GrDiffCursor();
-    this.cursor.replaceDiffs([this.$.diffHost]);
     this._onRenderHandler = (_: Event) => {
+      // We have to wait until render because at the time of connectedCallback,
+      // gr-diff-host has not been renderd yet.
+      this.cursor?.replaceDiffs([this.$.diffHost]);
       this.cursor?.reInitCursor();
     };
     this.$.diffHost.addEventListener('render', this._onRenderHandler);
@@ -633,6 +635,26 @@ export class GrDiffView extends base {
 
   _onOpenFixPreview(e: OpenFixPreviewEvent) {
     this.$.applyFixDialog.open(e);
+  }
+
+  _onIsBlameLoadedchanged(e: ValueChangedEvent<boolean>) {
+    this._isBlameLoaded = e.detail.value;
+  }
+
+  onDiffChanged(e: ValueChangedEvent<DiffInfo>) {
+    this._diff = e.detail.value;
+  }
+
+  onEditWeblinksChanged(e: ValueChangedEvent<GeneratedWebLink[] | undefined>) {
+    this._editWeblinks = e.detail.value;
+  }
+
+  _onFilesWeblinksChanged(e: ValueChangedEvent<FilesWebLinks | undefined>) {
+    this._filesWeblinks = e.detail.value;
+  }
+
+  _onIsImageDiffChanged(e: ValueChangedEvent<boolean>) {
+    this._isImageDiff = e.detail.value;
   }
 
   _handleNextLine() {

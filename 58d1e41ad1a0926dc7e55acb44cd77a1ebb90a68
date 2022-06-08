@@ -22,6 +22,30 @@
       },
       "revId": "58d1e41ad1a0926dc7e55acb44cd77a1ebb90a68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1d4bf20_68632e4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-08T14:12:27Z",
+      "side": 1,
+      "message": "The chips used to be for removing, but now they are used for adding so they are shown alongside the input box. Can you suggest what about the commit message is not clear?",
+      "parentUuid": "1a6f5d25_509ba1ea",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "58d1e41ad1a0926dc7e55acb44cd77a1ebb90a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

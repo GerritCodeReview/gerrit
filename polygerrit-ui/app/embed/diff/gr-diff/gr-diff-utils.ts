@@ -355,3 +355,18 @@ ${commit.commit_msg}`;
 
   return blameNode;
 }
+
+/**
+ * Get the approximate length of the diff as the sum of the maximum
+ * length of the chunks.
+ */
+export function getDiffLength(diff?: DiffInfo) {
+  if (!diff) return 0;
+  return diff.content.reduce((sum, sec) => {
+    if (sec.ab) {
+      return sum + sec.ab.length;
+    } else {
+      return sum + Math.max(sec.a ? sec.a.length : 0, sec.b ? sec.b.length : 0);
+    }
+  }, 0);
+}

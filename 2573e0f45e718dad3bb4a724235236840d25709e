@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "364d9da6_ae14f6a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-08T14:46:43Z",
+      "side": 1,
+      "message": "It is not clear to me why the new feature has to get the name `ApplyFix`. Can we maybe keep `ApplyFix` as is without renaming it? And add the new feature under a different name? What is the new feature?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "2573e0f45e718dad3bb4a724235236840d25709e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

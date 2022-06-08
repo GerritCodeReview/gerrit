@@ -16,6 +16,24 @@
       "message": "Is this a change in behaviour? (also same for others change/group/account schema definitions)\n\nPreviously we used the other constructor, defaulting the schema version to zero. but now the version is different.\n\nHow is/was the version number used? is it safe to change it?",
       "revId": "1898f1f54f05db39c7dd7e90815d24715738a59e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "833b4355_f031633f",
+        "filename": "java/com/google/gerrit/server/index/group/GroupSchemaDefinitions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-08T15:55:00Z",
+      "side": 1,
+      "message": "See https://gerrit-review.googlesource.com/c/gerrit/+/339014/4/java/com/google/gerrit/index/SchemaUtil.java#b52\n\n\nIt was previously assigned to the number, deduced from the version name on assignment to indexes. The behaviour is the same: version field matches the version name, the only difference is that it must be assigned for every schema on schema creations (even for the schemas that do not belong to any schema indexes definitions).\n\nThis is the safe change, since in the end all the schemas have same versions assigned as before.",
+      "parentUuid": "5dbd3619_ceba3853",
+      "revId": "1898f1f54f05db39c7dd7e90815d24715738a59e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

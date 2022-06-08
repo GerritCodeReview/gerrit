@@ -16,6 +16,23 @@
       "message": "There is a CI issue with checking Code-Style, removing that vote and voting manually.",
       "revId": "e3cfe702070163c2453d82adb3ff18218200bc61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bde27f4e_07a5cda3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-08T10:42:53Z",
+      "side": 1,
+      "message": "We are ready to submit this now, hence removing the veto vote.",
+      "revId": "e3cfe702070163c2453d82adb3ff18218200bc61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -92,8 +92,8 @@ export class GrChangeListHashtagFlow extends LitElement {
           border: var(--spacing-xxs) solid var(--gray-300);
         }
         .chip.selected {
-          color: var(--blue-800);
-          background-color: var(--blue-50);
+          color: var(--selected-foreground);
+          background-color: var(--selected-chip-background);
           margin: var(--spacing-xxs);
         }
         .loadingOrError {

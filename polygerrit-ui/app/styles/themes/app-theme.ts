@@ -39,6 +39,8 @@ const appThemeCss = safeStyleSheet`
     --blue-700-16: #1967d229;
     --blue-700-24: #1967d23d;
     --blue-400: #669df6;
+    --blue-300: #8ab4f8;
+    --blue-300-24: #8ab4f83D;
     --blue-200: #aecbfa;
     --blue-200-16: #aecbfa29;
     --blue-200-24: #aecbfa3d;
@@ -158,6 +160,7 @@ const appThemeCss = safeStyleSheet`
 
     --selected-foreground: var(--blue-800);
     --selected-background: var(--blue-50);
+    --selected-chip-background: var(--blue-50);
 
     --success-foreground: var(--green-700);
     --success-background: var(--green-50);

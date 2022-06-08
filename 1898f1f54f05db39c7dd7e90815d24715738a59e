@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ba09f966_92c02b70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-08T16:41:10Z",
+      "side": 1,
+      "message": "Release notes footer needed.",
+      "revId": "1898f1f54f05db39c7dd7e90815d24715738a59e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5dbd3619_ceba3853",
         "filename": "java/com/google/gerrit/server/index/group/GroupSchemaDefinitions.java",
         "patchSetId": 4
@@ -32,6 +49,24 @@
       "side": 1,
       "message": "See https://gerrit-review.googlesource.com/c/gerrit/+/339014/4/java/com/google/gerrit/index/SchemaUtil.java#b52\n\n\nIt was previously assigned to the number, deduced from the version name on assignment to indexes. The behaviour is the same: version field matches the version name, the only difference is that it must be assigned for every schema on schema creations (even for the schemas that do not belong to any schema indexes definitions).\n\nThis is the safe change, since in the end all the schemas have same versions assigned as before.",
       "parentUuid": "5dbd3619_ceba3853",
+      "revId": "1898f1f54f05db39c7dd7e90815d24715738a59e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8747181_3df20973",
+        "filename": "java/com/google/gerrit/server/index/group/GroupSchemaDefinitions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-08T16:41:10Z",
+      "side": 1,
+      "message": "Right, thanks for clarifying. LGTM.",
+      "parentUuid": "833b4355_f031633f",
       "revId": "1898f1f54f05db39c7dd7e90815d24715738a59e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

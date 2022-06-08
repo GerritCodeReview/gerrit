@@ -497,6 +497,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b98cf7ec_3da2b26e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5378,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-08T14:45:32Z",
+      "side": 1,
+      "message": "I am refactoring to rename ApplyFix to ApplyStoredFix and all the related changes suggested in 2 comments above.\nThe change is at https://gerrit-review.googlesource.com/c/gerrit/+/338854\n\nAdditionally, I have also renamed GetFixPreview to GetStoredFixPreview as I think it keeps the naming consistent with ApplyStoredFix and does not cause confusion with the newly coming class of PreviewFix. Let me know if you think otherwise and I can revert that.",
+      "parentUuid": "7fbb751f_9f1ac63d",
+      "range": {
+        "startLine": 5378,
+        "startChar": 4,
+        "endLine": 5378,
+        "endChar": 20
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e66e7d95_9c78c022",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28

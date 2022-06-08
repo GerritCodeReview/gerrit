@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89f4b451_c1b37a73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-08T16:39:15Z",
+      "side": 1,
+      "message": "Edwin, could you please take a look at https://gerrit-review.git.corp.google.com/c/gerrit/+/338376/comments/82919cf6_ae653dd9 ?\n\nThe code looks good to me, but I am not sure about the overall idea.",
+      "revId": "feec0d1c51d010868cee0171039fc4e076445817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fc58405_39c706db",
+        "filename": "java/com/google/gerrit/entities/converter/SafeEnumStringConverter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-08T16:39:15Z",
+      "side": 1,
+      "message": "Should we log an error here/increase counter? I think error values shouldn\u0027t be silently replaced.",
+      "range": {
+        "startLine": 41,
+        "startChar": 6,
+        "endLine": 41,
+        "endChar": 64
+      },
+      "revId": "feec0d1c51d010868cee0171039fc4e076445817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

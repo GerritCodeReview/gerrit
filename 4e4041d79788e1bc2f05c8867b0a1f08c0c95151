@@ -46,6 +46,30 @@
       },
       "revId": "4e4041d79788e1bc2f05c8867b0a1f08c0c95151",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fd15144_8f63ac72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-08T16:39:15Z",
+      "side": 1,
+      "message": "\u003e but we are trying to mitigate the effect of unknown enum values instead of failing\n\nYes, I understand. But we should be very careful about each enum. There is a risk that reading X instead of NEW_Y can hide some information from a reviewer or can lead to a data leakage or allows to submit a change without an appropriate approval, etc....\n\nI.e. from my point of view - failing is bad, but \"unpredictable\" behavior can lead to unobvious outcomes. \"Unpredictable\" - here I mean, that if a new value is added to enum, it shouldn\u0027t be processed as one of the existing values.\nI would prefer to have a separate \"Unrecognized\" values in enum and code should process it explicitly. Maybe display error in a change, make change unsubmittable, etc... I understand that this requires significant amount of work.\n\nBtw, let\u0027s ask for a third opinion.\n\nEdwin - WDYT? Is it ok to replace unknown enum values with some default values? (I personally don\u0027t see in many enums, why some value is selected as default).",
+      "parentUuid": "6de0283f_363a0331",
+      "range": {
+        "startLine": 16,
+        "startChar": 56,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "4e4041d79788e1bc2f05c8867b0a1f08c0c95151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

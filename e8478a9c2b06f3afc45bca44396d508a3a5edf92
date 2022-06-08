@@ -16,6 +16,24 @@
       "message": "ping @Eryk?",
       "revId": "e8478a9c2b06f3afc45bca44396d508a3a5edf92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fc92443_8e7c02c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2022-06-08T07:08:02Z",
+      "side": 1,
+      "message": "Thanks @Jacek.",
+      "parentUuid": "254dc768_93cad56b",
+      "revId": "e8478a9c2b06f3afc45bca44396d508a3a5edf92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

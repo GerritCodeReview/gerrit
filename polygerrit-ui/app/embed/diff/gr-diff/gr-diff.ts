@@ -28,6 +28,7 @@ import {
   rangesEqual,
   getResponsiveMode,
   isResponsive,
+  getDiffLength,
 } from './gr-diff-utils';
 import {getHiddenScroll} from '../../../scripts/hiddenscroll';
 import {customElement, observe, property} from '@polymer/decorators';
@@ -808,6 +809,11 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     }
   }
 
+  // Implemented so the test can stub it.
+  getDiffLength(diff?: DiffInfo) {
+    return getDiffLength(diff);
+  }
+
   /**
    * When called multiple times from the same task, will call
    * _renderDiffTable only once, in the next task (scheduled via `setTimeout`).
@@ -1074,23 +1080,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       return 'newlineWarning hidden';
     }
     return 'newlineWarning';
-  }
-
-  /**
-   * Get the approximate length of the diff as the sum of the maximum
-   * length of the chunks.
-   */
-  getDiffLength(diff?: DiffInfo) {
-    if (!diff) return 0;
-    return diff.content.reduce((sum, sec) => {
-      if (sec.ab) {
-        return sum + sec.ab.length;
-      } else {
-        return (
-          sum + Math.max(sec.a ? sec.a.length : 0, sec.b ? sec.b.length : 0)
-        );
-      }
-    }, 0);
   }
 }
 

@@ -201,7 +201,8 @@ export class UserModel extends Model<UserState> implements Finalizable {
     this.subject$.next({...current, capabilities});
   }
 
-  private setAccount(account?: AccountDetailInfo) {
+  // Visible for testing.
+  setAccount(account?: AccountDetailInfo) {
     const current = this.subject$.getValue();
     this.subject$.next({...current, account});
   }

@@ -11,6 +11,7 @@ import {
   Side,
 } from '../../../constants/constants';
 import {
+  createAccountDetailWithId,
   createBlame,
   createChange,
   createComment,
@@ -27,7 +28,6 @@ import {
   queryAndAssert,
   stubReporting,
   stubRestApi,
-  waitUntil,
 } from '../../../test/test-utils';
 import {
   BasePatchSetNum,
@@ -46,7 +46,6 @@ import {
 import {CoverageType} from '../../../types/types';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrDiffBuilderImage} from '../../../embed/diff/gr-diff-builder/gr-diff-builder-image';
-import {waitForEventOnce} from '../../../utils/event-util';
 import {GrDiffHost, LineInfo} from './gr-diff-host';
 import {DiffInfo, DiffViewMode, IgnoreWhitespaceType} from '../../../api/diff';
 import {ErrorCallback} from '../../../api/rest';
@@ -60,31 +59,39 @@ const basicFixture = fixtureFromElement('gr-diff-host');
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
-  let loggedIn: boolean;
+  let account = createAccountDetailWithId(1);
+  let getDiffRestApiStub: SinonStub;
 
   setup(async () => {
-    loggedIn = false;
-    stubRestApi('getLoggedIn').callsFake(() => Promise.resolve(loggedIn));
+    stubRestApi('getAccount').callsFake(() => Promise.resolve(account));
     element = basicFixture.instantiate();
     element.changeNum = 123 as NumericChangeId;
     element.path = 'some/path';
-    await flush();
+    element.change = createChange();
+    element.patchRange = createPatchRange();
+    getDiffRestApiStub = stubRestApi('getDiff');
+    // Fall back in case a test forgets to set one up
+    getDiffRestApiStub.returns(Promise.resolve(createDiff()));
+    await element.updateComplete;
   });
 
   suite('plugin layers', () => {
     let getDiffLayersStub: sinon.SinonStub;
     const pluginLayers = [{annotate: () => {}}, {annotate: () => {}}];
-    setup(() => {
+    setup(async () => {
       element = basicFixture.instantiate();
       getDiffLayersStub = sinon
         .stub(element.jsAPI, 'getDiffLayers')
         .returns(pluginLayers);
       element.changeNum = 123 as NumericChangeId;
-      element.path = 'some/path';
-    });
-    test('plugin layers requested', async () => {
       element.change = createChange();
-      stubRestApi('getDiff').returns(Promise.resolve(createDiff()));
+      element.patchRange = createPatchRange();
+      element.path = 'some/path';
+      await element.updateComplete;
+    });
+
+    test('plugin layers requested', async () => {
+      getDiffRestApiStub.returns(Promise.resolve(createDiff()));
       await element.reload();
       assert(getDiffLayersStub.called);
     });
@@ -93,6 +100,14 @@ suite('gr-diff-host tests', () => {
   suite('render reporting', () => {
     test('ends total and syntax timer after syntax layer', async () => {
       const displayedStub = stubReporting('diffViewContentDisplayed');
+
+      element.patchRange = createPatchRange();
+      element.change = createChange();
+      element.prefs = createDefaultDiffPrefs();
+      await element.updateComplete;
+      // Force a reload because it's not possible to wait on the reload called
+      // from update().
+      await element.reload();
       const timeEndStub = sinon.stub(element.reporting, 'timeEnd');
       let notifySyntaxProcessed: () => void = () => {};
       sinon.stub(element.syntaxLayer, 'process').returns(
@@ -100,15 +115,11 @@ suite('gr-diff-host tests', () => {
           notifySyntaxProcessed = resolve;
         })
       );
-      stubRestApi('getDiff').returns(Promise.resolve(createDiff()));
-      element.patchRange = createPatchRange();
-      element.change = createChange();
-      element.prefs = createDefaultDiffPrefs();
-      element.reload(true);
+      const promise = element.reload(true);
       // Multiple cascading microtasks are scheduled.
-      await flush();
       notifySyntaxProcessed();
-      await waitUntil(() => timeEndStub.callCount === 4);
+      await element.updateComplete;
+      await promise;
       const calls = timeEndStub.getCalls();
       assert.equal(calls.length, 4);
       assert.equal(calls[0].args[0], 'Diff Load Render');
@@ -125,34 +136,37 @@ suite('gr-diff-host tests', () => {
           notifySyntaxProcessed = resolve;
         })
       );
-      stubRestApi('getDiff').returns(Promise.resolve(createDiff()));
+      getDiffRestApiStub.returns(Promise.resolve(createDiff()));
       element.patchRange = createPatchRange();
       element.change = createChange();
       let reloadComplete = false;
       element.prefs = createDefaultDiffPrefs();
+      const promise = mockPromise();
       element.reload().then(() => {
         reloadComplete = true;
+        promise.resolve();
       });
       // Multiple cascading microtasks are scheduled.
-      await flush();
       assert.isFalse(reloadComplete);
       notifySyntaxProcessed();
-      await waitUntil(() => reloadComplete);
+      await promise;
       assert.isTrue(reloadComplete);
     });
   });
 
-  test('reload() cancels before network resolves', () => {
-    const cancelStub = sinon.stub(element.$.diff, 'cancel');
+  test('reload() cancels before network resolves', async () => {
+    assertIsDefined(element.diffElement);
+    const cancelStub = sinon.stub(element.diffElement, 'cancel');
 
     // Stub the network calls into requests that never resolve.
-    sinon.stub(element, '_getDiff').callsFake(() => new Promise(() => {}));
+    sinon.stub(element, 'getDiff').callsFake(() => new Promise(() => {}));
     element.patchRange = createPatchRange();
     element.change = createChange();
     element.prefs = undefined;
 
     // Needs to be set to something first for it to cancel.
     element.diff = createDiff();
+    await element.updateComplete;
 
     element.reload();
     assert.isTrue(cancelStub.called);
@@ -163,7 +177,7 @@ suite('gr-diff-host tests', () => {
     const weblinksStub = sinon
       .stub(GerritNav, '_generateWeblinks')
       .returns({name: 'stubb', url: '#s'});
-    stubRestApi('getDiff').returns(Promise.resolve(createDiff()));
+    getDiffRestApiStub.returns(Promise.resolve(createDiff()));
     element.projectName = 'test-project' as RepoName;
     element.path = 'test-path';
     element.commitRange = {
@@ -215,29 +229,27 @@ suite('gr-diff-host tests', () => {
   });
 
   test('prefetch getDiff', async () => {
-    const diffRestApiStub = stubRestApi('getDiff').returns(
-      Promise.resolve(createDiff())
-    );
+    getDiffRestApiStub.returns(Promise.resolve(createDiff()));
     element.changeNum = 123 as NumericChangeId;
     element.patchRange = createPatchRange();
     element.path = 'file.txt';
     element.prefetchDiff();
-    await element._getDiff();
-    assert.isTrue(diffRestApiStub.calledOnce);
+    await element.getDiff();
+    assert.isTrue(getDiffRestApiStub.calledOnce);
   });
 
-  test('_getDiff handles undefined diff responses', async () => {
-    stubRestApi('getDiff').returns(Promise.resolve(undefined));
+  test('getDiff handles undefined diff responses', async () => {
+    getDiffRestApiStub.returns(Promise.resolve(undefined));
     element.changeNum = 123 as NumericChangeId;
     element.patchRange = createPatchRange();
     element.path = 'file.txt';
-    await element._getDiff();
+    await element.getDiff();
   });
 
   test('reload resolves on error', () => {
-    const onErrStub = sinon.stub(element, '_handleGetDiffError');
+    const onErrStub = sinon.stub(element, 'handleGetDiffError');
     const error = new Response(null, {status: 500});
-    stubRestApi('getDiff').callsFake(
+    getDiffRestApiStub.callsFake(
       (
         _1: NumericChangeId,
         _2: PatchSetNum,
@@ -256,7 +268,7 @@ suite('gr-diff-host tests', () => {
     });
   });
 
-  suite('_handleGetDiffError', () => {
+  suite('handleGetDiffError', () => {
     let serverErrorStub: sinon.SinonStub;
     let pageErrorStub: sinon.SinonStub;
 
@@ -268,32 +280,32 @@ suite('gr-diff-host tests', () => {
     });
 
     test('page error on HTTP-409', () => {
-      element._handleGetDiffError({status: 409} as Response);
+      element.handleGetDiffError({status: 409} as Response);
       assert.isTrue(serverErrorStub.calledOnce);
       assert.isFalse(pageErrorStub.called);
-      assert.isNotOk(element._errorMessage);
+      assert.isNotOk(element.errorMessage);
     });
 
     test('server error on non-HTTP-409', () => {
-      element._handleGetDiffError({
+      element.handleGetDiffError({
         status: 500,
         text: () => Promise.resolve(''),
       } as Response);
       assert.isFalse(serverErrorStub.called);
       assert.isTrue(pageErrorStub.calledOnce);
-      assert.isNotOk(element._errorMessage);
+      assert.isNotOk(element.errorMessage);
     });
 
     test('error message if showLoadFailure', () => {
       element.showLoadFailure = true;
-      element._handleGetDiffError({
+      element.handleGetDiffError({
         status: 500,
         statusText: 'Failure!',
       } as Response);
       assert.isFalse(serverErrorStub.called);
       assert.isFalse(pageErrorStub.called);
       assert.equal(
-        element._errorMessage,
+        element.errorMessage,
         'Encountered error when loading the diff: 500 Failure!'
       );
     });
@@ -308,12 +320,16 @@ suite('gr-diff-host tests', () => {
           'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
           'wsAAAAAAAAAAAAAAAAA/w==',
         type: 'image/bmp',
+        _expectedType: 'image/bmp',
+        _name: 'carrot.bmp',
       };
       mockFile2 = {
         body:
           'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
           'wsAAAAAAAAAAAAA/////w==',
         type: 'image/bmp',
+        _expectedType: 'image/bmp',
+        _name: 'potato.bmp',
       };
 
       element.patchRange = createPatchRange();
@@ -336,7 +352,7 @@ suite('gr-diff-host tests', () => {
         content: [{skip: 66}],
         binary: true,
       };
-      stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
+      getDiffRestApiStub.returns(Promise.resolve(mockDiff));
       stubRestApi('getImagesForDiff').returns(
         Promise.resolve({
           baseImage: {
@@ -354,14 +370,19 @@ suite('gr-diff-host tests', () => {
 
       element.prefs = createDefaultDiffPrefs();
       element.reload();
-      await waitForEventOnce(element, 'render');
+      await element.waitForReloadToRender();
 
       // Recognizes that it should be an image diff.
       assert.isTrue(element.isImageDiff);
-      assert.instanceOf(element.$.diff.diffBuilder.builder, GrDiffBuilderImage);
+      assertIsDefined(element.diffElement);
+      assert.instanceOf(
+        element.diffElement.diffBuilder.builder,
+        GrDiffBuilderImage
+      );
 
       // Left image rendered with the parent commit's version of the file.
-      const diffTable = element.$.diff.$.diffTable;
+      assertIsDefined(element.diffElement);
+      const diffTable = element.diffElement.$.diffTable;
       const leftImage = queryAndAssert(diffTable, 'td.left img');
       const leftLabel = queryAndAssert(diffTable, 'td.left label');
       const leftLabelContent = leftLabel.querySelector('.label');
@@ -405,7 +426,7 @@ suite('gr-diff-host tests', () => {
         content: [{skip: 66}],
         binary: true,
       };
-      stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
+      getDiffRestApiStub.returns(Promise.resolve(mockDiff));
       stubRestApi('getImagesForDiff').returns(
         Promise.resolve({
           baseImage: {
@@ -423,14 +444,18 @@ suite('gr-diff-host tests', () => {
 
       element.prefs = createDefaultDiffPrefs();
       element.reload();
-      await waitForEventOnce(element, 'render');
+      await element.waitForReloadToRender();
 
       // Recognizes that it should be an image diff.
       assert.isTrue(element.isImageDiff);
-      assert.instanceOf(element.$.diff.diffBuilder.builder, GrDiffBuilderImage);
+      assertIsDefined(element.diffElement);
+      assert.instanceOf(
+        element.diffElement.diffBuilder.builder,
+        GrDiffBuilderImage
+      );
 
       // Left image rendered with the parent commit's version of the file.
-      const diffTable = element.$.diff.$.diffTable;
+      const diffTable = element.diffElement.$.diffTable;
       const leftImage = queryAndAssert(diffTable, 'td.left img');
       const leftLabel = queryAndAssert(diffTable, 'td.left label');
       const leftLabelContent = leftLabel.querySelector('.label');
@@ -476,7 +501,7 @@ suite('gr-diff-host tests', () => {
         content: [{skip: 66}],
         binary: true,
       };
-      stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
+      getDiffRestApiStub.returns(Promise.resolve(mockDiff));
       stubRestApi('getImagesForDiff').returns(
         Promise.resolve({
           baseImage: null,
@@ -488,28 +513,25 @@ suite('gr-diff-host tests', () => {
         })
       );
 
-      const promise = mockPromise();
-      element.addEventListener('render', () => {
+      element.prefs = createDefaultDiffPrefs();
+      element.reload();
+      await element.waitForReloadToRender().then(() => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
+        assertIsDefined(element.diffElement);
         assert.instanceOf(
-          element.$.diff.diffBuilder.builder,
+          element.diffElement.diffBuilder.builder,
           GrDiffBuilderImage
         );
 
-        const diffTable = element.$.diff.$.diffTable;
+        const diffTable = element.diffElement.$.diffTable;
 
         const leftImage = query(diffTable, 'td.left img');
         const rightImage = queryAndAssert(diffTable, 'td.right img');
 
         assert.isNotOk(leftImage);
         assert.isOk(rightImage);
-        promise.resolve();
       });
-
-      element.prefs = createDefaultDiffPrefs();
-      element.reload();
-      await promise;
     });
 
     test('renders removed image', async () => {
@@ -527,7 +549,7 @@ suite('gr-diff-host tests', () => {
         content: [{skip: 66}],
         binary: true,
       };
-      stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
+      getDiffRestApiStub.returns(Promise.resolve(mockDiff));
       stubRestApi('getImagesForDiff').returns(
         Promise.resolve({
           baseImage: {
@@ -539,28 +561,25 @@ suite('gr-diff-host tests', () => {
         })
       );
 
-      const promise = mockPromise();
-      element.addEventListener('render', () => {
+      element.prefs = createDefaultDiffPrefs();
+      element.reload();
+      await element.waitForReloadToRender().then(() => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
+        assertIsDefined(element.diffElement);
         assert.instanceOf(
-          element.$.diff.diffBuilder.builder,
+          element.diffElement.diffBuilder.builder,
           GrDiffBuilderImage
         );
 
-        const diffTable = element.$.diff.$.diffTable;
+        const diffTable = element.diffElement.$.diffTable;
 
         const leftImage = queryAndAssert(diffTable, 'td.left img');
         const rightImage = query(diffTable, 'td.right img');
 
         assert.isOk(leftImage);
         assert.isNotOk(rightImage);
-        promise.resolve();
       });
-
-      element.prefs = createDefaultDiffPrefs();
-      element.reload();
-      await promise;
     });
 
     test('does not render disallowed image type', async () => {
@@ -584,7 +603,7 @@ suite('gr-diff-host tests', () => {
       };
       mockFile1.type = 'image/jpeg-evil';
 
-      stubRestApi('getDiff').returns(Promise.resolve(mockDiff));
+      getDiffRestApiStub.returns(Promise.resolve(mockDiff));
       stubRestApi('getImagesForDiff').returns(
         Promise.resolve({
           baseImage: {
@@ -596,28 +615,25 @@ suite('gr-diff-host tests', () => {
         })
       );
 
-      const promise = mockPromise();
-      element.addEventListener('render', () => {
+      element.prefs = createDefaultDiffPrefs();
+      element.updateComplete.then(() => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
+        assertIsDefined(element.diffElement);
         assert.instanceOf(
-          element.$.diff.diffBuilder.builder,
+          element.diffElement.diffBuilder.builder,
           GrDiffBuilderImage
         );
-        const diffTable = element.$.diff.$.diffTable;
+        const diffTable = element.diffElement.$.diffTable;
 
         const leftImage = query(diffTable, 'td.left img');
         assert.isNotOk(leftImage);
-        promise.resolve();
       });
-
-      element.prefs = createDefaultDiffPrefs();
-      element.reload();
-      await promise;
     });
   });
 
   test('cannot create comments when not logged in', () => {
+    element.userModel.setAccount(undefined);
     element.patchRange = createPatchRange();
     const showAuthRequireSpy = sinon.spy();
     element.addEventListener('show-auth-required', showAuthRequireSpy);
@@ -632,13 +648,15 @@ suite('gr-diff-host tests', () => {
       })
     );
 
-    const threads = queryAll(element.$.diff, 'gr-comment-thread');
+    assertIsDefined(element.diffElement);
+    const threads = queryAll(element.diffElement, 'gr-comment-thread');
     assert.equal(threads.length, 0);
     assert.isTrue(showAuthRequireSpy.called);
   });
 
   test('delegates cancel()', () => {
-    const stub = sinon.stub(element.$.diff, 'cancel');
+    assertIsDefined(element.diffElement);
+    const stub = sinon.stub(element.diffElement, 'cancel');
     element.patchRange = createPatchRange();
     element.cancel();
     assert.isTrue(stub.calledOnce);
@@ -647,8 +665,9 @@ suite('gr-diff-host tests', () => {
 
   test('delegates getCursorStops()', () => {
     const returnValue = [document.createElement('b')];
+    assertIsDefined(element.diffElement);
     const stub = sinon
-      .stub(element.$.diff, 'getCursorStops')
+      .stub(element.diffElement, 'getCursorStops')
       .returns(returnValue);
     assert.equal(element.getCursorStops(), returnValue);
     assert.isTrue(stub.calledOnce);
@@ -657,8 +676,9 @@ suite('gr-diff-host tests', () => {
 
   test('delegates isRangeSelected()', () => {
     const returnValue = true;
+    assertIsDefined(element.diffElement);
     const stub = sinon
-      .stub(element.$.diff, 'isRangeSelected')
+      .stub(element.diffElement, 'isRangeSelected')
       .returns(returnValue);
     assert.equal(element.isRangeSelected(), returnValue);
     assert.isTrue(stub.calledOnce);
@@ -666,7 +686,8 @@ suite('gr-diff-host tests', () => {
   });
 
   test('delegates toggleLeftDiff()', () => {
-    const stub = sinon.stub(element.$.diff, 'toggleLeftDiff');
+    assertIsDefined(element.diffElement);
+    const stub = sinon.stub(element.diffElement, 'toggleLeftDiff');
     element.toggleLeftDiff();
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 0);
@@ -677,19 +698,28 @@ suite('gr-diff-host tests', () => {
       element = basicFixture.instantiate();
       element.changeNum = 123 as NumericChangeId;
       element.path = 'some/path';
-      await flush();
+      await element.updateComplete;
     });
 
-    test('clearBlame', () => {
-      element._blame = [];
-      const setBlameSpy = sinon.spy(element.$.diff.diffBuilder, 'setBlame');
+    test('clearBlame', async () => {
+      element.blame = [];
+      await element.updateComplete;
+      assertIsDefined(element.diffElement);
+      const setBlameSpy = sinon.spy(
+        element.diffElement.diffBuilder,
+        'setBlame'
+      );
+      const isBlameLoadedStub = sinon.stub();
+      element.addEventListener('is-blame-loaded-changed', isBlameLoadedStub);
       element.clearBlame();
-      assert.isNull(element._blame);
+      await element.updateComplete;
+      assert.isNull(element.blame);
       assert.isTrue(setBlameSpy.calledWithExactly(null));
-      assert.equal(element.isBlameLoaded, false);
+      assert.isTrue(isBlameLoadedStub.calledOnce);
+      assert.isFalse(isBlameLoadedStub.args[0][0].detail.value);
     });
 
-    test('loadBlame', () => {
+    test('loadBlame', async () => {
       const mockBlame: BlameInfo[] = [createBlame()];
       const showAlertStub = sinon.stub();
       element.addEventListener('show-alert', showAlertStub);
@@ -700,6 +730,10 @@ suite('gr-diff-host tests', () => {
       element.changeNum = changeNum;
       element.patchRange = createPatchRange();
       element.path = 'foo/bar.baz';
+      await element.updateComplete;
+      const isBlameLoadedStub = sinon.stub();
+      element.addEventListener('is-blame-loaded-changed', isBlameLoadedStub);
+
       return element.loadBlame().then(() => {
         assert.isTrue(
           getBlameStub.calledWithExactly(
@@ -710,20 +744,24 @@ suite('gr-diff-host tests', () => {
           )
         );
         assert.isFalse(showAlertStub.called);
-        assert.equal(element._blame, mockBlame);
-        assert.equal(element.isBlameLoaded, true);
+        assert.equal(element.blame, mockBlame);
+        assert.isTrue(isBlameLoadedStub.calledOnce);
+        assert.isTrue(isBlameLoadedStub.args[0][0].detail.value);
       });
     });
 
-    test('loadBlame empty', () => {
+    test('loadBlame empty', async () => {
       const mockBlame: BlameInfo[] = [];
       const showAlertStub = sinon.stub();
+      const isBlameLoadedStub = sinon.stub();
       element.addEventListener('show-alert', showAlertStub);
+      element.addEventListener('is-blame-loaded-changed', isBlameLoadedStub);
       stubRestApi('getBlame').returns(Promise.resolve(mockBlame));
       const changeNum = 42 as NumericChangeId;
       element.changeNum = changeNum;
       element.patchRange = createPatchRange();
       element.path = 'foo/bar.baz';
+      await element.updateComplete;
       return element
         .loadBlame()
         .then(() => {
@@ -731,8 +769,9 @@ suite('gr-diff-host tests', () => {
         })
         .catch(() => {
           assert.isTrue(showAlertStub.calledOnce);
-          assert.isNull(element._blame);
-          assert.equal(element.isBlameLoaded, false);
+          assert.isNull(element.blame);
+          // We don't expect a call because
+          assert.isTrue(isBlameLoadedStub.notCalled);
         });
     });
   });
@@ -740,13 +779,15 @@ suite('gr-diff-host tests', () => {
   test('getThreadEls() returns .comment-threads', () => {
     const threadEl = document.createElement('gr-comment-thread');
     threadEl.className = 'comment-thread';
-    element.$.diff.appendChild(threadEl);
+    assertIsDefined(element.diffElement);
+    element.diffElement.appendChild(threadEl);
     assert.deepEqual(element.getThreadEls(), [threadEl]);
   });
 
   test('delegates addDraftAtLine(el)', () => {
     const param0 = document.createElement('b');
-    const stub = sinon.stub(element.$.diff, 'addDraftAtLine');
+    assertIsDefined(element.diffElement);
+    const stub = sinon.stub(element.diffElement, 'addDraftAtLine');
     element.addDraftAtLine(param0);
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 1);
@@ -754,75 +795,95 @@ suite('gr-diff-host tests', () => {
   });
 
   test('delegates clearDiffContent()', () => {
-    const stub = sinon.stub(element.$.diff, 'clearDiffContent');
+    assertIsDefined(element.diffElement);
+    const stub = sinon.stub(element.diffElement, 'clearDiffContent');
     element.clearDiffContent();
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 0);
   });
 
   test('delegates toggleAllContext()', () => {
-    const stub = sinon.stub(element.$.diff, 'toggleAllContext');
+    assertIsDefined(element.diffElement);
+    const stub = sinon.stub(element.diffElement, 'toggleAllContext');
     element.toggleAllContext();
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 0);
   });
 
-  test('passes in noAutoRender', () => {
+  test('passes in noAutoRender', async () => {
     const value = true;
     element.noAutoRender = value;
-    assert.equal(element.$.diff.noAutoRender, value);
+    await element.updateComplete;
+    assertIsDefined(element.diffElement);
+    assert.equal(element.diffElement.noAutoRender, value);
   });
 
-  test('passes in path', () => {
+  test('passes in path', async () => {
     const value = 'some/file/path';
     element.path = value;
-    assert.equal(element.$.diff.path, value);
+    await element.updateComplete;
+    assertIsDefined(element.diffElement);
+    assert.equal(element.diffElement.path, value);
   });
 
-  test('passes in prefs', () => {
+  test('passes in prefs', async () => {
     const value = createDefaultDiffPrefs();
     element.prefs = value;
-    assert.equal(element.$.diff.prefs, value);
+    await element.updateComplete;
+    assertIsDefined(element.diffElement);
+    assert.equal(element.diffElement.prefs, value);
   });
 
-  test('passes in displayLine', () => {
+  test('passes in displayLine', async () => {
     const value = true;
     element.displayLine = value;
-    assert.equal(element.$.diff.displayLine, value);
+    await element.updateComplete;
+    assertIsDefined(element.diffElement);
+    assert.equal(element.diffElement.displayLine, value);
   });
 
-  test('passes in hidden', () => {
+  test('passes in hidden', async () => {
     const value = true;
     element.hidden = value;
-    assert.equal(element.$.diff.hidden, value);
+    await element.updateComplete;
+    assertIsDefined(element.diffElement);
+    assert.equal(element.diffElement.hidden, value);
     assert.isNotNull(element.getAttribute('hidden'));
   });
 
-  test('passes in noRenderOnPrefsChange', () => {
+  test('passes in noRenderOnPrefsChange', async () => {
     const value = true;
     element.noRenderOnPrefsChange = value;
-    assert.equal(element.$.diff.noRenderOnPrefsChange, value);
+    await element.updateComplete;
+    assertIsDefined(element.diffElement);
+    assert.equal(element.diffElement.noRenderOnPrefsChange, value);
   });
 
-  test('passes in lineWrapping', () => {
+  test('passes in lineWrapping', async () => {
     const value = true;
     element.lineWrapping = value;
-    assert.equal(element.$.diff.lineWrapping, value);
+    await element.updateComplete;
+    assertIsDefined(element.diffElement);
+    assert.equal(element.diffElement.lineWrapping, value);
   });
 
-  test('passes in viewMode', () => {
+  test('passes in viewMode', async () => {
     const value = DiffViewMode.SIDE_BY_SIDE;
     element.viewMode = value;
-    assert.equal(element.$.diff.viewMode, value);
+    await element.updateComplete;
+    assertIsDefined(element.diffElement);
+    assert.equal(element.diffElement.viewMode, value);
   });
 
-  test('passes in lineOfInterest', () => {
+  test('passes in lineOfInterest', async () => {
     const value = {lineNum: 123, side: Side.LEFT};
     element.lineOfInterest = value;
-    assert.equal(element.$.diff.lineOfInterest, value);
+    await element.updateComplete;
+    assertIsDefined(element.diffElement);
+    assert.equal(element.diffElement.lineOfInterest, value);
   });
 
-  suite('_reportDiff', () => {
+  suite('reportDiff', () => {
     let reportStub: SinonStub;
 
     setup(async () => {
@@ -831,11 +892,11 @@ suite('gr-diff-host tests', () => {
       element.path = 'file.txt';
       element.patchRange = createPatchRange(1, 2);
       reportStub = sinon.stub(element.reporting, 'reportInteraction');
-      await flush();
+      await element.updateComplete;
     });
 
     test('undefined', () => {
-      element._reportDiff(undefined);
+      element.reportDiff(undefined);
       assert.isFalse(reportStub.called);
     });
 
@@ -844,7 +905,7 @@ suite('gr-diff-host tests', () => {
         ...createDiff(),
         content: [{ab: ['foo', 'bar']}, {ab: ['baz', 'foo']}],
       };
-      element._reportDiff(diff);
+      element.reportDiff(diff);
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'rebase-percent-zero');
       assert.isUndefined(reportStub.lastCall.args[1]);
@@ -863,7 +924,7 @@ suite('gr-diff-host tests', () => {
           {ab: ['foo', 'bar']},
         ],
       };
-      element._reportDiff(diff);
+      element.reportDiff(diff);
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'rebase-percent-zero');
       assert.isUndefined(reportStub.lastCall.args[1]);
@@ -883,7 +944,7 @@ suite('gr-diff-host tests', () => {
           {a: ['baz', 'foo']},
         ],
       };
-      element._reportDiff(diff);
+      element.reportDiff(diff);
       assert.isTrue(reportStub.calledOnce);
       assert.isTrue(
         reportStub.calledWith('rebase-percent-nonzero', {
@@ -903,7 +964,7 @@ suite('gr-diff-host tests', () => {
           },
         ],
       };
-      element._reportDiff(diff);
+      element.reportDiff(diff);
       assert.isTrue(reportStub.calledOnce);
       assert.isTrue(
         reportStub.calledWith('rebase-percent-nonzero', {
@@ -923,7 +984,7 @@ suite('gr-diff-host tests', () => {
           },
         ],
       };
-      element._reportDiff(diff);
+      element.reportDiff(diff);
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'diff-against-parent');
       assert.isUndefined(reportStub.lastCall.args[1]);
@@ -1004,9 +1065,10 @@ suite('gr-diff-host tests', () => {
 
   suite('create-comment', () => {
     setup(async () => {
-      loggedIn = true;
+      account = createAccountDetailWithId(1);
+      element.disconnectedCallback();
       element.connectedCallback();
-      await flush();
+      await element.updateComplete;
     });
 
     test('creates comments if they do not exist yet', async () => {
@@ -1020,9 +1082,11 @@ suite('gr-diff-host tests', () => {
           },
         })
       );
-
+      assertIsDefined(element.diffElement);
       let threads =
-        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+        element.diffElement.querySelectorAll<GrCommentThread>(
+          'gr-comment-thread'
+        );
 
       assert.equal(threads.length, 1);
       assert.equal(threads[0].thread?.commentSide, CommentSide.PARENT);
@@ -1050,8 +1114,11 @@ suite('gr-diff-host tests', () => {
         })
       );
 
+      assertIsDefined(element.diffElement);
       threads =
-        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+        element.diffElement.querySelectorAll<GrCommentThread>(
+          'gr-comment-thread'
+        );
 
       assert.equal(threads.length, 2);
       assert.equal(threads[0].thread?.commentSide, CommentSide.PARENT);
@@ -1062,6 +1129,8 @@ suite('gr-diff-host tests', () => {
 
     test('should not be on parent if on the right', async () => {
       element.patchRange = createPatchRange(2, 3);
+      // Need to recompute threads.
+      await element.updateComplete;
       element.dispatchEvent(
         new CustomEvent('create-comment', {
           detail: {
@@ -1069,10 +1138,13 @@ suite('gr-diff-host tests', () => {
           },
         })
       );
-      await flush();
 
+      assertIsDefined(element.diffElement);
       const threads =
-        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+        element.diffElement.querySelectorAll<GrCommentThread>(
+          'gr-comment-thread'
+        );
+      assert.equal(threads.length, 1);
       const threadEl = threads[0];
 
       assert.equal(threadEl.thread?.commentSide, CommentSide.REVISION);
@@ -1090,8 +1162,11 @@ suite('gr-diff-host tests', () => {
         })
       );
 
+      assertIsDefined(element.diffElement);
       const threads =
-        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+        element.diffElement.querySelectorAll<GrCommentThread>(
+          'gr-comment-thread'
+        );
       const threadEl = threads[0];
 
       assert.equal(threadEl.thread?.commentSide, CommentSide.PARENT);
@@ -1109,8 +1184,11 @@ suite('gr-diff-host tests', () => {
         })
       );
 
+      assertIsDefined(element.diffElement);
       const threads =
-        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+        element.diffElement.querySelectorAll<GrCommentThread>(
+          'gr-comment-thread'
+        );
       const threadEl = threads[0];
 
       assert.equal(threadEl.thread?.commentSide, CommentSide.PARENT);
@@ -1127,8 +1205,11 @@ suite('gr-diff-host tests', () => {
         })
       );
 
+      assertIsDefined(element.diffElement);
       const threads =
-        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+        element.diffElement.querySelectorAll<GrCommentThread>(
+          'gr-comment-thread'
+        );
       const threadEl = threads[0];
 
       assert.equal(threadEl.thread?.commentSide, CommentSide.REVISION);
@@ -1141,7 +1222,7 @@ suite('gr-diff-host tests', () => {
       async () => {
         element.patchRange = createPatchRange(2, 3);
         element.file = {basePath: 'file_renamed.txt', path: element.path ?? ''};
-        await flush();
+        await element.updateComplete;
 
         element.dispatchEvent(
           new CustomEvent('create-comment', {
@@ -1152,9 +1233,11 @@ suite('gr-diff-host tests', () => {
           })
         );
 
+        assertIsDefined(element.diffElement);
         const threads =
-          element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
-
+          element.diffElement.querySelectorAll<GrCommentThread>(
+            'gr-comment-thread'
+          );
         assert.equal(threads.length, 1);
         assert.equal(threads[0].getAttribute('diff-side'), Side.LEFT);
         assert.equal(threads[0].thread?.path, element.file.basePath);
@@ -1167,7 +1250,7 @@ suite('gr-diff-host tests', () => {
       async () => {
         element.patchRange = createPatchRange(2, 3);
         element.file = {basePath: 'file_renamed.txt', path: element.path ?? ''};
-        await flush();
+        await element.updateComplete;
 
         element.dispatchEvent(
           new CustomEvent('create-comment', {
@@ -1178,8 +1261,11 @@ suite('gr-diff-host tests', () => {
           })
         );
 
+        assertIsDefined(element.diffElement);
         const threads =
-          element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+          element.diffElement.querySelectorAll<GrCommentThread>(
+            'gr-comment-thread'
+          );
 
         assert.equal(threads.length, 1);
         assert.equal(threads[0].getAttribute('diff-side'), Side.RIGHT);
@@ -1189,9 +1275,8 @@ suite('gr-diff-host tests', () => {
 
     test('multiple threads created on the same range', async () => {
       element.patchRange = createPatchRange(2, 3);
-
       element.file = {basePath: 'file_renamed.txt', path: element.path ?? ''};
-      await flush();
+      await element.updateComplete;
 
       const comment = {
         ...createComment(),
@@ -1205,23 +1290,34 @@ suite('gr-diff-host tests', () => {
       };
       const thread = createCommentThread([comment]);
       element.threads = [thread];
+      await element.updateComplete;
 
+      assertIsDefined(element.diffElement);
       let threads =
-        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+        element.diffElement.querySelectorAll<GrCommentThread>(
+          'gr-comment-thread'
+        );
 
       assert.equal(threads.length, 1);
       element.threads = [...element.threads, thread];
+      await element.updateComplete;
 
+      assertIsDefined(element.diffElement);
       threads =
-        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+        element.diffElement.querySelectorAll<GrCommentThread>(
+          'gr-comment-thread'
+        );
       // Threads have same rootId so element is reused
       assert.equal(threads.length, 1);
 
       const newThread = {...thread};
       newThread.rootId = 'differentRootId' as UrlEncodedCommentId;
       element.threads = [...element.threads, newThread];
+      await element.updateComplete;
       threads =
-        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+        element.diffElement.querySelectorAll<GrCommentThread>(
+          'gr-comment-thread'
+        );
       // New thread has a different rootId
       assert.equal(threads.length, 2);
     });
@@ -1230,7 +1326,7 @@ suite('gr-diff-host tests', () => {
       element.patchRange = createPatchRange(2, 3);
       element.file = {basePath: 'file_renamed.txt', path: element.path ?? ''};
       element.threads = [];
-      await flush();
+      await element.updateComplete;
 
       element.dispatchEvent(
         new CustomEvent('create-comment', {
@@ -1241,7 +1337,7 @@ suite('gr-diff-host tests', () => {
           },
         })
       );
-      await flush();
+      await element.updateComplete;
       assert.equal(element.getThreadEls().length, 1);
       const threadEl = element.getThreadEls()[0];
       assert.equal(threadEl.thread?.line, 13);
@@ -1257,7 +1353,7 @@ suite('gr-diff-host tests', () => {
         },
       ]);
       element.threads = [draftThread];
-      await flush();
+      await element.updateComplete;
 
       // We expect that no additional thread element was created.
       assert.equal(element.getThreadEls().length, 1);
@@ -1274,7 +1370,7 @@ suite('gr-diff-host tests', () => {
       async () => {
         element.patchRange = createPatchRange();
         element.file = {basePath: 'file_renamed.txt', path: element.path ?? ''};
-        await flush();
+        await element.updateComplete;
 
         element.dispatchEvent(
           new CustomEvent('create-comment', {
@@ -1285,8 +1381,11 @@ suite('gr-diff-host tests', () => {
           })
         );
 
+        assertIsDefined(element.diffElement);
         const threads =
-          element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+          element.diffElement.querySelectorAll<GrCommentThread>(
+            'gr-comment-thread'
+          );
 
         assert.equal(threads.length, 1);
         assert.equal(threads[0].getAttribute('diff-side'), Side.LEFT);
@@ -1312,8 +1411,12 @@ suite('gr-diff-host tests', () => {
         })
       );
 
+      assertIsDefined(element.diffElement);
       const threads =
-        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+        element.diffElement.querySelectorAll<GrCommentThread>(
+          'gr-comment-thread'
+        );
+
       assert.equal(threads.length, 0);
       assert.isTrue(alertSpy.called);
     });
@@ -1336,27 +1439,30 @@ suite('gr-diff-host tests', () => {
         })
       );
 
+      assertIsDefined(element.diffElement);
       const threads =
-        element.$.diff.querySelectorAll<GrCommentThread>('gr-comment-thread');
+        element.diffElement.querySelectorAll<GrCommentThread>(
+          'gr-comment-thread'
+        );
       assert.equal(threads.length, 0);
       assert.isTrue(alertSpy.called);
     });
   });
 
-  test('_filterThreadElsForLocation with no threads', () => {
+  test('filterThreadElsForLocation with no threads', () => {
     const line = {beforeNumber: 3, afterNumber: 5};
     const threads: GrCommentThread[] = [];
     assert.deepEqual(
-      element._filterThreadElsForLocation(threads, line, Side.LEFT),
+      element.filterThreadElsForLocation(threads, line, Side.LEFT),
       []
     );
     assert.deepEqual(
-      element._filterThreadElsForLocation(threads, line, Side.RIGHT),
+      element.filterThreadElsForLocation(threads, line, Side.RIGHT),
       []
     );
   });
 
-  test('_filterThreadElsForLocation for line comments', () => {
+  test('filterThreadElsForLocation for line comments', () => {
     const line = {beforeNumber: 3, afterNumber: 5};
 
     const l3 = document.createElement('gr-comment-thread');
@@ -1377,16 +1483,16 @@ suite('gr-diff-host tests', () => {
 
     const threadEls: GrCommentThread[] = [l3, l5, r3, r5];
     assert.deepEqual(
-      element._filterThreadElsForLocation(threadEls, line, Side.LEFT),
+      element.filterThreadElsForLocation(threadEls, line, Side.LEFT),
       [l3]
     );
     assert.deepEqual(
-      element._filterThreadElsForLocation(threadEls, line, Side.RIGHT),
+      element.filterThreadElsForLocation(threadEls, line, Side.RIGHT),
       [r5]
     );
   });
 
-  test('_filterThreadElsForLocation for file comments', () => {
+  test('filterThreadElsForLocation for file comments', () => {
     const line: LineInfo = {beforeNumber: 'FILE', afterNumber: 'FILE'};
 
     const l = document.createElement('gr-comment-thread');
@@ -1399,17 +1505,17 @@ suite('gr-diff-host tests', () => {
 
     const threadEls: GrCommentThread[] = [l, r];
     assert.deepEqual(
-      element._filterThreadElsForLocation(threadEls, line, Side.LEFT),
+      element.filterThreadElsForLocation(threadEls, line, Side.LEFT),
       [l]
     );
     assert.deepEqual(
-      element._filterThreadElsForLocation(threadEls, line, Side.RIGHT),
+      element.filterThreadElsForLocation(threadEls, line, Side.RIGHT),
       [r]
     );
   });
 
-  suite('syntax layer with syntax_highlighting on', () => {
-    setup(() => {
+  suite('syntax layer with syntax_highlighting on', async () => {
+    setup(async () => {
       const prefs = {
         ...createDefaultDiffPrefs(),
         line_length: 10,
@@ -1426,27 +1532,32 @@ suite('gr-diff-host tests', () => {
     });
 
     test('gr-diff-host provides syntax highlighting layer', async () => {
-      stubRestApi('getDiff').returns(Promise.resolve(createDiff()));
-      await element.reload();
-      assertIsDefined(element.$.diff.layers);
-      assert.equal(element.$.diff.layers[1], element.syntaxLayer);
+      getDiffRestApiStub.returns(Promise.resolve(createDiff()));
+      await element.updateComplete;
+      assertIsDefined(element.diffElement);
+      assertIsDefined(element.diffElement.layers);
+      assert.equal(element.diffElement.layers[1], element.syntaxLayer);
     });
 
-    test('rendering normal-sized diff does not disable syntax', () => {
+    test('rendering normal-sized diff does not disable syntax', async () => {
       element.diff = createDiff();
+      getDiffRestApiStub.returns(Promise.resolve(element.diff));
+      await element.updateComplete;
       assert.isTrue(element.syntaxLayer.enabled);
     });
 
-    test('rendering large diff disables syntax', () => {
+    test('rendering large diff disables syntax', async () => {
       // Before it renders, set the first diff line to 500 '*' characters.
-      element.diff = {
+      getDiffRestApiStub.returns(Promise.resolve({
         ...createDiff(),
         content: [
           {
             a: [new Array(501).join('*')],
           },
         ],
-      };
+      }));
+      element.reload();
+      await element.waitForReloadToRender();
       assert.isFalse(element.syntaxLayer.enabled);
     });
 
@@ -1454,7 +1565,7 @@ suite('gr-diff-host tests', () => {
       const stub = sinon
         .stub(element.syntaxLayer, 'process')
         .returns(Promise.resolve());
-      stubRestApi('getDiff').returns(Promise.resolve(createDiff()));
+      getDiffRestApiStub.returns(Promise.resolve(createDiff()));
       await element.reload();
       element.dispatchEvent(
         new CustomEvent('render', {bubbles: true, composed: true})
@@ -1464,7 +1575,7 @@ suite('gr-diff-host tests', () => {
   });
 
   suite('syntax layer with syntax_highlighting off', () => {
-    setup(() => {
+    setup(async () => {
       const prefs = {
         ...createDefaultDiffPrefs(),
         line_length: 10,
@@ -1473,33 +1584,35 @@ suite('gr-diff-host tests', () => {
         context: -1,
         syntax_highlighting: false,
       };
-      element.diff = createDiff();
       element.patchRange = createPatchRange();
       element.change = createChange();
       element.prefs = prefs;
     });
 
     test('gr-diff-host provides syntax highlighting layer', async () => {
-      stubRestApi('getDiff').returns(Promise.resolve(createDiff()));
-      await element.reload();
-      assertIsDefined(element.$.diff.layers);
-      assert.equal(element.$.diff.layers[1], element.syntaxLayer);
+      await element.waitForReloadToRender();
+      assertIsDefined(element.diffElement);
+      assertIsDefined(element.diffElement.layers);
+      assert.equal(element.diffElement.layers[1], element.syntaxLayer);
     });
 
-    test('syntax layer should be disabled', () => {
+    test('syntax layer should be disabled', async () => {
+      await element.waitForReloadToRender();
       assert.isFalse(element.syntaxLayer.enabled);
     });
 
-    test('still disabled for large diff', () => {
-      // Before it renders, set the first diff line to 500 '*' characters.
-      element.diff = {
-        ...createDiff(),
-        content: [
-          {
-            a: [new Array(501).join('*')],
-          },
-        ],
-      };
+    test('still disabled for large diff', async () => {
+      getDiffRestApiStub.callsFake(() =>
+        Promise.resolve({
+          ...createDiff(),
+          content: [
+            {
+              a: [new Array(501).join('*')],
+            },
+          ],
+        })
+      );
+      await element.waitForReloadToRender();
       assert.isFalse(element.syntaxLayer.enabled);
     });
   });
@@ -1534,6 +1647,25 @@ suite('gr-diff-host tests', () => {
         .returns(Promise.resolve(exampleRanges));
 
       element = basicFixture.instantiate();
+
+      element.changeNum = 123 as NumericChangeId;
+      element.change = createChange();
+      element.path = 'some/path';
+      const prefs = {
+        ...createDefaultDiffPrefs(),
+        line_length: 10,
+        show_tabs: true,
+        tab_size: 4,
+        context: -1,
+      };
+      element.patchRange = createPatchRange();
+      element.prefs = prefs;
+      getDiffRestApiStub.returns(
+        Promise.resolve({
+          ...createDiff(),
+          content: [{a: ['foo']}],
+        })
+      );
       getCoverageAnnotationApisStub = sinon
         .stub(element.jsAPI, 'getCoverageAnnotationApis')
         .returns(
@@ -1546,33 +1678,15 @@ suite('gr-diff-host tests', () => {
             } as unknown as GrAnnotationActionsInterface,
           ])
         );
-      element.changeNum = 123 as NumericChangeId;
-      element.change = createChange();
-      element.path = 'some/path';
-      const prefs = {
-        ...createDefaultDiffPrefs(),
-        line_length: 10,
-        show_tabs: true,
-        tab_size: 4,
-        context: -1,
-      };
-      element.diff = {
-        ...createDiff(),
-        content: [{a: ['foo']}],
-      };
-      element.patchRange = createPatchRange();
-      element.prefs = prefs;
-      stubRestApi('getDiff').returns(Promise.resolve(element.diff));
-      await flush();
     });
 
     test('getCoverageAnnotationApis should be called', async () => {
-      await element.reload();
+      await element.waitForReloadToRender();
       assert.isTrue(getCoverageAnnotationApisStub.calledOnce);
     });
 
     test('coverageRangeChanged should be called', async () => {
-      await element.reload();
+      await element.waitForReloadToRender();
       assert.equal(notifyStub.callCount, 2);
       assert.isTrue(
         notifyStub.calledWithExactly('some/path', 1, 2, Side.RIGHT)
@@ -1584,8 +1698,7 @@ suite('gr-diff-host tests', () => {
 
     test('provider is called with appropriate params', async () => {
       element.patchRange = createPatchRange(1, 3);
-
-      await element.reload();
+      await element.waitForReloadToRender();
       assert.isTrue(
         coverageProviderStub.calledWithExactly(
           123,
@@ -1599,8 +1712,7 @@ suite('gr-diff-host tests', () => {
 
     test('provider is called with appropriate params - special patchset values', async () => {
       element.patchRange = createPatchRange();
-
-      await element.reload();
+      await element.waitForReloadToRender();
       assert.isTrue(
         coverageProviderStub.calledWithExactly(
           123,
@@ -1616,7 +1728,7 @@ suite('gr-diff-host tests', () => {
   suite('trailing newlines', () => {
     setup(() => {});
 
-    suite('_lastChunkForSide', () => {
+    suite('lastChunkForSide', () => {
       test('deltas', () => {
         const diff: DiffInfo = {
           ...createDiff(),
@@ -1626,12 +1738,12 @@ suite('gr-diff-host tests', () => {
             {b: ['foo']},
           ],
         };
-        assert.equal(element._lastChunkForSide(diff, false), diff.content[2]);
-        assert.equal(element._lastChunkForSide(diff, true), diff.content[1]);
+        assert.equal(element.lastChunkForSide(diff, false), diff.content[2]);
+        assert.equal(element.lastChunkForSide(diff, true), diff.content[1]);
 
         diff.content.push({a: ['foo'], b: ['bar']});
-        assert.equal(element._lastChunkForSide(diff, false), diff.content[3]);
-        assert.equal(element._lastChunkForSide(diff, true), diff.content[3]);
+        assert.equal(element.lastChunkForSide(diff, false), diff.content[3]);
+        assert.equal(element.lastChunkForSide(diff, true), diff.content[3]);
       });
 
       test('addition with a undefined', () => {
@@ -1639,8 +1751,8 @@ suite('gr-diff-host tests', () => {
           ...createDiff(),
           content: [{b: ['foo', 'bar', 'baz']}],
         };
-        assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
-        assert.isNull(element._lastChunkForSide(diff, true));
+        assert.equal(element.lastChunkForSide(diff, false), diff.content[0]);
+        assert.isNull(element.lastChunkForSide(diff, true));
       });
 
       test('addition with a empty', () => {
@@ -1648,8 +1760,8 @@ suite('gr-diff-host tests', () => {
           ...createDiff(),
           content: [{a: [], b: ['foo', 'bar', 'baz']}],
         };
-        assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
-        assert.isNull(element._lastChunkForSide(diff, true));
+        assert.equal(element.lastChunkForSide(diff, false), diff.content[0]);
+        assert.isNull(element.lastChunkForSide(diff, true));
       });
 
       test('deletion with b undefined', () => {
@@ -1657,8 +1769,8 @@ suite('gr-diff-host tests', () => {
           ...createDiff(),
           content: [{a: ['foo', 'bar', 'baz']}],
         };
-        assert.isNull(element._lastChunkForSide(diff, false));
-        assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);
+        assert.isNull(element.lastChunkForSide(diff, false));
+        assert.equal(element.lastChunkForSide(diff, true), diff.content[0]);
       });
 
       test('deletion with b empty', () => {
@@ -1666,60 +1778,60 @@ suite('gr-diff-host tests', () => {
           ...createDiff(),
           content: [{a: ['foo', 'bar', 'baz'], b: []}],
         };
-        assert.isNull(element._lastChunkForSide(diff, false));
-        assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);
+        assert.isNull(element.lastChunkForSide(diff, false));
+        assert.equal(element.lastChunkForSide(diff, true), diff.content[0]);
       });
 
       test('empty', () => {
         const diff: DiffInfo = {...createDiff(), content: []};
-        assert.isNull(element._lastChunkForSide(diff, false));
-        assert.isNull(element._lastChunkForSide(diff, true));
+        assert.isNull(element.lastChunkForSide(diff, false));
+        assert.isNull(element.lastChunkForSide(diff, true));
       });
     });
 
-    suite('_hasTrailingNewlines', () => {
+    suite('hasTrailingNewlines', () => {
       test('shared no trailing', () => {
         const diff = undefined;
-        sinon.stub(element, '_lastChunkForSide').returns({ab: ['foo', 'bar']});
-        assert.isFalse(element._hasTrailingNewlines(diff, false));
-        assert.isFalse(element._hasTrailingNewlines(diff, true));
+        sinon.stub(element, 'lastChunkForSide').returns({ab: ['foo', 'bar']});
+        assert.isFalse(element.hasTrailingNewlines(diff, false));
+        assert.isFalse(element.hasTrailingNewlines(diff, true));
       });
 
       test('delta trailing in right', () => {
         const diff = undefined;
         sinon
-          .stub(element, '_lastChunkForSide')
+          .stub(element, 'lastChunkForSide')
           .returns({a: ['foo', 'bar'], b: ['baz', '']});
-        assert.isTrue(element._hasTrailingNewlines(diff, false));
-        assert.isFalse(element._hasTrailingNewlines(diff, true));
+        assert.isTrue(element.hasTrailingNewlines(diff, false));
+        assert.isFalse(element.hasTrailingNewlines(diff, true));
       });
 
       test('addition', () => {
         const diff: DiffInfo | undefined = undefined;
         sinon
-          .stub(element, '_lastChunkForSide')
+          .stub(element, 'lastChunkForSide')
           .callsFake((_: DiffInfo | undefined, leftSide: boolean) => {
             if (leftSide) {
               return null;
             }
             return {b: ['foo', '']};
           });
-        assert.isTrue(element._hasTrailingNewlines(diff, false));
-        assert.isNull(element._hasTrailingNewlines(diff, true));
+        assert.isTrue(element.hasTrailingNewlines(diff, false));
+        assert.isNull(element.hasTrailingNewlines(diff, true));
       });
 
       test('deletion', () => {
         const diff: DiffInfo | undefined = undefined;
         sinon
-          .stub(element, '_lastChunkForSide')
+          .stub(element, 'lastChunkForSide')
           .callsFake((_: DiffInfo | undefined, leftSide: boolean) => {
             if (!leftSide) {
               return null;
             }
             return {a: ['foo']};
           });
-        assert.isNull(element._hasTrailingNewlines(diff, false));
-        assert.isFalse(element._hasTrailingNewlines(diff, true));
+        assert.isNull(element.hasTrailingNewlines(diff, false));
+        assert.isFalse(element.hasTrailingNewlines(diff, true));
       });
     });
   });

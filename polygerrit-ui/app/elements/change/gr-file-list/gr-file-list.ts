@@ -810,6 +810,16 @@ export class GrFileList extends LitElement {
     super.disconnectedCallback();
   }
 
+  protected override async getUpdateComplete(): Promise<boolean> {
+    const result = await super.getUpdateComplete();
+    await Promise.all(
+      this.diffs.map(async d => {
+        await d.updateComplete;
+      })
+    );
+    return result;
+  }
+
   override render() {
     this.classList.toggle('editMode', this.editMode);
     const patchChange = this.calculatePatchChange();

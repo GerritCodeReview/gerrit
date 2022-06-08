@@ -16,6 +16,29 @@
       "message": "Marija can you please review my file changes?",
       "revId": "2863e9480fdb3ee02e1d990c0d9b91b426f4cb6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f11c5e6_16977d05",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-08T13:10:26Z",
+      "side": 1,
+      "message": "Should it be on Line #1?",
+      "range": {
+        "startLine": 4,
+        "startChar": 39,
+        "endLine": 4,
+        "endChar": 41
+      },
+      "revId": "2863e9480fdb3ee02e1d990c0d9b91b426f4cb6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -638,6 +638,26 @@ export class GrDiffView extends base {
     this.$.applyFixDialog.open(e);
   }
 
+  _onIsBlameLoadedchanged(e: ValueChangedEvent<boolean>) {
+    this._isBlameLoaded = e.detail.value;
+  }
+
+  onDiffChanged(e: ValueChangedEvent<DiffInfo>) {
+    this._diff = e.detail.value;
+  }
+
+  onEditWeblinksChanged(e: ValueChangedEvent<GeneratedWebLink[] | undefined>) {
+    this._editWeblinks = e.detail.value;
+  }
+
+  _onFilesWeblinksChanged(e: ValueChangedEvent<FilesWebLinks | undefined>) {
+    this._filesWeblinks = e.detail.value;
+  }
+
+  _onIsImageDiffChanged(e: ValueChangedEvent<boolean>) {
+    this._isImageDiff = e.detail.value;
+  }
+
   _handleNextLine() {
     this.$.diffHost.displayLine = true;
     this.cursor?.moveDown();

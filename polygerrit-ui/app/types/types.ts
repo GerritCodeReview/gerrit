@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {DiffLayer as DiffLayerApi} from '../api/diff';
-import {DiffViewMode, MessageTag, Side} from '../constants/constants';
+import {MessageTag, Side} from '../constants/constants';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
@@ -15,8 +15,6 @@ import {
   CommitId,
   CommitInfo,
   EditPatchSet,
-  NumericChangeId,
-  PatchRange,
   PatchSetNum,
   ReviewerUpdateInfo,
   RevisionInfo,
@@ -170,15 +168,6 @@ export type DiffLayerListener = (
 export interface DiffLayer extends DiffLayerApi {
   addListener?(listener: DiffLayerListener): void;
   removeListener?(listener: DiffLayerListener): void;
-}
-
-export interface ChangeViewState {
-  changeNum: NumericChangeId | null;
-  patchRange: PatchRange | null;
-  diffMode: DiffViewMode | null;
-}
-export interface ViewState {
-  changeView: ChangeViewState;
 }
 
 export interface PatchSetFile {

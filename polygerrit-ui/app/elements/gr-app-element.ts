@@ -53,9 +53,7 @@ import {
   PageErrorEventDetail,
   RpcLogEvent,
   TitleChangeEventDetail,
-  ValueChangedEvent,
 } from '../types/events';
-import {ChangeViewState, ViewState} from '../types/types';
 import {GerritView} from '../services/router/router-model';
 import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
@@ -126,8 +124,6 @@ export class GrAppElement extends LitElement {
   @state() private showPluginScreen?: boolean;
 
   @state() private showDocumentationSearch?: boolean;
-
-  @state() private viewState?: ViewState;
 
   @state() private lastError?: ErrorInfo;
 
@@ -246,14 +242,6 @@ export class GrAppElement extends LitElement {
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
     this.settingsUrl = GerritNav.getUrlForSettings();
-
-    this.viewState = {
-      changeView: {
-        changeNum: null,
-        patchRange: null,
-        diffMode: null,
-      },
-    };
   }
 
   static override get styles() {
@@ -453,9 +441,7 @@ export class GrAppElement extends LitElement {
     return html`
       <gr-change-view
         .params=${this.params}
-        .viewState=${this.viewState?.changeView}
         .backPage=${this.lastSearchPage}
-        @view-state-change-view-changed=${this.handleViewStateChangeViewChanged}
       ></gr-change-view>
     `;
   }
@@ -822,16 +808,6 @@ export class GrAppElement extends LitElement {
     return window.localStorage.getItem('dark-theme')
       ? 'app-theme-dark'
       : 'app-theme-light';
-  }
-
-  private handleViewStateChangeViewChanged(
-    e: ValueChangedEvent<ChangeViewState>
-  ) {
-    if (!this.viewState) return;
-    this.viewState.changeView = {
-      ...this.viewState.changeView,
-      ...e.detail.value,
-    };
   }
 }
 

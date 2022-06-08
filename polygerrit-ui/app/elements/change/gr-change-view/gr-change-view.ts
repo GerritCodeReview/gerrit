@@ -138,7 +138,6 @@ import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {GrFileList} from '../gr-file-list/gr-file-list';
 import {
-  ChangeViewState,
   EditRevisionInfo,
   isPolymerSpliceChange,
   ParsedChangeInfo,
@@ -159,7 +158,6 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {
-  fire,
   fireAlert,
   fireDialogChange,
   fireEvent,
@@ -271,9 +269,6 @@ export class GrChangeView extends base {
    */
   @property({type: Object, observer: '_paramsChanged'})
   params?: AppElementChangeViewParams;
-
-  @property({type: Object, observer: '_viewStateChanged'})
-  viewState: Partial<ChangeViewState> = {};
 
   @property({type: String})
   backPage?: string;
@@ -1321,6 +1316,7 @@ export class GrChangeView extends base {
       if (patchChanged) {
         // We need to collapse all diffs when params change so that a non
         // existing diff is not requested. See Issue 125270 for more details.
+        this.$.fileList.resetNumFilesShown();
         this.$.fileList.collapseAllDiffs();
         this._reloadPatchNumDependentResources(patchNumChanged).then(() => {
           this._sendShowChangeEvent();
@@ -1343,6 +1339,7 @@ export class GrChangeView extends base {
     // We need to collapse all diffs when params change so that a non existing
     // diff is not requested. See Issue 125270 for more details.
     this.$.fileList.collapseAllDiffs();
+    this.$.fileList.resetNumFilesShown();
 
     // If the change was loaded before, then we are firing a 'reload' event
     // instead of calling `loadData()` directly for two reasons:
@@ -1414,31 +1411,6 @@ export class GrChangeView extends base {
     });
   }
 
-  @observe('params', '_change')
-  _paramsAndChangeChanged(
-    value?: AppElementChangeViewParams,
-    change?: ChangeInfo
-  ) {
-    // Polymer 2: check for undefined
-    if (!value || !change) {
-      return;
-    }
-
-    if (!this._patchRange)
-      throw new Error('missing required _patchRange property');
-    // If the change number or patch range is different, then reset the
-    // selected file index.
-    const patchRangeState = this.viewState.patchRange;
-    if (
-      this.viewState.changeNum !== this._changeNum ||
-      !patchRangeState ||
-      patchRangeState.basePatchNum !== this._patchRange.basePatchNum ||
-      patchRangeState.patchNum !== this._patchRange.patchNum
-    ) {
-      this._resetFileListViewState();
-    }
-  }
-
   _handleMessageAnchorTap(e: CustomEvent<{id: string}>) {
     assertIsDefined(this._change, '_change');
     if (!this._patchRange)
@@ -1504,20 +1476,6 @@ export class GrChangeView extends base {
       if (this.params?.openReplyDialog) {
         this._openReplyDialog(FocusTarget.ANY);
       }
-    });
-  }
-
-  _resetFileListViewState() {
-    if (
-      !!this.viewState.changeNum &&
-      this.viewState.changeNum !== this._changeNum
-    ) {
-      this.$.fileList.resetNumFilesShown();
-    }
-    this.set('viewState.changeNum', this._changeNum);
-    this.set('viewState.patchRange', this._patchRange);
-    fire(this, 'view-state-change-view-changed', {
-      value: this.viewState as ChangeViewState,
     });
   }
 
@@ -2649,7 +2607,6 @@ export class GrChangeView extends base {
 declare global {
   interface HTMLElementEventMap {
     'toggle-star': CustomEvent<ChangeStarToggleStarDetail>;
-    'view-state-change-view-changed': ValueChangedEvent<ChangeViewState>;
   }
   interface HTMLElementTagNameMap {
     'gr-change-view': GrChangeView;

@@ -1277,21 +1277,9 @@ suite('gr-change-view tests', () => {
       patchNum: 2 as RevisionPatchSetNum,
     };
     element._change = change;
-    element.viewState.changeNum = null;
-    element.viewState.diffMode = DiffViewMode.UNIFIED;
     assert.equal(element.$.fileList.numFilesShown, DEFAULT_NUM_FILES_SHOWN);
     element.$.fileList.numFilesShown = 150;
     flush();
-    assert.equal(element.viewState.diffMode, DiffViewMode.UNIFIED);
-
-    element._changeNum = 1 as NumericChangeId;
-    element.params = {
-      ...createAppElementChangeViewParams(),
-      changeNum: 1 as NumericChangeId,
-    };
-    flush();
-    assert.equal(element.viewState.diffMode, DiffViewMode.UNIFIED);
-    assert.equal(element.viewState.changeNum, 1);
 
     element._changeNum = 2 as NumericChangeId;
     element.params = {
@@ -1299,8 +1287,6 @@ suite('gr-change-view tests', () => {
       changeNum: 2 as NumericChangeId,
     };
     flush();
-    assert.equal(element.viewState.diffMode, DiffViewMode.UNIFIED);
-    assert.equal(element.viewState.changeNum, 2);
     assert.equal(element.$.fileList.numFilesShown, DEFAULT_NUM_FILES_SHOWN);
   });
 

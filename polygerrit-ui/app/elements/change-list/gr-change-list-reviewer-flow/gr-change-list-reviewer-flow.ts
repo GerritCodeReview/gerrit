@@ -40,6 +40,7 @@ import {getReplyByReason} from '../../../utils/attention-set-util';
 import {intersection} from '../../../utils/common-util';
 import {accountOrGroupKey} from '../../../utils/account-util';
 import {ValueChangedEvent} from '../../../types/events';
+import {fireReload} from '../../../utils/event-util';
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
@@ -488,6 +489,9 @@ export class GrChangeListReviewerFlow extends LitElement {
           status => status === ProgressStatus.FAILED
         ).length,
       });
+    } else {
+      fireReload(this);
+      this.closeOverlay();
     }
   }
 

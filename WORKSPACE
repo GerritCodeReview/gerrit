@@ -12,8 +12,8 @@
 #    folder can be used for testing, but must not be included in the final bundle.
 # 5. @plugins_npm (plugins/node_modules) - plugin dependencies for polygerrit plugins.
 #    The packages here are expected to be used in plugins.
-# Note: separation between @ui_npm and @ui_dev_npm is necessary because with bazel we can't generate
-#    two managed directories from the same package.json. At the same time we want to avoid accidental
+# Note: separation between @ui_npm and @ui_dev_npm is necessary because with rules_nodejs we can't generate
+#    two external repositories from the same package.json. At the same time we want to avoid accidental
 #    usages of code from devDependencies in polygerrit bundle.
 workspace(
     name = "gerrit",

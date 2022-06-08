@@ -16,6 +16,23 @@
       "message": "I addressed the chang",
       "revId": "067daccc8d27f347a748f4d9a97543f9dbf4e09d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba8cdf42_6f0ac06f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-08T13:17:42Z",
+      "side": 1,
+      "message": "Let\u0027s not merge it.",
+      "revId": "067daccc8d27f347a748f4d9a97543f9dbf4e09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

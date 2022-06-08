@@ -541,8 +541,9 @@ suite('gr-diff-view tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 80, null, 'P');
       assert(scrollStub.calledOnce);
 
+      assertIsDefined(element.$.diffHost.diffElement);
       const computeContainerClassStub = sinon.stub(
-        element.$.diffHost.$.diff,
+        element.$.diffHost.diffElement,
         '_computeContainerClass'
       );
       MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');

@@ -57,6 +57,7 @@ const darkThemeCss = safeStyleSheet`
 
     --selected-foreground: var(--blue-200);
     --selected-background: var(--blue-900);
+    --selected-chip-background: var(--blue-300-24);
 
     --success-foreground: var(--green-200);
     --success-background: var(--green-tonal);

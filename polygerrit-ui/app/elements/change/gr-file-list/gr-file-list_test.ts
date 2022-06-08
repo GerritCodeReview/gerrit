@@ -10,7 +10,6 @@ import {FilesExpandedState} from '../gr-file-list-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {runA11yAudit} from '../../../test/a11y-test-utils';
 import {
-  listenOnce,
   mockPromise,
   query,
   stubRestApi,
@@ -1976,7 +1975,7 @@ suite('gr-file-list tests', () => {
         ignore_whitespace: 'IGNORE_NONE',
       };
       diff.diff = createDiff();
-      await listenOnce(diff, 'render');
+      await diff.updateComplete;
     }
 
     async function renderAndGetNewDiffs(index: number) {

@@ -474,7 +474,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         element,
         'gr-autocomplete'
       );
-      autocomplete.focus();
+      autocomplete.setFocus(true);
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getHashtagsStub, 'getHashtagsStub');
@@ -513,7 +513,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         'gr-autocomplete'
       );
 
-      autocomplete.focus();
+      autocomplete.setFocus(true);
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getHashtagsStub, 'getHashtagsStub');

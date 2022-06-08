@@ -141,6 +141,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b863d110_8918912c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-06-08T21:02:07Z",
+      "side": 1,
+      "message": "\u003e Is that the kind of configuration you have in mind?\n\nthe basic UI i have in mind is to extend the current email address table by an additional column of radio buttons, so you\u0027d have \"display email\" and \"notification email\".\n\nwhich emails can be added and/or which selected for which purpose could be restricted by a plugin.\n\nthis would even work if the per-repo addresses followed a pattern, so one could specify a templated address as proposed above. (of course, such addresses could not be confirmed, so they would be inapplicable to notifications.)\n\nnow, if you want to be able to specify arbitrary per-repo addresses, the concept breaks down. instead, you\u0027d need something similar to the notifications table, possibly with support for inheritance like the project configurations. i suppose my prior use of \"cumbersome\" for that UI is a bit of an understatement. 😁\n\nso instead you\u0027d presumably go with the regular table, but have some kind of plugin-provided \"magic\" entry in there, and have the validator hook ensure that this entry is selected as the display address.",
+      "parentUuid": "ef21af85_391158dd",
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "648eafb5_550e2afd",

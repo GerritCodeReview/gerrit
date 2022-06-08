@@ -23,8 +23,8 @@ export class MockTimer implements Timer {
   }
 }
 
-const log = function (msg: string) {
-  console.info(`ReportingMock.${msg}`);
+const log = function (msg: string, e?: unknown) {
+  console.info(`ReportingMock.${msg} ${e}`);
 };
 
 export const grReportingMock: ReportingService & Finalizable = {
@@ -51,8 +51,8 @@ export const grReportingMock: ReportingService & Finalizable = {
   reportErrorDialog: (message: string) => {
     log(`reportErrorDialog: ${message}`);
   },
-  error: () => {
-    log('error');
+  error: e => {
+    log('error', e);
   },
   reportExecution: (_id: Execution, _details?: EventDetails) => {},
   trackApi: (_pluginApi: PluginApi, _object: string, _method: string) => {},

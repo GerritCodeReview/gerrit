@@ -63,6 +63,24 @@
       "message": "Most of the frontend will not care about whether a Fix was stored or provided. For example the ApplyFixDialog will work with both. We can find proper abstractions when implementing the frontend code for applying provided fixes. For now please revert all frontend changes. It is fine to implement and roll out the backend first. And once the API is released we can tackle the frontend.",
       "revId": "2573e0f45e718dad3bb4a724235236840d25709e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf45aa1d_f688d6bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-08T18:16:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d720facd_20185814",
+      "revId": "2573e0f45e718dad3bb4a724235236840d25709e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

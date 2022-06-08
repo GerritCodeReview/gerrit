@@ -22,6 +22,30 @@
       },
       "revId": "51fa7e2085c5d858591a11a2ee40bcde9d93c6d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "220cbd0a_65e93e49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-08T12:32:20Z",
+      "side": 1,
+      "message": "If I use this in prod then `this.input.inputElement.inputElement` gives me access to the input element but in test it returns undefined(not sure why).\n\nThey both have the input element present here so I replaced it with querying for the input element to make the test happy.\n\nLMK if you prefer me digging deeper as to why this same expression doesn\u0027t work in tests but I thought updating the query was an easier solution here.\n\nUpdated the commit message.",
+      "parentUuid": "5bd2b5c9_d28f5275",
+      "range": {
+        "startLine": 12,
+        "startChar": 57,
+        "endLine": 12,
+        "endChar": 66
+      },
+      "revId": "51fa7e2085c5d858591a11a2ee40bcde9d93c6d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

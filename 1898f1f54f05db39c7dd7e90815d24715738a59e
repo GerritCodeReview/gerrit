@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dbd3619_ceba3853",
+        "filename": "java/com/google/gerrit/server/index/group/GroupSchemaDefinitions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-08T14:59:23Z",
+      "side": 1,
+      "message": "Is this a change in behaviour? (also same for others change/group/account schema definitions)\n\nPreviously we used the other constructor, defaulting the schema version to zero. but now the version is different.\n\nHow is/was the version number used? is it safe to change it?",
+      "revId": "1898f1f54f05db39c7dd7e90815d24715738a59e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

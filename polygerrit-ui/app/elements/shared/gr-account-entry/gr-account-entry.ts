@@ -129,7 +129,7 @@ export class GrAccountEntry extends LitElement {
   }
 
   private handleTextChanged(e: BindValueChangeEvent) {
-    this.inputText = e.detail.value;
+    this.inputText = e.detail.value ?? '';
   }
 }
 

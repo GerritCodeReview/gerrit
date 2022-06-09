@@ -567,17 +567,17 @@ export class GrEditControls extends LitElement {
   };
 
   private readonly handleTextChanged = (e: BindValueChangeEvent) => {
-    this.path = e.detail.value;
+    this.path = e.detail.value ?? '';
   };
 
   private readonly handleBindValueChangedNewPath = (
     e: BindValueChangeEvent
   ) => {
-    this.newPath = e.detail.value;
+    this.newPath = e.detail.value ?? '';
   };
 
   private readonly handleBindValueChangedPath = (e: BindValueChangeEvent) => {
-    this.path = e.detail.value;
+    this.path = e.detail.value ?? '';
   };
 }
 

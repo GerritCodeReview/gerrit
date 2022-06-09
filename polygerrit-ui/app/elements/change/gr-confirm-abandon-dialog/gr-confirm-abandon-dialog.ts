@@ -157,6 +157,6 @@ export class GrConfirmAbandonDialog extends LitElement {
   }
 
   private handleBindValueChanged(e: BindValueChangeEvent) {
-    this.message = e.detail.value;
+    this.message = e.detail.value ?? '';
   }
 }

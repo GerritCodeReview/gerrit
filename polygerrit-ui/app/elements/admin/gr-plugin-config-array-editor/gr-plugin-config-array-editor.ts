@@ -182,6 +182,6 @@ export class GrPluginConfigArrayEditor extends LitElement {
   }
 
   private handleBindValueChangedNewValue(e: BindValueChangeEvent) {
-    this.newValue = e.detail.value;
+    this.newValue = e.detail.value ?? '';
   }
 }

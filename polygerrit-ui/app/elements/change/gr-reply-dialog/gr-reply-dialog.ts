@@ -858,7 +858,7 @@ export class GrReplyDialog extends LitElement {
             .rows=${4}
             .text=${this.draft}
             @bind-value-changed=${(e: BindValueChangeEvent) => {
-              this.draft = e.detail.value;
+              this.draft = e.detail.value ?? '';
               this.handleHeightChanged();
             }}
           >

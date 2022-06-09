@@ -94,7 +94,7 @@ declare global {
 }
 
 export interface BindValueChangeEventDetail {
-  value: string;
+  value: string | undefined;
 }
 export type BindValueChangeEvent = CustomEvent<BindValueChangeEventDetail>;
 

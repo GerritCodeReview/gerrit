@@ -110,7 +110,7 @@ export class GrIncludedInDialog extends LitElement {
           id="filterInput"
           .bindValue=${this.filterText}
           @bind-value-changed=${(e: BindValueChangeEvent) => {
-            this.filterText = e.detail.value;
+            this.filterText = e.detail.value ?? '';
           }}
         >
           <input placeholder="Filter" />

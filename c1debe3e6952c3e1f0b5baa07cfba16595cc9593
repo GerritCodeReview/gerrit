@@ -22,6 +22,29 @@
       },
       "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c0ba247_96a0954b",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-09T10:44:40Z",
+      "side": 1,
+      "message": "Not really a user friendly alert.\nPerhaps something like \"Save request already in progress\"?",
+      "range": {
+        "startLine": 380,
+        "startChar": 27,
+        "endLine": 380,
+        "endChar": 73
+      },
+      "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -13,7 +13,7 @@ import '../gr-commit-info/gr-commit-info';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {computeLatestPatchNum, PatchSet} from '../../../utils/patch-set-util';
-import {property, customElement, query} from 'lit/decorators';
+import {property, customElement, query, state} from 'lit/decorators';
 import {
   AccountInfo,
   ChangeInfo,
@@ -38,6 +38,8 @@ import {when} from 'lit/directives/when';
 import {ifDefined} from 'lit/directives/if-defined';
 import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
 import {resolve} from '../../../models/dependency';
+import {getAppContext} from '../../../services/app-context';
+import {subscribe} from '../../lit/subscription-controller';
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends LitElement {
@@ -87,9 +89,6 @@ export class GrFileListHeader extends LitElement {
   @property({type: Number})
   shownFileCount = 0;
 
-  @property({type: Object})
-  diffPrefs?: DiffPreferencesInfo;
-
   @property({type: String})
   patchNum?: PatchSetNum;
 
@@ -101,6 +100,9 @@ export class GrFileListHeader extends LitElement {
 
   @property({type: Object})
   revisionInfo?: RevisionInfo;
+
+  @state()
+  diffPrefs?: DiffPreferencesInfo;
 
   @query('#modeSelect')
   modeSelect?: GrDiffModeSelector;
@@ -116,6 +118,20 @@ export class GrFileListHeader extends LitElement {
   // Caps the number of files that can be shown and have the 'show diffs' /
   // 'hide diffs' buttons still be functional.
   private readonly maxFilesForBulkActions = 225;
+
+  private readonly userModel = getAppContext().userModel;
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.userModel.diffPreferences$,
+      diffPreferences => {
+        if (!diffPreferences) return;
+        this.diffPrefs = diffPreferences;
+      }
+    );
+  }
 
   static override styles = [
     sharedStyles,

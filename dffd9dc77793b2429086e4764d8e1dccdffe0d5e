@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a507f2bf_9d08283e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-09T13:45:12Z",
+      "side": 1,
+      "message": "I don\u0027t get this one. Why avoid the \u0027apply\u0027 button if all hashtags are new?",
+      "revId": "dffd9dc77793b2429086e4764d8e1dccdffe0d5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

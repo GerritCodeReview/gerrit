@@ -48,7 +48,9 @@ export const htmlTemplate = html`
     }
     li .itemAction {
       color: var(--gr-dropdown-item-color);
-      @apply --gr-dropdown-item;
+      background-color: var(--gr-dropdown-item-background-color);
+      border: var(--gr-dropdown-item-border);
+      text-transform: var(--gr-dropdown-item-text-transform);
     }
     li .itemAction.disabled {
       color: var(--deemphasized-text-color);
@@ -74,7 +76,9 @@ export const htmlTemplate = html`
       display: block;
       padding: var(--spacing-m) var(--spacing-l);
       color: var(--gr-dropdown-item-color);
-      @apply --gr-dropdown-item;
+      background-color: var(--gr-dropdown-item-background-color);
+      border: var(--gr-dropdown-item-border);
+      text-transform: var(--gr-dropdown-item-text-transform);
     }
     .bold-text {
       font-weight: var(--font-weight-bold);

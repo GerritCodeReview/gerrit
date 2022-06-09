@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "510fcee3_9f600cf8",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-09T15:41:38Z",
+      "side": 1,
+      "message": "seems like this breaks a lot of places so I will review when it\u0027s resolved. In case you missed it, I tried to convert in https://gerrit-review.googlesource.com/c/gerrit/+/334871 in case you can get any ideas there.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 28
+      },
+      "revId": "5d6a0648f49db1d3dacbc9cdc9ccd72a629847be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

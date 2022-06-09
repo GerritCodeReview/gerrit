@@ -34,6 +34,24 @@
       "parentUuid": "2cf258df_8e691f66",
       "revId": "c6a1fe0cfb552a95874f84fb121691586f28ec22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c21f2b69_4b70236b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-06-09T12:23:02Z",
+      "side": 1,
+      "message": "Yes the functionality is working well. I\u0027m ok with keeping it as `Apply`",
+      "parentUuid": "6cf2785a_1c0ea560",
+      "revId": "c6a1fe0cfb552a95874f84fb121691586f28ec22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

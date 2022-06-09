@@ -275,6 +275,8 @@ export class GrDiffHost extends DIPolymerElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly userModel = getAppContext().userModel;
+
   // visible for testing
   readonly jsAPI = getAppContext().jsApiService;
 
@@ -322,6 +324,11 @@ export class GrDiffHost extends DIPolymerElement {
     this.subscriptions.push(
       this.getCommentsModel().changeComments$.subscribe(changeComments => {
         this.changeComments = changeComments;
+      })
+    );
+    this.subscriptions.push(
+      this.userModel.diffPreferences$.subscribe(diffPreferences => {
+        this.prefs = diffPreferences;
       })
     );
     this.subscribeToChecks();

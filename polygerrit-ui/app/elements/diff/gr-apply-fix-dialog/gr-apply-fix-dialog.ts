@@ -30,6 +30,7 @@ import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-hig
 import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {subscribe} from '../../lit/subscription-controller';
 
 interface FilePreview {
   filepath: string;
@@ -43,9 +44,6 @@ export class GrApplyFixDialog extends LitElement {
 
   @query('#nextFix')
   nextFix?: GrButton;
-
-  @property({type: Object})
-  prefs?: DiffPreferencesInfo;
 
   @property({type: Object})
   change?: ParsedChangeInfo;
@@ -77,16 +75,32 @@ export class GrApplyFixDialog extends LitElement {
   @state()
   layers: DiffLayer[] = [];
 
+  @state()
+  diffPrefs?: DiffPreferencesInfo;
+
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly userModel = getAppContext().userModel;
 
   constructor() {
     super();
-    // TODO Get preferences from model.
-    this.restApiService.getPreferences().then(prefs => {
-      if (!prefs?.disable_token_highlighting) {
-        this.layers = [new TokenHighlightLayer(this)];
+    subscribe(
+      this,
+      () => this.userModel.preferences$,
+      preferences => {
+        if (!preferences?.disable_token_highlighting) {
+          this.layers = [new TokenHighlightLayer(this)];
+        }
       }
-    });
+    );
+    subscribe(
+      this,
+      () => this.userModel.diffPreferences$,
+      diffPreferences => {
+        if (!diffPreferences) return;
+        this.diffPrefs = diffPreferences;
+      }
+    );
     this.addEventListener('diff-context-expanded', () => {
       if (this.applyFixOverlay) fireEvent(this.applyFixOverlay, 'iron-resize');
     });
@@ -152,7 +166,7 @@ export class GrApplyFixDialog extends LitElement {
         </div>
         <div class="diffContainer">
           <gr-diff
-            .prefs=${this.overridePartialPrefs()}
+            .prefs=${this.overridePartialDiffPrefs()}
             .path=${item.filepath}
             .diff=${item.preview}
             .layers=${this.layers}
@@ -245,10 +259,10 @@ export class GrApplyFixDialog extends LitElement {
       });
   }
 
-  private overridePartialPrefs() {
-    if (!this.prefs) return undefined;
+  private overridePartialDiffPrefs() {
+    if (!this.diffPrefs) return undefined;
     // generate a smaller gr-diff than fullscreen for dialog
-    return {...this.prefs, line_length: 50};
+    return {...this.diffPrefs, line_length: 50};
   }
 
   // visible for testing

@@ -519,7 +519,6 @@ export const htmlTemplate = html`
           logged-in="[[_loggedIn]]"
           server-config="[[_serverConfig]]"
           shown-file-count="[[_shownFileCount]]"
-          diff-prefs="[[_diffPrefs]]"
           patch-num="[[_patchRange.patchNum]]"
           base-patch-num="[[_patchRange.basePatchNum]]"
           files-expanded="[[_filesExpanded]]"
@@ -533,7 +532,6 @@ export const htmlTemplate = html`
         <gr-file-list
           id="fileList"
           class="hideOnMobileOverlay"
-          diff-prefs="[[_diffPrefs]]"
           change="[[_change]]"
           change-num="[[_changeNum]]"
           patch-range="[[_patchRange]]"
@@ -544,7 +542,6 @@ export const htmlTemplate = html`
           on-files-shown-changed="_setShownFiles"
           on-file-action-tap="_handleFileActionTap"
           observer-target="[[_computeObserverTarget()]]"
-          on-diff-prefs-changed="_diffPrefsChanged"
         >
         </gr-file-list>
       </div>
@@ -634,7 +631,6 @@ export const htmlTemplate = html`
 
   <gr-apply-fix-dialog
     id="applyFixDialog"
-    prefs="[[_diffPrefs]]"
     change="[[_change]]"
     change-num="[[_changeNum]]"
   ></gr-apply-fix-dialog>

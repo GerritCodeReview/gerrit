@@ -83,6 +83,12 @@ public interface UrlFormatter {
     return getWebUrl().map(url -> url + "Documentation/" + page + "#" + anchor);
   }
 
+  /** Returns a URL pointing to a plugin documentation page, at a given named anchor. */
+  default Optional<String> getPluginDocUrl(String pluginName, String page, String anchor) {
+    return getWebUrl()
+        .map(url -> url + "plugins/" + pluginName + "/Documentation/" + page + "#" + anchor);
+  }
+
   /** Returns a REST API URL for a given suffix (eg. "accounts/self/details") */
   default Optional<String> getRestUrl(String suffix) {
     return getWebUrl().map(url -> url + suffix);

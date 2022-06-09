@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "840c40d8_ca6b2e1f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-09T11:59:27Z",
+      "side": 1,
+      "message": "Ack, I would propose removing the Saving state to make this change simpler but feel free to come to a conclusion with Chris and add me back to the AS once decided. :D",
+      "parentUuid": "3ba35baf_6675589e",
+      "range": {
+        "startLine": 1170,
+        "startChar": 9,
+        "endLine": 1170,
+        "endChar": 19
+      },
+      "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5c0ba247_96a0954b",
         "filename": "polygerrit-ui/app/models/change/change-model.ts",
         "patchSetId": 7

@@ -360,6 +360,10 @@ export class GrChangeList extends LitElement {
     return labels.sort();
   }
 
+  resetSelectedIndex() {
+    this.selectedIndex = 0;
+  }
+
   private changesChanged() {
     this.sections = this.changes ? [{results: this.changes}] : [];
   }

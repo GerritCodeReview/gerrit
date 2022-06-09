@@ -26,6 +26,8 @@ import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators';
+import {queryAndAssert} from '../../../utils/common-util';
+import {GrChangeList} from '../gr-change-list/gr-change-list';
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [
   /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
@@ -87,6 +89,8 @@ export class GrChangeListView extends LitElement {
   private reporting = getAppContext().reportingService;
 
   private lastVisibleTimestampMs = 0;
+
+  private shouldResetIndex = false;
 
   constructor() {
     super();
@@ -194,6 +198,13 @@ export class GrChangeListView extends LitElement {
     `;
   }
 
+  override updated() {
+    if (this.shouldResetIndex) {
+      queryAndAssert<GrChangeList>(this, 'gr-change-list').resetSelectedIndex();
+      this.shouldResetIndex = false;
+    }
+  }
+
   private renderRepoHeader() {
     if (!this.repo) return;
 
@@ -273,6 +284,13 @@ export class GrChangeListView extends LitElement {
     const value = this.params;
     if (!value || value.view !== GerritView.SEARCH) return;
     const offset = isNaN(Number(value.offset)) ? 0 : Number(value.offset);
+
+    if (this.query !== value.query) {
+      this.shouldResetIndex = true;
+      // ideally we do
+      // queryAndAssert<GrChangeList>(this, 'gr-change-list').resetSelectedIndex();
+      // but since loading=false, GrChangeList is not in the DOM yet
+    }
 
     this.loading = true;
     this.query = value.query;

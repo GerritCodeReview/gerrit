@@ -109,6 +109,64 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1fd16b02_8300e204",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-09T12:01:30Z",
+      "side": 1,
+      "message": "+1 to what Dhruv said, apologies.",
+      "parentUuid": "840c40d8_ca6b2e1f",
+      "range": {
+        "startLine": 1170,
+        "startChar": 9,
+        "endLine": 1170,
+        "endChar": 19
+      },
+      "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44abb7f1_5ae7eba5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 2033,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-09T12:01:30Z",
+      "side": 1,
+      "message": "Inline? Only used in one place.",
+      "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2234072b_28c988fc",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 2035,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-09T12:01:30Z",
+      "side": 1,
+      "message": "Inline? Only used in one place.",
+      "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5c0ba247_96a0954b",
         "filename": "polygerrit-ui/app/models/change/change-model.ts",
         "patchSetId": 7

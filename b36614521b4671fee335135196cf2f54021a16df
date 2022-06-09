@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94c07f8b_ac5372a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-09T10:35:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88df99fe_21fa42c8",
+      "revId": "b36614521b4671fee335135196cf2f54021a16df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "652b4dec_5bdcd937",
@@ -55,6 +73,30 @@
       "side": 1,
       "message": "And if we need a set, can\u0027t the set be created once on this.reviewed \u003d ... in the subscribe function.",
       "parentUuid": "652b4dec_5bdcd937",
+      "range": {
+        "startLine": 2011,
+        "startChar": 4,
+        "endLine": 2012,
+        "endChar": 33
+      },
+      "revId": "b36614521b4671fee335135196cf2f54021a16df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e2cf167_31026165",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2012,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-09T10:35:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fd193ac_02c81814",
       "range": {
         "startLine": 2011,
         "startChar": 4,

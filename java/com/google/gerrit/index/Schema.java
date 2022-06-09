@@ -97,11 +97,7 @@ public class Schema<T> {
 
   private int version;
 
-  private Schema(Iterable<FieldDef<T, ?>> fields) {
-    this(0, fields);
-  }
-
-  public Schema(int version, Iterable<FieldDef<T, ?>> fields) {
+  private Schema(int version, Iterable<FieldDef<T, ?>> fields) {
     this.version = version;
     ImmutableMap.Builder<String, FieldDef<T, ?>> b = ImmutableMap.builder();
     ImmutableMap.Builder<String, FieldDef<T, ?>> sb = ImmutableMap.builder();
@@ -225,9 +221,5 @@ public class Schema<T> {
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).addValue(fields.keySet()).toString();
-  }
-
-  public void setVersion(int version) {
-    this.version = version;
   }
 }

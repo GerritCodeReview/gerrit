@@ -33,6 +33,80 @@
       "message": "This should only be submitted after we (Google) have finished the migration of label configs to copy conditions.",
       "revId": "23c45b36d8951bb96e71d31c2f20183762a778f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dc001f1_af012022",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-09T10:16:35Z",
+      "side": 1,
+      "message": "Looks good to me. I need to do a second pass on the tests.",
+      "revId": "23c45b36d8951bb96e71d31c2f20183762a778f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ac49276_60081ff2",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-09T10:16:35Z",
+      "side": 1,
+      "message": "Could you please add Javadocs with the expected format?",
+      "revId": "23c45b36d8951bb96e71d31c2f20183762a778f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "976165b7_166faf9f",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-09T10:16:35Z",
+      "side": 1,
+      "message": "Also here: Javadocs will instantly clarify how the format looks like.",
+      "revId": "23c45b36d8951bb96e71d31c2f20183762a778f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "521c6604_ecd70890",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-09T10:16:35Z",
+      "side": 1,
+      "message": "Q: how does this resolve the storage of PII in change messages issue? AFAIU this code is executed when the change message is generated which will then be stored in NoteDB. Will this get stored (and displayed on the UI) as:\n  Code-Review+1 by \u003cGERRIT_ACCCOUNT_1000001\u003e\n\netc, ...?\n\nIf yes, can we add a test that asserts this format directly?",
+      "range": {
+        "startLine": 614,
+        "startChar": 21,
+        "endLine": 614,
+        "endChar": 60
+      },
+      "revId": "23c45b36d8951bb96e71d31c2f20183762a778f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

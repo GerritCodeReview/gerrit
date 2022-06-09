@@ -22,14 +22,14 @@ suite('gr-edit-file-controls tests', () => {
     element = basicFixture.instantiate();
     fileActionHandler = sinon.stub();
     element.addEventListener('file-action-tap', fileActionHandler);
-    await flush();
+    await element.updateComplete;
   });
 
-  test('open tap emits event', () => {
+  test('open tap emits event', async () => {
     const actions = queryAndAssert<GrDropdown>(element, '#actions');
     element.filePath = 'foo';
-    actions._open();
-    flush();
+    actions.open();
+    await actions.updateComplete;
 
     const row = queryAndAssert(actions, 'li [data-id="open"]');
     MockInteractions.tap(row);
@@ -40,11 +40,11 @@ suite('gr-edit-file-controls tests', () => {
     });
   });
 
-  test('delete tap emits event', () => {
+  test('delete tap emits event', async () => {
     const actions = queryAndAssert<GrDropdown>(element, '#actions');
     element.filePath = 'foo';
-    actions._open();
-    flush();
+    actions.open();
+    await actions.updateComplete;
 
     const row = queryAndAssert(actions, 'li [data-id="delete"]');
     MockInteractions.tap(row);
@@ -55,11 +55,11 @@ suite('gr-edit-file-controls tests', () => {
     });
   });
 
-  test('restore tap emits event', () => {
+  test('restore tap emits event', async () => {
     const actions = queryAndAssert<GrDropdown>(element, '#actions');
     element.filePath = 'foo';
-    actions._open();
-    flush();
+    actions.open();
+    await actions.updateComplete;
 
     const row = queryAndAssert(actions, 'li [data-id="restore"]');
     MockInteractions.tap(row);
@@ -70,11 +70,11 @@ suite('gr-edit-file-controls tests', () => {
     });
   });
 
-  test('rename tap emits event', () => {
+  test('rename tap emits event', async () => {
     const actions = queryAndAssert<GrDropdown>(element, '#actions');
     element.filePath = 'foo';
-    actions._open();
-    flush();
+    actions.open();
+    await actions.updateComplete;
 
     const row = queryAndAssert(actions, 'li [data-id="rename"]');
     MockInteractions.tap(row);

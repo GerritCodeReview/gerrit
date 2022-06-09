@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "266717e4_496be6d1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-09T15:23:37Z",
+      "side": 1,
+      "message": "Discussed in meeting. We are always showing both buttons and disabling one or the other.",
+      "parentUuid": "673074a3_5cb2547c",
+      "revId": "dffd9dc77793b2429086e4764d8e1dccdffe0d5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b9b353c_a4699ea9",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-06-09T13:52:06Z",
       "side": 1,
       "message": "capitalise h here as well?\nallHashtags",
+      "range": {
+        "startLine": 244,
+        "startChar": 10,
+        "endLine": 244,
+        "endChar": 27
+      },
+      "revId": "dffd9dc77793b2429086e4764d8e1dccdffe0d5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a21a0042_01566d9d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-09T15:23:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b9b353c_a4699ea9",
       "range": {
         "startLine": 244,
         "startChar": 10,
@@ -108,6 +150,24 @@
       "side": 1,
       "message": "Is there a test for this scenario?",
       "parentUuid": "98fe9d16_70279078",
+      "revId": "dffd9dc77793b2429086e4764d8e1dccdffe0d5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcdfbbc9_74e213d2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-09T15:23:37Z",
+      "side": 1,
+      "message": "https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow_test.ts;l\u003d482-485;drc\u003dd79eabb7a2d44c0e6f93b5b6cef9153897369def",
+      "parentUuid": "419d9f22_86dbc13e",
       "revId": "dffd9dc77793b2429086e4764d8e1dccdffe0d5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

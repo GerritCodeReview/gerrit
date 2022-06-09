@@ -161,9 +161,6 @@ export class GrDiffHost extends DIPolymerElement {
   @property({type: String})
   path?: string;
 
-  @property({type: Object})
-  prefs?: DiffPreferencesInfo;
-
   @property({type: String})
   projectName?: RepoName;
 
@@ -249,7 +246,7 @@ export class GrDiffHost extends DIPolymerElement {
 
   @property({
     type: Boolean,
-    computed: '_isSyntaxHighlightingEnabled(prefs.*, diff)',
+    computed: '_isSyntaxHighlightingEnabled(_diffPrefs.*, diff)',
     observer: '_syntaxHighlightingEnabledChanged',
   })
   _syntaxHighlightingEnabled?: boolean;
@@ -261,6 +258,9 @@ export class GrDiffHost extends DIPolymerElement {
   _renderPrefs: RenderPreferences = {
     num_lines_rendered_at_once: 128,
   };
+
+  @property({type: Object})
+  _diffPrefs?: DiffPreferencesInfo;
 
   private readonly getBrowserModel = resolve(this, browserModelToken);
 
@@ -274,6 +274,8 @@ export class GrDiffHost extends DIPolymerElement {
   private readonly flags = getAppContext().flagsService;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly userModel = getAppContext().userModel;
 
   // visible for testing
   readonly jsAPI = getAppContext().jsApiService;
@@ -322,6 +324,11 @@ export class GrDiffHost extends DIPolymerElement {
     this.subscriptions.push(
       this.getCommentsModel().changeComments$.subscribe(changeComments => {
         this.changeComments = changeComments;
+      })
+    );
+    this.subscriptions.push(
+      this.userModel.diffPreferences$.subscribe(diffPreferences => {
+        this._diffPrefs = diffPreferences;
       })
     );
     this.subscribeToChecks();
@@ -1129,14 +1136,14 @@ export class GrDiffHost extends DIPolymerElement {
   }
 
   _getIgnoreWhitespace(): IgnoreWhitespaceType {
-    if (!this.prefs || !this.prefs.ignore_whitespace) {
+    if (!this._diffPrefs || !this._diffPrefs.ignore_whitespace) {
       return 'IGNORE_NONE';
     }
-    return this.prefs.ignore_whitespace;
+    return this._diffPrefs.ignore_whitespace;
   }
 
   @observe(
-    'prefs.ignore_whitespace',
+    '_diffPrefs.ignore_whitespace',
     '_loadedWhitespaceLevel',
     'noRenderOnPrefsChange'
   )
@@ -1158,7 +1165,7 @@ export class GrDiffHost extends DIPolymerElement {
     }
   }
 
-  @observe('noRenderOnPrefsChange', 'prefs.*')
+  @observe('noRenderOnPrefsChange', '_diffPrefs.*')
   _syntaxHighlightingChanged(
     noRenderOnPrefsChange?: boolean,
     prefsChangeRecord?: PolymerDeepPropertyChange<
@@ -1168,7 +1175,7 @@ export class GrDiffHost extends DIPolymerElement {
   ) {
     if (noRenderOnPrefsChange === undefined) return;
     if (prefsChangeRecord === undefined) return;
-    if (prefsChangeRecord.path !== 'prefs.syntax_highlighting') return;
+    if (prefsChangeRecord.path !== '_diffPrefs.syntax_highlighting') return;
 
     if (!noRenderOnPrefsChange) {
       this.reload();

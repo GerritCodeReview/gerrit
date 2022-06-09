@@ -113,7 +113,6 @@ import {
   ServerInfo,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import {DiffPreferencesInfo} from '../../../types/diff';
 import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
@@ -298,9 +297,6 @@ export class GrChangeView extends base {
 
   @property({type: Object, observer: '_startUpdateCheckTimer'})
   _serverConfig?: ServerInfo;
-
-  @property({type: Object})
-  _diffPrefs?: DiffPreferencesInfo;
 
   @property({type: Object})
   _account?: AccountDetailInfo;
@@ -1218,10 +1214,6 @@ export class GrChangeView extends base {
 
   _collapseAllDiffs() {
     this.$.fileList.collapseAllDiffs();
-  }
-
-  _diffPrefsChanged(e: ValueChangedEvent<DiffPreferencesInfo>) {
-    this._diffPrefs = e.detail.value;
   }
 
   /**

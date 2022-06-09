@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34688471_94f1b323",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-09T18:14:14Z",
+      "side": 1,
+      "message": "\u003e I am a bit puzzled by this change: shouldn\u0027t be something internal to the elasticsearch implementation? Why Gerrit has to know about it?\n\nGerrit knows if we\u0027re operating online or offline and should have a means for adjusting policy for index consistency in each. That\u0027s generic to indexing and not specific to one index implementation.\n\n\u003e I think it should be an optional even for ES and enabled in Gerrit but disabled during the offline re-indexing, as the consistency doesn\u0027t really matter.\n\nFor us, we want strong consistency in online mode. However, this change opens the possibility of adding a config in ES that sets it to false so that you could adjust the behavior to be what you want.\n\u003e \n\u003e I assume there is a significant performance improvement for offline reindexing?\n\nYes, it\u0027s huge. We can add the perf stat to https://gerrit-review.googlesource.com/c/modules/index-elasticsearch/+/339115 but it probably doesn\u0027t make sense here.",
+      "parentUuid": "e20c5e7a_34ad0a1f",
+      "revId": "a5c96891cbdd8babee152c3dd97e7da05039dd57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6944f87_8e33242f",

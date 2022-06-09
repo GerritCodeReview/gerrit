@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4571d53f_d1cc6c8a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-09T11:51:07Z",
+      "side": 1,
+      "message": "I beg to disagree. Please have a look at the `reviewFile()` and `computeFiles()` methods. Removing the dependency between `files` and `reviewed` is a huge benefit. Not adding `isReviewed` property to `FileInfo` is important, because `FileInfo` is immutable model state.\n\nNote that a \u003e50% of the changes here were done in response to your comment that we need to know and show the `saving` state for marking files as reviewed.",
+      "parentUuid": "67303390_7958da4a",
+      "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cbd190bf_0010d025",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
         "patchSetId": 7
@@ -43,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ba35baf_6675589e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-09T11:51:07Z",
+      "side": 1,
+      "message": "Chris asked me to add that. I am fine either way. :-)",
+      "parentUuid": "cbd190bf_0010d025",
+      "range": {
+        "startLine": 1170,
+        "startChar": 9,
+        "endLine": 1170,
+        "endChar": 19
+      },
+      "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5c0ba247_96a0954b",
         "filename": "polygerrit-ui/app/models/change/change-model.ts",
         "patchSetId": 7
@@ -54,6 +96,30 @@
       "writtenOn": "2022-06-09T10:44:40Z",
       "side": 1,
       "message": "Not really a user friendly alert.\nPerhaps something like \"Save request already in progress\"?",
+      "range": {
+        "startLine": 380,
+        "startChar": 27,
+        "endLine": 380,
+        "endChar": 73
+      },
+      "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2134fc70_7e722ce6",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-09T11:51:07Z",
+      "side": 1,
+      "message": "I think this is rare enough to not matter much. But I will leave this open and address it, if there are other comments to resolve later.",
+      "parentUuid": "5c0ba247_96a0954b",
       "range": {
         "startLine": 380,
         "startChar": 27,

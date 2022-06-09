@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e721f98_f8c8f47b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2022-06-09T16:27:55Z",
+      "side": 1,
+      "message": "ES change here: https://gerrit-review.googlesource.com/c/modules/index-elasticsearch/+/339115",
+      "revId": "98eee3f40c946888ce497e3e1b5af782b904167e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

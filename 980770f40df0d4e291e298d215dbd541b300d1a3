@@ -34,6 +34,24 @@
       "parentUuid": "0b8a1e4e_b05ad468",
       "revId": "980770f40df0d4e291e298d215dbd541b300d1a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "386eddf8_e2a6d688",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-09T09:21:56Z",
+      "side": 1,
+      "message": "Fine for me. The extra check here does not hurt for sure.\n\n\u003e maybe we should file a P3 issue for this?\n\nSGTM. Filed b/235448229.\n\nThanks for adding @Nullable.",
+      "parentUuid": "694caa77_fbecb420",
+      "revId": "980770f40df0d4e291e298d215dbd541b300d1a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

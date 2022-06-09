@@ -16,6 +16,24 @@
       "message": "What about merging this first, s.t. CI runs on the code-owners changes?",
       "revId": "5bfbbc955c945bfe5b40b7d9e1cee8e7fe0bd645",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a31c5f54_6296a0e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-09T13:36:03Z",
+      "side": 1,
+      "message": "Sounds good. Let\u0027s do it like this.",
+      "parentUuid": "5d271be1_66360fbb",
+      "revId": "5bfbbc955c945bfe5b40b7d9e1cee8e7fe0bd645",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

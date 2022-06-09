@@ -16,6 +16,24 @@
       "message": "Could you please add a screenshot for the record?",
       "revId": "961acd397016b5492d1cb6556f0bd6029dfe9914",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "710c08da_5190544b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-09T08:06:32Z",
+      "side": 1,
+      "message": "Screenshot: https://imgur.com/a/6j7h24u\n\nI added in PS2 but somehow got overwritten in PS 3. 😞",
+      "parentUuid": "ee4bceff_24464994",
+      "revId": "961acd397016b5492d1cb6556f0bd6029dfe9914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

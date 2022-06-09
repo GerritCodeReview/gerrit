@@ -40,6 +40,9 @@ export class GrEditFileControls extends LitElement {
         gr-dropdown {
           --gr-dropdown-item-color: var(--link-color);
           --gr-button-padding: var(--spacing-xs) var(--spacing-s);
+          --gr-dropdown-item-background-color: transparent;
+          --gr-dropdown-item-border: none;
+          --gr-dropdown-item-text-transform: uppercase;
         }
         #actions {
           margin-right: var(--spacing-l);
@@ -49,22 +52,8 @@ export class GrEditFileControls extends LitElement {
   }
 
   override render() {
-    // To pass CSS mixins for @apply to Polymer components, they need to appear
-    // in <style> inside the template.
-    /* eslint-disable lit/prefer-static-styles */
-    const customStyle = html`
-      <style>
-        gr-dropdown {
-          --gr-dropdown-item: {
-            background-color: transparent;
-            border: none;
-            text-transform: uppercase;
-          }
-        }
-      </style>
-    `;
     const fileActions = this._computeFileActions(this._allFileActions);
-    return html`${customStyle}
+    return html`
       <gr-dropdown
         id="actions"
         .items=${fileActions}

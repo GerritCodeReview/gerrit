@@ -90,7 +90,7 @@ suite('gr-apply-fix-dialog tests', () => {
     element.changeNum = change._number;
     element.patchNum = change.revisions[change.current_revision]._number;
     element.change = change;
-    element.prefs = {
+    element.diffPrefs = {
       ...createDefaultDiffPrefs(),
       font_size: 12,
       line_length: 100,

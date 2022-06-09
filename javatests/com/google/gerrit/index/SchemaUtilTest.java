@@ -20,6 +20,11 @@ import static com.google.gerrit.index.SchemaUtil.getPersonParts;
 import static com.google.gerrit.index.SchemaUtil.schema;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.gerrit.proto.Entities;
+import com.google.protobuf.MessageLite;
+import java.lang.reflect.ParameterizedType;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;

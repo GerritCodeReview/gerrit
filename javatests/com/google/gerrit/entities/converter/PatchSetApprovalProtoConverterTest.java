@@ -19,6 +19,7 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.reflect.TypeToken;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
@@ -27,6 +28,8 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.inject.TypeLiteral;
+import com.google.protobuf.MessageLite;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.Optional;
@@ -38,6 +41,36 @@ public class PatchSetApprovalProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
+//    Class<? super Iterable<Entities.PatchSet>> type = new TypeToken<Iterable<Entities.PatchSet>>(){}.getRawType();
+    TypeToken<Iterable<Entities.PatchSet>> typeToken = new TypeToken<Iterable<Entities.PatchSet>>(){};
+    assertThat(typeToken.isSubtypeOf(Iterable.class)).isTrue();
+    TypeToken typeTokenInt = new TypeToken<Integer>(){};
+    assertThat(typeTokenInt.isSubtypeOf(Iterable.class)).isFalse();
+    Type typeProtoIter = new TypeToken<Iterable<Entities.PatchSet>>(){}.getType();
+    Type typeIntegerIter = new TypeToken<Iterable<Integer>>(){}.getType();
+    if(typeProtoIter instanceof ParameterizedType) {
+      if(((ParameterizedType) typeProtoIter).getActualTypeArguments().length == 1) {
+        Class classOfType = (Class) ((ParameterizedType) typeProtoIter).getActualTypeArguments()[0];
+        assertThat(MessageLite.class.isAssignableFrom(classOfType)).isTrue();
+
+        Class classOfTypeInt = (Class) ((ParameterizedType) typeIntegerIter).getActualTypeArguments()[0];
+        assertThat(MessageLite.class.isAssignableFrom(classOfTypeInt)).isFalse();
+        return;
+      }
+    }
+    assertThat(true).isFalse();
+   /* Class<? super Iterable<?>> anyIterable = new TypeToken<Iterable<?>>(){}.getRawType();
+    ArrayList<Entities.PatchSet> collectionOfProtos = new ArrayList<Entities.PatchSet>();
+    ArrayList<Integer> collectionOfInts = new ArrayList<Integer>();
+    assertThat(typeProtoIter.isAssignableFrom(collectionOfProtos.getClass())).isTrue();
+    assertThat(anyIterable.isAssignableFrom(collectionOfProtos.getClass())).isTrue();
+    //assertThat(typeProtoIter.isAssignableFrom(collectionOfInts.getClass())).isFalse();
+    assertThat(anyIterable.isAssignableFrom(collectionOfInts.getClass())).isTrue();
+    Class aClass = Collections.<Entities.PatchSet>emptyList()
+        .getClass();
+    Type actualTypeArgument = ((ParameterizedType) aClass.getGenericSuperclass()).getActualTypeArguments()[0];
+    assertThat(MessageLite.class.isAssignableFrom(actualTypeArgument.getClass())).isTrue();
+    */
     PatchSetApproval patchSetApproval =
         PatchSetApproval.builder()
             .key(

@@ -545,6 +545,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "05cc16fe_2ab75bda",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5378,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-09T15:23:20Z",
+      "side": 1,
+      "message": "\u003e \u003e We wouldn\u0027t be changing the API signature, just the docs, correct?\n\u003e \n\u003e Unfortunately the rename would break the Java API.\n\nGood catch, thank you. Maybe we need a JGit-style check on renames in java/com/google/gerrit/extensions/api/.\n\n\u003e Nasser, do you think breaking this API for this rename is worth it?\n\nNo.\n\nThat said, how do you feel about having both of these with the same method name in RevisionApi? Since they\u0027re doing the same thing, just in slightly different ways, I think keeping the same method name would be good.\n\n  EditInfo applyFix(String fixId) // current API\n  EditInfo applyFix(ApplyProvidedFixInput applyProvidedFixInput) // new API\n  \nThen in [1] we\u0027d keep the class ApplyFix-\u003eApplyStoredFix rename, but not the RevisionApi method rename.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/338854/3/java/com/google/gerrit/server/restapi/change/ApplyStoredFix.java",
+      "parentUuid": "47a8a4a0_cd293625",
+      "range": {
+        "startLine": 5378,
+        "startChar": 4,
+        "endLine": 5378,
+        "endChar": 20
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e66e7d95_9c78c022",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28

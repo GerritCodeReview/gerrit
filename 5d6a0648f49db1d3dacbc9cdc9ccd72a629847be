@@ -22,6 +22,30 @@
       },
       "revId": "5d6a0648f49db1d3dacbc9cdc9ccd72a629847be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f055230_e367ab3d",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-09T18:40:40Z",
+      "side": 1,
+      "message": "Done. The original typing was loose. CustomEvent wasn\u0027t strongly typed to the type of value and gr-select can return undefined and gr-rule-editor actually relies on it.\n\nType-fix in parent change.",
+      "parentUuid": "510fcee3_9f600cf8",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 28
+      },
+      "revId": "5d6a0648f49db1d3dacbc9cdc9ccd72a629847be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

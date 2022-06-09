@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d798802c_06ba3521",
+        "filename": "java/com/google/gerrit/index/SchemaUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-09T10:53:00Z",
+      "side": 1,
+      "message": "This is since we always require setting a version in Builder now. Otherwise using this method will throw an error.",
+      "range": {
+        "startLine": 74,
+        "startChar": 35,
+        "endLine": 74,
+        "endChar": 45
+      },
+      "revId": "47a232763a1902b1d7dbfc3a6b32f2daf2a17b39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

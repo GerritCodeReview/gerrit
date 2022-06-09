@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8b9b353c_a4699ea9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-09T13:52:06Z",
+      "side": 1,
+      "message": "capitalise h here as well?\nallHashtags",
+      "range": {
+        "startLine": 244,
+        "startChar": 10,
+        "endLine": 244,
+        "endChar": 27
+      },
+      "revId": "dffd9dc77793b2429086e4764d8e1dccdffe0d5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a507f2bf_9d08283e",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
         "patchSetId": 2
@@ -66,6 +89,24 @@
       "writtenOn": "2022-06-09T13:51:47Z",
       "side": 1,
       "message": "Thanks for the clarification.",
+      "parentUuid": "98fe9d16_70279078",
+      "revId": "dffd9dc77793b2429086e4764d8e1dccdffe0d5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "419d9f22_86dbc13e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-09T13:52:06Z",
+      "side": 1,
+      "message": "Is there a test for this scenario?",
       "parentUuid": "98fe9d16_70279078",
       "revId": "dffd9dc77793b2429086e4764d8e1dccdffe0d5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

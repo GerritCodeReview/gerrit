@@ -132,11 +132,6 @@ export class GrChangeListHashtagFlow extends LitElement {
       this.existingHashtagSuggestions.includes(this.hashtagToApply) ||
       this.selectedExistingHashtags.size !== 0 ||
       this.overallProgress === ProgressStatus.RUNNING;
-    const isApplyHashtagDisabled =
-      (this.selectedExistingHashtags.size === 0 &&
-        (this.hashtagToApply === '' ||
-          !this.existingHashtagSuggestions.includes(this.hashtagToApply))) ||
-      this.overallProgress === ProgressStatus.RUNNING;
     return html`
       <gr-button
         id="start-flow"
@@ -185,7 +180,7 @@ export class GrChangeListHashtagFlow extends LitElement {
                     id="apply-hashtag-button"
                     flatten
                     @click=${() => this.applyHashtags('Applying hashtag...')}
-                    .disabled=${isApplyHashtagDisabled}
+                    .disabled=${this.isApplyHashtagDisabled()}
                     >Apply</gr-button
                   >
                 </div>
@@ -236,6 +231,25 @@ export class GrChangeListHashtagFlow extends LitElement {
       return html`<div class="error">${this.errorText}</div>`;
     }
     return nothing;
+  }
+
+  private isApplyHashtagDisabled() {
+    const allHashtagsToAdd = [
+      ...this.selectedExistingHashtags.values(),
+      ...(this.hashtagToApply === '' ? [] : [this.hashtagToApply]),
+    ];
+    const allHashtagsAlreadyAdded = allHashtagsToAdd.every(hashtag =>
+      this.selectedChanges.every(change => change.hashtags?.includes(hashtag))
+    );
+    const allHashtagsAreNew =
+      this.selectedExistingHashtags.size === 0 &&
+      (this.hashtagToApply === '' ||
+        !this.existingHashtagSuggestions.includes(this.hashtagToApply));
+    return (
+      allHashtagsAreNew ||
+      allHashtagsAlreadyAdded ||
+      this.overallProgress === ProgressStatus.RUNNING
+    );
   }
 
   private toggleDropdown() {

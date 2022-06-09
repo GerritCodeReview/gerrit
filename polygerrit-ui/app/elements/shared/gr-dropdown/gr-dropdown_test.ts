@@ -9,6 +9,7 @@ import {DropdownLink, GrDropdown} from './gr-dropdown';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrTooltipContent} from '../gr-tooltip-content/gr-tooltip-content';
+import {assertIsDefined} from '../../../utils/common-util';
 
 const basicFixture = fixtureFromElement('gr-dropdown');
 
@@ -19,25 +20,18 @@ suite('gr-dropdown tests', () => {
     element = basicFixture.instantiate();
   });
 
-  test('_computeIsDownload', () => {
-    assert.isTrue(element._computeIsDownload({download: true} as DropdownLink));
-    assert.isFalse(
-      element._computeIsDownload({download: false} as DropdownLink)
-    );
-  });
-
   test('tap on trigger opens menu, then closes', () => {
-    sinon.stub(element, '_open').callsFake(() => {
-      element.$.dropdown.open();
+    sinon.stub(element, 'open').callsFake(() => {
+      element.dropdown.open();
     });
-    sinon.stub(element, '_close').callsFake(() => {
-      element.$.dropdown.close();
+    sinon.stub(element, 'close').callsFake(() => {
+      element.dropdown.close();
     });
-    assert.isFalse(element.$.dropdown.opened);
-    MockInteractions.tap(element.$.trigger);
-    assert.isTrue(element.$.dropdown.opened);
-    MockInteractions.tap(element.$.trigger);
-    assert.isFalse(element.$.dropdown.opened);
+    assert.isFalse(element.dropdown.opened);
+    MockInteractions.tap(element.trigger);
+    assert.isTrue(element.dropdown.opened);
+    MockInteractions.tap(element.trigger);
+    assert.isFalse(element.dropdown.opened);
   });
 
   test('_computeURLHelper', () => {
@@ -49,62 +43,62 @@ suite('gr-dropdown tests', () => {
 
   test('link URLs', () => {
     assert.equal(
-      element._computeLinkURL({url: 'http://example.com/test'}),
+      element.computeLinkURL({url: 'http://example.com/test'}),
       'http://example.com/test'
     );
     assert.equal(
-      element._computeLinkURL({url: 'https://example.com/test'}),
+      element.computeLinkURL({url: 'https://example.com/test'}),
       'https://example.com/test'
     );
     assert.equal(
-      element._computeLinkURL({url: '/test'}),
+      element.computeLinkURL({url: '/test'}),
       '//' + window.location.host + '/test'
     );
     assert.equal(
-      element._computeLinkURL({url: '/test', target: '_blank'}),
+      element.computeLinkURL({url: '/test', target: '_blank'}),
       '/test'
     );
   });
 
   test('link rel', () => {
     let link: DropdownLink = {url: '/test'};
-    assert.isNull(element._computeLinkRel(link));
+    assert.isNull(element.computeLinkRel(link));
 
     link = {url: '/test', target: '_blank'};
-    assert.equal(element._computeLinkRel(link), 'noopener');
+    assert.equal(element.computeLinkRel(link), 'noopener');
 
     link = {url: '/test', external: true};
-    assert.equal(element._computeLinkRel(link), 'external');
+    assert.equal(element.computeLinkRel(link), 'external');
 
     link = {url: '/test', target: '_blank', external: true};
-    assert.equal(element._computeLinkRel(link), 'noopener');
+    assert.equal(element.computeLinkRel(link), 'noopener');
   });
 
-  test('_getClassIfBold', () => {
+  test('getClassIfBold', () => {
     let bold = true;
-    assert.equal(element._getClassIfBold(bold), 'bold-text');
+    assert.equal(element.getClassIfBold(bold), 'bold-text');
 
     bold = false;
-    assert.equal(element._getClassIfBold(bold), '');
+    assert.equal(element.getClassIfBold(bold), '');
   });
 
-  test('Top text exists and is bolded correctly', () => {
+  test('Top text exists and is bolded correctly', async () => {
     element.topContent = [{text: 'User', bold: true}, {text: 'email'}];
-    flush();
+    await element.updateComplete;
     const topItems = queryAll<HTMLDivElement>(element, '.top-item');
     assert.equal(topItems.length, 2);
     assert.isTrue(topItems[0].classList.contains('bold-text'));
     assert.isFalse(topItems[1].classList.contains('bold-text'));
   });
 
-  test('non link items', () => {
+  test('non link items', async () => {
     const item0 = {name: 'item one', id: 'foo'};
     element.items = [item0, {name: 'item two', id: 'bar'}];
     const fooTapped = sinon.stub();
     const tapped = sinon.stub();
     element.addEventListener('tap-item-foo', fooTapped);
     element.addEventListener('tap-item', tapped);
-    flush();
+    await element.updateComplete;
     MockInteractions.tap(
       queryAndAssert<HTMLSpanElement>(element, '.itemAction')
     );
@@ -113,7 +107,7 @@ suite('gr-dropdown tests', () => {
     assert.deepEqual(tapped.lastCall.args[0].detail, item0);
   });
 
-  test('disabled non link item', () => {
+  test('disabled non link item', async () => {
     element.items = [{name: 'item one', id: 'foo'}];
     element.disabledIds = ['foo'];
 
@@ -121,7 +115,7 @@ suite('gr-dropdown tests', () => {
     const tapped = sinon.stub();
     element.addEventListener('tap-item-foo', stub);
     element.addEventListener('tap-item', tapped);
-    flush();
+    await element.updateComplete;
     MockInteractions.tap(
       queryAndAssert<HTMLSpanElement>(element, '.itemAction')
     );
@@ -129,13 +123,13 @@ suite('gr-dropdown tests', () => {
     assert.isFalse(tapped.called);
   });
 
-  test('properly sets tooltips', () => {
+  test('properly sets tooltips', async () => {
     element.items = [
       {name: 'item one', id: 'foo', tooltip: 'hello'},
       {name: 'item two', id: 'bar'},
     ];
     element.disabledIds = [];
-    flush();
+    await element.updateComplete;
     const tooltipContents = queryAll<GrTooltipContent>(
       element,
       'iron-dropdown li gr-tooltip-content'
@@ -147,38 +141,41 @@ suite('gr-dropdown tests', () => {
   });
 
   suite('keyboard navigation', () => {
-    setup(() => {
+    setup(async () => {
       element.items = [
         {name: 'item one', id: 'foo'},
         {name: 'item two', id: 'bar'},
       ];
-      flush();
+      await element.updateComplete;
     });
 
     test('down', () => {
       const stub = sinon.stub(element.cursor, 'next');
-      assert.isFalse(element.$.dropdown.opened);
+      assertIsDefined(element.dropdown);
+      assert.isFalse(element.dropdown.opened);
       MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'ArrowDown');
-      assert.isTrue(element.$.dropdown.opened);
+      assert.isTrue(element.dropdown.opened);
       MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'ArrowDown');
       assert.isTrue(stub.called);
     });
 
     test('up', () => {
+      assertIsDefined(element.dropdown);
       const stub = sinon.stub(element.cursor, 'previous');
-      assert.isFalse(element.$.dropdown.opened);
+      assert.isFalse(element.dropdown.opened);
       MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'ArrowUp');
-      assert.isTrue(element.$.dropdown.opened);
+      assert.isTrue(element.dropdown.opened);
       MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'ArrowUp');
       assert.isTrue(stub.called);
     });
 
     test('enter/space', () => {
+      assertIsDefined(element.dropdown);
       // Because enter and space are handled by the same fn, we need only to
       // test one.
-      assert.isFalse(element.$.dropdown.opened);
+      assert.isFalse(element.dropdown.opened);
       MockInteractions.pressAndReleaseKeyOn(element, 32, null, ' ');
-      assert.isTrue(element.$.dropdown.opened);
+      assert.isTrue(element.dropdown.opened);
 
       const el = queryAndAssert<HTMLAnchorElement>(
         element.cursor.target as HTMLElement,

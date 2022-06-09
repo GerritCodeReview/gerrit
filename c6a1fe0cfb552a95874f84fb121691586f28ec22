@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cf258df_8e691f66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-06-09T08:32:38Z",
+      "side": 1,
+      "message": "Current change looks good to me.\nIt is missing the use case in b/234582456 Implement use case of a hashtag is already applied. Do you plan to add it in a follow-up change?",
+      "revId": "c6a1fe0cfb552a95874f84fb121691586f28ec22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

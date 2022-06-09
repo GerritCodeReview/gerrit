@@ -139,18 +139,19 @@ suite('gr-change-list-hashtag-flow tests', () => {
         ...createChange(),
         _number: 1 as NumericChangeId,
         subject: 'Subject 1',
-        hashtags: ['hashtag1' as Hashtag],
+        hashtags: ['hashtag1' as Hashtag, 'sharedHashtag' as Hashtag],
       },
       {
         ...createChange(),
         _number: 2 as NumericChangeId,
         subject: 'Subject 2',
-        hashtags: ['hashtag2' as Hashtag],
+        hashtags: ['hashtag2' as Hashtag, 'sharedHashtag' as Hashtag],
       },
       {
         ...createChange(),
         _number: 3 as NumericChangeId,
         subject: 'Subject 3',
+        hashtags: ['sharedHashtag' as Hashtag],
       },
     ];
     let setChangeHashtagPromises: MockPromise<string>[];
@@ -221,6 +222,9 @@ suite('gr-change-list-hashtag-flow tests', () => {
               <div class="chips">
                 <span role="button" aria-label="hashtag1" class="chip"
                   >hashtag1</span
+                >
+                <span role="button" aria-label="sharedHashtag" class="chip"
+                  >sharedHashtag</span
                 >
                 <span role="button" aria-label="hashtag2" class="chip"
                   >hashtag2</span
@@ -310,7 +314,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
       await element.updateComplete;
 
       // selects "hashtag2"
-      queryAll<HTMLSpanElement>(element, 'span.chip')[1].click();
+      queryAll<HTMLSpanElement>(element, 'span.chip')[2].click();
       await element.updateComplete;
 
       queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
@@ -445,6 +449,18 @@ suite('gr-change-list-hashtag-flow tests', () => {
         message: 'foo created',
         showDismiss: true,
       });
+    });
+
+    test('cannot apply existing hashtag already on selected changes', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+      // selects "sharedHashtag"
+      queryAll<HTMLSpanElement>(element, 'span.chip')[1].click();
+      await element.updateComplete;
+
+      assert.isTrue(
+        queryAndAssert<GrButton>(element, '#apply-hashtag-button').disabled
+      );
     });
   });
 });

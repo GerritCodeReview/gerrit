@@ -50,6 +50,42 @@
       "message": "Please split this change into prettier reformat and the actual functionality which seems to be only one file?",
       "revId": "0119d6f503d7d5e6f6ff2ca6ac25362893fddc95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "893de8e7_9df79536",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-09T08:34:05Z",
+      "side": 1,
+      "message": "This is not a \"reformat\". Adding the semi-colons is the actual fix. I would prefer to not break this change up. Maybe I am using the wrong tools, but breaking up a change is always substantial effort for me. :-/",
+      "parentUuid": "f8098444_7a9ee972",
+      "revId": "0119d6f503d7d5e6f6ff2ca6ac25362893fddc95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09b28988_c0f00220",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-09T08:34:05Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "2a5e7bd7_d6d4a4f0",
+      "revId": "0119d6f503d7d5e6f6ff2ca6ac25362893fddc95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e20c5e7a_34ad0a1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-09T17:03:57Z",
+      "side": 1,
+      "message": "I think it should be an optional even for ES and enabled in Gerrit but disabled during the offline re-indexing, as the consistency doesn\u0027t really matter.\n\nI assume there is a significant performance improvement for offline reindexing?",
+      "parentUuid": "f8a00499_78226842",
+      "revId": "a5c96891cbdd8babee152c3dd97e7da05039dd57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6944f87_8e33242f",

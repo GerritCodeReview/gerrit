@@ -16,6 +16,23 @@
       "message": "I just briefly skimmed over, so would appreciate if someone else could take a look as well.",
       "revId": "23c45b36d8951bb96e71d31c2f20183762a778f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05060878_03493889",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-09T08:01:36Z",
+      "side": 1,
+      "message": "This should only be submitted after we (Google) have finished the migration of label configs to copy conditions.",
+      "revId": "23c45b36d8951bb96e71d31c2f20183762a778f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "803c8444_fd259bf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-09T15:33:46Z",
+      "side": 1,
+      "message": "Could you comment how you tested this?",
+      "revId": "8041a2f38022ce7e53f8c143f4f653375d543734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0a44500_962c8551",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-09T15:33:46Z",
+      "side": 1,
+      "message": "Could you hold off on this change until https://gerrit-review.googlesource.com/c/gerrit/+/339015 lands?",
+      "revId": "8041a2f38022ce7e53f8c143f4f653375d543734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

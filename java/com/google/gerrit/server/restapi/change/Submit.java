@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.entities.BranchNameKey;
@@ -168,9 +169,12 @@ public class Submit
   }
 
   @Override
-  public Response<ChangeInfo> apply(RevisionResource rsrc, SubmitInput input)
+  public Response<ChangeInfo> apply(RevisionResource rsrc, @Nullable SubmitInput input)
       throws RestApiException, RepositoryNotFoundException, IOException, PermissionBackendException,
           UpdateException, ConfigInvalidException {
+    if (input == null) {
+      input = new SubmitInput();
+    }
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
     IdentifiedUser submitter;
     if (input.onBehalfOf != null) {

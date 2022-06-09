@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7db875f0_8d632496",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-09T12:15:45Z",
+      "side": 1,
+      "message": "We have discussed this offline. Dhruv is actually fine with removing the feature. He was more concerned with bringing it back. :-)",
+      "parentUuid": "6596a018_62220e0b",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "77f9db16152a3f775c5b9e8a8e8cb9774a85b1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3fd716c_e4c7b43f",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-31T08:36:35Z",
       "side": 1,
       "message": "typo: migration",
+      "range": {
+        "startLine": 21,
+        "startChar": 22,
+        "endLine": 21,
+        "endChar": 31
+      },
+      "revId": "77f9db16152a3f775c5b9e8a8e8cb9774a85b1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaa00029_3ed72891",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-09T12:15:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3fd716c_e4c7b43f",
       "range": {
         "startLine": 21,
         "startChar": 22,

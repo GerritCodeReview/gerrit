@@ -16,6 +16,24 @@
       "message": "I was tempted to add the same fix yesterday and looked at the code. In RestAPIServlet, we create an empty instance if the request has no body [1] and I wondered how a null was passed.\n\nIf nulls are possible, we should add a @Nullable on inputs, or otherwise check why/how this was passed as null.\n\n[1] https://gerrit.googlesource.com/gerrit/+/9c34e223db207d2ba382a7d972f8e05293423dbd/java/com/google/gerrit/httpd/restapi/RestApiServlet.java#1322",
       "revId": "980770f40df0d4e291e298d215dbd541b300d1a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "694caa77_fbecb420",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-09T08:52:06Z",
+      "side": 1,
+      "message": "Yes, I\u0027m aware of the logic in RestApiServlet and I\u0027m actually not sure how it can happen that the input is null. I remember trying to debug this some years ago, but without success. \n\nSince we have similar null checks in many other places, I think it\u0027s fine adding it here too. It may be worth doing a pass through all REST endpoints once to check that this is consistently handled everywhere, but it doesn\u0027t seem urgent to need doing this right now (maybe we should file a P3 issue for this?).\n\nAdded the @Nullable annotation to the input here.",
+      "parentUuid": "0b8a1e4e_b05ad468",
+      "revId": "980770f40df0d4e291e298d215dbd541b300d1a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

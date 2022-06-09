@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25138329_7b1fd48c",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-09T06:45:25Z",
+      "side": 1,
+      "message": "If it\u0027s anything other than:\n\n    Link: $WEB_URL/id/$CHANGE_ID\n    \nit won\u0027t be considered a valid footer.",
+      "parentUuid": "b7c74498_861a940f",
+      "range": {
+        "startLine": 62,
+        "startChar": 32,
+        "endLine": 62,
+        "endChar": 33
+      },
+      "revId": "5b579518650c07b8b4715e53dd60c9a21627c89f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1d7b3ac_29e83737",
         "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 2
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Well, not caring about the value corresponds to the old trailer.ifexists\u003ddoNothing option, which only checked if a Change-Id trailer exists. And as per above, is it the job of this hook to validate that the trailers are correctly formatted? In that case it should give an error about incorrectly formatted trailers rather than silently adding a new.",
       "parentUuid": "f1d7b3ac_29e83737",
+      "range": {
+        "startLine": 66,
+        "startChar": 11,
+        "endLine": 66,
+        "endChar": 13
+      },
+      "revId": "5b579518650c07b8b4715e53dd60c9a21627c89f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ae8d1b9_b5361861",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-09T06:45:25Z",
+      "side": 1,
+      "message": "True this behavior is like it was before.",
+      "parentUuid": "b70de94c_d2c5dc03",
       "range": {
         "startLine": 66,
         "startChar": 11,

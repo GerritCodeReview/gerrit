@@ -106,8 +106,7 @@ export class GrChangeList extends LitElement {
 
   @state() private dynamicHeaderEndpoints?: string[];
 
-  @state()
-  selectedIndex?: number;
+  @property({type: Number, attribute: 'selected-index'}) selectedIndex?: number;
 
   @property({type: Boolean})
   showNumber?: boolean; // No default value to prevent flickering.

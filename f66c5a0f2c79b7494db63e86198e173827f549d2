@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6b30bc2_79bde90a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-09T12:46:26Z",
+      "side": 1,
+      "message": "`${allHashtagsToApply[0]} applied to changes`",
+      "range": {
+        "startLine": 294,
+        "startChar": 17,
+        "endLine": 295,
+        "endChar": 31
+      },
+      "revId": "f66c5a0f2c79b7494db63e86198e173827f549d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -26,6 +26,7 @@ import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state, query} from 'lit/decorators';
+import {ValueChangedEvent} from '../../../types/events';
 
 const LOOKUP_QUERY_PATTERNS: RegExp[] = [
   /^\s*i?[0-9a-f]{7,40}\s*$/i, // CHANGE_ID
@@ -81,6 +82,8 @@ export class GrChangeListView extends LitElement {
 
   // private but used in test
   @state() repo: RepoName | null = null;
+
+  @state() selectedIndex = 0;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -185,6 +188,10 @@ export class GrChangeListView extends LitElement {
           .changes=${this.changes}
           .preferences=${this.preferences}
           .showStar=${loggedIn}
+          .selectedIndex=${this.selectedIndex}
+          @selected-index-changed=${(e: ValueChangedEvent<number>) => {
+            this.selectedIndex = e.detail.value;
+          }}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}
@@ -273,6 +280,10 @@ export class GrChangeListView extends LitElement {
     const value = this.params;
     if (!value || value.view !== GerritView.SEARCH) return;
     const offset = isNaN(Number(value.offset)) ? 0 : Number(value.offset);
+
+    if (this.query !== value.query) {
+      this.selectedIndex = 0;
+    }
 
     this.loading = true;
     this.query = value.query;

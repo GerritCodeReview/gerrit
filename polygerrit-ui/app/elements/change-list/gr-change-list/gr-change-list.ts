@@ -19,7 +19,7 @@ import {
   ServerInfo,
   PreferencesInput,
 } from '../../../types/common';
-import {fireEvent, fireReload} from '../../../utils/event-util';
+import {fire, fireEvent, fireReload} from '../../../utils/event-util';
 import {ColumnNames, ScrollMode} from '../../../constants/constants';
 import {getRequirements} from '../../../utils/label-util';
 import {addGlobalShortcut, Key} from '../../../utils/dom-util';
@@ -34,6 +34,7 @@ import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcu
 import {queryAll} from '../../../utils/common-util';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 import {Execution} from '../../../constants/reporting';
+import {ValueChangedEvent} from '../../../types/events';
 
 export interface ChangeListSection {
   countLabel?: string;
@@ -106,8 +107,7 @@ export class GrChangeList extends LitElement {
 
   @state() private dynamicHeaderEndpoints?: string[];
 
-  @state()
-  selectedIndex?: number;
+  @property({type: Number}) selectedIndex?: number;
 
   @property({type: Boolean})
   showNumber?: boolean; // No default value to prevent flickering.
@@ -278,6 +278,11 @@ export class GrChangeList extends LitElement {
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('sections')) {
       this.sectionsChanged();
+    }
+    if (changedProperties.has('selectedIndex')) {
+      fire(this, 'selected-index-changed', {
+        value: this.selectedIndex ?? 0,
+      });
     }
   }
 
@@ -450,5 +455,8 @@ export class GrChangeList extends LitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-change-list': GrChangeList;
+  }
+  interface HTMLElementEventMap {
+    'selected-index-changed': ValueChangedEvent<number>;
   }
 }

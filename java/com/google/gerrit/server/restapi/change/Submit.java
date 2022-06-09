@@ -171,6 +171,9 @@ public class Submit
   public Response<ChangeInfo> apply(RevisionResource rsrc, SubmitInput input)
       throws RestApiException, RepositoryNotFoundException, IOException, PermissionBackendException,
           UpdateException, ConfigInvalidException {
+    if (input == null) {
+      input = new SubmitInput();
+    }
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
     IdentifiedUser submitter;
     if (input.onBehalfOf != null) {

@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec8ee79f_c9ea726c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-09T15:26:26Z",
+      "side": 1,
+      "message": "@Sharad, the goal with this commit message should be that it answers Ben\u0027s question without him having to consult the other discussion. You probably need to summarize it a bit in order to do that. I can help you do that if you\u0027d like (once that discussion item with Edwin concludes).",
+      "parentUuid": "7d7e3956_b3a9ba9a",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "2573e0f45e718dad3bb4a724235236840d25709e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d720facd_20185814",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

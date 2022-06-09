@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6971ebf3_63284e29",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-09T15:26:26Z",
+      "side": 1,
+      "message": "As Edwin points out in [1], this breaks the extension API compatibility guarantee. I proposed an alternative in my response there, so let\u0027s conclude on that before you update this change again.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/334040/comments/c7b8b524_728a9686",
+      "range": {
+        "startLine": 118,
+        "startChar": 11,
+        "endLine": 118,
+        "endChar": 25
+      },
+      "revId": "bd6bac43c637a6fb2864c3ee82e76df15212b12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

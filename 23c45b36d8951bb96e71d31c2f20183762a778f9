@@ -69,6 +69,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31d81810_41e11f2e",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-09T13:11:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ac49276_60081ff2",
+      "revId": "23c45b36d8951bb96e71d31c2f20183762a778f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "976165b7_166faf9f",
@@ -86,6 +104,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b32a5db2_76afbd9d",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-09T13:11:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "976165b7_166faf9f",
+      "revId": "23c45b36d8951bb96e71d31c2f20183762a778f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "521c6604_ecd70890",
@@ -99,6 +135,30 @@
       "writtenOn": "2022-06-09T10:16:35Z",
       "side": 1,
       "message": "Q: how does this resolve the storage of PII in change messages issue? AFAIU this code is executed when the change message is generated which will then be stored in NoteDB. Will this get stored (and displayed on the UI) as:\n  Code-Review+1 by \u003cGERRIT_ACCCOUNT_1000001\u003e\n\netc, ...?\n\nIf yes, can we add a test that asserts this format directly?",
+      "range": {
+        "startLine": 614,
+        "startChar": 21,
+        "endLine": 614,
+        "endChar": 60
+      },
+      "revId": "23c45b36d8951bb96e71d31c2f20183762a778f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6db1462_1ef4deef",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-09T13:11:34Z",
+      "side": 1,
+      "message": "\u003e Q: how does this resolve the storage of PII in change messages issue? AFAIU this code is executed when the change message is generated which will then be stored in NoteDB. Will this get stored (and displayed on the UI) as:\n\u003e   Code-Review+1 by \u003cGERRIT_ACCCOUNT_1000001\u003e\n\u003e \n\u003e etc, ...?\n\nYes, it\u0027s stored as: \n\n  Code-Review+1 by \u003cGERRIT_ACCCOUNT_1000001\u003e\n\nThis is also the change message that is returned from the REST API. The UI replaces \u003cGERRIT_ACCCOUNT_1000001\u003e with the actual user name, so that this is displayed as: \n\n  Code-Review+1 by Foo Bar\n\n\u003e If yes, can we add a test that asserts this format directly?\n\nThis is already covered by all tests in CopiedApprovalsInChangeMessageIT that end with \"_withUserInPredicate\".",
+      "parentUuid": "521c6604_ecd70890",
       "range": {
         "startLine": 614,
         "startChar": 21,

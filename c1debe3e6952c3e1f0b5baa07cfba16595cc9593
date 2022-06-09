@@ -131,6 +131,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2475fc06_2df4dbb4",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-09T12:09:07Z",
+      "side": 1,
+      "message": "Reverted back to earlier snapshot. :-)",
+      "parentUuid": "1fd16b02_8300e204",
+      "range": {
+        "startLine": 1170,
+        "startChar": 9,
+        "endLine": 1170,
+        "endChar": 19
+      },
+      "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44abb7f1_5ae7eba5",
@@ -148,6 +172,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12398e13_cd5824ab",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 2033,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-09T12:09:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44abb7f1_5ae7eba5",
+      "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2234072b_28c988fc",
@@ -161,6 +203,24 @@
       "writtenOn": "2022-06-09T12:01:30Z",
       "side": 1,
       "message": "Inline? Only used in one place.",
+      "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46ff2cb2_206f8d4d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 2035,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-09T12:09:07Z",
+      "side": 1,
+      "message": "obsolete",
+      "parentUuid": "2234072b_28c988fc",
       "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -202,6 +262,30 @@
       "side": 1,
       "message": "I think this is rare enough to not matter much. But I will leave this open and address it, if there are other comments to resolve later.",
       "parentUuid": "5c0ba247_96a0954b",
+      "range": {
+        "startLine": 380,
+        "startChar": 27,
+        "endLine": 380,
+        "endChar": 73
+      },
+      "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c92738d_04e25050",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-09T12:09:07Z",
+      "side": 1,
+      "message": "obsolete",
+      "parentUuid": "2134fc70_7e722ce6",
       "range": {
         "startLine": 380,
         "startChar": 27,

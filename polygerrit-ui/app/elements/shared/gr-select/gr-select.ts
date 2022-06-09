@@ -3,13 +3,17 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {html} from '@polymer/polymer/lib/utils/html-tag';
-import {customElement, property, observe} from '@polymer/decorators';
+import {html, LitElement, PropertyValues} from 'lit';
+import {customElement} from 'lit/decorators';
+import {BindValueChangeEvent} from '../../../types/events';
+import {fire} from '../../../utils/event-util';
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-select': GrSelect;
+  }
+  interface HTMLElementEventMap {
+    'bind-value-changed': BindValueChangeEvent;
   }
 }
 
@@ -17,13 +21,19 @@ declare global {
  * GrSelect `gr-select` component.
  */
 @customElement('gr-select')
-export class GrSelect extends PolymerElement {
-  static get template() {
-    return html` <slot></slot> `;
+export class GrSelect extends LitElement {
+  private _bindValue?: string | number | boolean;
+
+  get bindValue() {
+    return this._bindValue;
   }
 
-  @property({type: String, notify: true})
-  bindValue?: string | number | boolean;
+  set bindValue(bindValue: string | number | boolean | undefined) {
+    if (this._bindValue === bindValue) return;
+    this._bindValue = bindValue;
+    this._updateValue();
+    fire(this, 'bind-value-changed', {value: this.convert(this._bindValue)});
+  }
 
   get nativeSelect() {
     // gr-select is not a shadow component
@@ -33,7 +43,24 @@ export class GrSelect extends PolymerElement {
     return this.querySelector('select')!;
   }
 
-  @observe('bindValue')
+  constructor() {
+    super();
+    this.addEventListener('change', () => this.valueChanged());
+    this.addEventListener('dom-change', () => this._updateValue());
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    // If not set via the property, set bind-value to the element value.
+    if (this.bindValue === undefined && this.nativeSelect.options.length > 0) {
+      this.bindValue = this.nativeSelect.value;
+    }
+  }
+
+  override render() {
+    return html`<slot></slot>`;
+  }
+
   _updateValue() {
     // It's possible to have a value of 0.
     if (this.bindValue !== undefined) {
@@ -48,25 +75,17 @@ export class GrSelect extends PolymerElement {
     }
   }
 
-  _valueChanged() {
+  private convert(value: string | boolean | number | undefined) {
+    if (value === undefined) return undefined;
+    if (typeof value === 'string') return value;
+    return String(value);
+  }
+
+  private valueChanged() {
     this.bindValue = this.nativeSelect.value;
   }
 
   override focus() {
     this.nativeSelect.focus();
-  }
-
-  constructor() {
-    super();
-    this.addEventListener('change', () => this._valueChanged());
-    this.addEventListener('dom-change', () => this._updateValue());
-  }
-
-  override ready() {
-    super.ready();
-    // If not set via the property, set bind-value to the element value.
-    if (this.bindValue === undefined && this.nativeSelect.options.length > 0) {
-      this.bindValue = this.nativeSelect.value;
-    }
   }
 }

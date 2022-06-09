@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "897620db_a4376e3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-09T12:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "243d0970_8c5149ff",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "47a232763a1902b1d7dbfc3a6b32f2daf2a17b39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d798802c_06ba3521",
         "filename": "java/com/google/gerrit/index/SchemaUtil.java",
         "patchSetId": 2

@@ -50,7 +50,7 @@ public class SchemaUtil {
             int versionName = Integer.parseInt(f.getName().substring(1));
             checkArgument(
                 versionName == schema.getVersion(),
-                "Schema version %s does not match it's name %s",
+                "Schema version %s does not match its name %s",
                 schema.getVersion(),
                 f.getName());
             schemas.put(schema.getVersion(), schema);

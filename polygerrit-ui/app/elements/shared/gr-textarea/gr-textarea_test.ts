@@ -21,16 +21,24 @@ suite('gr-textarea tests', () => {
   });
 
   test('renders', () => {
-    expect(element).shadowDom.to.equal(/* HTML */ `<div id="hiddenText"></div>
-      <span id="caratSpan"> </span>
-      <gr-autocomplete-dropdown
-        id="emojiSuggestions"
-        is-hidden=""
-        style="position: fixed; top: 150px; left: 392.5px; box-sizing: border-box; max-height: 300px; max-width: 785px;"
-      >
-      </gr-autocomplete-dropdown>
-      <iron-autogrow-textarea aria-disabled="false" id="textarea">
-      </iron-autogrow-textarea> `);
+    expect(element).shadowDom.to.equal(
+      /* HTML */ `<div id="hiddenText"></div>
+        <span id="caratSpan"> </span>
+        <gr-autocomplete-dropdown
+          id="emojiSuggestions"
+          is-hidden=""
+          style="position: fixed; top: 150px; left: 392.5px; box-sizing: border-box; max-height: 300px; max-width: 785px;"
+        >
+        </gr-autocomplete-dropdown>
+        <iron-autogrow-textarea aria-disabled="false" id="textarea">
+        </iron-autogrow-textarea> `,
+      {
+        // gr-autocomplete-dropdown sizing seems to vary between local & CI
+        ignoreAttributes: [
+          {tags: ['gr-autocomplete-dropdown'], attributes: ['style']},
+        ],
+      }
+    );
   });
 
   test('monospace is set properly', () => {

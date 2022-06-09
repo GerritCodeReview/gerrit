@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3db88098_73c9a181",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-09T14:59:52Z",
+      "side": 1,
+      "message": "We can\u0027t use models inside of gr-diff and downwards. This code is used elsewhere and they don\u0027t have models like us.",
+      "revId": "555f657874b5a993b6a74b186efe626c4fb33d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

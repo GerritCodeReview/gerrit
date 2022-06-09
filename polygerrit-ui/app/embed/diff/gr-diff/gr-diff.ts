@@ -67,6 +67,8 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
 import {deepEqual} from '../../../utils/deep-util';
+import {Subscription} from 'rxjs';
+import {getAppContext} from '../../../services/app-context';
 
 const NO_NEWLINE_LEFT = 'No newline at end of left file.';
 const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
@@ -139,8 +141,8 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   @property({type: String, observer: '_pathObserver'})
   path?: string;
 
-  @property({type: Object, observer: '_prefsObserver'})
-  prefs?: DiffPreferencesInfo;
+  @property({type: Object, observer: '_diffPrefsObserver'})
+  _diffPrefs?: DiffPreferencesInfo;
 
   @property({type: Object, observer: '_renderPrefsChanged'})
   renderPrefs?: RenderPreferences;
@@ -279,11 +281,15 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   private diffSelection = new GrDiffSelection();
 
+  private readonly userModel = getAppContext().userModel;
+
   // visible for testing
   highlights = new GrDiffHighlight();
 
   // visible for testing
   diffBuilder = new GrDiffBuilderElement();
+
+  private subscriptions: Subscription[] = [];
 
   constructor() {
     super();
@@ -297,6 +303,11 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   override connectedCallback() {
     super.connectedCallback();
+    this.subscriptions.push(
+      this.userModel.diffPreferences$.subscribe(diffPreferences => {
+        this._diffPrefs = diffPreferences;
+      })
+    );
     this._observeNodes();
     this.isAttached = true;
     if (this.diff !== undefined) {
@@ -309,6 +320,11 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   override disconnectedCallback() {
+    for (const s of this.subscriptions) {
+      s.unsubscribe();
+    }
+    this.subscriptions = [];
+
     this.isAttached = false;
     this.renderDiffTableTask?.cancel();
     this._unobserveIncrementalNodes();
@@ -325,7 +341,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
 
   showNoChangeMessage(
     loading?: boolean,
-    prefs?: DiffPreferencesInfo,
+    diffPrefs?: DiffPreferencesInfo,
     diffLength?: number,
     diff?: DiffInfo
   ) {
@@ -333,8 +349,8 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       !loading &&
       diff &&
       !diff.binary &&
-      prefs &&
-      prefs.ignore_whitespace !== 'IGNORE_NONE' &&
+      diffPrefs &&
+      diffPrefs.ignore_whitespace !== 'IGNORE_NONE' &&
       diffLength === 0
     );
   }
@@ -663,19 +679,22 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       : Side.RIGHT;
   }
 
-  _prefsObserver(newPrefs: DiffPreferencesInfo, oldPrefs: DiffPreferencesInfo) {
+  _diffPrefsObserver(
+    newPrefs: DiffPreferencesInfo,
+    oldPrefs: DiffPreferencesInfo
+  ) {
     if (!deepEqual(newPrefs, oldPrefs)) {
-      this._prefsChanged(newPrefs);
+      this._diffPrefsChanged(newPrefs);
     }
   }
 
   _pathObserver() {
-    // Call _prefsChanged(), because line-limit style value depends on path.
-    this._prefsChanged(this.prefs);
+    // Call _diffPrefsChanged(), because line-limit style value depends on path.
+    this._diffPrefsChanged(this._diffPrefs);
   }
 
   _viewModeObserver() {
-    this._prefsChanged(this.prefs);
+    this._diffPrefsChanged(this._diffPrefs);
   }
 
   _lineOfInterestObserver() {
@@ -695,18 +714,18 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   _lineWrappingObserver() {
-    this._prefsChanged(this.prefs);
+    this._diffPrefsChanged(this._diffPrefs);
   }
 
   _useNewImageDiffUiObserver() {
-    this._prefsChanged(this.prefs);
+    this._diffPrefsChanged(this._diffPrefs);
   }
 
-  _prefsChanged(prefs?: DiffPreferencesInfo) {
-    if (!prefs) return;
+  _diffPrefsChanged(diffPrefs?: DiffPreferencesInfo) {
+    if (!diffPrefs) return;
 
     this.blame = null;
-    this._updatePreferenceStyles(prefs, this.renderPrefs);
+    this._updatePreferenceStyles(diffPrefs, this.renderPrefs);
 
     if (this.diff && !this.noRenderOnPrefsChange) {
       this._debounceRenderDiffTable();
@@ -714,17 +733,17 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   _updatePreferenceStyles(
-    prefs: DiffPreferencesInfo,
+    diffPrefs: DiffPreferencesInfo,
     renderPrefs?: RenderPreferences
   ) {
     const lineLength =
       this.path === COMMIT_MSG_PATH
         ? COMMIT_MSG_LINE_LENGTH
-        : prefs.line_length;
+        : diffPrefs.line_length;
     const sideBySide = this.viewMode === 'SIDE_BY_SIDE';
     const stylesToUpdate: {[key: string]: string} = {};
 
-    const responsiveMode = getResponsiveMode(prefs, renderPrefs);
+    const responsiveMode = getResponsiveMode(diffPrefs, renderPrefs);
     const responsive = isResponsive(responsiveMode);
     this._diffTableClass = responsive ? 'responsive' : '';
     const lineLimit = `${lineLength}ch`;
@@ -742,7 +761,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
       const contentWidth = `${sideBySide ? 2 : 1} * ${lineLimit}`;
 
       // We always have 2 columns for line number
-      const lineNumberWidth = `2 * ${getLineNumberCellWidth(prefs)}px`;
+      const lineNumberWidth = `2 * ${getLineNumberCellWidth(diffPrefs)}px`;
 
       // border-right in ".section" css definition (in gr-diff_html.ts)
       const sectionRightBorder = '1px';
@@ -768,8 +787,8 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     } else {
       stylesToUpdate['--diff-max-width'] = 'none';
     }
-    if (prefs.font_size) {
-      stylesToUpdate['--font-size'] = `${prefs.font_size}px`;
+    if (diffPrefs.font_size) {
+      stylesToUpdate['--font-size'] = `${diffPrefs.font_size}px`;
     }
 
     this.updateStyles(stylesToUpdate);
@@ -789,8 +808,8 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     if (renderPrefs.show_sign_col) {
       this.classList.add('with-sign-col');
     }
-    if (this.prefs) {
-      this._updatePreferenceStyles(this.prefs, renderPrefs);
+    if (this._diffPrefs) {
+      this._updatePreferenceStyles(this._diffPrefs, renderPrefs);
     }
     this.diffBuilder.updateRenderPrefs(renderPrefs);
   }
@@ -832,12 +851,12 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   _renderDiffTable() {
-    if (!this.prefs) {
+    if (!this._diffPrefs) {
       fireEvent(this, 'render');
       return;
     }
     if (
-      this.prefs.context === -1 &&
+      this._diffPrefs.context === -1 &&
       this._diffLength &&
       this._diffLength >= LARGE_DIFF_THRESHOLD_LINES &&
       this._safetyBypass === null
@@ -854,7 +873,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     // TODO: Setting tons of public properties like this is obviously a code
     // smell. We are planning to introduce a diff model for managing all this
     // data. Then diff builder will only need access to that model.
-    this.diffBuilder.prefs = this._getBypassPrefs(this.prefs);
+    this.diffBuilder.prefs = this._getBypassPrefs(this._diffPrefs);
     this.diffBuilder.renderPrefs = this.renderPrefs;
     this.diffBuilder.diff = this.diff;
     this.diffBuilder.path = this.path;
@@ -1030,7 +1049,7 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   _collapseContext() {
     // Uses the default context amount if the preference is for the entire file.
     this._safetyBypass =
-      this.prefs?.context && this.prefs.context >= 0
+      this._diffPrefs?.context && this._diffPrefs.context >= 0
         ? null
         : createDefaultDiffPrefs().context;
     this._debounceRenderDiffTable();
@@ -1045,10 +1064,10 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
   }
 
   toggleAllContext() {
-    if (!this.prefs) {
+    if (!this._diffPrefs) {
       return;
     }
-    if (this._getBypassPrefs(this.prefs).context < 0) {
+    if (this._getBypassPrefs(this._diffPrefs).context < 0) {
       this._collapseContext();
     } else {
       this._handleFullBypass();

@@ -521,6 +521,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "47a8a4a0_cd293625",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 5378,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-09T09:58:19Z",
+      "side": 1,
+      "message": "\u003e We wouldn\u0027t be changing the API signature, just the docs, correct?\n\nUnfortunately the rename would break the Java API.\n\nI don\u0027t mind much about the names, but want to point out that everything in the java/com/google/gerrit/extensions/api/ package is considered as an API that should remain backwards compatible across releases (and renaming methods there, as done in [1], breaks this). E.g. the interfaces of this API may also be implemented by client-side libraries (the one I know is the gerrit-rest-java-client [2]) and we don\u0027t want to break those. It seems that the gerrit-rest-java-client does not implement the applyFix and getFixPreview methods [3], so the rename wouldn\u0027t affect this library and may stay unnoticed. However I wonder if the rename is important enough to break this API and if we cannot avoid it. If it\u0027s not possible to avoid renaming methods in the java/com/google/gerrit/extensions/api/ package I would suggest to note in the commit message of [1] that this is breaking the API, but that no known implementor (e.g. the gerrit-rest-java-client) will be affected by this.\n\nNasser, do you think breaking this API for this rename is worth it?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/338854\n[2] https://github.com/uwolfer/gerrit-rest-java-client\n[3] https://github.com/uwolfer/gerrit-rest-java-client/blob/master/src/main/java/com/urswolfer/gerrit/client/rest/http/changes/RevisionApiRestClient.java",
+      "parentUuid": "b98cf7ec_3da2b26e",
+      "range": {
+        "startLine": 5378,
+        "startChar": 4,
+        "endLine": 5378,
+        "endChar": 20
+      },
+      "revId": "58d3cddf808d8ef7f1acc0c4f8616e69b77537fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e66e7d95_9c78c022",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 28

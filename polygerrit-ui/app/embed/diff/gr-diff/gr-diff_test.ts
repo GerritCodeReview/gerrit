@@ -93,26 +93,26 @@ suite('gr-diff tests', () => {
 
   test('line limit with line_wrapping', () => {
     element = basicFixture.instantiate();
-    element.prefs = {...MINIMAL_PREFS, line_wrapping: true};
+    element._diffPrefs = {...MINIMAL_PREFS, line_wrapping: true};
     flush();
     assert.equal(getComputedStyleValue('--line-limit-marker', element), '80ch');
   });
 
   test('line limit without line_wrapping', () => {
     element = basicFixture.instantiate();
-    element.prefs = {...MINIMAL_PREFS, line_wrapping: false};
+    element._diffPrefs = {...MINIMAL_PREFS, line_wrapping: false};
     flush();
     assert.equal(getComputedStyleValue('--line-limit-marker', element), '-1px');
   });
   suite('FULL_RESPONSIVE mode', () => {
     setup(() => {
       element = basicFixture.instantiate();
-      element.prefs = {...MINIMAL_PREFS};
+      element._diffPrefs = {...MINIMAL_PREFS};
       element.renderPrefs = {responsive_mode: 'FULL_RESPONSIVE'};
     });
 
     test('line limit is based on line_length', () => {
-      element.prefs = {...element.prefs!, line_length: 100};
+      element._diffPrefs = {...element._diffPrefs!, line_length: 100};
       flush();
       assert.equal(
         getComputedStyleValue('--line-limit-marker', element),
@@ -129,7 +129,7 @@ suite('gr-diff tests', () => {
   suite('SHRINK_ONLY mode', () => {
     setup(() => {
       element = basicFixture.instantiate();
-      element.prefs = {...MINIMAL_PREFS};
+      element._diffPrefs = {...MINIMAL_PREFS};
       element.renderPrefs = {responsive_mode: 'SHRINK_ONLY'};
     });
 
@@ -157,7 +157,7 @@ suite('gr-diff tests', () => {
     });
 
     test('max-width considers font-size', () => {
-      element.prefs = {...element.prefs!, font_size: 13};
+      element._diffPrefs = {...element._diffPrefs!, font_size: 13};
       flush();
       // Each line number column: 4 * 13 = 52px
       assert.equal(
@@ -241,7 +241,7 @@ suite('gr-diff tests', () => {
         };
 
         element.isImageDiff = true;
-        element.prefs = {
+        element._diffPrefs = {
           context: 10,
           cursor_blink_rate: 0,
           font_size: 12,
@@ -519,7 +519,7 @@ suite('gr-diff tests', () => {
     suite('getCursorStops', () => {
       function setupDiff() {
         element.diff = createDiff();
-        element.prefs = {
+        element._diffPrefs = {
           context: 10,
           tab_size: 8,
           font_size: 12,
@@ -716,7 +716,7 @@ suite('gr-diff tests', () => {
 
       test('change in preferences re-renders diff', () => {
         const stub = sinon.stub(element, '_renderDiffTable');
-        element.prefs = {
+        element._diffPrefs = {
           ...MINIMAL_PREFS,
         };
         element.renderDiffTableTask?.flush();
@@ -729,14 +729,14 @@ suite('gr-diff tests', () => {
           ...MINIMAL_PREFS,
           line_wrapping: true,
         };
-        element.prefs = newPrefs1;
+        element._diffPrefs = newPrefs1;
         element.renderDiffTableTask?.flush();
         assert.isTrue(stub.called);
         stub.reset();
 
         const newPrefs2 = {...newPrefs1};
         delete newPrefs2.line_wrapping;
-        element.prefs = newPrefs2;
+        element._diffPrefs = newPrefs2;
         element.renderDiffTableTask?.flush();
         assert.isTrue(stub.called);
       });
@@ -747,7 +747,7 @@ suite('gr-diff tests', () => {
         () => {
           const stub = sinon.stub(element, '_renderDiffTable');
           element.noRenderOnPrefsChange = true;
-          element.prefs = {
+          element._diffPrefs = {
             ...MINIMAL_PREFS,
             context: 12,
           };
@@ -819,7 +819,7 @@ suite('gr-diff tests', () => {
     });
 
     test('large render w/ context = 10', async () => {
-      element.prefs = {...MINIMAL_PREFS, context: 10};
+      element._diffPrefs = {...MINIMAL_PREFS, context: 10};
       const promise = mockPromise();
       function rendered() {
         assert.isTrue(renderStub.called);
@@ -833,7 +833,7 @@ suite('gr-diff tests', () => {
     });
 
     test('large render w/ whole file and bypass', async () => {
-      element.prefs = {...MINIMAL_PREFS, context: -1};
+      element._diffPrefs = {...MINIMAL_PREFS, context: -1};
       element._safetyBypass = 10;
       const promise = mockPromise();
       function rendered() {
@@ -848,7 +848,7 @@ suite('gr-diff tests', () => {
     });
 
     test('large render w/ whole file and no bypass', async () => {
-      element.prefs = {...MINIMAL_PREFS, context: -1};
+      element._diffPrefs = {...MINIMAL_PREFS, context: -1};
       const promise = mockPromise();
       function rendered() {
         assert.isFalse(renderStub.called);
@@ -862,38 +862,38 @@ suite('gr-diff tests', () => {
     });
 
     test('toggles expand context using bypass', async () => {
-      element.prefs = {...MINIMAL_PREFS, context: 3};
+      element._diffPrefs = {...MINIMAL_PREFS, context: 3};
 
       element.toggleAllContext();
       element._renderDiffTable();
       await flush();
 
-      assert.equal(element.prefs.context, 3);
+      assert.equal(element._diffPrefs.context, 3);
       assert.equal(element._safetyBypass, -1);
       assert.equal(element.diffBuilder.prefs.context, -1);
     });
 
     test('toggles collapse context from bypass', async () => {
-      element.prefs = {...MINIMAL_PREFS, context: 3};
+      element._diffPrefs = {...MINIMAL_PREFS, context: 3};
       element._safetyBypass = -1;
 
       element.toggleAllContext();
       element._renderDiffTable();
       await flush();
 
-      assert.equal(element.prefs.context, 3);
+      assert.equal(element._diffPrefs.context, 3);
       assert.isNull(element._safetyBypass);
       assert.equal(element.diffBuilder.prefs.context, 3);
     });
 
     test('toggles collapse context from pref using default', async () => {
-      element.prefs = {...MINIMAL_PREFS, context: -1};
+      element._diffPrefs = {...MINIMAL_PREFS, context: -1};
 
       element.toggleAllContext();
       element._renderDiffTable();
       await flush();
 
-      assert.equal(element.prefs.context, -1);
+      assert.equal(element._diffPrefs.context, -1);
       assert.equal(element._safetyBypass, 10);
       assert.equal(element.diffBuilder.prefs.context, 10);
     });
@@ -990,7 +990,7 @@ suite('gr-diff tests', () => {
 
     setup(() => {
       element = basicFixture.instantiate();
-      element.prefs = {...MINIMAL_PREFS};
+      element._diffPrefs = {...MINIMAL_PREFS};
       renderStub = sinon.stub(element.diffBuilder, 'render');
     });
 
@@ -1044,7 +1044,7 @@ suite('gr-diff tests', () => {
     // binary can't be undefined, use false if not set
     const binary = params.binary || false;
     element = basicFixture.instantiate();
-    element.prefs = {
+    element._diffPrefs = {
       ignore_whitespace: ignore_whitespace || 'IGNORE_ALL',
       context: 10,
       cursor_blink_rate: 0,
@@ -1152,7 +1152,7 @@ suite('gr-diff tests', () => {
       assert.isTrue(
         element.showNoChangeMessage(
           /* loading= */ false,
-          element.prefs,
+          element._diffPrefs,
           element._diffLength,
           element.diff
         )
@@ -1164,7 +1164,7 @@ suite('gr-diff tests', () => {
       assert.isFalse(
         element.showNoChangeMessage(
           /* loading= */ false,
-          element.prefs,
+          element._diffPrefs,
           element._diffLength,
           element.diff
         )
@@ -1176,7 +1176,7 @@ suite('gr-diff tests', () => {
       assert.isFalse(
         element.showNoChangeMessage(
           /* loading= */ true,
-          element.prefs,
+          element._diffPrefs,
           element._diffLength,
           element.diff
         )
@@ -1201,7 +1201,7 @@ suite('gr-diff tests', () => {
       assert.isFalse(
         element.showNoChangeMessage(
           /* loading= */ false,
-          element.prefs,
+          element._diffPrefs,
           element._diffLength,
           element.diff
         )
@@ -1225,7 +1225,7 @@ suite('gr-diff tests', () => {
       assert.isFalse(
         element.showNoChangeMessage(
           /* loading= */ false,
-          element.prefs,
+          element._diffPrefs,
           element._diffLength,
           element.diff
         )

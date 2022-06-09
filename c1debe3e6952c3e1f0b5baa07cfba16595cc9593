@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbd190bf_0010d025",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-09T10:43:53Z",
+      "side": 1,
+      "message": "Do we really need this Saving state?\nI think this is a lot of work for perhaps something the user barely every sees.",
+      "range": {
+        "startLine": 1170,
+        "startChar": 9,
+        "endLine": 1170,
+        "endChar": 19
+      },
+      "revId": "c1debe3e6952c3e1f0b5baa07cfba16595cc9593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

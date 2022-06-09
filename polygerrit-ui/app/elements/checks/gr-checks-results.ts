@@ -38,7 +38,7 @@ import {modifierPressed, toggleClass, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';
 import {isAttemptSelected, matches} from './gr-checks-util';
-import {ChecksTabState} from '../../types/events';
+import {ChecksTabState, ValueChangedEvent} from '../../types/events';
 import {
   ConfigInfo,
   LabelNameToInfoMap,
@@ -504,7 +504,7 @@ class GrResultRow extends LitElement {
         vertical-offset="32"
         horizontal-align="right"
         @tap-item=${this.handleAction}
-        @opened-changed=${(e: CustomEvent) =>
+        @opened-changed=${(e: ValueChangedEvent<boolean>) =>
           toggleClass(this, 'dropdown-open', e.detail.value)}
         ?hidden=${overflowItems.length === 0}
         .items=${overflowItems}

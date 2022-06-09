@@ -33,6 +33,24 @@
       "message": "The checkmark in the chip was part of a first iteration and we decided not to add it. The chip for add topic don\u0027t have a checkmark so I propose we keep it consistent with the hashtag chip too and not display a checkmark.",
       "revId": "34d22b764801dec13bc803994352322fba9ad683",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "633fbd82_305d00ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-09T10:28:04Z",
+      "side": 1,
+      "message": "ok I still see it in some of the mocks so I added it. I will abandon this change.",
+      "parentUuid": "9822858c_092ddd10",
+      "revId": "34d22b764801dec13bc803994352322fba9ad683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

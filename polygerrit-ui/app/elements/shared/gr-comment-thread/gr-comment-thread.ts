@@ -500,13 +500,18 @@ export class GrCommentThread extends LitElement {
     return repeat(
       comments,
       // We want to reuse <gr-comment> when unsaved changes to draft.
-      comment => (isDraftOrUnsaved(comment) ? 'unsaved' : comment.id),
+      comment => {
+        const key = isDraftOrUnsaved(comment) ? 'unsaved' : comment.id;
+        console.log(`repeat keyFunc ${key}`);
+        return key;
+      },
       comment => {
         const initiallyCollapsed =
           !isDraftOrUnsaved(comment) &&
           (this.messageId
             ? comment.change_message_id !== this.messageId
             : !this.unresolved);
+        console.log(`repeat template editing:${this.editing}`);
         return html`
           <gr-comment
             .comment=${comment}
@@ -519,6 +524,7 @@ export class GrCommentThread extends LitElement {
             @create-fix-comment=${this.handleCommentFix}
             @copy-comment-link=${this.handleCopyLink}
             @comment-editing-changed=${(e: CustomEvent) => {
+              console.log(`repeat event editing:${e.detail}`);
               if (isDraftOrUnsaved(comment)) this.editing = e.detail;
             }}
             @comment-unresolved-changed=${(e: CustomEvent) => {

@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "673074a3_5cb2547c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-09T13:51:47Z",
+      "side": 1,
+      "message": "Rather than having two buttons, why not have one button and parametrize the string to applyHashtags and the string inside of the button?",
+      "revId": "dffd9dc77793b2429086e4764d8e1dccdffe0d5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a507f2bf_9d08283e",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
         "patchSetId": 2
@@ -32,6 +49,24 @@
       "side": 1,
       "message": "We enable the Create New Hashtag button instead. The backend effect is the same, but the text and snackbar wording is different",
       "parentUuid": "a507f2bf_9d08283e",
+      "revId": "dffd9dc77793b2429086e4764d8e1dccdffe0d5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3f6e7f6_79a3bb15",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-09T13:51:47Z",
+      "side": 1,
+      "message": "Thanks for the clarification.",
+      "parentUuid": "98fe9d16_70279078",
       "revId": "dffd9dc77793b2429086e4764d8e1dccdffe0d5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

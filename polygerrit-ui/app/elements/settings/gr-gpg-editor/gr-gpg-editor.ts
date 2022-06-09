@@ -205,7 +205,7 @@ export class GrGpgEditor extends LitElement {
   }
 
   private handleNewKeyChanged(e: BindValueChangeEvent) {
-    this.newKey = e.detail.value;
+    this.newKey = e.detail.value ?? '';
   }
 
   private handleDeleteKey(index: number) {

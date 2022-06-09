@@ -34,6 +34,24 @@
       "parentUuid": "0761b693_c2847dcd",
       "revId": "f948bfa02eb377971901025c65f086efce9143f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28045d2d_63fbe137",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2022-06-09T08:03:39Z",
+      "side": 1,
+      "message": "Yes we want to update all flat buttons to use this disabled button style as it follows Material Design specs",
+      "parentUuid": "5077c821_c9f32b24",
+      "revId": "f948bfa02eb377971901025c65f086efce9143f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

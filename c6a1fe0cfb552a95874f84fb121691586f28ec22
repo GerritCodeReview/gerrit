@@ -16,6 +16,24 @@
       "message": "Current change looks good to me.\nIt is missing the use case in b/234582456 Implement use case of a hashtag is already applied. Do you plan to add it in a follow-up change?",
       "revId": "c6a1fe0cfb552a95874f84fb121691586f28ec22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cf2785a_1c0ea560",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-09T10:25:43Z",
+      "side": 1,
+      "message": "You mean that the button text should say \"Apply to All\" when any chips are selected, and when no chips are selected it should say \"Apply\"? It\u0027s a bit unclear in the mocks what the rule for the button text is. I believe it\u0027s already working in this change that the button applies selected chip hashtags to all changes.",
+      "parentUuid": "2cf258df_8e691f66",
+      "revId": "c6a1fe0cfb552a95874f84fb121691586f28ec22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

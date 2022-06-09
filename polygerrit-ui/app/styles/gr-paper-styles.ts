@@ -10,6 +10,8 @@ export const paperStyles = css`
     --paper-toggle-button-checked-bar-color: var(--link-color);
     --paper-toggle-button-checked-button-color: var(--link-color);
   }
+  /* prettier formatter removes semi-colons after css mixins. */
+  /* prettier-ignore */
   paper-tabs {
     font-size: var(--font-size-h3);
     font-weight: var(--font-weight-h3);
@@ -17,20 +19,20 @@ export const paperStyles = css`
     --paper-font-common-base: {
       font-family: var(--header-font-family);
       -webkit-font-smoothing: initial;
-    }
+    };
     --paper-tab-content: {
       margin-bottom: var(--spacing-s);
-    }
+    };
     --paper-tab-content-focused: {
       /* paper-tabs uses 700 here, which can look awkward */
       font-weight: var(--font-weight-h3);
       background: var(--gray-background-focus);
-    }
+    };
     --paper-tab-content-unselected: {
       /* paper-tabs uses 0.8 here, but we want to control the color directly */
       opacity: 1;
       color: var(--deemphasized-text-color);
-    }
+    };
   }
   paper-tab:focus {
     padding-left: 0px;

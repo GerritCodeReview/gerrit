@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fa003fa_f8c72246",
+        "filename": "polygerrit-ui/app/models/view/view-model.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-09T08:38:15Z",
+      "side": 1,
+      "message": "SG, we did have the use case of supporting index for multiple dashboards but that seems like a use case we can stop supporting in favour of simplifying our codebase quite a bit.\nAbandoning this change.",
+      "parentUuid": "b8d8217f_d4562b20",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 14,
+        "endChar": 32
+      },
+      "revId": "1f785a3bbf444504d3beb4049ad30c6fff0bf317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9041a60_a68ea70d",

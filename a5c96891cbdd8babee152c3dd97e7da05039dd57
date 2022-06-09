@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8a00499_78226842",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-09T16:47:32Z",
+      "side": 1,
+      "message": "I am a bit puzzled by this change: shouldn\u0027t be something internal to the elasticsearch implementation? Why Gerrit has to know about it?",
+      "revId": "a5c96891cbdd8babee152c3dd97e7da05039dd57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6944f87_8e33242f",

@@ -16,6 +16,24 @@
       "message": "I don\u0027t get this one. Why avoid the \u0027apply\u0027 button if all hashtags are new?",
       "revId": "dffd9dc77793b2429086e4764d8e1dccdffe0d5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98fe9d16_70279078",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-09T13:49:25Z",
+      "side": 1,
+      "message": "We enable the Create New Hashtag button instead. The backend effect is the same, but the text and snackbar wording is different",
+      "parentUuid": "a507f2bf_9d08283e",
+      "revId": "dffd9dc77793b2429086e4764d8e1dccdffe0d5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

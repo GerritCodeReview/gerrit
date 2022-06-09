@@ -16,6 +16,24 @@
       "message": "We can\u0027t use models inside of gr-diff and downwards. This code is used elsewhere and they don\u0027t have models like us.",
       "revId": "555f657874b5a993b6a74b186efe626c4fb33d60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8331515c_c4d366ba",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-06-09T15:15:00Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3db88098_73c9a181",
+      "revId": "555f657874b5a993b6a74b186efe626c4fb33d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

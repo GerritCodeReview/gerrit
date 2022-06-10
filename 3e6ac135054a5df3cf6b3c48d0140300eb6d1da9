@@ -16,6 +16,23 @@
       "message": "@Han-Wen: can you re-apply LC+1?",
       "revId": "3e6ac135054a5df3cf6b3c48d0140300eb6d1da9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81255f21_251c0285",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-06-10T13:45:10Z",
+      "side": 1,
+      "message": "Why did you remove the constants which Wendy introduced in I10ae721315de8afb964e720033e2d6498bce3e55 ?\n\nI\u0027d like to backport Idbde9c8682df093035790c9daf47dbc5499fcf01 to stable-3.4 and this conflicts with the inlining of the constants you did here during conflict resolution.",
+      "revId": "3e6ac135054a5df3cf6b3c48d0140300eb6d1da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

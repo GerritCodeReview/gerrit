@@ -298,7 +298,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     await element.updateComplete;
     await flush();
 
-    assert.isFalse(
+    assert.isNotOk(
       queryAndAssert<GrButton>(element, '#voteFlowButton').disabled
     );
 
@@ -324,7 +324,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     await selectChange(change2);
     await element.updateComplete;
 
-    assert.isTrue(
+    assert.isNotOk(
       queryAndAssert<GrButton>(element, '#voteFlowButton').disabled
     );
   });

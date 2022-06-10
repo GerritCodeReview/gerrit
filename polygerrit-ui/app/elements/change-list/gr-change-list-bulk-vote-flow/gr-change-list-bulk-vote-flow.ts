@@ -154,7 +154,6 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     ).filter(label => !triggerLabels.some(l => l.name === label.name));
     return html`
       <gr-button
-        .disabled=${triggerLabels.length === 0 && nonTriggerLabels.length === 0}
         id="voteFlowButton"
         flatten
         @click=${() => this.actionOverlay.open()}

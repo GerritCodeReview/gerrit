@@ -22,6 +22,30 @@
       },
       "revId": "1fe26ea75514ca19acc584a61965114ed5b570c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0e5319d_eb3c1933",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-10T15:09:39Z",
+      "side": 1,
+      "message": "We don\u0027t use ChangeModel on these pages so I think you are talking about GrDashboardView or BulkActionsModel. I don\u0027t want BAM to be out of sync with View and I prefer the deviation from what we fetched to be more local and explicit than modifying ChangeInfos would be. Also I don\u0027t want to do a wider-scoped soft-reload that preserves some state (dialog open) because I think it will be bug-prone.",
+      "parentUuid": "6f748886_decd2f57",
+      "range": {
+        "startLine": 37,
+        "startChar": 19,
+        "endLine": 37,
+        "endChar": 43
+      },
+      "revId": "1fe26ea75514ca19acc584a61965114ed5b570c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

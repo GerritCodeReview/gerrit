@@ -11,6 +11,7 @@ import {
   AccountId,
   AccountInfo,
   GroupInfo,
+  Hashtag,
 } from '../../api/rest-api';
 import {Model} from '../model';
 import {Finalizable} from '../../services/registry';
@@ -44,10 +45,7 @@ const initialState: BulkActionsState = {
   allChanges: new Map(),
 };
 
-export class BulkActionsModel
-  extends Model<BulkActionsState>
-  implements Finalizable
-{
+export class BulkActionsModel extends Model<BulkActionsState> implements Finalizable {
   constructor(private readonly restApiService: RestApiService) {
     super(initialState);
   }
@@ -198,6 +196,31 @@ export class BulkActionsModel
         reviewInput
       );
     });
+  }
+
+  addHashtags(hashtags: Hashtag[]): Promise<Hashtag[]>[] {
+    const current = this.subject$.getValue();
+    return current.selectedChangeNums.map(changeNum =>
+      this.restApiService
+        .setChangeHashtag(changeNum, {
+          add: hashtags,
+        })
+        .then(responseHashtags => {
+          // refetch current since other changes may have been updated since
+          // the promises were launched.
+          const current = this.subject$.getValue();
+          const nextState = {
+            ...current,
+            allChanges: new Map(current.allChanges),
+          };
+          nextState.allChanges.set(changeNum, {
+            ...nextState.allChanges.get(changeNum)!,
+            hashtags: responseHashtags,
+          });
+          this.setState(nextState);
+          return responseHashtags;
+        })
+    );
   }
 
   async sync(changes: ChangeInfo[]) {

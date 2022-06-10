@@ -143,9 +143,7 @@ export class GrRepoList extends PolymerElement {
         if (filter !== this._filter || !repos) {
           return;
         }
-        this._repos = repos.filter(repo =>
-          repo.name.toLowerCase().includes(filter.toLowerCase())
-        );
+        this._repos = repos;
         this._loading = false;
       });
   }

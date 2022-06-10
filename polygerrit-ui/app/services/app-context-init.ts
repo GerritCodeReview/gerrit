@@ -86,9 +86,6 @@ export function createAppDependencies(
   );
   dependencies.set(changeModelToken, changeModel);
 
-  const filesModel = new FilesModel(changeModel, appContext.restApiService);
-  dependencies.set(filesModelToken, filesModel);
-
   const commentsModel = new CommentsModel(
     appContext.routerModel,
     changeModel,
@@ -96,6 +93,13 @@ export function createAppDependencies(
     appContext.reportingService
   );
   dependencies.set(commentsModelToken, commentsModel);
+
+  const filesModel = new FilesModel(
+    changeModel,
+    commentsModel,
+    appContext.restApiService
+  );
+  dependencies.set(filesModelToken, filesModel);
 
   const configModel = new ConfigModel(changeModel, appContext.restApiService);
   dependencies.set(configModelToken, configModel);

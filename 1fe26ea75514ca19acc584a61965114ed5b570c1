@@ -46,6 +46,30 @@
       },
       "revId": "1fe26ea75514ca19acc584a61965114ed5b570c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a1f8492_345e8609",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-10T15:13:13Z",
+      "side": 1,
+      "message": "\u003e\u003e  I don\u0027t want BAM to be out of sync with View\n\nIsn\u0027t that exactly what is happening? A hashtag is already added ,reflected in the view but is not updated in the ChangeInfo object inside the BAM?",
+      "parentUuid": "a0e5319d_eb3c1933",
+      "range": {
+        "startLine": 37,
+        "startChar": 19,
+        "endLine": 37,
+        "endChar": 43
+      },
+      "revId": "1fe26ea75514ca19acc584a61965114ed5b570c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

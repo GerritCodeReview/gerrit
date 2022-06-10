@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb5422e6_d7ea9d5d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T14:03:31Z",
+      "side": 1,
+      "message": "Oops, yes.",
+      "parentUuid": "ce942f49_73b473b4",
+      "range": {
+        "startLine": 231,
+        "startChar": 5,
+        "endLine": 231,
+        "endChar": 12
+      },
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67fa9dc2_7ea53b52",
@@ -71,6 +95,24 @@
       "writtenOn": "2022-06-10T09:06:03Z",
       "side": 1,
       "message": "Maybe try to be consistent about adding this comment or not, e.g for `_blame`.",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8a30a17_4cde9194",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T14:03:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fa9dc2_7ea53b52",
       "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -92,6 +134,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56f73657_f493bdf0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T14:03:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8440d560_ba1a299f",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e0a1e61_e2e3d8d4",
@@ -109,6 +169,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97eb1190_c1c3246f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T14:03:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e0a1e61_e2e3d8d4",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31548160_8a2f5ec4",
@@ -122,6 +200,24 @@
       "writtenOn": "2022-06-10T09:06:03Z",
       "side": 1,
       "message": "optional nit: change to\n```\n    subscribe(\n      this,\n      () \u003d\u003e this.userModel.loggedIn$,\n      loggedIn \u003d\u003e {\n        this.loggedIn \u003d loggedIn;\n      }\n    );\n```",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ab09834_c3c4d61b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T14:03:31Z",
+      "side": 1,
+      "message": "Thanks, also updated the others.",
+      "parentUuid": "31548160_8a2f5ec4",
       "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -149,6 +245,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5903a9b_cd649d23",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T14:03:31Z",
+      "side": 1,
+      "message": "That\u0027s a mistake. That should be `this.willUpdate`. Was left over from when this was still `update` instead of `willUpdate`.",
+      "parentUuid": "74987733_479ba135",
+      "range": {
+        "startLine": 403,
+        "startChar": 4,
+        "endLine": 404,
+        "endChar": 36
+      },
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34c66203_6f8b7c76",
@@ -162,6 +282,24 @@
       "writtenOn": "2022-06-10T09:06:03Z",
       "side": 1,
       "message": "Optional nit: Would it be simpler to do this in the setter of `diff` maybe?",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3d73e7d_7b664ff2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T14:03:31Z",
+      "side": 1,
+      "message": "Ooh, good idea!",
+      "parentUuid": "34c66203_6f8b7c76",
       "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -183,6 +321,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ff9aac9_401ed423",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T14:03:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c78cfe2f_64963fb6",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66d8fed0_fa68a641",
@@ -196,6 +352,24 @@
       "writtenOn": "2022-06-10T09:06:03Z",
       "side": 1,
       "message": "Similar to the comment in `gr-file-list`: Maybe consider adding a separate method `updateCompleteAndRendered()` or something. And then let the caller decide which one they want.",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53de0aa3_03cab2ae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T14:03:31Z",
+      "side": 1,
+      "message": "I think you forgot the comment in gr-file-list.  I agree that here it\u0027s a bit of a weird scenario.\n\nBut I do think the way it\u0027s done inside of gr-file-list is the right pattern. We can discuss more if you like",
+      "parentUuid": "66d8fed0_fa68a641",
       "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -223,6 +397,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e81d09c_58ca24b4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T14:03:31Z",
+      "side": 1,
+      "message": "The annoying part of moving this into a util is that it depends on this.reporting.  Now I could pass that in but then it would still depend on the GrReporting type and I don\u0027t think utils should depend on stateful logic like that.\n\nMaybe a new method for GrReportin (reportError).  Added a TODO.",
+      "parentUuid": "f61ab075_fa95527c",
+      "range": {
+        "startLine": 539,
+        "startChar": 10,
+        "endLine": 547,
+        "endChar": 11
+      },
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16d5ac12_1f44df12",
@@ -236,6 +434,24 @@
       "writtenOn": "2022-06-10T09:06:03Z",
       "side": 1,
       "message": "Optional nit: Maybe keep using `?.` as before just to be conservative?",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5567b92d_7d6f71d5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T14:03:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16d5ac12_1f44df12",
       "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -263,6 +479,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "538c3936_64eaa813",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T14:03:31Z",
+      "side": 1,
+      "message": "I prefer return this.threads because then it detects there\u0027s no change.  Before this method would simply update this.threads (moved it to be more legible in willUpdate) and it wouldn\u0027t touch this.threads in this oath.",
+      "parentUuid": "263d2c1b_65f4f31a",
+      "range": {
+        "startLine": 852,
+        "startChar": 56,
+        "endLine": 852,
+        "endChar": 69
+      },
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cef95b4_f6d1556c",
@@ -276,6 +516,30 @@
       "writtenOn": "2022-06-10T09:06:03Z",
       "side": 1,
       "message": "optional nit: since you are debouncing the `reload()` anyway I think the `path` and `changeNum` parameters are not really adding any benefit here\n\nsame above in `whitespaceChanged()`",
+      "range": {
+        "startLine": 1365,
+        "startChar": 0,
+        "endLine": 1366,
+        "endChar": 42
+      },
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbfd544f_18de7718",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 1366,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T14:03:31Z",
+      "side": 1,
+      "message": "I\u0027m not sure how I feel about this one to be honest.  There\u0027s race-risks if I don\u0027t do the explicit check.",
+      "parentUuid": "8cef95b4_f6d1556c",
       "range": {
         "startLine": 1365,
         "startChar": 0,

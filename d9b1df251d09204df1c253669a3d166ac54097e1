@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6daed6f4_d6110ec0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-10T09:12:46Z",
+      "side": 1,
+      "message": "Why CRVW-1 wasn\u0027t removed after patch set 2 was uploaded (commit message update)? ",
+      "revId": "d9b1df251d09204df1c253669a3d166ac54097e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

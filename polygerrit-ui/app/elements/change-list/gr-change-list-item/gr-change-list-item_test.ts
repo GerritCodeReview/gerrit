@@ -361,7 +361,9 @@ suite('gr-change-list-item tests', () => {
     element.account = createAccountWithId(1);
     element.config = createServerInfo();
     element.change = createChange();
+    element.checked = true;
     await element.updateComplete;
+    assert.isTrue(element.hasAttribute('checked'));
     expect(element).shadowDom.to.equal(`
       <gr-change-star></gr-change-star>
       <a href="">42</a>

@@ -2096,12 +2096,6 @@ export class GrChangeView extends base {
       // have loaded.
       coreDataPromise = Promise.all([patchResourcesLoaded, loadingFlagSet]);
     } else {
-      // Resolves when the file list has loaded.
-      const fileListReload = loadingFlagSet.then(() =>
-        this.$.fileList.reload()
-      );
-      allDataPromises.push(fileListReload);
-
       const latestCommitMessageLoaded = loadingFlagSet.then(() => {
         // If the latest commit message is known, there is nothing to do.
         if (this._latestCommitMessage) {
@@ -2186,7 +2180,7 @@ export class GrChangeView extends base {
   _reloadPatchNumDependentResources(patchNumChanged?: boolean) {
     assertIsDefined(this._changeNum, '_changeNum');
     if (!this._patchRange?.patchNum) throw new Error('missing patchNum');
-    const promises = [this.loadAndSetCommitInfo(), this.$.fileList.reload()];
+    const promises = [this.loadAndSetCommitInfo()];
     if (patchNumChanged) {
       promises.push(
         this.getCommentsModel().reloadPortedComments(

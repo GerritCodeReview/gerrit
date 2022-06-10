@@ -96,10 +96,6 @@ export function createTestDependencies(
     );
   dependencies.set(changeModelToken, changeModelCreator);
 
-  const filesModelCreator = () =>
-    new FilesModel(resolver(changeModelToken), appContext.restApiService);
-  dependencies.set(filesModelToken, filesModelCreator);
-
   const commentsModelCreator = () =>
     new CommentsModel(
       appContext.routerModel,
@@ -108,6 +104,14 @@ export function createTestDependencies(
       appContext.reportingService
     );
   dependencies.set(commentsModelToken, commentsModelCreator);
+
+  const filesModelCreator = () =>
+    new FilesModel(
+      resolver(changeModelToken),
+      resolver(commentsModelToken),
+      appContext.restApiService
+    );
+  dependencies.set(filesModelToken, filesModelCreator);
 
   const configModelCreator = () =>
     new ConfigModel(resolver(changeModelToken), appContext.restApiService);

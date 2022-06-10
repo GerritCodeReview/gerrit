@@ -1331,7 +1331,6 @@ suite('gr-change-view tests', () => {
   test('reload ported comments when patchNum changes', async () => {
     sinon.stub(element, 'loadData').callsFake(() => Promise.resolve());
     sinon.stub(element, 'loadAndSetCommitInfo');
-    sinon.stub(element.$.fileList, 'reload');
     await flush();
     const reloadPortedCommentsStub = sinon.stub(
       element.getCommentsModel(),

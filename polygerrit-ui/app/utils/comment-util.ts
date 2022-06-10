@@ -50,6 +50,7 @@ export type UnsavedInfo = CommentBasics & UnsavedCommentProps;
 
 export type Comment = UnsavedInfo | DraftInfo | CommentInfo | RobotCommentInfo;
 
+// TODO: Replace the CommentMap type with just an array of paths.
 export type CommentMap = {[path: string]: boolean};
 
 export function isRobot<T extends CommentBasics>(

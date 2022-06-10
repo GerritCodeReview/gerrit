@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c07718d9_312e6e84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-10T09:45:30Z",
+      "side": 1,
+      "message": "\u003e btw, is this the only predicate where the same {label name, label vote} might lead to different copying outcomes?\n\nBesides \u0027approverin\u0027 there is also \u0027uploaderin\u0027. Both of these predicates are subclasses of the UserInPredicate and hence handled by the code.\n\n\u003e there is nothing preventing users from saying  copyCondition \u003d label:Code-Review\u003d+1,user\u003dekempin\n\nGood point. I didn\u0027t think of this case. I\u0027ll have a look at this and see if I can address this by a follow-up change (I think it\u0027s a rare enough configuration so that it\u0027s okay if this change doesn\u0027t handle this, or if we don\u0027t handle this at all until it becomes a real user issue).\n\n\u003e Can we include this reason somewhere in the code?\n\nIt was supposed to be covered by this comment [1], but I guess I can make this comment more verbose and hence easier to understand.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/338680/3/java/com/google/gerrit/server/approval/ApprovalsUtil.java#593",
+      "parentUuid": "efcf32f6_a4b081b6",
+      "revId": "5d70de5e25187b3918ac004dcec2071da735996b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c3812222_4a15373e",

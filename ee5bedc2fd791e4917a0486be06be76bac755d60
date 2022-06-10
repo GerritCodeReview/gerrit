@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73b892f2_778bb3ce",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-10T08:57:49Z",
+      "side": 1,
+      "message": "Yeah, I thought about removing it but I guess it\u0027s ok to be extra safe.",
+      "parentUuid": "55bc99e0_f7c77ff6",
+      "revId": "ee5bedc2fd791e4917a0486be06be76bac755d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ac50245_38e63f4c",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-10T08:56:12Z",
       "side": 1,
       "message": "Same comment.",
+      "revId": "ee5bedc2fd791e4917a0486be06be76bac755d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef2d291b_232ad1ec",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-10T08:57:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2ac50245_38e63f4c",
       "revId": "ee5bedc2fd791e4917a0486be06be76bac755d60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

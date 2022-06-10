@@ -92,6 +92,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f572a80d_53e51765",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-10T12:25:24Z",
+      "side": 1,
+      "message": "\u003e\u003e there is nothing preventing users from saying\n\u003e\u003e copyCondition \u003d label:Code-Review\u003d+1,user\u003dekempin\n\u003e Good point. I didn\u0027t think of this case. I\u0027ll have a look at this and see\n\u003e if I can address this by a follow-up change (I think it\u0027s a rare enough \n\u003e configuration so that it\u0027s okay if this change doesn\u0027t handle this, or\n\u003e if we don\u0027t handle this at all until it becomes a real user issue).\n\nActually this is not an issue. The label predicate cannot be used in copy conditions since the label predicate is a change matching predicate and not an approval matching predicate. In copy conditions you can only use the predicates that are supported by ApprovalQueryBuilder and the only user specific once there are the approverin and uploaderin predicates that are already handled.",
+      "parentUuid": "4ce47d37_761abc92",
+      "revId": "5d70de5e25187b3918ac004dcec2071da735996b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c3812222_4a15373e",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
         "patchSetId": 3

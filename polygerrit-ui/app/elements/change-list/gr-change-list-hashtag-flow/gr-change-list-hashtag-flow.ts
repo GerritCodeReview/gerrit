@@ -7,7 +7,7 @@ import {css, html, LitElement, nothing} from 'lit';
 import {customElement, query, state} from 'lit/decorators';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
-import {ChangeInfo, Hashtag} from '../../../types/common';
+import {ChangeInfo, Hashtag, NumericChangeId} from '../../../types/common';
 import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-autocomplete/gr-autocomplete';
@@ -23,7 +23,6 @@ import {classMap} from 'lit/directives/class-map';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {ProgressStatus} from '../../../constants/constants';
 import {allSettled} from '../../../utils/async-util';
-import {fireReload} from '../../../utils/event-util';
 import {fireAlert} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
 
@@ -34,6 +33,9 @@ export class GrChangeListHashtagFlow extends LitElement {
   @state() private hashtagToApply: Hashtag = '' as Hashtag;
 
   @state() private existingHashtagSuggestions: Hashtag[] = [];
+
+  @state() private hashtagsAddedSinceReload: Map<NumericChangeId, Hashtag[]> =
+    new Map();
 
   @state() private loadingText?: string;
 
@@ -195,6 +197,7 @@ export class GrChangeListHashtagFlow extends LitElement {
   private renderExistingHashtags() {
     const hashtags = this.selectedChanges
       .flatMap(change => change.hashtags ?? [])
+      .concat(...this.hashtagsAddedSinceReload.values())
       .filter(notUndefined)
       .filter(unique);
     return html`
@@ -238,8 +241,12 @@ export class GrChangeListHashtagFlow extends LitElement {
       ...this.selectedExistingHashtags.values(),
       ...(this.hashtagToApply === '' ? [] : [this.hashtagToApply]),
     ];
-    const allHashtagsAlreadyAdded = allHashtagsToAdd.every(hashtag =>
-      this.selectedChanges.every(change => change.hashtags?.includes(hashtag))
+    const allHashtagsAreAlreadyAdded = allHashtagsToAdd.every(hashtag =>
+      this.selectedChanges.every(
+        change =>
+          change.hashtags?.includes(hashtag) ||
+          this.hashtagsAddedSinceReload.get(change._number)?.includes(hashtag)
+      )
     );
     const allHashtagsAreNew =
       this.selectedExistingHashtags.size === 0 &&
@@ -247,7 +254,7 @@ export class GrChangeListHashtagFlow extends LitElement {
         !this.existingHashtagSuggestions.includes(this.hashtagToApply));
     return (
       allHashtagsAreNew ||
-      allHashtagsAlreadyAdded ||
+      allHashtagsAreAlreadyAdded ||
       this.overallProgress === ProgressStatus.RUNNING
     );
   }
@@ -262,6 +269,8 @@ export class GrChangeListHashtagFlow extends LitElement {
   }
 
   private reset() {
+    // do not reset hashtagsAddedSinceReload since it should last until the next
+    // reload.
     this.hashtagToApply = '' as Hashtag;
     this.selectedExistingHashtags = new Set();
     this.overallProgress = ProgressStatus.NOT_STARTED;
@@ -317,20 +326,26 @@ export class GrChangeListHashtagFlow extends LitElement {
           add: allHashtagsToApply,
         })
       ),
+      allHashtagsToApply,
       alert
     );
   }
 
-  private async trackPromises(promises: Promise<Hashtag[]>[], alert: string) {
+  private async trackPromises(
+    promises: Promise<Hashtag[]>[],
+    addedHashtags: Hashtag[],
+    alert: string
+  ) {
     this.overallProgress = ProgressStatus.RUNNING;
     const results = await allSettled(promises);
     if (results.every(result => result.status === 'fulfilled')) {
       this.overallProgress = ProgressStatus.SUCCESSFUL;
-      this.closeDropdown();
-      if (alert) {
-        fireAlert(this, alert);
-      }
-      fireReload(this);
+      fireAlert(this, alert);
+      this.markHashtagsAdded(
+        addedHashtags,
+        this.selectedChanges.map(change => change._number)
+      );
+      this.reset();
     } else {
       this.overallProgress = ProgressStatus.FAILED;
       // TODO: when some are rejected, show error and Cancel button
@@ -344,6 +359,23 @@ export class GrChangeListHashtagFlow extends LitElement {
       this.selectedExistingHashtags.add(name);
     }
     this.requestUpdate();
+  }
+
+  private markHashtagsAdded(
+    addedHashtags: Hashtag[],
+    affectedChangeNumbers: NumericChangeId[]
+  ) {
+    for (const affectedChangeNumber of affectedChangeNumbers) {
+      if (this.hashtagsAddedSinceReload.has(affectedChangeNumber)) {
+        this.hashtagsAddedSinceReload
+          .get(affectedChangeNumber)!
+          .push(...addedHashtags);
+      } else {
+        this.hashtagsAddedSinceReload.set(affectedChangeNumber, [
+          ...addedHashtags,
+        ]);
+      }
+    }
   }
 }
 

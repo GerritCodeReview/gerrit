@@ -1408,7 +1408,6 @@ suite('gr-change-view tests', () => {
     assertIsDefined(element.fileList);
     sinon.stub(element, 'loadData').callsFake(() => Promise.resolve());
     sinon.stub(element, 'loadAndSetCommitInfo');
-    sinon.stub(element.fileList, 'reload');
     await element.updateComplete;
     const reloadPortedCommentsStub = sinon.stub(
       element.getCommentsModel(),
@@ -2312,6 +2311,9 @@ suite('gr-change-view tests', () => {
     });
 
     test('report changeDisplayed on paramsChanged', async () => {
+      stubRestApi('getChangeOrEditFiles').resolves({
+        'a-file.js': {},
+      });
       const changeDisplayStub = sinon.stub(
         element.reporting,
         'changeDisplayed'

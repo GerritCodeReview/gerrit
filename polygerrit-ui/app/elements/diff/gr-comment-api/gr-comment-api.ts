@@ -109,6 +109,8 @@ export class ChangeComments {
       for (const [path, comments] of Object.entries(response)) {
         // If don't care about patch range, we know that the path exists.
         if (comments.some(c => !patchRange || isInPatchRange(c, patchRange))) {
+          // TODO: Replace the CommentMap type with just an array or set. We
+          // never set the value to false.
           commentMap[path] = true;
         }
       }

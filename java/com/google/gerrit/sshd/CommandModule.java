@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.account.AccountAttributeLoader;
 import com.google.inject.binder.LinkedBindingBuilder;
 import org.apache.sshd.server.command.Command;
 
@@ -29,6 +30,7 @@ public abstract class CommandModule extends LifecycleModule {
    * @return a binding that must be bound to a non-singleton provider for a {@link Command} object.
    */
   protected LinkedBindingBuilder<Command> command(String name) {
+    factory(AccountAttributeLoader.Factory.class);
     return bind(Commands.key(name));
   }
 

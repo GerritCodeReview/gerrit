@@ -299,13 +299,6 @@ export class GrDiff extends PolymerElement implements GrDiffApi {
     super.connectedCallback();
     this._observeNodes();
     this.isAttached = true;
-    if (this.diff !== undefined) {
-      // This is not ideal as we lose the caching effect when going between
-      // change-view and the first diff-view.
-      // However, this is currently broken because we never fire the event
-      // 'render' when not actually re-rendering.
-      this._debounceRenderDiffTable();
-    }
   }
 
   override disconnectedCallback() {

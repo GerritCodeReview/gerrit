@@ -167,6 +167,30 @@
       },
       "revId": "23c45b36d8951bb96e71d31c2f20183762a778f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d7f3be3_6e308abd",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-10T08:32:42Z",
+      "side": 1,
+      "message": "Great! Thanks for explaining.",
+      "parentUuid": "f6db1462_1ef4deef",
+      "range": {
+        "startLine": 614,
+        "startChar": 21,
+        "endLine": 614,
+        "endChar": 60
+      },
+      "revId": "23c45b36d8951bb96e71d31c2f20183762a778f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

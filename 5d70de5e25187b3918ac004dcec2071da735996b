@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07965dfb_07ee9c63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-10T08:32:42Z",
+      "side": 1,
+      "message": "[Optional] my thoughts:\n\nHow important is it to include the \"by \u003cuser_id\u003e\" in the change message? Or in other words, why are we doing special handling for the approverIn, and only if present we do include \"by \u003cuser_id\u003e\" here (In the general case, we don\u0027t include voting users in CMs).\n\nIf we get rid of that, and also replace the approvals sorting to something else not using the account cache, we can make all methods in CopiedApprovalsInChangeMessage static. Hence we can split the test into two classes:\n  * the formatting tests (no need for it to be IT)\n  * the last 3~5 tests: make sure messages are appended on PS creation, upload, ...\n  \nWDYT?",
+      "revId": "5d70de5e25187b3918ac004dcec2071da735996b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3812222_4a15373e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-10T08:32:42Z",
+      "side": 1,
+      "message": "Nice thorough testing.",
+      "revId": "5d70de5e25187b3918ac004dcec2071da735996b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

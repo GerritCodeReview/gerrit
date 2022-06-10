@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1048b3a1_0e45ff21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-10T08:52:58Z",
+      "side": 1,
+      "message": "Imagine you have:\n\n* label Foo with copy condition \u0027is:ANY approverin:123\u0027\n* group 123 with member UserA\n* a change with approvals: Foo+1 by UserA and Foo+1 by UserB\n\nThen\n* Foo+1 by UserA is copied because UserA is a member of group 123 and the copy condition matches\n* Foo+1 by UserB is not copied because UserB is not a member of group 123 and the copy condition doesn\u0027t match\n\nIn the change message we would show this as:\n\n  Copied Votes:\n  * Foo+1 by UserA (copy condition: is:ANY approverin:123)\n  \n  Outdated Votes:\n  * Foo+1 by UserB (copy condition: is:ANY approverin:123)\n  \nThis allows users to understand that the copying depends on who did the approval.\n  \nIf we would drop the user information that would become:\n\n  Copied Votes:\n  * Foo+1 (copy condition: is:ANY approverin:123)\n  \n  Outdated Votes:\n  * Foo+1 (copy condition: is:ANY approverin:123)\n  \nand users would likely be confusing how Foo+1 can be copied and outdated at the same time.",
+      "parentUuid": "07965dfb_07ee9c63",
+      "revId": "5d70de5e25187b3918ac004dcec2071da735996b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c3812222_4a15373e",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
         "patchSetId": 3

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06dfb0ea_862ffaae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T13:02:23Z",
+      "side": 1,
+      "message": "Blocking this for now as I don\u0027t know how this affects our internal build",
+      "revId": "3b8555f5cc3f38b79c9d74d18fd1e02a6c42b6a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

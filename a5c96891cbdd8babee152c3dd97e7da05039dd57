@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac1b7ca2_95ba9163",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-10T18:06:38Z",
+      "side": 1,
+      "message": "\u003e \u003e Yes, it\u0027s huge. We can add the perf stat to https://gerrit-review.googlesource.com/c/modules/index-elasticsearch/+/339115 but it probably doesn\u0027t make sense here.\n\u003e \n\u003e Can you add some statistics? Here or in modules/index-elasticsearch change to better understand motivation and justification.\n\nYes, will do.",
+      "parentUuid": "cca83b72_f2338335",
+      "revId": "a5c96891cbdd8babee152c3dd97e7da05039dd57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6944f87_8e33242f",

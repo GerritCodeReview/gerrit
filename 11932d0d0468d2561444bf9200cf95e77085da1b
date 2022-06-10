@@ -22,6 +22,30 @@
       },
       "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "305392fd_adb97e0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-10T18:06:38Z",
+      "side": 1,
+      "message": "\u003e If someone would add say Apache Solr or Amazon CloudSearch as yet another secondary index backends for Gerrit, we wouldn\u0027t want to expose in Gerrit core any specifics to those backends either.\n\nI completely agree that we don\u0027t want implementation only relevant to other indexes in core.\n\nHowever, I think exposing desired *Gerrit behavior/policy* as information to any index backend is a generic Gerrit core thing. Specific to this change, I think Gerrit core policy for when an index should/shouldn\u0027t ensure read/write consistency is a generic concept and is not specific to any backend.\n\n\u003e \n\u003e The only thing we could expose in Gerrit core, is the operation mode: OFFLINE or ONLINE index operation. What the dedicated backends will do with it, is not business of Gerrit core.\n\nI disagree. We did consider this path at first, but realized it\u0027s not presenting the necessary information to the index backend. From Gerrit core, we can clearly inform any index backend that consistency is not required during an offline reindex, but the inverse isn\u0027t true: a backend shouldn\u0027t assume that because core told it we\u0027re doing \"offline reindex\" that consistency isn\u0027t required.\n\nThis follows the same pattern as the IsFirstInsertForEntry option added in Change I140c88125bb5. In that change core is also describing a behavior/policy that an index backend can implement around in whatever way is appropriate for that index backend.",
+      "parentUuid": "f3344963_33d02879",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

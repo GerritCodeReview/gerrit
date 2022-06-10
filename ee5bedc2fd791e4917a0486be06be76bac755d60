@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55bc99e0_f7c77ff6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T08:56:12Z",
+      "side": 1,
+      "message": "Given we never disable it this check feels superfluous.",
+      "revId": "ee5bedc2fd791e4917a0486be06be76bac755d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ac50245_38e63f4c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-bulk-vote-flow/gr-change-list-bulk-vote-flow_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T08:56:12Z",
+      "side": 1,
+      "message": "Same comment.",
+      "revId": "ee5bedc2fd791e4917a0486be06be76bac755d60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

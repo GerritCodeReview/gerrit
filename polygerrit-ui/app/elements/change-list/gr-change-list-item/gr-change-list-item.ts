@@ -100,13 +100,13 @@ export class GrChangeListItem extends LitElement {
   @property({type: Boolean})
   showNumber = false;
 
+  @property({type: Boolean, reflect: true}) private checked = false;
+
   @state() private dynamicCellEndpoints?: string[];
 
   reporting: ReportingService = getAppContext().reportingService;
 
   private readonly flagsService = getAppContext().flagsService;
-
-  @state() private checked = false;
 
   private readonly getBulkActionsModel = resolve(this, bulkActionsModelToken);
 
@@ -146,6 +146,7 @@ export class GrChangeListItem extends LitElement {
         :host(:focus) {
           outline: none;
         }
+        :host([checked]),
         :host(:hover) {
           background-color: var(--hover-background-color);
         }

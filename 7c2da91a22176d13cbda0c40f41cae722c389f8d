@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34b032ae_de830237",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T08:18:52Z",
+      "side": 1,
+      "message": "Thanks for the review!",
+      "revId": "7c2da91a22176d13cbda0c40f41cae722c389f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "029f2366_7a6b4cc5",
@@ -31,6 +48,24 @@
       "writtenOn": "2022-06-10T07:51:21Z",
       "side": 1,
       "message": "It would be cool to have some comments here about why this class even exists. Do you have an idea? What is the benefit over just using \u003cselect\u003e directly?",
+      "revId": "7c2da91a22176d13cbda0c40f41cae722c389f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c18fdd0_7f2b12f6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T08:18:52Z",
+      "side": 1,
+      "message": "I honestly don\u0027k now.\n\nWill add a TODO to see if we can get rid of it.",
+      "parentUuid": "029f2366_7a6b4cc5",
       "revId": "7c2da91a22176d13cbda0c40f41cae722c389f8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +87,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f67cb91d_c991724b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T08:18:52Z",
+      "side": 1,
+      "message": "That\u0027s a nice idea but conflicts with your idea above.\n\nAdded a TODO just in case.",
+      "parentUuid": "bad8c48c_01cd6ea1",
+      "revId": "7c2da91a22176d13cbda0c40f41cae722c389f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "200d1320_dd2e652e",
@@ -65,6 +118,30 @@
       "writtenOn": "2022-06-10T07:51:21Z",
       "side": 1,
       "message": "Do you understand this comment? I don\u0027t. Maybe remove.",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 45
+      },
+      "revId": "7c2da91a22176d13cbda0c40f41cae722c389f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d102d22_ad7953c2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T08:18:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "200d1320_dd2e652e",
       "range": {
         "startLine": 39,
         "startChar": 4,
@@ -98,6 +175,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8916b369_ceb04682",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T08:18:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42d0eca5_bf5adbd5",
+      "range": {
+        "startLine": 49,
+        "startChar": 27,
+        "endLine": 49,
+        "endChar": 38
+      },
+      "revId": "7c2da91a22176d13cbda0c40f41cae722c389f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b2f672f_4bedb4af",
@@ -121,6 +222,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "836f6242_7aa60cb7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T08:18:52Z",
+      "side": 1,
+      "message": "Had tried that, but nativeSelect.value can\u0027t be nullable.\n\nBut figured out a way.",
+      "parentUuid": "3b2f672f_4bedb4af",
+      "range": {
+        "startLine": 68,
+        "startChar": 32,
+        "endLine": 68,
+        "endChar": 55
+      },
+      "revId": "7c2da91a22176d13cbda0c40f41cae722c389f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e4e5603_1dca9c65",
@@ -134,6 +259,24 @@
       "writtenOn": "2022-06-10T07:51:21Z",
       "side": 1,
       "message": "maybe inline",
+      "revId": "7c2da91a22176d13cbda0c40f41cae722c389f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f0caa5b_2d528721",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T08:18:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e4e5603_1dca9c65",
       "revId": "7c2da91a22176d13cbda0c40f41cae722c389f8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

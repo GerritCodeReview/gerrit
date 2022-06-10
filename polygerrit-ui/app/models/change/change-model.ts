@@ -245,10 +245,9 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
 
   // For usage in `combineLatest` we need `startWith` such that reload$ has an
   // initial value.
-  private readonly reload$: Observable<unknown> = fromEvent(
-    document,
-    'reload'
-  ).pipe(startWith(undefined));
+  readonly reload$: Observable<unknown> = fromEvent(document, 'reload').pipe(
+    startWith(undefined)
+  );
 
   constructor(
     readonly routerModel: RouterModel,

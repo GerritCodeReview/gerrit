@@ -1408,7 +1408,6 @@ suite('gr-change-view tests', () => {
     assertIsDefined(element.fileList);
     sinon.stub(element, 'loadData').callsFake(() => Promise.resolve());
     sinon.stub(element, 'loadAndSetCommitInfo');
-    sinon.stub(element.fileList, 'reload');
     await element.updateComplete;
     const reloadPortedCommentsStub = sinon.stub(
       element.getCommentsModel(),

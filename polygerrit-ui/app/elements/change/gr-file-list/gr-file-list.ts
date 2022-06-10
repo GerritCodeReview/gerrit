@@ -220,7 +220,7 @@ export class GrFileList extends LitElement {
   @state()
   reviewed: string[] = [];
 
-  @property({type: Object, attribute: 'diff-prefs'})
+  @state()
   diffPrefs?: DiffPreferencesInfo;
 
   @state() numFilesShown = DEFAULT_NUM_FILES_SHOWN;
@@ -683,7 +683,6 @@ export class GrFileList extends LitElement {
       () => this.userModel.diffPreferences$,
       diffPreferences => {
         this.diffPrefs = diffPreferences;
-        fire(this, 'diff-prefs-changed', {value: this.diffPrefs});
       }
     );
     subscribe(
@@ -963,7 +962,6 @@ export class GrFileList extends LitElement {
             .patchRange=${this.patchRange}
             .file=${patchSetFile}
             .path=${file.__path}
-            .prefs=${this.diffPrefs}
             .projectName=${this.change?.project}
             ?noRenderOnPrefsChange=${true}
           ></gr-diff-host>

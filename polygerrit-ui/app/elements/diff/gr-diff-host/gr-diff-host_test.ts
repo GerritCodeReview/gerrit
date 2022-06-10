@@ -149,6 +149,7 @@ suite('gr-diff-host tests', () => {
     sinon.stub(element, '_getDiff').callsFake(() => new Promise(() => {}));
     element.patchRange = createPatchRange();
     element.change = createChange();
+    element.prefs = undefined;
 
     // Needs to be set to something first for it to cancel.
     element.diff = createDiff();

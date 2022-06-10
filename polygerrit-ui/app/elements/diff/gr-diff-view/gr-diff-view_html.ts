@@ -396,7 +396,6 @@ export const htmlTemplate = html`
     patch-range="[[_patchRange]]"
     file="[[_file]]"
     path="[[_path]]"
-    prefs="[[_prefs]]"
     project-name="[[_change.project]]"
     is-blame-loaded="{{_isBlameLoaded}}"
     on-comment-anchor-tap="_onLineSelected"
@@ -406,7 +405,6 @@ export const htmlTemplate = html`
   </gr-diff-host>
   <gr-apply-fix-dialog
     id="applyFixDialog"
-    prefs="[[_prefs]]"
     change="[[_change]]"
     change-num="[[_changeNum]]"
   >

@@ -401,7 +401,7 @@ export class GrTextarea extends LitElement {
     if (charAtCursor === ':') {
       if (
         this.textarea!.selectionStart < 2 ||
-        e.detail.value[this.textarea!.selectionStart - 2] === ' '
+        (e.detail.value ?? '')[this.textarea!.selectionStart - 2] === ' '
       ) {
         this.colonIndex = this.textarea!.selectionStart - 1;
       }
@@ -410,7 +410,7 @@ export class GrTextarea extends LitElement {
       return;
     }
 
-    this.currentSearchString = e.detail.value.substr(
+    this.currentSearchString = (e.detail.value ?? '').substr(
       this.colonIndex + 1,
       this.textarea!.selectionStart - this.colonIndex - 1
     );
@@ -425,7 +425,7 @@ export class GrTextarea extends LitElement {
         this.currentSearchString.length + this.colonIndex + 1 ||
       this.currentSearchString === ' ' ||
       this.currentSearchString === '\n' ||
-      !(e.detail.value[this.colonIndex] === ':') ||
+      !((e.detail.value ?? '')[this.colonIndex] === ':') ||
       !this.suggestions ||
       !this.suggestions.length
     ) {

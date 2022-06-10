@@ -161,7 +161,7 @@ export class GrSshEditor extends LitElement {
                 placeholder="New SSH Key"
                 .bindValue=${this.newKey}
                 @bind-value-changed=${(e: BindValueChangeEvent) => {
-                  this.newKey = e.detail.value;
+                  this.newKey = e.detail.value ?? '';
                 }}
               ></iron-autogrow-textarea>
             </span>

@@ -91,7 +91,7 @@ export class GrConfirmDeleteCommentDialog extends LitElement {
           placeholder="&lt;Insert reasoning here&gt;"
           .bindValue=${this.message}
           @bind-value-changed=${(e: BindValueChangeEvent) => {
-            this.message = e.detail.value;
+            this.message = e.detail.value ?? '';
           }}
         ></iron-autogrow-textarea>
       </div>

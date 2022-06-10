@@ -173,7 +173,7 @@ export class GrCreateChangeDialog extends LitElement {
               .bindValue=${this.subject}
               placeholder="Insert the description of the change."
               @bind-value-changed=${(e: BindValueChangeEvent) => {
-                this.subject = e.detail.value;
+                this.subject = e.detail.value ?? '';
               }}
             >
             </iron-autogrow-textarea>

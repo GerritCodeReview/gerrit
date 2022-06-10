@@ -220,7 +220,7 @@ export class GrEditableContent extends LitElement {
             .bindValue=${this.newContent}
             ?disabled=${this.disabled}
             @bind-value-changed=${(e: BindValueChangeEvent) => {
-              this.newContent = e.detail.value;
+              this.newContent = e.detail.value ?? '';
             }}
           ></iron-autogrow-textarea>
         </div>

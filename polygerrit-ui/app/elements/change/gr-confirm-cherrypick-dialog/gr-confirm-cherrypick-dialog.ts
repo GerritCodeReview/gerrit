@@ -317,7 +317,7 @@ export class GrConfirmCherrypickDialog extends LitElement {
         .maxRows=${15}
         .bindValue=${this.message}
         @bind-value-changed=${(e: BindValueChangeEvent) =>
-          (this.message = e.detail.value)}
+          (this.message = e.detail.value ?? '')}
       ></iron-autogrow-textarea>
     `;
   }

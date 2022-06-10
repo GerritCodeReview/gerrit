@@ -16,6 +16,24 @@
       "message": "Add a test for it here?",
       "revId": "3212eb365ad498c02d291d80b615a0d05bf6368a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "337b870d_11e2e875",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1135531
+      },
+      "writtenOn": "2022-06-10T13:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b2e63b5_467e6821",
+      "revId": "3212eb365ad498c02d291d80b615a0d05bf6368a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

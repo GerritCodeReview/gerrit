@@ -259,6 +259,19 @@ export class CommentsModel extends Model<CommentState> implements Finalizable {
     changeComments.getAllThreadsForChange()
   );
 
+  public readonly commentedPaths$ = select(
+    combineLatest([
+      this.changeComments$,
+      this.changeModel.basePatchNum$,
+      this.changeModel.patchNum$,
+    ]),
+    ([changeComments, basePatchNum, patchNum]) => {
+      if (!patchNum) return [];
+      const pathsMap = changeComments.getPaths({basePatchNum, patchNum});
+      return Object.keys(pathsMap);
+    }
+  );
+
   public thread$(id: UrlEncodedCommentId) {
     return select(this.threads$, threads => threads.find(t => t.rootId === id));
   }

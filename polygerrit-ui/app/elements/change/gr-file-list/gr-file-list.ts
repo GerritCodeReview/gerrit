@@ -38,18 +38,15 @@ import {
   toggleClass,
 } from '../../../utils/dom-util';
 import {
-  addUnmodifiedFiles,
   computeDisplayPath,
   computeTruncatedPath,
   isMagicPath,
-  specialFilePathCompare,
 } from '../../../utils/path-list-util';
 import {customElement, property, query, state} from 'lit/decorators';
 import {
   BasePatchSetNum,
   EDIT,
   FileInfo,
-  FileNameToFileInfoMap,
   NumericChangeId,
   PARENT,
   PatchRange,
@@ -68,6 +65,7 @@ import {resolve} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
+import {filesModelToken} from '../../../models/change/files-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {Shortcut} from '../../../services/shortcuts/shortcuts-config';
@@ -203,10 +201,6 @@ export class GrFileList extends LitElement {
 
   // Private but used in tests.
   @state()
-  filesByPath?: FileNameToFileInfoMap;
-
-  // Private but used in tests.
-  @state()
   files: NormalizedFileInfo[] = [];
 
   // Private but used in tests.
@@ -280,6 +274,8 @@ export class GrFileList extends LitElement {
   private readonly userModel = getAppContext().userModel;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getFilesModel = resolve(this, filesModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
@@ -673,6 +669,14 @@ export class GrFileList extends LitElement {
     );
     subscribe(
       this,
+      () => this.getFilesModel().filesWithUnmodified$,
+      files => {
+        console.log(`files model: ${JSON.stringify(files)}`);
+        this.files = [...files];
+      }
+    );
+    subscribe(
+      this,
       () => this.getBrowserModel().diffViewMode$,
       diffView => {
         this.diffViewMode = diffView;
@@ -713,25 +717,15 @@ export class GrFileList extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues): void {
-    if (changedProperties.has('filesByPath')) {
-      this.updateCleanlyMergedPaths();
-    }
     if (
       changedProperties.has('diffPrefs') ||
       changedProperties.has('diffViewMode')
     ) {
       this.updateDiffPreferences();
     }
-    if (
-      changedProperties.has('filesByPath') ||
-      changedProperties.has('changeComments') ||
-      changedProperties.has('patchRange')
-    ) {
-      changedProperties.set('files', this.files);
-      this.computeFiles();
-    }
     if (changedProperties.has('files')) {
       this.filesChanged();
+      this.updateCleanlyMergedPaths();
     }
     if (
       changedProperties.has('files') ||
@@ -1385,15 +1379,9 @@ export class GrFileList extends LitElement {
     </div>`;
   }
 
-  async reload() {
-    if (!this.changeNum || !this.patchRange?.patchNum) return;
+  reload() {
+    // TODO call reload() on files-model
     this.collapseAllDiffs();
-
-    this.filesByPath = await this.restApiService.getChangeOrEditFiles(
-      this.changeNum,
-      this.patchRange
-    );
-
     this.detectChromiteButler();
     this.reporting.fileListDisplayed();
   }
@@ -1419,8 +1407,8 @@ export class GrFileList extends LitElement {
           patchNum: this.patchRange.patchNum,
         }
       );
-      if (!allFilesByPath || !this.filesByPath) return;
-      const conflictingPaths = Object.keys(this.filesByPath);
+      if (!allFilesByPath) return;
+      const conflictingPaths = this.files.map(f => f.__path);
       this.cleanlyMergedPaths = Object.keys(allFilesByPath).filter(
         path => !conflictingPaths.includes(path)
       );
@@ -1469,9 +1457,9 @@ export class GrFileList extends LitElement {
       const deleted = obj.lines_deleted ? obj.lines_deleted : 0;
       const total_size = obj.size && obj.binary ? obj.size : 0;
       const size_delta_inserted =
-        obj.binary && obj.size_delta > 0 ? obj.size_delta : 0;
+        obj.binary && obj.size_delta && obj.size_delta > 0 ? obj.size_delta : 0;
       const size_delta_deleted =
-        obj.binary && obj.size_delta < 0 ? obj.size_delta : 0;
+        obj.binary && obj.size_delta && obj.size_delta < 0 ? obj.size_delta : 0;
 
       return {
         inserted: acc.inserted + inserted,
@@ -1626,22 +1614,6 @@ export class GrFileList extends LitElement {
       path,
       reviewed
     );
-  }
-
-  private normalizeChangeFilesResponse(
-    response: FileNameToFileInfoMap
-  ): NormalizedFileInfo[] {
-    const paths = Object.keys(response).sort(specialFilePathCompare);
-    const files: NormalizedFileInfo[] = [];
-    for (let i = 0; i < paths.length; i++) {
-      const info = {...response[paths[i]]} as NormalizedFileInfo;
-      info.__path = paths[i];
-      info.lines_inserted = info.lines_inserted || 0;
-      info.lines_deleted = info.lines_deleted || 0;
-      info.size_delta = info.size_delta || 0;
-      files.push(info);
-    }
-    return files;
   }
 
   /**
@@ -1989,22 +1961,6 @@ export class GrFileList extends LitElement {
       patchNum: this.patchRange.patchNum,
       basePatchNum: -1 as BasePatchSetNum, // Parent 1
     });
-  }
-
-  private computeFiles() {
-    if (
-      this.filesByPath === undefined ||
-      this.changeComments === undefined ||
-      this.patchRange === undefined
-    ) {
-      return;
-    }
-    // Await all promises resolving from reload. @See Issue 9057
-    if (!this.changeComments) return;
-    const commentedPaths = this.changeComments.getPaths(this.patchRange);
-    const files = {...this.filesByPath};
-    addUnmodifiedFiles(files, commentedPaths);
-    this.files = this.normalizeChangeFilesResponse(files);
   }
 
   private computeFilesShown(): NormalizedFileInfo[] {

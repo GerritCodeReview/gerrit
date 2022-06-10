@@ -45,10 +45,11 @@ import {
   queryAll,
   queryAndAssert,
 } from '../../../utils/common-util';
-import {GrFileList} from './gr-file-list';
+import {GrFileList, NormalizedFileInfo} from './gr-file-list';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {ParsedChangeInfo} from '../../../types/types';
+import {normalize} from '../../../models/change/files-model';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {IronIconElement} from '@polymer/iron-icon';
 import {GrEditFileControls} from '../../edit/gr-edit-file-controls/gr-edit-file-controls';
@@ -61,13 +62,9 @@ suite('gr-diff a11y test', () => {
   });
 });
 
-function createFilesByPath(count: number) {
-  return Array(count)
-    .fill(0)
-    .reduce((filesByPath, _, idx) => {
-      filesByPath[`'/file${idx}`] = {lines_inserted: 9};
-      return filesByPath;
-    }, {});
+function createFiles(count: number): NormalizedFileInfo[] {
+  const files = Array(count).fill({});
+  return files.map((_, idx) => normalize({}, `'/file${idx}`));
 }
 
 suite('gr-file-list tests', () => {
@@ -165,7 +162,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('renders file row', async () => {
-      element.filesByPath = createFilesByPath(1);
+      element.files = createFiles(1);
       await element.updateComplete;
       const fileRows = queryAll<HTMLDivElement>(element, '.file-row');
       expect(fileRows?.[0]).dom.equal(/* HTML */ `<div
@@ -256,7 +253,7 @@ suite('gr-file-list tests', () => {
 
     test('correct number of files are shown', async () => {
       element.fileListIncrement = 300;
-      element.filesByPath = createFilesByPath(500);
+      element.files = createFiles(500);
       await element.updateComplete;
       await flush();
 
@@ -289,7 +286,7 @@ suite('gr-file-list tests', () => {
 
     test('rendering each row calls the reportRenderedRow method', async () => {
       const renderedStub = sinon.stub(element, 'reportRenderedRow');
-      element.filesByPath = createFilesByPath(10);
+      element.files = createFiles(10);
       await element.updateComplete;
 
       assert.equal(queryAll<HTMLDivElement>(element, '.file-row').length, 10);
@@ -297,30 +294,34 @@ suite('gr-file-list tests', () => {
     });
 
     test('calculate totals for patch number', async () => {
-      element.filesByPath = {
-        '/COMMIT_MSG': {
+      element.files = [
+        {
+          __path: '/COMMIT_MSG',
           lines_inserted: 9,
           size: 0,
           size_delta: 0,
         },
-        '/MERGE_LIST': {
+        {
+          __path: '/MERGE_LIST',
           lines_inserted: 9,
           size: 0,
           size_delta: 0,
         },
-        'file_added_in_rev2.txt': {
+        {
+          __path: 'file_added_in_rev2.txt',
           lines_inserted: 1,
           lines_deleted: 1,
           size_delta: 10,
           size: 100,
         },
-        'myfile.txt': {
+        {
+          __path: 'myfile.txt',
           lines_inserted: 1,
           lines_deleted: 1,
           size_delta: 10,
           size: 100,
         },
-      };
+      ];
       await element.updateComplete;
 
       let patchChange = element.calculatePatchChange();
@@ -335,30 +336,34 @@ suite('gr-file-list tests', () => {
       assert.isFalse(element.shouldHideChangeTotals(patchChange));
 
       // Test with a commit message that isn't the first file.
-      element.filesByPath = {
-        'file_added_in_rev2.txt': {
+      element.files = [
+        {
+          __path: 'file_added_in_rev2.txt',
           lines_inserted: 1,
           lines_deleted: 1,
           size: 0,
           size_delta: 0,
         },
-        '/COMMIT_MSG': {
+        {
+          __path: '/COMMIT_MSG',
           lines_inserted: 9,
           size: 0,
           size_delta: 0,
         },
-        '/MERGE_LIST': {
+        {
+          __path: '/MERGE_LIST',
           lines_inserted: 9,
           size: 0,
           size_delta: 0,
         },
-        'myfile.txt': {
+        {
+          __path: 'myfile.txt',
           lines_inserted: 1,
           lines_deleted: 1,
           size: 0,
           size_delta: 0,
         },
-      };
+      ];
       await element.updateComplete;
 
       patchChange = element.calculatePatchChange();
@@ -373,20 +378,22 @@ suite('gr-file-list tests', () => {
       assert.isFalse(element.shouldHideChangeTotals(patchChange));
 
       // Test with no commit message.
-      element.filesByPath = {
-        'file_added_in_rev2.txt': {
+      element.files = [
+        {
+          __path: 'file_added_in_rev2.txt',
           lines_inserted: 1,
           lines_deleted: 1,
           size: 0,
           size_delta: 0,
         },
-        'myfile.txt': {
+        {
+          __path: 'myfile.txt',
           lines_inserted: 1,
           lines_deleted: 1,
           size: 0,
           size_delta: 0,
         },
-      };
+      ];
       await element.updateComplete;
 
       patchChange = element.calculatePatchChange();
@@ -401,18 +408,20 @@ suite('gr-file-list tests', () => {
       assert.isFalse(element.shouldHideChangeTotals(patchChange));
 
       // Test with files missing either lines_inserted or lines_deleted.
-      element.filesByPath = {
-        'file_added_in_rev2.txt': {
+      element.files = [
+        {
+          __path: 'file_added_in_rev2.txt',
           lines_inserted: 1,
           size: 0,
           size_delta: 0,
         },
-        'myfile.txt': {
+        {
+          __path: 'myfile.txt',
           lines_deleted: 1,
           size: 0,
           size_delta: 0,
         },
-      };
+      ];
       await element.updateComplete;
 
       patchChange = element.calculatePatchChange();
@@ -428,15 +437,26 @@ suite('gr-file-list tests', () => {
     });
 
     test('binary only files', async () => {
-      element.filesByPath = {
-        '/COMMIT_MSG': {
+      element.files = [
+        {
+          __path: '/COMMIT_MSG',
           lines_inserted: 9,
           size: 0,
           size_delta: 0,
         },
-        file_binary_1: {binary: true, size_delta: 10, size: 100},
-        file_binary_2: {binary: true, size_delta: -5, size: 120},
-      };
+        {
+          __path: 'file_binary_1',
+          binary: true,
+          size_delta: 10,
+          size: 100,
+        },
+        {
+          __path: 'file_binary_2',
+          binary: true,
+          size_delta: -5,
+          size: 120,
+        },
+      ];
       await element.updateComplete;
 
       const patchChange = element.calculatePatchChange();
@@ -452,21 +472,38 @@ suite('gr-file-list tests', () => {
     });
 
     test('binary and regular files', async () => {
-      element.filesByPath = {
-        '/COMMIT_MSG': {
+      element.files = [
+        {
+          __path: '/COMMIT_MSG',
           lines_inserted: 9,
           size: 0,
           size_delta: 0,
         },
-        file_binary_1: {binary: true, size_delta: 10, size: 100},
-        file_binary_2: {binary: true, size_delta: -5, size: 120},
-        'myfile.txt': {lines_deleted: 5, size_delta: -10, size: 100},
-        'myfile2.txt': {
+        {
+          __path: 'file_binary_1',
+          binary: true,
+          size_delta: 10,
+          size: 100,
+        },
+        {
+          __path: 'file_binary_2',
+          binary: true,
+          size_delta: -5,
+          size: 120,
+        },
+        {
+          __path: 'myfile.txt',
+          lines_deleted: 5,
+          size_delta: -10,
+          size: 100,
+        },
+        {
+          __path: 'myfile2.txt',
           lines_inserted: 10,
           size: 0,
           size_delta: 0,
         },
-      };
+      ];
       await element.updateComplete;
 
       const patchChange = element.calculatePatchChange();
@@ -792,11 +829,11 @@ suite('gr-file-list tests', () => {
 
     suite('keyboard shortcuts', () => {
       setup(async () => {
-        element.filesByPath = {
-          '/COMMIT_MSG': {size: 0, size_delta: 0},
-          'file_added_in_rev2.txt': {size: 0, size_delta: 0},
-          'myfile.txt': {size: 0, size_delta: 0},
-        };
+        element.files = [
+          normalize({}, '/COMMIT_MSG'),
+          normalize({}, 'file_added_in_rev2.txt'),
+          normalize({}, 'myfile.txt'),
+        ];
         element.changeNum = 42 as NumericChangeId;
         element.patchRange = {
           basePatchNum: PARENT,
@@ -882,7 +919,7 @@ suite('gr-file-list tests', () => {
       });
 
       test('i key shows/hides selected inline diff', async () => {
-        const paths = Object.keys(element.filesByPath!);
+        const paths = element.files.map(f => f.__path);
         sinon.stub(element, 'expandedFilesChanged');
         const files = [...queryAll<HTMLDivElement>(element, '.file-row')];
         element.fileCursor.stops = files;
@@ -1038,11 +1075,11 @@ suite('gr-file-list tests', () => {
 
     test('file review status', async () => {
       element.reviewed = ['/COMMIT_MSG', 'myfile.txt'];
-      element.filesByPath = {
-        '/COMMIT_MSG': {size: 0, size_delta: 0},
-        'file_added_in_rev2.txt': {size: 0, size_delta: 0},
-        'myfile.txt': {size: 0, size_delta: 0},
-      };
+      element.files = [
+        normalize({}, '/COMMIT_MSG'),
+        normalize({}, 'file_added_in_rev2.txt'),
+        normalize({}, 'myfile.txt'),
+      ];
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
         basePatchNum: PARENT,
@@ -1103,11 +1140,11 @@ suite('gr-file-list tests', () => {
     });
 
     test('handleFileListClick', async () => {
-      element.filesByPath = {
-        '/COMMIT_MSG': {size: 0, size_delta: 0},
-        'f1.txt': {size: 0, size_delta: 0},
-        'f2.txt': {size: 0, size_delta: 0},
-      };
+      element.files = [
+        normalize({}, '/COMMIT_MSG'),
+        normalize({}, 'f1.txt'),
+        normalize({}, 'f2.txt'),
+      ];
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
         basePatchNum: PARENT,
@@ -1143,11 +1180,11 @@ suite('gr-file-list tests', () => {
     });
 
     test('handleFileListClick editMode', async () => {
-      element.filesByPath = {
-        '/COMMIT_MSG': {size: 0, size_delta: 0},
-        'f1.txt': {size: 0, size_delta: 0},
-        'f2.txt': {size: 0, size_delta: 0},
-      };
+      element.files = [
+        normalize({}, '/COMMIT_MSG'),
+        normalize({}, 'f1.txt'),
+        normalize({}, 'f2.txt'),
+      ];
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
         basePatchNum: PARENT,
@@ -1168,9 +1205,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('checkbox shows/hides diff inline', async () => {
-      element.filesByPath = {
-        'myfile.txt': {size: 0, size_delta: 0},
-      };
+      element.files = [normalize({}, 'myfile.txt')];
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
         basePatchNum: PARENT,
@@ -1198,9 +1233,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('diff mode correctly toggles the diffs', async () => {
-      element.filesByPath = {
-        'myfile.txt': {size: 0, size_delta: 0},
-      };
+      element.files = [normalize({}, 'myfile.txt')];
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
         basePatchNum: PARENT,
@@ -1222,16 +1255,12 @@ suite('gr-file-list tests', () => {
     });
 
     test('expanded attribute not set on path when not expanded', () => {
-      element.filesByPath = {
-        '/COMMIT_MSG': {size: 0, size_delta: 0},
-      };
+      element.files = [normalize({}, '/COMMIT_MSG')];
       assert.isNotOk(query(element, 'expanded'));
     });
 
     test('tapping row ignores links', async () => {
-      element.filesByPath = {
-        '/COMMIT_MSG': {size: 0, size_delta: 0},
-      };
+      element.files = [normalize({}, '/COMMIT_MSG')];
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
         basePatchNum: PARENT,
@@ -1260,7 +1289,7 @@ suite('gr-file-list tests', () => {
 
     test('toggleFileExpanded', async () => {
       const path = 'path/to/my/file.txt';
-      element.filesByPath = {[path]: {size: 0, size_delta: 0}};
+      element.files = [normalize({}, path)];
       await element.updateComplete;
       // Wait for expandedFilesChanged to finish.
       await flush();
@@ -1306,7 +1335,7 @@ suite('gr-file-list tests', () => {
       const reInitStub = sinon.stub(element.diffCursor, 'reInitAndUpdateStops');
 
       const path = 'path/to/my/file.txt';
-      element.filesByPath = {[path]: {size: 0, size_delta: 0}};
+      element.files = [normalize({}, path)];
       // Wait for diffs to be computed.
       await element.updateComplete;
       await flush();
@@ -1374,10 +1403,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('filesExpanded value updates to correct enum', async () => {
-      element.filesByPath = {
-        'foo.bar': {size: 0, size_delta: 0},
-        'baz.bar': {size: 0, size_delta: 0},
-      };
+      element.files = [normalize({}, 'foo.bar'), normalize({}, 'baz.bar')];
       await element.updateComplete;
       assert.equal(element.filesExpanded, FilesExpandedState.NONE);
       element.expandedFiles.push({path: 'baz.bar'});
@@ -1541,7 +1567,7 @@ suite('gr-file-list tests', () => {
       });
 
       test('displays cleanly merged file count', async () => {
-        await element.reload();
+        element.reload();
         await waitUntil(() => !!query(element, '.cleanlyMergedText'));
 
         const message = queryAndAssert<HTMLSpanElement>(
@@ -1562,7 +1588,7 @@ suite('gr-file-list tests', () => {
             'cleanlyMergedFile.js': {size: 0, size_delta: 0},
             'anotherCleanlyMergedFile.js': {size: 0, size_delta: 0},
           });
-        await element.reload();
+        element.reload();
         await waitUntil(() => !!query(element, '.cleanlyMergedText'));
 
         const message = queryAndAssert(
@@ -1573,7 +1599,7 @@ suite('gr-file-list tests', () => {
       });
 
       test('displays button for navigating to parent 1 base', async () => {
-        await element.reload();
+        element.reload();
         await waitUntil(() => !!query(element, '.showParentButton'));
 
         queryAndAssert(element, '.showParentButton');
@@ -1593,7 +1619,7 @@ suite('gr-file-list tests', () => {
               size_delta: 0,
             },
           });
-        await element.reload();
+        element.reload();
         await element.updateComplete;
 
         assert.deepEqual(element.cleanlyMergedOldPaths, [
@@ -1606,7 +1632,7 @@ suite('gr-file-list tests', () => {
           basePatchNum: 1 as BasePatchSetNum,
           patchNum: 2 as RevisionPatchSetNum,
         };
-        await element.reload();
+        element.reload();
         await element.updateComplete;
 
         assert.notOk(query(element, '.cleanlyMergedText'));
@@ -1618,7 +1644,7 @@ suite('gr-file-list tests', () => {
           basePatchNum: 1 as BasePatchSetNum,
           patchNum: EDIT,
         };
-        await element.reload();
+        element.reload();
         await element.updateComplete;
 
         assert.notOk(query(element, '.cleanlyMergedText'));
@@ -1972,21 +1998,23 @@ suite('gr-file-list tests', () => {
 
       element.numFilesShown = 75;
       element.selectedIndex = 0;
-      element.filesByPath = {
-        '/COMMIT_MSG': {lines_inserted: 9, size: 0, size_delta: 0},
-        'file_added_in_rev2.txt': {
+      element.files = [
+        {__path: '/COMMIT_MSG', lines_inserted: 9, size: 0, size_delta: 0},
+        {
+          __path: 'file_added_in_rev2.txt',
           lines_inserted: 1,
           lines_deleted: 1,
           size_delta: 10,
           size: 100,
         },
-        'myfile.txt': {
+        {
+          __path: 'myfile.txt',
           lines_inserted: 1,
           lines_deleted: 1,
           size_delta: 10,
           size: 100,
         },
-      };
+      ];
       element.reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element.changeNum = 42 as NumericChangeId;
       element.patchRange = {
@@ -2152,15 +2180,15 @@ suite('gr-file-list tests', () => {
     });
 
     test('openSelectedFile behavior', async () => {
-      const filesByPath = element.filesByPath;
-      element.filesByPath = {};
+      const files = element.files;
+      element.files = [];
       await element.updateComplete;
       const navStub = sinon.stub(GerritNav, 'navigateToDiff');
       // Noop when there are no files.
       element.openSelectedFile();
       assert.isFalse(navStub.called);
 
-      element.filesByPath = filesByPath;
+      element.files = files;
       await element.updateComplete;
       // Navigates when a file is selected.
       element.openSelectedFile();

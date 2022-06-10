@@ -26,6 +26,9 @@ export class GrChangeListActionBar extends LitElement {
       :host {
         display: contents;
       }
+      td {
+        padding: 0;
+      }
       .container {
         display: flex;
         justify-content: space-between;

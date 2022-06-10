@@ -1408,8 +1408,12 @@ suite('gr-change-view tests', () => {
     assertIsDefined(element.fileList);
     sinon.stub(element, 'loadData').callsFake(() => Promise.resolve());
     sinon.stub(element, 'loadAndSetCommitInfo');
+<<<<<<< HEAD
     sinon.stub(element.fileList, 'reload');
     await element.updateComplete;
+=======
+    await flush();
+>>>>>>> f572565639 (Use new files model in `gr-file-list` element)
     const reloadPortedCommentsStub = sinon.stub(
       element.getCommentsModel(),
       'reloadPortedComments'

@@ -16,6 +16,274 @@
       "message": "Seems the tests broke with my rebase on top of Change 339109.\n\nWould be nice to get the review started while I fix the tests.",
       "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1a242d4_8f34e705",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "Cool, thank you! 👍\n\nFeel free to ignore all my comments. 😊",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce942f49_73b473b4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "You mean `Private but used in tests.`?",
+      "range": {
+        "startLine": 231,
+        "startChar": 5,
+        "endLine": 231,
+        "endChar": 12
+      },
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67fa9dc2_7ea53b52",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "Maybe try to be consistent about adding this comment or not, e.g for `_blame`.",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8440d560_ba1a299f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "Maybe add a comment about why `_diff` is not a @state and a manual call to `requestUpdate()` is made instead.\n\nSame for `_blame`.",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e0a1e61_e2e3d8d4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "Maybe add comment about what this is doing apart from debouncing.",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31548160_8a2f5ec4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "optional nit: change to\n```\n    subscribe(\n      this,\n      () \u003d\u003e this.userModel.loggedIn$,\n      loggedIn \u003d\u003e {\n        this.loggedIn \u003d loggedIn;\n      }\n    );\n```",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74987733_479ba135",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "I find this super weird. Maybe explain more why this is needed in this way.\n\nForcing `render()` from `willUpdate()` seems wrong.",
+      "range": {
+        "startLine": 403,
+        "startChar": 4,
+        "endLine": 404,
+        "endChar": 36
+      },
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34c66203_6f8b7c76",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "Optional nit: Would it be simpler to do this in the setter of `diff` maybe?",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c78cfe2f_64963fb6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "Maybe add a comment why this is done in `updated()` instead of `willUpdate()`.",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66d8fed0_fa68a641",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "Similar to the comment in `gr-file-list`: Maybe consider adding a separate method `updateCompleteAndRendered()` or something. And then let the caller decide which one they want.",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f61ab075_fa95527c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "optional nit: would be nice to move this into a util",
+      "range": {
+        "startLine": 539,
+        "startChar": 10,
+        "endLine": 547,
+        "endChar": 11
+      },
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16d5ac12_1f44df12",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "Optional nit: Maybe keep using `?.` as before just to be conservative?",
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "263d2c1b_65f4f31a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "maybe `[]` here",
+      "range": {
+        "startLine": 852,
+        "startChar": 56,
+        "endLine": 852,
+        "endChar": 69
+      },
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cef95b4_f6d1556c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 1366,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "optional nit: since you are debouncing the `reload()` anyway I think the `path` and `changeNum` parameters are not really adding any benefit here\n\nsame above in `whitespaceChanged()`",
+      "range": {
+        "startLine": 1365,
+        "startChar": 0,
+        "endLine": 1366,
+        "endChar": 42
+      },
+      "revId": "24a3d67395aa29187c486c38e8adf60c245498c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

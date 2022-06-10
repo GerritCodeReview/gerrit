@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4f548f3_4d60b557",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "Optional (personal taste): I think I would prefer a separate method `updateCompleteIncludingDiffs()` or something.",
+      "revId": "2fd0bb8b5f84e1c6f6cd1494f29547a292c2623e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fec5ff5e_557ab724",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "optional nit: maybe move into `HTMLElementEventMap` declarations above",
+      "range": {
+        "startLine": 141,
+        "startChar": 2,
+        "endLine": 151,
+        "endChar": 5
+      },
+      "revId": "2fd0bb8b5f84e1c6f6cd1494f29547a292c2623e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab75fd46_b483e92e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1146,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "Add a comment about why you are calling this.",
+      "revId": "2fd0bb8b5f84e1c6f6cd1494f29547a292c2623e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d02f7da_ab149369",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-10T09:06:03Z",
+      "side": 1,
+      "message": "optional nit: maybe `sec.a?.length ?? 0`",
+      "range": {
+        "startLine": 369,
+        "startChar": 28,
+        "endLine": 369,
+        "endChar": 52
+      },
+      "revId": "2fd0bb8b5f84e1c6f6cd1494f29547a292c2623e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

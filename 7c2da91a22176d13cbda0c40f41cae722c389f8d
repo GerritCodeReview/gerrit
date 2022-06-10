@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "939430e1_40e10cae",
+        "filename": "polygerrit-ui/app/elements/shared/gr-select/gr-select.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T08:26:47Z",
+      "side": 1,
+      "message": "Might be due to: https://osscs.corp.google.com/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts;drc\u003d17bbf1b46455aed84f8f4eee36c2045991cb2d20;l\u003d96",
+      "parentUuid": "4c18fdd0_7f2b12f6",
+      "revId": "7c2da91a22176d13cbda0c40f41cae722c389f8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bad8c48c_01cd6ea1",

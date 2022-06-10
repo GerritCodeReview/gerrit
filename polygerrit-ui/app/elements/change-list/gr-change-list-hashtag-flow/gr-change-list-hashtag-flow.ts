@@ -23,7 +23,6 @@ import {classMap} from 'lit/directives/class-map';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {ProgressStatus} from '../../../constants/constants';
 import {allSettled} from '../../../utils/async-util';
-import {fireReload} from '../../../utils/event-util';
 import {fireAlert} from '../../../utils/event-util';
 import {pluralize} from '../../../utils/string-util';
 
@@ -238,7 +237,7 @@ export class GrChangeListHashtagFlow extends LitElement {
       ...this.selectedExistingHashtags.values(),
       ...(this.hashtagToApply === '' ? [] : [this.hashtagToApply]),
     ];
-    const allHashtagsAlreadyAdded = allHashtagsToAdd.every(hashtag =>
+    const allHashtagsAreAlreadyAdded = allHashtagsToAdd.every(hashtag =>
       this.selectedChanges.every(change => change.hashtags?.includes(hashtag))
     );
     const allHashtagsAreNew =
@@ -247,7 +246,7 @@ export class GrChangeListHashtagFlow extends LitElement {
         !this.existingHashtagSuggestions.includes(this.hashtagToApply));
     return (
       allHashtagsAreNew ||
-      allHashtagsAlreadyAdded ||
+      allHashtagsAreAlreadyAdded ||
       this.overallProgress === ProgressStatus.RUNNING
     );
   }
@@ -312,11 +311,7 @@ export class GrChangeListHashtagFlow extends LitElement {
     }
     this.loadingText = loadingText;
     this.trackPromises(
-      this.selectedChanges.map(change =>
-        this.restApiService.setChangeHashtag(change._number, {
-          add: allHashtagsToApply,
-        })
-      ),
+      this.getBulkActionsModel().addHashtags(allHashtagsToApply),
       alert
     );
   }
@@ -326,11 +321,11 @@ export class GrChangeListHashtagFlow extends LitElement {
     const results = await allSettled(promises);
     if (results.every(result => result.status === 'fulfilled')) {
       this.overallProgress = ProgressStatus.SUCCESSFUL;
-      this.closeDropdown();
-      if (alert) {
-        fireAlert(this, alert);
-      }
-      fireReload(this);
+      fireAlert(this, alert);
+      this.reset();
+      // iron-dropdown doesn't automatically expand when the new chip adds more
+      // vertical space.
+      this.dropdown?.notifyResize();
     } else {
       this.overallProgress = ProgressStatus.FAILED;
       // TODO: when some are rejected, show error and Cancel button

@@ -298,12 +298,14 @@ suite('gr-change-list-hashtag-flow tests', () => {
         changes[2]._number,
         {add: ['hashtag1']},
       ]);
-
       await waitUntilCalled(alertStub, 'alertStub');
       assert.deepEqual(alertStub.lastCall.args[0].detail, {
         message: '3 Changes added to hashtag1',
         showDismiss: true,
       });
+      assert.isTrue(
+        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
+      );
     });
 
     test('apply multiple hashtag from selected change', async () => {
@@ -398,6 +400,9 @@ suite('gr-change-list-hashtag-flow tests', () => {
         message: '3 Changes added to foo',
         showDismiss: true,
       });
+      assert.isTrue(
+        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
+      );
     });
 
     test('create new hashtag', async () => {
@@ -449,6 +454,13 @@ suite('gr-change-list-hashtag-flow tests', () => {
         message: 'foo created',
         showDismiss: true,
       });
+      assert.isTrue(
+        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
+      );
+      assert.equal(
+        queryAll<HTMLSpanElement>(element, 'span.chip')[3].innerText,
+        'foo'
+      );
     });
 
     test('cannot apply existing hashtag already on selected changes', async () => {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "620c76e0_e8dc4f90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-10T09:15:14Z",
+      "side": 1,
+      "message": "Stable-3.4 and stable-3.5 branches are using the same JGit release line?",
+      "revId": "33a70bfb1cc2afe485b996c146cc4a0440de3e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

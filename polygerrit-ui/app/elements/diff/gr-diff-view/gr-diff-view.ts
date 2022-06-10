@@ -1124,7 +1124,8 @@ export class GrDiffView extends base {
       // changeNum has not changed, so check if there are changes in patchRange
       // path. If no changes then we can simply render the view as is.
       this.reporting.reportInteraction('diff-view-re-rendered');
-      return;
+      // Make sure to re-initialize the cursor.
+      this.cursor?.reInitCursor();
     }
 
     this._files = {sortedFileList: [], changeFilesByPath: {}};

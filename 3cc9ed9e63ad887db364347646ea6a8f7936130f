@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de6a0874_f0bbafc8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-10T12:24:12Z",
+      "side": 1,
+      "message": "I like this way of firing changes.",
+      "range": {
+        "startLine": 186,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 8
+      },
+      "revId": "3cc9ed9e63ad887db364347646ea6a8f7936130f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d4b335b_3ea41aa2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-10T12:24:12Z",
+      "side": 1,
+      "message": "this looks like typo. Maybe just getImagesForDiff",
+      "range": {
+        "startLine": 277,
+        "startChar": 63,
+        "endLine": 277,
+        "endChar": 82
+      },
+      "revId": "3cc9ed9e63ad887db364347646ea6a8f7936130f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

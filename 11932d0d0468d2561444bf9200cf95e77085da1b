@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3344963_33d02879",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-10T09:07:18Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the right thing to expose in Gerrit core.\n\nReading your justification in modules/index-elasticsearch in change 339115:\n\n  By default, refresh param is true in all write API requests, which\n  ensures the reindex operation waits for the relevant ES primary \n  and replica shards to refresh after each write operation.\n\nGerrit Core only suports Apache Lucene now, what other secondary index backends are doing is not relevant for the core. Google\u0027s secondary index backend is also doesn\u0027t care about it. Probably because they don\u0027t have offline reindex operation.\n\nIf someone would add say Apache Solr or Amazon CloudSearch as yet another secondary index backends for Gerrit, we wouldn\u0027t want to expose in Gerrit core any specifics to those backends either.\n\nThe only thing we could expose in Gerrit core, is the operation mode: OFFLINE or ONLINE index operation. What the dedicated backends will do with it, is not business of Gerrit core.",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

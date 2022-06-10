@@ -1124,7 +1124,11 @@ export class GrDiffView extends base {
       // changeNum has not changed, so check if there are changes in patchRange
       // path. If no changes then we can simply render the view as is.
       this.reporting.reportInteraction('diff-view-re-rendered');
-      return;
+      // This is not ideal as we lose the caching effect when going between
+      // change-view and the first diff-view.
+      // However, this is currently broken because we never fire the event
+      // 'render' when not actually re-rendering which breaks the
+      this.cursor?.reInitCursor();
     }
 
     this._files = {sortedFileList: [], changeFilesByPath: {}};

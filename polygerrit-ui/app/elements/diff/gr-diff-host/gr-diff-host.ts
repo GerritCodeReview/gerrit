@@ -1192,6 +1192,7 @@ export class GrDiffHost extends DIPolymerElement {
   }
 
   _syntaxHighlightingEnabledChanged(_syntaxHighlightingEnabled: boolean) {
+    console.log(`_syntaxHighlightingEnabledChanged ${_syntaxHighlightingEnabled}`);
     this.syntaxLayer.setEnabled(_syntaxHighlightingEnabled);
   }
 

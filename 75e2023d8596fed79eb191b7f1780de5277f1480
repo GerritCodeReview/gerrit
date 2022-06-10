@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45418890_ad04e41c",
+        "filename": "java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-10T09:35:16Z",
+      "side": 1,
+      "message": "[optional] change this message to \"Cannot apply stored fix\"",
+      "range": {
+        "startLine": 482,
+        "startChar": 39,
+        "endLine": 482,
+        "endChar": 48
+      },
+      "revId": "75e2023d8596fed79eb191b7f1780de5277f1480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b5edfbc_500962be",
+        "filename": "java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-10T09:35:16Z",
+      "side": 1,
+      "message": "[optional] change this message to \"Cannot preview stored fix\"",
+      "revId": "75e2023d8596fed79eb191b7f1780de5277f1480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

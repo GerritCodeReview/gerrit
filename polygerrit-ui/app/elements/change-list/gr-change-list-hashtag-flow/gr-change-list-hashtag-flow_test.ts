@@ -154,13 +154,22 @@ suite('gr-change-list-hashtag-flow tests', () => {
         hashtags: ['sharedHashtag' as Hashtag],
       },
     ];
-    let setChangeHashtagPromises: MockPromise<string>[];
+    let setChangeHashtagPromises: MockPromise<Hashtag[]>[];
     let setChangeHashtagStub: sinon.SinonStub;
 
-    async function resolvePromises() {
-      setChangeHashtagPromises[0].resolve('foo');
-      setChangeHashtagPromises[1].resolve('foo');
-      setChangeHashtagPromises[2].resolve('foo');
+    async function resolvePromises(newHashtags: Hashtag[]) {
+      setChangeHashtagPromises[0].resolve([
+        ...(changes[0].hashtags ?? []),
+        ...newHashtags,
+      ]);
+      setChangeHashtagPromises[1].resolve([
+        ...(changes[1].hashtags ?? []),
+        ...newHashtags,
+      ]);
+      setChangeHashtagPromises[2].resolve([
+        ...(changes[2].hashtags ?? []),
+        ...newHashtags,
+      ]);
       await element.updateComplete;
     }
 
@@ -169,7 +178,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
       setChangeHashtagPromises = [];
       setChangeHashtagStub = stubRestApi('setChangeHashtag');
       for (let i = 0; i < changes.length; i++) {
-        const promise = mockPromise<string>();
+        const promise = mockPromise<Hashtag[]>();
         setChangeHashtagPromises.push(promise);
         setChangeHashtagStub
           .withArgs(changes[i]._number, sinon.match.any)
@@ -282,7 +291,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         'Applying hashtag...'
       );
 
-      await resolvePromises();
+      await resolvePromises(['hashtag1' as Hashtag]);
       await element.updateComplete;
 
       assert.isTrue(setChangeHashtagStub.calledThrice);
@@ -298,12 +307,14 @@ suite('gr-change-list-hashtag-flow tests', () => {
         changes[2]._number,
         {add: ['hashtag1']},
       ]);
-
       await waitUntilCalled(alertStub, 'alertStub');
       assert.deepEqual(alertStub.lastCall.args[0].detail, {
         message: '3 Changes added to hashtag1',
         showDismiss: true,
       });
+      assert.isTrue(
+        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
+      );
     });
 
     test('apply multiple hashtag from selected change', async () => {
@@ -325,7 +336,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         'Applying hashtag...'
       );
 
-      await resolvePromises();
+      await resolvePromises(['hashtag1' as Hashtag, 'hashtag2' as Hashtag]);
       await element.updateComplete;
 
       assert.isTrue(setChangeHashtagStub.calledThrice);
@@ -377,7 +388,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         'Applying hashtag...'
       );
 
-      await resolvePromises();
+      await resolvePromises(['foo' as Hashtag]);
 
       assert.isTrue(setChangeHashtagStub.calledThrice);
       assert.deepEqual(setChangeHashtagStub.firstCall.args, [
@@ -398,6 +409,9 @@ suite('gr-change-list-hashtag-flow tests', () => {
         message: '3 Changes added to foo',
         showDismiss: true,
       });
+      assert.isTrue(
+        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
+      );
     });
 
     test('create new hashtag', async () => {
@@ -427,7 +441,10 @@ suite('gr-change-list-hashtag-flow tests', () => {
         'Creating hashtag...'
       );
 
-      await resolvePromises();
+      await resolvePromises(['foo' as Hashtag]);
+      await waitUntilObserved(model.selectedChanges$, selected =>
+        selected.every(change => change.hashtags?.includes('foo' as Hashtag))
+      );
       await element.updateComplete;
 
       assert.isTrue(setChangeHashtagStub.calledThrice);
@@ -449,6 +466,13 @@ suite('gr-change-list-hashtag-flow tests', () => {
         message: 'foo created',
         showDismiss: true,
       });
+      assert.isTrue(
+        queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
+      );
+      assert.equal(
+        queryAll<HTMLSpanElement>(element, 'span.chip')[2].innerText,
+        'foo'
+      );
     });
 
     test('cannot apply existing hashtag already on selected changes', async () => {

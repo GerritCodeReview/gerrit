@@ -19,6 +19,7 @@ import {
   ReviewerState,
   AccountId,
   GroupInfo,
+  Hashtag,
 } from '../../api/rest-api';
 import {BulkActionsModel, LoadingState} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
@@ -335,6 +336,47 @@ suite('bulk actions model test', () => {
             a: 1,
           },
         },
+      ]);
+    });
+  });
+
+  suite('add hashtags', () => {
+    const change1: ChangeInfo = {
+      ...createChange(),
+      _number: 1 as NumericChangeId,
+      hashtags: ['existingHashtag' as Hashtag],
+    };
+    const change2: ChangeInfo = {
+      ...createChange(),
+      _number: 2 as NumericChangeId,
+      hashtags: ['existingHashtag' as Hashtag],
+    };
+    const existingHashtag = 'existingHashtag' as Hashtag;
+    const newHashtag = 'newHashtag' as Hashtag;
+    let detailedActionsStub: SinonStubbedMember<
+      RestApiService['getDetailedChangesWithActions']
+    >;
+    setup(async () => {
+      detailedActionsStub = stubRestApi('getDetailedChangesWithActions');
+      detailedActionsStub.returns(Promise.resolve([change1, change2]));
+
+      await bulkActionsModel.sync([change1, change2]);
+      bulkActionsModel.addSelectedChangeNum(change1._number);
+      bulkActionsModel.addSelectedChangeNum(change2._number);
+      stubRestApi('setChangeHashtag').resolves([existingHashtag, newHashtag]);
+    });
+
+    test('server-acked hashtags are added to the model', async () => {
+      await Promise.all(bulkActionsModel.addHashtags([newHashtag]));
+
+      const updatedChanges = await waitUntilObserved(
+        bulkActionsModel.selectedChanges$,
+        changes => changes.some(change => change.hashtags?.includes(newHashtag))
+      );
+
+      assert.deepEqual(updatedChanges, [
+        {...change1, hashtags: [existingHashtag, newHashtag]},
+        {...change2, hashtags: [existingHashtag, newHashtag]},
       ]);
     });
   });

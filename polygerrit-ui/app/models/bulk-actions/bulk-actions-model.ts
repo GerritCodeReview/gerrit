@@ -11,6 +11,7 @@ import {
   AccountId,
   AccountInfo,
   GroupInfo,
+  Hashtag,
 } from '../../api/rest-api';
 import {Model} from '../model';
 import {Finalizable} from '../../services/registry';
@@ -198,6 +199,36 @@ export class BulkActionsModel
         reviewInput
       );
     });
+  }
+
+  addHashtags(hashtags: Hashtag[]): Promise<Hashtag[]>[] {
+    const current = this.subject$.getValue();
+    return current.selectedChangeNums.map(changeNum =>
+      this.restApiService
+        .setChangeHashtag(changeNum, {
+          add: hashtags,
+        })
+        .then(responseHashtags => {
+          // Once we get server confirmation that the hashtags were added to the
+          // change, we are updating the model's ChangeInfo. This way we can
+          // keep the page state (dialog status) but use the updated change info
+          // naturally.
+
+          // refetch the current state since other changes may have been updated
+          // since the promises were launched.
+          const current = this.subject$.getValue();
+          const nextState = {
+            ...current,
+            allChanges: new Map(current.allChanges),
+          };
+          nextState.allChanges.set(changeNum, {
+            ...nextState.allChanges.get(changeNum)!,
+            hashtags: responseHashtags,
+          });
+          this.setState(nextState);
+          return responseHashtags;
+        })
+    );
   }
 
   async sync(changes: ChangeInfo[]) {

@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4ce47d37_761abc92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-10T11:52:47Z",
+      "side": 1,
+      "message": "\u003e It was supposed to be covered by this comment [1], but I guess\n\u003e I can make this comment more verbose and hence easier to understand.\n\nDone",
+      "parentUuid": "c07718d9_312e6e84",
+      "revId": "5d70de5e25187b3918ac004dcec2071da735996b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c3812222_4a15373e",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/CopiedApprovalsInChangeMessageIT.java",
         "patchSetId": 3

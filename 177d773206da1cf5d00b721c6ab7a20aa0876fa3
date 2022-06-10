@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b17847f_6417bb0a",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-file-controls/gr-edit-file-controls_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T15:25:59Z",
+      "side": 1,
+      "message": "Nope, good catch.",
+      "parentUuid": "8b3f5e5d_b786fbff",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 18
+      },
+      "revId": "177d773206da1cf5d00b721c6ab7a20aa0876fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d31b2a07_d4605300",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c41c2415_0056e4b7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T15:25:59Z",
+      "side": 1,
+      "message": "Added a comment, this is a new pattern I\u0027m introducing.",
+      "parentUuid": "d31b2a07_d4605300",
+      "range": {
+        "startLine": 177,
+        "startChar": 2,
+        "endLine": 177,
+        "endChar": 26
+      },
+      "revId": "177d773206da1cf5d00b721c6ab7a20aa0876fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9d4e748_2b7b3a9e",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-06-10T15:21:46Z",
       "side": 1,
       "message": "a bit confused why we have `_opened` and `opened`.\n\nNeeds some comments.",
+      "range": {
+        "startLine": 180,
+        "startChar": 16,
+        "endLine": 180,
+        "endChar": 23
+      },
+      "revId": "177d773206da1cf5d00b721c6ab7a20aa0876fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b273c85e_13c19dbb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-10T15:25:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9d4e748_2b7b3a9e",
       "range": {
         "startLine": 180,
         "startChar": 16,

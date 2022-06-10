@@ -2888,13 +2888,6 @@ export class GrChangeView extends LitElement {
       // have loaded.
       coreDataPromise = Promise.all([patchResourcesLoaded, loadingFlagSet]);
     } else {
-      // Resolves when the file list has loaded.
-      const fileListReload = loadingFlagSet.then(async () => {
-        assertIsDefined(this.fileList);
-        await this.fileList.reload();
-      });
-      allDataPromises.push(fileListReload);
-
       const latestCommitMessageLoaded = loadingFlagSet.then(() => {
         // If the latest commit message is known, there is nothing to do.
         if (this.latestCommitMessage) {
@@ -2979,12 +2972,7 @@ export class GrChangeView extends LitElement {
   reloadPatchNumDependentResources(patchNumChanged?: boolean) {
     assertIsDefined(this.changeNum, 'changeNum');
     if (!this.patchRange?.patchNum) throw new Error('missing patchNum');
-    // Filelist might not be rendered yet, so we wait for it to be rendered
-    // before we ask it to reload.
-    const promises = [
-      this.loadAndSetCommitInfo(),
-      this.updateComplete.then(() => this.fileList!.reload()),
-    ];
+    const promises = [this.loadAndSetCommitInfo()];
     if (patchNumChanged) {
       promises.push(
         this.getCommentsModel().reloadPortedComments(

@@ -192,7 +192,7 @@ export class GrFileList extends LitElement {
   @property({type: Object})
   change?: ParsedChangeInfo;
 
-  @property({type: String})
+  @state()
   diffViewMode?: DiffViewMode;
 
   @property({type: Boolean})

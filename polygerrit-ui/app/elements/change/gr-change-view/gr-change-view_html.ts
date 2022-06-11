@@ -538,7 +538,6 @@ export const htmlTemplate = html`
           diff-view-mode="[[viewState.diffMode]]"
           edit-mode="[[_editMode]]"
           files-expanded="{{_filesExpanded}}"
-          file-list-increment="[[_numFilesShown]]"
           on-files-shown-changed="_setShownFiles"
           on-file-action-tap="_handleFileActionTap"
           observer-target="[[_computeObserverTarget()]]"

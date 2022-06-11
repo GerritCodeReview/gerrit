@@ -225,7 +225,7 @@ export class GrFileList extends LitElement {
 
   @state() numFilesShown = DEFAULT_NUM_FILES_SHOWN;
 
-  @property({type: Number, attribute: 'file-list-increment'})
+  @state()
   fileListIncrement: number = DEFAULT_NUM_FILES_SHOWN;
 
   // Private but used in tests.

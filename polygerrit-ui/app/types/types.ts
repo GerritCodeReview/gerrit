@@ -20,7 +20,6 @@ import {
   RevisionInfo,
   Timestamp,
 } from './common';
-import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {AuthRequestInit} from '../services/gr-auth/gr-auth';
 
 export function notUndefined<T>(x: T | undefined): x is T {
@@ -189,13 +188,6 @@ export function isPatchSetFile(
 export interface FileRange {
   basePath?: string;
   path: string;
-}
-
-export function isPolymerSpliceChange<
-  T,
-  U extends Array<{} | null | undefined>
->(x: T | PolymerSpliceChange<U>): x is PolymerSpliceChange<U> {
-  return (x as PolymerSpliceChange<U>).indexSplices !== undefined;
 }
 
 export interface FetchRequest {

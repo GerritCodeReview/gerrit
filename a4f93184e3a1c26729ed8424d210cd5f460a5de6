@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f078eae_41936ea0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-13T08:39:54Z",
+      "side": 1,
+      "message": "Historically this type of problem was solved through setting a label.\nIt feels a bit strange to have this type of assertion in the commit-message.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 72
+      },
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e10be7c_10121041",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-13T08:39:54Z",
+      "side": 1,
+      "message": "FWICT it\u0027s not really a footer, having \"CHANGE_IS_FW_COMPATIBLE\" anywhere in the commit message fulfills the submit-requirement.\nA commit footer is in the last paragraph of the commit message and is formatted as \"$KEY: $VALUE\", compare \"Google-Bug-Id\" and \"Change-Id\" footers at the bottom of this commit message.",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "276e63b4_e74fbbcf",
@@ -32,6 +78,29 @@
       "side": 1,
       "message": "\u003e Maybe a more formal approach would be to have a test (suite) which checks\nforward compatibility between the base version and current-patch-set version?\n\nI researched this approach but could not come up with a solution given our codebase / tests. Doing FW compatibility testing requires serializing entities with the new code and deserializing with the old code in the same test, but there\u0027s no way to switch/rebuild code in the middle of a test.\n\nThe existence of the footer will help by alerting but won\u0027t prevent. I came up with more AIs to prevent this issue and I will write a proposal of these AIs.",
       "parentUuid": "276e63b4_e74fbbcf",
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09d75754_759d6235",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-13T08:39:54Z",
+      "side": 1,
+      "message": "Nit: if you go for a label in the commit-message, as suggested here, I would vote for \"FW_COMPATIBLE\" instead of \"CHANGE_IS_FW_COMPATIBLE\".",
+      "range": {
+        "startLine": 21,
+        "startChar": 48,
+        "endLine": 21,
+        "endChar": 71
+      },
       "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

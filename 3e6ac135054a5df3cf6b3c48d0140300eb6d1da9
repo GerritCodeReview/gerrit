@@ -51,6 +51,24 @@
       "parentUuid": "81255f21_251c0285",
       "revId": "3e6ac135054a5df3cf6b3c48d0140300eb6d1da9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f77496bb_148d6e8f",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-13T09:31:58Z",
+      "side": 1,
+      "message": "https://errorprone.info/bugpattern/InlineFormatString",
+      "parentUuid": "07f6c7ce_4230e051",
+      "revId": "3e6ac135054a5df3cf6b3c48d0140300eb6d1da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

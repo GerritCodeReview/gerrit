@@ -16,6 +16,24 @@
       "message": "The existence of such a footer in the commit message doesn\u0027t guarantee\ncompatibility, it only confirms that the developer had that in mind.\n\nMaybe a more formal approach would be to have a test (suite) which checks\nforward compatibility between the base version and current-patch-set version?",
       "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23515cc2_5e45253b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-13T08:16:13Z",
+      "side": 1,
+      "message": "\u003e Maybe a more formal approach would be to have a test (suite) which checks\nforward compatibility between the base version and current-patch-set version?\n\nI researched this approach but could not come up with a solution given our codebase / tests. Doing FW compatibility testing requires serializing entities with the new code and deserializing with the old code in the same test, but there\u0027s no way to switch/rebuild code in the middle of a test.\n\nThe existence of the footer will help by alerting but won\u0027t prevent. I came up with more AIs to prevent this issue and I will write a proposal of these AIs.",
+      "parentUuid": "276e63b4_e74fbbcf",
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

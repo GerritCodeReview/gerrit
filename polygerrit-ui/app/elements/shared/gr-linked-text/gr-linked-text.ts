@@ -20,7 +20,7 @@ declare global {
 export class GrLinkedText extends LitElement {
   private outputElement?: HTMLSpanElement;
 
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'remove-zero-width-space'})
   removeZeroWidthSpace?: boolean;
 
   @property({type: String})

@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7952797b_6289eabc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-13T10:53:14Z",
+      "side": 1,
+      "message": "Compare with \"Library-Compliance\" (i.e. someone must assert that they have verified that a submit requirement is fullfilled).\nWould a label be an alternative now that labels are decoupled from submit-requirements?",
+      "parentUuid": "1f078eae_41936ea0",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 72
+      },
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "276e63b4_e74fbbcf",
@@ -238,6 +262,24 @@
       "side": 1,
       "message": "Okay, thanks for checking.\n\n\u003e I previously deduced the number of required backslashes by trial and error.\n\nThis means that as a follow-up we must really understand and document this (if we as Gerrit experts have to guess by trial and error, normal project owners will have a hard time with this).\n\nAt best we also reduce the need for escaping to a minimum so that these configs a better readable.",
       "parentUuid": "664546c4_58224601",
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e80f6568_4cf9fdf1",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-13T10:53:14Z",
+      "side": 1,
+      "message": "The multiple-layers-of-escapes problem is quite general.\n\np.s\nFrom an old actions.config (when using its-hooks). There was a need to escape \"\\\" in the resulting json:\n\n    \\\"subject\\\":\\\"${subject.replaceAll(\\\"\\\\\\\"\\\"\\\",\\\"\\\\\\\\\\\"\\\"\\\")}\\\"",
+      "parentUuid": "189e96b7_da0b4d47",
       "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fd5afb5_40c37bac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-13T09:48:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d70aeab7_ec7b1c7d",
+      "revId": "64b050d1d3bead6f9612897da4b4866465119821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f654d8b3_51a06657",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "832b853e_72df63c5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-13T09:48:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f654d8b3_51a06657",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 0
+      },
+      "revId": "64b050d1d3bead6f9612897da4b4866465119821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c9681ab_bc07a779",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-06-13T09:31:17Z",
       "side": 1,
       "message": "just remove the test it is now covered by render test",
+      "range": {
+        "startLine": 449,
+        "startChar": 0,
+        "endLine": 462,
+        "endChar": 0
+      },
+      "revId": "64b050d1d3bead6f9612897da4b4866465119821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25539586_e2b77a40",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-13T09:48:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c9681ab_bc07a779",
       "range": {
         "startLine": 449,
         "startChar": 0,

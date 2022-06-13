@@ -70,6 +70,30 @@
       },
       "revId": "4e4041d79788e1bc2f05c8867b0a1f08c0c95151",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6cf9a03_6cddd05d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-13T14:31:09Z",
+      "side": 1,
+      "message": "@Edwin, friendly ping. Could yo please check this change?",
+      "parentUuid": "8fd15144_8f63ac72",
+      "range": {
+        "startLine": 16,
+        "startChar": 56,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "4e4041d79788e1bc2f05c8867b0a1f08c0c95151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

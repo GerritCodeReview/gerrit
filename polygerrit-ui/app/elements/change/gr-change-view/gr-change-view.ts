@@ -187,6 +187,7 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve, DIPolymerElement} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
+import {FilesExpandedState} from '../gr-file-list-constants';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -364,7 +365,7 @@ export class GrChangeView extends base {
   _patchRange?: ChangeViewPatchRange;
 
   @property({type: String})
-  _filesExpanded?: string;
+  _filesExpanded: FilesExpandedState = FilesExpandedState.NONE;
 
   @property({type: String})
   _basePatchNum?: string;
@@ -1124,6 +1125,10 @@ export class GrChangeView extends base {
     this._changeViewAriaHidden = false;
   }
 
+  onReplyOverlayOpenedChanged(e: ValueChangedEvent<boolean>) {
+    this.replyOverlayOpened = e.detail.value;
+  }
+
   _handleOpenDiffPrefs() {
     this.$.fileList.openDiffPrefs();
   }
@@ -1206,6 +1211,10 @@ export class GrChangeView extends base {
 
   _setShownFiles(e: CustomEvent<{length: number}>) {
     this._shownFileCount = e.detail.length;
+  }
+
+  _setFilesExpanded(e: ValueChangedEvent<FilesExpandedState>) {
+    this._filesExpanded = e.detail.value;
   }
 
   _expandAllDiffs() {

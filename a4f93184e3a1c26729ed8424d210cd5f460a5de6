@@ -222,6 +222,24 @@
       "parentUuid": "ea14e155_db471dae",
       "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "189e96b7_da0b4d47",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-13T10:27:53Z",
+      "side": 1,
+      "message": "Okay, thanks for checking.\n\n\u003e I previously deduced the number of required backslashes by trial and error.\n\nThis means that as a follow-up we must really understand and document this (if we as Gerrit experts have to guess by trial and error, normal project owners will have a hard time with this).\n\nAt best we also reduce the need for escaping to a minimum so that these configs a better readable.",
+      "parentUuid": "664546c4_58224601",
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

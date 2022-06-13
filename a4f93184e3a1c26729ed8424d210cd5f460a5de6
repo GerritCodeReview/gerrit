@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "548cd3b6_92931881",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-13T11:56:02Z",
+      "side": 1,
+      "message": "The difference here is in \"who\" should mark the change as FW compatible verified (checked). With the commit tag approach, the author marks this as checked, as opposed to the label approach where the reviewer does that.\n\nI don\u0027t have a strong preference for either cases, but in Google there are many usages of commit tags that enforce certain behaviour of the review workflow, e.g. \u0027WANT_LGTM\u003dall\u0027 (requires approval from all reviewers). I was more inclined to my approach since the author should be more responsible of revisiting FW compatibility. Also I did not want to introduce a new label.\n\nIn both cases, the requirement will be shown in the SR section, alerting author and reviewer to take extra care.",
+      "parentUuid": "7952797b_6289eabc",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 72
+      },
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "276e63b4_e74fbbcf",
@@ -280,6 +304,24 @@
       "side": 1,
       "message": "The multiple-layers-of-escapes problem is quite general.\n\np.s\nFrom an old actions.config (when using its-hooks). There was a need to escape \"\\\" in the resulting json:\n\n    \\\"subject\\\":\\\"${subject.replaceAll(\\\"\\\\\\\"\\\"\\\",\\\"\\\\\\\\\\\"\\\"\\\")}\\\"",
       "parentUuid": "189e96b7_da0b4d47",
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ddaf600_b14bf472",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-13T11:56:02Z",
+      "side": 1,
+      "message": "\u003e This means that as a follow-up we must really understand and document this (if we as Gerrit experts have to guess by trial and error, normal project owners will have a hard time with this).\n\nAck. That\u0027s specifically more complicated for predicates that accept regular expressions, e.g. \u0027file\u0027. While I was translating Prolog to SRs, I encountered this escaping for \u0027file\u0027 a handful of times, but for other predicates, expressions are much simpler.\n\n\u003e The multiple-layers-of-escapes problem is quite general.\n\nThanks Sven for giving other examples.",
+      "parentUuid": "e80f6568_4cf9fdf1",
       "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

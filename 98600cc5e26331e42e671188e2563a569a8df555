@@ -16,6 +16,23 @@
       "message": "Only +1 for now, so that others can still comment and express concerns.",
       "revId": "98600cc5e26331e42e671188e2563a569a8df555",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7228d116_b5df5dce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-13T13:17:54Z",
+      "side": 1,
+      "message": "Upgrading to +2, but maybe wait a day with submitting this, so that Sasa also has another chance to comment.",
+      "revId": "98600cc5e26331e42e671188e2563a569a8df555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

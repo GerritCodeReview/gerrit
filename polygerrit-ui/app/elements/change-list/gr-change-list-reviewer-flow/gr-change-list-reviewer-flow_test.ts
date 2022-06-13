@@ -402,8 +402,16 @@ suite('gr-change-list-reviewer-flow tests', () => {
 
       reviewerList.accounts.push(accounts[2], groups[0]);
       await flush();
+      assert.isFalse(dialog.loading);
       dialog.confirmButton!.click();
       await element.updateComplete;
+
+      assert.isTrue(dialog.loading);
+      assert.equal(
+        dialog.loadingLabel,
+        'Adding Reviewer and CC in progress...'
+      );
+
       await resolvePromises();
       await element.updateComplete;
 
@@ -412,6 +420,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
         'dispatchEventStub never called'
       );
 
+      assert.isFalse(dialog.loading);
       assert.isTrue(dispatchEventStub.calledOnce);
       assert.equal(dispatchEventStub.firstCall.args[0].type, 'reload');
     });
@@ -444,20 +453,6 @@ suite('gr-change-list-reviewer-flow tests', () => {
         },
       ]);
       assert.isTrue(dispatchEventStub.notCalled);
-    });
-
-    test('confirm button text updates', async () => {
-      assert.equal(dialog.confirmLabel, 'Add');
-
-      dialog.confirmButton!.click();
-      await element.updateComplete;
-
-      assert.equal(dialog.confirmLabel, 'Running');
-
-      await resolvePromises();
-      await element.updateComplete;
-
-      assert.equal(dialog.confirmLabel, 'Close');
     });
 
     test('renders warnings when reviewer/cc are overwritten', async () => {

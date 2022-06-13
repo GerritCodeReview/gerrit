@@ -156,7 +156,7 @@ interface FileRow {
 
 declare global {
   interface HTMLElementEventMap {
-    'files-shown-changed': ValueChangedEvent<number>;
+    'files-shown-changed': CustomEvent<{length: number}>;
     'files-expanded-changed': ValueChangedEvent<FilesExpandedState>;
     'diff-prefs-changed': ValueChangedEvent<DiffPreferencesInfo>;
   }

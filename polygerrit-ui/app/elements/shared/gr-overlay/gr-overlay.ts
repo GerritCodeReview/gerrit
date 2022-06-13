@@ -34,6 +34,7 @@ const base = IronOverlayMixin(
  * @attr {Boolean} always-on-top - inherited from IronOverlay
  * @attr {Boolean} no-cancel-on-esc-key - inherited from IronOverlay
  * @attr {Boolean} no-cancel-on-outside-click - inherited from IronOverlay
+ * @attr {String} scroll-action - inherited from IronOverlay
  */
 @customElement('gr-overlay')
 export class GrOverlay extends base {

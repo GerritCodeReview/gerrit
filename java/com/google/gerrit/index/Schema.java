@@ -53,7 +53,11 @@ public class Schema<T> {
 
     @SafeVarargs
     public final Builder<T> add(FieldDef<T, ?>... fields) {
-      this.fields.addAll(Arrays.asList(fields));
+      return add(ImmutableList.copyOf(fields));
+    }
+
+    public final Builder<T> add(ImmutableList<FieldDef<T, ?>> fields) {
+      this.fields.addAll(fields);
       return this;
     }
 

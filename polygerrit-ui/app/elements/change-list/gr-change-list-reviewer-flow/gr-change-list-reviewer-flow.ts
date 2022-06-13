@@ -190,8 +190,11 @@ export class GrChangeListReviewerFlow extends LitElement {
       <gr-dialog
         @cancel=${() => this.closeOverlay()}
         @confirm=${() => this.onConfirm(overallStatus)}
-        .confirmLabel=${this.getConfirmLabel(overallStatus)}
+        .confirmLabel=${'Add'}
         .disabled=${overallStatus === ProgressStatus.RUNNING}
+        .loadingLabel=${'Adding Reviewer and CC in progress...'}
+        ?loading=${getOverallStatus(this.progressByChangeNum) ===
+        ProgressStatus.RUNNING}
       >
         <div slot="header">Add reviewer / CC</div>
         <div slot="main">
@@ -499,14 +502,6 @@ export class GrChangeListReviewerFlow extends LitElement {
     // No additional checks are necessary. If the user has visibility enough to
     // see the change, they have permission enough to add reviewers/cc.
     return this.selectedChanges.length === 0;
-  }
-
-  private getConfirmLabel(overallStatus: ProgressStatus) {
-    return overallStatus === ProgressStatus.NOT_STARTED
-      ? 'Add'
-      : overallStatus === ProgressStatus.RUNNING
-      ? 'Running'
-      : 'Close';
   }
 
   private getCurrentAccounts(reviewerState: ReviewerState) {

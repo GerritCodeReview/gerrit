@@ -4802,7 +4802,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Boolean wip;
 
     @Override
-    public void onWorkInProgressStateChanged(Event event) {
+    public void onWorkInProgressStateChanged(WorkInProgressStateChangedListener.Event event) {
       this.invoked = true;
       this.wip =
           event.getChange().workInProgress != null ? event.getChange().workInProgress : false;
@@ -4816,14 +4816,14 @@ public class ChangeIT extends AbstractDaemonTest {
     }
 
     public static class TestAttentionSetListener implements AttentionSetListener {
-      Event lastEvent;
+      AttentionSetListener.Event lastEvent;
       boolean fired;
 
       @Inject
       public TestAttentionSetListener() {}
 
       @Override
-      public void onAttentionSetChanged(Event event) {
+      public void onAttentionSetChanged(AttentionSetListener.Event event) {
         fired = true;
         lastEvent = event;
       }

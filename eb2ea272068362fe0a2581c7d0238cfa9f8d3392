@@ -22,6 +22,30 @@
       },
       "revId": "eb2ea272068362fe0a2581c7d0238cfa9f8d3392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "142cdc1f_74146de9",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-13T12:27:39Z",
+      "side": 1,
+      "message": "This is relying on the getter/setter below.",
+      "parentUuid": "8e63f2f4_c6451cda",
+      "range": {
+        "startLine": 201,
+        "startChar": 10,
+        "endLine": 201,
+        "endChar": 24
+      },
+      "revId": "eb2ea272068362fe0a2581c7d0238cfa9f8d3392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

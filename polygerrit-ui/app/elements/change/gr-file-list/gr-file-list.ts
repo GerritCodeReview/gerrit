@@ -156,7 +156,7 @@ interface FileRow {
 
 declare global {
   interface HTMLElementEventMap {
-    'num-files-shown-changed': ValueChangedEvent<number>;
+    'files-shown-changed': ValueChangedEvent<number>;
     'files-expanded-changed': ValueChangedEvent<FilesExpandedState>;
     'diff-prefs-changed': ValueChangedEvent<DiffPreferencesInfo>;
   }
@@ -168,7 +168,7 @@ declare global {
 export class GrFileList extends LitElement {
   /**
    * @event files-expanded-changed
-   * @event num-files-shown-changed
+   * @event files-shown-changed
    * @event diff-prefs-changed
    */
   @query('#diffPreferencesDialog')
@@ -198,8 +198,19 @@ export class GrFileList extends LitElement {
   @property({type: Boolean})
   editMode?: boolean;
 
-  @property({type: String, attribute: 'files-expanded'})
-  filesExpanded = FilesExpandedState.NONE;
+  private _filesExpanded = FilesExpandedState.NONE;
+  
+  get filesExpanded() {
+    return this._filesExpanded;
+  }
+
+  set filesExpanded(filesExpanded: FilesExpandedState) {
+    if (this._filesExpanded === filesExpanded) return;
+    const oldFilesExpanded = this._filesExpanded;
+    this._filesExpanded = filesExpanded;
+    fire(this, 'files-expanded-changed', {value: this._filesExpanded});
+    this.requestUpdate('filesExpanded', oldFilesExpanded);
+  }
 
   // Private but used in tests.
   @state()
@@ -740,11 +751,7 @@ export class GrFileList extends LitElement {
       this.shownFiles = this.computeFilesShown();
     }
     if (changedProperties.has('expandedFiles')) {
-      changedProperties.set('filesExpanded', this.filesExpanded);
       this.expandedFilesChanged(changedProperties.get('expandedFiles'));
-    }
-    if (changedProperties.has('filesExpanded')) {
-      fire(this, 'files-expanded-changed', {value: this.filesExpanded});
     }
   }
 
@@ -2060,7 +2067,6 @@ export class GrFileList extends LitElement {
 
   private incrementNumFilesShown() {
     this.numFilesShown += this.fileListIncrement;
-    fire(this, 'num-files-shown-changed', {value: this.numFilesShown});
   }
 
   private computeFileListControlClass() {
@@ -2092,7 +2098,6 @@ export class GrFileList extends LitElement {
 
   private showAllFiles() {
     this.numFilesShown = this.files.length;
-    fire(this, 'num-files-shown-changed', {value: this.numFilesShown});
   }
 
   /**

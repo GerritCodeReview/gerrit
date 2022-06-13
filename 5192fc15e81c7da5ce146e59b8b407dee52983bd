@@ -16,6 +16,24 @@
       "message": "I guess since the stable-3.6 branch has been created now, this change needs to wait until the other planned migration has been added in the stable-3.6 branch, so that the schema migration don\u0027t conflict on the schema number.",
       "revId": "5192fc15e81c7da5ce146e59b8b407dee52983bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "688e6dda_150a0031",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-13T15:42:26Z",
+      "side": 1,
+      "message": "The other migration that was planned was abandoned [1,2] and instead a site program has been added [3]. Hence there is no reason to block submitting this migration any longer. Hence removing my Code-Review-2 veto.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/326953\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/337054\n[3] https://gerrit-review.googlesource.com/c/gerrit/+/337308",
+      "parentUuid": "0449bd6c_2b7be0d1",
+      "revId": "5192fc15e81c7da5ce146e59b8b407dee52983bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

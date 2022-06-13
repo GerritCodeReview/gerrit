@@ -1321,7 +1321,7 @@ export class GrChangeView extends base {
       if (patchChanged) {
         // We need to collapse all diffs when params change so that a non
         // existing diff is not requested. See Issue 125270 for more details.
-        this.$.fileList.resetNumFilesShown();
+        this.$.fileList.resetFileState();
         this.$.fileList.collapseAllDiffs();
         this._reloadPatchNumDependentResources(patchNumChanged).then(() => {
           this._sendShowChangeEvent();
@@ -1344,7 +1344,7 @@ export class GrChangeView extends base {
     // We need to collapse all diffs when params change so that a non existing
     // diff is not requested. See Issue 125270 for more details.
     this.$.fileList.collapseAllDiffs();
-    this.$.fileList.resetNumFilesShown();
+    this.$.fileList.resetFileState();
 
     // If the change was loaded before, then we are firing a 'reload' event
     // instead of calling `loadData()` directly for two reasons:

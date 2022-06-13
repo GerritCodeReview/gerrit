@@ -446,18 +446,18 @@ suite('gr-change-list-reviewer-flow tests', () => {
       assert.isTrue(dispatchEventStub.notCalled);
     });
 
-    test('confirm button text updates', async () => {
+    test('confirm button text', async () => {
       assert.equal(dialog.confirmLabel, 'Add');
 
       dialog.confirmButton!.click();
       await element.updateComplete;
 
-      assert.equal(dialog.confirmLabel, 'Running');
+      assert.equal(dialog.confirmLabel, 'Add');
 
       await resolvePromises();
       await element.updateComplete;
 
-      assert.equal(dialog.confirmLabel, 'Close');
+      assert.equal(dialog.confirmLabel, 'Add');
     });
 
     test('renders warnings when reviewer/cc are overwritten', async () => {

@@ -536,8 +536,8 @@ export const htmlTemplate = html`
           change-num="[[_changeNum]]"
           patch-range="[[_patchRange]]"
           edit-mode="[[_editMode]]"
-          files-expanded="{{_filesExpanded}}"
           on-files-shown-changed="_setShownFiles"
+          on-files-expanded-changed="_setFilesExpanded"
           on-file-action-tap="_handleFileActionTap"
           observer-target="[[_computeObserverTarget()]]"
         >
@@ -655,8 +655,8 @@ export const htmlTemplate = html`
     no-cancel-on-esc-key=""
     scroll-action="lock"
     with-backdrop=""
-    opened="{{replyOverlayOpened}}"
     on-iron-overlay-canceled="onReplyOverlayCanceled"
+    on-opened-changed="onReplyOverlayOpenedChanged"
   >
     <template is="dom-if" if="[[replyOverlayOpened]]">
       <gr-reply-dialog

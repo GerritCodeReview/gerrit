@@ -16,6 +16,24 @@
       "message": "Don\u0027t you need something like this as well?",
       "revId": "dea114e40453f56da8b1070f5e37e99a342311a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5093c0b3_4482969d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 2058,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-13T13:45:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53aed115_f18b2277",
+      "revId": "dea114e40453f56da8b1070f5e37e99a342311a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

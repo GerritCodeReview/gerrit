@@ -115,7 +115,8 @@ export class GrChangeListReviewerFlow extends LitElement {
         display: flex;
         flex-wrap: wrap;
       }
-      .warning {
+      .warning,
+      .error {
         display: flex;
         align-items: center;
         gap: var(--spacing-xl);
@@ -123,7 +124,11 @@ export class GrChangeListReviewerFlow extends LitElement {
         padding-left: var(--spacing-xl);
         background-color: var(--yellow-50);
       }
-      .grid + .warning {
+      .error {
+        background-color: var(--error-background);
+      }
+      .grid + .warning,
+      .error {
         margin-top: var(--spacing-l);
       }
       .warning + .warning {
@@ -208,7 +213,7 @@ export class GrChangeListReviewerFlow extends LitElement {
             <span>CC</span>
             ${this.renderAccountList(ReviewerState.CC, 'cc-list', 'Add CC')}
           </div>
-          ${this.renderAnyOverwriteWarnings()}
+          ${this.renderAnyOverwriteWarnings()} ${this.renderErrors()}
         </div>
       </gr-dialog>
     `;
@@ -285,6 +290,25 @@ export class GrChangeListReviewerFlow extends LitElement {
     `;
   }
 
+  private renderErrors() {
+    if (getOverallStatus(this.progressByChangeNum) !== ProgressStatus.FAILED)
+      return nothing;
+    const failedAccounts = [
+      ...(this.updatedAccountsByReviewerState.get(ReviewerState.REVIEWER) ??
+        []),
+      ...(this.updatedAccountsByReviewerState.get(ReviewerState.CC) ?? []),
+    ].map(account => getDisplayName(this.serverConfig, account));
+    if (failedAccounts.length === 0) {
+      return nothing;
+    }
+    return html`
+      <div class="error">
+        <iron-icon icon="gr-icons:error"></iron-icon>
+        Failed to add ${listForSentence(failedAccounts)} to changes.
+      </div>
+    `;
+  }
+
   private renderAnyOverwriteWarning(currentReviewerState: ReviewerState) {
     const updatedReviewerState =
       currentReviewerState === ReviewerState.CC
@@ -311,6 +335,12 @@ export class GrChangeListReviewerFlow extends LitElement {
     `;
   }
 
+  private getAccountsInCurrentState(currentReviewerState: ReviewerState) {
+    return this.selectedChanges
+      .flatMap(change => change.reviewers[currentReviewerState] ?? [])
+      .filter(account => account?._account_id !== undefined);
+  }
+
   private getOverwrittenDisplayNames(
     currentReviewerState: ReviewerState
   ): string[] {
@@ -318,9 +348,8 @@ export class GrChangeListReviewerFlow extends LitElement {
       currentReviewerState === ReviewerState.CC
         ? ReviewerState.REVIEWER
         : ReviewerState.CC;
-    const accountsInCurrentState = this.selectedChanges
-      .flatMap(change => change.reviewers[currentReviewerState] ?? [])
-      .filter(account => account?._account_id !== undefined);
+    const accountsInCurrentState =
+      this.getAccountsInCurrentState(currentReviewerState);
     return this.updatedAccountsByReviewerState
       .get(updatedReviewerState)!
       .filter(account =>

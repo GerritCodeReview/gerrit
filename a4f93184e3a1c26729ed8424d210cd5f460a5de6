@@ -103,6 +103,41 @@
       },
       "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f97805f_da660569",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-13T08:54:45Z",
+      "side": 1,
+      "message": "\u003e The existence of such a footer in the commit message doesn\u0027t guarantee\n\u003e compatibility, it only confirms that the developer had that in mind.\n\nYes, this is a simple reminder. We figured having a reminder is better than nothing.\n\n\u003e Maybe a more formal approach would be to have a test (suite) which checks\n\u003e forward compatibility between the base version and current-patch-set version?\n\nRight, but this is not easily doable, or at least requires some larger efforts. We want to add the reminder as an intermediate measure until we can have this covered by tests.\n\nYoussef, can you maybe clarify this in the commit message?",
+      "parentUuid": "276e63b4_e74fbbcf",
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea14e155_db471dae",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-13T08:54:45Z",
+      "side": 1,
+      "message": "Can you please help me understand why \u0027\\\"\u0027 works, but \u0027\\.\u0027 requires to be \u0027\\\\\\\\.\u0027? \n\nUnrelated to this change. Do we need to document escaping needs somewhere at [1]? E.g. I would have probably tried this with no escaping at all (except what is required for the regexp):\n\n  applicableIf \u003d -branch:refs/meta/config AND (file:\"^java/com/google/gerrit/server/notedb/.*\\.java$\" OR file:\"^java/com/google/gerrit/entities/.*\\.java$\")\n  \nWhy wouldn\u0027t this work?\n\n[optional] Maybe use \u0027[.]\u0027 instead of escaping \u0027.\u0027 to make this more readable?\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-submit-requirements.html",
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

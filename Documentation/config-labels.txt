@@ -554,7 +554,7 @@ Defaults to false.
 predicate in link:config-labels.html#label_copyCondition[copyCondition]
 instead.
 
-Defaults to true.
+Defaults to false.
 
 [[label_copyValue]]
 === `label.Label-Name.copyValue`

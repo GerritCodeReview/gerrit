@@ -736,10 +736,6 @@ public class SetLabelIT extends AbstractDaemonTest {
   @Test
   public void setCopyAllScoresIfNoChange() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().updateLabelType("foo", lt -> lt.setCopyAllScoresIfNoChange(false));
-      u.save();
-    }
     assertThat(gApi.projects().name(project.get()).label("foo").get().copyAllScoresIfNoChange)
         .isNull();
 
@@ -757,6 +753,10 @@ public class SetLabelIT extends AbstractDaemonTest {
   @Test
   public void unsetCopyAllScoresIfNoChange() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().updateLabelType("foo", lt -> lt.setCopyAllScoresIfNoChange(true));
+      u.save();
+    }
     assertThat(gApi.projects().name(project.get()).label("foo").get().copyAllScoresIfNoChange)
         .isTrue();
 

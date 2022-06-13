@@ -103,7 +103,7 @@ public class MigrateLabelConfigToCopyConditionIT extends AbstractDaemonTest {
                 .range(-1, 1))
         .update();
 
-    // overwrite the default value for copyAllScoresIfNoChange which is true
+    // overwrite the default value for copyAllScoresIfNoChange which is true for the migration
     updateProjectConfig(
         cfg -> {
           cfg.setBoolean(

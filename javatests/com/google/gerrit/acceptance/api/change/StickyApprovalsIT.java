@@ -113,13 +113,11 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
               value(0, "No score"),
               value(-1, "I would prefer this is not submitted as is"),
               value(-2, "This shall not be submitted"));
-      codeReview.setCopyAllScoresIfNoChange(false);
       u.getConfig().upsertLabelType(codeReview.build());
 
       LabelType.Builder verified =
           labelBuilder(
               LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
-      verified.setCopyAllScoresIfNoChange(false);
       u.getConfig().upsertLabelType(verified.build());
 
       u.save();

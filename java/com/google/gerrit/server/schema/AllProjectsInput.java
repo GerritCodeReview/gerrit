@@ -55,8 +55,6 @@ public abstract class AllProjectsInput {
                 LabelValue.create((short) 0, "No score"),
                 LabelValue.create((short) -1, "I would prefer this is not submitted as is"),
                 LabelValue.create((short) -2, "This shall not be submitted")))
-        // override the default which is true and rely on the copy condition instead
-        .setCopyAllScoresIfNoChange(false)
         .setCopyCondition(
             String.format(
                 "changekind:%s OR changekind:%s OR is:MIN",

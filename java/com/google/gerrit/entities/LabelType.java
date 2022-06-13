@@ -31,7 +31,7 @@ public abstract class LabelType {
   public static final boolean DEF_ALLOW_POST_SUBMIT = true;
   public static final boolean DEF_CAN_OVERRIDE = true;
   public static final boolean DEF_COPY_ALL_SCORES_IF_LIST_OF_FILES_DID_NOT_CHANGE = false;
-  public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CHANGE = true;
+  public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CHANGE = false;
   public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = false;
   public static final boolean DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = false;
   public static final boolean DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE = false;

@@ -361,9 +361,9 @@ export class GrMessagesList extends LitElement {
       changedProperties.has('commentThreads')
     ) {
       this.combinedMessages = computeCombinedMessages(
-        this.messages,
-        this.reviewerUpdates,
-        this.commentThreads
+        this.messages ?? [],
+        this.reviewerUpdates ?? [],
+        this.commentThreads ?? []
       );
       this.combinedMessagesChanged();
     }

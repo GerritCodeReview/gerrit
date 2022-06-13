@@ -343,8 +343,9 @@ suite('gr-change-view tests', () => {
     stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
     element = fixture.instantiate();
-    element._changeNum = TEST_NUMERIC_CHANGE_ID;
-    sinon.stub(element.$.actions, 'reload').returns(Promise.resolve());
+    element.changeNum = TEST_NUMERIC_CHANGE_ID;
+    assertIsDefined(element.actions);
+    sinon.stub(element.actions, 'reload').returns(Promise.resolve());
     getPluginLoader().loadPlugins([]);
     window.Gerrit.install(
       plugin => {
@@ -363,19 +364,19 @@ suite('gr-change-view tests', () => {
   });
 
   teardown(async () => {
-    await flush();
+    await element.updateComplete;
   });
 
-  test('_handleMessageAnchorTap', () => {
-    element._changeNum = 1 as NumericChangeId;
-    element._patchRange = {
+  test('handleMessageAnchorTap', () => {
+    element.changeNum = 1 as NumericChangeId;
+    element.patchRange = {
       basePatchNum: PARENT,
       patchNum: 1 as RevisionPatchSetNum,
     };
-    element._change = createChangeViewChange();
+    element.change = createChangeViewChange();
     const getUrlStub = sinon.stub(GerritNav, 'getUrlForChange');
     const replaceStateStub = sinon.stub(history, 'replaceState');
-    element._handleMessageAnchorTap(
+    element.handleMessageAnchorTap(
       new CustomEvent('message-anchor-tap', {detail: {id: 'a12345'}})
     );
 
@@ -383,81 +384,81 @@ suite('gr-change-view tests', () => {
     assert.isTrue(replaceStateStub.called);
   });
 
-  test('_handleDiffAgainstBase', () => {
-    element._change = {
+  test('handleDiffAgainstBase', () => {
+    element.change = {
       ...createChangeViewChange(),
       revisions: createRevisions(10),
     };
-    element._patchRange = {
+    element.patchRange = {
       patchNum: 3 as RevisionPatchSetNum,
       basePatchNum: 1 as BasePatchSetNum,
     };
-    element._handleDiffAgainstBase();
+    element.handleDiffAgainstBase();
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
-    assert.equal(args[0], element._change);
+    assert.equal(args[0], element.change);
     assert.equal(args[1]!.patchNum, 3 as RevisionPatchSetNum);
   });
 
-  test('_handleDiffAgainstLatest', () => {
-    element._change = {
+  test('handleDiffAgainstLatest', () => {
+    element.change = {
       ...createChangeViewChange(),
       revisions: createRevisions(10),
     };
-    element._patchRange = {
+    element.patchRange = {
       basePatchNum: 1 as BasePatchSetNum,
       patchNum: 3 as RevisionPatchSetNum,
     };
-    element._handleDiffAgainstLatest();
+    element.handleDiffAgainstLatest();
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
-    assert.equal(args[0], element._change);
+    assert.equal(args[0], element.change);
     assert.equal(args[1]!.patchNum, 10 as RevisionPatchSetNum);
     assert.equal(args[1]!.basePatchNum, 1 as BasePatchSetNum);
   });
 
-  test('_handleDiffBaseAgainstLeft', () => {
-    element._change = {
+  test('handleDiffBaseAgainstLeft', () => {
+    element.change = {
       ...createChangeViewChange(),
       revisions: createRevisions(10),
     };
-    element._patchRange = {
+    element.patchRange = {
       patchNum: 3 as RevisionPatchSetNum,
       basePatchNum: 1 as BasePatchSetNum,
     };
-    element._handleDiffBaseAgainstLeft();
+    element.handleDiffBaseAgainstLeft();
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
-    assert.equal(args[0], element._change);
+    assert.equal(args[0], element.change);
     assert.equal(args[1]!.patchNum, 1 as RevisionPatchSetNum);
   });
 
-  test('_handleDiffRightAgainstLatest', () => {
-    element._change = {
+  test('handleDiffRightAgainstLatest', () => {
+    element.change = {
       ...createChangeViewChange(),
       revisions: createRevisions(10),
     };
-    element._patchRange = {
+    element.patchRange = {
       basePatchNum: 1 as BasePatchSetNum,
       patchNum: 3 as RevisionPatchSetNum,
     };
-    element._handleDiffRightAgainstLatest();
+    element.handleDiffRightAgainstLatest();
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[1]!.patchNum, 10 as RevisionPatchSetNum);
     assert.equal(args[1]!.basePatchNum, 3 as BasePatchSetNum);
   });
 
-  test('_handleDiffBaseAgainstLatest', () => {
-    element._change = {
+  test('handleDiffBaseAgainstLatest', () => {
+    element.change = {
       ...createChangeViewChange(),
       revisions: createRevisions(10),
     };
-    element._patchRange = {
+    element.patchRange = {
       basePatchNum: 1 as BasePatchSetNum,
       patchNum: 3 as RevisionPatchSetNum,
     };
-    element._handleDiffBaseAgainstLatest();
+    element.handleDiffBaseAgainstLatest();
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[1]!.patchNum, 10 as RevisionPatchSetNum);
@@ -465,7 +466,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('toggle attention set status', async () => {
-    element._change = {
+    element.change = {
       ...createChangeViewChange(),
       revisions: createRevisions(10),
     };
@@ -476,33 +477,33 @@ suite('gr-change-view tests', () => {
     const removeFromAttentionSetStub = stubRestApi(
       'removeFromAttentionSet'
     ).returns(Promise.resolve(new Response()));
-    element._patchRange = {
+    element.patchRange = {
       basePatchNum: 1 as BasePatchSetNum,
       patchNum: 3 as RevisionPatchSetNum,
     };
 
-    assert.isNotOk(element._change.attention_set);
-    await element._getLoggedIn();
+    assert.isNotOk(element.change.attention_set);
+    await element.getLoggedIn();
     await element.restApiService.getAccount();
-    element._handleToggleAttentionSet();
+    element.handleToggleAttentionSet();
     assert.isTrue(addToAttentionSetStub.called);
     assert.isFalse(removeFromAttentionSetStub.called);
 
-    element._handleToggleAttentionSet();
+    element.handleToggleAttentionSet();
     assert.isTrue(removeFromAttentionSetStub.called);
   });
 
   suite('plugins adding to file tab', () => {
     setup(async () => {
-      element._changeNum = TEST_NUMERIC_CHANGE_ID;
+      element.changeNum = TEST_NUMERIC_CHANGE_ID;
       // Resolving it here instead of during setup() as other tests depend
       // on flush() not being called during setup.
-      await flush();
+      await element.updateComplete;
     });
 
     test('plugin added tab shows up as a dynamic endpoint', () => {
       assert(
-        element._dynamicTabHeaderEndpoints.includes(
+        element.dynamicTabHeaderEndpoints.includes(
           'change-view-tab-header-url'
         )
       );
@@ -513,14 +514,14 @@ suite('gr-change-view tests', () => {
       assert.equal(paperTabs[2].dataset.name, 'change-view-tab-header-url');
     });
 
-    test('_setActivePrimaryTab switched tab correctly', async () => {
-      element._setActivePrimaryTab(
+    test('setActivePrimaryTab switched tab correctly', async () => {
+      element.setActivePrimaryTab(
         new CustomEvent('', {
           detail: {tab: 'change-view-tab-header-url'},
         })
       );
-      await flush();
-      assert.equal(element._activeTabs[0], 'change-view-tab-header-url');
+      await element.updateComplete;
+      assert.equal(element.activeTabs[0], 'change-view-tab-header-url');
     });
 
     test('show-primary-tab switched primary tab correctly', async () => {
@@ -533,41 +534,41 @@ suite('gr-change-view tests', () => {
           },
         })
       );
-      await flush();
-      assert.equal(element._activeTabs[0], 'change-view-tab-header-url');
+      await element.updateComplete;
+      assert.equal(element.activeTabs[0], 'change-view-tab-header-url');
     });
 
     test('param change should switch primary tab correctly', async () => {
-      assert.equal(element._activeTabs[0], PrimaryTab.FILES);
+      assert.equal(element.activeTabs[0], PrimaryTab.FILES);
       // view is required
-      element._changeNum = undefined;
+      element.changeNum = undefined;
       element.params = {
         ...createAppElementChangeViewParams(),
         ...element.params,
         tab: PrimaryTab.FINDINGS,
       };
-      await flush();
-      assert.equal(element._activeTabs[0], PrimaryTab.FINDINGS);
+      await element.updateComplete;
+      assert.equal(element.activeTabs[0], PrimaryTab.FINDINGS);
     });
 
     test('invalid param change should not switch primary tab', async () => {
-      assert.equal(element._activeTabs[0], PrimaryTab.FILES);
+      assert.equal(element.activeTabs[0], PrimaryTab.FILES);
       // view is required
       element.params = {
         ...createAppElementChangeViewParams(),
         ...element.params,
         tab: 'random',
       };
-      await flush();
-      assert.equal(element._activeTabs[0], PrimaryTab.FILES);
+      await element.updateComplete;
+      assert.equal(element.activeTabs[0], PrimaryTab.FILES);
     });
 
     test('switching tab sets _selectedTabPluginEndpoint', async () => {
       const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
       tap(paperTabs.querySelectorAll('paper-tab')[2]);
-      await flush();
+      await element.updateComplete;
       assert.equal(
-        element._selectedTabPluginEndpoint,
+        element.selectedTabPluginEndpoint,
         'change-view-tab-content-url'
       );
     });
@@ -585,19 +586,22 @@ suite('gr-change-view tests', () => {
     });
 
     test('t to add topic', () => {
-      const editStub = sinon.stub(element.$.metadata, 'editTopic');
+      assertIsDefined(element.metadata);
+      const editStub = sinon.stub(element.metadata, 'editTopic');
       pressAndReleaseKeyOn(element, 83, null, 't');
       assert(editStub.called);
     });
 
     test('S should toggle the CL star', () => {
-      const starStub = sinon.stub(element.$.changeStar, 'toggleStar');
+      assertIsDefined(element.changeStar);
+      const starStub = sinon.stub(element.changeStar, 'toggleStar');
       pressAndReleaseKeyOn(element, 83, null, 's');
       assert(starStub.called);
     });
 
     test('toggle star is throttled', () => {
-      const starStub = sinon.stub(element.$.changeStar, 'toggleStar');
+      assertIsDefined(element.changeStar);
+      const starStub = sinon.stub(element.changeStar, 'toggleStar');
       pressAndReleaseKeyOn(element, 83, null, 's');
       assert(starStub.called);
       pressAndReleaseKeyOn(element, 83, null, 's');
@@ -627,49 +631,52 @@ suite('gr-change-view tests', () => {
     });
 
     test('A fires an error event when not logged in', async () => {
-      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(false));
+      sinon.stub(element, 'getLoggedIn').returns(Promise.resolve(false));
       const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       pressAndReleaseKeyOn(element, 65, null, 'a');
-      await flush();
-      assert.isFalse(element.$.replyOverlay.opened);
+      await element.updateComplete;
+      assertIsDefined(element.replyOverlay);
+      assert.isFalse(element.replyOverlay.opened);
       assert.isTrue(loggedInErrorSpy.called);
     });
 
     test('shift A does not open reply overlay', async () => {
-      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+      sinon.stub(element, 'getLoggedIn').returns(Promise.resolve(true));
       pressAndReleaseKeyOn(element, 65, 'shift', 'a');
-      await flush();
-      assert.isFalse(element.$.replyOverlay.opened);
+      await element.updateComplete;
+      assertIsDefined(element.replyOverlay);
+      assert.isFalse(element.replyOverlay.opened);
     });
 
     test('A toggles overlay when logged in', async () => {
-      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-      element._change = {
+      sinon.stub(element, 'getLoggedIn').returns(Promise.resolve(true));
+      element.change = {
         ...createChangeViewChange(),
         revisions: createRevisions(1),
         messages: createChangeMessages(1),
       };
-      element._change.labels = {};
+      element.change.labels = {};
 
-      const openSpy = sinon.spy(element, '_openReplyDialog');
+      const openSpy = sinon.spy(element, 'openReplyDialog');
 
       pressAndReleaseKeyOn(element, 65, null, 'a');
-      await flush();
-      assert.isTrue(element.$.replyOverlay.opened);
-      element.$.replyOverlay.close();
-      assert.isFalse(element.$.replyOverlay.opened);
+      await element.updateComplete;
+      assertIsDefined(element.replyOverlay);
+      assert.isTrue(element.replyOverlay.opened);
+      element.replyOverlay.close();
+      assert.isFalse(element.replyOverlay.opened);
       assert(
         openSpy.lastCall.calledWithExactly(FocusTarget.ANY),
-        '_openReplyDialog should have been passed ANY'
+        'openReplyDialog should have been passed ANY'
       );
       assert.equal(openSpy.callCount, 1);
     });
 
     test('fullscreen-overlay-opened hides content', () => {
-      element._loggedIn = true;
-      element._loading = false;
-      element._change = {
+      element.loggedIn = true;
+      element.loading = false;
+      element.change = {
         ...createChangeViewChange(),
         labels: {},
         actions: {
@@ -681,7 +688,7 @@ suite('gr-change-view tests', () => {
           },
         },
       };
-      const handlerSpy = sinon.spy(element, '_handleHideBackgroundContent');
+      const handlerSpy = sinon.spy(element, 'handleHideBackgroundContent');
       const overlay = queryAndAssert<GrOverlay>(element, '#replyOverlay');
       overlay.dispatchEvent(
         new CustomEvent('fullscreen-overlay-opened', {
@@ -690,14 +697,16 @@ suite('gr-change-view tests', () => {
         })
       );
       assert.isTrue(handlerSpy.called);
-      assert.isTrue(element.$.mainContent.classList.contains('overlayOpen'));
-      assert.equal(getComputedStyle(element.$.actions).display, 'flex');
+      assertIsDefined(element.mainContent);
+      assertIsDefined(element.actions);
+      assert.isTrue(element.mainContent.classList.contains('overlayOpen'));
+      assert.equal(getComputedStyle(element.actions).display, 'flex');
     });
 
     test('fullscreen-overlay-closed shows content', () => {
-      element._loggedIn = true;
-      element._loading = false;
-      element._change = {
+      element.loggedIn = true;
+      element.loading = false;
+      element.change = {
         ...createChangeViewChange(),
         labels: {},
         actions: {
@@ -709,7 +718,7 @@ suite('gr-change-view tests', () => {
           },
         },
       };
-      const handlerSpy = sinon.spy(element, '_handleShowBackgroundContent');
+      const handlerSpy = sinon.spy(element, 'handleShowBackgroundContent');
       const overlay = queryAndAssert<GrOverlay>(element, '#replyOverlay');
       overlay.dispatchEvent(
         new CustomEvent('fullscreen-overlay-closed', {
@@ -718,12 +727,15 @@ suite('gr-change-view tests', () => {
         })
       );
       assert.isTrue(handlerSpy.called);
-      assert.isFalse(element.$.mainContent.classList.contains('overlayOpen'));
+      assertIsDefined(element.mainContent);
+      assert.isFalse(element.mainContent.classList.contains('overlayOpen'));
     });
 
     test('expand all messages when expand-diffs fired', () => {
-      const handleExpand = sinon.stub(element.$.fileList, 'expandAllDiffs');
-      element.$.fileListHeader.dispatchEvent(
+      assertIsDefined(element.fileList);
+      assertIsDefined(element.fileListHeader);
+      const handleExpand = sinon.stub(element.fileList, 'expandAllDiffs');
+      element.fileListHeader.dispatchEvent(
         new CustomEvent('expand-diffs', {
           composed: true,
           bubbles: true,
@@ -733,8 +745,10 @@ suite('gr-change-view tests', () => {
     });
 
     test('collapse all messages when collapse-diffs fired', () => {
-      const handleCollapse = sinon.stub(element.$.fileList, 'collapseAllDiffs');
-      element.$.fileListHeader.dispatchEvent(
+      assertIsDefined(element.fileList);
+      assertIsDefined(element.fileListHeader)
+      const handleCollapse = sinon.stub(element.fileList, 'collapseAllDiffs');
+      element.fileListHeader.dispatchEvent(
         new CustomEvent('collapse-diffs', {
           composed: true,
           bubbles: true,
@@ -744,7 +758,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('X should expand all messages', async () => {
-      await flush();
+      await element.updateComplete;
       const handleExpand = sinon.stub(
         element.messagesList!,
         'handleExpandCollapse'
@@ -754,7 +768,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('Z should collapse all messages', async () => {
-      await flush();
+      await element.updateComplete;
       const handleExpand = sinon.stub(
         element.messagesList!,
         'handleExpandCollapse'
@@ -764,36 +778,38 @@ suite('gr-change-view tests', () => {
     });
 
     test('d should open download overlay', () => {
+      assertIsDefined(element.downloadOverlay);
       const stub = sinon
-        .stub(element.$.downloadOverlay, 'open')
+        .stub(element.downloadOverlay, 'open')
         .returns(Promise.resolve());
       pressAndReleaseKeyOn(element, 68, null, 'd');
       assert.isTrue(stub.called);
     });
 
     test(', should open diff preferences', async () => {
-      await element.$.fileList.updateComplete;
-      assertIsDefined(element.$.fileList.diffPreferencesDialog);
-      const stub = sinon.stub(element.$.fileList.diffPreferencesDialog, 'open');
-      element._loggedIn = false;
+      assertIsDefined(element.fileList);
+      await element.fileList.updateComplete;
+      assertIsDefined(element.fileList.diffPreferencesDialog);
+      const stub = sinon.stub(element.fileList.diffPreferencesDialog, 'open');
+      element.loggedIn = false;
       pressAndReleaseKeyOn(element, 188, null, ',');
       assert.isFalse(stub.called);
 
-      element._loggedIn = true;
+      element.loggedIn = true;
       pressAndReleaseKeyOn(element, 188, null, ',');
       assert.isTrue(stub.called);
     });
 
     test('m should toggle diff mode', async () => {
       const updatePreferencesStub = stubUsers('updatePreferences');
-      await flush();
+      await element.updateComplete;
 
       const prefs = {
         ...createDefaultPreferences(),
         diff_view: DiffViewMode.SIDE_BY_SIDE,
       };
       element.userModel.setPreferences(prefs);
-      element._handleToggleDiffMode();
+      element.handleToggleDiffMode();
       assert.isTrue(
         updatePreferencesStub.calledWith({diff_view: DiffViewMode.UNIFIED})
       );
@@ -803,8 +819,8 @@ suite('gr-change-view tests', () => {
         diff_view: DiffViewMode.UNIFIED,
       };
       element.userModel.setPreferences(newPrefs);
-      await flush();
-      element._handleToggleDiffMode();
+      await element.updateComplete;
+      element.handleToggleDiffMode();
       assert.isTrue(
         updatePreferencesStub.calledWith({diff_view: DiffViewMode.SIDE_BY_SIDE})
       );
@@ -813,12 +829,12 @@ suite('gr-change-view tests', () => {
 
   suite('thread list and change log tabs', () => {
     setup(() => {
-      element._changeNum = TEST_NUMERIC_CHANGE_ID;
-      element._patchRange = {
+      element.changeNum = TEST_NUMERIC_CHANGE_ID;
+      element.patchRange = {
         basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
-      element._change = {
+      element.change = {
         ...createChangeViewChange(),
         revisions: {
           rev2: createRevision(2),
@@ -842,15 +858,15 @@ suite('gr-change-view tests', () => {
       ) as GrRelatedChangesList;
       sinon.stub(relatedChanges, 'reload');
       sinon.stub(element, 'loadData').returns(Promise.resolve());
-      sinon.spy(element, '_paramsChanged');
+      sinon.spy(element, 'paramsChanged');
       element.params = createAppElementChangeViewParams();
     });
   });
 
   suite('Comments tab', () => {
     setup(async () => {
-      element._changeNum = TEST_NUMERIC_CHANGE_ID;
-      element._change = {
+      element.changeNum = TEST_NUMERIC_CHANGE_ID;
+      element.change = {
         ...createChangeViewChange(),
         revisions: {
           rev2: createRevision(2),
@@ -861,11 +877,11 @@ suite('gr-change-view tests', () => {
         },
         current_revision: 'rev4' as CommitId,
       };
-      element._commentThreads = THREADS;
-      await flush();
+      element.commentThreads = THREADS;
+      await element.updateComplete;
       const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
       tap(paperTabs.querySelectorAll('paper-tab')[1]);
-      await flush();
+      await element.updateComplete;
     });
 
     test('commentId overrides unresolveOnly default', async () => {
@@ -878,15 +894,15 @@ suite('gr-change-view tests', () => {
       assert.isTrue(threadList.unresolvedOnly);
 
       element.scrollCommentId = 'abcd' as UrlEncodedCommentId;
-      await flush();
+      await element.updateComplete;
       assert.isFalse(threadList.unresolvedOnly);
     });
   });
 
   suite('Findings robot-comment tab', () => {
     setup(async () => {
-      element._changeNum = TEST_NUMERIC_CHANGE_ID;
-      element._change = {
+      element.changeNum = TEST_NUMERIC_CHANGE_ID;
+      element.change = {
         ...createChangeViewChange(),
         revisions: {
           rev2: createRevision(2),
@@ -897,15 +913,15 @@ suite('gr-change-view tests', () => {
         },
         current_revision: 'rev4' as CommitId,
       };
-      element._commentThreads = THREADS;
-      await flush();
+      element.commentThreads = THREADS;
+      await element.updateComplete;
       const paperTabs = element.shadowRoot!.querySelector('#primaryTabs')!;
       tap(paperTabs.querySelectorAll('paper-tab')[3]);
-      await flush();
+      await element.updateComplete;
     });
 
     test('robot comments count per patchset', () => {
-      const count = element._robotCommentCountPerPatchSet(THREADS);
+      const count = element.robotCommentCountPerPatchSet(THREADS);
       const expectedCount = {
         2: 1,
         3: 1,
@@ -913,15 +929,15 @@ suite('gr-change-view tests', () => {
       };
       assert.deepEqual(count, expectedCount);
       assert.equal(
-        element._computeText(createRevision(2), THREADS),
+        element.computeText(createRevision(2), THREADS),
         'Patchset 2 (1 finding)'
       );
       assert.equal(
-        element._computeText(createRevision(4), THREADS),
+        element.computeText(createRevision(4), THREADS),
         'Patchset 4 (2 findings)'
       );
       assert.equal(
-        element._computeText(createRevision(5), THREADS),
+        element.computeText(createRevision(5), THREADS),
         'Patchset 5'
       );
     });
@@ -941,8 +957,8 @@ suite('gr-change-view tests', () => {
     });
 
     test('changing patchsets resets robot comments', async () => {
-      element.set('_change.current_revision', 'rev3');
-      await flush();
+      element.set('change.current_revision', 'rev3');
+      await element.updateComplete;
       assert.equal(element._robotCommentThreads!.length, 1);
     });
 
@@ -956,8 +972,8 @@ suite('gr-change-view tests', () => {
         for (let i = 0; i <= 30; i++) {
           arr.push(...THREADS);
         }
-        element._commentThreads = arr;
-        await flush();
+        element.commentThreads = arr;
+        await element.updateComplete;
       });
 
       test('Show more button is rendered', () => {
@@ -970,21 +986,23 @@ suite('gr-change-view tests', () => {
 
       test('Clicking show more button renders all comments', async () => {
         tap(element.shadowRoot!.querySelector('.show-robot-comments')!);
-        await flush();
+        await element.updateComplete;
         assert.equal(element._robotCommentThreads!.length, 62);
       });
     });
   });
 
   test('reply button is not visible when logged out', () => {
-    assert.equal(getComputedStyle(element.$.replyBtn).display, 'none');
-    element._loggedIn = true;
-    assert.notEqual(getComputedStyle(element.$.replyBtn).display, 'none');
+    assertIsDefined(element.replyBtn);
+    assert.equal(getComputedStyle(element.replyBtn).display, 'none');
+    element.loggedIn = true;
+    assert.notEqual(getComputedStyle(element.replyBtn).display, 'none');
   });
 
-  test('download tap calls _handleOpenDownloadDialog', () => {
-    const openDialogStub = sinon.stub(element, '_handleOpenDownloadDialog');
-    element.$.actions.dispatchEvent(
+  test('download tap calls handleOpenDownloadDialog', () => {
+    assertIsDefined(element.actions);
+    const openDialogStub = sinon.stub(element, 'handleOpenDownloadDialog');
+    element.actions.dispatchEvent(
       new CustomEvent('download-tap', {
         composed: true,
         bubbles: true,
@@ -994,16 +1012,16 @@ suite('gr-change-view tests', () => {
   });
 
   test('fetches the server config on attached', async () => {
-    await flush();
+    await element.updateComplete;
     assert.equal(
-      element._serverConfig!.user.anonymous_coward_name,
+      element.serverConfig!.user.anonymous_coward_name,
       'test coward name'
     );
   });
 
-  test('_changeStatuses', () => {
-    element._loading = false;
-    element._change = {
+  test('changeStatuses', () => {
+    element.loading = false;
+    element.change = {
       ...createChangeViewChange(),
       revisions: {
         rev2: createRevision(2),
@@ -1023,9 +1041,9 @@ suite('gr-change-view tests', () => {
         },
       },
     };
-    element._mergeable = true;
+    element.mergeable = true;
     const expectedStatuses = [ChangeStates.MERGED, ChangeStates.WIP];
-    assert.deepEqual(element._changeStatuses, expectedStatuses);
+    assert.deepEqual(element.changeStatuses, expectedStatuses);
     flush();
     const statusChips =
       element.shadowRoot!.querySelectorAll('gr-change-status');
@@ -1049,17 +1067,18 @@ suite('gr-change-view tests', () => {
           ...createChange(),
         })
       );
-      element._change = change;
-      element._mergeable = true;
-      element._submitEnabled = true;
-      await flush();
-      element.computeRevertSubmitted(element._change);
-      await flush();
+      element.change = change;
+      element.mergeable = true;
+      element.currentRevisionActions = {submit: {enabled: true}};
+      assert.isTrue(element.submitEnabled);
+      await element.updateComplete;
+      element.computeRevertSubmitted(element.change);
+      await element.updateComplete;
       assert.isFalse(
-        element._changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
+        element.changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
       );
       assert.isFalse(
-        element._changeStatuses?.includes(ChangeStates.REVERT_CREATED)
+        element.changeStatuses?.includes(ChangeStates.REVERT_CREATED)
       );
     });
 
@@ -1087,17 +1106,18 @@ suite('gr-change-view tests', () => {
           status: ChangeStatus.ABANDONED,
         })
       );
-      element._change = change;
-      element._mergeable = true;
-      element._submitEnabled = true;
-      await flush();
-      element.computeRevertSubmitted(element._change);
-      await flush();
+      element.change = change;
+      element.mergeable = true;
+      element.currentRevisionActions = {submit: {enabled: true}};
+      assert.isTrue(element.submitEnabled);
+      await element.updateComplete;
+      element.computeRevertSubmitted(element.change);
+      await element.updateComplete;
       assert.isFalse(
-        element._changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
+        element.changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
       );
       assert.isFalse(
-        element._changeStatuses?.includes(ChangeStates.REVERT_CREATED)
+        element.changeStatuses?.includes(ChangeStates.REVERT_CREATED)
       );
     });
 
@@ -1123,17 +1143,18 @@ suite('gr-change-view tests', () => {
           ...createChange(),
         })
       );
-      element._change = change;
-      element._mergeable = true;
-      element._submitEnabled = true;
-      await flush();
-      element.computeRevertSubmitted(element._change);
-      await flush();
+      element.change = change;
+      element.mergeable = true;
+      element.currentRevisionActions = {submit: {enabled: true}};
+      assert.isTrue(element.submitEnabled);
+      await element.updateComplete;
+      element.computeRevertSubmitted(element.change);
+      await element.updateComplete;
       assert.isFalse(
-        element._changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
+        element.changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
       );
       assert.isTrue(
-        element._changeStatuses?.includes(ChangeStates.REVERT_CREATED)
+        element.changeStatuses?.includes(ChangeStates.REVERT_CREATED)
       );
     });
 
@@ -1156,25 +1177,28 @@ suite('gr-change-view tests', () => {
           ...createChange(),
         })
       );
-      element._change = change;
-      element._mergeable = true;
-      element._submitEnabled = true;
-      await flush();
-      element.computeRevertSubmitted(element._change);
-      await flush();
+      element.change = change;
+      element.mergeable = true;
+      element.currentRevisionActions = {submit: {enabled: true}};
+      assert.isTrue(element.submitEnabled);
+      await element.updateComplete;
+      element.computeRevertSubmitted(element.change);
+      await element.updateComplete;
       assert.isFalse(
-        element._changeStatuses?.includes(ChangeStates.REVERT_CREATED)
+        element.changeStatuses?.includes(ChangeStates.REVERT_CREATED)
       );
       assert.isTrue(
-        element._changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
+        element.changeStatuses?.includes(ChangeStates.REVERT_SUBMITTED)
       );
     });
   });
 
   test('diff preferences open when open-diff-prefs is fired', async () => {
-    await element.$.fileList.updateComplete;
-    const overlayOpenStub = sinon.stub(element.$.fileList, 'openDiffPrefs');
-    element.$.fileListHeader.dispatchEvent(
+    assertIsDefined(element.fileList);
+    assertIsDefined(element.fileListHeader);
+    await element.fileList.updateComplete;
+    const overlayOpenStub = sinon.stub(element.fileList, 'openDiffPrefs');
+    element.fileListHeader.dispatchEvent(
       new CustomEvent('open-diff-prefs', {
         composed: true,
         bubbles: true,
@@ -1183,17 +1207,17 @@ suite('gr-change-view tests', () => {
     assert.isTrue(overlayOpenStub.called);
   });
 
-  test('_prepareCommitMsgForLinkify', () => {
+  test('prepareCommitMsgForLinkify', () => {
     let commitMessage = 'R=test@google.com';
-    let result = element._prepareCommitMsgForLinkify(commitMessage);
+    let result = element.prepareCommitMsgForLinkify(commitMessage);
     assert.equal(result, 'R=\u200Btest@google.com');
 
     commitMessage = 'R=test@google.com\nR=test@google.com';
-    result = element._prepareCommitMsgForLinkify(commitMessage);
+    result = element.prepareCommitMsgForLinkify(commitMessage);
     assert.equal(result, 'R=\u200Btest@google.com\nR=\u200Btest@google.com');
 
     commitMessage = 'CC=test@google.com';
-    result = element._prepareCommitMsgForLinkify(commitMessage);
+    result = element.prepareCommitMsgForLinkify(commitMessage);
     assert.equal(result, 'CC=\u200Btest@google.com');
   });
 
@@ -1210,8 +1234,8 @@ suite('gr-change-view tests', () => {
       name: 'bojack',
       value: 1,
     };
-    element._changeNum = TEST_NUMERIC_CHANGE_ID;
-    element._patchRange = {
+    element.changeNum = TEST_NUMERIC_CHANGE_ID;
+    element.patchRange = {
       basePatchNum: PARENT,
       patchNum: 1 as RevisionPatchSetNum,
     };
@@ -1235,22 +1259,22 @@ suite('gr-change-view tests', () => {
         },
       },
     };
-    element._change = change;
+    element.change = change;
     flush();
     const reloadStub = sinon.stub(element, 'loadData');
-    element.splice('_change.labels.test.all', 0, 1);
+    element.splice('change.labels.test.all', 0, 1);
     assert.isFalse(reloadStub.called);
     change.labels.test.all.push(vote);
     change.labels.test.all.push(vote);
     change.labels.test.approved = vote;
     flush();
-    element.splice('_change.labels.test.all', 0, 2);
+    element.splice('change.labels.test.all', 0, 2);
     assert.isTrue(reloadStub.called);
     assert.isTrue(reloadStub.calledOnce);
   });
 
   test('reply button has updated count when there are drafts', () => {
-    const getLabel = element._computeReplyButtonLabel;
+    const getLabel = element.computeReplyButtonLabel;
 
     assert.equal(getLabel(undefined, false), 'Reply');
     assert.equal(getLabel(undefined, true), 'Reply');
@@ -1266,28 +1290,29 @@ suite('gr-change-view tests', () => {
     assert.equal(getLabel(drafts, true), 'Start Review (3)');
   });
 
-  test('change num change', () => {
+  test('change num change', async () => {
     const change = {
       ...createChangeViewChange(),
       labels: {},
     } as ParsedChangeInfo;
-    element._changeNum = undefined;
-    element._patchRange = {
+    element.changeNum = undefined;
+    element.patchRange = {
       basePatchNum: PARENT,
       patchNum: 2 as RevisionPatchSetNum,
     };
-    element._change = change;
-    assert.equal(element.$.fileList.numFilesShown, DEFAULT_NUM_FILES_SHOWN);
-    element.$.fileList.numFilesShown = 150;
-    flush();
+    element.change = change;
+    assertIsDefined(element.fileList);
+    assert.equal(element.fileList.numFilesShown, DEFAULT_NUM_FILES_SHOWN);
+    element.fileList.numFilesShown = 150;
+    await element.updateComplete;
 
-    element._changeNum = 2 as NumericChangeId;
+    element.changeNum = 2 as NumericChangeId;
     element.params = {
       ...createAppElementChangeViewParams(),
       changeNum: 2 as NumericChangeId,
     };
-    flush();
-    assert.equal(element.$.fileList.numFilesShown, DEFAULT_NUM_FILES_SHOWN);
+    await element.updateComplete;
+    assert.equal(element.fileList.numFilesShown, DEFAULT_NUM_FILES_SHOWN);
   });
 
   test('don’t reload entire page when patchRange changes', async () => {
@@ -1297,21 +1322,21 @@ suite('gr-change-view tests', () => {
     const reloadPatchDependentStub = sinon
       .stub(element, '_reloadPatchNumDependentResources')
       .callsFake(() => Promise.resolve([undefined, undefined, undefined]));
-    flush();
-    await element.$.fileList.updateComplete;
-    const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
+    assertIsDefined(element.fileList);
+    await element.fileList.updateComplete;
+    const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
     const value: AppElementChangeViewParams = {
       ...createAppElementChangeViewParams(),
       view: GerritView.CHANGE,
       patchNum: 1 as RevisionPatchSetNum,
     };
-    element._changeNum = undefined;
+    element.changeNum = undefined;
     element.params = value;
-    await flush();
+    await element.updateComplete;
     assert.isTrue(reloadStub.calledOnce);
 
-    element._initialLoadComplete = true;
-    element._change = {
+    element.initialLoadComplete = true;
+    element.change = {
       ...createChangeViewChange(),
       revisions: {
         rev1: createRevision(1),
@@ -1322,17 +1347,18 @@ suite('gr-change-view tests', () => {
     value.basePatchNum = 1 as BasePatchSetNum;
     value.patchNum = 2 as RevisionPatchSetNum;
     element.params = {...value};
-    await flush();
+    await element.updateComplete;
     assert.isFalse(reloadStub.calledTwice);
     assert.isTrue(reloadPatchDependentStub.calledOnce);
     assert.isTrue(collapseStub.calledTwice);
   });
 
   test('reload ported comments when patchNum changes', async () => {
+    assertIsDefined(element.fileList);
     sinon.stub(element, 'loadData').callsFake(() => Promise.resolve());
     sinon.stub(element, 'loadAndSetCommitInfo');
-    sinon.stub(element.$.fileList, 'reload');
-    await flush();
+    sinon.stub(element.fileList, 'reload');
+    await element.updateComplete;
     const reloadPortedCommentsStub = sinon.stub(
       element.getCommentsModel(),
       'reloadPortedComments'
@@ -1341,7 +1367,7 @@ suite('gr-change-view tests', () => {
       element.getCommentsModel(),
       'reloadPortedDrafts'
     );
-    sinon.stub(element.$.fileList, 'collapseAllDiffs');
+    sinon.stub(element.fileList, 'collapseAllDiffs');
 
     const value: AppElementChangeViewParams = {
       ...createAppElementChangeViewParams(),
@@ -1349,10 +1375,10 @@ suite('gr-change-view tests', () => {
       patchNum: 1 as RevisionPatchSetNum,
     };
     element.params = value;
-    await flush();
+    await element.updateComplete;
 
-    element._initialLoadComplete = true;
-    element._change = {
+    element.initialLoadComplete = true;
+    element.change = {
       ...createChangeViewChange(),
       revisions: {
         rev1: createRevision(1),
@@ -1363,45 +1389,47 @@ suite('gr-change-view tests', () => {
     value.basePatchNum = 1 as BasePatchSetNum;
     value.patchNum = 2 as RevisionPatchSetNum;
     element.params = {...value};
-    await flush();
+    await element.updateComplete;
     assert.isTrue(reloadPortedCommentsStub.calledOnce);
     assert.isTrue(reloadPortedDraftsStub.calledOnce);
   });
 
   test('do not reload entire page when patchRange doesnt change', async () => {
+    assertIsDefined(element.fileList);
     const reloadStub = sinon
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve());
-    const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
+    const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
     const value: AppElementChangeViewParams =
       createAppElementChangeViewParams();
     element.params = value;
     // change already loaded
-    assert.isOk(element._changeNum);
-    await flush();
+    assert.isOk(element.changeNum);
+    await element.updateComplete;
     assert.isFalse(reloadStub.calledOnce);
-    element._initialLoadComplete = true;
+    element.initialLoadComplete = true;
     element.params = {...value};
-    await flush();
+    await element.updateComplete;
     assert.isFalse(reloadStub.calledTwice);
     assert.isFalse(collapseStub.calledTwice);
   });
 
   test('forceReload updates the change', async () => {
+    assertIsDefined(element.fileList);
     const getChangeStub = stubRestApi('getChangeDetail').returns(
       Promise.resolve(createParsedChange())
     );
     const loadDataStub = sinon
       .stub(element, 'loadData')
       .callsFake(() => Promise.resolve());
-    const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
+    const collapseStub = sinon.stub(element.fileList, 'collapseAllDiffs');
     element.params = {...createAppElementChangeViewParams(), forceReload: true};
-    await flush();
+    await element.updateComplete;
     assert.isTrue(getChangeStub.called);
     assert.isTrue(loadDataStub.called);
     assert.isTrue(collapseStub.called);
-    // patchNum is set by changeChanged, so this verifies that _change was set.
-    assert.isOk(element._patchRange?.patchNum);
+    // patchNum is set by changeChanged, so this verifies that change was set.
+    assert.isOk(element.patchRange?.patchNum);
   });
 
   test('do not handle new change numbers', async () => {
@@ -1411,17 +1439,17 @@ suite('gr-change-view tests', () => {
     const value: AppElementChangeViewParams =
       createAppElementChangeViewParams();
     element.params = value;
-    await flush();
+    await element.updateComplete;
     assert.isFalse(recreateSpy.calledOnce);
 
     value.changeNum = 555111333 as NumericChangeId;
     element.params = {...value};
-    await flush();
+    await element.updateComplete;
     assert.isTrue(recreateSpy.calledOnce);
   });
 
   test('related changes are updated when loadData is called', async () => {
-    await flush();
+    await element.updateComplete;
     const relatedChanges = element.shadowRoot!.querySelector(
       '#relatedChanges'
     ) as GrRelatedChangesList;
@@ -1443,8 +1471,8 @@ suite('gr-change-view tests', () => {
     assert.isTrue(reloadStub.called);
   });
 
-  test('_computeCopyTextForTitle', () => {
-    const change: ChangeInfo = {
+  test('computeCopyTextForTitle', () => {
+    element.change = {
       ...createChangeViewChange(),
       _number: 123 as NumericChangeId,
       subject: 'test subject',
@@ -1456,7 +1484,7 @@ suite('gr-change-view tests', () => {
     };
     sinon.stub(GerritNav, 'getUrlForChange').returns('/change/123');
     assert.equal(
-      element._computeCopyTextForTitle(change),
+      element.computeCopyTextForTitle(),
       `123: test subject | http://${location.host}/change/123`
     );
   });
@@ -1487,38 +1515,39 @@ suite('gr-change-view tests', () => {
       ...createChangeViewChange(),
       status: ChangeStatus.MERGED,
     };
-    assert.isTrue(element._computeHideEditCommitMessage(false, false, change));
-    assert.isTrue(element._computeHideEditCommitMessage(true, true, change));
-    assert.isTrue(element._computeHideEditCommitMessage(false, true, change));
-    assert.isFalse(element._computeHideEditCommitMessage(true, false, change));
+    assert.isTrue(element.computeHideEditCommitMessage(false, false, change));
+    assert.isTrue(element.computeHideEditCommitMessage(true, true, change));
+    assert.isTrue(element.computeHideEditCommitMessage(false, true, change));
+    assert.isFalse(element.computeHideEditCommitMessage(true, false, change));
     assert.isTrue(
-      element._computeHideEditCommitMessage(true, false, mergedChanged)
+      element.computeHideEditCommitMessage(true, false, mergedChanged)
     );
     assert.isTrue(
-      element._computeHideEditCommitMessage(true, false, change, true)
+      element.computeHideEditCommitMessage(true, false, change, true)
     );
     assert.isFalse(
-      element._computeHideEditCommitMessage(true, false, change, false)
+      element.computeHideEditCommitMessage(true, false, change, false)
     );
   });
 
-  test('_handleCommitMessageSave trims trailing whitespace', async () => {
-    element._change = createChangeViewChange();
+  test('handleCommitMessageSave trims trailing whitespace', async () => {
+    element.change = createChangeViewChange();
     // Response code is 500, because we want to avoid window reloading
     const putStub = stubRestApi('putChangeCommitMessage').returns(
       Promise.resolve(new Response(null, {status: 500}))
     );
-
+    await element.updateComplete;
     const mockEvent = (content: string) =>
       new CustomEvent('', {detail: {content}});
 
-    element._handleCommitMessageSave(mockEvent('test \n  test '));
+    assertIsDefined(element.commitMessageEditor);
+    element.handleCommitMessageSave(mockEvent('test \n  test '));
     assert.equal(putStub.lastCall.args[1], 'test\n  test');
-    element.$.commitMessageEditor.disabled = false;
-    element._handleCommitMessageSave(mockEvent('  test\ntest'));
+    element.commitMessageEditor.disabled = false;
+    element.handleCommitMessageSave(mockEvent('  test\ntest'));
     assert.equal(putStub.lastCall.args[1], '  test\ntest');
-    element.$.commitMessageEditor.disabled = false;
-    element._handleCommitMessageSave(mockEvent('\n\n\n\n\n\n\n\n'));
+    element.commitMessageEditor.disabled = false;
+    element.handleCommitMessageSave(mockEvent('\n\n\n\n\n\n\n\n'));
     assert.equal(putStub.lastCall.args[1], '\n\n\n\n\n\n\n\n');
   });
 
@@ -1535,11 +1564,10 @@ suite('gr-change-view tests', () => {
     });
 
     await element.performPostChangeLoadTasks();
-    assert.isNull(element._change!.topic);
+    assert.isNull(element.change!.topic);
   });
 
   test('commit sha is populated from getChangeDetail', async () => {
-    sinon.stub(element, '_changeChanged');
     element.getChangeModel().setState({
       loadingStatus: LoadingStatus.LOADED,
       change: {
@@ -1551,22 +1579,22 @@ suite('gr-change-view tests', () => {
     });
 
     await element.performPostChangeLoadTasks();
-    assert.equal('foo', element._commitInfo!.commit);
+    assert.equal('foo', element.commitInfo!.commit);
   });
 
-  test('_getBasePatchNum', () => {
-    const _change: ChangeInfo = {
+  test('getBasePatchNum', () => {
+    const change: ChangeInfo = {
       ...createChangeViewChange(),
       revisions: {
         '98da160735fb81604b4c40e93c368f380539dd0e': createRevision(),
       },
     };
-    const _patchRange: ChangeViewPatchRange = {
+    const patchRange: ChangeViewPatchRange = {
       basePatchNum: PARENT,
     };
-    assert.equal(element._getBasePatchNum(_change, _patchRange), PARENT);
+    assert.equal(element.getBasePatchNum(change, patchRange), PARENT);
 
-    element._prefs = {
+    element.prefs = {
       ...createPreferences(),
       default_base_for_merges: DefaultBase.FIRST_PARENT,
     };
@@ -1592,29 +1620,30 @@ suite('gr-change-view tests', () => {
         },
       },
     };
-    assert.equal(element._getBasePatchNum(_change2, _patchRange), -1);
+    assert.equal(element._getBasePatchNum(_change2, patchRange), -1);
 
-    _patchRange.patchNum = 1 as RevisionPatchSetNum;
-    assert.equal(element._getBasePatchNum(_change2, _patchRange), PARENT);
+    patchRange.patchNum = 1 as RevisionPatchSetNum;
+    assert.equal(element._getBasePatchNum(_change2, patchRange), PARENT);
   });
 
-  test('_openReplyDialog called with `ANY` when coming from tap event', async () => {
-    await flush();
-    const openStub = sinon.stub(element, '_openReplyDialog');
-    tap(element.$.replyBtn);
+  test('openReplyDialog called with `ANY` when coming from tap event', async () => {
+    await element.updateComplete;
+    assertIsDefined(element.replyBtn);
+    const openStub = sinon.stub(element, 'openReplyDialog');
+    tap(element.replyBtn);
     assert(
       openStub.lastCall.calledWithExactly(FocusTarget.ANY),
-      '_openReplyDialog should have been passed ANY'
+      'openReplyDialog should have been passed ANY'
     );
     assert.equal(openStub.callCount, 1);
   });
 
   test(
-    '_openReplyDialog called with `BODY` when coming from message reply' +
+    'openReplyDialog called with `BODY` when coming from message reply' +
       'event',
     async () => {
-      await flush();
-      const openStub = sinon.stub(element, '_openReplyDialog');
+      await element.updateComplete;
+      const openStub = sinon.stub(element, 'openReplyDialog');
       element.messagesList!.dispatchEvent(
         new CustomEvent('reply', {
           detail: {message: {message: 'text'}},
@@ -1628,23 +1657,23 @@ suite('gr-change-view tests', () => {
   );
 
   test('reply dialog focus can be controlled', () => {
-    const openStub = sinon.stub(element, '_openReplyDialog');
+    const openStub = sinon.stub(element, 'openReplyDialog');
 
     const e = new CustomEvent('show-reply-dialog', {
       detail: {value: {ccsOnly: false}},
     });
-    element._handleShowReplyDialog(e);
+    element.handleShowReplyDialog(e);
     assert(
       openStub.lastCall.calledWithExactly(FocusTarget.REVIEWERS),
-      '_openReplyDialog should have been passed REVIEWERS'
+      'openReplyDialog should have been passed REVIEWERS'
     );
     assert.equal(openStub.callCount, 1);
 
     e.detail.value = {ccsOnly: true};
-    element._handleShowReplyDialog(e);
+    element.handleShowReplyDialog(e);
     assert(
       openStub.lastCall.calledWithExactly(FocusTarget.CCS),
-      '_openReplyDialog should have been passed CCS'
+      'openReplyDialog should have been passed CCS'
     );
     assert.equal(openStub.callCount, 2);
   });
@@ -1669,11 +1698,11 @@ suite('gr-change-view tests', () => {
       .stub(getPluginLoader(), 'awaitPluginsLoaded')
       .callsFake(() => Promise.resolve());
 
-    element._patchRange = {
+    element.patchRange = {
       basePatchNum: PARENT,
       patchNum: 2 as RevisionPatchSetNum,
     };
-    element._change = {
+    element.change = {
       ...createChangeViewChange(),
       revisions: {
         rev1: createRevision(1),
@@ -1691,19 +1720,19 @@ suite('gr-change-view tests', () => {
     });
 
     const promise = mockPromise();
-
+    assertIsDefined(element.actions);
     sinon
-      .stub(element.$.actions, 'showRevertDialog')
+      .stub(element.actions, 'showRevertDialog')
       .callsFake(() => promise.resolve());
 
-    element._maybeShowRevertDialog();
+    element.maybeShowRevertDialog();
     assert.isTrue(awaitPluginsLoadedStub.called);
     await promise;
   });
 
   suite('reply dialog tests', () => {
     setup(() => {
-      element._change = {
+      element.change = {
         ...createChangeViewChange(),
         // element has latest info
         revisions: {rev1: createRevision()},
@@ -1714,7 +1743,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('show reply dialog on open-reply-dialog event', async () => {
-      const openReplyDialogStub = sinon.stub(element, '_openReplyDialog');
+      const openReplyDialogStub = sinon.stub(element, 'openReplyDialog');
       element.dispatchEvent(
         new CustomEvent('open-reply-dialog', {
           composed: true,
@@ -1722,7 +1751,7 @@ suite('gr-change-view tests', () => {
           detail: {},
         })
       );
-      await flush();
+      await element.updateComplete;
       assert.isTrue(openReplyDialogStub.calledOnce);
     });
 
@@ -1730,39 +1759,40 @@ suite('gr-change-view tests', () => {
       const e = new CustomEvent('', {
         detail: {message: {message: 'quote text'}},
       });
-      element._handleMessageReply(e);
+      element.handleMessageReply(e);
       const dialog = await waitQueryAndAssert<GrReplyDialog>(
         element,
         '#replyDialog'
       );
       const openSpy = sinon.spy(dialog, 'open');
-      await flush();
+      await element.updateComplete;
       await waitUntil(() => openSpy.called && !!openSpy.lastCall.args[1]);
       assert.equal(openSpy.lastCall.args[1], '> quote text\n\n');
     });
   });
 
   test('reply button is disabled until server config is loaded', async () => {
-    assert.isTrue(element._replyDisabled);
+    assert.isTrue(element.replyDisabled);
     // fetches the server config on attached
-    await flush();
-    assert.isFalse(element._replyDisabled);
+    await element.updateComplete;
+    assert.isFalse(element.replyDisabled);
   });
 
   test('header class computation', () => {
-    assert.equal(element._computeHeaderClass(), 'header');
-    assert.equal(element._computeHeaderClass(true), 'header editMode');
+    assert.equal(element.computeHeaderClass(), 'header');
+    element.params.edit = true;
+    assert.equal(element.computeHeaderClass(), 'header editMode');
   });
 
-  test('_maybeScrollToMessage', async () => {
-    await flush();
+  test('maybeScrollToMessage', async () => {
+    await element.updateComplete;
     const scrollStub = sinon.stub(element.messagesList!, 'scrollToMessage');
 
-    element._maybeScrollToMessage('');
+    element.maybeScrollToMessage('');
     assert.isFalse(scrollStub.called);
-    element._maybeScrollToMessage('message');
+    element.maybeScrollToMessage('message');
     assert.isFalse(scrollStub.called);
-    element._maybeScrollToMessage('#message-TEST');
+    element.maybeScrollToMessage('#message-TEST');
     assert.isTrue(scrollStub.called);
     assert.equal(scrollStub.lastCall.args[0], 'TEST');
   });
@@ -1806,8 +1836,8 @@ suite('gr-change-view tests', () => {
     );
   });
 
-  test('_processEdit', () => {
-    element._patchRange = {};
+  test('processEdit', () => {
+    element.patchRange = {};
     const change: ParsedChangeInfo = {
       ...createChangeViewChange(),
       current_revision: 'foo' as CommitId,
@@ -1817,8 +1847,8 @@ suite('gr-change-view tests', () => {
     };
 
     // With no edit, nothing happens.
-    element._processEdit(change);
-    assert.equal(element._patchRange.patchNum, undefined);
+    element.processEdit(change);
+    assert.equal(element.patchRange.patchNum, undefined);
 
     change.revisions['bar'] = {
       _number: EDIT,
@@ -1831,31 +1861,33 @@ suite('gr-change-view tests', () => {
     };
 
     // When edit is set, but not patchNum, then switch to edit ps.
-    element._processEdit(change);
-    assert.equal(element._patchRange.patchNum, EDIT);
+    element.processEdit(change);
+    assert.equal(element.patchRange.patchNum, EDIT);
 
     // When edit is set, but patchNum as well, then keep patchNum.
-    element._patchRange.patchNum = 5 as RevisionPatchSetNum;
+    element.patchRange.patchNum = 5 as RevisionPatchSetNum;
     element.routerPatchNum = 5 as RevisionPatchSetNum;
-    element._processEdit(change);
-    assert.equal(element._patchRange.patchNum, 5 as RevisionPatchSetNum);
+    element.processEdit(change);
+    assert.equal(element.patchRange.patchNum, 5 as RevisionPatchSetNum);
   });
 
   test('file-action-tap handling', async () => {
-    element._patchRange = {
+    element.patchRange = {
       basePatchNum: PARENT,
       patchNum: 1 as RevisionPatchSetNum,
     };
-    element._change = {
+    element.change = {
       ...createChangeViewChange(),
     };
-    const fileList = element.$.fileList;
+    assertIsDefined(element.fileList);
+    assertIsDefined(element.fileListHeader);
+    const fileList = element.fileList;
     const Actions = GrEditConstants.Actions;
-    element.$.fileListHeader.editMode = true;
-    await element.$.fileListHeader.updateComplete;
-    flush();
+    element.fileListHeader.editMode = true;
+    await element.fileListHeader.updateComplete;
+    await element.updateComplete;
     const controls = queryAndAssert<GrEditControls>(
-      element.$.fileListHeader,
+      element.fileListHeader,
       '#editControls'
     );
     const openDeleteDialogStub = sinon.stub(controls, 'openDeleteDialog');
@@ -1875,7 +1907,7 @@ suite('gr-change-view tests', () => {
         composed: true,
       })
     );
-    flush();
+    await element.updateComplete;
 
     assert.isTrue(openDeleteDialogStub.called);
     assert.equal(openDeleteDialogStub.lastCall.args[0], 'foo');
@@ -1888,7 +1920,7 @@ suite('gr-change-view tests', () => {
         composed: true,
       })
     );
-    flush();
+    await element.updateComplete;
 
     assert.isTrue(openRestoreDialogStub.called);
     assert.equal(openRestoreDialogStub.lastCall.args[0], 'foo');
@@ -1901,7 +1933,7 @@ suite('gr-change-view tests', () => {
         composed: true,
       })
     );
-    flush();
+    await element.updateComplete;
 
     assert.isTrue(openRenameDialogStub.called);
     assert.equal(openRenameDialogStub.lastCall.args[0], 'foo');
@@ -1914,7 +1946,7 @@ suite('gr-change-view tests', () => {
         composed: true,
       })
     );
-    flush();
+    await element.updateComplete;
 
     assert.isTrue(getEditUrlForDiffStub.called);
     assert.equal(getEditUrlForDiffStub.lastCall.args[1], 'foo');
@@ -1925,7 +1957,7 @@ suite('gr-change-view tests', () => {
     assert.isTrue(navigateToRelativeUrlStub.called);
   });
 
-  test('_selectedRevision updates when patchNum is changed', () => {
+  test('selectedRevision updates when patchNum is changed', () => {
     const revision1: RevisionInfo = createRevision(1);
     const revision2: RevisionInfo = createRevision(2);
     element.getChangeModel().setState({
@@ -1943,18 +1975,18 @@ suite('gr-change-view tests', () => {
     });
 
     sinon
-      .stub(element, '_getPreferences')
+      .stub(element, 'getPreferences')
       .returns(Promise.resolve(createPreferences()));
-    element._patchRange = {patchNum: 2 as RevisionPatchSetNum};
+    element.patchRange = {patchNum: 2 as RevisionPatchSetNum};
     return element.performPostChangeLoadTasks().then(() => {
-      assert.strictEqual(element._selectedRevision, revision2);
+      assert.strictEqual(element.selectedRevision, revision2);
 
-      element.set('_patchRange.patchNum', '1');
-      assert.strictEqual(element._selectedRevision, revision1);
+      element.set('patchRange.patchNum', '1');
+      assert.strictEqual(element.selectedRevision, revision1);
     });
   });
 
-  test('_selectedRevision is assigned when patchNum is edit', async () => {
+  test('selectedRevision is assigned when patchNum is edit', async () => {
     const revision1 = createRevision(1);
     const revision2 = createRevision(2);
     const revision3 = createEditRevision();
@@ -1973,20 +2005,20 @@ suite('gr-change-view tests', () => {
       },
     });
     sinon
-      .stub(element, '_getPreferences')
+      .stub(element, 'getPreferences')
       .returns(Promise.resolve(createPreferences()));
-    element._patchRange = {patchNum: EDIT};
+    element.patchRange = {patchNum: EDIT};
     await element.performPostChangeLoadTasks();
-    assert.strictEqual(element._selectedRevision, revision3);
+    assert.strictEqual(element.selectedRevision, revision3);
   });
 
-  test('_sendShowChangeEvent', () => {
+  test('sendShowChangeEvent', () => {
     const change = {...createChangeViewChange(), labels: {}};
-    element._change = {...change};
-    element._patchRange = {patchNum: 4 as RevisionPatchSetNum};
-    element._mergeable = true;
+    element.change = {...change};
+    element.patchRange = {patchNum: 4 as RevisionPatchSetNum};
+    element.mergeable = true;
     const showStub = sinon.stub(element.jsAPI, 'handleEvent');
-    element._sendShowChangeEvent();
+    element.sendShowChangeEvent();
     assert.isTrue(showStub.calledOnce);
     assert.equal(showStub.lastCall.args[0], EventType.SHOW_CHANGE);
     assert.deepEqual(showStub.lastCall.args[1], {
@@ -1997,11 +2029,11 @@ suite('gr-change-view tests', () => {
   });
 
   test('patch range changed', () => {
-    element._patchRange = undefined;
-    element._change = createChangeViewChange();
-    element._change.revisions = createRevisions(4);
-    element._change.current_revision = '1' as CommitId;
-    element._change = {...element._change};
+    element.patchRange = undefined;
+    element.change = createChangeViewChange();
+    element.change.revisions = createRevisions(4);
+    element.change.current_revision = '1' as CommitId;
+    element.change = {...element.change};
 
     const params = createAppElementChangeViewParams();
 
@@ -2012,7 +2044,7 @@ suite('gr-change-view tests', () => {
     // undefined means navigate to latest patchset
     params.patchNum = undefined;
 
-    element._patchRange = {
+    element.patchRange = {
       patchNum: 2 as RevisionPatchSetNum,
       basePatchNum: PARENT,
     };
@@ -2020,7 +2052,7 @@ suite('gr-change-view tests', () => {
     assert.isTrue(element.hasPatchRangeChanged(params));
     assert.isTrue(element.hasPatchNumChanged(params));
 
-    element._patchRange = {
+    element.patchRange = {
       patchNum: 4 as RevisionPatchSetNum,
       basePatchNum: PARENT,
     };
@@ -2029,16 +2061,17 @@ suite('gr-change-view tests', () => {
     assert.isFalse(element.hasPatchNumChanged(params));
   });
 
-  suite('_handleEditTap', () => {
+  suite('handleEditTap', () => {
     let fireEdit: () => void;
 
     setup(() => {
       fireEdit = () => {
-        element.$.actions.dispatchEvent(new CustomEvent('edit-tap'));
+        assertIsDefined(element.actions);
+        element.actions.dispatchEvent(new CustomEvent('edit-tap'));
       };
       navigateToChangeStub.restore();
 
-      element._change = {
+      element.change = {
         ...createChangeViewChange(),
         revisions: {rev1: createRevision()},
       };
@@ -2052,10 +2085,10 @@ suite('gr-change-view tests', () => {
         promise.resolve();
       });
 
-      element.set('_change.revisions.rev2', {
-        _number: EDIT,
-      });
-      await flush();
+      assertIsDefined(element.change);
+      element.change.revisions.rev2._number = EDIT;
+      element.requestUpdate('change');
+      await element.updateComplete;
 
       fireEdit();
       await promise;
@@ -2070,9 +2103,11 @@ suite('gr-change-view tests', () => {
         promise.resolve();
       });
 
-      element.set('_change.revisions.rev2', {_number: 2});
-      element._patchRange = {patchNum: 1 as RevisionPatchSetNum};
-      await flush();
+      assertIsDefined(element.change);
+      element.change.revisions.rev2._number = 2 as RevisionPatchSetNum;
+      element.requestUpdate('change');
+      element.patchRange = {patchNum: 1 as RevisionPatchSetNum};
+      await element.updateComplete;
 
       fireEdit();
       await promise;
@@ -2088,20 +2123,23 @@ suite('gr-change-view tests', () => {
         promise.resolve();
       });
 
-      element.set('_change.revisions.rev2', {_number: 2});
-      element._patchRange = {patchNum: 2 as RevisionPatchSetNum};
-      await flush();
+      element.set('change.revisions.rev2', {_number: 2});
+      element.patchRange = {patchNum: 2 as RevisionPatchSetNum};
+      await element.updateComplete;
 
       fireEdit();
       await promise;
     });
   });
 
-  test('_handleStopEditTap', async () => {
-    element._change = {
+  test('handleStopEditTap', async () => {
+    element.change = {
       ...createChangeViewChange(),
     };
-    sinon.stub(element.$.metadata, 'computeLabelNames');
+    await element.updateComplete;
+    assertIsDefined(element.metadata);
+    assertIsDefined(element.actions);
+    sinon.stub(element.metadata, 'computeLabelNames');
     navigateToChangeStub.restore();
     const promise = mockPromise();
     sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
@@ -2110,8 +2148,8 @@ suite('gr-change-view tests', () => {
       promise.resolve();
     });
 
-    element._patchRange = {patchNum: 1 as RevisionPatchSetNum};
-    element.$.actions.dispatchEvent(
+    element.patchRange = {patchNum: 1 as RevisionPatchSetNum};
+    element.actions.dispatchEvent(
       new CustomEvent('stop-edit-tap', {bubbles: false})
     );
     await promise;
@@ -2119,71 +2157,71 @@ suite('gr-change-view tests', () => {
 
   suite('plugin endpoints', () => {
     test('endpoint params', async () => {
-      element._change = {...createChangeViewChange(), labels: {}};
-      element._selectedRevision = createRevision();
+      element.change = {...createChangeViewChange(), labels: {}};
+      element.selectedRevision = createRevision();
       const promise = mockPromise();
       window.Gerrit.install(
         promise.resolve,
         '0.1',
         'http://some/plugins/url.js'
       );
-      await flush();
+      await element.updateComplete;
       const plugin: PluginApi = (await promise) as PluginApi;
       const hookEl = await plugin
         .hook('change-view-integration')
         .getLastAttached();
       assert.strictEqual((hookEl as any).plugin, plugin);
-      assert.strictEqual((hookEl as any).change, element._change);
-      assert.strictEqual((hookEl as any).revision, element._selectedRevision);
+      assert.strictEqual((hookEl as any).change, element.change);
+      assert.strictEqual((hookEl as any).revision, element.selectedRevision);
     });
   });
 
   suite('_getMergeability', () => {
     let getMergeableStub: SinonStubbedMember<RestApiService['getMergeable']>;
     setup(() => {
-      element._change = {...createChangeViewChange(), labels: {}};
+      element.change = {...createChangeViewChange(), labels: {}};
       getMergeableStub = stubRestApi('getMergeable').returns(
         Promise.resolve({...createMergeable(), mergeable: true})
       );
     });
 
     test('merged change', () => {
-      element._mergeable = null;
-      element._change!.status = ChangeStatus.MERGED;
+      element.mergeable = null;
+      element.change!.status = ChangeStatus.MERGED;
       return element._getMergeability().then(() => {
-        assert.isFalse(element._mergeable);
+        assert.isFalse(element.mergeable);
         assert.isFalse(getMergeableStub.called);
       });
     });
 
     test('abandoned change', () => {
-      element._mergeable = null;
-      element._change!.status = ChangeStatus.ABANDONED;
+      element.mergeable = null;
+      element.change!.status = ChangeStatus.ABANDONED;
       return element._getMergeability().then(() => {
-        assert.isFalse(element._mergeable);
+        assert.isFalse(element.mergeable);
         assert.isFalse(getMergeableStub.called);
       });
     });
 
     test('open change', () => {
-      element._mergeable = null;
+      element.mergeable = null;
       return element._getMergeability().then(() => {
-        assert.isTrue(element._mergeable);
+        assert.isTrue(element.mergeable);
         assert.isTrue(getMergeableStub.called);
       });
     });
   });
 
-  test('_handleToggleStar called when star is tapped', async () => {
-    element._change = {
+  test('handleToggleStar called when star is tapped', async () => {
+    element.change = {
       ...createChangeViewChange(),
       owner: {_account_id: 1 as AccountId},
       starred: false,
     };
-    element._loggedIn = true;
-    await flush();
+    element.loggedIn = true;
+    await element.updateComplete;
 
-    const stub = sinon.stub(element, '_handleToggleStar');
+    const stub = sinon.stub(element, 'handleToggleStar');
 
     const changeStar = queryAndAssert<GrChangeStar>(element, '#changeStar');
     tap(queryAndAssert<HTMLButtonElement>(changeStar, 'button')!);
@@ -2192,14 +2230,14 @@ suite('gr-change-view tests', () => {
 
   suite('gr-reporting tests', () => {
     setup(() => {
-      element._patchRange = {
+      element.patchRange = {
         basePatchNum: PARENT,
         patchNum: 1 as RevisionPatchSetNum,
       };
       sinon
         .stub(element, 'performPostChangeLoadTasks')
         .returns(Promise.resolve(false));
-      sinon.stub(element, '_getProjectConfig').returns(Promise.resolve());
+      sinon.stub(element, 'getProjectConfig').returns(Promise.resolve());
       sinon.stub(element, '_getMergeability').returns(Promise.resolve());
       sinon.stub(element, '_getLatestCommitMessage').returns(Promise.resolve());
       sinon
@@ -2216,13 +2254,13 @@ suite('gr-change-view tests', () => {
         element.reporting,
         'changeFullyLoaded'
       );
-      element._handleReplySent();
-      await flush();
+      element.handleReplySent();
+      await element.updateComplete;
       assert.isFalse(changeDisplayStub.called);
       assert.isFalse(changeFullyLoadedStub.called);
     });
 
-    test('report changeDisplayed on _paramsChanged', async () => {
+    test('report changeDisplayed on paramsChanged', async () => {
       const changeDisplayStub = sinon.stub(
         element.reporting,
         'changeDisplayed'
@@ -2232,7 +2270,7 @@ suite('gr-change-view tests', () => {
         'changeFullyLoaded'
       );
       // reset so reload is triggered
-      element._changeNum = undefined;
+      element.changeNum = undefined;
       element.params = {
         ...createAppElementChangeViewParams(),
         changeNum: TEST_NUMERIC_CHANGE_ID,
@@ -2247,7 +2285,7 @@ suite('gr-change-view tests', () => {
           revisions: {foo: createRevision()},
         },
       });
-      await flush();
+      await element.updateComplete;
       assert.isTrue(changeDisplayStub.called);
       assert.isTrue(changeFullyLoadedStub.called);
     });

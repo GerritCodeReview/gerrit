@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0857e618_e32346d6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-13T13:40:52Z",
+      "side": 1,
+      "message": "Obsolete now that the update work is happening in bulk actions model.",
+      "parentUuid": "11f083c3_8b6efa9f",
+      "revId": "5b9434d2008a1a9f784d1e0c5acb50ef7644b092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2840aa0f_61b61948",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-06-13T05:53:44Z",
       "side": 1,
       "message": "Could you explain more?",
+      "revId": "5b9434d2008a1a9f784d1e0c5acb50ef7644b092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64ecf292_f6f23c87",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-13T13:40:52Z",
+      "side": 1,
+      "message": "Obsolete now that the update work is happening in bulk actions model.",
+      "parentUuid": "2840aa0f_61b61948",
       "revId": "5b9434d2008a1a9f784d1e0c5acb50ef7644b092",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

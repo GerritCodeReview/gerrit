@@ -94,6 +94,30 @@
       },
       "revId": "1fe26ea75514ca19acc584a61965114ed5b570c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1052a95a_784ba728",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-13T13:40:52Z",
+      "side": 1,
+      "message": "I Moved it to BulkActionsModel. I think this will handle updates better and the View mismatch is unfortunate but not an issue currently.",
+      "parentUuid": "e89582b4_e92d35f3",
+      "range": {
+        "startLine": 37,
+        "startChar": 19,
+        "endLine": 37,
+        "endChar": 43
+      },
+      "revId": "1fe26ea75514ca19acc584a61965114ed5b570c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

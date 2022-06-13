@@ -114,6 +114,8 @@ import {GrDropdown} from '../../shared/gr-dropdown/gr-dropdown';
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
 const ERR_REVISION_ACTIONS = 'Couldn’t load revision actions.';
+const CHERRYPICK_IN_PROGRESS = 'Cherry-pick in progress...';
+const CHERRYPICK_COMPLETED = 'Cherry-pick completed';
 
 enum LabelStatus {
   /**
@@ -1424,6 +1426,7 @@ export class GrChangeActions
     }
     this.$.overlay.close();
     el.hidden = true;
+    fireAlert(this, CHERRYPICK_IN_PROGRESS);
     this._fireAction(
       '/cherrypick',
       assertUIActionInfo(this.revisionActions.cherrypick),
@@ -1640,6 +1643,7 @@ export class GrChangeActions
           const cherrypickChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
           this._waitForChangeReachable(cherrypickChangeInfo._number).then(
             () => {
+              fireAlert(this, CHERRYPICK_COMPLETED);
               GerritNav.navigateToChange(cherrypickChangeInfo);
             }
           );

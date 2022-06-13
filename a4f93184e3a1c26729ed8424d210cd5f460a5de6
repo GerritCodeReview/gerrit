@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ba48919_89fc9bed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-13T10:20:18Z",
+      "side": 1,
+      "message": "Right, I wrongly used the term \"footer\" and should\u0027ve used a \"tag\". I adapted the commit message and the submit requirement.",
+      "parentUuid": "0e10be7c_10121041",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "276e63b4_e74fbbcf",
@@ -123,6 +147,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70d81aee_b57e0315",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-13T10:20:18Z",
+      "side": 1,
+      "message": "Thanks for the addendum. Done.",
+      "parentUuid": "2f97805f_da660569",
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ef40686_c5cce3b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-13T10:20:18Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "09d75754_759d6235",
+      "range": {
+        "startLine": 21,
+        "startChar": 48,
+        "endLine": 21,
+        "endChar": 71
+      },
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea14e155_db471dae",
@@ -136,6 +202,24 @@
       "writtenOn": "2022-06-13T08:54:45Z",
       "side": 1,
       "message": "Can you please help me understand why \u0027\\\"\u0027 works, but \u0027\\.\u0027 requires to be \u0027\\\\\\\\.\u0027? \n\nUnrelated to this change. Do we need to document escaping needs somewhere at [1]? E.g. I would have probably tried this with no escaping at all (except what is required for the regexp):\n\n  applicableIf \u003d -branch:refs/meta/config AND (file:\"^java/com/google/gerrit/server/notedb/.*\\.java$\" OR file:\"^java/com/google/gerrit/entities/.*\\.java$\")\n  \nWhy wouldn\u0027t this work?\n\n[optional] Maybe use \u0027[.]\u0027 instead of escaping \u0027.\u0027 to make this more readable?\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-submit-requirements.html",
+      "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "664546c4_58224601",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-13T10:20:18Z",
+      "side": 1,
+      "message": "\u003e [optional] Maybe use \u0027[.]\u0027 instead of escaping \u0027.\u0027 to make this more readable?\n\nNice idea. That should work. Done.\n\n\u003e Can you please help me understand why \u0027\\\"\u0027 works, but \u0027\\.\u0027 requires to be \u0027\\\\\\\\.\u0027? \n\nWell I think the escaping is needed as there are different levels of parsing:\n  - project.config is parsed into a submit requirement entity\n  - SR expression is then parsed by ANTLR\n  - In addition to that, we need to preserve backslashes for the characters we want to escape for the regex evaluator (e.g. the dot).\n\nI think ANTLR requires the expression to be enclosed in double quotes, hence we need to escape DQ such that project.config parsing preserves them for Antlr.\n\nI previously deduced the number of required backslashes by trial and error. I\u0027ll try removing the backslash before \" and see if it works.\n\nUpdate: I get commit upload rejected for [.], it looks like this requires escaping. One backslash did not solve it so adding two.\n\nUpdate: two backslashes for [] did not work either, so probably will need 4 backslashes as I\u0027m doing. I left this as is.",
+      "parentUuid": "ea14e155_db471dae",
       "revId": "a4f93184e3a1c26729ed8424d210cd5f460a5de6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

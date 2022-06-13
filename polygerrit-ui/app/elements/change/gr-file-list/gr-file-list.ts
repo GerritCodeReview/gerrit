@@ -186,8 +186,7 @@ export class GrFileList extends LitElement {
   @property({type: Object})
   changeComments?: ChangeComments;
 
-  @property({type: Number, attribute: 'selected-index'})
-  selectedIndex = -1;
+  @state() selectedIndex = 0;
 
   @property({type: Object})
   change?: ParsedChangeInfo;
@@ -1460,8 +1459,9 @@ export class GrFileList extends LitElement {
     );
   }
 
-  resetNumFilesShown() {
+  resetFileState() {
     this.numFilesShown = DEFAULT_NUM_FILES_SHOWN;
+    this.selectedIndex = 0;
   }
 
   openDiffPrefs() {

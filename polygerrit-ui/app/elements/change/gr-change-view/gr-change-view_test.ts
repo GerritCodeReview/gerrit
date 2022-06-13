@@ -1279,6 +1279,7 @@ suite('gr-change-view tests', () => {
     element._change = change;
     assert.equal(element.$.fileList.numFilesShown, DEFAULT_NUM_FILES_SHOWN);
     element.$.fileList.numFilesShown = 150;
+    element.$.fileList.selectedIndex = 15;
     flush();
 
     element._changeNum = 2 as NumericChangeId;
@@ -1288,6 +1289,7 @@ suite('gr-change-view tests', () => {
     };
     flush();
     assert.equal(element.$.fileList.numFilesShown, DEFAULT_NUM_FILES_SHOWN);
+    assert.equal(element.$.fileList.selectedIndex, 0);
   });
 
   test('don’t reload entire page when patchRange changes', async () => {
@@ -1311,6 +1313,7 @@ suite('gr-change-view tests', () => {
     assert.isTrue(reloadStub.calledOnce);
 
     element._initialLoadComplete = true;
+    element.$.fileList.selectedIndex = 15;
     element._change = {
       ...createChangeViewChange(),
       revisions: {
@@ -1323,6 +1326,7 @@ suite('gr-change-view tests', () => {
     value.patchNum = 2 as RevisionPatchSetNum;
     element.params = {...value};
     await flush();
+    assert.equal(element.$.fileList.selectedIndex, 0);
     assert.isFalse(reloadStub.calledTwice);
     assert.isTrue(reloadPatchDependentStub.calledOnce);
     assert.isTrue(collapseStub.calledTwice);

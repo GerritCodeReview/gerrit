@@ -46,6 +46,10 @@ import java.util.function.Consumer;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test to verify that {@link com.google.gerrit.server.restapi.change.PostReviewCopyApprovalsOp}
+ * copies approvals to follow-up patch sets if possible.
+ */
 public class CopyApprovalsToFollowUpPatchSetsIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;

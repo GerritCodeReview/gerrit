@@ -33,6 +33,24 @@
       "message": "Why did you remove the constants which Wendy introduced in I10ae721315de8afb964e720033e2d6498bce3e55 ?\n\nI\u0027d like to backport Idbde9c8682df093035790c9daf47dbc5499fcf01 to stable-3.4 and this conflicts with the inlining of the constants you did here during conflict resolution.",
       "revId": "3e6ac135054a5df3cf6b3c48d0140300eb6d1da9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07f6c7ce_4230e051",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-13T08:58:13Z",
+      "side": 1,
+      "message": "As I recall it, there\u0027s an error-prone warning for format strings in constants (that they should be locally defined where the String.format() call is made) that was tested for master but not stable-3.5.\nSo I \"fixed\" that warning. I have a memory of a change that fixed the error-prone issue for the rest of the code-base but I cannot find it now so that might be my imagination...",
+      "parentUuid": "81255f21_251c0285",
+      "revId": "3e6ac135054a5df3cf6b3c48d0140300eb6d1da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

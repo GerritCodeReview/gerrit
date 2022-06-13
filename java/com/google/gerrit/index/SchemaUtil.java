@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
@@ -76,6 +77,10 @@ public class SchemaUtil {
 
   @SafeVarargs
   public static <V> Schema<V> schema(int version, FieldDef<V, ?>... fields) {
+    return new Schema.Builder<V>().version(version).add(fields).build();
+  }
+
+  public static <V> Schema<V> schema(int version, ImmutableList<FieldDef<V, ?>> fields) {
     return new Schema.Builder<V>().version(version).add(fields).build();
   }
 

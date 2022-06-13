@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0165d4f_5869adb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-13T05:53:44Z",
+      "side": 1,
+      "message": "I admit I find the code a bit confusing.",
+      "revId": "5b9434d2008a1a9f784d1e0c5acb50ef7644b092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11f083c3_8b6efa9f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-13T05:53:44Z",
+      "side": 1,
+      "message": "I would remove the \u0027since reload\u0027 bit, it actually makes it more confusing.",
+      "revId": "5b9434d2008a1a9f784d1e0c5acb50ef7644b092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2840aa0f_61b61948",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-13T05:53:44Z",
+      "side": 1,
+      "message": "Could you explain more?",
+      "revId": "5b9434d2008a1a9f784d1e0c5acb50ef7644b092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

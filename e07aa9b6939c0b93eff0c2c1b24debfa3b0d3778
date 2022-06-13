@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dc771c1_1ecf9dc6",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-13T09:19:02Z",
+      "side": 1,
+      "message": "Why do we need to pass the old value here?",
+      "range": {
+        "startLine": 211,
+        "startChar": 40,
+        "endLine": 211,
+        "endChar": 56
+      },
+      "revId": "e07aa9b6939c0b93eff0c2c1b24debfa3b0d3778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

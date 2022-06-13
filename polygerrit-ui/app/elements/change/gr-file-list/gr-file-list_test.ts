@@ -986,7 +986,6 @@ suite('gr-file-list tests', () => {
       test('r key sets reviewed flag', async () => {
         await element.updateComplete;
 
-        element.handleCursorNext(new KeyboardEvent('keydown'));
         pressKey(element, 'r');
         await element.updateComplete;
 
@@ -998,7 +997,6 @@ suite('gr-file-list tests', () => {
         element.reviewed = ['/COMMIT_MSG'];
         await element.updateComplete;
 
-        element.handleCursorNext(new KeyboardEvent('keydown'));
         pressKey(element, 'r');
         await element.updateComplete;
 

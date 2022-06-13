@@ -925,7 +925,8 @@ suite('gr-file-list tests', () => {
         assert.equal(element.expandedFiles.length, 0);
       });
 
-      test('r key sets reviewed flag', async () => {
+      test.only('r key sets reviewed flag', async () => {
+        debugger;
         await element.updateComplete;
 
         element.handleCursorNext(new KeyboardEvent('keydown'));

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afce253a_6bc9b139",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListSubmitRequirements.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-14T12:51:34Z",
+      "side": 1,
+      "message": "Please add a call to this REST endpoint to ProjectsRestApiBindingsIT.PROJECT_ENDPOINTS so that we have a test that makes sure that this endpoint can be reached via a REST call.",
+      "revId": "d54d1efe1b378a76a2e20eebb3c1cfe430a9c9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee72f332_7a041c2f",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListSubmitRequirements.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-14T12:51:34Z",
+      "side": 1,
+      "message": "Please document this REST endpoint in rest-api-projects.txt",
+      "revId": "d54d1efe1b378a76a2e20eebb3c1cfe430a9c9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91154d51_f8e3291d",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListSubmitRequirements.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-14T12:51:34Z",
+      "side": 1,
+      "message": "[optional] could this be something like:\n\n  return projectState.getConfig().getSubmitRequirementSections().values().stream().map(SubmitRequirementJson::format).collect(toImmutableList())",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 17
+      },
+      "revId": "d54d1efe1b378a76a2e20eebb3c1cfe430a9c9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc8ca96b_1d347db3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/SubmitRequirementsAPIIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-14T12:51:34Z",
+      "side": 1,
+      "message": "Maybe add a similar test with inheritance where read permission on refs/meta/config is missing for one of the parent projects?",
+      "revId": "d54d1efe1b378a76a2e20eebb3c1cfe430a9c9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,126 @@
       "message": "I guess I need to update ProjectRestApiBindingsIT as well.",
       "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd158773_2d706e5e",
+        "filename": "java/com/google/gerrit/server/api/projects/SubmitRequirementApiImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-14T13:05:06Z",
+      "side": 1,
+      "message": "s/label/submit requirement",
+      "range": {
+        "startLine": 115,
+        "startChar": 46,
+        "endLine": 115,
+        "endChar": 51
+      },
+      "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16395b23_c98de257",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteSubmitRequirement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-14T13:05:06Z",
+      "side": 1,
+      "message": "2022?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26b5f3d3_3cc0caeb",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteSubmitRequirement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-14T13:05:06Z",
+      "side": 1,
+      "message": "Please document this new REST endpoint in rest-api-projects.txt",
+      "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e3d23bf_80df353c",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteSubmitRequirement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-14T13:05:06Z",
+      "side": 1,
+      "message": "Please also test this endpoint via ProjectRestApiBindingsIT",
+      "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc214bb3_20f3f194",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteSubmitRequirement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-14T13:05:06Z",
+      "side": 1,
+      "message": "s/label/submit requirement\n\nsame below",
+      "range": {
+        "startLine": 90,
+        "startChar": 53,
+        "endLine": 90,
+        "endChar": 58
+      },
+      "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d119e6c0_2e1b72e4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/SubmitRequirementsAPIIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-14T13:05:06Z",
+      "side": 1,
+      "message": "Maybe also test that deleting a SR fails if the caller doesn\u0027t have write config permissions.",
+      "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

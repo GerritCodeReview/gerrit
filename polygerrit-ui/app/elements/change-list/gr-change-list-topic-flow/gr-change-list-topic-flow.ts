@@ -92,8 +92,10 @@ export class GrChangeListTopicFlow extends LitElement {
         }
         .chip:not(.selected) {
           border: var(--spacing-xxs) solid var(--gray-300);
+          background: none;
         }
         .chip.selected {
+          border: 0;
           color: var(--selected-foreground);
           background-color: var(--selected-chip-background);
           margin: var(--spacing-xxs);
@@ -181,7 +183,9 @@ export class GrChangeListTopicFlow extends LitElement {
         ${topics.map(name => this.renderExistingTopicChip(name))}
       </div>
       <div class="footer">
-        <div class="loadingOrError">${this.renderLoadingOrError()}</div>
+        <div class="loadingOrError" role="progressbar">
+          ${this.renderLoadingOrError()}
+        </div>
         <div class="buttons">
           <gr-button
             id="apply-to-all-button"
@@ -210,14 +214,14 @@ export class GrChangeListTopicFlow extends LitElement {
       selected: this.selectedExistingTopics.has(name),
     };
     return html`
-      <span
-        role="button"
+      <button
+        role="listbox"
         aria-label=${name as string}
         class=${classMap(chipClasses)}
         @click=${() => this.toggleExistingTopicSelected(name)}
       >
         ${name}
-      </span>
+      </button>
     `;
   }
 

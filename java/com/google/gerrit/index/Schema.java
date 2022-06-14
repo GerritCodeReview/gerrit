@@ -15,7 +15,6 @@
 package com.google.gerrit.index;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
@@ -23,11 +22,13 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 /** Specific version of a secondary index schema. */
@@ -36,6 +37,9 @@ public class Schema<T> {
 
   public static class Builder<T> {
     private final List<FieldDef<T, ?>> fields = new ArrayList<>();
+    private final List<Field<T, ?>.FieldSpec> fieldSpecs = new ArrayList<>();
+    private final List<Field<T, ?>> indexFields = new ArrayList<>();
+
     private Optional<Integer> version = Optional.empty();
 
     public Builder<T> version(int version) {
@@ -44,6 +48,8 @@ public class Schema<T> {
     }
 
     public Builder<T> add(Schema<T> schema) {
+      this.indexFields.addAll(schema.getIndexFields().values());
+      this.fieldSpecs.addAll(schema.getFieldSpecs().values());
       this.fields.addAll(schema.getFields().values());
       if (!version.isPresent()) {
         version(schema.getVersion() + 1);
@@ -63,22 +69,58 @@ public class Schema<T> {
       return this;
     }
 
+    @SafeVarargs
+    public final Builder<T> addFieldSpecs(Field<T, ?>.FieldSpec... fieldSpecs) {
+      return addFieldSpecs(ImmutableList.copyOf(fieldSpecs));
+    }
+
+    public Builder<T> addFieldSpecs(ImmutableList<Field<T, ?>.FieldSpec> fieldSpecs) {
+      this.fieldSpecs.addAll(fieldSpecs);
+      return this;
+    }
+
+    @SafeVarargs
+    public final Builder<T> addIndexFields(Field<T, ?>... fields) {
+      return addIndexFields(ImmutableList.copyOf(fields));
+    }
+
+    public Builder<T> addIndexFields(ImmutableList<Field<T, ?>> fields) {
+      this.indexFields.addAll(fields);
+      return this;
+    }
+    // Only allow to remove FieldSpec or check if all field specs correspond to an existing field.
+    @SafeVarargs
+    public final Builder<T> remove(Field<T, ?>.FieldSpec... fields) {
+      this.fieldSpecs.removeAll(Arrays.asList(fields));
+      return this;
+    }
+
+    @SafeVarargs
+    public final Builder<T> remove(Field<T, ?>... fields) {
+      this.indexFields.removeAll(Arrays.asList(fields));
+      return this;
+    }
+
     public Schema<T> build() {
       checkState(version.isPresent());
-      return new Schema<>(version.get(), ImmutableList.copyOf(fields));
+      return new Schema<>(
+          version.get(),
+          ImmutableList.copyOf(fields),
+          ImmutableList.copyOf(indexFields),
+          ImmutableList.copyOf(fieldSpecs));
     }
   }
 
   public static class Values<T> {
-    private final FieldDef<T, ?> field;
+    private final SchemaField<T, ?> field;
     private final Iterable<?> values;
 
-    private Values(FieldDef<T, ?> field, Iterable<?> values) {
+    private Values(SchemaField<T, ?> field, Iterable<?> values) {
       this.field = field;
       this.values = values;
     }
 
-    public FieldDef<T, ?> getField() {
+    public SchemaField<T, ?> getField() {
       return field;
     }
 
@@ -87,28 +129,49 @@ public class Schema<T> {
     }
   }
 
-  private static <T> FieldDef<T, ?> checkSame(FieldDef<T, ?> f1, FieldDef<T, ?> f2) {
+  private static <T> SchemaField<T, ?> checkSame(SchemaField<T, ?> f1, SchemaField<T, ?> f2) {
     checkState(f1 == f2, "Mismatched %s fields: %s != %s", f1.getName(), f1, f2);
     return f1;
   }
 
   private final ImmutableMap<String, FieldDef<T, ?>> fields;
-  private final ImmutableMap<String, FieldDef<T, ?>> storedFields;
+  private final ImmutableSet<String> storedFields;
+
+  private final ImmutableMap<String, Field<T, ?>.FieldSpec> fieldSpecs;
+  private final ImmutableMap<String, Field<T, ?>> indexFields;
 
   private int version;
 
-  private Schema(int version, Iterable<FieldDef<T, ?>> fields) {
+  private Schema(
+      int version,
+      Iterable<FieldDef<T, ?>> fields,
+      Iterable<Field<T, ?>> indexFields,
+      Iterable<Field<T, ?>.FieldSpec> fieldSpecs) {
     this.version = version;
+    ImmutableSet.Builder<String> storedFieldsBuilder = ImmutableSet.builder();
+    ImmutableMap.Builder<String, Field<T, ?>.FieldSpec> fieldSpecBuilder = ImmutableMap.builder();
+    ImmutableMap.Builder<String, Field<T, ?>> indexFieldsBuilder = ImmutableMap.builder();
+    for (Field<T, ?> f : indexFields) {
+      indexFieldsBuilder.put(f.name(), f);
+    }
+    for (Field<T, ?>.FieldSpec fieldSpec : fieldSpecs) {
+      if (fieldSpec.getField().stored()) {
+        storedFieldsBuilder.add(fieldSpec.getName());
+      }
+      fieldSpecBuilder.put(fieldSpec.getName(), fieldSpec);
+    }
+    this.fieldSpecs = fieldSpecBuilder.build();
+    this.indexFields = indexFieldsBuilder.build();
+
     ImmutableMap.Builder<String, FieldDef<T, ?>> b = ImmutableMap.builder();
-    ImmutableMap.Builder<String, FieldDef<T, ?>> sb = ImmutableMap.builder();
     for (FieldDef<T, ?> f : fields) {
       b.put(f.getName(), f);
       if (f.isStored()) {
-        sb.put(f.getName(), f);
+        storedFieldsBuilder.add(f.getName());
       }
     }
     this.fields = b.build();
-    this.storedFields = sb.build();
+    this.storedFields = storedFieldsBuilder.build();
   }
 
   public final int getVersion() {
@@ -119,17 +182,32 @@ public class Schema<T> {
    * Get all fields in this schema.
    *
    * <p>This is primarily useful for iteration. Most callers should prefer one of the helper methods
-   * {@link #getField(FieldDef, FieldDef...)} or {@link #hasField(FieldDef)} to looking up fields by
-   * name
+   * {@link #getField(SchemaField, SchemaField...)} or {@link #hasField(SchemaField)} to looking up
+   * fields by name
    *
    * @return all fields in this schema indexed by name.
    */
-  public final ImmutableMap<String, FieldDef<T, ?>> getFields() {
+  private final ImmutableMap<String, FieldDef<T, ?>> getFields() {
     return fields;
   }
 
+  public final ImmutableMap<String, SchemaField<T, ?>> getSchemaFields() {
+    HashMap<String, SchemaField<T, ?>> schemaFields = new HashMap<>();
+    schemaFields.putAll(fields);
+    schemaFields.putAll(fieldSpecs);
+    return ImmutableMap.copyOf(schemaFields);
+  }
+
+  public final ImmutableMap<String, Field<T, ?>.FieldSpec> getFieldSpecs() {
+    return fieldSpecs;
+  }
+
+  public final ImmutableMap<String, Field<T, ?>> getIndexFields() {
+    return indexFields;
+  }
+
   /** Returns all fields in this schema where {@link FieldDef#isStored()} is true. */
-  public final ImmutableMap<String, FieldDef<T, ?>> getStoredFields() {
+  public final ImmutableSet<String> getStoredFields() {
     return storedFields;
   }
 
@@ -142,13 +220,14 @@ public class Schema<T> {
    *     absent if no field matches.
    */
   @SafeVarargs
-  public final Optional<FieldDef<T, ?>> getField(FieldDef<T, ?> first, FieldDef<T, ?>... rest) {
-    FieldDef<T, ?> field = fields.get(first.getName());
+  public final Optional<SchemaField<T, ?>> getField(
+      SchemaField<T, ?> first, SchemaField<T, ?>... rest) {
+    SchemaField<T, ?> field = getSchemaField(first);
     if (field != null) {
       return Optional.of(checkSame(field, first));
     }
-    for (FieldDef<T, ?> f : rest) {
-      field = fields.get(f.getName());
+    for (SchemaField<T, ?> f : rest) {
+      field = getSchemaField(first);
       if (field != null) {
         return Optional.of(checkSame(field, f));
       }
@@ -162,8 +241,8 @@ public class Schema<T> {
    * @param field field to look up.
    * @return whether the field is present.
    */
-  public final boolean hasField(FieldDef<T, ?> field) {
-    FieldDef<T, ?> f = fields.get(field.getName());
+  public final boolean hasField(SchemaField<T, ?> field) {
+    SchemaField<T, ?> f = getSchemaField(field);
     if (f == null) {
       return false;
     }
@@ -171,7 +250,23 @@ public class Schema<T> {
     return true;
   }
 
-  private Values<T> fieldValues(T obj, FieldDef<T, ?> f, ImmutableSet<String> skipFields) {
+  public final boolean hasField(String fieldName) {
+    return getSchemaField(fieldName) != null;
+  }
+
+  private SchemaField<T, ?> getSchemaField(SchemaField<T, ?> field) {
+    return getSchemaField(field.getName());
+  }
+
+  public SchemaField<T, ?> getSchemaField(String fieldName) {
+    SchemaField<T, ?> f = fieldSpecs.get(fieldName);
+    if (f == null) {
+      f = fields.get(fieldName);
+    }
+    return f;
+  }
+
+  private Values<T> fieldValues(T obj, SchemaField<T, ?> f, ImmutableSet<String> skipFields) {
     if (skipFields.contains(f.getName())) {
       return null;
     }
@@ -209,10 +304,27 @@ public class Schema<T> {
    */
   public final Iterable<Values<T>> buildFields(T obj, ImmutableSet<String> skipFields) {
     try {
-      return fields.values().stream()
-          .map(f -> fieldValues(obj, f, skipFields))
-          .filter(Objects::nonNull)
-          .collect(toImmutableList());
+      ImmutableList.Builder<Values<T>> valuesBuilder = ImmutableList.builder();
+      HashSet<String> processedFields = new HashSet<>();
+      for (Field<T, ?>.FieldSpec fieldSpec : fieldSpecs.values()) {
+        Values<T> values = fieldValues(obj, fieldSpec, skipFields);
+        if (values != null) {
+          processedFields.add(fieldSpec.getName());
+          valuesBuilder.add(values);
+        }
+      }
+      for (FieldDef<T, ?> field : fields.values()) {
+        if (processedFields.contains(field.getName())) {
+          continue;
+        }
+        Values<T> values = fieldValues(obj, field, skipFields);
+        if (values != null) {
+          processedFields.add(field.getName());
+          valuesBuilder.add(values);
+        }
+      }
+      return valuesBuilder.build();
+
     } catch (StorageException e) {
       return ImmutableList.of();
     }
@@ -220,6 +332,10 @@ public class Schema<T> {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).addValue(fields.keySet()).toString();
+    return MoreObjects.toStringHelper(this)
+        .addValue(fields.keySet())
+        .addValue(indexFields.keySet())
+        .addValue(fieldSpecs.keySet())
+        .toString();
   }
 }

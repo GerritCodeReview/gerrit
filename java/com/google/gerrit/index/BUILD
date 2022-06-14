@@ -28,6 +28,7 @@ java_library(
         "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/json",
         "//java/com/google/gerrit/metrics",
+        "//java/com/google/gerrit/proto",
         "//java/com/google/gerrit/server/logging",
         "//lib:guava",
         "//lib:jgit",
@@ -35,5 +36,6 @@ java_library(
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/flogger:api",
+        "//lib:protobuf",
     ],
 )

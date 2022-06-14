@@ -641,11 +641,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       assertThat(extId).isPresent();
       blobs.add(new ByteArrayWrapper(extId.get().toByteArray()));
     }
-    assertThat(rawFields.get().getValue(AccountField.EXTERNAL_ID_STATE)).hasSize(blobs.size());
-    assertThat(
-            Streams.stream(rawFields.get().getValue(AccountField.EXTERNAL_ID_STATE))
-                .map(ByteArrayWrapper::new)
-                .collect(toList()))
+    Iterable<byte[]> externalIdStates =
+        rawFields.get().<Iterable<byte[]>>getValue(AccountField.EXTERNAL_ID_STATE_SPEC);
+    assertThat(externalIdStates).hasSize(blobs.size());
+    assertThat(Streams.stream(externalIdStates).map(b -> new ByteArrayWrapper(b)).collect(toList()))
         .containsExactlyElementsIn(blobs);
   }
 

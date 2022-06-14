@@ -16,6 +16,345 @@
       "message": "There\u0027s a bug where by for example: http://gerrit.test/r/c/mediawiki/+/42/-1..1 doesn\u0027t load the file list (nor does changing the patchset in the dropdown).\n\nI resolved this with https://gerrit-review.googlesource.com/c/gerrit/+/337095/22/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts#2041 and https://gerrit-review.googlesource.com/c/gerrit/+/337095/22/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts#2881",
       "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a967e856_61378ed3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "why \u0026 Element?",
+      "range": {
+        "startLine": 227,
+        "startChar": 33,
+        "endLine": 227,
+        "endChar": 53
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f984d2bf_14b5f3c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "add comment to use \"change\" for consistency?",
+      "range": {
+        "startLine": 334,
+        "startChar": 2,
+        "endLine": 334,
+        "endChar": 36
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d11623c_b5376af0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "but",
+      "range": {
+        "startLine": 388,
+        "startChar": 13,
+        "endLine": 388,
+        "endChar": 17
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edd82176_c1c69f98",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "nice!",
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d3e0dbf_5178ebca",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "is this docOnly comment still relevant?",
+      "range": {
+        "startLine": 595,
+        "startChar": 73,
+        "endLine": 595,
+        "endChar": 83
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "447dc477_30a12573",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "prefer not rendering instead of hiding element",
+      "range": {
+        "startLine": 1095,
+        "startChar": 36,
+        "endLine": 1095,
+        "endChar": 61
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9f3a78f_1614d593",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1099,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "prefer not rendering instead of hiding element",
+      "range": {
+        "startLine": 1099,
+        "startChar": 8,
+        "endLine": 1099,
+        "endChar": 31
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "576e9b38_734b0baa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "move to the condition `this.replyOverlayOpened` above?",
+      "range": {
+        "startLine": 1143,
+        "startChar": 14,
+        "endLine": 1143,
+        "endChar": 39
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26dcc65a_7fcb6670",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1164,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "remove \"_\"?",
+      "range": {
+        "startLine": 1164,
+        "startChar": 33,
+        "endLine": 1164,
+        "endChar": 56
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67843c95_cb966f66",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "prefer not rendering instead of hiding",
+      "range": {
+        "startLine": 1201,
+        "startChar": 12,
+        "endLine": 1201,
+        "endChar": 37
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b972866_326c04ce",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1219,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "instead of these comments I would prefer splitting up into meaningfully named render methods.",
+      "range": {
+        "startLine": 1219,
+        "startChar": 8,
+        "endLine": 1219,
+        "endChar": 32
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cdc3602_60b767f2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "instead of these comments I would prefer splitting up into meaningfully named render methods.",
+      "range": {
+        "startLine": 1250,
+        "startChar": 0,
+        "endLine": 1250,
+        "endChar": 31
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e273f71e_3998816b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1431,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "needed?",
+      "range": {
+        "startLine": 1431,
+        "startChar": 14,
+        "endLine": 1431,
+        "endChar": 55
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4de02038_e6eb0ea4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1697,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "use `assertIsDefined` to stay consistent?",
+      "range": {
+        "startLine": 1697,
+        "startChar": 4,
+        "endLine": 1697,
+        "endChar": 24
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9374cae4_cf0c9076",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1812,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-14T14:57:22Z",
+      "side": 1,
+      "message": "remove \"_\"?",
+      "range": {
+        "startLine": 1812,
+        "startChar": 2,
+        "endLine": 1812,
+        "endChar": 30
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

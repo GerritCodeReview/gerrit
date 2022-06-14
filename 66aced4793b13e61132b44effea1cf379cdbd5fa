@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dc605fa_1836f89a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-14T10:45:55Z",
+      "side": 1,
+      "message": "I guess I need to update ProjectRestApiBindingsIT as well.",
+      "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

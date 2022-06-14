@@ -223,7 +223,7 @@ export class GrChangeListSection extends LitElement {
         ${this.showBulkActionsHeader &&
         this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)
           ? html`<gr-change-list-action-bar></gr-change-list-action-bar>`
-          : html` <td class="leftPadding" aria-hidden="true"></td>
+          : html` <td class="leftPadding"></td>
               ${this.renderSelectionHeader()}
               <td
                 class="star"
@@ -248,7 +248,7 @@ export class GrChangeListSection extends LitElement {
     // deselect checkbox. Instead, this checkbox should do both select/deselect
     // and always be visible.
     return html`
-      <td aria-hidden="true" class="selection">
+      <td class="selection">
         <input
           class="selection-checkbox"
           type="checkbox"

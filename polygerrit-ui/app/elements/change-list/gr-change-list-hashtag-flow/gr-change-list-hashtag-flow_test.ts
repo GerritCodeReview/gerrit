@@ -220,22 +220,34 @@ suite('gr-change-list-hashtag-flow tests', () => {
           >
             <div slot="dropdown-content">
               <div class="chips">
-                <span role="button" aria-label="hashtag1" class="chip"
-                  >hashtag1</span
+                <button
+                  role="listbox"
+                  aria-label="hashtag1 selection"
+                  class="chip"
                 >
-                <span role="button" aria-label="sharedHashtag" class="chip"
-                  >sharedHashtag</span
+                  hashtag1
+                </button>
+                <button
+                  role="listbox"
+                  aria-label="sharedHashtag selection"
+                  class="chip"
                 >
-                <span role="button" aria-label="hashtag2" class="chip"
-                  >hashtag2</span
+                  sharedHashtag
+                </button>
+                <button
+                  role="listbox"
+                  aria-label="hashtag2 selection"
+                  class="chip"
                 >
+                  hashtag2
+                </button>
               </div>
               <gr-autocomplete
                 placeholder="Type hashtag name to create or filter hashtags"
                 show-blue-focus-border=""
               ></gr-autocomplete>
               <div class="footer">
-                <div class="loadingOrError"></div>
+                <div class="loadingOrError" role="progressbar"></div>
                 <div class="buttons">
                   <gr-button
                     id="create-new-hashtag-button"
@@ -271,7 +283,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
       // selects "hashtag1"
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
+      queryAll<HTMLSpanElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
 
       queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
@@ -310,11 +322,11 @@ suite('gr-change-list-hashtag-flow tests', () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
       // selects "hashtag1"
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
+      queryAll<HTMLSpanElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
 
       // selects "hashtag2"
-      queryAll<HTMLSpanElement>(element, 'span.chip')[2].click();
+      queryAll<HTMLSpanElement>(element, 'button.chip')[2].click();
       await element.updateComplete;
 
       queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
@@ -455,7 +467,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
       // selects "sharedHashtag"
-      queryAll<HTMLSpanElement>(element, 'span.chip')[1].click();
+      queryAll<HTMLSpanElement>(element, 'button.chip')[1].click();
       await element.updateComplete;
 
       assert.isTrue(

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
@@ -82,6 +83,39 @@ public class SchemaUtil {
   @SafeVarargs
   public static <V> Schema<V> schema(Schema<V> schema, FieldDef<V, ?>... moreFields) {
     return new Schema.Builder<V>().add(schema).add(moreFields).build();
+  }
+
+  public static <V> Schema<V> schema(
+      int version,
+      ImmutableList<com.google.gerrit.index.FieldDef<V, ?>> fieldDefs,
+      ImmutableList<com.google.gerrit.index.Field<V, ?>> indexFields,
+      ImmutableList<com.google.gerrit.index.Field<V, ?>.FieldSpec> fieldSpecs) {
+    return new Schema.Builder<V>()
+        .version(version)
+        .add(fieldDefs)
+        .addIndexFields(indexFields)
+        .addFieldSpecs(fieldSpecs)
+        .build();
+  }
+
+  public static <V> Schema<V> schema(
+      Schema<V> schema,
+      ImmutableList<com.google.gerrit.index.FieldDef<V, ?>> fieldDefs,
+      ImmutableList<com.google.gerrit.index.Field<V, ?>> indexFields,
+      ImmutableList<com.google.gerrit.index.Field<V, ?>.FieldSpec> fieldSpecs) {
+    return new Schema.Builder<V>()
+        .add(schema)
+        .add(fieldDefs)
+        .addIndexFields(indexFields)
+        .addFieldSpecs(fieldSpecs)
+        .build();
+  }
+
+  public static <V> Schema<V> schema(
+      ImmutableList<com.google.gerrit.index.FieldDef<V, ?>> fieldDefs,
+      ImmutableList<com.google.gerrit.index.Field<V, ?>> indexFields,
+      ImmutableList<com.google.gerrit.index.Field<V, ?>.FieldSpec> fieldSpecs) {
+    return schema(/* version= */ 0, fieldDefs, indexFields, fieldSpecs);
   }
 
   public static Set<String> getPersonParts(PersonIdent person) {

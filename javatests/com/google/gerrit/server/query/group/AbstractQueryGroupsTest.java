@@ -377,7 +377,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
                     IndexConfig.createDefault(),
                     0,
                     10,
-                    indexes.getSearchIndex().getSchema().getStoredFields().keySet()));
+                    indexes.getSearchIndex().getSchema().getStoredFields()));
 
     assertThat(rawFields).isPresent();
     assertThat(rawFields.get().getValue(GroupField.UUID)).isEqualTo(uuid.get());

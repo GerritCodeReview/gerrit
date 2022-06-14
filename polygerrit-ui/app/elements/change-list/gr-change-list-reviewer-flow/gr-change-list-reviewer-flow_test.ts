@@ -9,6 +9,7 @@ import {
   AccountInfo,
   GroupId,
   GroupInfo,
+  GroupName,
   ReviewerState,
 } from '../../../api/rest-api';
 import {
@@ -35,6 +36,7 @@ import {
 } from '../../../test/test-utils';
 import {ChangeInfo, NumericChangeId} from '../../../types/common';
 import {ValueChangedEvent} from '../../../types/events';
+import {query} from '../../../utils/common-util';
 import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -50,7 +52,9 @@ const accounts: AccountInfo[] = [
   createAccountWithIdNameAndEmail(4),
   createAccountWithIdNameAndEmail(5),
 ];
-const groups: GroupInfo[] = [createGroupInfo('groupId')];
+const groups: GroupInfo[] = [
+  {...createGroupInfo('groupId'), name: 'Group 0' as GroupName},
+];
 const changes: ChangeInfo[] = [
   {
     ...createChange(),
@@ -571,6 +575,117 @@ suite('gr-change-list-reviewer-flow tests', () => {
                   User-4 is a CC
         on some selected changes and will be moved to reviewer on all
         changes.
+                </div>
+              </div>
+            </gr-dialog>
+          </gr-overlay>
+        `,
+        {
+          // gr-overlay sizing seems to vary between local & CI
+          ignoreAttributes: [{tags: ['gr-overlay'], attributes: ['style']}],
+        }
+      );
+    });
+
+    test('renders errors when requests fail', async () => {
+      const reviewerList = queryAndAssert<GrAccountList>(
+        dialog,
+        'gr-account-list#reviewer-list'
+      );
+
+      reviewerList.accounts.push(accounts[2], groups[0]);
+      await flush();
+      dialog.confirmButton!.click();
+      await element.updateComplete;
+      saveChangesPromises[0].reject(new Error('failed!'));
+      saveChangesPromises[1].reject(new Error('failed!'));
+
+      await waitUntil(() => !!query(dialog, '.error'));
+
+      // prettier and shadowDom string don't agree on the long text in divs
+      expect(element).shadowDom.to.equal(
+        /* prettier-ignore */
+        /* HTML */ `
+          <gr-button
+            aria-disabled="false"
+            flatten=""
+            id="start-flow"
+            role="button"
+            tabindex="0"
+          >
+            add reviewer/cc
+          </gr-button>
+          <gr-overlay
+            id="flow"
+            tabindex="-1"
+            with-backdrop=""
+          >
+            <gr-dialog role="dialog">
+              <div slot="header">Add reviewer / CC</div>
+              <div slot="main">
+                <div class="grid">
+                  <span> Reviewers </span>
+                  <gr-account-list id="reviewer-list"> </gr-account-list>
+                  <gr-overlay aria-hidden="true" id="confirm-reviewer">
+                    <div class="confirmation-text">
+                      Group
+                      <span class="groupName"> </span>
+                      has
+                      <span class="groupSize"> </span>
+                      members.
+                      <br />
+                      Are you sure you want to add them all?
+                    </div>
+                    <div class="confirmation-buttons">
+                      <gr-button
+                        aria-disabled="false"
+                        role="button"
+                        tabindex="0"
+                      >
+                        Yes
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="false"
+                        role="button"
+                        tabindex="0"
+                      >
+                        No
+                      </gr-button>
+                    </div>
+                  </gr-overlay>
+                  <span> CC </span>
+                  <gr-account-list id="cc-list"> </gr-account-list>
+                  <gr-overlay aria-hidden="true" id="confirm-cc">
+                    <div class="confirmation-text">
+                      Group
+                      <span class="groupName"> </span>
+                      has
+                      <span class="groupSize"> </span>
+                      members.
+                      <br />
+                      Are you sure you want to add them all?
+                    </div>
+                    <div class="confirmation-buttons">
+                      <gr-button
+                        aria-disabled="false"
+                        role="button"
+                        tabindex="0"
+                      >
+                        Yes
+                      </gr-button>
+                      <gr-button
+                        aria-disabled="false"
+                        role="button"
+                        tabindex="0"
+                      >
+                        No
+                      </gr-button>
+                    </div>
+                  </gr-overlay>
+                </div>
+                <div class="error">
+                  <iron-icon icon="gr-icons:error"> </iron-icon>
+                  Failed to add User-0, User-2, Group 0, and User-3 to changes.
                 </div>
               </div>
             </gr-dialog>

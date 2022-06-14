@@ -89,7 +89,7 @@ import org.apache.lucene.store.Directory;
 public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  static String sortFieldName(FieldDef<?, ?> f) {
+  static String sortFieldName(SchemaField<?, ?> f) {
     return f.getName() + "_SORT";
   }
 

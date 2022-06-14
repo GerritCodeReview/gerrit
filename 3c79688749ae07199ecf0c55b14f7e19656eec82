@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f630b09d_124c2f6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2022-06-14T14:12:05Z",
+      "side": 1,
+      "message": "There\u0027s a bug where by for example: http://gerrit.test/r/c/mediawiki/+/42/-1..1 doesn\u0027t load the file list (nor does changing the patchset in the dropdown).\n\nI resolved this with https://gerrit-review.googlesource.com/c/gerrit/+/337095/22/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts#2041 and https://gerrit-review.googlesource.com/c/gerrit/+/337095/22/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts#2881",
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

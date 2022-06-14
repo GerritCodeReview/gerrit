@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96981140_87369e73",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-14T11:14:42Z",
+      "side": 1,
+      "message": "when will there be multiple .error\u0027s in a row?",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 137,
+        "endChar": 23
+      },
+      "revId": "85e8026118e3366f1d65a3af4ff308cb4633e392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cf93e88_e05a867b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-14T11:14:42Z",
+      "side": 1,
+      "message": "is queryAndAssert an issue in waitUntil?",
+      "range": {
+        "startLine": 600,
+        "startChar": 28,
+        "endLine": 600,
+        "endChar": 35
+      },
+      "revId": "85e8026118e3366f1d65a3af4ff308cb4633e392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20a1be3c_95c7b88a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-14T11:14:42Z",
+      "side": 1,
+      "message": "seems like we need to dedupe? Or does the test setup need to be more realistic?",
+      "range": {
+        "startLine": 685,
+        "startChar": 32,
+        "endLine": 685,
+        "endChar": 83
+      },
+      "revId": "85e8026118e3366f1d65a3af4ff308cb4633e392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

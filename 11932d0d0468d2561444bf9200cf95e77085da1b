@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0afc83bc_229fcbc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-14T21:26:07Z",
+      "side": 1,
+      "message": "\u003e \u003e If someone would add say Apache Solr or Amazon CloudSearch as yet another secondary index backends for Gerrit, we wouldn\u0027t want to expose in Gerrit core any specifics to those backends either.\n\u003e \n\u003e I completely agree that we don\u0027t want implementation only relevant to other indexes in core.\n\u003e \n\u003e However, I think exposing desired *Gerrit behavior/policy* as information to any index backend is a generic Gerrit core thing. Specific to this change, I think Gerrit core policy for when an index should/shouldn\u0027t ensure read/write consistency is a generic concept and is not specific to any backend.\n\nAgreed, however, we don\u0027t have it at the moment in Gerrit and we do not have any issues without it. Can you foresee a non-ES use-case where we can use this flag and provides benefits today?\n\n\u003e \u003e The only thing we could expose in Gerrit core, is the operation mode: OFFLINE or ONLINE index operation. What the dedicated backends will do with it, is not business of Gerrit core.\n\u003e \n\u003e I disagree. We did consider this path at first, but realized it\u0027s not presenting the necessary information to the index backend. From Gerrit core, we can clearly inform any index backend that consistency is not required during an offline reindex, but the inverse isn\u0027t true: a backend shouldn\u0027t assume that because core told it we\u0027re doing \"offline reindex\" that consistency isn\u0027t required.\n\nI am open to a solution where we define two configurations \n\n\u003e This follows the same pattern as the IsFirstInsertForEntry option added in Change I140c88125bb5. In that change core is also describing a behavior/policy that an index backend can implement around in whatever way is appropriate for that index backend.\n\nI see, however, the I140c88125bb5 had some value in Gerrit regardless of the backend. I am open to see and review a change that provides value and shows some use inside Gerrit without ES.",
+      "parentUuid": "305392fd_adb97e0d",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "127fa5e1_a616ae46",
@@ -96,6 +120,23 @@
       "side": 1,
       "message": "\u003e This is not needed because Gerrit already notifies to the index module that the instantiation is for an off-line reindex.\n\nHi Luca, please read and respond to my comment above in response to David: https://gerrit-review.googlesource.com/c/gerrit/+/339114/comments/f3344963_33d02879\n\nI specifically address the difference there between knowing offline reindex vs a desired index behavior. I do not believe they are the same, but please add comments there if you disagree.",
       "parentUuid": "5a2d6973_78fb0e84",
+      "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b336c9b6_50e4f102",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-14T21:26:07Z",
+      "side": 1,
+      "message": "Keeping a format -2 until we find a value in Gerrit, without ES, given that we can achieve the same result without any change in Gerrit core.\n\nHappy to continue the review though, I am always open to a constructive and respectful technical discussion on this topic :-)",
       "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

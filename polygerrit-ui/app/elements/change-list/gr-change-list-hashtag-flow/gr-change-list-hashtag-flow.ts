@@ -93,8 +93,10 @@ export class GrChangeListHashtagFlow extends LitElement {
         }
         .chip:not(.selected) {
           border: var(--spacing-xxs) solid var(--gray-300);
+          background: none;
         }
         .chip.selected {
+          border: 0;
           color: var(--selected-foreground);
           background-color: var(--selected-chip-background);
           margin: var(--spacing-xxs);
@@ -166,7 +168,9 @@ export class GrChangeListHashtagFlow extends LitElement {
                   (this.hashtagToApply = e.detail.value)}
               ></gr-autocomplete>
               <div class="footer">
-                <div class="loadingOrError">${this.renderLoadingOrError()}</div>
+                <div class="loadingOrError" role="progressbar">
+                  ${this.renderLoadingOrError()}
+                </div>
                 <div class="buttons">
                   <gr-button
                     id="create-new-hashtag-button"
@@ -210,14 +214,14 @@ export class GrChangeListHashtagFlow extends LitElement {
       selected: this.selectedExistingHashtags.has(name),
     };
     return html`
-      <span
-        role="button"
+      <button
+        role="listbox"
         aria-label=${name as string}
         class=${classMap(chipClasses)}
         @click=${() => this.toggleExistingHashtagSelected(name)}
       >
         ${name}
-      </span>
+      </button>
     `;
   }
 

@@ -221,15 +221,15 @@ suite('gr-change-list-topic-flow tests', () => {
           >
             <div slot="dropdown-content">
               <div class="chips">
-                <span role="button" aria-label="topic1" class="chip"
-                  >topic1</span
-                >
-                <span role="button" aria-label="topic2" class="chip"
-                  >topic2</span
-                >
+                <button role="listbox" aria-label="topic1" class="chip">
+                  topic1
+                </button>
+                <button role="listbox" aria-label="topic2" class="chip">
+                  topic2
+                </button>
               </div>
               <div class="footer">
-                <div class="loadingOrError"></div>
+                <div class="loadingOrError" role="progressbar"></div>
                 <div class="buttons">
                   <gr-button
                     id="apply-to-all-button"
@@ -266,7 +266,7 @@ suite('gr-change-list-topic-flow tests', () => {
         queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
       );
 
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
+      queryAll<HTMLSpanElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
 
       assert.isFalse(
@@ -298,7 +298,7 @@ suite('gr-change-list-topic-flow tests', () => {
     test('remove single topic', async () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
+      queryAll<HTMLSpanElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
       queryAndAssert<GrButton>(element, '#remove-topics-button').click();
       await element.updateComplete;
@@ -326,8 +326,8 @@ suite('gr-change-list-topic-flow tests', () => {
     });
 
     test('remove multiple topics', async () => {
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
-      queryAll<HTMLSpanElement>(element, 'span.chip')[1].click();
+      queryAll<HTMLSpanElement>(element, 'button.chip')[0].click();
+      queryAll<HTMLSpanElement>(element, 'button.chip')[1].click();
       await element.updateComplete;
       queryAndAssert<GrButton>(element, '#remove-topics-button').click();
       await element.updateComplete;
@@ -357,14 +357,14 @@ suite('gr-change-list-topic-flow tests', () => {
         queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
       );
 
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
+      queryAll<HTMLSpanElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
 
       assert.isFalse(
         queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
       );
 
-      queryAll<HTMLSpanElement>(element, 'span.chip')[1].click();
+      queryAll<HTMLSpanElement>(element, 'button.chip')[1].click();
       await element.updateComplete;
 
       assert.isTrue(
@@ -376,7 +376,7 @@ suite('gr-change-list-topic-flow tests', () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
 
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
+      queryAll<HTMLSpanElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
 
       queryAndAssert<GrButton>(element, '#apply-to-all-button').click();
@@ -492,7 +492,7 @@ suite('gr-change-list-topic-flow tests', () => {
                 show-blue-focus-border=""
               ></gr-autocomplete>
               <div class="footer">
-                <div class="loadingOrError"></div>
+                <div class="loadingOrError" role="progressbar"></div>
                 <div class="buttons">
                   <gr-button
                     id="create-new-topic-button"

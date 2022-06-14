@@ -63,6 +63,23 @@
       "message": "ping",
       "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a2d6973_78fb0e84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-14T09:58:52Z",
+      "side": 1,
+      "message": "This is not needed because Gerrit already notifies to the index module that the instantiation is for an off-line reindex.\n\nYou can just leverage that for any ES-specific optimisation.\n\nSee an example of this with Change-Id: Idbac8c910b",
+      "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

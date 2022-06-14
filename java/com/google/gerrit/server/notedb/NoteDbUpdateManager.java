@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -86,8 +87,20 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final Project.NameKey projectName;
   private final int maxUpdates;
   private final int maxPatchSets;
+
+  /**
+   * A {@link ListMultimap} mapping the string representation of the {@link
+   * RefNames#changeMetaRef(Change.Id)} of a change to a list of {@link ChangeUpdate}.
+   */
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
+
+  /**
+   * A {@link ListMultimap} mapping the string representation of the {@link
+   * RefNames#refsDraftComments(Change.Id, Account.Id)} of a change/account to a list of {@link
+   * ChangeDraftUpdate}.
+   */
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
+
   private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
   private final ListMultimap<String, NoteDbRewriter> rewriters;
   private final Set<Change.Id> changesToDelete;

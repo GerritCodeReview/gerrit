@@ -27,8 +27,10 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.update.ChainedReceiveCommands;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.List;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -36,6 +38,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** A single delta related to a specific patch-set of a change. */
 public abstract class AbstractChangeUpdate {
@@ -195,49 +198,62 @@ public abstract class AbstractChangeUpdate {
     return false;
   }
 
+  private List<ChangeUpdateSink> sinks;
+
   /**
    * Apply this update to the given inserter.
    *
    * @param rw walk for reading back any objects needed for the update.
    * @param ins inserter to write to; callers should not flush.
-   * @param curr the current tip of the branch prior to this update.
+
    * @return commit ID produced by inserting this update's commit, or null if this update is a no-op
    *     and should be skipped. The zero ID is a valid return value, and indicates the ref should be
    *     deleted.
    * @throws IOException if a lower-level error occurred.
    */
-  final ObjectId apply(RevWalk rw, ObjectInserter ins, ObjectId curr) throws IOException {
+  final boolean apply(RevWalk rw, ObjectInserter ins) throws IOException {
+    // ghareeb: this should be agnostic of curr, each sink should update its curr.
     if (isEmpty()) {
-      return null;
+      return false;
     }
 
     checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
 
-    logger.atFinest().log(
-        "%s for change %s of project %s in %s (NoteDb)",
-        getClass().getSimpleName(), getId(), getProjectName(), getRefName());
+    boolean res = false;
+    for (ChangeUpdateSink sink : sinks) {
+      res |= sink.apply(rw, ins, getId(), getProjectName());
+    }
+    return res;
 
-    ObjectId z = ObjectId.zeroId();
-    CommitBuilder cb = applyImpl(rw, ins, curr);
-    if (cb == null) {
-      result = z;
-      return z; // Impl intends to delete the ref.
-    } else if (cb == NO_OP_UPDATE) {
-      return null; // Impl is a no-op.
-    }
-    cb.setAuthor(authorIdent);
-    cb.setCommitter(new PersonIdent(serverIdent, when));
-    setParentCommit(cb, curr);
-    if (cb.getTreeId() == null) {
-      if (curr.equals(z)) {
-        cb.setTreeId(emptyTree(ins)); // No parent, assume empty tree.
-      } else {
-        RevCommit p = rw.parseCommit(curr);
-        cb.setTreeId(p.getTree()); // Copy tree from parent.
-      }
-    }
-    result = ins.insert(cb);
-    return result;
+    // logger.atFinest().log(
+    //     "%s for change %s of project %s in %s (NoteDb)",
+    //     getClass().getSimpleName(), getId(), getProjectName(), getRefName());
+    //
+    // ObjectId z = ObjectId.zeroId();
+    // CommitBuilder cb = applyImpl(rw, ins, curr);
+    // if (cb == null) {
+    //   result = z;
+    //   return z; // Impl intends to delete the ref.
+    // } else if (cb == NO_OP_UPDATE) {
+    //   return null; // Impl is a no-op.
+    // }
+    // cb.setAuthor(authorIdent);
+    // cb.setCommitter(new PersonIdent(serverIdent, when));
+    // setParentCommit(cb, curr);
+    // if (cb.getTreeId() == null) {
+    //   if (curr.equals(z)) {
+    //     cb.setTreeId(emptyTree(ins)); // No parent, assume empty tree.
+    //   } else {
+    //     RevCommit p = rw.parseCommit(curr);
+    //     cb.setTreeId(p.getTree()); // Copy tree from parent.
+    //   }
+    // }
+    // result = ins.insert(cb);
+    // return result;
+  }
+
+  void appendRefUpdate(ChainedReceiveCommands cmds) {
+    sinks.forEach(sink -> sink.appendRefUpdate(cmds));
   }
 
   /**

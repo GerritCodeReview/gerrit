@@ -63,6 +63,7 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
@@ -182,6 +183,130 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private DeleteCommentRewriter deleteCommentRewriter;
   private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
   private List<SubmitRequirementResult> submitRequirementResults;
+
+  public NoteDbUpdateManager.Factory getUpdateManagerFactory() {
+    return updateManagerFactory;
+  }
+
+  public ChangeDraftUpdate.Factory getDraftUpdateFactory() {
+    return draftUpdateFactory;
+  }
+
+  public RobotCommentUpdate.Factory getRobotCommentUpdateFactory() {
+    return robotCommentUpdateFactory;
+  }
+
+  public DeleteCommentRewriter.Factory getDeleteCommentRewriterFactory() {
+    return deleteCommentRewriterFactory;
+  }
+
+  public ServiceUserClassifier getServiceUserClassifier() {
+    return serviceUserClassifier;
+  }
+
+  public PatchSetApprovalUuidGenerator getPatchSetApprovalUuidGenerator() {
+    return patchSetApprovalUuidGenerator;
+  }
+
+  public List<PatchSetApproval> getCopiedApprovals() {
+    return copiedApprovals;
+  }
+
+  public Map<Address, ReviewerStateInternal> getReviewersByEmail() {
+    return reviewersByEmail;
+  }
+
+  public List<HumanComment> getComments() {
+    return comments;
+  }
+
+  public String getSubject() {
+    return subject;
+  }
+
+  public String getChangeId() {
+    return changeId;
+  }
+
+  public String getBranch() {
+    return branch;
+  }
+
+  public Status getStatus() {
+    return status;
+  }
+
+  public List<SubmitRecord> getSubmitRecords() {
+    return submitRecords;
+  }
+
+  public String getSubmissionId() {
+    return submissionId;
+  }
+
+  public String getTopic() {
+    return topic;
+  }
+
+  public Map<Account.Id, AttentionSetUpdate> getPlannedAttentionSetUpdates() {
+    return plannedAttentionSetUpdates;
+  }
+
+  public boolean isIgnoreFurtherAttentionSetUpdates() {
+    return ignoreFurtherAttentionSetUpdates;
+  }
+
+  public Optional<Account.Id> getAssignee() {
+    return assignee;
+  }
+
+  public Set<String> getHashtags() {
+    return hashtags;
+  }
+
+  public String getTag() {
+    return tag;
+  }
+
+  public Iterable<String> getGroups() {
+    return groups;
+  }
+
+  public String getPushCert() {
+    return pushCert;
+  }
+
+  public boolean isAllowWriteToNewtRef() {
+    return isAllowWriteToNewtRef;
+  }
+
+  public String getPsDescription() {
+    return psDescription;
+  }
+
+  public boolean isCurrentPatchSet() {
+    return currentPatchSet;
+  }
+
+  public Boolean getPrivate() {
+    return isPrivate;
+  }
+
+  public Boolean getWorkInProgress() {
+    return workInProgress;
+  }
+
+  public Integer getRevertOf() {
+    return revertOf;
+  }
+
+  public Optional<String> getCherryPickOf() {
+    return cherryPickOf;
+  }
+
+  public List<SubmitRequirementResult> getSubmitRequirementResults() {
+    return submitRequirementResults;
+  }
 
   @SuppressWarnings("UnusedMethod")
   @AssistedInject
@@ -671,6 +796,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @Override
   protected String getRefName() {
     return changeMetaRef(getId());
+
+    // we ultimately want to do
+    // changeUpdate.sinks().forEach(changeUpdate.apply())
+    // each sink should define the refName and the way to persist the commit
   }
 
   @Override
@@ -1226,5 +1355,21 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private static boolean isIllegalTopic(String topic) {
     return (topic != null && topic.contains("\""));
+  }
+
+  PatchSetState getPsState() {
+    return psState;
+  }
+
+  String getCommitSubject() {
+    return commitSubject;
+  }
+
+  String getChangeMessage() {
+    return changeMessage;
+  }
+
+  void s() {
+
   }
 }

@@ -152,7 +152,8 @@ class OpenRepo implements AutoCloseable {
         updateCount = first.getNotes().getUpdateCount();
       }
 
-      ObjectId curr = old;
+      // ObjectId curr = old;
+      boolean hasUpdate = false;
       for (U update : updates) {
         if (maxPatchSets.isPresent() && update.psId != null) {
           // Patch set IDs are assigned consecutively. Patch sets may have been deleted, but the ID
@@ -168,12 +169,14 @@ class OpenRepo implements AutoCloseable {
         if (update.isRootOnly() && !old.equals(ObjectId.zeroId())) {
           throw new StorageException("Given ChangeUpdate is only allowed on initial commit");
         }
-        ObjectId next = update.apply(rw, tempIns, curr);
-        if (next == null) {
+        // ObjectId next = update.apply(rw, tempIns);
+        hasUpdate = update.apply(rw, tempIns);
+        if (hasUpdate == false) {
           continue;
         }
         if (maxUpdates.isPresent()
-            && !Objects.equals(next, curr)
+           // && !Objects.equals(next, curr)
+            && hasUpdate
             && ++updateCount > maxUpdates.get()
             && !update.bypassMaxUpdates()) {
           throw new LimitExceededException(
@@ -183,11 +186,17 @@ class OpenRepo implements AutoCloseable {
                       + " Change-Id, then abandon this one.",
                   update.getId(), maxUpdates.get()));
         }
-        curr = next;
+        // curr = next;
       }
-      if (!old.equals(curr)) {
-        cmds.add(new ReceiveCommand(old, curr, refName));
+      if (hasUpdate) {
+        // This is right. Each sink will update its ref.
+        for (U update : updates) {
+          update.appendRefUpdate(cmds);
+        }
       }
+      // if (!old.equals(curr)) {
+      //   cmds.add(new ReceiveCommand(old, curr, refName));
+      // }
     }
   }
 }

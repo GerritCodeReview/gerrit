@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02059948_504e71ad",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-14T12:11:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a2ed2ac1_c626f161",
+      "range": {
+        "startLine": 600,
+        "startChar": 28,
+        "endLine": 600,
+        "endChar": 35
+      },
+      "revId": "85e8026118e3366f1d65a3af4ff308cb4633e392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20a1be3c_95c7b88a",

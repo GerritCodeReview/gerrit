@@ -195,6 +195,12 @@ public class DeleteZombieCommentsRefs {
       Timestamp latestZombieTs = null;
       int numZombies = 0;
       List<Ref> draftRefs = allUsersRepo.getRefDatabase().getRefsByPrefix(REFS_DRAFT_COMMENTS);
+      // Filter the number of draft refs to be processed according to the cleanup percentage.
+      draftRefs =
+          draftRefs.stream()
+              .filter(
+                  ref -> Change.Id.fromAllUsersRef(ref.getName()).get() % 100 < cleanupPercentage)
+              .collect(toImmutableList());
       Set<ChangeUserIDsPair> visitedSet = new HashSet<>();
       ImmutableSet<Change.Id> changeIds =
           draftRefs.stream()

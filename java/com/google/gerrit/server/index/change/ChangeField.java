@@ -63,6 +63,7 @@ import com.google.gerrit.entities.converter.PatchSetProtoConverter;
 import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.RefState;
+import com.google.gerrit.index.SchemaFieldDefs;
 import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.proto.Protos;
@@ -1384,7 +1385,7 @@ public class ChangeField {
     return converter.fromProto(message);
   }
 
-  private static <T> FieldDef.Getter<ChangeData, T> changeGetter(Function<Change, T> func) {
+  private static <T> SchemaFieldDefs.Getter<ChangeData, T> changeGetter(Function<Change, T> func) {
     return in -> in.change() != null ? func.apply(in.change()) : null;
   }
 

@@ -249,6 +249,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0330bfe9_0553a0fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-06-15T08:21:10Z",
+      "side": 1,
+      "message": "\u003e Are you expecting \"display email\" is used for author/committer when creating commits?\n\nyes. at least i can\u0027t see why not. but if not, we could have the third column of radio boxes just as well.\n\n\u003e But what if the plugin policy changes after the user has made a selection? \n\nif that happens, the plugin should re-validate/migrate all settings.\n\ni think it\u0027s fairly obvious that having the plugin subvert visible settings (even if \"just to be sure\") is bad UX. so if you go with enforcement at the execution site, you need to adjust the frontend to reflect reality anyway. but when you do that, you can go with a more general and therefore elegant approach just as well (provided it actually covers your use case - you\u0027d need to be more specific for me to be able to asses that).",
+      "parentUuid": "75e26ce3_f0656923",
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "648eafb5_550e2afd",

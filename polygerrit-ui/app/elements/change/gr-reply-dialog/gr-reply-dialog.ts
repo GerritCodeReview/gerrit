@@ -2080,7 +2080,7 @@ export class GrReplyDialog extends LitElement {
       ReviewerState.REVIEWER,
       this.serverConfig,
       this.isLoggedIn,
-      change._number
+      change
     );
     return provider;
   }
@@ -2092,7 +2092,7 @@ export class GrReplyDialog extends LitElement {
       ReviewerState.CC,
       this.serverConfig,
       this.isLoggedIn,
-      change._number
+      change
     );
     return provider;
   }

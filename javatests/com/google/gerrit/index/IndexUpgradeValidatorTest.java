@@ -15,9 +15,10 @@
 package com.google.gerrit.index;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.index.SchemaUtil.schema;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
-import com.google.gerrit.index.FieldDef.Getter;
+import com.google.gerrit.index.SchemaFieldDefs.Getter;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -81,10 +82,5 @@ public class IndexUpgradeValidatorTest {
             () -> IndexUpgradeValidator.assertValid(schema(1, ID_1), schema(2, ID_2)));
     assertThat(e).hasMessageThat().contains("Fields may not be modified");
     assertThat(e).hasMessageThat().contains(ChangeQueryBuilder.FIELD_CHANGE_ID);
-  }
-
-  @SafeVarargs
-  private static Schema<ChangeData> schema(int version, FieldDef<ChangeData, ?>... fields) {
-    return new Schema.Builder<ChangeData>().version(version).add(fields).build();
   }
 }

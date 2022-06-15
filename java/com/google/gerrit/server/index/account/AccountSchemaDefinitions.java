@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.account;
 
 import static com.google.gerrit.index.SchemaUtil.schema;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.account.AccountState;
@@ -27,20 +28,30 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   static final Schema<AccountState> V8 =
       schema(
           /* version= */ 8,
-          AccountField.ACTIVE,
-          AccountField.EMAIL,
-          AccountField.EXTERNAL_ID,
-          AccountField.EXTERNAL_ID_STATE,
-          AccountField.FULL_NAME,
-          AccountField.ID,
-          AccountField.NAME_PART,
-          AccountField.NAME_PART_NO_SECONDARY_EMAIL,
-          AccountField.PREFERRED_EMAIL,
-          AccountField.PREFERRED_EMAIL_EXACT,
-          AccountField.REF_STATE,
-          AccountField.REGISTERED,
-          AccountField.USERNAME,
-          AccountField.WATCHED_PROJECT);
+          ImmutableList.of(AccountField.ID, AccountField.EXTERNAL_ID_STATE, AccountField.REF_STATE),
+          ImmutableList.of(
+              AccountField.ACTIVE_FIELD,
+              AccountField.EMAIL_FIELD,
+              AccountField.EXTERNAL_ID_FIELD,
+              AccountField.FULL_NAME_FIELD,
+              AccountField.NAME_PART_FIELD,
+              AccountField.NAME_PART_NO_SECONDARY_EMAIL_FIELD,
+              AccountField.PREFERRED_EMAIL_FIELD,
+              AccountField.REGISTERED_FIELD,
+              AccountField.USERNAME_FIELD,
+              AccountField.WATCHED_PROJECT_FIELD),
+          ImmutableList.of(
+              AccountField.ACTIVE_FIELD_SPEC,
+              AccountField.EMAIL_SPEC,
+              AccountField.EXTERNAL_ID_FIELD_SPEC,
+              AccountField.FULL_NAME_SPEC,
+              AccountField.NAME_PART_NO_SECONDARY_EMAIL_SPEC,
+              AccountField.NAME_PART_SPEC,
+              AccountField.PREFERRED_EMAIL_SPEC,
+              AccountField.PREFERRED_EMAIL_EXACT_SPEC,
+              AccountField.REGISTERED_SPEC,
+              AccountField.USERNAME_SPEC,
+              AccountField.WATCHED_PROJECT_SPEC));
 
   // Bump Lucene version requires reindexing
   @Deprecated static final Schema<AccountState> V9 = schema(V8);

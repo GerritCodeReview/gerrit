@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bee0e6c8_2b195e6d",
+        "filename": ".bazelignore",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-15T08:46:47Z",
+      "side": 1,
+      "message": "Shouldn\u0027t these 3 dir entries also be reverted?",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 29
+      },
+      "revId": "ab04eb16607b95f2939c8e91ced7204e02e6c7dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

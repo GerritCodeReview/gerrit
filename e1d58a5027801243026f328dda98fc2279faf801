@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "68fe9cb9_f8a57575",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-15T13:15:15Z",
+      "side": 1,
+      "message": "uses 1.5.2 version",
+      "range": {
+        "startLine": 21,
+        "startChar": 66,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "e1d58a5027801243026f328dda98fc2279faf801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "13cf9c9b_0ac37d58",
@@ -14,6 +37,23 @@
       "writtenOn": "2022-06-15T13:04:58Z",
       "side": 1,
       "message": "As discussed on the issue, alternative approach would be just revert Marian\u0027s change.\n\nAlso Google appears to use AsciiDoctor 1.5.2, as was pointed out in change 209116, quoting Han-Wen: \"we are no 1.5.2\".\n\nWhat we could also try is to downgrade AsciiDoctor to the same version used by Google.",
+      "revId": "e1d58a5027801243026f328dda98fc2279faf801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "effc150c_c2ad9810",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-15T13:15:15Z",
+      "side": 1,
+      "message": "Given that all released gerrit versions are broken, starting from 3.2.0 since change 248288 was introduced, would it make sense to move the fix to latest supported branch: stable-3.4 and merge it up to master?",
       "revId": "e1d58a5027801243026f328dda98fc2279faf801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -29,6 +29,9 @@ import org.junit.runners.JUnit4;
 /** Tests {@link IndexUpgradeValidator}. */
 @RunWith(JUnit4.class)
 public class IndexUpgradeValidatorTest {
+
+  // TODO(mariasavtchouk): adopt this test to verity IndexedFields follow the same constraints as
+  // SchemaFields.
   @Test
   public void valid() {
     IndexUpgradeValidator.assertValid(schema(1, ChangeField.ID), schema(2, ChangeField.ID));

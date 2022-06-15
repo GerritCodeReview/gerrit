@@ -22,7 +22,7 @@ import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-a
 import {allSettled, isFulfilled} from '../../utils/async-util';
 import {notUndefined} from '../../types/types';
 import {accountKey} from '../../utils/account-util';
-import {ReviewerState} from '../../api/rest-api';
+import {ChangeInfo, ReviewerState} from '../../api/rest-api';
 
 export interface ReviewerSuggestionsProvider {
   getSuggestions(input: string): Promise<Suggestion[]>;
@@ -34,32 +34,34 @@ export interface ReviewerSuggestionsProvider {
 export class GrReviewerSuggestionsProvider
   implements ReviewerSuggestionsProvider
 {
-  private changeNumbers: NumericChangeId[];
+  private changes: ChangeInfo[];
 
   constructor(
     private restApi: RestApiService,
     private type: ReviewerState.REVIEWER | ReviewerState.CC,
     private config: ServerInfo | undefined,
     private loggedIn: boolean,
-    ...changeNumbers: NumericChangeId[]
+    ...changes: ChangeInfo[]
   ) {
-    this.changeNumbers = changeNumbers;
+    this.changes = changes;
   }
 
   async getSuggestions(input: string): Promise<Suggestion[]> {
     if (!this.loggedIn) return [];
 
     const allResults = await allSettled(
-      this.changeNumbers.map(changeNumber =>
-        this.getSuggestionsForChange(changeNumber, input)
+      this.changes.map(change =>
+        this.getSuggestionsForChange(change._number, input)
       )
     );
     const allSuggestions = allResults
       .filter(isFulfilled)
       .map(result => result.value)
       .filter(notUndefined);
-    return intersection(allSuggestions, (s1, s2) =>
-      this.areSameSuggestions(s1, s2)
+    return intersection(
+      allSuggestions,
+      (suggestion, otherChangeSuggestions, otherChangeIndex) =>
+        this.hasSuggestion(suggestion, otherChangeSuggestions, otherChangeIndex)
     );
   }
 
@@ -101,6 +103,19 @@ export class GrReviewerSuggestionsProvider
       : this.restApi.getChangeSuggestedCCs(changeNumber, input);
   }
 
+  private hasSuggestion(
+    suggestion: Suggestion,
+    otherChangeSuggestions: Suggestion[],
+    otherChangeIndex: number
+  ): boolean {
+    return (
+      this.changeHasSuggestion(otherChangeIndex, suggestion) ||
+      otherChangeSuggestions.find(otherChangeSuggestion =>
+        this.areSameSuggestions(suggestion, otherChangeSuggestion)
+      ) !== undefined
+    );
+  }
+
   private areSameSuggestions(a: Suggestion, b: Suggestion): boolean {
     if (isReviewerAccountSuggestion(a) && isReviewerAccountSuggestion(b)) {
       return accountKey(a.account) === accountKey(b.account);
@@ -114,5 +129,22 @@ export class GrReviewerSuggestionsProvider
 
   private isAccountSuggestion(s: Suggestion): s is AccountInfo {
     return (s as AccountInfo)._account_id !== undefined;
+  }
+
+  private changeHasSuggestion(
+    changeIndex: number,
+    suggestion: Suggestion
+  ): boolean {
+    if (isReviewerGroupSuggestion(suggestion)) {
+      return false;
+    }
+    const existingReviewers =
+      this.changes[changeIndex].reviewers[this.type]?.map(accountKey) ?? [];
+    if (isReviewerAccountSuggestion(suggestion)) {
+      return existingReviewers.includes(accountKey(suggestion.account));
+    } else if (this.isAccountSuggestion(suggestion)) {
+      return existingReviewers.includes(accountKey(suggestion));
+    }
+    return false;
   }
 }

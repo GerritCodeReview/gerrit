@@ -283,6 +283,11 @@ public abstract class IndexedField<I, T> {
 
     public abstract Builder<I, T> required(boolean required);
 
+    public Builder<I, T> required() {
+      required(true);
+      return this;
+    }
+
     /** Allow reading the actual data from the index. */
     public abstract Builder<I, T> stored(boolean stored);
 

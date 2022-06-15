@@ -58,15 +58,15 @@ import org.eclipse.jgit.lib.Repository;
 public class StalenessChecker {
   public static final ImmutableSet<String> FIELDS =
       ImmutableSet.of(
-          AccountField.ID.getName(),
-          AccountField.REF_STATE.getName(),
-          AccountField.EXTERNAL_ID_STATE.getName());
+          AccountField.ID_FIELD_SPEC.getName(),
+          AccountField.REF_STATE_SPEC.getName(),
+          AccountField.EXTERNAL_ID_STATE_SPEC.getName());
 
   public static final ImmutableSet<String> FIELDS2 =
       ImmutableSet.of(
-          AccountField.ID_STR.getName(),
-          AccountField.REF_STATE.getName(),
-          AccountField.EXTERNAL_ID_STATE.getName());
+          AccountField.ID_STR_FIELD_SPEC.getName(),
+          AccountField.REF_STATE_SPEC.getName(),
+          AccountField.EXTERNAL_ID_STATE_SPEC.getName());
 
   private final AccountIndexCollection indexes;
   private final GitRepositoryManager repoManager;
@@ -94,13 +94,13 @@ public class StalenessChecker {
       // No index; caller couldn't do anything if it is stale.
       return StalenessCheckResult.notStale();
     }
-    if (!i.getSchema().hasField(AccountField.REF_STATE)
-        || !i.getSchema().hasField(AccountField.EXTERNAL_ID_STATE)) {
+    if (!i.getSchema().hasField(AccountField.REF_STATE_SPEC)
+        || !i.getSchema().hasField(AccountField.EXTERNAL_ID_STATE_SPEC)) {
       // Index version not new enough for this check.
       return StalenessCheckResult.notStale();
     }
 
-    boolean useLegacyNumericFields = i.getSchema().hasField(AccountField.ID);
+    boolean useLegacyNumericFields = i.getSchema().hasField(AccountField.ID_FIELD_SPEC);
     ImmutableSet<String> fields = useLegacyNumericFields ? FIELDS : FIELDS2;
     Optional<FieldBundle> result =
         i.getRaw(
@@ -121,8 +121,9 @@ public class StalenessChecker {
       }
     }
 
-    for (Map.Entry<Project.NameKey, RefState> e :
-        RefState.parseStates(result.get().getValue(AccountField.REF_STATE)).entries()) {
+    Iterable<byte[]> refStates =
+        result.get().<Iterable<byte[]>>getValue(AccountField.REF_STATE_SPEC);
+    for (Map.Entry<Project.NameKey, RefState> e : RefState.parseStates(refStates).entries()) {
       // Custom All-Users repository names are not indexed. Instead, the default name is used.
       // Therefore, defer to the currently configured All-Users name.
       Project.NameKey repoName =
@@ -137,8 +138,9 @@ public class StalenessChecker {
     }
 
     Set<ExternalId> extIds = externalIds.byAccount(id);
-    ListMultimap<ObjectId, ObjectId> extIdStates =
-        parseExternalIdStates(result.get().getValue(AccountField.EXTERNAL_ID_STATE));
+    Iterable<byte[]> externalIdStates =
+        result.get().<Iterable<byte[]>>getValue(AccountField.EXTERNAL_ID_STATE_SPEC);
+    ListMultimap<ObjectId, ObjectId> extIdStates = parseExternalIdStates(externalIdStates);
     if (extIdStates.size() != extIds.size()) {
       return StalenessCheckResult.stale(
           "External IDs of the account were modified since the account was indexed. (%s != %s)",

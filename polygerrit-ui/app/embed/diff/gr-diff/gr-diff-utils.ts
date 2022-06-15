@@ -261,7 +261,6 @@ export function formatText(
   lineLimit: number
 ): HTMLElement {
   const contentText = createElementDiff('div', 'contentText');
-  contentText.setAttribute('role', 'region');
   contentText.ariaLabel = text;
   let columnPos = 0;
   let textOffset = 0;

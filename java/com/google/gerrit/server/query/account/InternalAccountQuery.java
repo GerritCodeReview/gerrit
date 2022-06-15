@@ -25,9 +25,9 @@ import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -151,16 +151,16 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
     return query(AccountPredicates.watchedProject(project));
   }
 
-  private boolean hasField(FieldDef<AccountState, ?> field) {
+  private boolean hasField(SchemaField<AccountState, ?> field) {
     Schema<AccountState> s = schema();
     return (s != null && s.hasField(field));
   }
 
   private boolean hasPreferredEmail() {
-    return hasField(AccountField.PREFERRED_EMAIL);
+    return hasField(AccountField.PREFERRED_EMAIL_SPEC);
   }
 
   private boolean hasPreferredEmailExact() {
-    return hasField(AccountField.PREFERRED_EMAIL_EXACT);
+    return hasField(AccountField.PREFERRED_EMAIL_EXACT_SPEC);
   }
 }

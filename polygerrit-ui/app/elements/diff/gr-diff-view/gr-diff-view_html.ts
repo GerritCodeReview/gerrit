@@ -180,13 +180,9 @@ export const htmlTemplate = html`
       /* prettier-ignore */
       gr-dropdown-list {
         width: 100%;
-        --gr-select-style: {
-          display: block;
-          width: 100%;
-        };
-        --native-select-style: {
-          width: 100%;
-        };
+        --gr-select-style-width: 100%;
+        --gr-select-style-display: block;
+        --native-select-style-width: 100%
       }
     }
     :host(.hideComments) {

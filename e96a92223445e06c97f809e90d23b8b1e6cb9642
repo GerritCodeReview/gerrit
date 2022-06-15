@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a91543fb_43c3aef2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-15T11:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2139ce69_47c81c89",
+      "range": {
+        "startLine": 266,
+        "startChar": 2,
+        "endLine": 266,
+        "endChar": 17
+      },
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc65b4f0_6dc75eaf",
@@ -71,6 +95,24 @@
       "writtenOn": "2022-06-15T10:09:15Z",
       "side": 1,
       "message": "I think this is the same as\n\n```\nreturn this.change?.actions?.ready?.enabled \u003d\u003d\u003d true;\n```\n\nMaybe inline?\n\nAlso, I think the style guide discourages using getters. Maybe prefer to just write a method with the same name or `computeCanStartReview()` or `getCanStartReview()`.\n\nThe comment about getters also applies to `editMode` and `submitEnabled`.",
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c30a8c2_42c28aeb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-15T11:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc65b4f0_6dc75eaf",
       "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +140,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aae4a832_16a183a9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-15T11:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d250a24_c56606f9",
+      "range": {
+        "startLine": 381,
+        "startChar": 2,
+        "endLine": 381,
+        "endChar": 21
+      },
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a802f3da_da1c6f73",
@@ -111,6 +177,24 @@
       "writtenOn": "2022-06-15T10:09:15Z",
       "side": 1,
       "message": "Optional: You could subscribe to `serverConfig$` of config-model instead of calling the rest-api here.",
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c83d5d25_a42d02aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-15T11:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a802f3da_da1c6f73",
       "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -132,6 +216,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d46687ac_9b6e1ba6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-15T11:33:23Z",
+      "side": 1,
+      "message": "Yes, it\u0027s mutated in a different method.",
+      "parentUuid": "887417cb_a3e52299",
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7d16670_329acac7",
@@ -149,6 +251,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9266457_d0049c94",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 1312,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-15T11:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7d16670_329acac7",
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edd7ccef_bdf83267",
@@ -162,6 +282,30 @@
       "writtenOn": "2022-06-15T10:09:15Z",
       "side": 1,
       "message": "Nit: Maybe rename to `renderTabs`.",
+      "range": {
+        "startLine": 1418,
+        "startChar": 10,
+        "endLine": 1418,
+        "endChar": 32
+      },
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8245c55_92ede11f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 1418,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-15T11:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edd7ccef_bdf83267",
       "range": {
         "startLine": 1418,
         "startChar": 10,
@@ -195,6 +339,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2630cd43_47f627f3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 1560,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-15T11:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae18327c_6f0f435b",
+      "range": {
+        "startLine": 1554,
+        "startChar": 2,
+        "endLine": 1560,
+        "endChar": 3
+      },
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24afd54d_b358bad1",
@@ -218,6 +386,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d007a2a0_7d4935da",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 2294,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-15T11:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24afd54d_b358bad1",
+      "range": {
+        "startLine": 2294,
+        "startChar": 4,
+        "endLine": 2294,
+        "endChar": 20
+      },
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f55c83a5_ca5e3d8b",
@@ -231,6 +423,30 @@
       "writtenOn": "2022-06-15T10:09:15Z",
       "side": 1,
       "message": "Optional nit: You could subscribe to `repoConfig$` in config-model instead of calling the restapi from change-view.",
+      "range": {
+        "startLine": 2584,
+        "startChar": 0,
+        "endLine": 2592,
+        "endChar": 3
+      },
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e84eca5_28577963",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 2592,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-15T11:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f55c83a5_ca5e3d8b",
       "range": {
         "startLine": 2584,
         "startChar": 0,

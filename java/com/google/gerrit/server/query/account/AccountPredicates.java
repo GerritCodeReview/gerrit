@@ -67,7 +67,9 @@ public class AccountPredicates {
 
   public static Predicate<AccountState> id(Schema<AccountState> schema, Account.Id accountId) {
     return new AccountPredicate(
-        schema.hasField(AccountField.ID) ? AccountField.ID : AccountField.ID_STR,
+        schema.hasField(AccountField.ID_FIELD_SPEC)
+            ? AccountField.ID_FIELD_SPEC
+            : AccountField.ID_STR_FIELD_SPEC,
         AccountQueryBuilder.FIELD_ACCOUNT,
         accountId.toString());
   }

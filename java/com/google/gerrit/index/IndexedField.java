@@ -43,12 +43,12 @@ import java.util.stream.StreamSupport;
 /**
  * Definition of a field stored in the secondary index.
  *
- * <p>Each IndexedField, stored in index, may have multiple {@link SearchSpec} which
- * defines how it can be searched and how the index tokens are generated.
+ * <p>Each IndexedField, stored in index, may have multiple {@link SearchSpec} which defines how it
+ * can be searched and how the index tokens are generated.
  *
- * <p>Index implementations may choose to store IndexedField and {@link SearchSpec}
- * (search tokens) separately, however {@link com.google.gerrit.index.query.IndexedQuery} always
- * issues the queries to {@link SearchSpec}.
+ * <p>Index implementations may choose to store IndexedField and {@link SearchSpec} (search tokens)
+ * separately, however {@link com.google.gerrit.index.query.IndexedQuery} always issues the queries
+ * to {@link SearchSpec}.
  *
  * <p>This allows index implementations to store IndexedField once, while enabling multiple
  * tokenization strategies on the same IndexedField with {@link SearchSpec}
@@ -110,8 +110,8 @@ public abstract class IndexedField<I, T> {
    *
    * <p>Multiple {@link SearchSpec} can be defined on single {@link IndexedField}.
    *
-   * <p>Depending on the implementation, indexes can choose to store {@link IndexedField} and
-   * {@link SearchSpec} separately. The searches are issues to {@link SearchSpec}.
+   * <p>Depending on the implementation, indexes can choose to store {@link IndexedField} and {@link
+   * SearchSpec} separately. The searches are issues to {@link SearchSpec}.
    */
   public class SearchSpec implements SchemaField<I, T> {
     private final String name;

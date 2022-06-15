@@ -18,8 +18,8 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
@@ -31,7 +31,8 @@ import java.util.List;
 /** Utility class to create predicates for account index queries. */
 public class AccountPredicates {
   public static boolean hasActive(Predicate<AccountState> p) {
-    return QueryBuilder.find(p, AccountPredicate.class, AccountField.ACTIVE.getName()) != null;
+    return QueryBuilder.find(p, AccountPredicate.class, AccountField.ACTIVE_FIELD_SPEC.getName())
+        != null;
   }
 
   public static Predicate<AccountState> andActive(Predicate<AccountState> p) {
@@ -49,11 +50,11 @@ public class AccountPredicates {
     if (canSeeSecondaryEmails) {
       preds.add(equalsNameIncludingSecondaryEmails(query));
     } else {
-      if (schema.hasField(AccountField.NAME_PART_NO_SECONDARY_EMAIL)) {
+      if (schema.hasField(AccountField.NAME_PART_NO_SECONDARY_EMAIL_SPEC)) {
         preds.add(equalsName(query));
       } else {
         preds.add(AccountPredicates.fullName(query));
-        if (schema.hasField(AccountField.PREFERRED_EMAIL)) {
+        if (schema.hasField(AccountField.PREFERRED_EMAIL_SPEC)) {
           preds.add(AccountPredicates.preferredEmail(query));
         }
       }
@@ -73,56 +74,58 @@ public class AccountPredicates {
 
   public static Predicate<AccountState> emailIncludingSecondaryEmails(String email) {
     return new AccountPredicate(
-        AccountField.EMAIL, AccountQueryBuilder.FIELD_EMAIL, email.toLowerCase());
+        AccountField.EMAIL_SPEC, AccountQueryBuilder.FIELD_EMAIL, email.toLowerCase());
   }
 
   public static Predicate<AccountState> preferredEmail(String email) {
     return new AccountPredicate(
-        AccountField.PREFERRED_EMAIL,
+        AccountField.PREFERRED_EMAIL_SPEC,
         AccountQueryBuilder.FIELD_PREFERRED_EMAIL,
         email.toLowerCase());
   }
 
   public static Predicate<AccountState> preferredEmailExact(String email) {
     return new AccountPredicate(
-        AccountField.PREFERRED_EMAIL_EXACT, AccountQueryBuilder.FIELD_PREFERRED_EMAIL_EXACT, email);
+        AccountField.PREFERRED_EMAIL_EXACT_SPEC,
+        AccountQueryBuilder.FIELD_PREFERRED_EMAIL_EXACT,
+        email);
   }
 
   public static Predicate<AccountState> equalsNameIncludingSecondaryEmails(String name) {
     return new AccountPredicate(
-        AccountField.NAME_PART, AccountQueryBuilder.FIELD_NAME, name.toLowerCase());
+        AccountField.NAME_PART_SPEC, AccountQueryBuilder.FIELD_NAME, name.toLowerCase());
   }
 
   public static Predicate<AccountState> equalsName(String name) {
     return new AccountPredicate(
-        AccountField.NAME_PART_NO_SECONDARY_EMAIL,
+        AccountField.NAME_PART_NO_SECONDARY_EMAIL_SPEC,
         AccountQueryBuilder.FIELD_NAME,
         name.toLowerCase());
   }
 
   public static Predicate<AccountState> externalIdIncludingSecondaryEmails(String externalId) {
-    return new AccountPredicate(AccountField.EXTERNAL_ID, externalId);
+    return new AccountPredicate(AccountField.EXTERNAL_ID_FIELD_SPEC, externalId);
   }
 
   public static Predicate<AccountState> fullName(String fullName) {
-    return new AccountPredicate(AccountField.FULL_NAME, fullName);
+    return new AccountPredicate(AccountField.FULL_NAME_SPEC, fullName);
   }
 
   public static Predicate<AccountState> isActive() {
-    return new AccountPredicate(AccountField.ACTIVE, "1");
+    return new AccountPredicate(AccountField.ACTIVE_FIELD_SPEC, "1");
   }
 
   public static Predicate<AccountState> isNotActive() {
-    return new AccountPredicate(AccountField.ACTIVE, "0");
+    return new AccountPredicate(AccountField.ACTIVE_FIELD_SPEC, "0");
   }
 
   public static Predicate<AccountState> username(String username) {
     return new AccountPredicate(
-        AccountField.USERNAME, AccountQueryBuilder.FIELD_USERNAME, username.toLowerCase());
+        AccountField.USERNAME_SPEC, AccountQueryBuilder.FIELD_USERNAME, username.toLowerCase());
   }
 
   public static Predicate<AccountState> watchedProject(Project.NameKey project) {
-    return new AccountPredicate(AccountField.WATCHED_PROJECT, project.get());
+    return new AccountPredicate(AccountField.WATCHED_PROJECT_SPEC, project.get());
   }
 
   public static Predicate<AccountState> cansee(
@@ -132,11 +135,11 @@ public class AccountPredicates {
 
   /** Predicate that is mapped to a field in the account index. */
   static class AccountPredicate extends IndexPredicate<AccountState> {
-    AccountPredicate(FieldDef<AccountState, ?> def, String value) {
+    AccountPredicate(SchemaField<AccountState, ?> def, String value) {
       super(def, value);
     }
 
-    AccountPredicate(FieldDef<AccountState, ?> def, String name, String value) {
+    AccountPredicate(SchemaField<AccountState, ?> def, String name, String value) {
       super(def, name, value);
     }
   }

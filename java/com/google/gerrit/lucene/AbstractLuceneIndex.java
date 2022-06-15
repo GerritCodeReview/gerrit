@@ -39,6 +39,7 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.ListResultSet;
@@ -50,7 +51,6 @@ import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorService;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -383,11 +383,10 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   }
 
   protected FieldBundle toFieldBundle(Document doc) {
-    Map<String, FieldDef<V, ?>> allFields = getSchema().getFields();
     ListMultimap<String, Object> rawFields = ArrayListMultimap.create();
     for (IndexableField field : doc.getFields()) {
-      checkArgument(allFields.containsKey(field.name()), "Unrecognized field " + field.name());
-      FieldType<?> type = allFields.get(field.name()).getType();
+      checkArgument(getSchema().hasField(field.name()), "Unrecognized field " + field.name());
+      FieldType<?> type = getSchema().getSchemaField(field.name()).getType();
       if (type == FieldType.EXACT || type == FieldType.FULL_TEXT || type == FieldType.PREFIX) {
         rawFields.put(field.name(), field.stringValue());
       } else if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
@@ -405,7 +404,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     return new FieldBundle(rawFields);
   }
 
-  private static Field.Store store(FieldDef<?, ?> f) {
+  private static Field.Store store(SchemaField<?, ?> f) {
     return f.isStored() ? Field.Store.YES : Field.Store.NO;
   }
 

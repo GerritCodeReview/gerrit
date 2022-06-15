@@ -171,7 +171,7 @@ class ChangeNotesParser {
   private final List<PatchSetApproval.Builder> bufferedApprovals;
   private final List<ChangeMessage> allChangeMessages;
 
-  // Non-final private members filled in during the parsing process.
+  // Non-final private members filled in during the parsing process
   private String branch;
   private Change.Status status;
   private String topic;

@@ -16,14 +16,13 @@ package com.google.gerrit.lucene;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.index.account.AccountField.FULL_NAME_SPEC;
-import static com.google.gerrit.server.index.account.AccountField.ID;
-import static com.google.gerrit.server.index.account.AccountField.ID_STR;
+import static com.google.gerrit.server.index.account.AccountField.ID_FIELD_SPEC;
+import static com.google.gerrit.server.index.account.AccountField.ID_STR_FIELD_SPEC;
 import static com.google.gerrit.server.index.account.AccountField.PREFERRED_EMAIL_EXACT_SPEC;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
@@ -63,15 +62,16 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
 
   private static final String FULL_NAME_SORT_FIELD = sortFieldName(FULL_NAME_SPEC);
   private static final String EMAIL_SORT_FIELD = sortFieldName(PREFERRED_EMAIL_EXACT_SPEC);
-  private static final String ID_SORT_FIELD = sortFieldName(ID);
-  private static final String ID2_SORT_FIELD = sortFieldName(ID_STR);
+  private static final String ID_SORT_FIELD = sortFieldName(ID_FIELD_SPEC);
+  private static final String ID2_SORT_FIELD = sortFieldName(ID_STR_FIELD_SPEC);
 
   private static Term idTerm(boolean useLegacyNumericFields, AccountState as) {
     return idTerm(useLegacyNumericFields, as.account().id());
   }
 
   private static Term idTerm(boolean useLegacyNumericFields, Account.Id id) {
-    FieldDef<AccountState, ?> idField = useLegacyNumericFields ? ID : ID_STR;
+    SchemaField<AccountState, ?> idField =
+        useLegacyNumericFields ? ID_FIELD_SPEC : ID_STR_FIELD_SPEC;
     if (useLegacyNumericFields) {
       return QueryBuilder.intTerm(idField.getName());
     }
@@ -119,10 +119,10 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   void add(Document doc, Values<AccountState> values) {
     // Add separate DocValues fields for those fields needed for sorting.
     SchemaField<AccountState, ?> f = values.getField();
-    if (f == ID) {
+    if (f == ID_FIELD_SPEC) {
       int v = (Integer) getOnlyElement(values.getValues());
       doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));
-    } else if (f == ID_STR) {
+    } else if (f == ID_STR_FIELD_SPEC) {
       String v = (String) getOnlyElement(values.getValues());
       doc.add(new NumericDocValuesField(ID2_SORT_FIELD, Integer.valueOf(v)));
     } else if (f == FULL_NAME_SPEC) {
@@ -138,7 +138,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   @Override
   public void replace(AccountState as) {
     try {
-      replace(idTerm(getSchema().hasField(ID), as), toDocument(as)).get();
+      replace(idTerm(getSchema().hasField(ID_FIELD_SPEC), as), toDocument(as)).get();
     } catch (ExecutionException | InterruptedException e) {
       throw new StorageException(e);
     }
@@ -156,7 +156,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   @Override
   public void delete(Account.Id key) {
     try {
-      delete(idTerm(getSchema().hasField(ID), key)).get();
+      delete(idTerm(getSchema().hasField(ID_FIELD_SPEC), key)).get();
     } catch (ExecutionException | InterruptedException e) {
       throw new StorageException(e);
     }
@@ -166,13 +166,13 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   public DataSource<AccountState> getSource(Predicate<AccountState> p, QueryOptions opts)
       throws QueryParseException {
     return new LuceneQuerySource(
-        opts.filterFields(o -> IndexUtils.accountFields(o, getSchema().hasField(ID))),
+        opts.filterFields(o -> IndexUtils.accountFields(o, getSchema().hasField(ID_FIELD_SPEC))),
         queryBuilder.toQuery(p),
         getSort());
   }
 
   private Sort getSort() {
-    String idSortField = getSchema().hasField(ID) ? ID_SORT_FIELD : ID2_SORT_FIELD;
+    String idSortField = getSchema().hasField(ID_FIELD_SPEC) ? ID_SORT_FIELD : ID2_SORT_FIELD;
     return new Sort(
         new SortField(FULL_NAME_SORT_FIELD, SortField.Type.STRING, false),
         new SortField(EMAIL_SORT_FIELD, SortField.Type.STRING, false),
@@ -181,10 +181,11 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
 
   @Override
   protected AccountState fromDocument(Document doc) {
-    FieldDef<AccountState, ?> idField = getSchema().hasField(ID) ? ID : ID_STR;
+    SchemaField<AccountState, ?> idField =
+        getSchema().hasField(ID_FIELD_SPEC) ? ID_STR_FIELD_SPEC : ID_STR_FIELD_SPEC;
     Account.Id id =
         Account.id(
-            getSchema().hasField(ID)
+            getSchema().hasField(ID_FIELD_SPEC)
                 ? doc.getField(idField.getName()).numericValue().intValue()
                 : Integer.valueOf(doc.getField(idField.getName()).stringValue()));
     // Use the AccountCache rather than depending on any stored fields in the document (of which

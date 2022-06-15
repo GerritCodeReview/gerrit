@@ -15,6 +15,7 @@
 package com.google.gerrit.index.testing;
 
 import com.google.gerrit.index.StoredValue;
+import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
 
 /** Bridge to recover fields from the fake index. */
@@ -72,5 +73,15 @@ public class FakeStoredValue implements StoredValue {
   @SuppressWarnings("unchecked")
   public Iterable<byte[]> asByteArrays() {
     return (Iterable<byte[]>) field;
+  }
+
+  @Override
+  public MessageLite asProto() {
+    return (MessageLite) field;
+  }
+
+  @Override
+  public Iterable<MessageLite> asProtos() {
+    return (Iterable<MessageLite>) field;
   }
 }

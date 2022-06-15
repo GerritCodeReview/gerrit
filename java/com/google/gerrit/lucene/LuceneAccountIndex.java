@@ -15,10 +15,10 @@
 package com.google.gerrit.lucene;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
-import static com.google.gerrit.server.index.account.AccountField.FULL_NAME;
+import static com.google.gerrit.server.index.account.AccountField.FULL_NAME_SPEC;
 import static com.google.gerrit.server.index.account.AccountField.ID;
 import static com.google.gerrit.server.index.account.AccountField.ID_STR;
-import static com.google.gerrit.server.index.account.AccountField.PREFERRED_EMAIL_EXACT;
+import static com.google.gerrit.server.index.account.AccountField.PREFERRED_EMAIL_EXACT_SPEC;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
@@ -61,8 +61,8 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
     implements AccountIndex {
   private static final String ACCOUNTS = "accounts";
 
-  private static final String FULL_NAME_SORT_FIELD = sortFieldName(FULL_NAME);
-  private static final String EMAIL_SORT_FIELD = sortFieldName(PREFERRED_EMAIL_EXACT);
+  private static final String FULL_NAME_SORT_FIELD = sortFieldName(FULL_NAME_SPEC);
+  private static final String EMAIL_SORT_FIELD = sortFieldName(PREFERRED_EMAIL_EXACT_SPEC);
   private static final String ID_SORT_FIELD = sortFieldName(ID);
   private static final String ID2_SORT_FIELD = sortFieldName(ID_STR);
 
@@ -125,10 +125,10 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
     } else if (f == ID_STR) {
       String v = (String) getOnlyElement(values.getValues());
       doc.add(new NumericDocValuesField(ID2_SORT_FIELD, Integer.valueOf(v)));
-    } else if (f == FULL_NAME) {
+    } else if (f == FULL_NAME_SPEC) {
       String value = (String) getOnlyElement(values.getValues());
       doc.add(new SortedDocValuesField(FULL_NAME_SORT_FIELD, new BytesRef(value)));
-    } else if (f == PREFERRED_EMAIL_EXACT) {
+    } else if (f == PREFERRED_EMAIL_EXACT_SPEC) {
       String value = (String) getOnlyElement(values.getValues());
       doc.add(new SortedDocValuesField(EMAIL_SORT_FIELD, new BytesRef(value)));
     }

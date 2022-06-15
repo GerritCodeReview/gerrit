@@ -21,8 +21,8 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.StreamSupport;
@@ -37,19 +37,19 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> implements 
    */
   private static final Splitter FULL_TEXT_SPLITTER = Splitter.on(CharMatcher.anyOf(" ,.-:\\/_=\n"));
 
-  private final FieldDef<I, ?> def;
+  private final SchemaField<I, ?> def;
 
-  protected IndexPredicate(FieldDef<I, ?> def, String value) {
+  protected IndexPredicate(SchemaField<I, ?> def, String value) {
     super(def.getName(), value);
     this.def = def;
   }
 
-  protected IndexPredicate(FieldDef<I, ?> def, String name, String value) {
+  protected IndexPredicate(SchemaField<I, ?> def, String name, String value) {
     super(name, value);
     this.def = def;
   }
 
-  public FieldDef<I, ?> getField() {
+  public SchemaField<I, ?> getField() {
     return def;
   }
 

@@ -33,7 +33,6 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.QueryOptions;
@@ -89,7 +88,7 @@ import org.apache.lucene.store.Directory;
 public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  static String sortFieldName(FieldDef<?, ?> f) {
+  static String sortFieldName(SchemaField<?, ?> f) {
     return f.getName() + "_SORT";
   }
 

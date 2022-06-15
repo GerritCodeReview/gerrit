@@ -231,6 +231,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "75e26ce3_f0656923",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-15T02:13:17Z",
+      "side": 1,
+      "message": "\u003e \u003e Is that the kind of configuration you have in mind?\n\u003e \n\u003e the basic UI i have in mind is to extend the current email address table by an additional column of radio buttons, so you\u0027d have \"display email\" and \"notification email\".\n\nAre you expecting \"display email\" is used for author/committer when creating commits?\n\n\u003e \n\u003e which emails can be added and/or which selected for which purpose could be restricted by a plugin.\n\nBut what if the plugin policy changes after the user has made a selection? I think we\u0027d want to ensure that the plugin policy always applies and that\u0027s why this change applies policy at the time of sending the email.\n\n\u003e \n\u003e this would even work if the per-repo addresses followed a pattern, so one could specify a templated address as proposed above. (of course, such addresses could not be confirmed, so they would be inapplicable to notifications.)\n\u003e \n\u003e now, if you want to be able to specify arbitrary per-repo addresses, the concept breaks down. instead, you\u0027d need something similar to the notifications table, possibly with support for inheritance like the project configurations. i suppose my prior use of \"cumbersome\" for that UI is a bit of an understatement. 😁\n\u003e \n\u003e so instead you\u0027d presumably go with the regular table, but have some kind of plugin-provided \"magic\" entry in there, and have the validator hook ensure that this entry is selected as the display address.\n\nI can see the appeal of that approach, but I think that\u0027s more (and yet not enough) than we\u0027re trying to do for the use case we\u0027re trying to address.",
+      "parentUuid": "b863d110_8918912c",
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "648eafb5_550e2afd",

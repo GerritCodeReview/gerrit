@@ -32,9 +32,9 @@ import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -238,9 +238,9 @@ public class ReviewersUtil {
 
   private static Account.Id fromIdField(FieldBundle f, boolean useLegacyNumericFields) {
     if (useLegacyNumericFields) {
-      return Account.id(f.getValue(AccountField.ID).intValue());
+      return Account.id(f.<Integer>getValue(AccountField.ID_FIELD_SPEC).intValue());
     }
-    return Account.id(Integer.valueOf(f.getValue(AccountField.ID_STR)));
+    return Account.id(Integer.valueOf(f.<String>getValue(AccountField.ID_STR_FIELD_SPEC)));
   }
 
   private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers)
@@ -256,9 +256,9 @@ public class ReviewersUtil {
       logger.atFine().log("accounts index query: %s", pred);
       accountIndexRewriter.validateMaxTermsInQuery(pred);
       boolean useLegacyNumericFields =
-          accountIndexes.getSearchIndex().getSchema().hasField(AccountField.ID);
-      FieldDef<AccountState, ?> idField =
-          useLegacyNumericFields ? AccountField.ID : AccountField.ID_STR;
+          accountIndexes.getSearchIndex().getSchema().hasField(AccountField.ID_FIELD_SPEC);
+      SchemaField<AccountState, ?> idField =
+          useLegacyNumericFields ? AccountField.ID_FIELD_SPEC : AccountField.ID_STR_FIELD_SPEC;
       ResultSet<FieldBundle> result =
           accountIndexes
               .getSearchIndex()

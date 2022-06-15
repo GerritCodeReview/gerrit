@@ -21,11 +21,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.IndexRewriter;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.AndPredicate;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.LimitPredicate;
@@ -245,9 +245,9 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     }
     IndexPredicate<ChangeData> p = (IndexPredicate<ChangeData>) in;
 
-    FieldDef<ChangeData, ?> def = p.getField();
+    SchemaField<ChangeData, ?> field = p.getField();
     Schema<ChangeData> schema = index.getSchema();
-    return schema.hasField(def);
+    return schema.hasField(field);
   }
 
   private Predicate<ChangeData> partitionChildren(

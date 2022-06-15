@@ -142,6 +142,24 @@
       "parentUuid": "64e281f4_bc3455af",
       "revId": "3d3e457c536fde42f94914bf99c1a72b7f2caa26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6831378b_96c4bbd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-15T15:09:29Z",
+      "side": 1,
+      "message": "\u003e we are no 1.5.2; we could probably upgrade to 1.5.8, but that hasn\u0027t happened.\n\nHan-Wen, in light of Issue 12068 and follow-up Issue 16001 and change 339425 and 339417 could you please look again into at least upgrading to the same version gerrit is using: 1.5.7 or better yet 1.5.8?",
+      "parentUuid": "8f4c5796_0934895f",
+      "revId": "3d3e457c536fde42f94914bf99c1a72b7f2caa26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

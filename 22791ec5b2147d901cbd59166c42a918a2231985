@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21e6b822_c120e1f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-15T14:41:10Z",
+      "side": 1,
+      "message": "With downgraded asciidoctor dependency to 1.5.2 it external links messed up.",
+      "revId": "22791ec5b2147d901cbd59166c42a918a2231985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,4 +1,3 @@
-:linkattrs:
 = User Guide
 
 This is a Gerrit guide that is dedicated to Gerrit end-users. It

@@ -1,4 +1,3 @@
-:linkattrs:
 = Use Gerrit to Be a Rockstar Programmer
 
 == Overview

@@ -1,4 +1,3 @@
-:linkattrs:
 = Gerrit Code Review - Uploading Changes
 
 Gerrit supports three methods of uploading changes:

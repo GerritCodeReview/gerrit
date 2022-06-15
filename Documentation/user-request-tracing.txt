@@ -1,4 +1,3 @@
-:linkattrs:
 = Request Tracing
 
 [[on-demand]]

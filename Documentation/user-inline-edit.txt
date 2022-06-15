@@ -1,4 +1,3 @@
-:linkattrs:
 = Creating and Editing Changes in the Gerrit Web Interface
 
 == Overview

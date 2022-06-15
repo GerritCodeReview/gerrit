@@ -1,5 +1,4 @@
-:linkattrs:
-= Gerrit Code Review - End to end tests
+= Gerrit Code Review - End to end load tests
 
 This document provides descriptions of Gerrit end-to-end (`e2e`) test scenarios implemented using
 the link:https://gatling.io/[Gatling,role=external,window=_blank] framework.

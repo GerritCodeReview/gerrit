@@ -1,4 +1,3 @@
-:linkattrs:
 = Gerrit Code Review - NoteDb Backend
 
 NoteDb is the storage backend for code review metadata. It is based on

@@ -1,4 +1,3 @@
-:linkattrs:
 = same Change-Id in multiple changes
 
 With this error message Gerrit rejects to push a commit if it

@@ -1,4 +1,3 @@
-:linkattrs:
 = Quickstart for Installing Gerrit on Linux
 
 This content explains how to install a basic instance of Gerrit on a Linux

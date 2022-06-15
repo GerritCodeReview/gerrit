@@ -1,4 +1,3 @@
-:linkattrs:
 = Deploy Gerrit Artifacts
 
 [[deploy-configuration-setting-maven-central]]

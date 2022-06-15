@@ -1,4 +1,3 @@
-:linkattrs:
 = Gerrit Code Review - Building with Bazel
 
 [[summary]]

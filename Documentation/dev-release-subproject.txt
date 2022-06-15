@@ -1,4 +1,3 @@
-:linkattrs:
 = Making a Release of a Gerrit Subproject
 
 [[make-snapshot]]

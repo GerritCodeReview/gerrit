@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b0c49e3_184faf0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-15T10:09:15Z",
+      "side": 1,
+      "message": "Nice! Thank you.",
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2139ce69_47c81c89",
@@ -43,6 +60,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc65b4f0_6dc75eaf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-15T10:09:15Z",
+      "side": 1,
+      "message": "I think this is the same as\n\n```\nreturn this.change?.actions?.ready?.enabled \u003d\u003d\u003d true;\n```\n\nMaybe inline?\n\nAlso, I think the style guide discourages using getters. Maybe prefer to just write a method with the same name or `computeCanStartReview()` or `getCanStartReview()`.\n\nThe comment about getters also applies to `editMode` and `submitEnabled`.",
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4d250a24_c56606f9",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 17
@@ -59,6 +93,149 @@
         "startChar": 2,
         "endLine": 381,
         "endChar": 21
+      },
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a802f3da_da1c6f73",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-15T10:09:15Z",
+      "side": 1,
+      "message": "Optional: You could subscribe to `serverConfig$` of config-model instead of calling the rest-api here.",
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "887417cb_a3e52299",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-15T10:09:15Z",
+      "side": 1,
+      "message": "Do you need to persist `this.changeStatuses` into a field? Maybe you could just compute it on the fly when needed. I think less `willUpdate` logic makes the component easier to understand.",
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7d16670_329acac7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 1312,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-15T10:09:15Z",
+      "side": 1,
+      "message": "Nit: For setting boolean attributes I would prefer leaving out `\u003d\"\"`.",
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edd7ccef_bdf83267",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 1418,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-15T10:09:15Z",
+      "side": 1,
+      "message": "Nit: Maybe rename to `renderTabs`.",
+      "range": {
+        "startLine": 1418,
+        "startChar": 10,
+        "endLine": 1418,
+        "endChar": 32
+      },
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae18327c_6f0f435b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 1560,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-15T10:09:15Z",
+      "side": 1,
+      "message": "For consistency maybe these should also be @query() fields.",
+      "range": {
+        "startLine": 1554,
+        "startChar": 2,
+        "endLine": 1560,
+        "endChar": 3
+      },
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24afd54d_b358bad1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 2294,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-15T10:09:15Z",
+      "side": 1,
+      "message": "There is already another check for this above.",
+      "range": {
+        "startLine": 2294,
+        "startChar": 4,
+        "endLine": 2294,
+        "endChar": 20
+      },
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f55c83a5_ca5e3d8b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 2592,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-15T10:09:15Z",
+      "side": 1,
+      "message": "Optional nit: You could subscribe to `repoConfig$` in config-model instead of calling the restapi from change-view.",
+      "range": {
+        "startLine": 2584,
+        "startChar": 0,
+        "endLine": 2592,
+        "endChar": 3
       },
       "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

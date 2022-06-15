@@ -22,10 +22,10 @@ import static com.google.gerrit.server.index.change.ChangeSchemaDefinitions.NAME
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
@@ -118,7 +118,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
   @Override
   void add(Document doc, Values<ChangeData> values) {
     // Add separate DocValues fields for those fields needed for sorting.
-    FieldDef<ChangeData, ?> f = values.getField();
+    SchemaField<ChangeData, ?> f = values.getField();
     if (f == ChangeField.LEGACY_ID_STR) {
       String v = (String) getOnlyElement(values.getValues());
       doc.add(new NumericDocValuesField(ID_STR_SORT_FIELD, Integer.valueOf(v)));

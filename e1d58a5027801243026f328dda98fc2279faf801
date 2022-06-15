@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d05847ff_61b96a45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-06-15T19:18:50Z",
+      "side": 1,
+      "message": "Thank you so much to have dig into that. I am not sure why Google Source uses a different version than the one defined in Gerrit, then I am guessing Google has very strict rules to upgrade a dependency.\n\nI have amended the commit message with the version number used by Google.",
+      "parentUuid": "68fe9cb9_f8a57575",
+      "range": {
+        "startLine": 21,
+        "startChar": 66,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "e1d58a5027801243026f328dda98fc2279faf801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "13cf9c9b_0ac37d58",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -54,6 +78,24 @@
       "writtenOn": "2022-06-15T13:15:15Z",
       "side": 1,
       "message": "Given that all released gerrit versions are broken, starting from 3.2.0 since change 248288 was introduced, would it make sense to move the fix to latest supported branch: stable-3.4 and merge it up to master?",
+      "revId": "e1d58a5027801243026f328dda98fc2279faf801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "821f874b_dfa5d554",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-06-15T19:18:50Z",
+      "side": 1,
+      "message": "I keep forgetting to target the oldest stable branch, thanks for the reminder. I will move the change indeed.",
+      "parentUuid": "effc150c_c2ad9810",
       "revId": "e1d58a5027801243026f328dda98fc2279faf801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

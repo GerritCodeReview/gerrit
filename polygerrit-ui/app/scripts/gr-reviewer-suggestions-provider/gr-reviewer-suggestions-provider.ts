@@ -17,12 +17,18 @@ import {
   SuggestedReviewerInfo,
   Suggestion,
 } from '../../types/common';
-import {assertNever, intersection} from '../../utils/common-util';
+import {assertNever} from '../../utils/common-util';
 import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-autocomplete';
 import {allSettled, isFulfilled} from '../../utils/async-util';
 import {notUndefined} from '../../types/types';
 import {accountKey} from '../../utils/account-util';
-import {ReviewerState} from '../../api/rest-api';
+import {
+  AccountId,
+  ChangeInfo,
+  EmailAddress,
+  GroupId,
+  ReviewerState,
+} from '../../api/rest-api';
 
 export interface ReviewerSuggestionsProvider {
   getSuggestions(input: string): Promise<Suggestion[]>;
@@ -34,33 +40,51 @@ export interface ReviewerSuggestionsProvider {
 export class GrReviewerSuggestionsProvider
   implements ReviewerSuggestionsProvider
 {
-  private changeNumbers: NumericChangeId[];
+  private changes: ChangeInfo[];
 
   constructor(
     private restApi: RestApiService,
     private type: ReviewerState.REVIEWER | ReviewerState.CC,
     private config: ServerInfo | undefined,
     private loggedIn: boolean,
-    ...changeNumbers: NumericChangeId[]
+    ...changes: ChangeInfo[]
   ) {
-    this.changeNumbers = changeNumbers;
+    this.changes = changes;
   }
 
   async getSuggestions(input: string): Promise<Suggestion[]> {
     if (!this.loggedIn) return [];
 
-    const allResults = await allSettled(
-      this.changeNumbers.map(changeNumber =>
-        this.getSuggestionsForChange(changeNumber, input)
+    const resultsByChangeIndex = await allSettled(
+      this.changes.map(change =>
+        this.getSuggestionsForChange(change._number, input)
       )
     );
-    const allSuggestions = allResults
+    const suggestionsByChangeIndex = resultsByChangeIndex
       .filter(isFulfilled)
       .map(result => result.value)
       .filter(notUndefined);
-    return intersection(allSuggestions, (s1, s2) =>
-      this.areSameSuggestions(s1, s2)
-    );
+    if (suggestionsByChangeIndex.length !== resultsByChangeIndex.length) {
+      // one of the requests failed, so don't allow any suggestions.
+      return [];
+    }
+
+    // Pass the union of all the suggestions through each change, keeping only
+    // suggestions where either:
+    //   A) the change had the suggestion too, or
+    //   B) the suggestion is already a reviewer/CC on the change (depending on
+    //      this.type).
+    return this.changes.reduce((suggestions, change, changeIndex) => {
+      const reviewerAndSuggestionKeys = new Set<
+        AccountId | EmailAddress | GroupId | undefined
+      >([
+        ...(change.reviewers[this.type]?.map(accountKey) ?? []),
+        ...suggestionsByChangeIndex[changeIndex].map(suggestionKey),
+      ]);
+      return suggestions.filter(suggestion =>
+        reviewerAndSuggestionKeys.has(suggestionKey(suggestion))
+      );
+    }, uniqueSuggestions(suggestionsByChangeIndex.flat()));
   }
 
   makeSuggestionItem(
@@ -82,7 +106,7 @@ export class GrReviewerSuggestionsProvider
       };
     }
 
-    if (this.isAccountSuggestion(suggestion)) {
+    if (isAccountSuggestion(suggestion)) {
       // Reviewer is an account suggestion from getSuggestedAccounts.
       return {
         name: getAccountDisplayName(this.config, suggestion),
@@ -100,19 +124,29 @@ export class GrReviewerSuggestionsProvider
       ? this.restApi.getChangeSuggestedReviewers(changeNumber, input)
       : this.restApi.getChangeSuggestedCCs(changeNumber, input);
   }
+}
 
-  private areSameSuggestions(a: Suggestion, b: Suggestion): boolean {
-    if (isReviewerAccountSuggestion(a) && isReviewerAccountSuggestion(b)) {
-      return accountKey(a.account) === accountKey(b.account);
-    } else if (isReviewerGroupSuggestion(a) && isReviewerGroupSuggestion(b)) {
-      return a.group.id === b.group.id;
-    } else if (this.isAccountSuggestion(a) && this.isAccountSuggestion(b)) {
-      return accountKey(a) === accountKey(b);
-    }
-    return false;
-  }
+function uniqueSuggestions(suggestions: Suggestion[]): Suggestion[] {
+  return suggestions.filter(
+    (suggestion, index) =>
+      index ===
+      suggestions.findIndex(
+        other => suggestionKey(suggestion) === suggestionKey(other)
+      )
+  );
+}
 
-  private isAccountSuggestion(s: Suggestion): s is AccountInfo {
-    return (s as AccountInfo)._account_id !== undefined;
+function suggestionKey(suggestion: Suggestion) {
+  if (isReviewerAccountSuggestion(suggestion)) {
+    return accountKey(suggestion.account);
+  } else if (isReviewerGroupSuggestion(suggestion)) {
+    return suggestion.group.id;
+  } else if (isAccountSuggestion(suggestion)) {
+    return accountKey(suggestion);
   }
+  return undefined;
+}
+
+function isAccountSuggestion(s: Suggestion): s is AccountInfo {
+  return (s as AccountInfo)._account_id !== undefined;
 }

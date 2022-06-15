@@ -1,4 +1,3 @@
-:linkattrs:
 = Gerrit Code Review - Eclipse Setup
 
 This document is about configuring Gerrit Code Review into an

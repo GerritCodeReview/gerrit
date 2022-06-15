@@ -1,4 +1,3 @@
-:linkattrs:
 = Gerrit Code Review - Backup
 
 A Gerrit Code Review site contains data that needs to be backed up regularly.

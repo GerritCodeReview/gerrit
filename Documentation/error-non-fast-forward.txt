@@ -1,4 +1,3 @@
-:linkattrs:
 = non-fast forward
 
 With this error message Gerrit rejects a push if the remote branch can't

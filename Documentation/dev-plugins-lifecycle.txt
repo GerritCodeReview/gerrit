@@ -1,4 +1,3 @@
-:linkattrs:
 = Plugin Lifecycle
 
 Most of the plugins are hosted on the same instance as the

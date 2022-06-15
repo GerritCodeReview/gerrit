@@ -1,4 +1,3 @@
-:linkattrs:
 = Working with Gerrit: An example
 
 To understand how Gerrit works, let's follow a change through its entire

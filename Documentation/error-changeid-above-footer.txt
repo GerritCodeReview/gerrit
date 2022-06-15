@@ -1,4 +1,3 @@
-:linkattrs:
 = commit xxxxxxx: Change-Id must be in message footer
 
 With this error message, Gerrit rejects a push of a commit to a project

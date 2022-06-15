@@ -1,4 +1,3 @@
-:linkattrs:
 = Permission denied (publickey)
 
 With this error message an SSH command to Gerrit is rejected if the

@@ -1,4 +1,3 @@
-:linkattrs:
 = Gerrit Code Review - Quota
 
 Gerrit does not provide out of the box quota enforcement. However, it does

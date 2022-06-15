@@ -1,4 +1,3 @@
-:linkattrs:
 = invalid author
 
 For every pushed commit Gerrit verifies that the e-mail address of

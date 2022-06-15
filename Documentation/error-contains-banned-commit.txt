@@ -1,4 +1,3 @@
-:linkattrs:
 = contains banned commit ...
 
 With this error message Gerrit rejects to push a commit that is

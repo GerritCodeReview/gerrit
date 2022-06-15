@@ -1,4 +1,3 @@
-:linkattrs:
 = The refs/for namespace
 
 When pushing a new or updated commit to Gerrit, you push that commit using a

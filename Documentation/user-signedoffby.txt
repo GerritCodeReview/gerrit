@@ -1,4 +1,3 @@
-:linkattrs:
 = Gerrit Code Review - Signed-off-by Lines
 
 [NOTE]

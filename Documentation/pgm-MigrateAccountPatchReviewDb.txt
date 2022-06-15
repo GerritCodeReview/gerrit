@@ -1,4 +1,3 @@
-:linkattrs:
 = MigrateAccountPatchReviewDb
 
 == NAME

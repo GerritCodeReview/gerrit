@@ -1,4 +1,3 @@
-:linkattrs:
 = Gerrit Code Review - Searching Changes
 
 == Default Searches

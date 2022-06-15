@@ -1,4 +1,3 @@
-:linkattrs:
 = Gerrit Code Review - Prolog Submit Rules Cookbook
 
 [[SubmitRule]]

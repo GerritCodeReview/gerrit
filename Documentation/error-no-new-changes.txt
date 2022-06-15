@@ -1,4 +1,3 @@
-:linkattrs:
 = no new changes
 
 With this error message Gerrit rejects to push a commit if the pushed

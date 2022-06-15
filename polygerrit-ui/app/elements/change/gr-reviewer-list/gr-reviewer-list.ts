@@ -17,7 +17,6 @@ import {
   isDetailedLabelInfo,
   LabelInfo,
 } from '../../../types/common';
-import {hasOwnProperty} from '../../../utils/common-util';
 import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';
 import {sortReviewers} from '../../../utils/attention-set-util';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -144,7 +143,6 @@ export class GrReviewerList extends LitElement {
         .account=${reviewer}
         .change=${change}
         highlightAttention
-        .voteableText=${this.computeVoteableText(reviewer)}
         .vote=${this.computeVote(reviewer)}
         .label=${this.computeCodeReviewLabel()}
       >
@@ -156,51 +154,6 @@ export class GrReviewerList extends LitElement {
         ></gr-vote-chip>
       </gr-account-chip>
     `;
-  }
-
-  /**
-   * Returns max permitted score for reviewer.
-   */
-  private getReviewerPermittedScore(reviewer: AccountInfo, label: string) {
-    // Note (issue 7874): sometimes the "all" list is not included in change
-    // detail responses, even when DETAILED_LABELS is included in options.
-    if (!this.change?.labels) {
-      return NaN;
-    }
-    const detailedLabel = this.change.labels[label];
-    if (!isDetailedLabelInfo(detailedLabel) || !detailedLabel.all) {
-      return NaN;
-    }
-    const approvalInfo = getApprovalInfo(detailedLabel, reviewer);
-    if (!approvalInfo) {
-      return NaN;
-    }
-    if (hasOwnProperty(approvalInfo, 'permitted_voting_range')) {
-      if (!approvalInfo.permitted_voting_range) return NaN;
-      return approvalInfo.permitted_voting_range.max;
-    } else if (hasOwnProperty(approvalInfo, 'value')) {
-      // If present, user can vote on the label.
-      return 0;
-    }
-    return NaN;
-  }
-
-  // private but used in tests
-  computeVoteableText(reviewer: AccountInfo) {
-    const change = this.change;
-    if (!change || !change.labels) {
-      return '';
-    }
-    const maxScores = [];
-    for (const label of Object.keys(change.labels)) {
-      const maxScore = this.getReviewerPermittedScore(reviewer, label);
-      if (isNaN(maxScore) || maxScore < 0) {
-        continue;
-      }
-      const scoreLabel = maxScore > 0 ? `+${maxScore}` : `${maxScore}`;
-      maxScores.push(`${label}: ${scoreLabel}`);
-    }
-    return maxScores.join(', ');
   }
 
   private computeVote(reviewer: AccountInfo): ApprovalInfo | undefined {

@@ -147,13 +147,16 @@ export function unique<T>(item: T, index: number, array: T[]) {
 }
 
 /**
- * Returns the elements that are present in every sub-array. If a compareBy
- * predicate is passed in, it will be used instead of strict equality. A new
- * array is always returned even if there is already just a single array.
+ * Returns the elements that are present in every sub-array. If an includesBy
+ * predicate is passed in, it will be used instead of Array.prototype.includes.
+ * A new array is always returned even if there is already just a single array.
  */
 export function intersection<T>(
   arrays: T[][],
-  compareBy: (t: T, u: T) => boolean = (t, u) => t === u
+  includesBy: (t: T, otherArray: T[], otherArrayIndex: number) => boolean = (
+    t,
+    otherArray
+  ) => otherArray.includes(t)
 ): T[] {
   // Array.prototype.reduce needs either an initialValue or a non-empty array.
   // Since there is no good initialValue for intersecting (∅ ∩ X = ∅), the
@@ -164,7 +167,7 @@ export function intersection<T>(
   if (arrays.length === 1) {
     return [...arrays[0]];
   }
-  return arrays.reduce((result, array) =>
-    result.filter(t => array.find(u => compareBy(t, u)))
+  return arrays.reduce((result, array, arrayIndex) =>
+    result.filter(t => includesBy(t, array, arrayIndex))
   );
 }

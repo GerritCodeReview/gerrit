@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
@@ -82,6 +83,39 @@ public class SchemaUtil {
   @SafeVarargs
   public static <V> Schema<V> schema(Schema<V> schema, FieldDef<V, ?>... moreFields) {
     return new Schema.Builder<V>().add(schema).add(moreFields).build();
+  }
+
+  public static <V> Schema<V> schema(
+      int version,
+      ImmutableList<FieldDef<V, ?>> fieldDefs,
+      ImmutableList<IndexedField<V, ?>> indexedFields,
+      ImmutableList<IndexedField<V, ?>.SearchSpec> searchSpecs) {
+    return new Schema.Builder<V>()
+        .version(version)
+        .add(fieldDefs)
+        .addIndexedFields(indexedFields)
+        .addSearchSpecs(searchSpecs)
+        .build();
+  }
+
+  public static <V> Schema<V> schema(
+      Schema<V> schema,
+      ImmutableList<FieldDef<V, ?>> fieldDefs,
+      ImmutableList<IndexedField<V, ?>> indexedFields,
+      ImmutableList<IndexedField<V, ?>.SearchSpec> searchSpecs) {
+    return new Schema.Builder<V>()
+        .add(schema)
+        .add(fieldDefs)
+        .addIndexedFields(indexedFields)
+        .addSearchSpecs(searchSpecs)
+        .build();
+  }
+
+  public static <V> Schema<V> schema(
+      ImmutableList<FieldDef<V, ?>> fieldDefs,
+      ImmutableList<IndexedField<V, ?>> indexFields,
+      ImmutableList<IndexedField<V, ?>.SearchSpec> searchSpecs) {
+    return schema(/* version= */ 0, fieldDefs, indexFields, searchSpecs);
   }
 
   public static Set<String> getPersonParts(PersonIdent person) {

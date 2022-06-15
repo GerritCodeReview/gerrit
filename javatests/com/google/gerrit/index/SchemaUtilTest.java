@@ -15,6 +15,7 @@
 package com.google.gerrit.index;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.index.FieldDef.exact;
 import static com.google.gerrit.index.SchemaUtil.getNameParts;
 import static com.google.gerrit.index.SchemaUtil.getPersonParts;
 import static com.google.gerrit.index.SchemaUtil.schema;
@@ -25,7 +26,21 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Test;
 
 public class SchemaUtilTest {
+
+  private static final FieldDef<String, String> TEST_DEF =
+      exact("test_id").stored().build(id -> id);
+
+  private static final IndexedField<String, String> TEST_FIELD =
+      IndexedField.<String>stringBuilder("TestId").build(a -> a);
+
+  private static final IndexedField<String, String> TEST_FIELD_DUPLICATE_NAME =
+      IndexedField.<String>stringBuilder(TEST_DEF.getName()).build(a -> a);
+
+  private static final IndexedField.SearchSpec TEST_FIELD_SPEC =
+      TEST_FIELD.exact(TEST_DEF.getName());
+
   static class TestSchemas {
+
     static final Schema<String> V1 = schema(/* version= */ 1);
     static final Schema<String> V2 = schema(/* version= */ 2);
     static Schema<String> V3 = schema(V2); // Not final, ignored.
@@ -84,5 +99,78 @@ public class SchemaUtilTest {
     assertThat(getNameParts("")).isEmpty();
     assertThat(getNameParts("foO-bAr_Baz a.b@c/d"))
         .containsExactly("foo", "bar", "baz", "a", "b", "c", "d");
+  }
+
+  @Test
+  public void addSearchWithoutStoredField_disallowed() {
+    IllegalArgumentException thrown =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new Schema.Builder<String>().version(0).addSearchSpecs(TEST_FIELD_SPEC).build());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("test_id spec can only be added to the schema that contains TestId field");
+  }
+
+  @Test
+  public void addFieldDefWithDuplicateSearchName_disallowed() {
+    IllegalArgumentException thrown =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new Schema.Builder<String>()
+                    .version(0)
+                    .addIndexedFields(TEST_FIELD)
+                    .addSearchSpecs(TEST_FIELD_SPEC)
+                    .add(TEST_DEF)
+                    .build());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            "Can not add test_id FieldDef, because the field with this name already exists in schema");
+  }
+
+  @Test
+  public void addFieldDefWithDuplicateFieldName_disallowed() {
+    IllegalArgumentException thrown =
+        assertThrows(
+            IllegalArgumentException.class,
+            () ->
+                new Schema.Builder<String>()
+                    .version(0)
+                    .addIndexedFields(TEST_FIELD_DUPLICATE_NAME)
+                    .add(TEST_DEF)
+                    .build());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            "Can not add test_id FieldDef, because the field with this name already exists in schema");
+  }
+
+  @Test
+  public void removeFieldWithExistingSearchSpec_disallowed() {
+    Schema<String> schema0 =
+        new Schema.Builder<String>()
+            .version(0)
+            .addIndexedFields(TEST_FIELD)
+            .addSearchSpecs(TEST_FIELD_SPEC)
+            .build();
+
+    IllegalArgumentException thrown =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new Schema.Builder<String>().add(schema0).remove(TEST_FIELD).build());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            "Field TestId can be only removed from schema after all of it's searches are removed.");
+
+    Schema<String> schema1 =
+        new Schema.Builder<String>()
+            .add(schema0)
+            .remove(TEST_FIELD_SPEC)
+            .remove(TEST_FIELD)
+            .build();
+    assertThat(schema1.hasField(TEST_FIELD_SPEC)).isFalse();
   }
 }

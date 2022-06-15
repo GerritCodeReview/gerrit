@@ -17,6 +17,13 @@
 #    usages of code from devDependencies in polygerrit bundle.
 workspace(
     name = "gerrit",
+    managed_directories = {
+        "@npm": ["node_modules"],
+        "@ui_npm": ["polygerrit-ui/app/node_modules"],
+        "@ui_dev_npm": ["polygerrit-ui/node_modules"],
+        "@tools_npm": ["tools/node_tools/node_modules"],
+        "@plugins_npm": ["plugins/node_modules"],
+    },
 )
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")

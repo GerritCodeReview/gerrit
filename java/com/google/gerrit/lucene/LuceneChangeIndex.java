@@ -38,9 +38,9 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.converter.ChangeProtoConverter;
 import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -493,7 +493,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       cd = changeDataFactory.create(Project.nameKey(project.stringValue()), id);
     }
 
-    for (FieldDef<ChangeData, ?> field : getSchema().getFields().values()) {
+    for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {
       if (fields.contains(field.getName()) && doc.get(field.getName()) != null) {
         field.setIfPossible(cd, new LuceneStoredValue(doc.get(field.getName())));
       }

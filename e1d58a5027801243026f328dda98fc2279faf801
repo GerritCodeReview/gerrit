@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13cf9c9b_0ac37d58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-15T13:04:58Z",
+      "side": 1,
+      "message": "As discussed on the issue, alternative approach would be just revert Marian\u0027s change.\n\nAlso Google appears to use AsciiDoctor 1.5.2, as was pointed out in change 209116, quoting Han-Wen: \"we are no 1.5.2\".\n\nWhat we could also try is to downgrade AsciiDoctor to the same version used by Google.",
+      "revId": "e1d58a5027801243026f328dda98fc2279faf801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

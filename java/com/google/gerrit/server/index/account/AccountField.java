@@ -16,9 +16,7 @@ package com.google.gerrit.server.index.account;
 
 import static com.google.gerrit.index.FieldDef.exact;
 import static com.google.gerrit.index.FieldDef.integer;
-import static com.google.gerrit.index.FieldDef.prefix;
 import static com.google.gerrit.index.FieldDef.storedOnly;
-import static com.google.gerrit.index.FieldDef.timestamp;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.FluentIterable;
@@ -29,6 +27,8 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
+import com.google.gerrit.index.StoredSchemaField;
+import com.google.gerrit.index.StoredSchemaField.StoredSearchSpec;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AllUsersName;
@@ -55,9 +55,13 @@ public class AccountField {
    * <p>This field includes secondary emails. Use this field only if the current user is allowed to
    * see secondary emails (requires the {@link GlobalCapability#MODIFY_ACCOUNT} capability).
    */
-  public static final FieldDef<AccountState, Iterable<String>> EXTERNAL_ID =
-      exact("external_id")
-          .buildRepeatable(a -> Iterables.transform(a.externalIds(), id -> id.key().get()));
+  public static final StoredSchemaField<AccountState, Iterable<String>> EXTERNAL_ID_FIELD =
+      StoredSchemaField.<AccountState>iterableStringBuilder("ExternalId")
+          .required()
+          .build(a -> Iterables.transform(a.externalIds(), id -> id.key().get()));
+
+  public static final StoredSearchSpec EXTERNAL_ID_FIELD_SPEC =
+      EXTERNAL_ID_FIELD.exact("external_id");
 
   /**
    * Fuzzy prefix match on name and email parts.
@@ -66,37 +70,53 @@ public class AccountField {
    * is allowed to see secondary emails (requires the {@link GlobalCapability#MODIFY_ACCOUNT}
    * capability).
    *
-   * <p>Use the {@link AccountField#NAME_PART_NO_SECONDARY_EMAIL} if the current user can't see
+   * <p>Use the {@link AccountField#NAME_PART_NO_SECONDARY_EMAIL_SPEC} if the current user can't see
    * secondary emails.
    */
-  public static final FieldDef<AccountState, Iterable<String>> NAME_PART =
-      prefix("name")
-          .buildRepeatable(
-              a -> getNameParts(a, Iterables.transform(a.externalIds(), ExternalId::email)));
+  public static final StoredSchemaField<AccountState, Iterable<String>> NAME_PART_FIELD =
+      StoredSchemaField.<AccountState>iterableStringBuilder("NamePart")
+          .required()
+          .build(a -> getNameParts(a, Iterables.transform(a.externalIds(), ExternalId::email)));
+
+  public static final StoredSearchSpec NAME_PART_SPEC = NAME_PART_FIELD.prefix("name");
 
   /**
    * Fuzzy prefix match on name and preferred email parts. Parts of secondary emails are not
    * included.
    */
-  public static final FieldDef<AccountState, Iterable<String>> NAME_PART_NO_SECONDARY_EMAIL =
-      prefix("name2")
-          .buildRepeatable(a -> getNameParts(a, Arrays.asList(a.account().preferredEmail())));
+  public static final StoredSchemaField<AccountState, Iterable<String>>
+      NAME_PART_NO_SECONDARY_EMAIL_FIELD =
+          StoredSchemaField.<AccountState>iterableStringBuilder("NamePartNoEmail")
+              .required()
+              .build(a -> getNameParts(a, Arrays.asList(a.account().preferredEmail())));
 
-  public static final FieldDef<AccountState, String> FULL_NAME =
-      exact("full_name").build(a -> a.account().fullName());
+  public static final StoredSearchSpec NAME_PART_NO_SECONDARY_EMAIL_SPEC =
+      NAME_PART_NO_SECONDARY_EMAIL_FIELD.prefix("name2");
 
-  public static final FieldDef<AccountState, String> ACTIVE =
-      exact("inactive").build(a -> a.account().isActive() ? "1" : "0");
+  public static final StoredSchemaField<AccountState, String> FULL_NAME_FIELD =
+      StoredSchemaField.<AccountState>stringBuilder("FullName")
+          .required()
+          .build(a -> a.account().fullName());
 
+  public static final StoredSearchSpec FULL_NAME_SPEC = FULL_NAME_FIELD.exact("full_name");
+
+  public static final StoredSchemaField<AccountState, String> ACTIVE_FIELD =
+      StoredSchemaField.<AccountState>stringBuilder("Active")
+          .required()
+          .build(a -> a.account().isActive() ? "1" : "0");
+
+  public static final StoredSearchSpec ACTIVE_FIELD_SPEC = ACTIVE_FIELD.exact("inactive");
   /**
    * All emails (preferred email + secondary emails). Use this field only if the current user is
    * allowed to see secondary emails (requires the 'Modify Account' capability).
    *
-   * <p>Use the {@link AccountField#PREFERRED_EMAIL} if the current user can't see secondary emails.
+   * <p>Use the {@link AccountField#PREFERRED_EMAIL_SPEC} if the current user can't see secondary
+   * emails.
    */
-  public static final FieldDef<AccountState, Iterable<String>> EMAIL =
-      prefix("email")
-          .buildRepeatable(
+  public static final StoredSchemaField<AccountState, Iterable<String>> EMAIL_FIELD =
+      StoredSchemaField.<AccountState>iterableStringBuilder("Email")
+          .required()
+          .build(
               a ->
                   FluentIterable.from(a.externalIds())
                       .transform(ExternalId::email)
@@ -105,31 +125,41 @@ public class AccountField {
                       .transform(String::toLowerCase)
                       .toSet());
 
-  public static final FieldDef<AccountState, String> PREFERRED_EMAIL =
-      prefix("preferredemail")
-          .build(
-              a -> {
-                String preferredEmail = a.account().preferredEmail();
-                return preferredEmail != null ? preferredEmail.toLowerCase() : null;
-              });
+  public static final StoredSchemaField.StoredSearchSpec EMAIL_SPEC = EMAIL_FIELD.prefix("email");
 
-  public static final FieldDef<AccountState, String> PREFERRED_EMAIL_EXACT =
-      exact("preferredemail_exact").build(a -> a.account().preferredEmail());
+  public static final StoredSchemaField<AccountState, String> PREFERRED_EMAIL_FIELD =
+      StoredSchemaField.<AccountState>stringBuilder("PreferredEmail")
+          .build(a -> a.account().preferredEmail());
+
+  public static final StoredSearchSpec PREFERRED_EMAIL_SPEC =
+      PREFERRED_EMAIL_FIELD.prefix("preferredemail");
+  public static final StoredSearchSpec PREFERRED_EMAIL_EXACT_SPEC =
+      PREFERRED_EMAIL_FIELD.exact("preferredemail_exact");
 
   // TODO(issue-15518): Migrate type for timestamp index fields from Timestamp to Instant
-  public static final FieldDef<AccountState, Timestamp> REGISTERED =
-      timestamp("registered").build(a -> Timestamp.from(a.account().registeredOn()));
+  public static final StoredSchemaField<AccountState, Timestamp> REGISTERED_FIELD =
+      StoredSchemaField.<AccountState>timestampBuilder("Registered")
+          .required()
+          .build(a -> Timestamp.from(a.account().registeredOn()));
 
-  public static final FieldDef<AccountState, String> USERNAME =
-      exact("username").build(a -> a.userName().map(String::toLowerCase).orElse(""));
+  public static final StoredSearchSpec REGISTERED_SPEC = REGISTERED_FIELD.timestamp("registered");
 
-  public static final FieldDef<AccountState, Iterable<String>> WATCHED_PROJECT =
-      exact("watchedproject")
-          .buildRepeatable(
+  public static final StoredSchemaField<AccountState, String> USERNAME_FIELD =
+      StoredSchemaField.<AccountState>stringBuilder("username")
+          .build(a -> a.userName().map(String::toLowerCase).orElse(""));
+
+  public static final StoredSearchSpec USERNAME_SPEC = USERNAME_FIELD.exact("username");
+
+  public static final StoredSchemaField<AccountState, Iterable<String>> WATCHED_PROJECT_FIELD =
+      StoredSchemaField.<AccountState>iterableStringBuilder("WatchedProject")
+          .build(
               a ->
                   FluentIterable.from(a.projectWatches().keySet())
                       .transform(k -> k.project().get())
                       .toSet());
+
+  public static final StoredSearchSpec WATCHED_PROJECT_SPEC =
+      WATCHED_PROJECT_FIELD.exact("watchedproject");
 
   /**
    * All values of all refs that were used in the course of indexing this document, except the

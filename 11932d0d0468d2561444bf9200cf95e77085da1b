@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2524680f_315cc873",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-15T00:51:36Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e If someone would add say Apache Solr or Amazon CloudSearch as yet another secondary index backends for Gerrit, we wouldn\u0027t want to expose in Gerrit core any specifics to those backends either.\n\u003e \u003e \n\u003e \u003e I completely agree that we don\u0027t want implementation only relevant to other indexes in core.\n\u003e \u003e \n\u003e \u003e However, I think exposing desired *Gerrit behavior/policy* as information to any index backend is a generic Gerrit core thing. Specific to this change, I think Gerrit core policy for when an index should/shouldn\u0027t ensure read/write consistency is a generic concept and is not specific to any backend.\n\u003e \n\u003e Agreed, however, we don\u0027t have it at the moment in Gerrit and we do not have any issues without it.\n\nMaybe you don\u0027t have issues, but there\u0027s simple use cases that fail because we\u0027re not enforcing consistency with Lucene. I would not be able to support our (planned to be upgraded) production server with the current Gerrit+Lucene implementation.\n\n\u003e Can you foresee a non-ES use-case where we can use this flag and provides benefits today?\n\nYes. Requiring consistency with Lucene. If I were trying to deploy a production solution with Lucene today, I would 100% be pursuing that.\n\n\u003e \n\u003e \u003e \u003e The only thing we could expose in Gerrit core, is the operation mode: OFFLINE or ONLINE index operation. What the dedicated backends will do with it, is not business of Gerrit core.\n\u003e \u003e \n\u003e \u003e I disagree. We did consider this path at first, but realized it\u0027s not presenting the necessary information to the index backend. From Gerrit core, we can clearly inform any index backend that consistency is not required during an offline reindex, but the inverse isn\u0027t true: a backend shouldn\u0027t assume that because core told it we\u0027re doing \"offline reindex\" that consistency isn\u0027t required.\n\u003e \n\u003e I am open to a solution where we define two configurations \n\nWhat two configurations are you suggesting (that I assume are different from the ones proposed in this change)?\n\n\u003e \n\u003e \u003e This follows the same pattern as the IsFirstInsertForEntry option added in Change I140c88125bb5. In that change core is also describing a behavior/policy that an index backend can implement around in whatever way is appropriate for that index backend.\n\u003e \n\u003e I see, however, the I140c88125bb5 had some value in Gerrit regardless of the backend. I am open to see and review a change that provides value and shows some use inside Gerrit without ES.\n\nSince we have a pluggable index backend, I think we have to accept that Gerrit core needs to provide policy information (generically) to indexes, even if not all of those indexes can (or choose to) do something interesting with the information. \n\nJust as we ensure our plugin APIs have sufficient information so that plugins can implement their desired behaviors, we need to ensure this module API has sufficient information for the modules to implement their correct behaviors.",
+      "parentUuid": "0afc83bc_229fcbc9",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "127fa5e1_a616ae46",
@@ -137,6 +161,24 @@
       "writtenOn": "2022-06-14T21:26:07Z",
       "side": 1,
       "message": "Keeping a format -2 until we find a value in Gerrit, without ES, given that we can achieve the same result without any change in Gerrit core.\n\nHappy to continue the review though, I am always open to a constructive and respectful technical discussion on this topic :-)",
+      "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85b558fb_9382678e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-15T00:51:36Z",
+      "side": 1,
+      "message": "\u003e Happy to continue the review though, I am always open to a constructive and respectful technical discussion on this topic :-)\n\n+1 😊",
+      "parentUuid": "b336c9b6_50e4f102",
       "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

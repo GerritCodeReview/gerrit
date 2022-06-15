@@ -177,6 +177,30 @@
       },
       "revId": "a5c96891cbdd8babee152c3dd97e7da05039dd57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fe85625_4d66a246",
+        "filename": "java/com/google/gerrit/server/index/options/EnsureReadsConsistentWithWrite.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-15T00:51:36Z",
+      "side": 1,
+      "message": "\u003e Should this be then changed to:\n\u003e \n\u003e ```\n\u003e public enum ReadConsistency {\n\u003e   READ_AFTER_WRITE,\n\u003e   NONE\n\u003e }\n\u003e ```\n\u003e \n\u003e What do you think?\n\nI\u0027m open to that. Maybe s/NONE/EVENTUAL/ ?",
+      "parentUuid": "b88b8e98_496b4591",
+      "range": {
+        "startLine": 21,
+        "startChar": 12,
+        "endLine": 21,
+        "endChar": 42
+      },
+      "revId": "a5c96891cbdd8babee152c3dd97e7da05039dd57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

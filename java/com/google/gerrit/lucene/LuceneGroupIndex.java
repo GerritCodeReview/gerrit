@@ -21,10 +21,10 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -107,7 +107,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   @Override
   void add(Document doc, Values<InternalGroup> values) {
     // Add separate DocValues field for the field that is needed for sorting.
-    FieldDef<InternalGroup, ?> f = values.getField();
+    SchemaField<InternalGroup, ?> f = values.getField();
     if (f == UUID) {
       String value = (String) getOnlyElement(values.getValues());
       doc.add(new SortedDocValuesField(UUID_SORT_FIELD, new BytesRef(value)));

@@ -27,6 +27,7 @@ import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
@@ -117,7 +118,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   @Override
   void add(Document doc, Values<AccountState> values) {
     // Add separate DocValues fields for those fields needed for sorting.
-    FieldDef<AccountState, ?> f = values.getField();
+    SchemaField<AccountState, ?> f = values.getField();
     if (f == ID) {
       int v = (Integer) getOnlyElement(values.getValues());
       doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));

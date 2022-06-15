@@ -89,6 +89,39 @@ public class SchemaUtil {
     return new Schema.Builder<V>().add(schema).add(moreFields).build();
   }
 
+  public static <V> Schema<V> schema(
+      int version,
+      ImmutableList<FieldDef<V, ?>> fieldDefs,
+      ImmutableList<IndexedField<V, ?>> indexedFields,
+      ImmutableList<IndexedField<V, ?>.SearchSpec> searchSpecs) {
+    return new Schema.Builder<V>()
+        .version(version)
+        .add(fieldDefs)
+        .addIndexedFields(indexedFields)
+        .addSearchSpecs(searchSpecs)
+        .build();
+  }
+
+  public static <V> Schema<V> schema(
+      Schema<V> schema,
+      ImmutableList<FieldDef<V, ?>> fieldDefs,
+      ImmutableList<IndexedField<V, ?>> indexedFields,
+      ImmutableList<IndexedField<V, ?>.SearchSpec> searchSpecs) {
+    return new Schema.Builder<V>()
+        .add(schema)
+        .add(fieldDefs)
+        .addIndexedFields(indexedFields)
+        .addSearchSpecs(searchSpecs)
+        .build();
+  }
+
+  public static <V> Schema<V> schema(
+      ImmutableList<FieldDef<V, ?>> fieldDefs,
+      ImmutableList<IndexedField<V, ?>> indexFields,
+      ImmutableList<IndexedField<V, ?>.SearchSpec> searchSpecs) {
+    return schema(/* version= */ 0, fieldDefs, indexFields, searchSpecs);
+  }
+
   public static Set<String> getPersonParts(PersonIdent person) {
     if (person == null) {
       return ImmutableSet.of();

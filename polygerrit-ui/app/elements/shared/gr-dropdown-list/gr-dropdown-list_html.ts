@@ -95,15 +95,15 @@ export const htmlTemplate = html`
     }
     @media only screen and (max-width: 50em) {
       gr-select {
-        display: inline;
-        @apply --gr-select-style;
+        display: var(--gr-select-style-display, inline);
+        width: var(--gr-select-style-width):
       }
       gr-button,
       iron-dropdown {
         display: none;
       }
       select {
-        @apply --native-select-style;
+        width: var(--native-select-style-width);
       }
     }
   </style>

@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
-import com.google.gerrit.index.FieldDef;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 
 /** FieldBundle is an abstraction that allows retrieval of raw values from different sources. */
 public class FieldBundle {
@@ -34,8 +34,8 @@ public class FieldBundle {
   /**
    * Get a field's value based on the field definition.
    *
-   * @param fieldDef the definition of the field of which the value should be retrieved. The field
-   *     must be stored and contained in the result set as specified by {@link
+   * @param schemaField the definition of the field of which the value should be retrieved. The
+   *     field must be stored and contained in the result set as specified by {@link
    *     com.google.gerrit.index.QueryOptions}.
    * @param <T> Data type of the returned object based on the field definition
    * @return Either a single element or an Iterable based on the field definition. An empty list is
@@ -44,16 +44,16 @@ public class FieldBundle {
    *     check is only enforced on non-repeatable fields.
    */
   @SuppressWarnings("unchecked")
-  public <T> T getValue(FieldDef<?, T> fieldDef) {
-    checkArgument(fieldDef.isStored(), "Field must be stored");
+  public <T> T getValue(SchemaField<?, T> schemaField) {
+    checkArgument(schemaField.isStored(), "Field must be stored");
     checkArgument(
-        fields.containsKey(fieldDef.getName()) || fieldDef.isRepeatable(),
+        fields.containsKey(schemaField.getName()) || schemaField.isRepeatable(),
         "Field %s is not in result set %s",
-        fieldDef.getName(),
+        schemaField.getName(),
         fields.keySet());
 
-    Iterable<Object> result = fields.get(fieldDef.getName());
-    if (fieldDef.isRepeatable()) {
+    Iterable<Object> result = fields.get(schemaField.getName());
+    if (schemaField.isRepeatable()) {
       return (T) result;
     }
     return (T) Iterables.getOnlyElement(result);

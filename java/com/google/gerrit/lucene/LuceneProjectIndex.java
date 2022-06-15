@@ -20,10 +20,10 @@ import static com.google.gerrit.index.project.ProjectField.NAME;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.index.query.DataSource;
@@ -107,7 +107,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
   @Override
   void add(Document doc, Values<ProjectData> values) {
     // Add separate DocValues field for the field that is needed for sorting.
-    FieldDef<ProjectData, ?> f = values.getField();
+    SchemaField<ProjectData, ?> f = values.getField();
     if (f == NAME) {
       String value = (String) getOnlyElement(values.getValues());
       doc.add(new SortedDocValuesField(NAME_SORT_FIELD, new BytesRef(value)));

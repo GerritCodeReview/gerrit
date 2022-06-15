@@ -39,9 +39,6 @@ export class GrAccountLabel extends LitElement {
   @property({type: Object})
   change?: ChangeInfo;
 
-  @property({type: String})
-  voteableText?: string;
-
   /**
    * Should this user be considered to be in the attention set, regardless
    * of the current state of the change object?
@@ -207,7 +204,6 @@ export class GrAccountLabel extends LitElement {
               .account=${account}
               .change=${change}
               .highlightAttention=${highlightAttention}
-              .voteableText=${this.voteableText}
             ></gr-hovercard-account>`
           : ''}
         ${this.attentionIconShown

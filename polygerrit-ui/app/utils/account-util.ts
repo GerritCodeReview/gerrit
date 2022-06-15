@@ -11,14 +11,16 @@ import {
   GroupId,
   GroupInfo,
   isAccount,
+  isDetailedLabelInfo,
   isGroup,
   ReviewerInput,
   ServerInfo,
 } from '../types/common';
 import {AccountTag, ReviewerState} from '../constants/constants';
-import {assertNever} from './common-util';
+import {assertNever, hasOwnProperty} from './common-util';
 import {AccountAddition} from '../elements/shared/gr-account-list/gr-account-list';
 import {getDisplayName} from './display-name-util';
+import {getApprovalInfo} from './label-util';
 
 export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
 
@@ -116,4 +118,55 @@ export function replaceTemplates(
       return getDisplayName(config, accountInText);
     }
   );
+}
+
+/**
+ * Returns max permitted score for reviewer.
+ */
+const getReviewerPermittedScore = (
+  change: ChangeInfo,
+  reviewer: AccountInfo,
+  label: string
+) => {
+  // Note (issue 7874): sometimes the "all" list is not included in change
+  // detail responses, even when DETAILED_LABELS is included in options.
+  if (!change?.labels) {
+    return NaN;
+  }
+  const detailedLabel = change.labels[label];
+  if (!isDetailedLabelInfo(detailedLabel) || !detailedLabel.all) {
+    return NaN;
+  }
+  const approvalInfo = getApprovalInfo(detailedLabel, reviewer);
+  if (!approvalInfo) {
+    return NaN;
+  }
+  if (hasOwnProperty(approvalInfo, 'permitted_voting_range')) {
+    if (!approvalInfo.permitted_voting_range) return NaN;
+    return approvalInfo.permitted_voting_range.max;
+  } else if (hasOwnProperty(approvalInfo, 'value')) {
+    // If present, user can vote on the label.
+    return 0;
+  }
+  return NaN;
+};
+
+/**
+ * Explains which labels the user can vote on and which score they can
+ * give.
+ */
+export function computeVoteableText(change: ChangeInfo, reviewer: AccountInfo) {
+  if (!change || !change.labels) {
+    return '';
+  }
+  const maxScores = [];
+  for (const label of Object.keys(change.labels)) {
+    const maxScore = getReviewerPermittedScore(change, reviewer, label);
+    if (isNaN(maxScore) || maxScore < 0) {
+      continue;
+    }
+    const scoreLabel = maxScore > 0 ? `+${maxScore}` : `${maxScore}`;
+    maxScores.push(`${label}: ${scoreLabel}`);
+  }
+  return maxScores.join(', ');
 }

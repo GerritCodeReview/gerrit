@@ -627,10 +627,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
                 QueryOptions.create(IndexConfig.createDefault(), 0, 1, schema.getStoredFields()));
 
     assertThat(rawFields).isPresent();
-    if (schema.hasField(AccountField.ID)) {
-      assertThat(rawFields.get().getValue(AccountField.ID)).isEqualTo(userInfo._accountId);
+    if (schema.hasField(AccountField.ID_FIELD_SPEC)) {
+      assertThat(rawFields.get().getValue(AccountField.ID_FIELD_SPEC))
+          .isEqualTo(userInfo._accountId);
     } else {
-      assertThat(Integer.valueOf(rawFields.get().getValue(AccountField.ID_STR)))
+      assertThat(Integer.valueOf(rawFields.get().<String>getValue(AccountField.ID_STR_FIELD_SPEC)))
           .isEqualTo(userInfo._accountId);
     }
 
@@ -641,11 +642,10 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
       assertThat(extId).isPresent();
       blobs.add(new ByteArrayWrapper(extId.get().toByteArray()));
     }
-    assertThat(rawFields.get().getValue(AccountField.EXTERNAL_ID_STATE)).hasSize(blobs.size());
-    assertThat(
-            Streams.stream(rawFields.get().getValue(AccountField.EXTERNAL_ID_STATE))
-                .map(ByteArrayWrapper::new)
-                .collect(toList()))
+    Iterable<byte[]> externalIdStates =
+        rawFields.get().<Iterable<byte[]>>getValue(AccountField.EXTERNAL_ID_STATE_SPEC);
+    assertThat(externalIdStates).hasSize(blobs.size());
+    assertThat(Streams.stream(externalIdStates).map(b -> new ByteArrayWrapper(b)).collect(toList()))
         .containsExactlyElementsIn(blobs);
   }
 

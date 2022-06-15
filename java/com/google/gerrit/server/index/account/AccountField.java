@@ -14,9 +14,6 @@
 
 package com.google.gerrit.server.index.account;
 
-import static com.google.gerrit.index.FieldDef.exact;
-import static com.google.gerrit.index.FieldDef.integer;
-import static com.google.gerrit.index.FieldDef.storedOnly;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.FluentIterable;
@@ -24,7 +21,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexedField;
 import com.google.gerrit.index.IndexedField.SearchSpec;
 import com.google.gerrit.index.RefState;
@@ -48,11 +44,22 @@ import org.eclipse.jgit.lib.ObjectId;
  * being singletons so that the default (i.e. reference) comparison works.
  */
 public class AccountField {
-  public static final FieldDef<AccountState, Integer> ID =
-      integer("id").stored().build(a -> a.account().id().get());
 
-  public static final FieldDef<AccountState, String> ID_STR =
-      exact("id_str").stored().build(a -> String.valueOf(a.account().id().get()));
+  public static final IndexedField<AccountState, Integer> ID_FIELD =
+      IndexedField.<AccountState>integerBuilder("Id")
+          .stored()
+          .required()
+          .build(a -> a.account().id().get());
+
+  public static final SearchSpec ID_FIELD_SPEC = ID_FIELD.integer("id");
+
+  public static final IndexedField<AccountState, String> ID_STR_FIELD =
+      IndexedField.<AccountState>stringBuilder("IdStr")
+          .stored()
+          .required()
+          .build(a -> String.valueOf(a.account().id().get()));
+
+  public static final SearchSpec ID_STR_FIELD_SPEC = ID_STR_FIELD.exact("id_str");
 
   /**
    * External IDs.
@@ -180,13 +187,15 @@ public class AccountField {
   /**
    * All values of all refs that were used in the course of indexing this document, except the
    * refs/meta/external-ids notes branch which is handled specially (see {@link
-   * #EXTERNAL_ID_STATE}).
+   * #EXTERNAL_ID_STATE_SPEC}).
    *
    * <p>Emitted as UTF-8 encoded strings of the form {@code project:ref/name:[hex sha]}.
    */
-  public static final FieldDef<AccountState, Iterable<byte[]>> REF_STATE =
-      storedOnly("ref_state")
-          .buildRepeatable(
+  public static final IndexedField<AccountState, Iterable<byte[]>> REF_STATE_FIELD =
+      IndexedField.<AccountState>iterableByteArrayBuilder("RefState")
+          .stored()
+          .required()
+          .build(
               a -> {
                 if (a.account().metaId() == null) {
                   return ImmutableList.of();
@@ -203,20 +212,27 @@ public class AccountField {
                         .toByteArray(new AllUsersName(AllUsersNameProvider.DEFAULT)));
               });
 
+  public static final SearchSpec REF_STATE_SPEC = REF_STATE_FIELD.storedOnly("ref_state");
+
   /**
    * All note values of all external IDs that were used in the course of indexing this document.
    *
    * <p>Emitted as UTF-8 encoded strings of the form {@code [hex sha of external ID]:[hex sha of
    * note blob]}, or with other words {@code [note ID]:[note data ID]}.
    */
-  public static final FieldDef<AccountState, Iterable<byte[]>> EXTERNAL_ID_STATE =
-      storedOnly("external_id_state")
-          .buildRepeatable(
+  public static final IndexedField<AccountState, Iterable<byte[]>> EXTERNAL_ID_STATE_FIELD =
+      IndexedField.<AccountState>iterableByteArrayBuilder("ExternalIdState")
+          .stored()
+          .required()
+          .build(
               a ->
                   a.externalIds().stream()
                       .filter(e -> e.blobId() != null)
                       .map(ExternalId::toByteArray)
                       .collect(toSet()));
+
+  public static final SearchSpec EXTERNAL_ID_STATE_SPEC =
+      EXTERNAL_ID_STATE_FIELD.storedOnly("external_id_state");
 
   private static final Set<String> getNameParts(AccountState a, Iterable<String> emails) {
     String fullName = a.account().fullName();

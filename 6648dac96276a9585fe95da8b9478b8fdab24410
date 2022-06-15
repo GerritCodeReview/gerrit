@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "646491e2_ede7451f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-15T14:01:48Z",
+      "side": 1,
+      "message": "I dropped the ball on this one, but here are my concerns about having this as a commit footer instead of as a tag/label in the commit message (as in the 1:st patch-set) if you think they are something to consider:\n\n* A commit footer normally has a key and a value.\n* In this case we don\u0027t care about the value.\n* This means that any of these footers makes the change submitable:\n\n    FW_COMPATIBLE: no\n    \n    FW_COMPATIBLE: false\n    \n    FW_COMPATIBLE:\n    \nIt sort-of serves it\u0027s purpose but is somewhat confusing.",
+      "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

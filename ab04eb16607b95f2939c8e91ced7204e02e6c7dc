@@ -22,6 +22,30 @@
       },
       "revId": "ab04eb16607b95f2939c8e91ced7204e02e6c7dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0a4bdd6_ace427b2",
+        "filename": ".bazelignore",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-15T08:56:30Z",
+      "side": 1,
+      "message": "No, we only need the code that\u0027s linked into the UI to show up.",
+      "parentUuid": "bee0e6c8_2b195e6d",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 29
+      },
+      "revId": "ab04eb16607b95f2939c8e91ced7204e02e6c7dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

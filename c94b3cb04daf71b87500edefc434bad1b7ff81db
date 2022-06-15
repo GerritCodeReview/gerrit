@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b4c7335_b75676a6",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-15T15:50:43Z",
+      "side": 1,
+      "message": "mmm thanks for double checking.\n\nChangeUpdate#commit is only used from tests and it\u0027s wrapping my code here. I think I can use it for more readability. Done.\n\n\u003e Or maybe better to wrap the logic into BatchUpdateOp and execute BatchUpdate?\n\nI think it\u0027s the same. All callers of BatchUpdate create an instance of it and add an Op. The Op then implements updateChange(ctx) and modifies/sets the fields of ctx.changeUpdate, then NoteDbUpdateManager executes these updates at the end.\nHere we create the ChangeUpdate directly and commit it.",
+      "parentUuid": "a87bcc48_b3576e7a",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 286,
+        "endChar": 34
+      },
+      "revId": "c94b3cb04daf71b87500edefc434bad1b7ff81db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10500853_ca3f3e24",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-06-15T15:17:42Z",
       "side": 1,
       "message": "I think this method asserted there is only 1 draft comment, should we keep as is/add another method to get first?",
+      "range": {
+        "startLine": 88,
+        "startChar": 88,
+        "endLine": 88,
+        "endChar": 95
+      },
+      "revId": "c94b3cb04daf71b87500edefc434bad1b7ff81db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fd698aa_8b53d169",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/DeleteZombieDraftIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-15T15:50:43Z",
+      "side": 1,
+      "message": "Rolled back by mistake while rebasing. Yes you\u0027re right.\n\nDone.",
+      "parentUuid": "10500853_ca3f3e24",
       "range": {
         "startLine": 88,
         "startChar": 88,

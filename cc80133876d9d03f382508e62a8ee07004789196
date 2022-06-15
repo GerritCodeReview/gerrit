@@ -22,6 +22,30 @@
       },
       "revId": "cc80133876d9d03f382508e62a8ee07004789196",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3d034ba_94762ed3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/DeleteZombieDraftIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-15T15:50:43Z",
+      "side": 0,
+      "message": "Ah sure. Deleted by mistakes while rebasing. Done.",
+      "parentUuid": "26b9af98_8654688c",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 81
+      },
+      "revId": "cc80133876d9d03f382508e62a8ee07004789196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

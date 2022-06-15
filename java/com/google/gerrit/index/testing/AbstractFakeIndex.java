@@ -24,10 +24,10 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.index.query.DataSource;
@@ -137,7 +137,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
         ImmutableList.Builder<FieldBundle> fieldBundles = ImmutableList.builder();
         for (V result : results) {
           ImmutableListMultimap.Builder<String, Object> fields = ImmutableListMultimap.builder();
-          for (FieldDef<V, ?> field : getSchema().getFields().values()) {
+          for (SchemaField<V, ?> field : getSchema().getSchemaFields().values()) {
             if (field.get(result) == null) {
               continue;
             }
@@ -213,7 +213,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     @Override
     protected Map<String, Object> docFor(ChangeData value) {
       ImmutableMap.Builder<String, Object> doc = ImmutableMap.builder();
-      for (FieldDef<ChangeData, ?> field : getSchema().getFields().values()) {
+      for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {
         if (ChangeField.MERGEABLE.getName().equals(field.getName()) && skipMergable) {
           continue;
         }
@@ -231,7 +231,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
           changeDataFactory.create(
               Project.nameKey((String) doc.get(ChangeField.PROJECT.getName())),
               Change.id(Integer.valueOf((String) doc.get(ChangeField.LEGACY_ID_STR.getName()))));
-      for (FieldDef<ChangeData, ?> field : getSchema().getFields().values()) {
+      for (SchemaField<ChangeData, ?> field : getSchema().getSchemaFields().values()) {
         field.setIfPossible(cd, new FakeStoredValue(doc.get(field.getName())));
       }
       return cd;

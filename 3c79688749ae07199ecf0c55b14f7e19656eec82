@@ -243,6 +243,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c9ac44f_5eaf71cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-15T09:36:53Z",
+      "side": 1,
+      "message": "@Ben do you have any idea if they can be cleaned up?",
+      "parentUuid": "5e3cf872_725516cf",
+      "range": {
+        "startLine": 595,
+        "startChar": 73,
+        "endLine": 595,
+        "endChar": 83
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "447dc477_30a12573",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 3
@@ -466,6 +490,30 @@
       "side": 1,
       "message": "Some code accesses this piece of the dom so I\u0027d rather keep it.",
       "parentUuid": "67843c95_cb966f66",
+      "range": {
+        "startLine": 1201,
+        "startChar": 12,
+        "endLine": 1201,
+        "endChar": 37
+      },
+      "revId": "3c79688749ae07199ecf0c55b14f7e19656eec82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8599dcb9_ec3a64ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-15T09:36:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ee8e5861_a397f8e4",
       "range": {
         "startLine": 1201,
         "startChar": 12,

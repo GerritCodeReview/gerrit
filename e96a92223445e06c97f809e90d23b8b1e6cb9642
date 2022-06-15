@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e922dd6_5d029611",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-15T09:36:53Z",
+      "side": 1,
+      "message": "Thanks a lot!! 😄",
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2139ce69_47c81c89",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-15T09:36:53Z",
+      "side": 1,
+      "message": "add comment for `Use getter/setter instead.`",
+      "range": {
+        "startLine": 266,
+        "startChar": 2,
+        "endLine": 266,
+        "endChar": 17
+      },
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d250a24_c56606f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-15T09:36:53Z",
+      "side": 1,
+      "message": "Add comment for Use getter/setter instead.",
+      "range": {
+        "startLine": 381,
+        "startChar": 2,
+        "endLine": 381,
+        "endChar": 21
+      },
+      "revId": "e96a92223445e06c97f809e90d23b8b1e6cb9642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

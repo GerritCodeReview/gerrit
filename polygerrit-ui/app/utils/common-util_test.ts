@@ -80,11 +80,16 @@ suite('common-util tests', () => {
     const foo1 = {value: 5};
     const foo2 = {value: 5};
 
-    // these foo's will fail strict equality with each other, but a comparator
-    // can make them intersect.
+    // these foo's will fail strict equality with each other, but the caller can
+    // make them intersect by providing a way to deeply compare.
     assert.sameDeepMembers(intersection([[foo1], [foo2]]), []);
     assert.sameDeepMembers(
-      intersection([[foo1], [foo2]], (a, b) => a.value === b.value),
+      intersection(
+        [[foo1], [foo2]],
+        (item, otherArray) =>
+          otherArray.find(otherItem => otherItem.value === item.value) !==
+          undefined
+      ),
       [foo1]
     );
   });

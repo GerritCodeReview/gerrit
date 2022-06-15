@@ -62,7 +62,9 @@ public final class IndexUtils {
    */
   public static Set<String> accountFields(Set<String> fields, boolean useLegacyNumericFields) {
     String idFieldName =
-        useLegacyNumericFields ? AccountField.ID.getName() : AccountField.ID_STR.getName();
+        useLegacyNumericFields
+            ? AccountField.ID_FIELD_SPEC.getName()
+            : AccountField.ID_STR_FIELD_SPEC.getName();
     return fields.contains(idFieldName) ? fields : Sets.union(fields, ImmutableSet.of(idFieldName));
   }
 

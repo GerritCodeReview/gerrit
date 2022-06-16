@@ -1430,7 +1430,7 @@ export class GrRestApiInterface
 
     return [
       false,
-      `/projects/?n=${reposPerPage + 1}&S=${offset}` + `&m=${encodedFilter}`,
+      `/projects/?n=${reposPerPage + 1}&S=${offset}` + `&d=&m=${encodedFilter}`,
     ];
   }
 

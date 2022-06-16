@@ -8,7 +8,7 @@ import '../../../styles/shared-styles';
 import '../gr-comment/gr-comment';
 import '../../../embed/diff/gr-diff/gr-diff';
 import '../gr-copy-clipboard/gr-copy-clipboard';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, nothing, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, queryAll, state} from 'lit/decorators';
 import {
   computeDiffFromContext,
@@ -475,59 +475,47 @@ export class GrCommentThread extends LitElement {
     `;
   }
 
-  // for logging only
-  private renderedCommentsCount = 0;
-
   renderComments() {
     assertIsDefined(this.thread, 'thread');
-    const robotButtonDisabled = !this.account || this.isDraftOrUnsaved();
-    const comments: Comment[] = [...this.thread.comments];
-    if (this.unsavedComment && !this.isDraft()) {
-      comments.push(this.unsavedComment);
-    }
-    // We are reporting when a thread renders less comments than before. That
-    // can happen legitimately when cancelling or discarding a comment. But we
-    // want to know, if this also happens temporarily: Comment removed and then
-    // added back immediately, which would explain <gr-comment> elements being
-    // destroyed and then re-created.
-    if (this.renderedCommentsCount > comments.length) {
-      this.reporting.reportInteraction(
-        Interaction.COMMENTS_AUTOCLOSE_COMMENT_REMOVED,
-        {before: this.renderedCommentsCount, after: comments.length}
-      );
-    }
-    this.renderedCommentsCount = comments.length;
-    return repeat(
-      comments,
-      // We want to reuse <gr-comment> when unsaved changes to draft.
-      comment => (isDraftOrUnsaved(comment) ? 'unsaved' : comment.id),
-      comment => {
-        const initiallyCollapsed =
-          !isDraftOrUnsaved(comment) &&
-          (this.messageId
-            ? comment.change_message_id !== this.messageId
-            : !this.unresolved);
-        return html`
-          <gr-comment
-            .comment=${comment}
-            .comments=${this.thread!.comments}
-            ?initially-collapsed=${initiallyCollapsed}
-            ?robot-button-disabled=${robotButtonDisabled}
-            ?show-patchset=${this.showPatchset}
-            ?show-ported-comment=${this.showPortedComment &&
-            comment.id === this.rootId}
-            @create-fix-comment=${this.handleCommentFix}
-            @copy-comment-link=${this.handleCopyLink}
-            @comment-editing-changed=${(e: CustomEvent) => {
-              if (isDraftOrUnsaved(comment)) this.editing = e.detail;
-            }}
-            @comment-unresolved-changed=${(e: CustomEvent) => {
-              if (isDraftOrUnsaved(comment)) this.unresolved = e.detail;
-            }}
-          ></gr-comment>
-        `;
-      }
+    const publishedComments = repeat(
+      this.thread.comments.filter(c => !isDraftOrUnsaved(c)),
+      comment => comment.id,
+      comment => this.renderComment(comment)
     );
+    // We are deliberately not including the draft in the repeat directive,
+    // because we ran into spurious issues with <gr-comment> being destroyed
+    // and re-created when an unsaved draft transitions to 'saved' state.
+    const draftComment = this.renderComment(this.getDraftOrUnsaved());
+    return html`${publishedComments}${draftComment}`;
+  }
+
+  private renderComment(comment?: Comment) {
+    if (!comment) return nothing;
+    const robotButtonDisabled = !this.account || this.isDraftOrUnsaved();
+    const initiallyCollapsed =
+      !isDraftOrUnsaved(comment) &&
+      (this.messageId
+        ? comment.change_message_id !== this.messageId
+        : !this.unresolved);
+    return html`
+      <gr-comment
+        .comment=${comment}
+        .comments=${this.thread!.comments}
+        ?initially-collapsed=${initiallyCollapsed}
+        ?robot-button-disabled=${robotButtonDisabled}
+        ?show-patchset=${this.showPatchset}
+        ?show-ported-comment=${this.showPortedComment &&
+        comment.id === this.rootId}
+        @create-fix-comment=${this.handleCommentFix}
+        @copy-comment-link=${this.handleCopyLink}
+        @comment-editing-changed=${(e: CustomEvent) => {
+          if (isDraftOrUnsaved(comment)) this.editing = e.detail;
+        }}
+        @comment-unresolved-changed=${(e: CustomEvent) => {
+          if (isDraftOrUnsaved(comment)) this.unresolved = e.detail;
+        }}
+      ></gr-comment>
+    `;
   }
 
   renderActions() {
@@ -677,6 +665,12 @@ export class GrCommentThread extends LitElement {
 
   private isDraftOrUnsaved(): boolean {
     return this.isDraft() || this.isUnsaved();
+  }
+
+  private getDraftOrUnsaved(): Comment | undefined {
+    if (this.unsavedComment) return this.unsavedComment;
+    if (this.isDraft()) return this.getLastComment();
+    return undefined;
   }
 
   private isNewThread(): boolean {

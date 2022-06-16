@@ -116,6 +116,24 @@
       "parentUuid": "13cf9c9b_0ac37d58",
       "revId": "e1d58a5027801243026f328dda98fc2279faf801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa32c2ba_fa033ebe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-06-16T13:47:46Z",
+      "side": 1,
+      "message": "We need to keep the :linkattrs: introduced by change 248288 due to Google Source using AsciiDoctor 1.5.2.\n\nOnce Google Source has upgraded to 1.5.7+ the link attributes will be enabled by default and we can then revert change 248288 / remove all :linkattrs:.  The current DocIndexer will then find the proper title.\n\nMy change makes the DocIndexer to skip the :linkattrs: which will work in all situations:\n\n- AsciiDoctor 1.5.2 for Google Source since my change skips :linkattrs: when looking for the title.  Then https://gerrit-review.googlesource.com/ documentation search points to Google.com search engine and are thus unaffected by documents having the wrong title, they still need link attributes to be enabled for rendering.\n\n- AsciiDoctor 1.5.7 which we use now but the document still have :linkattrs: for Google source. My change skip the :linkattrs: and will make document indexer with the proper title.\n\n- AsciiDoctor 1.5.7 without :linkattrs: which can only be done after Google Source has upgraded.\n\nI don\u0027t think we need to rollback to 1.5.2 unless we want to be aligned with Google Source (which might be a good thing).\n\nIn any case this change will at least fix the document title and should land whether we use 1.5.2 or 1.5.7 :)",
+      "parentUuid": "6f34a71e_18e1fb0c",
+      "revId": "e1d58a5027801243026f328dda98fc2279faf801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

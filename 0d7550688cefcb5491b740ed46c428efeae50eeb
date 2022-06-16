@@ -37,6 +37,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f18910c8_3c5bab59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-06-16T16:17:37Z",
+      "side": 1,
+      "message": "Indeed I haven\u0027t tested it and I should at least manually verify the change by booting a local Gerrit and doing the search.  Thanks for the reminder!",
+      "parentUuid": "46787004_1f83e225",
+      "revId": "0d7550688cefcb5491b740ed46c428efeae50eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30cfbfb2_21d2ea48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-06-16T16:17:37Z",
+      "side": 1,
+      "message": "-1 for now since I haven\u0027t tested the change locally and I should, I will report back once done.\n\nNote taken about leaving a note for later and adding a release note. Thanks!\n\n\n\n\n",
+      "revId": "0d7550688cefcb5491b740ed46c428efeae50eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a750fa1_e4595269",
         "filename": "java/com/google/gerrit/asciidoctor/DocIndexer.java",
         "patchSetId": 3

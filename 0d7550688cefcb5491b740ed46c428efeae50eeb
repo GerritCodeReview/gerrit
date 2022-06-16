@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46787004_1f83e225",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-16T13:59:04Z",
+      "side": 1,
+      "message": "Have you actually tested it E2E?",
+      "revId": "0d7550688cefcb5491b740ed46c428efeae50eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a750fa1_e4595269",
+        "filename": "java/com/google/gerrit/asciidoctor/DocIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-16T13:59:04Z",
+      "side": 1,
+      "message": "Optional: Leave a comment with the reference to the issue 16009, something like:\n\n  // TODO(hashar): Remove skipping of :attribute: once this issue is resolved\n  // https://crbug.com/gerrit/16009",
+      "range": {
+        "startLine": 110,
+        "startChar": 10,
+        "endLine": 110,
+        "endChar": 60
+      },
+      "revId": "0d7550688cefcb5491b740ed46c428efeae50eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

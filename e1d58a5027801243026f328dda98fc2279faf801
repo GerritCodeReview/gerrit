@@ -134,6 +134,24 @@
       "parentUuid": "6f34a71e_18e1fb0c",
       "revId": "e1d58a5027801243026f328dda98fc2279faf801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e6d45a2_1f3be415",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-16T13:59:04Z",
+      "side": 1,
+      "message": "Right. Let\u0027s keep the current status quo.",
+      "parentUuid": "fa32c2ba_fa033ebe",
+      "revId": "e1d58a5027801243026f328dda98fc2279faf801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

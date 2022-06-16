@@ -34,6 +34,24 @@
       "parentUuid": "646491e2_ede7451f",
       "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe92dbb1_143150bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-16T00:05:16Z",
+      "side": 1,
+      "message": "\u003e I\u0027m more inclined to your opinion and would have preferred a tag instead of a commit footer but I don\u0027t have a strong opinion. I could also update it to `footer:\u0027FW_COMPATIBLE\u003dchecked\u0027`, eliminating any wrong values.\n\u003e \n\u003e What do you think?\n\nIf you use a \"tag\", where in the message does it go? If it\u0027s just anywhere in the message, how do you avoid accidental misuse (FW_COMPATIBLE\u003dno/false, \"this change is not FW_COMPATIBLE\", etc)?\n\nIf we want a footer, then maybe since \"FW_COMPATIBLE\" is shorthand for \"Forward Compatible\", a \u0027Compatible:\u0027 footer with appropriate values (\u0027Compatible: Forward\u0027 for this use case) would address Sven\u0027s concern and allow for future flexibility? For example, we care about backwards compatibility for any changes to the extensions package, so we could do \u0027Compatible: Backwards\u0027 as required on those changes. Another future thought is that it might make sense to use something like \u0027Compatible: BREAKING\u0027 to provide extra scrutiny on some changes.",
+      "parentUuid": "a513c41c_5a2c88e4",
+      "revId": "6648dac96276a9585fe95da8b9478b8fdab24410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

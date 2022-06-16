@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "35942798_cf119691",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-06-16T17:35:22Z",
+      "side": 1,
+      "message": "Release-Notes: Fix documentation search showing :linkattrs: instead of the document title",
+      "parentUuid": "971e20e7_95e03753",
+      "revId": "0d7550688cefcb5491b740ed46c428efeae50eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "46787004_1f83e225",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -70,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da92142a_43357200",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-06-16T17:35:22Z",
+      "side": 1,
+      "message": "I hadn\u0027t tested it and the code was wrong. Patchset 4 will have the fix :)",
+      "parentUuid": "f18910c8_3c5bab59",
+      "revId": "0d7550688cefcb5491b740ed46c428efeae50eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a750fa1_e4595269",
@@ -88,6 +124,53 @@
         "startChar": 10,
         "endLine": 110,
         "endChar": 60
+      },
+      "revId": "0d7550688cefcb5491b740ed46c428efeae50eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84b01763_ff57811e",
+        "filename": "java/com/google/gerrit/asciidoctor/DocIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-06-16T17:35:22Z",
+      "side": 1,
+      "message": "Possibly, though maybe later we would want to add another attribute beside :linkattrs: so they should always be skipped much like tags.",
+      "parentUuid": "5a750fa1_e4595269",
+      "range": {
+        "startLine": 110,
+        "startChar": 10,
+        "endLine": 110,
+        "endChar": 60
+      },
+      "revId": "0d7550688cefcb5491b740ed46c428efeae50eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd2a58ee_918a583a",
+        "filename": "java/com/google/gerrit/asciidoctor/DocIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-06-16T17:35:22Z",
+      "side": 1,
+      "message": "The code is broken! Since I have changed the code to use a while loop and reject lines with continue, this was taking the next line after the actual title. Thus pretty much all documents ended up with an empty title :)",
+      "range": {
+        "startLine": 120,
+        "startChar": 12,
+        "endLine": 120,
+        "endChar": 43
       },
       "revId": "0d7550688cefcb5491b740ed46c428efeae50eeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

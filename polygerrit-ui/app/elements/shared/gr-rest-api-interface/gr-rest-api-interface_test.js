@@ -679,13 +679,13 @@ suite('gr-rest-api-interface tests', () => {
     const defaultQuery = '';
 
     assert.equal(element._getReposUrl('test', 25).toString(),
-        [false, '/projects/?n=26&S=0&m=test'].toString());
+        [false, '/projects/?n=26&S=0&d=&m=test'].toString());
 
     assert.equal(element._getReposUrl(null, 25).toString(),
-        [false, `/projects/?n=26&S=0&m=${defaultQuery}`].toString());
+        [false, `/projects/?n=26&S=0&d=&m=${defaultQuery}`].toString());
 
     assert.equal(element._getReposUrl('test', 25, 25).toString(),
-        [false, '/projects/?n=26&S=25&m=test'].toString());
+        [false, '/projects/?n=26&S=25&d=&m=test'].toString());
 
     assert.equal(element._getReposUrl('inname:test', 25, 25).toString(),
         [true, '/projects/?n=26&S=25&query=inname%3Atest'].toString());
@@ -727,57 +727,57 @@ suite('gr-rest-api-interface tests', () => {
     test('normal use', () => {
       element.getRepos('test', 25);
       assert.equal(fetchCacheURLStub.lastCall.args[0].url,
-          '/projects/?n=26&S=0&m=test');
+          '/projects/?n=26&S=0&d=&m=test');
 
       element.getRepos(null, 25);
       assert.equal(fetchCacheURLStub.lastCall.args[0].url,
-          `/projects/?n=26&S=0&m=${defaultQuery}`);
+          `/projects/?n=26&S=0&d=&m=${defaultQuery}`);
 
       element.getRepos('test', 25, 25);
       assert.equal(fetchCacheURLStub.lastCall.args[0].url,
-          '/projects/?n=26&S=25&m=test');
+          '/projects/?n=26&S=25&d=&m=test');
     });
 
     test('with blank', () => {
       element.getRepos('test/test', 25);
       assert.equal(fetchCacheURLStub.lastCall.args[0].url,
-          '/projects/?n=26&S=0&m=test%2Ftest');
+          '/projects/?n=26&S=0&d=&m=test%2Ftest');
     });
 
     test('with hyphen', () => {
       element.getRepos('foo-bar', 25);
       assert.equal(fetchCacheURLStub.lastCall.args[0].url,
-          '/projects/?n=26&S=0&m=foo-bar');
+          '/projects/?n=26&S=0&d=&m=foo-bar');
     });
 
     test('with leading hyphen', () => {
       element.getRepos('-bar', 25);
       assert.equal(fetchCacheURLStub.lastCall.args[0].url,
-          '/projects/?n=26&S=0&m=-bar');
+          '/projects/?n=26&S=0&d=&m=-bar');
     });
 
     test('with trailing hyphen', () => {
       element.getRepos('foo-bar-', 25);
       assert.equal(fetchCacheURLStub.lastCall.args[0].url,
-          '/projects/?n=26&S=0&m=foo-bar-');
+          '/projects/?n=26&S=0&d=&m=foo-bar-');
     });
 
     test('with underscore', () => {
       element.getRepos('foo_bar', 25);
       assert.equal(fetchCacheURLStub.lastCall.args[0].url,
-          '/projects/?n=26&S=0&m=foo_bar');
+          '/projects/?n=26&S=0&d=&m=foo_bar');
     });
 
     test('with underscore', () => {
       element.getRepos('foo_bar', 25);
       assert.equal(fetchCacheURLStub.lastCall.args[0].url,
-          '/projects/?n=26&S=0&m=foo_bar');
+          '/projects/?n=26&S=0&d=&m=foo_bar');
     });
 
     test('hyphen only', () => {
       element.getRepos('-', 25);
       assert.equal(fetchCacheURLStub.lastCall.args[0].url,
-          `/projects/?n=26&S=0&m=-`);
+          `/projects/?n=26&S=0&d=&m=-`);
     });
 
     test('using query', () =>{

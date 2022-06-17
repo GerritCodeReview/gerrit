@@ -27,6 +27,7 @@ import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader
 import {getAppContext} from '../../../services/app-context';
 import {
   DiffViewMode,
+  FileInfoStatus,
   ScrollMode,
   SpecialFilePath,
 } from '../../../constants/constants';
@@ -77,6 +78,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {when} from 'lit/directives/when';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {ifDefined} from 'lit/directives/if-defined';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -292,6 +294,8 @@ export class GrFileList extends LitElement {
 
   private readonly getBrowserModel = resolve(this, browserModelToken);
 
+  private readonly flagsService = getAppContext().flagsService;
+
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
 
@@ -359,8 +363,7 @@ export class GrFileList extends LitElement {
         .show-hide.invisible {
           display: none;
         }
-        .reviewed,
-        .status {
+        .reviewed {
           align-items: center;
           display: inline-flex;
         }
@@ -390,6 +393,13 @@ export class GrFileList extends LitElement {
         .file-row.expanded,
         .file-row.expanded:hover {
           background-color: var(--expanded-background-color);
+        }
+        .status {
+          width: 20px;
+          margin-right: var(--spacing-s);
+          background-color: var(--file-status-added);
+          border-radius: var(--border-radius);
+          text-align: center;
         }
         .path {
           cursor: pointer;
@@ -859,7 +869,7 @@ export class GrFileList extends LitElement {
       ${when(showPrependedDynamicColumns, () =>
         this.renderPrependedHeaderEndpoints()
       )}
-
+      ${this.renderFileStatus()}
       <div class="path" role="columnheader">File</div>
       <div class="comments desktop" role="columnheader">Comments</div>
       <div class="comments mobile" role="columnheader" title="Comments">C</div>
@@ -950,7 +960,8 @@ export class GrFileList extends LitElement {
         ${when(showPrependedDynamicColumns, () =>
           this.renderPrependedContentEndpointsForFile(file)
         )}
-        ${this.renderFilePath(file)} ${this.renderFileComments(file)}
+        ${this.renderFileStatus(file)} ${this.renderFilePath(file)}
+        ${this.renderFileComments(file)}
         ${this.renderSizeBar(file, sizeBarLayout)} ${this.renderFileStats(file)}
         ${when(showDynamicColumns, () =>
           this.renderDynamicContentEndpointsForFile(file)
@@ -1002,6 +1013,16 @@ export class GrFileList extends LitElement {
     );
   }
 
+  private renderFileStatus(file?: NormalizedFileInfo) {
+    if (!this.flagsService.isEnabled(KnownExperimentId.MORE_FILES_INFO)) return;
+    // TODO: Add support for other status.
+    // TODO: Do not show status for special file paths.
+    // TODO: Add support for showing more file info when comparing two patchsets.
+    // TODO: Move into a dedicated component.
+    const status = file?.status === FileInfoStatus.ADDED ? 'A' : ' ';
+    return html`<div class="status" role="gridcell">${status}</div>`;
+  }
+
   private renderFilePath(file: NormalizedFileInfo) {
     return html` <span class="path" role="gridcell">
       <a class="pathLink" href=${ifDefined(this.computeDiffURL(file.__path))}>
@@ -1014,7 +1035,10 @@ export class GrFileList extends LitElement {
         >
           ${computeTruncatedPath(file.__path)}
         </span>
-        <gr-file-status-chip .file=${file}></gr-file-status-chip>
+        ${when(
+          !this.flagsService.isEnabled(KnownExperimentId.MORE_FILES_INFO),
+          () => html`<gr-file-status-chip .file=${file}></gr-file-status-chip>`
+        )}
         <gr-copy-clipboard
           ?hideInput=${true}
           .text=${file.__path}

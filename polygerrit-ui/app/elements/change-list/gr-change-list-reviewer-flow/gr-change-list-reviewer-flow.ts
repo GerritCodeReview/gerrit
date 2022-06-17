@@ -40,20 +40,19 @@ import {getReplyByReason} from '../../../utils/attention-set-util';
 import {intersection} from '../../../utils/common-util';
 import {accountOrGroupKey} from '../../../utils/account-util';
 import {ValueChangedEvent} from '../../../types/events';
-import {fireReload} from '../../../utils/event-util';
+import {fireAlert, fireReload} from '../../../utils/event-util';
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
   @state() private selectedChanges: ChangeInfo[] = [];
 
   // contents are given to gr-account-lists to mutate
-  @state() private updatedAccountsByReviewerState: Map<
-    ReviewerState,
-    AccountInput[]
-  > = new Map([
-    [ReviewerState.REVIEWER, []],
-    [ReviewerState.CC, []],
-  ]);
+  // private but used in tests
+  @state() updatedAccountsByReviewerState: Map<ReviewerState, AccountInput[]> =
+    new Map([
+      [ReviewerState.REVIEWER, []],
+      [ReviewerState.CC, []],
+    ]);
 
   @state() private suggestionsProviderByReviewerState: Map<
     ReviewerState,
@@ -522,6 +521,20 @@ export class GrChangeListReviewerFlow extends LitElement {
         ).length,
       });
     } else {
+      const reviewersAdded =
+        this.updatedAccountsByReviewerState.get(ReviewerState.REVIEWER)
+          ?.length ?? 0;
+      const ccsAdded =
+        this.updatedAccountsByReviewerState.get(ReviewerState.CC)?.length ?? 0;
+      let alert = '';
+      if (reviewersAdded && ccsAdded) {
+        alert = `${reviewersAdded} reviewers and ${ccsAdded} CC added`;
+      } else if (reviewersAdded) {
+        alert = `${reviewersAdded} reviewers added`;
+      } else {
+        alert = `${ccsAdded} CC added`;
+      }
+      fireAlert(this, alert);
       this.closeOverlay();
       fireReload(this);
     }

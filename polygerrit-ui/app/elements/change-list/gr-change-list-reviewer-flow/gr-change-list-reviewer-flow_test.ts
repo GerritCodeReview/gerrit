@@ -406,6 +406,83 @@ suite('gr-change-list-reviewer-flow tests', () => {
       assert.isEmpty(ccList.accounts);
     });
 
+    suite('success toasts', () => {
+      test('reviewer only', async () => {
+        const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
+        const reviewerList = queryAndAssert<GrAccountList>(
+          dialog,
+          'gr-account-list#reviewer-list'
+        );
+        reviewerList.accounts.push(accounts[2], groups[0]);
+        element.updatedAccountsByReviewerState.set(ReviewerState.CC, []);
+        await element.updateComplete;
+        dialog.confirmButton!.click();
+
+        await resolvePromises();
+        await element.updateComplete;
+
+        await waitUntil(
+          () => dispatchEventStub.callCount > 0,
+          'dispatchEventStub never called'
+        );
+
+        assert.equal(
+          (dispatchEventStub.firstCall.args[0] as CustomEvent).detail.message,
+          '3 reviewers added'
+        );
+      });
+
+      test('ccs only', async () => {
+        const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
+        const ccsList = queryAndAssert<GrAccountList>(
+          dialog,
+          'gr-account-list#cc-list'
+        );
+        ccsList.accounts.push(accounts[2], groups[0]);
+        ccsList.accounts = [];
+        element.updatedAccountsByReviewerState.set(ReviewerState.REVIEWER, []);
+        await element.updateComplete;
+        dialog.confirmButton!.click();
+
+        await resolvePromises();
+        await element.updateComplete;
+
+        await waitUntil(
+          () => dispatchEventStub.callCount > 0,
+          'dispatchEventStub never called'
+        );
+
+        assert.equal(
+          (dispatchEventStub.firstCall.args[0] as CustomEvent).detail.message,
+          '3 CC added'
+        );
+      });
+
+      test('reviewers and CC', async () => {
+        const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
+        const reviewerList = queryAndAssert<GrAccountList>(
+          dialog,
+          'gr-account-list#reviewer-list'
+        );
+        reviewerList.accounts.push(accounts[2], groups[0]);
+        await element.updateComplete;
+        dialog.confirmButton!.click();
+
+        await resolvePromises();
+        await element.updateComplete;
+
+        await waitUntil(
+          () => dispatchEventStub.callCount > 0,
+          'dispatchEventStub never called'
+        );
+
+        assert.equal(
+          (dispatchEventStub.firstCall.args[0] as CustomEvent).detail.message,
+          '3 reviewers and 1 CC added'
+        );
+      });
+    });
+
     test('reloads page on success', async () => {
       const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
       const reviewerList = queryAndAssert<GrAccountList>(
@@ -422,12 +499,12 @@ suite('gr-change-list-reviewer-flow tests', () => {
       await element.updateComplete;
 
       await waitUntil(
-        () => dispatchEventStub.calledOnce,
+        () => dispatchEventStub.callCount > 0,
         'dispatchEventStub never called'
       );
 
-      assert.isTrue(dispatchEventStub.calledOnce);
-      assert.equal(dispatchEventStub.firstCall.args[0].type, 'reload');
+      assert.isTrue(dispatchEventStub.calledTwice);
+      assert.equal(dispatchEventStub.secondCall.args[0].type, 'reload');
     });
 
     test('does not reload page on failure', async () => {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44306964_6ee0041e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-06-17T17:24:10Z",
+      "side": 1,
+      "message": "that seems wrong.",
+      "revId": "aaec478e52be3caecc4d236dac2a3a034d15b5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adb7a4f2_2ca9e8c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-06-17T17:24:10Z",
+      "side": 1,
+      "message": "i suspect you\u0027ll be expected to add an autotest.\n\nsomewhat peripherally, you may be interested in the complementary issue: https://crbug.com/gerrit/11709",
+      "revId": "aaec478e52be3caecc4d236dac2a3a034d15b5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

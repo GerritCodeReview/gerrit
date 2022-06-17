@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d220cd82_347152bc",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-17T11:14:06Z",
+      "side": 1,
+      "message": "Please fix javadoc.",
+      "range": {
+        "startLine": 185,
+        "startChar": 5,
+        "endLine": 186,
+        "endChar": 31
+      },
+      "revId": "7de896d1bccb54008fd88fe36e6fe25a9213b3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63aa50d2_6f3491c8",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-17T11:14:06Z",
+      "side": 1,
+      "message": "userFactory is nullable - please add check",
+      "range": {
+        "startLine": 274,
+        "startChar": 48,
+        "endLine": 274,
+        "endChar": 59
+      },
+      "revId": "7de896d1bccb54008fd88fe36e6fe25a9213b3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "492f6d83_56e60976",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-17T11:14:06Z",
+      "side": 1,
+      "message": "changeUpdateFactory is nullable - please add check",
+      "range": {
+        "startLine": 274,
+        "startChar": 8,
+        "endLine": 274,
+        "endChar": 27
+      },
+      "revId": "7de896d1bccb54008fd88fe36e6fe25a9213b3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "830589ea_4d94e83a",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-17T11:14:06Z",
+      "side": 1,
+      "message": "The changeUpdate.deleteComment calls ChangeDraftUpdates.deleteComment.\nThere is a ChangeDraftUpdates. markCommentPublished method.\nIIUC, all drafts in draftsToDelete have been already published, so it is better to mark these drafts as published using ChangeDraftUpdates.markCommentPublished.\n\nLet\u0027s add a markCommentPublished into changeUpdate and use it here.\n\n(also maybe rename deleteDraftCommentsThatAreAlsoPublished and other methods appropriately, so it is clear that they mark comments as published)",
+      "range": {
+        "startLine": 275,
+        "startChar": 45,
+        "endLine": 275,
+        "endChar": 58
+      },
+      "revId": "7de896d1bccb54008fd88fe36e6fe25a9213b3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "327cf72c_9d31d72a",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/DeleteZombieDraftIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-17T11:14:06Z",
+      "side": 1,
+      "message": "Tests don\u0027t check that:\na) Zombie draft are actually deleted (or marked as published)\nb) If a draft has been already published - the published comment remains untouched.\n\nPlease test it.",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 32
+      },
+      "revId": "7de896d1bccb54008fd88fe36e6fe25a9213b3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

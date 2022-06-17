@@ -53,6 +53,8 @@ const appThemeCss = safeStyleSheet`
     --orange-700-04: #d56e0c0a;
     --orange-700-10: #d56e0c1a;
     --orange-700-12: #d56e0c1f;
+    --orange-400: #fa903e;
+    --orange-300: #fcad70;
     --orange-200: #fdc69c;
     --orange-50: #feefe3;
     --orange-tonal: #714625;
@@ -315,7 +317,9 @@ const appThemeCss = safeStyleSheet`
 
     /* file status colors */
     --file-status-added: var(--green-300);
-    --file-status-changed: var(--red-200);
+    --file-status-deleted: var(--red-200);
+    --file-status-modified: var(--gray-300);
+    --file-status-renamed: var(--orange-300);
     --file-status-unchanged: var(--gray-300);
 
     /* fonts */

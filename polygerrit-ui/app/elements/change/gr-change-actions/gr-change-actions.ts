@@ -404,7 +404,7 @@ export class GrChangeActions
   @property({type: Object})
   change?: ChangeViewChangeInfo;
 
-  @property({type: Object})
+  @state()
   actions: ActionNameToActionInfoMap = {};
 
   @property({type: Array})
@@ -836,6 +836,7 @@ export class GrChangeActions
 
     if (changedProperties.has('change')) {
       this.reload();
+      this.actions = this.change?.actions ?? {};
     }
 
     this.editStatusChanged();

@@ -43,7 +43,7 @@ export class GrFileStatusChip extends LitElement {
         .status.D,
         .status.R,
         .status.W {
-          background-color: var(--file-status-changed);
+          background-color: var(--file-status-deleted);
         }
         .status.U {
           background-color: var(--file-status-unchanged);

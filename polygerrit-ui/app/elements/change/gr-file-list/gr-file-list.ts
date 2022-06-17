@@ -17,6 +17,7 @@ import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-file-status-chip/gr-file-status-chip';
+import '../../shared/gr-file-status-chip/gr-file-status';
 import {assertIsDefined} from '../../../utils/common-util';
 import {asyncForeach} from '../../../utils/async-util';
 import {FilesExpandedState} from '../gr-file-list-constants';
@@ -604,6 +605,9 @@ export class GrFileList extends LitElement {
         :host(.hideComments) {
           --gr-comment-thread-display: none;
         }
+        gr-file-status {
+          margin: 4px;
+        }
       `,
     ];
   }
@@ -852,6 +856,16 @@ export class GrFileList extends LitElement {
         role="grid"
         aria-label="Files list"
       >
+        <gr-file-status status="A" new></gr-file-status>
+        <gr-file-status status="D" new></gr-file-status>
+        <gr-file-status status="M" new></gr-file-status>
+        <gr-file-status status="R" new></gr-file-status>
+        <gr-file-status></gr-file-status>
+        <gr-file-status status="A"></gr-file-status>
+        <gr-file-status status="D"></gr-file-status>
+        <gr-file-status status="M"></gr-file-status>
+        <gr-file-status status="R"></gr-file-status>
+        <gr-file-status status="U"></gr-file-status>
         ${this.renderHeaderRow()} ${this.renderShownFiles()}
         ${when(this.computeShowNumCleanlyMerged(), () =>
           this.renderCleanlyMerged()

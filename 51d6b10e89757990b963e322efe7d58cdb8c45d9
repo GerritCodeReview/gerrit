@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34c8cfe7_8a470c48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T08:44:13Z",
+      "side": 1,
+      "message": "This sound like refactoring but it looks like each hovercard account now shows voteable text.\n\nBefore this change: No voteable text in change log (on user added to review)\nAfter this change: voteable text in hovercards in change log.\n\n\nI think it\u0027s better, it\u0027s more consistent. I would just suggest to add this to commit message.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "51d6b10e89757990b963e322efe7d58cdb8c45d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ad5ed15_80237e7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T08:44:13Z",
+      "side": 1,
+      "message": "Btw. this is solving issue of b/232036468 from front-end side. We just need to request back-end to fill voteable capabilities for owners, non-owners.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 19
+      },
+      "revId": "51d6b10e89757990b963e322efe7d58cdb8c45d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -32,6 +32,7 @@ import {
   stubReporting,
   stubRestApi,
   waitUntil,
+  waitUntilCalled,
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {ChangeInfo, NumericChangeId} from '../../../types/common';
@@ -406,8 +407,11 @@ suite('gr-change-list-reviewer-flow tests', () => {
       assert.isEmpty(ccList.accounts);
     });
 
-    test('reloads page on success', async () => {
+    test.only('reloads page on success', async () => {
+      debugger;
       const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
+      const alertStub = sinon.stub();
+      // element.addEventListener('show-alert', alertStub);
       const reviewerList = queryAndAssert<GrAccountList>(
         dialog,
         'gr-account-list#reviewer-list'
@@ -425,6 +429,12 @@ suite('gr-change-list-reviewer-flow tests', () => {
         () => dispatchEventStub.calledOnce,
         'dispatchEventStub never called'
       );
+
+      await waitUntilCalled(alertStub, 'alertStub');
+      assert.deepEqual(alertStub.lastCall.args[0].detail, {
+        message: '3 Changes added to hashtag1',
+        showDismiss: true,
+      });
 
       assert.isTrue(dispatchEventStub.calledOnce);
       assert.equal(dispatchEventStub.firstCall.args[0].type, 'reload');

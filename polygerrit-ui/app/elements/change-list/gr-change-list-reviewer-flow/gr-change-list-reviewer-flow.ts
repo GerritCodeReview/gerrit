@@ -29,7 +29,7 @@ import {
 import '../../shared/gr-account-list/gr-account-list';
 import {getOverallStatus} from '../../../utils/bulk-flow-util';
 import {allSettled} from '../../../utils/async-util';
-import {listForSentence} from '../../../utils/string-util';
+import {listForSentence, pluralize} from '../../../utils/string-util';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {
   AccountInput,
@@ -40,20 +40,19 @@ import {getReplyByReason} from '../../../utils/attention-set-util';
 import {intersection} from '../../../utils/common-util';
 import {accountOrGroupKey} from '../../../utils/account-util';
 import {ValueChangedEvent} from '../../../types/events';
-import {fireReload} from '../../../utils/event-util';
+import {fireAlert, fireReload} from '../../../utils/event-util';
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
   @state() private selectedChanges: ChangeInfo[] = [];
 
   // contents are given to gr-account-lists to mutate
-  @state() private updatedAccountsByReviewerState: Map<
-    ReviewerState,
-    AccountInput[]
-  > = new Map([
-    [ReviewerState.REVIEWER, []],
-    [ReviewerState.CC, []],
-  ]);
+  // private but used in tests
+  @state() updatedAccountsByReviewerState: Map<ReviewerState, AccountInput[]> =
+    new Map([
+      [ReviewerState.REVIEWER, []],
+      [ReviewerState.CC, []],
+    ]);
 
   @state() private suggestionsProviderByReviewerState: Map<
     ReviewerState,
@@ -481,6 +480,26 @@ export class GrChangeListReviewerFlow extends LitElement {
     }
   }
 
+  private fireSuccessToasts() {
+    const numReviewersAdded =
+      this.updatedAccountsByReviewerState.get(ReviewerState.REVIEWER)?.length ??
+      0;
+    const numCcsAdded =
+      this.updatedAccountsByReviewerState.get(ReviewerState.CC)?.length ?? 0;
+    let alert = '';
+    if (numReviewersAdded && numCcsAdded) {
+      alert = `${pluralize(numReviewersAdded, 'reviewer')} and ${pluralize(
+        numCcsAdded,
+        'CC'
+      )} added`;
+    } else if (numReviewersAdded) {
+      alert = `${pluralize(numReviewersAdded, 'reviewer')} added`;
+    } else {
+      alert = `${pluralize(numCcsAdded, 'CC')} added`;
+    }
+    fireAlert(this, alert);
+  }
+
   private async saveReviewers() {
     this.reportingService.reportInteraction('bulk-action', {
       type: 'add-reviewer',
@@ -522,6 +541,7 @@ export class GrChangeListReviewerFlow extends LitElement {
         ).length,
       });
     } else {
+      this.fireSuccessToasts();
       this.closeOverlay();
       fireReload(this);
     }

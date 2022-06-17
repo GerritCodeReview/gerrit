@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5e703fa_a40d0fb8",
+        "filename": "polygerrit-ui/app/models/change/files-model.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T08:32:04Z",
+      "side": 1,
+      "message": "That\u0027s good point, ...value should be last one",
+      "parentUuid": "439bac72_bb3ac8c4",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 48
+      },
+      "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d23cd2c_8189f19c",
         "filename": "polygerrit-ui/app/models/change/files-model.ts",
         "patchSetId": 14
@@ -42,6 +66,29 @@
         "startChar": 5,
         "endLine": 39,
         "endChar": 16
+      },
+      "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "548ce4e9_65994399",
+        "filename": "polygerrit-ui/app/models/change/files-model.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T08:32:04Z",
+      "side": 1,
+      "message": "Nit: Why we do use deprecated combineLatest and not combineLatestWith ?",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 19
       },
       "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

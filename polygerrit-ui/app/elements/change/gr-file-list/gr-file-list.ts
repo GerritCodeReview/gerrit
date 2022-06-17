@@ -17,6 +17,7 @@ import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-file-status-chip/gr-file-status-chip';
+import '../../shared/gr-file-status-chip/gr-file-status';
 import {assertIsDefined} from '../../../utils/common-util';
 import {asyncForeach} from '../../../utils/async-util';
 import {FilesExpandedState} from '../gr-file-list-constants';
@@ -395,11 +396,7 @@ export class GrFileList extends LitElement {
           background-color: var(--expanded-background-color);
         }
         .status {
-          width: 20px;
           margin-right: var(--spacing-s);
-          background-color: var(--file-status-added);
-          border-radius: var(--border-radius);
-          text-align: center;
         }
         .path {
           cursor: pointer;
@@ -1014,13 +1011,15 @@ export class GrFileList extends LitElement {
   }
 
   private renderFileStatus(file?: NormalizedFileInfo) {
-    if (!this.flagsService.isEnabled(KnownExperimentId.MORE_FILES_INFO)) return;
-    // TODO: Add support for other status.
-    // TODO: Do not show status for special file paths.
+    if (this.flagsService.isEnabled(KnownExperimentId.MORE_FILES_INFO)) return;
+    let status: FileInfoStatus | undefined = undefined;
+    if (file && !isMagicPath(file?.__path)) {
+      status = file.status ?? FileInfoStatus.MODIFIED;
+    }
     // TODO: Add support for showing more file info when comparing two patchsets.
-    // TODO: Move into a dedicated component.
-    const status = file?.status === FileInfoStatus.ADDED ? 'A' : ' ';
-    return html`<div class="status" role="gridcell">${status}</div>`;
+    return html`<div class="status" role="gridcell">
+      <gr-file-status .status=${status}></gr-file-status>
+    </div>`;
   }
 
   private renderFilePath(file: NormalizedFileInfo) {

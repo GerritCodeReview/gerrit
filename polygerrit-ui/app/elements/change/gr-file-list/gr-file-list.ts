@@ -1963,15 +1963,8 @@ export class GrFileList extends LitElement {
 
   private computeClass(baseClass?: string, path?: string) {
     const classes = [];
-    if (baseClass) {
-      classes.push(baseClass);
-    }
-    if (
-      path === SpecialFilePath.COMMIT_MESSAGE ||
-      path === SpecialFilePath.MERGE_LIST
-    ) {
-      classes.push('invisible');
-    }
+    if (baseClass) classes.push(baseClass);
+    if (isMagicPath(path)) classes.push('invisible');
     return classes.join(' ');
   }
 
@@ -2252,24 +2245,13 @@ export class GrFileList extends LitElement {
   }
 
   /**
-   * Given a file path, return whether that path should have visible size bars
-   * and be included in the size bars calculation.
-   */
-  private showBarsForPath(path?: string) {
-    return (
-      path !== SpecialFilePath.COMMIT_MESSAGE &&
-      path !== SpecialFilePath.MERGE_LIST
-    );
-  }
-
-  /**
    * Compute size bar layout values from the file list.
    * Private but used in tests.
    */
   computeSizeBarLayout() {
     const stats: SizeBarLayout = createDefaultSizeBarLayout();
     this.shownFiles
-      .filter(f => this.showBarsForPath(f.__path))
+      .filter(f => !isMagicPath(f.__path))
       .forEach(f => {
         if (f.lines_inserted) {
           stats.maxInserted = Math.max(stats.maxInserted, f.lines_inserted);
@@ -2299,7 +2281,7 @@ export class GrFileList extends LitElement {
       !stats ||
       stats.maxInserted === 0 ||
       !file.lines_inserted ||
-      !this.showBarsForPath(file.__path)
+      !!isMagicPath(file.__path)
     ) {
       return 0;
     }
@@ -2327,7 +2309,7 @@ export class GrFileList extends LitElement {
       !stats ||
       stats.maxDeleted === 0 ||
       !file.lines_deleted ||
-      !this.showBarsForPath(file.__path)
+      !!isMagicPath(file.__path)
     ) {
       return 0;
     }
@@ -2348,7 +2330,7 @@ export class GrFileList extends LitElement {
     let hideClass = '';
     if (!this.showSizeBars) {
       hideClass = 'hide';
-    } else if (!this.showBarsForPath(path)) {
+    } else if (isMagicPath(path)) {
       hideClass = 'invisible';
     }
     return `sizeBars ${hideClass}`;

@@ -16,6 +16,7 @@ import {createChange} from '../../../test/test-data-generators';
 import {
   MockPromise,
   mockPromise,
+  query,
   queryAll,
   queryAndAssert,
   stubRestApi,
@@ -163,6 +164,12 @@ suite('gr-change-list-topic-flow tests', () => {
     async function resolvePromises() {
       setChangeTopicPromises[0].resolve('foo');
       setChangeTopicPromises[1].resolve('foo');
+      await element.updateComplete;
+    }
+
+    async function rejectPromises() {
+      setChangeTopicPromises[0].reject(new Error('error'));
+      setChangeTopicPromises[1].reject(new Error('error'));
       await element.updateComplete;
     }
 
@@ -352,6 +359,30 @@ suite('gr-change-list-topic-flow tests', () => {
       ]);
     });
 
+    test('shows error when remove topic fails', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
+      await element.updateComplete;
+      queryAndAssert<GrButton>(element, '#remove-topics-button').click();
+      await element.updateComplete;
+
+      assert.equal(
+        queryAndAssert(element, '.loadingText').textContent,
+        'Removing topic...'
+      );
+
+      await rejectPromises();
+      await element.updateComplete;
+
+      await waitUntil(() => query(element, '.error') !== undefined);
+      assert.equal(
+        queryAndAssert(element, '.error').textContent,
+        'Failed to remove topic'
+      );
+      assert.isUndefined(query(element, '.loadingText'));
+    });
+
     test('can only apply a single topic', async () => {
       assert.isTrue(
         queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
@@ -427,6 +458,12 @@ suite('gr-change-list-topic-flow tests', () => {
     async function resolvePromises() {
       setChangeTopicPromises[0].resolve('foo');
       setChangeTopicPromises[1].resolve('foo');
+      await element.updateComplete;
+    }
+
+    async function rejectPromises() {
+      setChangeTopicPromises[0].reject(new Error('error'));
+      setChangeTopicPromises[1].reject(new Error('error'));
       await element.updateComplete;
     }
 
@@ -570,6 +607,39 @@ suite('gr-change-list-topic-flow tests', () => {
       });
     });
 
+    test('shows error when create topic fails', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+      const getTopicsStub = stubRestApi('getChangesWithSimilarTopic').resolves(
+        []
+      );
+      const autocomplete = queryAndAssert<GrAutocomplete>(
+        element,
+        'gr-autocomplete'
+      );
+      autocomplete.setFocus(true);
+      autocomplete.text = 'foo';
+      await element.updateComplete;
+      await waitUntilCalled(getTopicsStub, 'getTopicsStub');
+      queryAndAssert<GrButton>(element, '#create-new-topic-button').click();
+      await element.updateComplete;
+
+      assert.equal(
+        queryAndAssert(element, '.loadingText').textContent,
+        'Creating topic...'
+      );
+
+      await rejectPromises();
+      await element.updateComplete;
+      await waitUntil(() => query(element, '.error') !== undefined);
+
+      assert.equal(
+        queryAndAssert(element, '.error').textContent,
+        'Failed to create topic'
+      );
+      assert.isUndefined(query(element, '.loadingText'));
+    });
+
     test('apply topic', async () => {
       const getTopicsStub = stubRestApi('getChangesWithSimilarTopic').resolves([
         {...createChange(), topic: 'foo' as TopicName},
@@ -614,6 +684,40 @@ suite('gr-change-list-topic-flow tests', () => {
         message: '2 Changes added to foo',
         showDismiss: true,
       });
+    });
+
+    test('shows error when apply topic fails', async () => {
+      const getTopicsStub = stubRestApi('getChangesWithSimilarTopic').resolves([
+        {...createChange(), topic: 'foo' as TopicName},
+      ]);
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+      const autocomplete = queryAndAssert<GrAutocomplete>(
+        element,
+        'gr-autocomplete'
+      );
+
+      autocomplete.setFocus(true);
+      autocomplete.text = 'foo';
+      await element.updateComplete;
+      await waitUntilCalled(getTopicsStub, 'getTopicsStub');
+      queryAndAssert<GrButton>(element, '#apply-topic-button').click();
+      await element.updateComplete;
+
+      assert.equal(
+        queryAndAssert(element, '.loadingText').textContent,
+        'Applying topic...'
+      );
+
+      await rejectPromises();
+      await element.updateComplete;
+
+      await waitUntil(() => query(element, '.error') !== undefined);
+      assert.equal(
+        queryAndAssert(element, '.error').textContent,
+        'Failed to apply topic'
+      );
+      assert.isUndefined(query(element, '.loadingText'));
     });
   });
 });

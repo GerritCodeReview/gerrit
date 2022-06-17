@@ -12,6 +12,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '@polymer/iron-dropdown/iron-dropdown';
+import '@polymer/iron-icon/iron-icon';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {getAppContext} from '../../../services/app-context';
 import {notUndefined} from '../../../types/types';
@@ -100,6 +101,7 @@ export class GrChangeListTopicFlow extends LitElement {
         }
         .loadingOrError {
           display: flex;
+          align-items: baseline;
           gap: var(--spacing-s);
         }
 
@@ -108,6 +110,17 @@ export class GrChangeListTopicFlow extends LitElement {
           vertical-align: top;
           position: relative;
           top: 3px;
+        }
+        .error {
+          color: var(--deemphasized-text-color);
+        }
+        iron-icon {
+          color: var(--error-color);
+          /* Center with text by aligning it to the top and then pushing it down
+             to match the text */
+          vertical-align: top;
+          position: relative;
+          top: 7px;
         }
       `,
     ];
@@ -183,22 +196,34 @@ export class GrChangeListTopicFlow extends LitElement {
       <div class="footer">
         <div class="loadingOrError">${this.renderLoadingOrError()}</div>
         <div class="buttons">
-          <gr-button
-            id="apply-to-all-button"
-            flatten
-            ?disabled=${this.disableApplyToAllButton()}
-            @click=${this.applyTopicToAll}
-            >Apply${this.selectedChanges.length > 1
-              ? ' to all'
-              : nothing}</gr-button
-          >
-          <gr-button
-            id="remove-topics-button"
-            flatten
-            ?disabled=${removeDisabled}
-            @click=${this.removeTopics}
-            >Remove</gr-button
-          >
+          ${when(
+            this.overallProgress !== ProgressStatus.FAILED,
+            () => html` <gr-button
+                id="apply-to-all-button"
+                flatten
+                ?disabled=${this.disableApplyToAllButton()}
+                @click=${this.applyTopicToAll}
+                >Apply${this.selectedChanges.length > 1
+                  ? ' to all'
+                  : nothing}</gr-button
+              >
+              <gr-button
+                id="remove-topics-button"
+                flatten
+                ?disabled=${removeDisabled}
+                @click=${this.removeTopics}
+                >Remove</gr-button
+              >`,
+            () =>
+              html`
+                <gr-button
+                  id="cancel-button"
+                  flatten
+                  @click=${this.closeDropdown}
+                  >Cancel</gr-button
+                >
+              `
+          )}
         </div>
       </div>
     `;
@@ -222,15 +247,20 @@ export class GrChangeListTopicFlow extends LitElement {
   }
 
   private renderLoadingOrError() {
-    if (this.overallProgress === ProgressStatus.RUNNING) {
-      return html`
-        <span class="loadingSpin"></span>
-        <span class="loadingText">${this.loadingText}</span>
-      `;
-    } else if (this.errorText !== undefined) {
-      return html`<div class="error">${this.errorText}</div>`;
+    switch (this.overallProgress) {
+      case ProgressStatus.RUNNING:
+        return html`
+          <span class="loadingSpin"></span>
+          <span class="loadingText">${this.loadingText}</span>
+        `;
+      case ProgressStatus.FAILED:
+        return html`
+          <iron-icon icon="gr-icons:error"></iron-icon>
+          <div class="error">${this.errorText}</div>
+        `;
+      default:
+        return nothing;
     }
-    return nothing;
   }
 
   private renderNoExistingTopicsMode() {
@@ -261,20 +291,30 @@ export class GrChangeListTopicFlow extends LitElement {
       <div class="footer">
         <div class="loadingOrError">${this.renderLoadingOrError()}</div>
         <div class="buttons">
-          <gr-button
-            id="create-new-topic-button"
-            flatten
-            @click=${() => this.addTopic('Creating topic...', true)}
-            .disabled=${isCreateNewTopicDisabled}
-            >Create new topic</gr-button
-          >
-          <gr-button
-            id="apply-topic-button"
-            flatten
-            @click=${() => this.addTopic('Applying topic...')}
-            .disabled=${isApplyTopicDisabled}
-            >Apply</gr-button
-          >
+          ${when(
+            this.overallProgress !== ProgressStatus.FAILED,
+            () => html`
+              <gr-button
+                id="create-new-topic-button"
+                flatten
+                @click=${() => this.addTopic('Creating topic...', true)}
+                .disabled=${isCreateNewTopicDisabled}
+                >Create new topic</gr-button
+              >
+              <gr-button
+                id="apply-topic-button"
+                flatten
+                @click=${() => this.addTopic('Applying topic...')}
+                .disabled=${isApplyTopicDisabled}
+                >Apply</gr-button
+              >
+            `,
+            () => html`
+              <gr-button id="cancel-button" flatten @click=${this.closeDropdown}
+                >Cancel</gr-button
+              >
+            `
+          )}
         </div>
       </div>
     `;
@@ -332,7 +372,8 @@ export class GrChangeListTopicFlow extends LitElement {
             change.topic && this.selectedExistingTopics.has(change.topic)
         )
         .map(change => this.restApiService.setChangeTopic(change._number, '')),
-      `${this.selectedChanges[0].topic} removed from changes`
+      `${this.selectedChanges[0].topic} removed from changes`,
+      'Failed to remove topic'
     );
   }
 
@@ -343,7 +384,8 @@ export class GrChangeListTopicFlow extends LitElement {
       this.selectedChanges.map(change =>
         this.restApiService.setChangeTopic(change._number, topic)
       ),
-      `${topic} applied to all changes`
+      `${topic} applied to all changes`,
+      'Failed to apply topic'
     );
   }
 
@@ -361,11 +403,16 @@ export class GrChangeListTopicFlow extends LitElement {
       this.selectedChanges.map(change =>
         this.restApiService.setChangeTopic(change._number, this.topicToAdd)
       ),
-      alert
+      alert,
+      `Failed to ${creatingTopic ? 'create' : 'apply'} topic`
     );
   }
 
-  private async trackPromises(promises: Promise<string>[], alert: string) {
+  private async trackPromises(
+    promises: Promise<string>[],
+    alert: string,
+    errorMessage: string
+  ) {
     this.overallProgress = ProgressStatus.RUNNING;
     const results = await allSettled(promises);
     if (results.every(result => result.status === 'fulfilled')) {
@@ -377,7 +424,7 @@ export class GrChangeListTopicFlow extends LitElement {
       fireReload(this);
     } else {
       this.overallProgress = ProgressStatus.FAILED;
-      // TODO: when some are rejected, show error and Cancel button
+      this.errorText = errorMessage;
     }
   }
 

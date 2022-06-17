@@ -135,17 +135,19 @@ suite('gr-change-actions tests', () => {
       element = await fixture<GrChangeActions>(html`
         <gr-change-actions></gr-change-actions>
       `);
-      element.change = createChangeViewChange();
-      element.changeNum = 42 as NumericChangeId;
-      element.latestPatchNum = 2 as PatchSetNum;
-      element.actions = {
-        '/': {
-          method: HttpMethod.DELETE,
-          label: 'Delete Change',
-          title: 'Delete change X_X',
-          enabled: true,
+      element.change = {
+        ...createChangeViewChange(),
+        actions: {
+          '/': {
+            method: HttpMethod.DELETE,
+            label: 'Delete Change',
+            title: 'Delete change X_X',
+            enabled: true,
+          },
         },
       };
+      element.changeNum = 42 as NumericChangeId;
+      element.latestPatchNum = 2 as PatchSetNum;
       element.account = {
         _account_id: 123 as AccountId,
       };
@@ -1294,13 +1296,16 @@ suite('gr-change-actions tests', () => {
       setup(async () => {
         fireActionStub = sinon.stub(element, 'fireAction');
         element.commitMessage = 'random commit message';
-        element.change!.current_revision = 'abcdef' as CommitId;
-        element.actions = {
-          revert: {
-            method: HttpMethod.POST,
-            label: 'Revert',
-            title: 'Revert the change',
-            enabled: true,
+        element.change = {
+          ...createChangeViewChange(),
+          current_revision: 'abcdef' as CommitId,
+          actions: {
+            revert: {
+              method: HttpMethod.POST,
+              label: 'Revert',
+              title: 'Revert the change',
+              enabled: true,
+            },
           },
         };
         await element.updateComplete;
@@ -1322,6 +1327,14 @@ suite('gr-change-actions tests', () => {
         element.change = {
           ...createChangeViewChange(),
           current_revision: 'abc1234' as CommitId,
+          actions: {
+            revert: {
+              method: HttpMethod.POST,
+              label: 'Revert',
+              title: 'Revert the change',
+              enabled: true,
+            },
+          },
         };
         stubRestApi('getChanges').returns(
           Promise.resolve([
@@ -1368,6 +1381,14 @@ suite('gr-change-actions tests', () => {
             ...createChangeViewChange(),
             submission_id: '199 0' as ChangeSubmissionId,
             current_revision: '2000' as CommitId,
+            actions: {
+              revert: {
+                method: HttpMethod.POST,
+                label: 'Revert',
+                title: 'Revert the change',
+                enabled: true,
+              },
+            },
           };
           getChangesStub = stubRestApi('getChanges').returns(
             Promise.resolve([
@@ -1521,6 +1542,14 @@ suite('gr-change-actions tests', () => {
             ...createChangeViewChange(),
             submission_id: '199' as ChangeSubmissionId,
             current_revision: '2000' as CommitId,
+            actions: {
+              revert: {
+                method: HttpMethod.POST,
+                label: 'Revert',
+                title: 'Revert the change',
+                enabled: true,
+              },
+            },
           };
           stubRestApi('getChanges').returns(
             Promise.resolve([
@@ -1725,18 +1754,18 @@ suite('gr-change-actions tests', () => {
 
       setup(async () => {
         fireActionStub = sinon.stub(element, 'fireAction');
-        element.change = {
-          ...createChangeViewChange(),
-          current_revision: 'abc1234' as CommitId,
-        };
         deleteAction = {
           method: HttpMethod.DELETE,
           label: 'Delete Change',
           title: 'Delete change X_X',
           enabled: true,
         };
-        element.actions = {
-          '/': deleteAction,
+        element.change = {
+          ...createChangeViewChange(),
+          current_revision: 'abc1234' as CommitId,
+          actions: {
+            '/': deleteAction,
+          },
         };
         await element.updateComplete;
       });

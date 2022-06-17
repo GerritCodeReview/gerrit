@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f9cd69cd_3f420998",
+        "filename": "polygerrit-ui/app/models/change/files-model.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-17T08:35:02Z",
+      "side": 1,
+      "message": "Looking at the next change, it looks like `lines_inserted` is non-optional in value but when pushing to list the property is required.",
+      "parentUuid": "b5e703fa_a40d0fb8",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 48
+      },
+      "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d23cd2c_8189f19c",
         "filename": "polygerrit-ui/app/models/change/files-model.ts",
         "patchSetId": 14

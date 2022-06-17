@@ -49,6 +49,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a5b442cd_8bd56dc1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-17T12:02:00Z",
+      "side": 1,
+      "message": "can this be state?",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 28
+      },
+      "revId": "89c7881d24e567f7c0a60f838d8d02b60410adc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "52ad7032_7a92f300",
         "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status.ts",
         "patchSetId": 3
@@ -88,6 +111,29 @@
         "startChar": 24,
         "endLine": 29,
         "endChar": 27
+      },
+      "revId": "89c7881d24e567f7c0a60f838d8d02b60410adc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65c73d40_5faf43fb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-17T12:02:00Z",
+      "side": 1,
+      "message": "is `classMap` preferred here? I think it looks a bit cleaner but not sure wdyt",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 32
       },
       "revId": "89c7881d24e567f7c0a60f838d8d02b60410adc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

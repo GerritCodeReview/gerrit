@@ -2818,9 +2818,8 @@ export class GrChangeView extends LitElement {
       });
   }
 
-  private changeCommentsChanged(comments?: ChangeComments) {
-    if (!comments) return;
-    this.changeComments = comments;
+  private changeCommentsChanged() {
+    if (!this.changeComments) return;
     this.commentThreads = this.changeComments.getAllThreadsForChange();
     this.draftCommentThreads = this.commentThreads
       .filter(isDraftThread)

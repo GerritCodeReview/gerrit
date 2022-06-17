@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ee92f13_c2d48764",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1407,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-17T07:11:18Z",
+      "side": 0,
+      "message": "Moved to `filesChanged()`.",
+      "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ea877d2_157b406b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-17T07:11:18Z",
+      "side": 0,
+      "message": "the raw api response is not meaningful for the file list",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 38
+      },
+      "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

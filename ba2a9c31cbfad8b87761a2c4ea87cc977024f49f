@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7d8f575_bfc12d14",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-17T07:11:18Z",
+      "side": 1,
+      "message": "only required in `NormalizedFileInfo`",
+      "range": {
+        "startLine": 617,
+        "startChar": 2,
+        "endLine": 618,
+        "endChar": 28
+      },
+      "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5a1ebb8_f6a0cf8e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-17T07:11:18Z",
+      "side": 1,
+      "message": "note that these are already normalized and include unmodified files, which makes the `computeFiles()` method obsolete",
+      "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

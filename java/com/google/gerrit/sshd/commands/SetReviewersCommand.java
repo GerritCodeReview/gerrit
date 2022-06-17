@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.extensions.client.ReviewerState.CC;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -53,6 +55,13 @@ public class SetReviewersCommand extends SshCommand {
       metaVar = "REVIEWER",
       usage = "user or group that should be added as reviewer")
   private List<String> toAdd = new ArrayList<>();
+
+  @Option(
+      name = "--cc",
+      aliases = {"-c"},
+      metaVar = "REVIEWER",
+      usage = "user or group that should be added as CC")
+  private List<String> toAddCc = new ArrayList<>();
 
   @Option(
       name = "--remove",
@@ -139,6 +148,25 @@ public class SetReviewersCommand extends SshCommand {
       ReviewerInput input = new ReviewerInput();
       input.reviewer = reviewer;
       input.confirmed = true;
+      String error;
+      try {
+        error = postReviewers.apply(changeRsrc, input).value().error;
+      } catch (Exception e) {
+        error = String.format("could not add %s: %s", reviewer, e.getMessage());
+      }
+      if (error != null) {
+        ok = false;
+        writeError("error", error);
+      }
+    }
+
+    // Add CCs
+    //
+    for (String reviewer : toAddCc) {
+      ReviewerInput input = new ReviewerInput();
+      input.reviewer = reviewer;
+      input.confirmed = true;
+      input.state = CC;
       String error;
       try {
         error = postReviewers.apply(changeRsrc, input).value().error;

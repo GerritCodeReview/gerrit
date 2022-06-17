@@ -181,6 +181,23 @@
       "parentUuid": "b336c9b6_50e4f102",
       "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f388bf00_de059b2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-17T13:51:44Z",
+      "side": 1,
+      "message": "I\u0027m opened to remove the -2 under the conditions:\n\n1. This change is moved to master\n2. We introduce the non-consistent write API in the indexing, which defaults to the consistent API\n3. We leverage the new API in the off-line reindex\n4. We add tests that run the off-line reindex with consistent and non-consistent writes\n5. We implement the non-consistent API in Lucene using some lower-level high-performance primitives\n\nWith the above, I agree with Nasser that it makes sense in core and would provide benefit to Gerrit regardless of ES.",
+      "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

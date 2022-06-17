@@ -5,6 +5,7 @@
  */
 import '../test/common-test-setup-karma';
 import {
+  computeVoteableText,
   getAccountTemplate,
   isServiceUser,
   removeServiceUsers,
@@ -16,7 +17,12 @@ import {
   DefaultDisplayNameConfig,
 } from '../constants/constants';
 import {AccountId, AccountInfo, ServerInfo} from '../api/rest-api';
-import {createServerInfo} from '../test/test-data-generators';
+import {
+  createAccountDetailWithId,
+  createChange,
+  createDetailedLabelInfo,
+  createServerInfo,
+} from '../test/test-data-generators';
 
 const EMPTY = {};
 const ERNIE = {name: 'Ernie'};
@@ -133,5 +139,70 @@ suite('account-util tests 3', () => {
     assert.equal(getAccountTemplate(accounts[0], config), '<GERRIT_ACCOUNT_1>');
     assert.equal(getAccountTemplate({}, config), 'Unidentified User');
     assert.equal(getAccountTemplate(), 'Anonymous');
+  });
+
+  test('votable labels', async () => {
+    const change = {
+      ...createChange(),
+      labels: {
+        Foo: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              _account_id: 7 as AccountId,
+              permitted_voting_range: {max: 2, min: 0},
+            },
+          ],
+        },
+        Bar: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createAccountDetailWithId(1),
+              permitted_voting_range: {max: 1, min: 0},
+            },
+            {
+              _account_id: 7 as AccountId,
+              permitted_voting_range: {max: 1, min: 0},
+            },
+          ],
+        },
+        FooBar: {
+          ...createDetailedLabelInfo(),
+          all: [{_account_id: 7 as AccountId, value: 0}],
+        },
+      },
+      permitted_labels: {
+        Foo: ['-1', ' 0', '+1', '+2'],
+        FooBar: ['-1', ' 0'],
+      },
+    };
+
+    assert.strictEqual(
+      computeVoteableText(change, {...createAccountDetailWithId(1)}),
+      'Bar: +1'
+    );
+    assert.strictEqual(
+      computeVoteableText(change, {...createAccountDetailWithId(7)}),
+      'Foo: +2, Bar: +1, FooBar: 0'
+    );
+    assert.strictEqual(
+      computeVoteableText(change, {...createAccountDetailWithId(2)}),
+      ''
+    );
+  });
+
+  test('fails gracefully when all is not included', async () => {
+    const change = {
+      ...createChange(),
+      labels: {Foo: {}},
+      permitted_labels: {
+        Foo: ['-1', ' 0', '+1', '+2'],
+      },
+    };
+    assert.strictEqual(
+      computeVoteableText(change, {...createAccountDetailWithId(1)}),
+      ''
+    );
   });
 });

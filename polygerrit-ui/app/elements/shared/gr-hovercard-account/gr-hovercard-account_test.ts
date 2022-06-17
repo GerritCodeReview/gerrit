@@ -23,6 +23,7 @@ import {
 import {
   createAccountDetailWithId,
   createChange,
+  createDetailedLabelInfo,
 } from '../../../test/test-data-generators.js';
 import {GrButton} from '../gr-button/gr-button.js';
 
@@ -121,13 +122,49 @@ suite('gr-hovercard-account tests', () => {
   });
 
   test('voteable div is displayed', async () => {
-    element.voteableText = 'CodeReview: +2';
+    element.change = {
+      ...createChange(),
+      labels: {
+        Foo: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              _account_id: 7 as AccountId,
+              permitted_voting_range: {max: 2, min: 0},
+            },
+          ],
+        },
+        Bar: {
+          ...createDetailedLabelInfo(),
+          all: [
+            {
+              ...createAccountDetailWithId(1),
+              permitted_voting_range: {max: 1, min: 0},
+            },
+            {
+              _account_id: 7 as AccountId,
+              permitted_voting_range: {max: 1, min: 0},
+            },
+          ],
+        },
+        FooBar: {
+          ...createDetailedLabelInfo(),
+          all: [{_account_id: 7 as AccountId, value: 0}],
+        },
+      },
+      permitted_labels: {
+        Foo: ['-1', ' 0', '+1', '+2'],
+        FooBar: ['-1', ' 0'],
+      },
+    };
+    element.account = createAccountDetailWithId(1);
+
     await element.updateComplete;
     const voteableEl = queryAndAssert<HTMLSpanElement>(
       element,
       '.voteable .value'
     );
-    assert.equal(voteableEl.innerText, element.voteableText);
+    assert.equal(voteableEl.innerText, 'Bar: +1');
   });
 
   test('remove reviewer', async () => {

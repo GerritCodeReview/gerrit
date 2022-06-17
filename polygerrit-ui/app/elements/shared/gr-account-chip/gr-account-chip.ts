@@ -51,9 +51,6 @@ export class GrAccountChip extends LitElement {
   @property({type: Boolean})
   forceAttention = false;
 
-  @property({type: String})
-  voteableText?: string;
-
   @property({type: Boolean, reflect: true})
   disabled = false;
 
@@ -181,7 +178,6 @@ export class GrAccountChip extends LitElement {
             .change=${this.change}
             ?forceAttention=${this.forceAttention}
             ?highlightAttention=${this.highlightAttention}
-            .voteableText=${this.voteableText}
             clickable
           >
           </gr-account-label>

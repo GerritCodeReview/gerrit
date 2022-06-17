@@ -9,7 +9,11 @@ import '../gr-button/gr-button';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import {getAppContext} from '../../../services/app-context';
-import {accountKey, isSelf} from '../../../utils/account-util';
+import {
+  accountKey,
+  computeVoteableText,
+  isSelf,
+} from '../../../utils/account-util';
 import {customElement, property, state} from 'lit/decorators';
 import {
   AccountInfo,
@@ -53,13 +57,6 @@ export class GrHovercardAccount extends base {
    */
   @property({type: Object})
   change?: ChangeInfo;
-
-  /**
-   * Explains which labels the user can vote on and which score they can
-   * give.
-   */
-  @property({type: String})
-  voteableText?: string;
 
   /**
    * Should attention set related features be shown in the component? Note
@@ -167,7 +164,8 @@ export class GrHovercardAccount extends base {
   }
 
   private renderContent() {
-    if (!this._isShowing) return;
+    if (!this._isShowing || !this.change) return;
+    const voteableText = computeVoteableText(this.change, this.account);
     return html`
       <div class="top">
         <div class="avatar">
@@ -180,11 +178,11 @@ export class GrHovercardAccount extends base {
       </div>
       ${this.renderAccountStatusPlugins()} ${this.renderAccountStatus()}
       ${this.renderLinks()}
-      ${this.voteableText
+      ${voteableText
         ? html`
             <div class="voteable">
               <span class="title">Voteable:</span>
-              <span class="value">${this.voteableText}</span>
+              <span class="value">${voteableText}</span>
             </div>
           `
         : ''}

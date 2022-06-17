@@ -10,7 +10,6 @@ import {GrReviewerList} from './gr-reviewer-list';
 import {
   createAccountDetailWithId,
   createChange,
-  createDetailedLabelInfo,
 } from '../../../test/test-data-generators';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {AccountId, EmailAddress} from '../../../types/common';
@@ -252,72 +251,5 @@ suite('gr-reviewer-list tests', () => {
     assert.equal(element.displayedReviewers.length, 100);
     assert.equal(element.reviewers.length, 100);
     assert.isTrue(queryAndAssert<GrButton>(element, '.hiddenReviewers').hidden);
-  });
-
-  test('votable labels', async () => {
-    element.change = {
-      ...createChange(),
-      labels: {
-        Foo: {
-          ...createDetailedLabelInfo(),
-          all: [
-            {
-              _account_id: 7 as AccountId,
-              permitted_voting_range: {max: 2, min: 0},
-            },
-          ],
-        },
-        Bar: {
-          ...createDetailedLabelInfo(),
-          all: [
-            {
-              ...createAccountDetailWithId(1),
-              permitted_voting_range: {max: 1, min: 0},
-            },
-            {
-              _account_id: 7 as AccountId,
-              permitted_voting_range: {max: 1, min: 0},
-            },
-          ],
-        },
-        FooBar: {
-          ...createDetailedLabelInfo(),
-          all: [{_account_id: 7 as AccountId, value: 0}],
-        },
-      },
-      permitted_labels: {
-        Foo: ['-1', ' 0', '+1', '+2'],
-        FooBar: ['-1', ' 0'],
-      },
-    };
-    await element.updateComplete;
-
-    assert.strictEqual(
-      element.computeVoteableText({...createAccountDetailWithId(1)}),
-      'Bar: +1'
-    );
-    assert.strictEqual(
-      element.computeVoteableText({...createAccountDetailWithId(7)}),
-      'Foo: +2, Bar: +1, FooBar: 0'
-    );
-    assert.strictEqual(
-      element.computeVoteableText({...createAccountDetailWithId(2)}),
-      ''
-    );
-  });
-
-  test('fails gracefully when all is not included', async () => {
-    element.change = {
-      ...createChange(),
-      labels: {Foo: {}},
-      permitted_labels: {
-        Foo: ['-1', ' 0', '+1', '+2'],
-      },
-    };
-    await element.updateComplete;
-    assert.strictEqual(
-      element.computeVoteableText({...createAccountDetailWithId(1)}),
-      ''
-    );
   });
 });

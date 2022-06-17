@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c665be2_02e9b33e",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T09:22:20Z",
+      "side": 1,
+      "message": "NIT: maybe you can update documentation about optionality.",
+      "parentUuid": "a7d8f575_bfc12d14",
+      "range": {
+        "startLine": 617,
+        "startChar": 2,
+        "endLine": 618,
+        "endChar": 28
+      },
+      "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d5a1ebb8_f6a0cf8e",
@@ -37,6 +61,52 @@
       "writtenOn": "2022-06-17T07:11:18Z",
       "side": 1,
       "message": "note that these are already normalized and include unmodified files, which makes the `computeFiles()` method obsolete",
+      "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82f87674_9b6424e3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T09:22:20Z",
+      "side": 1,
+      "message": "Nit: Or set?",
+      "range": {
+        "startLine": 112,
+        "startChar": 60,
+        "endLine": 112,
+        "endChar": 65
+      },
+      "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4551a904_6519bbac",
+        "filename": "polygerrit-ui/app/models/change/files-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T09:22:20Z",
+      "side": 1,
+      "message": "```\nreturn {\n    __path: path,\n    lines_inserted: 0,\n    lines_deleted: 0,\n    size_delta: 0,\n    size: 0,\n       ...file,\n}\n```",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 25
+      },
       "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -59,6 +129,52 @@
         "startChar": 9,
         "endLine": 48,
         "endChar": 20
+      },
+      "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a5de45f_8dd7bc30",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T09:22:20Z",
+      "side": 1,
+      "message": "I would assume that if there is not patchNum then we do latest patchNum.",
+      "range": {
+        "startLine": 269,
+        "startChar": 11,
+        "endLine": 269,
+        "endChar": 19
+      },
+      "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38476e35_083304bc",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T09:22:20Z",
+      "side": 1,
+      "message": "I would expect this Object.keys done either in getPaths or in caller for commentedPaths",
+      "range": {
+        "startLine": 271,
+        "startChar": 13,
+        "endLine": 271,
+        "endChar": 34
       },
       "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

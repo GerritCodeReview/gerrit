@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5f5d3ea_111adf95",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 2897,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T09:22:20Z",
+      "side": 0,
+      "message": "Could we listen/wait to non-empty state of file model? So we don\u0027t change timings",
+      "range": {
+        "startLine": 2891,
+        "startChar": 5,
+        "endLine": 2897,
+        "endChar": 0
+      },
+      "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "4ee92f13_c2d48764",
@@ -36,6 +59,52 @@
         "startChar": 0,
         "endLine": 217,
         "endChar": 38
+      },
+      "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3cc5ad8_9dcc31c3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T09:22:20Z",
+      "side": 0,
+      "message": "So I assume if patchrange is change, this triggers next state of file list, which will recompute files, recompute unmodified files, ...",
+      "range": {
+        "startLine": 736,
+        "startChar": 2,
+        "endLine": 743,
+        "endChar": 5
+      },
+      "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1058717_603a1e50",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1438,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T09:22:20Z",
+      "side": 0,
+      "message": "This will be moved later to model?",
+      "range": {
+        "startLine": 1432,
+        "startChar": 6,
+        "endLine": 1438,
+        "endChar": 8
       },
       "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

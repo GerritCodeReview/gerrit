@@ -1268,7 +1268,6 @@ export class GrChangeView extends LitElement {
         .change=${this.change}
         .disableEdit=${false}
         .hasParent=${this.hasParent}
-        .actions=${this.change?.actions ?? {}}
         .account=${this.account}
         .changeNum=${this.changeNum}
         .changeStatus=${this.change?.status}

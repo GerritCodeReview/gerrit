@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2592c71f_d8e6ba51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-17T08:53:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34c8cfe7_8a470c48",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "51d6b10e89757990b963e322efe7d58cdb8c45d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ad5ed15_80237e7d",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-06-17T08:44:13Z",
       "side": 1,
       "message": "Btw. this is solving issue of b/232036468 from front-end side. We just need to request back-end to fill voteable capabilities for owners, non-owners.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 19
+      },
+      "revId": "51d6b10e89757990b963e322efe7d58cdb8c45d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "112b8d90_16f39591",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-17T08:53:55Z",
+      "side": 1,
+      "message": "Nice!",
+      "parentUuid": "9ad5ed15_80237e7d",
       "range": {
         "startLine": 12,
         "startChar": 0,

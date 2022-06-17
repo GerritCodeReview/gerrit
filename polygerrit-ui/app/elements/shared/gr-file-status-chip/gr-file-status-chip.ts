@@ -3,12 +3,13 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {FileInfoStatus, SpecialFilePath} from '../../../constants/constants';
+import {FileInfoStatus} from '../../../constants/constants';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators';
 import {assertNever} from '../../../utils/common-util';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
+import {isMagicPath} from '../../../utils/path-list-util';
 
 /**
  * This component does not really care about the full glory of FileInfo and
@@ -54,7 +55,7 @@ export class GrFileStatusChip extends LitElement {
   override render() {
     if (!this.file) return;
     const classes = ['status', this.status()];
-    if (this.isSpecial()) classes.push('invisible');
+    if (isMagicPath(this.file?.__path)) classes.push('invisible');
     const label = this.computeLabel();
     return html`<span
       class=${classes.join(' ')}
@@ -90,14 +91,6 @@ export class GrFileStatusChip extends LitElement {
 
   private status(): FileInfoStatus {
     return this.file?.status ?? FileInfoStatus.MODIFIED;
-  }
-
-  private isSpecial() {
-    const path = this.file?.__path;
-    return (
-      path === SpecialFilePath.COMMIT_MESSAGE ||
-      path === SpecialFilePath.MERGE_LIST
-    );
   }
 }
 

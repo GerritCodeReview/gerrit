@@ -1963,15 +1963,8 @@ export class GrFileList extends LitElement {
 
   private computeClass(baseClass?: string, path?: string) {
     const classes = [];
-    if (baseClass) {
-      classes.push(baseClass);
-    }
-    if (
-      path === SpecialFilePath.COMMIT_MESSAGE ||
-      path === SpecialFilePath.MERGE_LIST
-    ) {
-      classes.push('invisible');
-    }
+    if (baseClass) classes.push(baseClass);
+    if (isMagicPath(path)) classes.push('invisible');
     return classes.join(' ');
   }
 
@@ -2256,10 +2249,7 @@ export class GrFileList extends LitElement {
    * and be included in the size bars calculation.
    */
   private showBarsForPath(path?: string) {
-    return (
-      path !== SpecialFilePath.COMMIT_MESSAGE &&
-      path !== SpecialFilePath.MERGE_LIST
-    );
+    return !isMagicPath(path);
   }
 
   /**

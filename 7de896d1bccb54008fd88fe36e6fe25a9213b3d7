@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27b66dfc_29e1e0bb",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-17T12:55:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d220cd82_347152bc",
+      "range": {
+        "startLine": 185,
+        "startChar": 5,
+        "endLine": 186,
+        "endChar": 31
+      },
+      "revId": "7de896d1bccb54008fd88fe36e6fe25a9213b3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63aa50d2_6f3491c8",
@@ -70,6 +94,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a542f1d_020180ae",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-17T12:55:25Z",
+      "side": 1,
+      "message": "This should not happen since callers won\u0027t execute this codepath if draftNotesFactory \u003d\u003d null (line 148). All nullable args are set together.\n\nI added a null check anyway as per your suggestion. Done.",
+      "parentUuid": "63aa50d2_6f3491c8",
+      "range": {
+        "startLine": 274,
+        "startChar": 48,
+        "endLine": 274,
+        "endChar": 59
+      },
+      "revId": "7de896d1bccb54008fd88fe36e6fe25a9213b3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "468b5150_5c73dbdc",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-17T12:55:25Z",
+      "side": 1,
+      "message": "This should not happen since callers won\u0027t execute this codepath if draftNotesFactory \u003d\u003d null (line 148). All nullable args are set together.\n\nI added a null check anyway as per your suggestion. Done.",
+      "parentUuid": "492f6d83_56e60976",
+      "range": {
+        "startLine": 274,
+        "startChar": 8,
+        "endLine": 274,
+        "endChar": 27
+      },
+      "revId": "7de896d1bccb54008fd88fe36e6fe25a9213b3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "830589ea_4d94e83a",
@@ -95,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2e1f944e_23a93022",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-17T12:55:25Z",
+      "side": 1,
+      "message": "OK thanks for bringing this to my attention. I double checked and the changeUpdate.deleteComment is the one used to delete drafts (see DeleteDraftComment#L86 in restapi.change or DeleteDraftComments#L188 in restapi.account).\n\nI\u0027m not sure if markCommentPublished is needed; since the published comment existed anyway. The effect of this call is deleting the draft, but the published comment remains untouched. Also the tests assert that the published comment still exist after the cleanup logic is executed. I left the code as is here.\n\nPlease resolve if you have no more concerns.",
+      "parentUuid": "830589ea_4d94e83a",
+      "range": {
+        "startLine": 275,
+        "startChar": 45,
+        "endLine": 275,
+        "endChar": 58
+      },
+      "revId": "7de896d1bccb54008fd88fe36e6fe25a9213b3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "327cf72c_9d31d72a",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/DeleteZombieDraftIT.java",
         "patchSetId": 4
@@ -106,6 +202,30 @@
       "writtenOn": "2022-06-17T11:14:06Z",
       "side": 1,
       "message": "Tests don\u0027t check that:\na) Zombie draft are actually deleted (or marked as published)\nb) If a draft has been already published - the published comment remains untouched.\n\nPlease test it.",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 32
+      },
+      "revId": "7de896d1bccb54008fd88fe36e6fe25a9213b3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08c6d160_6daff049",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/DeleteZombieDraftIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-17T12:55:25Z",
+      "side": 1,
+      "message": "\u003e assertThat(getDraftsByParsingDraftRef(draftRef.getName(), revId)).hasSize(1);\n\nIt did by asserting on the o/p of worker.deleteDraftCommentsThatAreAlsoPublished(). I added another assert statement to inspect the draft ref after the deletion and make sure the draft is not there.\n\n\u003e If a draft has been already published - the published comment remains untouched.\n\nDone.",
+      "parentUuid": "327cf72c_9d31d72a",
       "range": {
         "startLine": 39,
         "startChar": 13,

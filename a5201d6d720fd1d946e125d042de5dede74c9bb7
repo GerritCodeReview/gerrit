@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8df86397_3ee7ead4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T18:53:17Z",
+      "side": 1,
+      "message": "nit: numReviewersAdded",
+      "range": {
+        "startLine": 524,
+        "startChar": 12,
+        "endLine": 524,
+        "endChar": 26
+      },
+      "revId": "a5201d6d720fd1d946e125d042de5dede74c9bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a3bdd78_c86a3b1c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T18:53:17Z",
+      "side": 1,
+      "message": "Should there be CCs when there is two and more CC? :) I don\u0027t know.",
+      "range": {
+        "startLine": 531,
+        "startChar": 61,
+        "endLine": 531,
+        "endChar": 63
+      },
+      "revId": "a5201d6d720fd1d946e125d042de5dede74c9bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85279eda_52bad830",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T18:53:17Z",
+      "side": 1,
+      "message": "\u00271 reviewers` can look weird.\n\nwhy not to use pluralize from string-util?\n```\n${pluralize(reviewerAdded, \u0027reviewer\u0027}",
+      "range": {
+        "startLine": 531,
+        "startChar": 19,
+        "endLine": 531,
+        "endChar": 44
+      },
+      "revId": "a5201d6d720fd1d946e125d042de5dede74c9bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3375aee6_68de8e07",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-17T18:53:17Z",
+      "side": 1,
+      "message": "maybe this can be extracted to method, so saveReviewers is not that long.",
+      "range": {
+        "startLine": 524,
+        "startChar": 6,
+        "endLine": 536,
+        "endChar": 7
+      },
+      "revId": "a5201d6d720fd1d946e125d042de5dede74c9bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

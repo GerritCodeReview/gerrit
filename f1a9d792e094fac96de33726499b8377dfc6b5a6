@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "439bac72_bb3ac8c4",
+        "filename": "polygerrit-ui/app/models/change/files-model.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-17T08:14:58Z",
+      "side": 1,
+      "message": "we are spreading value which has `lines_inserted` already then assigning the property again as `value.lines_inserted`. Is it just to get the default 0?",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 48
+      },
+      "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d23cd2c_8189f19c",
+        "filename": "polygerrit-ui/app/models/change/files-model.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-17T08:14:58Z",
+      "side": 1,
+      "message": "Ultra nitty but I prefer not having a TODO start with \"maybe\". 😄\nIf we are leaving the TODO then let\u0027s mention exactly what needs to be done?",
+      "range": {
+        "startLine": 39,
+        "startChar": 5,
+        "endLine": 39,
+        "endChar": 16
+      },
+      "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

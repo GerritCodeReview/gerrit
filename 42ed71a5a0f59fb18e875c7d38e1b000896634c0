@@ -267,6 +267,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "81387e90_a2351c9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-06-17T21:25:25Z",
+      "side": 1,
+      "message": "\u003e i think it\u0027s fairly obvious that having the plugin subvert visible settings (even if \"just to be sure\") is bad UX. so if you go with enforcement at the execution site, you need to adjust the frontend to reflect reality anyway. but when you do that, you can go with a more general and therefore elegant approach just as well (provided it actually covers your use case - you\u0027d need to be more specific for me to be able to asses that).\n\nI agree that we want to UI to reflect when a plugin is providing a value, and no to \"subvert visible settings\". \n\nMy proposal is to start simple and add the ability for a plugin to override all the values and to have the UI reflect that a plugin is providing the values (when such a plugin is installed). This allows for plugins to provide policies with the minimal amount of work both in core, and for the plugin. This need not be the final solution, but I suspect it is a minimal \"good enough\" implementation that does not break user expectations, and allows for plugins to start providing policies (which is Qcom\u0027s objective). This does not provide a user interface to make finer grained selections available to users, but it does allow for such an interface still to be built by anyone desiring it.",
+      "parentUuid": "0330bfe9_0553a0fb",
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "648eafb5_550e2afd",

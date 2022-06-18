@@ -303,6 +303,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8209b79d_e11eabf9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2022-06-18T22:20:13Z",
+      "side": 1,
+      "message": "It seems like you think that some sort of rule system would be better than plugins. I am going to respectfully disagree. In this case a rule based system would need to be extremely complicated to meet both your use cases and our cases, as they are very different. Your use cases seem related to letting a user configure rules for themselves, whereas our use cases are related to letting our lawyers dictate to our users which email to use and when. There is a chance that our lawyers may need information from custom internal systems at some point, and that would not likely be feasible to do without a plugin. I currently believe a plugin system meets our needs best.\n\nAs a Gerrit maintainer my philosophy for Gerrit has always been to generally approach new exotic and generic use cases by 1) adding an extension point to core 2) implementing new exotic + generic policies in plugins 3) promote generic plugins to core plugins if they prove to be useful to many users.\n\nIn this case, our policies are somewhat exotic, so we won\u0027t likely be pursuing any generic solutions. But perhaps you will?",
+      "parentUuid": "1380df5a_c3f397ab",
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "648eafb5_550e2afd",

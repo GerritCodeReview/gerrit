@@ -87,6 +87,30 @@
       },
       "revId": "3ac7ff15b88e16d95ef55983d8fae3e4dce863d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d305e01d_9f8e7bb7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/ApplyDirectFixIT.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-18T15:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cd61cfc_05ffc17c",
+      "range": {
+        "startLine": 113,
+        "startChar": 14,
+        "endLine": 113,
+        "endChar": 75
+      },
+      "revId": "3ac7ff15b88e16d95ef55983d8fae3e4dce863d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7810c4d4_ea1750b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-18T14:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac1c8c77_a46d7abc",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39d16ba0_59eef696",
@@ -87,6 +111,72 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ff3f22b_cb2bb5c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-18T14:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39d16ba0_59eef696",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a23afe9b_0a74c08c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-18T14:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2ce385f_ec0e3507",
+      "range": {
+        "startLine": 9,
+        "startChar": 23,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c49f9130_c83a16f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-18T14:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54349980_1f31b71c",
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08bdd5df_a212c831",
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b31e153d_d91cc585",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-18T14:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08bdd5df_a212c831",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "344bcf64_841c0d3d",
@@ -123,6 +237,24 @@
       "writtenOn": "2022-06-02T20:12:57Z",
       "side": 1,
       "message": "\"picks up\" isn\u0027t accurate. This API will be called by the frontend plugin itself to apply a fix it\u0027s suggesting in the UI and that the user has selected. Can you clarify that here?",
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d99274b_6c1f2ac8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 40
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-18T14:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "344bcf64_841c0d3d",
       "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -157,6 +289,30 @@
       "writtenOn": "2022-06-02T20:12:57Z",
       "side": 1,
       "message": "This should say something like \"The fix(es) to apply to a new or existing change edit.\"",
+      "range": {
+        "startLine": 125,
+        "startChar": 34,
+        "endLine": 125,
+        "endChar": 84
+      },
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55ac5fa3_361ce359",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-18T14:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56b534df_4eb18231",
       "range": {
         "startLine": 125,
         "startChar": 34,

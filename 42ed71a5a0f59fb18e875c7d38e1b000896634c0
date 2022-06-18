@@ -285,6 +285,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1380df5a_c3f397ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-06-18T09:37:55Z",
+      "side": 1,
+      "message": "hook-based systems are always more complex and fragile than monolithic systems for a given level of integration, so one shouldn\u0027t just ask whether it could be done with plugins, but also whether it should. externalizing a straight-forward and useful core feature just for the sake of it is usually a very bad deal.\n\nanother thing to consider is symmetry. it\u0027s a bad idea to introduce hooks into one path, while omitting another very similar one. a generalized role based \"address getter\" system would be preferable.\n\nlastly, the question is whether the system *needs* to by dynamic, or whether a static (possibly templated) configuration would be sufficient. it\u0027s less code overall and easier to get all cases right when hooks are involved only at configuration time.",
+      "parentUuid": "81387e90_a2351c9b",
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "648eafb5_550e2afd",

@@ -321,6 +321,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c828509_b37e97e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2022-06-19T08:20:37Z",
+      "side": 1,
+      "message": "i specifically said that i don\u0027t think a rule based system would be appropriate; in fact, i pretty much ridiculed my own idea.\n\ni said that a templated system (like the urls in the replication plugin) may work, provided your lawyers\u0027 dictations follow (or can be made to follow) a pattern that can be derived from the context. you\u0027re hinting that this *may* not be the case, at some point, but that\u0027s not a basis i\u0027d find satisfactory. i\u0027m having a hard time imagining why anyone would want the *notification* address to be context-sensitive in the first place (it\u0027s much easier to imagine that for the display address). in any case, that templated address would be provided and its selection enforced by a plugin - at configuration time, thus drastically reducing the intrusiveness of the extension.\n\nthe thing is that if you put all these very specific extension points into the code just to implement one very specific use case, you only *pretend* to make the system modular, at an unreasonable cost. to make the hooks prospectively actually useful to others you need think beyond your immediate use case and generalize somewhat. in this case that would mean including addresses that are used for different purposes.\n\nit should be possible to _fully_ implement the pre-existing core functionality via the new api, in a straightforward way, with no risk that some subtlety gets missed, esp. after the core moves on. but you have exactly that risk when you allow creating \"parallel universes\".",
+      "parentUuid": "8209b79d_e11eabf9",
+      "revId": "42ed71a5a0f59fb18e875c7d38e1b000896634c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "648eafb5_550e2afd",

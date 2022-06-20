@@ -46,6 +46,74 @@
       },
       "revId": "4d94060e073bc2572ddfea2f15de56fcf68eae11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b30234a_0827d697",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-20T11:13:06Z",
+      "side": 1,
+      "message": "Consider making this a set instead of an array.",
+      "revId": "4d94060e073bc2572ddfea2f15de56fcf68eae11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b4630ce_59faf6cf",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-20T11:13:06Z",
+      "side": 1,
+      "message": "Should not be a method.",
+      "revId": "4d94060e073bc2572ddfea2f15de56fcf68eae11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "787106ea_134c0e30",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-20T11:13:06Z",
+      "side": 1,
+      "message": "This should not be a method.",
+      "revId": "4d94060e073bc2572ddfea2f15de56fcf68eae11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddad9ddd_1cf0782e",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-20T11:13:06Z",
+      "side": 1,
+      "message": "This should not be a method.",
+      "revId": "4d94060e073bc2572ddfea2f15de56fcf68eae11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

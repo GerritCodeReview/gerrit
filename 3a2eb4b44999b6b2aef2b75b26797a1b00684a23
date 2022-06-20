@@ -260,6 +260,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85831c3c_088d2af8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-20T15:57:20Z",
+      "side": 1,
+      "message": "Done. PTAL",
+      "parentUuid": "4d99a89e_c9464d2a",
+      "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ea75b4f_d4da3114",
@@ -273,6 +291,24 @@
       "writtenOn": "2022-06-20T15:16:35Z",
       "side": 1,
       "message": "Since you\u0027re touching this file, would you mind moving these to @query syntax:\n\n```\n@query(\u0027#input\u0027)\ninput?: PaperInputElementExt;\n\n@query(\u0027#autocomplete\u0027)\ngrAutocomplete?: \n```",
+      "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaaf8b30_1d6e9de7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-20T15:57:20Z",
+      "side": 1,
+      "message": "Done.\n\nDoes query syntax, cache the results? Do I still need to do\n```\nconst input \u003d this.input\n....\n```\n\nIf I am using the variable multiple times? (I just changed to `this.input` every time.",
+      "parentUuid": "6ea75b4f_d4da3114",
       "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

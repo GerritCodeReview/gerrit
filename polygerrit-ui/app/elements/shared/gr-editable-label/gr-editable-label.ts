@@ -152,8 +152,9 @@ export class GrEditableLabel extends LitElement {
         .verticalAlign=${'auto'}
         .horizontalAlign=${'auto'}
         .verticalOffset=${this.verticalOffset}
-        allowOutsideScroll
-        @iron-overlay-canceled=${this.cancel}
+        .allowOutsideScroll=${true}
+        .noCancelOnEscKey=${true}
+        .noCancelOnOutsideClick=${true}
       >
         <div class="dropdown-content" slot="dropdown-content">
           <div class="inputContainer" part="input-container">
@@ -200,6 +201,7 @@ export class GrEditableLabel extends LitElement {
         .text=${this.inputText}
         .query=${this.query}
         @commit=${this.handleCommit}
+        @cancel=${this.cancel}
         @text-changed=${(e: CustomEvent) => {
           this.inputText = e.detail.value;
         }}
@@ -235,9 +237,6 @@ export class GrEditableLabel extends LitElement {
     this.cleanups.push(
       addShortcut(this, {key: Key.ENTER}, e => this.handleEnter(e))
     );
-    this.cleanups.push(
-      addShortcut(this, {key: Key.ESC}, e => this.handleEsc(e))
-    );
   }
 
   private usePlaceholder(value?: string, placeholder?: string) {
@@ -256,9 +255,8 @@ export class GrEditableLabel extends LitElement {
     if (this.readOnly || this.editing) return;
     return this.openDropdown().then(() => {
       this.nativeInput.focus();
-      const input = this.getInput();
-      if (!input?.value) return;
-      this.nativeInput.setSelectionRange(0, input.value.length);
+      if (!this.input?.value) return;
+      this.nativeInput.setSelectionRange(0, this.input.value.length);
     });
   }
 
@@ -301,9 +299,8 @@ export class GrEditableLabel extends LitElement {
       return;
     }
     this.dropdown?.close();
-    const input = this.getInput();
-    if (input) {
-      this.value = input.value ?? undefined;
+    if (this.input) {
+      this.value = this.input.value ?? undefined;
     } else {
       this.value = this.inputText || '';
     }
@@ -321,20 +318,20 @@ export class GrEditableLabel extends LitElement {
     if (!this.editing) {
       return;
     }
+    this.grAutocomplete?.cancel();
     this.dropdown?.close();
     this.editing = false;
     this.inputText = this.value || '';
   }
 
   private get nativeInput(): HTMLInputElement {
-    return (this.getInput()?.$.nativeInput ||
-      this.getInput()?.inputElement ||
-      this.getGrAutocomplete()) as HTMLInputElement;
+    return (this.input?.$.nativeInput ||
+      this.input?.inputElement ||
+      this.grAutocomplete) as HTMLInputElement;
   }
 
   private handleEnter(event: KeyboardEvent) {
-    const grAutocomplete = this.getGrAutocomplete();
-    if (event.composedPath().some(el => el === grAutocomplete)) {
+    if (event.composedPath().some(el => el === this.grAutocomplete)) {
       return;
     }
     const inputContainer = queryAndAssert(this, '.inputContainer');
@@ -346,18 +343,8 @@ export class GrEditableLabel extends LitElement {
     }
   }
 
-  private handleEsc(event: KeyboardEvent) {
-    const inputContainer = queryAndAssert(this, '.inputContainer');
-    const isEventFromInput = event
-      .composedPath()
-      .some(element => element === inputContainer);
-    if (isEventFromInput) {
-      this.cancel();
-    }
-  }
-
   private handleCommit() {
-    this.getInput()?.focus();
+    this.input?.focus();
   }
 
   private computeLabelClass() {
@@ -372,11 +359,9 @@ export class GrEditableLabel extends LitElement {
     return classes.join(' ');
   }
 
-  getInput(): PaperInputElementExt | null {
-    return this.shadowRoot!.querySelector<PaperInputElementExt>('#input');
-  }
+  @query('#input')
+  input?: PaperInputElementExt;
 
-  getGrAutocomplete(): GrAutocomplete | null {
-    return this.shadowRoot!.querySelector<GrAutocomplete>('#autocomplete');
-  }
+  @query('#autocomplete')
+  grAutocomplete?: GrAutocomplete;
 }

@@ -15,6 +15,7 @@ import {
   stubRestApi,
   waitUntil,
   pressKey,
+  waitUntilAsync,
 } from '../../../test/test-utils';
 import {
   BasePatchSetNum,
@@ -2025,9 +2026,13 @@ suite('gr-file-list tests', () => {
     });
 
     test('cursor with individually opened files', async () => {
-      MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
       await element.updateComplete;
+      MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
 
+      await waitUntilAsync(async () => {
+        const diffs = await renderAndGetNewDiffs(0);
+        return diffs.length > 0;
+      });
       let diffs = await renderAndGetNewDiffs(0);
       const diffStops = diffs[0].getCursorStops();
 

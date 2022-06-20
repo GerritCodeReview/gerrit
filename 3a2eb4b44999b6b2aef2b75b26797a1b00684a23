@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a89cc782_07d921bd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-20T14:07:34Z",
+      "side": 1,
+      "message": "Both are correct.",
+      "parentUuid": "0fc5ba2a_b45dfbba",
+      "range": {
+        "startLine": 171,
+        "startChar": 5,
+        "endLine": 171,
+        "endChar": 16
+      },
+      "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c818bf68_3dec946e",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-06-20T13:42:48Z",
       "side": 1,
       "message": "maybe let it be set as an attribute by defining here\n`@property({type: Boolean, attribute: \u0027no-cancel-on-esc-key\u0027})`\nthen future callers can simply pass the string and not have to worry about setting the property explicitly.",
+      "range": {
+        "startLine": 173,
+        "startChar": 13,
+        "endLine": 173,
+        "endChar": 26
+      },
+      "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6810953c_1b8a3f09",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-20T14:07:34Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "c818bf68_3dec946e",
       "range": {
         "startLine": 173,
         "startChar": 13,
@@ -107,6 +155,23 @@
         "endLine": 361,
         "endChar": 44
       },
+      "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d58de7cb_bf851cd7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-20T14:07:34Z",
+      "side": 1,
+      "message": "What if it is open but has no suggestions, don\u0027t we still want to close it?",
       "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -22,6 +22,30 @@
       },
       "revId": "68465a288b0e6e8067892a7ec3143a6ca844febc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7dc8e2e_f0adc3b6",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T11:17:23Z",
+      "side": 0,
+      "message": "Yes, I think this is acceptable, because the colors don\u0027t change that much and are also not that prominent. Adding an additional set of colors for migrating seems to be too much hassle compared to what we gain.",
+      "parentUuid": "f0e195e3_739536a6",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 45
+      },
+      "revId": "68465a288b0e6e8067892a7ec3143a6ca844febc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a0ccae1_b127e915",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T11:17:23Z",
+      "side": 1,
+      "message": "Done. Added:\n\n```\n/**\n * This is a square colored box with a single letter, which can be used as a\n * prefix column before file names.\n * \n * It can also show an additional \"new\" icon for indicating that a file was\n * newly added in a patchset.\n * \n * `gr-file-status-chip` was a chip for being shown after a file name. It will\n * become obsolete.\n */\n```",
+      "parentUuid": "259b11d2_aad1ad2d",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "89c7881d24e567f7c0a60f838d8d02b60410adc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed3e5668_8848f4d0",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-06-17T11:32:21Z",
       "side": 1,
       "message": "Can you please add unit test with shadow dom test?",
+      "range": {
+        "startLine": 14,
+        "startChar": 13,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "89c7881d24e567f7c0a60f838d8d02b60410adc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f9fcbaf_67e64935",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T11:17:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed3e5668_8848f4d0",
       "range": {
         "startLine": 14,
         "startChar": 13,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7429acee_017bc286",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T11:17:23Z",
+      "side": 1,
+      "message": "No, it is controlled from the outside.",
+      "parentUuid": "a5b442cd_8bd56dc1",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 28
+      },
+      "revId": "89c7881d24e567f7c0a60f838d8d02b60410adc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52ad7032_7a92f300",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-06-17T11:32:21Z",
       "side": 1,
       "message": "Can you please add comment what this variable means?",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 14
+      },
+      "revId": "89c7881d24e567f7c0a60f838d8d02b60410adc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df316651_f5c9957e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T11:17:23Z",
+      "side": 1,
+      "message": "Done.\n\nAdded:\n```\n  /**\n   * Show an additional \"new\" icon for indicating that a file was newly added\n   * in a patchset.\n   */\n```",
+      "parentUuid": "52ad7032_7a92f300",
       "range": {
         "startLine": 18,
         "startChar": 2,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64ba6e83_3fc735a3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T11:17:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "503bcc5c_33e45c32",
+      "range": {
+        "startLine": 29,
+        "startChar": 24,
+        "endLine": 29,
+        "endChar": 27
+      },
+      "revId": "89c7881d24e567f7c0a60f838d8d02b60410adc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65c73d40_5faf43fb",
@@ -129,6 +249,30 @@
       "writtenOn": "2022-06-17T12:02:00Z",
       "side": 1,
       "message": "is `classMap` preferred here? I think it looks a bit cleaner but not sure wdyt",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 32
+      },
+      "revId": "89c7881d24e567f7c0a60f838d8d02b60410adc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46781b9f_bfedb0d4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T11:17:23Z",
+      "side": 1,
+      "message": "`classMap` does not work well with class names being variable. We don\u0027t have a specific class that we want to set or not based on a condition here.",
+      "parentUuid": "65c73d40_5faf43fb",
       "range": {
         "startLine": 67,
         "startChar": 6,

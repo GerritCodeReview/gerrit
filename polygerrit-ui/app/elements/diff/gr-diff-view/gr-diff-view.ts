@@ -177,7 +177,7 @@ export class GrDiffView extends base {
    * @event show-alert
    */
 
-  @property({type: Object, observer: '_paramsChanged'})
+  @property({type: Object, observer: 'paramsChanged'})
   params?: AppElementParams;
 
   @property({type: Object})
@@ -286,63 +286,57 @@ export class GrDiffView extends base {
     return [
       listen(Shortcut.LEFT_PANE, _ => this.cursor?.moveLeft()),
       listen(Shortcut.RIGHT_PANE, _ => this.cursor?.moveRight()),
-      listen(Shortcut.NEXT_LINE, _ => this._handleNextLine()),
-      listen(Shortcut.PREV_LINE, _ => this._handlePrevLine()),
+      listen(Shortcut.NEXT_LINE, _ => this.handleNextLine()),
+      listen(Shortcut.PREV_LINE, _ => this.handlePrevLine()),
       listen(Shortcut.VISIBLE_LINE, _ => this.cursor?.moveToVisibleArea()),
       listen(Shortcut.NEXT_FILE_WITH_COMMENTS, _ =>
-        this._moveToNextFileWithComment()
+        this.moveToNextFileWithComment()
       ),
       listen(Shortcut.PREV_FILE_WITH_COMMENTS, _ =>
-        this._moveToPreviousFileWithComment()
+        this.moveToPreviousFileWithComment()
       ),
-      listen(Shortcut.NEW_COMMENT, _ => this._handleNewComment()),
+      listen(Shortcut.NEW_COMMENT, _ => this.handleNewComment()),
       listen(Shortcut.SAVE_COMMENT, _ => {}),
-      listen(Shortcut.NEXT_FILE, _ => this._handleNextFile()),
-      listen(Shortcut.PREV_FILE, _ => this._handlePrevFile()),
-      listen(Shortcut.NEXT_CHUNK, _ => this._handleNextChunk()),
-      listen(Shortcut.PREV_CHUNK, _ => this._handlePrevChunk()),
-      listen(Shortcut.NEXT_COMMENT_THREAD, _ =>
-        this._handleNextCommentThread()
-      ),
-      listen(Shortcut.PREV_COMMENT_THREAD, _ =>
-        this._handlePrevCommentThread()
-      ),
-      listen(Shortcut.OPEN_REPLY_DIALOG, _ => this._handleOpenReplyDialog()),
-      listen(Shortcut.TOGGLE_LEFT_PANE, _ => this._handleToggleLeftPane()),
+      listen(Shortcut.NEXT_FILE, _ => this.handleNextFile()),
+      listen(Shortcut.PREV_FILE, _ => this.handlePrevFile()),
+      listen(Shortcut.NEXT_CHUNK, _ => this.handleNextChunk()),
+      listen(Shortcut.PREV_CHUNK, _ => this.handlePrevChunk()),
+      listen(Shortcut.NEXT_COMMENT_THREAD, _ => this.handleNextCommentThread()),
+      listen(Shortcut.PREV_COMMENT_THREAD, _ => this.handlePrevCommentThread()),
+      listen(Shortcut.OPEN_REPLY_DIALOG, _ => this.handleOpenReplyDialog()),
+      listen(Shortcut.TOGGLE_LEFT_PANE, _ => this.handleToggleLeftPane()),
       listen(Shortcut.OPEN_DOWNLOAD_DIALOG, _ =>
-        this._handleOpenDownloadDialog()
+        this.handleOpenDownloadDialog()
       ),
-      listen(Shortcut.UP_TO_CHANGE, _ => this._handleUpToChange()),
-      listen(Shortcut.OPEN_DIFF_PREFS, _ => this._handleCommaKey()),
-      listen(Shortcut.TOGGLE_DIFF_MODE, _ => this._handleToggleDiffMode()),
+      listen(Shortcut.UP_TO_CHANGE, _ => this.handleUpToChange()),
+      listen(Shortcut.OPEN_DIFF_PREFS, _ => this.handleCommaKey()),
+      listen(Shortcut.TOGGLE_DIFF_MODE, _ => this.handleToggleDiffMode()),
       listen(Shortcut.TOGGLE_FILE_REVIEWED, e => {
         if (this._throttledToggleFileReviewed) {
           this._throttledToggleFileReviewed(e);
         }
       }),
       listen(Shortcut.TOGGLE_ALL_DIFF_CONTEXT, _ =>
-        this._handleToggleAllDiffContext()
+        this.handleToggleAllDiffContext()
       ),
       listen(Shortcut.NEXT_UNREVIEWED_FILE, _ =>
-        this._handleNextUnreviewedFile()
+        this.handleNextUnreviewedFile()
       ),
-      listen(Shortcut.TOGGLE_BLAME, _ => this._handleToggleBlame()),
+      listen(Shortcut.TOGGLE_BLAME, _ => this.handleToggleBlame()),
       listen(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, _ =>
         this._handleToggleHideAllCommentThreads()
       ),
-      listen(Shortcut.OPEN_FILE_LIST, _ => this._handleOpenFileList()),
-      listen(Shortcut.DIFF_AGAINST_BASE, _ => this._handleDiffAgainstBase()),
-      listen(Shortcut.DIFF_AGAINST_LATEST, _ =>
-        this._handleDiffAgainstLatest()
-      ),
+      listen(Shortcut.OPEN_FILE_LIST, _ => this.handleOpenFileList()),
+      listen(Shortcut.DIFF_AGAINST_BASE, _ => this.handleDiffAgainstBase()),
+      listen(Shortcut.DIFF_AGAINST_LATEST, _ => this.handleDiffAgainstLatest()),
       listen(Shortcut.DIFF_BASE_AGAINST_LEFT, _ =>
-        this._handleDiffBaseAgainstLeft()
+        this.handleDiffBaseAgainstLeft()
       ),
       listen(Shortcut.DIFF_RIGHT_AGAINST_LATEST, _ =>
-        this._handleDiffRightAgainstLatest()
+        this.handleDiffRightAgainstLatest()
       ),
       listen(Shortcut.DIFF_BASE_AGAINST_LATEST, _ =>
-        this._handleDiffBaseAgainstLatest()
+        this.handleDiffBaseAgainstLatest()
       ),
       listen(Shortcut.EXPAND_ALL_COMMENT_THREADS, _ => {}), // docOnly
       listen(Shortcut.COLLAPSE_ALL_COMMENT_THREADS, _ => {}), // docOnly
@@ -385,7 +379,7 @@ export class GrDiffView extends base {
     super.connectedCallback();
     this.connected$.next(true);
     this._throttledToggleFileReviewed = throttleWrap(_ =>
-      this._handleToggleFileReviewed()
+      this.handleToggleFileReviewed()
     );
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
@@ -470,7 +464,7 @@ export class GrDiffView extends base {
     this.subscriptions.push(
       this.getChangeModel().diffPath$.subscribe(path => (this._path = path))
     );
-    this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
+    this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
     this.cursor = new GrDiffCursor();
     this._onRenderHandler = (_: Event) => {
       // We have to wait until render because at the time of connectedCallback,
@@ -515,7 +509,7 @@ export class GrDiffView extends base {
     const loggedIn = await this._getLoggedIn();
     if (!loggedIn) return;
     if (!diffPrefs.manual_review) {
-      this._setReviewed(true, patchNum);
+      this.setReviewed(true, patchNum);
     }
   }
 
@@ -600,17 +594,14 @@ export class GrDiffView extends base {
       });
   }
 
-  _getPreferences() {
-    return this.restApiService.getPreferences();
-  }
-
   _handleReviewedChange(e: Event) {
-    this._setReviewed(
+    this.setReviewed(
       ((dom(e) as EventApi).rootTarget as HTMLInputElement).checked
     );
   }
 
-  _setReviewed(
+  // Private but used in tests.
+  setReviewed(
     reviewed: boolean,
     patchNum: RevisionPatchSetNum | undefined = this._patchRange?.patchNum
   ) {
@@ -627,16 +618,17 @@ export class GrDiffView extends base {
     );
   }
 
-  _handleToggleFileReviewed() {
-    this._setReviewed(!this.$.reviewed.checked);
+  // Private but used in tests.
+  handleToggleFileReviewed() {
+    this.setReviewed(!this.$.reviewed.checked);
   }
 
-  _handlePrevLine() {
+  private handlePrevLine() {
     this.$.diffHost.displayLine = true;
     this.cursor?.moveUp();
   }
 
-  _onOpenFixPreview(e: OpenFixPreviewEvent) {
+  private onOpenFixPreview(e: OpenFixPreviewEvent) {
     this.$.applyFixDialog.open(e);
   }
 
@@ -660,12 +652,13 @@ export class GrDiffView extends base {
     this._isImageDiff = e.detail.value;
   }
 
-  _handleNextLine() {
+  private handleNextLine() {
     this.$.diffHost.displayLine = true;
     this.cursor?.moveDown();
   }
 
-  _moveToPreviousFileWithComment() {
+  // Private but used in tests.
+  moveToPreviousFileWithComment() {
     if (!this._commentSkips) return;
     if (!this._change) return;
     if (!this._patchRange?.patchNum) return;
@@ -673,7 +666,7 @@ export class GrDiffView extends base {
     // If there is no previous diff with comments, then return to the change
     // view.
     if (!this._commentSkips.previous) {
-      this._navToChangeView();
+      this.navToChangeView();
       return;
     }
 
@@ -685,14 +678,15 @@ export class GrDiffView extends base {
     );
   }
 
-  _moveToNextFileWithComment() {
+  // Private but used in tests.
+  moveToNextFileWithComment() {
     if (!this._commentSkips) return;
     if (!this._change) return;
     if (!this._patchRange?.patchNum) return;
 
     // If there is no next diff with comments, then return to the change view.
     if (!this._commentSkips.next) {
-      this._navToChangeView();
+      this.navToChangeView();
       return;
     }
 
@@ -704,34 +698,34 @@ export class GrDiffView extends base {
     );
   }
 
-  _handleNewComment() {
+  private handleNewComment() {
     this.classList.remove('hideComments');
     this.cursor?.createCommentInPlace();
   }
 
-  _handlePrevFile() {
+  private handlePrevFile() {
     if (!this._path) return;
     if (!this._fileList) return;
-    this._navToFile(this._path, this._fileList, -1);
+    this.navToFile(this._path, this._fileList, -1);
   }
 
-  _handleNextFile() {
+  private handleNextFile() {
     if (!this._path) return;
     if (!this._fileList) return;
-    this._navToFile(this._path, this._fileList, 1);
+    this.navToFile(this._path, this._fileList, 1);
   }
 
-  _handleNextChunk() {
+  private handleNextChunk() {
     const result = this.cursor?.moveToNextChunk();
     if (result === CursorMoveResult.CLIPPED && this.cursor?.isAtEnd()) {
       this.showToastAndNavigateFile('next', 'n');
     }
   }
 
-  _handleNextCommentThread() {
+  private handleNextCommentThread() {
     const result = this.cursor?.moveToNextCommentThread();
     if (result === CursorMoveResult.CLIPPED) {
-      this._navigateToNextFileWithCommentThread();
+      this.navigateToNextFileWithCommentThread();
     }
   }
 
@@ -770,36 +764,36 @@ export class GrDiffView extends base {
       file => file === this._path || !this.reviewedFiles.has(file)
     );
 
-    this._navToFile(this._path, unreviewedFiles, direction === 'next' ? 1 : -1);
+    this.navToFile(this._path, unreviewedFiles, direction === 'next' ? 1 : -1);
   }
 
-  _handlePrevChunk() {
+  private handlePrevChunk() {
     this.cursor?.moveToPreviousChunk();
     if (this.cursor?.isAtStart()) {
       this.showToastAndNavigateFile('previous', 'p');
     }
   }
 
-  _handlePrevCommentThread() {
+  private handlePrevCommentThread() {
     this.cursor?.moveToPreviousCommentThread();
   }
 
-  // Similar to gr-change-view._handleOpenReplyDialog
-  _handleOpenReplyDialog() {
+  // Similar to gr-change-view.handleOpenReplyDialog
+  private handleOpenReplyDialog() {
     this._getLoggedIn().then(isLoggedIn => {
       if (!isLoggedIn) {
         fireEvent(this, 'show-auth-required');
         return;
       }
-      this._navToChangeView(true);
+      this.navToChangeView(true);
     });
   }
 
-  _handleToggleLeftPane() {
+  private handleToggleLeftPane() {
     this.$.diffHost.toggleLeftDiff();
   }
 
-  _handleOpenDownloadDialog() {
+  private handleOpenDownloadDialog() {
     this.$.downloadOverlay.open().then(() => {
       this.$.downloadOverlay.setFocusStops(
         this.$.downloadDialog.getFocusStops()
@@ -812,16 +806,17 @@ export class GrDiffView extends base {
     this.$.downloadOverlay.close();
   }
 
-  _handleUpToChange() {
-    this._navToChangeView();
+  private handleUpToChange() {
+    this.navToChangeView();
   }
 
-  _handleCommaKey() {
+  private handleCommaKey() {
     if (!this._loggedIn) return;
     this.$.diffPreferencesDialog.open();
   }
 
-  _handleToggleDiffMode() {
+  // Private but used in tests.
+  handleToggleDiffMode() {
     if (!this._userPrefs) return;
     if (this._userPrefs.diff_view === DiffViewMode.SIDE_BY_SIDE) {
       this.userModel.updatePreferences({diff_view: DiffViewMode.UNIFIED});
@@ -832,7 +827,8 @@ export class GrDiffView extends base {
     }
   }
 
-  _navToChangeView(openReplyDialog = false) {
+  // Private but used in tests.
+  navToChangeView(openReplyDialog = false) {
     if (!this._changeNum || !this._patchRange?.patchNum) {
       return;
     }
@@ -844,13 +840,14 @@ export class GrDiffView extends base {
     );
   }
 
-  _navToFile(
+  // Private but used in tests.
+  navToFile(
     path: string,
     fileList: string[],
     direction: -1 | 1,
     navigateToFirstComment?: boolean
   ) {
-    const newPath = this._getNavLinkPath(path, fileList, direction);
+    const newPath = this.getNavLinkPath(path, fileList, direction);
     if (!newPath) return;
     if (!this._change) return;
     if (!this._patchRange) return;
@@ -899,7 +896,7 @@ export class GrDiffView extends base {
     if (!fileList) return null;
     if (!direction) return null;
 
-    const newPath = this._getNavLinkPath(path, fileList, direction);
+    const newPath = this.getNavLinkPath(path, fileList, direction);
     if (!newPath) {
       return null;
     }
@@ -945,7 +942,7 @@ export class GrDiffView extends base {
    * patch range.
    * @param direction Either 1 (next file) or -1 (prev file).
    */
-  _getNavLinkPath(path: string, fileList: string[], direction: -1 | 1) {
+  private getNavLinkPath(path: string, fileList: string[], direction: -1 | 1) {
     if (!path || !fileList || fileList.length === 0) {
       return null;
     }
@@ -966,12 +963,14 @@ export class GrDiffView extends base {
     return {path: fileList[idx]};
   }
 
-  _initLineOfInterestAndCursor(leftSide: boolean) {
+  // Private but used in tests.
+  initLineOfInterestAndCursor(leftSide: boolean) {
     this.$.diffHost.lineOfInterest = this._getLineOfInterest(leftSide);
-    this._initCursor(leftSide);
+    this.initCursor(leftSide);
   }
 
-  _displayDiffBaseAgainstLeftToast() {
+  // Private but used in tests.
+  displayDiffBaseAgainstLeftToast() {
     if (!this._patchRange) return;
     fireAlert(
       this,
@@ -981,7 +980,7 @@ export class GrDiffView extends base {
     );
   }
 
-  _displayDiffAgainstLatestToast(latestPatchNum?: PatchSetNum) {
+  private displayDiffAgainstLatestToast(latestPatchNum?: PatchSetNum) {
     if (!this._patchRange) return;
     const leftPatchset =
       this._patchRange.basePatchNum === PARENT
@@ -995,20 +994,20 @@ export class GrDiffView extends base {
     );
   }
 
-  _displayToasts() {
+  private displayToasts() {
     if (!this._patchRange) return;
     if (this._patchRange.basePatchNum !== PARENT) {
-      this._displayDiffBaseAgainstLeftToast();
+      this.displayDiffBaseAgainstLeftToast();
       return;
     }
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (this._patchRange.patchNum !== latestPatchNum) {
-      this._displayDiffAgainstLatestToast(latestPatchNum);
+      this.displayDiffAgainstLatestToast(latestPatchNum);
       return;
     }
   }
 
-  _initCommitRange() {
+  private initCommitRange() {
     let commit: CommitId | undefined;
     let baseCommit: CommitId | undefined;
     if (!this._change) return;
@@ -1030,7 +1029,7 @@ export class GrDiffView extends base {
     this._commitRange = commit && baseCommit ? {commit, baseCommit} : undefined;
   }
 
-  _updateUrlToDiffUrl(lineNum?: number, leftSide?: boolean) {
+  private updateUrlToDiffUrl(lineNum?: number, leftSide?: boolean) {
     if (!this._change) return;
     if (!this._patchRange) return;
     if (!this._changeNum) return;
@@ -1047,7 +1046,8 @@ export class GrDiffView extends base {
     history.replaceState(null, '', url);
   }
 
-  _initPatchRange() {
+  // Private but used in tests.
+  initPatchRange() {
     let leftSide = false;
     if (!this._change) return;
     if (this.params?.view !== GerritView.DIFF) return;
@@ -1084,17 +1084,18 @@ export class GrDiffView extends base {
       }
     }
     assertIsDefined(this._patchRange, '_patchRange');
-    this._initLineOfInterestAndCursor(leftSide);
+    this.initLineOfInterestAndCursor(leftSide);
 
     if (this.params?.commentId) {
       // url is of type /comment/{commentId} which isn't meaningful
-      this._updateUrlToDiffUrl(this._focusLineNum, leftSide);
+      this.updateUrlToDiffUrl(this._focusLineNum, leftSide);
     }
 
     this._commentMap = this._getPaths(this._patchRange);
   }
 
-  _isFileUnchanged(diff?: DiffInfo) {
+  // Private but used in tests.
+  isFileUnchanged(diff?: DiffInfo) {
     if (!diff || !diff.content) return false;
     return !diff.content.some(
       content =>
@@ -1124,7 +1125,8 @@ export class GrDiffView extends base {
     );
   }
 
-  _paramsChanged(value: AppElementParams) {
+  // Private but used in tests.
+  paramsChanged(value: AppElementParams) {
     if (value.view !== GerritView.DIFF) {
       return;
     }
@@ -1191,15 +1193,15 @@ export class GrDiffView extends base {
     return Promise.all(promises)
       .then(() => {
         this._loading = false;
-        this._initPatchRange();
-        this._initCommitRange();
+        this.initPatchRange();
+        this.initCommitRange();
         return this.$.diffHost.reload(true);
       })
       .then(() => {
         this.reporting.diffViewDisplayed();
       })
       .then(() => {
-        const fileUnchanged = this._isFileUnchanged(this._diff);
+        const fileUnchanged = this.isFileUnchanged(this._diff);
         if (fileUnchanged && value.commentLink) {
           assertIsDefined(this._change, '_change');
           assertIsDefined(this._path, '_path');
@@ -1228,11 +1230,11 @@ export class GrDiffView extends base {
           return;
         }
         if (value.commentLink) {
-          this._displayToasts();
+          this.displayToasts();
         }
         // If the blame was loaded for a previous file and user navigates to
         // another file, then we load the blame for this file too
-        if (this._isBlameLoaded) this._loadBlame();
+        if (this._isBlameLoaded) this.loadBlame();
       });
   }
 
@@ -1243,8 +1245,9 @@ export class GrDiffView extends base {
 
   /**
    * If the params specify a diff address then configure the diff cursor.
+   * Private but used in tests.
    */
-  _initCursor(leftSide: boolean) {
+  initCursor(leftSide: boolean) {
     if (this._focusLineNum === undefined) {
       return;
     }
@@ -1436,7 +1439,7 @@ export class GrDiffView extends base {
   ) {
     // for on-comment-anchor-tap side can be PARENT/REVISIONS
     // for on-line-selected side can be left/right
-    this._updateUrlToDiffUrl(
+    this.updateUrlToDiffUrl(
       detail.number,
       detail.side === Side.LEFT || detail.side === CommentSide.PARENT
     );
@@ -1620,7 +1623,8 @@ export class GrDiffView extends base {
     return loaded && !loading ? 'Hide blame' : 'Show blame';
   }
 
-  _loadBlame() {
+  // Private but used in tests.
+  loadBlame() {
     this._isBlameLoading = true;
     fireAlert(this, LOADING_BLAME);
     this.$.diffHost
@@ -1643,10 +1647,10 @@ export class GrDiffView extends base {
       this.$.diffHost.clearBlame();
       return;
     }
-    this._loadBlame();
+    this.loadBlame();
   }
 
-  _handleToggleBlame() {
+  private handleToggleBlame() {
     this._toggleBlame();
   }
 
@@ -1654,11 +1658,12 @@ export class GrDiffView extends base {
     toggleClass(this, 'hideComments');
   }
 
-  _handleOpenFileList() {
+  private handleOpenFileList() {
     this.$.dropdown.open();
   }
 
-  _handleDiffAgainstBase() {
+  // Private but used in tests.
+  handleDiffAgainstBase() {
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1674,7 +1679,8 @@ export class GrDiffView extends base {
     );
   }
 
-  _handleDiffBaseAgainstLeft() {
+  // Private but used in tests.
+  handleDiffBaseAgainstLeft() {
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1694,7 +1700,8 @@ export class GrDiffView extends base {
     );
   }
 
-  _handleDiffAgainstLatest() {
+  // Private but used in tests.
+  handleDiffAgainstLatest() {
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1713,7 +1720,8 @@ export class GrDiffView extends base {
     );
   }
 
-  _handleDiffRightAgainstLatest() {
+  // Private but used in tests.
+  handleDiffRightAgainstLatest() {
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1731,7 +1739,8 @@ export class GrDiffView extends base {
     );
   }
 
-  _handleDiffBaseAgainstLatest() {
+  // Private but used in tests.
+  handleDiffBaseAgainstLatest() {
     if (!this._change) return;
     if (!this._path) return;
     if (!this._patchRange) return;
@@ -1768,16 +1777,16 @@ export class GrDiffView extends base {
     return '';
   }
 
-  _handleToggleAllDiffContext() {
+  private handleToggleAllDiffContext() {
     this.$.diffHost.toggleAllContext();
   }
 
-  _handleNextUnreviewedFile() {
-    this._setReviewed(true);
+  private handleNextUnreviewedFile() {
+    this.setReviewed(true);
     this.navigateToUnreviewedFile('next');
   }
 
-  _navigateToNextFileWithCommentThread() {
+  private navigateToNextFileWithCommentThread() {
     if (!this._path) return;
     if (!this._fileList) return;
     if (!this._patchRange) return;
@@ -1788,7 +1797,7 @@ export class GrDiffView extends base {
     const filesWithComments = this._fileList.filter(
       file => file === this._path || hasComment(file)
     );
-    this._navToFile(this._path, filesWithComments, 1, true);
+    this.navToFile(this._path, filesWithComments, 1, true);
   }
 
   _handleReloadingDiffPreference() {

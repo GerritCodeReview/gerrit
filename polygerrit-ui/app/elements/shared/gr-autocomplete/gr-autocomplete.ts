@@ -166,6 +166,13 @@ export class GrAutocomplete extends LitElement {
   @property({type: String})
   label = '';
 
+  /**
+   * When true, the autocomplete doesn't close on Esc. For cases, when
+   * cancelation should be handled by other components.
+   */
+  @property({type: Boolean})
+  noCancelOnEscKey = false;
+
   @state() suggestions: AutocompleteSuggestion[] = [];
 
   @state() index: number | null = null;
@@ -496,7 +503,9 @@ export class GrAutocomplete extends LitElement {
         break;
       case 27: // Escape
         e.preventDefault();
-        this.cancel();
+        if (!this.noCancelOnEscKey) {
+          this.cancel();
+        }
         break;
       case 9: // Tab
         if (this.suggestions.length > 0 && this.tabComplete) {

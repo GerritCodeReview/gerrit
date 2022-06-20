@@ -152,8 +152,9 @@ export class GrEditableLabel extends LitElement {
         .verticalAlign=${'auto'}
         .horizontalAlign=${'auto'}
         .verticalOffset=${this.verticalOffset}
-        allowOutsideScroll
-        @iron-overlay-canceled=${this.cancel}
+        .allowOutsideScroll=${true}
+        .noCancelOnEscKey=${true}
+        .noCancelOnOutsideClick=${true}
       >
         <div class="dropdown-content" slot="dropdown-content">
           <div class="inputContainer" part="input-container">
@@ -199,6 +200,7 @@ export class GrEditableLabel extends LitElement {
         id="autocomplete"
         .text=${this.inputText}
         .query=${this.query}
+        .noCancelOnEscKey=${true}
         @commit=${this.handleCommit}
         @text-changed=${(e: CustomEvent) => {
           this.inputText = e.detail.value;
@@ -321,6 +323,7 @@ export class GrEditableLabel extends LitElement {
     if (!this.editing) {
       return;
     }
+    this.getGrAutocomplete()?.cancel();
     this.dropdown?.close();
     this.editing = false;
     this.inputText = this.value || '';
@@ -352,6 +355,13 @@ export class GrEditableLabel extends LitElement {
       .composedPath()
       .some(element => element === inputContainer);
     if (isEventFromInput) {
+      // If autocomplete suggestions are shown, close them first. Close the
+      // entire dialogue on the next Esc.
+      const grAutocomplete = this.getGrAutocomplete();
+      if (grAutocomplete?.suggestions.length) {
+        grAutocomplete.cancel();
+        return;
+      }
       this.cancel();
     }
   }

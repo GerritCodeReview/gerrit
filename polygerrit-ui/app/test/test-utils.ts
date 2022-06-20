@@ -204,6 +204,33 @@ export function waitUntil(
   });
 }
 
+export async function waitUntilAsync(
+  predicate: () => Promise<boolean>,
+  message = 'The waitUntilAsync() predicate is still false after 1000 ms.'
+): Promise<void> {
+  const start = Date.now();
+  let sleep = 0;
+  let value = await predicate();
+  if (value) return Promise.resolve();
+  const error = new Error(message);
+  return new Promise((resolve, reject) => {
+    const waiter = async () => {
+      value = await predicate();
+      if (value) {
+        resolve();
+        return;
+      }
+      if (Date.now() - start >= 1000) {
+        reject(error);
+        return;
+      }
+      setTimeout(waiter, sleep);
+      sleep = sleep === 0 ? 1 : sleep * 4;
+    };
+    waiter();
+  });
+}
+
 export function waitUntilCalled(stub: SinonStub | SinonSpy, name: string) {
   return waitUntil(() => stub.called, `${name} was not called`);
 }

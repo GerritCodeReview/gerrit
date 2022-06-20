@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f6fbab1_9f664bde",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-20T14:33:15Z",
+      "side": 1,
+      "message": "`return nothing;` to be more explicit.",
+      "revId": "608b88b92c15769d12fcab8adf1e0a126780f262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "4d94060e073bc2572ddfea2f15de56fcf68eae11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a1f779a_a684924d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-20T10:35:09Z",
+      "side": 1,
+      "message": "Yes I think that would work too but it seems like more steps to detect global reviewers and remove them from everybody? Also I think that would require \"upgrading\" the reviewers to Suggestion objects for intersecting rather than \"narrowing\" to accountKey for comparison which seems preferred to me. WDYT?",
+      "parentUuid": "9ec6752a_36575a72",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "4d94060e073bc2572ddfea2f15de56fcf68eae11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -13,10 +13,10 @@ import {iconStyles} from '../../../styles/gr-icon-styles';
 /**
  * This is a square colored box with a single letter, which can be used as a
  * prefix column before file names.
- * 
+ *
  * It can also show an additional "new" icon for indicating that a file was
  * newly added in a patchset.
- * 
+ *
  * `gr-file-status-chip` was a chip for being shown after a file name. It will
  * become obsolete.
  */

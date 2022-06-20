@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7261cbcf_212f78ae",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-20T13:59:47Z",
+      "side": 1,
+      "message": "I am just curious - what is wrong with flex-box?",
+      "range": {
+        "startLine": 411,
+        "startChar": 10,
+        "endLine": 411,
+        "endChar": 25
+      },
+      "revId": "5bf758cf0e61bdd41ceb5570f5e4571a8ca50955",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c9e3138_e98d49ca",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-20T13:59:47Z",
+      "side": 1,
+      "message": "1-2 unit tests would be nice (for example: shadow-dom ones)",
+      "range": {
+        "startLine": 1032,
+        "startChar": 10,
+        "endLine": 1032,
+        "endChar": 26
+      },
+      "revId": "5bf758cf0e61bdd41ceb5570f5e4571a8ca50955",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "356e395d_31d8205e",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
         "patchSetId": 4
@@ -42,6 +88,52 @@
         "startChar": 10,
         "endLine": 1046,
         "endChar": 15
+      },
+      "revId": "5bf758cf0e61bdd41ceb5570f5e4571a8ca50955",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18222846_18e80afe",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-20T13:59:47Z",
+      "side": 1,
+      "message": "Maybe this could be extracted to renderLeftFileStatus() method. \n\n\n```\nprivate renderLeftFileStatus(file?: NormalizedFileInfo) {\n\nconst extendedStatus \u003d this.filesLeftBase.length \u003e 0;\n    const leftBaseFile \u003d this.filesLeftBase.find(\n      info \u003d\u003e info.__path \u003d\u003d\u003d file?.__path\n    );\n    \n    const showLeft \u003d\n      extendedStatus \u0026\u0026 leftBaseFile \u0026\u0026 !isMagicPath(file?.__path);\n    if (showLeft) return nothing;\n    \n    \n    const leftBaseStatus \u003d leftBaseFile.status ?? FileInfoStatus.MODIFIED;\n    const leftPostfix \u003d ` in patchset ${this.patchRange?.basePatchNum}`;\n    const status \u003d file?.status ?? FileInfoStatus.MODIFIED;\n    const show \u003d file \u0026\u0026 !isMagicPath(file?.__path);\n    const newly \u003d extendedStatus \u0026\u0026 !leftBaseFile \u0026\u0026 !isMagicPath(file?.__path);\n    const postfix \u003d ` in patchset ${this.patchRange?.patchNum}`;\n\n    return html`\u003cgr-file-status\n          .status\u003d${leftBaseStatus}\n          .labelPostfix\u003d${leftPostfix}\n        \u003e\u003c/gr-file-status\u003e\n\u003ciron-icon icon\u003d\"gr-icons:arrow-right\"\u003e\u003c/iron-icon\u003e`\n}\n\n```",
+      "range": {
+        "startLine": 1049,
+        "startChar": 4,
+        "endLine": 1063,
+        "endChar": 27
+      },
+      "revId": "5bf758cf0e61bdd41ceb5570f5e4571a8ca50955",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5841eb3f_9bc9be0e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-file-status-chip/gr-file-status.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-20T13:59:47Z",
+      "side": 1,
+      "message": "Nit:\nI am ok with this, but I would prefer following structure:\n\n```\nprivate computeLabel() {\n    if (!this.status) return \u0027\u0027;\n    const prefix \u003d this.new ? \u0027Newly \u0027 : \u0027\u0027;\n    return `${prefix}${this.statusToStr(this.status)}{$this.labelPostfix}`;\n```\n\n\n```\nprivate statusToStr() {\nswitch (this.status) {\n      case FileInfoStatus.ADDED:\n        return \u0027Added\u0027;\n      case FileInfoStatus.COPIED:\n        return \u0027Copied\u0027;\n      case FileInfoStatus.DELETED:\n        return \u0027Deleted\u0027;\n      case FileInfoStatus.MODIFIED:\n        return \u0027Modified\u0027;\n      case FileInfoStatus.RENAMED:\n        return \u0027Renamed\u0027;\n      case FileInfoStatus.REWRITTEN:\n        return \u0027Rewritten\u0027;\n      case FileInfoStatus.UNMODIFIED:\n        return \u0027Unchanged\u0027;\n      default:\n        assertNever(this.status, `Unsupported status: ${this.status}`);\n    }\n```",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 5
       },
       "revId": "5bf758cf0e61bdd41ceb5570f5e4571a8ca50955",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

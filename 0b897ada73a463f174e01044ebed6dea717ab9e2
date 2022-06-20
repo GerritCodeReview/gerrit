@@ -52,6 +52,24 @@
       "parentUuid": "52ac8fc5_2d9ca69e",
       "revId": "0b897ada73a463f174e01044ebed6dea717ab9e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "444f3773_d41d588b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-20T08:47:50Z",
+      "side": 1,
+      "message": "Cool, thanks @Milutin and thanks @Ian for fixing it.",
+      "parentUuid": "24777982_103ff718",
+      "revId": "0b897ada73a463f174e01044ebed6dea717ab9e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

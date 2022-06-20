@@ -281,7 +281,7 @@ suite('gr-change-list-topic-flow tests', () => {
         queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
       );
 
-      queryAll<HTMLSpanElement>(element, 'button.chip')[0].click();
+      queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
 
       assert.isFalse(
@@ -313,7 +313,7 @@ suite('gr-change-list-topic-flow tests', () => {
     test('remove single topic', async () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
-      queryAll<HTMLSpanElement>(element, 'button.chip')[0].click();
+      queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
       queryAndAssert<GrButton>(element, '#remove-topics-button').click();
       await element.updateComplete;
@@ -341,8 +341,8 @@ suite('gr-change-list-topic-flow tests', () => {
     });
 
     test('remove multiple topics', async () => {
-      queryAll<HTMLSpanElement>(element, 'button.chip')[0].click();
-      queryAll<HTMLSpanElement>(element, 'button.chip')[1].click();
+      queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
+      queryAll<HTMLButtonElement>(element, 'button.chip')[1].click();
       await element.updateComplete;
       queryAndAssert<GrButton>(element, '#remove-topics-button').click();
       await element.updateComplete;
@@ -370,7 +370,7 @@ suite('gr-change-list-topic-flow tests', () => {
     test('shows error when remove topic fails', async () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
-      queryAll<HTMLSpanElement>(element, 'span.chip')[0].click();
+      queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
       queryAndAssert<GrButton>(element, '#remove-topics-button').click();
       await element.updateComplete;
@@ -388,6 +388,10 @@ suite('gr-change-list-topic-flow tests', () => {
         queryAndAssert(element, '.error').textContent,
         'Failed to remove topic'
       );
+      assert.equal(
+        queryAndAssert(element, 'gr-button#cancel-button').textContent,
+        'Cancel'
+      );
       assert.isUndefined(query(element, '.loadingText'));
     });
 
@@ -396,14 +400,14 @@ suite('gr-change-list-topic-flow tests', () => {
         queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
       );
 
-      queryAll<HTMLSpanElement>(element, 'button.chip')[0].click();
+      queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
 
       assert.isFalse(
         queryAndAssert<GrButton>(element, '#apply-to-all-button').disabled
       );
 
-      queryAll<HTMLSpanElement>(element, 'button.chip')[1].click();
+      queryAll<HTMLButtonElement>(element, 'button.chip')[1].click();
       await element.updateComplete;
 
       assert.isTrue(
@@ -415,7 +419,7 @@ suite('gr-change-list-topic-flow tests', () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
 
-      queryAll<HTMLSpanElement>(element, 'button.chip')[0].click();
+      queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
 
       queryAndAssert<GrButton>(element, '#apply-to-all-button').click();
@@ -645,6 +649,10 @@ suite('gr-change-list-topic-flow tests', () => {
         queryAndAssert(element, '.error').textContent,
         'Failed to create topic'
       );
+      assert.equal(
+        queryAndAssert(element, 'gr-button#cancel-button').textContent,
+        'Cancel'
+      );
       assert.isUndefined(query(element, '.loadingText'));
     });
 
@@ -724,6 +732,10 @@ suite('gr-change-list-topic-flow tests', () => {
       assert.equal(
         queryAndAssert(element, '.error').textContent,
         'Failed to apply topic'
+      );
+      assert.equal(
+        queryAndAssert(element, 'gr-button#cancel-button').textContent,
+        'Cancel'
       );
       assert.isUndefined(query(element, '.loadingText'));
     });

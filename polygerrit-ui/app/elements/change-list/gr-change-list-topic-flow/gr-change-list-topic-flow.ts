@@ -316,7 +316,10 @@ export class GrChangeListTopicFlow extends LitElement {
               >
             `,
             () => html`
-              <gr-button id="cancel-button" flatten @click=${this.closeDropdown}
+              <gr-button
+                id="cancel-button"
+                flatten
+                @click=${this.toggleDropdown}
                 >Cancel</gr-button
               >
             `

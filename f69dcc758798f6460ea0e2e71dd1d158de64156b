@@ -1,0 +1,273 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5a69b61_59333917",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-20T08:38:06Z",
+      "side": 1,
+      "message": "Open questions:\n \n - Why are we subclassing SchemaField with FieldDef and StoredSearchSpec? I was a bit confused by this.\n - Is the intention to have multiple searchSpec per index field (i.e. multiple searchSpec per FieldDef?)",
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16a30266_a95ccdaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-20T08:38:06Z",
+      "side": 1,
+      "message": "store*",
+      "range": {
+        "startLine": 9,
+        "startChar": 47,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19de54d9_a2abb5ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-20T08:38:06Z",
+      "side": 1,
+      "message": "and*",
+      "range": {
+        "startLine": 12,
+        "startChar": 98,
+        "endLine": 12,
+        "endChar": 101
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "371a8313_feb9285e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-20T08:38:06Z",
+      "side": 1,
+      "message": "As per the description: \"that is an abstraction for the field data\", the name StoredSchemaField is somewhat confusing? Why the name \"stored\"?\nis this class going to hold the field data only? Should it be called SchemaFieldData, IndexFieldData or FieldData instead?\n\nI also have a similar comment for StoredSearchSpec. Should it be called FieldSearchSpec, or SearchSpec as well?\n\nSince we have \"stored\" fields (fields that are stored in the index doc but are not searchable), the prefix \"Stored\" that you use might confuse with it.\n\nWDYT?",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b92fb9c4_4efde2f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-20T08:38:06Z",
+      "side": 1,
+      "message": "curious to know, why this is not possible?\n\nCan you add a sentence with the reason in the commit message?",
+      "range": {
+        "startLine": 16,
+        "startChar": 66,
+        "endLine": 16,
+        "endChar": 81
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15336137_fee27b97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-20T08:38:06Z",
+      "side": 1,
+      "message": "The goal is to get rid of the FieldDef class and replace it with, StoredSearchSpec? If this is right, could you please mention it in the commit message?",
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8061fd3_421ca748",
+        "filename": "java/com/google/gerrit/index/SchemaFieldDefs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-20T08:38:06Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e498c920_c0bfbe77",
+        "filename": "java/com/google/gerrit/index/SearchOptions.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-20T08:38:06Z",
+      "side": 1,
+      "message": "better rename this to SearchOption? (without \u0027s\u0027).",
+      "range": {
+        "startLine": 18,
+        "startChar": 12,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "151dc71d_6a83db29",
+        "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-20T08:38:06Z",
+      "side": 1,
+      "message": "This can be omitted. Same for L64-74.\n\n`Explicit type argument Integer can be replaced with \u003c\u003e`",
+      "range": {
+        "startLine": 63,
+        "startChar": 64,
+        "endLine": 63,
+        "endChar": 71
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a10cd0fe_a3236d44",
+        "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-20T08:38:06Z",
+      "side": 1,
+      "message": "I feel the name is a bit confusing. \"Search Spec\" (more to be understood as search specification) is easier to sound like the search criteria (full_text, etc...), however here it\u0027s used as an implementation of the SchemaField: a field definition that can be set and get in the index.\n\nShould we change the name?",
+      "range": {
+        "startLine": 115,
+        "startChar": 15,
+        "endLine": 115,
+        "endChar": 31
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41340e1f_79ed9df3",
+        "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-20T08:38:06Z",
+      "side": 1,
+      "message": "Is a field allowed to have multiple search specs? If so, could you please mention it in the Javadoc?",
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7734edf_d183c149",
+        "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-20T08:38:06Z",
+      "side": 1,
+      "message": "should the \"size\" be part of StoredSchemaField? The Search spec should only specify how the field is used I think. Another argument: if a field has multiple StoredSearchSpec, then you would redefine the same size in all search specs, whilst it\u0027s better to just keep it once in StoredSchemaField.",
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93f84053_37e211f9",
+        "filename": "java/com/google/gerrit/lucene/LuceneStoredValue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-20T08:38:06Z",
+      "side": 1,
+      "message": "Lucene*",
+      "range": {
+        "startLine": 87,
+        "startChar": 7,
+        "endLine": 87,
+        "endChar": 13
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

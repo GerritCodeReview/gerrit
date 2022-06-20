@@ -22,12 +22,8 @@ import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';
 import '../../shared/gr-overlay/gr-overlay';
-import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {htmlTemplate} from './gr-diff-view_html';
 import {
-  KeyboardShortcutMixin,
   Shortcut,
-  ShortcutListener,
   ShortcutSection,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {
@@ -50,7 +46,6 @@ import {
   specialFilePathCompare,
 } from '../../../utils/path-list-util';
 import {changeBaseURL, changeIsOpen} from '../../../utils/change-util';
-import {customElement, observe, property} from '@polymer/decorators';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {
   DropdownItem,
@@ -58,12 +53,10 @@ import {
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
-import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {
   BasePatchSetNum,
   ChangeInfo,
   CommitId,
-  ConfigInfo,
   EDIT,
   FileInfo,
   NumericChangeId,
@@ -85,7 +78,6 @@ import {
   ParsedChangeInfo,
 } from '../../../types/types';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
-import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -108,20 +100,25 @@ import {addGlobalShortcut, Key, toggleClass} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
 import {isFalse, throttleWrap, until} from '../../../utils/async-util';
 import {filter, take, switchMap} from 'rxjs/operators';
-import {combineLatest, Subscription} from 'rxjs';
-import {
-  listen,
-  shortcutsServiceToken,
-} from '../../../services/shortcuts/shortcuts-service';
+import {combineLatest} from 'rxjs';
+import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../models/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
-import {resolve, DIPolymerElement} from '../../../models/dependency';
+import {resolve} from '../../../models/dependency';
 import {BehaviorSubject} from 'rxjs';
-import {GrButton} from '../../shared/gr-button/gr-button';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {ShortcutController} from '../../lit/shortcut-controller';
+import {subscribe} from '../../lit/subscription-controller';
+import {customElement, property, query, state} from 'lit/decorators';
+import {configModelToken} from '../../../models/config/config-model';
+import {a11yStyles} from '../../../styles/gr-a11y-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {ifDefined} from 'lit/directives/if-defined';
+import {when} from 'lit/directives/when';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -139,32 +136,8 @@ interface CommentSkips {
   previous: string | null;
   next: string | null;
 }
-
-export interface GrDiffView {
-  $: {
-    diffHost: GrDiffHost;
-    reviewed: HTMLInputElement;
-    dropdown: GrDropdownList;
-    diffPreferencesDialog: GrOverlay;
-    applyFixDialog: GrApplyFixDialog;
-    modeSelect: GrDiffModeSelector;
-    downloadOverlay: GrOverlay;
-    downloadDialog: GrDownloadDialog;
-    toggleBlame: GrButton;
-    diffPrefsContainer: HTMLElement;
-    rangeSelect: HTMLElement;
-  };
-}
-
-// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
-const base = KeyboardShortcutMixin(DIPolymerElement);
-
 @customElement('gr-diff-view')
-export class GrDiffView extends base {
-  static get template() {
-    return htmlTemplate;
-  }
-
+export class GrDiffView extends LitElement {
   /**
    * Fired when the title of the page should change.
    *
@@ -176,172 +149,143 @@ export class GrDiffView extends base {
    *
    * @event show-alert
    */
+  @query('#diffHost')
+  diffHost?: GrDiffHost;
 
-  @property({type: Object, observer: '_paramsChanged'})
-  params?: AppElementParams;
+  @query('#reviewed')
+  reviewed?: HTMLInputElement;
 
-  @property({type: Object})
-  _patchRange?: PatchRange;
+  @query('#downloadOverlay')
+  downloadOverlay?: GrOverlay;
 
-  @property({type: Object})
-  _commitRange?: CommitRange;
+  @query('#downloadDialog')
+  downloadDialog?: GrDownloadDialog;
 
-  @property({type: Object})
-  _change?: ParsedChangeInfo;
+  @query('#dropdown')
+  dropdown?: GrDropdownList;
 
-  @property({type: Object})
-  _changeComments?: ChangeComments;
+  @query('#applyFixDialog')
+  applyFixDialog?: GrApplyFixDialog;
 
-  @property({type: String})
-  _changeNum?: NumericChangeId;
+  @query('#diffPreferencesDialog')
+  diffPreferencesDialog?: GrOverlay;
 
-  @property({type: Object})
-  _diff?: DiffInfo;
-
-  @property({
-    type: Array,
-    computed: '_formatFilesForDropdown(_files, _patchRange, _changeComments)',
-  })
-  _formattedFiles?: DropdownItem[];
-
-  @property({type: Array, computed: '_getSortedFileList(_files)'})
-  _fileList?: string[];
+  /**
+   * URL params passed from the router.
+   * Use params getter/setter.
+   */
+  private _params?: AppElementParams;
 
   @property({type: Object})
-  _files: Files = {sortedFileList: [], changeFilesByPath: {}};
+  get params() {
+    return this._params;
+  }
 
-  @property({type: Object, computed: '_getCurrentFile(_files, _path)'})
-  _file?: FileInfo;
+  set params(params: AppElementParams | undefined) {
+    if (this._params === params) return;
+    const oldParams = this._params;
+    this._params = params;
+    this.paramsChanged();
+    this.requestUpdate('params', oldParams);
+  }
 
-  @property({type: String, observer: '_pathChanged'})
+  // Private but used in tests.
+  @state()
+  patchRange?: PatchRange;
+
+  // Private but used in tests.
+  @state()
+  commitRange?: CommitRange;
+
+  // Private but used in tests.
+  @state()
+  change?: ParsedChangeInfo;
+
+  // Private but used in tests.
+  @state()
+  changeComments?: ChangeComments;
+
+  // Private but used in tests.
+  @state()
+  changeNum?: NumericChangeId;
+
+  // Private but used in tests.
+  @state()
+  diff?: DiffInfo;
+
+  // Private but used in tests.
+  @state()
+  files: Files = {sortedFileList: [], changeFilesByPath: {}};
+
+  // Private but used in tests
+  // Use path getter/setter.
   _path?: string;
 
-  @property({type: Number, computed: '_computeFileNum(_path, _formattedFiles)'})
-  _fileNum?: number;
+  get path() {
+    return this._path;
+  }
 
-  @property({type: Boolean})
-  _loggedIn = false;
+  set path(path: string | undefined) {
+    if (this._path === path) return;
+    const oldPath = this._path;
+    this._path = path;
+    this.pathChanged();
+    this.requestUpdate('path', oldPath);
+  }
 
-  @property({type: Boolean})
-  _loading = true;
+  // Private but used in tests.
+  @state()
+  loggedIn = false;
 
-  @property({type: Object})
-  _prefs?: DiffPreferencesInfo;
-
-  @property({type: Object})
-  _projectConfig?: ConfigInfo;
-
-  @property({type: Object})
-  _serverConfig?: ServerInfo;
-
-  @property({type: Object})
-  _userPrefs?: PreferencesInfo;
-
-  @property({type: Boolean})
-  _isImageDiff?: boolean;
+  // Private but used in tests.
+  @state()
+  loading = true;
 
   @property({type: Object})
-  _editWeblinks?: GeneratedWebLink[];
+  prefs?: DiffPreferencesInfo;
 
-  @property({type: Object})
-  _filesWeblinks?: FilesWebLinks;
+  @state()
+  private serverConfig?: ServerInfo;
 
-  @property({type: Object})
-  _commentMap?: CommentMap;
+  // Private but used in tests.
+  @state()
+  userPrefs?: PreferencesInfo;
 
-  @property({
-    type: Object,
-    computed: '_computeCommentSkips(_commentMap, _fileList, _path)',
-  })
-  _commentSkips?: CommentSkips;
+  @state()
+  private isImageDiff?: boolean;
 
-  @property({type: Boolean, computed: '_computeEditMode(_patchRange.*)'})
-  _editMode?: boolean;
+  @state()
+  private editWeblinks?: GeneratedWebLink[];
 
-  @property({type: Boolean})
-  _isBlameLoaded?: boolean;
+  @state()
+  private filesWeblinks?: FilesWebLinks;
 
-  @property({type: Boolean})
-  _isBlameLoading = false;
+  // Private but used in tests.
+  @state()
+  commentMap?: CommentMap;
 
-  @property({
-    type: Array,
-    computed: '_computeAllPatchSets(_change, _change.revisions.*)',
-  })
-  _allPatchSets?: PatchSet[] = [];
+  @state()
+  private commentSkips?: CommentSkips;
 
-  @property({type: Object, computed: '_getRevisionInfo(_change)'})
-  _revisionInfo?: RevisionInfoObj;
+  // Private but used in tests.
+  @state()
+  isBlameLoaded?: boolean;
 
-  @property({type: Number})
-  _focusLineNum?: number;
+  @state()
+  private isBlameLoading = false;
+
+  @state()
+  private allPatchSets?: PatchSet[] = [];
+
+  // Private but used in tests.
+  @state()
+  focusLineNum?: number;
 
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
 
   // visible for testing
   reviewedFiles = new Set<string>();
-
-  override keyboardShortcuts(): ShortcutListener[] {
-    return [
-      listen(Shortcut.LEFT_PANE, _ => this.cursor?.moveLeft()),
-      listen(Shortcut.RIGHT_PANE, _ => this.cursor?.moveRight()),
-      listen(Shortcut.NEXT_LINE, _ => this.handleNextLine()),
-      listen(Shortcut.PREV_LINE, _ => this.handlePrevLine()),
-      listen(Shortcut.VISIBLE_LINE, _ => this.cursor?.moveToVisibleArea()),
-      listen(Shortcut.NEXT_FILE_WITH_COMMENTS, _ =>
-        this.moveToNextFileWithComment()
-      ),
-      listen(Shortcut.PREV_FILE_WITH_COMMENTS, _ =>
-        this.moveToPreviousFileWithComment()
-      ),
-      listen(Shortcut.NEW_COMMENT, _ => this.handleNewComment()),
-      listen(Shortcut.SAVE_COMMENT, _ => {}),
-      listen(Shortcut.NEXT_FILE, _ => this.handleNextFile()),
-      listen(Shortcut.PREV_FILE, _ => this.handlePrevFile()),
-      listen(Shortcut.NEXT_CHUNK, _ => this.handleNextChunk()),
-      listen(Shortcut.PREV_CHUNK, _ => this.handlePrevChunk()),
-      listen(Shortcut.NEXT_COMMENT_THREAD, _ => this.handleNextCommentThread()),
-      listen(Shortcut.PREV_COMMENT_THREAD, _ => this.handlePrevCommentThread()),
-      listen(Shortcut.OPEN_REPLY_DIALOG, _ => this.handleOpenReplyDialog()),
-      listen(Shortcut.TOGGLE_LEFT_PANE, _ => this.handleToggleLeftPane()),
-      listen(Shortcut.OPEN_DOWNLOAD_DIALOG, _ =>
-        this.handleOpenDownloadDialog()
-      ),
-      listen(Shortcut.UP_TO_CHANGE, _ => this.handleUpToChange()),
-      listen(Shortcut.OPEN_DIFF_PREFS, _ => this.handleCommaKey()),
-      listen(Shortcut.TOGGLE_DIFF_MODE, _ => this.handleToggleDiffMode()),
-      listen(Shortcut.TOGGLE_FILE_REVIEWED, e => {
-        if (this._throttledToggleFileReviewed) {
-          this._throttledToggleFileReviewed(e);
-        }
-      }),
-      listen(Shortcut.TOGGLE_ALL_DIFF_CONTEXT, _ =>
-        this.handleToggleAllDiffContext()
-      ),
-      listen(Shortcut.NEXT_UNREVIEWED_FILE, _ =>
-        this.handleNextUnreviewedFile()
-      ),
-      listen(Shortcut.TOGGLE_BLAME, _ => this.handleToggleBlame()),
-      listen(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, _ =>
-        this._handleToggleHideAllCommentThreads()
-      ),
-      listen(Shortcut.OPEN_FILE_LIST, _ => this.handleOpenFileList()),
-      listen(Shortcut.DIFF_AGAINST_BASE, _ => this.handleDiffAgainstBase()),
-      listen(Shortcut.DIFF_AGAINST_LATEST, _ => this.handleDiffAgainstLatest()),
-      listen(Shortcut.DIFF_BASE_AGAINST_LEFT, _ =>
-        this.handleDiffBaseAgainstLeft()
-      ),
-      listen(Shortcut.DIFF_RIGHT_AGAINST_LATEST, _ =>
-        this.handleDiffRightAgainstLatest()
-      ),
-      listen(Shortcut.DIFF_BASE_AGAINST_LATEST, _ =>
-        this.handleDiffBaseAgainstLatest()
-      ),
-      listen(Shortcut.EXPAND_ALL_COMMENT_THREADS, _ => {}), // docOnly
-      listen(Shortcut.COLLAPSE_ALL_COMMENT_THREADS, _ => {}), // docOnly
-    ];
-  }
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -364,88 +308,170 @@ export class GrDiffView extends base {
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
-  _throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
+  private readonly getConfigModel = resolve(this, configModelToken);
 
-  _onRenderHandler?: EventListener;
+  private throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 
   // visible for testing
   cursor?: GrDiffCursor;
 
-  private subscriptions: Subscription[] = [];
-
   private connected$ = new BehaviorSubject(false);
 
-  override connectedCallback() {
-    super.connectedCallback();
-    this.connected$.next(true);
-    this._throttledToggleFileReviewed = throttleWrap(_ =>
-      this.handleToggleFileReviewed()
+  private readonly shortcutsController = new ShortcutController(this);
+
+  constructor() {
+    super();
+    this.setupKeyboardShortcuts();
+    this.setupSubscriptions();
+  }
+
+  private setupKeyboardShortcuts() {
+    const listen = (shortcut: Shortcut, fn: (e: KeyboardEvent) => void) => {
+      this.shortcutsController.addAbstract(shortcut, fn);
+    };
+    listen(Shortcut.LEFT_PANE, _ => this.cursor?.moveLeft());
+    listen(Shortcut.RIGHT_PANE, _ => this.cursor?.moveRight());
+    listen(Shortcut.NEXT_LINE, _ => this.handleNextLine());
+    listen(Shortcut.PREV_LINE, _ => this.handlePrevLine());
+    listen(Shortcut.VISIBLE_LINE, _ => this.cursor?.moveToVisibleArea());
+    listen(Shortcut.NEXT_FILE_WITH_COMMENTS, _ =>
+      this.moveToNextFileWithComment()
     );
-    this._getLoggedIn().then(loggedIn => {
-      this._loggedIn = loggedIn;
+    listen(Shortcut.PREV_FILE_WITH_COMMENTS, _ =>
+      this.moveToPreviousFileWithComment()
+    );
+    listen(Shortcut.NEW_COMMENT, _ => this.handleNewComment());
+    listen(Shortcut.SAVE_COMMENT, _ => {});
+    listen(Shortcut.NEXT_FILE, _ => this.handleNextFile());
+    listen(Shortcut.PREV_FILE, _ => this.handlePrevFile());
+    listen(Shortcut.NEXT_CHUNK, _ => this.handleNextChunk());
+    listen(Shortcut.PREV_CHUNK, _ => this.handlePrevChunk());
+    listen(Shortcut.NEXT_COMMENT_THREAD, _ => this.handleNextCommentThread());
+    listen(Shortcut.PREV_COMMENT_THREAD, _ => this.handlePrevCommentThread());
+    listen(Shortcut.OPEN_REPLY_DIALOG, _ => this.handleOpenReplyDialog());
+    listen(Shortcut.TOGGLE_LEFT_PANE, _ => this.handleToggleLeftPane());
+    listen(Shortcut.OPEN_DOWNLOAD_DIALOG, _ => this.handleOpenDownloadDialog());
+    listen(Shortcut.UP_TO_CHANGE, _ => this.handleUpToChange());
+    listen(Shortcut.OPEN_DIFF_PREFS, _ => this.handleCommaKey());
+    listen(Shortcut.TOGGLE_DIFF_MODE, _ => this.handleToggleDiffMode());
+    listen(Shortcut.TOGGLE_FILE_REVIEWED, e => {
+      if (this.throttledToggleFileReviewed) {
+        this.throttledToggleFileReviewed(e);
+      }
     });
-    this.restApiService.getConfig().then(config => {
-      this._serverConfig = config;
-    });
+    listen(Shortcut.TOGGLE_ALL_DIFF_CONTEXT, _ =>
+      this.handleToggleAllDiffContext()
+    );
+    listen(Shortcut.NEXT_UNREVIEWED_FILE, _ => this.handleNextUnreviewedFile());
+    listen(Shortcut.TOGGLE_BLAME, _ => this.toggleBlame());
+    listen(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, _ =>
+      this.handleToggleHideAllCommentThreads()
+    );
+    listen(Shortcut.OPEN_FILE_LIST, _ => this.handleOpenFileList());
+    listen(Shortcut.DIFF_AGAINST_BASE, _ => this.handleDiffAgainstBase());
+    listen(Shortcut.DIFF_AGAINST_LATEST, _ => this.handleDiffAgainstLatest());
+    listen(Shortcut.DIFF_BASE_AGAINST_LEFT, _ =>
+      this.handleDiffBaseAgainstLeft()
+    );
+    listen(Shortcut.DIFF_RIGHT_AGAINST_LATEST, _ =>
+      this.handleDiffRightAgainstLatest()
+    );
+    listen(Shortcut.DIFF_BASE_AGAINST_LATEST, _ =>
+      this.handleDiffBaseAgainstLatest()
+    );
+    listen(Shortcut.EXPAND_ALL_COMMENT_THREADS, _ => {}); // docOnly
+    listen(Shortcut.COLLAPSE_ALL_COMMENT_THREADS, _ => {}); // docOnly
+  }
 
-    this.subscriptions.push(
-      this.getCommentsModel().changeComments$.subscribe(changeComments => {
-        this._changeComments = changeComments;
-      })
+  private setupSubscriptions() {
+    subscribe(
+      this,
+      () => this.userModel.loggedIn$,
+      loggedIn => {
+        this.loggedIn = loggedIn;
+      }
     );
-
-    this.subscriptions.push(
-      this.userModel.preferences$.subscribe(preferences => {
-        this._userPrefs = preferences;
-      })
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.serverConfig = config;
+      }
     );
-    this.subscriptions.push(
-      this.userModel.diffPreferences$.subscribe(diffPreferences => {
-        this._prefs = diffPreferences;
-      })
+    subscribe(
+      this,
+      () => this.getCommentsModel().changeComments$,
+      changeComments => {
+        this.changeComments = changeComments;
+      }
     );
-    this.subscriptions.push(
-      this.getChangeModel().change$.subscribe(change => {
-        // The diff view is tied to a specfic change number, so don't update
-        // _change to undefined.
-        if (change) this._change = change;
-      })
+    subscribe(
+      this,
+      () => this.userModel.preferences$,
+      preferences => {
+        this.userPrefs = preferences;
+      }
     );
-
-    this.subscriptions.push(
-      this.getChangeModel().reviewedFiles$.subscribe(reviewedFiles => {
+    subscribe(
+      this,
+      () => this.userModel.diffPreferences$,
+      diffPreferences => {
+        this.prefs = diffPreferences;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      change => {
+        // The diff view is tied to a specific change number, so don't update
+        // change to undefined.
+        if (change) this.change = change;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().reviewedFiles$,
+      reviewedFiles => {
         this.reviewedFiles = new Set(reviewedFiles) ?? new Set();
-      })
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().diffPath$,
+      path => (this.path = path)
     );
 
-    this.subscriptions.push(
-      this.getChangeModel().diffPath$.subscribe(path => (this._path = path))
-    );
-
-    this.subscriptions.push(
-      combineLatest(
-        this.getChangeModel().diffPath$,
-        this.getChangeModel().reviewedFiles$
-      ).subscribe(([path, files]) => {
-        this.$.reviewed.checked = !!path && !!files && files.includes(path);
-      })
+    subscribe(
+      this,
+      () =>
+        combineLatest([
+          this.getChangeModel().diffPath$,
+          this.getChangeModel().reviewedFiles$,
+        ]),
+      ([path, files]) => {
+        this.updateComplete.then(() => {
+          assertIsDefined(this.reviewed, 'reviewed');
+          this.reviewed.checked = !!path && !!files && files.includes(path);
+        });
+      }
     );
 
     // When user initially loads the diff view, we want to autmatically mark
     // the file as reviewed if they have it enabled. We can't observe these
     // properties since the method will be called anytime a property updates
     // but we only want to call this on the initial load.
-    this.subscriptions.push(
-      this.getChangeModel()
-        .diffPath$.pipe(
+    subscribe(
+      this,
+      () =>
+        this.getChangeModel().diffPath$.pipe(
           filter(diffPath => !!diffPath),
           switchMap(() =>
-            combineLatest(
+            combineLatest([
               this.getChangeModel().patchNum$,
               this.routerModel.routerView$,
               this.userModel.diffPreferences$,
-              this.getChangeModel().reviewedFiles$
-            ).pipe(
+              this.getChangeModel().reviewedFiles$,
+            ]).pipe(
               filter(
                 ([patchNum, routerView, diffPrefs, reviewedFiles]) =>
                   !!patchNum &&
@@ -456,245 +482,704 @@ export class GrDiffView extends base {
               take(1)
             )
           )
-        )
-        .subscribe(([patchNum, _routerView, diffPrefs]) => {
-          this.setReviewedStatus(patchNum!, diffPrefs);
-        })
+        ),
+      ([patchNum, _routerView, diffPrefs]) => {
+        this.setReviewedStatus(patchNum!, diffPrefs);
+      }
     );
-    this.subscriptions.push(
-      this.getChangeModel().diffPath$.subscribe(path => (this._path = path))
+    subscribe(
+      this,
+      () => this.getChangeModel().diffPath$,
+      path => (this.path = path)
+    );
+  }
+
+  static override get styles() {
+    return [
+      a11yStyles,
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+          background-color: var(--view-background-color);
+        }
+        .hidden {
+          display: none;
+        }
+        gr-patch-range-select {
+          display: block;
+        }
+        gr-diff {
+          border: none;
+        }
+        .stickyHeader {
+          background-color: var(--view-background-color);
+          position: sticky;
+          top: 0;
+          /* TODO(dhruvsri): This is required only because of 'position:relative' in
+            <gr-diff-highlight> (which could maybe be removed??). */
+          z-index: 1;
+          box-shadow: var(--elevation-level-1);
+          /* This is just for giving the box-shadow some space. */
+          margin-bottom: 2px;
+        }
+        header,
+        .subHeader {
+          align-items: center;
+          display: flex;
+          justify-content: space-between;
+        }
+        header {
+          padding: var(--spacing-s) var(--spacing-xl);
+          border-bottom: 1px solid var(--border-color);
+        }
+        .changeNumberColon {
+          color: transparent;
+        }
+        .headerSubject {
+          margin-right: var(--spacing-m);
+          font-weight: var(--font-weight-bold);
+        }
+        .patchRangeLeft {
+          align-items: center;
+          display: flex;
+        }
+        .navLink:not([href]) {
+          color: var(--deemphasized-text-color);
+        }
+        .navLinks {
+          align-items: center;
+          display: flex;
+          white-space: nowrap;
+        }
+        .navLink {
+          padding: 0 var(--spacing-xs);
+        }
+        .reviewed {
+          display: inline-block;
+          margin: 0 var(--spacing-xs);
+          vertical-align: top;
+          position: relative;
+          top: 8px;
+        }
+        .jumpToFileContainer {
+          display: inline-block;
+          word-break: break-all;
+        }
+        .mobile {
+          display: none;
+        }
+        gr-button {
+          padding: var(--spacing-s) 0;
+          text-decoration: none;
+        }
+        .loading {
+          color: var(--deemphasized-text-color);
+          font-family: var(--header-font-family);
+          font-size: var(--font-size-h1);
+          font-weight: var(--font-weight-h1);
+          line-height: var(--line-height-h1);
+          height: 100%;
+          padding: var(--spacing-l);
+          text-align: center;
+        }
+        .subHeader {
+          background-color: var(--background-color-secondary);
+          flex-wrap: wrap;
+          padding: 0 var(--spacing-l);
+        }
+        .prefsButton {
+          text-align: right;
+        }
+        .editMode .hideOnEdit {
+          display: none;
+        }
+        .blameLoader,
+        .fileNum {
+          display: none;
+        }
+        .blameLoader.show,
+        .fileNum.show,
+        .download,
+        .preferences,
+        .rightControls {
+          align-items: center;
+          display: flex;
+        }
+        .diffModeSelector,
+        .editButton {
+          align-items: center;
+          display: flex;
+        }
+        .diffModeSelector span,
+        .editButton span {
+          margin-right: var(--spacing-xs);
+        }
+        .diffModeSelector.hide,
+        .separator.hide {
+          display: none;
+        }
+        .editButtona a {
+          text-decoration: none;
+        }
+        @media screen and (max-width: 50em) {
+          header {
+            padding: var(--spacing-s) var(--spacing-l);
+          }
+          .dash {
+            display: none;
+          }
+          .desktop {
+            display: none;
+          }
+          .fileNav {
+            align-items: flex-start;
+            display: flex;
+            margin: 0 var(--spacing-xs);
+          }
+          .fullFileName {
+            display: block;
+            font-style: italic;
+            min-width: 50%;
+            padding: 0 var(--spacing-xxs);
+            text-align: center;
+            width: 100%;
+            word-wrap: break-word;
+          }
+          .reviewed {
+            vertical-align: -1px;
+          }
+          .mobileNavLink {
+            color: var(--primary-text-color);
+            font-family: var(--header-font-family);
+            font-size: var(--font-size-h2);
+            font-weight: var(--font-weight-h2);
+            line-height: var(--line-height-h2);
+            text-decoration: none;
+          }
+          .mobileNavLink:not([href]) {
+            color: var(--deemphasized-text-color);
+          }
+          .jumpToFileContainer {
+            display: block;
+            width: 100%;
+            word-break: break-all;
+          }
+          /* prettier formatter removes semi-colons after css mixins. */
+          /* prettier-ignore */
+          gr-dropdown-list {
+            width: 100%;
+            --gr-select-style-width: 100%;
+            --gr-select-style-display: block;
+            --native-select-style-width: 100%;
+          }
+        }
+        :host(.hideComments) {
+          --gr-comment-thread-display: none;
+        }
+      `,
+    ];
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.connected$.next(true);
+    this.throttledToggleFileReviewed = throttleWrap(_ =>
+      this.handleToggleFileReviewed()
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
     this.cursor = new GrDiffCursor();
-    this._onRenderHandler = (_: Event) => {
-      // We have to wait until render because at the time of connectedCallback,
-      // gr-diff-host has not been rendered yet.
-      this.cursor?.replaceDiffs([this.$.diffHost]);
-      this.cursor?.reInitCursor();
-    };
-    this.$.diffHost.addEventListener('render', this._onRenderHandler);
     this.cleanups.push(
-      addGlobalShortcut(
-        {key: Key.ESC},
-        _ => (this.$.diffHost.displayLine = false)
-      )
+      addGlobalShortcut({key: Key.ESC}, _ => {
+        assertIsDefined(this.diffHost, 'diffHost');
+        this.diffHost.displayLine = false;
+      })
     );
   }
 
   override disconnectedCallback() {
     this.cursor?.dispose();
-    if (this._onRenderHandler) {
-      this.$.diffHost.removeEventListener('render', this._onRenderHandler);
-      this._onRenderHandler = undefined;
-    }
     for (const cleanup of this.cleanups) cleanup();
     this.cleanups = [];
-    for (const s of this.subscriptions) {
-      s.unsubscribe();
-    }
-    this.subscriptions = [];
     this.connected$.next(false);
     super.disconnectedCallback();
+  }
+
+  protected override willUpdate(changedProperties: PropertyValues) {
+    super.willUpdate(changedProperties);
+    if (changedProperties.has('change')) {
+      this.allPatchSets = computeAllPatchSets(this.change);
+    }
+    if (
+      changedProperties.has('commentMap') ||
+      changedProperties.has('files') ||
+      changedProperties.has('path')
+    ) {
+      this.commentSkips = this.computeCommentSkips(
+        this.commentMap,
+        this.files?.sortedFileList,
+        this.path
+      );
+    }
+
+    if (
+      changedProperties.has('changeNum') ||
+      changedProperties.has('changeComments') ||
+      changedProperties.has('patchRange')
+    ) {
+      this.getFiles();
+    }
+  }
+
+  protected override updated(changedProperties: PropertyValues): void {
+    super.updated(changedProperties);
+    assertIsDefined(this.diffHost, 'diffHost');
+    // We have to wait until render because at the time of updated,
+    // gr-diff-host has not been rendered yet.
+    this.diffHost.updateComplete.then(() => {
+      assertIsDefined(this.diffHost, 'diffHost');
+      this.cursor?.replaceDiffs([this.diffHost]);
+      this.cursor?.reInitCursor();
+    });
+    if (
+      changedProperties.has('changeComments') ||
+      changedProperties.has('path') ||
+      changedProperties.has('patchRange') ||
+      changedProperties.has('files')
+    ) {
+      if (this.changeComments && this.path && this.patchRange) {
+        assertIsDefined(this.diffHost);
+        const file = this.files?.changeFilesByPath
+          ? this.files.changeFilesByPath[this.path]
+          : undefined;
+        this.diffHost.threads = this.changeComments.getThreadsBySideForFile(
+          {path: this.path, basePath: file?.old_path},
+          this.patchRange
+        );
+      }
+    }
+  }
+
+  override render() {
+    const file = this.getCurrentFile();
+    return html`
+      ${this.renderStickyHeader()}
+      <div class="loading" ?hidden=${!this.loading}>Loading...</div>
+      <h2 class="assistive-tech-only">Diff view</h2>
+      <gr-diff-host
+        id="diffHost"
+        ?hidden=${this.loading}
+        .changeNum=${this.changeNum}
+        .change=${this.change}
+        .commitRange=${this.commitRange}
+        .patchRange=${this.patchRange}
+        .file=${file}
+        .path=${this.path}
+        .projectName=${this.change?.project}
+        @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
+        @comment-anchor-tap=${this.onLineSelected}
+        @line-selected=${this.onLineSelected}
+        @diff-changed=${this.onDiffChanged}
+        @edit-weblinks-changed=${this.onEditWeblinksChanged}
+        @files-weblinks-changed=${this.onFilesWeblinksChanged}
+        @is-image-diff-changed=${this.onIsImageDiffChanged}
+      >
+      </gr-diff-host>
+      ${this.renderDialogs()}
+    `;
+  }
+
+  private renderStickyHeader() {
+    return html` <div
+      class="stickyHeader ${this.computeEditMode() ? 'editMode' : ''}"
+    >
+      <h1 class="assistive-tech-only">
+        Diff of ${this.path ? computeTruncatedPath(this.path) : ''}
+      </h1>
+      <header>${this.renderHeader()}</header>
+      <div class="subHeader">
+        ${this.renderPatchRangeLeft()} ${this.renderRightControls()}
+      </div>
+      <div class="fileNav mobile">
+        <a class="mobileNavLink" href=${ifDefined(this.computeNavLinkURL(-1))}
+          >&lt;</a
+        >
+        <div class="fullFileName mobile">${computeDisplayPath(this.path)}</div>
+        <a class="mobileNavLink" href=${ifDefined(this.computeNavLinkURL(1))}
+          >&gt;</a
+        >
+      </div>
+    </div>`;
+  }
+
+  private renderHeader() {
+    const formattedFiles = this.formatFilesForDropdown();
+    const fileNum = this.computeFileNum(formattedFiles);
+    const fileNumClass = this.computeFileNumClass(fileNum, formattedFiles);
+    return html` <div>
+        <a href=${this.getChangePath()}>${this.changeNum}</a
+        ><span class="changeNumberColon">:</span>
+        <span class="headerSubject">${this.change?.subject}</span>
+        <input
+          id="reviewed"
+          class="reviewed hideOnEdit"
+          type="checkbox"
+          ?hidden=${!this.loggedIn}
+          title="Toggle reviewed status of file"
+          aria-label="file reviewed"
+          @change=${this.handleReviewedChange}
+        />
+        <div class="jumpToFileContainer">
+          <gr-dropdown-list
+            id="dropdown"
+            .value=${this.path}
+            .items=${formattedFiles}
+            initial-count="75"
+            show-copy-for-trigger-text
+            @value-change=${this.handleFileChange}
+          ></gr-dropdown-list>
+        </div>
+      </div>
+      <div class="navLinks desktop">
+        <span class="fileNum ${ifDefined(fileNumClass)}">
+          File ${fileNum} of ${formattedFiles.length}
+          <span class="separator"></span>
+        </span>
+        <a
+          class="navLink"
+          title=${this.createTitle(
+            Shortcut.PREV_FILE,
+            ShortcutSection.NAVIGATION
+          )}
+          href=${ifDefined(this.computeNavLinkURL(-1))}
+          >Prev</a
+        >
+        <span class="separator"></span>
+        <a
+          class="navLink"
+          title=${this.createTitle(
+            Shortcut.UP_TO_CHANGE,
+            ShortcutSection.NAVIGATION
+          )}
+          href=${this.getChangePath()}
+          >Up</a
+        >
+        <span class="separator"></span>
+        <a
+          class="navLink"
+          title=${this.createTitle(
+            Shortcut.NEXT_FILE,
+            ShortcutSection.NAVIGATION
+          )}
+          href=${ifDefined(this.computeNavLinkURL(1))}
+          >Next</a
+        >
+      </div>`;
+  }
+
+  private renderPatchRangeLeft() {
+    const revisionInfo = this.change
+      ? new RevisionInfoObj(this.change)
+      : undefined;
+    return html` <div class="patchRangeLeft">
+      <gr-patch-range-select
+        id="rangeSelect"
+        .changeNum=${this.changeNum}
+        .patchNum=${this.patchRange?.patchNum}
+        .basePatchNum=${this.patchRange?.basePatchNum}
+        .filesWeblinks=${this.filesWeblinks}
+        .availablePatches=${this.allPatchSets}
+        .revisions=${this.change?.revisions}
+        .revisionInfo=${revisionInfo}
+        @patch-range-change=${this.handlePatchChange}
+      >
+      </gr-patch-range-select>
+      <span class="download desktop">
+        <span class="separator"></span>
+        <gr-dropdown
+          link=""
+          down-arrow=""
+          .items=${this.computeDownloadDropdownLinks()}
+          horizontal-align="left"
+        >
+          <span class="downloadTitle"> Download </span>
+        </gr-dropdown>
+      </span>
+    </div>`;
+  }
+
+  private renderRightControls() {
+    const blameLoaderClass =
+      !isMagicPath(this.path) && !this.isImageDiff ? 'show' : '';
+    const blameToggleLabel =
+      this.isBlameLoaded && !this.isBlameLoading ? 'Hide blame' : 'Show blame';
+    const diffModeSelectorClass = !this.diff || this.diff.binary ? 'hide' : '';
+    return html` <div class="rightControls">
+      <span class="blameLoader ${blameLoaderClass}">
+        <gr-button
+          link=""
+          id="toggleBlame"
+          title=${this.createTitle(
+            Shortcut.TOGGLE_BLAME,
+            ShortcutSection.DIFFS
+          )}
+          ?disabled=${this.isBlameLoading}
+          @click=${this.toggleBlame}
+          >${blameToggleLabel}</gr-button
+        >
+      </span>
+      ${when(
+        this.computeCanEdit(),
+        () => html`
+          <span class="separator"></span>
+          <span class="editButton">
+            <gr-button
+              link=""
+              title="Edit current file"
+              @click=${this.goToEditFile}
+              >edit</gr-button
+            >
+          </span>
+        `
+      )}
+      ${when(
+        this.computeShowEditLinks(),
+        () => html`
+          <span class="separator"></span>
+          ${this.editWeblinks!.map(
+            weblink => html`
+              <a target="_blank" href=${ifDefined(weblink.url)}
+                >${weblink.name}</a
+              >
+            `
+          )}
+        `
+      )}
+      <span class="separator"></span>
+      <div class="diffModeSelector ${diffModeSelectorClass}">
+        <span>Diff view:</span>
+        <gr-diff-mode-selector
+          id="modeSelect"
+          .saveOnChange=${this.loggedIn}
+          show-tooltip-below
+        ></gr-diff-mode-selector>
+      </div>
+      ${when(
+        this.loggedIn && this.prefs,
+        () => html`
+          <span id="diffPrefsContainer">
+            <span class="preferences desktop">
+              <gr-tooltip-content
+                has-tooltip=""
+                position-below=""
+                title="Diff preferences"
+              >
+                <gr-button
+                  link=""
+                  class="prefsButton"
+                  @click=${(e: Event) => this.handlePrefsTap(e)}
+                  ><iron-icon icon="gr-icons:settings"></iron-icon
+                ></gr-button>
+              </gr-tooltip-content>
+            </span>
+          </span>
+        `
+      )}
+      <gr-endpoint-decorator name="annotation-toggler">
+        <span hidden="" id="annotation-span">
+          <label for="annotation-checkbox" id="annotation-label"></label>
+          <iron-input>
+            <input
+              is="iron-input"
+              type="checkbox"
+              id="annotation-checkbox"
+              disabled=""
+            />
+          </iron-input>
+        </span>
+      </gr-endpoint-decorator>
+    </div>`;
+  }
+
+  private renderDialogs() {
+    return html` <gr-apply-fix-dialog
+        id="applyFixDialog"
+        .change=${this.change}
+        .changeNum=${this.changeNum}
+      >
+      </gr-apply-fix-dialog>
+      <gr-diff-preferences-dialog
+        id="diffPreferencesDialog"
+        @reload-diff-preference=${this.handleReloadingDiffPreference}
+      >
+      </gr-diff-preferences-dialog>
+      <gr-overlay id="downloadOverlay">
+        <gr-download-dialog
+          id="downloadDialog"
+          .change=${this.change}
+          .patchNum=${this.patchRange?.patchNum}
+          .config=${this.serverConfig?.download}
+          @close=${this.handleDownloadDialogClose}
+        ></gr-download-dialog>
+      </gr-overlay>`;
   }
 
   /**
    * Set initial review status of the file.
    * automatically mark the file as reviewed if manual review is not set.
    */
-
-  async setReviewedStatus(
+  setReviewedStatus(
     patchNum: RevisionPatchSetNum,
     diffPrefs: DiffPreferencesInfo
   ) {
-    const loggedIn = await this._getLoggedIn();
-    if (!loggedIn) return;
+    if (!this.loggedIn) return;
     if (!diffPrefs.manual_review) {
       this.setReviewed(true, patchNum);
     }
   }
 
-  @observe('_changeComments', '_path', '_patchRange')
-  computeThreads(
-    changeComments?: ChangeComments,
-    path?: string,
-    patchRange?: PatchRange
-  ) {
-    if (
-      changeComments === undefined ||
-      path === undefined ||
-      patchRange === undefined
-    ) {
-      return;
-    }
-    // TODO(dhruvsri): check if basePath should be set here
-    this.$.diffHost.threads = changeComments.getThreadsBySideForFile(
-      {path},
-      patchRange
-    );
-  }
-
-  _getLoggedIn(): Promise<boolean> {
-    return this.restApiService.getLoggedIn();
-  }
-
-  @observe('_change.project')
-  _getProjectConfig(project?: RepoName) {
-    if (!project) return;
-    return this.restApiService.getProjectConfig(project).then(config => {
-      this._projectConfig = config;
-    });
-  }
-
-  _getSortedFileList(files?: Files) {
-    if (!files) return [];
-    return files.sortedFileList;
-  }
-
-  _getCurrentFile(files?: Files, path?: string) {
-    if (!files || !path) return;
-    const fileInfo = files.changeFilesByPath[path];
-    const fileRange: FileRange = {path};
+  private getCurrentFile() {
+    if (!this.files || !this.path) return;
+    const fileInfo = this.files.changeFilesByPath[this.path];
+    const fileRange: FileRange = {path: this.path};
     if (fileInfo && fileInfo.old_path) {
       fileRange.basePath = fileInfo.old_path;
     }
     return fileRange;
   }
 
-  @observe('_changeNum', '_patchRange.*', '_changeComments')
-  _getFiles(
-    changeNum: NumericChangeId,
-    patchRangeRecord: PolymerDeepPropertyChange<PatchRange, PatchRange>,
-    changeComments: ChangeComments
-  ) {
+  // Private but used in tests.
+  getFiles() {
     // Polymer 2: check for undefined
-    if (
-      [changeNum, patchRangeRecord, patchRangeRecord.base, changeComments].some(
-        arg => arg === undefined
-      )
-    ) {
+    if (!this.changeNum || !this.patchRange || !this.changeComments) {
       return Promise.resolve();
     }
 
-    if (!patchRangeRecord.base.patchNum) {
+    if (!this.patchRange.patchNum) {
       return Promise.resolve();
     }
 
-    const patchRange = patchRangeRecord.base;
     return this.restApiService
-      .getChangeFiles(changeNum, patchRange)
+      .getChangeFiles(this.changeNum, this.patchRange)
       .then(changeFiles => {
         if (!changeFiles) return;
-        const commentedPaths = changeComments.getPaths(patchRange);
+        const commentedPaths = this.changeComments!.getPaths(this.patchRange);
         const files = {...changeFiles};
         addUnmodifiedFiles(files, commentedPaths);
-        this._files = {
+        this.files = {
           sortedFileList: Object.keys(files).sort(specialFilePathCompare),
           changeFilesByPath: files,
         };
       });
   }
 
-  _handleReviewedChange(e: Event) {
-    this.setReviewed(
-      ((dom(e) as EventApi).rootTarget as HTMLInputElement).checked
-    );
+  private handleReviewedChange(e: Event) {
+    const input = e.target as HTMLInputElement;
+    this.setReviewed(input.checked ?? false);
   }
 
   // Private but used in tests.
   setReviewed(
     reviewed: boolean,
-    patchNum: RevisionPatchSetNum | undefined = this._patchRange?.patchNum
+    patchNum: RevisionPatchSetNum | undefined = this.patchRange?.patchNum
   ) {
-    if (this._editMode) return;
-    if (!patchNum || !this._path || !this._changeNum) return;
-    const path = this._path;
+    if (this.computeEditMode()) return;
+    if (!patchNum || !this.path || !this.changeNum) return;
     // if file is already reviewed then do not make a saveReview request
-    if (this.reviewedFiles.has(path) && reviewed) return;
+    if (this.reviewedFiles.has(this.path) && reviewed) return;
     this.getChangeModel().setReviewedFilesStatus(
-      this._changeNum,
+      this.changeNum,
       patchNum,
-      path,
+      this.path,
       reviewed
     );
   }
 
   // Private but used in tests.
   handleToggleFileReviewed() {
-    this.setReviewed(!this.$.reviewed.checked);
+    assertIsDefined(this.reviewed);
+    this.setReviewed(!this.reviewed.checked);
   }
 
   private handlePrevLine() {
-    this.$.diffHost.displayLine = true;
+    assertIsDefined(this.diffHost, 'diffHost');
+    this.diffHost.displayLine = true;
     this.cursor?.moveUp();
   }
 
   private onOpenFixPreview(e: OpenFixPreviewEvent) {
-    this.$.applyFixDialog.open(e);
+    assertIsDefined(this.applyFixDialog, 'applyFixDialog');
+    this.applyFixDialog.open(e);
   }
 
-  _onIsBlameLoadedchanged(e: ValueChangedEvent<boolean>) {
-    this._isBlameLoaded = e.detail.value;
+  private onIsBlameLoadedChanged(e: ValueChangedEvent<boolean>) {
+    this.isBlameLoaded = e.detail.value;
   }
 
-  _onDiffChanged(e: ValueChangedEvent<DiffInfo>) {
-    this._diff = e.detail.value;
+  private onDiffChanged(e: ValueChangedEvent<DiffInfo>) {
+    this.diff = e.detail.value;
   }
 
-  _onEditWeblinksChanged(e: ValueChangedEvent<GeneratedWebLink[] | undefined>) {
-    this._editWeblinks = e.detail.value;
+  private onEditWeblinksChanged(
+    e: ValueChangedEvent<GeneratedWebLink[] | undefined>
+  ) {
+    this.editWeblinks = e.detail.value;
   }
 
-  _onFilesWeblinksChanged(e: ValueChangedEvent<FilesWebLinks | undefined>) {
-    this._filesWeblinks = e.detail.value;
+  private onFilesWeblinksChanged(
+    e: ValueChangedEvent<FilesWebLinks | undefined>
+  ) {
+    this.filesWeblinks = e.detail.value;
   }
 
-  _onIsImageDiffChanged(e: ValueChangedEvent<boolean>) {
-    this._isImageDiff = e.detail.value;
+  private onIsImageDiffChanged(e: ValueChangedEvent<boolean>) {
+    this.isImageDiff = e.detail.value;
   }
 
   private handleNextLine() {
-    this.$.diffHost.displayLine = true;
+    assertIsDefined(this.diffHost, 'diffHost');
+    this.diffHost.displayLine = true;
     this.cursor?.moveDown();
   }
 
   // Private but used in tests.
   moveToPreviousFileWithComment() {
-    if (!this._commentSkips) return;
-    if (!this._change) return;
-    if (!this._patchRange?.patchNum) return;
+    if (!this.commentSkips) return;
+    if (!this.change) return;
+    if (!this.patchRange?.patchNum) return;
 
     // If there is no previous diff with comments, then return to the change
     // view.
-    if (!this._commentSkips.previous) {
+    if (!this.commentSkips.previous) {
       this.navToChangeView();
       return;
     }
 
     GerritNav.navigateToDiff(
-      this._change,
-      this._commentSkips.previous,
-      this._patchRange.patchNum,
-      this._patchRange.basePatchNum
+      this.change,
+      this.commentSkips.previous,
+      this.patchRange.patchNum,
+      this.patchRange.basePatchNum
     );
   }
 
   // Private but used in tests.
   moveToNextFileWithComment() {
-    if (!this._commentSkips) return;
-    if (!this._change) return;
-    if (!this._patchRange?.patchNum) return;
+    if (!this.commentSkips) return;
+    if (!this.change) return;
+    if (!this.patchRange?.patchNum) return;
 
     // If there is no next diff with comments, then return to the change view.
-    if (!this._commentSkips.next) {
+    if (!this.commentSkips.next) {
       this.navToChangeView();
       return;
     }
 
     GerritNav.navigateToDiff(
-      this._change,
-      this._commentSkips.next,
-      this._patchRange.patchNum,
-      this._patchRange.basePatchNum
+      this.change,
+      this.commentSkips.next,
+      this.patchRange.patchNum,
+      this.patchRange.basePatchNum
     );
   }
 
@@ -704,15 +1189,15 @@ export class GrDiffView extends base {
   }
 
   private handlePrevFile() {
-    if (!this._path) return;
-    if (!this._fileList) return;
-    this.navToFile(this._path, this._fileList, -1);
+    if (!this.path) return;
+    if (!this.files?.sortedFileList) return;
+    this.navToFile(this.files.sortedFileList, -1);
   }
 
   private handleNextFile() {
-    if (!this._path) return;
-    if (!this._fileList) return;
-    this.navToFile(this._path, this._fileList, 1);
+    if (!this.path) return;
+    if (!this.files?.sortedFileList) return;
+    this.navToFile(this.files.sortedFileList, 1);
   }
 
   private handleNextChunk() {
@@ -755,16 +1240,16 @@ export class GrDiffView extends base {
   }
 
   private navigateToUnreviewedFile(direction: string) {
-    if (!this._path) return;
-    if (!this._fileList) return;
+    if (!this.path) return;
+    if (!this.files?.sortedFileList) return;
     if (!this.reviewedFiles) return;
     // Ensure that the currently viewed file always appears in unreviewedFiles
     // so we resolve the right "next" file.
-    const unreviewedFiles = this._fileList.filter(
-      file => file === this._path || !this.reviewedFiles.has(file)
+    const unreviewedFiles = this.files.sortedFileList.filter(
+      file => file === this.path || !this.reviewedFiles.has(file)
     );
 
-    this.navToFile(this._path, unreviewedFiles, direction === 'next' ? 1 : -1);
+    this.navToFile(unreviewedFiles, direction === 'next' ? 1 : -1);
   }
 
   private handlePrevChunk() {
@@ -780,30 +1265,31 @@ export class GrDiffView extends base {
 
   // Similar to gr-change-view.handleOpenReplyDialog
   private handleOpenReplyDialog() {
-    this._getLoggedIn().then(isLoggedIn => {
-      if (!isLoggedIn) {
-        fireEvent(this, 'show-auth-required');
-        return;
-      }
-      this.navToChangeView(true);
-    });
+    if (!this.loggedIn) {
+      fireEvent(this, 'show-auth-required');
+      return;
+    }
+    this.navToChangeView(true);
   }
 
   private handleToggleLeftPane() {
-    this.$.diffHost.toggleLeftDiff();
+    assertIsDefined(this.diffHost, 'diffHost');
+    this.diffHost.toggleLeftDiff();
   }
 
   private handleOpenDownloadDialog() {
-    this.$.downloadOverlay.open().then(() => {
-      this.$.downloadOverlay.setFocusStops(
-        this.$.downloadDialog.getFocusStops()
-      );
-      this.$.downloadDialog.focus();
+    assertIsDefined(this.downloadOverlay, 'downloadOverlay');
+    this.downloadOverlay.open().then(() => {
+      assertIsDefined(this.downloadOverlay, 'downloadOverlay');
+      assertIsDefined(this.downloadDialog, 'downloadOverlay');
+      this.downloadOverlay.setFocusStops(this.downloadDialog.getFocusStops());
+      this.downloadDialog.focus();
     });
   }
 
-  _handleDownloadDialogClose() {
-    this.$.downloadOverlay.close();
+  private handleDownloadDialogClose() {
+    assertIsDefined(this.downloadOverlay, 'downloadOverlay');
+    this.downloadOverlay.close();
   }
 
   private handleUpToChange() {
@@ -811,14 +1297,15 @@ export class GrDiffView extends base {
   }
 
   private handleCommaKey() {
-    if (!this._loggedIn) return;
-    this.$.diffPreferencesDialog.open();
+    if (!this.loggedIn) return;
+    assertIsDefined(this.diffPreferencesDialog, 'diffPreferencesDialog');
+    this.diffPreferencesDialog.open();
   }
 
   // Private but used in tests.
   handleToggleDiffMode() {
-    if (!this._userPrefs) return;
-    if (this._userPrefs.diff_view === DiffViewMode.SIDE_BY_SIDE) {
+    if (!this.userPrefs) return;
+    if (this.userPrefs.diff_view === DiffViewMode.SIDE_BY_SIDE) {
       this.userModel.updatePreferences({diff_view: DiffViewMode.UNIFIED});
     } else {
       this.userModel.updatePreferences({
@@ -829,34 +1316,33 @@ export class GrDiffView extends base {
 
   // Private but used in tests.
   navToChangeView(openReplyDialog = false) {
-    if (!this._changeNum || !this._patchRange?.patchNum) {
+    if (!this.changeNum || !this.patchRange?.patchNum) {
       return;
     }
-    this._navigateToChange(
-      this._change,
-      this._patchRange,
-      this._change && this._change.revisions,
+    this.navigateToChange(
+      this.change,
+      this.patchRange,
+      this.change && this.change.revisions,
       openReplyDialog
     );
   }
 
   // Private but used in tests.
   navToFile(
-    path: string,
     fileList: string[],
     direction: -1 | 1,
     navigateToFirstComment?: boolean
   ) {
-    const newPath = this.getNavLinkPath(path, fileList, direction);
+    const newPath = this.getNavLinkPath(fileList, direction);
     if (!newPath) return;
-    if (!this._change) return;
-    if (!this._patchRange) return;
+    if (!this.change) return;
+    if (!this.patchRange) return;
 
     if (newPath.up) {
-      this._navigateToChange(
-        this._change,
-        this._patchRange,
-        this._change && this._change.revisions
+      this.navigateToChange(
+        this.change,
+        this.patchRange,
+        this.change && this.change.revisions
       );
       return;
     }
@@ -864,64 +1350,52 @@ export class GrDiffView extends base {
     if (!newPath.path) return;
     let lineNum;
     if (navigateToFirstComment)
-      lineNum = this._changeComments?.getCommentsForPath(
+      lineNum = this.changeComments?.getCommentsForPath(
         newPath.path,
-        this._patchRange
+        this.patchRange
       )?.[0].line;
     GerritNav.navigateToDiff(
-      this._change,
+      this.change,
       newPath.path,
-      this._patchRange.patchNum,
-      this._patchRange.basePatchNum,
+      this.patchRange.patchNum,
+      this.patchRange.basePatchNum,
       lineNum
     );
   }
 
   /**
-   * @param path The path of the current file being shown.
-   * @param fileList The list of files in this change and
-   * patch range.
    * @param direction Either 1 (next file) or -1 (prev file).
    * @return The next URL when proceeding in the specified
    * direction.
    */
-  _computeNavLinkURL(
-    change?: ChangeInfo,
-    path?: string,
-    fileList?: string[],
-    direction?: -1 | 1
-  ) {
-    if (!change) return null;
-    if (!path) return null;
-    if (!fileList) return null;
-    if (!direction) return null;
+  private computeNavLinkURL(direction?: -1 | 1) {
+    if (!this.change) return;
+    if (!this.path) return;
+    if (!this.files?.sortedFileList) return;
+    if (!direction) return;
 
-    const newPath = this.getNavLinkPath(path, fileList, direction);
+    const newPath = this.getNavLinkPath(this.files.sortedFileList, direction);
     if (!newPath) {
-      return null;
+      return;
     }
 
     if (newPath.up) {
-      return this._getChangePath(
-        this._change,
-        this._patchRange,
-        this._change && this._change.revisions
-      );
+      return this.getChangePath();
     }
-    return this._getDiffUrl(this._change, this._patchRange, newPath.path);
+    return this.getDiffUrl(this.change, this.patchRange, newPath.path);
   }
 
-  _goToEditFile() {
-    if (!this._change) return;
-    if (!this._path) return;
-    if (!this._patchRange) return;
+  private goToEditFile() {
+    if (!this.change) return;
+    if (!this.path) return;
+    if (!this.patchRange) return;
 
     // TODO(taoalpha): add a shortcut for editing
     const cursorAddress = this.cursor?.getAddress();
     const editUrl = GerritNav.getEditUrlForDiff(
-      this._change,
-      this._path,
-      this._patchRange.patchNum,
+      this.change,
+      this.path,
+      this.patchRange.patchNum,
       cursorAddress?.number
     );
     GerritNav.navigateToRelativeUrl(editUrl);
@@ -942,12 +1416,12 @@ export class GrDiffView extends base {
    * patch range.
    * @param direction Either 1 (next file) or -1 (prev file).
    */
-  private getNavLinkPath(path: string, fileList: string[], direction: -1 | 1) {
-    if (!path || !fileList || fileList.length === 0) {
+  private getNavLinkPath(fileList: string[], direction: -1 | 1) {
+    if (!this.path || !fileList || fileList.length === 0) {
       return null;
     }
 
-    let idx = fileList.indexOf(path);
+    let idx = fileList.indexOf(this.path);
     if (idx === -1) {
       const file = direction > 0 ? fileList[0] : fileList[fileList.length - 1];
       return {path: file};
@@ -965,43 +1439,44 @@ export class GrDiffView extends base {
 
   // Private but used in tests.
   initLineOfInterestAndCursor(leftSide: boolean) {
-    this.$.diffHost.lineOfInterest = this._getLineOfInterest(leftSide);
+    assertIsDefined(this.diffHost, 'diffHost');
+    this.diffHost.lineOfInterest = this.getLineOfInterest(leftSide);
     this.initCursor(leftSide);
   }
 
   // Private but used in tests.
   displayDiffBaseAgainstLeftToast() {
-    if (!this._patchRange) return;
+    if (!this.patchRange) return;
     fireAlert(
       this,
-      `Patchset ${this._patchRange.basePatchNum} vs ` +
-        `${this._patchRange.patchNum} selected. Press v + \u2190 to view ` +
-        `Base vs ${this._patchRange.basePatchNum}`
+      `Patchset ${this.patchRange.basePatchNum} vs ` +
+        `${this.patchRange.patchNum} selected. Press v + \u2190 to view ` +
+        `Base vs ${this.patchRange.basePatchNum}`
     );
   }
 
   private displayDiffAgainstLatestToast(latestPatchNum?: PatchSetNum) {
-    if (!this._patchRange) return;
+    if (!this.patchRange) return;
     const leftPatchset =
-      this._patchRange.basePatchNum === PARENT
+      this.patchRange.basePatchNum === PARENT
         ? 'Base'
-        : `Patchset ${this._patchRange.basePatchNum}`;
+        : `Patchset ${this.patchRange.basePatchNum}`;
     fireAlert(
       this,
       `${leftPatchset} vs
-            ${this._patchRange.patchNum} selected\n. Press v + \u2191 to view
+            ${this.patchRange.patchNum} selected\n. Press v + \u2191 to view
             ${leftPatchset} vs Patchset ${latestPatchNum}`
     );
   }
 
   private displayToasts() {
-    if (!this._patchRange) return;
-    if (this._patchRange.basePatchNum !== PARENT) {
+    if (!this.patchRange) return;
+    if (this.patchRange.basePatchNum !== PARENT) {
       this.displayDiffBaseAgainstLeftToast();
       return;
     }
-    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
-    if (this._patchRange.patchNum !== latestPatchNum) {
+    const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
+    if (this.patchRange.patchNum !== latestPatchNum) {
       this.displayDiffAgainstLatestToast(latestPatchNum);
       return;
     }
@@ -1010,36 +1485,36 @@ export class GrDiffView extends base {
   private initCommitRange() {
     let commit: CommitId | undefined;
     let baseCommit: CommitId | undefined;
-    if (!this._change) return;
-    if (!this._patchRange || !this._patchRange.patchNum) return;
-    const revisions = this._change.revisions ?? {};
+    if (!this.change) return;
+    if (!this.patchRange || !this.patchRange.patchNum) return;
+    const revisions = this.change.revisions ?? {};
     for (const [commitSha, revision] of Object.entries(revisions)) {
       const patchNum = revision._number;
-      if (patchNum === this._patchRange.patchNum) {
+      if (patchNum === this.patchRange.patchNum) {
         commit = commitSha as CommitId;
         const commitObj = revision.commit;
         const parents = commitObj?.parents || [];
-        if (this._patchRange.basePatchNum === PARENT && parents.length) {
+        if (this.patchRange.basePatchNum === PARENT && parents.length) {
           baseCommit = parents[parents.length - 1].commit;
         }
-      } else if (patchNum === this._patchRange.basePatchNum) {
+      } else if (patchNum === this.patchRange.basePatchNum) {
         baseCommit = commitSha as CommitId;
       }
     }
-    this._commitRange = commit && baseCommit ? {commit, baseCommit} : undefined;
+    this.commitRange = commit && baseCommit ? {commit, baseCommit} : undefined;
   }
 
   private updateUrlToDiffUrl(lineNum?: number, leftSide?: boolean) {
-    if (!this._change) return;
-    if (!this._patchRange) return;
-    if (!this._changeNum) return;
-    if (!this._path) return;
+    if (!this.change) return;
+    if (!this.patchRange) return;
+    if (!this.changeNum) return;
+    if (!this.path) return;
     const url = GerritNav.getUrlForDiffById(
-      this._changeNum,
-      this._change.project,
-      this._path,
-      this._patchRange.patchNum,
-      this._patchRange.basePatchNum,
+      this.changeNum,
+      this.change.project,
+      this.path,
+      this.patchRange.patchNum,
+      this.patchRange.basePatchNum,
       lineNum,
       leftSide
     );
@@ -1049,49 +1524,49 @@ export class GrDiffView extends base {
   // Private but used in tests.
   initPatchRange() {
     let leftSide = false;
-    if (!this._change) return;
+    if (!this.change) return;
     if (this.params?.view !== GerritView.DIFF) return;
     if (this.params?.commentId) {
-      const comment = this._changeComments?.findCommentById(
+      const comment = this.changeComments?.findCommentById(
         this.params.commentId
       );
       if (!comment) {
         fireAlert(this, 'comment not found');
-        GerritNav.navigateToChange(this._change);
+        GerritNav.navigateToChange(this.change);
         return;
       }
       this.getChangeModel().updatePath(comment.path);
 
-      const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
-      if (!latestPatchNum) throw new Error('Missing _allPatchSets');
-      this._patchRange = getPatchRangeForCommentUrl(comment, latestPatchNum);
-      leftSide = isInBaseOfPatchRange(comment, this._patchRange);
+      const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
+      if (!latestPatchNum) throw new Error('Missing allPatchSets');
+      this.patchRange = getPatchRangeForCommentUrl(comment, latestPatchNum);
+      leftSide = isInBaseOfPatchRange(comment, this.patchRange);
 
-      this._focusLineNum = comment.line;
+      this.focusLineNum = comment.line;
     } else {
       if (this.params.path) {
         this.getChangeModel().updatePath(this.params.path);
       }
       if (this.params.patchNum) {
-        this._patchRange = {
+        this.patchRange = {
           patchNum: this.params.patchNum,
           basePatchNum: this.params.basePatchNum || PARENT,
         };
       }
       if (this.params.lineNum) {
-        this._focusLineNum = this.params.lineNum;
+        this.focusLineNum = this.params.lineNum;
         leftSide = !!this.params.leftSide;
       }
     }
-    assertIsDefined(this._patchRange, '_patchRange');
+    assertIsDefined(this.patchRange, 'patchRange');
     this.initLineOfInterestAndCursor(leftSide);
 
     if (this.params?.commentId) {
       // url is of type /comment/{commentId} which isn't meaningful
-      this.updateUrlToDiffUrl(this._focusLineNum, leftSide);
+      this.updateUrlToDiffUrl(this.focusLineNum, leftSide);
     }
 
-    this._commentMap = this._getPaths(this._patchRange);
+    this.commentMap = this.getPaths();
   }
 
   // Private but used in tests.
@@ -1105,9 +1580,9 @@ export class GrDiffView extends base {
 
   private isSameDiffLoaded(value: AppElementDiffViewParam) {
     return (
-      this._patchRange?.basePatchNum === value.basePatchNum &&
-      this._patchRange?.patchNum === value.patchNum &&
-      this._path === value.path
+      this.patchRange?.basePatchNum === value.basePatchNum &&
+      this.patchRange?.patchNum === value.patchNum &&
+      this.path === value.path
     );
   }
 
@@ -1126,10 +1601,12 @@ export class GrDiffView extends base {
   }
 
   // Private but used in tests.
-  _paramsChanged(value: AppElementParams) {
-    if (value.view !== GerritView.DIFF) {
+  paramsChanged() {
+    if (this.params?.view !== GerritView.DIFF) {
       return;
     }
+
+    const params = this.params;
 
     // The diff view is kept in the background once created. If the user
     // scrolls in the change page, the scrolling is reflected in the diff view
@@ -1140,11 +1617,11 @@ export class GrDiffView extends base {
 
     // Everything in the diff view is tied to the change. It seems better to
     // force the re-creation of the diff view when the change number changes.
-    const changeChanged = this._changeNum !== value.changeNum;
-    if (this._changeNum !== undefined && changeChanged) {
+    const changeChanged = this.changeNum !== params.changeNum;
+    if (this.changeNum !== undefined && changeChanged) {
       fireEvent(this, EventType.RECREATE_DIFF_VIEW);
       return;
-    } else if (this._changeNum !== undefined && this.isSameDiffLoaded(value)) {
+    } else if (this.changeNum !== undefined && this.isSameDiffLoaded(params)) {
       // changeNum has not changed, so check if there are changes in patchRange
       // path. If no changes then we can simply render the view as is.
       this.reporting.reportInteraction('diff-view-re-rendered');
@@ -1155,59 +1632,61 @@ export class GrDiffView extends base {
       return;
     }
 
-    this._files = {sortedFileList: [], changeFilesByPath: {}};
+    this.files = {sortedFileList: [], changeFilesByPath: {}};
     if (this.isConnected) {
       this.getChangeModel().updatePath(undefined);
     }
-    this._patchRange = undefined;
-    this._commitRange = undefined;
-    this._focusLineNum = undefined;
+    this.patchRange = undefined;
+    this.commitRange = undefined;
+    this.focusLineNum = undefined;
 
-    if (value.changeNum && value.project) {
-      this.restApiService.setInProjectLookup(value.changeNum, value.project);
+    if (params.changeNum && params.project) {
+      this.restApiService.setInProjectLookup(params.changeNum, params.project);
     }
 
-    this._changeNum = value.changeNum;
+    this.changeNum = params.changeNum;
     this.classList.remove('hideComments');
 
     // When navigating away from the page, there is a possibility that the
     // patch number is no longer a part of the URL (say when navigating to
     // the top-level change info view) and therefore undefined in `params`.
     // If route is of type /comment/<commentId>/ then no patchNum is present
-    if (!value.patchNum && !value.commentLink) {
+    if (!params.patchNum && !params.commentLink) {
       this.reporting.error(
-        new Error(`Invalid diff view URL, no patchNum found: ${value}`)
+        new Error(`Invalid diff view URL, no patchNum found: ${this.params}`)
       );
       return;
     }
 
     const promises: Promise<unknown>[] = [];
-    if (!this._change) {
+    if (!this.change) {
       promises.push(this.untilModelLoaded());
     }
     promises.push(this.waitUntilCommentsLoaded());
 
-    this.$.diffHost.cancel();
-    this.$.diffHost.clearDiffContent();
-    this._loading = true;
+    if (this.diffHost) {
+      this.diffHost.cancel();
+      this.diffHost.clearDiffContent();
+    }
+    this.loading = true;
     return Promise.all(promises)
       .then(() => {
-        this._loading = false;
+        this.loading = false;
         this.initPatchRange();
         this.initCommitRange();
-        return this.$.diffHost.reload(true);
+        return this.updateComplete.then(() => this.diffHost!.reload(true));
       })
       .then(() => {
         this.reporting.diffViewDisplayed();
       })
       .then(() => {
-        const fileUnchanged = this.isFileUnchanged(this._diff);
-        if (fileUnchanged && value.commentLink) {
-          assertIsDefined(this._change, '_change');
-          assertIsDefined(this._path, '_path');
-          assertIsDefined(this._patchRange, '_patchRange');
+        const fileUnchanged = this.isFileUnchanged(this.diff);
+        if (fileUnchanged && params.commentLink) {
+          assertIsDefined(this.change, 'change');
+          assertIsDefined(this.path, 'path');
+          assertIsDefined(this.patchRange, 'patchRange');
 
-          if (this._patchRange.basePatchNum === PARENT) {
+          if (this.patchRange.basePatchNum === PARENT) {
             // file is unchanged between Base vs X
             // hence should not show diff between Base vs Base
             return;
@@ -1216,25 +1695,25 @@ export class GrDiffView extends base {
           fireAlert(
             this,
             `File is unchanged between Patchset
-                  ${this._patchRange.basePatchNum} and
-                  ${this._patchRange.patchNum}. Showing diff of Base vs
-                  ${this._patchRange.basePatchNum}`
+                  ${this.patchRange.basePatchNum} and
+                  ${this.patchRange.patchNum}. Showing diff of Base vs
+                  ${this.patchRange.basePatchNum}`
           );
           GerritNav.navigateToDiff(
-            this._change,
-            this._path,
-            this._patchRange.basePatchNum as RevisionPatchSetNum,
+            this.change,
+            this.path,
+            this.patchRange.basePatchNum as RevisionPatchSetNum,
             PARENT,
-            this._focusLineNum
+            this.focusLineNum
           );
           return;
         }
-        if (value.commentLink) {
+        if (params.commentLink) {
           this.displayToasts();
         }
         // If the blame was loaded for a previous file and user navigates to
         // another file, then we load the blame for this file too
-        if (this._isBlameLoaded) this.loadBlame();
+        if (this.isBlameLoaded) this.loadBlame();
       });
   }
 
@@ -1248,7 +1727,7 @@ export class GrDiffView extends base {
    * Private but used in tests.
    */
   initCursor(leftSide: boolean) {
-    if (this._focusLineNum === undefined) {
+    if (this.focusLineNum === undefined) {
       return;
     }
     if (!this.cursor) return;
@@ -1257,29 +1736,30 @@ export class GrDiffView extends base {
     } else {
       this.cursor.side = Side.RIGHT;
     }
-    this.cursor.initialLineNumber = this._focusLineNum;
+    this.cursor.initialLineNumber = this.focusLineNum;
   }
 
-  _getLineOfInterest(leftSide: boolean): DisplayLine | undefined {
+  // Private but used in tests.
+  getLineOfInterest(leftSide: boolean): DisplayLine | undefined {
     // If there is a line number specified, pass it along to the diff so that
     // it will not get collapsed.
-    if (!this._focusLineNum) {
+    if (!this.focusLineNum) {
       return undefined;
     }
 
     return {
-      lineNum: this._focusLineNum,
+      lineNum: this.focusLineNum,
       side: leftSide ? Side.LEFT : Side.RIGHT,
     };
   }
 
-  _pathChanged(path: string) {
-    if (path) {
-      fireTitleChange(this, computeTruncatedPath(path));
+  private pathChanged() {
+    if (this.path) {
+      fireTitleChange(this, computeTruncatedPath(this.path));
     }
   }
 
-  _getDiffUrl(
+  private getDiffUrl(
     change?: ChangeInfo | ParsedChangeInfo,
     patchRange?: PatchRange,
     path?: string
@@ -1298,7 +1778,7 @@ export class GrDiffView extends base {
    * patch) then the patch range need not appear in the URL. Return a patch
    * range object with undefined values when a range is not needed.
    */
-  _getChangeUrlRange(
+  private getChangeUrlRange(
     patchRange?: PatchRange,
     revisions?: {[revisionId: string]: RevisionInfo | EditRevisionInfo}
   ) {
@@ -1321,29 +1801,29 @@ export class GrDiffView extends base {
     return {patchNum, basePatchNum};
   }
 
-  _getChangePath(
-    change?: ChangeInfo | ParsedChangeInfo,
-    patchRange?: PatchRange,
-    revisions?: {[revisionId: string]: RevisionInfo | EditRevisionInfo}
-  ) {
-    if (!change) return '';
-    if (!patchRange) return '';
+  private getChangePath() {
+    if (!this.change) return '';
+    if (!this.patchRange) return '';
 
-    const range = this._getChangeUrlRange(patchRange, revisions);
-    return GerritNav.getUrlForChange(change, {
+    const range = this.getChangeUrlRange(
+      this.patchRange,
+      this.change.revisions
+    );
+    return GerritNav.getUrlForChange(this.change, {
       patchNum: range.patchNum,
       basePatchNum: range.basePatchNum,
     });
   }
 
-  _navigateToChange(
+  // Private but used in tests.
+  navigateToChange(
     change?: ChangeInfo | ParsedChangeInfo,
     patchRange?: PatchRange,
     revisions?: {[revisionId: string]: RevisionInfo | EditRevisionInfo},
     openReplyDialog?: boolean
   ) {
     if (!change) return;
-    const range = this._getChangeUrlRange(patchRange, revisions);
+    const range = this.getChangeUrlRange(patchRange, revisions);
     GerritNav.navigateToChange(change, {
       patchNum: range.patchNum,
       basePatchNum: range.basePatchNum,
@@ -1351,134 +1831,111 @@ export class GrDiffView extends base {
     });
   }
 
-  _computeChangePath(
-    change?: ChangeInfo,
-    patchRangeRecord?: PolymerDeepPropertyChange<PatchRange, PatchRange>,
-    revisions?: {[revisionId: string]: RevisionInfo}
-  ) {
-    if (!patchRangeRecord) return '';
-    return this._getChangePath(change, patchRangeRecord.base, revisions);
-  }
-
-  _formatFilesForDropdown(
-    files?: Files,
-    patchRange?: PatchRange,
-    changeComments?: ChangeComments
-  ): DropdownItem[] {
-    if (!files) return [];
-    if (!patchRange) return [];
-    if (!changeComments) return [];
+  // Private but used in tests
+  formatFilesForDropdown(): DropdownItem[] {
+    if (!this.files) return [];
+    if (!this.patchRange) return [];
+    if (!this.changeComments) return [];
 
     const dropdownContent: DropdownItem[] = [];
-    for (const path of files.sortedFileList) {
+    for (const path of this.files.sortedFileList) {
       dropdownContent.push({
         text: computeDisplayPath(path),
         mobileText: computeTruncatedPath(path),
         value: path,
-        bottomText: changeComments.computeCommentsString(
-          patchRange,
+        bottomText: this.changeComments.computeCommentsString(
+          this.patchRange,
           path,
-          files.changeFilesByPath[path],
+          this.files.changeFilesByPath[path],
           /* includeUnmodified= */ true
         ),
-        file: {...files.changeFilesByPath[path], __path: path},
+        file: {...this.files.changeFilesByPath[path], __path: path},
       });
     }
     return dropdownContent;
   }
 
-  _computePrefsButtonHidden(prefs?: DiffPreferencesInfo, loggedIn?: boolean) {
-    return !loggedIn || !prefs;
-  }
-
-  _handleFileChange(e: CustomEvent) {
-    if (!this._change) return;
-    if (!this._patchRange) return;
+  // Private but used in tests.
+  handleFileChange(e: CustomEvent) {
+    if (!this.change) return;
+    if (!this.patchRange) return;
 
     // This is when it gets set initially.
     const path = e.detail.value;
-    if (path === this._path) {
+    if (path === this.path) {
       return;
     }
 
     GerritNav.navigateToDiff(
-      this._change,
+      this.change,
       path,
-      this._patchRange.patchNum,
-      this._patchRange.basePatchNum
+      this.patchRange.patchNum,
+      this.patchRange.basePatchNum
     );
   }
 
-  _handlePatchChange(e: CustomEvent) {
-    if (!this._change) return;
-    if (!this._path) return;
-    if (!this._patchRange) return;
+  // Private but used in tests.
+  handlePatchChange(e: CustomEvent) {
+    if (!this.change) return;
+    if (!this.path) return;
+    if (!this.patchRange) return;
 
     const {basePatchNum, patchNum} = e.detail;
     if (
-      basePatchNum === this._patchRange.basePatchNum &&
-      patchNum === this._patchRange.patchNum
+      basePatchNum === this.patchRange.basePatchNum &&
+      patchNum === this.patchRange.patchNum
     ) {
       return;
     }
-    GerritNav.navigateToDiff(this._change, this._path, patchNum, basePatchNum);
+    GerritNav.navigateToDiff(this.change, this.path, patchNum, basePatchNum);
   }
 
-  _handlePrefsTap(e: Event) {
+  // Private but used in tests.
+  handlePrefsTap(e: Event) {
     e.preventDefault();
-    this.$.diffPreferencesDialog.open();
+    assertIsDefined(this.diffPreferencesDialog, 'diffPreferencesDialog');
+    this.diffPreferencesDialog.open();
   }
 
-  _computeModeSelectHideClass(diff?: DiffInfo) {
-    return !diff || diff.binary ? 'hide' : '';
-  }
-
-  _onLineSelected(
-    _: Event,
-    detail: {side: Side | CommentSide; number: number}
-  ) {
+  // Private but used in tests.
+  onLineSelected(e: CustomEvent) {
     // for on-comment-anchor-tap side can be PARENT/REVISIONS
     // for on-line-selected side can be left/right
     this.updateUrlToDiffUrl(
-      detail.number,
-      detail.side === Side.LEFT || detail.side === CommentSide.PARENT
+      e.detail.number,
+      e.detail.side === Side.LEFT || e.detail.side === CommentSide.PARENT
     );
   }
 
-  _computeDownloadDropdownLinks(
-    project?: RepoName,
-    changeNum?: NumericChangeId,
-    patchRange?: PatchRange,
-    path?: string,
-    diff?: DiffInfo
-  ) {
-    if (!project) return [];
-    if (!changeNum) return [];
-    if (!patchRange || !patchRange.patchNum) return [];
-    if (!path) return [];
+  // Private but used in tests.
+  computeDownloadDropdownLinks() {
+    if (!this.change?.project) return [];
+    if (!this.changeNum) return [];
+    if (!this.patchRange?.patchNum) return [];
+    if (!this.path) return [];
 
     const links = [
       {
-        url: this._computeDownloadPatchLink(
-          project,
-          changeNum,
-          patchRange,
-          path
+        url: this.computeDownloadPatchLink(
+          this.change.project,
+          this.changeNum,
+          this.patchRange,
+          this.path
         ),
         name: 'Patch',
       },
     ];
 
-    if (diff && diff.meta_a) {
-      let leftPath = path;
-      if (diff.change_type === 'RENAMED') {
-        leftPath = diff.meta_a.name;
+    if (this.diff && this.diff.meta_a) {
+      let leftPath = this.path;
+      if (this.diff.change_type === 'RENAMED') {
+        leftPath = this.diff.meta_a.name;
       }
       links.push({
-        url: this._computeDownloadFileLink(
-          project,
-          changeNum,
-          patchRange,
+        url: this.computeDownloadFileLink(
+          this.change.project,
+          this.changeNum,
+          this.patchRange,
           leftPath,
           true
         ),
@@ -1486,13 +1943,13 @@ export class GrDiffView extends base {
       });
     }
 
-    if (diff && diff.meta_b) {
+    if (this.diff && this.diff.meta_b) {
       links.push({
-        url: this._computeDownloadFileLink(
-          project,
-          changeNum,
-          patchRange,
-          path,
+        url: this.computeDownloadFileLink(
+          this.change.project,
+          this.changeNum,
+          this.patchRange,
+          this.path,
           false
         ),
         name: 'Right Content',
@@ -1502,7 +1959,8 @@ export class GrDiffView extends base {
     return links;
   }
 
-  _computeDownloadFileLink(
+  // Private but used in tests.
+  computeDownloadFileLink(
     project: RepoName,
     changeNum: NumericChangeId,
     patchRange: PatchRange,
@@ -1529,7 +1987,8 @@ export class GrDiffView extends base {
     return url;
   }
 
-  _computeDownloadPatchLink(
+  // Private but used in tests.
+  computeDownloadPatchLink(
     project: RepoName,
     changeNum: NumericChangeId,
     patchRange: PatchRange,
@@ -1540,41 +1999,14 @@ export class GrDiffView extends base {
     return url;
   }
 
-  @observe(
-    '_changeComments',
-    '_files.changeFilesByPath',
-    '_path',
-    '_patchRange',
-    '_projectConfig'
-  )
-  _recomputeComments(
-    changeComments?: ChangeComments,
-    files?: {[path: string]: FileInfo},
-    path?: string,
-    patchRange?: PatchRange,
-    projectConfig?: ConfigInfo
-  ) {
-    if (!files) return;
-    if (!path) return;
-    if (!patchRange) return;
-    if (!projectConfig) return;
-    if (!changeComments) return;
-
-    const file = files[path];
-    if (file && file.old_path) {
-      this.$.diffHost.threads = changeComments.getThreadsBySideForFile(
-        {path, basePath: file.old_path},
-        patchRange
-      );
-    }
+  // Private but used in tests.
+  getPaths(): CommentMap {
+    if (!this.changeComments) return {};
+    return this.changeComments.getPaths(this.patchRange);
   }
 
-  _getPaths(patchRange: PatchRange): CommentMap {
-    if (!this._changeComments) return {};
-    return this._changeComments.getPaths(patchRange);
-  }
-
-  _computeCommentSkips(
+  // Private but used in tests.
+  computeCommentSkips(
     commentMap?: CommentMap,
     fileList?: string[],
     path?: string
@@ -1608,33 +2040,24 @@ export class GrDiffView extends base {
     return skips;
   }
 
-  _computeContainerClass(editMode: boolean) {
-    return editMode ? 'editMode' : '';
-  }
-
-  _computeEditMode(
-    patchRangeRecord: PolymerDeepPropertyChange<PatchRange, PatchRange>
-  ) {
-    const patchRange = patchRangeRecord.base || {};
-    return patchRange.patchNum === EDIT;
-  }
-
-  _computeBlameToggleLabel(loaded?: boolean, loading?: boolean) {
-    return loaded && !loading ? 'Hide blame' : 'Show blame';
+  // Private but used in tests.
+  computeEditMode() {
+    return this.patchRange?.patchNum === EDIT;
   }
 
   // Private but used in tests.
   loadBlame() {
-    this._isBlameLoading = true;
+    this.isBlameLoading = true;
     fireAlert(this, LOADING_BLAME);
-    this.$.diffHost
+    assertIsDefined(this.diffHost, 'diffHost');
+    this.diffHost
       .loadBlame()
       .then(() => {
-        this._isBlameLoading = false;
+        this.isBlameLoading = false;
         fireAlert(this, LOADED_BLAME);
       })
       .catch(() => {
-        this._isBlameLoading = false;
+        this.isBlameLoading = false;
       });
   }
 
@@ -1642,135 +2065,123 @@ export class GrDiffView extends base {
    * Load and display blame information if it has not already been loaded.
    * Otherwise hide it.
    */
-  _toggleBlame() {
-    if (this._isBlameLoaded) {
-      this.$.diffHost.clearBlame();
+  private toggleBlame() {
+    assertIsDefined(this.diffHost, 'diffHost');
+    if (this.isBlameLoaded) {
+      this.diffHost.clearBlame();
       return;
     }
     this.loadBlame();
   }
 
-  private handleToggleBlame() {
-    this._toggleBlame();
-  }
-
-  _handleToggleHideAllCommentThreads() {
+  private handleToggleHideAllCommentThreads() {
     toggleClass(this, 'hideComments');
   }
 
   private handleOpenFileList() {
-    this.$.dropdown.open();
+    assertIsDefined(this.dropdown, 'dropdown');
+    this.dropdown.open();
   }
 
   // Private but used in tests.
   handleDiffAgainstBase() {
-    if (!this._change) return;
-    if (!this._path) return;
-    if (!this._patchRange) return;
+    if (!this.change) return;
+    if (!this.path) return;
+    if (!this.patchRange) return;
 
-    if (this._patchRange.basePatchNum === PARENT) {
+    if (this.patchRange.basePatchNum === PARENT) {
       fireAlert(this, 'Base is already selected.');
       return;
     }
-    GerritNav.navigateToDiff(
-      this._change,
-      this._path,
-      this._patchRange.patchNum
-    );
+    GerritNav.navigateToDiff(this.change, this.path, this.patchRange.patchNum);
   }
 
   // Private but used in tests.
   handleDiffBaseAgainstLeft() {
-    if (!this._change) return;
-    if (!this._path) return;
-    if (!this._patchRange) return;
+    if (!this.change) return;
+    if (!this.path) return;
+    if (!this.patchRange) return;
 
-    if (this._patchRange.basePatchNum === PARENT) {
+    if (this.patchRange.basePatchNum === PARENT) {
       fireAlert(this, 'Left is already base.');
       return;
     }
     GerritNav.navigateToDiff(
-      this._change,
-      this._path,
-      this._patchRange.basePatchNum as RevisionPatchSetNum,
+      this.change,
+      this.path,
+      this.patchRange.basePatchNum as RevisionPatchSetNum,
       PARENT,
       this.params?.view === GerritView.DIFF && this.params?.commentLink
-        ? this._focusLineNum
+        ? this.focusLineNum
         : undefined
     );
   }
 
   // Private but used in tests.
   handleDiffAgainstLatest() {
-    if (!this._change) return;
-    if (!this._path) return;
-    if (!this._patchRange) return;
+    if (!this.change) return;
+    if (!this.path) return;
+    if (!this.patchRange) return;
 
-    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
-    if (this._patchRange.patchNum === latestPatchNum) {
+    const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
+    if (this.patchRange.patchNum === latestPatchNum) {
       fireAlert(this, 'Latest is already selected.');
       return;
     }
 
     GerritNav.navigateToDiff(
-      this._change,
-      this._path,
+      this.change,
+      this.path,
       latestPatchNum,
-      this._patchRange.basePatchNum
+      this.patchRange.basePatchNum
     );
   }
 
   // Private but used in tests.
   handleDiffRightAgainstLatest() {
-    if (!this._change) return;
-    if (!this._path) return;
-    if (!this._patchRange) return;
+    if (!this.change) return;
+    if (!this.path) return;
+    if (!this.patchRange) return;
 
-    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
-    if (this._patchRange.patchNum === latestPatchNum) {
+    const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
+    if (this.patchRange.patchNum === latestPatchNum) {
       fireAlert(this, 'Right is already latest.');
       return;
     }
     GerritNav.navigateToDiff(
-      this._change,
-      this._path,
+      this.change,
+      this.path,
       latestPatchNum,
-      this._patchRange.patchNum as BasePatchSetNum
+      this.patchRange.patchNum as BasePatchSetNum
     );
   }
 
   // Private but used in tests.
   handleDiffBaseAgainstLatest() {
-    if (!this._change) return;
-    if (!this._path) return;
-    if (!this._patchRange) return;
+    if (!this.change) return;
+    if (!this.path) return;
+    if (!this.patchRange) return;
 
-    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
+    const latestPatchNum = computeLatestPatchNum(this.allPatchSets);
     if (
-      this._patchRange.patchNum === latestPatchNum &&
-      this._patchRange.basePatchNum === PARENT
+      this.patchRange.patchNum === latestPatchNum &&
+      this.patchRange.basePatchNum === PARENT
     ) {
       fireAlert(this, 'Already diffing base against latest.');
       return;
     }
-    GerritNav.navigateToDiff(this._change, this._path, latestPatchNum);
+    GerritNav.navigateToDiff(this.change, this.path, latestPatchNum);
   }
 
-  _computeBlameLoaderClass(isImageDiff?: boolean, path?: string) {
-    return !isMagicPath(path) && !isImageDiff ? 'show' : '';
+  // Private but used in tests.
+  computeFileNum(files: DropdownItem[]) {
+    if (!this.path || !files) return undefined;
+
+    return files.findIndex(({value}) => value === this.path) + 1;
   }
 
-  _getRevisionInfo(change: ChangeInfo) {
-    return new RevisionInfoObj(change);
-  }
-
-  _computeFileNum(file?: string, files?: DropdownItem[]) {
-    if (!file || !files) return undefined;
-
-    return files.findIndex(({value}) => value === file) + 1;
-  }
-
-  _computeFileNumClass(fileNum?: number, files?: DropdownItem[]) {
+  // Private but used in tests.
+  computeFileNumClass(fileNum?: number, files?: DropdownItem[]) {
     if (files && fileNum && fileNum > 0) {
       return 'show';
     }
@@ -1778,7 +2189,8 @@ export class GrDiffView extends base {
   }
 
   private handleToggleAllDiffContext() {
-    this.$.diffHost.toggleAllContext();
+    assertIsDefined(this.diffHost, 'diffHost');
+    this.diffHost.toggleAllContext();
   }
 
   private handleNextUnreviewedFile() {
@@ -1787,59 +2199,34 @@ export class GrDiffView extends base {
   }
 
   private navigateToNextFileWithCommentThread() {
-    if (!this._path) return;
-    if (!this._fileList) return;
-    if (!this._patchRange) return;
-    if (!this._change) return;
+    if (!this.path) return;
+    if (!this.files?.sortedFileList) return;
+    if (!this.patchRange) return;
+    if (!this.change) return;
     const hasComment = (path: string) =>
-      this._changeComments?.getCommentsForPath(path, this._patchRange!)
-        ?.length ?? 0 > 0;
-    const filesWithComments = this._fileList.filter(
-      file => file === this._path || hasComment(file)
+      this.changeComments?.getCommentsForPath(path, this.patchRange!)?.length ??
+      0 > 0;
+    const filesWithComments = this.files.sortedFileList.filter(
+      file => file === this.path || hasComment(file)
     );
-    this.navToFile(this._path, filesWithComments, 1, true);
+    this.navToFile(filesWithComments, 1, true);
   }
 
-  _handleReloadingDiffPreference() {
+  private handleReloadingDiffPreference() {
     this.userModel.getDiffPreferences();
   }
 
-  _computeCanEdit(
-    loggedIn?: boolean,
-    editWeblinks?: GeneratedWebLink[],
-    changeChangeRecord?: PolymerDeepPropertyChange<ChangeInfo, ChangeInfo>
-  ) {
-    if (!changeChangeRecord?.base) return false;
+  private computeCanEdit() {
     return (
-      loggedIn &&
-      changeIsOpen(changeChangeRecord.base) &&
-      (!editWeblinks || editWeblinks.length === 0)
+      !!this.change &&
+      !!this.loggedIn &&
+      changeIsOpen(this.change) &&
+      !this.computeShowEditLinks()
     );
   }
 
-  _computeShowEditLinks(editWeblinks?: GeneratedWebLink[]) {
-    return !!editWeblinks && editWeblinks.length > 0;
-  }
-
-  /**
-   * Wrapper for using in the element template and computed properties
-   */
-  _computeAllPatchSets(change: ChangeInfo) {
-    return computeAllPatchSets(change);
-  }
-
-  /**
-   * Wrapper for using in the element template and computed properties
-   */
-  _computeDisplayPath(path: string) {
-    return computeDisplayPath(path);
-  }
-
-  /**
-   * Wrapper for using in the element template and computed properties
-   */
-  _computeTruncatedPath(path?: string) {
-    return path ? computeTruncatedPath(path) : '';
+  private computeShowEditLinks() {
+    return !!this.editWeblinks && this.editWeblinks.length > 0;
   }
 
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {

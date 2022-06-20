@@ -179,17 +179,19 @@ export async function waitQueryAndAssert<E extends Element = Element>(
   return queryAndAssert<E>(el, selector);
 }
 
-export function waitUntil(
-  predicate: () => boolean,
+export async function waitUntil(
+  predicate: (() => boolean) | (() => Promise<boolean>),
   message = 'The waitUntil() predicate is still false after 1000 ms.'
 ): Promise<void> {
   const start = Date.now();
   let sleep = 0;
-  if (predicate()) return Promise.resolve();
+  let val = await predicate();
+  if (val) return Promise.resolve();
   const error = new Error(message);
   return new Promise((resolve, reject) => {
-    const waiter = () => {
-      if (predicate()) {
+    const waiter = async () => {
+      val = await predicate();
+      if (val) {
         resolve();
         return;
       }

@@ -292,7 +292,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
       // selects "hashtag1"
-      queryAll<HTMLSpanElement>(element, 'button.chip')[0].click();
+      queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
 
       queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
@@ -333,11 +333,11 @@ suite('gr-change-list-hashtag-flow tests', () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
       // selects "hashtag1"
-      queryAll<HTMLSpanElement>(element, 'button.chip')[0].click();
+      queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
       await element.updateComplete;
 
       // selects "hashtag2"
-      queryAll<HTMLSpanElement>(element, 'button.chip')[2].click();
+      queryAll<HTMLButtonElement>(element, 'button.chip')[2].click();
       await element.updateComplete;
 
       queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
@@ -482,7 +482,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
         queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
       );
       assert.equal(
-        queryAll<HTMLSpanElement>(element, 'span.chip')[2].innerText,
+        queryAll<HTMLSpanElement>(element, 'button.chip')[2].innerText,
         'foo'
       );
     });
@@ -491,7 +491,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
       // selects "sharedHashtag"
-      queryAll<HTMLSpanElement>(element, 'button.chip')[1].click();
+      queryAll<HTMLButtonElement>(element, 'button.chip')[1].click();
       await element.updateComplete;
 
       assert.isTrue(

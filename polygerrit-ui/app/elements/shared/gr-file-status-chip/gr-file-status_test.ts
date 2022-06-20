@@ -43,7 +43,12 @@ suite('gr-file-status tests', () => {
       await setStatus(FileInfoStatus.ADDED, true);
       expect(element).shadowDom.to.equal(/* HTML */ `
         <iron-icon class="new size-16" icon="gr-icons:new"></iron-icon>
-        <div class="A status" aria-label="Added" tabindex="0" title="Added">
+        <div
+          class="A status"
+          aria-label="Newly Added"
+          tabindex="0"
+          title="Newly Added"
+        >
           A
         </div>
       `);

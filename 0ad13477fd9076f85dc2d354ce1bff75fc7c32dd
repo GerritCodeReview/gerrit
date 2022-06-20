@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f18b076b_3058ed8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-06-20T15:27:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da29d759_d66592fd",
+      "revId": "0ad13477fd9076f85dc2d354ce1bff75fc7c32dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a4518b70_661997de",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 12
@@ -69,6 +87,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9499879_e5914e26",
+        "filename": "javatests/com/google/gerrit/index/IndexUpgradeTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-06-20T15:27:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02c5c114_d4d7c17f",
+      "revId": "0ad13477fd9076f85dc2d354ce1bff75fc7c32dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ff97a88_e55f8316",
@@ -86,6 +122,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7ac531e_fa93b4ee",
+        "filename": "javatests/com/google/gerrit/index/IndexUpgradeValidator.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-06-20T15:27:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ff97a88_e55f8316",
+      "revId": "0ad13477fd9076f85dc2d354ce1bff75fc7c32dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2da814a9_8b9e1d72",
@@ -99,6 +153,24 @@
       "writtenOn": "2022-06-09T13:49:15Z",
       "side": 1,
       "message": "license header missing",
+      "revId": "0ad13477fd9076f85dc2d354ce1bff75fc7c32dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a069f5da_29a7e582",
+        "filename": "javatests/com/google/gerrit/index/IndexUpgradeValidatorTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2022-06-20T15:27:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2da814a9_8b9e1d72",
       "revId": "0ad13477fd9076f85dc2d354ce1bff75fc7c32dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fd9c16a_90606fd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026270
+      },
+      "writtenOn": "2022-06-20T23:29:22Z",
+      "side": 1,
+      "message": "I looked at cherry-picking to 3.6 but it seems like work done in https://gerrit-review.googlesource.com/c/gerrit/+/322716 has refactored parts of this, and it now correctly checks for logged in status in setReviewedStatus()",
+      "revId": "a9203c2d05850cff59d33e8ebb263adefdc45454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

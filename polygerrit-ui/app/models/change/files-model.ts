@@ -3,7 +3,15 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {FileInfo, FileNameToFileInfoMap} from '../../types/common';
+import {
+  BasePatchSetNum,
+  FileInfo,
+  FileNameToFileInfoMap,
+  PARENT,
+  PatchRange,
+  PatchSetNumber,
+  RevisionPatchSetNum,
+} from '../../types/common';
 import {combineLatest, Subscription, of, from} from 'rxjs';
 import {switchMap, map} from 'rxjs/operators';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
@@ -74,11 +82,33 @@ export interface FilesState {
   // TODO: Move reviewed files from change model into here. Change model is
   // already large and complex, so the files model is a better fit.
 
+  /**
+   * Basic file and diff information of all files for the currently chosen
+   * patch range.
+   */
   files: NormalizedFileInfo[];
+
+  /**
+   * Basic file and diff information of all files for the left chosen patchset
+   * compared against its base (aka parent).
+   *
+   * Empty if the left chosen patchset is PARENT.
+   */
+  filesLeftBase: NormalizedFileInfo[];
+
+  /**
+   * Basic file and diff information of all files for the right chosen patchset
+   * compared against its base (aka parent).
+   *
+   * Empty if the left chosen patchset is PARENT.
+   */
+  filesRightBase: NormalizedFileInfo[];
 }
 
 const initialState: FilesState = {
   files: [],
+  filesLeftBase: [],
+  filesRightBase: [],
 };
 
 export const filesModelToken = define<FilesModel>('files-model');
@@ -100,28 +130,63 @@ export class FilesModel extends Model<FilesState> implements Finalizable {
   ) {
     super(initialState);
     this.subscriptions = [
-      combineLatest([
-        this.changeModel.reload$,
-        this.changeModel.changeNum$,
-        this.changeModel.basePatchNum$,
-        this.changeModel.patchNum$,
-      ])
-        .pipe(
-          switchMap(([_, changeNum, basePatchNum, patchNum]) => {
-            if (!changeNum || !patchNum) return of({});
-            return from(
-              this.restApiService.getChangeOrEditFiles(changeNum, {
-                basePatchNum,
-                patchNum,
-              })
-            );
-          }),
-          map(mapToList)
-        )
-        .subscribe(files => {
-          this.updateFiles(files);
-        }),
+      this.subscribeToFiles(
+        (psLeft, psRight) => {
+          return {basePatchNum: psLeft, patchNum: psRight};
+        },
+        files => {
+          return {files: [...files]};
+        }
+      ),
+      this.subscribeToFiles(
+        (psLeft, _) => {
+          if (psLeft === PARENT || psLeft <= 0) return undefined;
+          return {basePatchNum: PARENT, patchNum: psLeft as PatchSetNumber};
+        },
+        files => {
+          return {filesLeftBase: [...files]};
+        }
+      ),
+      this.subscribeToFiles(
+        (psLeft, psRight) => {
+          if (psLeft === PARENT || psLeft <= 0) return undefined;
+          return {basePatchNum: PARENT, patchNum: psRight as PatchSetNumber};
+        },
+        files => {
+          return {filesRightBase: [...files]};
+        }
+      ),
     ];
+  }
+
+  private subscribeToFiles(
+    rangeChooser: (
+      basePatchNum: BasePatchSetNum,
+      patchNum: RevisionPatchSetNum
+    ) => PatchRange | undefined,
+    filesToState: (files: NormalizedFileInfo[]) => Partial<FilesState>
+  ) {
+    return combineLatest([
+      this.changeModel.reload$,
+      this.changeModel.changeNum$,
+      this.changeModel.basePatchNum$,
+      this.changeModel.patchNum$,
+    ])
+      .pipe(
+        switchMap(([_, changeNum, basePatchNum, patchNum]) => {
+          if (!changeNum || !patchNum) return of({});
+          const range = rangeChooser(basePatchNum, patchNum);
+          if (!range) return of({});
+          return from(
+            this.restApiService.getChangeOrEditFiles(changeNum, range)
+          );
+        }),
+        map(mapToList),
+        map(filesToState)
+      )
+      .subscribe(state => {
+        this.updateFiles(state);
+      });
   }
 
   finalize() {
@@ -132,11 +197,11 @@ export class FilesModel extends Model<FilesState> implements Finalizable {
   }
 
   // visible for testing
-  updateFiles(files: NormalizedFileInfo[]) {
+  updateFiles(newState: Partial<FilesState>) {
     const current = this.subject$.getValue();
     this.setState({
       ...current,
-      files: [...files],
+      ...newState,
     });
   }
 

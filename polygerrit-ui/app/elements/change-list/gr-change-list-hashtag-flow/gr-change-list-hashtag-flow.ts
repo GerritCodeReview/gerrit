@@ -12,6 +12,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '@polymer/iron-dropdown/iron-dropdown';
+import '@polymer/iron-icon/iron-icon';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {getAppContext} from '../../../services/app-context';
 import {notUndefined} from '../../../types/types';
@@ -103,6 +104,7 @@ export class GrChangeListHashtagFlow extends LitElement {
         .loadingOrError {
           display: flex;
           gap: var(--spacing-s);
+          align-items: baseline;
         }
 
         /* The basics of .loadingSpin are defined in spinnerStyles. */
@@ -110,6 +112,17 @@ export class GrChangeListHashtagFlow extends LitElement {
           vertical-align: top;
           position: relative;
           top: 3px;
+        }
+        .error {
+          color: var(--deemphasized-text-color);
+        }
+        iron-icon {
+          color: var(--error-color);
+          /* Center with text by aligning it to the top and then pushing it down
+             to match the text */
+          vertical-align: top;
+          position: relative;
+          top: 7px;
         }
       `,
     ];
@@ -171,21 +184,35 @@ export class GrChangeListHashtagFlow extends LitElement {
                   ${this.renderLoadingOrError()}
                 </div>
                 <div class="buttons">
-                  <gr-button
-                    id="create-new-hashtag-button"
-                    flatten
-                    @click=${() =>
-                      this.applyHashtags('Creating hashtag...', true)}
-                    .disabled=${isCreateNewHashtagDisabled}
-                    >Create new hashtag</gr-button
-                  >
-                  <gr-button
-                    id="apply-hashtag-button"
-                    flatten
-                    @click=${() => this.applyHashtags('Applying hashtag...')}
-                    .disabled=${this.isApplyHashtagDisabled()}
-                    >Apply</gr-button
-                  >
+                  ${when(
+                    this.overallProgress !== ProgressStatus.FAILED,
+                    () => html`
+                      <gr-button
+                        id="create-new-hashtag-button"
+                        flatten
+                        @click=${() =>
+                          this.applyHashtags('Creating hashtag...', true)}
+                        .disabled=${isCreateNewHashtagDisabled}
+                        >Create new hashtag</gr-button
+                      >
+                      <gr-button
+                        id="apply-hashtag-button"
+                        flatten
+                        @click=${() =>
+                          this.applyHashtags('Applying hashtag...')}
+                        .disabled=${this.isApplyHashtagDisabled()}
+                        >Apply</gr-button
+                      >
+                    `,
+                    () => html`
+                      <gr-button
+                        id="cancel-button"
+                        flatten
+                        @click=${this.toggleDropdown}
+                        >Cancel</gr-button
+                      >
+                    `
+                  )}
                 </div>
               </div>
             </div>
@@ -225,15 +252,20 @@ export class GrChangeListHashtagFlow extends LitElement {
   }
 
   private renderLoadingOrError() {
-    if (this.overallProgress === ProgressStatus.RUNNING) {
-      return html`
-        <span class="loadingSpin"></span>
-        <span class="loadingText">${this.loadingText}</span>
-      `;
-    } else if (this.errorText !== undefined) {
-      return html`<div class="error">${this.errorText}</div>`;
+    switch (this.overallProgress) {
+      case ProgressStatus.RUNNING:
+        return html`
+          <span class="loadingSpin"></span>
+          <span class="loadingText">${this.loadingText}</span>
+        `;
+      case ProgressStatus.FAILED:
+        return html`
+          <iron-icon icon="gr-icons:error"></iron-icon>
+          <div class="error">${this.errorText}</div>
+        `;
+      default:
+        return nothing;
     }
-    return nothing;
   }
 
   private isApplyHashtagDisabled() {
@@ -316,11 +348,16 @@ export class GrChangeListHashtagFlow extends LitElement {
     this.loadingText = loadingText;
     this.trackPromises(
       this.getBulkActionsModel().addHashtags(allHashtagsToApply),
-      alert
+      alert,
+      creatingHashtag ? 'Failed to create' : 'Failed to apply'
     );
   }
 
-  private async trackPromises(promises: Promise<Hashtag[]>[], alert: string) {
+  private async trackPromises(
+    promises: Promise<Hashtag[]>[],
+    alert: string,
+    errorText: string
+  ) {
     this.overallProgress = ProgressStatus.RUNNING;
     const results = await allSettled(promises);
     if (results.every(result => result.status === 'fulfilled')) {
@@ -332,7 +369,7 @@ export class GrChangeListHashtagFlow extends LitElement {
       this.dropdown?.notifyResize();
     } else {
       this.overallProgress = ProgressStatus.FAILED;
-      // TODO: when some are rejected, show error and Cancel button
+      this.errorText = errorText;
     }
   }
 

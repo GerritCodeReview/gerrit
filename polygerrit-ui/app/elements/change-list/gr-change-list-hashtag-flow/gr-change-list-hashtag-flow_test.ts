@@ -16,6 +16,7 @@ import {createChange} from '../../../test/test-data-generators';
 import {
   MockPromise,
   mockPromise,
+  query,
   queryAll,
   queryAndAssert,
   stubRestApi,
@@ -170,6 +171,13 @@ suite('gr-change-list-hashtag-flow tests', () => {
         ...(changes[2].hashtags ?? []),
         ...newHashtags,
       ]);
+      await element.updateComplete;
+    }
+
+    async function rejectPromises() {
+      setChangeHashtagPromises[0].reject(new Error('error'));
+      setChangeHashtagPromises[1].reject(new Error('error'));
+      setChangeHashtagPromises[2].reject(new Error('error'));
       await element.updateComplete;
     }
 
@@ -329,6 +337,34 @@ suite('gr-change-list-hashtag-flow tests', () => {
       );
     });
 
+    test('shows error when apply hashtag fails', async () => {
+      // selects "hashtag1"
+      queryAll<HTMLButtonElement>(element, 'button.chip')[0].click();
+      await element.updateComplete;
+
+      queryAndAssert<GrButton>(element, '#apply-hashtag-button').click();
+      await element.updateComplete;
+
+      assert.equal(
+        queryAndAssert(element, '.loadingText').textContent,
+        'Applying hashtag...'
+      );
+
+      await rejectPromises();
+      await element.updateComplete;
+      await waitUntil(() => query(element, '.error') !== undefined);
+
+      assert.equal(
+        queryAndAssert(element, '.error').textContent,
+        'Failed to apply'
+      );
+      assert.equal(
+        queryAndAssert(element, 'gr-button#cancel-button').textContent,
+        'Cancel'
+      );
+      assert.isUndefined(query(element, '.loadingText'));
+    });
+
     test('apply multiple hashtag from selected change', async () => {
       const alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
@@ -482,9 +518,48 @@ suite('gr-change-list-hashtag-flow tests', () => {
         queryAndAssert<IronDropdownElement>(element, 'iron-dropdown').opened
       );
       assert.equal(
-        queryAll<HTMLSpanElement>(element, 'button.chip')[2].innerText,
+        queryAll<HTMLButtonElement>(element, 'button.chip')[2].innerText,
         'foo'
       );
+    });
+
+    test('shows error when create hashtag fails', async () => {
+      const getHashtagsStub = stubRestApi(
+        'getChangesWithSimilarHashtag'
+      ).resolves([]);
+      const autocomplete = queryAndAssert<GrAutocomplete>(
+        element,
+        'gr-autocomplete'
+      );
+      autocomplete.setFocus(true);
+      autocomplete.text = 'foo';
+      await element.updateComplete;
+      await waitUntilCalled(getHashtagsStub, 'getHashtagsStub');
+      assert.isTrue(
+        queryAndAssert<GrButton>(element, '#apply-hashtag-button').disabled
+      );
+
+      queryAndAssert<GrButton>(element, '#create-new-hashtag-button').click();
+      await element.updateComplete;
+
+      assert.equal(
+        queryAndAssert(element, '.loadingText').textContent,
+        'Creating hashtag...'
+      );
+
+      await rejectPromises();
+      await element.updateComplete;
+      await waitUntil(() => query(element, '.error') !== undefined);
+
+      assert.equal(
+        queryAndAssert(element, '.error').textContent,
+        'Failed to create'
+      );
+      assert.equal(
+        queryAndAssert(element, 'gr-button#cancel-button').textContent,
+        'Cancel'
+      );
+      assert.isUndefined(query(element, '.loadingText'));
     });
 
     test('cannot apply existing hashtag already on selected changes', async () => {

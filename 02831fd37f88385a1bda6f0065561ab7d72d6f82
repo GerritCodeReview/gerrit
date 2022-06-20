@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e1f8736_0477abcf",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T07:22:10Z",
+      "side": 1,
+      "message": "Would be nice to know why 7. Maybe add a comment.",
+      "revId": "02831fd37f88385a1bda6f0065561ab7d72d6f82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

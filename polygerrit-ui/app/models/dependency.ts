@@ -300,6 +300,8 @@ class DependencySubscriber<T>
   }
 
   hostConnected() {
+    this.value = undefined;
+    this.resolved = false;
     this.host.dispatchEvent(
       new DependencyRequestEvent(this.dependency, (value: T) => {
         this.resolved = true;
@@ -315,11 +317,6 @@ class DependencySubscriber<T>
     const tag = this.host.tagName;
     const msg = `Could not resolve dependency '${dep}' in '${tag}'`;
     throw new DependencyError(this.dependency, msg);
-  }
-
-  hostDisconnected() {
-    this.value = undefined;
-    this.resolved = false;
   }
 }
 

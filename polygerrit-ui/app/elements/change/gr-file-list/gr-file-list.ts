@@ -2028,7 +2028,7 @@ export class GrFileList extends LitElement {
 
   async filesChanged() {
     if (this.expandedFiles.length > 0) this.expandedFiles = [];
-    this.updateCleanlyMergedPaths();
+    await this.updateCleanlyMergedPaths();
     if (!this.files || this.files.length === 0) return;
     await this.updateComplete;
     this.fileCursor.stops = Array.from(

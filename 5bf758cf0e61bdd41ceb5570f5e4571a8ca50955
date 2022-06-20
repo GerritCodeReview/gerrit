@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "356e395d_31d8205e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-20T13:26:27Z",
+      "side": 1,
+      "message": "leftBaseFiles and filesLeftBase, perhaps keep the ordering consistent?",
+      "range": {
+        "startLine": 1036,
+        "startChar": 10,
+        "endLine": 1036,
+        "endChar": 22
+      },
+      "revId": "5bf758cf0e61bdd41ceb5570f5e4571a8ca50955",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f745e57_bc7fd453",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-20T13:26:27Z",
+      "side": 1,
+      "message": "newly what?",
+      "range": {
+        "startLine": 1046,
+        "startChar": 10,
+        "endLine": 1046,
+        "endChar": 15
+      },
+      "revId": "5bf758cf0e61bdd41ceb5570f5e4571a8ca50955",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

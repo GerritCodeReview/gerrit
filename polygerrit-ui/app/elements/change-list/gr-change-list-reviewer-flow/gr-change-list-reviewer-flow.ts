@@ -568,7 +568,7 @@ export class GrChangeListReviewerFlow extends LitElement {
       state,
       this.serverConfig,
       this.isLoggedIn,
-      ...this.selectedChanges.map(change => change._number)
+      ...this.selectedChanges
     );
     return suggestionsProvider;
   }

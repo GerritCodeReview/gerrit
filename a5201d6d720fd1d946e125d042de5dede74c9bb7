@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57cbe6ad_46abb7c6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-20T07:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8df86397_3ee7ead4",
+      "range": {
+        "startLine": 524,
+        "startChar": 12,
+        "endLine": 524,
+        "endChar": 26
+      },
+      "revId": "a5201d6d720fd1d946e125d042de5dede74c9bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a3bdd78_c86a3b1c",
@@ -70,6 +94,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c62240a0_b2e24998",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-20T07:48:56Z",
+      "side": 1,
+      "message": "Yeah, CCs sounds good.",
+      "parentUuid": "0a3bdd78_c86a3b1c",
+      "range": {
+        "startLine": 531,
+        "startChar": 61,
+        "endLine": 531,
+        "endChar": 63
+      },
+      "revId": "a5201d6d720fd1d946e125d042de5dede74c9bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1537d065_a638abd5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-20T07:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85279eda_52bad830",
+      "range": {
+        "startLine": 531,
+        "startChar": 19,
+        "endLine": 531,
+        "endChar": 44
+      },
+      "revId": "a5201d6d720fd1d946e125d042de5dede74c9bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3375aee6_68de8e07",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-06-17T18:53:17Z",
       "side": 1,
       "message": "maybe this can be extracted to method, so saveReviewers is not that long.",
+      "range": {
+        "startLine": 524,
+        "startChar": 6,
+        "endLine": 536,
+        "endChar": 7
+      },
+      "revId": "a5201d6d720fd1d946e125d042de5dede74c9bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "662cda9f_40b6dd97",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-20T07:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3375aee6_68de8e07",
       "range": {
         "startLine": 524,
         "startChar": 6,

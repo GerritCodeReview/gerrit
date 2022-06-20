@@ -93,8 +93,10 @@ export class GrChangeListTopicFlow extends LitElement {
         }
         .chip:not(.selected) {
           border: var(--spacing-xxs) solid var(--gray-300);
+          background: none;
         }
         .chip.selected {
+          border: 0;
           color: var(--selected-foreground);
           background-color: var(--selected-chip-background);
           margin: var(--spacing-xxs);
@@ -194,7 +196,9 @@ export class GrChangeListTopicFlow extends LitElement {
         ${topics.map(name => this.renderExistingTopicChip(name))}
       </div>
       <div class="footer">
-        <div class="loadingOrError">${this.renderLoadingOrError()}</div>
+        <div class="loadingOrError" role="progressbar">
+          ${this.renderLoadingOrError()}
+        </div>
         <div class="buttons">
           ${when(
             this.overallProgress !== ProgressStatus.FAILED,
@@ -235,14 +239,14 @@ export class GrChangeListTopicFlow extends LitElement {
       selected: this.selectedExistingTopics.has(name),
     };
     return html`
-      <span
-        role="button"
-        aria-label=${name as string}
+      <button
+        role="listbox"
+        aria-label=${`${name as string} selection`}
         class=${classMap(chipClasses)}
         @click=${() => this.toggleExistingTopicSelected(name)}
       >
         ${name}
-      </span>
+      </button>
     `;
   }
 
@@ -289,7 +293,9 @@ export class GrChangeListTopicFlow extends LitElement {
           (this.topicToAdd = e.detail.value)}
       ></gr-autocomplete>
       <div class="footer">
-        <div class="loadingOrError">${this.renderLoadingOrError()}</div>
+        <div class="loadingOrError" role="progressbar">
+          ${this.renderLoadingOrError()}
+        </div>
         <div class="buttons">
           ${when(
             this.overallProgress !== ProgressStatus.FAILED,

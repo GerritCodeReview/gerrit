@@ -240,6 +240,41 @@
       "parentUuid": "d58de7cb_bf851cd7",
       "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d99a89e_c9464d2a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-20T15:16:35Z",
+      "side": 1,
+      "message": "Thanks for sharing for code.\n\nI wonder if the cleaner solution is to simply do grAutocomplete.cancel() always on esc-key (if it exists).\n\nAnd then if there\u0027s no suggestions like in that code, catch the event @cancel inside of your dom:\n\n```\nconst grAutocomplete \u003d this.getGrAutocomplete();\nif (grAutocomplete) { \n  grAutocomplete.cancel()\n} else {\n  this.cancel();\n```\n\n\n```\n      return html`\u003cgr-autocomplete\n        .label\u003d${this.labelText}\n        id\u003d\"autocomplete\"\n        .text\u003d${this.inputText}\n        .query\u003d${this.query}\n        .noCancelOnEscKey\u003d${true}\n        @commit\u003d${this.handleCommit}\n        @cancel\u003d${this.cancel}\n        @text-changed\u003d${(e: CustomEvent) \u003d\u003e {\n          this.inputText \u003d e.detail.value;\n        }}\n      \u003e\n      \u003c/gr-autocomplete\u003e`;\n```\n\nThis way we avoid diving into the internals of gr-autocomplete.",
+      "parentUuid": "8699657e_5d56c5ac",
+      "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ea75b4f_d4da3114",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-20T15:16:35Z",
+      "side": 1,
+      "message": "Since you\u0027re touching this file, would you mind moving these to @query syntax:\n\n```\n@query(\u0027#input\u0027)\ninput?: PaperInputElementExt;\n\n@query(\u0027#autocomplete\u0027)\ngrAutocomplete?: \n```",
+      "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

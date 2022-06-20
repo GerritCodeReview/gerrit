@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e81595d6_d4ef182e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-20T16:01:47Z",
+      "side": 1,
+      "message": "Nit: Typically we put the @query near the top of the class.",
+      "revId": "20afed5ef5eb51731320527d65c36938bc7147eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

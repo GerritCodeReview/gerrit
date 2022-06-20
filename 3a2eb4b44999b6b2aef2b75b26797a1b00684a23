@@ -311,6 +311,24 @@
       "parentUuid": "6ea75b4f_d4da3114",
       "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d631533c_70d93a10",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-20T16:01:47Z",
+      "side": 1,
+      "message": "That should work fine.\n\nAll that @query does is it creates a getter that does effectively what getInput() did, you can still store it in a local variable.",
+      "parentUuid": "aaaf8b30_1d6e9de7",
+      "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -26,7 +26,8 @@ export class GrDiffModeSelector extends LitElement {
    */
   @property({type: Boolean}) saveOnChange = false;
 
-  @property({type: Boolean}) showTooltipBelow = false;
+  @property({type: Boolean, attribute: 'show-tooltip-below'})
+  showTooltipBelow = false;
 
   // visible for testing
   @state() mode: DiffViewMode = DiffViewMode.SIDE_BY_SIDE;

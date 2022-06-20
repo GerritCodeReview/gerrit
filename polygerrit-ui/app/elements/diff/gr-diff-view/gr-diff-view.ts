@@ -1137,17 +1137,20 @@ export class GrDiffView extends base {
     }
   }
 
-  @observe('_path', '_prefs', '_reviewedFiles', '_patchRange')
+  @observe('_loggedIn', '_path', '_prefs', '_reviewedFiles', '_patchRange')
   _setReviewedObserver(
+    _loggedIn?: boolean,
     path?: string,
     prefs?: DiffPreferencesInfo,
     reviewedFiles?: Set<string>,
     patchRange?: PatchRange
   ) {
+    if (_loggedIn === undefined) return;
     if (prefs === undefined) return;
     if (path === undefined) return;
     if (reviewedFiles === undefined) return;
     if (patchRange === undefined) return;
+    if (!_loggedIn) return;
     if (prefs.manual_review) {
       // Checkbox state needs to be set explicitly only when manual_review
       // is specified.

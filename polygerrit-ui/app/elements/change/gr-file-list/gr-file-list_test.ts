@@ -15,6 +15,7 @@ import {
   stubRestApi,
   waitUntil,
   pressKey,
+  stubFlags,
 } from '../../../test/test-utils';
 import {
   BasePatchSetNum,
@@ -252,6 +253,22 @@ suite('gr-file-list tests', () => {
           </span>
         </div>
       </div>`);
+    });
+
+    test('renders file status column', async () => {
+      stubFlags('isEnabled').returns(true);
+      element.files = createFiles(1, {lines_inserted: 9});
+      element.filesLeftBase = createFiles(1, {lines_inserted: 9});
+      await element.updateComplete;
+      const fileRows = queryAll<HTMLDivElement>(element, '.file-row');
+      const statusCol = queryAndAssert(fileRows?.[0], '.status');
+      expect(statusCol).dom.equal(/* HTML */ `
+        <div class="extended status" role="gridcell">
+          <gr-file-status></gr-file-status>
+          <iron-icon icon="gr-icons:arrow-right"></iron-icon>
+          <gr-file-status></gr-file-status>
+        </div>
+      `);
     });
 
     test('correct number of files are shown', async () => {

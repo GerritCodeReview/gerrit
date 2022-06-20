@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2e2f108_d090a8ff",
+        "filename": "polygerrit-ui/app/models/change/files-model.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T09:04:12Z",
+      "side": 1,
+      "message": "Added a comment:\n```\n// These 3 props are required in NormalizedFileInfo, but optional in\n// FileInfo. So let\u0027s set a default value, if not already set.\n```\n\nAlso accepted a suggestion by Milutin in change 339141.",
+      "parentUuid": "f9cd69cd_3f420998",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 48
+      },
+      "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d23cd2c_8189f19c",
@@ -95,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34223cf1_78f64945",
+        "filename": "polygerrit-ui/app/models/change/files-model.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T09:04:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d23cd2c_8189f19c",
+      "range": {
+        "startLine": 39,
+        "startChar": 5,
+        "endLine": 39,
+        "endChar": 16
+      },
+      "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "548ce4e9_65994399",
@@ -108,6 +156,30 @@
       "writtenOn": "2022-06-17T08:32:04Z",
       "side": 1,
       "message": "Nit: Why we do use deprecated combineLatest and not combineLatestWith ?",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 19
+      },
+      "revId": "f1a9d792e094fac96de33726499b8377dfc6b5a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "786a077b_73ac10a0",
+        "filename": "polygerrit-ui/app/models/change/files-model.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T09:04:12Z",
+      "side": 1,
+      "message": "The `combineLatest()` *function* is not deprecated. The operator is deprecated.\n\nThe `combineLatest()` function signature without an array is indeed deprecated. Changed to using an array. Thanks.",
+      "parentUuid": "548ce4e9_65994399",
       "range": {
         "startLine": 61,
         "startChar": 6,

@@ -143,10 +143,14 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   override render() {
+    return html`${this.renderSubmitRequirements()}${this.renderTriggerVotes()}`;
+  }
+
+  private renderSubmitRequirements() {
     const submit_requirements = orderSubmitRequirements(
       getRequirements(this.change)
     );
-
+    if (submit_requirements.length === 0) return nothing;
     return html` <h3
         class="metadata-title heading-3"
         id="submit-requirements-caption"
@@ -179,11 +183,13 @@ export class GrSubmitRequirements extends LitElement {
                 .mutable=${this.mutable ?? false}
               ></gr-submit-requirement-hovercard>
             `
-          )}
-      ${this.renderTriggerVotes()}`;
+          )}`;
   }
 
-  renderRequirement(requirement: SubmitRequirementResultInfo, index: number) {
+  private renderRequirement(
+    requirement: SubmitRequirementResultInfo,
+    index: number
+  ) {
     const row = html`
      <td>${this.renderStatus(requirement.status)}</td>
         <td class="name">
@@ -396,7 +402,9 @@ export class GrSubmitRequirements extends LitElement {
       hasVotes(labels[label])
     );
     if (!triggerVotes.length) return;
-    return html`<h3 class="metadata-title heading-3">Trigger Votes</h3>
+    return html`<h3 class="metadata-title heading-3">
+        ${this.computeTriggerVotesTitle()}
+      </h3>
       <section class="trigger-votes">
         ${triggerVotes.map(
           label =>
@@ -410,6 +418,18 @@ export class GrSubmitRequirements extends LitElement {
             ></gr-trigger-vote>`
         )}
       </section>`;
+  }
+
+  private computeTriggerVotesTitle() {
+    const submit_requirements = orderSubmitRequirements(
+      getRequirements(this.change)
+    );
+    if (submit_requirements.length === 0) {
+      // This is special case for old changes without submit requirements.
+      return 'Label Votes';
+    } else {
+      return 'Trigger Votes';
+    }
   }
 
   // not private for tests

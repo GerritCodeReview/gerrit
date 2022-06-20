@@ -121,6 +121,16 @@ export class FilesModel extends Model<FilesState> implements Finalizable {
     ([files, commentedPaths]) => addUnmodified(files, commentedPaths)
   );
 
+  public readonly filesLeftBase$ = select(
+    this.state$,
+    state => state.filesLeftBase
+  );
+
+  public readonly filesRightBase$ = select(
+    this.state$,
+    state => state.filesRightBase
+  );
+
   private subscriptions: Subscription[] = [];
 
   constructor(

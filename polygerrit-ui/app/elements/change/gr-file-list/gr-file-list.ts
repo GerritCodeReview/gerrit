@@ -77,6 +77,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {subscribe} from '../../lit/subscription-controller';
 import {when} from 'lit/directives/when';
+import {classMap} from 'lit/directives/class-map';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {ifDefined} from 'lit/directives/if-defined';
 import {KnownExperimentId} from '../../../services/flags/flags';
@@ -216,6 +217,8 @@ export class GrFileList extends LitElement {
   // Private but used in tests.
   @state()
   files: NormalizedFileInfo[] = [];
+
+  @state() private filesLeftBase: NormalizedFileInfo[] = [];
 
   // Private but used in tests.
   @state()
@@ -397,6 +400,15 @@ export class GrFileList extends LitElement {
         }
         .status {
           margin-right: var(--spacing-s);
+          display: flex;
+          width: 20px;
+          justify-content: flex-end;
+        }
+        .status.extended {
+          width: 60px;
+        }
+        .status > * {
+          display: block;
         }
         .path {
           cursor: pointer;
@@ -690,6 +702,13 @@ export class GrFileList extends LitElement {
       () => this.getFilesModel().filesWithUnmodified$,
       files => {
         this.files = [...files];
+      }
+    );
+    subscribe(
+      this,
+      () => this.getFilesModel().filesLeftBase$,
+      files => {
+        this.filesLeftBase = [...files];
       }
     );
     subscribe(
@@ -1012,13 +1031,42 @@ export class GrFileList extends LitElement {
 
   private renderFileStatus(file?: NormalizedFileInfo) {
     if (!this.flagsService.isEnabled(KnownExperimentId.MORE_FILES_INFO)) return;
-    let status: FileInfoStatus | undefined = undefined;
-    if (file && !isMagicPath(file?.__path)) {
-      status = file.status ?? FileInfoStatus.MODIFIED;
-    }
-    // TODO: Add support for showing more file info when comparing two patchsets.
-    return html`<div class="status" role="gridcell">
-      <gr-file-status .status=${status}></gr-file-status>
+
+    const extendedStatus = this.filesLeftBase.length > 0;
+    const leftBaseFile = this.filesLeftBase.find(
+      info => info.__path === file?.__path
+    );
+    const leftBaseStatus = leftBaseFile?.status ?? FileInfoStatus.MODIFIED;
+    const showLeft =
+      extendedStatus && leftBaseFile && !isMagicPath(file?.__path);
+    const leftPostfix = ` in patchset ${this.patchRange?.basePatchNum}`;
+
+    const status = file?.status ?? FileInfoStatus.MODIFIED;
+    const show = file && !isMagicPath(file?.__path);
+    const newly = extendedStatus && !leftBaseFile && !isMagicPath(file?.__path);
+    const postfix = ` in patchset ${this.patchRange?.patchNum}`;
+
+    const leftStatus = showLeft
+      ? html`<gr-file-status
+          .status=${leftBaseStatus}
+          .labelPostfix=${leftPostfix}
+        ></gr-file-status>`
+      : nothing;
+    const arrow = showLeft
+      ? html`<iron-icon icon="gr-icons:arrow-right"></iron-icon>`
+      : nothing;
+    const rightStatus = show
+      ? html`<gr-file-status
+          .status=${status}
+          .labelPostfix=${postfix}
+          ?new=${newly}
+        ></gr-file-status>`
+      : nothing;
+    return html`<div
+      class=${classMap({status: true, extended: extendedStatus})}
+      role="gridcell"
+    >
+      ${leftStatus}${arrow}${rightStatus}
     </div>`;
   }
 

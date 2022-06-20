@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47469a38_df797f58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-20T14:03:07Z",
+      "side": 1,
+      "message": "ica",
+      "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fc5ba2a_b45dfbba",
@@ -60,6 +77,30 @@
       "writtenOn": "2022-06-20T13:42:48Z",
       "side": 1,
       "message": "As soon as Esc was pressed for the first time I remembered this line was triggered causing the suggestions to clear before new suggestions were requested.\n\nDid you verify that the length check is done after the results are returned [2] always and this won\u0027t be flaky in the future?\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts;l\u003d413?q\u003dgr-autocomplete.ts\n\n[2] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts;l\u003d444?q\u003dgr-autocomplete.ts",
+      "range": {
+        "startLine": 361,
+        "startChar": 10,
+        "endLine": 361,
+        "endChar": 44
+      },
+      "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0f456a0_b84fa76c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-20T14:03:07Z",
+      "side": 1,
+      "message": "The updateSuggestions is coming from here [1], basically requesting them as soon as focus is brought back to the input box.\n\nPerhaps that is a case we don\u0027t need to worry about(losing focus and the refocusing the input box). In this case feel free to Ack this and go ahead with the change.\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts;l\u003d387?q\u003dgr-autocomplete.ts",
+      "parentUuid": "2c2db6ba_dbf61250",
       "range": {
         "startLine": 361,
         "startChar": 10,

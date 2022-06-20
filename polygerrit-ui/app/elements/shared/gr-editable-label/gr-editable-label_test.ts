@@ -47,7 +47,6 @@ suite('gr-editable-label tests', () => {
       value text
     </label>
     <iron-dropdown
-      allowoutsidescroll=""
       aria-disabled="false"
       aria-hidden="true"
       horizontal-align="auto"

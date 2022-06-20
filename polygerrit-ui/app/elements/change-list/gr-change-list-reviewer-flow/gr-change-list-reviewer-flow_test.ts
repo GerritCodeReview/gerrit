@@ -290,7 +290,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
 
       assert.isFalse(dialog.loading);
 
-      await flush();
+      await element.updateComplete;
       dialog.confirmButton!.click();
       await element.updateComplete;
 
@@ -375,7 +375,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
           },
         }) as unknown as ValueChangedEvent<string>
       );
-      await flush();
+      await element.updateComplete;
 
       assert.isEmpty(reviewerList.accounts);
     });
@@ -401,7 +401,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
           },
         }) as unknown as ValueChangedEvent<string>
       );
-      await flush();
+      await element.updateComplete;
 
       assert.isEmpty(ccList.accounts);
     });
@@ -491,7 +491,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       );
 
       reviewerList.accounts.push(accounts[2], groups[0]);
-      await flush();
+      await element.updateComplete;
       dialog.confirmButton!.click();
       await element.updateComplete;
 
@@ -515,7 +515,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       );
 
       reviewerList.accounts.push(accounts[2], groups[0]);
-      await flush();
+      await element.updateComplete;
       dialog.confirmButton!.click();
       await element.updateComplete;
       saveChangesPromises[0].reject(new Error('failed!'));
@@ -567,7 +567,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
           },
         }) as unknown as ValueChangedEvent<string>
       );
-      await flush();
+      await element.updateComplete;
 
       // prettier and shadowDom string don't agree on the long text in divs
       expect(element).shadowDom.to.equal(
@@ -671,7 +671,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       );
 
       reviewerList.accounts.push(accounts[2], groups[0]);
-      await flush();
+      await element.updateComplete;
       dialog.confirmButton!.click();
       await element.updateComplete;
       saveChangesPromises[0].reject(new Error('failed!'));
@@ -794,14 +794,18 @@ suite('gr-change-list-reviewer-flow tests', () => {
           },
         }) as unknown as ValueChangedEvent<string>
       );
-      await flush();
+      // reviewerList needs to set the pendingConfirmation property which
+      // triggers an update of ReviewerFlow
+      await reviewerList.updateComplete;
+      await element.updateComplete;
 
       const confirmDialog = queryAndAssert(
         element,
         'gr-overlay#confirm-reviewer'
       );
-      assert.isTrue(
-        getComputedStyle(confirmDialog).getPropertyValue('display') !== 'none'
+      await waitUntil(
+        () =>
+          getComputedStyle(confirmDialog).getPropertyValue('display') !== 'none'
       );
     });
 
@@ -824,13 +828,16 @@ suite('gr-change-list-reviewer-flow tests', () => {
           },
         }) as unknown as ValueChangedEvent<string>
       );
-      await flush();
+      // reviewerList needs to set the pendingConfirmation property which
+      // triggers an update of ReviewerFlow
+      await reviewerList.updateComplete;
+      await element.updateComplete;
       // "Yes" button is first
       queryAndAssert<GrButton>(
         element,
         '.confirmation-buttons > gr-button:first-of-type'
       ).click();
-      await flush();
+      await element.updateComplete;
 
       const confirmDialog = queryAndAssert(
         element,
@@ -839,6 +846,7 @@ suite('gr-change-list-reviewer-flow tests', () => {
       assert.isTrue(
         getComputedStyle(confirmDialog).getPropertyValue('display') === 'none'
       );
+
       assert.deepEqual(reviewerList.accounts[1], {
         _group: true,
         _pendingAdd: true,
@@ -870,7 +878,10 @@ suite('gr-change-list-reviewer-flow tests', () => {
           },
         }) as unknown as ValueChangedEvent<string>
       );
-      await flush();
+      // reviewerList needs to set the pendingConfirmation property which
+      // triggers an update of ReviewerFlow
+      await reviewerList.updateComplete;
+      await element.updateComplete;
       const confirmDialog = queryAndAssert(
         element,
         'gr-overlay#confirm-reviewer'
@@ -905,13 +916,16 @@ suite('gr-change-list-reviewer-flow tests', () => {
           },
         }) as unknown as ValueChangedEvent<string>
       );
-      await flush();
+      // reviewerList needs to set the pendingConfirmation property which
+      // triggers an update of ReviewerFlow
+      await reviewerList.updateComplete;
+      await element.updateComplete;
       // "No" button is last
       queryAndAssert<GrButton>(
         element,
         '.confirmation-buttons > gr-button:last-of-type'
       ).click();
-      await flush();
+      await element.updateComplete;
 
       const confirmDialog = queryAndAssert(
         element,

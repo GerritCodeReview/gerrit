@@ -29,6 +29,7 @@ import {
 import {subscribe} from '../../lit/subscription-controller';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {queryAll} from '../../../utils/common-util';
+import {classMap} from 'lit/directives/class-map';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -126,6 +127,9 @@ export class GrChangeListSection extends LitElement {
           padding: var(--spacing-s);
           vertical-align: middle;
         }
+        .showSelectionBorder {
+          border-bottom: 2px solid var(--input-focus-border-color);
+        }
       `,
     ];
   }
@@ -218,10 +222,17 @@ export class GrChangeListSection extends LitElement {
   }
 
   private renderColumnHeaders(columns: string[]) {
+    const showBulkActionsHeader =
+      this.showBulkActionsHeader &&
+      this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS);
     return html`
-      <tr class="groupTitle">
-        ${this.showBulkActionsHeader &&
-        this.flagsService.isEnabled(KnownExperimentId.BULK_ACTIONS)
+      <tr
+        class=${classMap({
+          groupTitle: true,
+          showSelectionBorder: showBulkActionsHeader,
+        })}
+      >
+        ${showBulkActionsHeader
           ? html`<gr-change-list-action-bar></gr-change-list-action-bar>`
           : html` <td class="leftPadding" aria-hidden="true"></td>
               ${this.renderSelectionHeader()}

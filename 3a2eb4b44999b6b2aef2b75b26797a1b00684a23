@@ -112,6 +112,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ef64214_2a129a13",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-20T14:57:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6810953c_1b8a3f09",
+      "range": {
+        "startLine": 173,
+        "startChar": 13,
+        "endLine": 173,
+        "endChar": 26
+      },
+      "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c2db6ba_dbf61250",
@@ -159,6 +183,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fd1f574_3b9e65d6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-20T14:57:47Z",
+      "side": 1,
+      "message": "It\u0027s hard to lose focus and keep the suggestions. If you click away suggestions close out from OnClick event. So that would happen.\n\nThere is an obscure case, where if you tab away (to the \"cancel button\") then the logic doesn\u0027t work, because suggestions are hidden, but the suggestions array is not cleared. So it will take two Esc presses to close under the new logic. But it seems like too much an obscure usecase.",
+      "parentUuid": "e0f456a0_b84fa76c",
+      "range": {
+        "startLine": 361,
+        "startChar": 10,
+        "endLine": 361,
+        "endChar": 44
+      },
+      "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d58de7cb_bf851cd7",
@@ -172,6 +220,24 @@
       "writtenOn": "2022-06-20T14:07:34Z",
       "side": 1,
       "message": "What if it is open but has no suggestions, don\u0027t we still want to close it?",
+      "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8699657e_5d56c5ac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-20T14:57:47Z",
+      "side": 1,
+      "message": "That\u0027s exactly what\u0027s going to happen. If it has no suggestions. than grAutocomplete.suggestions is an empty list, so this will proceed to cancel everything.\n\nOr did I misunderstand the question?\n\nThe suggestion check is what gr-autocomplete itself uses for existing logic: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts;drc\u003d2896f054a946176d3d347a90daefb1b979832159;l\u003d538",
+      "parentUuid": "d58de7cb_bf851cd7",
       "revId": "3a2eb4b44999b6b2aef2b75b26797a1b00684a23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

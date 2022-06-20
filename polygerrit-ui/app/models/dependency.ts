@@ -300,6 +300,8 @@ class DependencySubscriber<T>
   }
 
   hostConnected() {
+    this.value = undefined;
+    this.resolved = false;
     this.host.dispatchEvent(
       new DependencyRequestEvent(this.dependency, (value: T) => {
         this.resolved = true;
@@ -317,10 +319,7 @@ class DependencySubscriber<T>
     throw new DependencyError(this.dependency, msg);
   }
 
-  hostDisconnected() {
-    this.value = undefined;
-    this.resolved = false;
-  }
+  hostDisconnected() {}
 }
 
 class DependencyProvider<T> implements ReactiveController {

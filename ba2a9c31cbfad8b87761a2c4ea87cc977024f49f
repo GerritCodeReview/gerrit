@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8d31eb2e_9f805436",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T11:03:16Z",
+      "side": 1,
+      "message": "The backend may still promise to set these values and other REST API users may rely on that. We are just treating these values as optional, because it is trivial to do so, and the defensiveness makes the frontend more reliable and the backend easier to change.",
+      "parentUuid": "4c665be2_02e9b33e",
+      "range": {
+        "startLine": 617,
+        "startChar": 2,
+        "endLine": 618,
+        "endChar": 28
+      },
+      "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d5a1ebb8_f6a0cf8e",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
         "patchSetId": 7
@@ -88,6 +112,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e7a1267_6b816b64",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T11:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82f87674_9b6424e3",
+      "range": {
+        "startLine": 112,
+        "startChar": 60,
+        "endLine": 112,
+        "endChar": 65
+      },
+      "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4551a904_6519bbac",
@@ -101,6 +149,30 @@
       "writtenOn": "2022-06-17T09:22:20Z",
       "side": 1,
       "message": "```\nreturn {\n    __path: path,\n    lines_inserted: 0,\n    lines_deleted: 0,\n    size_delta: 0,\n    size: 0,\n       ...file,\n}\n```",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 25
+      },
+      "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d9da122_db5a6ba3",
+        "filename": "polygerrit-ui/app/models/change/files-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T11:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4551a904_6519bbac",
       "range": {
         "startLine": 30,
         "startChar": 0,
@@ -134,6 +206,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2318312_d75b7921",
+        "filename": "polygerrit-ui/app/models/change/files-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T11:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "060899e1_0c36123b",
+      "range": {
+        "startLine": 48,
+        "startChar": 9,
+        "endLine": 48,
+        "endChar": 20
+      },
+      "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a5de45f_8dd7bc30",
@@ -157,6 +253,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9423668_5f713443",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T11:03:16Z",
+      "side": 1,
+      "message": "That is exactly what `this.changeModel.patchNum$` does. :-)",
+      "parentUuid": "4a5de45f_8dd7bc30",
+      "range": {
+        "startLine": 269,
+        "startChar": 11,
+        "endLine": 269,
+        "endChar": 19
+      },
+      "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38476e35_083304bc",
@@ -170,6 +290,30 @@
       "writtenOn": "2022-06-17T09:22:20Z",
       "side": 1,
       "message": "I would expect this Object.keys done either in getPaths or in caller for commentedPaths",
+      "range": {
+        "startLine": 271,
+        "startChar": 13,
+        "endLine": 271,
+        "endChar": 34
+      },
+      "revId": "ba2a9c31cbfad8b87761a2c4ea87cc977024f49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "586aebdb_473d2fef",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-20T11:03:16Z",
+      "side": 1,
+      "message": "I agree that it should be done in `getPaths()` and that the type `CommentMap` should just be removed. I have added a TODO for that.",
+      "parentUuid": "38476e35_083304bc",
       "range": {
         "startLine": 271,
         "startChar": 13,

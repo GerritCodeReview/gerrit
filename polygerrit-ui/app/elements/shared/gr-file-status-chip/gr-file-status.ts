@@ -32,12 +32,19 @@ export class GrFileStatus extends LitElement {
   @property({type: Boolean})
   new = false;
 
+  /**
+   * What postfix should the tooltip have? For example you can set
+   * ' in ps 5', such that the 'Added' tooltip becomes 'Added in ps 5'.
+   */
+  @property({ type: String })
+  labelPostfix = '';
+
   static override get styles() {
     return [
       iconStyles,
       css`
         :host {
-          display: block;
+          display: inline-block;
         }
         iron-icon.new {
           margin-right: var(--spacing-xs);
@@ -97,24 +104,35 @@ export class GrFileStatus extends LitElement {
 
   private computeLabel() {
     if (!this.status) return '';
+    const prefix = this.new ? 'Newly ' : '';
+    const postfix = this.labelPostfix;
+    let statusLabel = '';
     switch (this.status) {
       case FileInfoStatus.ADDED:
-        return 'Added';
+        statusLabel = 'Added';
+        break;
       case FileInfoStatus.COPIED:
-        return 'Copied';
+        statusLabel = 'Copied';
+        break;
       case FileInfoStatus.DELETED:
-        return 'Deleted';
+        statusLabel = 'Deleted';
+        break;
       case FileInfoStatus.MODIFIED:
-        return 'Modified';
+        statusLabel = 'Modified';
+        break;
       case FileInfoStatus.RENAMED:
-        return 'Renamed';
+        statusLabel = 'Renamed';
+        break;
       case FileInfoStatus.REWRITTEN:
-        return 'Rewritten';
+        statusLabel = 'Rewritten';
+        break;
       case FileInfoStatus.UNMODIFIED:
-        return 'Unchanged';
+        statusLabel = 'Unchanged';
+        break;
       default:
         assertNever(this.status, `Unsupported status: ${this.status}`);
     }
+    return prefix + statusLabel + postfix;
   }
 }
 

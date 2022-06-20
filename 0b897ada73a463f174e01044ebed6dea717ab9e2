@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4581e134_5d07d404",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-20T07:58:30Z",
+      "side": 1,
+      "message": "Missing Release-Notes footer. I guess should be \"Fix marking of reviewed flag when not logged in\" or something similar?",
+      "revId": "0b897ada73a463f174e01044ebed6dea717ab9e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

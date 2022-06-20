@@ -300,6 +300,8 @@ class DependencySubscriber<T>
   }
 
   hostConnected() {
+    this.value = undefined;
+    this.resolved = false;
     this.host.dispatchEvent(
       new DependencyRequestEvent(this.dependency, (value: T) => {
         this.resolved = true;
@@ -318,8 +320,6 @@ class DependencySubscriber<T>
   }
 
   hostDisconnected() {
-    this.value = undefined;
-    this.resolved = false;
   }
 }
 

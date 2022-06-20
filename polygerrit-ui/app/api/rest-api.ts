@@ -614,8 +614,8 @@ export declare interface FileInfo {
   old_path?: string;
   lines_inserted?: number;
   lines_deleted?: number;
-  size_delta: number; // in bytes
-  size: number; // in bytes
+  size_delta?: number; // in bytes
+  size?: number; // in bytes
 }
 
 /**

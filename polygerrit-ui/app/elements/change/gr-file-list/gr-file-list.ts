@@ -17,6 +17,7 @@ import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-file-status-chip/gr-file-status-chip';
+import '../../shared/gr-file-status-chip/gr-file-status';
 import {assertIsDefined} from '../../../utils/common-util';
 import {asyncForeach} from '../../../utils/async-util';
 import {FilesExpandedState} from '../gr-file-list-constants';
@@ -27,6 +28,7 @@ import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader
 import {getAppContext} from '../../../services/app-context';
 import {
   DiffViewMode,
+  FileInfoStatus,
   ScrollMode,
   SpecialFilePath,
 } from '../../../constants/constants';
@@ -38,18 +40,15 @@ import {
   toggleClass,
 } from '../../../utils/dom-util';
 import {
-  addUnmodifiedFiles,
   computeDisplayPath,
   computeTruncatedPath,
   isMagicPath,
-  specialFilePathCompare,
 } from '../../../utils/path-list-util';
 import {customElement, property, query, state} from 'lit/decorators';
 import {
   BasePatchSetNum,
   EDIT,
   FileInfo,
-  FileNameToFileInfoMap,
   NumericChangeId,
   PARENT,
   PatchRange,
@@ -68,6 +67,7 @@ import {resolve} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
+import {filesModelToken} from '../../../models/change/files-model';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {Shortcut} from '../../../services/shortcuts/shortcuts-config';
@@ -79,6 +79,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {when} from 'lit/directives/when';
 import {incrementalRepeat} from '../../lit/incremental-repeat';
 import {ifDefined} from 'lit/directives/if-defined';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -214,10 +215,6 @@ export class GrFileList extends LitElement {
 
   // Private but used in tests.
   @state()
-  filesByPath?: FileNameToFileInfoMap;
-
-  // Private but used in tests.
-  @state()
   files: NormalizedFileInfo[] = [];
 
   // Private but used in tests.
@@ -292,9 +289,13 @@ export class GrFileList extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
+  private readonly getFilesModel = resolve(this, filesModelToken);
+
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getBrowserModel = resolve(this, browserModelToken);
+
+  private readonly flagsService = getAppContext().flagsService;
 
   /** Called in disconnectedCallback. */
   private cleanups: (() => void)[] = [];
@@ -363,8 +364,7 @@ export class GrFileList extends LitElement {
         .show-hide.invisible {
           display: none;
         }
-        .reviewed,
-        .status {
+        .reviewed {
           align-items: center;
           display: inline-flex;
         }
@@ -394,6 +394,9 @@ export class GrFileList extends LitElement {
         .file-row.expanded,
         .file-row.expanded:hover {
           background-color: var(--expanded-background-color);
+        }
+        .status {
+          margin-right: var(--spacing-s);
         }
         .path {
           cursor: pointer;
@@ -684,6 +687,13 @@ export class GrFileList extends LitElement {
     );
     subscribe(
       this,
+      () => this.getFilesModel().filesWithUnmodified$,
+      files => {
+        this.files = [...files];
+      }
+    );
+    subscribe(
+      this,
       () => this.getBrowserModel().diffViewMode$,
       diffView => {
         this.diffViewMode = diffView;
@@ -724,22 +734,11 @@ export class GrFileList extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues): void {
-    if (changedProperties.has('filesByPath')) {
-      this.updateCleanlyMergedPaths();
-    }
     if (
       changedProperties.has('diffPrefs') ||
       changedProperties.has('diffViewMode')
     ) {
       this.updateDiffPreferences();
-    }
-    if (
-      changedProperties.has('filesByPath') ||
-      changedProperties.has('changeComments') ||
-      changedProperties.has('patchRange')
-    ) {
-      changedProperties.set('files', this.files);
-      this.computeFiles();
     }
     if (changedProperties.has('files')) {
       this.filesChanged();
@@ -867,7 +866,7 @@ export class GrFileList extends LitElement {
       ${when(showPrependedDynamicColumns, () =>
         this.renderPrependedHeaderEndpoints()
       )}
-
+      ${this.renderFileStatus()}
       <div class="path" role="columnheader">File</div>
       <div class="comments desktop" role="columnheader">Comments</div>
       <div class="comments mobile" role="columnheader" title="Comments">C</div>
@@ -958,7 +957,8 @@ export class GrFileList extends LitElement {
         ${when(showPrependedDynamicColumns, () =>
           this.renderPrependedContentEndpointsForFile(file)
         )}
-        ${this.renderFilePath(file)} ${this.renderFileComments(file)}
+        ${this.renderFileStatus(file)} ${this.renderFilePath(file)}
+        ${this.renderFileComments(file)}
         ${this.renderSizeBar(file, sizeBarLayout)} ${this.renderFileStats(file)}
         ${when(showDynamicColumns, () =>
           this.renderDynamicContentEndpointsForFile(file)
@@ -1010,6 +1010,18 @@ export class GrFileList extends LitElement {
     );
   }
 
+  private renderFileStatus(file?: NormalizedFileInfo) {
+    if (!this.flagsService.isEnabled(KnownExperimentId.MORE_FILES_INFO)) return;
+    let status: FileInfoStatus | undefined = undefined;
+    if (file && !isMagicPath(file?.__path)) {
+      status = file.status ?? FileInfoStatus.MODIFIED;
+    }
+    // TODO: Add support for showing more file info when comparing two patchsets.
+    return html`<div class="status" role="gridcell">
+      <gr-file-status .status=${status}></gr-file-status>
+    </div>`;
+  }
+
   private renderFilePath(file: NormalizedFileInfo) {
     return html` <span class="path" role="gridcell">
       <a class="pathLink" href=${ifDefined(this.computeDiffURL(file.__path))}>
@@ -1022,7 +1034,10 @@ export class GrFileList extends LitElement {
         >
           ${computeTruncatedPath(file.__path)}
         </span>
-        <gr-file-status-chip .file=${file}></gr-file-status-chip>
+        ${when(
+          !this.flagsService.isEnabled(KnownExperimentId.MORE_FILES_INFO),
+          () => html`<gr-file-status-chip .file=${file}></gr-file-status-chip>`
+        )}
         <gr-copy-clipboard
           ?hideInput=${true}
           .text=${file.__path}
@@ -1402,20 +1417,14 @@ export class GrFileList extends LitElement {
     </div>`;
   }
 
-  async reload() {
-    if (!this.changeNum || !this.patchRange?.patchNum) return;
-    this.collapseAllDiffs();
-
-    this.filesByPath = await this.restApiService.getChangeOrEditFiles(
-      this.changeNum,
-      this.patchRange
-    );
-
+  protected override firstUpdated(): void {
     this.detectChromiteButler();
     this.reporting.fileListDisplayed();
   }
 
-  private async updateCleanlyMergedPaths() {
+  // TODO: Move into files-model.
+  // visible for testing
+  async updateCleanlyMergedPaths() {
     // When viewing Auto Merge base vs a patchset, add an additional row that
     // knows how many files were cleanly merged. This requires an additional RPC
     // for the diffs between target parent and the patch set. The cleanly merged
@@ -1436,8 +1445,8 @@ export class GrFileList extends LitElement {
           patchNum: this.patchRange.patchNum,
         }
       );
-      if (!allFilesByPath || !this.filesByPath) return;
-      const conflictingPaths = Object.keys(this.filesByPath);
+      if (!allFilesByPath) return;
+      const conflictingPaths = this.files.map(f => f.__path);
       this.cleanlyMergedPaths = Object.keys(allFilesByPath).filter(
         path => !conflictingPaths.includes(path)
       );
@@ -1486,9 +1495,9 @@ export class GrFileList extends LitElement {
       const deleted = obj.lines_deleted ? obj.lines_deleted : 0;
       const total_size = obj.size && obj.binary ? obj.size : 0;
       const size_delta_inserted =
-        obj.binary && obj.size_delta > 0 ? obj.size_delta : 0;
+        obj.binary && obj.size_delta && obj.size_delta > 0 ? obj.size_delta : 0;
       const size_delta_deleted =
-        obj.binary && obj.size_delta < 0 ? obj.size_delta : 0;
+        obj.binary && obj.size_delta && obj.size_delta < 0 ? obj.size_delta : 0;
 
       return {
         inserted: acc.inserted + inserted,
@@ -1643,22 +1652,6 @@ export class GrFileList extends LitElement {
       path,
       reviewed
     );
-  }
-
-  private normalizeChangeFilesResponse(
-    response: FileNameToFileInfoMap
-  ): NormalizedFileInfo[] {
-    const paths = Object.keys(response).sort(specialFilePathCompare);
-    const files: NormalizedFileInfo[] = [];
-    for (let i = 0; i < paths.length; i++) {
-      const info = {...response[paths[i]]} as NormalizedFileInfo;
-      info.__path = paths[i];
-      info.lines_inserted = info.lines_inserted || 0;
-      info.lines_deleted = info.lines_deleted || 0;
-      info.size_delta = info.size_delta || 0;
-      files.push(info);
-    }
-    return files;
   }
 
   /**
@@ -1969,15 +1962,8 @@ export class GrFileList extends LitElement {
 
   private computeClass(baseClass?: string, path?: string) {
     const classes = [];
-    if (baseClass) {
-      classes.push(baseClass);
-    }
-    if (
-      path === SpecialFilePath.COMMIT_MESSAGE ||
-      path === SpecialFilePath.MERGE_LIST
-    ) {
-      classes.push('invisible');
-    }
+    if (baseClass) classes.push(baseClass);
+    if (isMagicPath(path)) classes.push('invisible');
     return classes.join(' ');
   }
 
@@ -2006,22 +1992,6 @@ export class GrFileList extends LitElement {
       patchNum: this.patchRange.patchNum,
       basePatchNum: -1 as BasePatchSetNum, // Parent 1
     });
-  }
-
-  private computeFiles() {
-    if (
-      this.filesByPath === undefined ||
-      this.changeComments === undefined ||
-      this.patchRange === undefined
-    ) {
-      return;
-    }
-    // Await all promises resolving from reload. @See Issue 9057
-    if (!this.changeComments) return;
-    const commentedPaths = this.changeComments.getPaths(this.patchRange);
-    const files = {...this.filesByPath};
-    addUnmodifiedFiles(files, commentedPaths);
-    this.files = this.normalizeChangeFilesResponse(files);
   }
 
   private computeFilesShown(): NormalizedFileInfo[] {
@@ -2057,6 +2027,8 @@ export class GrFileList extends LitElement {
   }
 
   async filesChanged() {
+    if (this.expandedFiles.length > 0) this.expandedFiles = [];
+    this.updateCleanlyMergedPaths();
     if (!this.files || this.files.length === 0) return;
     await this.updateComplete;
     this.fileCursor.stops = Array.from(
@@ -2272,24 +2244,13 @@ export class GrFileList extends LitElement {
   }
 
   /**
-   * Given a file path, return whether that path should have visible size bars
-   * and be included in the size bars calculation.
-   */
-  private showBarsForPath(path?: string) {
-    return (
-      path !== SpecialFilePath.COMMIT_MESSAGE &&
-      path !== SpecialFilePath.MERGE_LIST
-    );
-  }
-
-  /**
    * Compute size bar layout values from the file list.
    * Private but used in tests.
    */
   computeSizeBarLayout() {
     const stats: SizeBarLayout = createDefaultSizeBarLayout();
     this.shownFiles
-      .filter(f => this.showBarsForPath(f.__path))
+      .filter(f => !isMagicPath(f.__path))
       .forEach(f => {
         if (f.lines_inserted) {
           stats.maxInserted = Math.max(stats.maxInserted, f.lines_inserted);
@@ -2319,7 +2280,7 @@ export class GrFileList extends LitElement {
       !stats ||
       stats.maxInserted === 0 ||
       !file.lines_inserted ||
-      !this.showBarsForPath(file.__path)
+      !!isMagicPath(file.__path)
     ) {
       return 0;
     }
@@ -2347,7 +2308,7 @@ export class GrFileList extends LitElement {
       !stats ||
       stats.maxDeleted === 0 ||
       !file.lines_deleted ||
-      !this.showBarsForPath(file.__path)
+      !!isMagicPath(file.__path)
     ) {
       return 0;
     }
@@ -2368,7 +2329,7 @@ export class GrFileList extends LitElement {
     let hideClass = '';
     if (!this.showSizeBars) {
       hideClass = 'hide';
-    } else if (!this.showBarsForPath(path)) {
+    } else if (isMagicPath(path)) {
       hideClass = 'invisible';
     }
     return `sizeBars ${hideClass}`;

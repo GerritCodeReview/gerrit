@@ -187,25 +187,27 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
    * Note that this selector can emit without the change being available!
    */
   public readonly patchNum$: Observable<RevisionPatchSetNum | undefined> =
-    /**
-     * If you depend on both, router and change state, then you want to filter
-     * out inconsistent state, e.g. router changeNum already updated, change not
-     * yet reset to undefined.
-     */
-    combineLatest([this.routerModel.state$, this.state$])
-      .pipe(
-        filter(([routerState, changeState]) => {
+    select(
+      combineLatest([
+        this.routerModel.state$,
+        this.state$,
+        this.routerModel.routerPatchNum$,
+        this.latestPatchNum$,
+      ]).pipe(
+        /**
+         * If you depend on both, router and change state, then you want to filter
+         * out inconsistent state, e.g. router changeNum already updated, change not
+         * yet reset to undefined.
+         */
+        filter(([routerState, changeState, _routerPatchN, _latestPatchN]) => {
           const changeNum = changeState.change?._number;
           const routerChangeNum = routerState.changeNum;
           return changeNum === undefined || changeNum === routerChangeNum;
-        }),
-        distinctUntilChanged()
-      )
-      .pipe(
-        withLatestFrom(this.routerModel.routerPatchNum$, this.latestPatchNum$),
-        map(([_, routerPatchN, latestPatchN]) => routerPatchN || latestPatchN),
-        distinctUntilChanged()
-      );
+        })
+      ),
+      ([_routerState, _changeState, routerPatchN, latestPatchN]) =>
+        routerPatchN || latestPatchN
+    );
 
   /**
    * Emits the base patchset number. This is identical to the
@@ -245,10 +247,9 @@ export class ChangeModel extends Model<ChangeState> implements Finalizable {
 
   // For usage in `combineLatest` we need `startWith` such that reload$ has an
   // initial value.
-  private readonly reload$: Observable<unknown> = fromEvent(
-    document,
-    'reload'
-  ).pipe(startWith(undefined));
+  readonly reload$: Observable<unknown> = fromEvent(document, 'reload').pipe(
+    startWith(undefined)
+  );
 
   constructor(
     readonly routerModel: RouterModel,

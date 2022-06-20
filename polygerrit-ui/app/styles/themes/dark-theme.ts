@@ -183,9 +183,11 @@ const darkThemeCss = safeStyleSheet`
     --status-custom: var(--purple-400);
 
     /* file status colors */
-    --file-status-added: var(--green-tonal);
-    --file-status-changed: var(--red-tonal);
-    --file-status-unchanged: var(--gray-700);
+    --file-status-added: var(--green-400);
+    --file-status-deleted: var(--red-300);
+    --file-status-modified: var(--gray-500);
+    --file-status-renamed: var(--orange-400);
+    --file-status-unchanged: var(--gray-500);
 
     /* fonts */
     --font-weight-bold: 700; /* 700 is the same as 'bold' */

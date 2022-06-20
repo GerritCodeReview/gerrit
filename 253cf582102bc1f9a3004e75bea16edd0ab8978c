@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d4e36de_ede3535a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-20T11:45:16Z",
+      "side": 1,
+      "message": "Test fails without the waitUntil hence added. Not exactly sure why but didn\u0027t look too deep.",
+      "range": {
+        "startLine": 806,
+        "startChar": 6,
+        "endLine": 809,
+        "endChar": 8
+      },
+      "revId": "253cf582102bc1f9a3004e75bea16edd0ab8978c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

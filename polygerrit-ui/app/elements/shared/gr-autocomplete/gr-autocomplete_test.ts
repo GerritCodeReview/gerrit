@@ -86,6 +86,7 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('esc key behavior', async () => {
+    debugger;
     let promise: Promise<AutocompleteSuggestion[]> = Promise.resolve([]);
     const queryStub = sinon.spy(
       (_: string) =>

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cb451f0_0abe0ca1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-20T07:28:29Z",
+      "side": 1,
+      "message": "Hi Dmitrii, would you please LGTM this small change? Thanks.",
+      "revId": "ea3b19a987ff6c79ab1cd362f39d1cbfa77ddde8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

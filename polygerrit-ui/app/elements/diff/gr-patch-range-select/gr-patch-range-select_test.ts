@@ -375,27 +375,45 @@ suite('gr-patch-range-select tests', () => {
     assert.equal(element.computePatchSetCommentsString(1 as PatchSetNum), '');
   });
 
-  test('patch-range-change fires', () => {
+  test('patch-range-change fires', async () => {
     const handler = sinon.stub();
     element.basePatchNum = 1 as BasePatchSetNum;
     element.patchNum = 3 as PatchSetNumber;
-    element.addEventListener('patch-range-change', handler);
+    element.availablePatches = [
+      {num: EDIT, sha: '1'} as PatchSet,
+      {num: 3, sha: '2'} as PatchSet,
+      {num: 2, sha: '3'} as PatchSet,
+      {num: 1, sha: '4'} as PatchSet,
+    ];
+    element.revisions = [
+      createRevision(2),
+      createRevision(3),
+      createRevision(1),
+      createRevision(4),
+    ];
+    element.revisionInfo = getInfo(element.revisions);
+    await element.updateComplete;
 
-    queryAndAssert<GrDropdownList>(
+    element.addEventListener('patch-range-change', handler);
+    const basePatchDropdown = queryAndAssert<GrDropdownList>(
       element,
       '#basePatchDropdown'
-    )._handleValueChange('2', [{text: '', value: '2'}]);
-    assert.isTrue(handler.calledOnce);
+    );
+    basePatchDropdown.value = '2';
+    await basePatchDropdown.updateComplete;
+    assert.equal(handler.callCount, 1);
     assert.deepEqual(handler.lastCall.args[0].detail, {
       basePatchNum: 2,
       patchNum: 3,
     });
 
     // BasePatchNum should not have changed, due to one-way data binding.
-    queryAndAssert<GrDropdownList>(
+    const patchNumDropdown = queryAndAssert<GrDropdownList>(
       element,
       '#patchNumDropdown'
-    )._handleValueChange(EDIT, [{text: '', value: EDIT}]);
+    );
+    patchNumDropdown.value = EDIT;
+    await patchNumDropdown.updateComplete;
     assert.deepEqual(handler.lastCall.args[0].detail, {
       basePatchNum: 1,
       patchNum: EDIT,

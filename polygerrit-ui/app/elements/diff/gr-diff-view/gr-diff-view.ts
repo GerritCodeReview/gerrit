@@ -851,7 +851,6 @@ export class GrDiffView extends LitElement {
             id="dropdown"
             .value=${this.path}
             .items=${formattedFiles}
-            initial-count="75"
             show-copy-for-trigger-text
             @value-change=${this.handleFileChange}
           ></gr-dropdown-list>

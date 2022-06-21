@@ -2115,10 +2115,11 @@ suite('gr-diff-view tests', () => {
 
     test('f open file dropdown', async () => {
       assertIsDefined(element.dropdown);
-      assert.isFalse(element.dropdown.$.dropdown.opened);
+      assertIsDefined(element.dropdown.dropdown);
+      assert.isFalse(element.dropdown.dropdown.opened);
       MockInteractions.pressAndReleaseKeyOn(element, 70, null, 'f');
       await element.updateComplete;
-      assert.isTrue(element.dropdown.$.dropdown.opened);
+      assert.isTrue(element.dropdown.dropdown.opened);
     });
 
     suite('blame', () => {

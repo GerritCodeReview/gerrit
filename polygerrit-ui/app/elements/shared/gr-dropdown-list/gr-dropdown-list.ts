@@ -11,13 +11,17 @@ import '../gr-button/gr-button';
 import '../gr-date-formatter/gr-date-formatter';
 import '../gr-select/gr-select';
 import '../gr-file-status-chip/gr-file-status-chip';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {htmlTemplate} from './gr-dropdown-list_html';
-import {customElement, property, observe} from '@polymer/decorators';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {customElement, property, query} from 'lit/decorators';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {Timestamp} from '../../../types/common';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {GrButton} from '../gr-button/gr-button';
+import {assertIsDefined} from '../../../utils/common-util';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {ValueChangedEvent} from '../../../types/events';
+import {incrementalRepeat} from '../../lit/incremental-repeat';
+import {when} from 'lit/directives/when';
 
 /**
  * Required values are text and value. mobileText and triggerText will
@@ -39,31 +43,25 @@ export interface DropdownItem {
   file?: NormalizedFileInfo;
 }
 
-export interface GrDropdownList {
-  $: {
-    dropdown: IronDropdownElement;
-    trigger: GrButton;
-  };
-}
-
-export interface ValueChangeDetail {
-  value: string;
-}
-
-export type DropDownValueChangeEvent = CustomEvent<ValueChangeDetail>;
-
-@customElement('gr-dropdown-list')
-export class GrDropdownList extends PolymerElement {
-  static get template() {
-    return htmlTemplate;
+declare global {
+  interface HTMLElementEventMap {
+    'value-change': ValueChangedEvent<string>;
   }
+}
+@customElement('gr-dropdown-list')
+export class GrDropdownList extends LitElement {
+  @query('#dropdown')
+  dropdown?: IronDropdownElement;
+
+  @query('#trigger')
+  trigger?: GrButton;
 
   /**
    * Fired when the selected value changes
    *
    * @event value-change
    *
-   * @property {string|number} value
+   * @property {string} value
    */
 
   @property({type: Number})
@@ -78,27 +76,254 @@ export class GrDropdownList extends PolymerElement {
   @property({type: Boolean})
   disabled = false;
 
-  @property({type: String, notify: true})
-  value: string | number = '';
+  @property({type: String})
+  value = '';
 
-  @property({type: Boolean})
+  @property({type: Boolean, attribute: 'show-copy-for-trigger-text'})
   showCopyForTriggerText = false;
+
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: inline-block;
+        }
+        #triggerText {
+          -moz-user-select: text;
+          -ms-user-select: text;
+          -webkit-user-select: text;
+          user-select: text;
+        }
+        .dropdown-trigger {
+          cursor: pointer;
+          padding: 0;
+        }
+        .dropdown-content {
+          background-color: var(--dropdown-background-color);
+          box-shadow: var(--elevation-level-2);
+          max-height: 70vh;
+          min-width: 266px;
+        }
+        /* prettier formatter removes semi-colons after css mixins. */
+        /* prettier-ignore */
+        paper-listbox {
+          --paper-listbox: {
+            padding: 0;
+          };
+        }
+        /* prettier formatter removes semi-colons after css mixins. */
+        /* prettier-ignore */
+        paper-item {
+          cursor: pointer;
+          flex-direction: column;
+          font-size: inherit;
+          /* This variable was introduced in Dec 2019. We keep both min-height
+            * rules around, because --paper-item-min-height is not yet upstreamed.
+            */
+          --paper-item-min-height: 0;
+          --paper-item: {
+            min-height: 0;
+            padding: 10px 16px;
+          };
+          --paper-item-focused-before: {
+            background-color: var(--selection-background-color);
+          };
+          --paper-item-focused: {
+            background-color: var(--selection-background-color);
+          };
+        }
+        paper-item:hover {
+          background-color: var(--hover-background-color);
+        }
+        paper-item:not(:last-of-type) {
+          border-bottom: 1px solid var(--border-color);
+        }
+        .bottomContent {
+          color: var(--deemphasized-text-color);
+        }
+        .bottomContent,
+        .topContent {
+          display: flex;
+          justify-content: space-between;
+          flex-direction: row;
+          width: 100%;
+        }
+        gr-button {
+          font-family: var(--trigger-style-font-family);
+          --gr-button-text-color: var(--trigger-style-text-color);
+        }
+        gr-date-formatter {
+          color: var(--deemphasized-text-color);
+          margin-left: var(--spacing-xxl);
+          white-space: nowrap;
+        }
+        gr-select {
+          display: none;
+        }
+        /* Because the iron dropdown 'area' includes the trigger, and the entire
+          width of the dropdown, we want to treat tapping the area above the
+          dropdown content as if it is tapping whatever content is underneath
+          it. The next two styles allow this to happen. */
+        iron-dropdown {
+          max-width: none;
+          pointer-events: none;
+        }
+        paper-listbox {
+          pointer-events: auto;
+        }
+        @media only screen and (max-width: 50em) {
+          gr-select {
+            display: var(--gr-select-style-display, inline);
+            width: var(--gr-select-style-width);
+          }
+          gr-button,
+          iron-dropdown {
+            display: none;
+          }
+          select {
+            width: var(--native-select-style-width);
+          }
+        }
+      `,
+    ];
+  }
+
+  protected override willUpdate(changedProperties: PropertyValues): void {
+    if (changedProperties.has('items') || changedProperties.has('value')) {
+      this.handleValueChange();
+    }
+  }
+
+  override render() {
+    return html`
+      <gr-button
+        id="trigger"
+        ?disabled=${this.disabled}
+        down-arrow
+        link
+        class="dropdown-trigger"
+        slot="dropdown-trigger"
+        no-uppercase
+        @click=${this.showDropdownTapHandler}
+      >
+        <span id="triggerText">${this.text}</span>
+        <gr-copy-clipboard
+          ?hidden=${!this.showCopyForTriggerText}
+          hideInput
+          .text=${this.text}
+        ></gr-copy-clipboard>
+      </gr-button>
+      <iron-dropdown
+        id="dropdown"
+        verticalAlign="top"
+        horizontalAlign="left"
+        dynamicAlign
+        noOverlap
+        allowOutsideScroll
+        @click=${this.handleDropdownClick}
+      >
+        <paper-listbox
+          class="dropdown-content"
+          slot="dropdown-content"
+          .attrForSelected=${"data-value"}
+          .selected=${this.value}
+          @selected-changed=${this.selectedChanged}
+        >
+          ${incrementalRepeat({
+            values: this.items ?? [],
+            initialCount: this.initialCount,
+            mapFn: item => this.renderPaperItem(item as DropdownItem),
+          })}
+        </paper-listbox>
+      </iron-dropdown>
+      <gr-select
+        .bindValue=${this.value}
+        @bind-value-changed=${this.selectedChanged}
+      >
+        <select>
+          ${this.items?.map(
+            item => html`
+              <option ?disabled=${item.disabled} value=${`${item.value}`}>
+                ${this.computeMobileText(item)}
+              </option>
+            `
+          )}
+        </select>
+      </gr-select>
+    `;
+  }
+
+  private renderPaperItem(item: DropdownItem) {
+    return html` <paper-item
+      ?disabled=${item.disabled}
+      data-value=${item.value}
+    >
+      <div class="topContent">
+        <div>${item.text}</div>
+        ${when(
+          item.date,
+          () => html`
+            <gr-date-formatter .dateStr=${item.date}></gr-date-formatter>
+          `
+        )}
+        ${when(
+          item.file,
+          () => html`
+            <gr-file-status-chip .file=${item.file}></gr-file-status-chip>
+          `
+        )}
+      </div>
+      ${when(
+        item.bottomText,
+        () => html`
+          <div class="bottomContent">
+            <div>${item.bottomText}</div>
+          </div>
+        `
+      )}
+    </paper-item>`;
+  }
+
+  private selectedChanged(e: ValueChangedEvent<string>) {
+    this.value = e.detail.value;
+  }
 
   /**
    * Handle a click on the iron-dropdown element.
    */
-  _handleDropdownClick() {
+  private handleDropdownClick() {
     // async is needed so that that the click event is fired before the
     // dropdown closes (This was a bug for touch devices).
     setTimeout(() => {
-      this.$.dropdown.close();
+      assertIsDefined(this.dropdown);
+      this.dropdown.close();
     }, 1);
+  }
+
+  private handleValueChange() {
+    if (this.value === undefined || this.items === undefined) {
+      return;
+    }
+    const selectedObj = this.items.find(item => `${item.value}` === this.value);
+    if (!selectedObj) {
+      return;
+    }
+    this.text = selectedObj.triggerText
+      ? selectedObj.triggerText
+      : selectedObj.text;
+    this.dispatchEvent(
+      new CustomEvent('value-change', {
+        detail: {value: this.value},
+        bubbles: false,
+      })
+    );
   }
 
   /**
    * Handle a click on the button to open the dropdown.
    */
-  _showDropdownTapHandler() {
+  private showDropdownTapHandler() {
     this.open();
   }
 
@@ -106,36 +331,13 @@ export class GrDropdownList extends PolymerElement {
    * Open the dropdown.
    */
   open() {
-    this.$.dropdown.open();
+    assertIsDefined(this.dropdown);
+    this.dropdown.open();
   }
 
-  _computeMobileText(item: DropdownItem) {
+  // Private but used in tests.
+  computeMobileText(item: DropdownItem) {
     return item.mobileText ? item.mobileText : item.text;
-  }
-
-  computeStringValue(val: string | number) {
-    return String(val);
-  }
-
-  @observe('value', 'items')
-  _handleValueChange(value?: string, items?: DropdownItem[]) {
-    if (!value || !items) {
-      return;
-    }
-    const selectedObj = items.find(item => `${item.value}` === `${value}`);
-    if (!selectedObj) {
-      return;
-    }
-    this.text = selectedObj.triggerText
-      ? selectedObj.triggerText
-      : selectedObj.text;
-    const detail: ValueChangeDetail = {value};
-    this.dispatchEvent(
-      new CustomEvent('value-change', {
-        detail,
-        bubbles: false,
-      })
-    );
   }
 }
 

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "693b0028_da56ff75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-21T11:20:18Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "86abfc6990ec06392f1185f30fe6fbd410603dc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0ff09fa_5aac8d86",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-21T11:20:18Z",
+      "side": 1,
+      "message": "Minor nit: Change this to const.",
+      "revId": "86abfc6990ec06392f1185f30fe6fbd410603dc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c857d83_77282277",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-21T11:20:18Z",
+      "side": 1,
+      "message": "Should you choose to: \n`if (await predicate()) ...`",
+      "revId": "86abfc6990ec06392f1185f30fe6fbd410603dc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "831d2f52_8504ae9f",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-21T11:20:18Z",
+      "side": 1,
+      "message": "Minor nit: use const, there\u0027s no reason to reuse the same variable as defined in the outer function.",
+      "revId": "86abfc6990ec06392f1185f30fe6fbd410603dc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03e00375_45a0f8cf",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-21T11:20:18Z",
+      "side": 1,
+      "message": "You can also write `if (await predicate())`",
+      "revId": "86abfc6990ec06392f1185f30fe6fbd410603dc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

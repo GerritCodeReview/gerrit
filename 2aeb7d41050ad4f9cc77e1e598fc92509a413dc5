@@ -16,6 +16,24 @@
       "message": "Could you provide a bit more context? The bug is also not giving much detail.",
       "revId": "2aeb7d41050ad4f9cc77e1e598fc92509a413dc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7aa94ab3_f9b4ded4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-21T07:13:36Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "68654109_c1669b5b",
+      "revId": "2aeb7d41050ad4f9cc77e1e598fc92509a413dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

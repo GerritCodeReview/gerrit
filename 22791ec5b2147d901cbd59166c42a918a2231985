@@ -16,6 +16,24 @@
       "message": "With downgraded asciidoctor dependency to 1.5.2 it external links messed up.",
       "revId": "22791ec5b2147d901cbd59166c42a918a2231985",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "997244b2_d1f79f30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2022-06-21T10:30:37Z",
+      "side": 1,
+      "message": "The :linkattrs: enables the parsing of links such as [Bazel,role\u003dexternal,window\u003d_blank] and that has to be explicitly set with AsciiDoctor enabled 1.5.2  which is the version Google Source uses for now and we thus need to keep those links.\n\nWith AsciiDoctor 1.5.7+  link attributes is turned on by default, but we will still need to keep :linkattrs: for Google Source :\\\n\nMaybe there is a way to always enable it from the command line. tools/bzl/asciidoc.bzl _generate_asciidoc_args seems to be Bazel function generating arguments passed to asciidoctor, it might be possible to use \"-a linkattrs\" which might forces it on with 1.5.2 and thus let us remove :linkattrs:",
+      "parentUuid": "21e6b822_c120e1f6",
+      "revId": "22791ec5b2147d901cbd59166c42a918a2231985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

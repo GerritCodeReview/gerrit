@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4c01199_cb735ccd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-21T12:47:28Z",
+      "side": 1,
+      "message": "- This is needed for migration: we want to replace all FieldDefs with SearchSpec. Since this would be a huge change, I use SchemaField in all places where FieldDef was used before. Then I will gradually replace all FieldDefs with SearchSpec and will get rid of SchemaField.\n\n- Yes. It will be possible to e.g. enable full_text search spec and exact match on the same Stored field.",
+      "parentUuid": "f5a69b61_59333917",
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16a30266_a95ccdaa",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-06-20T08:38:06Z",
       "side": 1,
       "message": "store*",
+      "range": {
+        "startLine": 9,
+        "startChar": 47,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c988933c_4c1b6d17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-21T12:47:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16a30266_a95ccdaa",
       "range": {
         "startLine": 9,
         "startChar": 47,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8765e5dc_c142f007",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-21T12:47:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19de54d9_a2abb5ea",
+      "range": {
+        "startLine": 12,
+        "startChar": 98,
+        "endLine": 12,
+        "endChar": 101
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "371a8313_feb9285e",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-06-20T08:38:06Z",
       "side": 1,
       "message": "As per the description: \"that is an abstraction for the field data\", the name StoredSchemaField is somewhat confusing? Why the name \"stored\"?\nis this class going to hold the field data only? Should it be called SchemaFieldData, IndexFieldData or FieldData instead?\n\nI also have a similar comment for StoredSearchSpec. Should it be called FieldSearchSpec, or SearchSpec as well?\n\nSince we have \"stored\" fields (fields that are stored in the index doc but are not searchable), the prefix \"Stored\" that you use might confuse with it.\n\nWDYT?",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bef048fb_1b3bc64b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-21T12:47:28Z",
+      "side": 1,
+      "message": "Agree, maybe \u0027Stored\u0027 is not the best choice here.\nI wanted to emphasize that the new entity represent a primary storage for index, not the index itself (mapping the tokens to generated documents).\n\nWhat about:\nStoredSchemaField -\u003e IndexField\nStoredSearchSpec -\u003e SearchSpec\n\nI suggest to get agreement on the names before updating the change, since it will also require rebasing the entire sequence :)",
+      "parentUuid": "371a8313_feb9285e",
       "range": {
         "startLine": 14,
         "startChar": 29,
@@ -127,6 +217,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bef37ce_82aa8dfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-21T12:47:28Z",
+      "side": 1,
+      "message": "we have \u003e64 field just in change index, replacing all of them at once will result in a huge change that will be hard to review.\nIf something breaks, we will have to roll back the entire change and will lose a lot of work.",
+      "parentUuid": "b92fb9c4_4efde2f6",
+      "range": {
+        "startLine": 16,
+        "startChar": 66,
+        "endLine": 16,
+        "endChar": 81
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfd7278d_bb152b13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-21T12:47:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15336137_fee27b97",
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8061fd3_421ca748",
@@ -144,6 +276,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c28ffef7_b8f096df",
+        "filename": "java/com/google/gerrit/index/SchemaFieldDefs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-21T12:47:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8061fd3_421ca748",
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e498c920_c0bfbe77",
@@ -157,6 +307,30 @@
       "writtenOn": "2022-06-20T08:38:06Z",
       "side": 1,
       "message": "better rename this to SearchOption? (without \u0027s\u0027).",
+      "range": {
+        "startLine": 18,
+        "startChar": 12,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26434333_ab1dd967",
+        "filename": "java/com/google/gerrit/index/SearchOptions.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-21T12:47:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e498c920_c0bfbe77",
       "range": {
         "startLine": 18,
         "startChar": 12,
@@ -190,6 +364,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7966cd2_b7a378ab",
+        "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-21T12:47:28Z",
+      "side": 1,
+      "message": "I have an error:\n\n  Cannot use \u0027\u003c\u003e\u0027 with anonymous inner classes",
+      "parentUuid": "151dc71d_6a83db29",
+      "range": {
+        "startLine": 63,
+        "startChar": 64,
+        "endLine": 63,
+        "endChar": 71
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a10cd0fe_a3236d44",
@@ -203,6 +401,30 @@
       "writtenOn": "2022-06-20T08:38:06Z",
       "side": 1,
       "message": "I feel the name is a bit confusing. \"Search Spec\" (more to be understood as search specification) is easier to sound like the search criteria (full_text, etc...), however here it\u0027s used as an implementation of the SchemaField: a field definition that can be set and get in the index.\n\nShould we change the name?",
+      "range": {
+        "startLine": 115,
+        "startChar": 15,
+        "endLine": 115,
+        "endChar": 31
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c066732_993fa733",
+        "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-21T12:47:28Z",
+      "side": 1,
+      "message": "It will be used as search criteria only (at least in our implementation), once all FieldDefs are replaced with Field+SearchSpec.\n\nI could not come up with the better name, but could add more to the comment?",
+      "parentUuid": "a10cd0fe_a3236d44",
       "range": {
         "startLine": 115,
         "startChar": 15,
@@ -230,6 +452,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a348045_af887cea",
+        "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-21T12:47:28Z",
+      "side": 1,
+      "message": "This is already mentioned in SearchSpec and StoredSchemaField docs.",
+      "parentUuid": "41340e1f_79ed9df3",
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7734edf_d183c149",
@@ -247,6 +487,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84fd1a01_c34fbb2f",
+        "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-21T12:47:28Z",
+      "side": 1,
+      "message": "It is part of the StoredSchemaField. The entire builder is just for StoredSchemaField.",
+      "parentUuid": "c7734edf_d183c149",
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93f84053_37e211f9",
@@ -260,6 +518,30 @@
       "writtenOn": "2022-06-20T08:38:06Z",
       "side": 1,
       "message": "Lucene*",
+      "range": {
+        "startLine": 87,
+        "startChar": 7,
+        "endLine": 87,
+        "endChar": 13
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe2aa28b_acfb3017",
+        "filename": "java/com/google/gerrit/lucene/LuceneStoredValue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-21T12:47:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93f84053_37e211f9",
       "range": {
         "startLine": 87,
         "startChar": 7,

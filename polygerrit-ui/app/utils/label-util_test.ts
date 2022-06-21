@@ -21,6 +21,7 @@ import {
   mergeLabelMaps,
   computeOrderedLabelValues,
   mergeLabelInfoMaps,
+  getApplicableLabels,
 } from './label-util';
 import {
   AccountId,
@@ -585,6 +586,181 @@ suite('label-util', () => {
         },
       };
       assert.deepEqual(getTriggerVotes(change), []);
+    });
+  });
+
+  suite('getApplicableLabels()', () => {
+    test('1 not applicable', () => {
+      const notApplicableLabel = 'Not-Applicable-Label';
+      const change = {
+        ...createChange(),
+        submit_requirements: [
+          {
+            ...createSubmitRequirementResultInfo(),
+            status: SubmitRequirementStatus.NOT_APPLICABLE,
+            submittability_expression_result: {
+              ...createSubmitRequirementExpressionInfo(),
+              expression: `label:${notApplicableLabel}=MAX`,
+            },
+            is_legacy: false,
+          },
+        ],
+        labels: {
+          [notApplicableLabel]: createDetailedLabelInfo(),
+        },
+      };
+      assert.deepEqual(getApplicableLabels(change), []);
+    });
+    test('1 applicable, 1 not applicable', () => {
+      const applicableLabel = 'Applicable-Label';
+      const notApplicableLabel = 'Not-Applicable-Label';
+      const change = {
+        ...createChange(),
+        submit_requirements: [
+          {
+            ...createSubmitRequirementResultInfo(),
+            status: SubmitRequirementStatus.NOT_APPLICABLE,
+            submittability_expression_result: {
+              ...createSubmitRequirementExpressionInfo(),
+              expression: `label:${notApplicableLabel}=MAX`,
+            },
+            is_legacy: false,
+          },
+          {
+            ...createSubmitRequirementResultInfo(),
+            status: SubmitRequirementStatus.UNSATISFIED,
+            submittability_expression_result: {
+              ...createSubmitRequirementExpressionInfo(),
+              expression: `label:${applicableLabel}=MAX`,
+            },
+            is_legacy: false,
+          },
+        ],
+        labels: {
+          [notApplicableLabel]: createDetailedLabelInfo(),
+          [applicableLabel]: createDetailedLabelInfo(),
+        },
+      };
+      assert.deepEqual(getApplicableLabels(change), [applicableLabel]);
+    });
+
+    test('same label in applicable and not applicable requirement', () => {
+      const label = 'label';
+      const change = {
+        ...createChange(),
+        submit_requirements: [
+          {
+            ...createSubmitRequirementResultInfo(),
+            status: SubmitRequirementStatus.NOT_APPLICABLE,
+            submittability_expression_result: {
+              ...createSubmitRequirementExpressionInfo(),
+              expression: `label:${label}=MAX`,
+            },
+            is_legacy: false,
+          },
+          {
+            ...createSubmitRequirementResultInfo(),
+            status: SubmitRequirementStatus.UNSATISFIED,
+            submittability_expression_result: {
+              ...createSubmitRequirementExpressionInfo(),
+              expression: `label:${label}=MAX`,
+            },
+            is_legacy: false,
+          },
+        ],
+        labels: {
+          [label]: createDetailedLabelInfo(),
+        },
+      };
+      assert.deepEqual(getApplicableLabels(change), [label]);
+    });
+  });
+
+
+  suite('getApplicableLabels()', () => {
+    test('1 not applicable', () => {
+      const notApplicableLabel = 'Not-Applicable-Label';
+      const change = {
+        ...createChange(),
+        submit_requirements: [
+          {
+            ...createSubmitRequirementResultInfo(),
+            status: SubmitRequirementStatus.NOT_APPLICABLE,
+            submittability_expression_result: {
+              ...createSubmitRequirementExpressionInfo(),
+              expression: `label:${notApplicableLabel}=MAX`,
+            },
+            is_legacy: false,
+          },
+        ],
+        labels: {
+          [notApplicableLabel]: createDetailedLabelInfo(),
+        },
+      };
+      assert.deepEqual(getApplicableLabels(change), []);
+    });
+    test('1 applicable, 1 not applicable', () => {
+      const applicableLabel = 'Applicable-Label';
+      const notApplicableLabel = 'Not-Applicable-Label';
+      const change = {
+        ...createChange(),
+        submit_requirements: [
+          {
+            ...createSubmitRequirementResultInfo(),
+            status: SubmitRequirementStatus.NOT_APPLICABLE,
+            submittability_expression_result: {
+              ...createSubmitRequirementExpressionInfo(),
+              expression: `label:${notApplicableLabel}=MAX`,
+            },
+            is_legacy: false,
+          },
+          {
+            ...createSubmitRequirementResultInfo(),
+            status: SubmitRequirementStatus.UNSATISFIED,
+            submittability_expression_result: {
+              ...createSubmitRequirementExpressionInfo(),
+              expression: `label:${applicableLabel}=MAX`,
+            },
+            is_legacy: false,
+          },
+        ],
+        labels: {
+          [notApplicableLabel]: createDetailedLabelInfo(),
+          [applicableLabel]: createDetailedLabelInfo(),
+        },
+      };
+      assert.deepEqual(getApplicableLabels(change), [applicableLabel]);
+    });
+
+    test('same label in applicable and not applicable requirement', () => {
+      const label = 'label';
+      const change = {
+        ...createChange(),
+        submit_requirements: [
+          {
+            ...createSubmitRequirementResultInfo(),
+            status: SubmitRequirementStatus.NOT_APPLICABLE,
+            submittability_expression_result: {
+              ...createSubmitRequirementExpressionInfo(),
+              expression: `label:${label}=MAX`,
+            },
+            is_legacy: false,
+          },
+          {
+            ...createSubmitRequirementResultInfo(),
+            status: SubmitRequirementStatus.UNSATISFIED,
+            submittability_expression_result: {
+              ...createSubmitRequirementExpressionInfo(),
+              expression: `label:${label}=MAX`,
+            },
+            is_legacy: false,
+          },
+        ],
+        labels: {
+          [label]: createDetailedLabelInfo(),
+        },
+      };
+      assert.deepEqual(getApplicableLabels(change), [label]);
     });
   });
 });

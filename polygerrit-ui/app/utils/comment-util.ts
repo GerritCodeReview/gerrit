@@ -20,6 +20,7 @@ import {
   AccountDetailInfo,
   ChangeMessageInfo,
   VotingRangeInfo,
+  Base64FileContent,
 } from '../types/common';
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
@@ -491,4 +492,30 @@ export function reportingDetails(comment: CommentBasics) {
     line: comment?.range?.start_line ?? comment?.line,
     unsaved: isUnsaved(comment),
   };
+}
+
+export const USER_SUGGESTION_START_PATTERN = '```suggestion\n';
+
+export function hasUserSuggestion(comment: Comment) {
+  return comment.message?.includes(USER_SUGGESTION_START_PATTERN) ?? false;
+}
+
+export function getUserSuggestion(comment: Comment) {
+  if (!comment.message) return;
+  const start =
+    comment.message.indexOf(USER_SUGGESTION_START_PATTERN) +
+    USER_SUGGESTION_START_PATTERN.length;
+  const end = comment.message.indexOf('\n```', start);
+  return comment.message.substring(start, end);
+}
+
+/**
+ * Currently it receive just 1 line.
+ * TODO(milutin): Extend for multiline comments
+ */
+export function getContentInCommentRange(
+  file: Base64FileContent,
+  comment: Comment
+) {
+  return file.content!.split('\n')[comment.line! - 1];
 }

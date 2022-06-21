@@ -17,10 +17,17 @@ import {
   PatchSetNum,
   RobotId,
   BasePatchSetNum,
+  Base64FileContent,
+  FilePathToDiffInfoMap,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {isRobot} from '../../../utils/comment-util';
+import {
+  getContentInCommentRange,
+  getUserSuggestion,
+  hasUserSuggestion,
+  isRobot,
+} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent} from '../../../types/events';
 import {getAppContext} from '../../../services/app-context';
 import {fireCloseFixPreview, fireEvent} from '../../../utils/event-util';
@@ -210,15 +217,45 @@ export class GrApplyFixDialog extends LitElement {
    * @return Promise that resolves either when all
    * preview diffs are fetched or no fix suggestions in custom event detail.
    */
-  open(e: OpenFixPreviewEvent) {
+  async open(e: OpenFixPreviewEvent) {
     const detail = e.detail;
     const comment = detail.comment;
-    if (!detail.patchNum || !comment || !isRobot(comment)) {
-      return Promise.resolve();
+    if (comment && hasUserSuggestion(comment)) {
+      const replacement = getUserSuggestion(comment);
+      if (!replacement) throw new Error('User suggestion is malformatted');
+      const file = await this.restApiService.getFileContent(
+        this.changeNum!,
+        comment.path!,
+        comment.patch_set!
+      );
+      if (!file) throw new Error('Cannot retrieve file content');
+      const line = getContentInCommentRange(file as Base64FileContent, comment);
+      this.fixSuggestions = [
+        {
+          fix_id: 'user_suggestion' as FixId,
+          description: 'User suggestion',
+          replacements: [
+            {
+              path: comment.path!,
+              range: {
+                start_line: comment.line!,
+                start_character: 0,
+                end_line: comment.line!,
+                end_character: line.length,
+              },
+              replacement,
+            },
+          ],
+        },
+      ];
+    } else {
+      if (!detail.patchNum || !comment || !isRobot(comment)) {
+        return Promise.resolve();
+      }
+      this.fixSuggestions = comment.fix_suggestions;
+      this.robotId = comment.robot_id;
     }
     this.patchNum = detail.patchNum;
-    this.fixSuggestions = comment.fix_suggestions;
-    this.robotId = comment.robot_id;
     if (!this.fixSuggestions || !this.fixSuggestions.length) {
       return Promise.resolve();
     }
@@ -233,30 +270,39 @@ export class GrApplyFixDialog extends LitElement {
     });
   }
 
-  private showSelectedFixSuggestion(fixSuggestion: FixSuggestionInfo) {
+  private async showSelectedFixSuggestion(fixSuggestion: FixSuggestionInfo) {
     this.currentFix = fixSuggestion;
-    return this.fetchFixPreview(fixSuggestion.fix_id);
+    await this.fetchFixPreview(fixSuggestion);
   }
 
-  private fetchFixPreview(fixId: FixId) {
+  private async fetchFixPreview(fixSuggestion: FixSuggestionInfo) {
     if (!this.changeNum || !this.patchNum) {
       return Promise.reject(
         new Error('Both patchNum and changeNum must be set')
       );
     }
-    return this.restApiService
-      .getRobotCommentFixPreview(this.changeNum, this.patchNum, fixId)
-      .then(res => {
-        if (res) {
-          this.currentPreviews = Object.keys(res).map(key => {
-            return {filepath: key, preview: res[key]};
-          });
-        }
-      })
-      .catch(err => {
-        this.close(false);
-        throw err;
+    let res: FilePathToDiffInfoMap | undefined;
+    if (fixSuggestion.fix_id === 'user_suggestion') {
+      res = await this.restApiService.getFixPreview(
+        this.changeNum,
+        this.patchNum,
+        fixSuggestion.replacements
+      );
+    } else {
+      res = await this.restApiService.getRobotCommentFixPreview(
+        this.changeNum,
+        this.patchNum,
+        fixSuggestion.fix_id
+      );
+    }
+    if (res) {
+      this.currentPreviews = Object.keys(res).map(key => {
+        return {filepath: key, preview: res![key]};
       });
+    } else {
+      this.close(false);
+    }
+    return;
   }
 
   private overridePartialDiffPrefs() {
@@ -328,11 +374,20 @@ export class GrApplyFixDialog extends LitElement {
       throw new Error('Not all required properties are set.');
     }
     this.isApplyFixLoading = true;
-    const res = await this.restApiService.applyRobotFixSuggestion(
-      changeNum,
-      patchNum,
-      this.currentFix.fix_id
-    );
+    let res;
+    if (this.fixSuggestions![0].fix_id === 'user_suggestion') {
+      res = await this.restApiService.applyFixSuggestion(
+        changeNum,
+        patchNum,
+        this.fixSuggestions![0].replacements
+      );
+    } else {
+      res = await this.restApiService.applyRobotFixSuggestion(
+        changeNum,
+        patchNum,
+        this.currentFix.fix_id
+      );
+    }
     if (res && res.ok) {
       GerritNav.navigateToChange(change, {
         patchNum: EDIT,

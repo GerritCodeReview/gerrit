@@ -22,6 +22,30 @@
       },
       "revId": "80b5be0cf6724f186a9be881b94bce26da31ad99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81a17149_eac8e674",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-21T11:59:41Z",
+      "side": 1,
+      "message": "Added unit test\n\n```\ntest(\u0027same label in applicable and not applicable requirement\u0027\n```",
+      "parentUuid": "a9a06761_5a7458db",
+      "range": {
+        "startLine": 425,
+        "startChar": 8,
+        "endLine": 425,
+        "endChar": 33
+      },
+      "revId": "80b5be0cf6724f186a9be881b94bce26da31ad99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

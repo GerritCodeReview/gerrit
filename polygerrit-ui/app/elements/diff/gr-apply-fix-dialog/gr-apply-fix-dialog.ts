@@ -210,15 +210,41 @@ export class GrApplyFixDialog extends LitElement {
    * @return Promise that resolves either when all
    * preview diffs are fetched or no fix suggestions in custom event detail.
    */
-  open(e: OpenFixPreviewEvent) {
+  async open(e: OpenFixPreviewEvent) {
     const detail = e.detail;
     const comment = detail.comment;
-    if (!detail.patchNum || !comment || !isRobot(comment)) {
-      return Promise.resolve();
+    if (comment?.message?.includes('```suggestion')) {
+      const start =
+        comment.message.indexOf('```suggestion\n') + '```suggestion\n'.length;
+      const end = comment.message.indexOf('\n```', start);
+      const replacement = comment.message.substring(start, end);
+      this.fixSuggestions = [
+        {
+          fix_id: 'test' as FixId,
+          description: 'User suggestion',
+          replacements: [
+            {
+              path: comment.path!,
+              range: {
+                start_line: comment.line!,
+                start_character: 0,
+                end_line: comment.line!,
+                // TODO(milutin): the needs to be correctly calculated
+                end_character: 4,
+              },
+              replacement,
+            },
+          ],
+        },
+      ];
+    } else {
+      if (!detail.patchNum || !comment || !isRobot(comment)) {
+        return Promise.resolve();
+      }
+      this.fixSuggestions = comment.fix_suggestions;
+      this.robotId = comment.robot_id;
     }
     this.patchNum = detail.patchNum;
-    this.fixSuggestions = comment.fix_suggestions;
-    this.robotId = comment.robot_id;
     if (!this.fixSuggestions || !this.fixSuggestions.length) {
       return Promise.resolve();
     }
@@ -235,17 +261,40 @@ export class GrApplyFixDialog extends LitElement {
 
   private showSelectedFixSuggestion(fixSuggestion: FixSuggestionInfo) {
     this.currentFix = fixSuggestion;
-    return this.fetchFixPreview(fixSuggestion.fix_id);
+    return this.fetchFixPreview(fixSuggestion);
   }
 
-  private fetchFixPreview(fixId: FixId) {
+  private fetchFixPreview(fixSuggestion: FixSuggestionInfo) {
     if (!this.changeNum || !this.patchNum) {
       return Promise.reject(
         new Error('Both patchNum and changeNum must be set')
       );
     }
+    if (fixSuggestion.fix_id === 'test') {
+      return this.restApiService
+        .getFixPreview(
+          this.changeNum,
+          this.patchNum,
+          fixSuggestion.replacements
+        )
+        .then(res => {
+          if (res) {
+            this.currentPreviews = Object.keys(res).map(key => {
+              return {filepath: key, preview: res[key]};
+            });
+          }
+        })
+        .catch(err => {
+          this.close(false);
+          throw err;
+        });
+    }
     return this.restApiService
-      .getRobotCommentFixPreview(this.changeNum, this.patchNum, fixId)
+      .getRobotCommentFixPreview(
+        this.changeNum,
+        this.patchNum,
+        fixSuggestion.fix_id
+      )
       .then(res => {
         if (res) {
           this.currentPreviews = Object.keys(res).map(key => {

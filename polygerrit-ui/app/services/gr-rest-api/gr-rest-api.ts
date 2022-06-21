@@ -41,6 +41,7 @@ import {
   FileNameToFileInfoMap,
   FilePathToDiffInfoMap,
   FixId,
+  FixReplacementInfo,
   GitRef,
   GpgKeyId,
   GpgKeyInfo,
@@ -666,6 +667,12 @@ export interface RestApiService extends Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     fixId: FixId
+  ): Promise<FilePathToDiffInfoMap | undefined>;
+
+  getFixPreview(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    fixReplacementInfos: FixReplacementInfo[]
   ): Promise<FilePathToDiffInfoMap | undefined>;
 
   applyFixSuggestion(

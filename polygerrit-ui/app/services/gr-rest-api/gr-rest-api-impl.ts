@@ -119,6 +119,7 @@ import {
   TagInput,
   TopMenuEntryInfo,
   UrlEncodedCommentId,
+  FixReplacementInfo,
 } from '../../types/common';
 import {
   DiffInfo,
@@ -2090,6 +2091,22 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       body: {binary_content: content},
       anonymizedEndpoint: '/edit/*',
     });
+  }
+
+  getFixPreview(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    fixReplacementInfos: FixReplacementInfo[]
+  ): Promise<FilePathToDiffInfoMap | undefined> {
+    // TODO(milutin): It looks it doesn't return anything.
+    return this._getChangeURLAndSend({
+      method: HttpMethod.POST,
+      changeNum,
+      patchNum,
+      endpoint: '/fix:preview',
+      reportEndpointAsId: true,
+      body: {fix_replacement_infos: fixReplacementInfos},
+    }) as unknown as Promise<FilePathToDiffInfoMap | undefined>;
   }
 
   getRobotCommentFixPreview(

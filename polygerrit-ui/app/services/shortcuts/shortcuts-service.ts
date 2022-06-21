@@ -26,6 +26,11 @@ import {UserModel} from '../../models/user/user-model';
 import {FlagsService} from '../flags/flags';
 import {define} from '../../models/dependency';
 
+export {
+  Shortcut,
+  ShortcutSection,
+};
+
 export type SectionView = Array<{binding: string[][]; text: string}>;
 
 export interface ShortcutListener {
@@ -66,12 +71,6 @@ export class ShortcutsService implements Finalizable {
    * currently relevant.
    */
   private readonly activeShortcuts = new Set<Shortcut>();
-
-  /**
-   * Keeps track of cleanup callbacks (which remove keyboard listeners) that
-   * have to be invoked when a component unregisters itself.
-   */
-  private readonly cleanupsPerHost = new Map<HTMLElement, (() => void)[]>();
 
   /** Static map built in the constructor by iterating over the config. */
   private readonly bindings = new Map<Shortcut, Binding[]>();
@@ -239,22 +238,6 @@ export class ShortcutsService implements Finalizable {
     };
   }
 
-  /**
-   * Being called by the Polymer specific KeyboardShortcutMixin.
-   */
-  attachHost(host: HTMLElement, shortcuts: ShortcutListener[]) {
-    const cleanups: (() => void)[] = [];
-    for (const s of shortcuts) {
-      cleanups.push(this.addShortcutListener(s.shortcut, s.listener));
-    }
-    this.cleanupsPerHost.set(host, cleanups);
-  }
-
-  detachHost(host: HTMLElement) {
-    const cleanups = this.cleanupsPerHost.get(host);
-    for (const cleanup of cleanups ?? []) cleanup();
-    return true;
-  }
 
   addListener(listener: ShortcutViewListener) {
     this.listeners.add(listener);

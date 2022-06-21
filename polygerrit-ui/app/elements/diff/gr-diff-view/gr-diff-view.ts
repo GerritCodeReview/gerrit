@@ -23,10 +23,6 @@ import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';
 import '../../shared/gr-overlay/gr-overlay';
 import {
-  Shortcut,
-  ShortcutSection,
-} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {
   GeneratedWebLink,
   GerritNav,
 } from '../../core/gr-navigation/gr-navigation';
@@ -101,7 +97,11 @@ import {CursorMoveResult} from '../../../api/core';
 import {isFalse, throttleWrap, until} from '../../../utils/async-util';
 import {filter, take, switchMap} from 'rxjs/operators';
 import {combineLatest} from 'rxjs';
-import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
+import {
+  Shortcut,
+  ShortcutSection,
+  shortcutsServiceToken,
+} from '../../../services/shortcuts/shortcuts-service';
 import {LoadingStatus} from '../../../models/change/change-model';
 import {DisplayLine} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';

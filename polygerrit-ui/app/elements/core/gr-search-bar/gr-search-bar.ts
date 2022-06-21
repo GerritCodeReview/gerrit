@@ -21,10 +21,9 @@ import {
   state,
   query as queryDec,
 } from 'lit/decorators';
-import {ShortcutController} from '../../lit/shortcut-controller';
+import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
 import {query as queryUtil} from '../../../utils/common-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [

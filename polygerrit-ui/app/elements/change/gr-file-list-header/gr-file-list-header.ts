@@ -28,15 +28,15 @@ import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fireEvent} from '../../../utils/event-util';
-import {
-  Shortcut,
-  ShortcutSection,
-} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when';
 import {ifDefined} from 'lit/directives/if-defined';
-import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
+import {
+  Shortcut,
+  ShortcutSection,
+  shortcutsServiceToken
+} from '../../../services/shortcuts/shortcuts-service';
 import {resolve} from '../../../models/dependency';
 import {getAppContext} from '../../../services/app-context';
 import {subscribe} from '../../lit/subscription-controller';

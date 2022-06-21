@@ -9,6 +9,9 @@ import {shortcutsServiceToken} from '../../services/shortcuts/shortcuts-service'
 import {Shortcut} from '../../services/shortcuts/shortcuts-config';
 import {resolve} from '../../models/dependency';
 
+export {
+  Shortcut,
+};
 interface ShortcutListener {
   binding: Binding;
   listener: (e: KeyboardEvent) => void;

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2924b205_a51c824a",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-21T11:24:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0ff09fa_5aac8d86",
+      "revId": "86abfc6990ec06392f1185f30fe6fbd410603dc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c857d83_77282277",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-06-21T11:20:18Z",
       "side": 1,
       "message": "Should you choose to: \n`if (await predicate()) ...`",
+      "revId": "86abfc6990ec06392f1185f30fe6fbd410603dc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fa560e0_a7187dfb",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-21T11:24:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c857d83_77282277",
       "revId": "86abfc6990ec06392f1185f30fe6fbd410603dc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8768ff17_a2c4f596",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-21T11:24:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "831d2f52_8504ae9f",
+      "revId": "86abfc6990ec06392f1185f30fe6fbd410603dc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03e00375_45a0f8cf",
@@ -82,6 +136,24 @@
       "writtenOn": "2022-06-21T11:20:18Z",
       "side": 1,
       "message": "You can also write `if (await predicate())`",
+      "revId": "86abfc6990ec06392f1185f30fe6fbd410603dc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "665f746d_254c8cd3",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-21T11:24:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03e00375_45a0f8cf",
       "revId": "86abfc6990ec06392f1185f30fe6fbd410603dc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

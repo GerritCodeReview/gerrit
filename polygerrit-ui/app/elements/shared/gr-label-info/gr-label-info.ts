@@ -273,7 +273,7 @@ export class GrLabelInfo extends LitElement {
           return;
         }
         if (this.change) {
-          fireReload(this);
+          fireReload(this, true);
         }
       })
       .catch(err => {

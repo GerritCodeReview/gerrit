@@ -33,6 +33,23 @@
       "message": "Still have a merge conflict",
       "revId": "7529adbc0ad964689483b797cdfd159a4b148091",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "942712b6_ce36f8cf",
+        "filename": "polygerrit-ui/app/test/test-utils.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-21T09:58:01Z",
+      "side": 1,
+      "message": "Can you rewrite waitUntil to use this function as well, so we don\u0027t have two similar implementations.",
+      "revId": "7529adbc0ad964689483b797cdfd159a4b148091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

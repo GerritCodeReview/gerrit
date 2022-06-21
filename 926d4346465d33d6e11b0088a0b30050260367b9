@@ -1,5 +1,52 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a210348_7e0c0a92",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-21T10:16:37Z",
+      "side": 1,
+      "message": "nit: There is other method that starts with \"calculate\" in the same file. Should probably keep it consistent. Personally I would just use \"getSomething\" style for both, but both \"compute\" or both \"calculate\" is also fine by me.",
+      "range": {
+        "startLine": 423,
+        "startChar": 10,
+        "endLine": 423,
+        "endChar": 34
+      },
+      "revId": "926d4346465d33d6e11b0088a0b30050260367b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64886300_fe9fecb5",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2022-06-21T10:16:37Z",
+      "side": 1,
+      "message": "Why do we need to re-order requirements for this check?",
+      "range": {
+        "startLine": 424,
+        "startChar": 32,
+        "endLine": 424,
+        "endChar": 55
+      },
+      "revId": "926d4346465d33d6e11b0088a0b30050260367b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

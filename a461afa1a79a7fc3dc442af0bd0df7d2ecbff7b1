@@ -392,6 +392,24 @@
       "parentUuid": "3541dfcb_2776c7d3",
       "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71fe55ad_6ac5edda",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 40
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-21T20:23:34Z",
+      "side": 1,
+      "message": "My 2c as front-end engineer:\n\nI don\u0027t see any benefit for alphabetically ordering. I use links provided by IDE and typescript or search.\n\nI see disadvantages of sorting:\n - losing clusters of interfaces. Currently interface using other interface is usually next to each other, so as a reader I don\u0027t need to jump in file\n - losing git blame information. I use git blame quite often to see additional information in commit message. Full sorting would disable override this.\n\nBut I don\u0027t plan to block such change. In the end, it really doesn\u0027t matter that much when I am developing.",
+      "parentUuid": "b1a26084_394f90ac",
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

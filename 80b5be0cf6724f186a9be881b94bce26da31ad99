@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9a06761_5a7458db",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-21T11:42:25Z",
+      "side": 1,
+      "message": "is it possible for a label to be in both `notApplicableLabels` and `applicableLabels`?\n\nIf so can you provide an example for it.",
+      "range": {
+        "startLine": 425,
+        "startChar": 8,
+        "endLine": 425,
+        "endChar": 33
+      },
+      "revId": "80b5be0cf6724f186a9be881b94bce26da31ad99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

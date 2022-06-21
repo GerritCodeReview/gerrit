@@ -22,6 +22,30 @@
       },
       "revId": "a2dd3dc266771d37696f51206e0586498c25f040",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bd34d38_f0e53802",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-21T07:47:34Z",
+      "side": 1,
+      "message": "If there\u0027s an already existing SR with the same name as a label, then nothing will happen. The migration pgm will just skip this label.\n\nThe intention is to mass migrate hosts/repos that don\u0027t have submit requirements yet. This change will turn off the {MaxWithBlock, etc...} label functions and create a similar submit requirement instead.",
+      "parentUuid": "b18789e6_7a3903be",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 25,
+        "endChar": 69
+      },
+      "revId": "a2dd3dc266771d37696f51206e0586498c25f040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

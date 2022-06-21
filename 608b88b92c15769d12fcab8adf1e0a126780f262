@@ -16,6 +16,24 @@
       "message": "`return nothing;` to be more explicit.",
       "revId": "608b88b92c15769d12fcab8adf1e0a126780f262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4768aae_b9bbc2bd",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-21T06:12:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f6fbab1_9f664bde",
+      "revId": "608b88b92c15769d12fcab8adf1e0a126780f262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

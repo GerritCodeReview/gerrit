@@ -20,6 +20,8 @@ import {
   AccountDetailInfo,
   ChangeMessageInfo,
   VotingRangeInfo,
+  FixSuggestionInfo,
+  FixId,
 } from '../types/common';
 import {CommentSide, SpecialFilePath} from '../constants/constants';
 import {parseDate} from './date-util';
@@ -491,4 +493,56 @@ export function reportingDetails(comment: CommentBasics) {
     line: comment?.range?.start_line ?? comment?.line,
     unsaved: isUnsaved(comment),
   };
+}
+
+export const USER_SUGGESTION_START_PATTERN = '```suggestion\n';
+export const USER_SUGGEST_EDIT_FIX_ID = 'user_suggestion' as FixId;
+
+export function hasUserSuggestion(comment: Comment) {
+  return comment.message?.includes(USER_SUGGESTION_START_PATTERN) ?? false;
+}
+
+export function getUserSuggestion(comment: Comment) {
+  if (!comment.message) return;
+  const start =
+    comment.message.indexOf(USER_SUGGESTION_START_PATTERN) +
+    USER_SUGGESTION_START_PATTERN.length;
+  const end = comment.message.indexOf('\n```', start);
+  return comment.message.substring(start, end);
+}
+
+/**
+ * Currently it works only on 1 line.
+ * TODO(milutin): Extend for multiline comments
+ */
+export function getContentInCommentRange(
+  fileContent: string,
+  comment: Comment
+) {
+  return fileContent.split('\n')[comment.line! - 1];
+}
+
+export function createUserFixSuggestion(
+  comment: Comment,
+  line: string,
+  replacement: string
+): FixSuggestionInfo[] {
+  return [
+    {
+      fix_id: USER_SUGGEST_EDIT_FIX_ID,
+      description: 'User suggestion',
+      replacements: [
+        {
+          path: comment.path!,
+          range: {
+            start_line: comment.line!,
+            start_character: 0,
+            end_line: comment.line!,
+            end_character: line.length,
+          },
+          replacement,
+        },
+      ],
+    },
+  ];
 }

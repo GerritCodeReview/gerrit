@@ -9,6 +9,12 @@ import {
   getPatchRangeForCommentUrl,
   createCommentThreads,
   sortComments,
+  USER_SUGGESTION_START_PATTERN,
+  hasUserSuggestion,
+  getUserSuggestion,
+  getContentInCommentRange,
+  createUserFixSuggestion,
+  USER_SUGGEST_EDIT_FIX_ID,
 } from './comment-util';
 import {createComment, createCommentThread} from '../test/test-data-generators';
 import {CommentSide} from '../constants/constants';
@@ -222,5 +228,59 @@ suite('comment-util', () => {
       ];
       assert.equal(createCommentThreads(comments).length, 2);
     });
+  });
+
+  test('hasUserSuggestion', () => {
+    const comment = {
+      ...createComment(),
+      message: `${USER_SUGGESTION_START_PATTERN}${'test'}${'\n```'}`,
+    };
+    assert.isTrue(hasUserSuggestion(comment));
+  });
+
+  test('getUserSuggestion', () => {
+    const suggestion = 'test';
+    const comment = {
+      ...createComment(),
+      message: `${USER_SUGGESTION_START_PATTERN}${suggestion}${'\n```'}`,
+    };
+    assert.equal(getUserSuggestion(comment), suggestion);
+  });
+
+  test('getContentInCommentRange', () => {
+    const comment = {
+      ...createComment(),
+      line: 1,
+    };
+    const content = 'line1\nline2\nline3';
+    assert.equal(getContentInCommentRange(content, comment), 'line1');
+  });
+
+  test('createUserFixSuggestion', () => {
+    const comment = {
+      ...createComment(),
+      line: 1,
+      path: 'abc.txt'
+    };
+    const line = 'lane1';
+    const replacement = 'line1';
+    assert.deepEqual(createUserFixSuggestion(comment, line, replacement), [
+      {
+        fix_id: USER_SUGGEST_EDIT_FIX_ID,
+        description: 'User suggestion',
+        replacements: [
+          {
+            path: 'abc.txt',
+            range: {
+              start_line: 1,
+              start_character: 0,
+              end_line: 1,
+              end_character: line.length,
+            },
+            replacement,
+          }
+        ],
+      },
+    ]);
   });
 });

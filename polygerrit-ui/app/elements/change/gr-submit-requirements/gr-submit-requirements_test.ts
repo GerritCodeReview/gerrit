@@ -262,7 +262,7 @@ suite('gr-submit-requirements tests', () => {
 
   test('calculateEndpointName()', () => {
     assert.equal(
-      element.calculateEndpointName('code-owners~CodeOwnerSub'),
+      element.computeEndpointName('code-owners~CodeOwnerSub'),
       'submit-requirement-codeowners'
     );
   });

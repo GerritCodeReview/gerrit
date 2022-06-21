@@ -228,7 +228,7 @@ export class GrSubmitRequirements extends LitElement {
     if (this.disableEndpoints)
       return html`<div class="votes-cell">${slot}</div>`;
 
-    const endpointName = this.calculateEndpointName(requirement.name);
+    const endpointName = this.computeEndpointName(requirement.name);
     return html`<gr-endpoint-decorator class="votes-cell" name=${endpointName}>
       <gr-endpoint-param
         name="change"
@@ -421,10 +421,7 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   private computeTriggerVotesTitle() {
-    const submit_requirements = orderSubmitRequirements(
-      getRequirements(this.change)
-    );
-    if (submit_requirements.length === 0) {
+    if (getRequirements(this.change).length === 0) {
       // This is special case for old changes without submit requirements.
       return 'Label Votes';
     } else {
@@ -433,7 +430,7 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   // not private for tests
-  calculateEndpointName(requirementName: string) {
+  computeEndpointName(requirementName: string) {
     // remove class name annnotation after ~
     const name = requirementName.split('~')[0];
     const normalizedName = charsOnly(name).toLowerCase();

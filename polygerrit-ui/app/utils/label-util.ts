@@ -409,3 +409,24 @@ export function getTriggerVotes(change?: ParsedChangeInfo | ChangeInfo) {
     label => !labelAssociatedWithSubmitReqs.includes(label)
   );
 }
+
+export function getApplicableLabels(change?: ParsedChangeInfo | ChangeInfo) {
+  const submitReqs = change?.submit_requirements ?? [];
+  const notApplicableLabels = submitReqs
+    .filter(sr => sr.status === SubmitRequirementStatus.NOT_APPLICABLE)
+    .flatMap(req => extractAssociatedLabels(req))
+    .filter(unique);
+
+  const applicableLabels = submitReqs
+    .filter(sr => sr.status !== SubmitRequirementStatus.NOT_APPLICABLE)
+    .flatMap(req => extractAssociatedLabels(req))
+    .filter(unique);
+
+  const onlyInNotApplicableLabels = notApplicableLabels.filter(
+    label => !applicableLabels.includes(label)
+  );
+
+  return applicableLabels.filter(
+    label => !onlyInNotApplicableLabels.includes(label)
+  );
+}

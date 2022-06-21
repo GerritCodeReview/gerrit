@@ -94,6 +94,30 @@
       },
       "revId": "4e4041d79788e1bc2f05c8867b0a1f08c0c95151",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c25a250b_72cf372c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-21T08:28:42Z",
+      "side": 1,
+      "message": "\u003e I.e. from my point of view - failing is bad, but \"unpredictable\" behavior can lead to unobvious outcomes.\n\nYou\u0027re right. What I could do is revisit all enums for which I\u0027ve added default values in this change, and for each enum, add a comment how falling back to the default value is safe and won\u0027t lead to serious problems.\n\n\u003e I would prefer to have a separate \"Unrecognized\" values in enum and code should process it explicitly\n\nmmm I think that\u0027s a lot of work and will require both front/back end adaptation. For example, a patch type (file modification) is either {ADD, RENAME, MODIFY, etc...}. Adding another un-recognized will require front-end to handle this case and display something in the UI accordingly.\n\nI think it\u0027s fine if you prefer we fail instead of falling back to a default. Failing is the current behaviour anyway but IMO it\u0027s better to fallback to a default as mitigation.\n\nLet me know what you think about revisiting the enum defaults as per my suggestion above. I can re-check them all and upload another PS with comments on defaults.\n\nI will also bring for discussion to get others\u0027 opinion in the team meeting.",
+      "parentUuid": "e6cf9a03_6cddd05d",
+      "range": {
+        "startLine": 16,
+        "startChar": 56,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "4e4041d79788e1bc2f05c8867b0a1f08c0c95151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

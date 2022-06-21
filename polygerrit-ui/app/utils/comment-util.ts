@@ -492,3 +492,29 @@ export function reportingDetails(comment: CommentBasics) {
     unsaved: isUnsaved(comment),
   };
 }
+
+export const USER_SUGGESTION_START_PATTERN = '```suggestion\n';
+
+export function hasUserSuggestion(comment: Comment) {
+  return comment.message?.includes(USER_SUGGESTION_START_PATTERN) ?? false;
+}
+
+export function getUserSuggestion(comment: Comment) {
+  if (!comment.message) return;
+  const start =
+    comment.message.indexOf(USER_SUGGESTION_START_PATTERN) +
+    USER_SUGGESTION_START_PATTERN.length;
+  const end = comment.message.indexOf('\n```', start);
+  return comment.message.substring(start, end);
+}
+
+/**
+ * Currently it works only on 1 line.
+ * TODO(milutin): Extend for multiline comments
+ */
+export function getContentInCommentRange(
+  fileContent: string,
+  comment: Comment
+) {
+  return fileContent.split('\n')[comment.line! - 1];
+}

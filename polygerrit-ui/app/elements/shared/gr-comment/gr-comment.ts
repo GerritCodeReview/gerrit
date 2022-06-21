@@ -17,7 +17,7 @@ import '../gr-tooltip-content/gr-tooltip-content';
 import '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import '../gr-account-label/gr-account-label';
 import {getAppContext} from '../../../services/app-context';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {resolve} from '../../../models/dependency';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -25,6 +25,7 @@ import {GrTextarea} from '../gr-textarea/gr-textarea';
 import {GrOverlay} from '../gr-overlay/gr-overlay';
 import {
   AccountDetailInfo,
+  Base64FileContent,
   CommentLinks,
   NumericChangeId,
   RepoName,
@@ -58,6 +59,7 @@ import {debounceTime} from 'rxjs/operators';
 import {configModelToken} from '../../../models/config/config-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -198,6 +200,8 @@ export class GrComment extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly flagsService = getAppContext().flagsService;s
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -704,11 +708,34 @@ export class GrComment extends LitElement {
     return html`
       <div class="rightActions">
         ${this.autoSaving ? html`.&nbsp;&nbsp;` : ''}
-        ${this.renderCopyLinkIcon()} ${this.renderDiscardButton()}
-        ${this.renderEditButton()} ${this.renderCancelButton()}
-        ${this.renderSaveButton()}
+        ${this.renderCopyLinkIcon()}${this.renderSuggestEditButton()}
+        ${this.renderDiscardButton()} ${this.renderEditButton()}
+        ${this.renderCancelButton()} ${this.renderSaveButton()}
       </div>
     `;
+  }
+
+  private renderSuggestEditButton() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {
+      return nothing;
+    }
+    if (this.comment?.message?.includes('```suggestion')) {
+      return html`
+        <gr-button
+          link
+          secondary
+          class="action show-fix"
+          ?disabled=${this.saving}
+          @click=${this.handleShowFix}
+        >
+          Show Fix
+        </gr-button>
+      `;
+    }
+
+    return html`<gr-button link class="action" @click=${this.suggestEdit}
+      >Suggest</gr-button
+    >`;
   }
 
   private renderDiscardButton() {
@@ -769,9 +796,25 @@ export class GrComment extends LitElement {
     `;
     return html`
       <div class="robotActions">
-        ${this.renderCopyLinkIcon()} ${endpoint} ${this.renderShowFixButton()}
+        ${this.renderCopyLinkIcon()} ${endpoint}
+        ${this.renderUserSuggestFixButton()} ${this.renderShowFixButton()}
         ${this.renderPleaseFixButton()}
       </div>
+    `;
+  }
+
+  private renderUserSuggestFixButton() {
+    if (!this.comment?.message?.includes('```suggestion')) return;
+    return html`
+      <gr-button
+        link
+        secondary
+        class="action show-fix"
+        ?disabled=${this.saving}
+        @click=${this.handleShowFix}
+      >
+        Show Fix
+      </gr-button>
     `;
   }
 
@@ -947,6 +990,21 @@ export class GrComment extends LitElement {
   private handleShowFix() {
     // Handled top-level in the diff and change view components.
     fire(this, 'open-fix-preview', this.getEventPayload());
+  }
+
+  async suggestEdit() {
+    if (!this.comment || !this.changeNum) return;
+    const start = '\n```suggestion\n';
+    const end = '\n```';
+    const file = await this.restApiService.getFileContent(
+      this.changeNum,
+      this.comment.path!,
+      this.comment.patch_set!
+    );
+    const line = (file as Base64FileContent).content!.split('\n')[
+      this.comment.line! - 1
+    ];
+    this.messageText += `${start}${line}${end}`;
   }
 
   // private, but visible for testing

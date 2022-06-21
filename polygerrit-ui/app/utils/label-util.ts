@@ -409,3 +409,15 @@ export function getTriggerVotes(change?: ParsedChangeInfo | ChangeInfo) {
     label => !labelAssociatedWithSubmitReqs.includes(label)
   );
 }
+
+/**
+ * Returns labels associated with applicable submit requirements
+ */
+export function getApplicableLabels(change?: ParsedChangeInfo | ChangeInfo) {
+  const submitReqs = change?.submit_requirements ?? [];
+
+  return submitReqs
+    .filter(sr => sr.status !== SubmitRequirementStatus.NOT_APPLICABLE)
+    .flatMap(req => extractAssociatedLabels(req))
+    .filter(unique);
+}

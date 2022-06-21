@@ -19,6 +19,7 @@ import {
   Label,
   computeOrderedLabelValues,
   getDefaultValue,
+  getApplicableLabels,
 } from '../../../utils/label-util';
 import {ChangeStatus} from '../../../constants/constants';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -80,9 +81,10 @@ export class GrLabelScores extends LitElement {
 
   private renderSubmitReqsLabels() {
     const triggerVotes = getTriggerVotes(this.change);
-    const labels = computeLabels(this.account, this.change).filter(
-      label => !triggerVotes.includes(label.name)
-    );
+    const applicableLabels = getApplicableLabels(this.change);
+    const labels = computeLabels(this.account, this.change)
+      .filter(label => !triggerVotes.includes(label.name))
+      .filter(label => applicableLabels.includes(label.name));
     if (!labels.length) return;
     if (
       labels.filter(

@@ -213,5 +213,5 @@ export function getAccountSuggestions(
  */
 export function extractMentionedEmails(text?: string): EmailAddress[] {
   if (!text) return [];
-  return [...text.matchAll(MENTIONS_REGEX)].map(m => m[1] as EmailAddress);
+  return [text.match(MENTIONS_REGEX)].map(m => m?.[1] as EmailAddress);
 }

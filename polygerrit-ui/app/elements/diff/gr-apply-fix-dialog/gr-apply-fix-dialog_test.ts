@@ -256,7 +256,7 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('apply fix button should call apply, navigate to change view and fire close', async () => {
-    const applyFixSuggestionStub = stubRestApi('applyFixSuggestion').returns(
+    const applyRobotFixSuggestionStub = stubRestApi('applyRobotFixSuggestion').returns(
       Promise.resolve(new Response(null, {status: 200}))
     );
     const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
@@ -271,7 +271,7 @@ suite('gr-apply-fix-dialog tests', () => {
     await element.handleApplyFix(new CustomEvent('confirm'));
 
     sinon.assert.calledOnceWithExactly(
-      applyFixSuggestionStub,
+      applyRobotFixSuggestionStub,
       element.change!._number,
       2 as PatchSetNum,
       '123'
@@ -296,7 +296,7 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('should not navigate to change view if incorect reponse', async () => {
-    const applyFixSuggestionStub = stubRestApi('applyFixSuggestion').returns(
+    const applyRobotFixSuggestionStub = stubRestApi('applyRobotFixSuggestion').returns(
       Promise.resolve(new Response(null, {status: 500}))
     );
     const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
@@ -304,7 +304,7 @@ suite('gr-apply-fix-dialog tests', () => {
 
     await element.handleApplyFix(new CustomEvent('confirm'));
     sinon.assert.calledWithExactly(
-      applyFixSuggestionStub,
+      applyRobotFixSuggestionStub,
       element.change!._number,
       2 as PatchSetNum,
       'fix_123'
@@ -325,7 +325,7 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('server-error should throw for failed apply call', async () => {
-    stubRestApi('applyFixSuggestion').returns(
+    stubRestApi('applyRobotFixSuggestion').returns(
       Promise.reject(new Error('backend error'))
     );
     const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');

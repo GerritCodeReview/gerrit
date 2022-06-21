@@ -154,9 +154,9 @@ suite('gr-diff-view tests', () => {
     test('params change triggers diffViewDisplayed()', () => {
       const diffViewDisplayedStub = stubReporting('diffViewDisplayed');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-      sinon.stub(element, '_initPatchRange');
+      sinon.stub(element, 'initPatchRange');
       sinon.stub(element, '_getFiles');
-      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
+      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
       element.params = {
         view: GerritNav.View.DIFF,
         changeNum: 42 as NumericChangeId,
@@ -179,14 +179,14 @@ suite('gr-diff-view tests', () => {
       setup(() => {
         initLineOfInterestAndCursorStub = sinon.stub(
           element,
-          '_initLineOfInterestAndCursor'
+          'initLineOfInterestAndCursor'
         );
         getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
         replaceStateStub = sinon.stub(history, 'replaceState');
         sinon.stub(element, '_getFiles');
         stubReporting('diffViewDisplayed');
         sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-        paramsChangedSpy = sinon.spy(element, '_paramsChanged');
+        paramsChangedSpy = sinon.spy(element, 'paramsChanged');
         element.getChangeModel().setState({
           change: {
             ...createParsedChange(),
@@ -252,10 +252,10 @@ suite('gr-diff-view tests', () => {
       // Blame loads for subsequent files if it was loaded for one file
       element._isBlameLoaded = true;
       stubReporting('diffViewDisplayed');
-      const loadBlameStub = sinon.stub(element, '_loadBlame');
+      const loadBlameStub = sinon.stub(element, 'loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
-      sinon.stub(element, '_initPatchRange');
+      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
+      sinon.stub(element, 'initPatchRange');
       sinon.stub(element, '_getFiles');
       element.params = {
         view: GerritNav.View.DIFF,
@@ -288,10 +288,10 @@ suite('gr-diff-view tests', () => {
         discardedDrafts: [],
       });
       stubReporting('diffViewDisplayed');
-      sinon.stub(element, '_loadBlame');
+      sinon.stub(element, 'loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-      sinon.stub(element, '_isFileUnchanged').returns(true);
-      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
+      sinon.stub(element, 'isFileUnchanged').returns(true);
+      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
       element.getChangeModel().setState({
         change: {
           ...createParsedChange(),
@@ -339,10 +339,10 @@ suite('gr-diff-view tests', () => {
         discardedDrafts: [],
       });
       stubReporting('diffViewDisplayed');
-      sinon.stub(element, '_loadBlame');
+      sinon.stub(element, 'loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-      sinon.stub(element, '_isFileUnchanged').returns(true);
-      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
+      sinon.stub(element, 'isFileUnchanged').returns(true);
+      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
       element.getChangeModel().setState({
         change: {
           ...createParsedChange(),
@@ -366,7 +366,7 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    test('_isFileUnchanged', () => {
+    test('isFileUnchanged', () => {
       let diff: DiffInfo = {
         ...createDiff(),
         content: [
@@ -374,12 +374,12 @@ suite('gr-diff-view tests', () => {
           {b: ['ancd'], a: ['xx']},
         ],
       };
-      assert.equal(element._isFileUnchanged(diff), false);
+      assert.equal(element.isFileUnchanged(diff), false);
       diff = {
         ...createDiff(),
         content: [{ab: ['abcd']}, {ab: ['ancd']}],
       };
-      assert.equal(element._isFileUnchanged(diff), true);
+      assert.equal(element.isFileUnchanged(diff), true);
       diff = {
         ...createDiff(),
         content: [
@@ -387,7 +387,7 @@ suite('gr-diff-view tests', () => {
           {b: ['ancd'], ab: ['xx']},
         ],
       };
-      assert.equal(element._isFileUnchanged(diff), false);
+      assert.equal(element.isFileUnchanged(diff), false);
       diff = {
         ...createDiff(),
         content: [
@@ -395,7 +395,7 @@ suite('gr-diff-view tests', () => {
           {b: ['ancd'], ab: ['xx'], common: true},
         ],
       };
-      assert.equal(element._isFileUnchanged(diff), true);
+      assert.equal(element.isFileUnchanged(diff), true);
     });
 
     test('diff toast to go to latest is shown and not base', async () => {
@@ -414,9 +414,9 @@ suite('gr-diff-view tests', () => {
       });
 
       stubReporting('diffViewDisplayed');
-      sinon.stub(element, '_loadBlame');
+      sinon.stub(element, 'loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
+      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
       element._change = undefined;
       element.getChangeModel().setState({
         change: {
@@ -429,8 +429,8 @@ suite('gr-diff-view tests', () => {
         patchNum: 2 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
       };
-      sinon.stub(element, '_isFileUnchanged').returns(false);
-      const toastStub = sinon.stub(element, '_displayDiffBaseAgainstLeftToast');
+      sinon.stub(element, 'isFileUnchanged').returns(false);
+      const toastStub = sinon.stub(element, 'displayDiffBaseAgainstLeftToast');
       element.params = {
         view: GerritNav.View.DIFF,
         changeNum: 42 as NumericChangeId,
@@ -594,10 +594,10 @@ suite('gr-diff-view tests', () => {
         )
       );
 
-      // Note that stubbing _setReviewed means that the value of the
+      // Note that stubbing setReviewed means that the value of the
       // `element.$.reviewed` checkbox is not flipped.
-      const setReviewedStub = sinon.stub(element, '_setReviewed');
-      const handleToggleSpy = sinon.spy(element, '_handleToggleFileReviewed');
+      const setReviewedStub = sinon.stub(element, 'setReviewed');
+      const handleToggleSpy = sinon.spy(element, 'handleToggleFileReviewed');
       element.$.reviewed.checked = false;
       assert.isFalse(handleToggleSpy.called);
       assert.isFalse(setReviewedStub.called);
@@ -682,7 +682,7 @@ suite('gr-diff-view tests', () => {
         patchNum: 10 as RevisionPatchSetNum,
       };
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-      element._handleDiffAgainstBase();
+      element.handleDiffAgainstBase();
       const args = diffNavStub.getCall(0).args;
       assert.equal(args[2], 10 as RevisionPatchSetNum);
       assert.isNotOk(args[3]);
@@ -698,13 +698,13 @@ suite('gr-diff-view tests', () => {
         patchNum: 10 as RevisionPatchSetNum,
       };
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-      element._handleDiffAgainstLatest();
+      element.handleDiffAgainstLatest();
       const args = diffNavStub.getCall(0).args;
       assert.equal(args[2], 12 as RevisionPatchSetNum);
       assert.equal(args[3], 5 as BasePatchSetNum);
     });
 
-    test('_handleDiffBaseAgainstLeft', () => {
+    test('handleDiffBaseAgainstLeft', () => {
       element._change = {
         ...createParsedChange(),
         revisions: createRevisions(10),
@@ -718,7 +718,7 @@ suite('gr-diff-view tests', () => {
         dashboard: 'id' as DashboardId,
       };
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-      element._handleDiffBaseAgainstLeft();
+      element.handleDiffBaseAgainstLeft();
       assert(diffNavStub.called);
       const args = diffNavStub.getCall(0).args;
       assert.equal(args[2], 1 as RevisionPatchSetNum);
@@ -726,7 +726,7 @@ suite('gr-diff-view tests', () => {
       assert.isNotOk(args[4]);
     });
 
-    test('_handleDiffBaseAgainstLeft when initially navigating to a comment', () => {
+    test('handleDiffBaseAgainstLeft when initially navigating to a comment', () => {
       element._change = {
         ...createParsedChange(),
         revisions: createRevisions(10),
@@ -735,7 +735,7 @@ suite('gr-diff-view tests', () => {
         patchNum: 3 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
       };
-      sinon.stub(element, '_paramsChanged');
+      sinon.stub(element, 'paramsChanged');
       element.params = {
         commentLink: true,
         view: GerritView.DIFF,
@@ -743,7 +743,7 @@ suite('gr-diff-view tests', () => {
       };
       element._focusLineNum = 10;
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-      element._handleDiffBaseAgainstLeft();
+      element.handleDiffBaseAgainstLeft();
       assert(diffNavStub.called);
       const args = diffNavStub.getCall(0).args;
       assert.equal(args[2], 1 as RevisionPatchSetNum);
@@ -751,7 +751,7 @@ suite('gr-diff-view tests', () => {
       assert.equal(args[4], 10);
     });
 
-    test('_handleDiffRightAgainstLatest', () => {
+    test('handleDiffRightAgainstLatest', () => {
       element._change = {
         ...createParsedChange(),
         revisions: createRevisions(10),
@@ -761,14 +761,14 @@ suite('gr-diff-view tests', () => {
         patchNum: 3 as RevisionPatchSetNum,
       };
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-      element._handleDiffRightAgainstLatest();
+      element.handleDiffRightAgainstLatest();
       assert(diffNavStub.called);
       const args = diffNavStub.getCall(0).args;
       assert.equal(args[2], 10 as RevisionPatchSetNum);
       assert.equal(args[3], 3 as BasePatchSetNum);
     });
 
-    test('_handleDiffBaseAgainstLatest', () => {
+    test('handleDiffBaseAgainstLatest', () => {
       element._change = {
         ...createParsedChange(),
         revisions: createRevisions(10),
@@ -778,7 +778,7 @@ suite('gr-diff-view tests', () => {
         patchNum: 3 as RevisionPatchSetNum,
       };
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
-      element._handleDiffBaseAgainstLatest();
+      element.handleDiffBaseAgainstLatest();
       assert(diffNavStub.called);
       const args = diffNavStub.getCall(0).args;
       assert.equal(args[2], 10 as RevisionPatchSetNum);
@@ -1609,13 +1609,13 @@ suite('gr-diff-view tests', () => {
       flush();
 
       assert.isTrue(element._editMode);
-      element._setReviewed(true);
+      element.setReviewed(true);
       assert.isFalse(saveReviewedStub.called);
     });
 
     test('hash is determined from params', async () => {
       sinon.stub(element.$.diffHost, 'reload');
-      const initLineStub = sinon.stub(element, '_initLineOfInterestAndCursor');
+      const initLineStub = sinon.stub(element, 'initLineOfInterestAndCursor');
 
       element._loggedIn = true;
       element.params = {
@@ -1650,7 +1650,7 @@ suite('gr-diff-view tests', () => {
       assert.equal(select.mode, diffDisplay.viewMode);
 
       // We will simulate a user change of the selected mode.
-      element._handleToggleDiffMode();
+      element.handleToggleDiffMode();
       assert.isTrue(
         userStub.calledWithExactly({
           diff_view: DiffViewMode.UNIFIED,
@@ -1696,7 +1696,7 @@ suite('gr-diff-view tests', () => {
       };
       setup(async () => {
         sinon.stub(element.$.diffHost, 'reload');
-        sinon.stub(element, '_initCursor');
+        sinon.stub(element, 'initCursor');
         element._change = change;
         await flush();
         await element.$.diffHost.updateComplete;
@@ -1736,34 +1736,34 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    test('_initCursor', () => {
+    test('initCursor', () => {
       assertIsDefined(element.cursor);
       assert.isNotOk(element.cursor.initialLineNumber);
 
       // Does nothing when params specify no cursor address:
-      element._initCursor(false);
+      element.initCursor(false);
       assert.isNotOk(element.cursor.initialLineNumber);
 
       // Does nothing when params specify side but no number:
-      element._initCursor(true);
+      element.initCursor(true);
       assert.isNotOk(element.cursor.initialLineNumber);
 
       // Revision hash: specifies lineNum but not side.
 
       element._focusLineNum = 234;
-      element._initCursor(false);
+      element.initCursor(false);
       assert.equal(element.cursor.initialLineNumber, 234);
       assert.equal(element.cursor.side, Side.RIGHT);
 
       // Base hash: specifies lineNum and side.
       element._focusLineNum = 345;
-      element._initCursor(true);
+      element.initCursor(true);
       assert.equal(element.cursor.initialLineNumber, 345);
       assert.equal(element.cursor.side, Side.LEFT);
 
       // Specifies right side:
       element._focusLineNum = 123;
-      element._initCursor(false);
+      element.initCursor(false);
       assert.equal(element.cursor.initialLineNumber, 123);
       assert.equal(element.cursor.side, Side.RIGHT);
     });
@@ -1839,14 +1839,14 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(getUrlStub.lastCall.args[6]);
     });
 
-    test('_handleToggleDiffMode', () => {
+    test('handleToggleDiffMode', () => {
       const userStub = stubUsers('updatePreferences');
       element._userPrefs = {
         ...createDefaultPreferences(),
         diff_view: DiffViewMode.SIDE_BY_SIDE,
       };
 
-      element._handleToggleDiffMode();
+      element.handleToggleDiffMode();
       assert.deepEqual(userStub.lastCall.args[0], {
         diff_view: DiffViewMode.UNIFIED,
       });
@@ -1856,13 +1856,13 @@ suite('gr-diff-view tests', () => {
         diff_view: DiffViewMode.UNIFIED,
       };
 
-      element._handleToggleDiffMode();
+      element.handleToggleDiffMode();
       assert.deepEqual(userStub.lastCall.args[0], {
         diff_view: DiffViewMode.SIDE_BY_SIDE,
       });
     });
 
-    suite('_initPatchRange', () => {
+    suite('initPatchRange', () => {
       setup(async () => {
         getDiffRestApiStub.returns(Promise.resolve(createDiff()));
         element.params = {
@@ -1875,7 +1875,7 @@ suite('gr-diff-view tests', () => {
       });
       test('empty', () => {
         sinon.stub(element, '_getPaths').returns({});
-        element._initPatchRange();
+        element.initPatchRange();
         assert.equal(Object.keys(element._commentMap ?? {}).length, 0);
       });
 
@@ -1890,7 +1890,7 @@ suite('gr-diff-view tests', () => {
           basePatchNum: 3 as BasePatchSetNum,
           patchNum: 5 as RevisionPatchSetNum,
         };
-        element._initPatchRange();
+        element.initPatchRange();
         assert.deepEqual(Object.keys(element._commentMap ?? {}), [
           'path/to/file/one.cpp',
           'path-to/file/two.py',
@@ -1951,7 +1951,7 @@ suite('gr-diff-view tests', () => {
         let navToDiffStub: SinonStub;
 
         setup(() => {
-          navToChangeStub = sinon.stub(element, '_navToChangeView');
+          navToChangeStub = sinon.stub(element, 'navToChangeView');
           navToDiffStub = sinon.stub(GerritNav, 'navigateToDiff');
           element._files = getFilesFromFileList([
             'path/one.jpg',
@@ -1964,9 +1964,9 @@ suite('gr-diff-view tests', () => {
           };
         });
 
-        suite('_moveToPreviousFileWithComment', () => {
+        suite('moveToPreviousFileWithComment', () => {
           test('no skips', () => {
-            element._moveToPreviousFileWithComment();
+            element.moveToPreviousFileWithComment();
             assert.isFalse(navToChangeStub.called);
             assert.isFalse(navToDiffStub.called);
           });
@@ -1979,7 +1979,7 @@ suite('gr-diff-view tests', () => {
             element._commentMap = commentMap;
             element._path = element._fileList![1]!;
 
-            element._moveToPreviousFileWithComment();
+            element.moveToPreviousFileWithComment();
             assert.isTrue(navToChangeStub.calledOnce);
             assert.isFalse(navToDiffStub.called);
           });
@@ -1992,15 +1992,15 @@ suite('gr-diff-view tests', () => {
             element._commentMap = commentMap;
             element._path = element._fileList![1]!;
 
-            element._moveToPreviousFileWithComment();
+            element.moveToPreviousFileWithComment();
             assert.isFalse(navToChangeStub.called);
             assert.isTrue(navToDiffStub.calledOnce);
           });
         });
 
-        suite('_moveToNextFileWithComment', () => {
+        suite('moveToNextFileWithComment', () => {
           test('no skips', () => {
-            element._moveToNextFileWithComment();
+            element.moveToNextFileWithComment();
             assert.isFalse(navToChangeStub.called);
             assert.isFalse(navToDiffStub.called);
           });
@@ -2013,7 +2013,7 @@ suite('gr-diff-view tests', () => {
             element._commentMap = commentMap;
             element._path = element._fileList![1];
 
-            element._moveToNextFileWithComment();
+            element.moveToNextFileWithComment();
             assert.isTrue(navToChangeStub.calledOnce);
             assert.isFalse(navToDiffStub.called);
           });
@@ -2026,7 +2026,7 @@ suite('gr-diff-view tests', () => {
             element._commentMap = commentMap;
             element._path = element._fileList![1];
 
-            element._moveToNextFileWithComment();
+            element.moveToNextFileWithComment();
             assert.isFalse(navToChangeStub.called);
             assert.isTrue(navToDiffStub.calledOnce);
           });
@@ -2131,7 +2131,7 @@ suite('gr-diff-view tests', () => {
 
       setup(() => {
         dispatchEventStub = sinon.stub(element, 'dispatchEvent').callThrough();
-        navToFileStub = sinon.stub(element, '_navToFile');
+        navToFileStub = sinon.stub(element, 'navToFile');
         assertIsDefined(element.cursor);
         moveToPreviousChunkStub = sinon.stub(
           element.cursor,
@@ -2252,8 +2252,8 @@ suite('gr-diff-view tests', () => {
       element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
       element.reviewedFiles = new Set(['file1', 'file2']);
       element._path = 'file1';
-      const reviewedStub = sinon.stub(element, '_setReviewed');
-      const navStub = sinon.stub(element, '_navToFile');
+      const reviewedStub = sinon.stub(element, 'setReviewed');
+      const navStub = sinon.stub(element, 'navToFile');
       MockInteractions.pressAndReleaseKeyOn(element, 77, null, 'M');
       flush();
 
@@ -2263,7 +2263,7 @@ suite('gr-diff-view tests', () => {
 
     test('File change should trigger navigateToDiff once', async () => {
       element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
-      sinon.stub(element, '_initLineOfInterestAndCursor');
+      sinon.stub(element, 'initLineOfInterestAndCursor');
       const navigateToDiffStub = sinon.stub(GerritNav, 'navigateToDiff');
 
       // Load file1

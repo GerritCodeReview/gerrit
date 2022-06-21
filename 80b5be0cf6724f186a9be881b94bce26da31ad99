@@ -94,6 +94,30 @@
       },
       "revId": "80b5be0cf6724f186a9be881b94bce26da31ad99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec5c0993_183c6c41",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-21T12:37:41Z",
+      "side": 1,
+      "message": "Can you add comments to the code?\n\nI think I understand.\nEach label is associated with some SR. \nSR can be applicable/non-applicable.\n\nIf some label is associated with *only* non-applicable SR, then hide them?",
+      "parentUuid": "11931647_3b78e3dd",
+      "range": {
+        "startLine": 425,
+        "startChar": 8,
+        "endLine": 425,
+        "endChar": 33
+      },
+      "revId": "80b5be0cf6724f186a9be881b94bce26da31ad99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -38,6 +38,7 @@ ts_project(
 # Use this rule for publishing the js plugin api as a package to the npm repo.
 pkg_npm(
     name = "js_plugin_api_npm_package",
+    package_name = "@gerritcodereview/typescript-api",
     srcs = glob(
         ["**/*"],
         exclude = [

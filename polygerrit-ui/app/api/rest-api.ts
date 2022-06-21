@@ -1179,3 +1179,19 @@ export declare interface SubmitRecordInfoLabel {
   status: LabelStatus;
   appliedBy: AccountInfo;
 }
+
+/**
+ * Represent a file in a base64 encoding; GrRestApiInterface returns
+ * it from some methods
+ */
+export declare interface Base64FileContent {
+  content: string | null;
+  type: string | null;
+  ok: true;
+}
+
+export function isBase64FileContent(
+  res: Response | Base64FileContent
+): res is Base64FileContent {
+  return (res as Base64FileContent).ok;
+}

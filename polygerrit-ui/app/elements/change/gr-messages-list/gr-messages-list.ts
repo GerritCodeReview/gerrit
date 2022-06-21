@@ -8,10 +8,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icons/gr-icons';
 import '../gr-message/gr-message';
 import '../../../styles/gr-paper-styles';
-import {
-  Shortcut,
-  ShortcutSection,
-} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {parseDate} from '../../../utils/date-util';
 import {MessageTag} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
@@ -43,7 +39,11 @@ import {subscribe} from '../../lit/subscription-controller';
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {when} from 'lit/directives/when';
 import {ifDefined} from 'lit/directives/if-defined';
-import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
+import {
+  Shortcut,
+  ShortcutSection,
+  shortcutsServiceToken,
+} from '../../../services/shortcuts/shortcuts-service';
 
 /**
  * The content of the enum is also used in the UI for the button text.

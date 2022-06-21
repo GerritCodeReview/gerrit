@@ -19,6 +19,7 @@ export enum KnownExperimentId {
   BULK_ACTIONS = 'UiFeature__bulk_actions_dashboard',
   DIFF_RENDERING_LIT = 'UiFeature__diff_rendering_lit',
   PUSH_NOTIFICATIONS = 'UiFeature__push_notifications',
+  SUGGEST_EDIT = 'UiFeature__suggest_edit',
   RELATED_CHANGES_SUBMITTABILITY = 'UiFeature__related_changes_submittability',
   MENTION_USERS = 'UiFeature__mention_users',
 }

@@ -64,6 +64,19 @@ export class GrCssMixins extends PolymerElement {
             opacity: 1;
             color: var(--deemphasized-text-color);
           };
+          --paper-item: {
+            min-height: 0;
+            padding: 0px 16px;
+          };
+          --paper-item-focused-before: {
+            background-color: var(--selection-background-color);
+          };
+          --paper-item-focused: {
+            background-color: var(--selection-background-color);
+          };
+          --paper-listbox: {
+            padding: 0;
+          };
         }
       </style>
     `;

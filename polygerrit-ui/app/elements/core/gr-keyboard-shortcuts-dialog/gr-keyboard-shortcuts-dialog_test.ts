@@ -9,7 +9,7 @@ import {GrKeyboardShortcutsDialog} from './gr-keyboard-shortcuts-dialog';
 import {
   SectionView,
   ShortcutSection,
-} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+} from '../../../services/shortcuts/shortcuts-service';
 
 const basicFixture = fixtureFromElement('gr-keyboard-shortcuts-dialog');
 

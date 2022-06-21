@@ -19,4 +19,5 @@ export enum KnownExperimentId {
   BULK_ACTIONS = 'UiFeature__bulk_actions_dashboard',
   DIFF_RENDERING_LIT = 'UiFeature__diff_rendering_lit',
   MORE_FILES_INFO = 'UiFeature__more_files_info',
+  SUGGEST_EDIT = 'UiFeature__suggest_edit',
 }

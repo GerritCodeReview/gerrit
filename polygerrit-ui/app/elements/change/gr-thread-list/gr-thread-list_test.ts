@@ -29,6 +29,7 @@ import {
 import {CommentThread} from '../../../utils/comment-util';
 import {query, queryAndAssert} from '../../../utils/common-util';
 import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
+import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 
 const basicFixture = fixtureFromElement('gr-thread-list');
 
@@ -438,28 +439,34 @@ suite('gr-thread-list tests', () => {
   });
 
   test('show all comments', async () => {
-    const event = new CustomEvent('value-changed', {
-      detail: {value: CommentTabState.SHOW_ALL},
-    });
-    element.handleCommentsDropdownValueChange(event);
+    const filterDropdown = queryAndAssert<GrDropdownList>(
+      element,
+      '#filterDropdown'
+    );
+    filterDropdown.value = CommentTabState.SHOW_ALL;
+    await filterDropdown.updateComplete;
     await element.updateComplete;
     assert.equal(element.getDisplayedThreads().length, 9);
   });
 
   test('unresolved shows all unresolved comments', async () => {
-    const event = new CustomEvent('value-changed', {
-      detail: {value: CommentTabState.UNRESOLVED},
-    });
-    element.handleCommentsDropdownValueChange(event);
+    const filterDropdown = queryAndAssert<GrDropdownList>(
+      element,
+      '#filterDropdown'
+    );
+    filterDropdown.value = CommentTabState.UNRESOLVED;
+    await filterDropdown.updateComplete;
     await element.updateComplete;
     assert.equal(element.getDisplayedThreads().length, 4);
   });
 
   test('toggle drafts only shows threads with draft comments', async () => {
-    const event = new CustomEvent('value-changed', {
-      detail: {value: CommentTabState.DRAFTS},
-    });
-    element.handleCommentsDropdownValueChange(event);
+    const filterDropdown = queryAndAssert<GrDropdownList>(
+      element,
+      '#filterDropdown'
+    );
+    filterDropdown.value = CommentTabState.DRAFTS;
+    await filterDropdown.updateComplete;
     await element.updateComplete;
     assert.equal(element.getDisplayedThreads().length, 2);
   });

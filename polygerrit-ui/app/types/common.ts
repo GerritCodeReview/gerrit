@@ -115,6 +115,7 @@ import {
   WebLinkInfo,
   isDetailedLabelInfo,
   isQuickLabelInfo,
+  Base64FileContent,
 } from '../api/rest-api';
 import {DiffInfo, IgnoreWhitespaceType} from './diff';
 
@@ -128,6 +129,7 @@ export {
   ApprovalInfo,
   AuthInfo,
   AvatarInfo,
+  Base64FileContent,
   BasePatchSetNum,
   BranchName,
   BrandType,
@@ -920,16 +922,6 @@ export type RefToProjectAccessInfoMap = {[refName: string]: ProjectAccessInfo};
 export interface Base64File {
   body: string;
   type: string | null;
-}
-
-/**
- * Represent a file in a base64 encoding; GrRestApiInterface returns it from some
- * methods
- */
-export interface Base64FileContent {
-  content: string | null;
-  type: string | null;
-  ok: true;
 }
 
 /**

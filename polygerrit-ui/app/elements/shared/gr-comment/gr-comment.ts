@@ -17,7 +17,7 @@ import '../gr-tooltip-content/gr-tooltip-content';
 import '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import '../gr-account-label/gr-account-label';
 import {getAppContext} from '../../../services/app-context';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {resolve} from '../../../models/dependency';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
@@ -34,15 +34,18 @@ import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/
 import {
   Comment,
   DraftInfo,
+  getContentInCommentRange,
+  hasUserSuggestion,
   isDraftOrUnsaved,
   isRobot,
   isUnsaved,
+  USER_SUGGESTION_START_PATTERN,
 } from '../../../utils/comment-util';
 import {
   OpenFixPreviewEventDetail,
   ValueChangedEvent,
 } from '../../../types/events';
-import {fire, fireEvent} from '../../../utils/event-util';
+import {fire, fireAlert, fireEvent} from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Key, Modifier} from '../../../utils/dom-util';
 import {commentsModelToken} from '../../../models/comments/comments-model';
@@ -51,13 +54,15 @@ import {subscribe} from '../../lit/subscription-controller';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {classMap} from 'lit/directives/class-map';
 import {LineNumber} from '../../../api/diff';
-import {CommentSide} from '../../../constants/constants';
+import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {getRandomInt} from '../../../utils/math-util';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {configModelToken} from '../../../models/config/config-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {Interaction} from '../../../constants/reporting';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {isBase64FileContent} from '../../../api/rest-api';
 
 const UNSAVED_MESSAGE = 'Unable to save draft';
 
@@ -198,6 +203,8 @@ export class GrComment extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -476,7 +483,7 @@ export class GrComment extends LitElement {
         <div class="body">
           ${this.renderRobotAuthor()} ${this.renderEditingTextarea()}
           ${this.renderCommentMessage()} ${this.renderHumanActions()}
-          ${this.renderRobotActions()}
+          ${this.renderRobotActions()} ${this.renderSuggestEditActions()}
         </div>
       </div>
       ${this.renderConfirmDialog()}
@@ -702,11 +709,45 @@ export class GrComment extends LitElement {
     return html`
       <div class="rightActions">
         ${this.autoSaving ? html`.&nbsp;&nbsp;` : ''}
-        ${this.renderDiscardButton()} ${this.renderEditButton()}
+        ${this.renderDiscardButton()} ${this.renderSuggestEditButton()}
+        ${this.renderPreviewSuggestEditButton()} ${this.renderEditButton()}
         ${this.renderCancelButton()} ${this.renderSaveButton()}
         ${this.renderCopyLinkIcon()}
       </div>
     `;
+  }
+
+  private renderPreviewSuggestEditButton() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {
+      return nothing;
+    }
+    if (!this.comment || !hasUserSuggestion(this.comment)) return nothing;
+    return html`
+      <gr-button
+        link
+        secondary
+        class="action show-fix"
+        ?disabled=${this.saving}
+        @click=${this.handleShowFix}
+      >
+        Preview Fix
+      </gr-button>
+    `;
+  }
+
+  private renderSuggestEditButton() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {
+      return nothing;
+    }
+    if (!this.comment || hasUserSuggestion(this.comment)) return nothing;
+    // TODO(milutin): remove this check once suggesting on commit message is
+    // fixed. Currently diff line doesn't match commit message line, because
+    // of metadata in diff, which aren't in content api request.
+    if (this.comment.path === SpecialFilePath.COMMIT_MESSAGE) return nothing;
+    // TODO(milutin): do not show for author/owner
+    return html`<gr-button link class="action" @click=${this.createSuggestEdit}
+      >Suggest Fix</gr-button
+    >`;
   }
 
   private renderDiscardButton() {
@@ -770,6 +811,22 @@ export class GrComment extends LitElement {
         ${this.renderCopyLinkIcon()} ${endpoint} ${this.renderShowFixButton()}
         ${this.renderPleaseFixButton()}
       </div>
+    `;
+  }
+
+  private renderSuggestEditActions() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {
+      return nothing;
+    }
+    if (
+      !this.account ||
+      isRobot(this.comment) ||
+      isDraftOrUnsaved(this.comment)
+    ) {
+      return;
+    }
+    return html`
+      <div class="robotActions">${this.renderPreviewSuggestEditButton()}</div>
     `;
   }
 
@@ -945,6 +1002,27 @@ export class GrComment extends LitElement {
   private handleShowFix() {
     // Handled top-level in the diff and change view components.
     fire(this, 'open-fix-preview', this.getEventPayload());
+  }
+
+  async createSuggestEdit() {
+    assertIsDefined(this.comment, 'comment');
+    assertIsDefined(this.changeNum, 'changeNum');
+    // TODO(milutin): showing a toast while the file is being loaded.
+    const file = await this.restApiService.getFileContent(
+      this.changeNum,
+      this.comment.path!,
+      this.comment.patch_set!
+    );
+    if (!file || !isBase64FileContent(file) || !file.content) {
+      fireAlert(this, 'Cannot create suggestion for this file');
+      return;
+    }
+    const line = getContentInCommentRange(file.content, this.comment);
+    if (!line) {
+      fireAlert(this, 'Cannot create suggestion for comment selection');
+      return;
+    }
+    this.messageText += `${USER_SUGGESTION_START_PATTERN}${line}${'\n```'}`;
   }
 
   // private, but visible for testing

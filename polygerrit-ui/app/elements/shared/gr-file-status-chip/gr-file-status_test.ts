@@ -19,7 +19,7 @@ suite('gr-file-status tests', () => {
 
   const setStatus = async (status?: FileInfoStatus, newly = false) => {
     element.status = status;
-    element.new = newly;
+    element.newlyChanged = newly;
     await element.updateComplete;
   };
 
@@ -42,8 +42,17 @@ suite('gr-file-status tests', () => {
     test('newly added', async () => {
       await setStatus(FileInfoStatus.ADDED, true);
       expect(element).shadowDom.to.equal(/* HTML */ `
-        <iron-icon class="new size-16" icon="gr-icons:new"></iron-icon>
-        <div class="A status" aria-label="Added" tabindex="0" title="Added">
+        <iron-icon
+          class="new size-16"
+          icon="gr-icons:new"
+          title="Newly Added"
+        ></iron-icon>
+        <div
+          class="A status"
+          aria-label="Newly Added"
+          tabindex="0"
+          title="Newly Added"
+        >
           A
         </div>
       `);

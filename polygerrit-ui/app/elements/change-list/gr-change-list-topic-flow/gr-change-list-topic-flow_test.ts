@@ -388,6 +388,10 @@ suite('gr-change-list-topic-flow tests', () => {
         queryAndAssert(element, '.error').textContent,
         'Failed to remove topic'
       );
+      assert.equal(
+        queryAndAssert(element, 'gr-button#cancel-button').textContent,
+        'Cancel'
+      );
       assert.isUndefined(query(element, '.loadingText'));
     });
 
@@ -645,6 +649,10 @@ suite('gr-change-list-topic-flow tests', () => {
         queryAndAssert(element, '.error').textContent,
         'Failed to create topic'
       );
+      assert.equal(
+        queryAndAssert(element, 'gr-button#cancel-button').textContent,
+        'Cancel'
+      );
       assert.isUndefined(query(element, '.loadingText'));
     });
 
@@ -724,6 +732,10 @@ suite('gr-change-list-topic-flow tests', () => {
       assert.equal(
         queryAndAssert(element, '.error').textContent,
         'Failed to apply topic'
+      );
+      assert.equal(
+        queryAndAssert(element, 'gr-button#cancel-button').textContent,
+        'Cancel'
       );
       assert.isUndefined(query(element, '.loadingText'));
     });

@@ -327,12 +327,7 @@ export class GrChangeListTopicFlow extends LitElement {
   }
 
   private toggleDropdown() {
-    if (this.isDropdownOpen) {
-      this.closeDropdown();
-    } else {
-      this.reset();
-      this.openDropdown();
-    }
+    this.isDropdownOpen ? this.closeDropdown() : this.openDropdown();
   }
 
   private reset() {
@@ -348,6 +343,7 @@ export class GrChangeListTopicFlow extends LitElement {
   }
 
   private openDropdown() {
+    this.reset();
     this.isDropdownOpen = true;
     this.dropdown?.open();
   }

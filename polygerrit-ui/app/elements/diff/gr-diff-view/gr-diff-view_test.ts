@@ -156,7 +156,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sinon.stub(element, 'initPatchRange');
       sinon.stub(element, '_getFiles');
-      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
+      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
       element.params = {
         view: GerritNav.View.DIFF,
         changeNum: 42 as NumericChangeId,
@@ -186,7 +186,7 @@ suite('gr-diff-view tests', () => {
         sinon.stub(element, '_getFiles');
         stubReporting('diffViewDisplayed');
         sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-        paramsChangedSpy = sinon.spy(element, 'paramsChanged');
+        paramsChangedSpy = sinon.spy(element, '_paramsChanged');
         element.getChangeModel().setState({
           change: {
             ...createParsedChange(),
@@ -254,7 +254,7 @@ suite('gr-diff-view tests', () => {
       stubReporting('diffViewDisplayed');
       const loadBlameStub = sinon.stub(element, 'loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
+      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
       sinon.stub(element, 'initPatchRange');
       sinon.stub(element, '_getFiles');
       element.params = {
@@ -291,7 +291,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, 'loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sinon.stub(element, 'isFileUnchanged').returns(true);
-      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
+      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
       element.getChangeModel().setState({
         change: {
           ...createParsedChange(),
@@ -342,7 +342,7 @@ suite('gr-diff-view tests', () => {
       sinon.stub(element, 'loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sinon.stub(element, 'isFileUnchanged').returns(true);
-      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
+      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
       element.getChangeModel().setState({
         change: {
           ...createParsedChange(),
@@ -416,7 +416,7 @@ suite('gr-diff-view tests', () => {
       stubReporting('diffViewDisplayed');
       sinon.stub(element, 'loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
-      const paramsChangedSpy = sinon.spy(element, 'paramsChanged');
+      const paramsChangedSpy = sinon.spy(element, '_paramsChanged');
       element._change = undefined;
       element.getChangeModel().setState({
         change: {
@@ -735,7 +735,7 @@ suite('gr-diff-view tests', () => {
         patchNum: 3 as RevisionPatchSetNum,
         basePatchNum: 1 as BasePatchSetNum,
       };
-      sinon.stub(element, 'paramsChanged');
+      sinon.stub(element, '_paramsChanged');
       element.params = {
         commentLink: true,
         view: GerritView.DIFF,

@@ -177,7 +177,7 @@ export class GrDiffView extends base {
    * @event show-alert
    */
 
-  @property({type: Object, observer: 'paramsChanged'})
+  @property({type: Object, observer: '_paramsChanged'})
   params?: AppElementParams;
 
   @property({type: Object})
@@ -1126,7 +1126,7 @@ export class GrDiffView extends base {
   }
 
   // Private but used in tests.
-  paramsChanged(value: AppElementParams) {
+  _paramsChanged(value: AppElementParams) {
     if (value.view !== GerritView.DIFF) {
       return;
     }

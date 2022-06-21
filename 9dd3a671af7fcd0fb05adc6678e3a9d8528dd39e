@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fdc135a_0183ae73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-21T12:03:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a463aba_9a6ab6ca",
+      "range": {
+        "startLine": 9,
+        "startChar": 32,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "9dd3a671af7fcd0fb05adc6678e3a9d8528dd39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2082291_28c21a50",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-06-21T06:22:18Z",
       "side": 1,
       "message": "Maybe here can be called closeDropdown()",
+      "range": {
+        "startLine": 211,
+        "startChar": 38,
+        "endLine": 211,
+        "endChar": 52
+      },
+      "revId": "9dd3a671af7fcd0fb05adc6678e3a9d8528dd39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b89dc477_f7bb7f9f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-21T12:03:22Z",
+      "side": 1,
+      "message": "Done. I moved reset() into openDropdown so that it can be called without using toggledropdown.",
+      "parentUuid": "b2082291_28c21a50",
       "range": {
         "startLine": 211,
         "startChar": 38,

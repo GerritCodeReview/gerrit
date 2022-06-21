@@ -22,6 +22,30 @@
       },
       "revId": "c619f27fa3ce3469af2654680f4e41cbc2c2fb4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52bd3579_bd82bc43",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-hashtag-flow/gr-change-list-hashtag-flow.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-21T12:03:22Z",
+      "side": 0,
+      "message": "Yes, similarly loadingText is always defined when ProgressStatus.RUNNING in the case above.",
+      "parentUuid": "f5cf92f0_2de5ae04",
+      "range": {
+        "startLine": 233,
+        "startChar": 15,
+        "endLine": 233,
+        "endChar": 43
+      },
+      "revId": "c619f27fa3ce3469af2654680f4e41cbc2c2fb4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

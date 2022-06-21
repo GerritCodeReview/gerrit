@@ -10,14 +10,16 @@ import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions'
 import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {PaperListboxElement} from '@polymer/paper-listbox';
 import {Timestamp} from '../../../types/common';
-
-const basicFixture = fixtureFromElement('gr-dropdown-list');
+import {assertIsDefined} from '../../../utils/common-util';
+import {fixture, html} from '@open-wc/testing-helpers';
 
 suite('gr-dropdown-list tests', () => {
   let element: GrDropdownList;
 
-  setup(() => {
-    element = basicFixture.instantiate();
+  setup(async () => {
+    element = await fixture<GrDropdownList>(
+      html`<gr-dropdown-list></gr-dropdown-list>`
+    );
   });
 
   test('hide copy by default', () => {
@@ -29,9 +31,9 @@ suite('gr-dropdown-list tests', () => {
     assert.isTrue(copyEl.hidden);
   });
 
-  test('show copy if enabled', () => {
+  test('show copy if enabled', async () => {
     element.showCopyForTriggerText = true;
-    flush();
+    await element.updateComplete;
     const copyEl = query<HTMLElement>(
       element,
       '#triggerText + gr-copy-clipboard'
@@ -42,25 +44,28 @@ suite('gr-dropdown-list tests', () => {
 
   test('tap on trigger opens menu', () => {
     sinon.stub(element, 'open').callsFake(() => {
-      element.$.dropdown.open();
+      assertIsDefined(element.dropdown);
+      element.dropdown.open();
     });
-    assert.isFalse(element.$.dropdown.opened);
-    MockInteractions.tap(element.$.trigger);
-    assert.isTrue(element.$.dropdown.opened);
+    assertIsDefined(element.dropdown);
+    assert.isFalse(element.dropdown.opened);
+    assertIsDefined(element.trigger);
+    MockInteractions.tap(element.trigger);
+    assert.isTrue(element.dropdown.opened);
   });
 
-  test('_computeMobileText', () => {
+  test('computeMobileText', () => {
     const item: any = {
       value: 1,
       text: 'text',
     };
-    assert.equal(element._computeMobileText(item), item.text);
+    assert.equal(element.computeMobileText(item), item.text);
     item.mobileText = 'mobile text';
-    assert.equal(element._computeMobileText(item), item.mobileText);
+    assert.equal(element.computeMobileText(item), item.mobileText);
   });
 
   test('options are selected and laid out correctly', async () => {
-    element.value = 2;
+    element.value = '2';
     element.items = [
       {
         value: 1,
@@ -83,12 +88,14 @@ suite('gr-dropdown-list tests', () => {
         mobileText: 'Mobile Text 3',
       },
     ];
+    await element.updateComplete;
+    await flush();
+
     assert.equal(
       queryAndAssert<PaperListboxElement>(element, 'paper-listbox').selected,
       element.value
     );
     assert.equal(element.text, 'Button Text 2');
-    await flush();
 
     const items = queryAll<HTMLInputElement>(element, 'paper-item');
     const mobileItems = queryAll<HTMLOptionElement>(element, 'option');
@@ -158,8 +165,8 @@ suite('gr-dropdown-list tests', () => {
 
     // Select a new item.
     MockInteractions.tap(items[0]);
-    flush();
-    assert.equal(element.value, 1);
+    await element.updateComplete;
+    assert.equal(element.value, '1');
     assert.isTrue(items[0].classList.contains('iron-selected'));
     assert.isTrue(mobileItems[0].selected);
 

@@ -325,6 +325,7 @@ suite('gr-admin-view tests', () => {
       })
     );
     await element.updateComplete;
+
     const expectedFilteredLinks = [
       {
         name: 'Repositories',
@@ -459,20 +460,22 @@ suite('gr-admin-view tests', () => {
     );
     sinon.spy(element, 'handleSubsectionChange');
     await element.reload();
+    await element.updateComplete;
     assert.deepEqual(element.filteredLinks, expectedFilteredLinks);
     assert.deepEqual(element.subsectionLinks, expectedSubsectionLinks);
     assert.equal(
       queryAndAssert<GrDropdownList>(element, '#pageSelect').value,
       'repoaccess'
     );
-    assert.isTrue(selectedIsCurrentPageSpy.calledOnce);
+    assert.equal(selectedIsCurrentPageSpy.callCount, 1);
     // Doesn't trigger navigation from the page select menu.
     assert.isFalse(navigateToRelativeUrlStub.called);
 
     // When explicitly changed, navigation is called
     queryAndAssert<GrDropdownList>(element, '#pageSelect').value =
       'repogeneral';
-    assert.isTrue(selectedIsCurrentPageSpy.calledTwice);
+    await queryAndAssert<GrDropdownList>(element, '#pageSelect').updateComplete;
+    assert.equal(selectedIsCurrentPageSpy.callCount, 2);
     assert.isTrue(navigateToRelativeUrlStub.calledOnce);
   });
 

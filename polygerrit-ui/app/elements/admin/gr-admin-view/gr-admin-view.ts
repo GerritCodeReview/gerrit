@@ -42,7 +42,6 @@ import {
   RepoName,
 } from '../../../types/common';
 import {GroupNameChangedDetail} from '../gr-group/gr-group';
-import {ValueChangeDetail} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {getAppContext} from '../../../services/app-context';
 import {GerritView} from '../../../services/router/router-model';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
@@ -51,6 +50,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators';
 import {ifDefined} from 'lit/directives/if-defined';
+import {ValueChangedEvent} from '../../../types/events';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -245,7 +245,10 @@ export class GrAdminView extends LitElement {
           id="pageSelect"
           value=${ifDefined(this.computeSelectValue())}
           .items=${this.subsectionLinks}
-          @value-change=${this.handleSubsectionChange}
+          @value-change=${(e: ValueChangedEvent<string>) => {
+            console.error('value-change!!');
+            this.handleSubsectionChange(e);
+          }}
         >
         </gr-dropdown-list>
       </section>
@@ -541,7 +544,7 @@ export class GrAdminView extends LitElement {
   }
 
   // private but used in test
-  handleSubsectionChange(e: CustomEvent<ValueChangeDetail>) {
+  handleSubsectionChange(e: ValueChangedEvent<string>) {
     if (!this.subsectionLinks) return;
 
     // The GrDropdownList items are subsectionLinks, so find(...) always return

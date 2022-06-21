@@ -374,6 +374,24 @@
       "parentUuid": "ec433594_dca94dac",
       "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1a26084_394f90ac",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 40
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-21T17:04:11Z",
+      "side": 1,
+      "message": "I am creating a parent change, that will make the interfaces and types sorted alphabetically. Gerrit frontend team, it would be nice to have this change, but isn\u0027t mandatory.",
+      "parentUuid": "3541dfcb_2776c7d3",
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

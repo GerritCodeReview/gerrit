@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25d5ddf0_4b019564",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-22T09:44:38Z",
+      "side": 1,
+      "message": "Needs more details.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "7154feb53ee9a98c00ffe5003cf7d593a12f4fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c90a9ff_34528615",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -14,6 +37,29 @@
       "writtenOn": "2022-06-22T09:43:03Z",
       "side": 1,
       "message": "can you add a screenshot?",
+      "revId": "7154feb53ee9a98c00ffe5003cf7d593a12f4fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16c97a86_2d5385c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-22T09:44:38Z",
+      "side": 1,
+      "message": "rename to iconForRequirement and then add the check isBlockingCondition inside this method?",
+      "range": {
+        "startLine": 161,
+        "startChar": 15,
+        "endLine": 161,
+        "endChar": 28
+      },
       "revId": "7154feb53ee9a98c00ffe5003cf7d593a12f4fe6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

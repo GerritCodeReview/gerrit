@@ -583,7 +583,7 @@ suite('gr-change-list-topic-flow tests', () => {
         element,
         'gr-autocomplete'
       );
-      autocomplete.setFocus(true);
+      autocomplete.focus();
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getTopicsStub, 'getTopicsStub');
@@ -629,7 +629,7 @@ suite('gr-change-list-topic-flow tests', () => {
         element,
         'gr-autocomplete'
       );
-      autocomplete.setFocus(true);
+      autocomplete.focus();
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getTopicsStub, 'getTopicsStub');
@@ -667,7 +667,7 @@ suite('gr-change-list-topic-flow tests', () => {
         'gr-autocomplete'
       );
 
-      autocomplete.setFocus(true);
+      autocomplete.focus();
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getTopicsStub, 'getTopicsStub');
@@ -713,7 +713,7 @@ suite('gr-change-list-topic-flow tests', () => {
         'gr-autocomplete'
       );
 
-      autocomplete.setFocus(true);
+      autocomplete.focus();
       autocomplete.text = 'foo';
       await element.updateComplete;
       await waitUntilCalled(getTopicsStub, 'getTopicsStub');

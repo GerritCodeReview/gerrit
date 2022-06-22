@@ -12,6 +12,7 @@ import {queryAll, queryAndAssert, waitUntil} from '../../../test/test-utils';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {fixture, html} from '@open-wc/testing-helpers';
+import {Key} from '../../../utils/dom-util';
 
 suite('gr-autocomplete tests', () => {
   let element: GrAutocomplete;
@@ -53,7 +54,7 @@ suite('gr-autocomplete tests', () => {
     await waitUntil(() => queryStub.called);
 
     assert.isTrue(queryStub.called);
-    element.setFocus(true);
+    element.focus();
 
     assertIsDefined(promise);
     return promise.then(async () => {
@@ -97,7 +98,7 @@ suite('gr-autocomplete tests', () => {
 
     assert.isTrue(suggestionsEl().isHidden);
 
-    element.setFocus(true);
+    element.focus();
     element.text = 'blah';
     await element.updateComplete;
 
@@ -136,7 +137,7 @@ suite('gr-autocomplete tests', () => {
     await element.updateComplete;
     assert.isTrue(suggestionsEl().isHidden);
     assert.equal(suggestionsEl().cursor.index, -1);
-    element.setFocus(true);
+    element.focus();
 
     element.text = 'blah';
     await element.updateComplete;
@@ -375,7 +376,7 @@ suite('gr-autocomplete tests', () => {
     const commitHandler = sinon.spy();
     element.addEventListener('commit', commitHandler);
     const commitSpy = sinon.spy(element, '_commit');
-    element.setFocus(true);
+    element.focus();
 
     element.suggestions = [{text: 'tunnel snakes rule!', name: ''}];
     element.tabComplete = false;
@@ -388,7 +389,7 @@ suite('gr-autocomplete tests', () => {
 
     element.tabComplete = true;
     await element.updateComplete;
-    element.setFocus(true);
+    element.focus();
     await element.updateComplete;
     MockInteractions.pressAndReleaseKeyOn(inputEl(), 9, null, 'tab');
 
@@ -437,7 +438,7 @@ suite('gr-autocomplete tests', () => {
     element.suggestions = [{text: 'hello'}, {text: 'its me'}];
     assert.isFalse(openStub.called);
     await waitUntil(() => closedStub.calledOnce);
-    element.setFocus(true);
+    element.focus();
     await waitUntil(() => openStub.calledOnce);
     element.suggestions = [];
     await waitUntil(() => closedStub.calledTwice);
@@ -562,8 +563,9 @@ suite('gr-autocomplete tests', () => {
     });
 
     test('tab on suggestion, tabComplete = false', async () => {
+      debugger;
       element.suggestions = [{name: 'sugar bombs'}];
-      element.setFocus(true);
+      element.focus();
       // When tabComplete is false, do not focus.
       element.tabComplete = false;
       focusSpy = sinon.spy(element, 'focus');
@@ -584,8 +586,9 @@ suite('gr-autocomplete tests', () => {
     });
 
     test('tab on suggestion, tabComplete = true', async () => {
+      debugger;
       element.suggestions = [{name: 'sugar bombs'}];
-      element.setFocus(true);
+      element.focus();
       // When tabComplete is true, focus.
       element.tabComplete = true;
       focusSpy = sinon.spy(element, 'focus');
@@ -608,7 +611,7 @@ suite('gr-autocomplete tests', () => {
 
     test('tap on suggestion commits, does not call focus', async () => {
       focusSpy = sinon.spy(element, 'focus');
-      element.setFocus(true);
+      element.focus();
       element.suggestions = [{name: 'first suggestion'}];
 
       await element.updateComplete;
@@ -619,6 +622,29 @@ suite('gr-autocomplete tests', () => {
       await waitUntil(() => suggestionsEl().isHidden);
       assert.isFalse(focusSpy.called);
       assert.isTrue(commitSpy.called);
+    });
+
+    test('esc on suggestion clears suggestions, calls focus', async () => {
+      element.suggestions = [{name: 'sugar bombs'}];
+      element.focus();
+      focusSpy = sinon.spy(element, 'focus');
+
+      await element.updateComplete;
+
+      assert.isFalse(suggestionsEl().isHidden);
+
+      MockInteractions.pressAndReleaseKeyOn(
+        queryAndAssert(suggestionsEl(), 'li:first-child'),
+        27,
+        null,
+        Key.ESC
+      );
+
+      await waitUntil(() => suggestionsEl().isHidden);
+      await element.updateComplete;
+
+      assert.isFalse(commitSpy.called);
+      assert.isTrue(focusSpy.called);
     });
   });
 
@@ -647,6 +673,28 @@ suite('gr-autocomplete tests', () => {
     await element.updateComplete;
 
     assert.isTrue(commitStub.called);
+  });
+
+  test('enter with dropdown does not propagate', async () => {
+    const event = MockInteractions.keyboardEventFor('keydown', 13, null, 'enter');
+    const stopPropagationStub = sinon.stub(event, 'stopPropagation');
+
+    element.suggestions = [{name: 'first suggestion'}];
+
+    inputEl().dispatchEvent(event);
+    await element.updateComplete;
+
+    assert.isTrue(stopPropagationStub.called);
+  });
+
+  test('enter with no dropdown propagates', async () => {
+    const event = MockInteractions.keyboardEventFor('keydown', 13, null, 'enter');
+    const stopPropagationStub = sinon.stub(event, 'stopPropagation');
+
+    inputEl().dispatchEvent(event);
+    await element.updateComplete;
+
+    assert.isFalse(stopPropagationStub.called);
   });
 
   suite('warnUncommitted', () => {

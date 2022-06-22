@@ -20,9 +20,6 @@ import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
 
-const AWAIT_MAX_ITERS = 10;
-const AWAIT_STEP = 5;
-
 declare global {
   interface HTMLElementTagNameMap {
     'gr-editable-label': GrEditableLabel;
@@ -270,37 +267,17 @@ export class GrEditableLabel extends LitElement {
   }
 
   open() {
-    return this.openDropdown().then(() => {
+    return this.openDropdown().then(async () => {
       this.nativeInput.focus();
     });
   }
 
-  private openDropdown() {
+  private async openDropdown() {
     this.dropdown?.open();
     this.inputText = this.value || '';
     this.editing = true;
-
-    return new Promise<void>(resolve => {
-      this.awaitOpen(resolve);
-    });
-  }
-
-  /**
-   * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
-   * opening. Eventually replace with a direct way to listen to the overlay.
-   */
-  private awaitOpen(fn: () => void) {
-    let iters = 0;
-    const step = () => {
-      setTimeout(() => {
-        if (this.dropdown?.style.display !== 'none') {
-          fn.call(this);
-        } else if (iters++ < AWAIT_MAX_ITERS) {
-          step.call(this);
-        }
-      }, AWAIT_STEP);
-    };
-    step.call(this);
+    await this.updateComplete;
+    await flush();
   }
 
   private save() {
@@ -335,7 +312,7 @@ export class GrEditableLabel extends LitElement {
   private get nativeInput(): HTMLInputElement {
     return (this.input?.$.nativeInput ||
       this.input?.inputElement ||
-      this.grAutocomplete) as HTMLInputElement;
+      this.grAutocomplete?.nativeInput) as HTMLInputElement;
   }
 
   private handleEnter(event: KeyboardEvent) {

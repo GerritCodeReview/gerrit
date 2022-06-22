@@ -173,6 +173,7 @@ export class GrAutocomplete extends LitElement {
   @state() disableSuggestions = false;
 
   // private but used in tests
+  @state()
   focused = false;
 
   @state() selected: HTMLElement | null = null;
@@ -262,7 +263,8 @@ export class GrAutocomplete extends LitElement {
     if (
       changedProperties.has('text') ||
       changedProperties.has('threshold') ||
-      changedProperties.has('noDebounce')
+      changedProperties.has('noDebounce') ||
+      changedProperties.has('focused')
     ) {
       this.updateSuggestions();
     }
@@ -318,6 +320,7 @@ export class GrAutocomplete extends LitElement {
         horizontal-align="left"
         id="suggestions"
         @item-selected=${this.handleItemSelect}
+        @dropdown-closed=${this.handleDropdownClose}
         .suggestions=${this.suggestions}
         role="listbox"
         .index=${this.index}
@@ -331,6 +334,7 @@ export class GrAutocomplete extends LitElement {
   }
 
   override focus() {
+    this.focused = true;
     this.nativeInput.focus();
   }
 
@@ -346,6 +350,18 @@ export class GrAutocomplete extends LitElement {
     this.text = '';
   }
 
+  private handleDropdownClose() {
+    if (this.focused) {
+      this.focus();
+    }
+  }
+
+  private handleItemSelectEnter(e: CustomEvent | KeyboardEvent) {
+    this.handleInputCommit();
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
   handleItemSelect(e: CustomEvent) {
     if (e.detail.trigger === 'click') {
       this.selected = e.detail.selected;
@@ -353,9 +369,7 @@ export class GrAutocomplete extends LitElement {
       e.stopPropagation();
       e.preventDefault();
     } else if (e.detail.trigger === 'enter') {
-      this.handleInputCommit();
-      e.stopPropagation();
-      e.preventDefault();
+      this.handleItemSelectEnter(e);
     } else if (e.detail.trigger === 'tab') {
       if (this.tabComplete) {
         this.handleInputCommit(true);
@@ -363,7 +377,7 @@ export class GrAutocomplete extends LitElement {
         e.preventDefault();
         this.focus();
       } else {
-        this.setFocus(false);
+        this.focused = true;
       }
     }
   }
@@ -383,8 +397,7 @@ export class GrAutocomplete extends LitElement {
   }
 
   onInputFocus() {
-    this.setFocus(true);
-    this.updateSuggestions();
+    this.focused = true;
     this.input?.classList.remove('warnUncommitted');
     // Needed so that --paper-input-container-input updated style is applied.
     this.requestUpdate();
@@ -404,8 +417,9 @@ export class GrAutocomplete extends LitElement {
       this.text === undefined ||
       this.threshold === undefined ||
       this.noDebounce === undefined
-    )
+    ) {
       return;
+    }
 
     // Reset suggestions for every update
     // This will also prevent from carrying over suggestions:
@@ -459,12 +473,6 @@ export class GrAutocomplete extends LitElement {
     }
   }
 
-  setFocus(focused: boolean) {
-    if (focused === this.focused) return;
-    this.focused = focused;
-    this.updateDropdownVisibility();
-  }
-
   updateDropdownVisibility() {
     if (this.suggestions.length > 0 && this.focused) {
       this.suggestionsDropdown?.open();
@@ -484,7 +492,7 @@ export class GrAutocomplete extends LitElement {
    * handleKeydown used for key handling in the this.input?.
    */
   handleKeydown(e: KeyboardEvent) {
-    this.setFocus(true);
+    this.focused = true;
     switch (e.keyCode) {
       case 38: // Up
         e.preventDefault();
@@ -504,15 +512,20 @@ export class GrAutocomplete extends LitElement {
           this.focus();
           this.handleInputCommit(true);
         } else {
-          this.setFocus(false);
+          this.focused = false;
         }
         break;
       case 13: // Enter
         if (modifierPressed(e)) {
           break;
         }
-        e.preventDefault();
-        this.handleInputCommit();
+        if (this.suggestions.length > 0) {
+          // If suggestions are shown, act as if the keypress is in dropdown.
+          this.handleItemSelectEnter(e);
+        } else {
+          e.preventDefault();
+          this.handleInputCommit();
+        }
         break;
       default:
         // For any normal keypress, return focus to the input to allow for
@@ -585,7 +598,7 @@ export class GrAutocomplete extends LitElement {
         return;
       }
     }
-    this.setFocus(false);
+    this.focused = false;
   };
 
   /**

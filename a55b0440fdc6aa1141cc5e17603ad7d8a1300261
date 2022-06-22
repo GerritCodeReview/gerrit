@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce0c6c45_ffdc26d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-22T13:37:45Z",
+      "side": 1,
+      "message": "unrelated to the change but file a bug?",
+      "range": {
+        "startLine": 9,
+        "startChar": 15,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "a55b0440fdc6aa1141cc5e17603ad7d8a1300261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

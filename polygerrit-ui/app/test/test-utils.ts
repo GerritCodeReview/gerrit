@@ -181,7 +181,8 @@ export async function waitQueryAndAssert<E extends Element = Element>(
 
 export async function waitUntil(
   predicate: (() => boolean) | (() => Promise<boolean>),
-  message = 'The waitUntil() predicate is still false after 1000 ms.'
+  message = 'The waitUntil() predicate is still false after 1000 ms.',
+  timeout_ms = 1000
 ): Promise<void> {
   const start = Date.now();
   let sleep = 0;
@@ -193,7 +194,7 @@ export async function waitUntil(
         resolve();
         return;
       }
-      if (Date.now() - start >= 1000) {
+      if (Date.now() - start >= timeout_ms) {
         reject(error);
         return;
       }

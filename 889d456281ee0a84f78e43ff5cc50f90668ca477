@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "511124dc_f8513417",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-22T20:20:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dc145eb_1483db0a",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 72
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5c2e58b_8983abf3",
@@ -49,6 +73,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f50cd9ea_5f23b921",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-22T20:20:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5c2e58b_8983abf3",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 50
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7f5083d3_10a9b3d6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 45
@@ -60,6 +108,24 @@
       "writtenOn": "2022-06-22T19:13:02Z",
       "side": 1,
       "message": "Almost there 😊 Just need to figure out the ChangeEdit and patchSet perm check. The rest are nits.",
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4290f23_5575c83d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 45
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-22T20:20:03Z",
+      "side": 1,
+      "message": "\u003e Almost there 😊 Just need to figure out the ChangeEdit and patchSet perm check. The rest are nits.\n\nThanks!!\n\nAll those checks are because Patrick asked them. I have added the relevant comments on your comments.",
+      "parentUuid": "7f5083d3_10a9b3d6",
       "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -89,6 +155,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e1dc716_c0e2c594",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 5386,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-22T20:20:03Z",
+      "side": 1,
+      "message": "Copying two of Patrick\u0027s comment on Patchset 17 on May 06 at file javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java:\n1) \"remove change edit requirement. I think we should disallow applying direct fixes to old patch sets in general.\"\n2) \"Hm, I think this should not be possible: (1) Don\u0027t allow applying direct fixes to old patch sets and (2) don\u0027t allow applying direct fixes if there already is a change edit.\"\n\nI did this change because Patrick asked to. What are your thoughts?",
+      "parentUuid": "c3f48f2e_206aa0c7",
+      "range": {
+        "startLine": 5386,
+        "startChar": 6,
+        "endLine": 5386,
+        "endChar": 7
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08a4defe_5af03dba",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
         "patchSetId": 45
@@ -100,6 +190,30 @@
       "writtenOn": "2022-06-22T19:13:02Z",
       "side": 1,
       "message": "nit: We try not to have types in variable names: s/fixReplacementList/fixReplacements/\n\nBut see below, because you probably don\u0027t need to create this List here.",
+      "range": {
+        "startLine": 93,
+        "startChar": 25,
+        "endLine": 93,
+        "endChar": 43
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aff1c528_cee6b6c1",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-22T20:20:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08a4defe_5af03dba",
       "range": {
         "startLine": 93,
         "startChar": 25,
@@ -135,6 +249,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4525a038_37d359eb",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-22T20:20:03Z",
+      "side": 1,
+      "message": "Copying Patrick\u0027s comment on Patchset 17 on May 06 on file Documentation/rest-api-changes.txt:\n\"The fact that we are using change edits for that is an implementation detail. I think before the operation, we should check if the user already has a change edit and fail with a BadRequestException if so. That should be documented here.\"\n\nWhat are your thoughts?",
+      "parentUuid": "55ee82aa_3d6ef7b1",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b6fdfd1_b8d9d0ab",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
         "patchSetId": 45
@@ -152,6 +290,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb63d2d6_c20b76fd",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-22T20:20:03Z",
+      "side": 1,
+      "message": "Copying Patrick\u0027s comment on Patchset 28 on May 19 at file java/com/google/gerrit/server/restapi/change/ApplyDirectFix.java\n\n\"Please check if the user has \"ADD_PATCH_SET\" permission (via PermissionBackend)\n\nAnd add a test that the operation fails in case the user lacks that permission.\"\n\nWhat are your thoughts?",
+      "parentUuid": "8b6fdfd1_b8d9d0ab",
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d288211_5d117582",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
         "patchSetId": 45
@@ -163,6 +319,30 @@
       "writtenOn": "2022-06-22T19:13:02Z",
       "side": 1,
       "message": "nit: You can use a stream API to do all this concisely and avoiding single-use variables\n\n List\u003cFixReplacement\u003e fixReplacements \u003d applyProvidedFixInput.fixReplacementInfos.stream().map(\n   fix -\u003e new FixReplacement(fix.path, new Range(fix.range), fix.replacement))\n   .collect(Collectors.toList());\n   \nAnd since you\u0027re not using `repository`, do this before you enter the try{}.",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 108,
+        "endChar": 7
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d45625f4_7189ada3",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-22T20:20:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d288211_5d117582",
       "range": {
         "startLine": 104,
         "startChar": 6,

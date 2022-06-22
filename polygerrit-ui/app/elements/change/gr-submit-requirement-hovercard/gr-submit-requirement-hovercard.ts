@@ -19,7 +19,7 @@ import {
   extractAssociatedLabels,
   getApprovalInfo,
   hasVotes,
-  iconForStatus,
+  iconForRequirement,
 } from '../../../utils/label-util';
 import {ParsedChangeInfo} from '../../../types/types';
 import {css, html, LitElement} from 'lit';
@@ -129,12 +129,9 @@ export class GrSubmitRequirementHovercard extends base {
 
   override render() {
     if (!this.requirement) return;
-    const icon = iconForStatus(this.requirement.status);
     return html` <div id="container" role="tooltip" tabindex="-1">
       <div class="section">
-        <div class="sectionIcon">
-          <iron-icon class=${icon} icon="gr-icons:${icon}"></iron-icon>
-        </div>
+        <div class="sectionIcon">${this.renderStatus(this.requirement)}</div>
         <div class="sectionContent">
           <h3 class="name heading-3">
             <span>${this.requirement.name}</span>
@@ -156,6 +153,16 @@ export class GrSubmitRequirementHovercard extends base {
       ${this.renderShowHideConditionButton()}${this.renderConditionSection()}
       ${this.renderVotingButtons()}
     </div>`;
+  }
+
+  private renderStatus(requirement: SubmitRequirementResultInfo) {
+    const icon = iconForRequirement(requirement);
+    return html`<iron-icon
+      class=${icon}
+      icon="gr-icons:${icon}"
+      role="img"
+      aria-label=${requirement.status.toLowerCase()}
+    ></iron-icon>`;
   }
 
   private renderDescription() {

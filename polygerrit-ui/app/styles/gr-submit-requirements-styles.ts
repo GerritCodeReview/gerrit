@@ -14,4 +14,7 @@ export const submitRequirementsStyles = css`
   iron-icon.error {
     color: var(--deemphasized-text-color);
   }
+  iron-icon.cancel {
+    color: var(--error-foreground);
+  }
 `;

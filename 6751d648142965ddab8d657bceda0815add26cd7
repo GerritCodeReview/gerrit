@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2b70b78_d4792a18",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-22T10:01:31Z",
+      "side": 1,
+      "message": "nit: doesn\u0027t log accept format string? I think you can .log(\"%s\", args)",
+      "range": {
+        "startLine": 287,
+        "startChar": 20,
+        "endLine": 288,
+        "endChar": 22
+      },
+      "revId": "6751d648142965ddab8d657bceda0815add26cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

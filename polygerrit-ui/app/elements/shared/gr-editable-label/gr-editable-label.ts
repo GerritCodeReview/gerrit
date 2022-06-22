@@ -276,6 +276,7 @@ export class GrEditableLabel extends LitElement {
   }
 
   private openDropdown() {
+    console.log("Editable Label Dropdown open");
     this.dropdown?.open();
     this.inputText = this.value || '';
     this.editing = true;
@@ -324,6 +325,7 @@ export class GrEditableLabel extends LitElement {
   }
 
   private cancel() {
+    console.log("editable-label cancel");
     if (!this.editing) {
       return;
     }
@@ -339,9 +341,6 @@ export class GrEditableLabel extends LitElement {
   }
 
   private handleEnter(event: KeyboardEvent) {
-    if (event.composedPath().some(el => el === this.grAutocomplete)) {
-      return;
-    }
     const inputContainer = queryAndAssert(this, '.inputContainer');
     const isEventFromInput = event
       .composedPath()
@@ -352,20 +351,23 @@ export class GrEditableLabel extends LitElement {
   }
 
   private handleEsc(event: KeyboardEvent) {
+    console.log('editable-label esc');
     // If autocomplete is used, it's handling the ESC instead.
-    if (!this.autocomplete) {
-      const inputContainer = queryAndAssert(this, '.inputContainer');
-      const isEventFromInput = event
-        .composedPath()
-        .some(element => element === inputContainer);
-      if (isEventFromInput) {
-        this.cancel();
-      }
+    if (this.autocomplete) {
+      return;
+    }
+    const inputContainer = queryAndAssert(this, '.inputContainer');
+    const isEventFromInput = event
+      .composedPath()
+      .some(element => element === inputContainer);
+    if (isEventFromInput) {
+      this.cancel();
     }
   }
 
   private handleCommit() {
-    this.input?.focus();
+    console.log('editable-label handleCommit causing focus');
+    this.nativeInput?.focus();
   }
 
   private computeLabelClass() {

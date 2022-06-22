@@ -2117,7 +2117,7 @@ export class GrChangeView extends LitElement {
       if (patchChanged) {
         // We need to collapse all diffs when params change so that a non
         // existing diff is not requested. See Issue 125270 for more details.
-        this.fileList?.resetNumFilesShown();
+        this.fileList?.resetFileState();
         this.fileList?.collapseAllDiffs();
         this.reloadPatchNumDependentResources(patchNumChanged).then(() => {
           this.sendShowChangeEvent();
@@ -2142,7 +2142,7 @@ export class GrChangeView extends LitElement {
     this.updateComplete.then(() => {
       assertIsDefined(this.fileList);
       this.fileList?.collapseAllDiffs();
-      this.fileList?.resetNumFilesShown();
+      this.fileList?.resetFileState();
     });
 
     // If the change was loaded before, then we are firing a 'reload' event

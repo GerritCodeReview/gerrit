@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2a3783f_49f8af89",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:44:15Z",
+      "side": 1,
+      "message": "We can keep as is. Right now we don\u0027t need to check the history of old running flumes and the logs  for the previous couple days are fine.\n\nWe can change as needed though.",
+      "parentUuid": "51b8e8c9_7e29fd8f",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 287,
+        "endChar": 24
+      },
+      "revId": "6751d648142965ddab8d657bceda0815add26cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2b70b78_d4792a18",

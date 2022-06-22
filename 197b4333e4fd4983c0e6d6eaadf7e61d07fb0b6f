@@ -1,0 +1,209 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff28f80e_430ef1b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:13:39Z",
+      "side": 1,
+      "message": "nit: please add Release-Notes footer.",
+      "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66af7df8_15c2b1bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:13:39Z",
+      "side": 1,
+      "message": "nit: still needs wrapping to 80 chars.",
+      "range": {
+        "startLine": 20,
+        "startChar": 71,
+        "endLine": 20,
+        "endChar": 74
+      },
+      "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fc5d268_d89c71ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:13:39Z",
+      "side": 1,
+      "message": "Nice! Thank you for addressing the comments.\n\nSorry for the lengthy comments, but I\u0027m trying to make sure we don\u0027t miss anything. I left a final round of comments.",
+      "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f355ad2_00abbb14",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:13:39Z",
+      "side": 1,
+      "message": "nit: this can also be removed.",
+      "range": {
+        "startLine": 68,
+        "startChar": 62,
+        "endLine": 68,
+        "endChar": 68
+      },
+      "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b63671a8_6fcfc081",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:13:39Z",
+      "side": 1,
+      "message": "Can we add some tests to disallow (prevent) creating a wrong combination of {search type, field type}? Ideally it\u0027d be better to catch this in the CI if we added a wrong combination of search/field types instead of failing at runtime.",
+      "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9432775f_1af88787",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:13:39Z",
+      "side": 1,
+      "message": "nit: please add that default is false.",
+      "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d291b086_da112eb4",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:13:39Z",
+      "side": 1,
+      "message": "nit: please add that default is false.",
+      "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4834ea7f_7a4810ed",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:13:39Z",
+      "side": 1,
+      "message": "AFAIU, this is a newly added functionality. Is it possible to cover these by tests? I\u0027m also fine if we\u0027re planning to do so when we start using protos, but wanted to bring this to attention.",
+      "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f775dc18_b00ce51f",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:13:39Z",
+      "side": 1,
+      "message": "Can we just\n\n`return Protos.parseUnchecked(protoConverter().get().getParser(), bytes);`\n\n?",
+      "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a92cb6e9_0901b273",
+        "filename": "java/com/google/gerrit/index/testing/FakeStoredValue.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:13:39Z",
+      "side": 1,
+      "message": "shouldn\u0027t this just convert the field to proto? whether or not protos are stored is up to the index backend.\n\nSame for LuceneStoredValue.",
+      "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ff5ed2a_37941d6e",
+        "filename": "java/com/google/gerrit/lucene/LuceneStoredValue.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:13:39Z",
+      "side": 1,
+      "message": "nit: store",
+      "range": {
+        "startLine": 87,
+        "startChar": 23,
+        "endLine": 87,
+        "endChar": 27
+      },
+      "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

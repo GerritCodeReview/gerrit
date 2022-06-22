@@ -243,6 +243,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0c4c9e5_e784681b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:13:39Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "38160daa_14627cb8",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b92fb9c4_4efde2f6",
@@ -540,6 +564,30 @@
       "side": 1,
       "message": "Send a change [1] to bump java verison of IDE\nhttps://gerrit-review.googlesource.com/c/gerrit/+/339659",
       "parentUuid": "602feedc_4d102fef",
+      "range": {
+        "startLine": 63,
+        "startChar": 64,
+        "endLine": 63,
+        "endChar": 71
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c4b2b99_17533c38",
+        "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:13:39Z",
+      "side": 1,
+      "message": "Nice! Thanks.",
+      "parentUuid": "4af8eb6b_6a161b13",
       "range": {
         "startLine": 63,
         "startChar": 64,

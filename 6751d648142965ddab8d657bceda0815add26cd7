@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d31647bf_f0fb2367",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T16:13:08Z",
+      "side": 1,
+      "message": "I will run the flume selectively on a couple of hosts first. I\u0027d be interested to see which draft UUIDs are deleted and which fail s.t. we understand why failed deletions happen.",
+      "parentUuid": "4b4ccc88_12ce2ca6",
+      "range": {
+        "startLine": 238,
+        "startChar": 10,
+        "endLine": 243,
+        "endChar": 89
+      },
+      "revId": "6751d648142965ddab8d657bceda0815add26cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da35847e_2b53016a",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-06-22T15:52:05Z",
       "side": 1,
       "message": "What if changeUpdate is failed? Do you want to see a list of already deleted uuids in log?",
+      "range": {
+        "startLine": 285,
+        "startChar": 4,
+        "endLine": 286,
+        "endChar": 26
+      },
+      "revId": "6751d648142965ddab8d657bceda0815add26cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34165ec7_803f710b",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T16:13:08Z",
+      "side": 1,
+      "message": "I assume it will throw an exception if it fails and won\u0027t fail silently, hence the log statement is unreachable in this case.",
+      "parentUuid": "da35847e_2b53016a",
       "range": {
         "startLine": 285,
         "startChar": 4,
@@ -156,6 +204,30 @@
       "side": 1,
       "message": "If the list is too large, the output can be truncated/discarded (and in overall, it is not recommended to write a long string in the log). If you don\u0027t need all UUIDs in log - maybe truncate list explicitly and keep only the first X items.\nIf you want to have all UUIDs - I think Marija suggestion (return a list and write to file) is a right way to do it.",
       "parentUuid": "b2a3783f_49f8af89",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 287,
+        "endChar": 24
+      },
+      "revId": "6751d648142965ddab8d657bceda0815add26cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5576f5e_bbd532eb",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T16:13:08Z",
+      "side": 1,
+      "message": "the list size is O(tens) per host. Additionally this log statement is executed per change, for which there would be much less than zombies per host, so this should be fine.",
+      "parentUuid": "778148a4_107bbe40",
       "range": {
         "startLine": 287,
         "startChar": 4,

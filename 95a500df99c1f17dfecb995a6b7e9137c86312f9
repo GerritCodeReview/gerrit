@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2114c203_c6798f09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-22T11:58:42Z",
+      "side": 1,
+      "message": "Why don\u0027t we move this change to stable-3.5 branch, submit it there and merge up to master?",
+      "revId": "95a500df99c1f17dfecb995a6b7e9137c86312f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f256fcf_df27cdfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-06-22T11:58:42Z",
+      "side": 1,
+      "message": "Also looking at the documentation: [1] for IntelliJ, it seems already requiring Java 11.\n\n[1] Documentation/dev-intellij.txt",
+      "revId": "95a500df99c1f17dfecb995a6b7e9137c86312f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

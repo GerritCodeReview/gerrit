@@ -51,6 +51,24 @@
       "parentUuid": "4b575e42_11a709b1",
       "revId": "6fc04a898b364b80c79f7ee498cb566a70b721bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51a42e5d_f21d0e4d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-22T11:53:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c3ef0ee0_5e894725",
+      "revId": "6fc04a898b364b80c79f7ee498cb566a70b721bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -35,6 +35,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55f8740a_1040dc90",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListSubmitRequirements.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T14:59:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afce253a_6bc9b139",
+      "revId": "d54d1efe1b378a76a2e20eebb3c1cfe430a9c9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf3ef8b3_854ce683",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListSubmitRequirements.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T14:59:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee72f332_7a041c2f",
+      "revId": "d54d1efe1b378a76a2e20eebb3c1cfe430a9c9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91154d51_f8e3291d",
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a7700e4_6a763a9b",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListSubmitRequirements.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T14:59:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91154d51_f8e3291d",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 17
+      },
+      "revId": "d54d1efe1b378a76a2e20eebb3c1cfe430a9c9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc8ca96b_1d347db3",
@@ -71,6 +131,24 @@
       "writtenOn": "2022-06-14T12:51:34Z",
       "side": 1,
       "message": "Maybe add a similar test with inheritance where read permission on refs/meta/config is missing for one of the parent projects?",
+      "revId": "d54d1efe1b378a76a2e20eebb3c1cfe430a9c9f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64cead91_42f41a74",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/SubmitRequirementsAPIIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T14:59:04Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "cc8ca96b_1d347db3",
       "revId": "d54d1efe1b378a76a2e20eebb3c1cfe430a9c9f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

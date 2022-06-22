@@ -200,6 +200,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7064f7a7_998c713c",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T15:15:23Z",
+      "side": 1,
+      "message": "OK, this sounds reasonable. Thanks for explaining.",
+      "parentUuid": "b72667cf_fa4bf6e3",
+      "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9432775f_1af88787",
@@ -301,6 +319,24 @@
       "side": 1,
       "message": "Similar to my other comment: this is covered by query tests.\nOnce we introduce proto fields, the AbstractQuery* tests will cover this code path.",
       "parentUuid": "4834ea7f_7a4810ed",
+      "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbe88e16_047fb7fb",
+        "filename": "java/com/google/gerrit/index/IndexedField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T15:15:23Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "117913b5_2e3d6a44",
       "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -412,6 +448,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "1ff5ed2a_37941d6e",
+      "range": {
+        "startLine": 87,
+        "startChar": 23,
+        "endLine": 87,
+        "endChar": 27
+      },
+      "revId": "197b4333e4fd4983c0e6d6eaadf7e61d07fb0b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79fdb97e_ca4e520c",
+        "filename": "java/com/google/gerrit/lucene/LuceneStoredValue.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T15:15:23Z",
+      "side": 1,
+      "message": "optional: giving this a second thought, it could be better to throw an exception; i.e. preventing callers from using this method at all.",
+      "parentUuid": "11a25d48_5befd1aa",
       "range": {
         "startLine": 87,
         "startChar": 23,

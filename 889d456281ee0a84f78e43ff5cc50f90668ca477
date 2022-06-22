@@ -179,6 +179,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dff9e7bb_d63912ed",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 5386,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T22:37:25Z",
+      "side": 1,
+      "message": "\u003e Copying two of Patrick\u0027s comment on Patchset 17 on May 06 at file javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java:\n\u003e 1) \"remove change edit requirement. I think we should disallow applying direct fixes to old patch sets in general.\"\n\u003e 2) \"Hm, I think this should not be possible: (1) Don\u0027t allow applying direct fixes to old patch sets and (2) don\u0027t allow applying direct fixes if there already is a change edit.\"\n\u003e \n\u003e I did this change because Patrick asked to. What are your thoughts?\n\nI\u0027m also considering Patrick\u0027s comment on this file in PS17: \"The fact that we are using change edits for that is an implementation detail. I think before the operation, we should check if the user already has a change edit and fail with a BadRequestException if so. That should be documented here.\"\n\nTo me, \"old patch sets\" doesn\u0027t mean in-progress change edits. I agree there isn\u0027t a good use case for allowing fixes to old patch sets.\n\nFor in-progress change edits, I think if the other apply fix API allows that, we should here too. I also think if you disallow it, you\u0027re going to have a usability problem (as soon as you apply one fix, you can\u0027t apply more). If your FE plugin has a UI with a \"apply fix\" button near each suggested fix, you\u0027ll only be able to click the first button and any additional attempts to apply a fix will fail because there\u0027s now an in-progress edit created by the first one.",
+      "parentUuid": "9e1dc716_c0e2c594",
+      "range": {
+        "startLine": 5386,
+        "startChar": 6,
+        "endLine": 5386,
+        "endChar": 7
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08a4defe_5af03dba",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
         "patchSetId": 45
@@ -273,6 +297,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f13e465_b7a57496",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T22:37:25Z",
+      "side": 1,
+      "message": "Replied on this in the doc since there\u0027s more context there.",
+      "parentUuid": "4525a038_37d359eb",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b6fdfd1_b8d9d0ab",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
         "patchSetId": 45
@@ -302,6 +350,24 @@
       "side": 1,
       "message": "Copying Patrick\u0027s comment on Patchset 28 on May 19 at file java/com/google/gerrit/server/restapi/change/ApplyDirectFix.java\n\n\"Please check if the user has \"ADD_PATCH_SET\" permission (via PermissionBackend)\n\nAnd add a test that the operation fails in case the user lacks that permission.\"\n\nWhat are your thoughts?",
       "parentUuid": "8b6fdfd1_b8d9d0ab",
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e774df60_7b4e4e2c",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T22:37:25Z",
+      "side": 1,
+      "message": "\u003e \"Please check if the user has \"ADD_PATCH_SET\" permission (via PermissionBackend)\n\u003e \n\u003e And add a test that the operation fails in case the user lacks that permission.\"\n\nIf you add a version of that test adapted to the `fixes/{fix-id}/apply` API, does it pass or fail? Or if you remove this check here, does your test still behave as desired (I expect it will)?\n\nThe ChangeEdits APIs all seem to end up calling ChangeEditModifier.assertCanEdit() and your call to combineWithModifiedPatchSetTree() calls that as well, so I think explicitly checking for ADD_PATCH_SET here is duplicate work and unnecessary.",
+      "parentUuid": "cb63d2d6_c20b76fd",
       "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

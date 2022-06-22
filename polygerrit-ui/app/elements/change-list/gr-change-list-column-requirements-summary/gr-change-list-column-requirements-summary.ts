@@ -105,7 +105,7 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
 
     return this.renderState(
       iconForStatus(SubmitRequirementStatus.UNSATISFIED),
-      this.renderSummary(numUnsatisfied, numRequirements)
+      this.renderSummary(numUnsatisfied)
     );
   }
 
@@ -118,11 +118,8 @@ export class GrChangeListColumnRequirementsSummary extends LitElement {
     >`;
   }
 
-  renderSummary(numUnsatisfied: number, numRequirements: number) {
-    return html`<span
-      ><span class="unsatisfied">${numUnsatisfied}</span
-      ><span class="total">(of ${numRequirements})</span></span
-    >`;
+  renderSummary(numUnsatisfied: number) {
+    return html`<span class="unsatisfied">${numUnsatisfied} missing</span>`;
   }
 
   renderCommentIcon() {

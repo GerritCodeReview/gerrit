@@ -410,6 +410,24 @@
       "parentUuid": "b1a26084_394f90ac",
       "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0672b2ed_72d73c63",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 40
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-22T17:47:30Z",
+      "side": 1,
+      "message": "Btw. I think this comment would be best solved, by moving this code somewhere around line 1250. So it\u0027s in cluster of FixReplacementInfo interfaces",
+      "parentUuid": "71fe55ad_6ac5edda",
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

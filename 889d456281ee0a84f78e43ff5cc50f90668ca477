@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dc145eb_1483db0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T19:13:02Z",
+      "side": 1,
+      "message": "You can leave out some of the details of the existing API. Maybe summarize as:\n\n This is similar to the existing API of `fixes/{fix-id}/apply` where\n a `fix-id` is generated on the server via a robot comment and then\n later applied to the patch set. That existing API is suitable in a\n flow where fixes are suggested by linters, CI systems, or other\n non-interactive tools.\n \nAnd then you can skip including the full existing signature.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 72
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5c2e58b_8983abf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T19:13:02Z",
+      "side": 1,
+      "message": "\"New REST API for applying a fix from the request body to a patch set\"",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 50
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f5083d3_10a9b3d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 45
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T19:13:02Z",
+      "side": 1,
+      "message": "Almost there 😊 Just need to figure out the ChangeEdit and patchSet perm check. The rest are nits.",
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3f48f2e_206aa0c7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 5386,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T19:13:02Z",
+      "side": 1,
+      "message": "The existing API also has this text: \", or the fix refers to the\npatch set on which the change edit is based\". I think we want that true for this new API too?",
+      "range": {
+        "startLine": 5386,
+        "startChar": 6,
+        "endLine": 5386,
+        "endChar": 7
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08a4defe_5af03dba",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T19:13:02Z",
+      "side": 1,
+      "message": "nit: We try not to have types in variable names: s/fixReplacementList/fixReplacements/\n\nBut see below, because you probably don\u0027t need to create this List here.",
+      "range": {
+        "startLine": 93,
+        "startChar": 25,
+        "endLine": 93,
+        "endChar": 43
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55ee82aa_3d6ef7b1",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T19:13:02Z",
+      "side": 1,
+      "message": "ApplyStoredFix doesn\u0027t have this limitation. Do we need to restrict it here?",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 5
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b6fdfd1_b8d9d0ab",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T19:13:02Z",
+      "side": 1,
+      "message": "ApplyStoredFix isn\u0027t doing this check. Is that a bug there or is it unnecessary here?",
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d288211_5d117582",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyProvidedFix.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T19:13:02Z",
+      "side": 1,
+      "message": "nit: You can use a stream API to do all this concisely and avoiding single-use variables\n\n List\u003cFixReplacement\u003e fixReplacements \u003d applyProvidedFixInput.fixReplacementInfos.stream().map(\n   fix -\u003e new FixReplacement(fix.path, new Range(fix.range), fix.replacement))\n   .collect(Collectors.toList());\n   \nAnd since you\u0027re not using `repository`, do this before you enter the try{}.",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 108,
+        "endChar": 7
+      },
+      "revId": "889d456281ee0a84f78e43ff5cc50f90668ca477",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

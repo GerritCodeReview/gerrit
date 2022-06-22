@@ -3,27 +3,37 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {LitElement, PropertyValues} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {LitElement} from 'lit';
+import {customElement, state} from 'lit/decorators';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {ServerInfo} from '../../../types/common';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
 
 @customElement('gr-plugin-host')
 export class GrPluginHost extends LitElement {
-  @property({type: Object})
+  @state()
   config?: ServerInfo;
 
-  _configChanged(config: ServerInfo) {
-    const jsPlugins = config.plugin?.js_resource_paths ?? [];
-    const themes: string[] = config.default_theme ? [config.default_theme] : [];
-    const instanceId = config.gerrit?.instance_id;
-    getPluginLoader().loadPlugins([...themes, ...jsPlugins], instanceId);
-  }
+  // visible for testing
+  readonly getConfigModel = resolve(this, configModelToken);
 
-  override updated(changedProperties: PropertyValues<GrPluginHost>) {
-    if (changedProperties.has('config') && this.config) {
-      this._configChanged(this.config);
-    }
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        if (!config) return;
+        const jsPlugins = config?.plugin?.js_resource_paths ?? [];
+        const themes: string[] = config?.default_theme
+          ? [config.default_theme]
+          : [];
+        const instanceId = config?.gerrit?.instance_id;
+        getPluginLoader().loadPlugins([...themes, ...jsPlugins], instanceId);
+      }
+    );
   }
 }
 

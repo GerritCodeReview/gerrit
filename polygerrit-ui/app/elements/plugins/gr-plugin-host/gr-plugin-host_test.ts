@@ -8,28 +8,32 @@ import './gr-plugin-host';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {GrPluginHost} from './gr-plugin-host';
 import {fixture, html} from '@open-wc/testing-helpers';
-import {ServerInfo} from '../../../api/rest-api';
+import {SinonStub} from 'sinon';
+import {createServerInfo} from '../../../test/test-data-generators';
 
 suite('gr-plugin-host tests', () => {
   let element: GrPluginHost;
+  let loadPluginsStub: SinonStub;
 
   setup(async () => {
+    loadPluginsStub = sinon.stub(getPluginLoader(), 'loadPlugins');
     element = await fixture<GrPluginHost>(html`
       <gr-plugin-host></gr-plugin-host>
     `);
+    await element.updateComplete;
 
     sinon.stub(document.body, 'appendChild');
   });
 
   test('load plugins should be called', async () => {
-    const loadPluginsStub = sinon.stub(getPluginLoader(), 'loadPlugins');
-    element.config = {
+    loadPluginsStub.reset();
+    element.getConfigModel().updateServerConfig({
+      ...createServerInfo(),
       plugin: {
         has_avatars: false,
         js_resource_paths: ['plugins/42', 'plugins/foo/bar', 'plugins/baz'],
       },
-    } as ServerInfo;
-    await flush();
+    });
     assert.isTrue(loadPluginsStub.calledOnce);
     assert.isTrue(
       loadPluginsStub.calledWith([
@@ -41,15 +45,15 @@ suite('gr-plugin-host tests', () => {
   });
 
   test('theme plugins should be loaded if enabled', async () => {
-    const loadPluginsStub = sinon.stub(getPluginLoader(), 'loadPlugins');
-    element.config = {
+    loadPluginsStub.reset();
+    element.getConfigModel().updateServerConfig({
+      ...createServerInfo(),
       default_theme: 'gerrit-theme.js',
       plugin: {
         has_avatars: false,
         js_resource_paths: ['plugins/42', 'plugins/foo/bar', 'plugins/baz'],
       },
-    } as ServerInfo;
-    await flush();
+    });
     assert.isTrue(loadPluginsStub.calledOnce);
     assert.isTrue(
       loadPluginsStub.calledWith([
@@ -59,5 +63,14 @@ suite('gr-plugin-host tests', () => {
         'plugins/baz',
       ])
     );
+  });
+
+  test('plugins loaded with instanceId ', async () => {
+    loadPluginsStub.reset();
+    const config = createServerInfo();
+    config.gerrit.instance_id = 'test-id';
+    element.getConfigModel().updateServerConfig(config);
+    assert.isTrue(loadPluginsStub.calledOnce);
+    assert.isTrue(loadPluginsStub.calledWith([], 'test-id'));
   });
 });

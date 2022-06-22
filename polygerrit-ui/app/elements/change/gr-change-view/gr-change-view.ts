@@ -2087,10 +2087,6 @@ export class GrChangeView extends LitElement {
     if (this.params.basePatchNum === undefined)
       this.params.basePatchNum = PARENT;
 
-    if (this.params.patchNum === undefined) {
-      this.params.patchNum = computeLatestPatchNum(this.allPatchSets);
-    }
-
     const patchChanged = this.hasPatchRangeChanged(this.params);
     let patchNumChanged = this.hasPatchNumChanged(this.params);
 

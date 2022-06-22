@@ -34,6 +34,24 @@
       "parentUuid": "fd71e832_af7a7d7c",
       "revId": "aebfc2457acb7fabc66efac2ef3d300ea76b7a14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d890377_f42f1d97",
+        "filename": "java/com/google/gerrit/index/StoredValue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T08:45:05Z",
+      "side": 0,
+      "message": "SGTM",
+      "parentUuid": "263f348a_ae10fde1",
+      "revId": "aebfc2457acb7fabc66efac2ef3d300ea76b7a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

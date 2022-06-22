@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c8d406f_15db77b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T08:45:05Z",
+      "side": 1,
+      "message": "nit: Please wrap the characters to 80 per line.",
+      "revId": "f666e64395dc3a57bdc8ad2c63635ead571fe067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c11e806_39b48ebc",
+        "filename": "java/com/google/gerrit/index/SchemaFieldDefs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T08:45:05Z",
+      "side": 1,
+      "message": "Should this be annotated with @Nullable? (following FieldDef\u0027s annotation?)",
+      "revId": "f666e64395dc3a57bdc8ad2c63635ead571fe067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

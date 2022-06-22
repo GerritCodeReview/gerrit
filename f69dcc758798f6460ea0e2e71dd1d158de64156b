@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99270299_4fecfd67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T08:45:05Z",
+      "side": 1,
+      "message": "Ack. Thanks for explaining.",
+      "parentUuid": "a4c01199_cb735ccd",
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16a30266_a95ccdaa",
@@ -179,6 +197,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc929e49_204422dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T08:45:05Z",
+      "side": 1,
+      "message": "\u003e I wanted to emphasize that the new entity represent a primary storage for index.\n\nI see. But {primary vs. index} is an implementation detail of our new systems, that might not be applicable to other indexing systems like elastic search.\n\n\u003e What about:\n\u003e StoredSchemaField -\u003e IndexField\n\u003e StoredSearchSpec -\u003e SearchSpec\n\nSGTM. I\u0027m more inclined not to use \"Index\". I\u0027d ideally want to name it \"FieldDef\" as current name. Can we keep it as is and add a todo to name it \"FieldDef\" after the migration?",
+      "parentUuid": "bef048fb_1b3bc64b",
+      "range": {
+        "startLine": 14,
+        "startChar": 29,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b92fb9c4_4efde2f6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -255,6 +297,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "15336137_fee27b97",
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "185843fe_43e16fd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T08:45:05Z",
+      "side": 1,
+      "message": "I see. Thanks for explaining.\n\nAck.",
+      "parentUuid": "4bef37ce_82aa8dfe",
+      "range": {
+        "startLine": 16,
+        "startChar": 66,
+        "endLine": 16,
+        "endChar": 81
+      },
       "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -390,6 +456,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ecf0f8f_9b632f4b",
+        "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T08:45:05Z",
+      "side": 1,
+      "message": "Weird. I got this working.\n\nper https://beginnersbook.com/2018/05/java-9-anonymous-inner-classes-and-diamond-operator/, in Java 9 \"Java 9 improved the use of diamond operator and allows us to use the diamond operator with anonymous inner classes\". Maybe you\u0027re using Java 8 in your local dev environment?",
+      "parentUuid": "d7966cd2_b7a378ab",
+      "range": {
+        "startLine": 63,
+        "startChar": 64,
+        "endLine": 63,
+        "endChar": 71
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a10cd0fe_a3236d44",
         "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
         "patchSetId": 7
@@ -437,6 +527,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "43c7fa55_f0bb291b",
+        "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T08:45:05Z",
+      "side": 1,
+      "message": "We could rename to \"SearchSpec\" as discussed in another thread.",
+      "parentUuid": "0c066732_993fa733",
+      "range": {
+        "startLine": 115,
+        "startChar": 15,
+        "endLine": 115,
+        "endChar": 31
+      },
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "41340e1f_79ed9df3",
         "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
         "patchSetId": 7
@@ -466,6 +580,24 @@
       "side": 1,
       "message": "This is already mentioned in SearchSpec and StoredSchemaField docs.",
       "parentUuid": "41340e1f_79ed9df3",
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75e88fff_f5123337",
+        "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T08:45:05Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "4a348045_af887cea",
       "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -501,6 +633,24 @@
       "side": 1,
       "message": "It is part of the StoredSchemaField. The entire builder is just for StoredSchemaField.",
       "parentUuid": "c7734edf_d183c149",
+      "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47175670_93e93416",
+        "filename": "java/com/google/gerrit/index/StoredSchemaField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T08:45:05Z",
+      "side": 1,
+      "message": "You\u0027re right, my bad. Ack.",
+      "parentUuid": "84fd1a01_c34fbb2f",
       "revId": "f69dcc758798f6460ea0e2e71dd1d158de64156b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

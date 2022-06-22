@@ -25,6 +25,9 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {query as queryUtil} from '../../../utils/common-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {configModelToken} from '../../../models/config/config-model';
+import {resolve} from '../../../models/dependency';
+import {subscribe} from '../../lit/subscription-controller';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
@@ -153,7 +156,7 @@ export class GrSearchBar extends LitElement {
   @property({type: Object})
   accountSuggestions: SuggestionProvider = () => Promise.resolve([]);
 
-  @property({type: Object})
+  @state()
   serverConfig?: ServerInfo;
 
   @property({type: String})
@@ -175,10 +178,20 @@ export class GrSearchBar extends LitElement {
 
   private readonly shortcuts = new ShortcutController(this);
 
+  private readonly getConfigModel = resolve(this, configModelToken);
+
   constructor() {
     super();
     this.query = (input: string) => this.getSearchSuggestions(input);
     this.shortcuts.addAbstract(Shortcut.SEARCH, () => this.handleSearch());
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.serverConfig = config;
+        this.serverConfigChanged();
+      }
+    );
   }
 
   static override get styles() {
@@ -237,10 +250,6 @@ export class GrSearchBar extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('serverConfig')) {
-      this.serverConfigChanged();
-    }
-
     if (changedProperties.has('value')) {
       this.valueChanged();
     }

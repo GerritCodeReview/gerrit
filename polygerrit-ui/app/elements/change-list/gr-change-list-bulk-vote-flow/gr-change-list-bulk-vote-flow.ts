@@ -38,6 +38,7 @@ import {getOverallStatus} from '../../../utils/bulk-flow-util';
 import {allSettled} from '../../../utils/async-util';
 import {pluralize} from '../../../utils/string-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 
 @customElement('gr-change-list-bulk-vote-flow')
 export class GrChangeListBulkVoteFlow extends LitElement {
@@ -52,6 +53,8 @@ export class GrChangeListBulkVoteFlow extends LitElement {
   @state() progressByChange: Map<NumericChangeId, ProgressStatus> = new Map();
 
   @query('#actionOverlay') actionOverlay!: GrOverlay;
+
+  @query('gr-dialog') dialog?: GrDialog;
 
   @state() account?: AccountInfo;
 
@@ -153,10 +156,7 @@ export class GrChangeListBulkVoteFlow extends LitElement {
       permittedLabels
     ).filter(label => !triggerLabels.some(l => l.name === label.name));
     return html`
-      <gr-button
-        id="voteFlowButton"
-        flatten
-        @click=${() => this.actionOverlay.open()}
+      <gr-button id="voteFlowButton" flatten @click=${this.openOverlay}
         >Vote</gr-button
       >
       <gr-overlay id="actionOverlay" with-backdrop="">
@@ -217,6 +217,14 @@ export class GrChangeListBulkVoteFlow extends LitElement {
     for (const change of this.selectedChanges) {
       window.open(GerritNav.getUrlForChange(change));
     }
+  }
+
+  private async openOverlay() {
+    await this.actionOverlay.open();
+    this.actionOverlay.setFocusStops({
+      start: queryAndAssert(this.dialog, 'header'),
+      end: queryAndAssert(this.dialog, 'footer'),
+    });
   }
 
   private renderErrors() {

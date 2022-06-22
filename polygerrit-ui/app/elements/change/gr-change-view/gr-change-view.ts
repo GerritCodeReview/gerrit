@@ -1303,12 +1303,17 @@ export class GrChangeView extends base {
     if (value.basePatchNum === undefined)
       value.basePatchNum = ParentPatchSetNum;
 
+<<<<<<< HEAD   (27cf2a Update lit for plugins)
     if (value.patchNum === undefined) {
       value.patchNum = computeLatestPatchNum(this._allPatchSets);
     }
 
     const patchChanged = this.hasPatchRangeChanged(value);
     let patchNumChanged = this.hasPatchNumChanged(value);
+=======
+    const patchChanged = this.hasPatchRangeChanged(this.params);
+    let patchNumChanged = this.hasPatchNumChanged(this.params);
+>>>>>>> CHANGE (608cdc Revert "Fix file-list is not reloaded when clicking on chang)
 
     this._patchRange = {
       patchNum: value.patchNum,

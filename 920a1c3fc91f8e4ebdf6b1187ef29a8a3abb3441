@@ -33,6 +33,24 @@
       "message": "What this tries to fix only affects squash commits, right? That might make this a little simpler.\n\nnit: some ancient versions of grep don\u0027t support \"-q\", so you can use something like `if head -n 1 \"$1\" | grep -e \u0027^squash! \u0027 \u003e/dev/null ; then`. Or\n\n```\nread subject \u003c \"$1\"\ncase \"$subject\" in\n\"squash! \"*)\n  exit 0;;\nesac\n```",
       "revId": "920a1c3fc91f8e4ebdf6b1187ef29a8a3abb3441",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99f622be_9c43ec06",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2022-06-22T14:05:24Z",
+      "side": 1,
+      "message": "true, we could prob ignore fixup commits since the commit message will be discarded by git.  but we could also ignore it to keep noise down.  *shrug*\n\n\u003e nit: some ancient versions of grep don\u0027t support \"-q\"\n\ndo we really care ?  SUS/POSIX has required -q \u0026 -s since 1997.  if the system is that horribly ancient, then maybe they get to keep the pieces.\n\nhttps://pubs.opengroup.org/onlinepubs/007908799/xcu/grep.html\nhttps://pubs.opengroup.org/onlinepubs/009695399/utilities/grep.html\n\nalso, i\u0027ll note `grep -q` is used below already",
+      "parentUuid": "fbeff8f8_f3228168",
+      "revId": "920a1c3fc91f8e4ebdf6b1187ef29a8a3abb3441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

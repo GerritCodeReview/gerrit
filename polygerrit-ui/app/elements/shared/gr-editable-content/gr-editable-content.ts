@@ -96,7 +96,7 @@ export class GrEditableContent extends LitElement {
   storeTask?: DelayedTask;
 
   override disconnectedCallback() {
-    this.storeTask?.cancel();
+    this.storeTask?.flush();
     super.disconnectedCallback();
   }
 

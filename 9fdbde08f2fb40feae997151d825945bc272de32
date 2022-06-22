@@ -16,6 +16,24 @@
       "message": "Unrelated change?",
       "revId": "9fdbde08f2fb40feae997151d825945bc272de32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96d112f3_ae969a1a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 2091,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-22T11:52:52Z",
+      "side": 0,
+      "message": "This is due to a rebase(actually happened in Change 339694) but it\u0027s being shown as being removed in this change(which it\u0027s not).",
+      "parentUuid": "419670ef_a6c1bde3",
+      "revId": "9fdbde08f2fb40feae997151d825945bc272de32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9494d12_4a3c9397",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-22T09:35:53Z",
+      "side": 1,
+      "message": "should we be doing assertIsDefined here?\nor is it possible for path/files to not be defined here",
+      "range": {
+        "startLine": 454,
+        "startChar": 36,
+        "endLine": 454,
+        "endChar": 40
+      },
+      "revId": "3e2f532d8b88bde35673f5dc543e88f89182bd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1746e000_4fb05152",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-22T09:35:53Z",
+      "side": 1,
+      "message": "prefer not rendering instead of hiding?",
+      "range": {
+        "startLine": 968,
+        "startChar": 37,
+        "endLine": 968,
+        "endChar": 43
+      },
+      "revId": "3e2f532d8b88bde35673f5dc543e88f89182bd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2aa25ff8_da364d00",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1318,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-22T09:35:53Z",
+      "side": 1,
+      "message": "remove ¨_¨",
+      "range": {
+        "startLine": 1318,
+        "startChar": 9,
+        "endLine": 1318,
+        "endChar": 26
+      },
+      "revId": "3e2f532d8b88bde35673f5dc543e88f89182bd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f15ad2b5_556cbf60",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 1804,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-22T09:35:53Z",
+      "side": 1,
+      "message": "remove ¨_¨",
+      "revId": "3e2f532d8b88bde35673f5dc543e88f89182bd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

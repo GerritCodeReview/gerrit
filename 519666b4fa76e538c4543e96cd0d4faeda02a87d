@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1e20cad_41c93f4a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-22T09:35:53Z",
+      "side": 1,
+      "message": "remove \"_\" and mark private?",
+      "range": {
+        "startLine": 313,
+        "startChar": 2,
+        "endLine": 313,
+        "endChar": 30
+      },
+      "revId": "519666b4fa76e538c4543e96cd0d4faeda02a87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff1ce2e2_5c350eaa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-22T09:35:53Z",
+      "side": 1,
+      "message": "updated() should be called after render() so why do we need this?",
+      "range": {
+        "startLine": 737,
+        "startChar": 7,
+        "endLine": 737,
+        "endChar": 35
+      },
+      "revId": "519666b4fa76e538c4543e96cd0d4faeda02a87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "854ba2eb_c9f7c685",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-22T09:35:53Z",
+      "side": 1,
+      "message": "this method is not connectedCallback?",
+      "revId": "519666b4fa76e538c4543e96cd0d4faeda02a87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a8a6abf_23a8948b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-22T09:35:53Z",
+      "side": 1,
+      "message": "remove comment?",
+      "range": {
+        "startLine": 831,
+        "startChar": 10,
+        "endLine": 832,
+        "endChar": 9
+      },
+      "revId": "519666b4fa76e538c4543e96cd0d4faeda02a87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

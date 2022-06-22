@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "543cb6a6_c4344a94",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T16:13:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7741a39a_4264f42c",
+      "range": {
+        "startLine": 196,
+        "startChar": 4,
+        "endLine": 196,
+        "endChar": 39
+      },
+      "revId": "1353dbd34657fa4335c8f836d3b8596766bb9302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06ed31b3_a3b5c890",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-06-22T15:56:13Z",
       "side": 1,
       "message": "optional: merge into a single condition",
+      "range": {
+        "startLine": 293,
+        "startChar": 10,
+        "endLine": 294,
+        "endChar": 26
+      },
+      "revId": "1353dbd34657fa4335c8f836d3b8596766bb9302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a84cd7c1_d23dfea2",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T16:13:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06ed31b3_a3b5c890",
       "range": {
         "startLine": 293,
         "startChar": 10,

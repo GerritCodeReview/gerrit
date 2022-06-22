@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a726a1_bd7f60a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T10:53:48Z",
+      "side": 1,
+      "message": "I also adapted the tests to run in both {dryRun, noDryRun} modes.",
+      "revId": "377527ee1c3ec0c5dc97844183abb2a200c0dc2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

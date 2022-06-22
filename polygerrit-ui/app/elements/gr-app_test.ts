@@ -16,7 +16,6 @@ import {
   createServerInfo,
 } from '../test/test-data-generators';
 import {GrAppElement} from './gr-app-element';
-import {GrPluginHost} from './plugins/gr-plugin-host/gr-plugin-host';
 import {GrRouter} from './core/gr-router/gr-router';
 
 suite('gr-app tests', () => {
@@ -46,12 +45,6 @@ suite('gr-app tests', () => {
 
   test('reporting called before router start', () => {
     sinon.assert.callOrder(appStartedStub, routerStartStub);
-  });
-
-  test('passes config to gr-plugin-host', () => {
-    const grAppElement = queryAndAssert<GrAppElement>(grApp, '#app-element');
-    const pluginHost = queryAndAssert<GrPluginHost>(grAppElement, '#plugins');
-    assert.deepEqual(pluginHost.config, config);
   });
 
   test('_paramsChanged sets search page', () => {

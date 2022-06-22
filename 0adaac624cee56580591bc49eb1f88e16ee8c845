@@ -16,6 +16,23 @@
       "message": "lgtm but you have a merge conflict and the style failure is strange",
       "revId": "0adaac624cee56580591bc49eb1f88e16ee8c845",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17d1b635_f3241a80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-22T10:01:50Z",
+      "side": 1,
+      "message": "Nice!!!!",
+      "revId": "0adaac624cee56580591bc49eb1f88e16ee8c845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -10,9 +10,7 @@ import {
   AutocompleteSuggestion,
   GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
-import {getDocsBaseUrl} from '../../../utils/url-util';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
-import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {
@@ -25,6 +23,9 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {query as queryUtil} from '../../../utils/common-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {configModelToken} from '../../../models/config/config-model';
+import {resolve} from '../../../models/dependency';
+import {subscribe} from '../../lit/subscription-controller';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
@@ -153,8 +154,11 @@ export class GrSearchBar extends LitElement {
   @property({type: Object})
   accountSuggestions: SuggestionProvider = () => Promise.resolve([]);
 
-  @property({type: Object})
+  @state()
   serverConfig?: ServerInfo;
+
+  @state()
+  mergeabilityComputationBehavior?: MergeabilityComputationBehavior;
 
   @property({type: String})
   label = '';
@@ -163,22 +167,32 @@ export class GrSearchBar extends LitElement {
   @state() inputVal = '';
 
   // private but used in test
-  @state() docBaseUrl: string | null = null;
+  @state() docsBaseUrl: string | null = null;
 
   @state() private query: AutocompleteQuery;
 
   @state() private threshold = 1;
 
-  private searchOperators = new Set(SEARCH_OPERATORS_WITH_NEGATIONS_SET);
-
-  private readonly restApiService = getAppContext().restApiService;
-
   private readonly shortcuts = new ShortcutController(this);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   constructor() {
     super();
     this.query = (input: string) => this.getSearchSuggestions(input);
     this.shortcuts.addAbstract(Shortcut.SEARCH, () => this.handleSearch());
+    subscribe(
+      this,
+      () => this.getConfigModel().mergeabilityComputationBehavior$,
+      mergeabilityComputationBehavior => {
+        this.mergeabilityComputationBehavior = mergeabilityComputationBehavior;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+    );
   }
 
   static override get styles() {
@@ -237,35 +251,8 @@ export class GrSearchBar extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('serverConfig')) {
-      this.serverConfigChanged();
-    }
-
     if (changedProperties.has('value')) {
       this.valueChanged();
-    }
-  }
-
-  private serverConfigChanged() {
-    const mergeability =
-      this.serverConfig?.change?.mergeability_computation_behavior;
-    if (
-      mergeability ===
-        MergeabilityComputationBehavior.API_REF_UPDATED_AND_CHANGE_REINDEX ||
-      mergeability ===
-        MergeabilityComputationBehavior.REF_UPDATED_AND_CHANGE_REINDEX
-    ) {
-      // add 'is:mergeable' to searchOperators
-      this.searchOperators.add('is:mergeable');
-      this.searchOperators.add('-is:mergeable');
-    } else {
-      this.searchOperators.delete('is:mergeable');
-      this.searchOperators.delete('-is:mergeable');
-    }
-    if (this.serverConfig) {
-      getDocsBaseUrl(this.serverConfig, this.restApiService).then(baseUrl => {
-        this.docBaseUrl = baseUrl;
-      });
     }
   }
 
@@ -273,11 +260,25 @@ export class GrSearchBar extends LitElement {
     this.inputVal = this.value;
   }
 
+  private searchOperators() {
+    const set = new Set(SEARCH_OPERATORS_WITH_NEGATIONS_SET);
+    if (
+      this.mergeabilityComputationBehavior ===
+        MergeabilityComputationBehavior.API_REF_UPDATED_AND_CHANGE_REINDEX ||
+      this.mergeabilityComputationBehavior ===
+        MergeabilityComputationBehavior.REF_UPDATED_AND_CHANGE_REINDEX
+    ) {
+      set.add('is:mergeable');
+      set.add('-is:mergeable');
+    }
+    return set;
+  }
+
   // private but used in test
   computeHelpDocLink() {
     // fallback to gerrit's official doc
     let baseUrl =
-      this.docBaseUrl ||
+      this.docsBaseUrl ||
       'https://gerrit-review.googlesource.com/documentation/';
     if (baseUrl.endsWith('/')) {
       baseUrl = baseUrl.substring(0, baseUrl.length - 1);
@@ -308,7 +309,7 @@ export class GrSearchBar extends LitElement {
     if (!this.inputVal) return;
     const trimmedInput = this.inputVal.trim();
     if (trimmedInput) {
-      const predefinedOpOnlyQuery = [...this.searchOperators].some(
+      const predefinedOpOnlyQuery = [...this.searchOperators()].some(
         op => op.endsWith(':') && op === trimmedInput
       );
       if (predefinedOpOnlyQuery) {
@@ -365,7 +366,7 @@ export class GrSearchBar extends LitElement {
 
       default:
         return Promise.resolve(
-          [...this.searchOperators]
+          [...this.searchOperators()]
             .filter(operator => operator.includes(input))
             .map(operator => {
               return {text: operator};

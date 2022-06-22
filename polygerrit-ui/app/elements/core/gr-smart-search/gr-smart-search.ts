@@ -14,7 +14,10 @@ import {
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, html} from 'lit';
-import {customElement, property} from 'lit/decorators';
+import {customElement, property, state} from 'lit/decorators';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';
@@ -34,13 +37,26 @@ export class GrSmartSearch extends LitElement {
   @property({type: String})
   searchQuery = '';
 
-  @property({type: Object})
+  @state()
   serverConfig?: ServerInfo;
 
   @property({type: String})
   label = '';
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getConfigModel = resolve(this, configModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.serverConfig = config;
+      }
+    );
+  }
 
   override render() {
     const accountSuggestions: SuggestionProvider = (predicate, expression) =>
@@ -57,7 +73,6 @@ export class GrSmartSearch extends LitElement {
         .projectSuggestions=${projectSuggestions}
         .groupSuggestions=${groupSuggestions}
         .accountSuggestions=${accountSuggestions}
-        .serverConfig=${this.serverConfig}
         @handle-search=${(e: CustomEvent<SearchBarHandleSearchDetail>) => {
           this.handleSearch(e);
         }}

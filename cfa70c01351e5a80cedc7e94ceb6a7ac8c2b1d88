@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a47242e3_3a6de715",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-22T15:30:56Z",
+      "side": 1,
+      "message": "Due to the rebase + conflict resolution Patricks approval got outdated and removed. Youssef, can you please review and approve?",
+      "revId": "cfa70c01351e5a80cedc7e94ceb6a7ac8c2b1d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

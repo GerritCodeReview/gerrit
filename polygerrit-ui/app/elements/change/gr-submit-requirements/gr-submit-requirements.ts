@@ -27,7 +27,7 @@ import {
   getTriggerVotes,
   hasNeutralStatus,
   hasVotes,
-  iconForStatus,
+  iconForRequirement,
   orderSubmitRequirements,
 } from '../../../utils/label-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
@@ -191,7 +191,7 @@ export class GrSubmitRequirements extends LitElement {
     index: number
   ) {
     const row = html`
-     <td>${this.renderStatus(requirement.status)}</td>
+     <td>${this.renderStatus(requirement)}</td>
         <td class="name">
           <gr-limited-text
             class="name"
@@ -242,13 +242,13 @@ export class GrSubmitRequirements extends LitElement {
     </gr-endpoint-decorator>`;
   }
 
-  renderStatus(status: SubmitRequirementStatus) {
-    const icon = iconForStatus(status);
+  private renderStatus(requirement: SubmitRequirementResultInfo) {
+    const icon = iconForRequirement(requirement);
     return html`<iron-icon
       class=${icon}
       icon="gr-icons:${icon}"
       role="img"
-      aria-label=${status.toLowerCase()}
+      aria-label=${requirement.status.toLowerCase()}
     ></iron-icon>`;
   }
 

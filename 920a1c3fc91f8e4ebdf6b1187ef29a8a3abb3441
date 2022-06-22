@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45562202_4466ff38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2022-06-22T02:01:43Z",
+      "side": 1,
+      "message": "Nice, I like it!\n\nPlease also add a test to `resources/com/google/gerrit/server/commit-msg_test.sh`.",
+      "revId": "920a1c3fc91f8e4ebdf6b1187ef29a8a3abb3441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbeff8f8_f3228168",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2022-06-22T02:01:43Z",
+      "side": 1,
+      "message": "What this tries to fix only affects squash commits, right? That might make this a little simpler.\n\nnit: some ancient versions of grep don\u0027t support \"-q\", so you can use something like `if head -n 1 \"$1\" | grep -e \u0027^squash! \u0027 \u003e/dev/null ; then`. Or\n\n```\nread subject \u003c \"$1\"\ncase \"$subject\" in\n\"squash! \"*)\n  exit 0;;\nesac\n```",
+      "revId": "920a1c3fc91f8e4ebdf6b1187ef29a8a3abb3441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

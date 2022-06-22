@@ -22,6 +22,29 @@
       },
       "revId": "1353dbd34657fa4335c8f836d3b8596766bb9302",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06ed31b3_a3b5c890",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-22T15:56:13Z",
+      "side": 1,
+      "message": "optional: merge into a single condition",
+      "range": {
+        "startLine": 293,
+        "startChar": 10,
+        "endLine": 294,
+        "endChar": 26
+      },
+      "revId": "1353dbd34657fa4335c8f836d3b8596766bb9302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

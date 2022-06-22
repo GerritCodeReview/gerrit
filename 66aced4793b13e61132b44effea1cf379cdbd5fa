@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f3f0c96_2dc3e110",
+        "filename": "java/com/google/gerrit/server/api/projects/SubmitRequirementApiImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T14:59:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd158773_2d706e5e",
+      "range": {
+        "startLine": 115,
+        "startChar": 46,
+        "endLine": 115,
+        "endChar": 51
+      },
+      "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16395b23_c98de257",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-06-14T13:05:06Z",
       "side": 1,
       "message": "2022?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d48ad090_98db2c3a",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteSubmitRequirement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T14:59:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16395b23_c98de257",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -98,6 +146,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cb91993_c5e62cec",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteSubmitRequirement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T14:59:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26b5f3d3_3cc0caeb",
+      "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0647315_690cd90d",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteSubmitRequirement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T14:59:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e3d23bf_80df353c",
+      "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc214bb3_20f3f194",
@@ -121,6 +205,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00c127eb_1fd8d865",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteSubmitRequirement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T14:59:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc214bb3_20f3f194",
+      "range": {
+        "startLine": 90,
+        "startChar": 53,
+        "endLine": 90,
+        "endChar": 58
+      },
+      "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d119e6c0_2e1b72e4",
@@ -134,6 +242,24 @@
       "writtenOn": "2022-06-14T13:05:06Z",
       "side": 1,
       "message": "Maybe also test that deleting a SR fails if the caller doesn\u0027t have write config permissions.",
+      "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "270be57f_b6c34314",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/SubmitRequirementsAPIIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T14:59:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d119e6c0_2e1b72e4",
       "revId": "66aced4793b13e61132b44effea1cf379cdbd5fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

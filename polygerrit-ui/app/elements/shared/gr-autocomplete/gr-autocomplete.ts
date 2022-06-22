@@ -346,6 +346,12 @@ export class GrAutocomplete extends LitElement {
     this.text = '';
   }
 
+  private handleItemSelectEnter(e: CustomEvent | KeyboardEvent) {
+    this.handleInputCommit();
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
   handleItemSelect(e: CustomEvent) {
     if (e.detail.trigger === 'click') {
       this.selected = e.detail.selected;
@@ -353,9 +359,7 @@ export class GrAutocomplete extends LitElement {
       e.stopPropagation();
       e.preventDefault();
     } else if (e.detail.trigger === 'enter') {
-      this.handleInputCommit();
-      e.stopPropagation();
-      e.preventDefault();
+      this.handleItemSelectEnter(e);
     } else if (e.detail.trigger === 'tab') {
       if (this.tabComplete) {
         this.handleInputCommit(true);
@@ -511,8 +515,13 @@ export class GrAutocomplete extends LitElement {
         if (modifierPressed(e)) {
           break;
         }
-        e.preventDefault();
-        this.handleInputCommit();
+        if (this.suggestions.length > 0) {
+          // If suggestions are shown, act as if the keypress is in dropdown.
+          this.handleItemSelectEnter(e);
+        } else {
+          e.preventDefault();
+          this.handleInputCommit();
+        }
         break;
       default:
         // For any normal keypress, return focus to the input to allow for

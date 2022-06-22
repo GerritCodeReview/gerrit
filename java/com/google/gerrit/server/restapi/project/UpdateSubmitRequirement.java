@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
@@ -107,14 +106,11 @@ public class UpdateSubmitRequirement
       return Response.created(SubmitRequirementJson.format(submitRequirement));
     } catch (ConfigInvalidException e) {
       throw new IOException("Failed to read project config", e);
-    } catch (ResourceConflictException e) {
-      throw new BadRequestException("Failed to create submit requirement", e);
     }
   }
 
   public SubmitRequirement createSubmitRequirement(
-      ProjectConfig config, String name, SubmitRequirementInput input)
-      throws BadRequestException, ResourceConflictException {
+      ProjectConfig config, String name, SubmitRequirementInput input) throws BadRequestException {
     validateSRName(name);
     if (Strings.isNullOrEmpty(input.submittabilityExpression)) {
       throw new BadRequestException("submittability_expression is required");

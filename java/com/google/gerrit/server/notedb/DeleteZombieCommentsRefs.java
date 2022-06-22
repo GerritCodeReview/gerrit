@@ -81,6 +81,15 @@ public class DeleteZombieCommentsRefs {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final int cleanupPercentage;
+
+  /**
+   * Run the logic in logging mode only. That is, detected zombie drafts will be logged only but not
+   * deleted. Creators of this class can use {@link Factory#create(int, Boolean)} to specify the
+   * logging mode. If {@link Factory#create(int)} is used, the logging mode will be set to its
+   * default: true.
+   */
+  private final boolean loggingMode;
+
   private final Consumer<String> uiConsumer;
   @Nullable private final DraftCommentNotes.Factory draftNotesFactory;
   @Nullable private final ChangeNotes.Factory changeNotesFactory;
@@ -90,6 +99,8 @@ public class DeleteZombieCommentsRefs {
 
   public interface Factory {
     DeleteZombieCommentsRefs create(int cleanupPercentage);
+
+    DeleteZombieCommentsRefs create(int cleanupPercentage, Boolean loggingMode);
   }
 
   @Inject
@@ -101,11 +112,13 @@ public class DeleteZombieCommentsRefs {
       CommentsUtil commentsUtil,
       ChangeUpdate.Factory changeUpdateFactory,
       IdentifiedUser.GenericFactory userFactory,
-      @Assisted Integer cleanupPercentage) {
+      @Assisted Integer cleanupPercentage,
+      @Assisted Boolean loggingMode) {
     this(
         allUsers,
         repoManager,
         cleanupPercentage,
+        loggingMode,
         (msg) -> {},
         changeNotesFactory,
         draftNotesFactory,
@@ -119,13 +132,14 @@ public class DeleteZombieCommentsRefs {
       GitRepositoryManager repoManager,
       Integer cleanupPercentage,
       Consumer<String> uiConsumer) {
-    this(allUsers, repoManager, cleanupPercentage, uiConsumer, null, null, null, null, null);
+    this(allUsers, repoManager, cleanupPercentage, null, uiConsumer, null, null, null, null, null);
   }
 
   private DeleteZombieCommentsRefs(
       AllUsersName allUsers,
       GitRepositoryManager repoManager,
       Integer cleanupPercentage,
+      Boolean loggingMode,
       Consumer<String> uiConsumer,
       @Nullable ChangeNotes.Factory changeNotesFactory,
       @Nullable DraftCommentNotes.Factory draftNotesFactory,
@@ -135,6 +149,7 @@ public class DeleteZombieCommentsRefs {
     this.allUsers = allUsers;
     this.repoManager = repoManager;
     this.cleanupPercentage = (cleanupPercentage == null) ? 100 : cleanupPercentage;
+    this.loggingMode = (loggingMode == null) ? true : loggingMode;
     this.uiConsumer = uiConsumer;
     this.draftNotesFactory = draftNotesFactory;
     this.changeNotesFactory = changeNotesFactory;
@@ -242,7 +257,9 @@ public class DeleteZombieCommentsRefs {
                           + " is a zombie draft that is already published.",
                       zombieDraft.key.uuid, changeId, accountId, zombieDraft.writtenOn));
           if (!zombieDrafts.isEmpty()) {
-            deleteZombieComments(accountId, notes, zombieDrafts);
+            if (!loggingMode) {
+              deleteZombieComments(accountId, notes, zombieDrafts);
+            }
           }
           numZombies += zombieDrafts.size();
         } catch (Exception e) {

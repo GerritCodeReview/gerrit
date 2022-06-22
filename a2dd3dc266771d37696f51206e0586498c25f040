@@ -46,6 +46,30 @@
       },
       "revId": "a2dd3dc266771d37696f51206e0586498c25f040",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "099e3665_34e26ca1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T19:14:51Z",
+      "side": 1,
+      "message": "\u003e If there\u0027s an already existing SR with the same name as a label, then nothing will happen. The migration pgm will just skip this label.\n\nI wasn\u0027t asking wrt migration, I meant if I manually made that change on a live server, what would the SR/Label behavior be?",
+      "parentUuid": "5bd34d38_f0e53802",
+      "range": {
+        "startLine": 25,
+        "startChar": 10,
+        "endLine": 25,
+        "endChar": 69
+      },
+      "revId": "a2dd3dc266771d37696f51206e0586498c25f040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

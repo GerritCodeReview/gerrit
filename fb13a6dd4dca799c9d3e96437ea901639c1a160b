@@ -22,6 +22,30 @@
       },
       "revId": "fb13a6dd4dca799c9d3e96437ea901639c1a160b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bc09891_b7475630",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T12:26:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7083246b_9080e428",
+      "range": {
+        "startLine": 86,
+        "startChar": 22,
+        "endLine": 86,
+        "endChar": 29
+      },
+      "revId": "fb13a6dd4dca799c9d3e96437ea901639c1a160b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

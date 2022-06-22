@@ -177,6 +177,9 @@ export class GrAutocomplete extends LitElement {
 
   @state() selected: HTMLElement | null = null;
 
+  // If true next focus of the input shouldn't re-render suggestions.
+  nextFocusIgnoreDropdown = false;
+
   private updateSuggestionsTask?: DelayedTask;
 
   get nativeInput() {
@@ -264,12 +267,14 @@ export class GrAutocomplete extends LitElement {
       changedProperties.has('threshold') ||
       changedProperties.has('noDebounce')
     ) {
+      console.log("Will Update UpdateSuggestions");
       this.updateSuggestions();
     }
     if (
       changedProperties.has('suggestions') ||
       changedProperties.has('focused')
     ) {
+      console.log("will update updateDropdownVisibility");
       this.updateDropdownVisibility();
     }
     if (changedProperties.has('text')) {
@@ -318,6 +323,7 @@ export class GrAutocomplete extends LitElement {
         horizontal-align="left"
         id="suggestions"
         @item-selected=${this.handleItemSelect}
+        @dropdown-closed=${this.handleDropdownClose}
         .suggestions=${this.suggestions}
         role="listbox"
         .index=${this.index}
@@ -331,6 +337,7 @@ export class GrAutocomplete extends LitElement {
   }
 
   override focus() {
+    console.log('autocomplete explicit focus call');
     this.nativeInput.focus();
   }
 
@@ -346,6 +353,20 @@ export class GrAutocomplete extends LitElement {
     this.text = '';
   }
 
+  private handleDropdownClose() {
+    console.log('Dropdown close event catch, focused =', this.focused);
+    if (this.focused) {
+      this.nextFocusIgnoreDropdown = true;
+      this.focus();
+    }
+  }
+
+  private handleItemSelectEnter(e: CustomEvent | KeyboardEvent) {
+    this.handleInputCommit();
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
   handleItemSelect(e: CustomEvent) {
     if (e.detail.trigger === 'click') {
       this.selected = e.detail.selected;
@@ -353,9 +374,7 @@ export class GrAutocomplete extends LitElement {
       e.stopPropagation();
       e.preventDefault();
     } else if (e.detail.trigger === 'enter') {
-      this.handleInputCommit();
-      e.stopPropagation();
-      e.preventDefault();
+      this.handleItemSelectEnter(e);
     } else if (e.detail.trigger === 'tab') {
       if (this.tabComplete) {
         this.handleInputCommit(true);
@@ -383,11 +402,17 @@ export class GrAutocomplete extends LitElement {
   }
 
   onInputFocus() {
+    console.log("input focus event catch, nextFocusIgnoreDropdown =", this.nextFocusIgnoreDropdown);
     this.setFocus(true);
-    this.updateSuggestions();
+    if (!this.nextFocusIgnoreDropdown) {
+      console.log('updateSuggestions from InputFocus')
+      this.updateSuggestions();
+    }
     this.input?.classList.remove('warnUncommitted');
     // Needed so that --paper-input-container-input updated style is applied.
     this.requestUpdate();
+
+    this.nextFocusIgnoreDropdown = false;
   }
 
   onInputBlur() {
@@ -411,29 +436,35 @@ export class GrAutocomplete extends LitElement {
     // This will also prevent from carrying over suggestions:
     // @see Issue 12039
     this.suggestions = [];
+    console.log('suggestions reset to []');
 
     // TODO(taoalpha): Also skip if text has not changed
 
     if (this.disableSuggestions) {
+      console.log('UpdateSuggestions disableSuggestions exit');
       return;
     }
 
     const query = this.query;
     if (!query) {
+      console.log('UpdateSuggestions no query exit');
       return;
     }
 
     if (this.text.length < this.threshold) {
+      console.log('updateSuggestions text to short exit');
       this.value = '';
       return;
     }
 
     if (!this.focused) {
+      console.log('UpdateSuggestions autocomplete not in focus exit');
       return;
     }
 
     const update = () => {
       query(this.text).then(suggestions => {
+        console.log('query returned: ', suggestions);
         if (this.text !== this.text) {
           // Late response.
           return;
@@ -442,6 +473,7 @@ export class GrAutocomplete extends LitElement {
           suggestion.text = suggestion?.name ?? '';
         }
         this.suggestions = suggestions;
+        console.log('suggestions set to ', this.suggestions);
         if (this.index === -1) {
           this.value = '';
         }
@@ -460,16 +492,22 @@ export class GrAutocomplete extends LitElement {
   }
 
   setFocus(focused: boolean) {
+    console.log('SetFocus(', focused, ')');
     if (focused === this.focused) return;
     this.focused = focused;
-    this.updateDropdownVisibility();
+    if (!this.nextFocusIgnoreDropdown) {
+      console.log('updateDropdownVisibility from setFocus')
+      this.updateDropdownVisibility();
+    }
   }
 
   updateDropdownVisibility() {
     if (this.suggestions.length > 0 && this.focused) {
+      console.log('Dropdown open');
       this.suggestionsDropdown?.open();
       return;
     }
+    console.log('Dropdown close');
     this.suggestionsDropdown?.close();
   }
 
@@ -484,6 +522,7 @@ export class GrAutocomplete extends LitElement {
    * handleKeydown used for key handling in the this.input?.
    */
   handleKeydown(e: KeyboardEvent) {
+    console.log('Key received', e.keyCode);
     this.setFocus(true);
     switch (e.keyCode) {
       case 38: // Up
@@ -511,8 +550,13 @@ export class GrAutocomplete extends LitElement {
         if (modifierPressed(e)) {
           break;
         }
-        e.preventDefault();
-        this.handleInputCommit();
+        if (this.suggestions.length > 0) {
+          // If suggestions are shown, act as if the keypress is in dropdown.
+          this.handleItemSelectEnter(e);
+        } else {
+          e.preventDefault();
+          this.handleInputCommit();
+        }
         break;
       default:
         // For any normal keypress, return focus to the input to allow for
@@ -536,9 +580,11 @@ export class GrAutocomplete extends LitElement {
 
   cancel() {
     if (this.suggestions.length) {
+      console.log('autocomplete cancel, clear suggestions');
       this.suggestions = [];
       this.requestUpdate();
     } else {
+      console.log('autocomplete cancel, fire event');
       fireEvent(this, 'cancel');
     }
   }

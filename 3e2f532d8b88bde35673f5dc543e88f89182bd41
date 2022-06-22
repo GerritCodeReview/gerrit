@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28121559_e565d759",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2022-06-22T11:06:00Z",
+      "side": 1,
+      "message": "Actually, by definition this is possible.\n\ncombineLatest combines the latest of both values and their initial value is undefined. So when one updates first, it\u0027s possible to have a call where one is defined and one isn\u0027t.",
+      "parentUuid": "349fa778_30b3203f",
+      "range": {
+        "startLine": 454,
+        "startChar": 36,
+        "endLine": 454,
+        "endChar": 40
+      },
+      "revId": "3e2f532d8b88bde35673f5dc543e88f89182bd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1746e000_4fb05152",

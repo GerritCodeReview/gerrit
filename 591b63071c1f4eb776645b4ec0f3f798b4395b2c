@@ -16,6 +16,24 @@
       "message": "Nice! Test?",
       "revId": "591b63071c1f4eb776645b4ec0f3f798b4395b2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "969c75c3_69cbfbeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-22T08:11:36Z",
+      "side": 1,
+      "message": "Interesting, it was in patchset 2 but it was reset in patchset 3. Probably I downloaded by mistake patchset 1 .",
+      "parentUuid": "f521cf8e_a31a6d8b",
+      "revId": "591b63071c1f4eb776645b4ec0f3f798b4395b2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

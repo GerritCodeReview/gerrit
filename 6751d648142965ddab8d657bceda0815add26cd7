@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b4ccc88_12ce2ca6",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-22T15:52:05Z",
+      "side": 1,
+      "message": "Seems this code logs the same uuids as newly added code.\nMaybe print \"All zombie drafts deleted\" without uuids in deleteZombieComments?",
+      "range": {
+        "startLine": 238,
+        "startChar": 10,
+        "endLine": 243,
+        "endChar": 89
+      },
+      "revId": "6751d648142965ddab8d657bceda0815add26cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da35847e_2b53016a",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-22T15:52:05Z",
+      "side": 1,
+      "message": "What if changeUpdate is failed? Do you want to see a list of already deleted uuids in log?",
+      "range": {
+        "startLine": 285,
+        "startChar": 4,
+        "endLine": 286,
+        "endChar": 26
+      },
+      "revId": "6751d648142965ddab8d657bceda0815add26cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bddb6fed_b2d93e24",
         "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
         "patchSetId": 1

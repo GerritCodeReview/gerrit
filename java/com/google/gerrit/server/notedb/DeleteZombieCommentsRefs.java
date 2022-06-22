@@ -37,8 +37,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -81,6 +81,15 @@ public class DeleteZombieCommentsRefs {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final int cleanupPercentage;
+
+  /**
+   * Run the logic in logging mode only. That is, detected zombie drafts will be logged only but not
+   * deleted. Creators of this class can use {@link Factory#create(int, boolean)} to specify the
+   * logging mode. If {@link Factory#create(int)} is used, the logging mode will be set to its
+   * default: true.
+   */
+  private final boolean dryRun;
+
   private final Consumer<String> uiConsumer;
   @Nullable private final DraftCommentNotes.Factory draftNotesFactory;
   @Nullable private final ChangeNotes.Factory changeNotesFactory;
@@ -90,9 +99,11 @@ public class DeleteZombieCommentsRefs {
 
   public interface Factory {
     DeleteZombieCommentsRefs create(int cleanupPercentage);
+
+    DeleteZombieCommentsRefs create(int cleanupPercentage, boolean dryRun);
   }
 
-  @Inject
+  @AssistedInject
   public DeleteZombieCommentsRefs(
       AllUsersName allUsers,
       GitRepositoryManager repoManager,
@@ -106,6 +117,31 @@ public class DeleteZombieCommentsRefs {
         allUsers,
         repoManager,
         cleanupPercentage,
+        /* dryRun= */ true,
+        (msg) -> {},
+        changeNotesFactory,
+        draftNotesFactory,
+        commentsUtil,
+        changeUpdateFactory,
+        userFactory);
+  }
+
+  @AssistedInject
+  public DeleteZombieCommentsRefs(
+      AllUsersName allUsers,
+      GitRepositoryManager repoManager,
+      ChangeNotes.Factory changeNotesFactory,
+      DraftCommentNotes.Factory draftNotesFactory,
+      CommentsUtil commentsUtil,
+      ChangeUpdate.Factory changeUpdateFactory,
+      IdentifiedUser.GenericFactory userFactory,
+      @Assisted Integer cleanupPercentage,
+      @Assisted boolean dryRun) {
+    this(
+        allUsers,
+        repoManager,
+        cleanupPercentage,
+        dryRun,
         (msg) -> {},
         changeNotesFactory,
         draftNotesFactory,
@@ -119,13 +155,24 @@ public class DeleteZombieCommentsRefs {
       GitRepositoryManager repoManager,
       Integer cleanupPercentage,
       Consumer<String> uiConsumer) {
-    this(allUsers, repoManager, cleanupPercentage, uiConsumer, null, null, null, null, null);
+    this(
+        allUsers,
+        repoManager,
+        cleanupPercentage,
+        /* dryRun= */ true,
+        uiConsumer,
+        null,
+        null,
+        null,
+        null,
+        null);
   }
 
   private DeleteZombieCommentsRefs(
       AllUsersName allUsers,
       GitRepositoryManager repoManager,
       Integer cleanupPercentage,
+      boolean dryRun,
       Consumer<String> uiConsumer,
       @Nullable ChangeNotes.Factory changeNotesFactory,
       @Nullable DraftCommentNotes.Factory draftNotesFactory,
@@ -135,6 +182,7 @@ public class DeleteZombieCommentsRefs {
     this.allUsers = allUsers;
     this.repoManager = repoManager;
     this.cleanupPercentage = (cleanupPercentage == null) ? 100 : cleanupPercentage;
+    this.dryRun = dryRun;
     this.uiConsumer = uiConsumer;
     this.draftNotesFactory = draftNotesFactory;
     this.changeNotesFactory = changeNotesFactory;
@@ -242,7 +290,9 @@ public class DeleteZombieCommentsRefs {
                           + " is a zombie draft that is already published.",
                       zombieDraft.key.uuid, changeId, accountId, zombieDraft.writtenOn));
           if (!zombieDrafts.isEmpty()) {
-            deleteZombieComments(accountId, notes, zombieDrafts);
+            if (!dryRun) {
+              deleteZombieComments(accountId, notes, zombieDrafts);
+            }
           }
           numZombies += zombieDrafts.size();
         } catch (Exception e) {

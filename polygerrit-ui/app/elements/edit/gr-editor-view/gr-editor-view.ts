@@ -134,7 +134,7 @@ export class GrEditorView extends LitElement {
   }
 
   override disconnectedCallback() {
-    this.storeTask?.cancel();
+    this.storeTask?.flush();
     for (const cleanup of this.cleanups) cleanup();
     this.cleanups = [];
     super.disconnectedCallback();

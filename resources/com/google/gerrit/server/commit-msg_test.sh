@@ -110,6 +110,18 @@ EOF
   fi
 }
 
+function test_suppress_squash {
+  cat << EOF > input
+squash! bla bla
+EOF
+
+  ${hook} input || fail "failed hook execution"
+  found=$(grep -c '^Change-Id' input || true)
+  if [[ "${found}" != "0" ]]; then
+    fail "got ${found} Change-Ids, want 0"
+  fi
+}
+
 # gerrit.reviewUrl causes us to create Link instead of Change-Id.
 function test_link {
   cat << EOF > input

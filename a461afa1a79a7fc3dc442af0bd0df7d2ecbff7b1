@@ -428,6 +428,24 @@
       "parentUuid": "71fe55ad_6ac5edda",
       "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1f0626e_feb6ee34",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 40
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1091592
+      },
+      "writtenOn": "2022-06-22T18:22:11Z",
+      "side": 1,
+      "message": "Moved the code block to around line 1250. Keeping this comment open to check with Nasser if we should keep the change that sorts this file. The change is at https://gerrit-review.googlesource.com/c/gerrit/+/339634",
+      "parentUuid": "0672b2ed_72d73c63",
+      "revId": "a461afa1a79a7fc3dc442af0bd0df7d2ecbff7b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

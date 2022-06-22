@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23df3549_83fb705e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-22T14:49:51Z",
+      "side": 1,
+      "message": "Woohoo. Thank you!",
+      "revId": "87b0bf3cace3d92d5c2b531d4051af0b521bc1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4261bc7e_f06bb0c4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-22T14:49:51Z",
+      "side": 1,
+      "message": "Optional: It might be easiest and more reliable to get files from the files-model. I have just added a selector for exactly what you need here: `filesWithUnmodified$`",
+      "range": {
+        "startLine": 216,
+        "startChar": 2,
+        "endLine": 218,
+        "endChar": 61
+      },
+      "revId": "87b0bf3cace3d92d5c2b531d4051af0b521bc1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec3ab57e_1220c715",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-22T14:49:51Z",
+      "side": 1,
+      "message": "Doing this on *every* render seems potentially be too much. E.g. the `changeComments` property will likely change a lot and trigger rendering updates?",
+      "range": {
+        "startLine": 741,
+        "startChar": 1,
+        "endLine": 742,
+        "endChar": 34
+      },
+      "revId": "87b0bf3cace3d92d5c2b531d4051af0b521bc1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "460dbbee_8a47ae58",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-22T14:49:51Z",
+      "side": 1,
+      "message": "Maybe rename to `getFileRange()`?\n\nThis is only used for passing on to `gr-diff-host`, which expects a `PatchSetFile`. Maybe a chance to consolidate types. :-)",
+      "revId": "87b0bf3cace3d92d5c2b531d4051af0b521bc1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e083e493_5942fce0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-22T14:49:51Z",
+      "side": 1,
+      "message": "Maybe rename to `fetchFiles`. Or make this method obsolete by just subscribing to the files model. (That would have the additional benefit of the change and diff view sharing the data and only making one request.).",
+      "range": {
+        "startLine": 1052,
+        "startChar": 2,
+        "endLine": 1052,
+        "endChar": 10
+      },
+      "revId": "87b0bf3cace3d92d5c2b531d4051af0b521bc1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

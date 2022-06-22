@@ -16,6 +16,24 @@
       "message": "The Gerrit CI build doesn\u0027t really test the Lucene E2E use-cases :-(, can you perform an E2E Gatling test before and after the change?",
       "revId": "45cceb44da4fe0a099e59c8e6c5892009626600f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "298c0b19_92921c53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T20:44:24Z",
+      "side": 1,
+      "message": "This only affects Lucene tests (LuceneIndexModule.isInMemoryTest()\u003d\u003dtrue) and documentation search. @davido, if you\u0027ve run the Lucene tests, we\u0027re good there.\n\nCan you (also) check that doc search continues working as expected?",
+      "parentUuid": "8a145709_1130a076",
+      "revId": "45cceb44da4fe0a099e59c8e6c5892009626600f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

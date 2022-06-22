@@ -334,14 +334,15 @@ export class GrEditableLabel extends LitElement {
   }
 
   private get nativeInput(): HTMLInputElement {
-    return (this.input?.inputElement as IronInputElement)
-      .inputElement as HTMLInputElement;
+    if (this.autocomplete) {
+      return this.grAutocomplete!.nativeInput as HTMLInputElement;
+    } else {
+      return (this.input!.inputElement as IronInputElement)
+          .inputElement as HTMLInputElement;
+    }
   }
 
   private handleEnter(event: KeyboardEvent) {
-    if (event.composedPath().some(el => el === this.grAutocomplete)) {
-      return;
-    }
     const inputContainer = queryAndAssert(this, '.inputContainer');
     const isEventFromInput = event
       .composedPath()
@@ -353,19 +354,20 @@ export class GrEditableLabel extends LitElement {
 
   private handleEsc(event: KeyboardEvent) {
     // If autocomplete is used, it's handling the ESC instead.
-    if (!this.autocomplete) {
-      const inputContainer = queryAndAssert(this, '.inputContainer');
-      const isEventFromInput = event
-        .composedPath()
-        .some(element => element === inputContainer);
-      if (isEventFromInput) {
-        this.cancel();
-      }
+    if (this.autocomplete) {
+      return;
+    }
+    const inputContainer = queryAndAssert(this, '.inputContainer');
+    const isEventFromInput = event
+      .composedPath()
+      .some(element => element === inputContainer);
+    if (isEventFromInput) {
+      this.cancel();
     }
   }
 
   private handleCommit() {
-    this.input?.focus();
+    this.nativeInput?.focus();
   }
 
   private computeLabelClass() {

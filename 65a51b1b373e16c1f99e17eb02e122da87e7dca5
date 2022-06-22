@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37e5adf6_c7f1c237",
+        "filename": "polygerrit-ui/app/utils/label-util_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2022-06-22T08:38:41Z",
+      "side": 1,
+      "message": "Nit: Maybe a util function that takes a status and an expression and returns the SR would be helpful.",
+      "range": {
+        "startLine": 686,
+        "startChar": 15,
+        "endLine": 686,
+        "endChar": 48
+      },
+      "revId": "65a51b1b373e16c1f99e17eb02e122da87e7dca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79dc9e16_38060346",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-22T10:34:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c8d406f_15db77b0",
+      "revId": "f666e64395dc3a57bdc8ad2c63635ead571fe067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c11e806_39b48ebc",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-22T08:45:05Z",
       "side": 1,
       "message": "Should this be annotated with @Nullable? (following FieldDef\u0027s annotation?)",
+      "revId": "f666e64395dc3a57bdc8ad2c63635ead571fe067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6693cf17_b3e32271",
+        "filename": "java/com/google/gerrit/index/SchemaFieldDefs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-22T10:34:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c11e806_39b48ebc",
       "revId": "f666e64395dc3a57bdc8ad2c63635ead571fe067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

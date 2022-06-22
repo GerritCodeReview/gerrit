@@ -5,13 +5,16 @@
  */
 import '../../../test/common-test-setup-karma';
 import './gr-editable-label';
-import {GrEditableLabel} from './gr-editable-label';
-import {queryAndAssert} from '../../../utils/common-util';
+import { GrEditableLabel } from './gr-editable-label';
+import { queryAndAssert } from '../../../utils/common-util';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
-import {PaperInputElement} from '@polymer/paper-input/paper-input';
-import {GrButton} from '../gr-button/gr-button';
-import {fixture, html} from '@open-wc/testing-helpers';
-import {IronDropdownElement} from '@polymer/iron-dropdown';
+import { PaperInputElement } from '@polymer/paper-input/paper-input';
+import { GrButton } from '../gr-button/gr-button';
+import { fixture, html } from '@open-wc/testing-helpers';
+import { IronDropdownElement } from '@polymer/iron-dropdown';
+import { AutocompleteSuggestion, GrAutocomplete } from '../gr-autocomplete/gr-autocomplete';
+import { Key } from '../../../utils/dom-util';
+import { waitUntil } from '../../../test/test-utils';
 
 suite('gr-editable-label tests', () => {
   let element: GrEditableLabel;
@@ -26,10 +29,10 @@ suite('gr-editable-label tests', () => {
         placeholder="label text"
       ></gr-editable-label>
     `);
+    label = queryAndAssert<HTMLLabelElement>(element, 'label');
     elementNoPlaceholder = await fixture<GrEditableLabel>(html`
       <gr-editable-label value=""></gr-editable-label>
     `);
-    label = queryAndAssert<HTMLLabelElement>(element, 'label');
 
     // In Polymer 2 inputElement isn't nativeInput anymore
     const paperInput = queryAndAssert<PaperInputElement>(element, '#input');
@@ -239,6 +242,88 @@ suite('gr-editable-label tests', () => {
 
     test('label is not marked as editable', () => {
       assert.isFalse(label.classList.contains('editable'));
+    });
+  });
+
+  suite('autocomplete tests', () => {
+    let element: GrEditableLabel;
+    let autocomplete: GrAutocomplete;
+    let suggestions: Array<AutocompleteSuggestion>;
+
+    setup(async () => {
+      element = await fixture<GrEditableLabel>(html`
+        <gr-editable-label
+          autocomplete
+          value="value text"
+          .query=${() => Promise.resolve(suggestions)}></gr-editable-label>
+      `);
+
+      autocomplete = element.grAutocomplete!;
+    });
+
+    test.only('autocomplete single esc close suggestions', async () => {
+      console.log('Test setup done');
+      suggestions = [{name: 'value text 1'}, {name: 'value text 2'}];
+      console.log('Query override set, opening dialogue');
+      await element.open();
+
+      await waitUntil(() => !autocomplete.suggestionsDropdown!.isHidden,
+                      'Suggestions are still not shown after 5s',
+                      2000);
+      console.log('Dropdown shown, proceeding with pressing esc');
+
+      assert.isFalse(autocomplete.suggestionsDropdown?.isHidden);
+
+      MockInteractions.pressAndReleaseKeyOn(
+        autocomplete.input!,
+        27,
+        null,
+        Key.ESC
+      );
+
+      await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden,
+                      'Suggestions are still shown after 5s',
+                      2000);
+      console.log('Dropdown closed, asserting state');
+
+      assert.isTrue(autocomplete.suggestionsDropdown?.isHidden);
+      assert.isTrue(element.dropdown?.opened);
+    });
+
+    test('autocomplete double esc close dialogue', async () => {
+      // console.log('Test setup done');
+      // suggestions = [{ name: 'value text 1' },
+      // { name: 'value text 2' }];
+      // console.log('Query override set, focusing autocomplete');
+      // element.open();
+      // autocomplete.setFocus(true);
+
+      // await waitUntil(() => !autocomplete.suggestionsDropdown!.isHidden);
+      // console.log('Dropdown shown, proceeding with pressing esc');
+
+      // assert.isFalse(autocomplete.suggestionsDropdown?.isHidden);
+
+      // MockInteractions.pressAndReleaseKeyOn(autocomplete.input!,
+      //   27, null, Key.ESC);
+
+      // await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden);
+      // console.log('Dropdown closed, asserting state');
+
+      // MockInteractions.pressAndReleaseKeyOn(autocomplete.input!,
+      //   27, null, Key.ESC);
+
+      // await element.updateComplete;
+
+      // assert.isTrue(autocomplete.suggestionsDropdown?.isHidden);
+      // assert.isFalse(element.dropdown?.opened);
+    });
+
+    test('autocomplete single enter chose suggestions', async () => {
+
+    });
+
+    test('autocomplete double enter save suggestion', async () => {
+
     });
   });
 });

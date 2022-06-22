@@ -19,6 +19,7 @@ import {queryAndAssert} from '../../../utils/common-util';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators';
 import {sharedStyles} from '../../../styles/shared-styles';
+import { IronInputElement } from '@polymer/iron-input';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -271,11 +272,13 @@ export class GrEditableLabel extends LitElement {
 
   open() {
     return this.openDropdown().then(() => {
+      console.log('Calling focus on ', this.nativeInput);
       this.nativeInput.focus();
     });
   }
 
   private openDropdown() {
+    console.log('Editable Label Dropdown open');
     this.dropdown?.open();
     this.inputText = this.value || '';
     this.editing = true;
@@ -324,6 +327,7 @@ export class GrEditableLabel extends LitElement {
   }
 
   private cancel() {
+    console.log('editable-label cancel');
     if (!this.editing) {
       return;
     }
@@ -333,15 +337,15 @@ export class GrEditableLabel extends LitElement {
   }
 
   private get nativeInput(): HTMLInputElement {
-    return (this.input?.$.nativeInput ||
-      this.input?.inputElement ||
-      this.grAutocomplete) as HTMLInputElement;
+    if (this.autocomplete) {
+      return this.grAutocomplete!.nativeInput as HTMLInputElement;
+    } else {
+      return (this.input!.inputElement as IronInputElement)
+          .inputElement as HTMLInputElement;
+    }
   }
 
   private handleEnter(event: KeyboardEvent) {
-    if (event.composedPath().some(el => el === this.grAutocomplete)) {
-      return;
-    }
     const inputContainer = queryAndAssert(this, '.inputContainer');
     const isEventFromInput = event
       .composedPath()
@@ -352,20 +356,23 @@ export class GrEditableLabel extends LitElement {
   }
 
   private handleEsc(event: KeyboardEvent) {
+    console.log('editable-label esc');
     // If autocomplete is used, it's handling the ESC instead.
-    if (!this.autocomplete) {
-      const inputContainer = queryAndAssert(this, '.inputContainer');
-      const isEventFromInput = event
-        .composedPath()
-        .some(element => element === inputContainer);
-      if (isEventFromInput) {
-        this.cancel();
-      }
+    if (this.autocomplete) {
+      return;
+    }
+    const inputContainer = queryAndAssert(this, '.inputContainer');
+    const isEventFromInput = event
+      .composedPath()
+      .some(element => element === inputContainer);
+    if (isEventFromInput) {
+      this.cancel();
     }
   }
 
   private handleCommit() {
-    this.input?.focus();
+    console.log('editable-label handleCommit causing focus');
+    this.nativeInput?.focus();
   }
 
   private computeLabelClass() {

@@ -37,10 +37,11 @@ import {
 } from '../../shared/gr-account-list/gr-account-list';
 import '@polymer/iron-icon/iron-icon';
 import {getReplyByReason} from '../../../utils/attention-set-util';
-import {intersection} from '../../../utils/common-util';
+import {intersection, queryAndAssert} from '../../../utils/common-util';
 import {accountOrGroupKey} from '../../../utils/account-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fireReload} from '../../../utils/event-util';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 
 @customElement('gr-change-list-reviewer-flow')
 export class GrChangeListReviewerFlow extends LitElement {
@@ -87,6 +88,8 @@ export class GrChangeListReviewerFlow extends LitElement {
   private reviewerConfirmOverlay?: GrOverlay;
 
   @query('gr-overlay#confirm-cc') private ccConfirmOverlay?: GrOverlay;
+
+  @query('gr-dialog') dialog?: GrDialog;
 
   private readonly reportingService = getAppContext().reportingService;
 
@@ -360,10 +363,15 @@ export class GrChangeListReviewerFlow extends LitElement {
       .map(reviewer => getDisplayName(this.serverConfig, reviewer));
   }
 
-  private openOverlay() {
+  private async openOverlay() {
     this.resetFlow();
     this.isOverlayOpen = true;
-    this.overlay?.open();
+    // Must await the overlay opening because the dialog is lazily rendered.
+    await this.overlay?.open();
+    this.overlay?.setFocusStops({
+      start: queryAndAssert(this.dialog, 'header'),
+      end: queryAndAssert(this.dialog, 'footer'),
+    });
   }
 
   private closeOverlay() {

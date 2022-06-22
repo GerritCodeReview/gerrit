@@ -37,8 +37,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -67,8 +67,9 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  *       refs/draft-comments/$change_id_short/$change_id/$user_id} caused some draft refs to remain
  *       in Git and not get deleted. These refs point to an empty tree. We delete such refs.
  *   <li>Inspecting all draft-comment refs. Check for each draft if there exists a published comment
- *       with the same UUID. For now this runs in logging-only mode and does not remove these zombie
- *       drafts.
+ *       with the same UUID. These comments are called zombie drafts. If the program is run in
+ *       {@link #dryRun} mode, the zombie draft IDs will only be logged for tracking, otherwise they
+ *       will also be deleted.
  * </uL>
  */
 public class DeleteZombieCommentsRefs {
@@ -81,6 +82,15 @@ public class DeleteZombieCommentsRefs {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final int cleanupPercentage;
+
+  /**
+   * Run the logic in dry run mode only. That is, detected zombie drafts will be logged only but not
+   * deleted. Creators of this class can use {@link Factory#create(int, boolean)} to specify the dry
+   * run mode. If {@link Factory#create(int)} is used, the dry run mode will be set to its default:
+   * true.
+   */
+  private final boolean dryRun;
+
   private final Consumer<String> uiConsumer;
   @Nullable private final DraftCommentNotes.Factory draftNotesFactory;
   @Nullable private final ChangeNotes.Factory changeNotesFactory;
@@ -90,9 +100,11 @@ public class DeleteZombieCommentsRefs {
 
   public interface Factory {
     DeleteZombieCommentsRefs create(int cleanupPercentage);
+
+    DeleteZombieCommentsRefs create(int cleanupPercentage, boolean dryRun);
   }
 
-  @Inject
+  @AssistedInject
   public DeleteZombieCommentsRefs(
       AllUsersName allUsers,
       GitRepositoryManager repoManager,
@@ -106,6 +118,31 @@ public class DeleteZombieCommentsRefs {
         allUsers,
         repoManager,
         cleanupPercentage,
+        /* dryRun= */ true,
+        (msg) -> {},
+        changeNotesFactory,
+        draftNotesFactory,
+        commentsUtil,
+        changeUpdateFactory,
+        userFactory);
+  }
+
+  @AssistedInject
+  public DeleteZombieCommentsRefs(
+      AllUsersName allUsers,
+      GitRepositoryManager repoManager,
+      ChangeNotes.Factory changeNotesFactory,
+      DraftCommentNotes.Factory draftNotesFactory,
+      CommentsUtil commentsUtil,
+      ChangeUpdate.Factory changeUpdateFactory,
+      IdentifiedUser.GenericFactory userFactory,
+      @Assisted Integer cleanupPercentage,
+      @Assisted boolean dryRun) {
+    this(
+        allUsers,
+        repoManager,
+        cleanupPercentage,
+        dryRun,
         (msg) -> {},
         changeNotesFactory,
         draftNotesFactory,
@@ -119,13 +156,24 @@ public class DeleteZombieCommentsRefs {
       GitRepositoryManager repoManager,
       Integer cleanupPercentage,
       Consumer<String> uiConsumer) {
-    this(allUsers, repoManager, cleanupPercentage, uiConsumer, null, null, null, null, null);
+    this(
+        allUsers,
+        repoManager,
+        cleanupPercentage,
+        /* dryRun= */ false,
+        uiConsumer,
+        null,
+        null,
+        null,
+        null,
+        null);
   }
 
   private DeleteZombieCommentsRefs(
       AllUsersName allUsers,
       GitRepositoryManager repoManager,
       Integer cleanupPercentage,
+      boolean dryRun,
       Consumer<String> uiConsumer,
       @Nullable ChangeNotes.Factory changeNotesFactory,
       @Nullable DraftCommentNotes.Factory draftNotesFactory,
@@ -135,6 +183,7 @@ public class DeleteZombieCommentsRefs {
     this.allUsers = allUsers;
     this.repoManager = repoManager;
     this.cleanupPercentage = (cleanupPercentage == null) ? 100 : cleanupPercentage;
+    this.dryRun = dryRun;
     this.uiConsumer = uiConsumer;
     this.draftNotesFactory = draftNotesFactory;
     this.changeNotesFactory = changeNotesFactory;
@@ -167,6 +216,12 @@ public class DeleteZombieCommentsRefs {
                   ref -> Change.Id.fromAllUsersRef(ref.getName()).get() % 100 < cleanupPercentage)
               .collect(toImmutableList());
       logInfo(String.format("Number of zombie refs to be cleaned = %d", zombieRefs.size()));
+
+      if (dryRun) {
+        logInfo(
+            "Running in dry run mode. Skipping deletion of draft refs pointing to an empty tree.");
+        return;
+      }
 
       long zombieRefsCnt = zombieRefs.size();
       long deletedRefsCnt = 0;
@@ -241,7 +296,7 @@ public class DeleteZombieCommentsRefs {
                       "Draft comment with uuid '%s' of change %s, account %s, written on %s,"
                           + " is a zombie draft that is already published.",
                       zombieDraft.key.uuid, changeId, accountId, zombieDraft.writtenOn));
-          if (!zombieDrafts.isEmpty()) {
+          if (!zombieDrafts.isEmpty() && !dryRun) {
             deleteZombieComments(accountId, notes, zombieDrafts);
           }
           numZombies += zombieDrafts.size();

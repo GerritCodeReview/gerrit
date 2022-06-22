@@ -45,6 +45,54 @@
       },
       "revId": "7e2fd6c0f4ad0c1455f72fec1f3ea9f17632b4ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da54c502_5c577c6f",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T10:53:18Z",
+      "side": 1,
+      "message": "I wanted to spare the extra constructor and thought that Guice would just pass in null. Turned out I needed to add another constructor, so I reverted this back to the primitive boolean.\n\nDone.",
+      "parentUuid": "6a8a5d3d_ffef7915",
+      "range": {
+        "startLine": 116,
+        "startChar": 15,
+        "endLine": 116,
+        "endChar": 35
+      },
+      "revId": "7e2fd6c0f4ad0c1455f72fec1f3ea9f17632b4ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0a5a53f_837acd13",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-22T10:53:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf697a9b_f216f5b0",
+      "range": {
+        "startLine": 116,
+        "startChar": 24,
+        "endLine": 116,
+        "endChar": 35
+      },
+      "revId": "7e2fd6c0f4ad0c1455f72fec1f3ea9f17632b4ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

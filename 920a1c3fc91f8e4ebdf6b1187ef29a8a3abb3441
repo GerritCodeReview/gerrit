@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "03234913_2fdbda69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2022-06-22T14:57:08Z",
+      "side": 1,
+      "message": "marking unresolved (for tests)",
+      "parentUuid": "45562202_4466ff38",
+      "revId": "920a1c3fc91f8e4ebdf6b1187ef29a8a3abb3441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fbeff8f8_f3228168",
         "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 1
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "true, we could prob ignore fixup commits since the commit message will be discarded by git.  but we could also ignore it to keep noise down.  *shrug*\n\n\u003e nit: some ancient versions of grep don\u0027t support \"-q\"\n\ndo we really care ?  SUS/POSIX has required -q \u0026 -s since 1997.  if the system is that horribly ancient, then maybe they get to keep the pieces.\n\nhttps://pubs.opengroup.org/onlinepubs/007908799/xcu/grep.html\nhttps://pubs.opengroup.org/onlinepubs/009695399/utilities/grep.html\n\nalso, i\u0027ll note `grep -q` is used below already",
       "parentUuid": "fbeff8f8_f3228168",
+      "revId": "920a1c3fc91f8e4ebdf6b1187ef29a8a3abb3441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f66f8da_04b660d4",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2022-06-22T14:57:08Z",
+      "side": 1,
+      "message": "\u003e also, i\u0027ll note `grep -q`  is used below already\n\nAh, so it is! I think the \"avoid `grep -q`\" habit comes from SunOS which is not used so much these days so I agree that we shouldn\u0027t have to care.",
+      "parentUuid": "99f622be_9c43ec06",
       "revId": "920a1c3fc91f8e4ebdf6b1187ef29a8a3abb3441",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

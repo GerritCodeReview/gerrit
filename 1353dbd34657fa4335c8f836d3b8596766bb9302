@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7741a39a_4264f42c",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-22T15:54:46Z",
+      "side": 1,
+      "message": "Seems dryRun is not taken into account into this method.\nI think if dryRun is true, nothing can be deleted.",
+      "range": {
+        "startLine": 196,
+        "startChar": 4,
+        "endLine": 196,
+        "endChar": 39
+      },
+      "revId": "1353dbd34657fa4335c8f836d3b8596766bb9302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

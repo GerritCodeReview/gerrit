@@ -22,6 +22,7 @@ import {
   computeOrderedLabelValues,
   mergeLabelInfoMaps,
   getApplicableLabels,
+  isBlockingCondition,
 } from './label-util';
 import {
   AccountId,
@@ -44,6 +45,7 @@ import {
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
   LabelNameToInfoMap,
+  SubmitRequirementExpressionInfoStatus,
 } from '../api/rest-api';
 
 const VALUES_0 = {
@@ -760,6 +762,49 @@ suite('label-util', () => {
         },
       };
       assert.deepEqual(getApplicableLabels(change), [label]);
+    });
+  });
+
+  suite('isBlockingCondition', () => {
+    test('true', () => {
+      const requirement: SubmitRequirementResultInfo = {
+        name: 'Code-Review',
+        description:
+          "At least one maximum vote for label 'Code-Review' is required",
+        status: SubmitRequirementStatus.UNSATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression:
+            'label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: ['label:Code-Review=MIN'],
+          failing_atoms: ['label:Code-Review=MAX,user=non_uploader'],
+        },
+      };
+      assert.isTrue(isBlockingCondition(requirement));
+    });
+
+    test('false', () => {
+      const requirement: SubmitRequirementResultInfo = {
+        name: 'Code-Review',
+        description:
+          "At least one maximum vote for label 'Code-Review' is required",
+        status: SubmitRequirementStatus.UNSATISFIED,
+        is_legacy: false,
+        submittability_expression_result: {
+          expression:
+            'label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN',
+          fulfilled: false,
+          status: SubmitRequirementExpressionInfoStatus.FAIL,
+          passing_atoms: [],
+          failing_atoms: [
+            'label:Code-Review=MAX,user=non_uploader',
+            'label:Code-Review=MIN',
+          ],
+        },
+      };
+      assert.isFalse(isBlockingCondition(requirement));
     });
   });
 });

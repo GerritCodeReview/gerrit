@@ -238,6 +238,12 @@ export function extractAssociatedLabels(
   }
   return labels.filter(unique);
 }
+export function iconForRequirement(requirement: SubmitRequirementResultInfo) {
+  if (isBlockingCondition(requirement)) {
+    return 'cancel';
+  }
+  return iconForStatus(requirement.status);
+}
 
 export function iconForStatus(status: SubmitRequirementStatus) {
   switch (status) {
@@ -428,5 +434,15 @@ export function getApplicableLabels(change?: ParsedChangeInfo | ChangeInfo) {
 
   return applicableLabels.filter(
     label => !onlyInNotApplicableLabels.includes(label)
+  );
+}
+
+export function isBlockingCondition(
+  requirement: SubmitRequirementResultInfo
+): boolean {
+  if (requirement.status !== SubmitRequirementStatus.UNSATISFIED) return false;
+
+  return !!requirement.submittability_expression_result.passing_atoms?.some(
+    atom => atom.match(/^label[0-9]*:[\w-]+=MIN$/)
   );
 }

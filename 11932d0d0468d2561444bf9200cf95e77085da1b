@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2bca367_52c23da8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T23:10:47Z",
+      "side": 1,
+      "message": "I\u0027m not understanding why you seem to think it\u0027s harmful to note where and how something will be used? If I were to be just now adding the avatar extension point, I would be noting in my commit message that the extension is intended to be used with the avatars-external and avatars-gravatar plugins to provide avatar images in Gerrit for those kinds of sources. To me, this message says a very similar kind of thing.",
+      "parentUuid": "fa1444cc_7a3ab808",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "127fa5e1_a616ae46",
@@ -219,6 +243,24 @@
       "writtenOn": "2022-06-17T13:51:44Z",
       "side": 1,
       "message": "I\u0027m opened to remove the -2 under the conditions:\n\n1. This change is moved to master\n2. We introduce the non-consistent write API in the indexing, which defaults to the consistent API\n3. We leverage the new API in the off-line reindex\n4. We add tests that run the off-line reindex with consistent and non-consistent writes\n5. We implement the non-consistent API in Lucene using some lower-level high-performance primitives\n\nWith the above, I agree with Nasser that it makes sense in core and would provide benefit to Gerrit regardless of ES.",
+      "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "553fa3f5_ab513655",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2022-06-22T23:10:47Z",
+      "side": 1,
+      "message": "\u003e I\u0027m opened to remove the -2 under the conditions:\n\nThanks for outlining what you\u0027re looking for.\n\n\u003e \n\u003e 1. This change is moved to master\n\nThis is change intended to enable reasonable offline indexing performance with ES. To me, that makes this more of a fix. If you can help me understand why it\u0027s not a fix, I\u0027m open to moving it to master.\n\n\u003e 2. We introduce the non-consistent write API in the indexing, which defaults to the consistent API\n\nWhat \"non-consistent write API\" are you referring to? I don\u0027t see an earlier reference to this concept.\n\n\u003e 3. We leverage the new API in the off-line reindex\n\u003e 4. We add tests that run the off-line reindex with consistent and non-consistent writes\n\u003e 5. We implement the non-consistent API in Lucene using some lower-level high-performance primitives\n\nGerrit\u0027s Lucene behavior is currently non-consistent and no changes are required for that. Changes are required if we want to ensure that Gerrit APIs guarantee reads contain data for any completed writes. To be very clear on what this looks like, it\u0027s a simple sequence like this:\n\n # start with change 1234 which has no Code-Review votes\n POST /changes/1234/revisions/1/review # set Code-Review+2 on change 1234\n GET /changes/?q\u003dchange:1234+label:Code-Review\u003d2 # returns change 1234\n\nWith the current Lucene implementation, it\u0027s not guaranteed that the GET returns 1234. With the current ES implementation, it is guaranteed (because refresh\u003dtrue).\n\n\u003e \n\u003e With the above, I agree with Nasser that it makes sense in core and would provide benefit to Gerrit regardless of ES.\n\nI\u0027m not clear on what\u0027s different in your proposal vs this change. Specifically, what\u0027s the new benefit to Gerrit in your proposal?",
+      "parentUuid": "f388bf00_de059b2c",
       "revId": "11932d0d0468d2561444bf9200cf95e77085da1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

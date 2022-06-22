@@ -12,6 +12,7 @@ import {ChangeModel} from '../change/change-model';
 import {select} from '../../utils/observable-util';
 import {Model} from '../model';
 import {define} from '../dependency';
+import {getDocsBaseUrl} from '../../utils/url-util';
 
 export interface ConfigState {
   repoConfig?: ConfigInfo;
@@ -33,6 +34,20 @@ export class ConfigModel extends Model<ConfigState> implements Finalizable {
   public serverConfig$ = select(
     this.state$,
     configState => configState.serverConfig
+  );
+
+  public mergeabilityComputationBehavior$ = select(
+    this.serverConfig$,
+    serverConfig => serverConfig?.change?.mergeability_computation_behavior
+  );
+
+  public docsBaseUrl$ = select(
+    this.serverConfig$.pipe(
+      switchMap(serverConfig =>
+        from(getDocsBaseUrl(serverConfig, this.restApiService))
+      )
+    ),
+    url => url
   );
 
   private subscriptions: Subscription[];

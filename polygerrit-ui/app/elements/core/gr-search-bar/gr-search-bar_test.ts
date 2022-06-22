@@ -8,11 +8,9 @@ import './gr-search-bar';
 import {GrSearchBar} from './gr-search-bar';
 import '../../../scripts/util';
 import {mockPromise, waitUntil} from '../../../test/test-utils';
-import {_testOnly_clearDocsBaseUrlCache} from '../../../utils/url-util';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions';
 import {
   createChangeConfig,
-  createGerritInfo,
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
@@ -176,14 +174,8 @@ suite('gr-search-bar tests', () => {
   suite('getSearchSuggestions', () => {
     setup(async () => {
       element = basicFixture.instantiate();
-      element.serverConfig = {
-        ...createServerInfo(),
-        change: {
-          ...createChangeConfig(),
-          mergeability_computation_behavior:
-            'NEVER' as MergeabilityComputationBehavior,
-        },
-      };
+      element.mergeabilityComputationBehavior =
+        MergeabilityComputationBehavior.NEVER;
       await element.updateComplete;
     });
 
@@ -268,28 +260,21 @@ suite('gr-search-bar tests', () => {
 
   suite('doc url', () => {
     setup(async () => {
-      _testOnly_clearDocsBaseUrlCache();
       element = basicFixture.instantiate();
-      element.serverConfig = {
-        ...createServerInfo(),
-        gerrit: {
-          ...createGerritInfo(),
-          doc_url: 'https://doc.com/',
-        },
-      };
-      await element.updateComplete;
     });
 
-    test('compute help doc url with correct path', () => {
-      assert.equal(element.docBaseUrl, 'https://doc.com/');
+    test('compute help doc url with correct path', async () => {
+      element.docsBaseUrl = 'https://doc.com/';
+      await element.updateComplete;
       assert.equal(
         element.computeHelpDocLink(),
         'https://doc.com/user-search.html'
       );
     });
 
-    test('compute help doc url fallback to gerrit url', () => {
-      element.docBaseUrl = null;
+    test('compute help doc url fallback to gerrit url', async () => {
+      element.docsBaseUrl = null;
+      await element.updateComplete;
       assert.equal(
         element.computeHelpDocLink(),
         'https://gerrit-review.googlesource.com/documentation/' +

@@ -30,7 +30,7 @@ import {Shortcut} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixi
 import {GerritNav} from './core/gr-navigation/gr-navigation';
 import {getAppContext} from '../services/app-context';
 import {GrRouter} from './core/gr-router/gr-router';
-import {AccountDetailInfo, ServerInfo} from '../types/common';
+import {AccountDetailInfo} from '../types/common';
 import {
   constructServerErrorMsg,
   GrErrorManager,
@@ -100,8 +100,6 @@ export class GrAppElement extends LitElement {
   params?: AppElementParams;
 
   @state() private account?: AccountDetailInfo;
-
-  @state() private serverConfig?: ServerInfo;
 
   @state() private version?: string;
 
@@ -225,9 +223,6 @@ export class GrAppElement extends LitElement {
       } else {
         this.reporting.reportLifeCycle(LifeCycle.STARTED_AS_GUEST);
       }
-    });
-    this.restApiService.getConfig().then(config => {
-      this.serverConfig = config;
     });
     this.restApiService.getVersion().then(version => {
       this.version = version;
@@ -376,8 +371,7 @@ export class GrAppElement extends LitElement {
         id="errorManager"
         .loginUrl=${this.loginUrl}
       ></gr-error-manager>
-      <gr-plugin-host id="plugins" .config=${this.serverConfig}>
-      </gr-plugin-host>
+      <gr-plugin-host id="plugins"></gr-plugin-host>
       <gr-external-style
         id="externalStyleForAll"
         name="app-theme"
@@ -396,7 +390,6 @@ export class GrAppElement extends LitElement {
         id="search"
         label="Search for changes"
         .searchQuery=${(this.params as AppElementSearchParam)?.query}
-        .serverConfig=${this.serverConfig}
       >
       </gr-smart-search>
     `;

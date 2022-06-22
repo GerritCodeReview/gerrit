@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a8a5d3d_ffef7915",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-22T10:13:57Z",
+      "side": 1,
+      "message": "nit: why is it Boolean, not primitive boolean?",
+      "range": {
+        "startLine": 116,
+        "startChar": 15,
+        "endLine": 116,
+        "endChar": 35
+      },
+      "revId": "7e2fd6c0f4ad0c1455f72fec1f3ea9f17632b4ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf697a9b_f216f5b0",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2022-06-22T10:13:57Z",
+      "side": 1,
+      "message": "maybe dryRun?",
+      "range": {
+        "startLine": 116,
+        "startChar": 24,
+        "endLine": 116,
+        "endChar": 35
+      },
+      "revId": "7e2fd6c0f4ad0c1455f72fec1f3ea9f17632b4ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

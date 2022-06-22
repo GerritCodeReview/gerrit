@@ -284,6 +284,9 @@ public class DeleteZombieCommentsRefs {
         changeUpdateFactory.create(changeNotes, userFactory.create(accountId), TimeUtil.now());
     draftsToDelete.forEach(c -> changeUpdate.deleteComment(c));
     changeUpdate.commit();
+    logger.atInfo().log(
+        "Deleted zombie draft comments with UUIDs %s",
+        draftsToDelete.stream().map(d -> d.key.uuid).collect(Collectors.toList()));
   }
 
   /**

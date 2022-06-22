@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "778148a4_107bbe40",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-22T15:43:29Z",
+      "side": 1,
+      "message": "If the list is too large, the output can be truncated/discarded (and in overall, it is not recommended to write a long string in the log). If you don\u0027t need all UUIDs in log - maybe truncate list explicitly and keep only the first X items.\nIf you want to have all UUIDs - I think Marija suggestion (return a list and write to file) is a right way to do it.",
+      "parentUuid": "b2a3783f_49f8af89",
+      "range": {
+        "startLine": 287,
+        "startChar": 4,
+        "endLine": 287,
+        "endChar": 24
+      },
+      "revId": "6751d648142965ddab8d657bceda0815add26cd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2b70b78_d4792a18",
         "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
         "patchSetId": 1

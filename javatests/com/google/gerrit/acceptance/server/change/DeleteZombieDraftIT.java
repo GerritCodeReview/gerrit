@@ -30,10 +30,12 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.server.notedb.ChangeNoteJson;
 import com.google.gerrit.server.notedb.DeleteZombieCommentsRefs;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import java.util.List;
 import org.apache.commons.lang3.reflect.TypeLiteral;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
@@ -42,13 +44,35 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.junit.Before;
 import org.junit.Test;
 
 /** Test for {@link com.google.gerrit.server.notedb.DeleteZombieCommentsRefs}. */
 public class DeleteZombieDraftIT extends AbstractDaemonTest {
+  private static final String TEST_PARAMETER_MARKER = "test_only_parameter";
 
   @Inject private DeleteZombieCommentsRefs.Factory deleteZombieDraftsFactory;
   @Inject private ChangeNoteJson changeNoteJson;
+  private boolean dryRun;
+
+  @ConfigSuite.Default
+  public static Config dryRunMode() {
+    Config config = new Config();
+    config.setBoolean(TEST_PARAMETER_MARKER, null, "dryRun", true);
+    return config;
+  }
+
+  @ConfigSuite.Config
+  public static Config deleteMode() {
+    Config config = new Config();
+    config.setBoolean(TEST_PARAMETER_MARKER, null, "dryRun", false);
+    return config;
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    dryRun = baseConfig.getBoolean(TEST_PARAMETER_MARKER, "dryRun", true);
+  }
 
   @Test
   public void draftRefWithOneZombie() throws Exception {
@@ -73,9 +97,13 @@ public class DeleteZombieDraftIT extends AbstractDaemonTest {
 
     // Run the cleanup logic. The zombie draft is cleared. The published comment is untouched.
     DeleteZombieCommentsRefs worker =
-        deleteZombieDraftsFactory.create(/* cleanupPercentage= */ 100);
+        deleteZombieDraftsFactory.create(/* cleanupPercentage= */ 100, dryRun);
     assertThat(worker.deleteDraftCommentsThatAreAlsoPublished()).isEqualTo(1);
-    assertThat(getDraftsByParsingDraftRef(draftRef.getName(), revId)).isEmpty();
+    if (dryRun) {
+      assertThat(getDraftsByParsingDraftRef(draftRef.getName(), revId)).hasSize(1);
+    } else {
+      assertThat(getDraftsByParsingDraftRef(draftRef.getName(), revId)).isEmpty();
+    }
     assertNumPublishedComments(changeId, 1);
   }
 
@@ -105,17 +133,25 @@ public class DeleteZombieDraftIT extends AbstractDaemonTest {
 
     // Run the zombie cleanup logic. Zombie draft ref for PS2 will be removed.
     DeleteZombieCommentsRefs worker =
-        deleteZombieDraftsFactory.create(/* cleanupPercentage= */ 100);
+        deleteZombieDraftsFactory.create(/* cleanupPercentage= */ 100, dryRun);
     assertThat(worker.deleteDraftCommentsThatAreAlsoPublished()).isEqualTo(1);
     assertThat(getDraftsByParsingDraftRef(draftRef.getName(), r1.getCommit().name())).hasSize(1);
-    assertThat(getDraftsByParsingDraftRef(draftRef.getName(), r2.getCommit().name())).isEmpty();
+    if (dryRun) {
+      assertThat(getDraftsByParsingDraftRef(draftRef.getName(), r2.getCommit().name())).hasSize(1);
+    } else {
+      assertThat(getDraftsByParsingDraftRef(draftRef.getName(), r2.getCommit().name())).isEmpty();
+    }
     assertNumPublishedComments(changeId, 1);
 
     // Re-run the worker: nothing happens.
-    assertThat(worker.deleteDraftCommentsThatAreAlsoPublished()).isEqualTo(0);
+    assertThat(worker.deleteDraftCommentsThatAreAlsoPublished()).isEqualTo(dryRun ? 1 : 0);
     assertNumDrafts(changeId, 1);
     assertThat(getDraftsByParsingDraftRef(draftRef.getName(), r1.getCommit().name())).hasSize(1);
-    assertThat(getDraftsByParsingDraftRef(draftRef.getName(), r2.getCommit().name())).isEmpty();
+    if (dryRun) {
+      assertThat(getDraftsByParsingDraftRef(draftRef.getName(), r2.getCommit().name())).hasSize(1);
+    } else {
+      assertThat(getDraftsByParsingDraftRef(draftRef.getName(), r2.getCommit().name())).isEmpty();
+    }
     assertNumPublishedComments(changeId, 1);
   }
 

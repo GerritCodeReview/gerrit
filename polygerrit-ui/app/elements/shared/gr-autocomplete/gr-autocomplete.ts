@@ -171,7 +171,9 @@ export class GrAutocomplete extends LitElement {
 
   @state() index: number | null = null;
 
-  @state() disableSuggestions = false;
+  // Enabled to suppress showing/updating suggestions when changing properties
+  // that would normally trigger the update.
+  disableDisplayingSuggestions = false;
 
   // private but used in tests
   focused = false;
@@ -268,10 +270,7 @@ export class GrAutocomplete extends LitElement {
     ) {
       this.updateSuggestions();
     }
-    if (
-      changedProperties.has('suggestions') ||
-      changedProperties.has('focused')
-    ) {
+    if (changedProperties.has('suggestions')) {
       this.updateDropdownVisibility();
     }
     if (changedProperties.has('text')) {
@@ -320,6 +319,7 @@ export class GrAutocomplete extends LitElement {
         horizontal-align="left"
         id="suggestions"
         @item-selected=${this.handleItemSelect}
+        @dropdown-closed=${this.focusWithoutDisplayingSuggestions}
         .suggestions=${this.suggestions}
         role="listbox"
         .index=${this.index}
@@ -336,6 +336,15 @@ export class GrAutocomplete extends LitElement {
     this.nativeInput.focus();
   }
 
+  private focusWithoutDisplayingSuggestions() {
+    this.disableDisplayingSuggestions = true;
+    this.focus();
+
+    this.updateComplete.then(() => {
+      this.disableDisplayingSuggestions = false;
+    });
+  }
+
   selectAll() {
     const nativeInputElement = this.nativeInput;
     if (!this.input?.value) {
@@ -348,6 +357,13 @@ export class GrAutocomplete extends LitElement {
     this.text = '';
   }
 
+  private handleItemSelectEnter(e: CustomEvent | KeyboardEvent) {
+    this.handleInputCommit();
+    e.stopPropagation();
+    e.preventDefault();
+    this.focusWithoutDisplayingSuggestions();
+  }
+
   handleItemSelect(e: CustomEvent) {
     if (e.detail.trigger === 'click') {
       this.selected = e.detail.selected;
@@ -355,9 +371,7 @@ export class GrAutocomplete extends LitElement {
       e.stopPropagation();
       e.preventDefault();
     } else if (e.detail.trigger === 'enter') {
-      this.handleInputCommit();
-      e.stopPropagation();
-      e.preventDefault();
+      this.handleItemSelectEnter(e);
     } else if (e.detail.trigger === 'tab') {
       if (this.tabComplete) {
         this.handleInputCommit(true);
@@ -375,13 +389,13 @@ export class GrAutocomplete extends LitElement {
    *
    * @param text The new text for the input.
    */
-  async setText(text: string) {
-    this.disableSuggestions = true;
+  async setText(text: string): Promise<void> {
+    this.disableDisplayingSuggestions = true;
     this.text = text;
-    // if we disableSuggestions immediately then suggestions are requested in
-    // updateSuggestions
-    await this.updateComplete;
-    this.disableSuggestions = false;
+
+    return this.updateComplete.then(() => {
+      this.disableDisplayingSuggestions = false;
+    });
   }
 
   onInputFocus() {
@@ -416,7 +430,7 @@ export class GrAutocomplete extends LitElement {
 
     // TODO(taoalpha): Also skip if text has not changed
 
-    if (this.disableSuggestions) {
+    if (this.disableDisplayingSuggestions) {
       return;
     }
 
@@ -513,8 +527,13 @@ export class GrAutocomplete extends LitElement {
         if (modifierPressed(e)) {
           break;
         }
-        e.preventDefault();
-        this.handleInputCommit();
+        if (this.suggestions.length > 0) {
+          // If suggestions are shown, act as if the keypress is in dropdown.
+          this.handleItemSelectEnter(e);
+        } else {
+          e.preventDefault();
+          this.handleInputCommit();
+        }
         break;
       default:
         // For any normal keypress, return focus to the input to allow for

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85177308_cb2aa5ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2022-06-22T12:30:47Z",
+      "side": 1,
+      "message": "How tricky would it be to write a test for this behaviour?\nIf it\u0027s not too much work then add one otherwise I am fine submitting the change as is.",
+      "revId": "aa2fdbcb4de28134cd8058eb0a2797c1cc48582c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

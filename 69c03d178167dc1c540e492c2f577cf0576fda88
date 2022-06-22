@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "676d5254_7f498515",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2022-06-22T08:13:47Z",
+      "side": 1,
+      "message": "```suggestion\n * @param lineLimit - The column after which to wrap lines.\n```",
+      "revId": "69c03d178167dc1c540e492c2f577cf0576fda88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

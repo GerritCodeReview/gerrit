@@ -34,6 +34,11 @@ if test "false" = "$(git config --bool --get gerrit.createChangeId)" ; then
   exit 0
 fi
 
+# Do not create a change id for squash or fixup commits.
+if head -n1 "$1" | grep -E -q '^(squash|fixup)! '; then
+  exit 0
+fi
+
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
   refhash="$(git rev-parse HEAD)"
 else

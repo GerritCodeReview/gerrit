@@ -331,7 +331,7 @@ export class GrFormattedText extends LitElement {
   }
 
   private isPreFormat(line: string): boolean {
-    return /^[ \t]/.test(line) && !this.isWhitespaceLine(line);
+    return /^\s{4}|\t/.test(line) && !this.isWhitespaceLine(line);
   }
 
   private isList(line: string): boolean {

@@ -22,6 +22,30 @@
       },
       "revId": "55963b471117da933592ddba58de48d9eae21e74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7e5437c_be2083c6",
+        "filename": "javatests/com/google/gerrit/server/cache/PerThreadCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2022-06-23T06:36:16Z",
+      "side": 1,
+      "message": "I\u0027m also interested in this. In Eclipse I\u0027m actually seeing unused warnings for many of the @SuppressWarnings annotations in our code and I\u0027m wondering too if those could be removed.",
+      "parentUuid": "81afb1ad_1d6c21e0",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 44
+      },
+      "revId": "55963b471117da933592ddba58de48d9eae21e74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3082603_4550b9d8",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2022-06-23T12:25:59Z",
+      "side": 1,
+      "message": "Update: OK, these are already added in SchemaUtilTest.",
+      "parentUuid": "9a3e71ee_94d7cb00",
+      "revId": "9418cd0a8a888997de7c85e4b39c589cf710eb26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10d463e9_a50d4c82",

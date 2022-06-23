@@ -60,30 +60,54 @@ public class CreateRefControl {
    *
    * @param user the user performing the operation
    * @param repo repository on which user want to create
-   * @param branch the branch the new {@link RevObject} should be created on
+   * @param destBranch the branch the new {@link RevObject} should be created on
    * @param object the object the user will start the reference with
+   * @param sourceBranches the source ref from which the new ref is created from
    * @throws AuthException if creation is denied; the message explains the denial.
    * @throws PermissionBackendException on failure of permission checks.
    * @throws ResourceConflictException if the project state does not permit the operation
    */
   public void checkCreateRef(
-      Provider<? extends CurrentUser> user, Repository repo, BranchNameKey branch, RevObject object)
+      Provider<? extends CurrentUser> user,
+      Repository repo,
+      BranchNameKey destBranch,
+      RevObject object,
+      BranchNameKey... sourceBranches)
       throws AuthException, PermissionBackendException, NoSuchProjectException, IOException,
           ResourceConflictException {
     ProjectState ps =
-        projectCache.get(branch.project()).orElseThrow(noSuchProject(branch.project()));
+        projectCache.get(destBranch.project()).orElseThrow(noSuchProject(destBranch.project()));
     ps.checkStatePermitsWrite();
 
-    PermissionBackend.ForRef perm = permissionBackend.user(user.get()).ref(branch);
+    PermissionBackend.ForRef perm = permissionBackend.user(user.get()).ref(destBranch);
     if (object instanceof RevCommit) {
       perm.check(RefPermission.CREATE);
-      checkCreateCommit(user, repo, (RevCommit) object, ps.getNameKey(), perm);
+      if (sourceBranches.length == 0) {
+        checkCreateCommit(user, repo, (RevCommit) object, ps.getNameKey(), perm);
+      } else {
+        for (BranchNameKey src : sourceBranches) {
+          if (permissionBackend.user(user.get()).ref(src).testOrFalse(RefPermission.READ)) {
+            return;
+          }
+        }
+        AuthException e =
+            new AuthException(
+                String.format(
+                    "%s for creating new ref not permitted",
+                    RefPermission.READ.describeForException()));
+        e.setAdvice(
+            String.format(
+                "use a ref visible to you, or get %s permission on the ref",
+                RefPermission.READ.describeForException()));
+        throw e;
+      }
     } else if (object instanceof RevTag) {
       RevTag tag = (RevTag) object;
       try (RevWalk rw = new RevWalk(repo)) {
         rw.parseBody(tag);
       } catch (IOException e) {
-        logger.atSevere().withCause(e).log("RevWalk(%s) parsing %s:", branch.project(), tag.name());
+        logger.atSevere().withCause(e).log(
+            "RevWalk(%s) parsing %s:", destBranch.project(), tag.name());
         throw e;
       }
 
@@ -99,12 +123,12 @@ public class CreateRefControl {
       if (target instanceof RevCommit) {
         checkCreateCommit(user, repo, (RevCommit) target, ps.getNameKey(), perm);
       } else {
-        checkCreateRef(user, repo, branch, target);
+        checkCreateRef(user, repo, destBranch, target);
       }
 
       // If the tag has a PGP signature, allow a lower level of permission
       // than if it doesn't have a PGP signature.
-      PermissionBackend.ForRef forRef = permissionBackend.user(user.get()).ref(branch);
+      PermissionBackend.ForRef forRef = permissionBackend.user(user.get()).ref(destBranch);
       if (tag.getRawGpgSignature() != null) {
         forRef.check(RefPermission.CREATE_SIGNED_TAG);
       } else {

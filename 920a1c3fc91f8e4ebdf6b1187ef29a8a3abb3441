@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dde16d2_747f9054",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1132563
+      },
+      "writtenOn": "2022-06-23T00:07:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03234913_2fdbda69",
+      "revId": "920a1c3fc91f8e4ebdf6b1187ef29a8a3abb3441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbeff8f8_f3228168",
@@ -85,6 +103,24 @@
       "side": 1,
       "message": "\u003e also, i\u0027ll note `grep -q`  is used below already\n\nAh, so it is! I think the \"avoid `grep -q`\" habit comes from SunOS which is not used so much these days so I agree that we shouldn\u0027t have to care.",
       "parentUuid": "99f622be_9c43ec06",
+      "revId": "920a1c3fc91f8e4ebdf6b1187ef29a8a3abb3441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8d8dcdc_20fe1fce",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1132563
+      },
+      "writtenOn": "2022-06-23T00:07:42Z",
+      "side": 1,
+      "message": "Yes you\u0027re right about the fixups, I thought one of the variants needed it but no.",
+      "parentUuid": "6f66f8da_04b660d4",
       "revId": "920a1c3fc91f8e4ebdf6b1187ef29a8a3abb3441",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

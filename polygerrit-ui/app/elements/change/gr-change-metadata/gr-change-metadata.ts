@@ -61,7 +61,7 @@ import {
   isSectionSet,
   DisplayRules,
 } from '../../../utils/change-metadata-util';
-import {fireEvent} from '../../../utils/event-util';
+import {fireAlert, fireEvent} from '../../../utils/event-util';
 import {
   EditRevisionInfo,
   notUndefined,
@@ -792,6 +792,7 @@ export class GrChangeMetadata extends LitElement {
         }
         if (newTopic !== lastTopic) {
           fireEvent(this, 'topic-changed');
+          fireAlert(this, `${topic} created`);
         }
       });
   }
@@ -833,6 +834,7 @@ export class GrChangeMetadata extends LitElement {
           this.change.hashtags = newHashtag;
           this.requestUpdate();
           fireEvent(this, 'hashtag-changed');
+          fireAlert(this, `${newHashtag} created`);
         }
       });
   }
@@ -979,6 +981,7 @@ export class GrChangeMetadata extends LitElement {
     const target = e.composedPath()[0] as GrLinkedChip;
     target.disabled = true;
     const change = this.change;
+    const topic = this.change.topic;
     this.restApiService
       .setChangeTopic(this.change._number)
       .then(() => {
@@ -987,6 +990,7 @@ export class GrChangeMetadata extends LitElement {
           this.change.topic = '' as TopicName;
           this.requestUpdate();
           fireEvent(this, 'topic-changed');
+          fireAlert(this, `${topic} removed from change`);
         }
       })
       .catch(() => {
@@ -1009,6 +1013,7 @@ export class GrChangeMetadata extends LitElement {
         target.disabled = false;
         if (this.change === change) {
           this.change.hashtags = newHashtags;
+          fireAlert(this, `${target.text} removed from change`);
           this.requestUpdate();
         }
       })

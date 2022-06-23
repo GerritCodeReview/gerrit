@@ -16,6 +16,23 @@
       "message": "Thanks again.",
       "revId": "f652b139fd8c4effc20bcf24af98b12c85c603f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2100553_765859c3",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2022-06-23T01:19:58Z",
+      "side": 1,
+      "message": "don\u0027t need the `-E` now",
+      "revId": "f652b139fd8c4effc20bcf24af98b12c85c603f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

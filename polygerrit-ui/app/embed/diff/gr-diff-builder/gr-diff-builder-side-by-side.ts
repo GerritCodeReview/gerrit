@@ -99,9 +99,6 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilderLegacy {
     row.setAttribute('right-type', rightLine.type);
     // TabIndex makes screen reader read a row when navigating with j/k
     row.tabIndex = -1;
-    // This is small hack to enable screen reader to read a row
-    row.setAttribute('role', 'button');
-    row.setAttribute('aria-roledescription', 'Code line');
 
     row.appendChild(this.createBlameCell(leftLine.beforeNumber));
 

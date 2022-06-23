@@ -563,6 +563,9 @@ export class GrDiffHost extends LitElement {
     return this.reloadPromise;
   }
 
+  // for DIFF_AUTOCLOSE logging purposes only
+  private reloadOngoing = false;
+
   async reloadInternal(shouldReportMetric?: boolean) {
     this.reporting.time(Timing.DIFF_TOTAL);
     this.reporting.time(Timing.DIFF_LOAD);
@@ -572,6 +575,10 @@ export class GrDiffHost extends LitElement {
     this.diff = undefined;
     this.errorMessage = null;
     const whitespaceLevel = this.getIgnoreWhitespace();
+    if (this.reloadOngoing) {
+      this.reporting.reportInteraction(Interaction.DIFF_AUTOCLOSE_DIFF_ONGOING);
+    }
+    this.reloadOngoing = true;
 
     try {
       // We are carefully orchestrating operations that have to wait for another
@@ -581,6 +588,11 @@ export class GrDiffHost extends LitElement {
       // assets in parallel.
       const layerPromise = this.initLayers();
       const diff = await this.getDiff();
+      if (diff === undefined) {
+        this.reporting.reportInteraction(
+          Interaction.DIFF_AUTOCLOSE_DIFF_UNDEFINED
+        );
+      }
       this.loadedWhitespaceLevel = whitespaceLevel;
       this.reportDiff(diff);
 
@@ -623,6 +635,7 @@ export class GrDiffHost extends LitElement {
       }
     } finally {
       this.reporting.timeEnd(Timing.DIFF_TOTAL, this.timingDetails());
+      this.reloadOngoing = false;
     }
   }
 
@@ -1362,6 +1375,9 @@ export class GrDiffHost extends LitElement {
       preferredWhitespaceLevel !== loadedWhitespaceLevel &&
       !noRenderOnPrefsChange
     ) {
+      this.reporting.reportInteraction(
+        Interaction.DIFF_AUTOCLOSE_RELOAD_ON_WHITESPACE
+      );
       return this.reload();
     }
   }
@@ -1380,6 +1396,9 @@ export class GrDiffHost extends LitElement {
     if (oldPrefs?.syntax_highlighting === prefs.syntax_highlighting) return;
 
     if (!noRenderOnPrefsChange) {
+      this.reporting.reportInteraction(
+        Interaction.DIFF_AUTOCLOSE_RELOAD_ON_SYNTAX
+      );
       return this.reload();
     }
   }

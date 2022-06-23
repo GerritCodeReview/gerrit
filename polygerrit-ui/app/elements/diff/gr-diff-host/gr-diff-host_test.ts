@@ -893,6 +893,7 @@ suite('gr-diff-host tests', () => {
       element.patchRange = createPatchRange(1, 2);
       reportStub = sinon.stub(element.reporting, 'reportInteraction');
       await element.updateComplete;
+      reportStub.reset();
     });
 
     test('undefined', () => {

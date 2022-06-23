@@ -489,7 +489,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     }
 
     if (toc != null) {
-      appendPageAsSection(scanner, toc, "Documentaion", md);
+      appendPageAsSection(scanner, toc, "Documentation", md);
     } else {
       appendEntriesSection(scanner, docs, "Documentation", md, prefix, 0);
       appendEntriesSection(scanner, servlets, "Servlets", md, prefix, "servlet-".length());

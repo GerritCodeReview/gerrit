@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e040b2f3_8898f611",
+        "filename": ".zuul.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-23T08:09:55Z",
+      "side": 1,
+      "message": "Add as TODO: do not merge upstream as Gerrit v3.5 onwards drops support for Java 8",
+      "revId": "1e8edf4221266cca2e049f51e5e5323528c3217f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2d2c162_305556d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-23T08:09:55Z",
+      "side": 1,
+      "message": "Wait for James to give his point of view, and then happy to +2 this one.",
+      "revId": "1e8edf4221266cca2e049f51e5e5323528c3217f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

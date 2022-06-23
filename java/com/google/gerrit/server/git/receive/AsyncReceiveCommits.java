@@ -33,6 +33,7 @@ import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ReceiveCommitsExecutor;
@@ -134,7 +135,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     public void run() {
       String oldName = Thread.currentThread().getName();
       Thread.currentThread().setName(oldName + "-for-" + name);
-      try {
+      try (PerThreadCache threadLocalCache = PerThreadCache.create(null)) {
         receiveCommits.processCommands(commands, progress);
       } finally {
         Thread.currentThread().setName(oldName);

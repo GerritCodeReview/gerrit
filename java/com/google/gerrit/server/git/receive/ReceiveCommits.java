@@ -3148,7 +3148,7 @@ class ReceiveCommits {
               }
 
               ListMultimap<ObjectId, Ref> byCommit = changeRefsById();
-              Map<Change.Key, ChangeNotes> byKey = null;
+              Map<Change.Key, ChangeData> changeDataByKey = null;
               List<ReplaceRequest> replaceAndClose = new ArrayList<>();
 
               int existingPatchSets = 0;
@@ -3172,17 +3172,18 @@ class ReceiveCommits {
                 }
 
                 for (String changeId : c.getFooterLines(CHANGE_ID)) {
-                  if (byKey == null) {
-                    byKey = executeIndexQuery(() -> openChangesByKeyByBranch(branch));
+                  if (changeDataByKey == null) {
+                    changeDataByKey = executeIndexQuery(() -> openChangesByKeyByBranch(branch));
                   }
 
-                  ChangeNotes onto = byKey.get(new Change.Key(changeId.trim()));
+                  ChangeData onto = changeDataByKey.get(new Change.Key(changeId.trim()));
                   if (onto != null) {
                     newPatchSets++;
                     // Hold onto this until we're done with the walk, as the call to
                     // req.validate below calls isMergedInto which resets the walk.
-                    ReplaceRequest req = new ReplaceRequest(onto.getChangeId(), c, cmd, false);
-                    req.notes = onto;
+                    ChangeNotes ontoNotes = onto.notes();
+                    ReplaceRequest req = new ReplaceRequest(ontoNotes.getChangeId(), c, cmd, false);
+                    req.notes = ontoNotes;
                     replaceAndClose.add(req);
                     continue COMMIT;
                   }
@@ -3252,11 +3253,14 @@ class ReceiveCommits {
     }
   }
 
-  private Map<Change.Key, ChangeNotes> openChangesByKeyByBranch(Branch.NameKey branch) {
-    Map<Change.Key, ChangeNotes> r = new HashMap<>();
+  private Map<Change.Key, ChangeData> openChangesByKeyByBranch(Branch.NameKey branch) {
+    Map<Change.Key, ChangeData> r = new HashMap<>();
     for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
       try {
-        r.put(cd.change().getKey(), cd.notes());
+        // ChangeData is not materialised into a ChangeNotes for avoiding
+        // to load a potentially large number of changes meta-data into memory
+        // which would cause unnecessary disk I/O, CPU and heap utilisation.
+        r.put(cd.change().getKey(), cd);
       } catch (NoSuchChangeException e) {
         // Ignore deleted change
       }

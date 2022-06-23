@@ -22,6 +22,98 @@
       },
       "revId": "3cba0a5f324dc4801c96a04e6216e141836c52c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acc30466_8069fb72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-23T10:58:15Z",
+      "side": 1,
+      "message": "nit: Fix this by adding \"refs/heads/\" prefix when missing.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 68
+      },
+      "revId": "3cba0a5f324dc4801c96a04e6216e141836c52c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4e814b3_1c1a991e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-23T10:58:15Z",
+      "side": 1,
+      "message": "gerrit review command, ensure \"refs/heads/\" prefix is present for branch option",
+      "range": {
+        "startLine": 25,
+        "startChar": 15,
+        "endLine": 25,
+        "endChar": 69
+      },
+      "revId": "3cba0a5f324dc4801c96a04e6216e141836c52c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9f8ff28_d567d3fb",
+        "filename": "java/com/google/gerrit/sshd/commands/PatchSetParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-23T10:58:15Z",
+      "side": 1,
+      "message": "Would it make more sense to create a BranchNameKey instead of using String?",
+      "range": {
+        "startLine": 66,
+        "startChar": 10,
+        "endLine": 66,
+        "endChar": 45
+      },
+      "revId": "3cba0a5f324dc4801c96a04e6216e141836c52c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b89c972b_a771fe3b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeReviewIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2022-06-23T10:58:15Z",
+      "side": 1,
+      "message": "ShortNameBranch?",
+      "range": {
+        "startLine": 26,
+        "startChar": 41,
+        "endLine": 26,
+        "endChar": 53
+      },
+      "revId": "3cba0a5f324dc4801c96a04e6216e141836c52c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

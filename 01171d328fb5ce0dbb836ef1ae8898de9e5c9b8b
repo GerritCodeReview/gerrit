@@ -39,6 +39,30 @@
       },
       "revId": "01171d328fb5ce0dbb836ef1ae8898de9e5c9b8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f0f3ea6_ec01d3c6",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2022-06-23T09:56:40Z",
+      "side": 1,
+      "message": "This is a test - it is ok.",
+      "parentUuid": "ea06751f_dfecdcbc",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 15
+      },
+      "revId": "01171d328fb5ce0dbb836ef1ae8898de9e5c9b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

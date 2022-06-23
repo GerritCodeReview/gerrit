@@ -53,6 +53,8 @@ public class SshScope {
     private volatile long startedMemory;
     private volatile long finishedMemory;
 
+    private IdentifiedUser identifiedUser;
+
     private Context(SshSession s, String c, long at) {
       session = s;
       commandLine = c;
@@ -125,8 +127,10 @@ public class SshScope {
     public CurrentUser getUser() {
       CurrentUser user = session.getUser();
       if (user != null && user.isIdentifiedUser()) {
-        IdentifiedUser identifiedUser = userFactory.create(user.getAccountId());
-        identifiedUser.setAccessPath(user.getAccessPath());
+        if (identifiedUser == null) {
+          identifiedUser = userFactory.create(user.getAccountId());
+          identifiedUser.setAccessPath(user.getAccessPath());
+        }
         return identifiedUser;
       }
       return user;

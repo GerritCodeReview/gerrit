@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32159d6d_b7f71516",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-23T15:03:34Z",
+      "side": 1,
+      "message": "nit: I don\u0027t think we discussed which spec we are trying to match, but maybe the [commonmark spec](https://spec.commonmark.org/0.30/#indented-code-blocks)is a bit better reference than github flavor spec although they same the same thing about spaces for indented code blocks",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 9,
+        "endChar": 93
+      },
+      "revId": "5a8486a56d07204afbe6dfe8829ed45b34b2c2d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "919ed809_7bf34e2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2022-06-23T15:03:34Z",
+      "side": 1,
+      "message": "CC\u0027d Chris since he has done the latest changes to gr-formatted-text afaik.",
+      "revId": "5a8486a56d07204afbe6dfe8829ed45b34b2c2d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

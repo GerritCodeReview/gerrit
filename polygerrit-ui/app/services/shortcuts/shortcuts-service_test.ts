@@ -120,9 +120,7 @@ suite('shortcuts-service tests', () => {
     test('active shortcuts by section', () => {
       assert.deepEqual(mapToObject(service.activeShortcutsBySection()), {});
 
-      service.attachHost(document.createElement('div'), [
-        {shortcut: Shortcut.NEXT_FILE, listener: _ => {}},
-      ]);
+      service.addShortcutListener(Shortcut.NEXT_FILE, _ => {});
       assert.deepEqual(mapToObject(service.activeShortcutsBySection()), {
         [ShortcutSection.NAVIGATION]: [
           {
@@ -132,10 +130,7 @@ suite('shortcuts-service tests', () => {
           },
         ],
       });
-
-      service.attachHost(document.createElement('div'), [
-        {shortcut: Shortcut.NEXT_LINE, listener: _ => {}},
-      ]);
+      service.addShortcutListener(Shortcut.NEXT_LINE, _ => {});
       assert.deepEqual(mapToObject(service.activeShortcutsBySection()), {
         [ShortcutSection.DIFFS]: [
           {
@@ -156,10 +151,8 @@ suite('shortcuts-service tests', () => {
         ],
       });
 
-      service.attachHost(document.createElement('div'), [
-        {shortcut: Shortcut.SEARCH, listener: _ => {}},
-        {shortcut: Shortcut.GO_TO_OPENED_CHANGES, listener: _ => {}},
-      ]);
+      service.addShortcutListener(Shortcut.SEARCH, _ => {});
+      service.addShortcutListener(Shortcut.GO_TO_OPENED_CHANGES, _ => {});
       assert.deepEqual(mapToObject(service.activeShortcutsBySection()), {
         [ShortcutSection.DIFFS]: [
           {
@@ -196,13 +189,11 @@ suite('shortcuts-service tests', () => {
     test('directory view', () => {
       assert.deepEqual(mapToObject(service.directoryView()), {});
 
-      service.attachHost(document.createElement('div'), [
-        {shortcut: Shortcut.GO_TO_OPENED_CHANGES, listener: _ => {}},
-        {shortcut: Shortcut.NEXT_FILE, listener: _ => {}},
-        {shortcut: Shortcut.NEXT_LINE, listener: _ => {}},
-        {shortcut: Shortcut.SAVE_COMMENT, listener: _ => {}},
-        {shortcut: Shortcut.SEARCH, listener: _ => {}},
-      ]);
+      service.addShortcutListener(Shortcut.GO_TO_OPENED_CHANGES, _ => {});
+      service.addShortcutListener(Shortcut.NEXT_FILE, _ => {});
+      service.addShortcutListener(Shortcut.NEXT_LINE, _ => {});
+      service.addShortcutListener(Shortcut.SAVE_COMMENT, _ => {});
+      service.addShortcutListener(Shortcut.SEARCH, _ => {});
       assert.deepEqual(mapToObject(service.directoryView()), {
         [ShortcutSection.DIFFS]: [
           {binding: [['j'], ['↓']], text: 'Go to next line'},

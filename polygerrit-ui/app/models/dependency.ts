@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {ReactiveController, ReactiveControllerHost} from 'lit';
-import {PolymerElement} from '@polymer/polymer/polymer-element';
 
 /**
  * This module provides the ability to do dependency injection in components.
@@ -177,49 +176,6 @@ export function resolve<T>(
     hostResolvers.set(dependency, resolver);
   }
   return resolver as Provider<T>;
-}
-
-/**
- * Because Polymer doesn't (yet) depend on ReactiveControllerHost, this adds a
- * work-around base-class to make this work for Polymer.
- */
-export class DIPolymerElement
-  extends PolymerElement
-  implements ReactiveControllerHost
-{
-  private readonly ___controllers: ReactiveController[] = [];
-
-  override connectedCallback() {
-    for (const c of this.___controllers) {
-      c.hostConnected?.();
-    }
-    super.connectedCallback();
-  }
-
-  override disconnectedCallback() {
-    super.disconnectedCallback();
-    for (const c of this.___controllers) {
-      c.hostDisconnected?.();
-    }
-  }
-
-  addController(controller: ReactiveController) {
-    this.___controllers.push(controller);
-
-    if (this.isConnected) controller.hostConnected?.();
-  }
-
-  removeController(controller: ReactiveController) {
-    const idx = this.___controllers.indexOf(controller);
-    if (idx < 0) return;
-    this.___controllers?.splice(idx, 1);
-  }
-
-  requestUpdate() {}
-
-  get updateComplete(): Promise<boolean> {
-    return Promise.resolve(true);
-  }
 }
 
 /**

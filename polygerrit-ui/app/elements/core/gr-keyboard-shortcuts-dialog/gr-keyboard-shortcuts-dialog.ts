@@ -12,8 +12,6 @@ import {customElement, state} from 'lit/decorators';
 import {
   ShortcutSection,
   SectionView,
-} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {
   shortcutsServiceToken,
   ShortcutViewListener,
 } from '../../../services/shortcuts/shortcuts-service';
